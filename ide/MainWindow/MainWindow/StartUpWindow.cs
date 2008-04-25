@@ -93,9 +93,9 @@ namespace EcellLib.MainWindow
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.groupBox1.Location = new System.Drawing.Point(-2, 94);
+            this.groupBox1.Location = new System.Drawing.Point(12, 103);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(259, 405);
+            this.groupBox1.Size = new System.Drawing.Size(245, 386);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Recent Projects";
@@ -154,7 +154,7 @@ namespace EcellLib.MainWindow
                 m_filePath = file;
 
                 this.Text = project;
-                this.Font = new Font(Font.SystemFontName, 12);
+                this.Font = new Font(Font.SystemFontName, 10);
                 this.MouseHover += new EventHandler(label_MouseHover);
                 this.MouseLeave += new EventHandler(label_MouseLeave);
             }

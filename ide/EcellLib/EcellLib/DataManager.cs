@@ -268,20 +268,13 @@ namespace EcellLib
             else
                 l_message = "[" + l_parameterID + "][" + l_src.ModelID + "][" + l_src.Key + "]";
 
+            // Check Class change.
             if (!l_src.Classname.Equals(l_dest.Classname))
-            {
-                Message(
-                    "Update Data: " + l_message + "[" + Constants.xpathClassName + "]"
-                        + System.Environment.NewLine
-                        + "\t[" + l_src.Classname + "]->[" + l_dest.Classname + "]");
-            }
+                MessageUpdateData(Constants.xpathClassName, l_message, l_src.Classname, l_dest.Classname);
+            // Check Key change.
             if (!l_src.Key.Equals(l_dest.Key))
-            {
-                Message(
-                    "Update Data: " + l_message + "[" + Constants.xpathKey + "]"
-                        + System.Environment.NewLine
-                        + "\t[" + l_src.Key + "]->[" + l_dest.Key + "]");
-            }
+                MessageUpdateData(Constants.xpathKey, l_message, l_src.Key, l_dest.Key);
+
             // Changes a className and not change a key.
             if (!l_src.Classname.Equals(l_dest.Classname) && l_src.Key.Equals(l_dest.Key))
             {
@@ -329,31 +322,26 @@ namespace EcellLib
                         continue;
                     if (!l_destEcellData.IsInitialized())
                         continue;
+
+                    // GetValue
+                    EcellValue l_value = l_destEcellData.Value;
+                    double temp = 0;
+                    if (l_value.IsDouble())
+                        temp = l_value.CastToDouble();
+                    else if (l_value.IsInt())
+                        temp = l_value.CastToInt();
+                    else
+                        continue;
+
                     if (!string.IsNullOrEmpty(l_parameterID))
                     {
-                        Dictionary<string, double> condition = initialCondition[l_parameterID][l_dest.ModelID][l_dest.Type];
-                        if (l_destEcellData.Value.IsDouble())
-                        {
-                            condition[l_destEcellData.EntityPath] = l_destEcellData.Value.CastToDouble();
-                        }
-                        else if (l_destEcellData.Value.IsInt())
-                        {
-                            condition[l_destEcellData.EntityPath] = l_destEcellData.Value.CastToInt();
-                        }
+                        initialCondition[l_parameterID][l_dest.ModelID][l_dest.Type][l_destEcellData.EntityPath] = temp;
                     }
                     else
                     {
                         foreach (string l_keyParameterID in initialCondition.Keys)
                         {
-                            Dictionary<string, double> condition = initialCondition[l_keyParameterID][l_dest.ModelID][l_dest.Type];
-                            if (l_destEcellData.Value.IsDouble())
-                            {
-                                condition[l_destEcellData.EntityPath] = l_destEcellData.Value.CastToDouble();
-                            }
-                            else if (l_destEcellData.Value.IsInt())
-                            {
-                                condition[l_destEcellData.EntityPath] = l_destEcellData.Value.CastToInt();
-                            }
+                            initialCondition[l_keyParameterID][l_dest.ModelID][l_dest.Type][l_destEcellData.EntityPath] = temp;
                         }
                     }
                 }
@@ -394,24 +382,26 @@ namespace EcellLib
                             && !l_src.Type.Equals(Constants.xpathVariable))
                             continue;
 
-                        if (l_srcEcellData.Value.Equals(l_destEcellData.Value)
-                            || !l_srcEcellData.IsInitialized())
+                        EcellValue l_value = l_destEcellData.Value;
+                        if (!l_srcEcellData.IsInitialized()
+                            || l_srcEcellData.Value.Equals(l_value))
                             continue;
 
-                        if (l_parameterID != null && l_parameterID.Length > 0)
+                        // GetValue
+                        double temp = 0;
+                        if (l_value.IsDouble())
+                            temp = l_value.CastToDouble();
+                        else if (l_value.IsInt())
+                            temp = l_value.CastToInt();
+                        else
+                            continue;
+
+                        if (!string.IsNullOrEmpty(l_parameterID))
                         {
                             Dictionary<string, double> condition = initialCondition[l_parameterID][l_src.ModelID][l_src.Type];
                             if (!condition.ContainsKey(l_srcEcellData.EntityPath))
                                 continue;
-
-                            if (l_destEcellData.Value.IsDouble())
-                            {
-                                condition[l_srcEcellData.EntityPath] = l_destEcellData.Value.CastToDouble();
-                            }
-                            else if (l_destEcellData.Value.IsInt())
-                            {
-                                condition[l_srcEcellData.EntityPath] = l_destEcellData.Value.CastToInt();
-                            }
+                            condition[l_srcEcellData.EntityPath] = temp;
                         }
                         else
                         {
@@ -421,15 +411,7 @@ namespace EcellLib
 
                                 if (!condition.ContainsKey(l_srcEcellData.EntityPath))
                                     continue;
-
-                                if (l_destEcellData.Value.IsDouble())
-                                {
-                                    condition[l_srcEcellData.EntityPath] = l_destEcellData.Value.CastToDouble();
-                                }
-                                else if (l_destEcellData.Value.IsInt())
-                                {
-                                    condition[l_srcEcellData.EntityPath] = l_destEcellData.Value.CastToInt();
-                                }
+                                condition[l_srcEcellData.EntityPath] = temp;
                             }
                         }
                         break;
@@ -4236,97 +4218,6 @@ namespace EcellLib
             return true;
         }
 
-        /// <summary>
-        /// Loads the "Process" and the "Variable" to the "EcellCoreLib".
-        /// </summary>
-        /// <param name="l_entityList">The list of the "Process" and the "Variable"</param>
-        /// <param name="l_simulator">The simulator</param>
-        /// <param name="l_loggerList">The list of the "Logger"</param>
-        /// <param name="l_processPropertyDic">The dictionary of the process property</param>
-        /// <param name="l_initialCondition">The dictionary of the initial condition</param>
-        /// <param name="l_setPropertyDic"></param>
-        private void LoadEntity(
-            WrappedSimulator l_simulator,
-            List<EcellObject> l_entityList,
-            List<string> l_loggerList,
-            Dictionary<string, WrappedPolymorph> l_processPropertyDic,
-            Dictionary<string, Dictionary<string, double>> l_initialCondition,
-            Dictionary<string, WrappedPolymorph> l_setPropertyDic)
-        {
-            if (l_entityList == null || l_entityList.Count <= 0)
-                return;
-
-            try
-            {
-                foreach (EcellObject l_entity in l_entityList)
-                {
-                    if (l_entity is EcellText)
-                        continue;
-                    l_simulator.CreateEntity(
-                        l_entity.Classname,
-                        l_entity.Type + Constants.delimiterColon + l_entity.Key);
-                    if (l_entity.Value == null || l_entity.Value.Count <= 0)
-                        continue;
-
-                    foreach (EcellData l_ecellData in l_entity.Value)
-                    {
-                        if (l_ecellData.Name == null
-                                || l_ecellData.Name.Length <= 0
-                                || l_ecellData.Value == null
-                                || (l_ecellData.Value.IsString() &&
-                                    l_ecellData.Value.CastToString().Length == 0))
-                        {
-                            continue;
-                        }
-
-                        if (l_ecellData.Logged)
-                        {
-                            l_loggerList.Add(l_ecellData.EntityPath);
-                        }
-
-                        if (l_ecellData.Saveable)
-                        {
-                            if (l_ecellData.EntityPath.EndsWith(Constants.xpathVRL))
-                            {
-                                l_processPropertyDic[l_ecellData.EntityPath]
-                                    = EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.Value);
-                            }
-                            else
-                            {
-                                if (l_ecellData.EntityPath.EndsWith("FluxDistributionList"))
-                                    continue;
-                                if (l_ecellData.Value.IsDouble()
-                                    &&
-                                    (Double.IsInfinity(l_ecellData.Value.CastToDouble())
-                                        || Double.IsNaN(l_ecellData.Value.CastToDouble())))
-                                {
-                                    continue;
-                                }
-                                l_simulator.LoadEntityProperty(
-                                    l_ecellData.EntityPath,
-                                    EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.Value));
-                            }
-                        }
-                        else if (l_ecellData.Settable)
-                        {
-                            if (l_ecellData.Value.IsDouble() &&
-                                    (Double.IsInfinity(l_ecellData.Value.CastToDouble())
-                                    || Double.IsNaN(l_ecellData.Value.CastToDouble())))
-                            {
-                                continue;
-                            }
-                            l_setPropertyDic[l_ecellData.EntityPath]
-                                = EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.Value);
-                        }
-                    }
-                }
-            }
-            catch (WrappedException e)
-            {
-                throw new Exception("Failed to create entity", e);
-            }
-        }
-
         private void InitializeModel(EcellObject l_ecellObject)
         {
             DataStored(
@@ -4534,7 +4425,7 @@ namespace EcellLib
                             string l_fileName = Path.GetFileName(l_parameter);
                             if (l_fileName.IndexOf(Constants.delimiterUnderbar) != 0)
                             {
-                                this.LoadSimulationParameter(l_parameter);
+                                LoadSimulationParameter(l_parameter);
                             }
                         }
                     }
@@ -4583,64 +4474,36 @@ namespace EcellLib
             try
             {
                 l_message = "[" + l_fileName + "]";
-                //
                 // Initializes
-                //
-                if (l_fileName == null || l_fileName.Length <= 0)
+                if (string.IsNullOrEmpty(l_fileName))
                 {
                     throw new Exception(m_resources.GetString(ErrorConstants.ErrNullData));
                 }
-                //
                 // Parses the simulation parameter.
-                //
                 SimulationParameter simParam = SimulationParameterReader.Parse(
                         l_fileName, m_currentProject.Simulator);
-
-                //
+                string simParamID = simParam.ID;
                 // Stores the simulation parameter.
-                //
-                if (!m_currentProject.SimulationParam.Equals(simParam.ID))
+                if (!m_currentProject.SimulationParam.Equals(simParamID))
                 {
-                    if (!m_currentProject.StepperDic.ContainsKey(simParam.ID))
+                    if (!m_currentProject.StepperDic.ContainsKey(simParamID))
                     {
-                        m_currentProject.StepperDic[simParam.ID]
+                        m_currentProject.StepperDic[simParamID]
                             = new Dictionary<string, List<EcellObject>>();
                     }
                     foreach (EcellObject l_stepper in simParam.Steppers)
                     {
-                        if (!m_currentProject.StepperDic[simParam.ID]
+                        if (!m_currentProject.StepperDic[simParamID]
                             .ContainsKey(l_stepper.ModelID))
                         {
-                            m_currentProject.StepperDic[simParam.ID][l_stepper.ModelID]
+                            m_currentProject.StepperDic[simParamID][l_stepper.ModelID]
                                 = new List<EcellObject>();
                         }
                         foreach (EcellData l_data in l_stepper.Value)
                         {
-                            double l_value = 0.0;
-                            try
-                            {
-                                if (l_data.Value.CastToList()[0].ToString().Equals(
-                                    Double.PositiveInfinity.ToString()))
-                                {
-                                    l_value = Double.PositiveInfinity;
-                                }
-                                else if (l_data.Value.CastToList()[0].ToString().Equals(
-                                    Double.MaxValue.ToString()))
-                                {
-                                    l_value = Double.MaxValue;
-                                }
-                                else
-                                {
-                                    l_value = XmlConvert.ToDouble(l_data.Value.CastToList()[0].ToString());
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                l_value = Double.PositiveInfinity;
-                            }
-                            l_data.Value = new EcellValue(l_value);
+                            l_data.Value = GetEcellValue(l_data);
                         }
-                        m_currentProject.StepperDic[simParam.ID][l_stepper.ModelID].Add(l_stepper);
+                        m_currentProject.StepperDic[simParamID][l_stepper.ModelID].Add(l_stepper);
                     }
                 }
                 else
@@ -4648,99 +4511,83 @@ namespace EcellLib
                     foreach (EcellObject l_stepper in simParam.Steppers)
                     {
                         bool l_matchFlag = false;
-                        if (!m_currentProject.StepperDic[simParam.ID].ContainsKey(l_stepper.ModelID))
+                        if (!m_currentProject.StepperDic[simParamID].ContainsKey(l_stepper.ModelID))
                         {
-                            m_currentProject.StepperDic[simParam.ID][l_stepper.ModelID]
+                            m_currentProject.StepperDic[simParamID][l_stepper.ModelID]
                                 = new List<EcellObject>();
                         }
                         for (int j = 0;
-                            j < m_currentProject.StepperDic[simParam.ID][l_stepper.ModelID].Count;
+                            j < m_currentProject.StepperDic[simParamID][l_stepper.ModelID].Count;
                             j++)
                         {
                             EcellObject l_storedStepper
-                                = m_currentProject.StepperDic[simParam.ID][l_stepper.ModelID][j];
-                            if (l_storedStepper.Classname.Equals(l_stepper.Classname)
-                                && l_storedStepper.Key.Equals(l_stepper.Key)
-                                && l_storedStepper.ModelID.Equals(l_stepper.ModelID)
-                                && l_storedStepper.Type.Equals(l_stepper.Type))
+                                = m_currentProject.StepperDic[simParamID][l_stepper.ModelID][j];
+                            if (!l_storedStepper.Classname.Equals(l_stepper.Classname)
+                                || !l_storedStepper.Key.Equals(l_stepper.Key)
+                                || !l_storedStepper.ModelID.Equals(l_stepper.ModelID)
+                                || !l_storedStepper.Type.Equals(l_stepper.Type))
+                                continue;
+
+                            List<EcellData> l_newDataList = new List<EcellData>();
+                            foreach (EcellData l_storedData in l_storedStepper.Value)
                             {
-                                List<EcellData> l_newDataList = new List<EcellData>();
-                                foreach (EcellData l_storedData in l_storedStepper.Value)
+                                bool l_existFlag = false;
+                                foreach (EcellData l_newData in l_stepper.Value)
                                 {
-                                    bool l_existFlag = false;
-                                    foreach (EcellData l_newData in l_stepper.Value)
+                                    if (!l_storedData.Name.Equals(l_newData.Name)
+                                        || !l_storedData.EntityPath.Equals(l_newData.EntityPath))
+                                        continue;
+
+                                    if (l_storedData.Value.IsDouble())
                                     {
-                                        if (l_storedData.Name.Equals(l_newData.Name)
-                                            && l_storedData.EntityPath.Equals(l_newData.EntityPath))
+                                        l_newData.Value = GetEcellValue(l_newData);
+                                    }
+                                    else
+                                    {
+                                        try
                                         {
-                                            if (l_storedData.Value.IsDouble())
-                                            {
-                                                try
-                                                {
-                                                    string l_newValue = l_newData.Value.CastToList()[0].ToString();
-                                                    if (l_newValue.Equals(Double.PositiveInfinity.ToString()))
-                                                    {
-                                                        l_newData.Value = new EcellValue(Double.PositiveInfinity);
-                                                    }
-                                                    else
-                                                    {
-                                                        l_newData.Value
-                                                            = new EcellValue(XmlConvert.ToDouble(l_newValue));
-                                                    }
-                                                }
-                                                catch (Exception)
-                                                {
-                                                    l_newData.Value = new EcellValue(Double.PositiveInfinity);
-                                                }
-                                            }
-                                            else
-                                            {
-                                                try
-                                                {
-                                                    l_newData.Value
-                                                        = new EcellValue(
-                                                            Convert.ToInt32(
-                                                                l_newData.Value.CastToList()[0].ToString()));
-                                                }
-                                                catch (Exception)
-                                                {
-                                                    // do nothing
-                                                }
-                                            }
-                                            l_newData.Gettable = l_storedData.Gettable;
-                                            l_newData.Loadable = l_storedData.Loadable;
-                                            l_newData.Saveable = l_storedData.Saveable;
-                                            l_newData.Settable = l_storedData.Settable;
-                                            l_newDataList.Add(l_newData);
-                                            l_existFlag = true;
-                                            break;
+                                            l_newData.Value
+                                                = new EcellValue(
+                                                    Convert.ToInt32(
+                                                        l_newData.Value.CastToList()[0].ToString()));
+                                        }
+                                        catch (Exception)
+                                        {
+                                            // do nothing
                                         }
                                     }
-                                    if (!l_existFlag)
-                                    {
-                                        l_newDataList.Add(l_storedData);
-                                    }
+                                    l_newData.Gettable = l_storedData.Gettable;
+                                    l_newData.Loadable = l_storedData.Loadable;
+                                    l_newData.Saveable = l_storedData.Saveable;
+                                    l_newData.Settable = l_storedData.Settable;
+                                    l_newDataList.Add(l_newData);
+                                    l_existFlag = true;
+                                    break;
                                 }
-                                m_currentProject.StepperDic[simParam.ID][l_stepper.ModelID][j]
-                                    = EcellObject.CreateObject(
-                                        l_stepper.ModelID,
-                                        l_stepper.Key,
-                                        l_stepper.Type,
-                                        l_stepper.Classname,
-                                        l_newDataList);
-                                l_matchFlag = true;
-                                break;
+                                if (!l_existFlag)
+                                {
+                                    l_newDataList.Add(l_storedData);
+                                }
                             }
+                            m_currentProject.StepperDic[simParamID][l_stepper.ModelID][j]
+                                = EcellObject.CreateObject(
+                                    l_stepper.ModelID,
+                                    l_stepper.Key,
+                                    l_stepper.Type,
+                                    l_stepper.Classname,
+                                    l_newDataList);
+                            l_matchFlag = true;
+                            break;
                         }
                         if (!l_matchFlag)
                         {
-                            m_currentProject.StepperDic[simParam.ID][l_stepper.ModelID]
+                            m_currentProject.StepperDic[simParamID][l_stepper.ModelID]
                                 .Add(l_stepper);
                         }
                     }
                 }
-                m_currentProject.LoggerPolicyDic[simParam.ID] = simParam.LoggerPolicy;
-                m_currentProject.InitialCondition[simParam.ID] = simParam.InitialConditions;
+                m_currentProject.LoggerPolicyDic[simParamID] = simParam.LoggerPolicy;
+                m_currentProject.InitialCondition[simParamID] = simParam.InitialConditions;
                 Message("Load Simulation Parameter: " + l_message);
             }
             catch (Exception l_ex)
@@ -4750,6 +4597,31 @@ namespace EcellLib
                 throw new Exception(l_message + " {" + l_ex.ToString() + "}");
             }
         }
+        /// <summary>
+        /// GetEcellValue
+        /// </summary>
+        /// <param name="l_data"></param>
+        /// <returns></returns>
+        private static EcellValue GetEcellValue(EcellData l_data)
+        {
+            double l_value = 0.0;
+            try
+            {
+                // Get new value.
+                string l_newValue = l_data.Value.CastToList()[0].ToString();
+                if (l_newValue.Equals(Double.PositiveInfinity.ToString()))
+                    l_value = Double.PositiveInfinity;
+                else if (l_newValue.Equals(Double.MaxValue.ToString()))
+                    l_value = Double.MaxValue;
+                else
+                    l_value = XmlConvert.ToDouble(l_newValue);
+            }
+            catch (Exception)
+            {
+                l_value = Double.PositiveInfinity;
+            }
+            return new EcellValue(l_value);
+        }
 
         /// <summary>
         /// Loads the "Stepper" 2 the "EcellCoreLib".
@@ -4757,97 +4629,78 @@ namespace EcellLib
         /// <param name="l_simulator">The simulator</param>
         /// <param name="l_stepperList">The list of the "Stepper"</param>
         /// <param name="l_setStepperDic"></param>
-        private void LoadStepper(
+        private static void LoadStepper(
             WrappedSimulator l_simulator,
             List<EcellObject> l_stepperList,
             Dictionary<string, Dictionary<string, WrappedPolymorph>> l_setStepperDic)
         {
             if (l_stepperList == null || l_stepperList.Count <= 0)
             {
-                throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSimParam));
+                throw new Exception(s_resources.GetString(ErrorConstants.ErrFindSimParam));
             }
             bool l_existStepper = false;
             foreach (EcellObject l_stepper in l_stepperList)
             {
                 if (l_stepper == null)
-                {
                     continue;
-                }
+
                 l_existStepper = true;
                 l_simulator.CreateStepper(l_stepper.Classname, l_stepper.Key);
-                //
+
                 // 4 property
-                //
                 if (l_stepper.Value == null || l_stepper.Value.Count <= 0)
-                {
                     continue;
-                }
+
                 foreach (EcellData l_ecellData in l_stepper.Value)
                 {
                     if (l_ecellData.Name == null || l_ecellData.Name.Length <= 0 || l_ecellData.Value == null)
-                    {
                         continue;
-                    }
                     else if (!l_ecellData.Value.IsDouble() && !l_ecellData.Value.IsInt())
-                    {
                         continue;
-                    }
-                    //
+
                     // 4 MaxStepInterval == Double.MaxValue
-                    //
+                    EcellValue velue = l_ecellData.Value;
                     try
                     {
                         string l_value
-                            = l_ecellData.Value.ToString().Replace("(", "").Replace(")", "").Replace("\"", "");
+                            = velue.ToString().Replace("(", "").Replace(")", "").Replace("\"", "");
                         if (l_value.Equals(Double.PositiveInfinity.ToString()))
-                        {
                             continue;
-                        }
                         else if (l_value.Equals(Double.MaxValue.ToString()))
-                        {
                             continue;
-                        }
+
                         XmlConvert.ToDouble(l_value);
                     }
                     catch (Exception)
                     {
                         continue;
                     }
+
+                    if (velue.IsDouble()
+                        && (Double.IsInfinity(velue.CastToDouble()) || Double.IsNaN(velue.CastToDouble())))
+                        continue;
+
                     if (l_ecellData.Saveable)
                     {
-                        if (l_ecellData.Value.IsDouble()
-                            &&
-                            (Double.IsInfinity(l_ecellData.Value.CastToDouble())
-                                || Double.IsNaN(l_ecellData.Value.CastToDouble())))
-                        {
-                            continue;
-                        }
                         l_simulator.LoadStepperProperty(
                             l_stepper.Key,
                             l_ecellData.Name,
-                            EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.Value));
+                            EcellValue.CastToWrappedPolymorph4EcellValue(velue));
                     }
                     else if (l_ecellData.Settable)
                     {
-                        if (l_ecellData.Value.IsDouble()
-                            &&
-                            (Double.IsInfinity(l_ecellData.Value.CastToDouble())
-                                || Double.IsNaN(l_ecellData.Value.CastToDouble())))
-                        {
-                            continue;
-                        }
                         if (!l_setStepperDic.ContainsKey(l_stepper.Key))
                         {
                             l_setStepperDic[l_stepper.Key] = new Dictionary<string, WrappedPolymorph>();
                         }
                         l_setStepperDic[l_stepper.Key][l_ecellData.Name]
-                            = EcellValue.CastToWrappedPolymorph4EcellValue(l_ecellData.Value);
+                            = EcellValue.CastToWrappedPolymorph4EcellValue(velue);
                     }
                 }
             }
             if (!l_existStepper)
             {
-                throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSimParam));
+                throw new Exception(s_resources.GetString(ErrorConstants.ErrFindSimParam));
             }
         }
 
@@ -4859,7 +4712,7 @@ namespace EcellLib
         /// <param name="l_loggerList">The list of the "Logger"</param>
         /// <param name="l_initialCondition">The dictionary of initial condition.</param>
         /// <param name="l_setPropertyDic">The dictionary of simulation library.</param>
-        private void LoadSystem(
+        private static void LoadSystem(
             WrappedSimulator l_simulator,
             List<EcellObject> l_systemList,
             List<string> l_loggerList,
@@ -4867,7 +4720,7 @@ namespace EcellLib
             Dictionary<string, WrappedPolymorph> l_setPropertyDic)
         {
             if (l_systemList == null || l_systemList.Count <= 0)
-                throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSystem));
+                throw new Exception(s_resources.GetString(ErrorConstants.ErrFindSystem));
 
             bool l_existSystem = false;
             Dictionary<string, WrappedPolymorph> l_processPropertyDic = new Dictionary<string, WrappedPolymorph>();
@@ -4919,7 +4772,7 @@ namespace EcellLib
                     // 4 children
                     if (l_system.Children == null || l_system.Children.Count <= 0)
                         continue;
-                    this.LoadEntity(
+                    LoadEntity(
                         l_simulator,
                         l_system.Children,
                         l_loggerList,
@@ -4950,12 +4803,94 @@ namespace EcellLib
                 }
                 if (!l_existSystem)
                 {
-                    throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSystem));
+                    throw new Exception(s_resources.GetString(ErrorConstants.ErrFindSystem));
                 }
             }
             catch (WrappedException e)
             {
                 throw new Exception("Failed to create System", e);
+            }
+        }
+
+        /// <summary>
+        /// Loads the "Process" and the "Variable" to the "EcellCoreLib".
+        /// </summary>
+        /// <param name="l_entityList">The list of the "Process" and the "Variable"</param>
+        /// <param name="l_simulator">The simulator</param>
+        /// <param name="l_loggerList">The list of the "Logger"</param>
+        /// <param name="l_processPropertyDic">The dictionary of the process property</param>
+        /// <param name="l_initialCondition">The dictionary of the initial condition</param>
+        /// <param name="l_setPropertyDic"></param>
+        private static void LoadEntity(
+            WrappedSimulator l_simulator,
+            List<EcellObject> l_entityList,
+            List<string> l_loggerList,
+            Dictionary<string, WrappedPolymorph> l_processPropertyDic,
+            Dictionary<string, Dictionary<string, double>> l_initialCondition,
+            Dictionary<string, WrappedPolymorph> l_setPropertyDic)
+        {
+            if (l_entityList == null || l_entityList.Count <= 0)
+                return;
+
+            try
+            {
+                foreach (EcellObject l_entity in l_entityList)
+                {
+                    if (l_entity is EcellText)
+                        continue;
+                    l_simulator.CreateEntity(
+                        l_entity.Classname,
+                        l_entity.Type + Constants.delimiterColon + l_entity.Key);
+                    if (l_entity.Value == null || l_entity.Value.Count <= 0)
+                        continue;
+
+                    foreach (EcellData l_ecellData in l_entity.Value)
+                    {
+                        EcellValue value = l_ecellData.Value;
+                        if (string.IsNullOrEmpty(l_ecellData.Name)
+                                || value == null
+                                || (value.IsString() && value.CastToString().Length == 0))
+                        {
+                            continue;
+                        }
+
+                        if (l_ecellData.Logged)
+                        {
+                            l_loggerList.Add(l_ecellData.EntityPath);
+                        }
+
+                        if (value.IsDouble()
+                            && (Double.IsInfinity(value.CastToDouble()) || Double.IsNaN(value.CastToDouble())))
+                        {
+                            continue;
+                        }
+                        if (l_ecellData.Saveable)
+                        {
+                            if (l_ecellData.EntityPath.EndsWith(Constants.xpathVRL))
+                            {
+                                l_processPropertyDic[l_ecellData.EntityPath]
+                                    = EcellValue.CastToWrappedPolymorph4EcellValue(value);
+                            }
+                            else
+                            {
+                                if (l_ecellData.EntityPath.EndsWith("FluxDistributionList"))
+                                    continue;
+                                l_simulator.LoadEntityProperty(
+                                    l_ecellData.EntityPath,
+                                    EcellValue.CastToWrappedPolymorph4EcellValue(value));
+                            }
+                        }
+                        else if (l_ecellData.Settable)
+                        {
+                            l_setPropertyDic[l_ecellData.EntityPath]
+                                = EcellValue.CastToWrappedPolymorph4EcellValue(value);
+                        }
+                    }
+                }
+            }
+            catch (WrappedException e)
+            {
+                throw new Exception("Failed to create entity", e);
             }
         }
 
@@ -6398,7 +6333,7 @@ namespace EcellLib
 
         #region Send Message
         /// <summary>
-        /// CreateEntity
+        /// Message on CreateEntity
         /// </summary>
         /// <param name="type"></param>
         /// <param name="message"></param>
@@ -6407,13 +6342,26 @@ namespace EcellLib
             Message("Create " + type + ": " + message);
         }
         /// <summary>
-        /// CreateEntity
+        /// Message on DeleteEntity
         /// </summary>
         /// <param name="type"></param>
         /// <param name="message"></param>
         public void MessageDeleteEntity(string type, string message)
         {
             Message("Delete " + type + ": " + message);
+        }
+        /// <summary>
+        /// Message on UpdateData
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="message"></param>
+        /// <param name="src"></param>
+        /// <param name="dest"></param>
+        public void MessageUpdateData(string type, string message, string src, string dest)
+        {
+            Message(
+                "Update Data: " + message + "[" + type + "]" + System.Environment.NewLine
+                    + "\t[" + src + "]->[" + dest + "]");
         }
         /// <summary>
         /// Message
@@ -6423,8 +6371,6 @@ namespace EcellLib
         {
             this.m_pManager.Message(Constants.messageSimulation, message + System.Environment.NewLine);
         }
-
         #endregion
-
     }
 }
