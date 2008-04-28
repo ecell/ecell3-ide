@@ -393,4 +393,25 @@
   <data name="WindowToolbox" xml:space="preserve">
     <value>ツールボックス</value>
   </data>
+  <data name="CenterBrush" xml:space="preserve">
+    <value>中央色</value>
+  </data>
+  <data name="Figure" xml:space="preserve">
+    <value>オブジェクト形状</value>
+  </data>
+  <data name="FillBrush" xml:space="preserve">
+    <value>塗りつぶし色</value>
+  </data>
+  <data name="IconFile" xml:space="preserve">
+    <value>アイコンファイル</value>
+  </data>
+  <data name="IsGradation" xml:space="preserve">
+    <value>グラデーション</value>
+  </data>
+  <data name="LineBrush" xml:space="preserve">
+    <value>線の色</value>
+  </data>
+  <data name="TextBrush" xml:space="preserve">
+    <value>文字色</value>
+  </data>
 </root>

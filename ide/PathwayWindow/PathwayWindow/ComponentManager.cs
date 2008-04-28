@@ -91,7 +91,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// ResourceManager for PathwayWindow.
         /// </summary>
-        protected static ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+        protected static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResPathway));
 
         #endregion
 
@@ -278,7 +278,7 @@ namespace EcellLib.PathwayWindow
             }
             catch (Exception ex)
             {
-                string errmsg = m_resources.GetString("ErrCompInvalid") + Environment.NewLine + filepath + Environment.NewLine + ex.Message;
+                string errmsg = s_resources.GetString("ErrCompInvalid") + Environment.NewLine + filepath + Environment.NewLine + ex.Message;
                 MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -542,7 +542,7 @@ namespace EcellLib.PathwayWindow
                 }
                 catch (NoSuchComponentKindException e)
                 {
-                    MessageBox.Show(m_resources.GetString("ErrCreateKind") + "\n\n" + e.Message, "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(s_resources.GetString("ErrCreateKind") + "\n\n" + e.Message, "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     continue;
                 }
 
@@ -663,7 +663,7 @@ namespace EcellLib.PathwayWindow
                 else
                 {
                     string name = (cs.Name == null) ? cs.Name : "ComponentSetting No." + csCount.ToString();
-                    warnMessage += m_resources.GetString("ErrCompInvalid") + "\n";
+                    warnMessage += s_resources.GetString("ErrCompInvalid") + "\n";
                     foreach (string lackInfo in lackInfos)
                         warnMessage += "    " + name + " lacks " + lackInfo + "\n";
                 }
@@ -739,13 +739,13 @@ namespace EcellLib.PathwayWindow
             public ComponentItem(ComponentSetting cs)
             {
                 // Create UI Object
-                this.m_figureBox = new PropertyComboboxItem("Figure", cs.Figure.Type, new List<string>());
-                this.m_textBrush = new PropertyBrushItem("Text Brush", cs.TextBrush);
-                this.m_lineBrush = new PropertyBrushItem("Line Brush", cs.LineBrush);
-                this.m_fillBrush = new PropertyBrushItem("Fill Brush", cs.FillBrush);
-                this.m_centerBrush = new PropertyBrushItem("", cs.CenterBrush);
-                this.m_isGradation = new PropertyCheckBoxItem("Gradation", cs.IsGradation);
-                this.m_iconFile = new PropertyFileItem("Icon File", cs.IconFileName);
+                this.m_figureBox = new PropertyComboboxItem(s_resources.GetString(PathwayConstants.xPathFigure), cs.Figure.Type, new List<string>());
+                this.m_textBrush = new PropertyBrushItem(s_resources.GetString(PathwayConstants.xPathTextBrush), cs.TextBrush);
+                this.m_lineBrush = new PropertyBrushItem(s_resources.GetString(PathwayConstants.xPathLineBrush), cs.LineBrush);
+                this.m_fillBrush = new PropertyBrushItem(s_resources.GetString(PathwayConstants.xPathFillBrush), cs.FillBrush);
+                this.m_centerBrush = new PropertyBrushItem(s_resources.GetString(PathwayConstants.xPathCenterBrush), cs.CenterBrush);
+                this.m_isGradation = new PropertyCheckBoxItem(s_resources.GetString(PathwayConstants.xPathIsGradation), cs.IsGradation);
+                this.m_iconFile = new PropertyFileItem(s_resources.GetString(PathwayConstants.xPathIconFile), cs.IconFileName);
                 this.pCanvas = new PToolBoxCanvas();
                 this.SuspendLayout();
                 // Set Gradation
@@ -770,11 +770,9 @@ namespace EcellLib.PathwayWindow
                 this.m_textBrush.Location = new Point(5, 40);
                 this.m_lineBrush.Location = new Point(5, 65);
                 this.m_fillBrush.Location = new Point(5, 90);
-                this.m_centerBrush.Location = new Point(5, 115);
                 this.m_isGradation.Location = new Point(5, 115);
-                this.m_isGradation.CheckBox.Left = 90;
-                this.m_isGradation.Width = 120;
-                this.m_iconFile.Location = new Point(5, 140);
+                this.m_centerBrush.Location = new Point(5, 140);
+                this.m_iconFile.Location = new Point(5, 165);
                 // Set EventHandler
                 this.m_figureBox.ComboBox.Items.AddRange(FigureManager.GetFigureList().ToArray());
                 this.m_figureBox.TextChange += new EventHandler(figureBox_TextChange);
@@ -801,7 +799,7 @@ namespace EcellLib.PathwayWindow
 
                 this.ResumeLayout(false);
                 this.PerformLayout();
-                this.Height = 200;
+                this.Height = 220;
             }
 
             /// <summary>

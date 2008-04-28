@@ -669,307 +669,340 @@ namespace EcellLib.PathwayWindow
                 return value.ToString(FormatLog);
             return value.ToString(FormatNatural);
         }
+
+        /// <summary>
+        /// PathwayDialogConstant
+        /// </summary>
+        internal class AnimationConstants
+        {
+            #region Constants for dialog text.
+            /// <summary>
+            /// DialogTextAnimationSetting
+            /// </summary>
+            public const string DialogTextAnimationSetting = "DialogTextAnimationSetting";
+            /// <summary>
+            /// DialogTextBackgroundBrush
+            /// </summary>
+            public const string DialogTextBackgroundBrush = "DialogTextBackgroundBrush";
+            /// <summary>
+            /// DialogTextEdgeBrush
+            /// </summary>
+            public const string DialogTextEdgeBrush = "DialogTextEdgeBrush";
+            /// <summary>
+            /// DialogTextEditMode
+            /// </summary>
+            public const string DialogTextEditMode = "DialogTextEditMode";
+            /// <summary>
+            /// DialogTextEdgeWidth
+            /// </summary>
+            public const string DialogTextEdgeWidth = "DialogTextEdgeWidth";
+            /// <summary>
+            /// DialogTextMaxEdgeWidth
+            /// </summary>
+            public const string DialogTextMaxEdgeWidth = "DialogTextMaxEdgeWidth";
+            /// <summary>
+            /// DialogTextNGBrush
+            /// </summary>
+            public const string DialogTextNGBrush = "DialogTextNGBrush";
+            /// <summary>
+            /// DialogTextNormalEdge
+            /// </summary>
+            public const string DialogTextNormalEdge = "DialogTextNormalEdge";
+            /// <summary>
+            /// DialogTextThresholdHigh
+            /// </summary>
+            public const string DialogTextThresholdHigh = "DialogTextThresholdHigh";
+            /// <summary>
+            /// DialogTextThresholdLow
+            /// </summary>
+            public const string DialogTextThresholdLow = "DialogTextThresholdLow";
+            /// <summary>
+            /// DialogTextViewMode
+            /// </summary>
+            public const string DialogTextViewMode = "DialogTextViewMode";
+            /// <summary>
+            /// DialogTextViewMode
+            /// </summary>
+            public const string DialogTextPropertyBrush = "DialogTextPropertyBrush";
+            /// <summary>
+            /// DialogTextLogarithmic
+            /// </summary>
+            public const string DialogTextLogarithmic = "DialogTextLogarithmic";
+            #endregion
+
+            #region Constants for XML.
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathFileName = "AnimationSettings.xml";
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathAnimationSettings = "AnimationSettings";
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathVersion = "1.0";
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathThresholdHigh = "ThresholdHigh";
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathThresholdLow = "ThresholdLow";
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathNormalEdgeWidth = "NormalEdgeWidth";
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathMaxEdgeWidth = "MaxEdgeWidth";
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathEditBGBrush = "EditBGBrush";
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathEditEdgeBrush = "EditEdgeBrush";
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathViewBGBrush = "ViewBGBrush";
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathViewEdgeBrush = "ViewEdgeBrush";
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathLowEdgeBrush = "LowEdgeBrush";
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathHighEdgeBrush = "HighEdgeBrush";
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathNGEdgeBrush = "NGEdgeBrush";
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathPropertyBrush = "PropertyBrush";
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathIsLogarithmic = "IsLogarithmic";
+            #endregion
+        }
+
+        /// <summary>
+        /// private class for AnimationSettingDialog
+        /// </summary>
+        internal class AnimationTabPage : PropertyDialogTabPage
+        {
+            private AnimationControl m_con;
+            private EditModeItems m_editModeItems;
+            private ViewModeItems m_viewModeItems;
+            private AnimationItems m_animationItems;
+
+            public AnimationTabPage(AnimationControl control)
+            {
+                m_con = control;
+                m_editModeItems = new EditModeItems(control);
+                m_viewModeItems = new ViewModeItems(control);
+                m_animationItems = new AnimationItems(control);
+
+                this.Text = "Pathway Setting";
+                this.SuspendLayout();
+                this.Controls.Add(m_editModeItems);
+                this.Controls.Add(m_viewModeItems);
+                this.Controls.Add(m_animationItems);
+
+                m_viewModeItems.Top = m_editModeItems.Top + m_editModeItems.Height;
+                m_animationItems.Top = m_viewModeItems.Top + m_viewModeItems.Height;
+                this.ResumeLayout();
+                this.PerformLayout();
+            }
+
+            public override void ApplyChange()
+            {
+                base.ApplyChange();
+                m_editModeItems.ApplyChanges();
+                m_viewModeItems.ApplyChanges();
+                m_animationItems.ApplyChanges();
+                m_con.SaveSettings();
+            }
+        }
+
+        /// <summary>
+        /// private class for AnimationSettingDialog
+        /// </summary>
+        internal class EditModeItems : GroupBox
+        {
+            private PropertyBrushItem m_bgBrushItem;
+            private PropertyBrushItem m_edgeBrushItem;
+            private PropertyTextItem m_edgeWidth;
+
+            private AnimationControl m_control;
+
+            public EditModeItems(AnimationControl control)
+            {
+                m_control = control;
+
+                // set Brushes
+                this.m_bgBrushItem = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextBackgroundBrush), control.EditBGBrush);
+                this.m_edgeWidth = new PropertyTextItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeWidth), control.EdgeWidth.ToString());
+                this.m_edgeBrushItem = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.EditEdgeBrush);
+                this.SuspendLayout();
+                // 
+                // Initialize
+                // 
+                this.Anchor = (AnchorStyles)((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right);
+                this.AutoSize = true;
+                this.Controls.Add(this.m_bgBrushItem);
+                this.Controls.Add(this.m_edgeBrushItem);
+                this.Controls.Add(this.m_edgeWidth);
+                this.Text = m_control.Resources.GetString(AnimationConstants.DialogTextEditMode);
+                this.TabStop = false;
+
+                // Set Position
+                this.m_bgBrushItem.Location = new Point(10, 20);
+                this.m_edgeBrushItem.Location = new Point(10, 45);
+                this.m_edgeWidth.Location = new Point(10, 70);
+
+                this.ResumeLayout(false);
+                this.PerformLayout();
+                this.Height = 120;
+
+            }
+
+            public void ApplyChanges()
+            {
+                m_control.EditBGBrush = this.m_bgBrushItem.Brush;
+                m_control.EditEdgeBrush = this.m_edgeBrushItem.Brush;
+                m_control.EdgeWidth = float.Parse(this.m_edgeWidth.Text);
+            }
+        }
+
+        /// <summary>
+        /// private class for AnimationSettingDialog
+        /// </summary>
+        internal class ViewModeItems : GroupBox
+        {
+            private PropertyBrushItem m_bgBrush;
+            private PropertyBrushItem m_edgeBrush;
+            private PropertyTextItem m_edgeWidth;
+
+            private AnimationControl m_control;
+
+            public ViewModeItems(AnimationControl control)
+            {
+                m_control = control;
+                // set Brushes
+                m_bgBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextBackgroundBrush), control.ViewBGBrush);
+                m_edgeBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.ViewEdgeBrush);
+                m_edgeWidth = new PropertyTextItem(m_control.Resources.GetString(AnimationConstants.DialogTextMaxEdgeWidth), control.MaxEdgeWidth.ToString());
+
+                this.SuspendLayout();
+                // 
+                // This
+                // 
+                this.Anchor = (AnchorStyles)((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right);
+                this.AutoSize = true;
+                this.Controls.Add(m_bgBrush);
+                this.Controls.Add(m_edgeBrush);
+                this.Controls.Add(m_edgeWidth);
+                this.Text = m_control.Resources.GetString(AnimationConstants.DialogTextViewMode);
+                this.TabStop = false;
+
+                // SetPosition 
+                this.m_bgBrush.Location = new Point(10, 20);
+                this.m_edgeBrush.Location = new Point(10, 45);
+                this.m_edgeWidth.Location = new Point(10, 70);
+
+                this.ResumeLayout(false);
+                this.PerformLayout();
+                this.Height = 120;
+            }
+
+            public void ApplyChanges()
+            {
+                m_control.ViewBGBrush = m_bgBrush.Brush;
+                m_control.MaxEdgeWidth = float.Parse(m_edgeWidth.Text);
+                m_control.ViewEdgeBrush = m_edgeBrush.Brush;
+            }
+        }
+
+        /// <summary>
+        /// private class for AnimationSettingDialog
+        /// </summary>
+        internal class AnimationItems : GroupBox
+        {
+            private PropertyBrushItem m_edgeHighBrush;
+            private PropertyBrushItem m_edgeLowBrush;
+            private PropertyBrushItem m_edgeNGBrush;
+            private PropertyTextItem m_thresholdHigh;
+            private PropertyTextItem m_thresholdLow;
+
+            private PropertyBrushItem m_propBrush;
+            private PropertyCheckBoxItem m_lineCheckBox;
+
+            private AnimationControl m_control;
+
+            public AnimationItems(AnimationControl control)
+            {
+                m_control = control;
+                // set Brushes
+                m_thresholdHigh = new PropertyTextItem(m_control.Resources.GetString(AnimationConstants.DialogTextThresholdHigh), control.ThresholdHigh.ToString());
+                m_edgeHighBrush = new PropertyBrushItem("　　　" + m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.HighEdgeBrush);
+                m_thresholdLow = new PropertyTextItem(m_control.Resources.GetString(AnimationConstants.DialogTextThresholdLow), control.ThresholdLow.ToString());
+                m_edgeLowBrush = new PropertyBrushItem("　　　" + m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.LowEdgeBrush);
+                m_edgeNGBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextNGBrush), control.NgEdgeBrush);
+                m_propBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextPropertyBrush), control.PropertyBrush);
+                m_lineCheckBox = new PropertyCheckBoxItem(m_control.Resources.GetString(AnimationConstants.DialogTextLogarithmic), control.IsLogarithmic);
+
+                this.SuspendLayout();
+                // 
+                // This
+                // 
+                this.Anchor = (AnchorStyles)((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right);
+                this.AutoSize = true;
+                this.Controls.Add(m_edgeHighBrush);
+                this.Controls.Add(m_edgeLowBrush);
+                this.Controls.Add(m_thresholdHigh);
+                this.Controls.Add(m_thresholdLow);
+                this.Controls.Add(m_edgeNGBrush);
+                this.Controls.Add(m_propBrush);
+                this.Controls.Add(m_lineCheckBox);
+                this.Text = m_control.Resources.GetString(AnimationConstants.DialogTextAnimationSetting);
+                this.TabStop = false;
+
+                // SetPosition 
+                m_thresholdHigh.Location = new Point(10, 20);
+                m_edgeHighBrush.Location = new Point(10, 45);
+                m_thresholdLow.Location = new Point(10, 70);
+                m_edgeLowBrush.Location = new Point(10, 95);
+                m_edgeNGBrush.Location = new Point(10, 120);
+                m_propBrush.Location = new Point(10, 145);
+                m_lineCheckBox.Location = new Point(10, 170);
+
+                this.ResumeLayout(false);
+                this.PerformLayout();
+            }
+
+            public void ApplyChanges()
+            {
+                m_control.ThresholdHigh = float.Parse(m_thresholdHigh.Text);
+                m_control.ThresholdLow = float.Parse(m_thresholdLow.Text);
+                m_control.HighEdgeBrush = m_edgeHighBrush.Brush;
+                m_control.LowEdgeBrush = m_edgeLowBrush.Brush;
+                m_control.NgEdgeBrush = m_edgeNGBrush.Brush;
+                m_control.PropertyBrush = m_propBrush.Brush;
+                m_control.IsLogarithmic = m_lineCheckBox.Checked;
+            }
+        }
     }
-
-    /// <summary>
-    /// PathwayDialogConstant
-    /// </summary>
-    internal class AnimationConstants
-    {
-        #region Constants for dialog text.
-        /// <summary>
-        /// DialogTextAnimationSetting
-        /// </summary>
-        public const string DialogTextAnimationSetting = "DialogTextAnimationSetting";
-        /// <summary>
-        /// DialogTextBackgroundBrush
-        /// </summary>
-        public const string DialogTextBackgroundBrush = "DialogTextBackgroundBrush";
-        /// <summary>
-        /// DialogTextEdgeBrush
-        /// </summary>
-        public const string DialogTextEdgeBrush = "DialogTextEdgeBrush";
-        /// <summary>
-        /// DialogTextEditMode
-        /// </summary>
-        public const string DialogTextEditMode = "DialogTextEditMode";
-        /// <summary>
-        /// DialogTextEdgeWidth
-        /// </summary>
-        public const string DialogTextEdgeWidth = "DialogTextEdgeWidth";
-        /// <summary>
-        /// DialogTextMaxEdgeWidth
-        /// </summary>
-        public const string DialogTextMaxEdgeWidth = "DialogTextMaxEdgeWidth";
-        /// <summary>
-        /// DialogTextNGBrush
-        /// </summary>
-        public const string DialogTextNGBrush = "DialogTextNGBrush";
-        /// <summary>
-        /// DialogTextNormalEdge
-        /// </summary>
-        public const string DialogTextNormalEdge = "DialogTextNormalEdge";
-        /// <summary>
-        /// DialogTextThresholdHigh
-        /// </summary>
-        public const string DialogTextThresholdHigh = "DialogTextThresholdHigh";
-        /// <summary>
-        /// DialogTextThresholdLow
-        /// </summary>
-        public const string DialogTextThresholdLow = "DialogTextThresholdLow";
-        /// <summary>
-        /// DialogTextViewMode
-        /// </summary>
-        public const string DialogTextViewMode = "DialogTextViewMode";
-        /// <summary>
-        /// DialogTextViewMode
-        /// </summary>
-        public const string DialogTextPropertyBrush = "DialogTextPropertyBrush";
-        /// <summary>
-        /// DialogTextLogarithmic
-        /// </summary>
-        public const string DialogTextLogarithmic = "DialogTextLogarithmic";
-        #endregion
-
-        #region Constants for XML.
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathFileName = "AnimationSettings.xml";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathAnimationSettings = "AnimationSettings";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathVersion = "1.0";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathThresholdHigh = "ThresholdHigh";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathThresholdLow = "ThresholdLow";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathNormalEdgeWidth = "NormalEdgeWidth";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathMaxEdgeWidth = "MaxEdgeWidth";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathEditBGBrush = "EditBGBrush";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathEditEdgeBrush = "EditEdgeBrush";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathViewBGBrush = "ViewBGBrush";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathViewEdgeBrush = "ViewEdgeBrush";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathLowEdgeBrush = "LowEdgeBrush";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathHighEdgeBrush = "HighEdgeBrush";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathNGEdgeBrush = "NGEdgeBrush";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathPropertyBrush = "PropertyBrush";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathIsLogarithmic = "IsLogarithmic";
-        #endregion
-    }
-
-    /// <summary>
-    /// private class for AnimationSettingDialog
-    /// </summary>
-    internal class AnimationTabPage : PropertyDialogTabPage
-    {
-        private AnimationControl m_con;
-        private AnimationEditModeItem m_editModeItem;
-        private AnimationViewModeItem m_viewModeItem;
-
-        public AnimationTabPage(AnimationControl control)
-        {
-            m_con = control;
-            m_editModeItem = new AnimationEditModeItem(control);
-            m_viewModeItem = new AnimationViewModeItem(control);
-
-            this.Text = "Pathway Setting";
-            this.SuspendLayout();
-            this.Controls.Add(m_editModeItem);
-            this.Controls.Add(m_viewModeItem);
-
-            m_viewModeItem.Top = m_editModeItem.Top + m_editModeItem.Height;
-            this.ResumeLayout();
-            this.PerformLayout();
-        }
-
-        public override void ApplyChange()
-        {
-            base.ApplyChange();
-            m_editModeItem.ApplyChanges();
-            m_viewModeItem.ApplyChanges();
-            m_con.SaveSettings();
-        }
-    }
-
-    /// <summary>
-    /// private class for AnimationSettingDialog
-    /// </summary>
-    internal class AnimationEditModeItem : GroupBox
-    {
-        private PropertyBrushItem m_bgBrushItem;
-        private PropertyBrushItem m_edgeBrushItem;
-        private PropertyTextItem m_edgeWidth;
-
-        private AnimationControl m_control;
-
-        public AnimationEditModeItem(AnimationControl control)
-        {
-            m_control = control;
-
-            // set Brushes
-            this.m_bgBrushItem = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextBackgroundBrush), control.EditBGBrush);
-            this.m_edgeWidth = new PropertyTextItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeWidth), control.EdgeWidth.ToString());
-            this.m_edgeBrushItem = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.EditEdgeBrush);
-            this.SuspendLayout();
-            // 
-            // Initialize
-            // 
-            this.Anchor = (AnchorStyles)((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right);
-            this.AutoSize = true;
-            this.Controls.Add(this.m_bgBrushItem);
-            this.Controls.Add(this.m_edgeBrushItem);
-            this.Controls.Add(this.m_edgeWidth);
-            this.Text = m_control.Resources.GetString(AnimationConstants.DialogTextEditMode);
-            this.TabStop = false;
-
-            // Set Position
-            this.m_bgBrushItem.Location = new Point(5, 20);
-            this.m_edgeBrushItem.Location = new Point(5, 50);
-            this.m_edgeWidth.Location = new Point(230, 50);
-
-            this.ResumeLayout(false);
-            this.PerformLayout();
-        }
-
-        public void ApplyChanges()
-        {
-            m_control.EditBGBrush = this.m_bgBrushItem.Brush;
-            m_control.EditEdgeBrush = this.m_edgeBrushItem.Brush;
-            m_control.EdgeWidth = float.Parse(this.m_edgeWidth.Text);
-        }
-    }
-
-    /// <summary>
-    /// private class for AnimationSettingDialog
-    /// </summary>
-    internal class AnimationViewModeItem : GroupBox
-    {
-        private PropertyBrushItem m_bgBrush;
-        private PropertyDialogItem m_animation;
-        private PropertyBrushItem m_edgeBrush;
-        private PropertyTextItem m_edgeWidth;
-
-        private PropertyBrushItem m_edgeHighBrush;
-        private PropertyBrushItem m_edgeLowBrush;
-        private PropertyBrushItem m_edgeNGBrush;
-        private PropertyTextItem m_thresholdHigh;
-        private PropertyTextItem m_thresholdLow;
-
-        private PropertyBrushItem m_propBrush;
-        private PropertyCheckBoxItem m_lineCheckBox;
-
-        private AnimationControl m_control;
-
-        public AnimationViewModeItem(AnimationControl control)
-        {
-            m_control = control;
-            // set Brushes
-            m_bgBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextBackgroundBrush), control.ViewBGBrush);
-            m_animation = new PropertyDialogItem(m_control.Resources.GetString(AnimationConstants.DialogTextAnimationSetting));
-            m_edgeBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.ViewEdgeBrush);
-            m_edgeWidth = new PropertyTextItem(m_control.Resources.GetString(AnimationConstants.DialogTextMaxEdgeWidth), control.MaxEdgeWidth.ToString());
-
-            m_edgeHighBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextThresholdHigh), control.HighEdgeBrush);
-            m_edgeLowBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextThresholdLow), control.LowEdgeBrush);
-            m_edgeNGBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextNGBrush), control.NgEdgeBrush);
-            m_thresholdHigh = new PropertyTextItem("", control.ThresholdHigh.ToString());
-            m_thresholdLow = new PropertyTextItem("", control.ThresholdLow.ToString());
-            m_propBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextPropertyBrush), control.PropertyBrush);
-            m_lineCheckBox = new PropertyCheckBoxItem(m_control.Resources.GetString(AnimationConstants.DialogTextLogarithmic), control.IsLogarithmic);
-
-            this.SuspendLayout();
-            // 
-            // This
-            // 
-            this.Anchor = (AnchorStyles)((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right);
-            this.AutoSize = true;
-            this.Controls.Add(m_bgBrush);
-            this.Controls.Add(m_animation);
-            this.Controls.Add(m_edgeBrush);
-            this.Controls.Add(m_edgeHighBrush);
-            this.Controls.Add(m_edgeLowBrush);
-            this.Controls.Add(m_edgeWidth);
-            this.Controls.Add(m_thresholdHigh);
-            this.Controls.Add(m_thresholdLow);
-            this.Controls.Add(m_edgeNGBrush);
-            this.Controls.Add(m_propBrush);
-            this.Controls.Add(m_lineCheckBox);
-            this.Text = m_control.Resources.GetString(AnimationConstants.DialogTextViewMode);
-            this.TabStop = false;
-
-            // SetPosition 
-            m_bgBrush.Location = new Point(5, 20);
-            m_edgeBrush.Location = new Point(5, 50);
-            m_edgeWidth.Location = new Point(230, 50);
-            m_animation.Location = new Point(5, 80);
-
-            m_edgeHighBrush.Location = new Point(5, 110);
-            m_edgeLowBrush.Location = new Point(5, 140);
-            m_thresholdHigh.Location = new Point(170, 110);
-            m_thresholdLow.Location = new Point(170, 140);
-            m_edgeNGBrush.Location = new Point(5, 170);
-            m_propBrush.Location = new Point(5, 200);
-            m_lineCheckBox.Location = new Point(230, 200);
-
-            this.ResumeLayout(false);
-            this.PerformLayout();
-        }
-
-        public void ApplyChanges()
-        {
-            m_control.ViewBGBrush = m_bgBrush.Brush;
-            m_control.MaxEdgeWidth = float.Parse(m_edgeWidth.Text);
-            m_control.ViewEdgeBrush = m_edgeBrush.Brush;
-            m_control.ThresholdHigh = float.Parse(m_thresholdHigh.Text);
-            m_control.ThresholdLow = float.Parse(m_thresholdLow.Text);
-            m_control.HighEdgeBrush = m_edgeHighBrush.Brush;
-            m_control.LowEdgeBrush = m_edgeLowBrush.Brush;
-            m_control.NgEdgeBrush = m_edgeNGBrush.Brush;
-            m_control.PropertyBrush = m_propBrush.Brush;
-            m_control.IsLogarithmic = m_lineCheckBox.Checked;
-        }
-    }
-
 }

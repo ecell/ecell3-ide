@@ -199,14 +199,6 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathIconFile = "IconFile";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathFigure = "Figure";
-        /// <summary>
-        /// 
-        /// </summary>
         public const string xPathMode = "Mode";
         /// <summary>
         /// 
@@ -219,7 +211,23 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
+        public const string xPathNormal = "Normal";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathVisible = "Visible";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathGradation = "Gradation";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string xPathSize = "Size";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathFigure = "Figure";
         /// <summary>
         /// 
         /// </summary>
@@ -243,15 +251,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathNormal = "Normal";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathVisible = "Visible";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathGradation = "Gradation";
+        public const string xPathIconFile = "IconFile";
         #endregion
     }
 }

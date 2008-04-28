@@ -393,4 +393,25 @@
   <data name="WindowToolbox" xml:space="preserve">
     <value>Toolbox</value>
   </data>
+  <data name="CenterBrush" xml:space="preserve">
+    <value>Center color</value>
+  </data>
+  <data name="Figure" xml:space="preserve">
+    <value>Object figure</value>
+  </data>
+  <data name="FillBrush" xml:space="preserve">
+    <value>Fill color</value>
+  </data>
+  <data name="IconFile" xml:space="preserve">
+    <value>Icon file</value>
+  </data>
+  <data name="IsGradation" xml:space="preserve">
+    <value>Gradation</value>
+  </data>
+  <data name="LineBrush" xml:space="preserve">
+    <value>Line color</value>
+  </data>
+  <data name="TextBrush" xml:space="preserve">
+    <value>Text color</value>
+  </data>
 </root>

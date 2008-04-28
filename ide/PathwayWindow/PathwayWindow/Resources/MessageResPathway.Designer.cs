@@ -178,6 +178,15 @@ namespace EcellLib.PathwayWindow.Resources {
         }
         
         /// <summary>
+        ///   Center color に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CenterBrush {
+            get {
+                return ResourceManager.GetString("CenterBrush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Are you sure you want to delete? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmDelete {
@@ -529,6 +538,42 @@ namespace EcellLib.PathwayWindow.Resources {
         }
         
         /// <summary>
+        ///   Object figure に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string Figure {
+            get {
+                return ResourceManager.GetString("Figure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fill color に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string FillBrush {
+            get {
+                return ResourceManager.GetString("FillBrush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Icon file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string IconFile {
+            get {
+                return ResourceManager.GetString("IconFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Gradation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string IsGradation {
+            get {
+                return ResourceManager.GetString("IsGradation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Input new Layer name. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string LayerDialogMessage {
@@ -615,6 +660,15 @@ namespace EcellLib.PathwayWindow.Resources {
         internal static string LayerMenuSelectNodes {
             get {
                 return ResourceManager.GetString("LayerMenuSelectNodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Line color に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LineBrush {
+            get {
+                return ResourceManager.GetString("LineBrush", resourceCulture);
             }
         }
         
@@ -750,6 +804,15 @@ namespace EcellLib.PathwayWindow.Resources {
         internal static string MsgLayoutNoNode {
             get {
                 return ResourceManager.GetString("MsgLayoutNoNode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Text color に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string TextBrush {
+            get {
+                return ResourceManager.GetString("TextBrush", resourceCulture);
             }
         }
         
