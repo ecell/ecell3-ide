@@ -153,6 +153,7 @@ namespace EcellLib.PathwayWindow.Handler
             if (canvas == null)
                 return;
             canvas.ControlLayer.AddChild(m_template);
+            m_template.Pickable = false;
             m_template.CenterPointF = e.Position;
             m_template.RefreshView();
         }

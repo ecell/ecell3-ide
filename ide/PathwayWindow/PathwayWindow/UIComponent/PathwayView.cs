@@ -86,8 +86,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void m_con_CanvasChange(object sender, EventArgs e)
         {
             this.Controls.Clear();
-            this.TabText = this.Name;
-            this.Text = this.Name;
+            this.Text = m_con.Resources.GetString(PathwayConstants.WindowPathway);
+            this.TabText = this.Text;
             if (m_con.Canvas == null)
                 return;
 

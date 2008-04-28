@@ -210,6 +210,7 @@ namespace EcellLib.PathwayWindow.Handler
             m_canvas = m_con.Canvas;
             m_object = canvas.Setting.CreateTemplate();
             m_object.Pickable = false;
+            m_canvas.ControlLayer.AddChild(m_object);
         }
 
         /// <summary>
