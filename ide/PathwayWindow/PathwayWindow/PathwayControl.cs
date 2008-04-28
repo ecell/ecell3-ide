@@ -919,23 +919,22 @@ namespace EcellLib.PathwayWindow
         public void NotifyVariableReferenceChanged(string proKey, string varKey, RefChangeType changeType, int coefficient, bool isAnchor)
         {
             // Get EcellObject of identified process.
-            PPathwayObject node = m_canvas.GetSelectedObject(proKey, EcellObject.PROCESS);
-            EcellProcess ep = (EcellProcess)node.EcellObject;
-
+            EcellProcess process = (EcellProcess)m_window.GetEcellObject(m_canvas.ModelID, proKey, EcellObject.PROCESS);
             // End if obj is null.
-            if (null == ep)
+            if (null == process)
                 return;
+
             // Get EcellReference List.
-            List<EcellReference> refList = ep.ReferenceList;
+            List<EcellReference> refList = process.ReferenceList;
             List<EcellReference> newList = new List<EcellReference>();
             EcellReference changedRef = null;
 
-            foreach (EcellReference v in refList)
+            foreach (EcellReference er in refList)
             {
-                if (v.FullID.EndsWith(varKey))
-                    changedRef = v;
+                if (er.FullID.EndsWith(varKey))
+                    changedRef = er.Copy();
                 else
-                    newList.Add(v);
+                    newList.Add(er.Copy());
             }
 
             if (changedRef != null && changeType != RefChangeType.Delete)
@@ -987,10 +986,10 @@ namespace EcellLib.PathwayWindow
                         break;
                 }
             }
-            ep.ReferenceList = newList;
+            process.ReferenceList = newList;
             try
             {
-                NotifyDataChanged(proKey, proKey, node, true, isAnchor);
+                NotifyDataChanged(proKey, process, true, isAnchor);
             }
             catch (Exception e)
             {
