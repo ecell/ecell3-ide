@@ -1848,7 +1848,8 @@ namespace EcellLib.MainWindow
                 //
                 PythonEngine engine = new PythonEngine();
                 engine.AddToPath(Directory.GetCurrentDirectory());
-                string startup = Environment.GetEnvironmentVariable("IRONPYTHONSTARTUP");
+                string startup = Util.GetStartupFile();
+//                string startup = Environment.GetEnvironmentVariable("IRONPYTHONSTARTUP");
                 if (startup != null && startup.Length > 0)
                 {
                     try

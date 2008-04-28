@@ -97,6 +97,11 @@ namespace EcellLib
             return GetRegistryValue(Constants.registryBaseDirKey);
         }
 
+        static public string GetStartupFile()
+        {
+            return GetRegistryValue(Constants.registryStartup);
+        }
+
         /// <summary>
         /// Get the DM direcory from register.
         /// </summary>

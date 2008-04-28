@@ -215,6 +215,10 @@ namespace EcellLib
         /// </summary>
         public const string registryStaticDebugDirKey = "E-CELL IDE STATICDEBUG PLUGIN";
         /// <summary>
+        /// Reserved the registry key of startup.
+        /// </summary>
+        public const string registryStartup = "E-CELL IDE STARTUP";
+        /// <summary>
         /// Reserved XML path name for name of "E-CELL IDE TMP".
         /// </summary>
         public const string registryTmpDirKey = "E-CELL IDE TMP";
