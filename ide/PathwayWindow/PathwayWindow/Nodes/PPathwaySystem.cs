@@ -276,6 +276,21 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             if (this.Rect.Contains(rect) && rect.Contains(this.Rect))
                 return true;
+            else if (this.Rect.IntersectsWith(rect) && !(this.Rect.Contains(rect) || rect.Contains(this.Rect)))
+                return true;
+            else
+                return false;
+        }
+        /// <summary>
+        /// Check if this PSystem's region overlaps given rectangle
+        /// </summary>
+        /// <param name="rect">RectangleF to be checked</param>
+        /// <returns>True if each rectangle overlaps other rectangle
+        /// (doesn't contain whole rectangle)</returns>
+        public virtual bool Contains(RectangleF rect)
+        {
+            if (this.Rect.Contains(rect) && rect.Contains(this.Rect))
+                return true;
             else if (this.Rect.IntersectsWith(rect))
                 return true;
             else if (this.Rect.Contains(rect) || rect.Contains(this.Rect))

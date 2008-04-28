@@ -170,8 +170,7 @@ namespace EcellLib.PathwayWindow.Handler
                 PPathwaySystem system = (PPathwaySystem)obj;
                 system.Refresh();
                 // Change color if the system overlaps other system
-                if (m_canvas.DoesSystemOverlaps(system)
-                    || !IsInsideRoot(system.Rect))
+                if (m_canvas.DoesSystemOverlaps(system) || !IsInsideRoot(system.Rect))
                     system.IsInvalid = true;
                 else
                     system.IsInvalid = false;

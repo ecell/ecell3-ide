@@ -532,6 +532,26 @@ namespace EcellLib.PathwayWindow
             return isOverlaping;
         }
         /// <summary>
+        /// Check if any system of this canvas overlaps given rectangle.
+        /// </summary>
+        /// <param name="systemName">Parent system.</param>
+        /// <param name="rect">RectangleF to be checked</param>
+        /// <returns>True if there is a system which overlaps rectangle of argument, otherwise false</returns>
+        public bool DoesSystemContains(string systemName, RectangleF rect)
+        {
+            bool contains = true;
+            foreach (PPathwaySystem system in m_systems.Values)
+            {
+                if (!system.EcellObject.Key.StartsWith(systemName))
+                    continue;
+                else if (system.EcellObject.Key.Equals(systemName))
+                    contains = system.Rect.Contains(rect);
+                else if (system.Contains(rect))
+                    contains = false;
+            }
+            return contains;
+        }
+        /// <summary>
         /// Convert CanvasPos to SystemPos
         /// </summary>
         /// <param name="pos"></param>
@@ -1540,7 +1560,7 @@ namespace EcellLib.PathwayWindow
             do
             {
                 // Check 
-                if (!DoesSystemOverlaps(sysKey, rectF) && sys.Rect.Contains(rectF))
+                if (DoesSystemContains(sysKey, rectF) && sys.Rect.Contains(rectF))
                     return new PointF(rectF.X, rectF.Y);
                 r += 1f;
                 rectF.X = basePos.X + r * (float)Math.Cos(rad * r);
