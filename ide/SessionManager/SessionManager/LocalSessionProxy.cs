@@ -78,6 +78,11 @@ namespace EcellLib.SessionManager
             psi.CreateNoWindow = true;
             psi.RedirectStandardError = true;
             psi.RedirectStandardOutput = true;
+            //if (psi.EnvironmentVariables.ContainsKey("IRONPYTHONSTARTUP"))
+            //{
+            //    psi.EnvironmentVariables.Remove("IRONPYTHONSTARTUP");
+            //}
+            //psi.EnvironmentVariables.Add("IRONPYTHONSTARTUP", "C:\\Program Files\\E-Cell IDE\\lib\\ironpython\\__init__.py");
             this.Status = JobStatus.RUNNING;
             m_currentProcess = Process.Start(psi);
             ProcessID = m_currentProcess.Id;

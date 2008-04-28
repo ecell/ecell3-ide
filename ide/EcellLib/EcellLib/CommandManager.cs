@@ -243,9 +243,10 @@ namespace EcellLib
             {
                 List<EcellObject> l_list = new List<EcellObject>();
                 l_list.Add(EcellObject.CreateObject(l_modelID, null, Constants.xpathModel, null, null));
-                DataManager.GetDataManager().DataAdd(l_list);
+                m_dManager.DataAdd(l_list);
                 PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
                 s_modelID = l_modelID;
+//                m_dManager.CurrentProject.Initialize(l_modelID);
             }
             catch (Exception l_ex)
             {
@@ -262,7 +263,7 @@ namespace EcellLib
         {
             try
             {
-                DataManager.GetDataManager().CreateProject(l_projectID, l_comment, null, new List<string>());
+                m_dManager.CreateProject(l_projectID, l_comment, null, new List<string>());
             }
             catch (Exception l_ex)
             {
@@ -2566,7 +2567,9 @@ namespace EcellLib
                                         this.m_stepper.ModelID,
                                         this.m_stepper.Key,
                                         this.m_stepper.Type,
-                                        this.m_stepper);
+                                        this.m_stepper,
+                                        false,
+                                        false);
                             }
                             else
                             {

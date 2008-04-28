@@ -1179,17 +1179,20 @@ namespace EcellLib
                 }
             }
             string l_message = null;
+
             try
             {
                 // Check null.
+
                 l_message = "[" + l_ecellObject.ModelID + "][" + l_ecellObject.Key + "]";
                 if (string.IsNullOrEmpty(l_modelID) || string.IsNullOrEmpty(l_key) || string.IsNullOrEmpty(l_type))
                     throw new Exception(m_resources.GetString(ErrorConstants.ErrNullData) + l_message);
 
                 // Record action
                 EcellObject l_oldObj = GetEcellObject(l_modelID, l_key, l_type);
+
                 //if (!l_oldObj.IsPosSet)
-                //    m_pManager.SetPosition(l_oldObj);
+                //    m_pManager.SetPosition(l_oldObj);                
                 if (l_isRecorded && !m_isAdded)
                     this.m_aManager.AddAction(new DataChangeAction(l_modelID, l_type, l_oldObj.Copy(), l_ecellObject.Copy(), l_isAnchor));
 
@@ -1200,6 +1203,7 @@ namespace EcellLib
 
                 // Checks the EcellObject
                 CheckEntityPath(l_ecellObject);
+
                 // 4 System & Entity
                 if (l_ecellObject.Type.Equals(Constants.xpathSystem))
                 {
@@ -1236,7 +1240,7 @@ namespace EcellLib
                     new object[] { l_ecellObject.Type }
                 ) + l_message + " " + l_ecellObject.Type;
                 Message(l_message);
-                throw new Exception(l_message + " {" + l_ex.ToString() + "}");
+                throw new Exception(l_message + " {" + l_ex.ToString() + l_ex.StackTrace + "}");
             }
         }
 
@@ -4546,6 +4550,7 @@ namespace EcellLib
                     //
                     m_currentProject.StepperDic[l_parameterID]
                             = new Dictionary<string, List<EcellObject>>();
+
                     foreach (string l_key in m_currentProject.StepperDic[l_storedParameterID].Keys)
                     {
                         m_currentProject.StepperDic[l_parameterID][l_key] = new List<EcellObject>();
@@ -4568,7 +4573,9 @@ namespace EcellLib
                 //
                 // 4 LoggerPolicy
                 //
+
                 LoggerPolicy l_loggerPolicy = m_currentProject.LoggerPolicyDic[l_storedParameterID];
+
                 m_currentProject.LoggerPolicyDic[l_parameterID]
                     = new LoggerPolicy(
                         l_loggerPolicy.m_reloadStepCount,
@@ -4578,13 +4585,18 @@ namespace EcellLib
                 //
                 // 4 Initial Condition
                 //
+
                 Dictionary<string, Dictionary<string, Dictionary<string, double>>> l_srcInitialCondition
                     = m_currentProject.InitialCondition[l_storedParameterID];
                 Dictionary<string, Dictionary<string, Dictionary<string, double>>> l_dstInitialCondition
                     = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
+
                 Copy4InitialCondition(l_srcInitialCondition, l_dstInitialCondition);
+
                 m_currentProject.InitialCondition[l_parameterID] = l_dstInitialCondition;
+
                 m_pManager.ParameterAdd(m_currentProject.Name, l_parameterID);
+
                 Message("Create Simulation Parameter: " + l_message);
                 if (l_isRecorded)
                     m_aManager.AddAction(new NewSimParamAction(l_parameterID, l_isAnchor));

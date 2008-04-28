@@ -407,7 +407,7 @@ namespace EcellLib.Analysis
                         value = logList[t];
                     double value1 = (value - m_currentData[path]) / m_pertubateData[paramName];
                     eMatrix[i, j] = value1;
-                    Console.WriteLine(i + " : " + j + " === " + value + " ==> " + m_currentData[path]);
+//                    Console.WriteLine(i + " : " + j + " === " + value + " ==> " + m_currentData[path]);
 
                     j++;
                 }
