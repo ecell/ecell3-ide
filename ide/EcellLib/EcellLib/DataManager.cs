@@ -164,6 +164,14 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// get the default directory.
+        /// </summary>
+        public String DefaultDir
+        {
+            get { return this.m_defaultDir; }
+        }
+
+        /// <summary>
         /// get / set whether simulation time have limit.
         /// </summary>
         public double SimulationTimeLimit

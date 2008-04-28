@@ -1608,7 +1608,8 @@ namespace EcellLib.MainWindow
                         {
                             dirList.Add(dmDir);
                         }
-                        CreateProject(modelName, modelDir, Constants.defaultComment, dirList);
+                        string prjDir = m_dManager.DefaultDir + Constants.delimiterPath + modelName;
+                        CreateProject(modelName, prjDir, Constants.defaultComment, dirList);
                     }
 
                     Thread t = new Thread(new ThreadStart(LoadModelData));
