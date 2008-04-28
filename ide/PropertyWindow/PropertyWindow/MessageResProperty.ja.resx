@@ -132,6 +132,9 @@
   <data name="NoProp" xml:space="preserve">
     <value>プロパティ名を入力する前に値が入力されました。</value>
   </data>
+  <data name="PropertyWindow" xml:space="preserve">
+    <value>プロパティ</value>
+  </data>
   <data name="SameProp" xml:space="preserve">
     <value>同じ名前のプロパティが存在します。</value>
   </data>

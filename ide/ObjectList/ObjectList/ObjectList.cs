@@ -111,8 +111,8 @@ namespace EcellLib.ObjectList
             m_tabControl.Dock = DockStyle.Fill;
             win.Controls.Add(m_tabControl);
             win.Name = "ObjectList";
-            win.Text = "ObjectList";
-            win.TabText = "ObjectList";
+            win.Text = s_resources.GetString("ObjectList");
+            win.TabText = win.Text;
             win.IsSavable = true;
             List<EcellDockContent> list = new List<EcellDockContent>();
             list.Add(win);

@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AnalysisResultWindow" xml:space="preserve">
+    <value>AnalysisResults</value>
+  </data>
+  <data name="AnalysisWindow" xml:space="preserve">
+    <value>AnalysisSettings</value>
+  </data>
   <data name="ConfirmClose" xml:space="preserve">
     <value>Do you want to close this window?</value>
   </data>

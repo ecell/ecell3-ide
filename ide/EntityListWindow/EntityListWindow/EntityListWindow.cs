@@ -229,7 +229,6 @@ namespace EcellLib.EntityListWindow
             m_form.treeView1.TreeViewNodeSorter = new TypeSorter();
 
             CreatePopupMenu();
-            m_form.Text = "EntityList";
             list.Add(m_form);
 
             return list;

@@ -225,4 +225,7 @@
   <data name="SelectDMDir" xml:space="preserve">
     <value>DMディレクトリを選択してください</value>
   </data>
+  <data name="StartUpWindow" xml:space="preserve">
+    <value>スタートアップ</value>
+  </data>
 </root>

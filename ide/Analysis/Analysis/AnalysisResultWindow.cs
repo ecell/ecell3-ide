@@ -33,6 +33,10 @@ namespace EcellLib.Analysis
         /// SessionManager to manage the analysis session.
         /// </summary>
         private SessionManager.SessionManager m_manager;
+        /// <summary>
+        /// ComponentResourceManager for ObjectList.
+        /// </summary>
+        private static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResAnalysis));
 
         private Color m_headerColor;
         #endregion
@@ -70,6 +74,9 @@ namespace EcellLib.Analysis
             PEEstimateView.ContextMenuStrip = peCntMenu;
 
             m_headerColor = Color.LightCyan;
+            this.Text = s_resources.GetString("AnalysisResultWindow");
+            this.TabText = this.Text;
+
         }
 
         #endregion

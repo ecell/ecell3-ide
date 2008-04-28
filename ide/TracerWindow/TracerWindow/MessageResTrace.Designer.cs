@@ -115,7 +115,7 @@ namespace EcellLib.TracerWindow {
         }
         
         /// <summary>
-        ///   Save Trace... に類似しているローカライズされた文字列を検索します。
+        ///   Save Graph... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemShowSaveTraceText {
             get {
@@ -124,7 +124,7 @@ namespace EcellLib.TracerWindow {
         }
         
         /// <summary>
-        ///   &amp;Tracer Setup... に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Graph Setup... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemShowTraceSetupText {
             get {
@@ -133,11 +133,20 @@ namespace EcellLib.TracerWindow {
         }
         
         /// <summary>
-        ///   Show &amp;Tracer... に類似しているローカライズされた文字列を検索します。
+        ///   Show &amp;Graph... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemShowTraceText {
             get {
                 return ResourceManager.GetString("MenuItemShowTraceText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Graph に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string TracerWindow {
+            get {
+                return ResourceManager.GetString("TracerWindow", resourceCulture);
             }
         }
     }

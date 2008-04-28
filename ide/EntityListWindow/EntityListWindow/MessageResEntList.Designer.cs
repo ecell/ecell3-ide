@@ -61,6 +61,15 @@ namespace EcellLib.EntityListWindow {
         }
         
         /// <summary>
+        ///   Project Explorer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string EntityList {
+            get {
+                return ResourceManager.GetString("EntityList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Can&apos;t delete this object. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrDelData {

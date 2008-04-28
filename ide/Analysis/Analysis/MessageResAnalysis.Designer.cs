@@ -61,6 +61,24 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   AnalysisResults に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string AnalysisResultWindow {
+            get {
+                return ResourceManager.GetString("AnalysisResultWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   AnalysisSettings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string AnalysisWindow {
+            get {
+                return ResourceManager.GetString("AnalysisWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Do you want to close this window? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmClose {

@@ -102,10 +102,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="EntityList.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>EntityList.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MessageResEntList.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

@@ -97,7 +97,10 @@ namespace EcellLib.Analysis
         /// The form to display the setting and result of analysis.
         /// </summary>
         private static AnalysisWindow s_win = null;
-
+        /// <summary>
+        /// ComponentResourceManager for ObjectList.
+        /// </summary>
+        private static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResAnalysis));
         #endregion
 
         /// <summary>
@@ -117,7 +120,8 @@ namespace EcellLib.Analysis
 
             InitializeData();
             s_win = this;
-
+            this.Text = s_resources.GetString("AnalysisWindow");
+            this.TabText = this.Text;
         }
 
         #region accessor

@@ -132,6 +132,9 @@
   <data name="ErrSelectObj" xml:space="preserve">
     <value>オブジェクトの選択に失敗しました。</value>
   </data>
+  <data name="ObjectList" xml:space="preserve">
+    <value>オブジェクト一覧</value>
+  </data>
   <data name="SearchMenuText" xml:space="preserve">
     <value>検索...</value>
   </data>

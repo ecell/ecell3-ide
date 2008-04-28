@@ -2024,7 +2024,7 @@ namespace EcellLib.MainWindow
             {
                 //Show EntityList
                 Debug.Assert(m_dockWindowDic[item.Text].Pane != null);
-                m_dockWindowDic[item.Text].Show();
+                m_dockWindowDic[(string)item.Tag].Show();
                 item.Checked = true;
             }
         }

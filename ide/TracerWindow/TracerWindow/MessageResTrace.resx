@@ -136,12 +136,15 @@
     <value>Delete</value>
   </data>
   <data name="MenuItemShowSaveTraceText" xml:space="preserve">
-    <value>Save Trace...</value>
+    <value>Save Graph...</value>
   </data>
   <data name="MenuItemShowTraceSetupText" xml:space="preserve">
-    <value>&amp;Tracer Setup...</value>
+    <value>&amp;Graph Setup...</value>
   </data>
   <data name="MenuItemShowTraceText" xml:space="preserve">
-    <value>Show &amp;Tracer...</value>
+    <value>Show &amp;Graph...</value>
+  </data>
+  <data name="TracerWindow" xml:space="preserve">
+    <value>Graph</value>
   </data>
 </root>

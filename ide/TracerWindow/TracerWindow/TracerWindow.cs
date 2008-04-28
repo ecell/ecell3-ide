@@ -795,7 +795,7 @@ namespace EcellLib.TracerWindow
             m_win.Shown += new EventHandler(m_win.ShownEvent);
             m_win.m_entry = new List<TagData>();
             m_win.Control = this;
-            m_win.Text = m_win.Text + m_winCount;
+            m_win.Text = s_resources.GetString("TracerWindow") + m_winCount;
             m_win.TabText = m_win.Text;
             m_winCount++;
 

@@ -132,6 +132,9 @@
   <data name="NoProp" xml:space="preserve">
     <value>Input the name of property before input the value.</value>
   </data>
+  <data name="PropertyWindow" xml:space="preserve">
+    <value>Property</value>
+  </data>
   <data name="SameProp" xml:space="preserve">
     <value>There are the property have the same name.</value>
   </data>

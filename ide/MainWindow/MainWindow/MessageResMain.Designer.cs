@@ -383,5 +383,14 @@ namespace EcellLib.MainWindow {
                 return ResourceManager.GetString("SelectDMDir", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   StartUp に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string StartUpWindow {
+            get {
+                return ResourceManager.GetString("StartUpWindow", resourceCulture);
+            }
+        }
     }
 }

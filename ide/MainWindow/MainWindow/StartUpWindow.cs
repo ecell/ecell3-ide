@@ -37,17 +37,27 @@ using System.Drawing;
 
 namespace EcellLib.MainWindow
 {
-    class StartUpWindow : EcellDockContent
+    /// <summary>
+    /// StartUpWindow
+    /// </summary>
+    public class StartUpWindow : EcellDockContent
     {
         private PictureBox pictureBox1;
         private GroupBox groupBox1;
         private WebBrowser webBrowser1;
         private const string URL = "http://chaperone.e-cell.org/trac/ecell-ide";
         MainWindow m_window = null;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="window"></param>
         public StartUpWindow(MainWindow window)
         {
             m_window = window;
             InitializeComponent();
+            this.Text = MainWindow.s_resources.GetString("StartUpWindow");
+            this.TabText = this.Text;
             Uri uri = new Uri(Path.Combine(Application.StartupPath, Constants.fileStartupHTML));
             webBrowser1.Navigate(uri);
             SetRecentFiles();

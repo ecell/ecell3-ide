@@ -73,7 +73,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             InitializeComponent();
 
             this.Text = m_con.Resources.GetString(PathwayConstants.WindowPathway);
-            this.TabText = m_con.Resources.GetString(PathwayConstants.WindowPathway);
+            this.TabText = this.Text;
         }
         #endregion
 

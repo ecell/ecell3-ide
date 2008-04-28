@@ -136,12 +136,15 @@
     <value>削除</value>
   </data>
   <data name="MenuItemShowSaveTraceText" xml:space="preserve">
-    <value>トレース保存...</value>
+    <value>グラフ保存...</value>
   </data>
   <data name="MenuItemShowTraceSetupText" xml:space="preserve">
-    <value>トレーサー設定(&amp;T)...</value>
+    <value>グラフ設定(&amp;T)...</value>
   </data>
   <data name="MenuItemShowTraceText" xml:space="preserve">
-    <value>トレーサー表示(&amp;T)...</value>
+    <value>グラフ表示(&amp;T)...</value>
+  </data>
+  <data name="TracerWindow" xml:space="preserve">
+    <value>グラフ</value>
   </data>
 </root>

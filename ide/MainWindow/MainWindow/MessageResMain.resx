@@ -225,4 +225,7 @@
   <data name="SelectDMDir" xml:space="preserve">
     <value>Please select the dm directory.</value>
   </data>
+  <data name="StartUpWindow" xml:space="preserve">
+    <value>StartUp</value>
+  </data>
 </root>

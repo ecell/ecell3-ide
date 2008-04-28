@@ -132,6 +132,9 @@
   <data name="ErrSelectObj" xml:space="preserve">
     <value>Get exception while system select the object.</value>
   </data>
+  <data name="ObjectList" xml:space="preserve">
+    <value>ObjectList</value>
+  </data>
   <data name="SearchMenuText" xml:space="preserve">
     <value>Search ...</value>
   </data>

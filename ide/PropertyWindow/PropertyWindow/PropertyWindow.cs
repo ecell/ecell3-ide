@@ -488,8 +488,8 @@ namespace EcellLib.PropertyWindow
             EcellDockContent dock = new EcellDockContent();
             dock.Dock = DockStyle.Fill;
             dock.Name = "PropertyWindow";
-            dock.Text = "PropertyWindow";
-            dock.TabText = "PropertyWindow";
+            dock.Text = m_resources.GetString("PropertyWindow");
+            dock.TabText = dock.Text;
             dock.Controls.Add(m_dgv);
             dock.IsSavable = true;
             List<EcellDockContent> list = new List<EcellDockContent>();

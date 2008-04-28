@@ -148,7 +148,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_dgv.ContextMenuStrip = CreatePopUpMenus();
             m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(m_dgv_EditingControlShowing);
             this.Text = m_resources.GetString(PathwayConstants.WindowLayer);
-            this.TabText = m_resources.GetString(PathwayConstants.WindowLayer);
+            this.TabText = this.Text;
         }
 
         void m_dgv_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
