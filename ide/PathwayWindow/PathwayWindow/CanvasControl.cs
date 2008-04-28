@@ -437,6 +437,8 @@ namespace EcellLib.PathwayWindow
 
             // Preparing control layer
             m_ctrlLayer = new PPathwayLayer("ControlLayer");
+            m_ctrlLayer.Visible = true;
+            m_ctrlLayer.Pickable = true;
             m_pCanvas.Root.AddChild(m_ctrlLayer);
             m_pCanvas.Camera.AddLayer(m_ctrlLayer);
             // Preparing system layer

@@ -112,22 +112,6 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// Accessor for status whether the mouse is on this node or not.
-        /// </summary>
-        public virtual bool IsMouseOn
-        {
-            get { return this.m_isMouseOn; }
-            set
-            {
-                this.m_isMouseOn = value;
-                if (value)
-                    this.Brush = m_toBeConnectedBrush;
-                else if (!m_isToBeConnected)
-                    this.Brush = m_fillBrush;
-            }
-        }
-
-        /// <summary>
         /// get/set related element.
         /// </summary>
         public override EcellObject EcellObject
@@ -192,6 +176,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="e">PInputEventArgs.</param>
         public override void OnMouseDown(PInputEventArgs e)
         {
+            base.OnMouseDown(e);
             Mode mode = m_canvas.Control.SelectedHandle.Mode;
             if (mode == Mode.CreateOneWayReaction
                 || mode == Mode.CreateMutualReaction
@@ -205,45 +190,6 @@ namespace EcellLib.PathwayWindow.Nodes
             else
                 m_canvas.NotifySelectChanged(this);
 
-            base.OnMouseDown(e);
-        }
-
-        /// <summary>
-        /// Called when the mouse enters a node
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnMouseEnter(PInputEventArgs e)
-        {
-            Mode mode = m_canvas.Control.SelectedHandle.Mode;
-            if (mode == Mode.CreateOneWayReaction
-                || mode == Mode.CreateMutualReaction
-                || mode == Mode.CreateConstant)
-            {
-                PPathwayNode startNode = m_canvas.NodeToBeReconnected;
-                if (null == startNode)
-                    return;
-
-                if ((startNode is PPathwayProcess && this is PPathwayVariable)
-                    || (startNode is PPathwayVariable && this is PPathwayProcess))
-                {
-                    this.IsMouseOn = true;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Called when the mouse leaves a node
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnMouseLeave(PInputEventArgs e)
-        {
-            Mode mode = m_canvas.Control.SelectedHandle.Mode;
-            if (mode == Mode.CreateOneWayReaction
-                || mode == Mode.CreateMutualReaction
-                || mode == Mode.CreateConstant)
-            {
-                this.IsMouseOn = false;
-            }
         }
         #endregion
 
