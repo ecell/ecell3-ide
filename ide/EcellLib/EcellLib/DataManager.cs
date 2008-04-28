@@ -101,6 +101,10 @@ namespace EcellLib
         /// The start time of the simulation
         /// </summary>
         private double m_simulationStartTime = 0.0;
+        /// <summary>
+        /// add action flag
+        /// </summary>
+        private bool m_isAdded = false;
 
         private Dictionary<string, EcellObservedData> m_observedList;
         private Dictionary<string, EcellParameterData> m_parameterList;
@@ -771,6 +775,28 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// ConfirmReset
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="type"></param>
+        private void ConfirmReset(string action, string type)
+        {
+            if (m_currentProject.SimulationStatus == SimulationStatus.Wait)
+                return;
+            if (EcellObject.TEXT.Equals(type))
+                return;
+
+            String mes = m_resources.GetString("ConfirmReset");
+            DialogResult r = MessageBox.Show(mes,
+                "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            if (r != DialogResult.OK)
+            {
+                throw new IgnoreException("Can't " + action + " the object.");
+            }
+            SimulationStop();
+            m_pManager.ChangeStatus(ProjectStatus.Loaded);
+        }
+        /// <summary>
         /// Adds the list of "EcellObject".
         /// </summary>
         /// <param name="l_ecellObjectList">The list of "EcellObject"</param>
@@ -787,55 +813,54 @@ namespace EcellLib
         /// <param name="l_isAnchor">Whether this action is an anchor or not</param>
         public void DataAdd(List<EcellObject> l_ecellObjectList, bool l_isRecorded, bool l_isAnchor)
         {
-            if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
-                m_currentProject.SimulationStatus == SimulationStatus.Suspended)
+            foreach (EcellObject l_ecellObject in l_ecellObjectList)
             {
-                String mes = m_resources.GetString("ConfirmReset");
-                DialogResult r = MessageBox.Show(mes,
-                    "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                if (r != DialogResult.OK)
-                {
-                    throw new IgnoreException("Can't delete the object.");
-                }
-                SimulationStop();
-                m_pManager.ChangeStatus(ProjectStatus.Loaded);
+                DataAdd(l_ecellObject, l_isRecorded, l_isAnchor);
             }
+        }
 
+        /// <summary>
+        /// Adds the "EcellObject".
+        /// </summary>
+        /// <param name="l_ecellObject">The "EcellObject"</param>
+        /// <param name="l_isRecorded">Whether this action is recorded or not</param>
+        /// <param name="l_isAnchor">Whether this action is an anchor or not</param>
+        public void DataAdd(EcellObject l_ecellObject, bool l_isRecorded, bool l_isAnchor)
+        {
             List<EcellObject> l_usableList = new List<EcellObject>();
             string l_message = null;
             string l_type = null;
             bool l_isUndoable = true; // Whether DataAdd action is undoable or not
             try
             {
-                foreach (EcellObject l_ecellObject in l_ecellObjectList)
-                {
-                    if (!this.IsUsable(l_ecellObject))
-                        continue;
+                if (!this.IsUsable(l_ecellObject))
+                    return;
+                l_message = "[" + l_ecellObject.ModelID + "][" + l_ecellObject.Key + "]";
+                l_type = l_ecellObject.Type;
+                
+                ConfirmReset("add", l_type);
 
-                    l_message = "[" + l_ecellObject.ModelID + "][" + l_ecellObject.Key + "]";
-                    l_type = l_ecellObject.Type;
-                    if (l_type.Equals(Constants.xpathProcess) || l_type.Equals(Constants.xpathVariable) || l_type.Equals(Constants.xpathText))
-                    {
-                        this.DataAdd4Entity(l_ecellObject, true);
-                        l_usableList.Add(l_ecellObject);
-                    }
-                    else if (l_type.Equals(Constants.xpathSystem))
-                    {
-                        this.DataAdd4System(l_ecellObject, true);
-                        if ("/".Equals(l_ecellObject.Key))
-                            l_isUndoable = false;
-                        l_usableList.Add(l_ecellObject);
-                    }
-                    else if (l_type.Equals(Constants.xpathStepper))
-                    {
-                        // this.DataAdd4Stepper(l_ecellObject);
-                        // l_usableList.Add(l_ecellObject);
-                    }
-                    else if (l_type.Equals(Constants.xpathModel))
-                    {
+                if (l_type.Equals(Constants.xpathProcess) || l_type.Equals(Constants.xpathVariable) || l_type.Equals(Constants.xpathText))
+                {
+                    this.DataAdd4Entity(l_ecellObject, true);
+                    l_usableList.Add(l_ecellObject);
+                }
+                else if (l_type.Equals(Constants.xpathSystem))
+                {
+                    this.DataAdd4System(l_ecellObject, true);
+                    if ("/".Equals(l_ecellObject.Key))
                         l_isUndoable = false;
-                        this.DataAdd4Model(l_ecellObject, l_usableList);
-                    }
+                    l_usableList.Add(l_ecellObject);
+                }
+                else if (l_type.Equals(Constants.xpathStepper))
+                {
+                    // this.DataAdd4Stepper(l_ecellObject);
+                    // l_usableList.Add(l_ecellObject);
+                }
+                else if (l_type.Equals(Constants.xpathModel))
+                {
+                    l_isUndoable = false;
+                    DataAdd4Model(l_ecellObject, l_usableList);
                 }
             }
             catch (Exception l_ex)
@@ -854,15 +879,12 @@ namespace EcellLib
                     m_isAdded = false;
                     foreach (EcellObject obj in l_usableList)
                     {
-                        //                        m_pManager.SetPosition(obj);
                         if (l_isRecorded)
                             m_aManager.AddAction(new DataAddAction(obj, l_isUndoable, l_isAnchor));
                     }
                 }
             }
         }
-
-        bool m_isAdded = false;
 
         /// <summary>
         /// Adds the "Model"
@@ -1132,18 +1154,7 @@ namespace EcellLib
                 EcellObject obj = GetEcellObject(l_modelID, l_key, l_type);
                 if (!l_key.Equals(l_ecellObject.Key) ||
                     obj.Value.Count != l_ecellObject.Value.Count)
-                {
-                    String mes = m_resources.GetString("ConfirmReset");
-                    DialogResult r = MessageBox.Show(mes,
-                        "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                    if (r != DialogResult.OK)
-                    {
-                        throw new IgnoreException("Can't change the object.");
-                        //return; // TODO
-                    }
-                    SimulationStop();
-                    m_pManager.ChangeStatus(ProjectStatus.Loaded);
-                }
+                    ConfirmReset("change", l_type);
 
                 foreach (EcellData d in obj.Value)
                 {
@@ -1425,31 +1436,19 @@ namespace EcellLib
         /// <param name="l_isAnchor">Whether this action is an anchor or not</param>
         public void DataDelete(string l_modelID, string l_key, string l_type, bool l_isRecorded, bool l_isAnchor)
         {
-            if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
-                m_currentProject.SimulationStatus == SimulationStatus.Suspended)
-            {
-                String mes = m_resources.GetString("ConfirmReset");
-                DialogResult r = MessageBox.Show(mes,
-                    "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                if (r != DialogResult.OK)
-                {
-                    throw new IgnoreException("Can't delete the object.");
-                }
-                SimulationStop();
-                m_pManager.ChangeStatus(ProjectStatus.Loaded);
-            }
+            ConfirmReset("delete", l_type);
 
             string l_message = null;
             EcellObject deleteObj = null;
             try
             {
-                l_message = "[" + l_modelID + "][" + l_key + "]";
-                if (l_modelID == null || l_modelID.Length <= 0)
+                if (string.IsNullOrEmpty(l_modelID))
                     return;
+                l_message = "[" + l_modelID + "][" + l_key + "]";
 
                 deleteObj = GetEcellObject(l_modelID, l_key, l_type);
 
-                if (l_key == null || l_key.Length <= 0)
+                if (string.IsNullOrEmpty(l_key))
                 {
                     DataDelete4Model(l_modelID);
                 }
