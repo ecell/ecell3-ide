@@ -4457,9 +4457,10 @@ namespace EcellLib
                 m_currentProject = l_prj;
                 if (l_projectPath != null)
                     m_currentProject.ProjectPath = l_projectPath;
+
+                CreateProjectDir(l_prjID, l_setDirList);
                 m_currentProject.SetDMList();
                 m_currentProject.Simulator = CreateSimulatorInstance();
-                CreateProjectDir(l_prjID, l_setDirList);
                 m_currentProject.LoggerPolicyDic = new Dictionary<string, LoggerPolicy>();
                 m_currentProject.StepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
                 m_currentProject.ModelList = new List<EcellObject>();

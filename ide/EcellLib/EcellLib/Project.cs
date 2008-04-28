@@ -262,7 +262,6 @@ namespace EcellLib
             set
             {
                 this.m_filePath = value;
-                this.m_prjPath = Path.GetDirectoryName(value);
             }
         }
 
