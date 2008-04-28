@@ -276,7 +276,12 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             if (this.Rect.Contains(rect) && rect.Contains(this.Rect))
                 return true;
-            return this.Rect.IntersectsWith(rect) && !(this.Rect.Contains(rect) || rect.Contains(this.Rect));
+            else if (this.Rect.IntersectsWith(rect))
+                return true;
+            else if (this.Rect.Contains(rect) || rect.Contains(this.Rect))
+                return true;
+            else
+                return false;
         }
         #endregion
     }    

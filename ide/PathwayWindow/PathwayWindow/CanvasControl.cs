@@ -435,14 +435,14 @@ namespace EcellLib.PathwayWindow
             // Preparing layer list
             m_layers = new Dictionary<string, PPathwayLayer>();
 
-            // Preparing control layer
-            m_ctrlLayer = new PPathwayLayer("ControlLayer");
-            m_pCanvas.Root.AddChild(m_ctrlLayer);
-            m_pCanvas.Camera.AddLayer(m_ctrlLayer);
             // Preparing system layer
             m_sysLayer = new PPathwayLayer("SystemLayer");
             m_sysLayer.AddInputEventListener(new NodeDragHandler(this));
             AddLayer(m_sysLayer);
+            // Preparing control layer
+            m_ctrlLayer = new PPathwayLayer("ControlLayer");
+            m_pCanvas.Root.AddChild(m_ctrlLayer);
+            m_pCanvas.Camera.AddLayer(m_ctrlLayer);
 
             // Preparing system ResizeHandlers
             m_resizeHandler = new SystemResizeHandler(this);
@@ -523,10 +523,12 @@ namespace EcellLib.PathwayWindow
         {
             bool isOverlaping = false;
             foreach (PPathwaySystem system in m_systems.Values)
-                if (system.EcellObject.Key.StartsWith(systemName)
-                    && !system.EcellObject.Key.Equals(systemName)
-                    && system.Overlaps(rect))
+            {
+                if (!system.EcellObject.Key.StartsWith(systemName) || system.EcellObject.Key.Equals(systemName))
+                    continue;
+                if (system.Overlaps(rect))
                     isOverlaping = true;
+            }
             return isOverlaping;
         }
         /// <summary>
@@ -1517,8 +1519,8 @@ namespace EcellLib.PathwayWindow
             RectangleF basePos = new RectangleF(
                 (float)hRandom.Next((int)sys.X, (int)(sys.X + sys.Width)),
                 (float)hRandom.Next((int)sys.Y, (int)(sys.Y + sys.Height)),
-                0,
-                0);
+                30,
+                20);
             return GetVacantPoint(sysKey, basePos);
         }
 
