@@ -149,7 +149,7 @@ namespace EcellLib
         /// <param name="filePath"></param>
         public Project(string filePath)
         {
-            Project prj = Project.LoadProject(filePath);
+            Project prj = ProjectLoader.LoadProject(filePath);
             this.m_prjName = prj.m_prjName;
             this.m_comment = prj.m_comment;
             this.m_simParam = prj.m_simParam;
@@ -374,7 +374,7 @@ namespace EcellLib
         /// <param name="filePath"></param>
         public void Save(string filePath)
         {
-            SaveProject(this, filePath);
+            ProjectSaver.SaveProject(this, filePath);
         }
 
         /// <summary>
@@ -600,7 +600,13 @@ namespace EcellLib
 
         #endregion
 
-        #region Loader
+    }
+
+    /// <summary>
+    /// ProjectLoader
+    /// </summary>
+    public class ProjectLoader
+    {
         /// <summary>
         /// Load Project from setting file.
         /// </summary>
@@ -619,7 +625,7 @@ namespace EcellLib
                 project = LoadProjectFromEml(filepath);
             else
                 return project;
-            project.m_filePath = filepath;
+            project.FilePath = filepath;
             project.ProjectPath = Path.GetDirectoryName(filepath);
             return project;
         }
@@ -684,7 +690,7 @@ namespace EcellLib
                 string errmsg = "ErrLoadProjectSettings" + Environment.NewLine + filepath + Environment.NewLine + ex.Message;
                 MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            project =  new Project(prjName, comment, time, param);
+            project = new Project(prjName, comment, time, param);
             return project;
         }
 
@@ -765,9 +771,13 @@ namespace EcellLib
             project = new Project(name, comment, time);
             return project;
         }
-        #endregion
+    }
 
-        #region Saver
+    /// <summary>
+    /// ProjectSaver
+    /// </summary>
+    public class ProjectSaver
+    {
         /// <summary>
         /// 
         /// </summary>
@@ -803,7 +813,7 @@ namespace EcellLib
         {
             if (Directory.Exists(filepath))
                 return filepath;
-            
+
             string ext = Path.GetExtension(filepath);
             if (ext.Equals(Constants.FileExtINFO) || ext.Equals(Constants.FileExtXML))
                 return Path.GetDirectoryName(filepath);
@@ -876,8 +886,6 @@ namespace EcellLib
                 }
             }
         }
-        #endregion
-
     }
 
     /// <summary>

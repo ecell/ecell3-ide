@@ -711,7 +711,7 @@ namespace EcellLib.MainWindow
             {
                 this.m_filePath = filepath;
                 this.m_nodeType = GetNodeType(filepath);
-                this.m_project = Project.LoadProject(filepath);
+                this.m_project = ProjectLoader.LoadProject(filepath);
                 if (m_project == null)
                     this.Text = Path.GetFileNameWithoutExtension(filepath);
                 else

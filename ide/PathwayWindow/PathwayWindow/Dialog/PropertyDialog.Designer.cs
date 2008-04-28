@@ -44,9 +44,9 @@
             // 
             // panel
             // 
+            resources.ApplyResources(this.panel, "panel");
             this.panel.Controls.Add(this.buttonCancel);
             this.panel.Controls.Add(this.buttonOK);
-            resources.ApplyResources(this.panel, "panel");
             this.panel.Name = "panel";
             // 
             // buttonCancel

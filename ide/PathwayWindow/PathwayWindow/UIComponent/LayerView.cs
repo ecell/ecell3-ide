@@ -147,7 +147,8 @@ namespace EcellLib.PathwayWindow.UIComponent
             // Preparing context menus.
             m_dgv.ContextMenuStrip = CreatePopUpMenus();
             m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(m_dgv_EditingControlShowing);
-
+            this.Text = m_resources.GetString(PathwayConstants.WindowLayer);
+            this.TabText = m_resources.GetString(PathwayConstants.WindowLayer);
         }
 
         void m_dgv_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -189,7 +190,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.groupBox.Size = new System.Drawing.Size(281, 243);
             this.groupBox.TabIndex = 1;
             this.groupBox.TabStop = false;
-            this.groupBox.Text = "LayerView";
+            this.groupBox.Text = "Layers";
             // 
             // m_dgv
             // 

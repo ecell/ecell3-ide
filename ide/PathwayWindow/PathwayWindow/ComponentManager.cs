@@ -788,7 +788,7 @@ namespace EcellLib.PathwayWindow
                 this.pCanvas.GridFitText = false;
                 this.pCanvas.Name = "pCanvas";
                 this.pCanvas.RegionManagement = true;
-                this.pCanvas.Location = new System.Drawing.Point(300, 25);
+                this.pCanvas.Location = new System.Drawing.Point(240, 30);
                 this.pCanvas.Size = new System.Drawing.Size(80, 80);
                 this.pCanvas.BackColor = System.Drawing.Color.Silver;
                 this.pCanvas.Setting = cs;

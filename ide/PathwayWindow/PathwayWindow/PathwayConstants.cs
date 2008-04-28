@@ -67,8 +67,24 @@ namespace EcellLib.PathwayWindow
         public const string ClassPPathwayVariable = "PPathwayVariable";
         #endregion
 
-        #region DialogText
-        
+        #region Window Constants
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string WindowLayer = "WindowLayer";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string WindowOverview = "WindowOverview";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string WindowPathway = "WindowNetwork";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string WindowToolbox = "WindowToolbox";
+
         #endregion
 
         #region XMLPath

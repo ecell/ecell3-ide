@@ -381,4 +381,16 @@
   <data name="ToolButtonCreateText" xml:space="preserve">
     <value>Create Text objent.</value>
   </data>
+  <data name="WindowLayer" xml:space="preserve">
+    <value>Layer</value>
+  </data>
+  <data name="WindowOverview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="WindowPathway" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="WindowToolbox" xml:space="preserve">
+    <value>Toolbox</value>
+  </data>
 </root>

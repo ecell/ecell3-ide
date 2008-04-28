@@ -71,6 +71,9 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.m_scrolCtrl.Dock = DockStyle.Fill;
 
             InitializeComponent();
+
+            this.Text = m_con.Resources.GetString(PathwayConstants.WindowPathway);
+            this.TabText = m_con.Resources.GetString(PathwayConstants.WindowPathway);
         }
         #endregion
 

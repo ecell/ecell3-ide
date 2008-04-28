@@ -851,5 +851,41 @@ namespace EcellLib.PathwayWindow.Resources {
                 return ResourceManager.GetString("ToolButtonZoomOut", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Layer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WindowLayer {
+            get {
+                return ResourceManager.GetString("WindowLayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Overview に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WindowOverview {
+            get {
+                return ResourceManager.GetString("WindowOverview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Network に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WindowPathway {
+            get {
+                return ResourceManager.GetString("WindowPathway", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toolbox に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WindowToolbox {
+            get {
+                return ResourceManager.GetString("WindowToolbox", resourceCulture);
+            }
+        }
     }
 }

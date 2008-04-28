@@ -381,4 +381,16 @@
   <data name="ToolButtonCreateText" xml:space="preserve">
     <value>テキストを作成します。</value>
   </data>
+  <data name="WindowLayer" xml:space="preserve">
+    <value>レイヤー</value>
+  </data>
+  <data name="WindowOverview" xml:space="preserve">
+    <value>オーバービュー</value>
+  </data>
+  <data name="WindowPathway" xml:space="preserve">
+    <value>ネットワーク</value>
+  </data>
+  <data name="WindowToolbox" xml:space="preserve">
+    <value>ツールボックス</value>
+  </data>
 </root>

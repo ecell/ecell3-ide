@@ -436,7 +436,7 @@ namespace EcellLib
         /// Checks differences between the key and the entity path.
         /// </summary>
         /// <param name="l_ecellObject">The checked "EcellObject"</param>
-        private void CheckEntityPath(EcellObject l_ecellObject)
+        private static void CheckEntityPath(EcellObject l_ecellObject)
         {
             if (l_ecellObject.Key == null)
             {
@@ -466,7 +466,7 @@ namespace EcellLib
                 {
                     for (int i = 0; i < l_ecellObject.Children.Count; i++)
                     {
-                        this.CheckEntityPath(l_ecellObject.Children[i]);
+                        CheckEntityPath(l_ecellObject.Children[i]);
                     }
                 }
             }
@@ -497,7 +497,7 @@ namespace EcellLib
         /// <param name="l_dest">The available "EcellObject"</param>
         /// <param name="l_variableDic">The dictionary of the name of available "Variable"s</param>
         /// <returns>true if it modified; false otherwise</returns>
-        private bool CheckVariableReferenceList(
+        private static bool CheckVariableReferenceList(
             EcellObject l_src, ref EcellObject l_dest, Dictionary<string, string> l_variableDic)
         {
             bool l_changedFlag = false;
@@ -549,7 +549,7 @@ namespace EcellLib
         private void CheckVariableReferenceList(
             string l_modelID, string l_newKey, string l_oldKey, List<EcellObject> l_changedList)
         {
-            foreach (EcellObject l_system in this.GetData(l_modelID, null))
+            foreach (EcellObject l_system in GetData(l_modelID, null))
             {
                 if (l_system.Children == null || l_system.Children.Count <= 0)
                     continue;
@@ -683,7 +683,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="l_srcDic">The source</param>
         /// <param name="l_destDic">The destination</param>
-        private void Copy4InitialCondition(
+        private static void Copy4InitialCondition(
                 Dictionary<string, Dictionary<string, Dictionary<string, double>>> l_srcDic,
                 Dictionary<string, Dictionary<string, Dictionary<string, double>>> l_destDic)
         {
@@ -708,7 +708,7 @@ namespace EcellLib
         /// <param name="l_simulator">The dummy simulator</param>
         /// <param name="l_defaultProcess">The dm name of "Process"</param>
         /// <param name="l_defaultStepper">The dm name of "Stepper"</param>
-        private void BuildDefaultSimulator(
+        private static void BuildDefaultSimulator(
                 WrappedSimulator l_simulator, string l_defaultProcess, string l_defaultStepper)
         {
             try
@@ -777,7 +777,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 throw new Exception(
-                    m_resources.GetString(ErrorConstants.ErrCombiStepProc) +
+                    s_resources.GetString(ErrorConstants.ErrCombiStepProc) +
                     "[" + l_defaultStepper + ", " + l_defaultProcess + "]", l_ex);
             }
         }
@@ -998,7 +998,7 @@ namespace EcellLib
                     continue;
                 throw new Exception(l_message + m_resources.GetString(ErrorConstants.ErrAddObj));
             }
-            this.CheckEntityPath(l_ecellObject);
+            CheckEntityPath(l_ecellObject);
             sysDic[l_modelID].Add(l_ecellObject.Copy());
 
             if (l_messageFlag)
@@ -1050,7 +1050,7 @@ namespace EcellLib
                     );
                 }
                 // Set object.
-                this.CheckEntityPath(l_ecellObject);
+                CheckEntityPath(l_ecellObject);
                 l_system.Children.Add(l_ecellObject.Copy());
                 l_findFlag = true;
                 if (l_messageFlag)
@@ -1199,27 +1199,27 @@ namespace EcellLib
                     throw new Exception(m_resources.GetString(ErrorConstants.ErrFindSystem) + l_message);
 
                 // Checks the EcellObject
-                this.CheckEntityPath(l_ecellObject);
+                CheckEntityPath(l_ecellObject);
                 // 4 System & Entity
                 if (l_ecellObject.Type.Equals(Constants.xpathSystem))
                 {
-                    this.DataChanged4System(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
+                    DataChanged4System(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
                 }
                 else if (l_ecellObject.Type.Equals(Constants.xpathProcess))
                 {
-                    this.DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
+                    DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
                 }
                 else if (l_ecellObject.Type.Equals(Constants.xpathText))
                 {
-                    this.DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
+                    DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
                 }
                 else if (l_ecellObject.Type.Equals(Constants.xpathVariable))
                 {
-                    this.DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
+                    DataChanged4Entity(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
                     if (!l_modelID.Equals(l_ecellObject.ModelID) || !l_key.Equals(l_ecellObject.Key))
                     {
                         List<EcellObject> l_changedProcessList = new List<EcellObject>();
-                        this.CheckVariableReferenceList(l_modelID, l_ecellObject.Key, l_key, l_changedProcessList);
+                        CheckVariableReferenceList(l_modelID, l_ecellObject.Key, l_key, l_changedProcessList);
                         foreach (EcellObject l_changedProcess in l_changedProcessList)
                         {
                             this.DataChanged4Entity(
@@ -1338,10 +1338,10 @@ namespace EcellLib
                 EcellObject l_newSystem
                     = EcellObject.CreateObject(l_modelID, l_newKey, l_system.Type, l_system.Classname, l_system.Value);
                 l_newSystem.SetPosition(l_system);
-                this.CheckEntityPath(l_newSystem);
-                this.DataAdd4System(l_newSystem, false);
-                this.CheckDifferences(l_system, l_newSystem, null);
-                this.m_pManager.DataChanged(l_modelID, l_system.Key, l_type, l_newSystem);
+                CheckEntityPath(l_newSystem);
+                DataAdd4System(l_newSystem, false);
+                CheckDifferences(l_system, l_newSystem, null);
+                m_pManager.DataChanged(l_modelID, l_system.Key, l_type, l_newSystem);
                 l_createdSystemKeyList.Add(l_newKey);
 
                 // Deletes the old "System" object.
@@ -1365,7 +1365,7 @@ namespace EcellLib
                     {
                         l_copy.Key = l_ecellObject.Key + l_copy.Key.Substring(l_key.Length);
                     }
-                    this.CheckEntityPath(l_copy);
+                    CheckEntityPath(l_copy);
                     if (l_copy.Type.Equals(Constants.xpathVariable))
                     {
                         l_variableKeyDic[l_childKey] = l_copy.Key;
@@ -1397,7 +1397,7 @@ namespace EcellLib
                     bool l_changedFlag = false;
                     // 4 VariableReferenceList
                     EcellObject l_dest = null;
-                    if (this.CheckVariableReferenceList(l_childObject, ref l_dest, l_variableKeyDic))
+                    if (CheckVariableReferenceList(l_childObject, ref l_dest, l_variableKeyDic))
                     {
                         l_changedFlag = true;
                     }
@@ -1407,7 +1407,7 @@ namespace EcellLib
                     if (l_processKeyDic.ContainsKey(l_oldKey))
                     {
                         l_dest.Key = l_processKeyDic[l_oldKey];
-                        this.CheckEntityPath(l_dest);
+                        CheckEntityPath(l_dest);
                         l_changedFlag = true;
                     }
                     if (l_changedFlag)
@@ -2774,20 +2774,6 @@ namespace EcellLib
                     {
                         string l_parentPath = l_system.ParentSystemID;
                         string l_childPath = l_system.Name;
-                        if (l_system.Key.Equals(Constants.delimiterPath))
-                        {
-                            if (l_childPath.Length == 0)
-                            {
-                                l_childPath = Constants.delimiterPath;
-                            }
-                        }
-                        else
-                        {
-                            if (l_parentPath.Length == 0)
-                            {
-                                l_parentPath = Constants.delimiterPath;
-                            }
-                        }
                         l_entityList.Add(
                             Constants.xpathSystem + Constants.delimiterColon
                             + l_parentPath + Constants.delimiterColon + l_childPath);
@@ -4596,7 +4582,7 @@ namespace EcellLib
                     = m_currentProject.InitialCondition[l_storedParameterID];
                 Dictionary<string, Dictionary<string, Dictionary<string, double>>> l_dstInitialCondition
                     = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
-                this.Copy4InitialCondition(l_srcInitialCondition, l_dstInitialCondition);
+                Copy4InitialCondition(l_srcInitialCondition, l_dstInitialCondition);
                 m_currentProject.InitialCondition[l_parameterID] = l_dstInitialCondition;
                 m_pManager.ParameterAdd(m_currentProject.Name, l_parameterID);
                 Message("Create Simulation Parameter: " + l_message);
