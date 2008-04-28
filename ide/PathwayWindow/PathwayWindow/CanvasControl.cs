@@ -437,8 +437,6 @@ namespace EcellLib.PathwayWindow
 
             // Preparing control layer
             m_ctrlLayer = new PPathwayLayer("ControlLayer");
-            m_ctrlLayer.Visible = true;
-            m_ctrlLayer.Pickable = true;
             m_pCanvas.Root.AddChild(m_ctrlLayer);
             m_pCanvas.Camera.AddLayer(m_ctrlLayer);
             // Preparing system layer
@@ -1481,20 +1479,10 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void Refresh()
         {
-            bool isAnyVisible = false;
-            foreach (PLayer layer in Layers.Values)
-            {
-                if (layer.Visible)
-                {
-                    isAnyVisible = true;
-                    break;
-                }
-            }
             foreach (PPathwayObject obj in GetAllObjects())
             {
                 obj.Refresh();
             }
-            m_ctrlLayer.Visible = isAnyVisible;
             m_pCanvas.Refresh();
         }
 

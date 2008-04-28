@@ -68,9 +68,10 @@ namespace EcellLib.PathwayWindow.Handler
         public CreateNodeMouseHandler(PathwayControl control, ComponentSetting cs)
         {
             this.m_con = control;
+            this.m_resources = control.Resources;
             this.m_cs = cs;
             this.m_template = m_cs.CreateTemplate();
-            m_template.Pickable = false;
+            this.m_template.Pickable = false;
         }
         #endregion
 
@@ -153,9 +154,10 @@ namespace EcellLib.PathwayWindow.Handler
             if (canvas == null)
                 return;
             canvas.ControlLayer.AddChild(m_template);
-            m_template.Pickable = false;
             m_template.CenterPointF = e.Position;
+            m_template.Pickable = false;
             m_template.RefreshView();
+            m_template.Visible = true;
         }
         #endregion
     }

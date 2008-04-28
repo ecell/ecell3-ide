@@ -98,7 +98,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.Text = m_con.Canvas.ModelID;
             this.TabText = this.Text;
             this.Activate();
-            this.Refresh();
+            this.Parent.Refresh();
         }
 
         /// <summary>
