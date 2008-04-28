@@ -1602,7 +1602,13 @@ namespace EcellLib.MainWindow
                         {
                             modelDir = modelDir.Substring(0, modelDir.Length - 6);
                         }
-                        CreateProject(modelName, modelDir, Constants.defaultComment, new List<string>());
+                        string dmDir = modelDir + Constants.delimiterPath + Constants.DMDirName;
+                        List<string> dirList = new List<string>();
+                        if (Directory.Exists(dmDir))
+                        {
+                            dirList.Add(dmDir);
+                        }
+                        CreateProject(modelName, modelDir, Constants.defaultComment, dirList);
                     }
 
                     Thread t = new Thread(new ThreadStart(LoadModelData));
