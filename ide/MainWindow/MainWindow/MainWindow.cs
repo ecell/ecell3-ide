@@ -179,8 +179,7 @@ namespace EcellLib.MainWindow
             catch (Exception e)
             {
                 String errmes = MainWindow.s_resources.GetString("ErrStartup");
-                MessageBox.Show(errmes + "\n\n" + e.Message,
-                        "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Debug.WriteLine(errmes);
                 Application.Exit();
             }
         }
@@ -705,7 +704,6 @@ namespace EcellLib.MainWindow
         {
             Debug.WriteLine("create dock: " + content.Text);
             //Create New DockContent
-            content.Name = content.Text;
             content.Tag = content.Text;
             content.Pane = null;
             content.PanelPane = null;
@@ -715,21 +713,21 @@ namespace EcellLib.MainWindow
             content.FormClosing += new FormClosingEventHandler(this.DockContent_Closing);
 
             //Create DockWindow Menu
-            SetDockContentMenu(content.Text);
-            m_dockWindowDic.Add(content.Text, content);
+            SetDockContentMenu(content);
+            m_dockWindowDic.Add(content.Name, content);
             content.Show(this.dockPanel, DockState.Document);
         }
         /// <summary>
         /// set Window Menu
         /// </summary>
-        private void SetDockContentMenu(string name)
+        private void SetDockContentMenu(DockContent content)
         {
-            ToolStripMenuItem item = new ToolStripMenuItem(name);
-            item.Text = name;
+            ToolStripMenuItem item = new ToolStripMenuItem(content.Text);
+            item.Tag = content.Name;
             item.Checked = true;
-            item.Click += new System.EventHandler(this.DockWindowMenuClick);
+            item.Click += new System.EventHandler(DockWindowMenuClick);
             this.showWindowToolStripMenuItem.DropDown.Items.Add(item);
-            m_dockMenuDic.Add(name, item);
+            m_dockMenuDic.Add(content.Name, item);
         }
         /// <summary>
         /// Get specified DockContent
@@ -2019,7 +2017,7 @@ namespace EcellLib.MainWindow
             if (item.Checked)
             {
                 //Hide EntityList
-                m_dockWindowDic[item.Text].Hide();
+                m_dockWindowDic[(string)item.Tag].Hide();
                 item.Checked = false;
             }
             else

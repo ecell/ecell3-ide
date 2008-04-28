@@ -20,6 +20,10 @@ namespace EcellLib.MessageWindow
         {
             base.m_isSavable = true;
             InitializeComponent();
+            this.Name = "MessageWindow";
+            this.Text = "MessageWindow";
+            this.TabText = "MessageWindow";
+
         }
     }
 }

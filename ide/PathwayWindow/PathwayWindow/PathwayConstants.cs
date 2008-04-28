@@ -79,7 +79,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
-        public const string WindowPathway = "WindowNetwork";
+        public const string WindowPathway = "WindowPathway";
         /// <summary>
         /// 
         /// </summary>
