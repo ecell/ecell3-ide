@@ -913,12 +913,10 @@ namespace EcellLib
             //
             // Sets the default parameter.
             //
-            if (string.IsNullOrEmpty(m_currentProject.SimulationParam))
+            m_currentProject.Initialize(l_modelID);
+            foreach (string l_simParam in m_currentProject.InitialCondition.Keys)
             {
                 // Sets initial conditions.
-                m_currentProject.Initialize(l_modelID);
-                string l_simParam = m_currentProject.SimulationParam;
-
                 m_currentProject.StepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
                 m_currentProject.StepperDic[l_simParam] = new Dictionary<string, List<EcellObject>>();
                 m_currentProject.StepperDic[l_simParam][l_modelID] = new List<EcellObject>();
@@ -2012,7 +2010,7 @@ namespace EcellLib
         /// <param name="l_simulator">The "simulator"</param>
         /// <param name="l_ecellObject">The stored "EcellObject"</param>
         /// <param name="l_initialCondition">The initial condition.</param>
-        private void DataStored(
+        private static void DataStored(
                 WrappedSimulator l_simulator,
                 EcellObject l_ecellObject,
                 Dictionary<string, Dictionary<string, double>> l_initialCondition)
@@ -2065,7 +2063,7 @@ namespace EcellLib
                 for (int i = 0; i < l_ecellObject.Children.Count; i++)
                 {
                     EcellObject l_childEcellObject = l_ecellObject.Children[i];
-                    this.DataStored(l_simulator, l_childEcellObject, l_initialCondition);
+                    DataStored(l_simulator, l_childEcellObject, l_initialCondition);
                 }
             }
         }
@@ -3721,9 +3719,8 @@ namespace EcellLib
             List<EcellObject> l_returnedStepper = new List<EcellObject>();
             try
             {
-                if (l_modelID == null || l_modelID.Length <= 0)
+                if (string.IsNullOrEmpty(l_modelID))
                     throw new Exception(m_resources.GetString(ErrorConstants.ErrNullData));
-
                 if (string.IsNullOrEmpty(l_parameterID))
                     l_parameterID = m_currentProject.SimulationParam;
                 if (string.IsNullOrEmpty(l_parameterID))

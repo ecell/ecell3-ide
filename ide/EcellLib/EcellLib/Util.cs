@@ -48,18 +48,18 @@ namespace EcellLib
         /// Additional plugin directories to be searched on startup.
         /// XXX: this should not be in Util class.
         /// </summary>
-        private static List<string> extraPluginDirs = new List<string>();
+        private static List<string> s_extraPluginDirs = new List<string>();
 
         /// <summary>
         /// Additional DM directories to be searched on startup.
         /// XXX: this should not be in Util class.
         /// </summary>
-        private static List<string> extraDMDirs = new List<string>();
+        private static List<string> s_extraDMDirs = new List<string>();
 
         /// <summary>
         /// Whether to include default plugin / DM paths.
         /// </summary>
-        private static bool noDefaultPaths;
+        private static bool s_noDefaultPaths;
 
         /// <summary>
         /// Get the analysis directory from register.
@@ -107,17 +107,10 @@ namespace EcellLib
             List<string> candidates = new List<string>();
             if (currentProjectPath != null)
             {
-                if (currentProjectPath.EndsWith(Convert.ToString( Path.DirectorySeparatorChar)))
-                {
-                    candidates.Add(currentProjectPath + Constants.DMDirName);
-                }
-                else 
-                {
-                candidates.Add(currentProjectPath + Path.DirectorySeparatorChar + Constants.DMDirName);
-                }
+                candidates.Add(Path.Combine(currentProjectPath, Constants.DMDirName));
             }
-            candidates.AddRange(extraDMDirs);
-            if (!noDefaultPaths)
+            candidates.AddRange(s_extraDMDirs);
+            if (!s_noDefaultPaths)
                 candidates.Add(GetRegistryValue(Constants.registryDMDirKey));
             foreach (string dmDir in candidates)
             {
@@ -168,14 +161,14 @@ namespace EcellLib
             List<string> pluginDirs = new List<string>();
 
             {
-                foreach (string pluginDir in extraPluginDirs)
+                foreach (string pluginDir in s_extraPluginDirs)
                 {
                     if (Directory.Exists(pluginDir))
                         pluginDirs.Add(pluginDir);
                 }
             }
 
-            if (!noDefaultPaths)
+            if (!s_noDefaultPaths)
             {
 
                 {
@@ -372,20 +365,13 @@ namespace EcellLib
             Microsoft.Win32.RegistryKey l_subkey = null;
             try
             {
+                // Get Environment parameter.
                 l_subkey = l_key.OpenSubKey(Constants.registryEnvKey);
                 l_currentDir = (string)l_subkey.GetValue(l_intendedKey);
                 if (l_currentDir != null)
                     return l_currentDir;
-            }
-            finally
-            {
-                if (l_subkey != null)
-                {
-                    l_subkey.Close();
-                }
-            }
-            try
-            {
+
+                // Get Software parameter.
                 l_subkey = l_key.OpenSubKey(Constants.registrySWKey);
                 if (l_subkey != null)
                 {
@@ -393,20 +379,8 @@ namespace EcellLib
                     if (l_currentDir != null)
                         return l_currentDir;
                 }
-            }
-            finally
-            {
-                if (l_key != null)
-                {
-                    l_key.Close();
-                }
-                if (l_subkey != null)
-                {
-                    l_subkey.Close();
-                }
-            }
-            try
-            {
+
+                // Get Local parameter.
                 l_key = Microsoft.Win32.Registry.LocalMachine;
                 l_subkey = l_key.OpenSubKey(Constants.registrySWKey);
                 if (l_subkey != null)
@@ -567,7 +541,7 @@ namespace EcellLib
         /// <param name="pluginDir">the plugin directory to include</param>
         public static void AddPluginDir(string pluginDir)
         {
-            extraPluginDirs.Add(pluginDir);
+            s_extraPluginDirs.Add(pluginDir);
         }
 
         /// <summary>
@@ -576,7 +550,7 @@ namespace EcellLib
         /// <param name="dmDir">the dm directory to include</param>
         public static void AddDMDir(string dmDir)
         {
-            extraDMDirs.Add(dmDir);
+            s_extraDMDirs.Add(dmDir);
         }
 
         /// <summary>
@@ -584,7 +558,7 @@ namespace EcellLib
         /// </summary>
         public static void OmitDefaultPaths()
         {
-            noDefaultPaths = true;
+            s_noDefaultPaths = true;
         }
 
         /// <summary>

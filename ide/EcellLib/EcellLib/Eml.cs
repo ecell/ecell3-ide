@@ -127,13 +127,13 @@ namespace EcellLib
                         l_textList.Add(l_childEcellObject);
                     }
                 }
-                foreach (EcellObject l_textEcellObject in l_textList)
-                {
-                    WriteEntityElements(l_textEcellObject, Constants.xpathText);
-                }
                 foreach (EcellObject l_variableEcellObject in l_variableList)
                 {
                     WriteEntityElements(l_variableEcellObject, Constants.xpathVariable);
+                }
+                foreach (EcellObject l_textEcellObject in l_textList)
+                {
+                    WriteEntityElements(l_textEcellObject, Constants.xpathText);
                 }
                 foreach (EcellObject l_processEcellObject in l_processList)
                 {

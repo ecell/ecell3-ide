@@ -28,6 +28,18 @@ namespace EcellLib
         }
 
         [Test()]
+        public void TestPath()
+        {
+            string dir1 = "c:\\temp";
+            string dir2 = "c:\\temp\\";
+            string name = "sample";
+            Assert.AreEqual("c:\\temp\\sample", Path.Combine(dir1, name));
+            Debug.Print(Path.Combine(dir1, name));
+            Assert.AreEqual("c:\\temp\\sample", Path.Combine(dir2, name));
+            Debug.Print(Path.Combine(dir2, name));
+        }
+
+        [Test()]
         public void TestGetDataManager()
         {
             EcellLib.DataManager resultDataManager = DataManager.GetDataManager();
