@@ -1077,7 +1077,7 @@ namespace EcellLib.PathwayWindow
         {
             List<EcellObject> systemList = new List<EcellObject>();
             foreach (PPathwayObject obj in m_canvas.GetSystemList())
-                systemList.Add(obj.EcellObject);
+                systemList.Add(m_window.GetEcellObject(obj.EcellObject));
             return systemList;
         }
 
@@ -1089,7 +1089,7 @@ namespace EcellLib.PathwayWindow
         {
             List<EcellObject> nodeList = new List<EcellObject>();
             foreach (PPathwayObject obj in m_canvas.GetNodeList())
-                nodeList.Add(obj.EcellObject);
+                nodeList.Add(m_window.GetEcellObject(obj.EcellObject));
 
             return nodeList;
         }
@@ -1337,8 +1337,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="isRecorded">Whether to record this change.</param>
         public void DoLayout(ILayoutAlgorithm algorithm, int subIdx, bool isRecorded)
         {
-            List<EcellObject> systemList = this.GetSystemList();
-            List<EcellObject> nodeList = this.GetNodeList();
+            List<EcellObject> systemList = GetSystemList();
+            List<EcellObject> nodeList = GetNodeList();
 
             // Check Selected nodes when the layout algorithm uses selected objects.
             if (algorithm.GetLayoutType() == LayoutType.Selected)
@@ -1360,12 +1360,12 @@ namespace EcellLib.PathwayWindow
             int i = 0;
             foreach (EcellObject node in nodeList)
             {
+                i++;
                 node.isFixed = false;
                 if(i != nodeList.Count)
                     this.NotifyDataChanged(node.Key, node, isRecorded, false);
                 else
                     this.NotifyDataChanged(node.Key, node, isRecorded, true);
-                i++;
             }
         }
 

@@ -609,8 +609,6 @@ namespace EcellLib.MainWindow
         /// <param name="l_prjID"></param>
         private void CloseProject(String l_prjID)
         {
-            if (l_prjID == null)
-                return;
             m_isLoadProject = false;
             m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
             m_dManager.CloseProject(l_prjID);

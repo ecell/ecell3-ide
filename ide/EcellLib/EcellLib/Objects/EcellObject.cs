@@ -668,7 +668,7 @@ namespace EcellLib.Objects
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(Type);
-            sb.Append("(name=" + Name + ")");
+            sb.Append("(name=" + Name + ")" + "(Location="+ this.Rect.ToString()+ ")");
             if (Children.Count > 0)
             {
                 sb.Append("{");

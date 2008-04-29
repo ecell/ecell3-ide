@@ -104,7 +104,15 @@ namespace EcellLib.PathwayWindow
         /// <returns>the list of EcellObject.</returns>
         public EcellObject GetEcellObject(string modelID, string key, string type)
         {
-            return m_dManager.GetEcellObject(modelID, key ,type);
+            return m_dManager.GetEcellObject(modelID, key, type);
+        }
+        /// <summary>
+        /// Method to get a EcellObject.
+        /// </summary>
+        /// <param name="eo">the EcellObject.</param>
+        public EcellObject GetEcellObject(EcellObject eo)
+        {
+            return m_dManager.GetEcellObject(eo.ModelID, eo.Key, eo.Type);
         }
         /// <summary>
         /// Check layout algorithm's dlls in a plugin\pathway directory and register them
