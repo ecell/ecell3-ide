@@ -123,6 +123,7 @@ namespace EcellLib
         /// </summary>
         private DataManager()
         {
+            this.m_defaultDir = Util.GetBaseDir();
             this.m_pManager = PluginManager.GetPluginManager();
             this.m_projectList = new List<Project>();
             this.m_observedList = new Dictionary<string, EcellObservedData>();
