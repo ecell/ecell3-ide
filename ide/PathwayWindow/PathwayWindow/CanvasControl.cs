@@ -714,7 +714,6 @@ namespace EcellLib.PathwayWindow
                 return;
             m_ctrlLayer.RemoveChild(text);
             m_comments.Remove(text.EcellObject.Key);
-            m_con.NotifyDataDelete(text.EcellObject, true);
         }
         #endregion
 
