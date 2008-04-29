@@ -362,8 +362,11 @@ namespace EcellLib.PathwayWindow.Handler
         private void TransferSystemTo(string newKey, string oldKey, PPathwaySystem system)
         {
             PointF offset = system.Offset;
-            if (offset.X == 0 && offset.Y == 0)
+            if (offset.X <= 5 && offset.Y <= 5)
+            {
+                m_canvas.Refresh();
                 return;
+            }
 
             // Move objects under this system.
             // TODO: This process should be implemented in EcellLib.DataChanged().
@@ -381,6 +384,9 @@ namespace EcellLib.PathwayWindow.Handler
             }
 
             // Move system path.
+            system.X = system.X + offset.X;
+            system.Y = system.Y + offset.Y;
+            system.Offset = PointF.Empty;
             m_canvas.Control.NotifyDataChanged(
                 oldKey,
                 newKey,
@@ -393,9 +399,13 @@ namespace EcellLib.PathwayWindow.Handler
             string parentSystemName = system.EcellObject.ParentSystemID;
             foreach (PPathwayObject obj in m_canvas.GetAllObjects())
             {
-                if (obj == system || !rect.Contains(obj.Rect))
+                if (obj == system)
                     continue;
                 if (obj.EcellObject.ParentSystemID.StartsWith(newKey))
+                    continue;
+                if (obj is PPathwaySystem && !rect.Contains(obj.Rect))
+                    continue;
+                if (obj is PPathwayNode && !rect.Contains(obj.CenterPointF))
                     continue;
 
                 string newNodeKey = PathUtil.GetMovedKey(obj.EcellObject.Key, parentSystemName, newKey);
@@ -408,9 +418,6 @@ namespace EcellLib.PathwayWindow.Handler
             }
 
             // Move system.
-            system.X = system.X + offset.X;
-            system.Y = system.Y + offset.Y;
-            system.Offset = PointF.Empty;
             m_canvas.Control.NotifyDataChanged(
                 newKey,
                 newKey,
