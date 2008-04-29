@@ -46,6 +46,7 @@ using System.Windows.Forms;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Util;
 using EcellLib.PathwayWindow.Resources;
+using EcellLib.Objects;
 
 namespace EcellLib.PathwayWindow.Handler
 {
@@ -280,6 +281,8 @@ namespace EcellLib.PathwayWindow.Handler
             string newSystem;
             string newKey;
             bool isError = false;
+            List<PPathwayObject> processList = new List<PPathwayObject>();
+            List<PPathwayObject> VariableList = new List<PPathwayObject>();
 
             foreach (PPathwayObject node in nodeList)
             {
@@ -313,6 +316,11 @@ namespace EcellLib.PathwayWindow.Handler
                     node.PointF = newPosition;
                     node.Offset = PointF.Empty;
                 }
+                // Set NodeList.
+                if (node is PPathwayProcess)
+                    processList.Add(node);
+                else if (node is PPathwayVariable)
+                    VariableList.Add(node);
             }
 
             // If error, reset node position.
@@ -323,23 +331,24 @@ namespace EcellLib.PathwayWindow.Handler
                     node.ResetPosition();
                     node.Refresh();
                 }
+                return;
             }
-            else
+
+            // Set Position
+            processList.AddRange(VariableList);
+            int i = 0;
+            foreach (PPathwayObject node in processList)
             {
-                int i = 0;
-                foreach (PPathwayObject node in nodeList)
-                {
-                    i++;
-                    node.Refresh();
-                    newSystem = m_canvas.GetSurroundingSystemKey(node.PointF);
-                    newKey = newSystem + ":" + node.EcellObject.Name;
-                    m_canvas.Control.NotifyDataChanged(
-                        node.EcellObject.Key,
-                        newKey,
-                        node,
-                        true,
-                        (i == nodeList.Count));
-                }
+                i++;
+                node.Refresh();
+                newSystem = m_canvas.GetSurroundingSystemKey(node.PointF);
+                newKey = newSystem + ":" + node.EcellObject.Name;
+                m_canvas.Control.NotifyDataChanged(
+                    node.EcellObject.Key,
+                    newKey,
+                    node,
+                    true,
+                    (i == nodeList.Count));
             }
             m_canvas.ResetSelectedObjects();
         }

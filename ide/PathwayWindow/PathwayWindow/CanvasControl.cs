@@ -1030,7 +1030,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="obj">Newly selected object</param>
         public void AddSelectedNode(PPathwayObject obj)
         {
-            m_selectedNodes.Add(obj);
+            if (!m_selectedNodes.Contains(obj))
+                m_selectedNodes.Add(obj);
             obj.IsHighLighted = true;
         }
 
