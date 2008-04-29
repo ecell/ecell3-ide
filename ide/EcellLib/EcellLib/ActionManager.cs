@@ -944,6 +944,7 @@ namespace EcellLib
             writer.WriteStartElement("Action");
             writer.WriteAttributeString("command", null, "LoadProject");
             writer.WriteAttributeString("prjID", null, m_prjID);
+            writer.WriteAttributeString("prjFile", null, m_prjFile);
             writer.WriteEndElement();
         }
         /// <summary>
@@ -953,10 +954,13 @@ namespace EcellLib
         public override void LoadScript(XmlNode node)
         {
             XmlNode child = node.Attributes.GetNamedItem("prjID");
-            if (child == null) return;
+            if (child == null)
+                return;
             m_prjID = child.InnerText;
-            child = node.Attributes.GetNamedItem("prjID");
-            if (child == null) return;
+
+            child = node.Attributes.GetNamedItem("prjFile");
+            if (child == null)
+                return;
             m_prjFile = child.InnerText;
         }
         /// <summary>

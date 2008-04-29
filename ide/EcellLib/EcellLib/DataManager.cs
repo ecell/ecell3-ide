@@ -5121,15 +5121,15 @@ namespace EcellLib
             {
                 l_message = "[" + l_parameterID + "]";
                 string l_oldParameterID = m_currentProject.SimulationParam;
-                if (m_currentProject.SimulationParam != l_parameterID)
+                if (l_oldParameterID != l_parameterID)
                 {
-                    foreach (string l_modelID in m_currentProject.StepperDic[m_currentProject.SimulationParam].Keys)
+                    foreach (string l_modelID in m_currentProject.StepperDic[l_oldParameterID].Keys)
                     {
                         if (!m_currentProject.StepperDic[l_parameterID].ContainsKey(l_modelID))
                             continue;
 
                         List<EcellObject> l_currentList
-                            = m_currentProject.StepperDic[m_currentProject.SimulationParam][l_modelID];
+                            = m_currentProject.StepperDic[l_oldParameterID][l_modelID];
                         List<EcellObject> l_newList
                             = m_currentProject.StepperDic[l_parameterID][l_modelID];
                         foreach (EcellObject l_current in l_currentList)
