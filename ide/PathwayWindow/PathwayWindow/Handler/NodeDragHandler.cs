@@ -384,9 +384,6 @@ namespace EcellLib.PathwayWindow.Handler
             }
 
             // Move system path.
-            system.X = system.X + offset.X;
-            system.Y = system.Y + offset.Y;
-            system.Offset = PointF.Empty;
             m_canvas.Control.NotifyDataChanged(
                 oldKey,
                 newKey,
@@ -396,6 +393,8 @@ namespace EcellLib.PathwayWindow.Handler
 
             // Import Systems and Nodes
             RectangleF rect = system.Rect;
+            rect.X = rect.X + offset.X;
+            rect.Y = rect.Y + offset.Y;
             string parentSystemName = system.EcellObject.ParentSystemID;
             foreach (PPathwayObject obj in m_canvas.GetAllObjects())
             {
@@ -418,6 +417,9 @@ namespace EcellLib.PathwayWindow.Handler
             }
 
             // Move system.
+            system.X = system.X + offset.X;
+            system.Y = system.Y + offset.Y;
+            system.Offset = PointF.Empty;
             m_canvas.Control.NotifyDataChanged(
                 newKey,
                 newKey,

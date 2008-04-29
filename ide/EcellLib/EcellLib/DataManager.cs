@@ -1343,7 +1343,7 @@ namespace EcellLib
                 string l_newKey = l_ecellObject.Key + l_system.Key.Substring(l_key.Length);
                 EcellObject l_newSystem
                     = EcellObject.CreateObject(l_modelID, l_newKey, l_system.Type, l_system.Classname, l_system.Value);
-                l_newSystem.SetPosition(l_ecellObject);
+                l_newSystem.SetPosition(l_system);
                 CheckEntityPath(l_newSystem);
                 DataAdd4System(l_newSystem, false);
                 CheckDifferences(l_system, l_newSystem, null);

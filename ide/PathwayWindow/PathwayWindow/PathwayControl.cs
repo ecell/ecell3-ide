@@ -418,12 +418,6 @@ namespace EcellLib.PathwayWindow
         {
             // Load Object Settings.
             EcellSerializer.LoadFromLEML(this, fileName);
-
-            // Set to DataManager.
-            foreach (EcellObject eo in GetObjectList())
-            {
-                this.NotifyDataChanged(eo.Key, eo, false, false);
-            }
         }
 
         /// <summary>

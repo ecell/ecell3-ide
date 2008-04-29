@@ -272,6 +272,8 @@ namespace EcellLib.PathwayWindow {
             eo.Y = GetFloatAttribute(node, PathwayConstants.xPathY);
             eo.OffsetX = GetFloatAttribute(node, PathwayConstants.xPathOffsetX);
             eo.OffsetY = GetFloatAttribute(node, PathwayConstants.xPathOffsetY);
+
+            canvas.Control.NotifyDataChanged(eo.Key, eo, false, false);
         }
         /// <summary>
         /// Set PPathwayObject
@@ -294,6 +296,8 @@ namespace EcellLib.PathwayWindow {
             eo.OffsetY = GetFloatAttribute(node, PathwayConstants.xPathOffsetY);
             eo.Width = GetFloatAttribute(node, PathwayConstants.xPathWidth);
             eo.Height = GetFloatAttribute(node, PathwayConstants.xPathHeight);
+
+            canvas.Control.NotifyDataChanged(eo.Key, eo, false, false);
         }
 
         /// <summary>
