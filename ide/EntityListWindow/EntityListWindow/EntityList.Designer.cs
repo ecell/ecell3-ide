@@ -32,7 +32,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            EcellLib.PluginManager pluginManager1 = new EcellLib.PluginManager();
             this.treeView1 = new EcellLib.EntityListWindow.MultiSelectTreeView();
             this.SuspendLayout();
             // 
@@ -41,10 +40,7 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.HideSelection = false;
             this.treeView1.ImageIndex = 0;
-            pluginManager1.AppVersion = null;
-            pluginManager1.CopyRight = null;
-            pluginManager1.DockPanel = null;
-            this.treeView1.ImageList = pluginManager1.NodeImageList;
+            this.treeView1.ImageList = new System.Windows.Forms.ImageList();
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
             this.treeView1.SelectedImageIndex = 0;

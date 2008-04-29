@@ -25,6 +25,7 @@ namespace EcellLib
             InitializeComponent();
             this.Text = m_resources.GetString("EntityList");
             this.TabText = this.Text;
+            this.treeView1.ImageList = PluginManager.GetPluginManager().NodeImageList;
         }
     }
 }
