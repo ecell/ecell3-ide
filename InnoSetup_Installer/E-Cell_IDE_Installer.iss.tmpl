@@ -75,6 +75,22 @@ Source: "Win32\samples\CoupledOscillator\DMs\*.dll"; DestDir: "{commondocs}\My E
 Source: "x64\samples\CoupledOscillator\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs"; Flags: 64Bit; Check: IsWin64(); Components: extension
 Source: "x64\samples\CoupledOscillator\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\CoupledOscillator\DMs"; Flags: 64Bit; Check: IsWin64(); Components: extension
 
+;Source: "Win32\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+;Source: "Win32\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+;Source: "Win32\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+;Source: "Win32\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+
+;Source: "Win32\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
+;Source: "Win32\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
+;Source: "Win32\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
+;Source: "Win32\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
+
+;Source: "x64\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
+;Source: "x64\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
+;Source: "x64\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
+;Source: "x64\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
+
+
 Source: "samples\Drosophila\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\Drosophila"; Components: extension
 Source: "samples\Drosophila\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\Drosophila"; Components: extension
 Source: "samples\Drosophila\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\Drosophila\Model"; Components: extension
@@ -188,8 +204,8 @@ Source: "x64\bin\IronMath.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin
 Source: "x64\bin\IronPython.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 Source: "x64\bin\gsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 Source: "x64\bin\cblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
-Source: "x64\bin\gsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
-Source: "x64\bin\cblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
+Source: "x64\bin\libgsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
+Source: "x64\bin\libgslcblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 Source: "x64\bin\UMD.HCIL.Piccolo.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 Source: "x64\bin\UMD.HCIL.PiccoloX.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 Source: "x64\bin\WeifenLuo.WinFormsUI.Docking.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
@@ -322,6 +338,25 @@ Source: "x64\lib\ecell-3.1\dms\TauLeapProcess.dll"; DestDir: "{app}\lib\ecell-3.
 Source: "x64\lib\ecell-3.1\dms\TauLeapStepper.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 64Bit; Check: IsWin64();Components: main
 
 ; ======================================================
+; bin/Microsoft.VC80.CRT/*
+; ======================================================
+Source: "Win32\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{app}\lib\ecell-3.1\dms\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{app}\lib\ecell-3.1\dms\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{app}\lib\ecell-3.1\dms\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{app}\lib\ecell-3.1\dms\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+
+Source: "Win32\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{app}\lib\ecell-3.1\dms"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
+
+Source: "x64\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{app}\lib\ecell-3.1\dms\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
+Source: "x64\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{app}\lib\ecell-3.1\dms\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
+Source: "x64\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{app}\lib\ecell-3.1\dms\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
+Source: "x64\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{app}\lib\ecell-3.1\dms\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
+
+
+; ======================================================
 ; temporary
 ; ======================================================
 Source: "gacutil.exe"; DestDir: "{app}\bin";Components: main
@@ -330,20 +365,22 @@ Source: psvince.dll; DestDir: {app}; Components: main
 Source: UninsHs.exe; DestDir: {app}; Flags: restartreplace ; Components: main
 
 [Registry]
-Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "IRONPYTHONPATH"; ValueData: "%IRONPYTHONPATH%:{app}\bin"; Components: main
-Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "IRONPYTHONSTARTUP"; ValueData: "{app}\lib\ironpython\__init__.py"; Components: main
+;Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "IRONPYTHONPATH"; ValueData: "%IRONPYTHONPATH%:{app}\bin"; Components: main
+;Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "IRONPYTHONSTARTUP"; ValueData: "{app}\lib\ironpython\__init__.py"; Components: main
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Analysis"; ValueData: "{app}\bin";Components: main
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE DM"; ValueData: "{app}\lib\ecell-3.1\dms";Components: main
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Plugin"; ValueData: "{app}\plugins";Components: main
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Tmp"; ValueData: "{app}\tmp";Components: main
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE StaticDebug Plugin"; ValueData: "{app}\plugins\staticdebug";Components: main
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE WINDOW SETTING"; ValueData: "{app}\conf";Components: main
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Startup"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Analysis"; ValueData: "{app}\bin";Components: main
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE DM"; ValueData: "{app}\modules";Components: main
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Plugin"; ValueData: "{app}\plugins";Components: main
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Tmp"; ValueData: "{app}\tmp";Components: main
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE StaticDebug Plugin"; ValueData: "{app}\plugins\staticdebug";Components: main
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE WINDOW SETTING"; ValueData: "{app}\conf";Components: main
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Startup"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main
 ;Root: HKLM; Subkey: "System\CurrentControlSet\Control\SessionManager\Environment"; ValueType: string; ValueName: "IRONPYTHONPATH"; ValueData: "%IRONPYTHONPATH%:{app}\bin";Components: main
 ;Root: HKLM; Subkey: "System\CurrentControlSet\Control\SessionManager\Environment"; ValueType: string; ValueName: "IRONPYTHONSTARTUP"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main
 
