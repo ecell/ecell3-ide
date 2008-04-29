@@ -281,9 +281,9 @@ namespace EcellLib.PathwayWindow.Handler
             string newKey = null;
             foreach (PPathwayObject obj in m_canvas.GetSystemList())
             {
-                if (obj == system || !system.Rect.Contains(obj.Rect))
-                    continue;
                 if (obj.EcellObject.ParentSystemID.StartsWith(systemName))
+                    continue;
+                if (obj == system || !system.Rect.Contains(obj.Rect))
                     continue;
 
                 newKey = PathUtil.GetMovedKey(obj.EcellObject.Key, system.EcellObject.ParentSystemID, systemName);
@@ -296,7 +296,9 @@ namespace EcellLib.PathwayWindow.Handler
             }
             foreach (PPathwayObject obj in m_canvas.GetNodeList())
             {
-                if (obj.EcellObject.ParentSystemID.StartsWith(systemName) || !system.Rect.Contains(obj.Rect))
+                if (obj.EcellObject.ParentSystemID.StartsWith(systemName))
+                    continue;
+                if (!m_canvas.DoesSystemContains(systemName, obj.Rect))
                     continue;
 
                 newKey = PathUtil.GetMovedKey(obj.EcellObject.Key, system.EcellObject.ParentSystemID, systemName);

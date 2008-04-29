@@ -638,8 +638,8 @@ namespace EcellLib.PathwayWindow
                     obj.X = maxX + PPathwaySystem.SYSTEM_MARGIN;
                     obj.Y = system.Y + system.Offset.Y + PPathwaySystem.SYSTEM_MARGIN;
                     SetSystemSize(obj);
+                    system.MakeSpace(obj, !isFirst);
                 }
-                system.MakeSpace(obj, !isFirst);
             }
             obj.Refresh();
         }

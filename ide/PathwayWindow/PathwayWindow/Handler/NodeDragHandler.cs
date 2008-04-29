@@ -381,12 +381,10 @@ namespace EcellLib.PathwayWindow.Handler
 
             // Import Systems and Nodes
             RectangleF rect = system.Rect;
-            rect.X = rect.X + offset.X;
-            rect.Y = rect.Y + offset.Y;
             string parentSystemName = system.EcellObject.ParentSystemID;
             foreach (PPathwayObject obj in m_canvas.GetAllObjects())
             {
-                if (obj == system || !system.Rect.Contains(rect))
+                if (obj == system || !rect.Contains(obj.Rect))
                     continue;
                 if (obj.EcellObject.ParentSystemID.StartsWith(newKey))
                     continue;
