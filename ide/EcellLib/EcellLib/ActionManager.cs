@@ -376,8 +376,10 @@ namespace EcellLib
                     string vtype = tmp.InnerText;
                     tmp = value.Attributes.GetNamedItem("value");
                     string valueData = tmp.InnerText;
+
                     EcellValue v;
-                    if (vtype.Equals(typeof(string).ToString())) v = new EcellValue(valueData);
+                    if (vtype.Equals(typeof(string).ToString()))
+                        v = new EcellValue(valueData);
                     else if (vtype.Equals(typeof(double).ToString()))
                     {
                         if (valueData == "1.79769313486232E+308")
@@ -385,8 +387,10 @@ namespace EcellLib
                         else 
                             v = new EcellValue(Convert.ToDouble(valueData));
                     }
-                    else if (vtype.Equals(typeof(int).ToString())) v = new EcellValue(Convert.ToInt32(valueData));
-                    else v = EcellValue.ToVariableReferenceList(valueData);
+                    else if (vtype.Equals(typeof(int).ToString()))
+                        v = new EcellValue(Convert.ToInt32(valueData));
+                    else
+                        v = EcellValue.ToVariableReferenceList(valueData);
                     d.Value = v;
                 }
 
@@ -445,7 +449,7 @@ namespace EcellLib
                     if (d.Value != null)
                     {
                         writer.WriteAttributeString("value_type", null, d.Value.Type.ToString());
-                        writer.WriteAttributeString("value", null, d.Value.Value.ToString());
+                        writer.WriteAttributeString("value", null, d.Value.ToString());
                     }
                     writer.WriteEndElement();
                     writer.WriteEndElement();

@@ -196,6 +196,7 @@ namespace EcellLib
         /// <param name="filenName">saved file name.</param>
         public void LoadUserActionFile(string filenName)
         {
+            CloseProject(null);
             m_aManager.LoadActionFile(filenName);
         }
 

@@ -251,6 +251,14 @@ namespace EcellLib.Objects
 
         #region Methods
         /// <summary>
+        /// ToString
+        /// </summary>
+        /// <returns></returns>
+        public string ToString()
+        {
+            return m_entityPath;
+        }
+        /// <summary>
         /// Create the copy "EcellData".
         /// </summary>
         /// <returns>The copy "EcellData"</returns>
