@@ -169,12 +169,12 @@ namespace EcellLib.PathwayWindow
                 return null;
             string newKey;
             if (originalSystemKey.Equals("/") && !newSystemKey.Equals("/"))
-                newKey = newSystemKey + originalKey;
+                newKey = newSystemKey + originalKey.Replace("/:", ":");
             else if (!originalSystemKey.Equals("/") && newSystemKey.Equals("/"))
                 newKey = originalKey.Replace(originalSystemKey, "/");
             else
-                newKey = originalKey.Replace(originalSystemKey, newSystemKey);
-            return newKey.Replace("//","/").Replace("/:",":");
+                newKey = originalKey.Replace(originalSystemKey, newSystemKey).Replace("/:", ":");
+            return newKey.Replace("//","/");
         }
     }
 }
