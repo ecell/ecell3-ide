@@ -1503,7 +1503,7 @@ namespace EcellLib.PathwayWindow
         {
             foreach (PPathwayObject obj in GetAllObjects())
             {
-                obj.Refresh();
+                obj.RefreshView();
             }
             m_pCanvas.Refresh();
         }

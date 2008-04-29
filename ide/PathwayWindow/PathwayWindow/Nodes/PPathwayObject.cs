@@ -642,6 +642,7 @@ namespace EcellLib.PathwayWindow.Nodes
             foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(this.EcellObject.Key))
             {
                 child.ResetPosition();
+                child.RefreshView();
             }
         }
         /// <summary>
