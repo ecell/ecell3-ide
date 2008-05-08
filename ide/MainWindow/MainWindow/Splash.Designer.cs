@@ -71,7 +71,6 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Splash";
-            this.Size = this.BackgroundImage.Size;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.TopMost = true;
