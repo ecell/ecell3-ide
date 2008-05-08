@@ -8,8 +8,6 @@
 #include "Variable.hpp"
 #include "Interpolant.hpp"
 
-#include "Process.hpp"
-
 USE_LIBECS;
 
 LIBECS_DM_CLASS( FOProcess, Process )

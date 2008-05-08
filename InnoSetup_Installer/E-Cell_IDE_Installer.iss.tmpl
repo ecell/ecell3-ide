@@ -75,20 +75,21 @@ Source: "Win32\samples\CoupledOscillator\DMs\*.dll"; DestDir: "{commondocs}\My E
 Source: "x64\samples\CoupledOscillator\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs"; Flags: 64Bit; Check: IsWin64(); Components: extension
 Source: "x64\samples\CoupledOscillator\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\CoupledOscillator\DMs"; Flags: 64Bit; Check: IsWin64(); Components: extension
 
-;Source: "Win32\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
-;Source: "Win32\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
-;Source: "Win32\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
-;Source: "Win32\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+; 20080508 start
+Source: "Win32\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
+Source: "x64\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
+Source: "x64\bin\Microsoft.VC80.CRT\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
 
-;Source: "Win32\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
-;Source: "Win32\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
-;Source: "Win32\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
-;Source: "Win32\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
-
-;Source: "x64\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
-;Source: "x64\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
-;Source: "x64\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
-;Source: "x64\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{commondocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{commondocs}\My E-Cell Projects\samples\CoupledOscillator\DMs"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\CoupledOscillator\DMs"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
+Source: "x64\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{commondocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
+Source: "x64\bin\Microsoft.VC80.CRT\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
+; 20080508 end
 
 
 Source: "samples\Drosophila\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\Drosophila"; Components: extension
@@ -123,6 +124,23 @@ Source: "Win32\samples\Pendulum\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Proje
 Source: "Win32\samples\Pendulum\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\DMs"; Flags: 32Bit; Check: not IsWin64(); Components: extension
 Source: "x64\samples\Pendulum\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\DMs"; Flags: 64Bit; Check: IsWin64(); Components: extension
 Source: "x64\samples\Pendulum\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\DMs"; Flags: 64Bit; Check: IsWin64(); Components: extension
+
+; 20080508 start
+Source: "Win32\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\DMs\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\DMs\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\DMs"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\DMs"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
+Source: "x64\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\DMs\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
+Source: "x64\bin\Microsoft.VC80.CRT\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\samples\Pendulum\DMs\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
+
+Source: "Win32\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\DMs\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\DMs\Microsoft.VC80.CRT"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\DMs"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
+Source: "Win32\bin\Microsoft.VC80.CRT\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\DMs"; Flags: 32Bit; Check: not IsWin64(); MinVersion: 0,1; OnlyBelowVersion: 0,5.01;Components: main
+Source: "x64\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\DMs\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
+Source: "x64\bin\Microsoft.VC80.CRT\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\samples\Pendulum\DMs\Microsoft.VC80.CRT"; Flags: 64Bit; Check: IsWin64();Components: main
+; 20080508 end
+
 
 Source: "samples\QuorumSensing1\*"; DestDir: "{userdocs}\My E-Cell Projects\samples\QuorumSensing1"; Components: extension
 Source: "samples\QuorumSensing1\*"; DestDir: "{commondocs}\My E-Cell Projects\samples\QuorumSensing1"; Components: extension
@@ -204,8 +222,6 @@ Source: "x64\bin\IronMath.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin
 Source: "x64\bin\IronPython.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 Source: "x64\bin\gsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 Source: "x64\bin\cblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
-Source: "x64\bin\libgsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
-Source: "x64\bin\libgslcblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 Source: "x64\bin\UMD.HCIL.Piccolo.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 Source: "x64\bin\UMD.HCIL.PiccoloX.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 Source: "x64\bin\WeifenLuo.WinFormsUI.Docking.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
@@ -214,6 +230,12 @@ Source: "x64\bin\SessionManager.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check:
 Source: "x64\bin\MathNet.Iridium.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 
 Source: "Win32\bin\ICSharpCode.SharpZipLib.dll"; DestDir: "{app}\bin"; Components: main
+
+; 2008/05/07  for XP and 2000 machine.
+Source: "Win32\bin\libgsl.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); Components: main
+Source: "Win32\bin\libgslcblas.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); Components: main
+Source: "x64\bin\libgsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
+Source: "x64\bin\libgslcblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main
 
 ; ======================================================
 ; bin/ja/*
