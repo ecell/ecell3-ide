@@ -120,17 +120,17 @@ namespace EcellLib.PathwayWindow.Handler
                 variable = (PPathwayVariable)newNode;
                 coef = 1;
             }
-
+            Mode mode = m_con.Menu.Handle.Mode;
             // Create Edge.
-            if (m_con.SelectedHandle.Mode == Mode.CreateConstant)
+            if (mode == Mode.CreateConstant)
             {
                 this.CreateEdge(process, variable, 0);
             }
-            else if (m_con.SelectedHandle.Mode == Mode.CreateOneWayReaction)
+            else if (mode == Mode.CreateOneWayReaction)
             {
                 this.CreateEdge(process, variable, coef);
             }
-            else if (m_con.SelectedHandle.Mode == Mode.CreateMutualReaction)
+            else if (mode == Mode.CreateMutualReaction)
             {
                 this.CreateEdge(process, variable, 2);
             }
@@ -150,16 +150,17 @@ namespace EcellLib.PathwayWindow.Handler
 
             // Get Line Type
             LineType type;
-            if (m_con.SelectedHandle.Mode == Mode.CreateConstant)
+            Mode mode = m_con.Menu.Handle.Mode;
+            if (mode == Mode.CreateConstant)
                 type = LineType.Dashed;
             else
                 type = LineType.Solid;
 
             // Get Line Direction
             EdgeDirection direction;
-            if (m_con.SelectedHandle.Mode == Mode.CreateMutualReaction)
+            if (mode == Mode.CreateMutualReaction)
                 direction = EdgeDirection.Bidirection;
-            else if (m_con.SelectedHandle.Mode == Mode.CreateOneWayReaction)
+            else if (mode == Mode.CreateOneWayReaction)
                 direction = EdgeDirection.Outward;
             else 
                 direction = EdgeDirection.None;

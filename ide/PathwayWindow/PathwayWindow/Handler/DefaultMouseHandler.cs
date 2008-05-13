@@ -169,7 +169,6 @@ namespace EcellLib.PathwayWindow.Handler
         public override bool DoesAcceptEvent(PInputEventArgs e)
         {
             return true;
-        }        
-
+        }
     }
 }

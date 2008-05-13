@@ -107,11 +107,6 @@ namespace EcellLib.PathwayWindow
         private ILayoutAlgorithm m_defAlgorithm = new GridLayout();
 
         /// <summary>
-        /// Indicate which pathway-related toolbar button is selected.
-        /// </summary>
-        private Handle m_selectedHandle;
-
-        /// <summary>
         /// ProjectStatus
         /// </summary>
         private ProjectStatus m_status = ProjectStatus.Uninitialized;
@@ -243,17 +238,8 @@ namespace EcellLib.PathwayWindow
                 RaiseCanvasChange();
                 if (m_canvas == null)
                     return;
-                m_canvas.PCanvas.AddInputEventListener(m_selectedHandle.EventHandler);
+                m_canvas.PCanvas.AddInputEventListener(m_menuCon.Handle.EventHandler);
             }
-        }
-
-        /// <summary>
-        /// get/set the number of checked component.
-        /// </summary>
-        public Handle SelectedHandle
-        {
-            get { return m_selectedHandle; }
-            set { m_selectedHandle = value; }
         }
 
         /// <summary>
@@ -662,37 +648,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Set EventHandler.
-        /// </summary>
-        /// <param name="handle"></param>
-        internal void SetEventHandler(Handle handle)
-        {
-            // Remove old EventHandler
-            PBasicInputEventHandler handler = m_selectedHandle.EventHandler;
-            ((IPathwayEventHandler)handler).Reset();
-            RemoveInputEventListener(handler);
-
-            // Set new EventHandler 
-            m_selectedHandle = handle;
-            handler = m_selectedHandle.EventHandler;
-            foreach (ToolStripItem item in m_menuCon.ToolButtonList)
-            {
-                if (!(item is PathwayToolStripButton))
-                    continue;
-                PathwayToolStripButton button = (PathwayToolStripButton)item;
-                if (button.Handle == m_selectedHandle)
-                    button.Checked = true;
-                else
-                    button.Checked = false;
-            }
-            ((IPathwayEventHandler)handler).Initialize();
-            AddInputEventListener(handler);
-            if (Canvas == null)
-                return;
-            Canvas.ResetNodeToBeConnected();
-            Canvas.LineHandler.SetLineVisibility(false);
-        }
-        /// <summary>
         /// Reset object settings.
         /// </summary>
         internal void ResetObjectSettings()
@@ -1046,7 +1001,7 @@ namespace EcellLib.PathwayWindow
         {
             // Create canvas
             Canvas = new CanvasControl(this, modelID);
-            SetEventHandler(m_selectedHandle);
+            m_menuCon.SetDefaultEventHandler();
             RaiseCanvasChange();
         }
 
@@ -1363,30 +1318,6 @@ namespace EcellLib.PathwayWindow
             }
         }
 
-        /// <summary>
-        /// Add the selected EventHandler to event listener.
-        /// </summary>
-        /// <param name="handler">added EventHandler.</param>
-        private void AddInputEventListener(PBasicInputEventHandler handler)
-        {
-            // Exception condition 
-            if (m_canvas == null)
-                return;
-            m_canvas.PCanvas.AddInputEventListener(handler);
-        }
-
-        /// <summary>
-        /// Delete the selected EventHandler from event listener.
-        /// </summary>
-        /// <param name="handler">deleted EventHandler.</param>
-        private void RemoveInputEventListener(PBasicInputEventHandler handler)
-        {
-            // Exception condition 
-            if (m_canvas == null)
-                return;
-
-            m_canvas.PCanvas.RemoveInputEventListener(handler);
-        }
         #endregion
     }
 }

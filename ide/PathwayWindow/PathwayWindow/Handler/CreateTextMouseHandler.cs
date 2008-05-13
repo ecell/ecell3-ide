@@ -69,6 +69,7 @@ namespace EcellLib.PathwayWindow.Handler
             eo.Y = e.Position.Y;
             eo.Comment = eo.Name;
             m_con.NotifyDataAdd(eo, true);
+            m_con.Menu.SetDefaultEventHandler();
         }
     }
 }

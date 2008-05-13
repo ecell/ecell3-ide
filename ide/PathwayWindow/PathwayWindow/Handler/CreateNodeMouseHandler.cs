@@ -119,6 +119,7 @@ namespace EcellLib.PathwayWindow.Handler
             eo.Height = m_template.Height;
             
             m_con.NotifyDataAdd(eo, true);
+            m_con.Menu.SetDefaultEventHandler();
         }
         #endregion
 

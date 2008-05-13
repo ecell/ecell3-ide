@@ -93,6 +93,16 @@ namespace EcellLib.PathwayWindow
         private List<ToolStripItem> m_buttonList;
 
         /// <summary>
+        /// Indicate which pathway-related toolbar button is selected.
+        /// </summary>
+        private Handle m_handle;
+
+        /// <summary>
+        /// Indicate which pathway-related toolbar button is selected.
+        /// </summary>
+        private Handle m_defHandle;
+
+        /// <summary>
         /// Dictionary for Eventhandlers.
         /// </summary>
         private Dictionary<string, Handle> m_handleDict = new Dictionary<string, Handle>();
@@ -116,6 +126,15 @@ namespace EcellLib.PathwayWindow
         {
             get { return m_buttonList; }
             set { m_buttonList = value; }
+        }
+
+        /// <summary>
+        /// get/set the number of checked component.
+        /// </summary>
+        public Handle Handle
+        {
+            get { return m_handle; }
+            set { m_handle = value; }
         }
 
         /// <summary>
@@ -593,7 +612,8 @@ namespace EcellLib.PathwayWindow
 
             // SelectMode is default.
             button0.Checked = true;
-            m_con.SelectedHandle = (Handle)button0.Handle;
+            m_handle = (Handle)button0.Handle;
+            m_defHandle = m_handle;
 
             return list;
         }
@@ -735,6 +755,76 @@ namespace EcellLib.PathwayWindow
             m_popMenuDict[MenuConstants.CanvasMenuBidirArrow].Enabled = !(line.Info.Direction == EdgeDirection.Bidirection);
             m_popMenuDict[MenuConstants.CanvasMenuConstantLine].Enabled = !(line.Info.Direction == EdgeDirection.None);
         }
+
+        /// <summary>
+        /// Set EventHandler.
+        /// </summary>
+        internal void SetDefaultEventHandler()
+        {
+            SetEventHandler(m_defHandle);
+        }
+        /// <summary>
+        /// Set EventHandler.
+        /// </summary>
+        /// <param name="handle"></param>
+        internal void SetEventHandler(Handle handle)
+        {
+            // Remove old EventHandler
+            PBasicInputEventHandler handler = m_handle.EventHandler;
+            ((IPathwayEventHandler)handler).Reset();
+            RemoveInputEventListener(handler);
+
+            // Set new EventHandler 
+            m_handle = handle;
+            handler = m_handle.EventHandler;
+            foreach (ToolStripItem item in m_buttonList)
+            {
+                if (!(item is PathwayToolStripButton))
+                    continue;
+                PathwayToolStripButton button = (PathwayToolStripButton)item;
+                if (button.Handle == m_handle)
+                    button.Checked = true;
+                else
+                    button.Checked = false;
+            }
+            ((IPathwayEventHandler)handler).Initialize();
+            AddInputEventListener(handler);
+            if (handler is DefaultMouseHandler
+                || handler is CreateReactionMouseHandler
+                || handler is PPathwayPanEventHandler)
+                m_defHandle = handle;
+
+            if (m_con.Canvas == null)
+                return;
+            m_con.Canvas.ResetNodeToBeConnected();
+            m_con.Canvas.LineHandler.SetLineVisibility(false);
+        }
+
+        /// <summary>
+        /// Add the selected EventHandler to event listener.
+        /// </summary>
+        /// <param name="handler">added EventHandler.</param>
+        private void AddInputEventListener(PBasicInputEventHandler handler)
+        {
+            // Exception condition 
+            if (m_con.Canvas == null)
+                return;
+            m_con.Canvas.PCanvas.AddInputEventListener(handler);
+        }
+
+        /// <summary>
+        /// Delete the selected EventHandler from event listener.
+        /// </summary>
+        /// <param name="handler">deleted EventHandler.</param>
+        private void RemoveInputEventListener(PBasicInputEventHandler handler)
+        {
+            // Exception condition 
+            if (m_con.Canvas == null)
+                return;
+
+            m_con.Canvas.PCanvas.RemoveInputEventListener(handler);
+        }
+
         #endregion
 
         #region EventHandlers for MenuClick
@@ -1120,7 +1210,7 @@ namespace EcellLib.PathwayWindow
             if (!(sender is PathwayToolStripButton))
                 return;
             PathwayToolStripButton selectedButton = (PathwayToolStripButton)sender;
-            m_con.SetEventHandler(selectedButton.Handle);
+            SetEventHandler(selectedButton.Handle);
         }
         /// <summary>
         /// 

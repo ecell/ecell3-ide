@@ -263,6 +263,7 @@ namespace EcellLib.PathwayWindow.Handler
 
                 m_con.NotifyDataAdd(eo, false);
                 TransferNodeToByCreate(eo.Key);
+                m_con.Menu.SetDefaultEventHandler();
             }
             else
             {
