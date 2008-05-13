@@ -29,6 +29,7 @@
 //
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.ComponentModel;
 using System.IO;
 using System.Data;
@@ -66,34 +67,36 @@ namespace EcellLib.MainWindow
         /// </summary>
         private void LoadSetting(bool isInitial)
         {
-            int i = 1;
-            string path = Util.GetWindowSettingDir();
-            if (path == null)
+            string dirStr = Util.GetWindowSettingDir();
+            if (dirStr == null)
             {
-                throw new IgnoreException("Not found the registry key");
+                return;
             }
-            StreamReader reader = new StreamReader(
-                (System.IO.Stream)File.OpenRead(path + "/" + Constants.fileWinSettingList));
-            while (i <= 5)
+            int i = 1;
+            try
             {
-                string line = reader.ReadLine();
-                if (line == null) break;
-                if (line.StartsWith("#")) continue;
-                string[] ele = line.Split(new char[] { '\t' });
-                WindowSetting s = new WindowSetting(
-                    ele[0],
-                    path + "/" + ele[0] + Constants.FileExtXML,
-                    path + "/" + ele[0] + Constants.FileExtPNG,
-                    ele[1]);
-                m_dicPath.Add(i, s);
-                i++;
+                StreamReader reader = new StreamReader(
+                    (System.IO.Stream)File.OpenRead(path + "/" + Constants.fileWinSettingList));
+                while (i <= 5)
+                {
+                    string line = reader.ReadLine();
+                    if (line == null) break;
+                    if (line.StartsWith("#")) continue;
+                    string[] ele = line.Split(new char[] { '\t' });
+                    m_dicPath.Add(new WindowSetting(
+                        ele[0],
+                        dir.
+                        path + "/" + ele[0] + Constants.FileExtXML,
+                        path + "/" + ele[0] + Constants.FileExtPNG,
+                        ele[1]));
+                    i++;
+                }
             }
             if (!isInitial)
             {
-                WindowSetting sc = new WindowSetting(
+                m_dicPath.Add(new WindowSetting(
                     "Current",
-                    null, null, "not change.");
-                m_dicPath.Add(i, sc);
+                    null, null, "not change."));
             }
         }
 
