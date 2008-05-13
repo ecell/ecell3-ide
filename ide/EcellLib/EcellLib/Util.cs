@@ -39,108 +39,41 @@ using EcellLib.Objects;
 
 namespace EcellLib
 {
-    /// <summary>
-    /// Class to manage the common function.
-    /// </summary>
-    public class Util
+    public partial class Util
     {
         /// <summary>
-        /// Additional plugin directories to be searched on startup.
-        /// XXX: this should not be in Util class.
+        /// Get the set value from register
         /// </summary>
-        private static List<string> s_extraPluginDirs = new List<string>();
-
-        /// <summary>
-        /// Additional DM directories to be searched on startup.
-        /// XXX: this should not be in Util class.
-        /// </summary>
-        private static List<string> s_extraDMDirs = new List<string>();
-
-        /// <summary>
-        /// Whether to include default plugin / DM paths.
-        /// </summary>
-        private static bool s_noDefaultPaths;
-
-        /// <summary>
-        /// Get the analysis directory from register.
-        /// </summary>
-        /// <returns></returns>
-        static public string GetAnalysisDir()
-        {
-            return GetRegistryValue(Constants.registryAnalysisDirKey);
-        }
-
-        /// <summary>
-        /// Get the language from register.
-        /// </summary>
-        /// <returns></returns>
-        static public string GetLang()
-        {
-            return GetRegistryValue(Constants.registryLang);
-        }
-
-        /// <summary>
-        /// Get the directory of window setting..
-        /// </summary>
-        /// <returns>the directory path.</returns>
-        static public string GetWindowSettingDir()
-        {
-            return GetRegistryValue(Constants.registryWinSetDir);
-        }
-
-        /// <summary>
-        /// Get the working directory from register.
-        /// </summary>
-        /// <returns>the working directory.</returns>
-        static public string GetBaseDir()
-        {
-            return GetRegistryValue(Constants.registryBaseDirKey);
-        }
-
-        static public string GetStartupFile()
-        {
-            return GetRegistryValue(Constants.registryStartup);
-        }
-
-        /// <summary>
-        /// Get the DM direcory from register.
-        /// </summary>
-        /// <returns>DM directory.</returns>
-        static public string[] GetDMDirs(String currentProjectPath)
-        {
-            List<string> dmDirs = new List<string>();
-            List<string> candidates = new List<string>();
-            if (currentProjectPath != null)
-            {
-                candidates.Add(Path.Combine(currentProjectPath, Constants.DMDirName));
-            }
-            candidates.AddRange(s_extraDMDirs);
-            if (!s_noDefaultPaths)
-                candidates.Add(GetRegistryValue(Constants.registryDMDirKey));
-            foreach (string dmDir in candidates)
-            {
-                if (Directory.Exists(dmDir))
-                    dmDirs.Add(dmDir);
-            }
-            return dmDirs.ToArray();
-        }
-
-        /// <summary>
-        /// Get common document directory.
-        /// </summary>
-        /// <returns>directory path.</returns>
-        static public string GetCommonDocumentDir()
+        /// <param name="l_intendedKey">registry key.</param>
+        /// <returns>the value.</returns>
+        static private string GetRegistryValue(string l_intendedKey)
         {
             string l_currentDir = null;
             Microsoft.Win32.RegistryKey l_key = Microsoft.Win32.Registry.CurrentUser;
             Microsoft.Win32.RegistryKey l_subkey = null;
             try
             {
-                l_key = Microsoft.Win32.Registry.LocalMachine;
-                l_subkey = l_key.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders");
+                // Get Environment parameter.
+                l_subkey = l_key.OpenSubKey(Constants.registryEnvKey);
+                l_currentDir = (string)l_subkey.GetValue(l_intendedKey);
+                if (l_currentDir != null)
+                    return l_currentDir;
+
+                // Get Software parameter.
+                l_subkey = l_key.OpenSubKey(Constants.registrySWKey);
                 if (l_subkey != null)
                 {
-                    l_currentDir = (string)l_subkey.GetValue("Common Documents");
+                    l_currentDir = (string)l_subkey.GetValue(l_intendedKey);
+                    if (l_currentDir != null)
+                        return l_currentDir;
+                }
+
+                // Get Local parameter.
+                l_key = Microsoft.Win32.Registry.LocalMachine;
+                l_subkey = l_key.OpenSubKey(Constants.registrySWKey);
+                if (l_subkey != null)
+                {
+                    l_currentDir = (string)l_subkey.GetValue(l_intendedKey);
                 }
                 return l_currentDir;
             }
@@ -156,68 +89,13 @@ namespace EcellLib
                 }
             }
         }
+    }
 
-        /// <summary>
-        /// Get the plugin directory from register.
-        /// </summary>
-        /// <returns>plugin directory.</returns>
-        static public string[] GetPluginDirs()
-        {
-            List<string> pluginDirs = new List<string>();
-
-            {
-                foreach (string pluginDir in s_extraPluginDirs)
-                {
-                    if (Directory.Exists(pluginDir))
-                        pluginDirs.Add(pluginDir);
-                }
-            }
-
-            if (!s_noDefaultPaths)
-            {
-
-                {
-                    Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser;
-                    {
-                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Constants.registryEnvKey);
-                        if (subkey != null)
-                        {
-                            string pluginDir = (string)subkey.GetValue(Constants.registryPluginDirKey);
-                            if (pluginDir != null && Directory.Exists(pluginDir))
-                                pluginDirs.Add(pluginDir);
-                            subkey.Close();
-                        }
-                    }
-                    {
-                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Constants.registrySWKey);
-                        if (subkey != null)
-                        {
-                            string pluginDir = (string)subkey.GetValue(Constants.registryPluginDirKey);
-                            if (pluginDir != null && Directory.Exists(pluginDir))
-                                pluginDirs.Add(pluginDir);
-                            subkey.Close();
-                        }
-                    }
-                }
-
-                {
-                    Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.LocalMachine;
-                    {
-                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Constants.registrySWKey);
-                        if (subkey != null)
-                        {
-                            string pluginDir = (string)subkey.GetValue(Constants.registryPluginDirKey);
-                            if (pluginDir != null && Directory.Exists(pluginDir))
-                                pluginDirs.Add(pluginDir);
-                            subkey.Close();
-                        }
-                    }
-                }
-            }
-
-            return pluginDirs.ToArray();
-        }
-
+    /// <summary>
+    /// Class to manage the common function.
+    /// </summary>
+    public partial class Util
+    {
         /// <summary>
         /// Check whether id contains the string except for letter, digit or '_'.
         /// </summary>
@@ -335,133 +213,6 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// Get the temporary directory from register.
-        /// </summary>
-        /// <returns></returns>
-        static public string GetTmpDir()
-        {
-            String topDir = Path.GetTempPath() + "\\E-Cell IDE";
-            if (!Directory.Exists(topDir))
-            {
-                Directory.CreateDirectory(topDir);
-            }
-            return topDir;
-//            return GetRegistryValue(Constants.registryTmpDirKey);
-        }
-
-        /// <summary>
-        /// Get the user directory.
-        /// </summary>
-        /// <returns></returns>
-        public static string GetUserDir()
-        {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "E-Cell IDE");
-        }
-
-        /// <summary>
-        /// Get the set value from register
-        /// </summary>
-        /// <param name="l_intendedKey">registry key.</param>
-        /// <returns>the value.</returns>
-        static private string GetRegistryValue(string l_intendedKey)
-        {
-            string l_currentDir = null;
-            Microsoft.Win32.RegistryKey l_key = Microsoft.Win32.Registry.CurrentUser;
-            Microsoft.Win32.RegistryKey l_subkey = null;
-            try
-            {
-                // Get Environment parameter.
-                l_subkey = l_key.OpenSubKey(Constants.registryEnvKey);
-                l_currentDir = (string)l_subkey.GetValue(l_intendedKey);
-                if (l_currentDir != null)
-                    return l_currentDir;
-
-                // Get Software parameter.
-                l_subkey = l_key.OpenSubKey(Constants.registrySWKey);
-                if (l_subkey != null)
-                {
-                    l_currentDir = (string)l_subkey.GetValue(l_intendedKey);
-                    if (l_currentDir != null)
-                        return l_currentDir;
-                }
-
-                // Get Local parameter.
-                l_key = Microsoft.Win32.Registry.LocalMachine;
-                l_subkey = l_key.OpenSubKey(Constants.registrySWKey);
-                if (l_subkey != null)
-                {
-                    l_currentDir = (string)l_subkey.GetValue(l_intendedKey);
-                }
-                return l_currentDir;
-            }
-            finally
-            {
-                if (l_key != null)
-                {
-                    l_key.Close();
-                }
-                if (l_subkey != null)
-                {
-                    l_subkey.Close();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Set the language of application when application is start.
-        /// </summary>
-        static public void InitialLanguage()
-        {
-            String lang = Util.GetLang();
-            if (lang == null)
-            {
-                // nothing
-            }
-            else if (lang.ToUpper() == "EN_US")
-            {
-                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-us", true);
-            }
-            else if (lang.ToUpper() == "JA")
-            {
-                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ja", true);
-            }
-        }
-
-        /// <summary>
-        /// Set language for E-Cell IDE.
-        /// </summary>
-        /// <param name="l_lang">language.</param>
-        static public void SetLanguage(string l_lang)
-        {
-            Microsoft.Win32.RegistryKey l_key = Microsoft.Win32.Registry.CurrentUser;
-            Microsoft.Win32.RegistryKey l_subkey = null;
-            try
-            {
-                l_subkey = l_key.OpenSubKey(Constants.registrySWKey, true);
-                /*
-                l_currentDir = (string)l_subkey.GetValue(Constants.registryBaseDirKey);
-                if (l_currentDir == null)
-                {
-                    RegistrySecurity s = l_subkey.GetAccessControl();
-                    
-                    l_subkey.CreateSubKey(Constants.registryBaseDirKey);
-                }*/
-                l_subkey.SetValue(Constants.registryLang, l_lang);
-            }
-            finally
-            {
-                if (l_key != null)
-                {
-                    l_key.Close();
-                }
-                if (l_subkey != null)
-                {
-                    l_subkey.Close();
-                }
-            }
-        }
-
-        /// <summary>
         /// Convert from name to full path.
         /// </summary>
         /// <param name="key">system name.</param>
@@ -495,41 +246,6 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// Set the working directory to set directiroy.
-        /// </summary>
-        /// <param name="l_basedir">set directory.</param>
-        static public void SetBaseDir(string l_basedir)
-        {
-//            string l_currentDir = null;
-            Microsoft.Win32.RegistryKey l_key = Microsoft.Win32.Registry.CurrentUser;
-            Microsoft.Win32.RegistryKey l_subkey = null;
-            try
-            {
-                l_subkey = l_key.OpenSubKey(Constants.registryEnvKey, true);
-                /*
-                l_currentDir = (string)l_subkey.GetValue(Constants.registryBaseDirKey);
-                if (l_currentDir == null)
-                {
-                    RegistrySecurity s = l_subkey.GetAccessControl();
-                    
-                    l_subkey.CreateSubKey(Constants.registryBaseDirKey);
-                }*/
-                l_subkey.SetValue(Constants.registryBaseDirKey, l_basedir);
-            }
-            finally
-            {
-                if (l_key != null)
-                {
-                    l_key.Close();
-                }
-                if (l_subkey != null)
-                {
-                    l_subkey.Close();
-                }
-            }
-        }
-
-        /// <summary>
         /// Convert the file name that decide in E-Cell Core from entity key.
         /// </summary>
         /// <param name="key"></param>
@@ -538,32 +254,6 @@ namespace EcellLib
         {
             string fileName = key.Replace(":", "_"); ;
             return fileName.Replace("/", "_") + ".csv";
-        }
-
-        /// <summary>
-        /// Add the specified directory to the plug-in search path list returned by GetPluginDirs()
-        /// </summary>
-        /// <param name="pluginDir">the plugin directory to include</param>
-        public static void AddPluginDir(string pluginDir)
-        {
-            s_extraPluginDirs.Add(pluginDir);
-        }
-
-        /// <summary>
-        /// Add the specified directory to the DM search path list returned by GetDMDirs()
-        /// </summary>
-        /// <param name="dmDir">the dm directory to include</param>
-        public static void AddDMDir(string dmDir)
-        {
-            s_extraDMDirs.Add(dmDir);
-        }
-
-        /// <summary>
-        /// Call this method to prevent PluginManage from loading plugins from default locations.
-        /// </summary>
-        public static void OmitDefaultPaths()
-        {
-            s_noDefaultPaths = true;
         }
 
         /// <summary>
@@ -700,5 +390,350 @@ namespace EcellLib
             return newKey.Replace("//", "/");
         }
 
+    }
+
+    public partial class Util
+    {
+        /// <summary>
+        /// Set the language of application when application is start.
+        /// </summary>
+        static public void InitialLanguage()
+        {
+            String lang = Util.GetLang();
+            if (lang == null)
+            {
+                // nothing
+            }
+            else if (lang.ToUpper() == "EN_US")
+            {
+                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-us", true);
+            }
+            else if (lang.ToUpper() == "JA")
+            {
+                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ja", true);
+            }
+        }
+
+        /// <summary>
+        /// Get the language from register.
+        /// </summary>
+        /// <returns></returns>
+        static public string GetLang()
+        {
+            return GetRegistryValue(Constants.registryLang);
+        }
+
+        /// <summary>
+        /// Set language for E-Cell IDE.
+        /// </summary>
+        /// <param name="l_lang">language.</param>
+        static public void SetLanguage(string l_lang)
+        {
+            Microsoft.Win32.RegistryKey l_key = Microsoft.Win32.Registry.CurrentUser;
+            Microsoft.Win32.RegistryKey l_subkey = null;
+            try
+            {
+                l_subkey = l_key.OpenSubKey(Constants.registrySWKey, true);
+                /*
+                l_currentDir = (string)l_subkey.GetValue(Constants.registryBaseDirKey);
+                if (l_currentDir == null)
+                {
+                    RegistrySecurity s = l_subkey.GetAccessControl();
+                    
+                    l_subkey.CreateSubKey(Constants.registryBaseDirKey);
+                }*/
+                l_subkey.SetValue(Constants.registryLang, l_lang);
+            }
+            finally
+            {
+                if (l_key != null)
+                {
+                    l_key.Close();
+                }
+                if (l_subkey != null)
+                {
+                    l_subkey.Close();
+                }
+            }
+        }
+    }
+
+    public partial class Util
+    {
+        public static void __showErrorDialog(string msg)
+        {
+            MessageBox.Show(msg, "Error",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        public static void __showWarningDialog(string msg)
+        {
+            MessageBox.Show(msg, "Warning",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        public static void __showNoticeDialog(string msg)
+        {
+            MessageBox.Show(msg, "Information",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        public static bool __showYesNoConfirmationDIalog(string msg)
+        {
+            return MessageBox.Show(msg, "Confirmation",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
+                    DialogResult.Yes;
+        }
+
+        public static bool __showOKCancelConfirmationDIalog(string msg)
+        {
+            return MessageBox.Show(msg, "Confirmation",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Question) ==
+                    DialogResult.OK;
+        }
+    }
+
+    public partial class Util
+    {
+        /// <summary>
+        /// Additional plugin directories to be searched on startup.
+        /// XXX: this should not be in Util class.
+        /// </summary>
+        private static List<string> s_extraPluginDirs = new List<string>();
+
+        /// <summary>
+        /// Additional DM directories to be searched on startup.
+        /// XXX: this should not be in Util class.
+        /// </summary>
+        private static List<string> s_extraDMDirs = new List<string>();
+
+        /// <summary>
+        /// Whether to include default plugin / DM paths.
+        /// </summary>
+        private static bool s_noDefaultPaths;
+
+        /// <summary>
+        /// Get the temporary directory from register.
+        /// </summary>
+        /// <returns></returns>
+        static public string GetTmpDir()
+        {
+            String topDir = Path.GetTempPath() + "\\E-Cell IDE";
+            if (!Directory.Exists(topDir))
+            {
+                Directory.CreateDirectory(topDir);
+            }
+            return topDir;
+        }
+
+        /// <summary>
+        /// Get the user directory.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetUserDir()
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "E-Cell IDE");
+        }
+
+        /// <summary>
+        /// Set the working directory to set directiroy.
+        /// </summary>
+        /// <param name="l_basedir">set directory.</param>
+        static public void SetBaseDir(string l_basedir)
+        {
+            Microsoft.Win32.RegistryKey l_key = Microsoft.Win32.Registry.CurrentUser;
+            Microsoft.Win32.RegistryKey l_subkey = null;
+            try
+            {
+                l_subkey = l_key.OpenSubKey(Constants.registryEnvKey, true);
+                l_subkey.SetValue(Constants.registryBaseDirKey, l_basedir);
+            }
+            finally
+            {
+                if (l_key != null)
+                {
+                    l_key.Close();
+                }
+                if (l_subkey != null)
+                {
+                    l_subkey.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Call this method to prevent PluginManager from loading plugins from default locations.
+        /// </summary>
+        public static void OmitDefaultPaths()
+        {
+            s_noDefaultPaths = true;
+        }
+
+        /// <summary>
+        /// Get the analysis directory from register.
+        /// </summary>
+        /// <returns></returns>
+        static public string GetAnalysisDir()
+        {
+            return GetRegistryValue(Constants.registryAnalysisDirKey);
+        }
+
+        /// <summary>
+        /// Get the directory of window setting..
+        /// </summary>
+        /// <returns>the directory path.</returns>
+        static public string GetWindowSettingDir()
+        {
+            return GetRegistryValue(Constants.registryWinSetDir);
+        }
+
+        /// <summary>
+        /// Get the working directory from register.
+        /// </summary>
+        /// <returns>the working directory.</returns>
+        static public string GetBaseDir()
+        {
+            return GetRegistryValue(Constants.registryBaseDirKey);
+        }
+
+        static public string GetStartupFile()
+        {
+            return GetRegistryValue(Constants.registryStartup);
+        }
+
+        /// <summary>
+        /// Get the DM direcory from register.
+        /// </summary>
+        /// <returns>DM directory.</returns>
+        static public string[] GetDMDirs(String currentProjectPath)
+        {
+            List<string> dmDirs = new List<string>();
+            List<string> candidates = new List<string>();
+            if (currentProjectPath != null)
+            {
+                candidates.Add(Path.Combine(currentProjectPath, Constants.DMDirName));
+            }
+            candidates.AddRange(s_extraDMDirs);
+            if (!s_noDefaultPaths)
+                candidates.Add(GetRegistryValue(Constants.registryDMDirKey));
+            foreach (string dmDir in candidates)
+            {
+                if (Directory.Exists(dmDir))
+                    dmDirs.Add(dmDir);
+            }
+            return dmDirs.ToArray();
+        }
+
+        /// <summary>
+        /// Add the specified directory to the DM search path list returned by GetDMDirs()
+        /// </summary>
+        /// <param name="dmDir">the dm directory to include</param>
+        public static void AddDMDir(string dmDir)
+        {
+            s_extraDMDirs.Add(dmDir);
+        }
+
+
+        /// <summary>
+        /// Get common document directory.
+        /// </summary>
+        /// <returns>directory path.</returns>
+        static public string GetCommonDocumentDir()
+        {
+            string l_currentDir = null;
+            Microsoft.Win32.RegistryKey l_key = Microsoft.Win32.Registry.CurrentUser;
+            Microsoft.Win32.RegistryKey l_subkey = null;
+            try
+            {
+                l_key = Microsoft.Win32.Registry.LocalMachine;
+                l_subkey = l_key.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders");
+                if (l_subkey != null)
+                {
+                    l_currentDir = (string)l_subkey.GetValue("Common Documents");
+                }
+                return l_currentDir;
+            }
+            finally
+            {
+                if (l_key != null)
+                {
+                    l_key.Close();
+                }
+                if (l_subkey != null)
+                {
+                    l_subkey.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the plugin directory from register.
+        /// </summary>
+        /// <returns>plugin directory.</returns>
+        static public string[] GetPluginDirs()
+        {
+            List<string> pluginDirs = new List<string>();
+
+            {
+                foreach (string pluginDir in s_extraPluginDirs)
+                {
+                    if (Directory.Exists(pluginDir))
+                        pluginDirs.Add(pluginDir);
+                }
+            }
+
+            if (!s_noDefaultPaths)
+            {
+
+                {
+                    Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser;
+                    {
+                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Constants.registryEnvKey);
+                        if (subkey != null)
+                        {
+                            string pluginDir = (string)subkey.GetValue(Constants.registryPluginDirKey);
+                            if (pluginDir != null && Directory.Exists(pluginDir))
+                                pluginDirs.Add(pluginDir);
+                            subkey.Close();
+                        }
+                    }
+                    {
+                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Constants.registrySWKey);
+                        if (subkey != null)
+                        {
+                            string pluginDir = (string)subkey.GetValue(Constants.registryPluginDirKey);
+                            if (pluginDir != null && Directory.Exists(pluginDir))
+                                pluginDirs.Add(pluginDir);
+                            subkey.Close();
+                        }
+                    }
+                }
+
+                {
+                    Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.LocalMachine;
+                    {
+                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Constants.registrySWKey);
+                        if (subkey != null)
+                        {
+                            string pluginDir = (string)subkey.GetValue(Constants.registryPluginDirKey);
+                            if (pluginDir != null && Directory.Exists(pluginDir))
+                                pluginDirs.Add(pluginDir);
+                            subkey.Close();
+                        }
+                    }
+                }
+            }
+
+            return pluginDirs.ToArray();
+        }
+
+        /// <summary>
+        /// Add the specified directory to the plug-in search path list returned by GetPluginDirs()
+        /// </summary>
+        /// <param name="pluginDir">the plugin directory to include</param>
+        public static void AddPluginDir(string pluginDir)
+        {
+            s_extraPluginDirs.Add(pluginDir);
+        }
     }
 }
