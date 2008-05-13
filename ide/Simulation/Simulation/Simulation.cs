@@ -116,14 +116,14 @@ namespace EcellLib.Simulation
             m_runSim.Name = "MenuItemRunSimulation";
             m_runSim.Size = new Size(96, 22);
             m_runSim.Image = (Image)resources.GetObject("media_play_green");
-            m_runSim.Text = Simulation.s_resources.GetString("MenuItemRun");
+            m_runSim.Text = Simulation.s_resources.GetString(MessageConstants.MenuItemRun);
             m_runSim.Enabled = false;
             m_runSim.Click += new EventHandler(this.RunSimulation);
 
             m_suspendSim = new ToolStripMenuItem();
             m_suspendSim.Name = "MenuItemSuspendSimulation";
             m_suspendSim.Size = new Size(96, 22);
-            m_suspendSim.Text = Simulation.s_resources.GetString("MenuItemSuspend");
+            m_suspendSim.Text = Simulation.s_resources.GetString(MessageConstants.MenuItemSuspend);
             m_suspendSim.Image = (Image)resources.GetObject("media_pause"); 
             m_suspendSim.Enabled = false;
             m_suspendSim.Click += new EventHandler(this.SuspendSimulation);
@@ -132,7 +132,7 @@ namespace EcellLib.Simulation
             m_stopSim.Name = "MenuItemStopSimulation";
             m_stopSim.Size = new Size(96, 22);
             m_stopSim.Image = (Image)resources.GetObject("media_stop_red");
-            m_stopSim.Text = Simulation.s_resources.GetString("MenuItemStop");
+            m_stopSim.Text = Simulation.s_resources.GetString(MessageConstants.MenuItemStop);
             m_stopSim.Enabled = false;
             m_stopSim.Click += new EventHandler(this.ResetSimulation);
 
@@ -150,7 +150,7 @@ namespace EcellLib.Simulation
             m_setupSim = new ToolStripMenuItem();
             m_setupSim.Name = "MenuItemSetupSimulation";
             m_setupSim.Size = new Size(96, 22);
-            m_setupSim.Text = Simulation.s_resources.GetString("MenuItemSetupSim");
+            m_setupSim.Text = Simulation.s_resources.GetString(MessageConstants.MenuItemSetupSim);
             m_setupSim.Tag = 10;
             m_setupSim.Enabled = false;
             m_setupSim.Click += new EventHandler(this.SetupSimulation);
@@ -191,7 +191,7 @@ namespace EcellLib.Simulation
             button1.Name = "RunSimulation";
             button1.Size = new System.Drawing.Size(23, 22);
             button1.Text = "";
-            button1.ToolTipText = Simulation.s_resources.GetString("ToolTipRun");
+            button1.ToolTipText = Simulation.s_resources.GetString(MessageConstants.ToolTipRun);
             button1.Click += new System.EventHandler(this.RunSimulation);
             list.Add(button1);
 
@@ -202,7 +202,7 @@ namespace EcellLib.Simulation
             button3.Size = new System.Drawing.Size(23, 22);
             button3.Tag = 3;
             button3.Text = "";
-            button3.ToolTipText = Simulation.s_resources.GetString("ToolTipSuspend");
+            button3.ToolTipText = Simulation.s_resources.GetString(MessageConstants.ToolTipSuspend);
             button3.Click += new System.EventHandler(this.SuspendSimulation);
             list.Add(button3);
 
@@ -213,7 +213,7 @@ namespace EcellLib.Simulation
             button2.Size = new System.Drawing.Size(23, 22);
             button2.Text = "";
             button2.Tag = 4;
-            button2.ToolTipText = Simulation.s_resources.GetString("ToolTipStop");
+            button2.ToolTipText = Simulation.s_resources.GetString(MessageConstants.ToolTipStop);
             button2.Click += new System.EventHandler(this.ResetSimulation);
             list.Add(button2);
 
@@ -251,7 +251,7 @@ namespace EcellLib.Simulation
             button4.Size = new System.Drawing.Size(23, 22);
             button4.Text = "";
             button4.Tag = 9;
-            button4.ToolTipText = Simulation.s_resources.GetString("ToolTipStep");
+            button4.ToolTipText = Simulation.s_resources.GetString(MessageConstants.ToolTipStep);
             button4.Click += new System.EventHandler(this.Step);
             list.Add(button4);
 
@@ -441,7 +441,7 @@ namespace EcellLib.Simulation
         {
             if (m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Running)
             {
-                String mes = Simulation.s_resources.GetString("ConfirmSetup");
+                String mes = Simulation.s_resources.GetString(MessageConstants.ConfirmSetup);
                 DialogResult r = MessageBox.Show(mes,
                     "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (r != DialogResult.OK) return;
@@ -470,7 +470,7 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                String errmes = Simulation.s_resources.GetString("ErrRunning");
+                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrRunning);
                 Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
                 if (m_type != ProjectStatus.Uninitialized)
                     m_pManager.ChangeStatus(preType);
@@ -496,7 +496,7 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                String errmes = Simulation.s_resources.GetString("ErrSuspend");
+                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrSuspend);
                 Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
                 m_pManager.ChangeStatus(preType);
             }
@@ -532,7 +532,7 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                String errmes = Simulation.s_resources.GetString("ErrStep");
+                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrStep);
                 MessageBox.Show(errmes + "\n\n" + ex,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 m_pManager.ChangeStatus(preType);                
@@ -560,7 +560,7 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                String errmes = Simulation.s_resources.GetString("ErrReset");
+                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrReset);
                 MessageBox.Show(errmes + "\n\n" + ex,
                         "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 m_pManager.ChangeStatus(preType);

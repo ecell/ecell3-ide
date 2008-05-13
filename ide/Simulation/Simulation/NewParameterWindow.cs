@@ -81,20 +81,20 @@ namespace EcellLib.Simulation
             string data = paramTextBox.Text;
             if (data == "" || data == null)
             {
-                String errmes = Simulation.s_resources.GetString("ErrNoInput");
+                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrNoInput);
                 Util.__showWarningDialog(errmes);
                 return;
             }
             if (m_win.IsExistStepper(data))
             {
-                String errmes = Simulation.s_resources.GetString("ErrAlready");
+                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrAlready);
                 MessageBox.Show(errmes, "WARNING",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (Util.IsNGforID(data))
             {
-                String errmes = Simulation.s_resources.GetString("ErrIDNG");
+                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrIDNG);
                 MessageBox.Show(errmes, "WARNING",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -160,14 +160,14 @@ namespace EcellLib.Simulation
         {
             if (paramTextBox.Text == "")
             {
-                String errmes = Simulation.s_resources.GetString("ErrNoInput");
+                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrNoInput);
                 MessageBox.Show(errmes, "WARNING",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (Util.IsNGforID(paramTextBox.Text))
             {
-                String errmes = Simulation.s_resources.GetString("ErrIDNG");
+                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrIDNG);
                 Util.__showWarningDialog(errmes);
                 return;
             }

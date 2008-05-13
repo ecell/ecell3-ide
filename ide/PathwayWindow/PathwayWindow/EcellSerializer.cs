@@ -132,7 +132,7 @@ namespace EcellLib.PathwayWindow {
             }
             catch (Exception ex)
             {
-                string errmsg = m_resources.GetString("ErrLoadWindowSettings") + Environment.NewLine + filename + Environment.NewLine + ex.Message;
+                string errmsg = m_resources.GetString(MessageConstants.ErrLoadWindowSettings) + Environment.NewLine + filename + Environment.NewLine + ex.Message;
                 Util.__showErrorDialog(errmsg);
             }
             finally
@@ -179,7 +179,7 @@ namespace EcellLib.PathwayWindow {
             }
             catch (Exception ex)
             {
-                string errmsg = m_resources.GetString("ErrLoadWindowSettings") + Environment.NewLine + filename + Environment.NewLine + ex.Message;
+                string errmsg = m_resources.GetString(MessageConstants.ErrLoadWindowSettings) + Environment.NewLine + filename + Environment.NewLine + ex.Message;
                 Util.__showErrorDialog(errmsg);
             }
         }

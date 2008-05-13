@@ -431,7 +431,7 @@ namespace EcellLib.Analysis
 
             if (resList.Count < 1)
             {
-                String mes = Analysis.s_resources.GetString("ErrObservProp");
+                String mes = Analysis.s_resources.GetString(MessageConstants.ErrObservProp);
                 Util.__showErrorDialog(mes);
                 return null;
             }
@@ -463,7 +463,7 @@ namespace EcellLib.Analysis
 
             if (resList.Count < 1)
             {
-                String mes = Analysis.s_resources.GetString("ErrObservProp");
+                String mes = Analysis.s_resources.GetString(MessageConstants.ErrObservProp);
                 Util.__showErrorDialog(mes);
                 return null;
             }
@@ -523,7 +523,7 @@ namespace EcellLib.Analysis
         {
             if (m_robustAnalysis != null && m_robustAnalysis.IsRunning)
             {
-                string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
+                string mes = Analysis.s_resources.GetString(MessageConstants.ConfirmStopAnalysis);
                 if (Util.__showYesNoDialog(mes))
                 {
                     m_robustAnalysis.StopAnalysis();
@@ -545,7 +545,7 @@ namespace EcellLib.Analysis
         {
             if (m_parameterEstimation != null && m_parameterEstimation.IsRunning)
             {
-                string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
+                string mes = Analysis.s_resources.GetString(MessageConstants.ConfirmStopAnalysis);
                 if (Util.__showYesNoDialog(mes))
                 {
                     m_parameterEstimation.StopAnalysis();
@@ -567,7 +567,7 @@ namespace EcellLib.Analysis
         {
             if (m_sensitivityAnalysis != null && m_sensitivityAnalysis.IsRunning)
             {
-                string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
+                string mes = Analysis.s_resources.GetString(MessageConstants.ConfirmStopAnalysis);
                 if (Util.__showYesNoDialog(mes))
                 {
                     m_sensitivityAnalysis.StopAnalysis();
@@ -606,7 +606,7 @@ namespace EcellLib.Analysis
         {
             if (m_bifurcationAnalysis != null && m_bifurcationAnalysis.IsRunning)
             {
-                string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
+                string mes = Analysis.s_resources.GetString(MessageConstants.ConfirmStopAnalysis);
                 if (Util.__showYesNoDialog(mes))
                 {
                     m_bifurcationAnalysis.StopAnalysis();
@@ -630,8 +630,8 @@ namespace EcellLib.Analysis
             List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
 
             m_showAnalysisSetupItem = new ToolStripMenuItem();
-            m_showAnalysisSetupItem.Text = resources.GetString("MenuItemAnalysisWindow");
-            m_showAnalysisSetupItem.ToolTipText = resources.GetString("MenuItemAnalysisWindow");
+            m_showAnalysisSetupItem.Text = resources.GetString(MessageConstants.MenuItemAnalysisWindow);
+            m_showAnalysisSetupItem.ToolTipText = resources.GetString(MessageConstants.MenuItemAnalysisWindow);
             m_showAnalysisSetupItem.Tag = 50;
             m_showAnalysisSetupItem.Click += new EventHandler(ShowAnalysisWindow);
 
@@ -643,36 +643,36 @@ namespace EcellLib.Analysis
             list.Add(setupMenu);
 
             m_robustAnalysisItem = new ToolStripMenuItem();
-            m_robustAnalysisItem.Text = resources.GetString("MenuItemRobustAnalysis");
-            m_robustAnalysisItem.ToolTipText = resources.GetString("MenuItemRobustAnalysis");
+            m_robustAnalysisItem.Text = resources.GetString(MessageConstants.MenuItemRobustAnalysis);
+            m_robustAnalysisItem.ToolTipText = resources.GetString(MessageConstants.MenuItemRobustAnalysis);
             m_robustAnalysisItem.Tag = 50;
             m_robustAnalysisItem.Enabled = false;
             m_robustAnalysisItem.Click += new EventHandler(ExecuteRobustAnalysis);
 
             m_parameterEstimationItem = new ToolStripMenuItem();
-            m_parameterEstimationItem.Text = resources.GetString("MenuItemParameterEstimation");
-            m_parameterEstimationItem.ToolTipText = resources.GetString("MenuItemParameterEstimation");
+            m_parameterEstimationItem.Text = resources.GetString(MessageConstants.MenuItemParameterEstimation);
+            m_parameterEstimationItem.ToolTipText = resources.GetString(MessageConstants.MenuItemParameterEstimation);
             m_parameterEstimationItem.Tag = 60;
             m_parameterEstimationItem.Enabled = false;
             m_parameterEstimationItem.Click += new EventHandler(ExecuteParameterEstimation);
 
             m_sensitivityAnalysisItem = new ToolStripMenuItem();
-            m_sensitivityAnalysisItem.Text = resources.GetString("MenuItemSensitivityAnalysis");
-            m_sensitivityAnalysisItem.ToolTipText = resources.GetString("MenuItemSensitivityAnalysis");
+            m_sensitivityAnalysisItem.Text = resources.GetString(MessageConstants.MenuItemSensitivityAnalysis);
+            m_sensitivityAnalysisItem.ToolTipText = resources.GetString(MessageConstants.MenuItemSensitivityAnalysis);
             m_sensitivityAnalysisItem.Tag = 70;
             m_sensitivityAnalysisItem.Enabled = false;
             m_sensitivityAnalysisItem.Click += new EventHandler(ExecuteSensitivityAnalysis);
 
             m_bifurcationAnalysisItem = new ToolStripMenuItem();
-            m_bifurcationAnalysisItem.Text = resources.GetString("MenuItemBifurcationAnalysis");
-            m_bifurcationAnalysisItem.ToolTipText = resources.GetString("MenuItemBifurcationAnalysis");
+            m_bifurcationAnalysisItem.Text = resources.GetString(MessageConstants.MenuItemBifurcationAnalysis);
+            m_bifurcationAnalysisItem.ToolTipText = resources.GetString(MessageConstants.MenuItemBifurcationAnalysis);
             m_bifurcationAnalysisItem.Tag = 80;
             m_bifurcationAnalysisItem.Enabled = false;
             m_bifurcationAnalysisItem.Click += new EventHandler(ExecuteBifurcationAnalysis);
 
             ToolStripMenuItem stopAnalysisItem = new ToolStripMenuItem();
-            stopAnalysisItem.Text = resources.GetString("MenuItemStopAnalysis");
-            stopAnalysisItem.ToolTipText = resources.GetString("MenuItemStopAnalysis");
+            stopAnalysisItem.Text = resources.GetString(MessageConstants.MenuItemStopAnalysis);
+            stopAnalysisItem.ToolTipText = resources.GetString(MessageConstants.MenuItemStopAnalysis);
             stopAnalysisItem.Tag = 80;
             stopAnalysisItem.Enabled = true;
             stopAnalysisItem.Click += new EventHandler(StopAnalysis);

@@ -77,6 +77,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageConstants.cs" />
     <Compile Include="MessageResStDebug.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

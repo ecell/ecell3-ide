@@ -209,7 +209,7 @@ namespace EcellLib.ObjectList
 
             m_contextMenu = new ContextMenuStrip();
             ToolStripMenuItem it = new ToolStripMenuItem();
-            it.Text = ObjectList.s_resources.GetString("SearchMenuText");
+            it.Text = ObjectList.s_resources.GetString(MessageConstants.SearchMenuText);
             it.ShortcutKeys = Keys.Control | Keys.F;
             it.Click += new EventHandler(ClickSearchMenu);
 
@@ -634,7 +634,7 @@ namespace EcellLib.ObjectList
                     return;
                 }
             }
-            String mes = ObjectList.s_resources.GetString("ErrNotFindPage");
+            String mes = ObjectList.s_resources.GetString(MessageConstants.ErrNotFindPage);
             Util.__showWarningDialog(mes);
         }
 

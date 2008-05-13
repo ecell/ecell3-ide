@@ -68,13 +68,13 @@ namespace EcellLib.Analysis
 
             ContextMenuStrip peCntMenu = new ContextMenuStrip();
             ToolStripMenuItem peit = new ToolStripMenuItem();
-            peit.Text = Analysis.s_resources.GetString("ReflectMenuText");
+            peit.Text = Analysis.s_resources.GetString(MessageConstants.ReflectMenuText);
             peit.Click += new EventHandler(ClickReflectMenu);
             peCntMenu.Items.AddRange(new ToolStripItem[] {peit});
             PEEstimateView.ContextMenuStrip = peCntMenu;
 
             m_headerColor = Color.LightCyan;
-            this.Text = s_resources.GetString("AnalysisResultWindow");
+            this.Text = s_resources.GetString(MessageConstants.AnalysisResultWindow);
             this.TabText = this.Text;
 
         }

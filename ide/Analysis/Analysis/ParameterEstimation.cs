@@ -153,26 +153,26 @@ namespace EcellLib.Analysis
 
             if (m_param.Population <= 0)
             {
-                string errmes = Analysis.s_resources.GetString("ErrPopulationNumPositive");
+                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrPopulationNumPositive);
                 Util.__showErrorDialog(errmes);
                 return;
             }
             if (m_param.Generation <= 0)
             {
-                string errmes = Analysis.s_resources.GetString("ErrGenerationNumPositive");
+                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrGenerationNumPositive);
                 Util.__showErrorDialog(errmes);
                 return;
             }
             if (m_param.SimulationTime <= 0.0)
             {
-                string errmes = Analysis.s_resources.GetString("ErrSimTimeUnder");
+                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrSimTimeUnder);
                 Util.__showErrorDialog(errmes);
                 return;
             }
             if (m_param.EstimationFormulator == null ||
                 m_param.EstimationFormulator.Equals(""))
             {
-                string errmes = Analysis.s_resources.GetString("ErrNotEstimateFormulator");
+                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrNotEstimateFormulator);
                 Util.__showErrorDialog(errmes);
                 return;
             }
@@ -185,7 +185,7 @@ namespace EcellLib.Analysis
             if (m_paramList == null) return;
             if (m_paramList.Count < 1)
             {
-                String mes = Analysis.s_resources.GetString("ErrParamProp1");
+                String mes = Analysis.s_resources.GetString(MessageConstants.ErrParamProp1);
                 Util.__showErrorDialog(mes);
                 return;
             }
@@ -299,7 +299,7 @@ namespace EcellLib.Analysis
 
                 FindElite();
 
-                String finMes = Analysis.s_resources.GetString("FinishPAnalysis");
+                String finMes = Analysis.s_resources.GetString(MessageConstants.FinishPAnalysis);
                 Util.__showNoticeDialog(finMes);
                 return;
             }

@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageConstants.cs" />
     <Compile Include="CircularLayout.cs" />
     <Compile Include="CircularLayout.Designer.cs">
       <AutoGen>True</AutoGen>

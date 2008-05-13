@@ -86,6 +86,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageConstants.cs" />
     <Compile Include="EntityList.cs">
       <SubType>Form</SubType>
     </Compile>

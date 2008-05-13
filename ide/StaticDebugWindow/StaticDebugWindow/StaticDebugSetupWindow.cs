@@ -110,7 +110,7 @@ namespace EcellLib.StaticDebugWindow
             }
             catch (Exception ex)
             {
-                String errmes = StaticDebugWindow.s_resources.GetString("ErrLayout");
+                String errmes = StaticDebugWindow.s_resources.GetString(MessageConstants.ErrLayout);
                 Util.__showErrorDialog(errmes + "\n\n" + ex);
             }
         }
@@ -177,7 +177,7 @@ namespace EcellLib.StaticDebugWindow
 
             if (m_staticDebug.ErrorMessageList.Count <= 0)
             {
-                String mes = StaticDebugWindow.s_resources.GetString("NoError");
+                String mes = StaticDebugWindow.s_resources.GetString(MessageConstants.NoError);
                 MessageBox.Show(mes,
                     "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;

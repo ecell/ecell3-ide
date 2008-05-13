@@ -120,7 +120,7 @@ namespace EcellLib.Analysis
 
             InitializeData();
             s_win = this;
-            this.Text = s_resources.GetString("AnalysisWindow");
+            this.Text = s_resources.GetString(MessageConstants.AnalysisWindow);
             this.TabText = this.Text;
         }
 
@@ -1115,7 +1115,7 @@ namespace EcellLib.Analysis
 
             if (m.Msg == WM_SYSCOMMAND && m.WParam.ToInt32() == SC_CLOSE)
             {
-                String mes = Analysis.s_resources.GetString("ConfirmClose");
+                String mes = Analysis.s_resources.GetString(MessageConstants.ConfirmClose);
 
                 DialogResult res = MessageBox.Show(mes,
                     "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);

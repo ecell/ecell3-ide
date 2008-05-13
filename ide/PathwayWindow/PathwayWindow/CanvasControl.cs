@@ -680,7 +680,7 @@ namespace EcellLib.PathwayWindow
             {
                 PPathwayProcess node = (PPathwayProcess)obj;
                 if (m_processes.ContainsKey(node.EcellObject.Key))
-                    throw new PathwayException(m_resources.GetString("ErrSameObj"));
+                    throw new PathwayException(m_resources.GetString(MessageConstants.ErrSameObj));
                 m_processes.Add(node.EcellObject.Key, node);
             }
             if (obj.CanvasControl == null)
@@ -721,7 +721,7 @@ namespace EcellLib.PathwayWindow
                 return;
             if (m_layers.ContainsKey(name))
             {
-                Util.__showNoticeDialog(name + m_resources.GetString("ErrAlrExist"));
+                Util.__showNoticeDialog(name + m_resources.GetString(MessageConstants.ErrAlrExist));
                 return;
             }
             PPathwayLayer layer = new PPathwayLayer(name);

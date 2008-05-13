@@ -199,19 +199,19 @@ namespace EcellLib.Analysis
 
             if (m_param.Step <= 0)
             {
-                string errmes = Analysis.s_resources.GetString("ErrStepUnder");
+                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrStepUnder);
                 Util.__showErrorDialog(errmes);
                 return;
             }
             if (m_param.AbsolutePerturbation <= 0.0)
             {
-                string errmes = Analysis.s_resources.GetString("ErrAbsolutePert");
+                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrAbsolutePert);
                 Util.__showErrorDialog(errmes);
                 return;
             }
             if (m_param.RelativePerturbation <= 0.0)
             {
-                string errmes = Analysis.s_resources.GetString("ErrRelativePert");
+                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrRelativePert);
                 Util.__showErrorDialog(errmes);
                 return;
             }
@@ -539,7 +539,7 @@ namespace EcellLib.Analysis
             Matrix jocobianMatrix = epsilonMatrix * m_linkMatrix;
             if (jocobianMatrix.Determinant() == 0.0)
             {
-                string mes = Analysis.s_resources.GetString("ErrSingular");
+                string mes = Analysis.s_resources.GetString(MessageConstants.ErrSingular);
                 Util.__showErrorDialog(mes);
                 throw new IgnoreException("Can't find Singular Matrix");
             }
@@ -759,7 +759,7 @@ namespace EcellLib.Analysis
                     m_control.AddSensitivityDataOfFCC(m_activityList[i], res);
                 }
 
-                String finMes = Analysis.s_resources.GetString("FinishSAnalysis");
+                String finMes = Analysis.s_resources.GetString(MessageConstants.FinishSAnalysis);
                 Util.__showNoticeDialog(finMes);
             }
             catch (IgnoreException ie)
@@ -768,7 +768,7 @@ namespace EcellLib.Analysis
             }
             catch (Exception ex)
             {
-                String errMes = Analysis.s_resources.GetString("ErrorSAnalysis");
+                String errMes = Analysis.s_resources.GetString(MessageConstants.ErrorSAnalysis);
                 Util.__showErrorDialog(errMes + "\n" + ex.ToString());
             }
 

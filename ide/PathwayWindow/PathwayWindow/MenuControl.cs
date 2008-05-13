@@ -938,7 +938,7 @@ namespace EcellLib.PathwayWindow
                     return;
                 if (system.EcellObject.Key.Equals("/"))
                 {
-                    Util.__showErrorDialog(m_resources.GetString("ErrDelRoot"));
+                    Util.__showErrorDialog(m_resources.GetString(MessageConstants.ErrDelRoot));
                     return;
                 }
                 // Delete sys.

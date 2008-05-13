@@ -523,14 +523,14 @@ namespace EcellLib.CircularLayout
             if (num < 3)
             {
                 ComponentResourceManager crm = new ComponentResourceManager(typeof(CircularLayout));
-                Util.__showErrorDialog(crm.GetString("MsgLessNode"));
+                Util.__showErrorDialog(crm.GetString(MessageConstants.MsgLessNode));
                 return false;
             }
 
             if (rect.Width == 0 || rect.Height == 0)
             {
                 ComponentResourceManager crm = new ComponentResourceManager(typeof(CircularLayout));
-                Util.__showErrorDialog(crm.GetString("MsgSelectRect"));
+                Util.__showErrorDialog(crm.GetString(MessageConstants.MsgSelectRect));
                 return false;
             }
 
@@ -554,7 +554,7 @@ namespace EcellLib.CircularLayout
         public string GetMenuText()
         {
             ComponentResourceManager crm = new ComponentResourceManager(typeof(CircularLayout));
-            return crm.GetString("MenuItemCircular");
+            return crm.GetString(MessageConstants.MenuItemCircular);
         }
 
         /// <summary>
@@ -573,7 +573,7 @@ namespace EcellLib.CircularLayout
         public string GetToolTipText()
         {
             ComponentResourceManager crm = new ComponentResourceManager(typeof(CircularLayout));
-            return crm.GetString("ToolTip");
+            return crm.GetString(MessageConstants.ToolTip);
         }
 
         /// <summary>

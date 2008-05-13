@@ -105,7 +105,7 @@ namespace EcellLib.StaticDebugWindow
             m_staticDebug = new ToolStripMenuItem();
             m_staticDebug.Name = "MenuItemStaticDebug";
             m_staticDebug.Size = new Size(96, 22);
-            m_staticDebug.Text = StaticDebugWindow.s_resources.GetString("MenuItemStaticDebugText");
+            m_staticDebug.Text = StaticDebugWindow.s_resources.GetString(MessageConstants.MenuItemStaticDebugText);
             m_staticDebug.Tag = 10;
             m_staticDebug.Enabled = false;
             m_staticDebug.Click += new EventHandler(this.ShowStaticDebugSetupWindow);

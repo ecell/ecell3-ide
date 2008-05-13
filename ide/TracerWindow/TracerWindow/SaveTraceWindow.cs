@@ -123,7 +123,7 @@ namespace EcellLib.TracerWindow
             DataManager manager = DataManager.GetDataManager();
             manager.SaveSimulationResult(dirName, start, end, fileType, fullID);
 
-            String mes = TracerWindow.s_resources.GetString("FinishSave");
+            String mes = TracerWindow.s_resources.GetString(MessageConstants.FinishSave);
             Util.__showNoticeDialog(mes);
         }
     }

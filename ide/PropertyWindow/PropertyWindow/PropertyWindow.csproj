@@ -88,6 +88,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageConstants.cs" />
     <Compile Include="MessageResProperty.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -72,12 +72,13 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.1.2706.19617, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="WeifenLuo.WinFormsUI.Docking">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageConstants.cs" />
     <Compile Include="AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>

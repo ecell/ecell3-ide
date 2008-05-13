@@ -278,7 +278,7 @@ namespace EcellLib.PathwayWindow
             }
             catch (Exception ex)
             {
-                string errmsg = s_resources.GetString("ErrCompInvalid") + Environment.NewLine + filepath + Environment.NewLine + ex.Message;
+                string errmsg = s_resources.GetString(MessageConstants.ErrCompInvalid) + Environment.NewLine + filepath + Environment.NewLine + ex.Message;
                 Util.__showErrorDialog(errmsg);
             }
             finally
@@ -542,7 +542,7 @@ namespace EcellLib.PathwayWindow
                 }
                 catch (NoSuchComponentKindException e)
                 {
-                    Util.__showWarningDialog(s_resources.GetString("ErrCreateKind") + "\n\n" + e.Message);
+                    Util.__showWarningDialog(s_resources.GetString(MessageConstants.ErrCreateKind) + "\n\n" + e.Message);
                     continue;
                 }
 
@@ -663,7 +663,7 @@ namespace EcellLib.PathwayWindow
                 else
                 {
                     string name = (cs.Name == null) ? cs.Name : "ComponentSetting No." + csCount.ToString();
-                    warnMessage += s_resources.GetString("ErrCompInvalid") + "\n";
+                    warnMessage += s_resources.GetString(MessageConstants.ErrCompInvalid) + "\n";
                     foreach (string lackInfo in lackInfos)
                         warnMessage += "    " + name + " lacks " + lackInfo + "\n";
                 }

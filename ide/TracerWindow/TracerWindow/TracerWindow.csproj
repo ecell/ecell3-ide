@@ -81,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageConstants.cs" />
     <Compile Include="LineStyleDialog.cs">
       <SubType>Form</SubType>
     </Compile>

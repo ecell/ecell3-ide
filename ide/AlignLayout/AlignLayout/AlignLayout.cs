@@ -124,7 +124,7 @@ namespace EcellLib.AlignLayout
         /// <returns>menu name of this algorithm</returns>
         public string GetMenuText()
         {
-            return m_crm.GetString("MenuItemAlign");
+            return m_crm.GetString(MessageConstants.MenuItemAlign);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace EcellLib.AlignLayout
         /// <returns>tooltip</returns>
         public string GetToolTipText()
         {
-            return m_crm.GetString("ToolTip");
+            return m_crm.GetString(MessageConstants.ToolTip);
         }
 
         /// <summary>
@@ -152,10 +152,10 @@ namespace EcellLib.AlignLayout
         public List<string> GetSubCommands()
         {
             List<string> subCommands = new List<string>();
-            subCommands.Add(m_crm.GetString("MenuItemSubLeft"));
-            subCommands.Add(m_crm.GetString("MenuItemSubRight"));
-            subCommands.Add(m_crm.GetString("MenuItemSubUpper"));
-            subCommands.Add(m_crm.GetString("MenuItemSubLower"));
+            subCommands.Add(m_crm.GetString(MessageConstants.MenuItemSubLeft));
+            subCommands.Add(m_crm.GetString(MessageConstants.MenuItemSubRight));
+            subCommands.Add(m_crm.GetString(MessageConstants.MenuItemSubUpper));
+            subCommands.Add(m_crm.GetString(MessageConstants.MenuItemSubLower));
 
             return subCommands;
         }

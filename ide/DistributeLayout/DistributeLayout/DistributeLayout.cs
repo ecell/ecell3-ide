@@ -145,7 +145,7 @@ namespace EcellLib.DistributeLayout
         public string GetMenuText()
         {
             ComponentResourceManager crm = new ComponentResourceManager(typeof(DistributeLayout));
-            return crm.GetString("MenuItemDistribute");
+            return crm.GetString(MessageConstants.MenuItemDistribute);
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace EcellLib.DistributeLayout
         public string GetToolTipText()
         {
             ComponentResourceManager crm = new ComponentResourceManager(typeof(DistributeLayout));
-            return crm.GetString("ToolTip");
+            return crm.GetString(MessageConstants.ToolTip);
         }
 
         /// <summary>
@@ -175,8 +175,8 @@ namespace EcellLib.DistributeLayout
         {
             ComponentResourceManager crm = new ComponentResourceManager(typeof(DistributeLayout));
             List<string> subCommands = new List<string>();
-            subCommands.Add(crm.GetString("MenuItemSubHorizontally"));
-            subCommands.Add(crm.GetString("MenuItemSubVertically"));
+            subCommands.Add(crm.GetString(MessageConstants.MenuItemSubHorizontally));
+            subCommands.Add(crm.GetString(MessageConstants.MenuItemSubVertically));
 
             return subCommands;
         }

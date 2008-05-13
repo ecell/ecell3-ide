@@ -173,13 +173,13 @@ namespace EcellLib.Analysis
 
             if (simTime <= 0.0)
             {
-                string errmes = Analysis.s_resources.GetString("ErrSimTimeUnder");
+                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrSimTimeUnder);
                 Util.__showErrorDialog(errmes);
                 return;
             }
             if (maxSize > AnalysisWindow.MaxSize)
             {
-                string errmes = Analysis.s_resources.GetString("ErrOverMax") + "[" + AnalysisWindow.MaxSize + "]";
+                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrOverMax) + "[" + AnalysisWindow.MaxSize + "]";
                 Util.__showErrorDialog(errmes);
                 return;
             }
@@ -192,7 +192,7 @@ namespace EcellLib.Analysis
             if (paramList == null) return;
             if (paramList.Count != 2)
             {
-                String mes = Analysis.s_resources.GetString("ErrParamProp2");
+                String mes = Analysis.s_resources.GetString(MessageConstants.ErrParamProp2);
                 Util.__showErrorDialog(mes);
                 return;
             }
@@ -625,7 +625,7 @@ namespace EcellLib.Analysis
 
             if (m_manager.IsError())
             {
-                String mes = Analysis.s_resources.GetString("ErrFindErrorJob");
+                String mes = Analysis.s_resources.GetString(MessageConstants.ErrFindErrorJob);
                 if (!Util.__showYesNoDialog(mes))
                 {
                     return;
@@ -639,7 +639,7 @@ namespace EcellLib.Analysis
                 PrintResultData();
                 m_isRunning = false;
                 Control.StopBifurcationAnalysis();
-                String finMes = Analysis.s_resources.GetString("FinishBAnalysis");
+                String finMes = Analysis.s_resources.GetString(MessageConstants.FinishBAnalysis);
                 Util.__showNoticeDialog(finMes);
                 return;
             }

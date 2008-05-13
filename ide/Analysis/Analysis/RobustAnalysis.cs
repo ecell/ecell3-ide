@@ -127,14 +127,14 @@ namespace EcellLib.Analysis
 
             if (m_manager.IsError())
             {
-                String mes = Analysis.s_resources.GetString("ErrFindErrorJob");
+                String mes = Analysis.s_resources.GetString(MessageConstants.ErrFindErrorJob);
                 if (!Util.__showYesNoDialog(mes))
                 {
                     return;
                 }
             }
             JudgeRobustAnalysis();
-            String finMes = Analysis.s_resources.GetString("FinishRAnalysis");
+            String finMes = Analysis.s_resources.GetString(MessageConstants.FinishRAnalysis);
             Util.__showNoticeDialog(finMes);
         }
         #endregion
@@ -151,19 +151,19 @@ namespace EcellLib.Analysis
             int maxSize = Convert.ToInt32(m_param.MaxData);
             if (num <= 0)
             {
-                string errmes = Analysis.s_resources.GetString("ErrSampleNumPositive");
+                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrSampleNumPositive);
                 Util.__showErrorDialog(errmes);
                 return;
             }
             if (simTime <= 0.0)
             {
-                string errmes = Analysis.s_resources.GetString("ErrSimTimeUnder");
+                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrSimTimeUnder);
                 Util.__showErrorDialog(errmes);
                 return;
             }
             if (maxSize > AnalysisWindow.MaxSize)
             {
-                string errmes = Analysis.s_resources.GetString("ErrOverMax") + "[" + AnalysisWindow.MaxSize + "]";
+                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrOverMax) + "[" + AnalysisWindow.MaxSize + "]";
                 Util.__showErrorDialog(errmes);
                 return;
             }
@@ -176,7 +176,7 @@ namespace EcellLib.Analysis
             if (paramList == null) return;
             if (paramList.Count < 2)
             {
-                String mes = Analysis.s_resources.GetString("ErrParamProp2");
+                String mes = Analysis.s_resources.GetString(MessageConstants.ErrParamProp2);
                 Util.__showErrorDialog(mes);
                 return;
             }
@@ -224,7 +224,7 @@ namespace EcellLib.Analysis
             if (pList == null) return;
             if (pList.Count < 2)
             {
-                String mes = Analysis.s_resources.GetString("ErrParamProp2");
+                String mes = Analysis.s_resources.GetString(MessageConstants.ErrParamProp2);
                 Util.__showErrorDialog(mes);
                 return;
             }

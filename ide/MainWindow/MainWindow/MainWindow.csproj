@@ -105,6 +105,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageConstants.cs" />
     <Compile Include="DistributedEnvSetupWindow.cs">
       <SubType>Form</SubType>
     </Compile>

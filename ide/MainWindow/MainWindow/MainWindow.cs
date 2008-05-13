@@ -179,7 +179,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception e)
             {
-                String errmes = MainWindow.s_resources.GetString("ErrStartup");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrStartup);
                 Debug.WriteLine(errmes);
                 Application.Exit();
             }
@@ -272,7 +272,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                String errmes = MainWindow.s_resources.GetString("ErrLoadPlugin");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrLoadPlugin);
                 Util.__showNoticeDialog(String.Format(errmes));
                 return;
             }
@@ -355,7 +355,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                string errmsg = s_resources.GetString("ErrLoadWindowSettings") + Environment.NewLine + filename + Environment.NewLine + ex.Message;
+                string errmsg = s_resources.GetString(MessageConstants.ErrLoadWindowSettings) + Environment.NewLine + filename + Environment.NewLine + ex.Message;
                 Util.__showErrorDialog(errmsg);
             }
         }
@@ -499,7 +499,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                string errmsg = MainWindow.s_resources.GetString("ErrSaveWindowSettings") + Environment.NewLine + filename + Environment.NewLine + ex.Message;
+                string errmsg = MainWindow.s_resources.GetString(MessageConstants.ErrSaveWindowSettings) + Environment.NewLine + filename + Environment.NewLine + ex.Message;
                 Debug.WriteLine(errmsg);
                 Util.__showErrorDialog(errmsg);
             }
@@ -521,7 +521,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                string errmsg = MainWindow.s_resources.GetString("ErrLoadWindowSettings") + Environment.NewLine + filename + Environment.NewLine + ex.Message;
+                string errmsg = MainWindow.s_resources.GetString(MessageConstants.ErrLoadWindowSettings) + Environment.NewLine + filename + Environment.NewLine + ex.Message;
                 Debug.WriteLine(errmsg);
                 Util.__showErrorDialog(errmsg);
                 return false;
@@ -577,7 +577,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                string errmes = MainWindow.s_resources.GetString("ErrLoadModel");
+                string errmes = MainWindow.s_resources.GetString(MessageConstants.ErrLoadModel);
                 Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
                 CloseProjectDelegate dlg = new CloseProjectDelegate(CloseProject);
                 this.Invoke(dlg, new object[] { m_project });
@@ -617,14 +617,14 @@ namespace EcellLib.MainWindow
         {
             if (l_prjID == "")
             {
-                String errmes = MainWindow.s_resources.GetString("ErrPrjIdNull");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrPrjIdNull);
                 MessageBox.Show(errmes,
                     "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             if (Util.IsNGforIDonWindows(l_prjID))
             {
-                String errmes = MainWindow.s_resources.GetString("ErrPrjIdNG");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrPrjIdNG);
                 MessageBox.Show(errmes,
                     "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
@@ -632,7 +632,7 @@ namespace EcellLib.MainWindow
 
             if (l_prjID.Length > 64)
             {
-                String errmes = MainWindow.s_resources.GetString("ErrPrjIdNG");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrPrjIdNG);
                 MessageBox.Show(errmes,
                     "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
@@ -649,21 +649,21 @@ namespace EcellLib.MainWindow
         {
             if (l_modelID == "")
             {
-                String errmes = MainWindow.s_resources.GetString("ErrModelNull");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrModelNull);
                 MessageBox.Show(errmes,
                     "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             if (l_modelID.Length > 64)
             {
-                String errmes = MainWindow.s_resources.GetString("ErrModelNG");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrModelNG);
                 MessageBox.Show(errmes,
                     "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             if (Util.IsNGforIDonWindows(l_modelID))
             {
-                String errmes = MainWindow.s_resources.GetString("ErrModelNG");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrModelNG);
                 MessageBox.Show(errmes,
                     "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
@@ -1157,7 +1157,7 @@ namespace EcellLib.MainWindow
         {
             if (m_editCount > 0)
             {
-                String mes = MainWindow.s_resources.GetString("SaveConfirm");
+                String mes = MainWindow.s_resources.GetString(MessageConstants.SaveConfirm);
                 DialogResult res = MessageBox.Show(mes,
                     "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
@@ -1211,7 +1211,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                String errmes = MainWindow.s_resources.GetString("ErrCreatePrj");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrCreatePrj);
                 Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
                 CloseProject(m_newPrjDialog.textName.Text);
             }
@@ -1239,7 +1239,7 @@ namespace EcellLib.MainWindow
             // Check the modification and confirm save.
             if (m_editCount > 0)
             {
-                String mes = MainWindow.s_resources.GetString("SaveConfirm");
+                String mes = MainWindow.s_resources.GetString(MessageConstants.SaveConfirm);
                 if (Util.__showYesNoDialog(mes))
                 {
                     m_isClose = true;
@@ -1267,7 +1267,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                String errmes = MainWindow.s_resources.GetString("ErrShowOpenPrj");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrShowOpenPrj);
                 Util.__showErrorDialog(errmes + "\n\n" + ex);
                 return;
             }
@@ -1322,7 +1322,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                String errmes = MainWindow.s_resources.GetString("ErrOpenPrj");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrOpenPrj);
                 MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1361,7 +1361,7 @@ namespace EcellLib.MainWindow
             // Check the modification and confirm save.
             if (m_editCount > 0)
             {
-                String mes = MainWindow.s_resources.GetString("SaveConfirm");
+                String mes = MainWindow.s_resources.GetString(MessageConstants.SaveConfirm);
                 DialogResult res = MessageBox.Show(mes, "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
                 {
@@ -1387,7 +1387,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                String errmes = MainWindow.s_resources.GetString("ErrShowOpenPrj");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrShowOpenPrj);
                 Util.__showErrorDialog(errmes + "\n\n" + ex);
                 return;
             }
@@ -1417,7 +1417,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                String errmes = MainWindow.s_resources.GetString("ErrShowSavePrj");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrShowSavePrj);
                 MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (m_savePrjDialog != null) m_savePrjDialog.Dispose();
@@ -1487,7 +1487,7 @@ namespace EcellLib.MainWindow
                 CheckedListBox box = m_savePrjDialog.CheckedListBox;
                 if (box.CheckedItems.Count <= 0)
                 {
-                    String errmes = MainWindow.s_resources.GetString("ErrSelectSave");
+                    String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrSelectSave);
                     MessageBox.Show(errmes,
                         "Warning", MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
@@ -1517,7 +1517,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                String errmes = MainWindow.s_resources.GetString("ErrSavePrj");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrSavePrj);
                 Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
             }
 
@@ -1534,7 +1534,7 @@ namespace EcellLib.MainWindow
         {
             if (m_editCount > 0)
             {
-                String mes = MainWindow.s_resources.GetString("SaveConfirm");
+                String mes = MainWindow.s_resources.GetString(MessageConstants.SaveConfirm);
                 DialogResult res = MessageBox.Show(mes,
                     "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
@@ -1569,7 +1569,7 @@ namespace EcellLib.MainWindow
         {
             if (m_editCount > 0)
             {
-                String mes = MainWindow.s_resources.GetString("SaveConfirm");
+                String mes = MainWindow.s_resources.GetString(MessageConstants.SaveConfirm);
                 DialogResult res = MessageBox.Show(mes,
                     "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
@@ -1615,7 +1615,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                String errmes = MainWindow.s_resources.GetString("ErrLoadModel");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrLoadModel);
                 Util.__showErrorDialog(errmes + "\n\n" + ex);
                 return;
             }
@@ -1652,7 +1652,7 @@ namespace EcellLib.MainWindow
         private void ExportModelMenuClick(object sender, EventArgs e)
         {
             m_savePrjDialog = new SaveProjectDialog();
-            m_savePrjDialog.Text = MainWindow.s_resources.GetString("ExportModelDialog");
+            m_savePrjDialog.Text = MainWindow.s_resources.GetString(MessageConstants.ExportModelDialog);
             m_savePrjDialog.SPSaveButton.Click += new EventHandler(ExportModel);
             m_savePrjDialog.SPCancelButton.Click += new EventHandler(ExportModelCancel);
 
@@ -1691,7 +1691,7 @@ namespace EcellLib.MainWindow
 
                 if (list.Count <= 0)
                 {
-                    String errmes = MainWindow.s_resources.GetString("ErrNoSelectExp");
+                    String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrNoSelectExp);
                     Util.__showWarningDialog(errmes);
                 }
                 else
@@ -1708,7 +1708,7 @@ namespace EcellLib.MainWindow
                     }
                     catch (Exception ex)
                     {
-                        String errmes = MainWindow.s_resources.GetString("ErrExpModel");
+                        String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrExpModel);
                         MessageBox.Show(errmes + "\n\n" + ex.Message,
                             "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -1736,7 +1736,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                String errmes = MainWindow.s_resources.GetString("ErrSaveScript");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrSaveScript);
                 MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1768,7 +1768,7 @@ namespace EcellLib.MainWindow
             {
                 if (m_editCount > 0)
                 {
-                    String mes = MainWindow.s_resources.GetString("SaveConfirm");
+                    String mes = MainWindow.s_resources.GetString(MessageConstants.SaveConfirm);
                     DialogResult res = MessageBox.Show(mes,
                         "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                     if (res == DialogResult.Yes)
@@ -1811,7 +1811,7 @@ namespace EcellLib.MainWindow
             m_currentDir = Util.GetBaseDir();
             
             SelectDirectory dialog = new SelectDirectory();
-            String mes = MainWindow.s_resources.GetString("ExpModelMes");
+            String mes = MainWindow.s_resources.GetString(MessageConstants.ExpModelMes);
             dialog.Description = mes;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
@@ -1894,7 +1894,7 @@ namespace EcellLib.MainWindow
                     }
                     else
                     {
-                        String errmes = MainWindow.s_resources.GetString("FileNotFound");
+                        String errmes = MainWindow.s_resources.GetString(MessageConstants.FileNotFound);
                         MessageBox.Show(errmes, "Warning",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
@@ -1902,7 +1902,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                String errmes = MainWindow.s_resources.GetString("ErrImpScript");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrImpScript);
                 MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1927,7 +1927,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                String errmes = MainWindow.s_resources.GetString("ErrSaveAction");
+                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrSaveAction);
                 MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -2046,8 +2046,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 ex.ToString();
-                MessageBox.Show(s_resources.GetString("ErrLoadWindowSettings"),
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(s_resources.GetString(MessageConstants.ErrLoadWindowSettings),                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

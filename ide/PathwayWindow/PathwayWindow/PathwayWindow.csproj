@@ -92,6 +92,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageConstants.cs" />
     <Compile Include="AnimationControl.cs">
     </Compile>
     <Compile Include="Dialog\PropertyDialogTabPage.cs">

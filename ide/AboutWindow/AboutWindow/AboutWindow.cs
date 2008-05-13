@@ -64,7 +64,7 @@ namespace EcellLib.AboutWindow
             MenuItemAboutPlatform.Name = "MenuItemAboutPlatform";
             MenuItemAboutPlatform.Size = new System.Drawing.Size(96, 22);
             MenuItemAboutPlatform.Tag = 1;
-            MenuItemAboutPlatform.Text = s_resources.GetString("MenuItemAboutPlatformText");
+            MenuItemAboutPlatform.Text = s_resources.GetString(MessageConstants.MenuItemAboutPlatformText);
             MenuItemAboutPlatform.Click += new System.EventHandler(this.AboutMenuClick);
 
             ToolStripMenuItem helpMenu = new ToolStripMenuItem();

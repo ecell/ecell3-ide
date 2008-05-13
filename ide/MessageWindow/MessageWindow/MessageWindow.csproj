@@ -75,6 +75,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageConstants.cs" />
     <Compile Include="MessageResMessage.Designer.cs">
       <DependentUpon>MessageResMessage.resx</DependentUpon>
       <AutoGen>True</AutoGen>

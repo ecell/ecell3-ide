@@ -455,7 +455,7 @@ namespace EcellLib.ObjectList2
                     }
                 }
             }
-            String mes = ObjectList2.s_resources.GetString("ErrNotFindPage");
+            String mes = ObjectList2.s_resources.GetString(MessageConstants.ErrNotFindPage);
             Util.__showWarningDialog(mes);
         }
 

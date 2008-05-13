@@ -23,7 +23,7 @@ namespace EcellLib
         {
             base.m_isSavable = true;
             InitializeComponent();
-            this.Text = m_resources.GetString("EntityList");
+            this.Text = m_resources.GetString(EntityListWindow.MessageConstants.EntityList);
             this.TabText = this.Text;
             this.treeView1.ImageList = PluginManager.GetPluginManager().NodeImageList;
         }

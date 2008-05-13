@@ -526,7 +526,7 @@ namespace EcellLib.EntityListWindow
             }
             catch (Exception ex)
             {
-                String errmese = EntityListWindow.s_resources.GetString("ErrPrintData");
+                String errmese = EntityListWindow.s_resources.GetString(MessageConstants.ErrPrintData);
                 Util.__showErrorDialog(errmese + "\n\n" + ex);
                 return null;
             }
@@ -596,32 +596,32 @@ namespace EcellLib.EntityListWindow
             MenuItem sortNameMenu = new MenuItem();
             MenuItem sortTypeMenu = new MenuItem();
 
-            m_creSysLogger.Text = EntityListWindow.s_resources.GetString("PopCreLoggerText");
-            m_delSysLogger.Text = EntityListWindow.s_resources.GetString("PopDelLoggerText");
-            m_creTopSysLogger.Text = EntityListWindow.s_resources.GetString("PopCreLoggerText");
-            m_delTopSysLogger.Text = EntityListWindow.s_resources.GetString("PopDelLoggerText");
-            m_creProcLogger.Text = EntityListWindow.s_resources.GetString("PopCreLoggerText");
-            m_delProcLogger.Text = EntityListWindow.s_resources.GetString("PopDelLoggerText");
-            m_creVarLogger.Text = EntityListWindow.s_resources.GetString("PopCreLoggerText");
-            m_delVarLogger.Text = EntityListWindow.s_resources.GetString("PopDelLoggerText");
-            m_merge.Text = EntityListWindow.s_resources.GetString("PopMergeText");
-            m_compileDM.Text = EntityListWindow.s_resources.GetString("PopCompileText");
-            m_creVarParameterData.Text = EntityListWindow.s_resources.GetString("PopCreParamText");
-            m_creProParameterData.Text = EntityListWindow.s_resources.GetString("PopCreParamText");
-            m_delVarParameterData.Text = EntityListWindow.s_resources.GetString("PopDelParamText");
-            m_delProParameterData.Text = EntityListWindow.s_resources.GetString("PopDelParamText");
-            m_creVarObservedData.Text = EntityListWindow.s_resources.GetString("PopCreObservText");
-            m_creProObservedData.Text = EntityListWindow.s_resources.GetString("PopCreObservText");
-            m_delVarObservedData.Text = EntityListWindow.s_resources.GetString("PopDelObservText");
-            m_delProObservedData.Text = EntityListWindow.s_resources.GetString("PopDelObservText");
-            addModel.Text = EntityListWindow.s_resources.GetString("PopAddModelText");
-            addSystem.Text = EntityListWindow.s_resources.GetString("PopAddSystemText");
-            addVar.Text = EntityListWindow.s_resources.GetString("PopAddVariableText");
-            addProc.Text = EntityListWindow.s_resources.GetString("PopAddProcessText");
-            del.Text = EntityListWindow.s_resources.GetString("PopDeleteText");
-            searchMenu.Text = EntityListWindow.s_resources.GetString("PopSearchText");
-            sortNameMenu.Text = EntityListWindow.s_resources.GetString("SortNameText");
-            sortTypeMenu.Text = EntityListWindow.s_resources.GetString("SortTypeText");
+            m_creSysLogger.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopCreLoggerText);
+            m_delSysLogger.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopDelLoggerText);
+            m_creTopSysLogger.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopCreLoggerText);
+            m_delTopSysLogger.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopDelLoggerText);
+            m_creProcLogger.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopCreLoggerText);
+            m_delProcLogger.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopDelLoggerText);
+            m_creVarLogger.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopCreLoggerText);
+            m_delVarLogger.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopDelLoggerText);
+            m_merge.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopMergeText);
+            m_compileDM.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopCompileText);
+            m_creVarParameterData.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopCreParamText);
+            m_creProParameterData.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopCreParamText);
+            m_delVarParameterData.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopDelParamText);
+            m_delProParameterData.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopDelParamText);
+            m_creVarObservedData.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopCreObservText);
+            m_creProObservedData.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopCreObservText);
+            m_delVarObservedData.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopDelObservText);
+            m_delProObservedData.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopDelObservText);
+            addModel.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopAddModelText);
+            addSystem.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopAddSystemText);
+            addVar.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopAddVariableText);
+            addProc.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopAddProcessText);
+            del.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopDeleteText);
+            searchMenu.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopSearchText);
+            sortNameMenu.Text = EntityListWindow.s_resources.GetString(MessageConstants.SortNameText);
+            sortTypeMenu.Text = EntityListWindow.s_resources.GetString(MessageConstants.SortTypeText);
 
             addModel.Click += new EventHandler(TreeviewAddModel);
             addSystem.Click += new EventHandler(TreeviewAddSystem);
@@ -1309,7 +1309,7 @@ namespace EcellLib.EntityListWindow
             }
             catch (Exception ex)
             {
-                String errmes = EntityListWindow.s_resources.GetString("ErrDelData");
+                String errmes = EntityListWindow.s_resources.GetString(MessageConstants.ErrDelData);
                 MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -1350,7 +1350,7 @@ namespace EcellLib.EntityListWindow
             }
             catch (Exception ex)
             {
-                String errmes = EntityListWindow.s_resources.GetString("ErrDelData");
+                String errmes = EntityListWindow.s_resources.GetString(MessageConstants.ErrDelData);
                 Util.__showErrorDialog(errmes + "\n\n" + ex);
                 return;
             }
@@ -1366,7 +1366,7 @@ namespace EcellLib.EntityListWindow
             string path = m_dManager.GetDMFileName(m_targetNode.Text);
             if (!CheckInstalledSDK())
             {
-                String errmes = EntityListWindow.s_resources.GetString("ErrNotInstallSDK");
+                String errmes = EntityListWindow.s_resources.GetString(MessageConstants.ErrNotInstallSDK);
                 MessageBox.Show(errmes + "\n",
                     "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -1442,7 +1442,7 @@ namespace EcellLib.EntityListWindow
                 catch (Exception ex)
                 {
                     ex.ToString();
-                    String errmes = s_resources.GetString("ErrStartupApp");
+                    String errmes = s_resources.GetString(MessageConstants.ErrStartupApp);
                     Util.__showErrorDialog(errmes + "\n\n" + path);
                     return;
                 }
@@ -1459,7 +1459,7 @@ namespace EcellLib.EntityListWindow
                     tag.m_key, tag.m_type);
                 if (obj == null)
                 {
-                    String errmes = EntityListWindow.s_resources.GetString("ErrGetData");
+                    String errmes = EntityListWindow.s_resources.GetString(MessageConstants.ErrGetData);
                     MessageBox.Show(
                     errmes + "(" + tag.m_modelID + "," + tag.m_key + ")",
                     "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1470,7 +1470,7 @@ namespace EcellLib.EntityListWindow
             }
             catch (Exception ex)
             {
-                String errmes = EntityListWindow.s_resources.GetString("ErrGetData");
+                String errmes = EntityListWindow.s_resources.GetString(MessageConstants.ErrGetData);
                 MessageBox.Show(errmes + "\n\n" + ex,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -1541,7 +1541,7 @@ namespace EcellLib.EntityListWindow
                         CrateLoggerPopupMenu(m_creSysLogger, m_delSysLogger, obj);
                         String superSys = tag.m_key.Substring(0, tag.m_key.LastIndexOf("/"));
                         if (superSys == "") superSys = "/";
-                        m_merge.Text = EntityListWindow.s_resources.GetString("PopMergeText") + "(" + superSys + ")";
+                        m_merge.Text = EntityListWindow.s_resources.GetString(MessageConstants.PopMergeText) + "(" + superSys + ")";
                         m_form.treeView1.ContextMenu = m_systemMenu;
                     }
                     m_currentObj = obj;

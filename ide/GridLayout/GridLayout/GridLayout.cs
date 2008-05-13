@@ -171,7 +171,7 @@ namespace EcellLib.GridLayout
         public string GetMenuText()
         {
             ComponentResourceManager crm = new ComponentResourceManager(typeof(GridLayout));
-            return crm.GetString("MenuItemGrid");
+            return crm.GetString(MessageConstants.MenuItemGrid);
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace EcellLib.GridLayout
         public string GetToolTipText()
         {
             ComponentResourceManager crm = new ComponentResourceManager(typeof(GridLayout));
-            return crm.GetString("ToolTip");
+            return crm.GetString(MessageConstants.ToolTip);
         }
 
         /// <summary>

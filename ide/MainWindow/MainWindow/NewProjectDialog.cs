@@ -114,7 +114,7 @@ namespace EcellLib.MainWindow
         private void ClickAddButton(object sender, EventArgs e)
         {
             SelectDirectory win = new SelectDirectory();
-            String mes = MainWindow.s_resources.GetString("ExpModelMes");
+            String mes = MainWindow.s_resources.GetString(MessageConstants.ExpModelMes);
             win.Description = mes;
             if (win.ShowDialog() == DialogResult.OK)
             {

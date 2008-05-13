@@ -252,7 +252,7 @@ namespace EcellLib.TracerWindow
 
             ContextMenuStrip contextStrip = new ContextMenuStrip();
             ToolStripMenuItem it = new ToolStripMenuItem();
-            it.Text = TracerWindow.s_resources.GetString("MenuItemDeleteText");
+            it.Text = TracerWindow.s_resources.GetString(MessageConstants.MenuItemDeleteText);
             it.ShortcutKeys = Keys.Control | Keys.D;
             it.Click += new EventHandler(DeleteTraceItem);
             it.Tag = r;
@@ -652,7 +652,7 @@ namespace EcellLib.TracerWindow
             DataGridViewImageCell cell1 = dgv.Rows[rowIndex].Cells[columnIndex + 1] as DataGridViewImageCell;
             if (cell == null || cell1 == null)
             {
-                String errmes = TracerWindow.s_resources.GetString("ErrColorDlg");
+                String errmes = TracerWindow.s_resources.GetString(MessageConstants.ErrColorDlg);
                 MessageBox.Show(errmes, 
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -757,7 +757,7 @@ namespace EcellLib.TracerWindow
 
             if (m_currentObj == null)
             {
-                String errmes = TracerWindow.s_resources.GetString("ErrNoFind");
+                String errmes = TracerWindow.s_resources.GetString(MessageConstants.ErrNoFind);
                 Util.__showNoticeDialog(errmes + "(" + tag.M_modelID + ")");
                 return;
             }
@@ -848,7 +848,7 @@ namespace EcellLib.TracerWindow
 
             if (m.Msg == WM_SYSCOMMAND && m.WParam.ToInt32() == SC_CLOSE)
             {
-                String mes = TracerWindow.s_resources.GetString("ConfirmClose");
+                String mes = TracerWindow.s_resources.GetString(MessageConstants.ConfirmClose);
                 DialogResult res = MessageBox.Show(mes,
                     "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (res == DialogResult.OK) this.Dispose();

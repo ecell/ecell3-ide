@@ -353,7 +353,7 @@ namespace EcellLib.PathwayWindow
             catch (Exception e)
             {
                 Console.WriteLine(e.StackTrace);
-                throw new PathwayException(m_resources.GetString("ErrUnknowType") + "\n" + e.StackTrace);
+                throw new PathwayException(m_resources.GetString(MessageConstants.ErrUnknowType) + "\n" + e.StackTrace);
             }
         }
         /// <summary>
@@ -419,7 +419,7 @@ namespace EcellLib.PathwayWindow
         {
             // Null check.
             if (eo == null)
-                throw new PathwayException(m_resources.GetString("ErrAddObjNot"));
+                throw new PathwayException(m_resources.GetString(MessageConstants.ErrAddObjNot));
             // Ignore Stepper
             if (Constants.xpathStepper.Equals(eo.Type))
                 return;
@@ -450,9 +450,9 @@ namespace EcellLib.PathwayWindow
             }
             // Error check.
             if (string.IsNullOrEmpty(eo.Key))
-                throw new PathwayException(m_resources.GetString("ErrKeyNot"));
+                throw new PathwayException(m_resources.GetString(MessageConstants.ErrKeyNot));
             if (string.IsNullOrEmpty(eo.ModelID) || !m_canvas.ModelID.Equals(eo.ModelID))
-                throw new PathwayException(m_resources.GetString("ErrNotSetCanvas") + eo.Key);
+                throw new PathwayException(m_resources.GetString(MessageConstants.ErrNotSetCanvas) + eo.Key);
             if (eo.Key.EndsWith(":SIZE"))
                 return;
 
@@ -1224,7 +1224,7 @@ namespace EcellLib.PathwayWindow
                 // Check system overlap
                 if (canvas.DoesSystemOverlaps(system.Rect))
                 {
-                    Util.__showNoticeDialog(m_resources.GetString("ErrSystemOverlap"));
+                    Util.__showNoticeDialog(m_resources.GetString(MessageConstants.ErrSystemOverlap));
                     break;
                 }
 
@@ -1299,7 +1299,7 @@ namespace EcellLib.PathwayWindow
             }
             catch (Exception)
             {
-                Util.__showNoticeDialog(m_resources.GetString("ErrLayout"));
+                Util.__showNoticeDialog(m_resources.GetString(MessageConstants.ErrLayout));
                 return;
             }
 

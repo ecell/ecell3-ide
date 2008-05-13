@@ -154,7 +154,7 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrShowPropEditor");
+                String errmes = m_resources.GetString(MessageConstants.ErrShowPropEditor);
                 Util.__showErrorDialog(errmes + "\n\n" + ex);
             }
             finally
@@ -903,7 +903,7 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrShowPropEdit");
+                String errmes = m_resources.GetString(MessageConstants.ErrShowPropEdit);
                 Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
             }
         }
@@ -969,7 +969,7 @@ namespace EcellLib
                         id = c.Text;
                         if (c.Text == "")
                         {
-                            String errmes = m_resources.GetString("ErrNoInput");
+                            String errmes = m_resources.GetString(MessageConstants.ErrNoInput);
                             MessageBox.Show(errmes + "(ID)",
                                             "WARNING",
                                             MessageBoxButtons.OK,
@@ -979,7 +979,7 @@ namespace EcellLib
                         else if (Util.IsNGforID(c.Text))
                         //                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
                         {
-                            String errmes = m_resources.GetString("ErrInvalidID");
+                            String errmes = m_resources.GetString(MessageConstants.ErrInvalidID);
                             MessageBox.Show(errmes,
                                             "WARNING",
                                             MessageBoxButtons.OK,
@@ -988,7 +988,7 @@ namespace EcellLib
                         }
                         else if (c.Text.ToUpper() == "SIZE")
                         {
-                            String errmes = m_resources.GetString("ErrReserveSize");
+                            String errmes = m_resources.GetString(MessageConstants.ErrReserveSize);
                             MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return null;
@@ -997,7 +997,7 @@ namespace EcellLib
                         {
                             if (m_currentObj.Type == EcellObject.SYSTEM && Util.IsNGforSystemFullID(c.Text))
                             {
-                                String errmes = m_resources.GetString("ErrInvalidID");
+                                String errmes = m_resources.GetString(MessageConstants.ErrInvalidID);
                                 MessageBox.Show(errmes,
                                                 "WARNING",
                                                 MessageBoxButtons.OK,
@@ -1006,7 +1006,7 @@ namespace EcellLib
                             }
                             if (m_currentObj.Type != "System" && Util.IsNGforComponentFullID(c.Text))
                             {
-                                String errmes = m_resources.GetString("ErrInvalidID");
+                                String errmes = m_resources.GetString(MessageConstants.ErrInvalidID);
                                 MessageBox.Show(errmes,
                                                 "WARNING",
                                                 MessageBoxButtons.OK,
@@ -1151,28 +1151,28 @@ namespace EcellLib
                         key = c.Text;
                         if (c.Text == "")
                         {
-                            String errmes = m_resources.GetString("ErrNoInput");
+                            String errmes = m_resources.GetString(MessageConstants.ErrNoInput);
                             MessageBox.Show(errmes + "(ID)",
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
                         else if (c.Text.ToUpper() == "SIZE")
                         {
-                            String errmes = m_resources.GetString("ErrReserveSize");
+                            String errmes = m_resources.GetString(MessageConstants.ErrReserveSize);
                             MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
                         else if (m_currentObj.Type.Equals(EcellObject.SYSTEM) && Util.IsNGforSystemFullID(c.Text))
                         {
-                            String errmes = m_resources.GetString("ErrInvalidID");
+                            String errmes = m_resources.GetString(MessageConstants.ErrInvalidID);
                             MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
                         else if (!m_currentObj.Type.Equals(EcellObject.SYSTEM) && Util.IsNGforComponentFullID(c.Text))
                         {
-                            String errmes = m_resources.GetString("ErrInvalidID");
+                            String errmes = m_resources.GetString(MessageConstants.ErrInvalidID);
                             MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
@@ -1183,7 +1183,7 @@ namespace EcellLib
                             int kpos = c.Text.IndexOf(':');
                             if (kpos < 0 || kpos == c.Text.Length - 1)
                             {
-                                String errmes = m_resources.GetString("ErrInvalidID");
+                                String errmes = m_resources.GetString(MessageConstants.ErrInvalidID);
                                 MessageBox.Show(errmes,
                                     "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 return;
@@ -1384,7 +1384,7 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrInvalidProp");
+                String errmes = m_resources.GetString(MessageConstants.ErrInvalidProp);
                 MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -1409,7 +1409,7 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                string errmes = m_resources.GetString("ErrChange");
+                string errmes = m_resources.GetString(MessageConstants.ErrChange);
                 MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -1666,7 +1666,7 @@ namespace EcellLib
                         id = c.Text;
                         if (c.Text == "")
                         {
-                            String errmes = m_resources.GetString("ErrNoInput");
+                            String errmes = m_resources.GetString(MessageConstants.ErrNoInput);
                             MessageBox.Show(errmes + "(ID)",
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
@@ -1674,7 +1674,7 @@ namespace EcellLib
                         else if (Util.IsNGforID(c.Text))
 //                        else if (c.Text.Contains(":") || (c.Text.Contains("/") && (m_currentObj.type != "Model" || c.Text != "/")))
                         {
-                            String errmes = m_resources.GetString("ErrInvalidID");
+                            String errmes = m_resources.GetString(MessageConstants.ErrInvalidID);
                             MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
@@ -1733,7 +1733,7 @@ namespace EcellLib
                         }
                         catch (Exception ex)
                         {
-                            String errmes = m_resources.GetString("ErrInvalidProp");
+                            String errmes = m_resources.GetString(MessageConstants.ErrInvalidProp);
                             MessageBox.Show(errmes + "\n\n" + ex.Message,
                                 "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
@@ -1754,7 +1754,7 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrAdd");
+                String errmes = m_resources.GetString(MessageConstants.ErrAdd);
                 MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -1789,7 +1789,7 @@ namespace EcellLib
 
                 if (modelID == "")
                 {
-                    String errmes = m_resources.GetString("ErrNoInput");
+                    String errmes = m_resources.GetString(MessageConstants.ErrNoInput);
                     MessageBox.Show(errmes + "(ModelID)", "WARNING",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -1797,7 +1797,7 @@ namespace EcellLib
                 else if (Util.IsNGforID(modelID))
 //                else if (modelID.Contains(":") || modelID.Contains("/"))
                 {
-                    String errmes = m_resources.GetString("ErrInvalidID");
+                    String errmes = m_resources.GetString(MessageConstants.ErrInvalidID);
                     MessageBox.Show(errmes,
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -1813,7 +1813,7 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrAdd");
+                String errmes = m_resources.GetString(MessageConstants.ErrAdd);
                 MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -1852,7 +1852,7 @@ namespace EcellLib
                         id = c.Text;
                         if (c.Text == "")
                         {
-                            String errmes = m_resources.GetString("ErrNoInput");
+                            String errmes = m_resources.GetString(MessageConstants.ErrNoInput);
                             MessageBox.Show(errmes + "(ID)",
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
@@ -1860,14 +1860,14 @@ namespace EcellLib
 //                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
                         else if (Util.IsNGforID(c.Text))
                         {
-                            String errmes = m_resources.GetString("ErrInvalidID");
+                            String errmes = m_resources.GetString(MessageConstants.ErrInvalidID);
                             MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                         }
                         else if (c.Text.ToUpper() == "SIZE")
                         {
-                            String errmes = m_resources.GetString("ErrReservSize");
+                            String errmes = m_resources.GetString(MessageConstants.ErrReserveSize);
                             MessageBox.Show(errmes,
                                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
@@ -1924,7 +1924,7 @@ namespace EcellLib
                         }
                         catch (Exception ex)
                         {
-                            String errmes = m_resources.GetString("ErrInvalidProp");
+                            String errmes = m_resources.GetString(MessageConstants.ErrInvalidProp);
                             MessageBox.Show(errmes + "\n\n" + ex.Message,
                                 "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
@@ -1944,7 +1944,7 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                String errmes = m_resources.GetString("ErrAdd");
+                String errmes = m_resources.GetString(MessageConstants.ErrAdd);
                 MessageBox.Show(errmes + "\n\n" + ex.Message,
                     "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;

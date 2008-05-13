@@ -175,7 +175,7 @@ namespace EcellLib.SearchWindow
             EcellObject obj = m_dManager.GetEcellObject(model, id, type);
             if (obj == null)
             {
-                String errmes = m_resources.GetString("ErrNotFind");
+                String errmes = m_resources.GetString(MessageConstants.ErrNotFind);
                 MessageBox.Show(
                 errmes + "(" + model + "," + id + ")",
                 "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
