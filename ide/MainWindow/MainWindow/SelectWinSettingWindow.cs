@@ -51,7 +51,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Dictionary of the initial window setting.
         /// </summary>
-        private Dictionary<int, WindowSetting> m_dicPath = new Dictionary<int, WindowSetting>();
+        private List<WindowSetting> m_dicPath = new List<WindowSetting>();
         private List<RadioButton> m_patternList = new List<RadioButton>();
         
         /// <summary>
@@ -76,7 +76,7 @@ namespace EcellLib.MainWindow
             try
             {
                 StreamReader reader = new StreamReader(
-                    (System.IO.Stream)File.OpenRead(path + "/" + Constants.fileWinSettingList));
+                    (System.IO.Stream)File.OpenRead(dirStr + "/" + Constants.fileWinSettingList));
                 while (i <= 5)
                 {
                     string line = reader.ReadLine();
@@ -85,9 +85,8 @@ namespace EcellLib.MainWindow
                     string[] ele = line.Split(new char[] { '\t' });
                     m_dicPath.Add(new WindowSetting(
                         ele[0],
-                        dir.
-                        path + "/" + ele[0] + Constants.FileExtXML,
-                        path + "/" + ele[0] + Constants.FileExtPNG,
+                        dirStr + "/" + ele[0] + Constants.FileExtXML,
+                        dirStr + "/" + ele[0] + Constants.FileExtPNG,
                         ele[1]));
                     i++;
                 }
@@ -106,23 +105,24 @@ namespace EcellLib.MainWindow
         /// </summary>
         private void LayoutSetting(bool isInitial)
         {
+            int id = 1;
             int curId = 1;
             if (!isInitial)
             {
                 curId = m_dicPath.Count;
             }
-            foreach (int id in m_dicPath.Keys)
+            foreach (WindowSetting d in m_dicPath)
             {
                 RadioButton b = new RadioButton();
                 b.Tag = Convert.ToInt32(id);
-                b.Text = m_dicPath[id].Name;
-                if (id == curId)
+                b.Text = d.Name;
+                if (m_dicPath.Count == id)
                 {
                     b.Checked = true;
-                    SWSNoteTextBox.Text = m_dicPath[id].Note;
-                    if (m_dicPath[id].Image != null)
+                    SWSNoteTextBox.Text = d.Note;
+                    if (d.Image != null)
                     {
-                        SWSPictureBox.Image = Image.FromFile(m_dicPath[id].Image);
+                        SWSPictureBox.Image = Image.FromFile(d.Image);
                     }
                     else
                     {
@@ -132,7 +132,8 @@ namespace EcellLib.MainWindow
                 b.CheckedChanged += new EventHandler(ChangePatternRadioBox);
                 SWSPatternListLayoutPanel.Controls.Add(b, 0, id - 1);
                 m_patternList.Add(b);
-            }            
+                id++;
+            }
         }
 
         string m_lang;
