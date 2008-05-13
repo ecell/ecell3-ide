@@ -49,6 +49,7 @@ using IronPython.Hosting;
 using IronPython.Runtime;
 
 using EcellLib;
+using EcellLib.Message;
 using EcellLib.Plugin;
 using WeifenLuo.WinFormsUI.Docking;
 using EcellLib.Objects;
