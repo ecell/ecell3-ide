@@ -85,7 +85,7 @@ namespace EcellLib.MainWindow
                     if (line == null) break;
                     if (line.StartsWith("#")) continue;
                     string[] ele = line.Split(new char[] { '\t' });
-                    m_dicPath.Add(i, new WindowSetting(
+                    m_dicPath.Add(new WindowSetting(
                         ele[0],
                         Path.Combine(dirStr, ele[0] + Constants.FileExtXML),
                         Path.Combine(dirStr, ele[0] + Constants.FileExtPNG),
@@ -96,7 +96,7 @@ namespace EcellLib.MainWindow
             catch (Exception) { }
             if (!isInitial)
             {
-                m_dicPath.Add(i, new WindowSetting(
+                m_dicPath.Add(new WindowSetting(
                     "Current",
                     null, null, "not change."));
             }
