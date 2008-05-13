@@ -950,6 +950,15 @@ namespace EcellLib.MainWindow
         }
 
         /// <summary>
+        /// The event sequence to display the message.
+        /// </summary>
+        /// <param name="message">the message entry object.</param>
+        public virtual void Message2(IMessageEntry message)
+        {
+            // nothing.
+        }
+
+        /// <summary>
         /// The event sequence on advancing time.
         /// </summary>
         /// <param name="time">The current simulation time.</param>

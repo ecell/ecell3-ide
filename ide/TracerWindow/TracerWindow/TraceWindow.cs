@@ -841,7 +841,7 @@ namespace EcellLib.TracerWindow
         /// Process when user click close button on Window.
         /// </summary>
         /// <param name="m">Message</param>
-        protected override void WndProc(ref Message m)
+        protected override void WndProc(ref System.Windows.Forms.Message m)
         {
             const int WM_SYSCOMMAND = 0x112;
             const int SC_CLOSE = 0xF060;

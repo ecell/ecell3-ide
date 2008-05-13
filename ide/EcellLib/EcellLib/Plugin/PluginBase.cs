@@ -37,6 +37,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
+
+using EcellLib.Message;
 using EcellLib.Objects;
 
 namespace EcellLib.Plugin
@@ -347,6 +349,15 @@ namespace EcellLib.Plugin
         public virtual void Message(string type, string message)
         {
             // nothing
+        }
+
+        /// <summary>
+        /// The event sequence to display the message.
+        /// </summary>
+        /// <param name="message">the message entry object.</param>
+        public virtual void Message2(IMessageEntry message)
+        {
+            // nothing.
         }
 
         /// <summary>

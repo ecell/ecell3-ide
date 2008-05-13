@@ -41,7 +41,9 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
 using System.ComponentModel;
+
 using EcellLib.Layout;
+using EcellLib.Message;
 using EcellLib.Plugin;
 using EcellLib.Objects;
 
@@ -546,6 +548,18 @@ namespace EcellLib
                 {
                     p.Message(type, message);
                 }
+            }
+        }
+
+        /// <summary>
+        /// The event sequence to display the message.
+        /// </summary>
+        /// <param name="message">the message entry object.</param>
+        public void Message2(MessageEntry message)
+        {
+            foreach (IEcellPlugin p in m_pluginList.Values)
+            {
+                p.Message2(message);
             }
         }
 

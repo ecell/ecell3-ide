@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2008 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -36,6 +36,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+
+using EcellLib.Message;
 using EcellLib.Objects;
 
 namespace EcellLib.Plugin
@@ -226,6 +228,12 @@ namespace EcellLib.Plugin
         /// <param name="type">Log type.</param>
         /// <param name="message">Message.</param>
         void Message(string type, string message);
+
+        /// <summary>
+        /// The event sequence to display the message.
+        /// </summary>
+        /// <param name="message">the message entry object.</param>
+        void Message2(IMessageEntry message);
 
         /// <summary>
         /// The event sequence on advancing time.

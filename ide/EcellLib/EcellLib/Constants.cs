@@ -922,4 +922,23 @@ namespace EcellLib
         /// </summary>
         Model = 2
     }
+
+    /// <summary>
+    /// Message type.
+    /// </summary>
+    public enum MessageType
+    {
+        /// <summary>
+        /// Index of the information message.
+        /// </summary>
+        Information = 0,
+        /// <summary>
+        /// Index of the debug message.
+        /// </summary>
+        Debug = 1,
+        /// <summary>
+        /// Index of the error message.
+        /// </summary>
+        Error = 2
+    }
 }
