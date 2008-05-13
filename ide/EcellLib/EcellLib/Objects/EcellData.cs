@@ -254,7 +254,7 @@ namespace EcellLib.Objects
         /// ToString
         /// </summary>
         /// <returns></returns>
-        public string ToString()
+        public override string ToString()
         {
             return m_entityPath;
         }
