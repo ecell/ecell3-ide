@@ -456,7 +456,7 @@ namespace EcellLib.ObjectList2
                 }
             }
             String mes = ObjectList2.s_resources.GetString("ErrNotFindPage");
-            MessageBox.Show(mes, "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            Util.__showWarningDialog(mes);
         }
 
         /// <summary>

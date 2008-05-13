@@ -76,17 +76,19 @@ namespace EcellLib.MainWindow
             try
             {
                 StreamReader reader = new StreamReader(
-                    (System.IO.Stream)File.OpenRead(dirStr + "/" + Constants.fileWinSettingList));
+                    (System.IO.Stream)File.OpenRead(
+                        Path.Combine(
+                            dirStr, Constants.fileWinSettingList)));
                 while (i <= 5)
                 {
                     string line = reader.ReadLine();
                     if (line == null) break;
                     if (line.StartsWith("#")) continue;
                     string[] ele = line.Split(new char[] { '\t' });
-                    m_dicPath.Add(new WindowSetting(
+                    m_dicPath.Add(i, new WindowSetting(
                         ele[0],
-                        dirStr + "/" + ele[0] + Constants.FileExtXML,
-                        dirStr + "/" + ele[0] + Constants.FileExtPNG,
+                        Path.Combine(dirStr, ele[0] + Constants.FileExtXML),
+                        Path.Combine(dirStr, ele[0] + Constants.FileExtPNG),
                         ele[1]));
                     i++;
                 }
@@ -94,7 +96,7 @@ namespace EcellLib.MainWindow
             catch (Exception) { }
             if (!isInitial)
             {
-                m_dicPath.Add(new WindowSetting(
+                m_dicPath.Add(i, new WindowSetting(
                     "Current",
                     null, null, "not change."));
             }
@@ -182,11 +184,11 @@ namespace EcellLib.MainWindow
             {
                 Util.SetLanguage(tmpLang);
                 if (tmpLang == "AUTO")
-                    MessageBox.Show(MainWindow.s_resources.GetString("ConfirmRestart"), "Confirm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Util.__showNoticeDialog(MainWindow.s_resources.GetString("ConfirmRestart"));
                 else if (tmpLang == "EN_US")
-                    MessageBox.Show("The change will take effect after you restart this application.", "Confirm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Util.__showNoticeDialog("The change will take effect after you restart this application.");
                 else
-                    MessageBox.Show("この設定は次回起動時から有効になります。", "Confirm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Util.__showNoticeDialog("この設定は次回起動時から有効になります。");
             }
 
             return m_selectPath;

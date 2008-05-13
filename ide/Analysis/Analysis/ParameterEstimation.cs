@@ -154,26 +154,26 @@ namespace EcellLib.Analysis
             if (m_param.Population <= 0)
             {
                 string errmes = Analysis.s_resources.GetString("ErrPopulationNumPositive");
-                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes);
                 return;
             }
             if (m_param.Generation <= 0)
             {
                 string errmes = Analysis.s_resources.GetString("ErrGenerationNumPositive");
-                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes);
                 return;
             }
             if (m_param.SimulationTime <= 0.0)
             {
                 string errmes = Analysis.s_resources.GetString("ErrSimTimeUnder");
-                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes);
                 return;
             }
             if (m_param.EstimationFormulator == null ||
                 m_param.EstimationFormulator.Equals(""))
             {
                 string errmes = Analysis.s_resources.GetString("ErrNotEstimateFormulator");
-                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes);
                 return;
             }
 
@@ -186,7 +186,7 @@ namespace EcellLib.Analysis
             if (m_paramList.Count < 1)
             {
                 String mes = Analysis.s_resources.GetString("ErrParamProp1");
-                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(mes);
                 return;
             }
 
@@ -300,7 +300,7 @@ namespace EcellLib.Analysis
                 FindElite();
 
                 String finMes = Analysis.s_resources.GetString("FinishPAnalysis");
-                MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Util.__showNoticeDialog(finMes);
                 return;
             }
 

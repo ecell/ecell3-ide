@@ -478,14 +478,14 @@ namespace EcellLib
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        public static bool __showYesNoConfirmationDIalog(string msg)
+        public static bool __showYesNoDialog(string msg)
         {
             return MessageBox.Show(msg, "Confirmation",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
                     DialogResult.Yes;
         }
 
-        public static bool __showOKCancelConfirmationDIalog(string msg)
+        public static bool __showOKCancelDialog(string msg)
         {
             return MessageBox.Show(msg, "Confirmation",
                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question) ==

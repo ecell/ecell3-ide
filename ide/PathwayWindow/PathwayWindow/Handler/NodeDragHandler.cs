@@ -248,7 +248,7 @@ namespace EcellLib.PathwayWindow.Handler
                 // Reset if system is duplicated.
                 else if (!oldSysKey.Equals(newSysKey) && m_canvas.Systems.ContainsKey(newSysKey))
                 {
-                    MessageBox.Show(newSysKey + m_resources.GetString("ErrAlrExist"), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Util.__showErrorDialog(newSysKey + m_resources.GetString("ErrAlrExist"));
                     system.ResetPosition();
                     m_canvas.ResizeHandler.UpdateResizeHandlePositions();
                     system.IsInvalid = false;
@@ -294,9 +294,7 @@ namespace EcellLib.PathwayWindow.Handler
                 // When node is out of root.
                 if (newSystem == null)
                 {
-                    MessageBox.Show(node.EcellObject.Name + ":" + m_resources.GetString("ErrOutRoot"),
-                                    "Error", MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                    Util.__showErrorDialog(node.EcellObject.Name + ":" + m_resources.GetString("ErrOutRoot"));
                     isError = true;
                     continue;
                 }
@@ -304,9 +302,7 @@ namespace EcellLib.PathwayWindow.Handler
                 else if (!newSystem.Equals(node.EcellObject.ParentSystemID)
                     && m_canvas.GetSelectedObject(newKey, node.EcellObject.Type) != null)
                 {
-                    MessageBox.Show(node.EcellObject.Name + ":" + m_resources.GetString("ErrAlrExist"),
-                                    "Error", MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                    Util.__showErrorDialog(node.EcellObject.Name + ":" + m_resources.GetString("ErrAlrExist"));
                     isError = true;
                     continue;
                 }

@@ -432,7 +432,7 @@ namespace EcellLib.Analysis
             if (resList.Count < 1)
             {
                 String mes = Analysis.s_resources.GetString("ErrObservProp");
-                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(mes);
                 return null;
             }
 
@@ -464,7 +464,7 @@ namespace EcellLib.Analysis
             if (resList.Count < 1)
             {
                 String mes = Analysis.s_resources.GetString("ErrObservProp");
-                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(mes);
                 return null;
             }
 
@@ -524,8 +524,7 @@ namespace EcellLib.Analysis
             if (m_robustAnalysis != null && m_robustAnalysis.IsRunning)
             {
                 string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
-                DialogResult res = MessageBox.Show(mes, "Question", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (res == DialogResult.OK)
+                if (Util.__showYesNoDialog(mes))
                 {
                     m_robustAnalysis.StopAnalysis();
                 }
@@ -547,8 +546,7 @@ namespace EcellLib.Analysis
             if (m_parameterEstimation != null && m_parameterEstimation.IsRunning)
             {
                 string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
-                DialogResult res = MessageBox.Show(mes, "Question", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (res == DialogResult.OK)
+                if (Util.__showYesNoDialog(mes))
                 {
                     m_parameterEstimation.StopAnalysis();
                 }
@@ -570,8 +568,7 @@ namespace EcellLib.Analysis
             if (m_sensitivityAnalysis != null && m_sensitivityAnalysis.IsRunning)
             {
                 string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
-                DialogResult res = MessageBox.Show(mes, "Question", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (res == DialogResult.OK)
+                if (Util.__showYesNoDialog(mes))
                 {
                     m_sensitivityAnalysis.StopAnalysis();
                 }
@@ -610,8 +607,7 @@ namespace EcellLib.Analysis
             if (m_bifurcationAnalysis != null && m_bifurcationAnalysis.IsRunning)
             {
                 string mes = Analysis.s_resources.GetString("ConfirmStopAnalysis");
-                DialogResult res = MessageBox.Show(mes, "Question", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (res == DialogResult.OK)
+                if (Util.__showYesNoDialog(mes))
                 {
                     m_bifurcationAnalysis.StopAnalysis();
                 }

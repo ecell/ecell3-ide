@@ -43,7 +43,7 @@ namespace EcellLib.AboutWindow
                 }
             }
 
-            MessageBox.Show("plugin name: " + pb.GetPluginName());
+            Util.__showNoticeDialog("plugin name: " + pb.GetPluginName());
         }
           
 

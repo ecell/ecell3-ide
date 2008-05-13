@@ -758,8 +758,7 @@ namespace EcellLib.TracerWindow
             if (m_currentObj == null)
             {
                 String errmes = TracerWindow.s_resources.GetString("ErrNoFind");
-                MessageBox.Show(errmes + "(" + tag.M_modelID + "," + tag.M_key + ")",
-                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Util.__showNoticeDialog(errmes + "(" + tag.M_modelID + ")");
                 return;
             }
 

@@ -174,13 +174,13 @@ namespace EcellLib.Analysis
             if (simTime <= 0.0)
             {
                 string errmes = Analysis.s_resources.GetString("ErrSimTimeUnder");
-                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes);
                 return;
             }
             if (maxSize > AnalysisWindow.MaxSize)
             {
                 string errmes = Analysis.s_resources.GetString("ErrOverMax") + "[" + AnalysisWindow.MaxSize + "]";
-                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes);
                 return;
             }
 
@@ -193,7 +193,7 @@ namespace EcellLib.Analysis
             if (paramList.Count != 2)
             {
                 String mes = Analysis.s_resources.GetString("ErrParamProp2");
-                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(mes);
                 return;
             }
             List<SaveLoggerProperty> saveList = m_control.GetBAObservedDataList();
@@ -626,8 +626,7 @@ namespace EcellLib.Analysis
             if (m_manager.IsError())
             {
                 String mes = Analysis.s_resources.GetString("ErrFindErrorJob");
-                DialogResult res = MessageBox.Show(mes, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (res == DialogResult.Cancel)
+                if (!Util.__showYesNoDialog(mes))
                 {
                     return;
                 }
@@ -641,7 +640,7 @@ namespace EcellLib.Analysis
                 m_isRunning = false;
                 Control.StopBifurcationAnalysis();
                 String finMes = Analysis.s_resources.GetString("FinishBAnalysis");
-                MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Util.__showNoticeDialog(finMes);
                 return;
             }
             PrintResultData();

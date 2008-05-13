@@ -279,7 +279,7 @@ namespace EcellLib.PathwayWindow
             catch (Exception ex)
             {
                 string errmsg = s_resources.GetString("ErrCompInvalid") + Environment.NewLine + filepath + Environment.NewLine + ex.Message;
-                MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmsg);
             }
             finally
             {
@@ -542,7 +542,7 @@ namespace EcellLib.PathwayWindow
                 }
                 catch (NoSuchComponentKindException e)
                 {
-                    MessageBox.Show(s_resources.GetString("ErrCreateKind") + "\n\n" + e.Message, "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Util.__showWarningDialog(s_resources.GetString("ErrCreateKind") + "\n\n" + e.Message);
                     continue;
                 }
 

@@ -36,8 +36,7 @@ namespace EcellLib
             }
             else
             {
-                MessageBox.Show("Please select the plugin to print.",
-                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Util.__showWarningDialog("Please select the plugin to print.");
             }
         }
 

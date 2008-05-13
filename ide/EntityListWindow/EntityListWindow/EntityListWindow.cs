@@ -527,8 +527,7 @@ namespace EcellLib.EntityListWindow
             catch (Exception ex)
             {
                 String errmese = EntityListWindow.s_resources.GetString("ErrPrintData");
-                MessageBox.Show(errmese + "\n\n" + ex,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmese + "\n\n" + ex);
                 return null;
             }
         }
@@ -1352,8 +1351,7 @@ namespace EcellLib.EntityListWindow
             catch (Exception ex)
             {
                 String errmes = EntityListWindow.s_resources.GetString("ErrDelData");
-                MessageBox.Show(errmes + "\n\n" + ex,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes + "\n\n" + ex);
                 return;
             }
         }
@@ -1445,8 +1443,7 @@ namespace EcellLib.EntityListWindow
                 {
                     ex.ToString();
                     String errmes = s_resources.GetString("ErrStartupApp");
-                    MessageBox.Show(errmes + "\n\n" + path,
-                        "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Util.__showErrorDialog(errmes + "\n\n" + path);
                     return;
                 }
                 return;

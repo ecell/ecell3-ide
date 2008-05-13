@@ -851,7 +851,7 @@ namespace EcellLib.PathwayWindow
             else
             {
                 ToolStripMenuItem item = (ToolStripMenuItem)sender;
-                MessageBox.Show("X:" + m_con.MousePosition.X + "Y:" + m_con.MousePosition.Y);
+                Util.__showNoticeDialog("X:" + m_con.MousePosition.X + "Y:" + m_con.MousePosition.Y);
             }
         }
 #endif
@@ -926,10 +926,7 @@ namespace EcellLib.PathwayWindow
                     return;
                 if (system.EcellObject.Key.Equals("/"))
                 {
-                    MessageBox.Show(m_resources.GetString("ErrDelRoot"),
-                                    "Error",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                    Util.__showErrorDialog(m_resources.GetString("ErrDelRoot"));
                     return;
                 }
                 // Delete sys.

@@ -63,7 +63,7 @@ namespace EcellLib.ObjectList
 
             //this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
             
-            MessageBox.Show("plugin name: " + pb.GetPluginName());
+            Util.__showNoticeDialog("plugin name: " + pb.GetPluginName());
         }
 
         /// <summary>

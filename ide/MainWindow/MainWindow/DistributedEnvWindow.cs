@@ -77,7 +77,7 @@ namespace EcellLib.MainWindow
             if (!manager.SessionList.ContainsKey(jobid)) return;
             string data = manager.SessionList[jobid].StdErr;
 
-            MessageBox.Show(data, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Util.__showNoticeDialog(data);
         }
 
         /// <summary>

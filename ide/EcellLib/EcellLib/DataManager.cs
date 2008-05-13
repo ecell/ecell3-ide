@@ -1849,12 +1849,7 @@ namespace EcellLib
                 }
             }
             // Confirm system merge.
-            DialogResult result = MessageBox.Show(m_resources.GetString("ConfirmMerge"),
-                "Merge",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Question,
-                MessageBoxDefaultButton.Button2);
-            if (result == DialogResult.Cancel)
+            if (!Util.__showYesNoDialog(m_resources.GetString("ConfirmMerge")))
                 return;
 
             // Move systems and nodes under merged system.
@@ -4367,8 +4362,7 @@ namespace EcellLib
             catch (Exception ex)
             {
                 String errmes = m_resources.GetString(ErrorConstants.ErrAddObj);
-                MessageBox.Show(errmes + "\n\n" + ex,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes + "\n\n" + ex);
                 return null;
             }
 
@@ -4422,8 +4416,7 @@ namespace EcellLib
             catch (Exception ex)
             {
                 String errmes = m_resources.GetString(ErrorConstants.ErrAddObj);
-                MessageBox.Show(errmes + "\n\n" + ex,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes + "\n\n" + ex);
                 return null;
             }
 

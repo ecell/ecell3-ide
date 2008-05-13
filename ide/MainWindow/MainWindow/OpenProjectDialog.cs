@@ -352,7 +352,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 string errmsg = "ErrLoadProjectSettings" + Environment.NewLine + fileName + Environment.NewLine + ex.Message;
-                MessageBox.Show(errmsg, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmsg);
             }
             return new Project(prjName, comment, time);
         }

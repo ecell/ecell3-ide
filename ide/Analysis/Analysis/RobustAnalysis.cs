@@ -128,15 +128,14 @@ namespace EcellLib.Analysis
             if (m_manager.IsError())
             {
                 String mes = Analysis.s_resources.GetString("ErrFindErrorJob");
-                DialogResult res = MessageBox.Show(mes, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (res == DialogResult.Cancel)
+                if (!Util.__showYesNoDialog(mes))
                 {
                     return;
                 }
             }
             JudgeRobustAnalysis();
             String finMes = Analysis.s_resources.GetString("FinishRAnalysis");
-            MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Util.__showNoticeDialog(finMes);
         }
         #endregion
 
@@ -153,19 +152,19 @@ namespace EcellLib.Analysis
             if (num <= 0)
             {
                 string errmes = Analysis.s_resources.GetString("ErrSampleNumPositive");
-                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes);
                 return;
             }
             if (simTime <= 0.0)
             {
                 string errmes = Analysis.s_resources.GetString("ErrSimTimeUnder");
-                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes);
                 return;
             }
             if (maxSize > AnalysisWindow.MaxSize)
             {
                 string errmes = Analysis.s_resources.GetString("ErrOverMax") + "[" + AnalysisWindow.MaxSize + "]";
-                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes);
                 return;
             }
 
@@ -178,7 +177,7 @@ namespace EcellLib.Analysis
             if (paramList.Count < 2)
             {
                 String mes = Analysis.s_resources.GetString("ErrParamProp2");
-                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(mes);
                 return;
             }
             List<SaveLoggerProperty> saveList = m_control.GetRAObservedDataList();
@@ -226,7 +225,7 @@ namespace EcellLib.Analysis
             if (pList.Count < 2)
             {
                 String mes = Analysis.s_resources.GetString("ErrParamProp2");
-                MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(mes);
                 return;
             }
             int count = 0;

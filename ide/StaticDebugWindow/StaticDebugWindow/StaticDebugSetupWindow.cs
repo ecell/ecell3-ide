@@ -111,8 +111,7 @@ namespace EcellLib.StaticDebugWindow
             catch (Exception ex)
             {
                 String errmes = StaticDebugWindow.s_resources.GetString("ErrLayout");
-                MessageBox.Show(errmes + "\n\n" + ex,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes + "\n\n" + ex);
             }
         }
 

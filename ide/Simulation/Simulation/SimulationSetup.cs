@@ -316,8 +316,7 @@ namespace EcellLib.Simulation
                 catch (Exception ex)
                 {
                     String errmes = Simulation.s_resources.GetString("ErrInvalidParam");
-                    MessageBox.Show(errmes + "\n\n" + ex, "ERROR",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Util.__showErrorDialog(errmes + "\n\n" + ex);
                     return;
                 }
             }
@@ -431,8 +430,7 @@ namespace EcellLib.Simulation
                     if (freqByStepTextBox.Text == "")
                     {
                         string errmes = Simulation.s_resources.GetString("ErrNoInputStep");
-                        MessageBox.Show(errmes, "ERROR",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Util.__showErrorDialog(errmes);
                         return;
                     }
                     stepNum = Convert.ToInt32(freqByStepTextBox.Text);
@@ -442,8 +440,7 @@ namespace EcellLib.Simulation
                     if (freqBySecTextBox.Text == "")
                     {
                         String errmes = Simulation.s_resources.GetString("ErrNoInputSec");
-                        MessageBox.Show(errmes, "ERROR",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Util.__showErrorDialog(errmes);
                         return;
                     }
                     secNum = Convert.ToDouble(freqBySecTextBox.Text);
@@ -463,8 +460,7 @@ namespace EcellLib.Simulation
                     if (maxKbTextBox.Text == "")
                     {
                         String errmes = Simulation.s_resources.GetString("ErrNoInputDisk");
-                        MessageBox.Show(errmes, "ERROR",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Util.__showErrorDialog(errmes);
                         return;
                     }
 
@@ -477,8 +473,7 @@ namespace EcellLib.Simulation
             catch (Exception ex)
             {
                 String errmes = Simulation.s_resources.GetString("ErrUpdateLog");
-                MessageBox.Show(errmes + "\n\n" + ex.Message, "ERROR",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
                 return;
             }
         }
@@ -564,7 +559,7 @@ namespace EcellLib.Simulation
             catch (Exception ex)
             {
                 String errmes = Simulation.s_resources.GetString("ErrComboIndChage");
-                MessageBox.Show(errmes + "\n\n" + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
                 return;
             }
 
@@ -735,8 +730,7 @@ namespace EcellLib.Simulation
             if (stepperListBox.Items.Count <= 1)
             {
                 String errmes = Simulation.s_resources.GetString("ErrDelStep");
-                MessageBox.Show(errmes, "WARNING",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Util.__showWarningDialog(errmes);
                 return;
             }
 

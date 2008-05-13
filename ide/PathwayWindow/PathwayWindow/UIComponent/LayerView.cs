@@ -445,7 +445,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                 return;
             if (canvas.Layers.ContainsKey(newName))
             {
-                MessageBox.Show(newName + m_resources.GetString("ErrAlrExist"));
+                Util.__showNoticeDialog(newName + m_resources.GetString("ErrAlrExist"));
                 return;
             }
 
@@ -467,7 +467,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                 return;
             if (!canvas.Layers.ContainsKey(newName))
             {
-                MessageBox.Show(m_resources.GetString("ErrLayerNot"));
+                Util.__showNoticeDialog(m_resources.GetString("ErrLayerNot"));
                 return;
             }
 

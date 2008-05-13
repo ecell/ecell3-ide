@@ -155,8 +155,7 @@ namespace EcellLib
             catch (Exception ex)
             {
                 String errmes = m_resources.GetString("ErrShowPropEditor");
-                MessageBox.Show(errmes + "\n\n" + ex,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes + "\n\n" + ex);
             }
             finally
             {
@@ -905,8 +904,7 @@ namespace EcellLib
             catch (Exception ex)
             {
                 String errmes = m_resources.GetString("ErrShowPropEdit");
-                MessageBox.Show(errmes + "\n\n" + ex.Message,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
             }
         }
 

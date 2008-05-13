@@ -141,10 +141,7 @@ namespace EcellLib.PathwayWindow.Handler
 
                 if (string.IsNullOrEmpty(m_surSystem))
                 {
-                    MessageBox.Show(m_resources.GetString("ErrOutRoot"),
-                                    "Error",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                    Util.__showErrorDialog(m_resources.GetString("ErrOutRoot"));
                     return;
                 }
 

@@ -1224,7 +1224,7 @@ namespace EcellLib.PathwayWindow
                 // Check system overlap
                 if (canvas.DoesSystemOverlaps(system.Rect))
                 {
-                    MessageBox.Show(m_resources.GetString("ErrSystemOverlap"));
+                    Util.__showNoticeDialog(m_resources.GetString("ErrSystemOverlap"));
                     break;
                 }
 
@@ -1299,7 +1299,7 @@ namespace EcellLib.PathwayWindow
             }
             catch (Exception)
             {
-                MessageBox.Show(m_resources.GetString("ErrLayout"));
+                Util.__showNoticeDialog(m_resources.GetString("ErrLayout"));
                 return;
             }
 

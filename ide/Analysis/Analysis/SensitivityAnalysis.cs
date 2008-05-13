@@ -200,19 +200,19 @@ namespace EcellLib.Analysis
             if (m_param.Step <= 0)
             {
                 string errmes = Analysis.s_resources.GetString("ErrStepUnder");
-                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes);
                 return;
             }
             if (m_param.AbsolutePerturbation <= 0.0)
             {
                 string errmes = Analysis.s_resources.GetString("ErrAbsolutePert");
-                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes);
                 return;
             }
             if (m_param.RelativePerturbation <= 0.0)
             {
                 string errmes = Analysis.s_resources.GetString("ErrRelativePert");
-                MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes);
                 return;
             }
 
@@ -540,7 +540,7 @@ namespace EcellLib.Analysis
             if (jocobianMatrix.Determinant() == 0.0)
             {
                 string mes = Analysis.s_resources.GetString("ErrSingular");
-                MessageBox.Show(mes, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(mes);
                 throw new IgnoreException("Can't find Singular Matrix");
             }
             Matrix invJacobian = jocobianMatrix.Inverse();
@@ -760,7 +760,7 @@ namespace EcellLib.Analysis
                 }
 
                 String finMes = Analysis.s_resources.GetString("FinishSAnalysis");
-                MessageBox.Show(finMes, "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Util.__showNoticeDialog(finMes);
             }
             catch (IgnoreException ie)
             {
@@ -769,7 +769,7 @@ namespace EcellLib.Analysis
             catch (Exception ex)
             {
                 String errMes = Analysis.s_resources.GetString("ErrorSAnalysis");
-                MessageBox.Show(errMes + "\n" + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errMes + "\n" + ex.ToString());
             }
 
         }

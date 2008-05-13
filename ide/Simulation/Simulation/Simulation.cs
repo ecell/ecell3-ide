@@ -471,8 +471,7 @@ namespace EcellLib.Simulation
             catch (Exception ex)
             {
                 String errmes = Simulation.s_resources.GetString("ErrRunning");
-                MessageBox.Show(errmes + "\n\n" + ex.Message,
-                        "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
                 if (m_type != ProjectStatus.Uninitialized)
                     m_pManager.ChangeStatus(preType);
             }
@@ -498,8 +497,7 @@ namespace EcellLib.Simulation
             catch (Exception ex)
             {
                 String errmes = Simulation.s_resources.GetString("ErrSuspend");
-                MessageBox.Show(errmes + "\n\n" + ex.Message,
-                        "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
                 m_pManager.ChangeStatus(preType);
             }
         }
