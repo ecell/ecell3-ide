@@ -52,11 +52,6 @@ namespace EcellLib.PathwayWindow.Handler
     {
         #region Fields
         /// <summary>
-        /// Used to draw line to connect.
-        /// </summary>
-        private static readonly Pen LINE_THICK_PEN = new Pen(new SolidBrush(Color.FromArgb(200, Color.Orange)), 3);
-
-        /// <summary>
         /// Currently selected node.
         /// </summary>
         private PPathwayNode m_start = null;
@@ -95,21 +90,21 @@ namespace EcellLib.PathwayWindow.Handler
 
             CanvasControl canvas = m_con.Canvas;
             PPathwayNode newNode = canvas.GetPickedNode(e.Position);
-            // Reset node.
+            // Set start node.
             if (newNode == null)
             {
-                SetCurrent(canvas, null);
+                ResetStartNode();
                 return;
             }
             else if(m_start == null)
             {
-                SetCurrent(canvas, newNode);
+                SetStartNode(newNode);
                 return;
             }
             if ((m_start is PPathwayVariable && newNode is PPathwayVariable)
                 || (m_start is PPathwayProcess && newNode is PPathwayProcess))
             {
-                SetCurrent(canvas, newNode);
+                SetStartNode(newNode);
                 return;
             }
 
@@ -143,7 +138,7 @@ namespace EcellLib.PathwayWindow.Handler
             {
                 this.CreateEdge(process, variable, 2);
             }
-            SetCurrent(canvas, null);
+            ResetStartNode();
             canvas.LineHandler.SetLineVisibility(false);
         }
         /// <summary>
@@ -217,23 +212,10 @@ namespace EcellLib.PathwayWindow.Handler
         }
 
         /// <summary>
-        /// Set current node.
-        /// </summary>
-        /// <param name="canvas">CanvasView to which node belongs</param>
-        /// <param name="node">current node</param>
-        private void SetCurrent(CanvasControl canvas, PPathwayNode node)
-        {
-            if (node != null)
-                AddNodeToBeConnected(node);
-            else
-                ResetNodeToBeConnected();
-        }
-
-        /// <summary>
         /// Add node, which is to be connected
         /// </summary>
         /// <param name="obj">node which is to be connected</param>
-        public void AddNodeToBeConnected(PPathwayNode obj)
+        public void SetStartNode(PPathwayNode obj)
         {
             if (null != m_start)
                 m_start.IsToBeConnected = false;
@@ -244,7 +226,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// Reset node to be connected to normal state.
         /// </summary>
-        public void ResetNodeToBeConnected()
+        public void ResetStartNode()
         {
             if (m_start != null)
                 m_start.IsToBeConnected = false;
@@ -256,7 +238,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         public override void Reset()
         {
-            ResetNodeToBeConnected();
+            ResetStartNode();
             base.Reset();
         }
 

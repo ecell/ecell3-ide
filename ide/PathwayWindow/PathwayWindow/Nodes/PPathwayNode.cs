@@ -189,6 +189,9 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="e"></param>
         public override void OnDoubleClick(PInputEventArgs e)
         {
+            if (m_canvas == null)
+                return;
+            m_canvas.Control.Menu.SetCreateLineHandler(this);
         }
 
         #endregion

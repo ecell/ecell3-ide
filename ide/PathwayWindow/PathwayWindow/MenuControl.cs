@@ -618,11 +618,14 @@ namespace EcellLib.PathwayWindow
 
             return list;
         }
+        #endregion
 
+        #region Internal Methods
+        
         /// <summary>
         /// SetPopupMenus
         /// </summary>
-        public void SetPopupMenus()
+        internal void SetPopupMenus()
         {
             // Set popup menu visibility flags.
             PNode node = m_con.Canvas.FocusNode;
@@ -799,6 +802,17 @@ namespace EcellLib.PathwayWindow
             m_con.Canvas.LineHandler.SetLineVisibility(false);
         }
 
+        /// <summary>
+        /// SetLineHandler
+        /// </summary>
+        /// <param name="node"></param>
+        internal void SetCreateLineHandler(PPathwayNode node)
+        {
+            Handle handle = m_handleDict[MenuConstants.ToolButtonAddOnewayReaction];
+            SetEventHandler(handle);
+            CreateReactionMouseHandler handler = (CreateReactionMouseHandler)handle.EventHandler;
+            handler.StartNode = node;
+        }
         /// <summary>
         /// Add the selected EventHandler to event listener.
         /// </summary>
