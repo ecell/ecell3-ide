@@ -265,14 +265,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Accessor for node to be reconnected.
-        /// </summary>
-        public PPathwayNode NodeToBeReconnected
-        {
-            get { return m_nodeToBeConnected; }
-        }
-
-        /// <summary>
         /// Accessor for m_selectedNodes.
         /// </summary>
         public List<PPathwayObject> SelectedNodes
@@ -1047,18 +1039,6 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
-        /// Add node, which is to be connected
-        /// </summary>
-        /// <param name="obj">node which is to be connected</param>
-        public void AddNodeToBeConnected(PPathwayNode obj)
-        {
-            if (null != m_nodeToBeConnected)
-                m_nodeToBeConnected.IsToBeConnected = false;
-            obj.IsToBeConnected = true;
-            m_nodeToBeConnected = obj;
-        }
-
-        /// <summary>
         /// Get object under the point.
         /// </summary>
         /// <param name="pointF"></param>
@@ -1463,16 +1443,6 @@ namespace EcellLib.PathwayWindow
                 GetSelectedObject(obj.EcellObject.Key, obj.EcellObject.Type).IsHighLighted = false;
             lock (this)
                 m_selectedNodes.Clear();
-        }
-
-        /// <summary>
-        /// Reset node to be connected to normal state.
-        /// </summary>
-        public void ResetNodeToBeConnected()
-        {
-            if (m_nodeToBeConnected != null)
-                m_nodeToBeConnected.IsToBeConnected = false;
-            m_nodeToBeConnected = null;
         }
 
         /// <summary>

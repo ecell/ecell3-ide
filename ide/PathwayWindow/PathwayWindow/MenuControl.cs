@@ -791,13 +791,11 @@ namespace EcellLib.PathwayWindow
             ((IPathwayEventHandler)handler).Initialize();
             AddInputEventListener(handler);
             if (handler is DefaultMouseHandler
-                || handler is CreateReactionMouseHandler
                 || handler is PPathwayPanEventHandler)
                 m_defHandle = handle;
 
             if (m_con.Canvas == null)
                 return;
-            m_con.Canvas.ResetNodeToBeConnected();
             m_con.Canvas.LineHandler.SetLineVisibility(false);
         }
 

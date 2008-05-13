@@ -59,7 +59,16 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// Currently selected node.
         /// </summary>
-        protected PPathwayNode m_current = null;
+        private PPathwayNode m_start = null;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public PPathwayNode StartNode
+        {
+            get { return m_start; }
+            set { m_start = value; }
+        }
 
         #endregion
 
@@ -92,13 +101,13 @@ namespace EcellLib.PathwayWindow.Handler
                 SetCurrent(canvas, null);
                 return;
             }
-            else if(m_current == null)
+            else if(m_start == null)
             {
                 SetCurrent(canvas, newNode);
                 return;
             }
-            if ((m_current is PPathwayVariable && newNode is PPathwayVariable)
-                || (m_current is PPathwayProcess && newNode is PPathwayProcess))
+            if ((m_start is PPathwayVariable && newNode is PPathwayVariable)
+                || (m_start is PPathwayProcess && newNode is PPathwayProcess))
             {
                 SetCurrent(canvas, newNode);
                 return;
@@ -111,12 +120,12 @@ namespace EcellLib.PathwayWindow.Handler
             if (newNode is PPathwayProcess)
             {
                 process = (PPathwayProcess)newNode;
-                variable = (PPathwayVariable)m_current;
+                variable = (PPathwayVariable)m_start;
                 coef = -1;
             }
             else
             {
-                process = (PPathwayProcess)m_current;
+                process = (PPathwayProcess)m_start;
                 variable = (PPathwayVariable)newNode;
                 coef = 1;
             }
@@ -145,7 +154,7 @@ namespace EcellLib.PathwayWindow.Handler
         public override void OnMouseMove(object sender, PInputEventArgs e)
         {
             base.OnMouseMove(sender, e);
-            if (m_current == null)
+            if (m_start == null)
                 return;
 
             // Get Line Type
@@ -166,12 +175,12 @@ namespace EcellLib.PathwayWindow.Handler
                 direction = EdgeDirection.None;
 
             // Set Line
-            CanvasControl canvas = m_current.CanvasControl;
+            CanvasControl canvas = m_start.CanvasControl;
             PPathwayLine line = canvas.LineHandler.Line4Reconnect;
             line.Info.TypeOfLine = type;
             line.Info.Direction = direction;
             canvas.LineHandler.VarPoint = e.Position;
-            canvas.LineHandler.ProPoint = m_current.GetContactPoint(e.Position);
+            canvas.LineHandler.ProPoint = m_start.GetContactPoint(e.Position);
             canvas.LineHandler.ResetLinePosition();
             canvas.LineHandler.SetLineVisibility(true);
         }
@@ -204,6 +213,7 @@ namespace EcellLib.PathwayWindow.Handler
                     coefficient,
                     true);
             }
+            m_con.Menu.SetDefaultEventHandler();
         }
 
         /// <summary>
@@ -213,17 +223,43 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="node">current node</param>
         private void SetCurrent(CanvasControl canvas, PPathwayNode node)
         {
-            m_current = node;
             if (node != null)
-            {
-                canvas.AddNodeToBeConnected(node);
-            }
+                AddNodeToBeConnected(node);
             else
-            {
-                canvas.ResetNodeToBeConnected();
-            }
+                ResetNodeToBeConnected();
         }
-        
+
+        /// <summary>
+        /// Add node, which is to be connected
+        /// </summary>
+        /// <param name="obj">node which is to be connected</param>
+        public void AddNodeToBeConnected(PPathwayNode obj)
+        {
+            if (null != m_start)
+                m_start.IsToBeConnected = false;
+            m_start = obj;
+            m_start.IsToBeConnected = true;
+        }
+
+        /// <summary>
+        /// Reset node to be connected to normal state.
+        /// </summary>
+        public void ResetNodeToBeConnected()
+        {
+            if (m_start != null)
+                m_start.IsToBeConnected = false;
+            m_start = null;
+        }
+
+        /// <summary>
+        /// Reset
+        /// </summary>
+        public override void Reset()
+        {
+            ResetNodeToBeConnected();
+            base.Reset();
+        }
+
         #endregion
     }
 }

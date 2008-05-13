@@ -176,14 +176,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="e">PInputEventArgs.</param>
         public override void OnMouseDown(PInputEventArgs e)
         {
-            Mode mode = m_canvas.Control.Menu.Handle.Mode;
-            if (mode == Mode.CreateOneWayReaction
-                || mode == Mode.CreateMutualReaction
-                || mode == Mode.CreateConstant)
-            {
-                m_canvas.AddNodeToBeConnected(this);
-            }
-
             if (e.Modifiers == Keys.Shift || m_isSelected)
                 m_canvas.NotifyAddSelect(this, true);
             else
@@ -218,15 +210,6 @@ namespace EcellLib.PathwayWindow.Nodes
             base.RefreshText();
             m_pPropertyText.X = base.X + 5;
             m_pPropertyText.Y = base.Y - 15;
-        }
-        /// <summary>
-        /// set the offset of this node.
-        /// </summary>
-        /// <param name="dx">x of offset.</param>
-        /// <param name="dy">y of offset.</param>
-        public override void OffsetBy(float dx, float dy)
-        {
-            base.OffsetBy(dx, dy);
         }
 
         /// <summary>
