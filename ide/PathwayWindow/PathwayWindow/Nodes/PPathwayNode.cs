@@ -176,7 +176,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="e">PInputEventArgs.</param>
         public override void OnMouseDown(PInputEventArgs e)
         {
-            base.OnMouseDown(e);
             Mode mode = m_canvas.Control.Menu.Handle.Mode;
             if (mode == Mode.CreateOneWayReaction
                 || mode == Mode.CreateMutualReaction
@@ -189,7 +188,17 @@ namespace EcellLib.PathwayWindow.Nodes
                 m_canvas.NotifyAddSelect(this, true);
             else
                 m_canvas.NotifySelectChanged(this);
+            base.OnMouseDown(e);
         }
+
+        /// <summary>
+        /// event on double click this object.
+        /// </summary>
+        /// <param name="e"></param>
+        public override void OnDoubleClick(PInputEventArgs e)
+        {
+        }
+
         #endregion
 
         #region Methods

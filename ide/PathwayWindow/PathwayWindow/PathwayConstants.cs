@@ -254,4 +254,209 @@ namespace EcellLib.PathwayWindow
         public const string xPathIconFile = "IconFile";
         #endregion
     }
+
+    /// <summary>
+    /// Menu constants
+    /// </summary>
+    internal class MenuConstants
+    {
+        #region Menu Constants
+        #region CanvasPopUpMenu
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for ID
+        /// </summary>
+        internal const string CanvasMenuID = "CanvasMenuID";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for delete
+        /// </summary>
+        internal const string CanvasMenuDelete = "CanvasMenuDelete";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for copy
+        /// </summary>
+        internal const string CanvasMenuCopy = "CanvasMenuCopy";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for cut
+        /// </summary>
+        internal const string CanvasMenuCut = "CanvasMenuCut";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for paste
+        /// </summary>
+        internal const string CanvasMenuPaste = "CanvasMenuPaste";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for delete
+        /// </summary>
+        internal const string CanvasMenuMerge = "CanvasMenuMerge";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for Set Layout
+        /// </summary>
+        internal const string CanvasMenuLayout = "CanvasMenuLayout";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for Change Layer
+        /// </summary>
+        internal const string CanvasMenuChangeLayer = "LayerMenuChange";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for Create Layer
+        /// </summary>
+        internal const string CanvasMenuCreateLayer = "LayerMenuCreate";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for Layer Move To Front
+        /// </summary>
+        internal const string CanvasMenuMoveFront = "LayerMenuMoveFront";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for Layer Move To Front
+        /// </summary>
+        internal const string CanvasMenuMoveBack = "LayerMenuMoveBack";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for rightArrow
+        /// </summary>
+        internal const string CanvasMenuRightArrow = "CanvasMenuRightArrow";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for leftArrow
+        /// </summary>
+        internal const string CanvasMenuLeftArrow = "CanvasMenuLeftArrow";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for bidirArrow
+        /// </summary>
+        internal const string CanvasMenuBidirArrow = "CanvasMenuBidirArrow";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for constantLine
+        /// </summary>
+        internal const string CanvasMenuConstantLine = "CanvasMenuConstantLine";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for Create Logger
+        /// </summary>
+        internal const string CanvasMenuCreateLogger = "CanvasMenuCreateLogger";
+        /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for delete Logger
+        /// </summary>
+        internal const string CanvasMenuDeleteLogger = "CanvasMenuDeleteLogger";
+        /// <summary>
+        /// Key definition of m_cMenuDict for separator1
+        /// </summary>
+        internal const string CanvasMenuSeparator1 = "CanvasMenuSeparator1";
+        /// <summary>
+        /// Key definition of m_cMenuDict for separator2
+        /// </summary>
+        internal const string CanvasMenuSeparator2 = "CanvasMenuSeparator2";
+        /// <summary>
+        /// Key definition of m_cMenuDict for separator3
+        /// </summary>
+        internal const string CanvasMenuSeparator3 = "CanvasMenuSeparator3";
+        /// <summary>
+        /// Key definition of m_cMenuDict for separator4
+        /// </summary>
+        internal const string CanvasMenuSeparator4 = "CanvasMenuSeparator4";
+        /// <summary>
+        /// Key definition of m_cMenuDict for separator5
+        /// </summary>
+        internal const string CanvasMenuSeparator5 = "CanvasMenuSeparator5";
+        #endregion
+
+        #region ToolBarMenu
+        /// <summary>
+        /// Key definition of MessageResPathway for File
+        /// </summary>
+        internal const string MenuItemFile = "MenuItemFile";
+        /// <summary>
+        /// Key definition of MessageResPathway for Export
+        /// </summary>
+        internal const string MenuItemExport = "MenuItemExport";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolTipExport
+        /// </summary>
+        internal const string MenuToolTipExport = "MenuToolTipExport";
+        /// <summary>
+        /// Key definition of MessageResPathway for ExportSVG
+        /// </summary>
+        internal const string MenuItemExportSVG = "MenuItemExportSVG";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolTipExportSVG
+        /// </summary>
+        internal const string MenuToolTipExportSVG = "MenuToolTipExportSVG";
+        /// <summary>
+        /// Key definition of MessageResPathway for Setup
+        /// </summary>
+        internal const string MenuItemSetup = "MenuItemSetup";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolTipShowID
+        /// </summary>
+        internal const string MenuToolTipSetup = "MenuToolTipSetup";
+        /// <summary>
+        /// Key definition of MessageResPathway for ShowID
+        /// </summary>
+        internal const string MenuItemShowID = "MenuItemShowID";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolTipShowID
+        /// </summary>
+        internal const string MenuToolTipShowID = "MenuToolTipShowID";
+        /// <summary>
+        /// Key definition of MessageResPathway for ViewMode
+        /// </summary>
+        internal const string MenuItemViewMode = "MenuItemViewMode";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolTipViewMode
+        /// </summary>
+        internal const string MenuToolTipViewMode = "MenuToolTipViewMode";
+        /// <summary>
+        /// Key definition of MessageResPathway for MenuItemLayout
+        /// </summary>
+        internal const string MenuItemLayout = "MenuItemLayout";
+        /// <summary>
+        /// Key definition of MessageResPathway for MenuItemLayout
+        /// </summary>
+        internal const string MenuItemEdit = "MenuItemEdit";
+        /// <summary>
+        /// Key definition of MessageResPathway for MenuItemLayout
+        /// </summary>
+        internal const string MenuItemView = "MenuItemView";
+        #endregion
+
+        #region ToolButton
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonAddConstant
+        /// </summary>
+        internal const string ToolButtonAddConstant = "ToolButtonAddConstant";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonAddMutualReaction
+        /// </summary>
+        internal const string ToolButtonAddMutualReaction = "ToolButtonAddMutualReaction";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonAddOnewayReaction
+        /// </summary>
+        internal const string ToolButtonAddOnewayReaction = "ToolButtonAddOnewayReaction";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonCreateText
+        /// </summary>
+        internal const string ToolButtonCreateText = "ToolButtonCreateText";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonCreateProcess
+        /// </summary>
+        internal const string ToolButtonCreateProcess = "ToolButtonCreateProcess";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonCreateSystem
+        /// </summary>
+        internal const string ToolButtonCreateSystem = "ToolButtonCreateSystem";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonCreateVariable
+        /// </summary>
+        internal const string ToolButtonCreateVariable = "ToolButtonCreateVariable";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonMoveCanvas
+        /// </summary>
+        internal const string ToolButtonMoveCanvas = "ToolButtonMoveCanvas";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonSelectMode
+        /// </summary>
+        internal const string ToolButtonSelectMode = "ToolButtonSelectMode";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonZoomIn
+        /// </summary>
+        internal const string ToolButtonZoomIn = "ToolButtonZoomIn";
+        /// <summary>
+        /// Key definition of MessageResPathway for ToolButtonZoomOut
+        /// </summary>
+        internal const string ToolButtonZoomOut = "ToolButtonZoomOut";
+        #endregion
+        #endregion
+    }
 }

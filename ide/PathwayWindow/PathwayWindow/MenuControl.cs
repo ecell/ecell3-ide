@@ -260,6 +260,7 @@ namespace EcellLib.PathwayWindow
             // Add ID checker
             ToolStripItem idShow = new ToolStripMenuItem(MenuConstants.CanvasMenuID);
             idShow.Name = MenuConstants.CanvasMenuID;
+            idShow.Click += new EventHandler(ShowPropertyDialogClick);
             nodeMenu.Items.Add(idShow);
             m_popMenuDict.Add(MenuConstants.CanvasMenuID, idShow);
 
@@ -834,7 +835,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void DebugClick(object sender, EventArgs e)
+        private void DebugClick(object sender, EventArgs e)
         {
             if (m_con.Canvas.FocusNode is PPathwayObject)
             {
@@ -859,7 +860,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void MergeClick(object sender, EventArgs e)
+        private void MergeClick(object sender, EventArgs e)
         {
             // Check exception.
             CanvasControl canvas = m_con.Canvas;
@@ -877,7 +878,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void DeleteClick(object sender, EventArgs e)
+        private void DeleteClick(object sender, EventArgs e)
         {
             // Check active canvas.
             CanvasControl canvas = m_con.Canvas;
@@ -942,7 +943,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void CreateLoggerClick(object sender, EventArgs e)
+        private void CreateLoggerClick(object sender, EventArgs e)
         {
             if (!(m_con.Canvas.FocusNode is PPathwayObject))
                 return;
@@ -959,7 +960,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void DeleteLoggerClick(object sender, EventArgs e)
+        private void DeleteLoggerClick(object sender, EventArgs e)
         {
             if (!(m_con.Canvas.FocusNode is PPathwayObject))
                 return;
@@ -976,7 +977,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void LayoutItem_Click(object sender, EventArgs e)
+        private void LayoutItem_Click(object sender, EventArgs e)
         {
             if (!(sender is PathwayToolStripMenuItem))
                 return;
@@ -992,7 +993,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void ChangeLineClick(object sender, EventArgs e)
+        private void ChangeLineClick(object sender, EventArgs e)
         {
             // Selected MenuItem.
             if (!(sender is ToolStripItem))
@@ -1044,7 +1045,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void ChangeLeyerClick(object sender, EventArgs e)
+        private void ChangeLeyerClick(object sender, EventArgs e)
         {
             if (m_con.Canvas == null)
                 return;
@@ -1093,7 +1094,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void MoveToFrontClick(object sender, EventArgs e)
+        private void MoveToFrontClick(object sender, EventArgs e)
         {
             CanvasControl canvas = m_con.Canvas;
             PPathwayObject obj = (PPathwayObject)canvas.FocusNode;
@@ -1105,7 +1106,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void MoveToBackClick(object sender, EventArgs e)
+        private void MoveToBackClick(object sender, EventArgs e)
         {
             CanvasControl canvas = m_con.Canvas;
             PPathwayObject obj = (PPathwayObject)canvas.FocusNode;
@@ -1117,7 +1118,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void CopyClick(object sender, EventArgs e)
+        private void CopyClick(object sender, EventArgs e)
         {
             m_con.CopyNodes();
         }
@@ -1127,7 +1128,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void CutClick(object sender, EventArgs e)
+        private void CutClick(object sender, EventArgs e)
         {
             m_con.CopyNodes();
 
@@ -1147,7 +1148,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void PasteClick(object sender, EventArgs e)
+        private void PasteClick(object sender, EventArgs e)
         {
             m_con.PasteNodes();
         }
@@ -1157,7 +1158,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender">MenuStripItem.</param>
         /// <param name="e">EventArgs.</param>
-        public void ShowDialogClick(object sender, EventArgs e)
+        private void ShowDialogClick(object sender, EventArgs e)
         {
             PropertyDialog dialog = new PropertyDialog();
             dialog.Text = "PathwaySettings";
@@ -1173,13 +1174,24 @@ namespace EcellLib.PathwayWindow
             }
             dialog.Close();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowPropertyDialogClick(object sender, EventArgs e)
+        {
+            PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
+            EcellObject eo = m_con.Window.GetEcellObject(obj.EcellObject);
+            PropertyEditor.Show(eo);
+        }
 
         /// <summary>
         /// the event sequence of clicking the menu of [View]->[Show Id]
         /// </summary>
         /// <param name="sender">MenuStripItem.</param>
         /// <param name="e">EventArgs.</param>
-        public void ShowIdClick(object sender, EventArgs e)
+        private void ShowIdClick(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             if (item.CheckState == CheckState.Checked)
@@ -1193,7 +1205,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender">MenuStripItem.</param>
         /// <param name="e">EventArgs.</param>
-        public void ViewModeClick(object sender, EventArgs e)
+        private void ViewModeClick(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             m_con.ViewMode = item.Checked;
@@ -1205,7 +1217,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender">ToolBoxMenuButton.</param>
         /// <param name="e">EventArgs.</param>
-        public void ButtonStateChanged(object sender, EventArgs e)
+        private void ButtonStateChanged(object sender, EventArgs e)
         {
             if (!(sender is PathwayToolStripButton))
                 return;
@@ -1217,7 +1229,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void ZoomButton_Click(object sender, EventArgs e)
+        private void ZoomButton_Click(object sender, EventArgs e)
         {
             if (!(sender is PathwayToolStripButton))
                 return;
@@ -1232,7 +1244,7 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void ExportSVG(object sender, EventArgs e)
+        private void ExportSVG(object sender, EventArgs e)
         {
             if (m_con.Canvas == null)
                 return;
@@ -1248,210 +1260,5 @@ namespace EcellLib.PathwayWindow
         }
         #endregion
 
-    }
-
-    /// <summary>
-    /// Menu constants
-    /// </summary>
-    internal class MenuConstants
-    {
-        #region Menu Constants
-        #region CanvasPopUpMenu
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for ID
-        /// </summary>
-        internal const string CanvasMenuID = "CanvasMenuID";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for delete
-        /// </summary>
-        internal const string CanvasMenuDelete = "CanvasMenuDelete";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for copy
-        /// </summary>
-        internal const string CanvasMenuCopy = "CanvasMenuCopy";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for cut
-        /// </summary>
-        internal const string CanvasMenuCut = "CanvasMenuCut";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for paste
-        /// </summary>
-        internal const string CanvasMenuPaste = "CanvasMenuPaste";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for delete
-        /// </summary>
-        internal const string CanvasMenuMerge = "CanvasMenuMerge";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for Set Layout
-        /// </summary>
-        internal const string CanvasMenuLayout = "CanvasMenuLayout";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for Change Layer
-        /// </summary>
-        internal const string CanvasMenuChangeLayer = "LayerMenuChange";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for Create Layer
-        /// </summary>
-        internal const string CanvasMenuCreateLayer = "LayerMenuCreate";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for Layer Move To Front
-        /// </summary>
-        internal const string CanvasMenuMoveFront = "LayerMenuMoveFront";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for Layer Move To Front
-        /// </summary>
-        internal const string CanvasMenuMoveBack = "LayerMenuMoveBack";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for rightArrow
-        /// </summary>
-        internal const string CanvasMenuRightArrow = "CanvasMenuRightArrow";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for leftArrow
-        /// </summary>
-        internal const string CanvasMenuLeftArrow = "CanvasMenuLeftArrow";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for bidirArrow
-        /// </summary>
-        internal const string CanvasMenuBidirArrow = "CanvasMenuBidirArrow";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for constantLine
-        /// </summary>
-        internal const string CanvasMenuConstantLine = "CanvasMenuConstantLine";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for Create Logger
-        /// </summary>
-        internal const string CanvasMenuCreateLogger = "CanvasMenuCreateLogger";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResPathway for delete Logger
-        /// </summary>
-        internal const string CanvasMenuDeleteLogger = "CanvasMenuDeleteLogger";
-        /// <summary>
-        /// Key definition of m_cMenuDict for separator1
-        /// </summary>
-        internal const string CanvasMenuSeparator1 = "CanvasMenuSeparator1";
-        /// <summary>
-        /// Key definition of m_cMenuDict for separator2
-        /// </summary>
-        internal const string CanvasMenuSeparator2 = "CanvasMenuSeparator2";
-        /// <summary>
-        /// Key definition of m_cMenuDict for separator3
-        /// </summary>
-        internal const string CanvasMenuSeparator3 = "CanvasMenuSeparator3";
-        /// <summary>
-        /// Key definition of m_cMenuDict for separator4
-        /// </summary>
-        internal const string CanvasMenuSeparator4 = "CanvasMenuSeparator4";
-        /// <summary>
-        /// Key definition of m_cMenuDict for separator5
-        /// </summary>
-        internal const string CanvasMenuSeparator5 = "CanvasMenuSeparator5";
-        #endregion
-
-        #region ToolBarMenu
-        /// <summary>
-        /// Key definition of MessageResPathway for File
-        /// </summary>
-        internal const string MenuItemFile = "MenuItemFile";
-        /// <summary>
-        /// Key definition of MessageResPathway for Export
-        /// </summary>
-        internal const string MenuItemExport = "MenuItemExport";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolTipExport
-        /// </summary>
-        internal const string MenuToolTipExport = "MenuToolTipExport";
-        /// <summary>
-        /// Key definition of MessageResPathway for ExportSVG
-        /// </summary>
-        internal const string MenuItemExportSVG = "MenuItemExportSVG";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolTipExportSVG
-        /// </summary>
-        internal const string MenuToolTipExportSVG = "MenuToolTipExportSVG";
-        /// <summary>
-        /// Key definition of MessageResPathway for Setup
-        /// </summary>
-        internal const string MenuItemSetup = "MenuItemSetup";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolTipShowID
-        /// </summary>
-        internal const string MenuToolTipSetup = "MenuToolTipSetup";
-        /// <summary>
-        /// Key definition of MessageResPathway for ShowID
-        /// </summary>
-        internal const string MenuItemShowID = "MenuItemShowID";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolTipShowID
-        /// </summary>
-        internal const string MenuToolTipShowID = "MenuToolTipShowID";
-        /// <summary>
-        /// Key definition of MessageResPathway for ViewMode
-        /// </summary>
-        internal const string MenuItemViewMode = "MenuItemViewMode";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolTipViewMode
-        /// </summary>
-        internal const string MenuToolTipViewMode = "MenuToolTipViewMode";
-        /// <summary>
-        /// Key definition of MessageResPathway for MenuItemLayout
-        /// </summary>
-        internal const string MenuItemLayout = "MenuItemLayout";
-        /// <summary>
-        /// Key definition of MessageResPathway for MenuItemLayout
-        /// </summary>
-        internal const string MenuItemEdit = "MenuItemEdit";
-        /// <summary>
-        /// Key definition of MessageResPathway for MenuItemLayout
-        /// </summary>
-        internal const string MenuItemView = "MenuItemView";
-        #endregion
-
-        #region ToolButton
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonAddConstant
-        /// </summary>
-        internal const string ToolButtonAddConstant = "ToolButtonAddConstant";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonAddMutualReaction
-        /// </summary>
-        internal const string ToolButtonAddMutualReaction = "ToolButtonAddMutualReaction";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonAddOnewayReaction
-        /// </summary>
-        internal const string ToolButtonAddOnewayReaction = "ToolButtonAddOnewayReaction";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonCreateText
-        /// </summary>
-        internal const string ToolButtonCreateText = "ToolButtonCreateText";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonCreateProcess
-        /// </summary>
-        internal const string ToolButtonCreateProcess = "ToolButtonCreateProcess";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonCreateSystem
-        /// </summary>
-        internal const string ToolButtonCreateSystem = "ToolButtonCreateSystem";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonCreateVariable
-        /// </summary>
-        internal const string ToolButtonCreateVariable = "ToolButtonCreateVariable";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonMoveCanvas
-        /// </summary>
-        internal const string ToolButtonMoveCanvas = "ToolButtonMoveCanvas";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonSelectMode
-        /// </summary>
-        internal const string ToolButtonSelectMode = "ToolButtonSelectMode";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonZoomIn
-        /// </summary>
-        internal const string ToolButtonZoomIn = "ToolButtonZoomIn";
-        /// <summary>
-        /// Key definition of MessageResPathway for ToolButtonZoomOut
-        /// </summary>
-        internal const string ToolButtonZoomOut = "ToolButtonZoomOut";
-        #endregion
-        #endregion
     }
 }

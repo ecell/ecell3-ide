@@ -908,20 +908,6 @@ namespace EcellLib.PathwayWindow.Nodes
             m_canvas.FocusNode = this;
         }
 
-        /// <summary>
-        /// event on double click this system.
-        /// if there are system outside this system,
-        /// it fire event at outside system.
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnDoubleClick(PInputEventArgs e)
-        {
-            if (m_ecellObj == null || m_canvas == null)
-                return;
-            EcellObject obj = m_canvas.Control.Window.GetEcellObject(m_ecellObj.ModelID, m_ecellObj.Key, m_ecellObj.Type);
-            PropertyEditor.Show(obj);
-        }
-
         #endregion
 
         #endregion
