@@ -92,6 +92,7 @@ namespace EcellLib.MainWindow
                     i++;
                 }
             }
+            catch (Exception) { }
             if (!isInitial)
             {
                 m_dicPath.Add(new WindowSetting(
