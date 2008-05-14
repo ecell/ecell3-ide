@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 using EcellLib;
 using EcellLib.Objects;
-using EcellLib.SessionManager;
+using EcellLib.Session;
 using ZedGraph;
 
 namespace EcellLib.Analysis
@@ -29,10 +29,6 @@ namespace EcellLib.Analysis
         /// The line information of dot plot.
         /// </summary>
         private LineItem m_line;
-        /// <summary>
-        /// SessionManager to manage the analysis session.
-        /// </summary>
-        private SessionManager.SessionManager m_manager;
         /// <summary>
         /// ComponentResourceManager for ObjectList.
         /// </summary>
@@ -352,8 +348,8 @@ namespace EcellLib.Analysis
 
             foreach (int jobid in m_jobList.Keys)
             {
-                double xd = m_manager.ParameterDic[jobid].ParamDic[xPath];
-                double yd = m_manager.ParameterDic[jobid].ParamDic[yPath];
+                double xd = m_owner.SessionManager.ParameterDic[jobid].ParamDic[xPath];
+                double yd = m_owner.SessionManager.ParameterDic[jobid].ParamDic[yPath];
 
                 DrawPoint(xd, yd, m_jobList[jobid]);
             }

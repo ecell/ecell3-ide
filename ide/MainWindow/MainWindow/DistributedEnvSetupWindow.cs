@@ -36,7 +36,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using EcellLib.SessionManager;
+using EcellLib.Session;
 
 namespace EcellLib.MainWindow
 {

@@ -36,7 +36,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
 
-using EcellLib.SessionManager;
+using EcellLib.Session;
 using WeifenLuo.WinFormsUI.Docking;
 using EcellLib.Plugin;
 using EcellLib.Objects;

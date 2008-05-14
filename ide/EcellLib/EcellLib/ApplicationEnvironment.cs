@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using EcellLib.Message;
-using EcellLib.SessionManager;
+using EcellLib.Session;
 
 namespace EcellLib
 {
@@ -46,7 +46,7 @@ namespace EcellLib
             m_mManager = new MessageManager(this);
             m_pManager = new PluginManager(this);
             m_aManager = new ActionManager(this);
-            m_sManager = new SessionManager.SessionManager(this);
+            m_sManager = new SessionManager(this);
         }
     }
 }

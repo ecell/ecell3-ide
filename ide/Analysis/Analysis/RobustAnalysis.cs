@@ -34,7 +34,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using EcellLib.Objects;
-using EcellLib.SessionManager;
+using EcellLib.Session;
 using MathNet.Numerics;
 using MathNet.Numerics.Transformations;
 

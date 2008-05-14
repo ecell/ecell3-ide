@@ -35,7 +35,7 @@ using System.Windows.Forms;
 
 using EcellLib;
 using EcellLib.Objects;
-using EcellLib.SessionManager;
+using EcellLib.Session;
 
 namespace EcellLib.Analysis
 {

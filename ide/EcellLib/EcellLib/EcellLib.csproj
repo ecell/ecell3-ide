@@ -212,9 +212,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ApplicationEnvironment.cs" />
-    <Compile Include="ISessionManager.cs" />
-    <Compile Include="LocalSessionProxy.cs" />
-    <Compile Include="LocalSystemProxy.cs" />
+    <Compile Include="Session\ISessionManager.cs" />
+    <Compile Include="Session\LocalSessionProxy.cs" />
+    <Compile Include="Session\LocalSystemProxy.cs" />
     <Compile Include="Message\EntityMessageEntry.cs" />
     <Compile Include="Message\IMessageEntry.cs" />
     <Compile Include="Message\MessageManager.cs" />
@@ -241,12 +241,12 @@
     </Compile>
     <Compile Include="Project.cs" />
     <Compile Include="ScriptWriter.cs" />
-    <Compile Include="SessionManager.cs" />
-    <Compile Include="SessionProxy.cs" />
+    <Compile Include="Session\SessionManager.cs" />
+    <Compile Include="Session\SessionProxy.cs" />
     <Compile Include="SimulationParameter.cs" />
     <Compile Include="DataLogger.cs" />
     <Compile Include="Eml.cs" />
-    <Compile Include="SystemProxy.cs" />
+    <Compile Include="Session\SystemProxy.cs" />
     <None Include="ecelllib.snk" />
   </ItemGroup>
   <ItemGroup>

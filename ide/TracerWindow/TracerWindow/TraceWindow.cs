@@ -120,14 +120,6 @@ namespace EcellLib.TracerWindow
             dgv.DragDrop += new DragEventHandler(dgv_DragDrop);
         }
 
-        /// <summary>
-        /// get/set the control managed this form.
-        /// </summary>
-        public TracerWindow Owner
-        {
-            get { return this.m_owner; }
-        }
-
         void dgv_DragEnter(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("EcellLib.EcellDragObject");
@@ -145,9 +137,9 @@ namespace EcellLib.TracerWindow
 
             TraceWindow tWin = m_owner.CurrentWin;
             m_owner.CurrentWin = this;
-            Owner.PluginManager.LoggerAdd(dobj.ModelID, dobj.Key, dobj.Type, dobj.Path);
+            m_owner.PluginManager.LoggerAdd(dobj.ModelID, dobj.Key, dobj.Type, dobj.Path);
             m_owner.CurrentWin = tWin;
-            EcellObject t = Owner.DataManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
+            EcellObject t = m_owner.DataManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
             foreach (EcellData d in t.Value)
             {
                 if (d.EntityPath.Equals(dobj.Path))
@@ -156,7 +148,7 @@ namespace EcellLib.TracerWindow
                     break;
                 }
             }
-            Owner.DataManager.DataChanged(t.ModelID, t.Key, t.Type, t);
+            m_owner.DataManager.DataChanged(t.ModelID, t.Key, t.Type, t);
         }
 
         /// <summary>
@@ -555,7 +547,7 @@ namespace EcellLib.TracerWindow
         public void SaveSimulationInvoke(string dirName, double start, double end,
             string fileType, List<string> fullID)
         {
-            Owner.DataManager.SaveSimulationResult(dirName, start, end, fileType, fullID);
+            m_owner.DataManager.SaveSimulationResult(dirName, start, end, fileType, fullID);
         }
 
         #region Event
@@ -750,7 +742,7 @@ namespace EcellLib.TracerWindow
         /// <param name="tag"></param>
         public void DeleteTraceEntry(TagData tag)
         {
-            EcellObject m_currentObj = Owner.DataManager.GetEcellObject(tag.M_modelID, tag.M_key, tag.Type);
+            EcellObject m_currentObj = m_owner.DataManager.GetEcellObject(tag.M_modelID, tag.M_key, tag.Type);
 
             if (m_currentObj == null)
             {
@@ -767,7 +759,7 @@ namespace EcellLib.TracerWindow
                 }
             }
 
-            Owner.DataManager.DataChanged(m_currentObj.ModelID,
+            m_owner.DataManager.DataChanged(m_currentObj.ModelID,
                 m_currentObj.Key,
                 m_currentObj.Type,
                 m_currentObj);
@@ -876,7 +868,7 @@ namespace EcellLib.TracerWindow
             List<LogData> list;
             if (!m_zCnt.GraphPane.IsZoomed)
             {
-                double nextTime = Owner.DataManager.GetCurrentSimulationTime();
+                double nextTime = m_owner.DataManager.GetCurrentSimulationTime();
                 if (nextTime > ex)
                 {
                     m_zCnt.GraphPane.XAxis.Scale.Max = nextTime * 1.5;
@@ -886,7 +878,7 @@ namespace EcellLib.TracerWindow
                     isAxis = true;
                 }
             }
-            list = Owner.DataManager.GetLogData(sx, ex, m_step);
+            list = m_owner.DataManager.GetLogData(sx, ex, m_step);
             foreach (LogData l in list)
             {
                 string p = l.type + ":" + l.key + ":" + l.propName;
