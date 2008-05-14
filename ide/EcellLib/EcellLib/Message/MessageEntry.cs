@@ -45,24 +45,42 @@ namespace EcellLib.Message
         /// </summary>
         protected MessageType m_type;
         /// <summary>
-        /// The location of message.
-        /// </summary>
-        protected string m_location;
-        /// <summary>
         /// The message string.
         /// </summary>
         protected string m_message;
+        /// <summary>
+        /// The time when the message is composed
+        /// </summary>
+        protected DateTime m_time;
+        #endregion
+
+        #region Accessors
+        public MessageType MessageType
+        {
+            get { return m_type; }
+        }
+
+        public string Message
+        {
+            get { return m_message; }
+        }
+
+        public abstract string Location
+        {
+            get;
+        }
         #endregion
 
         #region Constructor
-        /// <summary>
-        /// Constructor.
+        // <summary>
+        /// Constructor with the initial parameters.
         /// </summary>
-        public MessageEntry()
+        /// <param name="type">the message type.</param>
+        /// <param name="location">the location of message.</param>
+        /// <param name="message">the message string.</param>
+        public MessageEntry(MessageType type, string message)
+            : this(type, message, DateTime.Now)
         {
-            m_type = MessageType.Error;
-            m_location = "";
-            m_message = "";
         }
 
         /// <summary>
@@ -71,39 +89,12 @@ namespace EcellLib.Message
         /// <param name="type">the message type.</param>
         /// <param name="location">the location of message.</param>
         /// <param name="message">the message string.</param>
-        public MessageEntry(MessageType type, string location, string message)
+        public MessageEntry(MessageType type, string message, DateTime time)
         {
             m_type = type;
-            m_location = location;
             m_message = message;
+            m_time = time;
         }
         #endregion
-
-        /// <summary>
-        /// Get the type of message.
-        /// </summary>
-        /// <returns>the type of message.</returns>
-        public virtual MessageType GetMessageType()
-        {
-            return m_type;
-        }
-
-        /// <summary>
-        /// Get the location of message.
-        /// </summary>
-        /// <returns>the location string of message.</returns>
-        public virtual String GetLocation()
-        {
-            return m_location;
-        }
-
-        /// <summary>
-        /// Get the message string.
-        /// </summary>
-        /// <returns>the message string.</returns>
-        public virtual String GetMessage()
-        {
-            return m_message;
-        }
     }
 }

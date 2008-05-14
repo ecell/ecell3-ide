@@ -43,9 +43,10 @@ namespace EcellLib.StaticDebugWindow
     class StaticDebugForModel : StaticDebugPlugin
     {
         /// <summary>
-        /// Manager to manage the object of model.
+        /// Owner of this object
         /// </summary>
-        private DataManager m_dManager;
+        private StaticDebugWindow m_owner;
+
         /// <summary>
         /// List of error message.
         /// </summary>
@@ -54,9 +55,9 @@ namespace EcellLib.StaticDebugWindow
         /// <summary>
         /// Constructor.
         /// </summary>
-        public StaticDebugForModel()
+        public StaticDebugForModel(StaticDebugWindow owner)
         {
-            m_dManager = DataManager.GetDataManager();
+            m_owner = owner;
         }
 
         /// <summary>
@@ -112,7 +113,7 @@ namespace EcellLib.StaticDebugWindow
             }
             else if (obj.Type == Constants.xpathModel)
             {
-                Debug(m_dManager.GetStepper(null, obj.ModelID));
+                Debug(m_owner.DataManager.GetStepper(null, obj.ModelID));
             }
         }
 
@@ -247,7 +248,7 @@ namespace EcellLib.StaticDebugWindow
             string l_entPath = l_data.EntityPath;
             string l_stepperID = l_data.Value.ToString();
             if (l_stepperID == null || l_stepperID.Equals("")) return;
-            List<EcellObject> stepList = m_dManager.GetStepper(m_dManager.GetCurrentSimulationParameterID(), l_modelID);
+            List<EcellObject> stepList = m_owner.DataManager.GetStepper(m_owner.DataManager.GetCurrentSimulationParameterID(), l_modelID);
             bool isHit = false;
             foreach (EcellObject step in stepList)
             {

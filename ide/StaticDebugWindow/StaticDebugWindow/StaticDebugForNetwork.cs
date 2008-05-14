@@ -43,10 +43,12 @@ namespace EcellLib.StaticDebugWindow
     class StaticDebugForNetwork : StaticDebugPlugin
     {
         /// <summary>
-        /// Manager to manage the object of model.
+        /// Owner of this object
         /// </summary>
-        private DataManager m_dManager;
+        private StaticDebugWindow m_owner;
+
         private Dictionary<string, EcellObject> m_existVariableList;
+
         private Dictionary<string, EcellObject> m_existProcessList;
         /// <summary>
         /// List of error message.
@@ -56,9 +58,9 @@ namespace EcellLib.StaticDebugWindow
         /// <summary>
         /// Constructor.
         /// </summary>
-        public StaticDebugForNetwork()
+        public StaticDebugForNetwork(StaticDebugWindow owner)
         {
-            m_dManager = DataManager.GetDataManager();
+            m_owner = owner;
             m_existVariableList = new Dictionary<string, EcellObject>();
             m_existProcessList = new Dictionary<string, EcellObject>();
         }

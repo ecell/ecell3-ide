@@ -7,10 +7,15 @@ using System.Text;
 using System.Windows.Forms;
 using EcellLib.EntityListWindow;
 
-namespace EcellLib
+namespace EcellLib.EntityListWindow
 {
     public partial class EntityList : EcellDockContent
     {
+        /// <summary>
+        /// DataManager
+        /// </summary>
+        EntityListWindow m_owner;
+
         /// <summary>
         /// 
         /// </summary>
@@ -19,13 +24,14 @@ namespace EcellLib
         /// <summary>
         /// Constructor.
         /// </summary>
-        public EntityList()
+        public EntityList(EntityListWindow owner)
         {
+            m_owner = owner;
             base.m_isSavable = true;
             InitializeComponent();
-            this.Text = m_resources.GetString(EntityListWindow.MessageConstants.EntityList);
+            this.Text = m_resources.GetString(MessageConstants.EntityList);
             this.TabText = this.Text;
-            this.treeView1.ImageList = PluginManager.GetPluginManager().NodeImageList;
+            this.treeView1.ImageList =m_owner.Environment.PluginManager.NodeImageList;
         }
     }
 }

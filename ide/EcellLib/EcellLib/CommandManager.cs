@@ -56,22 +56,26 @@ namespace EcellLib
         /// </summary>
         private const string s_consoleExe = "IronPythonConsole.exe";
         /// <summary>
-        /// The instance
-        /// </summary>
-        private static CommandManager s_instance = null;
-        /// <summary>
         /// The model ID
         /// </summary>
         private static string s_modelID = null;
 
         private DataManager m_dManager;
 
+        private PluginManager m_pManager;
+
+        private DataManager DataManager
+        {
+            get { return m_dManager; }
+        }
+
         /// <summary>
         /// Creates the new "CommandManager" instance with no argument.
         /// </summary>
-        private CommandManager()
+        private CommandManager(DataManager dManager, PluginManager pManager)
         {
-            m_dManager = DataManager.GetDataManager();
+            m_dManager = dManager;
+            m_pManager = pManager;
         }
 
         /// <summary>
@@ -81,7 +85,7 @@ namespace EcellLib
         /// <returns>the created entity</returns>
         public EntityStub CreateEntityStub(string l_fullID)
         {
-            return new EntityStub(m_dManager, l_fullID);
+            return new EntityStub(this, l_fullID);
         }
 
         /// <summary>
@@ -98,7 +102,7 @@ namespace EcellLib
                     throw new Exception("The format of this [" + l_fullPN + "] is wrong.");
                 }
                 List<EcellObject> l_systemObjectList
-                        = DataManager.GetDataManager().GetData(s_modelID, l_fullIDs[1]);
+                        = m_dManager.GetData(s_modelID, l_fullIDs[1]);
                 if (l_systemObjectList == null || l_systemObjectList.Count <= 0)
                 {
                     throw new Exception("The entity of this ["
@@ -180,9 +184,9 @@ namespace EcellLib
                 }
                 if (l_changedKey != null && l_changedType != null && l_changedObject != null)
                 {
-                    DataManager.GetDataManager().DataChanged(
+                    m_dManager.DataChanged(
                             s_modelID, l_changedKey, l_changedType, l_changedObject);
-                    PluginManager.GetPluginManager().LoggerAdd(
+                    m_pManager.LoggerAdd(
                             s_modelID, l_changedType, l_changedKey, l_fullPN);
                 }
                 else
@@ -213,8 +217,7 @@ namespace EcellLib
             {
                 LoggerPolicy l_loggerPolicy
                         = new LoggerPolicy(l_savedStepCount, l_savedInterval, l_diskFullAction, l_maxDiskSpace);
-                DataManager.GetDataManager()
-                        .SetLoggerPolicy(DataManager.GetDataManager().GetCurrentSimulationParameterID(),
+                m_dManager.SetLoggerPolicy(m_dManager.GetCurrentSimulationParameterID(),
                         ref l_loggerPolicy);
             }
             catch (Exception l_ex)
@@ -230,7 +233,7 @@ namespace EcellLib
         /// <returns>the created logger stub</returns>
         public LoggerStub CreateLoggerStub(string l_fullPN)
         {
-            return new LoggerStub(l_fullPN);
+            return new LoggerStub(this, l_fullPN);
         }
 
         /// <summary>
@@ -244,9 +247,9 @@ namespace EcellLib
                 List<EcellObject> l_list = new List<EcellObject>();
                 l_list.Add(EcellObject.CreateObject(l_modelID, null, Constants.xpathModel, null, null));
                 m_dManager.DataAdd(l_list);
-                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
+                m_pManager.ChangeStatus(ProjectStatus.Loaded);
                 s_modelID = l_modelID;
-//                m_dManager.CurrentProject.Initialize(l_modelID);
+//                m_cManager.DataManager.CurrentProject.Initialize(l_modelID);
             }
             catch (Exception l_ex)
             {
@@ -279,7 +282,7 @@ namespace EcellLib
         /// <returns>the simulation parameter stub</returns>
         public SimulationParameterStub CreateSimulationParameterStub(string l_parameterID)
         {
-            return new SimulationParameterStub(l_parameterID);
+            return new SimulationParameterStub(this, l_parameterID);
         }
 
         /// <summary>
@@ -289,7 +292,7 @@ namespace EcellLib
         /// <returns>the created stepper stub</returns>
         public StepperStub CreateStepperStub(string l_ID)
         {
-            return new StepperStub(m_dManager, l_ID);
+            return new StepperStub(this, l_ID);
         }
 
         /// <summary>
@@ -335,7 +338,7 @@ namespace EcellLib
                     throw new Exception("The format of this [" + l_fullPN + "] is wrong.");
                 }
                 List<EcellObject> l_systemObjectList
-                        = DataManager.GetDataManager().GetData(s_modelID, l_fullPNDivs[1]);
+                        = m_dManager.GetData(s_modelID, l_fullPNDivs[1]);
                 if (l_systemObjectList == null || l_systemObjectList.Count <= 0)
                 {
                     throw new Exception("The entity of this ["
@@ -419,8 +422,7 @@ namespace EcellLib
                 }
                 if (l_changedKey != null && l_changedType != null && l_changedObject != null)
                 {
-                    DataManager.GetDataManager()
-                            .DataChanged(s_modelID, l_changedKey, l_changedType, l_changedObject);
+                    m_dManager.DataChanged(s_modelID, l_changedKey, l_changedType, l_changedObject);
                 }
                 else
                 {
@@ -462,7 +464,7 @@ namespace EcellLib
         /// <returns>the current project ID</returns>
         public string GetCurrentProjectID()
         {
-            return DataManager.GetDataManager().CurrentProjectID;
+            return m_dManager.CurrentProjectID;
         }
 
         /// <summary>
@@ -473,7 +475,7 @@ namespace EcellLib
         {
             try
             {
-                return DataManager.GetDataManager().GetCurrentSimulationParameterID();
+                return m_dManager.GetCurrentSimulationParameterID();
             }
             catch (Exception l_ex)
             {
@@ -489,7 +491,7 @@ namespace EcellLib
         {
             try
             {
-                return DataManager.GetDataManager().GetCurrentSimulationTime();
+                return m_dManager.GetCurrentSimulationTime();
             }
             catch (Exception l_ex)
             {
@@ -518,7 +520,7 @@ namespace EcellLib
                     int depth = l_systemPath.Split(Constants.delimiterPath.ToCharArray()).Length;
                     if (l_systemPath.Equals(Constants.delimiterPath))
                     {
-                        foreach (string l_system in DataManager.GetDataManager().GetSystemList(s_modelID))
+                        foreach (string l_system in m_dManager.GetSystemList(s_modelID))
                         {
                             if (l_systemPath.Equals(l_system))
                             {
@@ -532,7 +534,7 @@ namespace EcellLib
                     }
                     else
                     {
-                        foreach (string l_system in DataManager.GetDataManager().GetSystemList(s_modelID))
+                        foreach (string l_system in m_dManager.GetSystemList(s_modelID))
                         {
                             if (l_systemPath.Equals(l_system))
                             {
@@ -549,7 +551,7 @@ namespace EcellLib
                 else if(l_entityName.Equals(Constants.xpathProcess) || l_entityName.Equals(Constants.xpathVariable))
                 {
                     List<string> l_list = new List<string>();
-                    foreach (EcellObject l_parent in DataManager.GetDataManager().GetData(s_modelID, l_systemPath))
+                    foreach (EcellObject l_parent in m_dManager.GetData(s_modelID, l_systemPath))
                     {
                         if (l_parent.Children == null || l_parent.Children.Count <= 0)
                         {
@@ -618,7 +620,7 @@ namespace EcellLib
             if (pathElements[0].Equals(Constants.xpathSystem))
             {
                 EcellObject l_system
-                    = (DataManager.GetDataManager().GetData(
+                    = (m_dManager.GetData(
                         s_modelID, pathElements[1] + Constants.delimiterColon + pathElements[2]))[0];
                 foreach (EcellData l_systemProperty in l_system.Value)
                 {
@@ -631,7 +633,7 @@ namespace EcellLib
             else
             {
                 EcellObject l_system
-                    = (DataManager.GetDataManager().GetData(
+                    = (m_dManager.GetData(
                         s_modelID, pathElements[1]))[0];
                 foreach (EcellObject l_entity in l_system.Children)
                 {
@@ -658,7 +660,7 @@ namespace EcellLib
         /// <returns>The entity property of the full PN</returns>
         private EcellValue GetEntityPropertyFromSimulator(string l_fullPN)
         {
-            return DataManager.GetDataManager().GetEntityProperty(l_fullPN);
+            return m_dManager.GetEntityProperty(l_fullPN);
         }
 
         /// <summary>
@@ -670,9 +672,9 @@ namespace EcellLib
             try
             {
                 List<string> l_list = new List<string>();
-                foreach (string l_systemPath in DataManager.GetDataManager().GetSystemList(s_modelID))
+                foreach (string l_systemPath in m_dManager.GetSystemList(s_modelID))
                 {
-                    foreach (EcellObject l_system in DataManager.GetDataManager().GetData(s_modelID, l_systemPath))
+                    foreach (EcellObject l_system in m_dManager.GetData(s_modelID, l_systemPath))
                     {
                         if (l_system.Value != null && l_system.Value.Count > 0)
                         {
@@ -716,7 +718,7 @@ namespace EcellLib
         /// <returns>The process list</returns>
         public List<string> GetProcessList()
         {
-            return DataManager.GetDataManager().GetEntityList(s_modelID, Constants.xpathProcess);
+            return m_dManager.GetEntityList(s_modelID, Constants.xpathProcess);
         }
 
         /// <summary>
@@ -727,7 +729,7 @@ namespace EcellLib
         {
             try
             {
-                return DataManager.GetDataManager().GetSimulationParameterIDs();
+                return m_dManager.GetSimulationParameterIDs();
             }
             catch (Exception l_ex)
             {
@@ -754,7 +756,7 @@ namespace EcellLib
             try
             {
                 List<string> l_list = new List<string>();
-                foreach (EcellObject l_stepper in DataManager.GetDataManager().GetStepper(l_parameterID, s_modelID))
+                foreach (EcellObject l_stepper in m_dManager.GetStepper(l_parameterID, s_modelID))
                 {
                     l_list.Add(l_stepper.Key);
                 }
@@ -764,19 +766,6 @@ namespace EcellLib
             {
                 throw new Exception("Can't obtain the stepper list. {" + l_ex.ToString() + "}");
             }
-        }
-
-        /// <summary>
-        /// Returns the command manager.
-        /// </summary>
-        /// <returns>The command manager</returns>
-        public static CommandManager GetInstance()
-        {
-            if (s_instance == null)
-            {
-                s_instance = new CommandManager();
-            }
-            return s_instance;
         }
 
         /// <summary>
@@ -791,10 +780,10 @@ namespace EcellLib
             try
             {
                 double l_interval
-                        = DataManager.GetDataManager()
-                                .GetLoggerPolicy(DataManager.GetDataManager().GetCurrentSimulationParameterID())
+                        = m_dManager
+                                .GetLoggerPolicy(m_dManager.GetCurrentSimulationParameterID())
                                 .m_reloadInterval;
-                return DataManager.GetDataManager()
+                return m_dManager
                         .GetLogData(l_startTime, l_endTime, l_interval, l_fullPN).logValueList;
             }
             catch (Exception l_ex)
@@ -811,8 +800,8 @@ namespace EcellLib
         {
             try
             {
-                return DataManager.GetDataManager().GetLoggerPolicy(
-                        DataManager.GetDataManager().GetCurrentSimulationParameterID());
+                return m_dManager.GetLoggerPolicy(
+                        m_dManager.GetCurrentSimulationParameterID());
             }
             catch (Exception l_ex)
             {
@@ -828,7 +817,7 @@ namespace EcellLib
         {
             try
             {
-                return DataManager.GetDataManager().GetNextEvent();
+                return m_dManager.GetNextEvent();
             }
             catch (Exception l_ex)
             {
@@ -842,7 +831,7 @@ namespace EcellLib
         /// <returns>The variable list</returns>
         public List<string> GetVariableList()
         {
-            return DataManager.GetDataManager().GetEntityList(s_modelID, Constants.xpathVariable);
+            return m_dManager.GetEntityList(s_modelID, Constants.xpathVariable);
         }
 
         /// <summary>
@@ -852,7 +841,7 @@ namespace EcellLib
         {
             try
             {
-                DataManager.GetDataManager().Initialize(true);
+                m_dManager.Initialize(true);
             }
             catch (Exception l_ex)
             {
@@ -866,7 +855,7 @@ namespace EcellLib
         /// <returns>true if the simulator is running; false otherwise</returns>
         public bool IsActive()
         {
-            return DataManager.GetDataManager().IsActive();
+            return m_dManager.IsActive();
         }
 
         /// <summary>
@@ -894,18 +883,18 @@ namespace EcellLib
         {
             try
             {
-                if (DataManager.GetDataManager().CurrentProjectID == null)
+                if (m_dManager.CurrentProjectID == null)
                 {
                     String modelDir = Path.GetDirectoryName(l_fileName);
                     if (modelDir.EndsWith(Constants.xpathModel))
                     {
                         modelDir = modelDir.Substring(0, modelDir.Length - 5);
                     }
-                    DataManager.GetDataManager().CreateProject(Constants.defaultPrjID, DateTime.Now.ToString(), modelDir, new List<string>());
+                    m_dManager.CreateProject(Constants.defaultPrjID, DateTime.Now.ToString(), modelDir, new List<string>());
                 }
-                s_modelID = DataManager.GetDataManager().LoadModel(l_fileName, false);
-                PluginManager.GetPluginManager().LoadData(s_modelID);                
-                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
+                s_modelID = m_dManager.LoadModel(l_fileName, false);
+                m_pManager.LoadData(s_modelID);                
+                m_pManager.ChangeStatus(ProjectStatus.Loaded);
             }
             catch (Exception l_ex)
             {
@@ -921,7 +910,7 @@ namespace EcellLib
         {
             try
             {
-                PluginManager.GetPluginManager().Message(Constants.messageSimulation, l_message);
+                m_pManager.Message(Constants.messageSimulation, l_message);
             }
             catch (Exception l_ex)
             {
@@ -934,7 +923,7 @@ namespace EcellLib
         /// </summary>
         public void Refresh()
         {
-            DataManager.GetDataManager().CloseProject(null);
+            m_dManager.CloseProject(null);
         }
         
         /// <summary>
@@ -945,8 +934,8 @@ namespace EcellLib
         {
             try
             {
-                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Running);
-                DataManager.GetDataManager().SimulationStartKeepSetting(l_interval);
+                m_pManager.ChangeStatus(ProjectStatus.Running);
+                m_dManager.SimulationStartKeepSetting(l_interval);
             }
             catch (Exception l_ex)
             {
@@ -962,8 +951,8 @@ namespace EcellLib
         {
             try
             {
-                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Running);
-                DataManager.GetDataManager().SimulationStart(l_interval, 0);
+                m_pManager.ChangeStatus(ProjectStatus.Running);
+                m_dManager.SimulationStart(l_interval, 0);
             }
             catch (Exception l_ex)
             {
@@ -984,7 +973,7 @@ namespace EcellLib
             {
                 List<string> l_fullIDList = new List<string>();
                 l_fullIDList.Add(l_fullID);
-                DataManager.GetDataManager()
+                m_dManager
                         .SaveSimulationResult(l_savedDirName, l_startTime, l_endTime, Constants.xpathCsv, l_fullIDList);
             }
             catch (Exception l_ex)
@@ -1001,7 +990,7 @@ namespace EcellLib
         {
             try
             {
-                DataManager.GetDataManager().SaveModel(l_modelID);
+                m_dManager.SaveModel(l_modelID);
             }
             catch (Exception l_ex)
             {
@@ -1018,7 +1007,7 @@ namespace EcellLib
         {
             try
             {
-                DataManager.GetDataManager().SetEntityProperty(l_fullPN, l_value);
+                m_dManager.SetEntityProperty(l_fullPN, l_value);
             }
             catch (Exception l_ex)
             {
@@ -1036,8 +1025,8 @@ namespace EcellLib
         {
             try
             {
-                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Running);
-                DataManager.GetDataManager().SimulationStartKeepSetting(l_count);
+                m_pManager.ChangeStatus(ProjectStatus.Running);
+                m_dManager.SimulationStartKeepSetting(l_count);
             }
             catch (Exception l_ex)
             {
@@ -1053,8 +1042,8 @@ namespace EcellLib
         {
             try
             {
-                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Running);
-                DataManager.GetDataManager().SimulationStart(l_count, 0);
+                m_pManager.ChangeStatus(ProjectStatus.Running);
+                m_dManager.SimulationStart(l_count, 0);
             }
             catch (Exception l_ex)
             {
@@ -1069,8 +1058,8 @@ namespace EcellLib
         {
             try
             {
-                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
-                DataManager.GetDataManager().SimulationStop();
+                m_pManager.ChangeStatus(ProjectStatus.Loaded);
+                m_dManager.SimulationStop();
             }
             catch (Exception l_ex)
             {
@@ -1085,8 +1074,8 @@ namespace EcellLib
         {
             try
             {
-                PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Suspended);
-                DataManager.GetDataManager().SimulationSuspend();
+                m_pManager.ChangeStatus(ProjectStatus.Suspended);
+                m_dManager.SimulationSuspend();
             }
             catch (Exception l_ex)
             {
@@ -1108,7 +1097,7 @@ namespace EcellLib
                 {
                     return;
                 }
-                DataManager.GetDataManager().UpdateInitialCondition(null, s_modelID, l_type, l_initialDic);
+                m_dManager.UpdateInitialCondition(null, s_modelID, l_type, l_initialDic);
             }
             catch (Exception l_ex)
             {
@@ -1132,25 +1121,18 @@ namespace EcellLib
             private string m_fullID = null;
 
             /// <summary>
-            /// DataManager instance associated to this object.
+            /// CommandManager instance associated to this object.
             /// </summary>
-            private DataManager m_dManager = null;
-
-            /// <summary>
-            /// Creates the new "EntityStub" instance with no argument.
-            /// </summary>
-            private EntityStub()
-            {
-            }
+            private CommandManager m_cManager = null;
 
             /// <summary>
             /// Creates the new "EntityStub" instance with the full ID.
             /// </summary>
             /// <param name="dManager">DataManager instance to associate</param>
             /// <param name="l_fullID">the full ID</param>
-            public EntityStub(DataManager dManager, string l_fullID)
+            public EntityStub(CommandManager cManager, string l_fullID)
             {
-                this.m_dManager = dManager;
+                this.m_cManager = cManager;
                 this.m_fullID = l_fullID;
             }
 
@@ -1184,7 +1166,8 @@ namespace EcellLib
                     // Searches the loaded "EcellObject".
                     //
                     foreach(EcellObject l_system
-                            in DataManager.GetDataManager().GetData(CommandManager.s_modelID, l_systemKey))
+                            in m_cManager.DataManager.GetData(
+                                CommandManager.s_modelID, l_systemKey))
                     {
                         if (l_type.Equals(Constants.xpathSystem))
                         {
@@ -1222,9 +1205,9 @@ namespace EcellLib
                     //
                     List<EcellObject> l_list = new List<EcellObject>();
                     l_list.Add(this.m_ecellObject);
-                    DataManager.GetDataManager().DataAdd(l_list);
+                    m_cManager.DataManager.DataAdd(l_list);
                 }
-                catch( Exception l_ex)
+                catch(Exception l_ex)
                 {
                     throw new Exception("Can't create the entity stub named [" + l_className + "]. {"
                             + l_ex.ToString() + "}");
@@ -1242,15 +1225,15 @@ namespace EcellLib
                 List<string> l_entityList = null;
                 if (l_type.Equals(Constants.xpathSystem))
                 {
-                    l_entityList = DataManager.GetDataManager().GetSystemList();
+                    l_entityList = m_cManager.DataManager.GetSystemList();
                 }
                 else if (l_type.Equals(Constants.xpathProcess))
                 {
-                    l_entityList = DataManager.GetDataManager().GetProcessList();
+                    l_entityList = m_cManager.DataManager.GetProcessList();
                 }
                 else if (l_type.Equals(Constants.xpathVariable))
                 {
-                    l_entityList = DataManager.GetDataManager().GetVariableList();
+                    l_entityList = m_cManager.DataManager.GetVariableList();
                 }
                 else
                 {
@@ -1266,8 +1249,8 @@ namespace EcellLib
                             if (l_type.Equals(Constants.xpathSystem))
                             {
                                 Dictionary<string, EcellData> l_propertyDic
-                                        = m_dManager.GetSystemProperty();
-                                foreach (string l_property in m_dManager.GetSystemProperty().Keys)
+                                        = m_cManager.DataManager.GetSystemProperty();
+                                foreach (string l_property in m_cManager.DataManager.GetSystemProperty().Keys)
                                 {
                                     EcellData l_ecellData = l_propertyDic[l_property];
                                     l_ecellData.EntityPath
@@ -1279,7 +1262,7 @@ namespace EcellLib
                             else if (l_type.Equals(Constants.xpathProcess))
                             {
                                 Dictionary<string, EcellData> l_propertyDic
-                                        = m_dManager.GetProcessProperty(l_className);
+                                        = m_cManager.DataManager.GetProcessProperty(l_className);
                                 foreach (string l_property in l_propertyDic.Keys)
                                 {
                                     EcellData l_ecellData = l_propertyDic[l_property];
@@ -1292,8 +1275,8 @@ namespace EcellLib
                             else
                             {
                                 Dictionary<string, EcellData> l_propertyDic
-                                        = m_dManager.GetVariableProperty();
-                                foreach (string l_property in m_dManager.GetVariableProperty().Keys)
+                                        = m_cManager.DataManager.GetVariableProperty();
+                                foreach (string l_property in m_cManager.DataManager.GetVariableProperty().Keys)
                                 {
                                     EcellData l_ecellData = l_propertyDic[l_property];
                                     l_ecellData.EntityPath
@@ -1321,7 +1304,7 @@ namespace EcellLib
                     string l_type = null;
                     string l_systemKey = null;
                     this.RefinedFullID(ref l_key, ref l_type, ref l_systemKey);
-                    DataManager.GetDataManager().DataDelete(CommandManager.s_modelID, l_key, l_type);
+                    m_cManager.DataManager.DataDelete(CommandManager.s_modelID, l_key, l_type);
                     this.m_ecellObject = null;
                     this.m_fullID = null;
                 }
@@ -1340,7 +1323,7 @@ namespace EcellLib
             {
                 try
                 {
-                    return DataManager.GetDataManager().Exists(CommandManager.s_modelID, this.m_fullID);
+                    return m_cManager.DataManager.Exists(CommandManager.s_modelID, this.m_fullID);
                 }
                 catch (Exception l_ex)
                 {
@@ -1495,7 +1478,7 @@ namespace EcellLib
                 // Searches the loaded "EcellObject".
                 //
                 foreach (EcellObject l_system
-                        in DataManager.GetDataManager().GetData(CommandManager.s_modelID, l_systemKey))
+                        in m_cManager.DataManager.GetData(CommandManager.s_modelID, l_systemKey))
                 {
                     if (l_type.Equals(Constants.xpathSystem))
                     {
@@ -1675,7 +1658,7 @@ namespace EcellLib
                                 this.m_ecellObject.Value.Add(l_new);
                                 // throw new Exception("The property named [" + l_propertyName + "]" + "isn't found.");
                             }
-                            DataManager.GetDataManager().DataChanged(
+                            m_cManager.DataManager.DataChanged(
                                     this.m_ecellObject.ModelID,
                                     this.m_ecellObject.Key,
                                     this.m_ecellObject.Type,
@@ -1698,6 +1681,11 @@ namespace EcellLib
         public class LoggerStub
         {
             /// <summary>
+            ///  The creator of this object
+            /// </summary>
+            private CommandManager m_cManager;
+
+            /// <summary>
             /// the full PN
             /// </summary>
             private string m_fullPN = null;
@@ -1708,18 +1696,12 @@ namespace EcellLib
             private bool m_isExist = false;
 
             /// <summary>
-            /// Creates the new "LoggerStub" instance with no argument.
-            /// </summary>
-            private LoggerStub()
-            {
-            }
-
-            /// <summary>
             /// Creates the new "LoggerStub" instance with the full PN.
             /// </summary>
             /// <param name="l_fullPN">the full PN</param>
-            public LoggerStub(string l_fullPN)
+            public LoggerStub(CommandManager cManager, string l_fullPN)
             {
+                this.m_cManager = cManager;
                 this.m_fullPN = l_fullPN;
             }
 
@@ -1732,7 +1714,7 @@ namespace EcellLib
                 {
                     if (!this.m_isExist)
                     {
-                        CommandManager.GetInstance().CreateLogger(this.m_fullPN);
+                        m_cManager.CreateLogger(this.m_fullPN);
                         this.m_isExist = true;
                     }
                 }
@@ -1750,7 +1732,7 @@ namespace EcellLib
             {
                 try
                 {
-                    CommandManager.GetInstance().DeleteLogger(this.m_fullPN);
+                    m_cManager.DeleteLogger(this.m_fullPN);
                     this.m_isExist = false;
                 }
                 catch (Exception l_ex)
@@ -1777,7 +1759,7 @@ namespace EcellLib
             {
                 try
                 {
-                    return CommandManager.GetInstance().GetLogData(this.m_fullPN, l_startTime, l_endTime);
+                    return m_cManager.GetLogData(this.m_fullPN, l_startTime, l_endTime);
                 }
                 catch (Exception l_ex)
                 {
@@ -1794,11 +1776,11 @@ namespace EcellLib
             {
                 try
                 {
-                    List<LogValue> l_logDataList
-                            = CommandManager.GetInstance().GetLogData(
+                    List<LogValue> l_logDataList =
+                            m_cManager.GetLogData(
                                     this.m_fullPN,
                                     0.0,
-                                    CommandManager.GetInstance().GetCurrentSimulationTime());
+                                    m_cManager.GetCurrentSimulationTime());
                     return l_logDataList[l_logDataList.Count - 1].time;
                 }
                 catch (Exception l_ex)
@@ -1816,7 +1798,7 @@ namespace EcellLib
             {
                 try
                 {
-                    return CommandManager.GetInstance().GetLoggerPolicy();
+                    return m_cManager.GetLoggerPolicy();
                 }
                 catch (Exception l_ex)
                 {
@@ -1842,11 +1824,11 @@ namespace EcellLib
             {
                 try
                 {
-                    List<LogValue> l_logDataList
-                            = CommandManager.GetInstance().GetLogData(
-                                    this.m_fullPN,
-                                    0.0,
-                                    CommandManager.GetInstance().GetCurrentSimulationTime());
+                    List<LogValue> l_logDataList =
+                            m_cManager.GetLogData(
+                                this.m_fullPN,
+                                0.0,
+                                m_cManager.GetCurrentSimulationTime());
                     return l_logDataList.Count;
                 }
                 catch (Exception l_ex)
@@ -1864,11 +1846,10 @@ namespace EcellLib
             {
                 try
                 {
-                    List<LogValue> l_logDataList
-                            = CommandManager.GetInstance().GetLogData(
-                                    this.m_fullPN,
-                                    0.0,
-                                    CommandManager.GetInstance().GetCurrentSimulationTime());
+                    List<LogValue> l_logDataList =
+                        m_cManager.GetLogData(
+                            this.m_fullPN, 0.0,
+                            m_cManager.GetCurrentSimulationTime());
                     return l_logDataList[0].time;
                 }
                 catch (Exception l_ex)
@@ -1893,7 +1874,7 @@ namespace EcellLib
             {
                 try
                 {
-                    CommandManager.GetInstance().CreateLoggerPolicy(
+                    m_cManager.CreateLoggerPolicy(
                             l_savedStepCount, l_savedInterval, l_diskFullAction, l_maxDiskSpace);
                 }
                 catch (Exception l_ex)
@@ -1910,6 +1891,10 @@ namespace EcellLib
         /// </summary>
         public class SimulationParameterStub
         {
+            /// <summary>
+            /// CommandManager
+            /// </summary>
+            private CommandManager m_cManager;
             /// <summary>
             /// the logger policy belong to this
             /// </summary>
@@ -1928,18 +1913,12 @@ namespace EcellLib
             private Dictionary<string, Dictionary<string, double>> m_initialCondition = null;
 
             /// <summary>
-            /// Creates the simulation parameter stub with no arguments.
-            /// </summary>
-            private SimulationParameterStub()
-            {
-            }
-
-            /// <summary>
             /// Creates the simulation parameter stub with the simulation parameter ID.
             /// </summary>
             /// <param name="l_parameterID">the simulation parameter ID</param>
-            public SimulationParameterStub(string l_parameterID)
+            public SimulationParameterStub(CommandManager cManager, string l_parameterID)
             {
+                this.m_cManager = cManager;
                 this.m_parameterID = l_parameterID;
             }
 
@@ -1965,7 +1944,7 @@ namespace EcellLib
                     // Searches the simulation parameter.
                     // 
                     bool l_existFlag = false;
-                    foreach (string l_parameterID in CommandManager.GetInstance().GetSimulationParameterIDList())
+                    foreach (string l_parameterID in m_cManager.GetSimulationParameterIDList())
                     {
                         if (this.m_parameterID.Equals(l_parameterID))
                         {
@@ -1975,22 +1954,22 @@ namespace EcellLib
                     }
                     if (!l_existFlag)
                     {
-                        DataManager.GetDataManager().CreateSimulationParameter(this.m_parameterID);
+                        m_cManager.DataManager.CreateSimulationParameter(this.m_parameterID);
                     }
                     //
                     // Searches the loaded "Stepper".
                     //
                     this.m_stepperList
-                            = DataManager.GetDataManager().GetStepper(this.m_parameterID, CommandManager.s_modelID);
+                            = m_cManager.DataManager.GetStepper(this.m_parameterID, CommandManager.s_modelID);
                     //
                     // Searches the loaded "LoggerPolicy".
                     //
-                    this.m_loggerPolicy = DataManager.GetDataManager().GetLoggerPolicy(this.m_parameterID);
+                    this.m_loggerPolicy = m_cManager.DataManager.GetLoggerPolicy(this.m_parameterID);
                     //
                     // Searches the loaded "InitialCondition".
                     //
                     this.m_initialCondition
-                            = DataManager.GetDataManager().GetInitialCondition(
+                            = m_cManager.DataManager.GetInitialCondition(
                                     this.m_parameterID, CommandManager.s_modelID);
                 }
                 catch (Exception l_ex)
@@ -2017,7 +1996,7 @@ namespace EcellLib
             {
                 try
                 {
-                    DataManager.GetDataManager().DeleteSimulationParameter(this.m_parameterID);
+                    m_cManager.DataManager.DeleteSimulationParameter(this.m_parameterID);
                     this.m_parameterID = null;
                     this.m_loggerPolicy = new LoggerPolicy();
                     this.m_stepperList = null;
@@ -2037,7 +2016,7 @@ namespace EcellLib
             {
                 try
                 {
-                    foreach (string l_parameterID in DataManager.GetDataManager().GetSimulationParameterIDs())
+                    foreach (string l_parameterID in m_cManager.DataManager.GetSimulationParameterIDs())
                     {
                         if (l_parameterID.Equals(this.m_parameterID))
                         {
@@ -2142,7 +2121,7 @@ namespace EcellLib
                 {
                     LoggerPolicy l_loggerPolicy
                             = new LoggerPolicy(l_savedStepCount, l_savedInterval, l_diskFullAction, l_maxDiskSpace);
-                    DataManager.GetDataManager().SetLoggerPolicy(this.m_parameterID, ref l_loggerPolicy);
+                    m_cManager.DataManager.SetLoggerPolicy(this.m_parameterID, ref l_loggerPolicy);
                 }
                 catch (Exception l_ex)
                 {
@@ -2171,9 +2150,9 @@ namespace EcellLib
             private string m_parameterID = null;
 
             /// <summary>
-            /// DataManager instance associated to this object.
+            /// CommandManager instance associated to this object.
             /// </summary>
-            private DataManager m_dManager = null;
+            private CommandManager m_cManager = null;
 
             /// <summary>
             /// Creates the stepper stub with no argument.
@@ -2185,9 +2164,9 @@ namespace EcellLib
             /// <summary>
             /// Creates the stepper stub with the current simulation parameter and the stepper ID.
             /// </summary>
-            public StepperStub(DataManager dManager, string l_ID)
+            public StepperStub(CommandManager cManager, string l_ID)
             {
-                this.m_dManager = dManager;
+                this.m_cManager = cManager;
                 this.m_ID = l_ID;
             }
 
@@ -2226,13 +2205,13 @@ namespace EcellLib
                     //
                     if (this.m_parameterID == null)
                     {
-                        this.m_parameterID = DataManager.GetDataManager().GetCurrentSimulationParameterID();
+                        this.m_parameterID = m_cManager.DataManager.GetCurrentSimulationParameterID();
                     }
                     //
                     // Searches the simulation parameter.
                     // 
                     bool l_existFlag = false;
-                    foreach (string l_parameterID in CommandManager.GetInstance().GetSimulationParameterIDList())
+                    foreach (string l_parameterID in m_cManager.GetSimulationParameterIDList())
                     {
                         if (this.m_parameterID.Equals(l_parameterID))
                         {
@@ -2242,13 +2221,13 @@ namespace EcellLib
                     }
                     if (!l_existFlag)
                     {
-                        DataManager.GetDataManager().CreateSimulationParameter(this.m_parameterID);
+                        m_cManager.DataManager.CreateSimulationParameter(this.m_parameterID);
                     }
                     //
                     // Searches the loaded "Stepper".
                     //
                     foreach (EcellObject l_stepper
-                            in DataManager.GetDataManager().GetStepper(this.m_parameterID, CommandManager.s_modelID))
+                            in m_cManager.DataManager.GetStepper(this.m_parameterID, CommandManager.s_modelID))
                     {
                         if (l_stepper.Key.Equals(this.m_ID) && l_stepper.Classname.Equals(l_className))
                         {
@@ -2270,7 +2249,7 @@ namespace EcellLib
                     //
                     // Adds the "EcellObject" to the "DataManager". 
                     //
-                    DataManager.GetDataManager().AddStepperID(this.m_parameterID, this.m_stepper);
+                    m_cManager.DataManager.AddStepperID(this.m_parameterID, this.m_stepper);
                 }
                 catch (Exception l_ex)
                 {
@@ -2286,7 +2265,7 @@ namespace EcellLib
             /// <param name="l_className">the class name</param>
             private void Create(string l_key, string l_className)
             {
-                List<string> l_entityList = m_dManager.GetStepperList();
+                List<string> l_entityList = m_cManager.DataManager.GetStepperList();
                 if (l_entityList != null && l_entityList.Count > 0)
                 {
                     foreach (string l_entity in l_entityList)
@@ -2294,9 +2273,9 @@ namespace EcellLib
                         if (l_className.Equals(l_entity))
                         {
                             List<EcellData> l_propertyList = new List<EcellData>();
-                            foreach (string l_property in m_dManager.GetStepperProperty(l_className).Keys)
+                            foreach (string l_property in m_cManager.DataManager.GetStepperProperty(l_className).Keys)
                             {
-                                l_propertyList.Add(m_dManager.GetStepperProperty(l_className)[l_property]);
+                                l_propertyList.Add(m_cManager.DataManager.GetStepperProperty(l_className)[l_property]);
                             }
                             this.m_stepper = EcellObject.CreateObject(
                                     CommandManager.s_modelID,
@@ -2317,7 +2296,7 @@ namespace EcellLib
             {
                 try
                 {
-                    DataManager.GetDataManager().DeleteStepperID(this.m_parameterID, this.m_stepper);
+                    m_cManager.DataManager.DeleteStepperID(this.m_parameterID, this.m_stepper);
                     this.m_ID = null;
                     this.m_parameterID = null;
                     this.m_stepper = null;
@@ -2337,7 +2316,7 @@ namespace EcellLib
                 try
                 {
                     foreach (EcellObject l_stepper
-                            in DataManager.GetDataManager().GetStepper(this.m_parameterID, CommandManager.s_modelID))
+                            in m_cManager.DataManager.GetStepper(this.m_parameterID, CommandManager.s_modelID))
                     {
                         if (l_stepper.Key.Equals(this.m_ID))
                         {
@@ -2563,7 +2542,7 @@ namespace EcellLib
                             }
                             if (l_findFlag)
                             {
-                                DataManager.GetDataManager().DataChanged(
+                                m_cManager.DataManager.DataChanged(
                                         this.m_stepper.ModelID,
                                         this.m_stepper.Key,
                                         this.m_stepper.Type,

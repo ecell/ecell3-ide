@@ -76,12 +76,11 @@ namespace EcellLib.ObjectList
         /// </summary>
         public ObjectList()
         {
-            m_dManager = DataManager.GetDataManager();
             m_TabDict = new Dictionary<string, IObjectListTabPage>();
             m_tabControl = new TabControl();
             m_tabControl.Dock = DockStyle.Fill;
 
-            ModelTabPage tab = new ModelTabPage();
+            ModelTabPage tab = new ModelTabPage(this);
             m_tabControl.Controls.Add(tab.GetTabPage());
             m_TabDict.Add(tab.GetTabPageName(), tab);
         }

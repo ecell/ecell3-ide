@@ -107,11 +107,10 @@ namespace EcellLib.AboutWindow
         private void AboutMenuClick(object sender, EventArgs e)
         {
 
-            PluginManager pManager = PluginManager.GetPluginManager();
             AboutForm aboutForm = new AboutForm();
-            Version v = pManager.AppVersion;
+            Version v = m_pManager.AppVersion;
             aboutForm.versionLabel.Text = "version: " + v.ToString();
-            aboutForm.copyLabel.Text = pManager.CopyRight;
+            aboutForm.copyLabel.Text = m_pManager.CopyRight;
             aboutForm.Show();
         }
 

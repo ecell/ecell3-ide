@@ -211,8 +211,13 @@
     <Compile Include="EcellDockContent.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ApplicationEnvironment.cs" />
+    <Compile Include="ISessionManager.cs" />
+    <Compile Include="LocalSessionProxy.cs" />
+    <Compile Include="LocalSystemProxy.cs" />
     <Compile Include="Message\EntityMessageEntry.cs" />
     <Compile Include="Message\IMessageEntry.cs" />
+    <Compile Include="Message\MessageManager.cs" />
     <Compile Include="Message\MessageEntry.cs" />
     <Compile Include="Message\ObjectMessageEntry.cs" />
     <Compile Include="Objects\EcellData.cs" />
@@ -227,6 +232,7 @@
     <Compile Include="Objects\EcellValue.cs" />
     <Compile Include="Objects\EcellVariable.cs" />
     <Compile Include="EcellXml.cs" />
+    <Compile Include="Plugin\IDockOwner.cs" />
     <Compile Include="Plugin\IEcellPlugin.cs" />
     <Compile Include="ImageResource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -235,9 +241,12 @@
     </Compile>
     <Compile Include="Project.cs" />
     <Compile Include="ScriptWriter.cs" />
+    <Compile Include="SessionManager.cs" />
+    <Compile Include="SessionProxy.cs" />
     <Compile Include="SimulationParameter.cs" />
     <Compile Include="DataLogger.cs" />
     <Compile Include="Eml.cs" />
+    <Compile Include="SystemProxy.cs" />
     <None Include="ecelllib.snk" />
   </ItemGroup>
   <ItemGroup>

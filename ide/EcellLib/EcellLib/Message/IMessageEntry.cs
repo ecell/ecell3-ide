@@ -43,16 +43,16 @@ namespace EcellLib.Message
         /// Get the type of message.
         /// </summary>
         /// <returns>the type of message.</returns>
-        MessageType GetMessageType();
+        MessageType MessageType { get; }
         /// <summary>
         /// Get the location of message.
         /// </summary>
         /// <returns>the location of message.</returns>
-        String GetLocation();
+        String Location { get; }
         /// <summary>
         /// Get the message string.
         /// </summary>
         /// <returns>the message string</returns>
-        String GetMessage();
+        String Message { get; }
     }
 }

@@ -10,8 +10,10 @@ namespace EcellLib.ObjectList2
     /// <summary>
     /// 
     /// </summary>
-    public class VPropertyTabPage
+    internal class VPropertyTabPage
     {
+        private PropertyTabPage m_owner;
+
         private Type m_Type;
         /// <summary>
         /// 
@@ -100,8 +102,9 @@ namespace EcellLib.ObjectList2
         /// <summary>
         /// 
         /// </summary>
-        public VPropertyTabPage()
+        public VPropertyTabPage(PropertyTabPage owner)
         {
+            m_owner = owner;
             m_gridView = new DataGridView();
             m_gridView.Dock = DockStyle.Fill;
             m_gridView.MultiSelect = true;
@@ -339,13 +342,12 @@ namespace EcellLib.ObjectList2
         /// </summary>
         public void UpdatePropForSimulation()
         {
-            DataManager manager = DataManager.GetDataManager();
-            double ctime = manager.GetCurrentSimulationTime();
+            double ctime = m_owner.DataManager.GetCurrentSimulationTime();
             if (ctime == 0.0) return;
 
             foreach (string entPath in m_propDic.Keys)
             {
-                EcellValue v = manager.GetEntityProperty(entPath);
+                EcellValue v = m_owner.DataManager.GetEntityProperty(entPath);
                 if (v == null) continue;
                 m_propDic[entPath].Value = v.Value.ToString();
             }
@@ -470,8 +472,7 @@ namespace EcellLib.ObjectList2
             if (index < 0) return;
             EcellObject obj = m_gridView.Rows[index].Tag as EcellObject;
             if (obj == null) return;
-            PluginManager manager = PluginManager.GetPluginManager();
-            manager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
+            m_owner.PluginManager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
         }
     }
 }

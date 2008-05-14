@@ -31,6 +31,7 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 using System;
+using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -79,6 +80,10 @@ namespace EcellLib
     {
         #region Fields
         /// <summary>
+        /// The application environment associated to this object.
+        /// </summary>
+        private ApplicationEnvironment m_env;
+        /// <summary>
         /// m_printBase (set plugin for print)
         /// </summary>
         private string m_printBase;
@@ -103,10 +108,6 @@ namespace EcellLib
         /// </summary>
         private ImageList m_imageList;
         /// <summary>
-        /// s_instance (singleton instance)
-        /// </summary>
-        private static PluginManager s_instance = null;
-        /// <summary>
         /// m_version (Application Version Information)
         /// </summary>
         private Version m_version;
@@ -115,9 +116,9 @@ namespace EcellLib
         /// </summary>
         private String m_copyright;
         /// <summary>
-        /// DockPanel of MainWindow.
+        /// The owner of the DockPanel (MainWindow)
         /// </summary>
-        private DockPanel m_panel;
+        private IDockOwner m_dockOwner;
         /// <summary>
         /// Name of selected plugin to print.
         /// </summary>
@@ -135,8 +136,9 @@ namespace EcellLib
         /// <summary>
         /// constructer for PluginManager.
         /// </summary>
-        public PluginManager()
+        public PluginManager(ApplicationEnvironment env)
         {
+            this.m_env = env;
             this.m_printBase = null;
             this.m_printDoc = new PrintDocument();
             this.m_printDoc.PrintPage += 
@@ -164,8 +166,7 @@ namespace EcellLib
         /// </summary>
         public DockPanel DockPanel
         {
-            get { return this.m_panel; }
-            set { this.m_panel = value; }
+            get { return this.m_dockOwner.DockPanel; }
         }
 
         /// <summary>
@@ -434,14 +435,13 @@ namespace EcellLib
         /// <param name="modelID"></param>
         public void LoadData(string modelID)
         {
-            DataManager manager = DataManager.GetDataManager();
-            DataAdd(manager.GetData(modelID, null));
-            string prjID = manager.CurrentProjectID;
-            foreach (string paramID in manager.GetSimulationParameterIDs())
+            DataAdd(m_env.DataManager.GetData(modelID, null));
+            string prjID = m_env.DataManager.CurrentProjectID;
+            foreach (string paramID in m_env.DataManager.GetSimulationParameterIDs())
             {
                 this.ParameterAdd(prjID, paramID);
             }
-            this.ParameterSet(manager.CurrentProjectID, manager.GetCurrentSimulationParameterID());
+            this.ParameterSet(m_env.DataManager.CurrentProjectID, m_env.DataManager.GetCurrentSimulationParameterID());
         }
 
         /// <summary>
@@ -462,7 +462,7 @@ namespace EcellLib
             m_printDic.Clear();
 
             // plugin base list show
-            PrintPluginDialog d = new PrintPluginDialog();
+            PrintPluginDialog d = new PrintPluginDialog(this);
 
             foreach (KeyValuePair<string, IEcellPlugin> kvp in m_pluginList)
             {
@@ -607,30 +607,56 @@ namespace EcellLib
         /// <param name="className">class name.</param>
         public IEcellPlugin LoadPlugin(string path, string className)
         {
-            Assembly handle = Assembly.LoadFile(path);
+            Trace.WriteLine("Loading plugin: " + className);
+            Trace.WriteLine(Assembly.GetCallingAssembly());
+            Assembly handle = path != null ?
+                Assembly.LoadFile(path) :
+                Assembly.GetCallingAssembly();
             Type aType = handle.GetType(className);
+            if (aType == null)
+            {
+                throw new Exception("The assembly " + handle + " does not contain the class " + className);
+            }
+            return AddPlugin(aType);
+        }
+
+        /// <summary>
+        /// Add a plugin to the registry
+        /// </summary>
+        /// <param name="p">the plugin</param>
+        public IEcellPlugin AddPlugin(Type pluginType)
+        {
+            IEcellPlugin p = null;
             try
             {
-                Object anAllocator = aType.InvokeMember(
+                p = (IEcellPlugin)pluginType.InvokeMember(
                     null,
                     BindingFlags.CreateInstance,
                     null,
                     null,
                     null
                 );
-
-                IEcellPlugin p = (IEcellPlugin)anAllocator;
-                if (!m_pluginList.ContainsKey(p.GetPluginName()))
-                {
-                    m_pluginList.Add(p.GetPluginName(), p);
-                }
-
-                return p;
             }
             catch (TargetInvocationException e)
             {
                 throw e.InnerException;
             }
+
+            if (typeof(IDockOwner).IsAssignableFrom(pluginType))
+            {
+                m_dockOwner = (IDockOwner)p;
+            }
+
+            p.Environment = m_env;
+
+            p.Initialize();
+
+            if (!m_pluginList.ContainsKey(p.GetPluginName()))
+            {
+                m_pluginList.Add(p.GetPluginName(), p);
+            }
+
+            return p;
         }
 
         /// <summary>
@@ -767,19 +793,6 @@ namespace EcellLib
                 result.Add(p.GetPluginName(), p.GetVersionString());
             }
             return result;
-        }
-
-        /// <summary>
-        /// Get PluginManager with using singleton pattern.
-        /// </summary>
-        /// <returns>The PluginManager in application</returns>
-        public static PluginManager GetPluginManager()
-        {
-            if (s_instance == null)
-            {
-                s_instance = new PluginManager();
-            }
-            return s_instance;
         }
 
         /// <summary>

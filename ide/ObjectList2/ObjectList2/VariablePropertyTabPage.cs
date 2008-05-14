@@ -33,12 +33,8 @@ namespace EcellLib.ObjectList2
             VPropertyTabPage.s_indexMolarConc
         };
 
-
-
-        public VariablePropertyTabPage()
-            : base()
+        public VariablePropertyTabPage(PropertyTabPage owner): base(owner)
         {
-
         }
 
         public override void DataAdd(EcellObject obj)

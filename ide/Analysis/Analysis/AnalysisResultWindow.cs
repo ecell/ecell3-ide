@@ -20,7 +20,7 @@ namespace EcellLib.Analysis
         /// <summary>
         /// Plugin Controller.
         /// </summary>
-        private Analysis m_control;
+        private Analysis m_owner;
         /// <summary>
         /// Graph control to display the matrix of analysis result.
         /// </summary>
@@ -45,10 +45,11 @@ namespace EcellLib.Analysis
         /// <summary>
         /// Constructor.
         /// </summary>
-        public AnalysisResultWindow()
+        public AnalysisResultWindow(Analysis anal)
         {
             InitializeComponent();
 
+            m_owner = anal;
             m_zCnt = new ZedGraphControl();
             m_zCnt.Dock = DockStyle.Fill;
             m_zCnt.GraphPane.Title.Text = "";
@@ -63,7 +64,6 @@ namespace EcellLib.Analysis
             m_zCnt.AxisChange();
             m_zCnt.Refresh();
 
-            m_manager = SessionManager.SessionManager.GetManager();
             this.FormClosed += new FormClosedEventHandler(CloseCurrentForm);
 
             ContextMenuStrip peCntMenu = new ContextMenuStrip();
@@ -79,17 +79,6 @@ namespace EcellLib.Analysis
 
         }
 
-        #endregion
-
-        #region Accessors
-        /// <summary>
-        /// get / set the plugin controller.
-        /// </summary>
-        public Analysis Control
-        {
-            get { return this.m_control; }
-            set { this.m_control = value; }
-        }
         #endregion
 
         /// <summary>
@@ -392,11 +381,11 @@ namespace EcellLib.Analysis
         /// <param name="e">FormClosedEventArgs</param>
         void CloseCurrentForm(object sender, FormClosedEventArgs e)
         {
-            if (m_control != null)
+            if (m_owner != null)
             {
-                m_control.CloseAnalysisResultWindow();
+                m_owner.CloseAnalysisResultWindow();
             }
-            m_control = null;
+            m_owner = null;
         }
 
         /// <summary>
@@ -426,7 +415,7 @@ namespace EcellLib.Analysis
         /// <param name="e">EventArgs.</param>
         private void ClickReflectMenu(object sender, EventArgs e)
         {
-            DataManager manager = DataManager.GetDataManager();
+            DataManager manager = m_owner.DataManager;
             foreach (DataGridViewRow r in PEEstimateView.Rows)
             {
                 string path = Convert.ToString(r.Cells[0].Value);
@@ -449,6 +438,4 @@ namespace EcellLib.Analysis
         }
         #endregion
     }
-
-
 }

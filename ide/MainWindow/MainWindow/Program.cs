@@ -30,6 +30,7 @@
 
 using System;
 using System.Diagnostics;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Resources;
@@ -38,10 +39,15 @@ using System.Reflection;
 using System.IO;
 using System.Runtime.InteropServices;
 
+using EcellLib.Message;
+using EcellLib.Plugin;
+
 namespace EcellLib.MainWindow
 {
     class Program
     {
+        static bool s_noSplash = false;
+
         enum OptionKind
         {
             PluginDirectory
@@ -75,6 +81,10 @@ namespace EcellLib.MainWindow
                     {
                         Util.OmitDefaultPaths();
                     }
+                    else if (arg == "/NOSPLASH")
+                    {
+                        s_noSplash = true;
+                    }
                     else if (arg == "/TRACE")
                     {
                         AllocConsole();
@@ -100,33 +110,44 @@ namespace EcellLib.MainWindow
             Util.InitialLanguage();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Splash frmSplash = new Splash();
+
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(MainWindow));
+            ApplicationEnvironment env = new ApplicationEnvironment();
+
+            Splash frmSplash = !s_noSplash ? new Splash(): null;
             ApplicationContext me = new ApplicationContext();
 
+
             EventHandler onIdle = null;
-            onIdle = delegate(object sender, EventArgs e)
+            onIdle = delegate(object sender, EventArgs ev)
             {
                 Application.Idle -= onIdle;
-                MainWindow frmMainWnd = new MainWindow();
+                IEcellPlugin mainWnd = env.PluginManager.AddPlugin(
+                    typeof(EcellLib.MainWindow.MainWindow));
+                me.MainForm = (Form)mainWnd;
+                ((Form)mainWnd).Show();
+                if (frmSplash != null)
+                {
+                    frmSplash.Close();
+                }
 
-                me.MainForm = frmMainWnd;
-                frmSplash.Close();
-                frmMainWnd.LoadDefaultWindowSetting();
-                frmMainWnd.SetStartUpWindow();
-                frmMainWnd.Show();
-                DataManager manager = DataManager.GetDataManager();
                 foreach (string fPath in fileList)
                 {
                     if (fPath.EndsWith(Constants.FileExtEML))
                     {
-                        frmMainWnd.LoadModel(fPath);
+                        ((MainWindow)mainWnd).LoadModel(fPath);
                     }
                     else
-                        manager.LoadUserActionFile(fPath);
+                    {
+                        env.DataManager.LoadUserActionFile(fPath);
+                    }
                 }
             };
 
-            frmSplash.Show();
+            if (frmSplash != null)
+            {
+                frmSplash.Show();
+            }
             Application.Idle += onIdle;
             Application.Run(me);
         }

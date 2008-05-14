@@ -122,6 +122,11 @@ namespace EcellLib.Analysis
         private Dictionary<string, List<double>> m_fccResult = new Dictionary<string, List<double>>();
         #endregion
 
+        public ISessionManager SessionManager
+        {
+            get { return m_env.SessionManager; }
+        }
+
         /// <summary>
         /// constructor.
         /// </summary>
@@ -389,10 +394,9 @@ namespace EcellLib.Analysis
         /// <returns>the list of observed property.</returns>
         public List<SaveLoggerProperty> GetPEObservedDataList()
         {
-            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
             List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
             
-            String dir = manager.TmpDir;
+            String dir = m_env.SessionManager.TmpDir;
             double start = 0.0;
             double end = m_estimationParameter.SimulationTime;
             string formulator = m_estimationParameter.EstimationFormulator;
@@ -414,13 +418,12 @@ namespace EcellLib.Analysis
         /// <returns>the list of observed property.</returns>
         public List<SaveLoggerProperty> GetRAObservedDataList()
         {
-            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
             List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
-            List<EcellObservedData> obsList = m_dManager.GetObservedData();
+            List<EcellObservedData> obsList = m_env.DataManager.GetObservedData();
 
             foreach (EcellObservedData data in obsList)
             {
-                string dir = manager.TmpDir;
+                string dir = m_env.SessionManager.TmpDir;
                 string path = data.Key;
                 double start = 0.0;
                 double end = m_robustParameter.SimulationTime;
@@ -446,13 +449,12 @@ namespace EcellLib.Analysis
         /// <returns>the list of observed property.</returns>
         public List<SaveLoggerProperty> GetBAObservedDataList()
         {
-            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
             List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
-            List<EcellObservedData> obsList = m_dManager.GetObservedData();
+            List<EcellObservedData> obsList = m_env.DataManager.GetObservedData();
 
             foreach (EcellObservedData data in obsList)
             {
-                String dir = manager.TmpDir;
+                String dir = m_env.SessionManager.TmpDir;
                 string path = data.Key;
                 double start = 0.0;
                 double end = m_bifurcateParameter.SimulationTime;
@@ -495,9 +497,8 @@ namespace EcellLib.Analysis
         {
             if (m_win == null)
             {
-                m_win = new AnalysisWindow();
-                m_win.Control = this;
-                DockPanel panel = PluginManager.GetPluginManager().DockPanel;
+                m_win = new AnalysisWindow(this);
+                DockPanel panel = m_env.PluginManager.DockPanel;
                 m_win.DockHandler.DockPanel = panel;
                 m_win.DockHandler.FloatPane = panel.DockPaneFactory.CreateDockPane(m_win, DockState.Float, true);
                 FloatWindow fw = panel.FloatWindowFactory.CreateFloatWindow(
@@ -530,8 +531,7 @@ namespace EcellLib.Analysis
                 }
                 return;
             }           
-            m_robustAnalysis = new RobustAnalysis();
-            m_robustAnalysis.Control = this;
+            m_robustAnalysis = new RobustAnalysis(this);
             m_robustAnalysis.ExecuteAnalysis();
         }
 
@@ -551,9 +551,8 @@ namespace EcellLib.Analysis
                     m_parameterEstimation.StopAnalysis();
                 }
                 return;
-            }  
-            m_parameterEstimation = new ParameterEstimation();
-            m_parameterEstimation.Control = this;
+            }
+            m_parameterEstimation = new ParameterEstimation(this);
             m_parameterEstimation.ExecuteAnalysis();
         }
 
@@ -574,8 +573,7 @@ namespace EcellLib.Analysis
                 }
                 return;
             }
-            m_sensitivityAnalysis = new SensitivityAnalysis();
-            m_sensitivityAnalysis.Control = this;
+            m_sensitivityAnalysis = new SensitivityAnalysis(this);
             m_sensitivityAnalysis.ExecuteAnalysis();
         }
 
@@ -613,8 +611,7 @@ namespace EcellLib.Analysis
                 }
                 return;
             }
-            m_bifurcationAnalysis = new BifurcationAnalysis();
-            m_bifurcationAnalysis.Control = this;
+            m_bifurcationAnalysis = new BifurcationAnalysis(this);
             m_bifurcationAnalysis.ExecuteAnalysis();
         }
         #endregion
@@ -696,7 +693,7 @@ namespace EcellLib.Analysis
         public override List<EcellDockContent> GetWindowsForms()
         {
             List<EcellDockContent> list = new List<EcellDockContent>();
-            m_rWin = new AnalysisResultWindow();
+            m_rWin = new AnalysisResultWindow(this);
             list.Add(m_rWin);
             return list;
         }
@@ -753,7 +750,7 @@ namespace EcellLib.Analysis
                         foreach (EcellData d in child.Value)
                         {
                             if (d.EntityPath == null) continue;
-                            if (!m_dManager.IsContainsParameterData(d.EntityPath)) continue;
+                            if (!m_env.DataManager.IsContainsParameterData(d.EntityPath)) continue;
                             m_paramList.Add(d.EntityPath, d);
                             if (m_win != null)
                                 m_win.AddParameterEntry(child, d);
@@ -766,7 +763,7 @@ namespace EcellLib.Analysis
                 foreach (EcellData d in obj.Value)
                 {
                     if (d.EntityPath == null) continue;
-                    if (!m_dManager.IsContainsParameterData(d.EntityPath)) continue;
+                    if (!m_env.DataManager.IsContainsParameterData(d.EntityPath)) continue;
                     m_paramList.Add(d.EntityPath, d);
                     if (m_win != null)
                         m_win.AddParameterEntry(obj, d);
@@ -787,7 +784,7 @@ namespace EcellLib.Analysis
             foreach (EcellData d in obj.Value)
             {
                 if (d.EntityPath == null) continue;
-                if (!m_dManager.IsContainsParameterData(d.EntityPath))
+                if (!m_env.DataManager.IsContainsParameterData(d.EntityPath))
                 {
                     if (m_paramList.ContainsKey(d.EntityPath))
                     {

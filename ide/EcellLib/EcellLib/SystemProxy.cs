@@ -63,9 +63,9 @@ namespace EcellLib.SessionManager
         /// Get environment name of this proxy.
         /// </summary>
         /// <returns>environment name.</returns>
-        public virtual String GetEnvironment()
+        public virtual string Name
         {
-            return null;
+            get { return null; }
         }
 
         /// <summary>
@@ -85,8 +85,8 @@ namespace EcellLib.SessionManager
         /// <param name="extFile">extra file of script file.</param>
         /// <param name="tmpDir">tmp directory of script file</param>
         /// <returns>Class of proxy for session.</returns>
-        public virtual SessionProxy CreateSessionProxy(String script, 
-            String arg, List<String> extFile, String tmpDir)
+        public virtual SessionProxy CreateSessionProxy(string script, 
+            string arg, List<string> extFile, string tmpDir)
         {
             return null;
         }
@@ -95,7 +95,7 @@ namespace EcellLib.SessionManager
         /// Get the property of this proxy.
         /// </summary>
         /// <returns>list of property name.</returns>
-        public virtual Dictionary<String, Object> GetProperty()
+        public virtual Dictionary<string, Object> GetProperty()
         {
             return null;
         }
@@ -113,7 +113,7 @@ namespace EcellLib.SessionManager
         /// Update the property of proxy.
         /// </summary>
         /// <param name="list">the list of property.</param>
-        public virtual void SetProperty(Dictionary<String, Object> list)
+        public virtual void SetProperty(Dictionary<string, Object> list)
         {
         }
 

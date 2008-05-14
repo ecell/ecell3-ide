@@ -74,9 +74,9 @@ namespace EcellLib.SessionManager
         /// Get the environment name. This class return "Local".
         /// </summary>
         /// <returns>"Local".</returns>
-        public override string GetEnvironment()
+        public override string Name
         {
-            return "Local";
+            get { return "Local"; }
         }
 
         /// <summary>

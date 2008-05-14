@@ -45,7 +45,7 @@ namespace EcellLib.Simulation
         /// <summary>
         /// DataManager.
         /// </summary>
-        DataManager m_dManager;
+        SimulationSetup m_owner;
         /// <summary>
         /// the parent window with SimulationSetupWindow.
         /// </summary>
@@ -55,10 +55,10 @@ namespace EcellLib.Simulation
         /// <summary>
         /// Constructor for NewParameterWindow.
         /// </summary>
-        public NewParameterWindow()
+        public NewParameterWindow(SimulationSetup owner)
         {
+            m_owner = owner;
             InitializeComponent();
-            m_dManager = DataManager.GetDataManager();
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace EcellLib.Simulation
             string modelID = m_win.GetCurrentModel();
             string stepperID = m_win.GetCurrentStepper();
             Dictionary<string, EcellData> propDict =
-                m_dManager.GetStepperProperty(stepperID);
+                m_owner.DataManager.GetStepperProperty(stepperID);
             List<EcellData> list = new List<EcellData>();
             foreach (string key in propDict.Keys)
             {
@@ -123,9 +123,9 @@ namespace EcellLib.Simulation
                 }
             }
             EcellObject obj = EcellObject.CreateObject(modelID, data, Constants.xpathStepper, stepperID, list);
-            m_dManager.AddStepperID(paramID, obj);
+            m_owner.DataManager.AddStepperID(paramID, obj);
             m_win.AddStepper(data);
-            m_win.SetStepperList(m_dManager.GetStepper(paramID, modelID));
+            m_win.SetStepperList(m_owner.DataManager.GetStepper(paramID, modelID));
             Close();
             Dispose();
         }
@@ -172,7 +172,7 @@ namespace EcellLib.Simulation
                 return;
             }
             string newParamName = paramTextBox.Text;
-            m_dManager.CreateSimulationParameter(newParamName);
+            m_owner.DataManager.CreateSimulationParameter(newParamName);
             m_win.SetNewParameter(newParamName);
             Dispose();
         }

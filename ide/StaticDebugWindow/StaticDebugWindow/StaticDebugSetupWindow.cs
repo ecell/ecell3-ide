@@ -207,10 +207,10 @@ namespace EcellLib.StaticDebugWindow
 
             String key = GetKeyFromPath(path);
 
-            EcellObject obj = DataManager.GetDataManager().GetEcellObject(modelID, key, type);
+            EcellObject obj = m_staticDebug.DataManager.GetEcellObject(modelID, key, type);
             if (obj != null)
             {
-                PropertyEditor.Show(obj);
+                PropertyEditor.Show(m_staticDebug.DataManager, m_staticDebug.PluginManager, obj);
             }
         }
 

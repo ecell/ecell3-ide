@@ -1,4 +1,4 @@
-﻿namespace EcellLib
+﻿namespace EcellLib.EntityListWindow
 {
     /// <summary>
     /// EntityList UserControl.

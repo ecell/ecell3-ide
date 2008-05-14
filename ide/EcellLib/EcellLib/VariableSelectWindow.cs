@@ -42,6 +42,14 @@ namespace EcellLib
     {
         #region Fields
         /// <summary>
+        /// DataManager
+        /// </summary>
+        private DataManager m_dManager;
+        /// <summary>
+        /// PluginManager
+        /// </summary>
+        private PluginManager m_pManager;
+        /// <summary>
         /// the parent windows form.
         /// </summary>
         private VariableRefWindow m_win;
@@ -54,10 +62,12 @@ namespace EcellLib
         /// <summary>
         /// Constructor for VariableSelectWindow.
         /// </summary>
-        public VariableSelectWindow()
+        public VariableSelectWindow(DataManager dManager, PluginManager pManager)
         {
             InitializeComponent();
-            this.selectTree.ImageList = PluginManager.GetPluginManager().NodeImageList;
+            this.m_dManager = dManager;
+            this.m_pManager = pManager;
+            this.selectTree.ImageList = m_pManager.NodeImageList;
         }
 
         /// <summary>

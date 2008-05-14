@@ -48,16 +48,17 @@ namespace EcellLib.MainWindow
     {
         #region
         /// <summary>
-        /// ResourceManager.
+        /// SessionManager
         /// </summary>
-        SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+        ISessionManager m_manager;
         #endregion
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public DistributedEnvWindow()
+        public DistributedEnvWindow(ISessionManager manager)
         {
+            m_manager = manager;
             InitializeComponent();               
             JobGridView.CellDoubleClick += new DataGridViewCellEventHandler(JobGridViewDoubleClick);
         }
@@ -70,12 +71,10 @@ namespace EcellLib.MainWindow
         /// <param name="e">DataGridViewCellEventArgs.</param>
         void JobGridViewDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
-
             if (e.RowIndex < 0) return;
             int jobid = Convert.ToInt32(JobGridView[0, e.RowIndex].Value);
-            if (!manager.SessionList.ContainsKey(jobid)) return;
-            string data = manager.SessionList[jobid].StdErr;
+            if (!m_manager.SessionList.ContainsKey(jobid)) return;
+            string data = m_manager.SessionList[jobid].StdErr;
 
             Util.ShowNoticeDialog(data);
         }
@@ -88,9 +87,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs.</param>
         private void WinShown(object sender, EventArgs e)
         {
-            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
-
-            foreach (SessionProxy s in manager.SessionList.Values)
+            foreach (SessionProxy s in m_manager.SessionList.Values)
             {
                 JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
             }
@@ -104,9 +101,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs.</param>
         private void DEWClearButtonClick(object sender, EventArgs e)
         {
-            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
-
-            manager.ClearJob(0);
+            m_manager.ClearJob(0);
             JobGridView.Rows.Clear();
         }
 
@@ -118,14 +113,12 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs.</param>
         private void DEWDeleteButtonClick(object sender, EventArgs e)
         {
-            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
-
             foreach (DataGridViewRow r in JobGridView.SelectedRows)
             {
                 try
                 {
                     int jobid = Convert.ToInt32(r.Cells[0].Value);
-                    manager.ClearJob(jobid);
+                    m_manager.ClearJob(jobid);
                 }
                 catch (Exception ex)
                 {
@@ -133,7 +126,7 @@ namespace EcellLib.MainWindow
                 }
             }
             JobGridView.Rows.Clear();
-            foreach (SessionProxy s in manager.SessionList.Values)
+            foreach (SessionProxy s in m_manager.SessionList.Values)
             {
                 JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
             }
@@ -158,10 +151,8 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs.</param>
         private void DEWUpdateButton_Click(object sender, EventArgs e)
         {
-            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
-
             JobGridView.Rows.Clear();
-            foreach (SessionProxy s in manager.SessionList.Values)
+            foreach (SessionProxy s in m_manager.SessionList.Values)
             {
                 JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
             }
@@ -175,19 +166,17 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs.</param>
         private void DEWStopButton_Click(object sender, EventArgs e)
         {
-            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
-
             if (JobGridView.SelectedRows.Count > 0)
             {
                 foreach (DataGridViewRow r in JobGridView.SelectedRows)
                 {
                     int jobid = Convert.ToInt32(r.Cells[0].Value);
-                    manager.Stop(jobid);
+                    m_manager.Stop(jobid);
                 }
                 return;
             }
 
-            manager.Stop(0);            
+            m_manager.Stop(0);            
         }
 
         /// <summary>
@@ -198,16 +187,14 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs.</param>
         private void DEWStartButton_Click(object sender, EventArgs e)
         {
-            SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
-
             if (JobGridView.SelectedRows.Count > 0)
             {
                 foreach (DataGridViewRow r in JobGridView.SelectedRows)
                 {
                     int jobid = Convert.ToInt32(r.Cells[0].Value);
-                    manager.SessionList[jobid].Status = JobStatus.QUEUED;
+                    m_manager.SessionList[jobid].Status = JobStatus.QUEUED;
                 }
-                manager.Run();
+                m_manager.Run();
                 return;
             }
         }

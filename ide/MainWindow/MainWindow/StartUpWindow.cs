@@ -65,7 +65,6 @@ namespace EcellLib.MainWindow
 
         private void SetRecentFiles()
         {
-            PluginManager manager = PluginManager.GetPluginManager();
             int i = 0;
             foreach (KeyValuePair<string, string> project in m_window.RecentProjects)
             {

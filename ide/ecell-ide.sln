@@ -169,15 +169,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TracerWindow", "TracerWindo
 		{1311EAE3-BBF8-4B24-83B9-6D6C12DBA295} = {1311EAE3-BBF8-4B24-83B9-6D6C12DBA295}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SessionManager", "SessionManager\SessionManager\SessionManager.csproj", "{3F101152-5363-4599-AA2C-29A78D20879E}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-	ProjectSection(ProjectDependencies) = postProject
-		{1311EAE3-BBF8-4B24-83B9-6D6C12DBA295} = {1311EAE3-BBF8-4B24-83B9-6D6C12DBA295}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectList2", "ObjectList2\ObjectList2\ObjectList2.csproj", "{2FB3385F-89E2-40FE-8157-5A2993C6D258}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"

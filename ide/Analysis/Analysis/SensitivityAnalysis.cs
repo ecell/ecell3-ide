@@ -48,17 +48,13 @@ namespace EcellLib.Analysis
     {
         #region Fields
         /// <summary>
-        /// Manage of session.
-        /// </summary>
-        private SessionManager.SessionManager m_manager;
-        /// <summary>
         /// Timer to update the status of jobs.
         /// </summary>
         private System.Windows.Forms.Timer m_timer;
         /// <summary>
         /// Plugin controller.
         /// </summary>
-        private Analysis m_control;
+        private Analysis m_owner;
         /// <summary>
         /// The flag whether the analysis is running.
         /// </summary>
@@ -152,9 +148,9 @@ namespace EcellLib.Analysis
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SensitivityAnalysis()
+        public SensitivityAnalysis(Analysis owner)
         {
-            m_manager = SessionManager.SessionManager.GetManager();
+            m_owner = owner;
 
             m_timer = new System.Windows.Forms.Timer();
             m_timer.Enabled = false;
@@ -169,15 +165,6 @@ namespace EcellLib.Analysis
 
         #region Accessors
         /// <summary>
-        /// get / set the parent plugin.
-        /// </summary>
-        public Analysis Control
-        {
-            get { return this.m_control; }
-            set { this.m_control = value; }
-        }
-
-        /// <summary>
         /// get / set the flag whether the sensitivity analysis is running.
         /// </summary>
         public bool IsRunning
@@ -191,10 +178,10 @@ namespace EcellLib.Analysis
         /// </summary>
         public void ExecuteAnalysis()
         {
-            DataManager dManager = DataManager.GetDataManager();
-            m_param = m_control.GetSensitivityAnalysisParameter();
+            DataManager dManager = m_owner.DataManager;
+            m_param = m_owner.GetSensitivityAnalysisParameter();
             m_model = "";
-            List<string> modelList = DataManager.GetDataManager().GetModelList();
+            List<string> modelList = m_owner.DataManager.GetModelList();
             if (modelList.Count > 0) m_model = modelList[0];
 
             if (m_param.Step <= 0)
@@ -241,8 +228,8 @@ namespace EcellLib.Analysis
         private void CreateExecuteParameter(Dictionary<EcellObject, int> varList,
             Dictionary<EcellObject, int> proList)
         {
-            DataManager dManager = DataManager.GetDataManager();
-            string tmpDir = m_manager.TmpRootDir;
+            DataManager dManager = m_owner.DataManager;
+            string tmpDir = m_owner.SessionManager.TmpRootDir;
             double start = 0.0;
             double end = 0.0;
             int jobid = 0;
@@ -306,8 +293,8 @@ namespace EcellLib.Analysis
             double cTime = dManager.GetCurrentSimulationTime();
             dManager.SimulationStop();
 
-            m_manager.SetLoggerData(m_saveList);
-            m_execParam = m_manager.RunSimParameterSet(tmpDir, m_model, cTime, false, execDict);
+            m_owner.SessionManager.SetLoggerData(m_saveList);
+            m_execParam = m_owner.SessionManager.RunSimParameterSet(tmpDir, m_model, cTime, false, execDict);
         }
 
         /// <summary>
@@ -315,9 +302,9 @@ namespace EcellLib.Analysis
         /// </summary>
         public void StopAnalysis()
         {
-            m_manager.StopRunningJobs();
+            m_owner.SessionManager.StopRunningJobs();
             m_isRunning = false;
-            Control.StopSensitivityAnalysis();
+            m_owner.StopSensitivityAnalysis();
         }
 
         /// <summary>
@@ -329,7 +316,7 @@ namespace EcellLib.Analysis
         {
             int i = 0;
             Dictionary<EcellObject, int> resList = new Dictionary<EcellObject, int>();
-            DataManager dManager = DataManager.GetDataManager();
+            DataManager dManager = m_owner.DataManager;
             List<EcellObject> objList = dManager.GetData(model, null);
             foreach (EcellObject sObj in objList)
             {
@@ -355,7 +342,7 @@ namespace EcellLib.Analysis
         {
             int i = 0;
             Dictionary<EcellObject, int> resList = new Dictionary<EcellObject, int>();
-            DataManager dManager = DataManager.GetDataManager();
+            DataManager dManager = m_owner.DataManager;
             List<EcellObject> objList = dManager.GetData(model, null);
             foreach (EcellObject sObj in objList)
             {
@@ -401,7 +388,7 @@ namespace EcellLib.Analysis
                 foreach (string path in headerList)
                 {
                     Dictionary<double, double> logList =
-                        m_manager.SessionList[jobid].GetLogData(path);
+                        m_owner.SessionManager.SessionList[jobid].GetLogData(path);
                     double value = 0.0;
                     foreach (double t in logList.Keys)
                         value = logList[t];
@@ -720,11 +707,11 @@ namespace EcellLib.Analysis
         {
             try
             {
-                if (!m_manager.IsFinished())
+                if (!m_owner.SessionManager.IsFinished())
                 {
                     if (m_isRunning == false)
                     {
-                        m_manager.StopRunningJobs();
+                        m_owner.SessionManager.StopRunningJobs();
                         m_timer.Enabled = false;
                         m_timer.Stop();
                     }
@@ -733,13 +720,13 @@ namespace EcellLib.Analysis
                 m_isRunning = false;
                 m_timer.Enabled = false;
                 m_timer.Stop();
-                Control.StopSensitivityAnalysis();
+                m_owner.StopSensitivityAnalysis();
 
                 CreateEpsilonElastictyMatrix();
                 CalculateUnScaledControlCoefficient();
                 CalculateScaledControlCoefficient();
 
-                m_control.SetSensitivityHeader(m_activityList);
+                m_owner.SetSensitivityHeader(m_activityList);
                 for (int i = 0; i < m_scaledCCCMatrix.RowCount; i++)
                 {
                     List<double> res = new List<double>();
@@ -747,7 +734,7 @@ namespace EcellLib.Analysis
                     {
                         res.Add(m_scaledCCCMatrix[i, j]);
                     }
-                    m_control.AddSensitivityDataOfCCC(m_valueList[i], res);
+                    m_owner.AddSensitivityDataOfCCC(m_valueList[i], res);
                 }
                 for (int i = 0; i < m_scaledFCCMatrix.RowCount; i++)
                 {
@@ -756,7 +743,7 @@ namespace EcellLib.Analysis
                     {
                         res.Add(m_scaledFCCMatrix[i, j]);
                     }
-                    m_control.AddSensitivityDataOfFCC(m_activityList[i], res);
+                    m_owner.AddSensitivityDataOfFCC(m_activityList[i], res);
                 }
 
                 String finMes = Analysis.s_resources.GetString(MessageConstants.FinishSAnalysis);

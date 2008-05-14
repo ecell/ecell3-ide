@@ -46,6 +46,10 @@ namespace EcellLib
     {
         #region Fields
         /// <summary>
+        /// DataManager
+        /// </summary>
+        private ApplicationEnvironment m_env;
+        /// <summary>
         /// List of user action on IDE.
         /// </summary>
         private List<UserAction> m_list;
@@ -53,10 +57,6 @@ namespace EcellLib
         /// An index of m_list for undoing and redoing.
         /// </summary>
         private int m_listIndex;
-        /// <summary>
-        /// s_instance (singleton instance)
-        /// </summary>
-        private static ActionManager s_instance = null;
         /// <summary>
         /// Whether duaring load the actions or others.
         /// </summary>
@@ -66,8 +66,9 @@ namespace EcellLib
         /// <summary>
         /// Constructor for ActionManager.
         /// </summary>
-        public ActionManager()
+        public ActionManager(ApplicationEnvironment env)
         {
+            m_env = env;
             m_list = new List<UserAction>();
         }
 
@@ -86,6 +87,8 @@ namespace EcellLib
         public void AddAction(UserAction u)
         {
             if (isLoadAction == true) return;
+
+            u.Environment = m_env;
 
             if (m_list.Count > m_listIndex)
                 m_list.RemoveRange(m_listIndex, m_list.Count - m_listIndex);
@@ -151,11 +154,14 @@ namespace EcellLib
                     else if (command.Equals("SetSimParam")) act = new SetSimParamAction();
                     else if (command.Equals("SystemMerge")) act = new SystemMergeAction();
 
-                    if (act != null)
+                    if (act == null)
                     {
-                        act.LoadScript(child);
-                        m_list.Add(act);
+                        continue;
                     }
+
+                    act.Environment = m_env;
+                    act.LoadScript(child);
+                    m_list.Add(act);
                 }
             }
             l_doc = null;
@@ -185,19 +191,6 @@ namespace EcellLib
 
             w.Close();
             streamWriter.Close();
-        }
-
-        /// <summary>
-        /// Get ActionManager with using singleton pattern.
-        /// </summary>
-        /// <returns>The ActionManager in application.</returns>
-        public static ActionManager GetActionManager()
-        {
-            if (s_instance == null)
-            {
-                s_instance = new ActionManager();
-            }
-            return s_instance;
         }
 
         /// <summary>
@@ -247,15 +240,14 @@ namespace EcellLib
             if (m_listIndex < m_list.Count)
                 l_redoable = true;
 
-            PluginManager l_pManager = PluginManager.GetPluginManager();
             if (l_undoable && l_redoable)
-                l_pManager.ChangeUndoStatus(UndoStatus.UNDO_REDO);
+                m_env.PluginManager.ChangeUndoStatus(UndoStatus.UNDO_REDO);
             else if (l_undoable)
-                l_pManager.ChangeUndoStatus(UndoStatus.UNDO_ONLY);
+                m_env.PluginManager.ChangeUndoStatus(UndoStatus.UNDO_ONLY);
             else if (l_redoable)
-                l_pManager.ChangeUndoStatus(UndoStatus.REDO_ONLY);
+                m_env.PluginManager.ChangeUndoStatus(UndoStatus.REDO_ONLY);
             else
-                l_pManager.ChangeUndoStatus(UndoStatus.NOTHING);
+                m_env.PluginManager.ChangeUndoStatus(UndoStatus.NOTHING);
         }
     }
 
@@ -264,6 +256,7 @@ namespace EcellLib
     /// </summary>
     public abstract class UserAction
     {
+        #region Fields
         /// <summary>
         /// Whether this UserAction is the last one in a sequence of UserAction.
         /// </summary>
@@ -272,6 +265,14 @@ namespace EcellLib
         /// Whether this UserAction is undoable or not.
         /// </summary>
         protected bool m_isUndoable = true;
+
+        /// <summary>
+        /// ApplicationEnvironment
+        /// </summary>
+        protected ApplicationEnvironment m_env;
+        #endregion
+
+        #region Accessors
         /// <summary>
         /// Whether this UserAction is the last one in a sequence of UserAction.
         /// </summary>
@@ -287,6 +288,14 @@ namespace EcellLib
         {
             get { return m_isUndoable; }
         }
+        public ApplicationEnvironment Environment
+        {
+            get { return m_env; }
+            internal set { m_env = value; }
+        }
+        #endregion
+
+        #region Methods
         /// <summary>
         /// Abstract function of UserAction.
         /// </summary>
@@ -456,6 +465,7 @@ namespace EcellLib
                 }
             }
         }
+        #endregion
     }
 
     /// <summary>
@@ -512,9 +522,9 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            string modelID = DataManager.GetDataManager().LoadModel(m_fileName, true);
-            PluginManager.GetPluginManager().DataAdd(DataManager.GetDataManager().GetData(modelID, null));
-            PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
+            string modelID = m_env.DataManager.LoadModel(m_fileName, true);
+            m_env.PluginManager.DataAdd(m_env.DataManager.GetData(modelID, null));
+            m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
         }
         /// <summary>
         /// Do nothing
@@ -600,8 +610,8 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().CreateProject(m_prjName, m_comment, m_prjPath, new List<string>());
-            PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
+            m_env.DataManager.CreateProject(m_prjName, m_comment, m_prjPath, new List<string>());
+            m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
         }
         /// <summary>
         /// Do nothing.
@@ -675,7 +685,7 @@ namespace EcellLib
             if (m_obj == null) return;
             List<EcellObject> list = new List<EcellObject>();
             list.Add(m_obj);
-            DataManager.GetDataManager().DataAdd(list, false, m_isAnchor);
+            m_env.DataManager.DataAdd(list, false, m_isAnchor);
         }
         /// <summary>
         /// Unexecute this action.
@@ -683,7 +693,7 @@ namespace EcellLib
         /// </summary>
         public override void UnExecute()
         {
-            DataManager.GetDataManager().DataDelete(m_obj.ModelID, m_obj.Key, m_obj.Type, false, m_isAnchor);
+            m_env.DataManager.DataDelete(m_obj.ModelID, m_obj.Key, m_obj.Type, false, m_isAnchor);
         }
     }
 
@@ -779,7 +789,7 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().DataDelete(m_modelID, m_key, m_type, false, m_isAnchor);
+            m_env.DataManager.DataDelete(m_modelID, m_key, m_type, false, m_isAnchor);
         }
         /// <summary>
         /// Unexecute this action.
@@ -790,7 +800,7 @@ namespace EcellLib
             if (m_obj == null) return;
             List<EcellObject> list = new List<EcellObject>();
             list.Add(m_obj);
-            DataManager.GetDataManager().DataAdd(list, false, m_isAnchor);
+            m_env.DataManager.DataAdd(list, false, m_isAnchor);
         }
     }
 
@@ -893,7 +903,7 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().DataChanged(m_modelID, m_oldObj.Key, m_type, m_newObj, false, m_isAnchor);
+            m_env.DataManager.DataChanged(m_modelID, m_oldObj.Key, m_type, m_newObj, false, m_isAnchor);
         }
         /// <summary>
         /// Unexecute this action.
@@ -901,7 +911,7 @@ namespace EcellLib
         /// </summary>
         public override void UnExecute()
         {
-            DataManager.GetDataManager().DataChanged(m_modelID, m_newObj.Key, m_type, m_oldObj, false, m_isAnchor);
+            m_env.DataManager.DataChanged(m_modelID, m_newObj.Key, m_type, m_oldObj, false, m_isAnchor);
         }
     }
 
@@ -972,8 +982,8 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().LoadProject(m_prjID, m_prjFile);
-            PluginManager.GetPluginManager().ChangeStatus(ProjectStatus.Loaded);
+            m_env.DataManager.LoadProject(m_prjID, m_prjFile);
+            m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
         }
         /// <summary>
         /// Unexecute this action.
@@ -1056,14 +1066,14 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().AddStepperID(m_paramID, m_stepper, false);
+            m_env.DataManager.AddStepperID(m_paramID, m_stepper, false);
         }
         /// <summary>
         /// Unexecute this action.
         /// </summary>
         public override void UnExecute()
         {
-            DataManager.GetDataManager().DeleteStepperID(m_paramID, m_stepper, false);
+            m_env.DataManager.DeleteStepperID(m_paramID, m_stepper, false);
         }
     }
 
@@ -1139,14 +1149,14 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().DeleteStepperID(m_paramID, m_stepper, false);
+            m_env.DataManager.DeleteStepperID(m_paramID, m_stepper, false);
         }
         /// <summary>
         /// Unexecute this action.
         /// </summary>
         public override void UnExecute()
         {
-            DataManager.GetDataManager().AddStepperID(m_paramID, m_stepper, false);
+            m_env.DataManager.AddStepperID(m_paramID, m_stepper, false);
         }
     }
 
@@ -1244,14 +1254,14 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().UpdateStepperID(m_paramID, m_newStepperList, false);
+            m_env.DataManager.UpdateStepperID(m_paramID, m_newStepperList, false);
         }
         /// <summary>
         /// Unexecute this action.
         /// </summary>
         public override void UnExecute()
         {
-            DataManager.GetDataManager().UpdateStepperID(m_paramID, m_oldStepperList, false);
+            m_env.DataManager.UpdateStepperID(m_paramID, m_oldStepperList, false);
         }
     }
 
@@ -1314,14 +1324,14 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().CreateSimulationParameter(m_paramID, false, m_isAnchor);
+            m_env.DataManager.CreateSimulationParameter(m_paramID, false, m_isAnchor);
         }
         /// <summary>
         /// Unexecute this action.
         /// </summary>
         public override void UnExecute()
         {
-            DataManager.GetDataManager().DeleteSimulationParameter(m_paramID, false, m_isAnchor);
+            m_env.DataManager.DeleteSimulationParameter(m_paramID, false, m_isAnchor);
         }
     }
 
@@ -1384,14 +1394,14 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().DeleteSimulationParameter(m_paramID, false, m_isAnchor);
+            m_env.DataManager.DeleteSimulationParameter(m_paramID, false, m_isAnchor);
         }
         /// <summary>
         /// Unexecute this action.
         /// </summary>
         public override void UnExecute()
         {
-            DataManager.GetDataManager().CreateSimulationParameter(m_paramID, false, m_isAnchor);
+            m_env.DataManager.CreateSimulationParameter(m_paramID, false, m_isAnchor);
         }
     }
 
@@ -1463,14 +1473,14 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().SetSimulationParameter(m_newParamID, false, m_isAnchor);
+            m_env.DataManager.SetSimulationParameter(m_newParamID, false, m_isAnchor);
         }
         /// <summary>
         /// Unexecute this action.
         /// </summary>
         public override void UnExecute()
         {
-            DataManager.GetDataManager().SetSimulationParameter(m_oldParamID, false, m_isAnchor);
+            m_env.DataManager.SetSimulationParameter(m_oldParamID, false, m_isAnchor);
         }
     }
 
@@ -1601,14 +1611,14 @@ namespace EcellLib
         /// </summary>
         public override void Execute()
         {
-            DataManager.GetDataManager().SystemDeleteAndMove(m_modelID, m_obj.Key);
+            m_env.DataManager.SystemDeleteAndMove(m_modelID, m_obj.Key);
         }
         /// <summary>
         /// Unexecute this action.
         /// </summary>
         public override void UnExecute()
         {
-            DataManager.GetDataManager().SystemAddAndMove(m_modelID, m_obj, m_sysList, m_objList);
+            m_env.DataManager.SystemAddAndMove(m_modelID, m_obj, m_sysList, m_objList);
         }
     }
 }

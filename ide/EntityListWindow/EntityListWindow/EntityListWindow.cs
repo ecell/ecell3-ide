@@ -179,8 +179,6 @@ namespace EcellLib.EntityListWindow
         /// </summary>
         public EntityListWindow()
         {
-            m_dManager = DataManager.GetDataManager();
-            m_pManager = PluginManager.GetPluginManager();
             m_propDict = new Dictionary<string, EcellData>();
 
             m_prjMenu = new ContextMenu();
@@ -221,7 +219,7 @@ namespace EcellLib.EntityListWindow
         public override List<EcellDockContent> GetWindowsForms()
         {
             List<EcellDockContent> list = new List<EcellDockContent>();
-            m_form = new EntityList();
+            m_form = new EntityList(this);
             m_form.treeView1.NodeMouseClick +=
                 new TreeNodeMouseClickEventHandler(this.NodeMouseClick);
             m_form.treeView1.NodeMouseDoubleClick +=
@@ -807,7 +805,7 @@ namespace EcellLib.EntityListWindow
         /// <param name="obj">the selected object</param>
         private void ShowPropEditWindow(EcellObject obj)
         {
-            PropertyEditor.Show(obj);
+            PropertyEditor.Show(m_dManager, m_pManager, obj);
         }
 
         /// <summary>
@@ -1191,7 +1189,7 @@ namespace EcellLib.EntityListWindow
             {
                 if (prop.Equals(d.Name))
                 {
-                    PluginManager.GetPluginManager().LoggerAdd(
+                    m_pManager.LoggerAdd(
                         m_currentObj.ModelID,
                         m_currentObj.Key,
                         m_currentObj.Type,
@@ -1575,7 +1573,7 @@ namespace EcellLib.EntityListWindow
             {
                 if (tag.m_type != Constants.xpathProject)
                 {
-                    PluginManager.GetPluginManager().SelectChanged(tag.m_modelID, tag.m_key, tag.m_type);
+                    m_pManager.SelectChanged(tag.m_modelID, tag.m_key, tag.m_type);
                     m_form.treeView1.SelectedNode = node;
                 }
             }

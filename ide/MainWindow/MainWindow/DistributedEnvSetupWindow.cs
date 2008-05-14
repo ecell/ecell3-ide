@@ -36,6 +36,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using EcellLib.SessionManager;
 
 namespace EcellLib.MainWindow
 {
@@ -52,17 +53,17 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// SessionManager object.
         /// </summary>
-        private SessionManager.SessionManager m_manager = null;
+        private ISessionManager m_manager = null;
         #endregion
 
         #region Events
         /// <summary>
         /// Constructor.
         /// </summary>
-        public DistributedEnvSetupWindow()
+        public DistributedEnvSetupWindow(ISessionManager manager)
         {
+            m_manager = manager;
             InitializeComponent();
-            m_manager = SessionManager.SessionManager.GetManager();
         }
 
         /// <summary>
@@ -74,7 +75,7 @@ namespace EcellLib.MainWindow
         public void WindowShown(object sender, EventArgs e)
         {
             List<string> list = m_manager.GetEnvironmentList();
-            string envName = m_manager.GetEnvironment();
+            string envName = m_manager.GetCurrentEnvironment();
             foreach (string env in list)
             {
                 DEEnvComboBox.Items.Add(env);
@@ -152,7 +153,7 @@ namespace EcellLib.MainWindow
                     return;
                 }
                 string envName = DEEnvComboBox.Text;
-                m_manager.SetEnvironment(envName);
+                m_manager.SetCurrentEnvironment(envName);
                 m_manager.TmpRootDir = DEWorkDirTextBox.Text;
                 m_manager.Concurrency = conc;
                 for (int i = 1; i < DEOptionGridView.Rows.Count; i++)

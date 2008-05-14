@@ -39,7 +39,7 @@ namespace EcellLib.ObjectList2
     /// <summary>
     /// TabPage to display the property of model.
     /// </summary>
-    class PropertyTabPage : IObjectListTabPage
+    internal class PropertyTabPage : IObjectListTabPage
     {
         private Dictionary<Type, VPropertyTabPage> m_tabList = 
             new Dictionary<Type,VPropertyTabPage>();
@@ -69,14 +69,28 @@ namespace EcellLib.ObjectList2
         /// </summary>
         private string m_currentModelID = null;
 
+        private DataManager m_dManager;
+
+        private PluginManager m_pManager;
 
 
+        public DataManager DataManager
+        {
+            get { return m_dManager; }
+        }
+
+        public PluginManager PluginManager
+        {
+            get { return m_pManager; }
+        }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PropertyTabPage()
+        public PropertyTabPage(DataManager dManager, PluginManager pManager)
         {
+            m_dManager = dManager;
+            m_pManager = pManager;
             m_tabPage = new TabPage();
             m_tabPage.Text = GetTabPageName();
 
@@ -84,17 +98,17 @@ namespace EcellLib.ObjectList2
             m_tabControl.Dock = DockStyle.Fill;
             m_tabPage.Controls.Add(m_tabControl);
 
-            VPropertyTabPage sysPage = new SystemPropertyTabPage();
+            VPropertyTabPage sysPage = new SystemPropertyTabPage(this);
             sysPage.Type = typeof(EcellSystem);
             m_tabList.Add(typeof(EcellSystem), sysPage);
             m_tabControl.Controls.Add(sysPage.GetTabPage());
 
-            VPropertyTabPage varPage = new VariablePropertyTabPage();
+            VPropertyTabPage varPage = new VariablePropertyTabPage(this);
             varPage.Type = typeof(EcellVariable);
             m_tabList.Add(typeof(EcellVariable), varPage);
             m_tabControl.Controls.Add(varPage.GetTabPage());
 
-            VPropertyTabPage proPage = new ProcessPropertyTabPage();
+            VPropertyTabPage proPage = new ProcessPropertyTabPage(this);
             proPage.Type = typeof(EcellProcess);
             m_tabList.Add(typeof(EcellProcess), proPage);
             m_tabControl.Controls.Add(proPage.GetTabPage());
@@ -123,8 +137,7 @@ namespace EcellLib.ObjectList2
         /// </summary>
         private void ResetPropForSimulation()
         {
-            DataManager manager = DataManager.GetDataManager();
-            List<EcellObject> list = manager.GetData(m_currentModelID, null);
+            List<EcellObject> list = m_dManager.GetData(m_currentModelID, null);
             Clear();
             DataAdd(list);
         }

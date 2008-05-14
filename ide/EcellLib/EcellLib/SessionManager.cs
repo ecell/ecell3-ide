@@ -41,10 +41,10 @@ namespace EcellLib.SessionManager
     /// <summary>
     /// Management class of session.
     /// </summary>
-    public class SessionManager
+    public class SessionManager: ISessionManager
     {
+        private ApplicationEnvironment m_env;
         private bool m_tmpDirRemovable = false;
-        private string m_module = null;
         private string m_tmpRootDir = null;
         private string m_tmpDir = null;
         private int m_conc = -1;
@@ -58,13 +58,17 @@ namespace EcellLib.SessionManager
 
         private Timer m_timer;
 
-        private static SessionManager s_manager = null;
+        public ApplicationEnvironment Environment
+        {
+            get { return m_env; }
+        }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SessionManager()
+        public SessionManager(ApplicationEnvironment env)
         {
+            m_env = env;
             m_timer = new Timer();
             m_timer.Enabled = false;
             m_timer.Interval = m_updateInterval;
@@ -72,37 +76,9 @@ namespace EcellLib.SessionManager
 
             LocalSystemProxy p = new LocalSystemProxy();
             p.Manager = this;
-            m_proxyList.Add(p.GetEnvironment(), p);
-            SetEnvironment(p.GetEnvironment());
+            m_proxyList.Add(p.Name, p);
+            SetCurrentEnvironment(p.Name);
             m_tmpRootDir = Util.GetTmpDir();
-//            m_tmpRootDir = Util.GetAnalysisDir();
-        }
-
-
-        /// <summary>
-        /// Constructor with the initial prameters.
-        /// </summary>
-        /// <param name="module">module name.</param>
-        /// <param name="conc">concurrency.</param>
-        /// <param name="env">environment object.</param>
-        public SessionManager(string module, int conc, String env)
-        {
-            this.m_module = module;
-            this.m_conc = conc;
-            this.SetEnvironment(env);
-
-            m_timer = new Timer();
-            m_timer.Enabled = false;
-            m_timer.Interval = m_updateInterval;
-            m_timer.Tick += new EventHandler(UpdateTimeFire);
-
-            LocalSystemProxy p = new LocalSystemProxy();
-            p.Manager = this;
-            m_proxyList.Add(p.GetEnvironment(), p);
-            SetEnvironment(p.GetEnvironment());
-            m_tmpRootDir = Util.GetTmpDir();
-//            m_tmpRootDir = Util.GetAnalysisDir();
-
         }
 
         /// <summary>
@@ -206,7 +182,7 @@ namespace EcellLib.SessionManager
         /// Set the environment with input name.
         /// </summary>
         /// <param name="env">the environment name.</param>
-        public void SetEnvironment(String env)
+        public void SetCurrentEnvironment(string env)
         {
             if (m_proxyList.ContainsKey(env))
             {
@@ -232,10 +208,10 @@ namespace EcellLib.SessionManager
         /// Get the environment name.
         /// </summary>
         /// <returns>string.</returns>
-        public String GetEnvironment()
+        public String GetCurrentEnvironment()
         {
             if (m_proxy == null) return null;
-            return m_proxy.GetEnvironment();
+            return m_proxy.Name;
         }
 
         /// <summary>
@@ -270,19 +246,6 @@ namespace EcellLib.SessionManager
         {
             if (m_proxy == null) return;
             m_proxy.SetProperty(list);
-        }
-
-        /// <summary>
-        /// Get the singleton of this class.
-        /// </summary>
-        /// <returns>The singleton object.</returns>
-        public static SessionManager GetManager()
-        {
-            if (s_manager == null)
-            {
-                s_manager = new SessionManager();
-            }
-            return s_manager;
         }
 
         /// <summary>
@@ -784,10 +747,9 @@ namespace EcellLib.SessionManager
         public Dictionary<int, ExecuteParameter> RunSimParameterSet(string topDir, string modelName, 
             double count, bool isStep, Dictionary<int, ExecuteParameter> setparam)
         {
-            DataManager manager = DataManager.GetDataManager();
-            Project prj = manager.CurrentProject;
+            Project prj = m_env.DataManager.CurrentProject;
             ScriptWriter writer = new ScriptWriter(prj);
-            List<EcellObject> sysList = manager.GetData(modelName, null); 
+            List<EcellObject> sysList = m_env.DataManager.GetData(modelName, null); 
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
             foreach (int i in setparam.Keys)
             {
@@ -879,10 +841,9 @@ namespace EcellLib.SessionManager
         public Dictionary<int, ExecuteParameter> RunSimParameterRange(string topDir, string modelName, int num, double count, bool isStep)
         {
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
-            DataManager manager = DataManager.GetDataManager();
-            Project prj = manager.CurrentProject;
+            Project prj = m_env.DataManager.CurrentProject;
             ScriptWriter writer = new ScriptWriter(prj);
-            List<EcellObject> sysList = manager.GetData(modelName, null);
+            List<EcellObject> sysList = m_env.DataManager.GetData(modelName, null);
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
             Random hRandom = new Random();
             for (int i = 0 ; i < num ; i++ )
@@ -1044,10 +1005,9 @@ namespace EcellLib.SessionManager
         {
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
             m_parameterDic.Clear();
-            DataManager manager = DataManager.GetDataManager();
-            Project prj = manager.CurrentProject;
+            Project prj = m_env.DataManager.CurrentProject;
             ScriptWriter writer = new ScriptWriter(prj);
-            List<EcellObject> sysList = manager.GetData(modelName, null);
+            List<EcellObject> sysList = m_env.DataManager.GetData(modelName, null);
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
             if (m_paramList.Count != 2)
             {

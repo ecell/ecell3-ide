@@ -132,21 +132,24 @@ namespace EcellLib.TracerWindow
         public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResTrace));
         #endregion
 
-        #region Constructor
-        /// <summary>
-        /// Constructor for TracerWindow.
-        /// </summary>
         public TracerWindow()
         {
-            m_currentMax = 1.0;
-            m_winCount = 1;
-
             m_entry = new Dictionary<TagData, List<TraceWindow>>();
             m_tagList = new Dictionary<string, TagData>();
             m_time = new System.Windows.Forms.Timer();
             m_time.Enabled = false;
             m_time.Interval = 100;
             m_time.Tick += new EventHandler(TimerFire);
+        }
+
+        #region Initializer 
+        /// <summary>
+        /// Initialize the plugin.
+        /// </summary>
+        public override void Initialize()
+        {
+            m_currentMax = 1.0;
+            m_winCount = 1;
         }
         #endregion
 
@@ -776,7 +779,7 @@ namespace EcellLib.TracerWindow
         /// <param name="e"></param>
         void ShowSaveTracerWindow(Object sender, EventArgs e)
         {
-            SaveTraceWindow win = new SaveTraceWindow();
+            SaveTraceWindow win = new SaveTraceWindow(this);
             win.AddEntry(m_entry);
             win.ShowDialog();
         }
@@ -790,17 +793,16 @@ namespace EcellLib.TracerWindow
         void ShowTracerWindow(Object sender, EventArgs e)
         {
             ToolStripItem item = (ToolStripItem)sender;
-            m_win = new TraceWindow();
+            m_win = new TraceWindow(this);
             m_win.Disposed += new EventHandler(FormDisposed);
             m_win.Shown += new EventHandler(m_win.ShownEvent);
             m_win.m_entry = new List<TagData>();
-            m_win.Control = this;
             m_win.Text = s_resources.GetString(MessageConstants.TracerWindow) + m_winCount;
             m_win.TabText = m_win.Text;
             m_winCount++;
 
             // Set Dock settings
-            DockPanel panel = PluginManager.GetPluginManager().DockPanel;
+            DockPanel panel = m_pManager.DockPanel;
             m_win.DockHandler.DockPanel = panel;
             m_win.DockHandler.FloatPane = panel.DockPaneFactory.CreateDockPane(m_win, DockState.Float, true);
             FloatWindow fw = panel.FloatWindowFactory.CreateFloatWindow(

@@ -14,10 +14,16 @@ namespace EcellLib
     public partial class PrintPluginDialog : Form
     {
         /// <summary>
+        /// DataManager
+        /// </summary>
+        private PluginManager m_pManager;
+
+        /// <summary>
         /// constructor of PrintPluginDialog.
         /// </summary>
-        public PrintPluginDialog()
+        public PrintPluginDialog(PluginManager pManager)
         {
+            m_pManager = pManager;
             InitializeComponent();
         }
 
@@ -28,10 +34,9 @@ namespace EcellLib
         /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-            PluginManager manager = PluginManager.GetPluginManager();
             if (this.listBox1.SelectedItem != null)
             {
-                manager.Print(this.listBox1.SelectedItem.ToString());
+                m_pManager.Print(this.listBox1.SelectedItem.ToString());
                 this.Close();
             }
             else

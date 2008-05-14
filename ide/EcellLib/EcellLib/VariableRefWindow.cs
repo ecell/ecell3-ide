@@ -68,12 +68,12 @@ namespace EcellLib
         /// <summary>
         /// Constructor for VariableRefWindow.
         /// </summary>
-        public VariableRefWindow()
+        public VariableRefWindow(DataManager dManager, PluginManager pManager)
         {
             InitializeComponent();
 
-            m_dManager = DataManager.GetDataManager();
-            m_pManager = PluginManager.GetPluginManager();
+            m_dManager = dManager;
+            m_pManager = pManager;
         }
 
         /// <summary>
@@ -399,7 +399,7 @@ namespace EcellLib
         /// <param name="e"></param>
         public void AddVarReference(object sender, EventArgs e)
         {
-            m_selectWindow = new VariableSelectWindow();
+            m_selectWindow = new VariableSelectWindow(m_dManager, m_pManager);
             m_selectWindow.VSProductButton.Click += new EventHandler(m_selectWindow.ProductButtonClick);
             m_selectWindow.VSSourceButton.Click += new EventHandler(m_selectWindow.SourceButtonClick);
             m_selectWindow.VSConstantButton.Click += new EventHandler(m_selectWindow.ConstantButtonClick);

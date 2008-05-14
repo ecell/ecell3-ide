@@ -33,10 +33,8 @@ namespace EcellLib.ObjectList2
             VPropertyTabPage.s_indexVariableRefList
         };
 
-        public ProcessPropertyTabPage()
-            : base()
+        public ProcessPropertyTabPage(PropertyTabPage owner): base(owner)
         {
-
         }
 
         public override void DataAdd(EcellObject obj)

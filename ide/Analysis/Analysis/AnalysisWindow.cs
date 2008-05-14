@@ -64,15 +64,7 @@ namespace EcellLib.Analysis
         /// <summary>
         /// The parent plugin include this form.
         /// </summary>
-        private Analysis m_parent = null;
-        /// <summary>
-        /// SessionManager to manage the analysis session.
-        /// </summary>
-        private SessionManager.SessionManager m_manager;
-        /// <summary>
-        /// DataManager.
-        /// </summary>
-        private DataManager m_dManager;
+        private Analysis m_owner = null;
         /// <summary>
         /// The max number of input data to be executed FFT.
         /// </summary>
@@ -94,10 +86,6 @@ namespace EcellLib.Analysis
         /// </summary>
         private FormulatorControl m_fcnt;
         /// <summary>
-        /// The form to display the setting and result of analysis.
-        /// </summary>
-        private static AnalysisWindow s_win = null;
-        /// <summary>
         /// ComponentResourceManager for ObjectList.
         /// </summary>
         private static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResAnalysis));
@@ -106,43 +94,20 @@ namespace EcellLib.Analysis
         /// <summary>
         /// Constructor.
         /// </summary>
-        public AnalysisWindow()
+        public AnalysisWindow(Analysis owner)
         {
+            this.m_owner = owner;
             InitializeComponent();
 
             RARandomCheck.Checked = true;
             RAMatrixCheck.Checked = false;
-            m_dManager = DataManager.GetDataManager();
 
-
-            m_manager = SessionManager.SessionManager.GetManager();
             this.FormClosed += new FormClosedEventHandler(CloseRobustAnalysisForm);
 
             InitializeData();
-            s_win = this;
             this.Text = s_resources.GetString(MessageConstants.AnalysisWindow);
             this.TabText = this.Text;
         }
-
-        #region accessor
-        /// <summary>
-        /// get/set the controller of this window.
-        /// </summary>
-        public Analysis Control
-        {
-            get { return this.m_parent; }
-            set { this.m_parent = value; }
-        }
-
-        /// <summary>
-        /// get the AnalysisWindow.
-        /// </summary>
-        /// <returns></returns>
-        static public AnalysisWindow GetWindow()
-        {
-            return AnalysisWindow.s_win;
-        }
-        #endregion
 
         #region Commons
         /// <summary>
@@ -151,7 +116,7 @@ namespace EcellLib.Analysis
         public void InitializeData()
         {
             ClearEntry();
-            DataManager manager = DataManager.GetDataManager();
+            DataManager manager = m_owner.DataManager;
 
             List<string> mList = manager.GetModelList();
             foreach (string modelName in mList)
@@ -255,8 +220,8 @@ namespace EcellLib.Analysis
         /// <param name="d">the parameter data.</param>
         public void AddParameterEntry(EcellObject obj, EcellData d)
         {
-            if (!m_dManager.IsContainsParameterData(d.EntityPath)) return;
-            EcellParameterData data = m_dManager.GetParameterData(d.EntityPath);
+            if (!m_owner.DataManager.IsContainsParameterData(d.EntityPath)) return;
+            EcellParameterData data = m_owner.DataManager.GetParameterData(d.EntityPath);
 
             SetParameterData(data);
         }
@@ -268,8 +233,8 @@ namespace EcellLib.Analysis
         /// <param name="d">the parameter data.</param>
         public void AddObservedEntry(EcellObject obj, EcellData d)
         {
-            if (!m_dManager.IsContainsObservedData(d.EntityPath)) return;
-            EcellObservedData data = m_dManager.GetObservedData(d.EntityPath);
+            if (!m_owner.DataManager.IsContainsObservedData(d.EntityPath)) return;
+            EcellObservedData data = m_owner.DataManager.GetObservedData(d.EntityPath);
 
             SetObservedData(data);
         }
@@ -662,7 +627,7 @@ namespace EcellLib.Analysis
         ///// <returns>the list of observed property.</returns>
         //public List<SaveLoggerProperty> GetBifurcationObservedDataList()
         //{
-        //    SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+        //    SessionManager.SessionManager manager = m_owner.SessionManager;
         //    List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
 
         //    for (int i = 0; i < BAObservedGridView.Rows.Count; i++)
@@ -752,7 +717,7 @@ namespace EcellLib.Analysis
         ///// <returns>the list of observed property.</returns>
         //public List<SaveLoggerProperty> GetRobustObservedDataList()
         //{
-        //    SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+        //    SessionManager.SessionManager manager = m_owner.SessionManager;
         //    List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
 
         //    for (int i = 0; i < RAObservGridView.Rows.Count; i++)
@@ -837,7 +802,7 @@ namespace EcellLib.Analysis
         ///// <returns>the list of observed property.</returns>
         //public List<SaveLoggerProperty> GetParameterObservedDataList()
         //{
-        //    SessionManager.SessionManager manager = SessionManager.SessionManager.GetManager();
+        //    SessionManager.SessionManager manager = m_owner.SessionManager;
         //    List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
 
         //    String dir = manager.TmpDir;
@@ -922,7 +887,7 @@ namespace EcellLib.Analysis
         public void RemoveObservEntry(string key)
         {
             EcellObservedData data = new EcellObservedData(key, 0.0);
-            m_dManager.RemoveObservedData(data);
+            m_owner.DataManager.RemoveObservedData(data);
         }
 
         #region Events
@@ -933,11 +898,11 @@ namespace EcellLib.Analysis
         /// <param name="e">FormClosedEventArgs</param>
         void CloseRobustAnalysisForm(object sender, FormClosedEventArgs e)
         {
-            if (m_parent != null)
+            if (m_owner != null)
             {
-                m_parent.CloseAnalysisWindow();
+                m_owner.CloseAnalysisWindow();
             }
-            m_parent = null;
+            m_owner = null;
         }
 
         /// <summary>
@@ -967,7 +932,7 @@ namespace EcellLib.Analysis
             if (obj == null) return;
             EcellDragObject dobj = obj as EcellDragObject;
 
-            DataManager dManager = DataManager.GetDataManager();
+            DataManager dManager = m_owner.DataManager;
             EcellObject t = dManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
             foreach (EcellData d in t.Value)
             {
@@ -1024,14 +989,14 @@ namespace EcellLib.Analysis
             if (obj == null) return;
             EcellDragObject dobj = obj as EcellDragObject;
 
-            DataManager dManager = DataManager.GetDataManager();
+            DataManager dManager = m_owner.DataManager;
             EcellObject t = dManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
             foreach (EcellData d in t.Value)
             {
                 if (d.EntityPath.Equals(dobj.Path))
                 {
                     EcellObservedData data = new EcellObservedData(d.EntityPath, d.Value.CastToDouble());
-                    m_dManager.SetObservedData(data);
+                    m_owner.DataManager.SetObservedData(data);
 
                     return;
                 }
@@ -1162,7 +1127,7 @@ namespace EcellLib.Analysis
         /// <param name="e">EventArgs.</param>
         private void PEFormulaButtonClicked(object sender, EventArgs e)
         {
-            DataManager manager = DataManager.GetDataManager();
+            DataManager manager = m_owner.DataManager;
             m_fwin = new FormulatorWindow();
             m_fcnt = new FormulatorControl();
             m_fwin.tableLayoutPanel.Controls.Add(m_fcnt, 0, 0);
@@ -1231,10 +1196,10 @@ namespace EcellLib.Analysis
         /// <param name="e">EventArgs.</param>
         private void AEOKButtonClicked(object sender, EventArgs e)
         {
-            m_parent.SetBifurcationAnalysisParameter(GetBifurcationAnalysisPrameter());
-            m_parent.SetParameterEstimationParameter(GetParameterEstimationParameter());
-            m_parent.SetRobustAnalysisParameter(GetRobustAnalysisParameter());
-            m_parent.SetSensitivityAnalysisParameter(GetSensitivityAnalysisParameter());
+            m_owner.SetBifurcationAnalysisParameter(GetBifurcationAnalysisPrameter());
+            m_owner.SetParameterEstimationParameter(GetParameterEstimationParameter());
+            m_owner.SetRobustAnalysisParameter(GetRobustAnalysisParameter());
+            m_owner.SetSensitivityAnalysisParameter(GetSensitivityAnalysisParameter());
 
             this.Close();
         }
@@ -1254,7 +1219,7 @@ namespace EcellLib.Analysis
             if (obj == null) return;
 
             EcellParameterData p = ExtractParameterDataFromRow(r);
-            m_dManager.SetParameterData(p);
+            m_owner.DataManager.SetParameterData(p);
         }
 
         /// <summary>
@@ -1272,7 +1237,7 @@ namespace EcellLib.Analysis
             if (obj == null) return;
 
             EcellObservedData p = ExtractObservedDataFromRow(r);
-            m_dManager.SetObservedData(p);
+            m_owner.DataManager.SetObservedData(p);
         }
         #endregion
     }

@@ -48,9 +48,9 @@ namespace EcellLib.Simulation
     {
         #region Fields
         /// <summary>
-        /// DataManager.
+        /// The owner of this object.
         /// </summary>
-        private DataManager m_dManager = null;
+        private Simulation m_owner = null;
         /// <summary>
         /// loaded stepper list.
         /// </summary>
@@ -61,14 +61,20 @@ namespace EcellLib.Simulation
         private List<EcellData> m_selectValue;
         #endregion
 
+        #region Accessors
+        public DataManager DataManager
+        {
+            get { return m_owner.DataManager; }
+        }
+        #endregion
+
         /// <summary>
         /// Constructor for SimulationSetup.
         /// </summary>
-        public SimulationSetup()
+        public SimulationSetup(Simulation owner)
         {
+            m_owner = owner;
             InitializeComponent();
-            m_dManager = DataManager.GetDataManager();
-
 
             paramCombo.SelectedIndexChanged += new EventHandler(SelectedIndexChangedParam);
             stepperListBox.SelectedIndexChanged += new EventHandler(StepperListBoxSelectedIndexChanged);
@@ -161,7 +167,7 @@ namespace EcellLib.Simulation
             string param = paramCombo.Text;
             stepperListBox.Items.Clear();
             dgv.Rows.Clear();
-            m_steppList = m_dManager.GetStepper(param, modelID);
+            m_steppList = m_owner.DataManager.GetStepper(param, modelID);
             foreach (EcellObject obj in m_steppList)
             {
                 if (obj.Value == null) continue;
@@ -219,7 +225,7 @@ namespace EcellLib.Simulation
             string selectModelName = "";
 
             modelCombo.Items.Clear();
-            List<string> modelList = m_dManager.GetModelList();
+            List<string> modelList = m_owner.DataManager.GetModelList();
             foreach (String modelName in modelList)
             {
                 modelCombo.Items.Add(modelName);
@@ -257,7 +263,7 @@ namespace EcellLib.Simulation
             string currentParam = paramCombo.Text;
 
             Dictionary<string, double> initList =
-                m_dManager.GetInitialCondition(currentParam,
+                m_owner.DataManager.GetInitialCondition(currentParam,
                                 modelName, type);
             foreach (string key in initList.Keys)
             {
@@ -324,7 +330,7 @@ namespace EcellLib.Simulation
                 Constants.xpathStepper, classname, m_selectValue);
             list.Add(obj);
 
-            m_dManager.UpdateStepperID(paramID, list);
+            m_owner.DataManager.UpdateStepperID(paramID, list);
             foreach (EcellObject tmp in m_steppList)
             {
                 if (tmp.Value == null) continue;
@@ -342,14 +348,14 @@ namespace EcellLib.Simulation
         private void SetSimulationCondition()
         {
             int i = 0, j = 0;
-            List<string> stepList = m_dManager.GetStepperList();
+            List<string> stepList = m_owner.DataManager.GetStepperList();
             foreach (string step in stepList)
             {
                 stepCombo.Items.Add(step);
             }
 
-            string currentParam = m_dManager.GetCurrentSimulationParameterID();
-            List<string> paramList = m_dManager.GetSimulationParameterIDs();
+            string currentParam = m_owner.DataManager.GetCurrentSimulationParameterID();
+            List<string> paramList = m_owner.DataManager.GetSimulationParameterIDs();
             foreach (string param in paramList)
             {
                 paramCombo.Items.Add(param);
@@ -363,7 +369,7 @@ namespace EcellLib.Simulation
             }
 
             iModelCombo.Items.Clear();
-            List<string> modelList = m_dManager.GetModelList();
+            List<string> modelList = m_owner.DataManager.GetModelList();
             foreach (String modelName in modelList)
             {
                 iModelCombo.Items.Add(modelName);
@@ -381,7 +387,7 @@ namespace EcellLib.Simulation
         /// </summary>
         public void SetLoggingCondition()
         {
-            LoggerPolicy log = m_dManager.GetLoggerPolicy(paramCombo.Text);
+            LoggerPolicy log = m_owner.DataManager.GetLoggerPolicy(paramCombo.Text);
             if (log.m_reloadStepCount > 0)
             {
                 freqByStepRadio.Checked = true;
@@ -468,7 +474,7 @@ namespace EcellLib.Simulation
                 }
 
                 LoggerPolicy log = new LoggerPolicy(stepNum, secNum, fullAction, diskSpace);
-                m_dManager.SetLoggerPolicy(paramID, ref log);
+                m_owner.DataManager.SetLoggerPolicy(paramID, ref log);
             }
             catch (Exception ex)
             {
@@ -500,7 +506,7 @@ namespace EcellLib.Simulation
 
                 updateList.Add(id, value);
             }
-            m_dManager.UpdateInitialCondition(paramName, modelName, "Process", updateList);
+            m_owner.DataManager.UpdateInitialCondition(paramName, modelName, "Process", updateList);
             updateList.Clear();
 
             // ======================================== 
@@ -516,7 +522,7 @@ namespace EcellLib.Simulation
 
                 updateList.Add(id, value);
             }
-            m_dManager.UpdateInitialCondition(paramName, modelName, "Variable", updateList);
+            m_owner.DataManager.UpdateInitialCondition(paramName, modelName, "Variable", updateList);
             updateList.Clear();
         }
 
@@ -554,7 +560,7 @@ namespace EcellLib.Simulation
             Dictionary<string, EcellData> propDict;
             try
             {
-                propDict = m_dManager.GetStepperProperty(stepperID);
+                propDict = m_owner.DataManager.GetStepperProperty(stepperID);
             }
             catch (Exception ex)
             {
@@ -623,7 +629,7 @@ namespace EcellLib.Simulation
             if (paramCombo.SelectedItem == null) return;
             string param = paramCombo.SelectedItem.ToString();
 
-            m_dManager.SetSimulationParameter(param, false, false);
+            m_owner.DataManager.SetSimulationParameter(param, false, false);
         }
 
         /// <summary>
@@ -633,7 +639,7 @@ namespace EcellLib.Simulation
         /// <param name="e">EventArgs</param>
         public void NewButtonClick(object sender, EventArgs e)
         {
-            NewParameterWindow m_newwin = new NewParameterWindow();
+            NewParameterWindow m_newwin = new NewParameterWindow(this);
 
             m_newwin.CPCreateButton.Click += new EventHandler(m_newwin.NewParameterClick);
             m_newwin.CPCancelButton.Click += new EventHandler(m_newwin.CancelParameterClick);
@@ -670,7 +676,7 @@ namespace EcellLib.Simulation
                 paramCombo.Items.Remove(param);
                 paramCombo.SelectedIndex = 0;
             }
-            m_dManager.DeleteSimulationParameter(param);
+            m_owner.DataManager.DeleteSimulationParameter(param);
         }
 
         /// <summary>
@@ -681,7 +687,7 @@ namespace EcellLib.Simulation
         public void SaveButtonClick(object sender, EventArgs e)
         {
             string param = paramCombo.SelectedItem.ToString();
-            m_dManager.SaveSimulationParameter(param);
+            m_owner.DataManager.SaveSimulationParameter(param);
         }
 
         /// <summary>
@@ -736,7 +742,7 @@ namespace EcellLib.Simulation
 
             EcellObject obj = EcellObject.CreateObject(modelID, stepperID,
                 Constants.xpathStepper, "", new List<EcellData>());
-            m_dManager.DeleteStepperID(param, obj);
+            m_owner.DataManager.DeleteStepperID(param, obj);
             stepperListBox.Items.Remove(stepperID);
             dgv.Rows.Clear();
             stepperListBox.SelectedIndex = 0;
@@ -749,7 +755,7 @@ namespace EcellLib.Simulation
         /// <param name="e">EventArgs</param>
         public void AddStepperClick(object sender, EventArgs e)
         {
-            NewParameterWindow m_newwin = new NewParameterWindow();
+            NewParameterWindow m_newwin = new NewParameterWindow(this);
             m_newwin.Text = Simulation.s_resources.GetString(MessageConstants.NewStepperText);
             m_newwin.CPCreateButton.Click += new EventHandler(m_newwin.AddStepperClick);
             m_newwin.SetParentWindow(this);

@@ -50,6 +50,11 @@ namespace EcellLib.Plugin
     {
         #region Fields
         /// <summary>
+        /// The application environment associated to this object.
+        /// </summary>
+        protected ApplicationEnvironment m_env;
+
+        /// <summary>
         /// m_dManager (DataManager)
         /// </summary>
         protected DataManager m_dManager;
@@ -58,38 +63,67 @@ namespace EcellLib.Plugin
         /// m_dManager (DataManager)
         /// </summary>
         protected PluginManager m_pManager;
+
+        /// <summary>
+        /// MessageManager instance
+        /// </summary>
+        protected MessageManager m_mManager;
         #endregion
 
         #region Accessors
         /// <summary>
-        /// Returns the DataManager instance associated to this plugin.
+        /// The DataManager instance associated to this plugin.
         /// </summary>
         public DataManager DataManager
         {
-            get { return m_dManager; }
+            get { return m_env.DataManager; }
         }
 
         /// <summary>
-        /// Returns the PluginManager instance associated to this plugin.
+        /// The PluginManager instance associated to this plugin.
         /// </summary>
         public PluginManager PluginManager
         {
-            get { return m_pManager; }
+            get { return m_env.PluginManager; }
+        }
+
+        /// <summary>
+        /// The MessageManager instance associated to this plugin.
+        /// </summary>
+        public MessageManager MessageManager
+        {
+            get { return m_env.MessageManager; }
+        }
+
+        /// <summary>
+        /// The application environment associated to this plugin
+        /// </summary>
+        public ApplicationEnvironment Environment
+        {
+            get { return m_env; }
+            set
+            {
+                m_env = value;
+                m_dManager = value.DataManager;
+                m_pManager = value.PluginManager;
+                m_mManager = value.MessageManager;
+            }
         }
         #endregion
 
         #region Constructor
-        /// <summary>
-        /// The constructor
-        /// </summary>
         public PluginBase()
         {
-            m_dManager = DataManager.GetDataManager();
-            m_pManager = PluginManager.GetPluginManager();
         }
         #endregion
 
         #region Inherited methods from IEcellPlugin.
+        #region Methods involved in the object lifecycle
+        public virtual void Initialize()
+        {
+        }
+        #endregion
+
         #region Methods to return objects or answer.
         /// <summary>
         /// Get the name of this plugin.

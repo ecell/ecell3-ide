@@ -77,6 +77,10 @@ namespace EcellLib
         /// </summary>
         DataManager m_dManager;
         /// <summary>
+        /// PluginManager.
+        /// </summary>
+        PluginManager m_pManager;
+        /// <summary>
         /// text box of expression.
         /// </summary>
         public TextBox m_text;
@@ -103,11 +107,12 @@ namespace EcellLib
         /// <summary>
         /// Constructor for PropertyEditor. 
         /// </summary>
-        private PropertyEditor()
+        private PropertyEditor(DataManager dManager, PluginManager pManager)
         {
             InitializeComponent();
             m_title = this.Text;
-            m_dManager = DataManager.GetDataManager();
+            m_dManager = dManager;
+            m_pManager = pManager;
         }
         #endregion
 
@@ -116,14 +121,11 @@ namespace EcellLib
         /// Show PropertyEditor Dialog.
         /// </summary>
         /// <param name="obj"></param>
-        public static void Show(EcellObject obj)
+        public static void Show(DataManager dManager, PluginManager pManager, EcellObject obj)
         {
-            PropertyEditor editor = new PropertyEditor();
+            PropertyEditor editor = new PropertyEditor(dManager, pManager);
             try
             {
-                DataManager dManager = DataManager.GetDataManager();
-                PluginManager pManager = PluginManager.GetPluginManager();
-
                 editor.layoutPanel.SuspendLayout();
                 editor.SetCurrentObject(obj);
                 editor.SetDataType(obj.Type);
@@ -147,6 +149,7 @@ namespace EcellLib
                 editor.Dispose();
             }
         }
+
         #endregion
 
         #region Private Methods
@@ -1332,14 +1335,13 @@ namespace EcellLib
 
                         if (m_propDict[data.Name].Logged != isLogger)
                         {
-                            PluginManager pManager = PluginManager.GetPluginManager();
                             if (m_propDict[data.Name].Logged)
                             {
                                 // nothing
                             }
                             else
                             {
-                                pManager.LoggerAdd(modelID, key, type,
+                                m_pManager.LoggerAdd(modelID, key, type,
                                     m_propDict[data.Name].EntityPath);
                             }
                         }
@@ -1911,7 +1913,7 @@ namespace EcellLib
         /// <param name="e">EventArgs</param>
         private void ShowVarRefWindow(object sender, EventArgs e)
         {
-            m_win = new VariableRefWindow();
+            m_win = new VariableRefWindow(m_dManager, m_pManager);
             m_win.AddVarButton.Click += new EventHandler(m_win.AddVarReference);
             m_win.DeleteVarButton.Click += new EventHandler(m_win.DeleteVarReference);
             m_win.VRCloseButton.Click += new EventHandler(m_win.CloseVarReference);

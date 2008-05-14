@@ -127,7 +127,6 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         public PropertyWindow()
         {
-            m_dManager = DataManager.GetDataManager();
             m_dgv = new DataGridView();
             m_dgv.Dock = DockStyle.Fill;
             m_dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -222,7 +221,6 @@ namespace EcellLib.PropertyWindow
         /// <param name="data">size value.</param>
         private void UpdateSize(EcellObject sysObj, string data)
         {
-            DataManager dManager = DataManager.GetDataManager();
             if (data.Equals(""))
             {
                 if (sysObj.Children == null) return;
@@ -231,7 +229,7 @@ namespace EcellLib.PropertyWindow
                     if (o.Key.EndsWith(":SIZE"))
                     {
                         sysObj.Children.Remove(o);
-                        dManager.DataDelete(o.ModelID, o.Key, o.Type);
+                        m_dManager.DataDelete(o.ModelID, o.Key, o.Type);
                         break;
                     }
                 }
@@ -253,7 +251,7 @@ namespace EcellLib.PropertyWindow
                             p.Value = new EcellValue(Convert.ToDouble(data));
                             o.Value.Remove(d);
                             o.Value.Add(p);
-                            dManager.DataChanged(
+                            m_dManager.DataChanged(
                                           o.ModelID,
                                           o.Key,
                                           o.Type,
@@ -266,7 +264,7 @@ namespace EcellLib.PropertyWindow
                 }
                 if (isHit == false)
                 {
-                    Dictionary<string, EcellData> plist = dManager.GetVariableProperty();
+                    Dictionary<string, EcellData> plist = m_dManager.GetVariableProperty();
                     List<EcellData> dlist = new List<EcellData>();
                     foreach (string pname in plist.Keys)
                     {
@@ -286,7 +284,7 @@ namespace EcellLib.PropertyWindow
                         Constants.xpathVariable, dlist);
                     List<EcellObject> rList = new List<EcellObject>();
                     rList.Add(obj);
-                    dManager.DataAdd(rList);
+                    m_dManager.DataAdd(rList);
                     if (sysObj.Children == null)
                         sysObj.Children = new List<EcellObject>();
                     sysObj.Children.Add(obj);
@@ -969,7 +967,7 @@ namespace EcellLib.PropertyWindow
             }
             else if (c.Value.Equals("Edit Variable Reference ..."))
             {
-                m_win = new VariableRefWindow();
+                m_win = new VariableRefWindow(m_dManager, m_pManager);
                 m_win.AddVarButton.Click += new EventHandler(m_win.AddVarReference);
                 m_win.DeleteVarButton.Click += new EventHandler(m_win.DeleteVarReference);
                 m_win.VRCloseButton.Click += new EventHandler(m_win.CloseVarReference);

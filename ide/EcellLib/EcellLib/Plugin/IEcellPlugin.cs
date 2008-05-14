@@ -47,6 +47,8 @@ namespace EcellLib.Plugin
     /// </summary>
     public interface IEcellPlugin
     {
+        ApplicationEnvironment Environment { get; set; }
+
         #region Methods to return answer or objects.
         /// <summary>
         /// Get the name of this plugin.
@@ -98,6 +100,13 @@ namespace EcellLib.Plugin
         /// </summary>
         /// <returns>false</returns>
         bool IsMessageWindow();
+        #endregion
+
+        #region Methods involved in the object lifecycle
+        /// <summary>
+        /// Initializes the plugin.
+        /// </summary>
+        void Initialize();
         #endregion
 
         #region Methods to receive events.

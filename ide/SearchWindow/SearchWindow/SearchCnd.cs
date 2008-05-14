@@ -42,17 +42,13 @@ namespace EcellLib.SearchWindow
     /// <summary>
     /// Form to input the condition to search the object.
     /// </summary>
-    public partial class SearchCnd : Form
+    internal partial class SearchCnd : Form
     {
         #region Fields
         /// <summary>
-        /// DataManager.
+        /// The owner of this object.
         /// </summary>
-        DataManager m_dManager;
-        /// <summary>
-        /// PluginManager.
-        /// </summary>
-        PluginManager m_pManager;
+        SearchWindow m_owner;
         /// <summary>
         /// ResourceManager for SearchCnd.
         /// </summary>
@@ -62,11 +58,10 @@ namespace EcellLib.SearchWindow
         /// <summary>
         /// the constructor for SearchCnd.
         /// </summary>
-        public SearchCnd()
+        public SearchCnd(SearchWindow owner)
         {
+            m_owner = owner;
             InitializeComponent();
-            m_dManager = DataManager.GetDataManager();
-            m_pManager = PluginManager.GetPluginManager();
         }
 
         /// <summary>
@@ -104,12 +99,12 @@ namespace EcellLib.SearchWindow
 
             string searchId = idText.Text;
             if (searchId.Equals("") || searchId == null) return;
-            List<String> modelList = m_dManager.GetModelList();
+            List<String> modelList = m_owner.DataManager.GetModelList();
             if (modelList == null) return;
 
             foreach (string model in modelList)
             {
-                List<EcellObject> list = m_dManager.GetData(model, null);
+                List<EcellObject> list = m_owner.DataManager.GetData(model, null);
                 if (list == null) continue;
                 foreach (EcellObject obj in list)
                 {
@@ -172,7 +167,7 @@ namespace EcellLib.SearchWindow
             string id = (string)dgv.Rows[index].Cells[0].Value;
             string type = (string)dgv.Rows[index].Cells[3].Value;
 
-            EcellObject obj = m_dManager.GetEcellObject(model, id, type);
+            EcellObject obj = m_owner.DataManager.GetEcellObject(model, id, type);
             if (obj == null)
             {
                 String errmes = m_resources.GetString(MessageConstants.ErrNotFind);
@@ -190,7 +185,7 @@ namespace EcellLib.SearchWindow
         /// <param name="obj">the selected object</param>
         public void ShowPropEditWindow(EcellObject obj)
         {
-            PropertyEditor.Show(obj);
+            PropertyEditor.Show(m_owner.DataManager, m_owner.PluginManager, obj);
         }
 
         /// <summary>
@@ -235,7 +230,7 @@ namespace EcellLib.SearchWindow
             string id = (string)dgv.Rows[index].Cells[0].Value;
             string type = (string)dgv.Rows[index].Cells[3].Value;
 
-            m_pManager.SelectChanged(model, id, type);
+            m_owner.PluginManager.SelectChanged(model, id, type);
             this.Select();
         }
         #endregion

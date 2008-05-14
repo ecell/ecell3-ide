@@ -186,7 +186,6 @@ namespace EcellLib.MainWindow
         /// <param name="e">TreeNodeMouseClickEventArgs.</param>
         private void NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            DataManager manager = DataManager.GetDataManager();
             TreeView t = (TreeView)sender;
             if (t == null) return;
             TreeNode node = t.GetNodeAt(e.X, e.Y);

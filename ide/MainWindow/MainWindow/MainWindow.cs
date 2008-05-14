@@ -57,7 +57,7 @@ using System.Xml;
 
 namespace EcellLib.MainWindow
 {
-    public partial class MainWindow : Form, IEcellPlugin
+    public partial class MainWindow : Form, IEcellPlugin, IDockOwner
     {
         #region Fields
         /// <summary>
@@ -77,13 +77,9 @@ namespace EcellLib.MainWindow
         /// </summary>
         private string m_userWindowSettingPath;
         /// <summary>
-        /// m_pManager (PluginManager)
+        /// The application environment associated to this object.
         /// </summary>
-        private PluginManager m_pManager;
-        /// <summary>
-        /// m_dManager (DataManager)
-        /// </summary>
-        private DataManager m_dManager;
+        private ApplicationEnvironment m_env;
         /// <summary>
         /// m_newPrjDialog (NewProjectDialog)
         /// </summary>
@@ -155,34 +151,38 @@ namespace EcellLib.MainWindow
             get { return m_recentProjects; }
             set { m_recentProjects = value; }
         }
+
+        public virtual DockPanel DockPanel
+        {
+            get { return dockPanel; }
+        }
+
+        public virtual ApplicationEnvironment Environment
+        {
+            get { return m_env; }
+            set { m_env = value; }
+        }
         #endregion
 
         #region Constructor
-        /// <summary>
-        /// Constructor for MainWindow plugin.
-        /// </summary>
         public MainWindow()
         {
-            try
-            {
-                InitializeComponent();
-                m_dockWindowDic = new Dictionary<string,EcellDockContent>();
-                m_dockMenuDic = new Dictionary<string,ToolStripMenuItem>();
-                m_dManager = DataManager.GetDataManager();
-                m_pManager = PluginManager.GetPluginManager();
-                m_pManager.DockPanel = this.dockPanel;
-                // Load plugins
-                LoadPlugins();
-                //Load default window settings.
-                setFilePath();
-                LoadRecentProject();
-            }
-            catch (Exception e)
-            {
-                String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrStartup);
-                Debug.WriteLine(errmes);
-                Application.Exit();
-            }
+            m_dockWindowDic = new Dictionary<string, EcellDockContent>();
+            m_dockMenuDic = new Dictionary<string, ToolStripMenuItem>();
+        }
+        #endregion
+
+        #region Initializer
+        public void Initialize()
+        {
+            InitializeComponent();
+            // Load plugins
+            LoadPlugins();
+            //Load default window settings.
+            setFilePath();
+            LoadRecentProject();
+            LoadDefaultWindowSetting();
+            SetStartUpWindow();
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace EcellLib.MainWindow
         private void setFilePath()
         {
             m_defaultWindowSettingPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), Constants.fileWinSetting);
-            m_userWindowSettingPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Application.ProductName);
+            m_userWindowSettingPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Application.ProductName);
             m_userWindowSettingPath = Path.Combine(m_userWindowSettingPath, Constants.fileWinSetting);
         }
         
@@ -200,9 +200,9 @@ namespace EcellLib.MainWindow
         /// </summary>
         void LoadPlugins()
         {
-            m_pManager.AddPlugin(this);
-            m_pManager.AppVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            m_pManager.CopyRight = global::EcellLib.MainWindow.Properties.Resources.CopyrightNotice;
+            m_env.PluginManager.AddPlugin(this);
+            m_env.PluginManager.AppVersion = Assembly.GetExecutingAssembly().GetName().Version;
+            m_env.PluginManager.CopyRight = global::EcellLib.MainWindow.Properties.Resources.CopyrightNotice;
 
             m_pluginList = new List<string>();
             m_isLoadProject = false;
@@ -216,7 +216,7 @@ namespace EcellLib.MainWindow
             }
             
             LoadAllPlugins();
-            m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
+            m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
 
             foreach (ToolStripItem tool in menustrip.Items)
             {
@@ -268,12 +268,12 @@ namespace EcellLib.MainWindow
 
             try
             {
-                pb = m_pManager.LoadPlugin(path, className);
+                pb = m_env.PluginManager.LoadPlugin(path, className);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrLoadPlugin);
-                Util.ShowNoticeDialog(String.Format(errmes));
+                //m_env.PluginManager.Message2(new MessageEntry(MessageType.Error, null, String.Format(errmes)));
                 return;
             }
             // Set DockContent.
@@ -355,7 +355,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                string errmsg = s_resources.GetString(MessageConstants.ErrLoadWindowSettings) + Environment.NewLine + filename + Environment.NewLine + ex.Message;
+                string errmsg = s_resources.GetString(MessageConstants.ErrLoadWindowSettings) + System.Environment.NewLine + filename + System.Environment.NewLine + ex.Message;
                 Util.ShowErrorDialog(errmsg);
             }
         }
@@ -499,7 +499,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                string errmsg = MainWindow.s_resources.GetString(MessageConstants.ErrSaveWindowSettings) + Environment.NewLine + filename + Environment.NewLine + ex.Message;
+                string errmsg = MainWindow.s_resources.GetString(MessageConstants.ErrSaveWindowSettings) + System.Environment.NewLine + filename + System.Environment.NewLine + ex.Message;
                 Debug.WriteLine(errmsg);
                 Util.ShowErrorDialog(errmsg);
             }
@@ -521,7 +521,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                string errmsg = MainWindow.s_resources.GetString(MessageConstants.ErrLoadWindowSettings) + Environment.NewLine + filename + Environment.NewLine + ex.Message;
+                string errmsg = MainWindow.s_resources.GetString(MessageConstants.ErrLoadWindowSettings) + System.Environment.NewLine + filename + System.Environment.NewLine + ex.Message;
                 Debug.WriteLine(errmsg);
                 Util.ShowErrorDialog(errmsg);
                 return false;
@@ -568,7 +568,7 @@ namespace EcellLib.MainWindow
             Util.InitialLanguage();
             try
             {
-                string modelID = m_dManager.LoadModel(m_openFileDialog.FileName, true);
+                string modelID = m_env.DataManager.LoadModel(m_openFileDialog.FileName, true);
                 if (this.InvokeRequired)
                 {
                     LoadModelDelegate dlg = new LoadModelDelegate(LoadModelThread);
@@ -593,10 +593,10 @@ namespace EcellLib.MainWindow
         /// <param name="l_dmList">The list of dm directory.</param>
         private void CreateProject(string l_prjID, string l_modelDir, string l_comment, List<string> l_dmList)
         {
-            m_dManager.CreateProject(l_prjID, l_comment, l_modelDir, l_dmList);
+            m_env.DataManager.CreateProject(l_prjID, l_comment, l_modelDir, l_dmList);
             m_project = l_prjID;
             m_isLoadProject = true;
-            m_pManager.ChangeStatus(ProjectStatus.Loaded);
+            m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
             m_editCount = 0;
         }
 
@@ -607,8 +607,8 @@ namespace EcellLib.MainWindow
         private void CloseProject(String l_prjID)
         {
             m_isLoadProject = false;
-            m_pManager.ChangeStatus(ProjectStatus.Uninitialized);
-            m_dManager.CloseProject(l_prjID);
+            m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
+            m_env.DataManager.CloseProject(l_prjID);
             m_project = null;
             m_editCount = 0;
         }
@@ -676,8 +676,8 @@ namespace EcellLib.MainWindow
         /// </summary>
         public void LoadModelThread(string modelID)
         {
-            m_pManager.LoadData(modelID);
-            DataManager.GetDataManager().SetPositions(modelID);
+            m_env.PluginManager.LoadData(modelID);
+            m_env.DataManager.SetPositions(modelID);
             m_editCount = 0;
         }
         /// <summary>
@@ -1201,12 +1201,12 @@ namespace EcellLib.MainWindow
                     m_newPrjDialog.GetDmList());
                 List<EcellObject> list = new List<EcellObject>();
                 list.Add(EcellObject.CreateObject(m_newPrjDialog.textModelName.Text, null, "Model", null, null));
-                m_dManager.DataAdd(list);
-                foreach (string paramID in m_dManager.GetSimulationParameterIDs())
+                m_env.DataManager.DataAdd(list);
+                foreach (string paramID in m_env.DataManager.GetSimulationParameterIDs())
                 {
-                    m_pManager.ParameterAdd(m_newPrjDialog.textName.Text, paramID);
+                    m_env.PluginManager.ParameterAdd(m_newPrjDialog.textName.Text, paramID);
                 }
-                m_pManager.ParameterSet(m_dManager.CurrentProjectID, m_dManager.GetCurrentSimulationParameterID());
+                m_env.PluginManager.ParameterSet(m_env.DataManager.CurrentProjectID, m_env.DataManager.GetCurrentSimulationParameterID());
 
             }
             catch (Exception ex)
@@ -1339,10 +1339,10 @@ namespace EcellLib.MainWindow
         {
             if (m_project != null)
                 CloseProject(m_project);
-            m_dManager.LoadProject(prjID, fileName);
+            m_env.DataManager.LoadProject(prjID, fileName);
             m_isLoadProject = true;
             m_project = prjID;
-            m_pManager.ChangeStatus(ProjectStatus.Loaded);
+            m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
             m_editCount = 0;
             // Set recent Project.
             if (m_recentProjects.ContainsKey(prjID))
@@ -1428,7 +1428,7 @@ namespace EcellLib.MainWindow
         {
             m_savePrjDialog = new SaveProjectDialog();
             CheckedListBox box = m_savePrjDialog.CheckedListBox;
-            List<string> list = m_dManager.GetSavableModel();
+            List<string> list = m_env.DataManager.GetSavableModel();
             if (list != null)
             {
                 foreach (string s in list)
@@ -1437,7 +1437,7 @@ namespace EcellLib.MainWindow
                 }
             }
 
-            list = m_dManager.GetSavableSimulationParameter();
+            list = m_env.DataManager.GetSavableSimulationParameter();
             if (list != null)
             {
                 foreach (string s in list)
@@ -1446,7 +1446,7 @@ namespace EcellLib.MainWindow
                 }
             }
 
-            String res = m_dManager.GetSavableSimulationResult();
+            String res = m_env.DataManager.GetSavableSimulationResult();
             if (res != null)
             {
                 box.Items.Add(res + " : [SimulationResult]");
@@ -1499,18 +1499,18 @@ namespace EcellLib.MainWindow
                     {
                         int end = s.LastIndexOf(" : [Model]");
                         string p = s.Substring(0, end);
-                        m_dManager.SaveModel(p);
+                        m_env.DataManager.SaveModel(p);
 
                     }
                     else if (s.EndsWith(" : [SimulationParameter]"))
                     {
                         int end = s.LastIndexOf(" : [SimulationParameter]");
                         string p = s.Substring(0, end);
-                        m_dManager.SaveSimulationParameter(p);
+                        m_env.DataManager.SaveSimulationParameter(p);
                     }
                     else if (s.EndsWith(" : [SimulationResult]"))
                     {
-                        m_dManager.SaveSimulationResult();
+                        m_env.DataManager.SaveSimulationResult();
                     }
                 }
                 m_editCount = 0;
@@ -1605,7 +1605,7 @@ namespace EcellLib.MainWindow
                         {
                             dirList.Add(dmDir);
                         }
-                        string prjDir = m_dManager.DefaultDir + Constants.delimiterPath + modelName;
+                        string prjDir = m_env.DataManager.DefaultDir + Constants.delimiterPath + modelName;
                         CreateProject(modelName, prjDir, Constants.defaultComment, dirList);
                     }
 
@@ -1656,7 +1656,7 @@ namespace EcellLib.MainWindow
             m_savePrjDialog.SPSaveButton.Click += new EventHandler(ExportModel);
             m_savePrjDialog.SPCancelButton.Click += new EventHandler(ExportModelCancel);
 
-            List<string> list = m_dManager.GetModelList();
+            List<string> list = m_env.DataManager.GetModelList();
             CheckedListBox box = m_savePrjDialog.CheckedListBox;
             foreach (string s in list)
             {
@@ -1703,7 +1703,7 @@ namespace EcellLib.MainWindow
                         saveFileDialog.Filter = Constants.FilterEmlFile;
                         if (saveFileDialog.ShowDialog() == DialogResult.OK)
                         {
-                            m_dManager.ExportModel(list, saveFileDialog.FileName);
+                            m_env.DataManager.ExportModel(list, saveFileDialog.FileName);
                         }
                     }
                     catch (Exception ex)
@@ -1731,7 +1731,7 @@ namespace EcellLib.MainWindow
                 saveFileDialog.Filter = Constants.FilterEssFile;
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    m_dManager.SaveScript(saveFileDialog.FileName);
+                    m_env.DataManager.SaveScript(saveFileDialog.FileName);
                 }
             }
             catch (Exception ex)
@@ -1750,9 +1750,9 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void PrintMenuClick(object sender, EventArgs e)
         {
-            if (m_pManager != null)
+            if (m_env.PluginManager != null)
             {
-                m_pManager.ShowSelectPlugin();
+                m_env.PluginManager.ShowSelectPlugin();
             }
         }
 
@@ -1773,14 +1773,14 @@ namespace EcellLib.MainWindow
                         "Confirm Dialog", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                     if (res == DialogResult.Yes)
                     {
-                        m_dManager.SimulationStop();
+                        m_env.DataManager.SimulationStop();
                         Thread.Sleep(1000); 
                         m_isClose = true;
                         SaveProjectMenuClick(sender, e);
                     }
                     else if (res == DialogResult.No)
                     {
-                        m_dManager.SimulationStop();
+                        m_env.DataManager.SimulationStop();
                         Thread.Sleep(1000);
                         CloseProject(m_project);
                     }
@@ -1791,7 +1791,7 @@ namespace EcellLib.MainWindow
                 }
                 else
                 {
-                    m_dManager.SimulationStop();
+                    m_env.DataManager.SimulationStop();
                     Thread.Sleep(1000);
 
                     CloseProject(m_project);
@@ -1861,14 +1861,14 @@ namespace EcellLib.MainWindow
                 //
                 // Executes continuously.
                 //
-                if (this.m_dManager.CurrentProjectID != null)
+                if (this.m_env.DataManager.CurrentProjectID != null)
                 {
                     this.m_isLoadProject = true;
-                    this.m_project = this.m_dManager.CurrentProjectID;
-                    if (this.m_dManager.GetCurrentSimulationTime() > 0.0)
+                    this.m_project = this.m_env.DataManager.CurrentProjectID;
+                    if (this.m_env.DataManager.GetCurrentSimulationTime() > 0.0)
                     {
-                        this.m_dManager.SimulationSuspend();
-                        this.m_pManager.ChangeStatus(ProjectStatus.Suspended);
+                        this.m_env.DataManager.SimulationSuspend();
+                        this.m_env.PluginManager.ChangeStatus(ProjectStatus.Suspended);
                     }
                 }
             }
@@ -1890,7 +1890,7 @@ namespace EcellLib.MainWindow
                 {
                     if (File.Exists(m_openFileDialog.FileName))
                     {
-                        m_dManager.LoadUserActionFile(m_openFileDialog.FileName);
+                        m_env.DataManager.LoadUserActionFile(m_openFileDialog.FileName);
                     }
                     else
                     {
@@ -1922,7 +1922,7 @@ namespace EcellLib.MainWindow
                 saveFileDialog.Filter = Constants.FilterActionFile;
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    m_dManager.SaveUserAction(saveFileDialog.FileName);
+                    m_env.DataManager.SaveUserAction(saveFileDialog.FileName);
                 }
             }
             catch (Exception ex)
@@ -1941,7 +1941,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs.</param>
         private void UndoMenuClick(object sender, EventArgs e)
         {
-            m_dManager.UndoAction();
+            m_env.DataManager.UndoAction();
         }
 
         /// <summary>
@@ -1952,7 +1952,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs.</param>
         private void RedoMenuClick(object sender, EventArgs e)
         {
-            m_dManager.RedoAction();
+            m_env.DataManager.RedoAction();
         }
 
         /// <summary>
@@ -1962,7 +1962,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void ShowPluginVersionClick(object sender, EventArgs e)
         {
-            PluginVersionListWindow w = new PluginVersionListWindow();
+            PluginVersionListWindow w = new PluginVersionListWindow(m_env.PluginManager);
             w.ShowDialog();
         }
 
@@ -2072,7 +2072,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void ClickDistributedEnvMenu(object sender, EventArgs e)
         {
-            DistributedEnvSetupWindow win = new DistributedEnvSetupWindow();
+            DistributedEnvSetupWindow win = new DistributedEnvSetupWindow(m_env.SessionManager);
             win.Shown += new EventHandler(win.WindowShown);
             win.ShowDialog();
         }
@@ -2084,7 +2084,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void ClickJobStatusMenu(object sender, EventArgs e)
         {
-            DistributedEnvWindow win = new DistributedEnvWindow();
+            DistributedEnvWindow win = new DistributedEnvWindow(m_env.SessionManager);
 
             win.Show();
         }

@@ -44,11 +44,14 @@ namespace EcellLib.TracerWindow
     /// </summary>
     public partial class SaveTraceWindow : Form
     {
+        private TracerWindow m_owner;
+
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SaveTraceWindow()
+        public SaveTraceWindow(TracerWindow owner)
         {
+            m_owner = owner;
             InitializeComponent();
         }
 
@@ -120,8 +123,7 @@ namespace EcellLib.TracerWindow
             if (endTextBox.Text == "" || endTextBox.Text == null) end = 0.0;
             else end = Convert.ToDouble(endTextBox.Text);
 
-            DataManager manager = DataManager.GetDataManager();
-            manager.SaveSimulationResult(dirName, start, end, fileType, fullID);
+            m_owner.DataManager.SaveSimulationResult(dirName, start, end, fileType, fullID);
 
             String mes = TracerWindow.s_resources.GetString(MessageConstants.FinishSave);
             Util.ShowNoticeDialog(mes);

@@ -1,23 +1,22 @@
+using System;
+using NUnit.Framework;
+using System.Collections.Generic;
+using EcellLib;
+using EcellLib.Plugin;
+using EcellLib.Objects;
+using EcellLib.Message;
+
 namespace EcellLib
 {
-    using System;
-    using NUnit.Framework;
-    using System.Collections.Generic;
-    using EcellLib;
-    using EcellLib.Plugin;
-    using EcellLib.Objects;
-
-
     [TestFixture()]
     public class TestPluginManager
     {
-
         private PluginManager _unitUnderTest;
 
         [SetUp()]
         public void SetUp()
         {
-            _unitUnderTest = new PluginManager();
+            _unitUnderTest = new ApplicationEnvironment().PluginManager;
         }
 
         [TearDown()]
@@ -29,8 +28,7 @@ namespace EcellLib
         [Test()]
         public void TestConstructorPluginManager()
         {
-            PluginManager testPluginManager = new PluginManager();
-            Assert.IsNotNull(testPluginManager, "Constructor of type, PluginManager failed to create instance.");
+            Assert.IsNotNull(_unitUnderTest, "Constructor of type, PluginManager failed to create instance.");
         }
 
         [Test()]
@@ -342,14 +340,6 @@ namespace EcellLib
             Assert.AreEqual(expectedDictionary, resultDictionary, "GetPluginVersionList method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
-        }
-
-        [Test()]
-        public void TestGetPluginManager()
-        {
-            PluginManager expectedPluginManager = PluginManager.GetPluginManager();
-            PluginManager resultPluginManager = PluginManager.GetPluginManager();
-            Assert.AreEqual(expectedPluginManager, resultPluginManager, "GetPluginManager method returned unexpected result.");
         }
 
         [Test()]

@@ -70,18 +70,20 @@ namespace EcellLib.ObjectList2
         private Dictionary<string, IObjectListTabPage> m_TabDict;
         #endregion
 
-        #region Constructor
-        /// <summary>
-        /// Constructor for ObjectList.
-        /// </summary>
         public ObjectList2()
         {
-            m_dManager = DataManager.GetDataManager();
             m_TabDict = new Dictionary<string, IObjectListTabPage>();
+        }
+
+        #region Initializer
+        /// <summary>
+        /// Initializes the plugin.
+        /// </summary>
+        public override void Initialize()
+        {
             m_tabControl = new TabControl();
             m_tabControl.Dock = DockStyle.Fill;
-
-            PropertyTabPage tab = new PropertyTabPage();
+            PropertyTabPage tab = new PropertyTabPage(m_dManager, m_pManager);
             m_tabControl.Controls.Add(tab.GetTabPage());
             m_TabDict.Add(tab.GetTabPageName(), tab);
         }

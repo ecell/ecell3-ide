@@ -75,14 +75,12 @@ namespace EcellLib.PathwayWindow
         PathwayControl m_con;
         #endregion
 
-        #region Constructor
+        #region Initializer 
         /// <summary>
-        /// The constructor
+        /// Initializes the plugin
         /// </summary>
-        public PathwayWindow()
+        public override void Initialize()
         {
-            m_dManager = DataManager.GetDataManager();
-            m_pManager = PluginManager.GetPluginManager();
             m_con = new PathwayControl(this);
         }
         #endregion

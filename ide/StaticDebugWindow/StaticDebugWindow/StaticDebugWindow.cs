@@ -163,25 +163,16 @@ namespace EcellLib.StaticDebugWindow
         /// <summary>
         /// Initializes validated patterns.
         /// </summary>
-        void Initialize()
+        public override void Initialize()
         {
-            StaticDebugPlugin p1 = new StaticDebugForModel();
-            StaticDebugPlugin p2 = new StaticDebugForNetwork();
+            m_errorMessageList = new List<ErrorMessage>();
+
+            StaticDebugPlugin p1 = new StaticDebugForModel(this);
+            StaticDebugPlugin p2 = new StaticDebugForNetwork(this);
 
             m_pluginDict.Add(p1.GetDebugName(), p1);
             m_pluginDict.Add(p2.GetDebugName(), p2);
         }
-
-        /// <summary>
-        /// Creates the new "StaticDebugWindow".
-        /// </summary>
-        public StaticDebugWindow()
-        {
-            this.m_dManager = DataManager.GetDataManager();
-            this.m_errorMessageList = new List<ErrorMessage>();
-            this.Initialize();
-        }
-
         
         /// <summary>
         /// Validates the list of the "EcellObject" 4 the mass conservation.

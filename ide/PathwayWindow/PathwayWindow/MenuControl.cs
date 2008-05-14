@@ -1192,7 +1192,7 @@ namespace EcellLib.PathwayWindow
         {
             PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
             EcellObject eo = m_con.Window.GetEcellObject(obj.EcellObject);
-            PropertyEditor.Show(eo);
+            PropertyEditor.Show(m_con.Window.DataManager, m_con.Window.PluginManager, eo);
         }
 
         /// <summary>

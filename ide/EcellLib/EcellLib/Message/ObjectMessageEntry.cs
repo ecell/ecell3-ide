@@ -50,20 +50,13 @@ namespace EcellLib.Message
         public EcellObject Object
         {
             get { return this.m_object; }
-            set { 
-                this.m_object = value;
-                m_location = ExtractLocationString();
-            }
+        }
+
+        public override string Location
+        {
+            get { return m_object.Type + Constants.delimiterColon + m_object.Key; }
         }
         #endregion
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public ObjectMessageEntry()
-        {
-            m_object = null;
-        }
 
         /// <summary>
         /// Constructor with the initial parameters.
@@ -72,21 +65,9 @@ namespace EcellLib.Message
         /// <param name="message">the message string.</param>
         /// <param name="obj">the object of message.</param>
         public ObjectMessageEntry(MessageType type, String message, EcellObject obj)
+            : base(type, message)
         {
-            m_type = type;
-            m_message = message;
             m_object = obj;
-            m_location = ExtractLocationString();
-        }
-
-        /// <summary>
-        /// Extract the location string from object.
-        /// </summary>
-        /// <returns></returns>
-        private string ExtractLocationString()
-        {
-            if (m_object == null) return "";
-            return m_object.Type + Constants.delimiterColon + m_object.Key;
         }
     }
 }

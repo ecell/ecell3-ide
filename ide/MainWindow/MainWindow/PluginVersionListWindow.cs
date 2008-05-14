@@ -42,11 +42,14 @@ namespace EcellLib.MainWindow
     /// </summary>
     public partial class PluginVersionListWindow : Form
     {
+        private PluginManager m_pManager;
+
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PluginVersionListWindow()
+        public PluginVersionListWindow(PluginManager pManager)
         {
+            m_pManager = pManager;
             InitializeComponent();
         }
 
@@ -57,9 +60,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs.</param>
         private void WindowShown(object sender, EventArgs e)
         {
-            PluginManager pManager = PluginManager.GetPluginManager();
-
-            Dictionary<String, String> list = pManager.GetPluginVersionList();
+            Dictionary<String, String> list = m_pManager.GetPluginVersionList();
             List<String> tmpList = new List<string>();
             foreach (String n in list.Keys)
             {

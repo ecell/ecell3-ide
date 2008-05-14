@@ -52,23 +52,15 @@ namespace EcellLib.Message
         public EcellData Entity
         {
             get { return m_entity; }
-            set
-            {
-                this.m_entity = value;
-                m_location = ExtractLocationString();
-            }
+        }
+
+        public override string Location
+        {
+            get { return m_entity.EntityPath; }
         }
         #endregion
 
         #region Constructor
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public EntityMessageEntry() 
-        {
-            m_entity = null;
-        }
-
         /// <summary>
         /// Constructor with the initial parameters.
         /// </summary>
@@ -76,22 +68,10 @@ namespace EcellLib.Message
         /// <param name="message"></param>
         /// <param name="entity"></param>
         public EntityMessageEntry(MessageType type, string message, EcellData entity)
+            : base(type, message)
         {
-            m_type = type;
-            m_message = message;
             m_entity = entity;
-            m_location = ExtractLocationString();
         }
         #endregion
-
-        /// <summary>
-        /// Extract the location information from EcellData.
-        /// </summary>
-        /// <returns>the location string.</returns>
-        private string ExtractLocationString()
-        {
-            if (m_entity == null) return "";
-            return m_entity.EntityPath;
-        }
     }
 }

@@ -18,7 +18,7 @@ namespace EcellLib
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
-            _unitUnderTest = DataManager.GetDataManager();
+            _unitUnderTest = new ApplicationEnvironment().DataManager;
         }
 
         [TestFixtureTearDown()]
@@ -37,13 +37,6 @@ namespace EcellLib
             Debug.Print(Path.Combine(dir1, name));
             Assert.AreEqual("c:\\temp\\sample", Path.Combine(dir2, name));
             Debug.Print(Path.Combine(dir2, name));
-        }
-
-        [Test()]
-        public void TestGetDataManager()
-        {
-            EcellLib.DataManager resultDataManager = DataManager.GetDataManager();
-            Assert.AreEqual(_unitUnderTest, resultDataManager, "GetDataManager method returned unexpected result.");
         }
 
         [Test()]

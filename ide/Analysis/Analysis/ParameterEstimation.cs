@@ -46,10 +46,6 @@ namespace EcellLib.Analysis
     {
         #region Fields
         /// <summary>
-        /// Manage of session.
-        /// </summary>
-        private SessionManager.SessionManager m_manager;
-        /// <summary>
         /// The flag whether the analysis is running.
         /// </summary>
         private bool m_isRunning = false;
@@ -60,7 +56,7 @@ namespace EcellLib.Analysis
         /// <summary>
         /// Plugin controller.
         /// </summary>
-        private Analysis m_control;
+        private Analysis m_owner;
         /// <summary>
         /// Model name to execute parameter estimation.
         /// </summary>
@@ -110,9 +106,9 @@ namespace EcellLib.Analysis
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ParameterEstimation()
+        public ParameterEstimation(Analysis owner)
         {
-            m_manager = SessionManager.SessionManager.GetManager();
+            m_owner = owner;
 
             m_timer = new System.Windows.Forms.Timer();
             m_timer.Enabled = false;
@@ -129,15 +125,6 @@ namespace EcellLib.Analysis
         {
             get { return this.m_isRunning; }
         }
-
-        /// <summary>
-        /// get / set the parent plugin.
-        /// </summary>
-        public Analysis Control
-        {
-            get { return this.m_control; }
-            set { this.m_control = value; }
-        }
         #endregion
 
         /// <summary>
@@ -146,10 +133,10 @@ namespace EcellLib.Analysis
         public void ExecuteAnalysis()
         {
             m_estimation.Clear();
-            m_param = m_control.GetParameterEstimationParameter();
+            m_param = m_owner.GetParameterEstimationParameter();
             m_mutation = m_param.Param.Initial;
-            m_control.ClearResult();
-            m_manager.ClearJob(0);
+            m_owner.ClearResult();
+            m_owner.SessionManager.ClearJob(0);
 
             if (m_param.Population <= 0)
             {
@@ -178,10 +165,10 @@ namespace EcellLib.Analysis
             }
 
             m_model = "";
-            List<string> modelList = DataManager.GetDataManager().GetModelList();
+            List<string> modelList = m_owner.DataManager.GetModelList();
             if (modelList.Count > 0) m_model = modelList[0];
 
-            m_paramList = DataManager.GetDataManager().GetParameterData();
+            m_paramList = m_owner.DataManager.GetParameterData();
             if (m_paramList == null) return;
             if (m_paramList.Count < 1)
             {
@@ -190,11 +177,11 @@ namespace EcellLib.Analysis
                 return;
             }
 
-            m_manager.SetParameterRange(m_paramList);
-            m_saveList = m_control.GetPEObservedDataList();
+            m_owner.SessionManager.SetParameterRange(m_paramList);
+            m_saveList = m_owner.GetPEObservedDataList();
             if (m_saveList == null) return;
-            m_manager.SetLoggerData(m_saveList);
-            m_control.SetResultGraphSize(m_param.Generation, 0.0, 0.0, 1.0, false, true);
+            m_owner.SessionManager.SetLoggerData(m_saveList);
+            m_owner.SetResultGraphSize(m_param.Generation, 0.0, 0.0, 1.0, false, true);
 
             m_generation = 0;
             m_isRunning = true;
@@ -208,9 +195,9 @@ namespace EcellLib.Analysis
         /// </summary>
         public void StopAnalysis()
         {
-            m_manager.StopRunningJobs();
+            m_owner.SessionManager.StopRunningJobs();
             m_isRunning = false;
-            m_control.StopParameterEstimation();
+            m_owner.StopParameterEstimation();
         }
 
 
@@ -232,7 +219,7 @@ namespace EcellLib.Analysis
                 foreach (SaveLoggerProperty p in m_saveList)
                 {
                     Dictionary<double, double> logList =
-                        m_manager.SessionList[jobid].GetLogData(p.FullPath);
+                        m_owner.SessionManager.SessionList[jobid].GetLogData(p.FullPath);
                     value = 0.0;
                     if (logList.Count <= 0)
                     {
@@ -252,7 +239,7 @@ namespace EcellLib.Analysis
             {
                 int i = 0;
                 Dictionary<double, double> logList =
-                       m_manager.SessionList[jobid].GetLogData(p.FullPath);
+                       m_owner.SessionManager.SessionList[jobid].GetLogData(p.FullPath);
                 foreach (double v in logList.Values)
                 {
                     if (fList.Count <= i) fList.Add(f);
@@ -278,12 +265,12 @@ namespace EcellLib.Analysis
         /// <param name="e">EventArgs.</param>
         void FireTimer(object sender, EventArgs e)
         {
-            String tmpDir = m_manager.TmpRootDir;
-            if (!m_manager.IsFinished())
+            String tmpDir = m_owner.SessionManager.TmpRootDir;
+            if (!m_owner.SessionManager.IsFinished())
             {
                 if (m_isRunning == false)
                 {
-                    m_manager.StopRunningJobs();
+                    m_owner.SessionManager.StopRunningJobs();
                     m_timer.Enabled = false;
                     m_timer.Stop();
                 }
@@ -295,7 +282,7 @@ namespace EcellLib.Analysis
                 m_isRunning = false;
                 m_timer.Enabled = false;
                 m_timer.Stop();
-                Control.StopParameterEstimation();
+                m_owner.StopParameterEstimation();
 
                 FindElite();
 
@@ -308,14 +295,14 @@ namespace EcellLib.Analysis
             m_timer.Stop();
             if (m_generation == 0)
             {
-                m_execParamList = m_manager.RunSimParameterRange(tmpDir, m_model, m_param.Population, m_param.SimulationTime, false);
+                m_execParamList = m_owner.SessionManager.RunSimParameterRange(tmpDir, m_model, m_param.Population, m_param.SimulationTime, false);
             }
             else
             {
                 FindElite();
                 SimplexCrossOver();
                 Mutate();
-                m_execParamList = m_manager.RunSimParameterSet(tmpDir, m_model, m_param.SimulationTime, false, m_execParamList);
+                m_execParamList = m_owner.SessionManager.RunSimParameterSet(tmpDir, m_model, m_param.SimulationTime, false, m_execParamList);
             }
 
             m_generation++;
@@ -371,8 +358,8 @@ namespace EcellLib.Analysis
             }
             m_estimation.Add(m_generation, value);
             m_elite = m_execParamList[elite];
-            m_control.AddEstimateParameter(m_elite, value, m_generation);
-            m_control.AddEstimationData(m_generation, value);
+            m_owner.AddEstimateParameter(m_elite, value, m_generation);
+            m_owner.AddEstimationData(m_generation, value);
             m_eliteNum = elite;
         }
 
@@ -496,7 +483,7 @@ namespace EcellLib.Analysis
             
             while (m_execParamList.Count < m_param.Population)
             {
-                ExecuteParameter p = m_manager.CreateExecuteParameter();
+                ExecuteParameter p = m_owner.SessionManager.CreateExecuteParameter();
                 m_execParamList.Add(iPos, p);
                 iPos++;
             }

@@ -51,13 +51,9 @@ namespace EcellLib.Analysis
         /// </summary>
         private RobustAnalysisParameter m_param;
         /// <summary>
-        /// Manage of session.
-        /// </summary>
-        private SessionManager.SessionManager m_manager;
-        /// <summary>
         /// Plugin controller.
         /// </summary>
-        private Analysis m_control;
+        private Analysis m_owner;
         /// <summary>
         /// Timer to update the status of jobs.
         /// </summary>
@@ -72,9 +68,9 @@ namespace EcellLib.Analysis
         /// <summary>
         /// Constructor.
         /// </summary>
-        public RobustAnalysis()
+        public RobustAnalysis(Analysis owner)
         {
-            m_manager = SessionManager.SessionManager.GetManager();
+            m_owner = owner;
 
             m_timer = new System.Windows.Forms.Timer();
             m_timer.Enabled = false;
@@ -83,15 +79,6 @@ namespace EcellLib.Analysis
         }
 
         #region accessors
-        /// <summary>
-        /// get / set the parent plugin.
-        /// </summary>
-        public Analysis Control
-        {
-            get { return this.m_control; }
-            set { this.m_control = value; }
-        }
-
         /// <summary>
         /// get / set the flag whether the robust analysis is running.
         /// </summary>
@@ -110,11 +97,11 @@ namespace EcellLib.Analysis
         /// <param name="e">EventArgs.</param>
         void FireTimer(object sender, EventArgs e)
         {
-            if (!m_manager.IsFinished())
+            if (!m_owner.SessionManager.IsFinished())
             {
                 if (m_isRunning == false)
                 {
-                    m_manager.StopRunningJobs();
+                    m_owner.SessionManager.StopRunningJobs();
                     m_timer.Enabled = false;
                     m_timer.Stop();
                 }
@@ -123,9 +110,9 @@ namespace EcellLib.Analysis
             m_isRunning = false;
             m_timer.Enabled = false;
             m_timer.Stop();
-            Control.StopRobustAnalysis();
+            m_owner.StopRobustAnalysis();
 
-            if (m_manager.IsError())
+            if (m_owner.SessionManager.IsError())
             {
                 String mes = Analysis.s_resources.GetString(MessageConstants.ErrFindErrorJob);
                 if (!Util.ShowYesNoDialog(mes))
@@ -144,8 +131,8 @@ namespace EcellLib.Analysis
         /// </summary>
         public void ExecuteAnalysis()
         {
-            m_param = m_control.GetRobustAnalysisParameter();
-            String tmpDir = m_manager.TmpRootDir;
+            m_param = m_owner.GetRobustAnalysisParameter();
+            String tmpDir = m_owner.SessionManager.TmpRootDir;
             int num = m_param.SampleNum;
             double simTime = m_param.SimulationTime; ;
             int maxSize = Convert.ToInt32(m_param.MaxData);
@@ -169,10 +156,10 @@ namespace EcellLib.Analysis
             }
 
             string model = "";
-            List<string> modelList = DataManager.GetDataManager().GetModelList();
+            List<string> modelList = m_owner.DataManager.GetModelList();
             if (modelList.Count > 0) model = modelList[0];
 
-            List<EcellParameterData> paramList = DataManager.GetDataManager().GetParameterData();
+            List<EcellParameterData> paramList = m_owner.DataManager.GetParameterData();
             if (paramList == null) return;
             if (paramList.Count < 2)
             {
@@ -180,18 +167,18 @@ namespace EcellLib.Analysis
                 Util.ShowErrorDialog(mes);
                 return;
             }
-            List<SaveLoggerProperty> saveList = m_control.GetRAObservedDataList();
+            List<SaveLoggerProperty> saveList = m_owner.GetRAObservedDataList();
             if (saveList == null) return;
 
-            m_manager.SetParameterRange(paramList);
-            m_manager.SetLoggerData(saveList);
+            m_owner.SessionManager.SetParameterRange(paramList);
+            m_owner.SessionManager.SetLoggerData(saveList);
             if (m_param.IsRandomCheck == true)
             {
-                m_paramDic = m_manager.RunSimParameterRange(tmpDir, model, num, simTime, false);
+                m_paramDic = m_owner.SessionManager.RunSimParameterRange(tmpDir, model, num, simTime, false);
             }
             else
             {
-                m_paramDic = m_manager.RunSimParameterMatrix(tmpDir, model, simTime, false);
+                m_paramDic = m_owner.SessionManager.RunSimParameterMatrix(tmpDir, model, simTime, false);
             }
             m_isRunning = true;
             m_timer.Enabled = true;
@@ -203,9 +190,9 @@ namespace EcellLib.Analysis
         /// </summary>
         public void StopAnalysis()
         {
-            m_manager.StopRunningJobs();
+            m_owner.SessionManager.StopRunningJobs();
             m_isRunning = false;
-            Control.StopRobustAnalysis();
+            m_owner.StopRobustAnalysis();
         }
 
         /// <summary>
@@ -213,14 +200,14 @@ namespace EcellLib.Analysis
         /// </summary>
         private void JudgeRobustAnalysis()
         {
-            m_control.ClearResult();
+            m_owner.ClearResult();
             string xPath = "";
             string yPath = "";
             double xmax = 0.0;
             double xmin = 0.0;
             double ymax = 0.0;
             double ymin = 0.0;
-            List<EcellParameterData> pList = DataManager.GetDataManager().GetParameterData();
+            List<EcellParameterData> pList = m_owner.DataManager.GetParameterData();
             if (pList == null) return;
             if (pList.Count < 2)
             {
@@ -247,23 +234,23 @@ namespace EcellLib.Analysis
                     ymax = r.Max;
                     ymin = r.Min;
                 }
-                m_control.SetResultEntryBox(r.Key, isX, isY);
+                m_owner.SetResultEntryBox(r.Key, isX, isY);
                 count++;
             }
-            m_control.SetResultGraphSize(xmax, xmin, ymax, ymin, false, false);
+            m_owner.SetResultGraphSize(xmax, xmin, ymax, ymin, false, false);
 
-            List<EcellObservedData> judgeList = DataManager.GetDataManager().GetObservedData();
+            List<EcellObservedData> judgeList = m_owner.DataManager.GetObservedData();
             foreach (int jobid in m_paramDic.Keys)
             {
-                if (m_manager.SessionList[jobid].Status != JobStatus.FINISHED)
+                if (m_owner.SessionManager.SessionList[jobid].Status != JobStatus.FINISHED)
                     continue;
-                double x = m_manager.ParameterDic[jobid].GetParameter(xPath);
-                double y = m_manager.ParameterDic[jobid].GetParameter(yPath);
+                double x = m_owner.SessionManager.ParameterDic[jobid].GetParameter(xPath);
+                double y = m_owner.SessionManager.ParameterDic[jobid].GetParameter(yPath);
                 bool isOK = true;
                 foreach (EcellObservedData p in judgeList)
                 {
                     Dictionary<double, double> logList =
-                        m_manager.SessionList[jobid].GetLogData(p.Key);
+                        m_owner.SessionManager.SessionList[jobid].GetLogData(p.Key);
 
                     double simTime = Convert.ToDouble(m_param.SimulationTime);
                     double winSize = Convert.ToDouble(m_param.WinSize);
@@ -291,7 +278,7 @@ namespace EcellLib.Analysis
                         break;
                     }
                 }
-                m_control.AddJudgementData(jobid, x, y, isOK);
+                m_owner.AddJudgementData(jobid, x, y, isOK);
             }
         }
 

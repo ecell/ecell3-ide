@@ -9,7 +9,7 @@ namespace EcellLib.ObjectList2
     /// <summary>
     /// 
     /// </summary>
-    public class SystemPropertyTabPage : VPropertyTabPage
+    internal class SystemPropertyTabPage : VPropertyTabPage
     {
 
         static private int s_columnNum = 7;
@@ -40,10 +40,8 @@ namespace EcellLib.ObjectList2
         /// <summary>
         /// 
         /// </summary>
-        public SystemPropertyTabPage()
-            : base()
+        public SystemPropertyTabPage(PropertyTabPage owner): base(owner)
         {
-
         }
         /// <summary>
         /// 

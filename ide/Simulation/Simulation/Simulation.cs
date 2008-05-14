@@ -448,7 +448,7 @@ namespace EcellLib.Simulation
                 ResetSimulation(sender, e);
             }
 
-            m_win = new SimulationSetup();
+            m_win = new SimulationSetup(this);
             m_win.ShowDialog();
         }
 

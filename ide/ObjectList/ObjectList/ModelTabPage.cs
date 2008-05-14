@@ -42,6 +42,10 @@ namespace EcellLib.ObjectList
     class ModelTabPage : IObjectListTabPage
     {
         /// <summary>
+        /// The owner of this object.
+        /// </summary>
+        private ObjectList m_owner;
+        /// <summary>
         /// TabPage to dock DataGridView.
         /// </summary>
         private TabPage m_tabPage;
@@ -182,8 +186,9 @@ namespace EcellLib.ObjectList
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ModelTabPage()
+        public ModelTabPage(ObjectList owner)
         {
+            m_owner = owner;
             m_tabPage = new TabPage();
             m_gridView = new DataGridView();
             m_gridView.Dock = DockStyle.Fill;
@@ -228,13 +233,12 @@ namespace EcellLib.ObjectList
         /// </summary>
         private void UpdatePropForSimulation()
         {
-            DataManager manager = DataManager.GetDataManager();
-            double ctime = manager.GetCurrentSimulationTime();
+            double ctime = m_owner.DataManager.GetCurrentSimulationTime();
             if (ctime == 0.0) return;
 
             foreach (string entPath in m_propDic.Keys)
             {
-                EcellValue v = manager.GetEntityProperty(entPath);
+                EcellValue v = m_owner.DataManager.GetEntityProperty(entPath);
                 if (v == null) continue;
                 m_propDic[entPath].Value = v.Value.ToString();
             }
@@ -245,8 +249,7 @@ namespace EcellLib.ObjectList
         /// </summary>
         private void ResetPropForSimulation()
         {
-            DataManager manager = DataManager.GetDataManager();
-            List<EcellObject> list = manager.GetData(m_currentModelID, null);
+            List<EcellObject> list = m_owner.DataManager.GetData(m_currentModelID, null);
             Clear();
             DataAdd(list);
         }
@@ -877,8 +880,7 @@ namespace EcellLib.ObjectList
             if (ind < 0) return;
             EcellObject obj = m_gridView.Rows[ind].Tag as EcellObject;
             if (obj == null) return;
-            PluginManager manager = PluginManager.GetPluginManager();
-            manager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
+            m_owner.PluginManager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
         }
 
         /// <summary>
