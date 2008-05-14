@@ -471,7 +471,7 @@ namespace EcellLib.Simulation
             catch (Exception ex)
             {
                 String errmes = Simulation.s_resources.GetString(MessageConstants.ErrRunning);
-                Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
+                Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
                 if (m_type != ProjectStatus.Uninitialized)
                     m_pManager.ChangeStatus(preType);
             }
@@ -497,7 +497,7 @@ namespace EcellLib.Simulation
             catch (Exception ex)
             {
                 String errmes = Simulation.s_resources.GetString(MessageConstants.ErrSuspend);
-                Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
+                Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
                 m_pManager.ChangeStatus(preType);
             }
         }

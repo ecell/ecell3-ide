@@ -273,7 +273,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrLoadPlugin);
-                Util.__showNoticeDialog(String.Format(errmes));
+                Util.ShowNoticeDialog(String.Format(errmes));
                 return;
             }
             // Set DockContent.
@@ -356,7 +356,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 string errmsg = s_resources.GetString(MessageConstants.ErrLoadWindowSettings) + Environment.NewLine + filename + Environment.NewLine + ex.Message;
-                Util.__showErrorDialog(errmsg);
+                Util.ShowErrorDialog(errmsg);
             }
         }
 
@@ -501,7 +501,7 @@ namespace EcellLib.MainWindow
             {
                 string errmsg = MainWindow.s_resources.GetString(MessageConstants.ErrSaveWindowSettings) + Environment.NewLine + filename + Environment.NewLine + ex.Message;
                 Debug.WriteLine(errmsg);
-                Util.__showErrorDialog(errmsg);
+                Util.ShowErrorDialog(errmsg);
             }
         }
 
@@ -523,7 +523,7 @@ namespace EcellLib.MainWindow
             {
                 string errmsg = MainWindow.s_resources.GetString(MessageConstants.ErrLoadWindowSettings) + Environment.NewLine + filename + Environment.NewLine + ex.Message;
                 Debug.WriteLine(errmsg);
-                Util.__showErrorDialog(errmsg);
+                Util.ShowErrorDialog(errmsg);
                 return false;
             }
             return false;
@@ -578,7 +578,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 string errmes = MainWindow.s_resources.GetString(MessageConstants.ErrLoadModel);
-                Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
+                Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
                 CloseProjectDelegate dlg = new CloseProjectDelegate(CloseProject);
                 this.Invoke(dlg, new object[] { m_project });
             }
@@ -1212,7 +1212,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrCreatePrj);
-                Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
+                Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
                 CloseProject(m_newPrjDialog.textName.Text);
             }
             CancelNewProject();
@@ -1240,7 +1240,7 @@ namespace EcellLib.MainWindow
             if (m_editCount > 0)
             {
                 String mes = MainWindow.s_resources.GetString(MessageConstants.SaveConfirm);
-                if (Util.__showYesNoDialog(mes))
+                if (Util.ShowYesNoDialog(mes))
                 {
                     m_isClose = true;
                     SaveProjectMenuClick(sender, e);
@@ -1268,7 +1268,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrShowOpenPrj);
-                Util.__showErrorDialog(errmes + "\n\n" + ex);
+                Util.ShowErrorDialog(errmes + "\n\n" + ex);
                 return;
             }
         }
@@ -1388,7 +1388,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrShowOpenPrj);
-                Util.__showErrorDialog(errmes + "\n\n" + ex);
+                Util.ShowErrorDialog(errmes + "\n\n" + ex);
                 return;
             }
             finally
@@ -1518,7 +1518,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrSavePrj);
-                Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
+                Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
             }
 
             CloseSaveProjectDialog();
@@ -1616,7 +1616,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrLoadModel);
-                Util.__showErrorDialog(errmes + "\n\n" + ex);
+                Util.ShowErrorDialog(errmes + "\n\n" + ex);
                 return;
             }
 
@@ -1692,7 +1692,7 @@ namespace EcellLib.MainWindow
                 if (list.Count <= 0)
                 {
                     String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrNoSelectExp);
-                    Util.__showWarningDialog(errmes);
+                    Util.ShowWarningDialog(errmes);
                 }
                 else
                 {

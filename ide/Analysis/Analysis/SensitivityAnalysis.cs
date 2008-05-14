@@ -200,19 +200,19 @@ namespace EcellLib.Analysis
             if (m_param.Step <= 0)
             {
                 string errmes = Analysis.s_resources.GetString(MessageConstants.ErrStepUnder);
-                Util.__showErrorDialog(errmes);
+                Util.ShowErrorDialog(errmes);
                 return;
             }
             if (m_param.AbsolutePerturbation <= 0.0)
             {
                 string errmes = Analysis.s_resources.GetString(MessageConstants.ErrAbsolutePert);
-                Util.__showErrorDialog(errmes);
+                Util.ShowErrorDialog(errmes);
                 return;
             }
             if (m_param.RelativePerturbation <= 0.0)
             {
                 string errmes = Analysis.s_resources.GetString(MessageConstants.ErrRelativePert);
-                Util.__showErrorDialog(errmes);
+                Util.ShowErrorDialog(errmes);
                 return;
             }
 
@@ -540,7 +540,7 @@ namespace EcellLib.Analysis
             if (jocobianMatrix.Determinant() == 0.0)
             {
                 string mes = Analysis.s_resources.GetString(MessageConstants.ErrSingular);
-                Util.__showErrorDialog(mes);
+                Util.ShowErrorDialog(mes);
                 throw new IgnoreException("Can't find Singular Matrix");
             }
             Matrix invJacobian = jocobianMatrix.Inverse();
@@ -760,7 +760,7 @@ namespace EcellLib.Analysis
                 }
 
                 String finMes = Analysis.s_resources.GetString(MessageConstants.FinishSAnalysis);
-                Util.__showNoticeDialog(finMes);
+                Util.ShowNoticeDialog(finMes);
             }
             catch (IgnoreException ie)
             {
@@ -769,7 +769,7 @@ namespace EcellLib.Analysis
             catch (Exception ex)
             {
                 String errMes = Analysis.s_resources.GetString(MessageConstants.ErrorSAnalysis);
-                Util.__showErrorDialog(errMes + "\n" + ex.ToString());
+                Util.ShowErrorDialog(errMes + "\n" + ex.ToString());
             }
 
         }

@@ -1051,7 +1051,7 @@ namespace EcellLib.SessionManager
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
             if (m_paramList.Count != 2)
             {
-                Util.__showErrorDialog("ERROR");
+                Util.ShowErrorDialog("ERROR");
                 return resList; 
             }
             EcellParameterData x = m_paramList[0];

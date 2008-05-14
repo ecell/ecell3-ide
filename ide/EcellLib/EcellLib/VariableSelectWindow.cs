@@ -101,7 +101,7 @@ namespace EcellLib
             if (tag == null || tag.Equals(""))
             {
                 String errmes = m_resources.GetString(MessageConstants.ErrNotVar);
-                Util.__showWarningDialog(errmes);
+                Util.ShowWarningDialog(errmes);
                 return;
             }
 
@@ -200,7 +200,7 @@ namespace EcellLib
             if (tag == null || tag.Equals(""))
             {
                 String errmes = m_resources.GetString(MessageConstants.ErrNotVar);
-                Util.__showWarningDialog(errmes);
+                Util.ShowWarningDialog(errmes);
                 return;
             }
 

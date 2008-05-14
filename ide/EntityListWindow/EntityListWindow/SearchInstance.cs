@@ -86,7 +86,7 @@ namespace EcellLib.EntityListWindow
             if (!m_plugin.SearchNode(node, text))
             {
                 String errmes = m_resources.GetString(MessageConstants.ErrNotFind);
-                Util.__showNoticeDialog(errmes);
+                Util.ShowNoticeDialog(errmes);
             }
             else
             {

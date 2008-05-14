@@ -711,7 +711,7 @@ namespace EcellLib.PropertyWindow
             catch (Exception ex)
             {
                 String errmes = m_resources.GetString(MessageConstants.ErrCreBitmap);
-                Util.__showErrorDialog(errmes + "\n\n" + ex.Message);
+                Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
                 return null;
             }
         }
@@ -897,7 +897,7 @@ namespace EcellLib.PropertyWindow
             {
                 ex.ToString();
                 String errmes = m_resources.GetString(MessageConstants.ErrChanged);
-                Util.__showErrorDialog(errmes + "\n\n" + ex.ToString());
+                Util.ShowErrorDialog(errmes + "\n\n" + ex.ToString());
                 m_isChanging = false;
                 return;
             }
@@ -928,7 +928,7 @@ namespace EcellLib.PropertyWindow
             {
                 ex.ToString();
                 String errmes = m_resources.GetString(MessageConstants.ErrChanged);
-                Util.__showErrorDialog(errmes + "\n\n" + ex.ToString());
+                Util.ShowErrorDialog(errmes + "\n\n" + ex.ToString());
                 m_isChanging = false;
             }
 
@@ -1064,13 +1064,13 @@ namespace EcellLib.PropertyWindow
                         m_isChanging = false;
                         ex.ToString();
                         String errmes = m_resources.GetString(MessageConstants.ErrChanged);
-                        Util.__showErrorDialog(errmes + "\n\n" + ex.ToString());
+                        Util.ShowErrorDialog(errmes + "\n\n" + ex.ToString());
                     }
                 }
                 else
                 {
                     String errmes = m_resources.GetString(MessageConstants.NoProp);
-                    Util.__showErrorDialog(errmes);
+                    Util.ShowErrorDialog(errmes);
                     try
                     {
                         m_dgv.Rows.RemoveAt(e.RowIndex);
@@ -1091,7 +1091,7 @@ namespace EcellLib.PropertyWindow
                 {
                     editCell.Value = m_current.Key;
                     String errmes = m_resources.GetString(MessageConstants.ErrID);
-                    Util.__showErrorDialog(errmes);
+                    Util.ShowErrorDialog(errmes);
                     return;
                 }
                 if (editCell.Equals(m_current.Key))
@@ -1108,7 +1108,7 @@ namespace EcellLib.PropertyWindow
                     m_isChanging = false;
                     ex.ToString();
                     String errmes = m_resources.GetString(MessageConstants.ErrChanged);
-                    Util.__showErrorDialog(errmes + "\n\n" + ex.ToString());
+                    Util.ShowErrorDialog(errmes + "\n\n" + ex.ToString());
                     return;
                 }
             }
@@ -1146,7 +1146,7 @@ namespace EcellLib.PropertyWindow
                     ex.ToString();
                     m_isChanging = false;
                     String errmes = m_resources.GetString(MessageConstants.ErrChanged);
-                    Util.__showErrorDialog(errmes + "\n\n" + ex.ToString());
+                    Util.ShowErrorDialog(errmes + "\n\n" + ex.ToString());
                     return;
                 }
             }
@@ -1187,7 +1187,7 @@ namespace EcellLib.PropertyWindow
                     ex.ToString();
                     m_isChanging = false;
                     String errmes = m_resources.GetString(MessageConstants.ErrChanged);
-                    Util.__showErrorDialog(errmes + "\n\n" + ex.ToString());
+                    Util.ShowErrorDialog(errmes + "\n\n" + ex.ToString());
                 }
             }
         }
@@ -1251,7 +1251,7 @@ namespace EcellLib.PropertyWindow
                 m_isChanging = false;
                 ex.ToString();
                 String errmes = m_resources.GetString(MessageConstants.ErrChanged);
-                Util.__showErrorDialog(errmes + "\n\n" + ex.ToString());
+                Util.ShowErrorDialog(errmes + "\n\n" + ex.ToString());
                 return;
             }
         }
@@ -1297,7 +1297,7 @@ namespace EcellLib.PropertyWindow
                 m_isChanging = false;
                 ex.ToString();
                 String errmes = m_resources.GetString(MessageConstants.ErrChanged);
-                Util.__showErrorDialog(errmes + "\n\n" + ex.ToString());
+                Util.ShowErrorDialog(errmes + "\n\n" + ex.ToString());
                 return;
             }
         }

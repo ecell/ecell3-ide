@@ -82,7 +82,7 @@ namespace EcellLib.Simulation
             if (data == "" || data == null)
             {
                 String errmes = Simulation.s_resources.GetString(MessageConstants.ErrNoInput);
-                Util.__showWarningDialog(errmes);
+                Util.ShowWarningDialog(errmes);
                 return;
             }
             if (m_win.IsExistStepper(data))
@@ -168,7 +168,7 @@ namespace EcellLib.Simulation
             if (Util.IsNGforID(paramTextBox.Text))
             {
                 String errmes = Simulation.s_resources.GetString(MessageConstants.ErrIDNG);
-                Util.__showWarningDialog(errmes);
+                Util.ShowWarningDialog(errmes);
                 return;
             }
             string newParamName = paramTextBox.Text;

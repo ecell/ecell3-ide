@@ -128,14 +128,14 @@ namespace EcellLib.Analysis
             if (m_manager.IsError())
             {
                 String mes = Analysis.s_resources.GetString(MessageConstants.ErrFindErrorJob);
-                if (!Util.__showYesNoDialog(mes))
+                if (!Util.ShowYesNoDialog(mes))
                 {
                     return;
                 }
             }
             JudgeRobustAnalysis();
             String finMes = Analysis.s_resources.GetString(MessageConstants.FinishRAnalysis);
-            Util.__showNoticeDialog(finMes);
+            Util.ShowNoticeDialog(finMes);
         }
         #endregion
 
@@ -152,19 +152,19 @@ namespace EcellLib.Analysis
             if (num <= 0)
             {
                 string errmes = Analysis.s_resources.GetString(MessageConstants.ErrSampleNumPositive);
-                Util.__showErrorDialog(errmes);
+                Util.ShowErrorDialog(errmes);
                 return;
             }
             if (simTime <= 0.0)
             {
                 string errmes = Analysis.s_resources.GetString(MessageConstants.ErrSimTimeUnder);
-                Util.__showErrorDialog(errmes);
+                Util.ShowErrorDialog(errmes);
                 return;
             }
             if (maxSize > AnalysisWindow.MaxSize)
             {
                 string errmes = Analysis.s_resources.GetString(MessageConstants.ErrOverMax) + "[" + AnalysisWindow.MaxSize + "]";
-                Util.__showErrorDialog(errmes);
+                Util.ShowErrorDialog(errmes);
                 return;
             }
 
@@ -177,7 +177,7 @@ namespace EcellLib.Analysis
             if (paramList.Count < 2)
             {
                 String mes = Analysis.s_resources.GetString(MessageConstants.ErrParamProp2);
-                Util.__showErrorDialog(mes);
+                Util.ShowErrorDialog(mes);
                 return;
             }
             List<SaveLoggerProperty> saveList = m_control.GetRAObservedDataList();
@@ -225,7 +225,7 @@ namespace EcellLib.Analysis
             if (pList.Count < 2)
             {
                 String mes = Analysis.s_resources.GetString(MessageConstants.ErrParamProp2);
-                Util.__showErrorDialog(mes);
+                Util.ShowErrorDialog(mes);
                 return;
             }
             int count = 0;

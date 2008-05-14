@@ -154,26 +154,26 @@ namespace EcellLib.Analysis
             if (m_param.Population <= 0)
             {
                 string errmes = Analysis.s_resources.GetString(MessageConstants.ErrPopulationNumPositive);
-                Util.__showErrorDialog(errmes);
+                Util.ShowErrorDialog(errmes);
                 return;
             }
             if (m_param.Generation <= 0)
             {
                 string errmes = Analysis.s_resources.GetString(MessageConstants.ErrGenerationNumPositive);
-                Util.__showErrorDialog(errmes);
+                Util.ShowErrorDialog(errmes);
                 return;
             }
             if (m_param.SimulationTime <= 0.0)
             {
                 string errmes = Analysis.s_resources.GetString(MessageConstants.ErrSimTimeUnder);
-                Util.__showErrorDialog(errmes);
+                Util.ShowErrorDialog(errmes);
                 return;
             }
             if (m_param.EstimationFormulator == null ||
                 m_param.EstimationFormulator.Equals(""))
             {
                 string errmes = Analysis.s_resources.GetString(MessageConstants.ErrNotEstimateFormulator);
-                Util.__showErrorDialog(errmes);
+                Util.ShowErrorDialog(errmes);
                 return;
             }
 
@@ -186,7 +186,7 @@ namespace EcellLib.Analysis
             if (m_paramList.Count < 1)
             {
                 String mes = Analysis.s_resources.GetString(MessageConstants.ErrParamProp1);
-                Util.__showErrorDialog(mes);
+                Util.ShowErrorDialog(mes);
                 return;
             }
 
@@ -300,7 +300,7 @@ namespace EcellLib.Analysis
                 FindElite();
 
                 String finMes = Analysis.s_resources.GetString(MessageConstants.FinishPAnalysis);
-                Util.__showNoticeDialog(finMes);
+                Util.ShowNoticeDialog(finMes);
                 return;
             }
 

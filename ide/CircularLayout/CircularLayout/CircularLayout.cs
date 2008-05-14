@@ -523,14 +523,14 @@ namespace EcellLib.CircularLayout
             if (num < 3)
             {
                 ComponentResourceManager crm = new ComponentResourceManager(typeof(CircularLayout));
-                Util.__showErrorDialog(crm.GetString(MessageConstants.MsgLessNode));
+                Util.ShowErrorDialog(crm.GetString(MessageConstants.MsgLessNode));
                 return false;
             }
 
             if (rect.Width == 0 || rect.Height == 0)
             {
                 ComponentResourceManager crm = new ComponentResourceManager(typeof(CircularLayout));
-                Util.__showErrorDialog(crm.GetString(MessageConstants.MsgSelectRect));
+                Util.ShowErrorDialog(crm.GetString(MessageConstants.MsgSelectRect));
                 return false;
             }
 

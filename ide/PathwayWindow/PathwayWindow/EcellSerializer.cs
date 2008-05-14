@@ -133,7 +133,7 @@ namespace EcellLib.PathwayWindow {
             catch (Exception ex)
             {
                 string errmsg = m_resources.GetString(MessageConstants.ErrLoadWindowSettings) + Environment.NewLine + filename + Environment.NewLine + ex.Message;
-                Util.__showErrorDialog(errmsg);
+                Util.ShowErrorDialog(errmsg);
             }
             finally
             {
@@ -180,7 +180,7 @@ namespace EcellLib.PathwayWindow {
             catch (Exception ex)
             {
                 string errmsg = m_resources.GetString(MessageConstants.ErrLoadWindowSettings) + Environment.NewLine + filename + Environment.NewLine + ex.Message;
-                Util.__showErrorDialog(errmsg);
+                Util.ShowErrorDialog(errmsg);
             }
         }
 

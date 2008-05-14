@@ -91,7 +91,7 @@ namespace EcellLib
                 if (nameList.Contains(name))
                 {
                     String errmes = m_resources.GetString(MessageConstants.ErrExistID);
-                    Util.__showErrorDialog(name + errmes);
+                    Util.ShowErrorDialog(name + errmes);
                     return null;
                 }
                 nameList.Add(name);
@@ -112,7 +112,7 @@ namespace EcellLib
                 if (v.Name == "")
                 {
                     String errmes = m_resources.GetString(MessageConstants.ErrInvalidName);
-                    Util.__showWarningDialog(errmes + "(Name)");
+                    Util.ShowWarningDialog(errmes + "(Name)");
                     return null;
                 }
                 if (v.FullID == "" || !v.FullID.StartsWith(":"))
@@ -353,7 +353,7 @@ namespace EcellLib
                 if (nameList.Contains(name))
                 {
                     String errmes = m_resources.GetString(MessageConstants.ErrExistID);
-                    Util.__showErrorDialog(name + errmes);
+                    Util.ShowErrorDialog(name + errmes);
                     return;
                 }
                 nameList.Add(name);
@@ -374,7 +374,7 @@ namespace EcellLib
                 if (v.Name == "")
                 {
                     String errmes = m_resources.GetString(MessageConstants.ErrInvalidName);
-                    Util.__showWarningDialog(errmes + "(Name)");
+                    Util.ShowWarningDialog(errmes + "(Name)");
                     return;
                 }
                 if (v.FullID == "" || !v.FullID.StartsWith(":"))

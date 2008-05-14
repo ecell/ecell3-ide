@@ -689,7 +689,7 @@ namespace EcellLib
             catch (Exception ex)
             {
                 string errmsg = "ErrLoadProjectSettings" + Environment.NewLine + filepath + Environment.NewLine + ex.Message;
-                Util.__showErrorDialog(errmsg);
+                Util.ShowErrorDialog(errmsg);
             }
             project = new Project(prjName, comment, time, param);
             return project;

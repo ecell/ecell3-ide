@@ -527,7 +527,7 @@ namespace EcellLib.EntityListWindow
             catch (Exception ex)
             {
                 String errmese = EntityListWindow.s_resources.GetString(MessageConstants.ErrPrintData);
-                Util.__showErrorDialog(errmese + "\n\n" + ex);
+                Util.ShowErrorDialog(errmese + "\n\n" + ex);
                 return null;
             }
         }
@@ -1351,7 +1351,7 @@ namespace EcellLib.EntityListWindow
             catch (Exception ex)
             {
                 String errmes = EntityListWindow.s_resources.GetString(MessageConstants.ErrDelData);
-                Util.__showErrorDialog(errmes + "\n\n" + ex);
+                Util.ShowErrorDialog(errmes + "\n\n" + ex);
                 return;
             }
         }
@@ -1443,7 +1443,7 @@ namespace EcellLib.EntityListWindow
                 {
                     ex.ToString();
                     String errmes = s_resources.GetString(MessageConstants.ErrStartupApp);
-                    Util.__showErrorDialog(errmes + "\n\n" + path);
+                    Util.ShowErrorDialog(errmes + "\n\n" + path);
                     return;
                 }
                 return;

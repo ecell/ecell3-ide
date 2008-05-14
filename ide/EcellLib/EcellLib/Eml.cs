@@ -690,7 +690,7 @@ namespace EcellLib
             if (m_isWarn == true)
             {
                 String errmes = DataManager.s_resources.GetString(MessageConstants.WarnLoadDM);
-                Util.__showWarningDialog(errmes + "\n");
+                Util.ShowWarningDialog(errmes + "\n");
             }
 
             return l_modelObject;

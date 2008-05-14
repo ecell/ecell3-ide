@@ -460,32 +460,32 @@ namespace EcellLib
 
     public partial class Util
     {
-        public static void __showErrorDialog(string msg)
+        public static void ShowErrorDialog(string msg)
         {
             MessageBox.Show(msg, "Error",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        public static void __showWarningDialog(string msg)
+        public static void ShowWarningDialog(string msg)
         {
             MessageBox.Show(msg, "Warning",
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        public static void __showNoticeDialog(string msg)
+        public static void ShowNoticeDialog(string msg)
         {
             MessageBox.Show(msg, "Information",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        public static bool __showYesNoDialog(string msg)
+        public static bool ShowYesNoDialog(string msg)
         {
             return MessageBox.Show(msg, "Confirmation",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
                     DialogResult.Yes;
         }
 
-        public static bool __showOKCancelDialog(string msg)
+        public static bool ShowOKCancelDialog(string msg)
         {
             return MessageBox.Show(msg, "Confirmation",
                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question) ==

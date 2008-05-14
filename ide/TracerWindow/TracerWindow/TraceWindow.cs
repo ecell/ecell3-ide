@@ -653,8 +653,7 @@ namespace EcellLib.TracerWindow
             if (cell == null || cell1 == null)
             {
                 String errmes = TracerWindow.s_resources.GetString(MessageConstants.ErrColorDlg);
-                MessageBox.Show(errmes, 
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.ShowErrorDialog(errmes);
                 return;
             }
 
@@ -758,7 +757,7 @@ namespace EcellLib.TracerWindow
             if (m_currentObj == null)
             {
                 String errmes = TracerWindow.s_resources.GetString(MessageConstants.ErrNoFind);
-                Util.__showNoticeDialog(errmes + "(" + tag.M_modelID + ")");
+                Util.ShowNoticeDialog(errmes + "(" + tag.M_modelID + ")");
                 return;
             }
 
@@ -849,9 +848,10 @@ namespace EcellLib.TracerWindow
             if (m.Msg == WM_SYSCOMMAND && m.WParam.ToInt32() == SC_CLOSE)
             {
                 String mes = TracerWindow.s_resources.GetString(MessageConstants.ConfirmClose);
-                DialogResult res = MessageBox.Show(mes,
-                    "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-                if (res == DialogResult.OK) this.Dispose();
+                if (Util.ShowOKCancelDialog(mes))
+                {
+                    this.Dispose();
+                }
                 return;
             }
 

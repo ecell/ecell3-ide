@@ -1117,9 +1117,10 @@ namespace EcellLib.Analysis
             {
                 String mes = Analysis.s_resources.GetString(MessageConstants.ConfirmClose);
 
-                DialogResult res = MessageBox.Show(mes,
-                    "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-                if (res == DialogResult.OK) this.Dispose();
+                if (Util.ShowOKCancelDialog(mes))
+                {
+                    this.Dispose();
+                }
                 return;
             }
 

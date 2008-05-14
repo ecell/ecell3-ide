@@ -141,7 +141,7 @@ namespace EcellLib.PathwayWindow.Handler
 
                 if (string.IsNullOrEmpty(m_surSystem))
                 {
-                    Util.__showErrorDialog(m_resources.GetString(MessageConstants.ErrOutRoot));
+                    Util.ShowErrorDialog(m_resources.GetString(MessageConstants.ErrOutRoot));
                     return;
                 }
 

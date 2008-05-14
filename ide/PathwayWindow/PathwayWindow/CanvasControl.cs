@@ -721,7 +721,7 @@ namespace EcellLib.PathwayWindow
                 return;
             if (m_layers.ContainsKey(name))
             {
-                Util.__showNoticeDialog(name + m_resources.GetString(MessageConstants.ErrAlrExist));
+                Util.ShowNoticeDialog(name + m_resources.GetString(MessageConstants.ErrAlrExist));
                 return;
             }
             PPathwayLayer layer = new PPathwayLayer(name);

@@ -797,9 +797,7 @@ namespace EcellLib
                 return;
 
             String mes = m_resources.GetString(MessageConstants.ConfirmReset);
-            DialogResult r = MessageBox.Show(mes,
-                "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-            if (r != DialogResult.OK)
+            if (!Util.ShowOKCancelDialog(mes))
             {
                 throw new IgnoreException("Can't " + action + " the object.");
             }
@@ -1824,10 +1822,7 @@ namespace EcellLib
             EcellObject system = GetEcellObject(modelID, key, EcellObject.SYSTEM);
             if (system.Key.Equals("/"))
             {
-                MessageBox.Show(m_resources.GetString(MessageConstants.ErrDelRoot),
-                                "Error",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
+                Util.ShowErrorDialog(m_resources.GetString(MessageConstants.ErrDelRoot));
                 return;
             }
             // Get objects under this system.
@@ -1841,15 +1836,15 @@ namespace EcellLib
                 string newKey = Util.GetMovedKey(eo.Key, sysKey, parentSysKey);
                 if (GetEcellObject(modelID, newKey, eo.Type) != null)
                 {
-                    MessageBox.Show(newKey + m_resources.GetString(MessageConstants.ErrExistObj),
-                                    "Error",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Error);
+                    Util.ShowErrorDialog(newKey + m_resources.GetString(MessageConstants.ErrExistObj));
                     return;
                 }
             }
             // Confirm system merge.
-            if (!Util.__showYesNoDialog(m_resources.GetString(MessageConstants.ConfirmMerge)))                return;
+            if (!Util.ShowYesNoDialog(m_resources.GetString(MessageConstants.ConfirmMerge)))
+            {
+                return;
+            }
 
             // Move systems and nodes under merged system.
             foreach (EcellObject eo in eoList)
@@ -4317,8 +4312,7 @@ namespace EcellLib
             catch (Exception ex)
             {
                 String errmes = m_resources.GetString(MessageConstants.ErrAddObj);
-                MessageBox.Show(errmes + "\n\n" + ex,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.ShowErrorDialog(errmes + "\n\n" + ex);
                 return null;
             }
 
@@ -4359,7 +4353,7 @@ namespace EcellLib
             catch (Exception ex)
             {
                 String errmes = m_resources.GetString(MessageConstants.ErrAddObj);
-                Util.__showErrorDialog(errmes + "\n\n" + ex);
+                Util.ShowErrorDialog(errmes + "\n\n" + ex);
                 return null;
             }
 
@@ -4413,7 +4407,7 @@ namespace EcellLib
             catch (Exception ex)
             {
                 String errmes = m_resources.GetString(MessageConstants.ErrAddObj);
-                Util.__showErrorDialog(errmes + "\n\n" + ex);
+                Util.ShowErrorDialog(errmes + "\n\n" + ex);
                 return null;
             }
 

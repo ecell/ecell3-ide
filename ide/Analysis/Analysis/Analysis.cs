@@ -432,7 +432,7 @@ namespace EcellLib.Analysis
             if (resList.Count < 1)
             {
                 String mes = Analysis.s_resources.GetString(MessageConstants.ErrObservProp);
-                Util.__showErrorDialog(mes);
+                Util.ShowErrorDialog(mes);
                 return null;
             }
 
@@ -464,7 +464,7 @@ namespace EcellLib.Analysis
             if (resList.Count < 1)
             {
                 String mes = Analysis.s_resources.GetString(MessageConstants.ErrObservProp);
-                Util.__showErrorDialog(mes);
+                Util.ShowErrorDialog(mes);
                 return null;
             }
 
@@ -524,7 +524,7 @@ namespace EcellLib.Analysis
             if (m_robustAnalysis != null && m_robustAnalysis.IsRunning)
             {
                 string mes = Analysis.s_resources.GetString(MessageConstants.ConfirmStopAnalysis);
-                if (Util.__showYesNoDialog(mes))
+                if (Util.ShowYesNoDialog(mes))
                 {
                     m_robustAnalysis.StopAnalysis();
                 }
@@ -546,7 +546,7 @@ namespace EcellLib.Analysis
             if (m_parameterEstimation != null && m_parameterEstimation.IsRunning)
             {
                 string mes = Analysis.s_resources.GetString(MessageConstants.ConfirmStopAnalysis);
-                if (Util.__showYesNoDialog(mes))
+                if (Util.ShowYesNoDialog(mes))
                 {
                     m_parameterEstimation.StopAnalysis();
                 }
@@ -568,7 +568,7 @@ namespace EcellLib.Analysis
             if (m_sensitivityAnalysis != null && m_sensitivityAnalysis.IsRunning)
             {
                 string mes = Analysis.s_resources.GetString(MessageConstants.ConfirmStopAnalysis);
-                if (Util.__showYesNoDialog(mes))
+                if (Util.ShowYesNoDialog(mes))
                 {
                     m_sensitivityAnalysis.StopAnalysis();
                 }
@@ -607,7 +607,7 @@ namespace EcellLib.Analysis
             if (m_bifurcationAnalysis != null && m_bifurcationAnalysis.IsRunning)
             {
                 string mes = Analysis.s_resources.GetString(MessageConstants.ConfirmStopAnalysis);
-                if (Util.__showYesNoDialog(mes))
+                if (Util.ShowYesNoDialog(mes))
                 {
                     m_bifurcationAnalysis.StopAnalysis();
                 }

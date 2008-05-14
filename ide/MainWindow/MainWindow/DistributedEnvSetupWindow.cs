@@ -141,14 +141,14 @@ namespace EcellLib.MainWindow
                 if (conc <= 0)
                 {
                     string errmes = MainWindow.s_resources.GetString(MessageConstants.ErrConcInvalid);
-                    Util.__showErrorDialog(errmes);
+                    Util.ShowErrorDialog(errmes);
                     return;
                 }
                 if (DEWorkDirTextBox.Text == null ||
                     DEWorkDirTextBox.Text == "")
                 {
                     string errmes = MainWindow.s_resources.GetString(MessageConstants.ErrNoWorkDir);
-                    Util.__showErrorDialog(errmes);
+                    Util.ShowErrorDialog(errmes);
                     return;
                 }
                 string envName = DEEnvComboBox.Text;
@@ -169,7 +169,7 @@ namespace EcellLib.MainWindow
             {
                 ex.ToString();
                 string errmes = MainWindow.s_resources.GetString(MessageConstants.ErrUpdateDistEnv);
-                Util.__showErrorDialog(errmes);
+                Util.ShowErrorDialog(errmes);
                 return;
             }
             this.Close();
