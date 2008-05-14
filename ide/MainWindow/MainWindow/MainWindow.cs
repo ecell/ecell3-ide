@@ -270,10 +270,14 @@ namespace EcellLib.MainWindow
             {
                 pb = m_env.PluginManager.LoadPlugin(path, className);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Trace.WriteLine(e);
                 String errmes = MainWindow.s_resources.GetString(MessageConstants.ErrLoadPlugin);
-                //m_env.PluginManager.Message2(new MessageEntry(MessageType.Error, null, String.Format(errmes)));
+                m_env.MessageManager.Append(
+                    new ApplicationMessageEntry(
+                        MessageType.Error,
+                        String.Format(errmes, className, path), this));
                 return;
             }
             // Set DockContent.

@@ -122,7 +122,7 @@ namespace EcellLib.MainWindow
             onIdle = delegate(object sender, EventArgs ev)
             {
                 Application.Idle -= onIdle;
-                IEcellPlugin mainWnd = env.PluginManager.AddPlugin(
+                IEcellPlugin mainWnd = env.PluginManager.RegisterPlugin(
                     typeof(EcellLib.MainWindow.MainWindow));
                 me.MainForm = (Form)mainWnd;
                 ((Form)mainWnd).Show();

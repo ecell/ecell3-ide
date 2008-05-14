@@ -450,7 +450,10 @@ namespace EcellLib
         /// <param name="p">plugin</param>
         public void AddPlugin(IEcellPlugin p)
         {
-            m_pluginList.Add(p.GetPluginName(), p);
+            if (!m_pluginList.ContainsKey(p.GetPluginName()))
+            {
+                m_pluginList.Add(p.GetPluginName(), p);
+            }
         }
 
         /// <summary>
@@ -617,14 +620,14 @@ namespace EcellLib
             {
                 throw new Exception("The assembly " + handle + " does not contain the class " + className);
             }
-            return AddPlugin(aType);
+            return RegisterPlugin(aType);
         }
 
         /// <summary>
         /// Add a plugin to the registry
         /// </summary>
         /// <param name="p">the plugin</param>
-        public IEcellPlugin AddPlugin(Type pluginType)
+        public IEcellPlugin RegisterPlugin(Type pluginType)
         {
             IEcellPlugin p = null;
             try
@@ -651,10 +654,7 @@ namespace EcellLib
 
             p.Initialize();
 
-            if (!m_pluginList.ContainsKey(p.GetPluginName()))
-            {
-                m_pluginList.Add(p.GetPluginName(), p);
-            }
+            AddPlugin(p);
 
             return p;
         }

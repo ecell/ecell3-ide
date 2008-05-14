@@ -48,7 +48,12 @@ namespace EcellLib.Message
         /// Get the location of message.
         /// </summary>
         /// <returns>the location of message.</returns>
-        String Location { get; }
+        string Location { get; }
+        /// <summary>
+        /// Get the timestamp of message.
+        /// </summary>
+        /// <returns>the time when the message is generated.</returns>
+        DateTime Timestamp { get; }
         /// <summary>
         /// Get the message string.
         /// </summary>

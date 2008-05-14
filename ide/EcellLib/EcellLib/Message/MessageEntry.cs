@@ -65,6 +65,11 @@ namespace EcellLib.Message
             get { return m_message; }
         }
 
+        public DateTime Timestamp
+        {
+            get { return m_time; }
+        }
+
         public abstract string Location
         {
             get;
@@ -96,5 +101,10 @@ namespace EcellLib.Message
             m_time = time;
         }
         #endregion
+
+        public override string ToString()
+        {
+            return "[" + Timestamp + "] " + MessageType + ": " + Message + "(location: " + Location + ")";
+        }
     }
 }
