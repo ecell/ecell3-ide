@@ -138,7 +138,7 @@ namespace EcellLib.PathwayWindow.Handler
                 return;
             if (!(e.Canvas is PToolBoxCanvas))
                 return;
-            SetEventHandler((PToolBoxCanvas)e.Canvas);
+            SetEventHandler((PToolBoxCanvas)e.Canvas, e);
         }
 
         /// <summary>
@@ -205,10 +205,13 @@ namespace EcellLib.PathwayWindow.Handler
         /// Initialise EventHandler.
         /// </summary>
         /// <param name="canvas"></param>
-        private void SetEventHandler(PToolBoxCanvas canvas)
+        private void SetEventHandler(PToolBoxCanvas canvas, PInputEventArgs e)
         {
             m_canvas = m_con.Canvas;
             m_object = canvas.Setting.CreateTemplate();
+
+            Point systemPos = GetSystemPos(e);
+            m_object.CenterPointF = m_canvas.SystemPosToCanvasPos(systemPos);
             m_object.Pickable = false;
             m_canvas.ControlLayer.AddChild(m_object);
         }

@@ -94,6 +94,7 @@ namespace EcellLib.PathwayWindow.Handler
             if (newNode == null)
             {
                 ResetStartNode();
+                m_con.Menu.SetDefaultEventHandler();
                 return;
             }
             else if(m_start == null)
