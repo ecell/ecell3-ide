@@ -218,7 +218,6 @@ namespace EcellLib.EntityListWindow
         /// <returns>UserControl.</returns>
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
-            List<EcellDockContent> list = new List<EcellDockContent>();
             m_form = new EntityList(this);
             m_form.treeView1.NodeMouseClick +=
                 new TreeNodeMouseClickEventHandler(this.NodeMouseClick);
@@ -227,9 +226,8 @@ namespace EcellLib.EntityListWindow
             m_form.treeView1.TreeViewNodeSorter = new TypeSorter();
 
             CreatePopupMenu();
-            list.Add(m_form);
 
-            return list;
+            return new EcellDockContent[] { m_form };
         }
 
         /// <summary>
@@ -1307,9 +1305,7 @@ namespace EcellLib.EntityListWindow
             }
             catch (Exception ex)
             {
-                String errmes = EntityListWindow.s_resources.GetString(MessageConstants.ErrDelData);
-                MessageBox.Show(errmes + "\n\n" + ex,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.ShowErrorDialog(s_resources.GetString(MessageConstants.ErrDelData));
                 return;
             }
         }
@@ -1364,9 +1360,7 @@ namespace EcellLib.EntityListWindow
             string path = m_dManager.GetDMFileName(m_targetNode.Text);
             if (!CheckInstalledSDK())
             {
-                String errmes = EntityListWindow.s_resources.GetString(MessageConstants.ErrNotInstallSDK);
-                MessageBox.Show(errmes + "\n",
-                    "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Util.ShowNoticeDialog(EntityListWindow.s_resources.GetString(MessageConstants.ErrNotInstallSDK));
                 return;
             }
             // not implement.
@@ -1457,10 +1451,7 @@ namespace EcellLib.EntityListWindow
                     tag.m_key, tag.m_type);
                 if (obj == null)
                 {
-                    String errmes = EntityListWindow.s_resources.GetString(MessageConstants.ErrGetData);
-                    MessageBox.Show(
-                    errmes + "(" + tag.m_modelID + "," + tag.m_key + ")",
-                    "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Util.ShowWarningDialog(EntityListWindow.s_resources.GetString(MessageConstants.ErrGetData) + "(" + tag.m_modelID + "," + tag.m_key + ")");
                     return;
                 }
                 ShowPropEditWindow(obj);
@@ -1468,9 +1459,8 @@ namespace EcellLib.EntityListWindow
             }
             catch (Exception ex)
             {
-                String errmes = EntityListWindow.s_resources.GetString(MessageConstants.ErrGetData);
-                MessageBox.Show(errmes + "\n\n" + ex,
-                    "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Trace.WriteLine(ex);
+                Util.ShowErrorDialog(EntityListWindow.s_resources.GetString(MessageConstants.ErrGetData));
                 return;
             }
         }

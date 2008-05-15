@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -441,10 +442,10 @@ namespace EcellLib.Simulation
         {
             if (m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Running)
             {
-                String mes = Simulation.s_resources.GetString(MessageConstants.ConfirmSetup);
-                DialogResult r = MessageBox.Show(mes,
-                    "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                if (r != DialogResult.OK) return;
+                if (!Util.ShowOKCancelDialog(Simulation.s_resources.GetString(MessageConstants.ConfirmSetup)))
+                {
+                    return;
+                }
                 ResetSimulation(sender, e);
             }
 
@@ -532,9 +533,8 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrStep);
-                MessageBox.Show(errmes + "\n\n" + ex,
-                        "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Trace.WriteLine(ex);
+                Util.ShowErrorDialog(Simulation.s_resources.GetString(MessageConstants.ErrStep));
                 m_pManager.ChangeStatus(preType);                
             }
         }
@@ -560,9 +560,8 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrReset);
-                MessageBox.Show(errmes + "\n\n" + ex,
-                        "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Trace.WriteLine(ex);
+                Util.ShowErrorDialog(Simulation.s_resources.GetString(MessageConstants.ErrReset));
                 m_pManager.ChangeStatus(preType);
             }
         }

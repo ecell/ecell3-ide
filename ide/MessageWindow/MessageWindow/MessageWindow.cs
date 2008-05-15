@@ -116,11 +116,8 @@ namespace EcellLib.MessageWindow
         /// <returns>Windows form</returns>
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
-            List<EcellDockContent> array = new List<EcellDockContent>();
             m_form = new MessageWindowControl();
-            array.Add(m_form);
-
-            return array;
+            return new EcellDockContent[] { m_form };
         }
 
         /// <summary>

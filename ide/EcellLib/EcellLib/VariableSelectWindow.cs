@@ -101,10 +101,7 @@ namespace EcellLib
             TreeNode t = this.selectTree.SelectedNode;
             if (t == null)
             {
-                String errmes = m_resources.GetString(MessageConstants.ErrNoSelect);
-                MessageBox.Show(errmes, 
-                    "WARNING",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNoSelect));
                 return;
             }
             string tag = (string)t.Tag;
@@ -150,18 +147,13 @@ namespace EcellLib
             TreeNode t = this.selectTree.SelectedNode;
             if (t == null)
             {
-                String errmes = m_resources.GetString(MessageConstants.ErrNoSelect);
-                MessageBox.Show(errmes,
-                    "WARNING",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNoSelect));
                 return;
             }
             string tag = (string)t.Tag;
             if (tag == null || tag.Equals(""))
             {
-                String errmes = m_resources.GetString(MessageConstants.ErrNotVar);
-                MessageBox.Show(errmes, "WARNING",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNotVar));
                 return;
             }
 
@@ -200,10 +192,7 @@ namespace EcellLib
             TreeNode t = this.selectTree.SelectedNode;
             if (t == null)
             {
-                String errmes = m_resources.GetString(MessageConstants.ErrNoSelect);
-                MessageBox.Show(errmes,
-                    "WARNING",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNoSelect));
                 return;
             }
             string tag = (string)t.Tag;
@@ -247,18 +236,13 @@ namespace EcellLib
             TreeNode t = this.selectTree.SelectedNode;
             if (t == null)
             {
-                String errmes = m_resources.GetString(MessageConstants.ErrNoSelect);
-                MessageBox.Show(errmes,
-                    "WARNING",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNoSelect));
                 return;
             }
             string tag = (string)t.Tag;
             if (tag == null || tag.Equals(""))
             {
-                String errmes = m_resources.GetString(MessageConstants.ErrNotVar);
-                MessageBox.Show(errmes, "WARNING",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNotVar));
                 return;
             }
 

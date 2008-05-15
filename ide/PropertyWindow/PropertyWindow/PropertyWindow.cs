@@ -32,6 +32,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -490,10 +491,7 @@ namespace EcellLib.PropertyWindow
             dock.TabText = dock.Text;
             dock.Controls.Add(m_dgv);
             dock.IsSavable = true;
-            List<EcellDockContent> list = new List<EcellDockContent>();
-            list.Add(dock);
-
-            return list;
+            return new EcellDockContent[] { dock }; 
         }
 
         /// <summary>
@@ -1027,8 +1025,7 @@ namespace EcellLib.PropertyWindow
                             continue;
                         if (name.Equals(m_dgv[0, i].Value.ToString()))
                         {
-                            String errmes = m_resources.GetString(MessageConstants.SameProp);
-                            MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Util.ShowErrorDialog(m_resources.GetString(MessageConstants.SameProp));
                             try
                             {
                                 m_dgv.Rows.RemoveAt(e.RowIndex);
@@ -1169,9 +1166,8 @@ namespace EcellLib.PropertyWindow
                         }
                         catch (Exception ex)
                         {
-                            ex.ToString();
-                            String errmes = m_resources.GetString(MessageConstants.ErrFormat);
-                            MessageBox.Show(errmes, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Trace.WriteLine(ex);
+                            Util.ShowErrorDialog(m_resources.GetString(MessageConstants.ErrFormat));
                             return;
                         }
                     }

@@ -177,9 +177,7 @@ namespace EcellLib.StaticDebugWindow
 
             if (m_staticDebug.ErrorMessageList.Count <= 0)
             {
-                String mes = StaticDebugWindow.s_resources.GetString(MessageConstants.NoError);
-                MessageBox.Show(mes,
-                    "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Util.ShowNoticeDialog(StaticDebugWindow.s_resources.GetString(MessageConstants.NoError));
                 return;
             }
 

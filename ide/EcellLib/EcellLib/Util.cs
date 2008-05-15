@@ -485,6 +485,22 @@ namespace EcellLib
                     DialogResult.Yes;
         }
 
+        public class CancelException : Exception {}
+
+        public static bool ShowYesNoCancelDialog(string msg)
+        {
+            switch (MessageBox.Show(msg, "Confirmation",
+                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
+            {
+                case DialogResult.Yes:
+                    return true;
+                case DialogResult.No:
+                    return false;
+                default:
+                    throw new CancelException();
+            }
+        }
+
         public static bool ShowOKCancelDialog(string msg)
         {
             return MessageBox.Show(msg, "Confirmation",

@@ -87,16 +87,12 @@ namespace EcellLib.Simulation
             }
             if (m_win.IsExistStepper(data))
             {
-                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrAlready);
-                MessageBox.Show(errmes, "WARNING",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Util.ShowWarningDialog(Simulation.s_resources.GetString(MessageConstants.ErrAlready));
                 return;
             }
             if (Util.IsNGforID(data))
             {
-                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrIDNG);
-                MessageBox.Show(errmes, "WARNING",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Util.ShowWarningDialog(Simulation.s_resources.GetString(MessageConstants.ErrIDNG));
                 return;
             }
             string paramID = m_win.GetCurrentParameter();
@@ -160,15 +156,12 @@ namespace EcellLib.Simulation
         {
             if (paramTextBox.Text == "")
             {
-                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrNoInput);
-                MessageBox.Show(errmes, "WARNING",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Util.ShowWarningDialog(Simulation.s_resources.GetString(MessageConstants.ErrNoInput));
                 return;
             }
             if (Util.IsNGforID(paramTextBox.Text))
             {
-                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrIDNG);
-                Util.ShowWarningDialog(errmes);
+                Util.ShowWarningDialog(Simulation.s_resources.GetString(MessageConstants.ErrIDNG));
                 return;
             }
             string newParamName = paramTextBox.Text;

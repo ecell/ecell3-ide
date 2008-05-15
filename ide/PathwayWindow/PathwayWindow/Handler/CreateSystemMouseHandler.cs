@@ -234,7 +234,7 @@ namespace EcellLib.PathwayWindow.Handler
             {
                 if (m_canvas.DoesSystemOverlaps(m_rect))
                 {
-                    MessageBox.Show(m_resources.GetString(MessageConstants.ErrOverSystem),                                    "Error",                                    MessageBoxButtons.OK,                                    MessageBoxIcon.Stop);
+                    Util.ShowErrorDialog(m_resources.GetString(MessageConstants.ErrOverSystem));
                     return;
                 }
 

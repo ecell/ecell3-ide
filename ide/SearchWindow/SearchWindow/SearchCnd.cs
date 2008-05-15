@@ -170,10 +170,7 @@ namespace EcellLib.SearchWindow
             EcellObject obj = m_owner.DataManager.GetEcellObject(model, id, type);
             if (obj == null)
             {
-                String errmes = m_resources.GetString(MessageConstants.ErrNotFind);
-                MessageBox.Show(
-                errmes + "(" + model + "," + id + ")",
-                "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNotFind) + "(" + model + "," + id + ")");
                 return;
             }
             ShowPropEditWindow(obj);

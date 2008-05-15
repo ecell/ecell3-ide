@@ -33,6 +33,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -102,11 +103,10 @@ namespace EcellLib
                     v.Coefficient = Convert.ToInt32(this.dgv[2, i].Value);
                     v.IsAccessor = Convert.ToInt32(this.dgv[3, i].Value);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    String errmes = m_resources.GetString(MessageConstants.ErrNoNumber);
-                    MessageBox.Show(errmes,
-                        "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Trace.WriteLine(ex);
+                    Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNoNumber));
                     return null;
                 }
                 if (v.Name == "")
@@ -117,9 +117,7 @@ namespace EcellLib
                 }
                 if (v.FullID == "" || !v.FullID.StartsWith(":"))
                 {
-                    String errmes = m_resources.GetString(MessageConstants.ErrInvalidName);
-                    MessageBox.Show(errmes + "(FullID)",
-                        "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrInvalidName) + "(FullID)");
                     return null;
                 }
 
@@ -292,9 +290,7 @@ namespace EcellLib
                 string name = (string)this.dgv[0, i].Value;
                 if (nameList.Contains(name))
                 {
-                    String errmes = m_resources.GetString(MessageConstants.ErrExistID);
-                    MessageBox.Show(name + errmes, "ERROR",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Util.ShowErrorDialog(m_resources.GetString(MessageConstants.ErrExistID));
                     return;
                 }
                 nameList.Add(name);
@@ -305,25 +301,20 @@ namespace EcellLib
                     v.Coefficient = Convert.ToInt32(this.dgv[2, i].Value);
                     v.IsAccessor = Convert.ToInt32(this.dgv[3, i].Value);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    String errmes = m_resources.GetString(MessageConstants.ErrNoNumber);
-                    MessageBox.Show(errmes,
-                        "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Trace.WriteLine(ex);
+                    Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNoNumber));
                     return;
                 }
                 if (v.Name == "")
                 {
-                    String errmes = m_resources.GetString(MessageConstants.ErrInvalidName);
-                    MessageBox.Show(errmes + "(Name)",
-                        "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrInvalidName) + "(Name)");
                     return;
                 }
                 if (v.FullID == "" || !v.FullID.StartsWith(":"))
                 {
-                    String errmes = m_resources.GetString(MessageConstants.ErrInvalidName);
-                    MessageBox.Show(errmes + "(FullID)",
-                        "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrInvalidName) + "(FullID)");
                     return;
                 }
 

@@ -112,8 +112,8 @@ namespace EcellLib.MainWindow
         [Test()]
         public void TestGetWindowsForms()
         {
-            System.Collections.Generic.List<EcellLib.EcellDockContent> expectedList = null;
-            System.Collections.Generic.List<EcellLib.EcellDockContent> resultList = null;
+            IEnumerable<EcellLib.EcellDockContent> expectedList = null;
+            IEnumerable<EcellLib.EcellDockContent> resultList = null;
             resultList = _unitUnderTest.GetWindowsForms();
             Assert.AreEqual(expectedList, resultList, "GetWindowsForms method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");

@@ -295,12 +295,12 @@ namespace EcellLib.PathwayWindow
         /// <returns>UserControl with pathway canvases, etc.</returns>
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
-            List<EcellDockContent> list = new List<EcellDockContent>();
-            list.Add(m_con.PathwayView);
-            list.Add(m_con.OverView);
-            list.Add(m_con.LayerView);
-            list.Add(m_con.ToolBox);
-            return list;
+            return new EcellDockContent[] {
+                m_con.PathwayView,
+                m_con.OverView,
+                m_con.LayerView,
+                m_con.ToolBox,
+            };
         }
 
         /// <summary>

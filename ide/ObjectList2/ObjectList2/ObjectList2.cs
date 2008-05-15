@@ -116,10 +116,7 @@ namespace EcellLib.ObjectList2
             win.Text = s_resources.GetString(MessageConstants.ObjectList);
             win.TabText = win.Text;
             win.IsSavable = true;
-            List<EcellDockContent> list = new List<EcellDockContent>();
-            list.Add(win);
-
-            return list;
+            return new EcellDockContent[] { win };
         }
 
         /// <summary>

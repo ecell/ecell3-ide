@@ -692,10 +692,8 @@ namespace EcellLib.Analysis
         /// <returns>nothing.</returns>
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
-            List<EcellDockContent> list = new List<EcellDockContent>();
             m_rWin = new AnalysisResultWindow(this);
-            list.Add(m_rWin);
-            return list;
+            return new EcellDockContent[] { m_rWin };
         }
 
         /// <summary>

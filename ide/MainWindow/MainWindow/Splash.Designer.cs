@@ -73,7 +73,6 @@
             this.Name = "Splash";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 
