@@ -702,7 +702,7 @@ namespace EcellLib.MainWindow
         private void SetDockContentMenu(DockContent content)
         {
             ToolStripMenuItem item = new ToolStripMenuItem(
-                content.Text,
+                content.TabText,
                 (System.Drawing.Image)
                 TypeDescriptor.GetConverter(content.Icon)
                     .ConvertTo(content.Icon,
