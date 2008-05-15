@@ -108,17 +108,16 @@ namespace EcellLib.PathwayWindow.Handler
         /// <returns></returns>
         private Cursor GetCursor(int pos)
         {
-            if (pos == HandlePosition.NW || pos == HandlePosition.SE)
+            if (pos == ResizeHandle.NW || pos == ResizeHandle.SE)
                 return Cursors.SizeNWSE;
-            else if (pos == HandlePosition.N || pos == HandlePosition.S)
+            else if (pos == ResizeHandle.N || pos == ResizeHandle.S)
                 return Cursors.SizeNS;
-            else if (pos == HandlePosition.NE || pos == HandlePosition.SW)
+            else if (pos == ResizeHandle.NE || pos == ResizeHandle.SW)
                 return Cursors.SizeNESW;
-            else if (pos == HandlePosition.E || pos == HandlePosition.W)
+            else if (pos == ResizeHandle.E || pos == ResizeHandle.W)
                 return Cursors.SizeWE;
             else
                 return Cursors.Arrow;
-
         }
         #endregion
 
@@ -154,14 +153,14 @@ namespace EcellLib.PathwayWindow.Handler
 
             PointF gP = new PointF(system.X + system.OffsetX, system.Y + system.OffsetY);
 
-            m_resizeHandles[HandlePosition.NW].SetOffset(gP.X, gP.Y);
-            m_resizeHandles[HandlePosition.N].SetOffset(gP.X + system.Width / 2f, gP.Y);
-            m_resizeHandles[HandlePosition.NE].SetOffset(gP.X + system.Width, gP.Y);
-            m_resizeHandles[HandlePosition.E].SetOffset(gP.X + system.Width, gP.Y + system.Height / 2f);
-            m_resizeHandles[HandlePosition.SE].SetOffset(gP.X + system.Width, gP.Y + system.Height);
-            m_resizeHandles[HandlePosition.S].SetOffset(gP.X + system.Width / 2f, gP.Y + system.Height);
-            m_resizeHandles[HandlePosition.SW].SetOffset(gP.X, gP.Y + system.Height);
-            m_resizeHandles[HandlePosition.W].SetOffset(gP.X, gP.Y + system.Height / 2f);
+            m_resizeHandles[ResizeHandle.NW].SetOffset(gP.X, gP.Y);
+            m_resizeHandles[ResizeHandle.N].SetOffset(gP.X + system.Width / 2f, gP.Y);
+            m_resizeHandles[ResizeHandle.NE].SetOffset(gP.X + system.Width, gP.Y);
+            m_resizeHandles[ResizeHandle.E].SetOffset(gP.X + system.Width, gP.Y + system.Height / 2f);
+            m_resizeHandles[ResizeHandle.SE].SetOffset(gP.X + system.Width, gP.Y + system.Height);
+            m_resizeHandles[ResizeHandle.S].SetOffset(gP.X + system.Width / 2f, gP.Y + system.Height);
+            m_resizeHandles[ResizeHandle.SW].SetOffset(gP.X, gP.Y + system.Height);
+            m_resizeHandles[ResizeHandle.W].SetOffset(gP.X, gP.Y + system.Height / 2f);
         }
 
         /// <summary>
@@ -389,29 +388,31 @@ namespace EcellLib.PathwayWindow.Handler
             float width = system.Width;
             float height = system.Height;
 
-            if (pos == HandlePosition.NW || pos == HandlePosition.W || pos == HandlePosition.SW)
+            // Set x and width
+            if (pos == ResizeHandle.NW || pos == ResizeHandle.W || pos == ResizeHandle.SW)
             {
                 x = handle.OffsetX;
                 width = system.X + system.Width - handle.OffsetX;
             }
-            if (pos == HandlePosition.NW || pos == HandlePosition.N || pos == HandlePosition.NE)
+            else if (pos == ResizeHandle.NE || pos == ResizeHandle.E || pos == ResizeHandle.SE)
+            {
+                width = handle.OffsetX - system.X;
+            }
+            // Set y and height
+            if (pos == ResizeHandle.NW || pos == ResizeHandle.N || pos == ResizeHandle.NE)
             {
                 y = handle.OffsetY;
                 height = system.Y + system.Height - handle.OffsetY;
             }
-            if (pos == HandlePosition.NE || pos == HandlePosition.E || pos == HandlePosition.SE)
-            {
-                width = handle.OffsetX - system.X;
-            }
-            if (pos == HandlePosition.SW || pos == HandlePosition.S || pos == HandlePosition.SE)
+            else if (pos == ResizeHandle.SW || pos == ResizeHandle.S || pos == ResizeHandle.SE)
             {
                 height = handle.OffsetY - system.Y;
             }
 
             // Reset Handle position
-            if(pos == HandlePosition.N || pos == HandlePosition.S)
+            if(pos == ResizeHandle.N || pos == ResizeHandle.S)
                 handle.OffsetX = system.X + system.Width / 2f;
-            if (pos == HandlePosition.E || pos == HandlePosition.W)
+            else if (pos == ResizeHandle.E || pos == ResizeHandle.W)
                 handle.OffsetY = system.Y + system.Height / 2f;
 
             // Resize System
@@ -431,10 +432,11 @@ namespace EcellLib.PathwayWindow.Handler
 
         #region Inner Class
         /// <summary>
-        /// HandlePosition
+        /// ResizeHandle
         /// </summary>
-        public class HandlePosition
+        protected class ResizeHandle : PPath
         {
+            #region Constants
             // Preparing system resize handlers
             // position of each handle is shown below.
             //  0 | 1 | 2
@@ -474,16 +476,12 @@ namespace EcellLib.PathwayWindow.Handler
             /// W
             /// </summary>
             public const int W = 7;
-        }
-        /// <summary>
-        /// ResizeHandle
-        /// </summary>
-        protected class ResizeHandle : PPath
-        {
             /// <summary>
             /// Half of width of a ResizeHandle
             /// </summary>
             protected readonly float HALF_WIDTH = 10;
+            
+            #endregion
             /// <summary>
             /// Mouse cursor.
             /// </summary>

@@ -385,7 +385,6 @@ namespace EcellLib.PathwayWindow
                 obj.Width = eo.Width;
                 obj.Height = eo.Height;
             }
-            obj.IsHighLighted = false;
             return obj;
         }
 
