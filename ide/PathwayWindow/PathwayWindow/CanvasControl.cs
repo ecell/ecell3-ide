@@ -196,11 +196,6 @@ namespace EcellLib.PathwayWindow
         protected SystemResizeHandler m_resizeHandler;
 
         /// <summary>
-        /// PPathwayObject, which is to be connected.
-        /// </summary>
-        private PPathwayNode m_nodeToBeConnected;
-
-        /// <summary>
         /// Line handle on the end for a variable
         /// </summary>
         private LineHandler m_lineHandler = null;

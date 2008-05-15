@@ -51,12 +51,6 @@ namespace EcellLib.PathwayWindow.Handler
     /// </summary>
     public class SystemResizeHandler
     {
-
-        /// <summary>
-        /// Half of width of a ResizeHandle
-        /// </summary>
-        protected readonly float HALF_WIDTH = 10;
-
         #region Field
         /// <summary>
         /// CanvasControl.
@@ -93,45 +87,38 @@ namespace EcellLib.PathwayWindow.Handler
         {
             this.m_canvas = canvas;
             this.m_resources = m_canvas.Control.Resources;
-            // Preparing system resize handlers
-            // position of each handle is shown below.
-            //  0 | 1 | 2
-            // -----------
-            //  7 |   | 3
-            // -----------
-            //  6 | 5 | 4
-            for (int m = 0; m < 8; m++)
+
+            for (int i = 0; i < 8; i++)
             {
                 ResizeHandle handle = new ResizeHandle();
+                handle.MouseEnter += new PInputEventHandler(ResizeHandle_MouseEnter);
                 handle.MouseLeave += new PInputEventHandler(ResizeHandle_MouseLeave);
                 handle.MouseDown += new PInputEventHandler(ResizeHandle_MouseDown);
+                handle.MouseDrag += new PInputEventHandler(ResizeHandle_MouseDrag);
                 handle.MouseUp += new PInputEventHandler(ResizeHandle_MouseUp);
+                handle.Cursor = GetCursor(i);
+                handle.HandlePosition = i;
                 m_resizeHandles.Add(handle);
             }
+        }
+        /// <summary>
+        /// GetCursor
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        private Cursor GetCursor(int pos)
+        {
+            if (pos == HandlePosition.NW || pos == HandlePosition.SE)
+                return Cursors.SizeNWSE;
+            else if (pos == HandlePosition.N || pos == HandlePosition.S)
+                return Cursors.SizeNS;
+            else if (pos == HandlePosition.NE || pos == HandlePosition.SW)
+                return Cursors.SizeNESW;
+            else if (pos == HandlePosition.E || pos == HandlePosition.W)
+                return Cursors.SizeWE;
+            else
+                return Cursors.Arrow;
 
-            m_resizeHandles[0].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNWSE);
-            m_resizeHandles[0].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeNW);
-
-            m_resizeHandles[1].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNS);
-            m_resizeHandles[1].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeN);
-
-            m_resizeHandles[2].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNESW);
-            m_resizeHandles[2].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeNE);
-
-            m_resizeHandles[3].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeWE);
-            m_resizeHandles[3].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeE);
-
-            m_resizeHandles[4].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNWSE);
-            m_resizeHandles[4].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeSE);
-
-            m_resizeHandles[5].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNS);
-            m_resizeHandles[5].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeS);
-
-            m_resizeHandles[6].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeNESW);
-            m_resizeHandles[6].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeSW);
-
-            m_resizeHandles[7].MouseEnter += new PInputEventHandler(ResizeHandle_CursorSizeWE);
-            m_resizeHandles[7].MouseDrag += new PInputEventHandler(ResizeHandle_ResizeW);
         }
         #endregion
 
@@ -167,14 +154,14 @@ namespace EcellLib.PathwayWindow.Handler
 
             PointF gP = new PointF(system.X + system.OffsetX, system.Y + system.OffsetY);
 
-            m_resizeHandles[0].SetOffset(gP.X, gP.Y);
-            m_resizeHandles[1].SetOffset(gP.X + system.Width / 2f, gP.Y);
-            m_resizeHandles[2].SetOffset(gP.X + system.Width, gP.Y);
-            m_resizeHandles[3].SetOffset(gP.X + system.Width, gP.Y + system.Height / 2f);
-            m_resizeHandles[4].SetOffset(gP.X + system.Width, gP.Y + system.Height);
-            m_resizeHandles[5].SetOffset(gP.X + system.Width / 2f, gP.Y + system.Height);
-            m_resizeHandles[6].SetOffset(gP.X, gP.Y + system.Height);
-            m_resizeHandles[7].SetOffset(gP.X, gP.Y + system.Height / 2f);
+            m_resizeHandles[HandlePosition.NW].SetOffset(gP.X, gP.Y);
+            m_resizeHandles[HandlePosition.N].SetOffset(gP.X + system.Width / 2f, gP.Y);
+            m_resizeHandles[HandlePosition.NE].SetOffset(gP.X + system.Width, gP.Y);
+            m_resizeHandles[HandlePosition.E].SetOffset(gP.X + system.Width, gP.Y + system.Height / 2f);
+            m_resizeHandles[HandlePosition.SE].SetOffset(gP.X + system.Width, gP.Y + system.Height);
+            m_resizeHandles[HandlePosition.S].SetOffset(gP.X + system.Width / 2f, gP.Y + system.Height);
+            m_resizeHandles[HandlePosition.SW].SetOffset(gP.X, gP.Y + system.Height);
+            m_resizeHandles[HandlePosition.W].SetOffset(gP.X, gP.Y + system.Height / 2f);
         }
 
         /// <summary>
@@ -246,6 +233,19 @@ namespace EcellLib.PathwayWindow.Handler
         #endregion
 
         #region EventHandler for ResizeHandle
+        /// <summary>
+        /// Called when the mouse is down on one of resize handles for a system.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ResizeHandle_MouseDown(object sender, PInputEventArgs e)
+        {
+            PPathwaySystem system = m_canvas.SelectedSystem;
+            if (system == null)
+                return;
+            system.MemorizePosition();
+        }
+
         /// <summary>
         /// Called when the mouse is up on one of resize handles for a system.
         /// </summary>
@@ -348,16 +348,15 @@ namespace EcellLib.PathwayWindow.Handler
         }
 
         /// <summary>
-        /// Called when the mouse is down on one of resize handles for a system.
+        /// Called for changing the mouse figure on a resize handle
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ResizeHandle_MouseDown(object sender, PInputEventArgs e)
+        void ResizeHandle_MouseEnter(object sender, PInputEventArgs e)
         {
-            PPathwaySystem system = m_canvas.SelectedSystem;
-            if (system == null)
-                return;
-            system.MemorizePosition();
+            m_cursor = e.Canvas.Cursor;
+            ResizeHandle handle = (ResizeHandle)e.PickedNode;
+            e.Canvas.Cursor = handle.Cursor;
         }
 
         /// <summary>
@@ -371,284 +370,111 @@ namespace EcellLib.PathwayWindow.Handler
         }
 
         /// <summary>
-        /// Resize system
-        /// </summary>
-        /// <param name="system"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        private void ResizeSystem(PPathwaySystem system, float x, float y, float width, float height)
-        {
-            system.X = x;
-            system.Y = y;
-            system.Width = width;
-            system.Height = height;
-            system.RefreshView();
-            ValidateSystem(system);
-            UpdateResizeHandlePositions();
-        }
-
-        /// <summary>
         /// Called when the NorthWest resize handle is being dragged.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void ResizeHandle_ResizeNW(object sender, PInputEventArgs e)
+        void ResizeHandle_MouseDrag(object sender, PInputEventArgs e)
         {
             PPathwaySystem system = m_canvas.SelectedSystem;
             if (system == null)
                 return;
             RefreshSurroundState();
-
             ResizeHandle handle = (ResizeHandle)e.PickedNode;
-            float x = handle.OffsetX;
-            float y = handle.OffsetY;
-            float width = system.X + system.Width - x;
-            float height = system.Y + system.Height - y;
+            int pos = handle.HandlePosition;
 
+            // Set Position
+            float x = system.X;
+            float y = system.Y;
+            float width = system.Width;
+            float height = system.Height;
+
+            if (pos == HandlePosition.NW || pos == HandlePosition.W || pos == HandlePosition.SW)
+            {
+                x = handle.OffsetX;
+                width = system.X + system.Width - handle.OffsetX;
+            }
+            if (pos == HandlePosition.NW || pos == HandlePosition.N || pos == HandlePosition.NE)
+            {
+                y = handle.OffsetY;
+                height = system.Y + system.Height - handle.OffsetY;
+            }
+            if (pos == HandlePosition.NE || pos == HandlePosition.E || pos == HandlePosition.SE)
+            {
+                width = handle.OffsetX - system.X;
+            }
+            if (pos == HandlePosition.SW || pos == HandlePosition.S || pos == HandlePosition.SE)
+            {
+                height = handle.OffsetY - system.Y;
+            }
+
+            // Reset Handle position
+            if(pos == HandlePosition.N || pos == HandlePosition.S)
+                handle.OffsetX = system.X + system.Width / 2f;
+            if (pos == HandlePosition.E || pos == HandlePosition.W)
+                handle.OffsetY = system.Y + system.Height / 2f;
+
+            // Resize System
             if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
             {
-                ResizeSystem(system, x, y, width, height);
+                system.X = x;
+                system.Y = y;
+                system.Width = width;
+                system.Height = height;
+                system.RefreshView();
+                ValidateSystem(system);
             }
-            else
-            {
-                UpdateResizeHandlePositions();
-            }
+            UpdateResizeHandlePositions();
         }
 
-        /// <summary>
-        /// Called when the North resize handle is being dragged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ResizeHandle_ResizeN(object sender, PInputEventArgs e)
-        {
-            PPathwaySystem system = m_canvas.SelectedSystem;
-            if (system == null)
-                return;
-            RefreshSurroundState();
-
-            ResizeHandle handle = (ResizeHandle)e.PickedNode;
-            float y = handle.OffsetY;
-            float height = system.Y + system.Height - y;
-
-            handle.OffsetX = system.X + system.Width / 2f;
-            if (height > PPathwaySystem.MIN_Y_LENGTH)
-            {
-                ResizeSystem(system, system.X, y, system.Width, height);
-            }
-            else
-            {
-                UpdateResizeHandlePositions();
-            }
-        }
-
-        /// <summary>
-        /// Called when the NorthEast resize handle is being dragged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ResizeHandle_ResizeNE(object sender, PInputEventArgs e)
-        {
-            PPathwaySystem system = m_canvas.SelectedSystem;
-            if (system == null)
-                return;
-            RefreshSurroundState();
-
-            ResizeHandle handle = (ResizeHandle)e.PickedNode;
-            float y = handle.OffsetY;
-            float width = handle.OffsetX - system.X;
-            float height = system.Y + system.Height - y;
-
-            if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
-            {
-                ResizeSystem(system, system.X, y, width, height);
-            }
-            else
-            {
-                UpdateResizeHandlePositions();
-            }
-        }
-
-        /// <summary>
-        /// Called when the East resize handle is being dragged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ResizeHandle_ResizeE(object sender, PInputEventArgs e)
-        {
-            PPathwaySystem system = m_canvas.SelectedSystem;
-            if (system == null)
-                return;
-            RefreshSurroundState();
-
-            PPath handle = (PPath)e.PickedNode;
-            float width = handle.OffsetX - system.X;
-
-            handle.OffsetY = system.Y + system.Height / 2f;
-            if (width > PPathwaySystem.MIN_X_LENGTH)
-            {
-                ResizeSystem(system, system.X, system.Y, width, system.Height);
-            }
-            else
-            {
-                UpdateResizeHandlePositions();
-            }
-        }
-
-        /// <summary>
-        /// Called when the SouthEast resize handle is being dragged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ResizeHandle_ResizeSE(object sender, PInputEventArgs e)
-        {
-            PPathwaySystem system = m_canvas.SelectedSystem;
-            if (system == null)
-                return;
-            RefreshSurroundState();
-
-            PPath handle = (PPath)e.PickedNode;
-            float width = handle.OffsetX - system.X;
-            float height = handle.OffsetY - system.Y;
-
-            if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
-            {
-                ResizeSystem(system, system.X, system.Y, width, height);
-            }
-            else
-            {
-                UpdateResizeHandlePositions();
-            }
-        }
-
-        /// <summary>
-        /// Called when the South resize handle is being dragged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ResizeHandle_ResizeS(object sender, PInputEventArgs e)
-        {
-            PPathwaySystem system = m_canvas.SelectedSystem;
-            if (system == null)
-                return;
-            RefreshSurroundState();
-
-            PPath handle = (PPath)e.PickedNode;
-            float height = handle.OffsetY - system.Y;
-
-            handle.OffsetX = system.X + system.Width / 2f;
-            if (height > PPathwaySystem.MIN_Y_LENGTH)
-            {
-                ResizeSystem(system, system.X, system.Y, system.Width, height);
-            }
-            else
-            {
-                UpdateResizeHandlePositions();
-            }
-        }
-
-        /// <summary>
-        /// Called when the SouthWest resize handle is being dragged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ResizeHandle_ResizeSW(object sender, PInputEventArgs e)
-        {
-            PPathwaySystem system = m_canvas.SelectedSystem;
-            if (system == null)
-                return;
-            RefreshSurroundState();
-
-            PPath handle = (PPath)e.PickedNode;
-            float x = handle.OffsetX;
-            float width = system.X + system.Width - handle.OffsetX;
-            float height = handle.OffsetY - system.Y;
-
-            if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
-            {
-                ResizeSystem(system, x, system.Y, width, height);
-            }
-            else
-            {
-                UpdateResizeHandlePositions();
-            }
-        }
-
-        /// <summary>
-        /// Called when the West resize handle is being dragged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ResizeHandle_ResizeW(object sender, PInputEventArgs e)
-        {
-            PPathwaySystem system = m_canvas.SelectedSystem;
-            if (system == null)
-                return;
-            RefreshSurroundState();
-
-            PPath handle = (PPath)e.PickedNode;
-            float x = handle.OffsetX;
-            float width = system.X + system.Width - x;
-
-            handle.OffsetY = system.Y + system.Height / 2f;
-            if (width > PPathwaySystem.MIN_X_LENGTH)
-            {
-                ResizeSystem(system, x, system.Y, width, system.Height);
-            }
-            else
-            {
-                UpdateResizeHandlePositions();
-            }
-        }
-
-        /// <summary>
-        /// Called for changing the mouse figure on a resize handle
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ResizeHandle_CursorSizeNWSE(object sender, PInputEventArgs e)
-        {
-            m_cursor = e.Canvas.Cursor;
-            e.Canvas.Cursor = Cursors.SizeNWSE;
-        }
-
-        /// <summary>
-        /// Called for changing the mouse figure on a resize handle
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ResizeHandle_CursorSizeNS(object sender, PInputEventArgs e)
-        {
-            m_cursor = e.Canvas.Cursor;
-            e.Canvas.Cursor = Cursors.SizeNS;
-        }
-
-        /// <summary>
-        /// Called for changing the mouse figure on a resize handle
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ResizeHandle_CursorSizeNESW(object sender, PInputEventArgs e)
-        {
-            m_cursor = e.Canvas.Cursor;
-            e.Canvas.Cursor = Cursors.SizeNESW;
-        }
-
-        /// <summary>
-        /// Called for changing the mouse figure on a resize handle
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ResizeHandle_CursorSizeWE(object sender, PInputEventArgs e)
-        {
-            m_cursor = e.Canvas.Cursor;
-            e.Canvas.Cursor = Cursors.SizeWE;
-        }
         #endregion
 
         #region Inner Class
+        /// <summary>
+        /// HandlePosition
+        /// </summary>
+        public class HandlePosition
+        {
+            // Preparing system resize handlers
+            // position of each handle is shown below.
+            //  0 | 1 | 2
+            // -----------
+            //  7 |   | 3
+            // -----------
+            //  6 | 5 | 4
+            /// <summary>
+            /// NW
+            /// </summary>
+            public const int NW = 0;
+            /// <summary>
+            /// N
+            /// </summary>
+            public const int N = 1;
+            /// <summary>
+            /// NE
+            /// </summary>
+            public const int NE = 2;
+            /// <summary>
+            /// E
+            /// </summary>
+            public const int E = 3;
+            /// <summary>
+            /// SE
+            /// </summary>
+            public const int SE = 4;
+            /// <summary>
+            /// S
+            /// </summary>
+            public const int S = 5;
+            /// <summary>
+            /// SW
+            /// </summary>
+            public const int SW = 6;
+            /// <summary>
+            /// W
+            /// </summary>
+            public const int W = 7;
+        }
         /// <summary>
         /// ResizeHandle
         /// </summary>
@@ -658,6 +484,31 @@ namespace EcellLib.PathwayWindow.Handler
             /// Half of width of a ResizeHandle
             /// </summary>
             protected readonly float HALF_WIDTH = 10;
+            /// <summary>
+            /// Mouse cursor.
+            /// </summary>
+            private Cursor m_cursor = null;
+            /// <summary>
+            /// HandlePosition
+            /// </summary>
+            private int m_handlePosition;
+            /// <summary>
+            /// 
+            /// </summary>
+            public int HandlePosition
+            {
+                get { return m_handlePosition; }
+                set { m_handlePosition = value; }
+            }
+
+            /// <summary>
+            /// Mouse cursor.
+            /// </summary>
+            public Cursor Cursor
+            {
+                get { return m_cursor; }
+                set { m_cursor = value; }
+            }
             /// <summary>
             /// Constructor
             /// </summary>

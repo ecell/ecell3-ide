@@ -205,6 +205,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// Initialise EventHandler.
         /// </summary>
         /// <param name="canvas"></param>
+        /// <param name="e"></param>
         private void SetEventHandler(PToolBoxCanvas canvas, PInputEventArgs e)
         {
             m_canvas = m_con.Canvas;

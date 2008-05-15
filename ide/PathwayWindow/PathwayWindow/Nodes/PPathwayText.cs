@@ -114,6 +114,7 @@ namespace EcellLib.PathwayWindow.Nodes
             this.m_tbox.LostFocus += new EventHandler(m_tbox_LostFocus);
             this.m_tbox.KeyPress += new KeyPressEventHandler(m_tbox_KeyPress);
             this.m_tbox.Multiline = true;
+            base.ConstrainWidthToTextWidth = false;
         }
 
         /// <summary>

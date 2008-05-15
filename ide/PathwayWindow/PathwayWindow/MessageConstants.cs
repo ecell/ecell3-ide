@@ -1,6 +1,9 @@
 
 namespace EcellLib.PathwayWindow
 {
+    /// <summary>
+    /// MessageConstants
+    /// </summary>
     public class MessageConstants
     {
 
