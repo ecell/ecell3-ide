@@ -111,7 +111,7 @@ namespace EcellLib.MessageWindow
 
         #region Inherited from PluginBase
         /// <summary>
-        /// Get the window form for TracerWindow plugin.
+        /// Get the window form for MessageWindow plugin.
         /// </summary>
         /// <returns>Windows form</returns>
         public override IEnumerable<EcellDockContent> GetWindowsForms()

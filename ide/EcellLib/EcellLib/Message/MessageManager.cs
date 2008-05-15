@@ -37,6 +37,11 @@ namespace EcellLib.Message
             Trace.WriteLine(entry);
             m_entries.Add(entry);
         }
+
+        public void Clear()
+        {
+            m_entries.Clear();
+        }
         #endregion
     }
 }

@@ -710,6 +710,7 @@ namespace EcellLib.MainWindow
                 new System.EventHandler(DockWindowMenuClick),
                 content.Name);
             item.Checked = true;
+            item.Tag = content.Name;
             this.showWindowToolStripMenuItem.DropDown.Items.Add(item);
             m_dockMenuDic.Add(content.Name, item);
         }
