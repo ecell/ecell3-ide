@@ -442,7 +442,7 @@ namespace EcellLib.PathwayWindow
             {
                 PPathwayText text = new PPathwayText(m_canvas);
                 text.EcellObject = eo;
-                text.Text = ((EcellText)eo).Comment;
+                text.PText.Text = ((EcellText)eo).Comment;
                 text.X = eo.X;
                 text.Y = eo.Y;
                 m_canvas.AddText(text);

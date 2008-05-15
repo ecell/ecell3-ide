@@ -40,15 +40,18 @@ using EcellLib.PathwayWindow.Handler;
 namespace EcellLib.PathwayWindow.Nodes
 {
     /// <summary>
-    /// 
+    /// PPathwayText
     /// </summary>
-    public class PPathwayText : PText
+    public class PPathwayText : PPathwayObject
     {
-        private CanvasControl m_canvas;
-        private EcellObject m_ecellObj;
+        #region Fields
         private TextBox m_tbox = new TextBox();
         private string m_name;
+        private PathwayResizeHandler m_resizeHandler;
+        
+        #endregion
 
+        #region Accessors
         /// <summary>
         /// Name
         /// </summary>
@@ -59,74 +62,63 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// Accessor for an instance of CanvasViewComponentSet which this instance belongs.
-        /// </summary>
-        public virtual CanvasControl CanvasControl
-        {
-            get { return m_canvas; }
-            set
-            {
-                m_canvas = value;
-            }
-        }
-
-        /// <summary>
         /// EcellObject
         /// </summary>
-        public EcellObject EcellObject
+        public override EcellObject EcellObject
         {
             get { return m_ecellObj; }
             set
             {
-                m_ecellObj = value;
-                this.Text = ((EcellText)value).Comment;
-                this.Name = value.Name;
-                this.X = value.X;
-                this.Y = value.Y;
-                this.OffsetX = value.OffsetX;
-                this.OffsetY = value.OffsetY;
+                this.m_pText.Text = ((EcellText)value).Comment;
+                this.m_name = value.Name;
+                this.Width = value.Width;
+                this.Height = value.Height;
+                base.EcellObject = value;
+                RefreshView();
             }
-        }
+        }        
+        #endregion
 
+        #region Constructors
         /// <summary>
-        /// PointF
-        /// </summary>
-        public PointF PointF
-        {
-            get { return new PointF(this.X,this.Y);}
-            set
-            { 
-                this.X = value.X;
-                this.Y = value.Y;
-            }
-        }
-
-        /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public PPathwayText(CanvasControl canvas)
         {
-            this.m_name = "Text";
-            base.Text = "Text000\n";
-            this.m_canvas = canvas;
-            base.Brush = null;
+            base.m_pText.Text = "Text000\n";
+            base.m_pText.ConstrainWidthToTextWidth = false;
+            base.LineBrush = Brushes.Black;
+            base.FillBrush = Brushes.White;
             base.AddInputEventListener(new NodeDragHandler(canvas));
+            this.m_name = "Text";
+            this.m_canvas = canvas;
             this.m_tbox.LostFocus += new EventHandler(m_tbox_LostFocus);
             this.m_tbox.KeyPress += new KeyPressEventHandler(m_tbox_KeyPress);
             this.m_tbox.Multiline = true;
-            base.ConstrainWidthToTextWidth = false;
+            this.m_resizeHandler = new PathwayResizeHandler(this);
+        }
+        #endregion
+
+
+        /// <summary>
+        /// Refresh Text contents of this object.
+        /// </summary>
+        protected override void RefreshText()
+        {
+            if (this.m_ecellObj != null)
+                this.m_pText.Text = ((EcellText)m_ecellObj).Comment;
+            this.m_pText.X = base.X;
+            this.m_pText.Y = base.Y;
+            this.m_pText.MoveToFront();
         }
 
         /// <summary>
-        /// Called when the mouse leaves this object.
+        /// Create new instance of this object.
         /// </summary>
-        /// <param name="e"></param>
-        public override void OnMouseDown(PInputEventArgs e)
+        /// <returns></returns>
+        public override PPathwayObject CreateNewObject()
         {
-            base.OnMouseDown(e);
-            if (m_canvas == null)
-                return;
-            m_canvas.FocusNode = this;
+            return new PPathwayText(m_canvas);
         }
 
         /// <summary>
@@ -139,7 +131,7 @@ namespace EcellLib.PathwayWindow.Nodes
             PointF pos = new PointF(base.X + base.OffsetX, base.Y + base.OffsetY);
             m_canvas.PCanvas.Controls.Add(m_tbox);
             float viewScale = m_canvas.PCanvas.Camera.ViewScale;
-            m_tbox.Text = base.Text;
+            m_tbox.Text = base.m_pText.Text;
             m_tbox.Location = m_canvas.CanvasPosToSystemPos(pos);
             m_tbox.Width = (int)(base.Width * viewScale + 5);
             m_tbox.Height = (int)(base.Height * viewScale + 5);

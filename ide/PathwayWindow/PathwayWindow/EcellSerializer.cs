@@ -317,7 +317,7 @@ namespace EcellLib.PathwayWindow {
 
                 PPathwayText text = new PPathwayText(canvas);
                 text.Name = GetStringAttribute(node, PathwayConstants.xPathName);
-                text.Text = GetStringAttribute(node, PathwayConstants.xPathComment);
+                text.PText.Text = GetStringAttribute(node, PathwayConstants.xPathComment);
                 text.X = GetFloatAttribute(node, PathwayConstants.xPathX);
                 text.Y = GetFloatAttribute(node, PathwayConstants.xPathY);
                 text.OffsetX = GetFloatAttribute(node, PathwayConstants.xPathOffsetX);
