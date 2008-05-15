@@ -2029,7 +2029,7 @@ namespace EcellLib.MainWindow
             else
             {
                 //Show EntityList
-                Debug.Assert(m_dockWindowDic[item.Text].Pane != null);
+                Debug.Assert(m_dockWindowDic[(string)item.Tag].Pane != null);
                 m_dockWindowDic[(string)item.Tag].Show();
                 item.Checked = true;
             }
