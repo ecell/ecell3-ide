@@ -107,9 +107,9 @@ namespace EcellLib.PathwayWindow.Nodes
         public PPathwayText(CanvasControl canvas)
         {
             this.m_name = "Text";
-            base.Text = "Text";
+            base.Text = "Text000\n";
             this.m_canvas = canvas;
-            base.Brush = Brushes.Beige;
+            base.Brush = null;
             base.AddInputEventListener(new NodeDragHandler(canvas));
             this.m_tbox.LostFocus += new EventHandler(m_tbox_LostFocus);
             this.m_tbox.KeyPress += new KeyPressEventHandler(m_tbox_KeyPress);
@@ -146,12 +146,12 @@ namespace EcellLib.PathwayWindow.Nodes
             m_tbox.Focus();
         }
 
-        void m_tbox_LostFocus(object sender, EventArgs e)
+        private void m_tbox_LostFocus(object sender, EventArgs e)
         {
             SetText();
         }
 
-        void m_tbox_KeyPress(object sender, KeyPressEventArgs e)
+        private void m_tbox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if(e.KeyChar == (char)Keys.Enter)
                 SetText();
@@ -167,7 +167,7 @@ namespace EcellLib.PathwayWindow.Nodes
             else if (!m_tbox.Text.Equals(((EcellText)m_ecellObj).Comment))
             {
                 ((EcellText)m_ecellObj).Comment = m_tbox.Text;
-                m_canvas.Control.NotifyDataChanged(m_ecellObj.Key, m_ecellObj, true, true);
+                NotifyDataChanged();
             }
         }
         /// <summary>

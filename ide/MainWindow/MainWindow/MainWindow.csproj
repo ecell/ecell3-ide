@@ -192,8 +192,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MessageResMain.ja.resx">
       <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MessageResMain.ja.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="MessageResMain.resx">
       <SubType>Designer</SubType>

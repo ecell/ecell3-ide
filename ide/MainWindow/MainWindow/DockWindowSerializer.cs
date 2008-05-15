@@ -344,8 +344,9 @@ namespace EcellLib.MainWindow {
                     paneList[dockPanelStruct.IndexActiveDocumentPane].Activate();
                 if (dockPanelStruct.IndexActivePane != -1)
                     paneList[dockPanelStruct.IndexActivePane].Activate();
-
                 dockPanel.ResumeLayout(true, true);
+
+                CloseUnSavableWindows(dockPanel);
             }
             catch (Exception e)
             {

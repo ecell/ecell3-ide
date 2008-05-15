@@ -165,6 +165,9 @@ namespace EcellLib.MainWindow
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public MainWindow()
         {
             m_dockWindowDic = new Dictionary<string, EcellDockContent>();
@@ -173,6 +176,9 @@ namespace EcellLib.MainWindow
         #endregion
 
         #region Initializer
+        /// <summary>
+        /// 
+        /// </summary>
         public void Initialize()
         {
             InitializeComponent();
