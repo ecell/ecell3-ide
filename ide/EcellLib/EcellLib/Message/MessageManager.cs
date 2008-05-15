@@ -36,6 +36,7 @@ namespace EcellLib.Message
         {
             Trace.WriteLine(entry);
             m_entries.Add(entry);
+            m_env.PluginManager.Message2(entry);
         }
 
         public void Clear()

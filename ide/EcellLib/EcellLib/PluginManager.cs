@@ -558,7 +558,7 @@ namespace EcellLib
         /// The event sequence to display the message.
         /// </summary>
         /// <param name="message">the message entry object.</param>
-        public void Message2(MessageEntry message)
+        public void Message2(IMessageEntry message)
         {
             foreach (IEcellPlugin p in m_pluginList.Values)
             {
