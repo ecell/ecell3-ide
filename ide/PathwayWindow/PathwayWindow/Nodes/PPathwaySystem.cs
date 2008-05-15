@@ -116,9 +116,9 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Accessor for m_ecellobj.
         /// </summary>
-        public new EcellSystem EcellObject
+        public override EcellObject EcellObject
         {
-            get { return (EcellSystem)base.m_ecellObj; }
+            get { return base.m_ecellObj; }
             set {
                 base.Width = value.Width;
                 base.Height = value.Height;
@@ -139,7 +139,7 @@ namespace EcellLib.PathwayWindow.Nodes
             set
             {
                 base.Canvas = value;
-                this.m_resizeHandler = new SystemResizeHandler(value);
+                this.m_resizeHandler = new SystemResizeHandler(this);
             }
         }
 

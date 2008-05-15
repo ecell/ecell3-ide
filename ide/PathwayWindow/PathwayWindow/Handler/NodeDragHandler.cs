@@ -358,7 +358,7 @@ namespace EcellLib.PathwayWindow.Handler
         private void TransferSystemTo(string newKey, string oldKey, PPathwaySystem system)
         {
             PointF offset = system.Offset;
-            if (offset.X <= 5 && offset.Y <= 5)
+            if (Math.Abs(offset.X) <= 5 && Math.Abs( offset.Y) <= 5)
             {
                 m_canvas.Refresh();
                 return;
