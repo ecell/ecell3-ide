@@ -456,11 +456,12 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Accessor for an instance of CanvasViewComponentSet which this instance belongs.
         /// </summary>
-        public virtual CanvasControl CanvasControl
+        public virtual CanvasControl Canvas
         {
             get { return m_canvas; }
             set {
                 m_canvas = value;
+
             }
         }
         /// <summary>

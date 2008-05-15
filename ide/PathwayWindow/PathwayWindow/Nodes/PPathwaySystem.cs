@@ -44,6 +44,7 @@ using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using EcellLib.Objects;
+using EcellLib.PathwayWindow.Handler;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -101,6 +102,11 @@ namespace EcellLib.PathwayWindow.Nodes
         protected Brush m_backBrush = null; //Brushes.White;
 
         /// <summary>
+        /// ResizeHandler for resizing a system.
+        /// </summary>
+        protected SystemResizeHandler m_resizeHandler;
+
+        /// <summary>
         /// the flag whether this system is changed.
         /// </summary>
         protected bool m_isChanged = true;
@@ -122,6 +128,29 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public override CanvasControl Canvas
+        {
+            get
+            {
+                return base.Canvas;
+            }
+            set
+            {
+                base.Canvas = value;
+                this.m_resizeHandler = new SystemResizeHandler(value);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public SystemResizeHandler ResizeHandler
+        {
+            get { return m_resizeHandler; }
+        }
+        /// <summary>
         /// get/set the flag whether display this system with highlight.
         /// </summary>
         public override bool IsHighLighted
@@ -133,10 +162,12 @@ namespace EcellLib.PathwayWindow.Nodes
                 if (value)
                 {
                     this.Brush = m_highLightBrush;
+                    this.m_resizeHandler.ShowResizeHandles();
                 }
                 else
                 {
                     this.Brush = m_fillBrush;
+                    this.m_resizeHandler.HideResizeHandles();
                 }
                 m_isChanged = true;
             }
@@ -261,7 +292,6 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             if (m_canvas == null)
                 return;
-            m_canvas.ResetSelectedObjects();
             m_canvas.NotifySelectChanged(this);
             base.OnMouseDown(e);
         }

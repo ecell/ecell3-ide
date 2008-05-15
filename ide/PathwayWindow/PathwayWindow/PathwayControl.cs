@@ -1270,7 +1270,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="system"></param>
         private void DeleteSystemUnder(PPathwaySystem system)
         {
-            CanvasControl canvas = system.CanvasControl;
+            CanvasControl canvas = system.Canvas;
             foreach (PPathwayObject obj in canvas.GetAllObjectUnder(system.EcellObject.Key))
                 if (obj is PPathwaySystem)
                     DeleteSystemUnder((PPathwaySystem)obj);

@@ -207,6 +207,8 @@ namespace EcellLib.PathwayWindow.Handler
                 layer.FindIntersectingNodes(system.Rect, list);
                 m_surroundedBySystem.AddRange(list);
             }
+            if (m_surroundedBySystem.Contains(system))
+                m_surroundedBySystem.Remove(system);
             foreach (PNode node in m_surroundedBySystem)
             {
                 if (node is PPathwayObject)
@@ -416,7 +418,7 @@ namespace EcellLib.PathwayWindow.Handler
                 handle.OffsetY = system.Y + system.Height / 2f;
 
             // Resize System
-            if (width > PPathwaySystem.MIN_X_LENGTH && height > PPathwaySystem.MIN_Y_LENGTH)
+            if (width >= PPathwaySystem.MIN_X_LENGTH && height >= PPathwaySystem.MIN_Y_LENGTH)
             {
                 system.X = x;
                 system.Y = y;

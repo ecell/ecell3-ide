@@ -175,7 +175,7 @@ namespace EcellLib.PathwayWindow.Handler
                     system.IsInvalid = true;
                 else
                     system.IsInvalid = false;
-                m_canvas.ResizeHandler.UpdateResizeHandlePositions();
+                system.ResizeHandler.UpdateResizeHandlePositions();
                 foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(system.EcellObject.Key))
                 {
                     child.Offset = obj.Offset;
@@ -242,7 +242,7 @@ namespace EcellLib.PathwayWindow.Handler
                 if (m_canvas.DoesSystemOverlaps(system) || !IsInsideRoot(system.Rect))
                 {
                     system.ResetPosition();
-                    m_canvas.ResizeHandler.UpdateResizeHandlePositions();
+                    system.ResizeHandler.UpdateResizeHandlePositions();
                     system.IsInvalid = false;
                 }
                 // Reset if system is duplicated.
@@ -250,7 +250,7 @@ namespace EcellLib.PathwayWindow.Handler
                 {
                     Util.ShowErrorDialog(newSysKey + m_resources.GetString(MessageConstants.ErrAlrExist));
                     system.ResetPosition();
-                    m_canvas.ResizeHandler.UpdateResizeHandlePositions();
+                    system.ResizeHandler.UpdateResizeHandlePositions();
                     system.IsInvalid = false;
                 }
                 // Transfer system.

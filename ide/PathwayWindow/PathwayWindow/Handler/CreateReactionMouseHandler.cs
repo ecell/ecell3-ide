@@ -171,7 +171,7 @@ namespace EcellLib.PathwayWindow.Handler
                 direction = EdgeDirection.None;
 
             // Set Line
-            CanvasControl canvas = m_start.CanvasControl;
+            CanvasControl canvas = m_start.Canvas;
             PPathwayLine line = canvas.LineHandler.Line4Reconnect;
             line.Info.TypeOfLine = type;
             line.Info.Direction = direction;

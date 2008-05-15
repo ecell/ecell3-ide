@@ -191,11 +191,6 @@ namespace EcellLib.PathwayWindow
         bool m_isViewMode = false;
 
         /// <summary>
-        /// ResizeHandler for resizing a system.
-        /// </summary>
-        protected SystemResizeHandler m_resizeHandler;
-
-        /// <summary>
         /// Line handle on the end for a variable
         /// </summary>
         private LineHandler m_lineHandler = null;
@@ -383,13 +378,6 @@ namespace EcellLib.PathwayWindow
         {
             get { return m_lineHandler; }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        public SystemResizeHandler ResizeHandler
-        {
-            get { return m_resizeHandler; }
-        }
         #endregion
 
         #region Constructor
@@ -432,7 +420,6 @@ namespace EcellLib.PathwayWindow
             m_pCanvas.Camera.AddLayer(m_ctrlLayer);
 
             // Preparing system ResizeHandlers
-            m_resizeHandler = new SystemResizeHandler(this);
             m_lineHandler = new LineHandler(this);
 
             // Set ViewMode
@@ -579,7 +566,7 @@ namespace EcellLib.PathwayWindow
         {
             // Set Layer
             SetLayer(obj);
-            obj.CanvasControl = this;
+            obj.Canvas = this;
             obj.ShowingID = m_showingId;
 
             RegisterObjToSet(obj);
@@ -678,8 +665,8 @@ namespace EcellLib.PathwayWindow
                     throw new PathwayException(m_resources.GetString(MessageConstants.ErrSameObj));
                 m_processes.Add(node.EcellObject.Key, node);
             }
-            if (obj.CanvasControl == null)
-                obj.CanvasControl = this;
+            if (obj.Canvas == null)
+                obj.Canvas = this;
         }
         #region Methods to control texts.
         /// <summary>
@@ -1030,7 +1017,6 @@ namespace EcellLib.PathwayWindow
         {
             m_selectedSystem = obj;
             obj.IsHighLighted = true;
-            m_resizeHandler.ShowResizeHandles();
         }
 
         /// <summary>
@@ -1424,7 +1410,6 @@ namespace EcellLib.PathwayWindow
                 m_selectedSystem.IsHighLighted = false;
             }
             m_selectedSystem = null;
-            m_resizeHandler.HideResizeHandles();
         }
 
         /// <summary>
