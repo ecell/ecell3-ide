@@ -281,10 +281,14 @@ namespace EcellLib.MainWindow
                 return;
             }
             // Set DockContent.
-            List<EcellDockContent> winList = pb.GetWindowsForms();
-            if (winList != null && winList.Count > 0)
+            IEnumerable<EcellDockContent> winList = pb.GetWindowsForms();
+            if (winList != null)
+            {
                 foreach (EcellDockContent dock in winList)
+                {
                     SetDockContent(dock);
+                }
+            }
 
             // Set Menu.
             List<ToolStripMenuItem> menuList = pb.GetMenuStripItems();
@@ -790,7 +794,7 @@ namespace EcellLib.MainWindow
         /// Get the window form for MainWindow plugin.
         /// </summary>
         /// <returns>Windows form</returns>
-        public List<EcellDockContent> GetWindowsForms()
+        public IEnumerable<EcellDockContent> GetWindowsForms()
         {
             return null;
         }

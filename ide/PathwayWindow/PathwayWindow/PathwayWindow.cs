@@ -293,7 +293,7 @@ namespace EcellLib.PathwayWindow
         /// PathwayWindow get it and attach some delegates to them and pass it to PluginManager.
         /// </summary>
         /// <returns>UserControl with pathway canvases, etc.</returns>
-        public override List<EcellDockContent> GetWindowsForms()
+        public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
             List<EcellDockContent> list = new List<EcellDockContent>();
             list.Add(m_con.PathwayView);

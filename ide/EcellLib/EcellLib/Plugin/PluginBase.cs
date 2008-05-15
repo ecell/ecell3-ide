@@ -167,7 +167,7 @@ namespace EcellLib.Plugin
         /// </summary>
         /// <returns>UserControl.</returns>
         //List<UserControl> GetWindowsForms();
-        public virtual List<EcellDockContent> GetWindowsForms()
+        public virtual IEnumerable<EcellDockContent> GetWindowsForms()
         {
             return null;
         }

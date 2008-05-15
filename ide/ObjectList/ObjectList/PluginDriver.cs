@@ -51,7 +51,7 @@ namespace EcellLib.ObjectList
             }
 
             // UserControlÇâ¡Ç¶ÇÈÅB
-            List<EcellDockContent> windowList = pb.GetWindowsForms();
+            IEnumerable<EcellDockContent> windowList = pb.GetWindowsForms();
             foreach (EcellDockContent win in windowList)
             {
                 foreach(Control con in win.Controls)

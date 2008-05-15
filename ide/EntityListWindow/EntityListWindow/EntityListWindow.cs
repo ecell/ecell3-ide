@@ -216,7 +216,7 @@ namespace EcellLib.EntityListWindow
         /// This user control add the NodeMouseClick event action.
         /// </summary>
         /// <returns>UserControl.</returns>
-        public override List<EcellDockContent> GetWindowsForms()
+        public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
             List<EcellDockContent> list = new List<EcellDockContent>();
             m_form = new EntityList(this);

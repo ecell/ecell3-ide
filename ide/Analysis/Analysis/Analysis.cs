@@ -690,7 +690,7 @@ namespace EcellLib.Analysis
         /// Called by PluginManager for getting UseControl.
         /// </summary>
         /// <returns>nothing.</returns>
-        public override List<EcellDockContent> GetWindowsForms()
+        public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
             List<EcellDockContent> list = new List<EcellDockContent>();
             m_rWin = new AnalysisResultWindow(this);

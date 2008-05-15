@@ -296,7 +296,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ECellIDE.ico" />
-    <None Include="Resources\ecell-banner.png" />
     <Content Include="Resources\splash.bmp" />
   </ItemGroup>
   <ItemGroup>

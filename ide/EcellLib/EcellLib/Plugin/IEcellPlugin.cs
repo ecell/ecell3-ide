@@ -81,7 +81,7 @@ namespace EcellLib.Plugin
         /// </summary>
         /// <returns>UserControl.</returns>
         //List<UserControl> GetWindowsForms();
-        List<EcellDockContent> GetWindowsForms();
+        IEnumerable<EcellDockContent> GetWindowsForms();
 
         /// <summary>
         /// Check whether this plugin can print display image.

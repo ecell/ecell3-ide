@@ -481,7 +481,7 @@ namespace EcellLib.PropertyWindow
         /// Get the window form for PropertyWindow.
         /// </summary>
         /// <returns>UserControl</returns>
-        public override List<EcellDockContent> GetWindowsForms()
+        public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
             EcellDockContent dock = new EcellDockContent();
             dock.Dock = DockStyle.Fill;

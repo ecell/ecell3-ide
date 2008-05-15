@@ -104,7 +104,7 @@ namespace EcellLib.ObjectList
         /// Get the window form for ObjectList.
         /// </summary>
         /// <returns>UserControl</returns>        
-        public override List<EcellDockContent> GetWindowsForms()
+        public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
             EcellDockContent win = new EcellDockContent();
             m_tabControl.Dock = DockStyle.Fill;

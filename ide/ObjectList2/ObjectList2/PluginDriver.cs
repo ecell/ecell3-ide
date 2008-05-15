@@ -51,11 +51,13 @@ namespace EcellLib.ObjectList2
             }
 
             // UserControlを加える。
-            List<EcellDockContent> windowList = pb.GetWindowsForms();
+            IEnumerable<EcellDockContent> windowList = pb.GetWindowsForms();
             foreach (EcellDockContent win in windowList)
             {
-                foreach(Control con in win.Controls)
+                foreach (Control con in win.Controls)
+                {
                     panel2.Controls.Add(con);
+                }
             }
 
             // プリント機能の設定をする。
