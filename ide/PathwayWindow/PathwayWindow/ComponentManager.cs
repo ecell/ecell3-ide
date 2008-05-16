@@ -500,7 +500,7 @@ namespace EcellLib.PathwayWindow
             defTextCs.Name = PathwayConstants.NameOfDefaultText;
             defTextCs.Class = PathwayConstants.ClassPPathwayText;
             defTextCs.IsDefault = true;
-            defTextCs.Figure = FigureManager.CreateFigure("Rectangle", "0,0,100,40");
+            defTextCs.Figure = FigureManager.CreateFigure("Rectangle", "0,0,100,80");
             defTextCs.TextBrush = Brushes.Black;
             defTextCs.LineBrush = Brushes.Black;
             defTextCs.CenterBrush = Brushes.White;
