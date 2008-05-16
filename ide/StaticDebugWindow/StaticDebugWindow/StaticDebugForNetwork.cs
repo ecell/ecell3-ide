@@ -71,7 +71,7 @@ namespace EcellLib.StaticDebugWindow
         /// <returns>"Network Compliance."</returns>
         public string GetDebugName()
         {
-            return StaticDebugWindow.s_resources.GetString(MessageConstants.NetworkComplianceName);
+            return MessageResStDebug.NetworkComplianceName;
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace EcellLib.StaticDebugWindow
                         {
                             ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
                                 d.EntityPath,
-                                StaticDebugWindow.s_resources.GetString(MessageConstants.ErrNoVariable));
+                                MessageResStDebug.ErrNoVariable);
                             m_errorList.Add(mes);
                             break;
                         }
@@ -173,7 +173,7 @@ namespace EcellLib.StaticDebugWindow
                     ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
                         Constants.xpathProcess + Constants.delimiterColon + 
                         obj.Key + Constants.delimiterColon + Constants.xpathVRL,
-                        StaticDebugWindow.s_resources.GetString(MessageConstants.ErrNoConnect));
+                        MessageResStDebug.ErrNoConnect);
                     m_errorList.Add(mes);
                     continue;
                 }
@@ -186,7 +186,7 @@ namespace EcellLib.StaticDebugWindow
                     {
                         ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
                             d.EntityPath,
-                            StaticDebugWindow.s_resources.GetString(MessageConstants.ErrNoConnect));
+                            MessageResStDebug.ErrNoConnect);
                         m_errorList.Add(mes);
                         break;
                     }
@@ -218,7 +218,7 @@ namespace EcellLib.StaticDebugWindow
                 ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
                     Constants.xpathVariable + Constants.delimiterColon + obj.Key + 
                     Constants.delimiterColon + Constants.xpathID,
-                    StaticDebugWindow.s_resources.GetString(MessageConstants.ErrNoConnect));
+                    MessageResStDebug.ErrNoConnect);
                 m_errorList.Add(mes);
             }
         }

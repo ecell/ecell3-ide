@@ -38,7 +38,6 @@ using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
-using EcellLib.PathwayWindow.Resources;
 using EcellLib.PathwayWindow.Dialog;
 
 namespace EcellLib.PathwayWindow.UIComponent
@@ -446,7 +445,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                 return;
             if (canvas.Layers.ContainsKey(newName))
             {
-                Util.ShowNoticeDialog(newName + m_resources.GetString(MessageConstants.ErrAlrExist));
+                Util.ShowNoticeDialog(newName + MessageResPathway.ErrAlrExist);
                 return;
             }
 
@@ -468,7 +467,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                 return;
             if (!canvas.Layers.ContainsKey(newName))
             {
-                Util.ShowNoticeDialog(m_resources.GetString(MessageConstants.ErrLayerNot));
+                Util.ShowNoticeDialog(MessageResPathway.ErrLayerNot);
                 return;
             }
 

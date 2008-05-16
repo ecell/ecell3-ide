@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GridLayout {
+namespace EcellLib.GridLayout {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace GridLayout {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class GridLayout {
+    public partial class GridLayout {
         
         private static global::System.Resources.ResourceManager resourceMan;
         

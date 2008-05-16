@@ -74,9 +74,9 @@ namespace EcellLib.MainWindow
             if (e.RowIndex < 0) return;
             int jobid = Convert.ToInt32(JobGridView[0, e.RowIndex].Value);
             if (!m_manager.JobList.ContainsKey(jobid)) return;
-            string data = m_manager.JobList[jobid].StdErr;
 
-            Util.ShowNoticeDialog(data);
+            Util.ShowNoticeDialog(m_manager.JobList[jobid].StdErr);
+
         }
 
         /// <summary>

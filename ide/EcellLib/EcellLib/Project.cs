@@ -688,8 +688,8 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                string errmsg = "ErrLoadProjectSettings" + Environment.NewLine + filepath + Environment.NewLine + ex.Message;
-                Util.ShowErrorDialog(errmsg);
+                Util.ShowErrorDialog("ErrLoadProjectSettings" + Environment.NewLine + filepath + Environment.NewLine + ex.Message);
+
             }
             project = new Project(prjName, comment, time, param);
             return project;

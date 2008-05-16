@@ -51,7 +51,6 @@ using UMD.HCIL.Piccolo.Util;
 using EcellLib.PathwayWindow.Nodes;
 using EcellLib.PathwayWindow.UIComponent;
 using EcellLib.PathwayWindow.Handler;
-using EcellLib.PathwayWindow.Resources;
 using EcellLib.PathwayWindow.Exceptions;
 using EcellLib.Layout;
 using EcellLib.Objects;
@@ -100,11 +99,6 @@ namespace EcellLib.PathwayWindow
         /// ToolBox interface.
         /// </summary>
         private ToolBox m_toolBox;
-
-        /// <summary>
-        /// Default Layout Algorithm.
-        /// </summary>
-        private ILayoutAlgorithm m_defAlgorithm = new GridLayout();
 
         /// <summary>
         /// ProjectStatus
@@ -353,7 +347,7 @@ namespace EcellLib.PathwayWindow
             catch (Exception e)
             {
                 Console.WriteLine(e.StackTrace);
-                throw new PathwayException(m_resources.GetString(MessageConstants.ErrUnknowType) + "\n" + e.StackTrace);
+                throw new PathwayException(MessageResPathway.ErrUnknowType + "\n" + e.StackTrace);
             }
         }
         /// <summary>
@@ -389,7 +383,7 @@ namespace EcellLib.PathwayWindow
                 if (File.Exists(fileName))
                     this.LoadFromLeml(fileName);
                 else
-                    DoLayout(m_defAlgorithm, 0, false);
+                    DoLayout(m_window.DefaultLayoutAlgorithm, 0, false);
             }
             if(m_canvas != null)
                 m_canvas.Refresh();
@@ -419,7 +413,7 @@ namespace EcellLib.PathwayWindow
         {
             // Null check.
             if (eo == null)
-                throw new PathwayException(m_resources.GetString(MessageConstants.ErrAddObjNot));
+                throw new PathwayException(MessageResPathway.ErrAddObjNot);
             // Ignore Stepper
             if (Constants.xpathStepper.Equals(eo.Type))
                 return;
@@ -437,12 +431,11 @@ namespace EcellLib.PathwayWindow
                 this.CreateCanvas(eo.ModelID);
                 return;
             }
-
             // Error check.
             if (string.IsNullOrEmpty(eo.Key))
-                throw new PathwayException(m_resources.GetString(MessageConstants.ErrKeyNot));
+                throw new PathwayException(MessageResPathway.ErrKeyNot);
             if (string.IsNullOrEmpty(eo.ModelID) || !m_canvas.ModelID.Equals(eo.ModelID))
-                throw new PathwayException(m_resources.GetString(MessageConstants.ErrNotSetCanvas) + eo.Key);
+                throw new PathwayException(MessageResPathway.ErrNotSetCanvas + eo.Key);
             if (eo.Key.EndsWith(":SIZE"))
                 return;
 
@@ -1029,7 +1022,9 @@ namespace EcellLib.PathwayWindow
         {
             List<EcellObject> nodeList = new List<EcellObject>();
             foreach (PPathwayText obj in m_canvas.Texts.Values)
+            {
                 nodeList.Add(obj.EcellObject);
+            }
             return nodeList;
         }
 
@@ -1202,7 +1197,7 @@ namespace EcellLib.PathwayWindow
                 // Check system overlap
                 if (canvas.DoesSystemOverlaps(system.Rect))
                 {
-                    Util.ShowNoticeDialog(m_resources.GetString(MessageConstants.ErrSystemOverlap));
+                    Util.ShowNoticeDialog(MessageResPathway.ErrSystemOverlap);
                     break;
                 }
 
@@ -1277,7 +1272,7 @@ namespace EcellLib.PathwayWindow
             }
             catch (Exception)
             {
-                Util.ShowNoticeDialog(m_resources.GetString(MessageConstants.ErrLayout));
+                Util.ShowNoticeDialog(MessageResPathway.ErrLayout);
                 return;
             }
 

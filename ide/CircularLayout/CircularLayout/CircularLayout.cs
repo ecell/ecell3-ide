@@ -41,7 +41,7 @@ namespace EcellLib.CircularLayout
     /// <summary>
     /// Layout algorithm to layout nodes on a circle
     /// </summary>
-    public class CircularLayout : LayoutBase, ILayoutAlgorithm
+    public partial class CircularLayout : LayoutBase, ILayoutAlgorithm
     {
         /// <summary>
         /// Execute layout
@@ -522,15 +522,13 @@ namespace EcellLib.CircularLayout
         {
             if (num < 3)
             {
-                ComponentResourceManager crm = new ComponentResourceManager(typeof(CircularLayout));
-                Util.ShowErrorDialog(crm.GetString(MessageConstants.MsgLessNode));
+                Util.ShowErrorDialog(CircularLayout.MsgLessNode);
                 return false;
             }
 
             if (rect.Width == 0 || rect.Height == 0)
             {
-                ComponentResourceManager crm = new ComponentResourceManager(typeof(CircularLayout));
-                Util.ShowErrorDialog(crm.GetString(MessageConstants.MsgSelectRect));
+                Util.ShowErrorDialog(CircularLayout.MsgSelectRect);
                 return false;
             }
 
@@ -553,8 +551,7 @@ namespace EcellLib.CircularLayout
         /// <returns>menu name of this algorithm</returns>
         public string GetMenuText()
         {
-            ComponentResourceManager crm = new ComponentResourceManager(typeof(CircularLayout));
-            return crm.GetString(MessageConstants.MenuItemCircular);
+            return CircularLayout.MenuItemCircular;
         }
 
         /// <summary>
@@ -572,8 +569,7 @@ namespace EcellLib.CircularLayout
         /// <returns>tooltip</returns>
         public string GetToolTipText()
         {
-            ComponentResourceManager crm = new ComponentResourceManager(typeof(CircularLayout));
-            return crm.GetString(MessageConstants.ToolTip);
+            return CircularLayout.ToolTip;
         }
 
         /// <summary>

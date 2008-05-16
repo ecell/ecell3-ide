@@ -141,15 +141,15 @@ namespace EcellLib.MainWindow
                 int conc = Convert.ToInt32(DEConcTextBox.Text);
                 if (conc <= 0)
                 {
-                    string errmes = MainWindow.s_resources.GetString(MessageConstants.ErrConcInvalid);
-                    Util.ShowErrorDialog(errmes);
+                    Util.ShowErrorDialog(MessageResMain.ErrConcInvalid);
+
                     return;
                 }
                 if (DEWorkDirTextBox.Text == null ||
                     DEWorkDirTextBox.Text == "")
                 {
-                    string errmes = MainWindow.s_resources.GetString(MessageConstants.ErrNoWorkDir);
-                    Util.ShowErrorDialog(errmes);
+                    Util.ShowErrorDialog(MessageResMain.ErrNoWorkDir);
+
                     return;
                 }
                 string envName = DEEnvComboBox.Text;
@@ -169,8 +169,8 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 ex.ToString();
-                string errmes = MainWindow.s_resources.GetString(MessageConstants.ErrUpdateDistEnv);
-                Util.ShowErrorDialog(errmes);
+                Util.ShowErrorDialog(MessageResMain.ErrUpdateDistEnv);
+
                 return;
             }
             this.Close();

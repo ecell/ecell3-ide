@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EcellLib.PathwayWindow.Resources {
+namespace EcellLib.PathwayWindow {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace EcellLib.PathwayWindow.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EcellLib.PathwayWindow.Resources.PathwayResource", typeof(PathwayResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EcellLib.PathwayWindow.PathwayResource", typeof(PathwayResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

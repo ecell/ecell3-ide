@@ -14,11 +14,6 @@ namespace EcellLib.MessageWindow
     public partial class MessageWindowControl : EcellDockContent
     {
         /// <summary>
-        /// 
-        /// </summary>
-        private static ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResMessage));
-
-        /// <summary>
         /// Constructor.
         /// </summary>
         public MessageWindowControl()
@@ -27,7 +22,7 @@ namespace EcellLib.MessageWindow
             base.m_isSavable = true;
             InitializeComponent();
             this.Name = "MessageWindow";
-            this.Text = m_resources.GetString(MessageConstants.MessageWindow);
+            this.Text = MessageResMessage.MessageWindow;
             this.TabText = this.Text;
         }
     }

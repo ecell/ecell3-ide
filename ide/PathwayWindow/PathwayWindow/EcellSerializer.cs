@@ -43,7 +43,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-using EcellLib.PathwayWindow.Resources;
 using EcellLib.Objects;
 using EcellLib.PathwayWindow.Nodes;
 
@@ -132,8 +131,8 @@ namespace EcellLib.PathwayWindow {
             }
             catch (Exception ex)
             {
-                string errmsg = m_resources.GetString(MessageConstants.ErrLoadWindowSettings) + Environment.NewLine + filename + Environment.NewLine + ex.Message;
-                Util.ShowErrorDialog(errmsg);
+                Trace.WriteLine(ex);
+                Util.ShowErrorDialog(MessageResPathway.ErrLoadWindowSettings + Environment.NewLine + filename + Environment.NewLine + ex.Message);
             }
             finally
             {
@@ -179,8 +178,8 @@ namespace EcellLib.PathwayWindow {
             }
             catch (Exception ex)
             {
-                string errmsg = m_resources.GetString(MessageConstants.ErrLoadWindowSettings) + Environment.NewLine + filename + Environment.NewLine + ex.Message;
-                Util.ShowErrorDialog(errmsg);
+                Trace.WriteLine(ex);
+                Util.ShowErrorDialog(MessageResPathway.ErrLoadWindowSettings + Environment.NewLine + filename + Environment.NewLine + ex.Message);
             }
         }
 
@@ -248,7 +247,6 @@ namespace EcellLib.PathwayWindow {
                 SetPPathwayObject(canvas, node, key, type);
             }
         }
-
         /// <summary>
         /// Set PPathwayObject
         /// </summary>

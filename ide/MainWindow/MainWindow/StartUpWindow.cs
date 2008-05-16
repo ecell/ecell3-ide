@@ -56,7 +56,7 @@ namespace EcellLib.MainWindow
         {
             m_window = window;
             InitializeComponent();
-            this.Text = MainWindow.s_resources.GetString(MessageConstants.StartUpWindow);
+            this.Text = MessageResMain.StartUpWindow;
             this.TabText = this.Text;
             Uri uri = new Uri(Path.Combine(Application.StartupPath, Constants.fileStartupHTML));
             webBrowser1.Navigate(uri);

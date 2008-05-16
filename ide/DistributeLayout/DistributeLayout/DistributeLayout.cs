@@ -40,7 +40,7 @@ namespace EcellLib.DistributeLayout
     /// <summary>
     /// Layout algorithm to distribute nodes evenly spaced
     /// </summary>
-    public class DistributeLayout : LayoutBase, ILayoutAlgorithm
+    public partial class DistributeLayout : LayoutBase, ILayoutAlgorithm
     {
         enum Direction { Horizontally, Vertically }
 
@@ -144,8 +144,7 @@ namespace EcellLib.DistributeLayout
         /// <returns></returns>
         public string GetMenuText()
         {
-            ComponentResourceManager crm = new ComponentResourceManager(typeof(DistributeLayout));
-            return crm.GetString(MessageConstants.MenuItemDistribute);
+            return DistributeLayout.MenuItemDistribute;
         }
 
         /// <summary>
@@ -163,8 +162,7 @@ namespace EcellLib.DistributeLayout
         /// <returns>a tooltip of this layout</returns>
         public string GetToolTipText()
         {
-            ComponentResourceManager crm = new ComponentResourceManager(typeof(DistributeLayout));
-            return crm.GetString(MessageConstants.ToolTip);
+            return DistributeLayout.ToolTip;
         }
 
         /// <summary>
@@ -173,10 +171,9 @@ namespace EcellLib.DistributeLayout
         /// <returns>a list of name</returns>
         public List<string> GetSubCommands()
         {
-            ComponentResourceManager crm = new ComponentResourceManager(typeof(DistributeLayout));
             List<string> subCommands = new List<string>();
-            subCommands.Add(crm.GetString(MessageConstants.MenuItemSubHorizontally));
-            subCommands.Add(crm.GetString(MessageConstants.MenuItemSubVertically));
+            subCommands.Add(DistributeLayout.MenuItemSubHorizontally);
+            subCommands.Add(DistributeLayout.MenuItemSubVertically);
 
             return subCommands;
         }

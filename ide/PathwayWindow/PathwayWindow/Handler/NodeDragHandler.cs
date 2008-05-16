@@ -45,7 +45,6 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Util;
-using EcellLib.PathwayWindow.Resources;
 using EcellLib.Objects;
 
 namespace EcellLib.PathwayWindow.Handler
@@ -246,7 +245,7 @@ namespace EcellLib.PathwayWindow.Handler
                 // Reset if system is duplicated.
                 else if (!oldSysKey.Equals(newSysKey) && m_canvas.Systems.ContainsKey(newSysKey))
                 {
-                    Util.ShowErrorDialog(newSysKey + m_resources.GetString(MessageConstants.ErrAlrExist));
+                    Util.ShowErrorDialog(newSysKey + MessageResPathway.ErrAlrExist);
                     system.ResetPosition();
                     system.IsInvalid = false;
                 }
@@ -291,7 +290,7 @@ namespace EcellLib.PathwayWindow.Handler
                 // When node is out of root.
                 if (newSystem == null)
                 {
-                    Util.ShowErrorDialog(node.EcellObject.Name + ":" + m_resources.GetString(MessageConstants.ErrOutRoot));
+                    Util.ShowErrorDialog(node.EcellObject.Name + ":" + MessageResPathway.ErrOutRoot);
                     isError = true;
                     continue;
                 }
@@ -299,7 +298,7 @@ namespace EcellLib.PathwayWindow.Handler
                 else if (!newSystem.Equals(node.EcellObject.ParentSystemID)
                     && m_canvas.GetSelectedObject(newKey, node.EcellObject.Type) != null)
                 {
-                    Util.ShowErrorDialog(node.EcellObject.Name + ":" + m_resources.GetString(MessageConstants.ErrAlrExist));
+                    Util.ShowErrorDialog(node.EcellObject.Name + ":" + MessageResPathway.ErrAlrExist);
                     isError = true;
                     continue;
                 }

@@ -503,8 +503,8 @@ namespace EcellLib.PathwayWindow
             }
             catch (Exception ex)
             {
-                string errmsg = m_resources.GetString(MessageConstants.ErrCompInvalid) + Environment.NewLine + filename + Environment.NewLine + ex.Message;
-                Util.ShowErrorDialog(errmsg);
+                Util.ShowErrorDialog(MessageResPathway.ErrCompInvalid + Environment.NewLine + filename + Environment.NewLine + ex.Message);
+
             }
             finally
             {

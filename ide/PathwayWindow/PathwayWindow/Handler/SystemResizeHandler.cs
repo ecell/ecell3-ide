@@ -42,7 +42,6 @@ using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Util;
-using EcellLib.PathwayWindow.Resources;
 
 namespace EcellLib.PathwayWindow.Handler
 {
@@ -206,7 +205,7 @@ namespace EcellLib.PathwayWindow.Handler
                     continue;
                 // If duplicated object exists.
                 ResetSystemResize();
-                Util.ShowErrorDialog(m_canvas.Control.Resources.GetString(MessageConstants.ErrSameObj));
+                Util.ShowErrorDialog(MessageResPathway.ErrSameObj);
                 return;
             }
             string parentKey = m_obj.EcellObject.ParentSystemID;
@@ -221,7 +220,7 @@ namespace EcellLib.PathwayWindow.Handler
                     continue;
                 // If duplicated object exists.
                 ResetSystemResize();
-                Util.ShowErrorDialog(m_canvas.Control.Resources.GetString(MessageConstants.ErrSameObj));
+                Util.ShowErrorDialog(MessageResPathway.ErrSameObj);
                 return;
             }
 

@@ -40,7 +40,7 @@ namespace EcellLib.AlignLayout
     /// <summary>
     /// Layout algorithm to align nodes
     /// </summary>
-    public class AlignLayout : LayoutBase, ILayoutAlgorithm
+    public partial class AlignLayout : LayoutBase, ILayoutAlgorithm
     {
         enum Alignment {
             /// <summary>
@@ -60,10 +60,6 @@ namespace EcellLib.AlignLayout
             /// </summary>
             Lower
         }
-        /// <summary>
-        /// Execute layout
-        /// </summary>
-        private ComponentResourceManager m_crm = new ComponentResourceManager(typeof(AlignLayout));
 
         /// <summary>
         /// Execute layout
@@ -124,7 +120,7 @@ namespace EcellLib.AlignLayout
         /// <returns>menu name of this algorithm</returns>
         public string GetMenuText()
         {
-            return m_crm.GetString(MessageConstants.MenuItemAlign);
+            return AlignLayout.MenuItemAlign;
         }
 
         /// <summary>
@@ -142,7 +138,7 @@ namespace EcellLib.AlignLayout
         /// <returns>tooltip</returns>
         public string GetToolTipText()
         {
-            return m_crm.GetString(MessageConstants.ToolTip);
+            return AlignLayout.ToolTip;
         }
 
         /// <summary>
@@ -152,10 +148,10 @@ namespace EcellLib.AlignLayout
         public List<string> GetSubCommands()
         {
             List<string> subCommands = new List<string>();
-            subCommands.Add(m_crm.GetString(MessageConstants.MenuItemSubLeft));
-            subCommands.Add(m_crm.GetString(MessageConstants.MenuItemSubRight));
-            subCommands.Add(m_crm.GetString(MessageConstants.MenuItemSubUpper));
-            subCommands.Add(m_crm.GetString(MessageConstants.MenuItemSubLower));
+            subCommands.Add(AlignLayout.MenuItemSubLeft);
+            subCommands.Add(AlignLayout.MenuItemSubRight);
+            subCommands.Add(AlignLayout.MenuItemSubUpper);
+            subCommands.Add(AlignLayout.MenuItemSubLower);
 
             return subCommands;
         }

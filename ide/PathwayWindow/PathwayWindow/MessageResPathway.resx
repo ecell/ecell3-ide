@@ -118,300 +118,303 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfirmDelete" xml:space="preserve">
-    <value>本当に削除してよろしいですか？</value>
+    <value>Are you sure you want to delete?</value>
   </data>
   <data name="ConfirmMerge" xml:space="preserve">
-    <value>システムの内容を上位システムにマージしてもよろしいですか？</value>
+    <value>Are you sure merge the component in system to upper system.</value>
   </data>
   <data name="ErrAddObj" xml:space="preserve">
-    <value>オブジェクトの追加に失敗しました。</value>
+    <value>Can not add the object.</value>
   </data>
   <data name="ErrAddObjNot" xml:space="preserve">
-    <value>追加するオブジェクトが見つかりません。</value>
+    <value>Can not find the added object.</value>
   </data>
   <data name="ErrAlrConnect" xml:space="preserve">
-    <value>既に接続しています。</value>
+    <value>Already connected !</value>
   </data>
   <data name="ErrAlrExist" xml:space="preserve">
-    <value>は既に存在します。</value>
+    <value> has already existed.</value>
   </data>
   <data name="ErrCompInvalid" xml:space="preserve">
-    <value>ComponentSetting.xmlは不完全です。</value>
+    <value>ComponentSettings.xml is imcomplete for the following reason</value>
   </data>
   <data name="ErrComProcess" xml:space="preserve">
-    <value>ComponentSettings.xmlにデフォルトProcessの設定情報がありません。</value>
+    <value>Default process was not found in the ComponentSettings.xml file, so hard coded one will be used instead.\n\n</value>
   </data>
   <data name="ErrComSystem" xml:space="preserve">
-    <value>ComponentSettings.xmlにデフォルトSystemの設定情報がありません。</value>
+    <value>Default system was not found in the ComponentSettings.xml file, so hard coded one will be used instead.\n\n</value>
   </data>
   <data name="ErrComVariable" xml:space="preserve">
-    <value>ComponentSettings.xmlにデフォルトVariableの設定情報がありません。</value>
+    <value>Default variable was not found in the ComponentSettings.xml file, so hard coded one will be used instead.\n\n</value>
   </data>
   <data name="ErrCreateKind" xml:space="preserve">
-    <value>コンポーネントを作成することができませんでした。</value>
+    <value>Fail to convert the information to component object.</value>
   </data>
   <data name="ErrDelRoot" xml:space="preserve">
-    <value>ルートシステムを削除することができません。</value>
+    <value>Can not delete the root system.</value>
   </data>
   <data name="ErrKeyNot" xml:space="preserve">
-    <value>IDが設定されていません。</value>
+    <value>No set the object id.</value>
   </data>
   <data name="ErrLayout" xml:space="preserve">
-    <value>レイアウトの変更時にエラーが発生しました。</value>
+    <value>Can't execute this layout due to an unexpected error, sorry.</value>
   </data>
   <data name="ErrNotComXml" xml:space="preserve">
-    <value>ComponentSettings.xmlファイルが見つかりません。</value>
+    <value>Can't find ComponentSettings.xml file in the &lt;ECell-HOME&gt;"\\plugins\\pathway directory</value>
   </data>
   <data name="ErrNotSetCanvas" xml:space="preserve">
-    <value>キャンパスＩＤが設定されていません。</value>
+    <value>Canvas ID is not set for </value>
   </data>
   <data name="ErrOutRoot" xml:space="preserve">
-    <value>ルートシステム外にオブジェクトを作成することはできません。</value>
+    <value>Can not create an object outside the root system</value>
   </data>
   <data name="ErrOverSystem" xml:space="preserve">
-    <value>他のSystemと重なっています。</value>
+    <value>A system can't be overlapping other systems</value>
   </data>
   <data name="ErrSameObj" xml:space="preserve">
-    <value>同じＩＤを持つオブジェクトが存在します。</value>
+    <value>There are the objects that have the same ID.</value>
   </data>
   <data name="ErrUnknowType" xml:space="preserve">
-    <value>追加されたオブジェクトは不明のタイプを持っています。</value>
+    <value>The added object have the unknown type.</value>
   </data>
   <data name="MenuItemShowID" xml:space="preserve">
-    <value>ID表示/非表示(&amp;I)</value>
+    <value>Show &amp;IDs(Pathway)</value>
   </data>
   <data name="MsgLayoutNoNode" xml:space="preserve">
-    <value>レイアウトをする１つ以上のノードを選択して下さい。</value>
+    <value>Please select at least one node to layout</value>
   </data>
   <data name="ErrMerge" xml:space="preserve">
-    <value>上位システムにマージに失敗しました。</value>
+    <value>Can not merge the component to the upper system.</value>
   </data>
   <data name="ErrLoadLEML" xml:space="preserve">
-    <value>オブジェクト位置情報の読み込みに失敗しました。</value>
+    <value>Fail to load EcellObject position settings.</value>
   </data>
   <data name="ErrSaveLEML" xml:space="preserve">
-    <value>オブジェクト位置情報の保存に失敗しました。</value>
+    <value>Fail to save EcellObject position settings.</value>
   </data>
   <data name="LayerMenuCreate" xml:space="preserve">
-    <value>新規レイヤー作成</value>
+    <value>Create Layer</value>
   </data>
   <data name="LayerMenuDelete" xml:space="preserve">
-    <value>レイヤー削除</value>
+    <value>Delete Layer</value>
   </data>
   <data name="LayerDialogMessage" xml:space="preserve">
-    <value>レイヤー名入力ダイアログ</value>
+    <value>Input new Layer name.</value>
   </data>
   <data name="LayerDialogTitle" xml:space="preserve">
-    <value>新規レイヤー名を入力してください。</value>
+    <value>LayerNameInputDialog</value>
   </data>
   <data name="LayerMenuRename" xml:space="preserve">
-    <value>レイヤー名変更</value>
+    <value>Rename Layer</value>
   </data>
   <data name="LayerMenuMerge" xml:space="preserve">
-    <value>レイヤー結合</value>
+    <value>Merge Layer</value>
   </data>
   <data name="LayerMenuChange" xml:space="preserve">
-    <value>レイヤー変更</value>
+    <value>Change Layer</value>
   </data>
   <data name="ErrLayerNot" xml:space="preserve">
-    <value>レイヤーが存在しません。</value>
+    <value>Layer does not exist.</value>
   </data>
   <data name="MenuItemViewMode" xml:space="preserve">
-    <value>ビューモード</value>
+    <value>View Mode</value>
   </data>
   <data name="LayerMenuSelectNodes" xml:space="preserve">
-    <value>レイヤー下のノードを選択する。</value>
+    <value>Select nodes under...</value>
   </data>
   <data name="CanvasMenuBidirArrow" xml:space="preserve">
-    <value>プロセス &lt;-&gt; バリアブル</value>
+    <value>Process &lt;-&gt; Variable</value>
   </data>
   <data name="CanvasMenuChangeLayer" xml:space="preserve">
-    <value>レイヤー変更</value>
+    <value>Change Layer</value>
   </data>
   <data name="CanvasMenuConstantLine" xml:space="preserve">
-    <value>定数</value>
+    <value>Constant</value>
   </data>
   <data name="CanvasMenuCopy" xml:space="preserve">
-    <value>コピー(&amp;C)</value>
+    <value>&amp;Copy</value>
   </data>
   <data name="CanvasMenuCreateLogger" xml:space="preserve">
-    <value>ロガー設定</value>
+    <value>Create Logger</value>
   </data>
   <data name="CanvasMenuCut" xml:space="preserve">
-    <value>切り取り(&amp;T)</value>
+    <value>Cu&amp;t</value>
   </data>
   <data name="CanvasMenuDelete" xml:space="preserve">
-    <value>削除(&amp;D)</value>
+    <value>&amp;Delete</value>
   </data>
   <data name="CanvasMenuDeleteLogger" xml:space="preserve">
-    <value>ロガー解除</value>
+    <value>Delete Logger</value>
   </data>
   <data name="CanvasMenuMerge" xml:space="preserve">
-    <value>上のシステムにマージ</value>
+    <value>Merge to supersystem</value>
   </data>
   <data name="CanvasMenuLayout" xml:space="preserve">
-    <value>レイアウト</value>
+    <value>Layout</value>
   </data>
   <data name="CanvasMenuLeftArrow" xml:space="preserve">
-    <value>プロセス &lt;- バリアブル</value>
+    <value>Process &lt;- Variable</value>
   </data>
   <data name="CanvasMenuPaste" xml:space="preserve">
-    <value>貼り付け(&amp;P)</value>
+    <value>&amp;Paste</value>
   </data>
   <data name="CanvasMenuRightArrow" xml:space="preserve">
-    <value>プロセス -&gt; バリアブル</value>
+    <value>Process -&gt; Variable</value>
   </data>
   <data name="MenuToolTipShowID" xml:space="preserve">
-    <value>オブジェクトのID表示を変更する。</value>
+    <value>Visibility of Node's name of each pathway object.</value>
   </data>
   <data name="MenuToolTipViewMode" xml:space="preserve">
-    <value>キャンバスのビューモードを変更する。</value>
+    <value>Change view mode of canvas.</value>
   </data>
   <data name="MenuItemEdit" xml:space="preserve">
-    <value>編集(&amp;E)</value>
+    <value>&amp;Edit</value>
   </data>
   <data name="MenuItemLayout" xml:space="preserve">
-    <value>配置(&amp;L)</value>
+    <value>&amp;Layout</value>
   </data>
   <data name="MenuItemView" xml:space="preserve">
-    <value>表示(&amp;V)</value>
+    <value>&amp;View</value>
   </data>
   <data name="MenuItemSetup" xml:space="preserve">
-    <value>Pathway設定ダイアログ...</value>
+    <value>Pathway Settings...</value>
   </data>
   <data name="MenuToolTipSetup" xml:space="preserve">
-    <value>PathwayWindowの設定ダイアログを開きます。</value>
+    <value>Show PropertyDialog of PathwayWindow.</value>
   </data>
   <data name="ErrToolBox" xml:space="preserve">
-    <value>ツールボックスは選択モード時のみ使用できます。</value>
+    <value>Toolbox is available only with a select mode.</value>
   </data>
   <data name="ErrSystemOverlap" xml:space="preserve">
-    <value>システムを作成するスペースがありません。</value>
+    <value>There is no space to create new system.</value>
   </data>
   <data name="ToolButtonAddConstant" xml:space="preserve">
-    <value>定数の参照を加えます。</value>
+    <value>Create constant references.</value>
   </data>
   <data name="ToolButtonAddMutualReaction" xml:space="preserve">
-    <value>可逆反応を作成します。</value>
+    <value>Create mutual reactions.</value>
   </data>
   <data name="ToolButtonAddOnewayReaction" xml:space="preserve">
-    <value>不可逆反応を作成します。</value>
+    <value>Create oneway reactions.</value>
   </data>
   <data name="ToolButtonCreateProcess" xml:space="preserve">
-    <value>プロセスを作成します。</value>
+    <value>Create new processes.</value>
   </data>
   <data name="ToolButtonCreateSystem" xml:space="preserve">
-    <value>システムを作成します。</value>
+    <value>Create new systems.</value>
   </data>
   <data name="ToolButtonCreateVariable" xml:space="preserve">
-    <value>バリアブルを作成します。</value>
+    <value>Create new variables.</value>
   </data>
   <data name="ToolButtonMoveCanvas" xml:space="preserve">
-    <value>キャンバスを動かします。</value>
+    <value>Move canvas.</value>
   </data>
   <data name="ToolButtonSelectMode" xml:space="preserve">
-    <value>オブジェクトを選択します。</value>
+    <value>Select Mode.</value>
   </data>
   <data name="ToolButtonZoomIn" xml:space="preserve">
-    <value>ズームイン</value>
+    <value>Zoom in</value>
   </data>
   <data name="ToolButtonZoomOut" xml:space="preserve">
-    <value>ズームアウト</value>
+    <value>Zoom out</value>
   </data>
   <data name="LayerMenuMoveBack" xml:space="preserve">
-    <value>背面移動</value>
+    <value>Move to back</value>
   </data>
   <data name="LayerMenuMoveFront" xml:space="preserve">
-    <value>前面移動</value>
+    <value>Move to front</value>
   </data>
   <data name="MenuItemExport" xml:space="preserve">
-    <value>画像出力</value>
+    <value>Export Graphics.</value>
   </data>
   <data name="MenuItemExportSVG" xml:space="preserve">
-    <value>SVG出力...</value>
+    <value>Export SVG format...</value>
   </data>
   <data name="MenuToolTipExport" xml:space="preserve">
-    <value>画像を保存します。</value>
+    <value>Export Graphics.</value>
   </data>
   <data name="MenuToolTipExportSVG" xml:space="preserve">
-    <value>SVGフォーマットで画像を保存します。</value>
+    <value>Export SVG format.</value>
   </data>
   <data name="MenuItemFile" xml:space="preserve">
-    <value>ファイル</value>
+    <value>File</value>
   </data>
   <data name="DialogTextAnimationSetting" xml:space="preserve">
-    <value>アニメーション設定</value>
+    <value>Animation Setting</value>
   </data>
   <data name="DialogTextBackgroundBrush" xml:space="preserve">
-    <value>背景色</value>
+    <value>Background Brush</value>
   </data>
   <data name="DialogTextEdgeBrush" xml:space="preserve">
-    <value>線の色</value>
+    <value>Edge Brush</value>
   </data>
   <data name="DialogTextEdgeWidth" xml:space="preserve">
-    <value>線の太さ</value>
+    <value>Edge Width</value>
   </data>
   <data name="DialogTextEditMode" xml:space="preserve">
-    <value>編集モード</value>
+    <value>Edit Mode</value>
   </data>
   <data name="DialogTextLogarithmic" xml:space="preserve">
-    <value>対数表示</value>
+    <value>Logarithmic</value>
   </data>
   <data name="DialogTextMaxEdgeWidth" xml:space="preserve">
-    <value>線の最大の太さ</value>
+    <value>Max Edge Width</value>
   </data>
   <data name="DialogTextNGBrush" xml:space="preserve">
-    <value>NG色</value>
+    <value>NG Brush</value>
   </data>
   <data name="DialogTextNormalEdge" xml:space="preserve">
-    <value>通常線</value>
+    <value>Normal Edge</value>
   </data>
   <data name="DialogTextThresholdHigh" xml:space="preserve">
-    <value>しきい値最大</value>
+    <value>Threshold High</value>
   </data>
   <data name="DialogTextThresholdLow" xml:space="preserve">
-    <value>しきい値最小</value>
+    <value>Threshold Low</value>
   </data>
   <data name="DialogTextViewMode" xml:space="preserve">
-    <value>ビューモード</value>
+    <value>View Mode</value>
   </data>
   <data name="DialogTextPropertyBrush" xml:space="preserve">
-    <value>プロパティ色</value>
+    <value>Property Brush</value>
   </data>
   <data name="ToolButtonCreateText" xml:space="preserve">
-    <value>テキストを作成します。</value>
+    <value>Create Text objent.</value>
   </data>
   <data name="WindowLayer" xml:space="preserve">
-    <value>レイヤー</value>
+    <value>Layer</value>
   </data>
   <data name="WindowOverview" xml:space="preserve">
-    <value>オーバービュー</value>
+    <value>Overview</value>
   </data>
   <data name="WindowPathway" xml:space="preserve">
-    <value>ネットワーク</value>
+    <value>Network</value>
   </data>
   <data name="WindowToolbox" xml:space="preserve">
-    <value>ツールボックス</value>
+    <value>Toolbox</value>
   </data>
   <data name="CenterBrush" xml:space="preserve">
-    <value>中央色</value>
+    <value>Center color</value>
   </data>
   <data name="Figure" xml:space="preserve">
-    <value>オブジェクト形状</value>
+    <value>Object figure</value>
   </data>
   <data name="FillBrush" xml:space="preserve">
-    <value>塗りつぶし色</value>
+    <value>Fill color</value>
   </data>
   <data name="IconFile" xml:space="preserve">
-    <value>アイコンファイル</value>
+    <value>Icon file</value>
   </data>
   <data name="IsGradation" xml:space="preserve">
-    <value>グラデーション</value>
+    <value>Gradation</value>
   </data>
   <data name="LineBrush" xml:space="preserve">
-    <value>線の色</value>
+    <value>Line color</value>
   </data>
   <data name="TextBrush" xml:space="preserve">
-    <value>文字色</value>
+    <value>Text color</value>
+  </data>
+  <data name="ErrLoadWindowSettings" xml:space="preserve">
+    <value>Failed to load window settings</value>
   </data>
 </root>

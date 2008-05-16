@@ -110,7 +110,7 @@ namespace EcellLib.ObjectList
             m_tabControl.Dock = DockStyle.Fill;
             win.Controls.Add(m_tabControl);
             win.Name = "ObjectList";
-            win.Text = s_resources.GetString(MessageConstants.ObjectList);
+            win.Text = MessageResObjList.ObjectList;
             win.TabText = win.Text;
             win.IsSavable = true;
             return new EcellDockContent[] { win };

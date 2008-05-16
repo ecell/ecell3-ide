@@ -48,8 +48,6 @@ namespace EcellLib.AboutWindow
     {
         #region Fields
         private ToolStripMenuItem MenuItemAboutPlatform;
-        private ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResAbout));
-        
         #endregion
 
         #region Inherited from PluginBase
@@ -64,7 +62,7 @@ namespace EcellLib.AboutWindow
             MenuItemAboutPlatform.Name = "MenuItemAboutPlatform";
             MenuItemAboutPlatform.Size = new System.Drawing.Size(96, 22);
             MenuItemAboutPlatform.Tag = 1;
-            MenuItemAboutPlatform.Text = s_resources.GetString(MessageConstants.MenuItemAboutPlatformText);
+            MenuItemAboutPlatform.Text = MessageResAbout.MenuItemAboutPlatformText;
             MenuItemAboutPlatform.Click += new System.EventHandler(this.AboutMenuClick);
 
             ToolStripMenuItem helpMenu = new ToolStripMenuItem();

@@ -321,7 +321,7 @@ namespace EcellLib.Simulation
                 }
                 catch (Exception ex)
                 {
-                    String errmes = Simulation.s_resources.GetString(MessageConstants.ErrInvalidParam);
+                    String errmes = MessageResSimulation.ErrInvalidParam;
                     Util.ShowErrorDialog(errmes + "\n\n" + ex);
                     return;
                 }
@@ -435,8 +435,8 @@ namespace EcellLib.Simulation
                 {
                     if (freqByStepTextBox.Text == "")
                     {
-                        string errmes = Simulation.s_resources.GetString(MessageConstants.ErrNoInputStep);
-                        Util.ShowErrorDialog(errmes);
+                        Util.ShowErrorDialog(MessageResSimulation.ErrNoInputStep);
+
                         return;
                     }
                     stepNum = Convert.ToInt32(freqByStepTextBox.Text);
@@ -445,8 +445,8 @@ namespace EcellLib.Simulation
                 {
                     if (freqBySecTextBox.Text == "")
                     {
-                        String errmes = Simulation.s_resources.GetString(MessageConstants.ErrNoInputSec);
-                        Util.ShowErrorDialog(errmes);
+                        Util.ShowErrorDialog(MessageResSimulation.ErrNoInputSec);
+
                         return;
                     }
                     secNum = Convert.ToDouble(freqBySecTextBox.Text);
@@ -465,8 +465,8 @@ namespace EcellLib.Simulation
                 {
                     if (maxKbTextBox.Text == "")
                     {
-                        String errmes = Simulation.s_resources.GetString(MessageConstants.ErrNoInputDisk);
-                        Util.ShowErrorDialog(errmes);
+                        Util.ShowErrorDialog(MessageResSimulation.ErrNoInputDisk);
+
                         return;
                     }
 
@@ -478,7 +478,7 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrUpdateLog);
+                String errmes = MessageResSimulation.ErrUpdateLog;
                 Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
                 return;
             }
@@ -564,7 +564,7 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrComboIndChage);
+                String errmes = MessageResSimulation.ErrComboIndChange;
                 Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
                 return;
             }
@@ -659,14 +659,14 @@ namespace EcellLib.Simulation
             string param = paramCombo.SelectedItem.ToString();
             if (param == "DefaultParameter")
             {
-                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrDelDefParam);
+                String errmes = MessageResSimulation.ErrDelDefParam;
                 MessageBox.Show(errmes, "WARNING",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (paramCombo.Items.Count == 1)
             {
-                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrDelParam);
+                String errmes = MessageResSimulation.ErrDelParam;
                 MessageBox.Show(errmes, "WARNING",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -735,8 +735,8 @@ namespace EcellLib.Simulation
 
             if (stepperListBox.Items.Count <= 1)
             {
-                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrDelStep);
-                Util.ShowWarningDialog(errmes);
+                Util.ShowWarningDialog(MessageResSimulation.ErrDelStep);
+
                 return;
             }
 
@@ -756,7 +756,7 @@ namespace EcellLib.Simulation
         public void AddStepperClick(object sender, EventArgs e)
         {
             NewParameterWindow m_newwin = new NewParameterWindow(this);
-            m_newwin.Text = Simulation.s_resources.GetString(MessageConstants.NewStepperText);
+            m_newwin.Text = MessageResSimulation.NewStepperText;
             m_newwin.CPCreateButton.Click += new EventHandler(m_newwin.AddStepperClick);
             m_newwin.SetParentWindow(this);
 

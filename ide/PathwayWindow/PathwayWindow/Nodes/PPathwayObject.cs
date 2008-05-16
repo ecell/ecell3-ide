@@ -43,7 +43,6 @@ using UMD.HCIL.Piccolo.Nodes;
 using EcellLib;
 using System.ComponentModel;
 using UMD.HCIL.Piccolo.Event;
-using EcellLib.PathwayWindow.Resources;
 using EcellLib.PathwayWindow.Graphic;
 using EcellLib.Objects;
 using EcellLib.PathwayWindow.Figure;

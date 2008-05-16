@@ -535,7 +535,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 throw new Exception(
-                    m_resources.GetString(MessageConstants.ErrCreEcd) + "[" + l_logData.model + "] {" + l_ex.ToString() + "}");
+                    MessageResLib.ErrCreEcd + "[" + l_logData.model + "] {" + l_ex.ToString() + "}");
             }
         }
     }

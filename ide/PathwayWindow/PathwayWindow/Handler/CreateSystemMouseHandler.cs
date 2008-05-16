@@ -140,7 +140,7 @@ namespace EcellLib.PathwayWindow.Handler
 
                 if (string.IsNullOrEmpty(m_surSystem))
                 {
-                    Util.ShowErrorDialog(m_resources.GetString(MessageConstants.ErrOutRoot));
+                    Util.ShowErrorDialog(MessageResPathway.ErrOutRoot);
                     return;
                 }
 
@@ -233,7 +233,7 @@ namespace EcellLib.PathwayWindow.Handler
             {
                 if (m_canvas.DoesSystemOverlaps(m_rect))
                 {
-                    Util.ShowErrorDialog(m_resources.GetString(MessageConstants.ErrOverSystem));
+                    Util.ShowErrorDialog(MessageResPathway.ErrOverSystem);
                     return;
                 }
 

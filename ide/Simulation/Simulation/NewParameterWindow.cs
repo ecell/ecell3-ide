@@ -81,18 +81,18 @@ namespace EcellLib.Simulation
             string data = paramTextBox.Text;
             if (data == "" || data == null)
             {
-                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrNoInput);
-                Util.ShowWarningDialog(errmes);
+                Util.ShowWarningDialog(MessageResSimulation.ErrNoInput);
+
                 return;
             }
             if (m_win.IsExistStepper(data))
             {
-                Util.ShowWarningDialog(Simulation.s_resources.GetString(MessageConstants.ErrAlready));
+                Util.ShowWarningDialog(MessageResSimulation.ErrAlready);
                 return;
             }
             if (Util.IsNGforID(data))
             {
-                Util.ShowWarningDialog(Simulation.s_resources.GetString(MessageConstants.ErrIDNG));
+                Util.ShowWarningDialog(MessageResSimulation.ErrIDNG);
                 return;
             }
             string paramID = m_win.GetCurrentParameter();
@@ -156,12 +156,12 @@ namespace EcellLib.Simulation
         {
             if (paramTextBox.Text == "")
             {
-                Util.ShowWarningDialog(Simulation.s_resources.GetString(MessageConstants.ErrNoInput));
+                Util.ShowWarningDialog(MessageResSimulation.ErrNoInput);
                 return;
             }
             if (Util.IsNGforID(paramTextBox.Text))
             {
-                Util.ShowWarningDialog(Simulation.s_resources.GetString(MessageConstants.ErrIDNG));
+                Util.ShowWarningDialog(MessageResSimulation.ErrIDNG);
                 return;
             }
             string newParamName = paramTextBox.Text;

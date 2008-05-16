@@ -66,7 +66,7 @@ namespace EcellLib.StaticDebugWindow
         /// <returns>"Model Compliance."</returns>
         public string GetDebugName()
         {
-            return StaticDebugWindow.s_resources.GetString(MessageConstants.ModelComplianceName);
+            return MessageResStDebug.ModelComplianceName;
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace EcellLib.StaticDebugWindow
                 {
                     ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
                         obj.Key + ":" + Constants.xpathID,
-                        StaticDebugWindow.s_resources.GetString(MessageConstants.ErrInvalidID));
+                        MessageResStDebug.ErrInvalidID);
                     m_errorList.Add(mes);
                 }
             }
@@ -231,7 +231,7 @@ namespace EcellLib.StaticDebugWindow
                 {
                     ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
                         obj.Key + ":" + Constants.xpathID,
-                        StaticDebugWindow.s_resources.GetString(MessageConstants.ErrInvalidID));
+                        MessageResStDebug.ErrInvalidID);
                     m_errorList.Add(mes);
                 }
             }
@@ -261,7 +261,7 @@ namespace EcellLib.StaticDebugWindow
             if (isHit == false)
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_entPath,
-                                        StaticDebugWindow.s_resources.GetString(MessageConstants.ErrNotExistStepper) + "[" + l_stepperID + "]");
+                                        MessageResStDebug.ErrNotExistStepper + "[" + l_stepperID + "]");
                 m_errorList.Add(mes);
             }
         }
@@ -278,7 +278,7 @@ namespace EcellLib.StaticDebugWindow
             if (val == null)
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        StaticDebugWindow.s_resources.GetString(MessageConstants.ErrNoset));
+                        MessageResStDebug.ErrNoSet);
                 m_errorList.Add(mes);
                 return;
             }
@@ -286,7 +286,7 @@ namespace EcellLib.StaticDebugWindow
                 (val.IsInt() && (val.CastToInt() != 0 && val.CastToInt() != 1)))
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        StaticDebugWindow.s_resources.GetString(MessageConstants.ErrFormat));
+                        MessageResStDebug.ErrFormat);
                 m_errorList.Add(mes);
                 return;
             }
@@ -304,14 +304,14 @@ namespace EcellLib.StaticDebugWindow
             if (val == null)
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        StaticDebugWindow.s_resources.GetString(MessageConstants.ErrNoset));
+                        MessageResStDebug.ErrNoSet);
                 m_errorList.Add(mes);
                 return;
             }
             if (!val.IsDouble())
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        StaticDebugWindow.s_resources.GetString(MessageConstants.ErrFormat));
+                        MessageResStDebug.ErrFormat);
                 m_errorList.Add(mes);
                 return;
             }
@@ -319,7 +319,7 @@ namespace EcellLib.StaticDebugWindow
             if (d <= 0.0)
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        StaticDebugWindow.s_resources.GetString(MessageConstants.ErrPositive));
+                        MessageResStDebug.ErrPositive);
                 m_errorList.Add(mes);
                 return;
             }
@@ -337,14 +337,14 @@ namespace EcellLib.StaticDebugWindow
             if (val == null)
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        StaticDebugWindow.s_resources.GetString(MessageConstants.ErrNoset));
+                        MessageResStDebug.ErrNoSet);
                 m_errorList.Add(mes);
                 return;
             }
             if (!val.IsDouble())
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        StaticDebugWindow.s_resources.GetString(MessageConstants.ErrFormat));
+                        MessageResStDebug.ErrFormat);
                 m_errorList.Add(mes);
                 return;
             }
@@ -352,7 +352,7 @@ namespace EcellLib.StaticDebugWindow
             if (d < 0.0)
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        StaticDebugWindow.s_resources.GetString(MessageConstants.ErrPositiveZero));
+                        MessageResStDebug.ErrPositiveZero);
                 m_errorList.Add(mes);
                 return;
             }
@@ -373,7 +373,7 @@ namespace EcellLib.StaticDebugWindow
             if (minValue > maxValue)
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_max.EntityPath,
-                        StaticDebugWindow.s_resources.GetString(MessageConstants.ErrMaxMin));
+                        MessageResStDebug.ErrMaxMin);
                 m_errorList.Add(mes);
                 return;
             }
@@ -405,8 +405,7 @@ namespace EcellLib.StaticDebugWindow
             }
             if (leftBracketsCount != rightBracketsCount)
             {
-                ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        StaticDebugWindow.s_resources.GetString(MessageConstants.ErrBrackets));
+                ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath, MessageResStDebug.ErrBrackets);
                 m_errorList.Add(mes);
                 return;            
             }

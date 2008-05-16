@@ -73,15 +73,36 @@ namespace EcellLib.PathwayWindow
         /// PathwayControl, which contains and controls all GUI-related objects.
         /// </summary>
         PathwayControl m_con;
+
+        ILayoutAlgorithm m_defaultLayoutAlgorithm;
         #endregion
 
-        #region Initializer 
+        #region Accessors
+        public ILayoutAlgorithm DefaultLayoutAlgorithm
+        {
+            get { return m_defaultLayoutAlgorithm; }
+        }
+        #endregion
+
+        public PathwayWindow()
+        {
+            m_con = new PathwayControl(this);
+        }
+
+        #region Initializer
         /// <summary>
         /// Initializes the plugin
         /// </summary>
         public override void Initialize()
         {
-            m_con = new PathwayControl(this);
+            foreach (ILayoutAlgorithm algo in m_pManager.GetLayoutPlugins())
+            {
+                // FIXME: ...
+                if (algo.GetName() == "GridLayout")
+                {
+                    m_defaultLayoutAlgorithm = algo;
+                }
+            }
         }
         #endregion
 

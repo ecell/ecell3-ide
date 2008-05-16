@@ -48,10 +48,6 @@ namespace EcellLib.EntityListWindow
         /// the plugin control this windows form.
         /// </summary>
         private EntityListWindow m_plugin;
-        /// <summary>
-        /// ResourceManager for SearchInstance
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResEntList));
         #endregion
 
         /// <summary>
@@ -85,8 +81,8 @@ namespace EcellLib.EntityListWindow
             string text = this.searchText.Text;
             if (!m_plugin.SearchNode(node, text))
             {
-                String errmes = m_resources.GetString(MessageConstants.ErrNotFind);
-                Util.ShowNoticeDialog(errmes);
+                Util.ShowNoticeDialog(MessageResEntList.ErrNotFind);
+
             }
             else
             {

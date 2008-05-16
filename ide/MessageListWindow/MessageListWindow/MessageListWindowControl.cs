@@ -48,10 +48,6 @@ namespace EcellLib.MessageListWindow
     {
         private MessageListWindow m_control;
         private List<IMessageEntry> m_messages;
-        /// <summary>
-        /// resource manager.
-        /// </summary>
-        private static ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResMessageList));
 
         /// <summary>
         /// get / set the parent plugin.
@@ -71,7 +67,7 @@ namespace EcellLib.MessageListWindow
             this.m_messages = new List<IMessageEntry>();
             InitializeComponent();
             this.Name = "MessageListWindow";
-            this.Text = m_resources.GetString(MessageConstants.MessageListWindow);
+            this.Text = MessageResMessageList.MessageListWindow;
             this.TabText = this.Text;
 
             this.Shown += new EventHandler(ShownMessageListWindowControl);

@@ -187,20 +187,20 @@ namespace EcellLib.Analysis
 
             if (m_param.Step <= 0)
             {
-                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrStepUnder);
-                Util.ShowErrorDialog(errmes);
+                Util.ShowErrorDialog(MessageResAnalysis.ErrStepUnder);
+
                 return;
             }
             if (m_param.AbsolutePerturbation <= 0.0)
             {
-                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrAbsolutePert);
-                Util.ShowErrorDialog(errmes);
+                Util.ShowErrorDialog(MessageResAnalysis.ErrAbsolutePert);
+
                 return;
             }
             if (m_param.RelativePerturbation <= 0.0)
             {
-                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrRelativePert);
-                Util.ShowErrorDialog(errmes);
+                Util.ShowErrorDialog(MessageResAnalysis.ErrRelativePert);
+
                 return;
             }
 
@@ -527,8 +527,8 @@ namespace EcellLib.Analysis
             Matrix jocobianMatrix = epsilonMatrix * m_linkMatrix;
             if (jocobianMatrix.Determinant() == 0.0)
             {
-                string mes = Analysis.s_resources.GetString(MessageConstants.ErrSingular);
-                Util.ShowErrorDialog(mes);
+                Util.ShowErrorDialog(MessageResAnalysis.ErrSingular);
+
                 throw new IgnoreException("Can't find Singular Matrix");
             }
             Matrix invJacobian = jocobianMatrix.Inverse();
@@ -747,16 +747,16 @@ namespace EcellLib.Analysis
                     m_owner.AddSensitivityDataOfFCC(m_activityList[i], res);
                 }
 
-                String finMes = Analysis.s_resources.GetString(MessageConstants.FinishSAnalysis);
-                Util.ShowNoticeDialog(finMes);
+                Util.ShowNoticeDialog(MessageResAnalysis.FinishSAnalysis);
+
             }
             catch (IgnoreException)
             {
             }
             catch (Exception ex)
             {
-                String errMes = Analysis.s_resources.GetString(MessageConstants.ErrorSAnalysis);
-                Util.ShowErrorDialog(errMes);
+                Util.ShowErrorDialog(MessageResAnalysis.ErrorSAnalysis);
+
                 m_owner.MessageManager.Append(
                         new ApplicationMessageEntry(MessageType.Error, ex.ToString(), this));
             }

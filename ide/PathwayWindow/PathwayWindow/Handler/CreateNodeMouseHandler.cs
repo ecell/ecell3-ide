@@ -103,7 +103,7 @@ namespace EcellLib.PathwayWindow.Handler
 
             if (string.IsNullOrEmpty(system))
             {
-                Util.ShowErrorDialog(m_resources.GetString(MessageConstants.ErrOutRoot));
+                Util.ShowErrorDialog(MessageResPathway.ErrOutRoot);
                 return;
             }
             // Create EcellObject.

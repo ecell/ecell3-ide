@@ -67,7 +67,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessageConstants.cs" />
     <Compile Include="AlignLayout.cs" />
     <Compile Include="AlignLayout.Designer.cs">
       <DependentUpon>AlignLayout.resx</DependentUpon>

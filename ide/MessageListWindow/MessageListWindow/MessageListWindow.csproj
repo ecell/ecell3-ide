@@ -67,7 +67,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessageConstants.cs" />
     <Compile Include="MessageListWindow.cs" />
     <Compile Include="MessageListWindowControl.cs">
       <SubType>Form</SubType>

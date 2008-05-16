@@ -85,10 +85,6 @@ namespace EcellLib.Analysis
         /// The user control to set the estimation formulator.
         /// </summary>
         private FormulatorControl m_fcnt;
-        /// <summary>
-        /// ComponentResourceManager for ObjectList.
-        /// </summary>
-        private static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResAnalysis));
         #endregion
 
         /// <summary>
@@ -105,7 +101,7 @@ namespace EcellLib.Analysis
             this.FormClosed += new FormClosedEventHandler(CloseRobustAnalysisForm);
 
             InitializeData();
-            this.Text = s_resources.GetString(MessageConstants.AnalysisWindow);
+            this.Text = MessageResAnalysis.AnalysisWindow;
             this.TabText = this.Text;
         }
 
@@ -687,60 +683,6 @@ namespace EcellLib.Analysis
             else RAMatrixCheck.Checked = true;
         }
 
-        ///// <summary>
-        ///// Extract the judgement condition from DataGridView.
-        ///// </summary>
-        ///// <returns>the list of judgement condition.</returns>
-        //public List<AnalysisJudgementParam> ExtractObserved()
-        //{
-        //    List<AnalysisJudgementParam> resList = new List<AnalysisJudgementParam>();
-
-        //    for (int i = 0; i < RAObservGridView.Rows.Count; i++)
-        //    {
-        //        string path = RAObservGridView[0, i].Value.ToString();
-        //        double max = Convert.ToDouble(RAObservGridView[1, i].Value);
-        //        double min = Convert.ToDouble(RAObservGridView[2, i].Value);
-        //        double diff = Convert.ToDouble(RAObservGridView[3, i].Value);
-        //        double rate = Convert.ToDouble(RAObservGridView[4, i].Value);
-
-        //        AnalysisJudgementParam p = new AnalysisJudgementParam(path, max, min, diff, rate);
-        //        resList.Add(p);
-        //    }
-
-        //    return resList;
-        //}
-
-        ///// <summary>
-        ///// Get the list of observed property to judge for analysis.
-        ///// If there are any problems, this function return null. 
-        ///// </summary>
-        ///// <returns>the list of observed property.</returns>
-        //public List<SaveLoggerProperty> GetRobustObservedDataList()
-        //{
-        //    SessionManager.SessionManager manager = m_owner.SessionManager;
-        //    List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
-
-        //    for (int i = 0; i < RAObservGridView.Rows.Count; i++)
-        //    {
-        //        String dir = manager.TmpDir;
-        //        string path = RAObservGridView[0, i].Value.ToString();
-        //        double start = 0.0;
-        //        double end = Convert.ToDouble(RASimTimeText.Text);
-        //        SaveLoggerProperty p = new SaveLoggerProperty(path, start, end, dir);
-
-        //        resList.Add(p);
-        //    }
-
-        //    if (resList.Count < 1)
-        //    {
-        //        String mes = Analysis.s_resources.GetString("ErrObservProp");
-        //        MessageBox.Show(mes, "ERRPR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        return null;
-        //    }
-
-        //    return resList;
-        //}
-
         #endregion
 
         #region ParameterEstimation
@@ -1080,9 +1022,10 @@ namespace EcellLib.Analysis
 
             if (m.Msg == WM_SYSCOMMAND && m.WParam.ToInt32() == SC_CLOSE)
             {
-                String mes = Analysis.s_resources.GetString(MessageConstants.ConfirmClose);
 
-                if (Util.ShowOKCancelDialog(mes))
+                if (Util.ShowOKCancelDialog(MessageResAnalysis.ConfirmClose))
+
+
                 {
                     this.Dispose();
                 }

@@ -41,7 +41,6 @@ using System.IO;
 using System.ComponentModel;
 using EcellLib.PathwayWindow.Nodes;
 using EcellLib.PathwayWindow.Exceptions;
-using EcellLib.PathwayWindow.Resources;
 using EcellLib.PathwayWindow.Figure;
 using System.Diagnostics;
 using EcellLib.PathwayWindow.UIComponent;
@@ -313,8 +312,8 @@ namespace EcellLib.PathwayWindow
             }
             catch (Exception ex)
             {
-                string errmsg = s_resources.GetString(MessageConstants.ErrCompInvalid) + Environment.NewLine + filepath + Environment.NewLine + ex.Message;
-                Util.ShowErrorDialog(errmsg);
+                Util.ShowErrorDialog(MessageResPathway.ErrCompInvalid + Environment.NewLine + filepath + Environment.NewLine + ex.Message);
+
             }
             finally
             {
@@ -606,7 +605,7 @@ namespace EcellLib.PathwayWindow
                 }
                 catch (NoSuchComponentKindException e)
                 {
-                    Util.ShowWarningDialog(s_resources.GetString(MessageConstants.ErrCreateKind) + "\n\n" + e.Message);
+                    Util.ShowWarningDialog(MessageResPathway.ErrCreateKind + "\n\n" + e.Message);
                     continue;
                 }
 
@@ -730,7 +729,7 @@ namespace EcellLib.PathwayWindow
                 else
                 {
                     string name = (cs.Name == null) ? cs.Name : "ComponentSetting No." + csCount.ToString();
-                    warnMessage += s_resources.GetString(MessageConstants.ErrCompInvalid) + "\n";
+                    warnMessage += MessageResPathway.ErrCompInvalid + "\n";
                     foreach (string lackInfo in lackInfos)
                         warnMessage += "    " + name + " lacks " + lackInfo + "\n";
                 }

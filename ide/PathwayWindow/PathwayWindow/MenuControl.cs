@@ -38,17 +38,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using EcellLib.PathwayWindow.UIComponent;
 using System.ComponentModel;
-using EcellLib.PathwayWindow.Resources;
-using UMD.HCIL.Piccolo.Event;
-using EcellLib.PathwayWindow.Handler;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using EcellLib.PathwayWindow.Nodes;
 using System.Diagnostics;
-using EcellLib.PathwayWindow.Graphic;
+using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo;
+using EcellLib.PathwayWindow.UIComponent;
+using EcellLib.PathwayWindow.Handler;
+using EcellLib.PathwayWindow.Nodes;
+using EcellLib.PathwayWindow.Graphic;
 using EcellLib.PathwayWindow.Dialog;
 using EcellLib.Layout;
 using EcellLib.Objects;
@@ -935,7 +934,7 @@ namespace EcellLib.PathwayWindow
                     return;
                 if (system.EcellObject.Key.Equals("/"))
                 {
-                    Util.ShowErrorDialog(m_resources.GetString(MessageConstants.ErrDelRoot));
+                    Util.ShowErrorDialog(MessageResPathway.ErrDelRoot);
                     return;
                 }
                 // Delete sys.

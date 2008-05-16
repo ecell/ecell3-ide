@@ -140,27 +140,27 @@ namespace EcellLib.Analysis
 
             if (m_param.Population <= 0)
             {
-                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrPopulationNumPositive);
-                Util.ShowErrorDialog(errmes);
+                Util.ShowErrorDialog(MessageResAnalysis.ErrPopulationNumPositive);
+
                 return;
             }
             if (m_param.Generation <= 0)
             {
-                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrGenerationNumPositive);
-                Util.ShowErrorDialog(errmes);
+                Util.ShowErrorDialog(MessageResAnalysis.ErrGenerationNumPositive);
+
                 return;
             }
             if (m_param.SimulationTime <= 0.0)
             {
-                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrSimTimeUnder);
-                Util.ShowErrorDialog(errmes);
+                Util.ShowErrorDialog(MessageResAnalysis.ErrSimTimeUnder);
+
                 return;
             }
             if (m_param.EstimationFormulator == null ||
                 m_param.EstimationFormulator.Equals(""))
             {
-                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrNotEstimateFormulator);
-                Util.ShowErrorDialog(errmes);
+                Util.ShowErrorDialog(MessageResAnalysis.ErrNotEstimateFormulator);
+
                 return;
             }
 
@@ -172,8 +172,8 @@ namespace EcellLib.Analysis
             if (m_paramList == null) return;
             if (m_paramList.Count < 1)
             {
-                String mes = Analysis.s_resources.GetString(MessageConstants.ErrParamProp1);
-                Util.ShowErrorDialog(mes);
+                Util.ShowErrorDialog(MessageResAnalysis.ErrParamProp1);
+
                 return;
             }
 
@@ -286,8 +286,8 @@ namespace EcellLib.Analysis
 
                 FindElite();
 
-                String finMes = Analysis.s_resources.GetString(MessageConstants.FinishPAnalysis);
-                Util.ShowNoticeDialog(finMes);
+                Util.ShowNoticeDialog(MessageResAnalysis.FinishPAnalysis);
+
                 return;
             }
 

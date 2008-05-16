@@ -29,10 +29,6 @@ namespace EcellLib.Analysis
         /// The line information of dot plot.
         /// </summary>
         private LineItem m_line;
-        /// <summary>
-        /// ComponentResourceManager for ObjectList.
-        /// </summary>
-        private static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResAnalysis));
 
         private Color m_headerColor;
         #endregion
@@ -64,13 +60,13 @@ namespace EcellLib.Analysis
 
             ContextMenuStrip peCntMenu = new ContextMenuStrip();
             ToolStripMenuItem peit = new ToolStripMenuItem();
-            peit.Text = Analysis.s_resources.GetString(MessageConstants.ReflectMenuText);
+            peit.Text = MessageResAnalysis.ReflectMenuText;
             peit.Click += new EventHandler(ClickReflectMenu);
             peCntMenu.Items.AddRange(new ToolStripItem[] {peit});
             PEEstimateView.ContextMenuStrip = peCntMenu;
 
             m_headerColor = Color.LightCyan;
-            this.Text = s_resources.GetString(MessageConstants.AnalysisResultWindow);
+            this.Text = MessageResAnalysis.AnalysisResultWindow;
             this.TabText = this.Text;
 
         }

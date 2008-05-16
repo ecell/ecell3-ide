@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Threading;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Drawing.Drawing2D;
@@ -126,10 +127,6 @@ namespace EcellLib.TracerWindow
         bool isStep = false;
         bool isLogAdding = false;
         int m_winCount = 1;
-        /// <summary>
-        /// ResourceManager for TraceWindow.
-        /// </summary>
-        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResTrace));
         #endregion
 
         public TracerWindow()
@@ -163,14 +160,14 @@ namespace EcellLib.TracerWindow
             List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();
 
             m_showWin = new ToolStripMenuItem();
-            m_showWin.Text = TracerWindow.s_resources.GetString(MessageConstants.MenuItemShowTraceText);
+            m_showWin.Text = MessageResTrace.MenuItemShowTraceText;
             m_showWin.Name = "MenuItemShowTrace";
             m_showWin.Size = new Size(96, 22);
             m_showWin.Enabled = false;
             m_showWin.Click += new EventHandler(this.ShowTracerWindow);
 
             m_showSaveWin = new ToolStripMenuItem();
-            m_showSaveWin.Text = TracerWindow.s_resources.GetString(MessageConstants.MenuItemShowSaveTraceText);
+            m_showSaveWin.Text = MessageResTrace.MenuItemShowSaveTraceText;
             m_showSaveWin.Name = "MenuItemShowSaveTrace";
             m_showSaveWin.Size = new Size(96, 22);
             m_showSaveWin.Enabled = false;
@@ -189,7 +186,7 @@ namespace EcellLib.TracerWindow
             m_setupWin = new ToolStripMenuItem();
             m_setupWin.Name = "MenuItemShowTraceSetup";
             m_setupWin.Size = new Size(96, 22);
-            m_setupWin.Text = TracerWindow.s_resources.GetString(MessageConstants.MenuItemShowTraceSetupText);
+            m_setupWin.Text = MessageResTrace.MenuItemShowTraceSetupText;
             //            m_setupWin.Text = "TracerWindow";
             m_setupWin.Enabled = true;
             m_setupWin.Click += new EventHandler(this.ShowSetupTracerWindow);
@@ -763,13 +760,13 @@ namespace EcellLib.TracerWindow
             }
             catch (Exception ex)
             {
-                ex.ToString();
-                TracerWindow.s_resources.GetString(MessageConstants.ErrInputData);
-                m_setup.Dispose();
-                return;
+                Trace.WriteLine(ex);
+                Util.ShowErrorDialog(MessageResTrace.ErrInputData);
             }
-
-            m_setup.Dispose();
+            finally
+            {
+                m_setup.Dispose();
+            }
         }
 
         /// <summary>
@@ -797,7 +794,7 @@ namespace EcellLib.TracerWindow
             m_win.Disposed += new EventHandler(FormDisposed);
             m_win.Shown += new EventHandler(m_win.ShownEvent);
             m_win.m_entry = new List<TagData>();
-            m_win.Text = s_resources.GetString(MessageConstants.TracerWindow) + m_winCount;
+            m_win.Text = MessageResTrace.TracerWindow + m_winCount;
             m_win.TabText = m_win.Text;
             m_winCount++;
 

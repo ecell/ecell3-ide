@@ -91,7 +91,7 @@ namespace EcellLib
                 string name = (string)this.dgv[0, i].Value;
                 if (nameList.Contains(name))
                 {
-                    String errmes = m_resources.GetString(MessageConstants.ErrExistID);
+                    String errmes = MessageResLib.ErrExistID;
                     Util.ShowErrorDialog(name + errmes);
                     return null;
                 }
@@ -106,18 +106,18 @@ namespace EcellLib
                 catch (Exception ex)
                 {
                     Trace.WriteLine(ex);
-                    Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNoNumber));
+                    Util.ShowWarningDialog(MessageResLib.ErrNoNumber);
                     return null;
                 }
                 if (v.Name == "")
                 {
-                    String errmes = m_resources.GetString(MessageConstants.ErrInvalidName);
+                    String errmes = MessageResLib.ErrInvalidName;
                     Util.ShowWarningDialog(errmes + "(Name)");
                     return null;
                 }
                 if (v.FullID == "" || !v.FullID.StartsWith(":"))
                 {
-                    Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrInvalidName) + "(FullID)");
+                    Util.ShowWarningDialog(MessageResLib.ErrInvalidName + "(FullID)");
                     return null;
                 }
 
@@ -290,7 +290,7 @@ namespace EcellLib
                 string name = (string)this.dgv[0, i].Value;
                 if (nameList.Contains(name))
                 {
-                    Util.ShowErrorDialog(m_resources.GetString(MessageConstants.ErrExistID));
+                    Util.ShowErrorDialog(MessageResLib.ErrExistID);
                     return;
                 }
                 nameList.Add(name);
@@ -304,17 +304,17 @@ namespace EcellLib
                 catch (Exception ex)
                 {
                     Trace.WriteLine(ex);
-                    Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNoNumber));
+                    Util.ShowWarningDialog(MessageResLib.ErrNoNumber);
                     return;
                 }
                 if (v.Name == "")
                 {
-                    Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrInvalidName) + "(Name)");
+                    Util.ShowWarningDialog(MessageResLib.ErrInvalidName + "(Name)");
                     return;
                 }
                 if (v.FullID == "" || !v.FullID.StartsWith(":"))
                 {
-                    Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrInvalidName) + "(FullID)");
+                    Util.ShowWarningDialog(MessageResLib.ErrInvalidName + "(FullID)");
                     return;
                 }
 
@@ -343,7 +343,7 @@ namespace EcellLib
                 string name = (string)this.dgv[0, i].Value;
                 if (nameList.Contains(name))
                 {
-                    String errmes = m_resources.GetString(MessageConstants.ErrExistID);
+                    String errmes = MessageResLib.ErrExistID;
                     Util.ShowErrorDialog(name + errmes);
                     return;
                 }
@@ -357,20 +357,20 @@ namespace EcellLib
                 }
                 catch (Exception)
                 {
-                    String errmes = m_resources.GetString(MessageConstants.ErrNoNumber);
+                    String errmes = MessageResLib.ErrNoNumber;
                     MessageBox.Show(errmes,
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 if (v.Name == "")
                 {
-                    String errmes = m_resources.GetString(MessageConstants.ErrInvalidName);
+                    String errmes = MessageResLib.ErrInvalidName;
                     Util.ShowWarningDialog(errmes + "(Name)");
                     return;
                 }
                 if (v.FullID == "" || !v.FullID.StartsWith(":"))
                 {
-                    String errmes = m_resources.GetString(MessageConstants.ErrInvalidName);
+                    String errmes = MessageResLib.ErrInvalidName;
                     MessageBox.Show(errmes + "(FullID)",
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;

@@ -116,7 +116,7 @@ namespace EcellLib.ObjectList2
 
             m_contextMenu = new ContextMenuStrip();
             ToolStripMenuItem it = new ToolStripMenuItem();
-            it.Text = ObjectList2.s_resources.GetString(MessageConstants.SearchMenuText);
+            it.Text = MessageResObjList.SearchMenuText;
             it.ShortcutKeys = Keys.Control | Keys.F;
             it.Click += new EventHandler(ClickSearchMenu);
 

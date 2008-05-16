@@ -242,7 +242,7 @@ namespace EcellLib.TracerWindow
 
             ContextMenuStrip contextStrip = new ContextMenuStrip();
             ToolStripMenuItem it = new ToolStripMenuItem();
-            it.Text = TracerWindow.s_resources.GetString(MessageConstants.MenuItemDeleteText);
+            it.Text = MessageResTrace.MenuItemDeleteText;
             it.ShortcutKeys = Keys.Control | Keys.D;
             it.Click += new EventHandler(DeleteTraceItem);
             it.Tag = r;
@@ -642,8 +642,8 @@ namespace EcellLib.TracerWindow
             DataGridViewImageCell cell1 = dgv.Rows[rowIndex].Cells[columnIndex + 1] as DataGridViewImageCell;
             if (cell == null || cell1 == null)
             {
-                String errmes = TracerWindow.s_resources.GetString(MessageConstants.ErrColorDlg);
-                Util.ShowErrorDialog(errmes);
+                Util.ShowErrorDialog(MessageResTrace.ErrColorDlg);
+
                 return;
             }
 
@@ -746,8 +746,7 @@ namespace EcellLib.TracerWindow
 
             if (m_currentObj == null)
             {
-                String errmes = TracerWindow.s_resources.GetString(MessageConstants.ErrNoFind);
-                Util.ShowNoticeDialog(errmes + "(" + tag.M_modelID + ")");
+                Util.ShowNoticeDialog(MessageResTrace.ErrNotFind + "(" + tag.M_modelID + ")");
                 return;
             }
 
@@ -837,8 +836,9 @@ namespace EcellLib.TracerWindow
 
             if (m.Msg == WM_SYSCOMMAND && m.WParam.ToInt32() == SC_CLOSE)
             {
-                String mes = TracerWindow.s_resources.GetString(MessageConstants.ConfirmClose);
-                if (Util.ShowOKCancelDialog(mes))
+                if (Util.ShowOKCancelDialog(MessageResTrace.ConfirmClose))
+
+
                 {
                     this.Dispose();
                 }
@@ -885,10 +885,6 @@ namespace EcellLib.TracerWindow
                 if (!m_entryDic.ContainsKey(p)) continue;
 
                 m_entryDic[p].AddPoint(l.logValueList, 0.0, 0.0);
-                //foreach (LogValue v in l.logValueList)
-                //{
-                //    m_entryDic[p].CurrentLineItem.AddPoint(v.time, v.value);
-                //}
             }
 
             UpdateGraphCallBack f = new UpdateGraphCallBack(UpdateGraph);

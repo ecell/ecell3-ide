@@ -84,7 +84,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessageConstants.cs" />
     <Compile Include="ActionManager.cs" />
     <Compile Include="AddPropertyDialog.cs">
       <SubType>Form</SubType>

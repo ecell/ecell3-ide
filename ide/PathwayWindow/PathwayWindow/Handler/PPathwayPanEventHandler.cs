@@ -33,7 +33,6 @@ using System.Collections.Generic;
 using System.Text;
 using UMD.HCIL.Piccolo.Event;
 using System.IO;
-using EcellLib.PathwayWindow.Resources;
 using System.ComponentModel;
 using System.Windows.Forms;
 using EcellLib.PathwayWindow.Nodes;

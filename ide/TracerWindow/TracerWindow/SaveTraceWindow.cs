@@ -125,8 +125,8 @@ namespace EcellLib.TracerWindow
 
             m_owner.DataManager.SaveSimulationResult(dirName, start, end, fileType, fullID);
 
-            String mes = TracerWindow.s_resources.GetString(MessageConstants.FinishSave);
-            Util.ShowNoticeDialog(mes);
+            Util.ShowNoticeDialog(MessageResTrace.FinishSave);
+
         }
     }
 }

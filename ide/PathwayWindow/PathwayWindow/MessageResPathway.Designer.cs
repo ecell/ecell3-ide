@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EcellLib.PathwayWindow.Resources {
+namespace EcellLib.PathwayWindow {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace EcellLib.PathwayWindow.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EcellLib.PathwayWindow.Resources.MessageResPathway", typeof(MessageResPathway).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EcellLib.PathwayWindow.MessageResPathway", typeof(MessageResPathway).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -444,6 +444,15 @@ namespace EcellLib.PathwayWindow.Resources {
         internal static string ErrLoadLEML {
             get {
                 return ResourceManager.GetString("ErrLoadLEML", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to load window settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrLoadWindowSettings {
+            get {
+                return ResourceManager.GetString("ErrLoadWindowSettings", resourceCulture);
             }
         }
         

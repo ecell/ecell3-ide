@@ -33,7 +33,6 @@ using System.Text;
 using System.ComponentModel;
 using UMD.HCIL.Piccolo.Event;
 using System.Windows.Forms;
-using EcellLib.PathwayWindow.Resources;
 
 namespace EcellLib.PathwayWindow.Handler
 {

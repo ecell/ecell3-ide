@@ -17,11 +17,6 @@ namespace EcellLib.EntityListWindow
         EntityListWindow m_owner;
 
         /// <summary>
-        /// 
-        /// </summary>
-        private static ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResEntList));
-
-        /// <summary>
         /// Constructor.
         /// </summary>
         public EntityList(EntityListWindow owner)
@@ -29,9 +24,8 @@ namespace EcellLib.EntityListWindow
             m_owner = owner;
             base.m_isSavable = true;
             InitializeComponent();
-            this.Text = m_resources.GetString(MessageConstants.EntityList);
+            this.Text = MessageResEntList.EntityList;
             this.TabText = this.Text;
-            this.Icon = (Icon)m_resources.GetObject("$this.Icon");
             this.treeView1.ImageList =m_owner.Environment.PluginManager.NodeImageList;
         }
     }

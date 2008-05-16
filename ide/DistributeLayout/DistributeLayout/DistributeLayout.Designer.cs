@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DistributeLayout {
+namespace EcellLib.DistributeLayout {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace DistributeLayout {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class DistributeLayout {
+    public partial class DistributeLayout {
         
         private static global::System.Resources.ResourceManager resourceMan;
         

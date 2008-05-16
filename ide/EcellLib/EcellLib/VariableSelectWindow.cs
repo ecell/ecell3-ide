@@ -1,11 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
 //        This file is part of E-Cell Environment Application package
@@ -36,6 +28,14 @@ using System.Windows.Forms;
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+
 namespace EcellLib
 {
     public partial class VariableSelectWindow : Form
@@ -53,10 +53,6 @@ namespace EcellLib
         /// the parent windows form.
         /// </summary>
         private VariableRefWindow m_win;
-        /// <summary>
-        /// ResourceManager for VariableSelectWindow.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResLib));
         #endregion
 
         /// <summary>
@@ -101,14 +97,14 @@ namespace EcellLib
             TreeNode t = this.selectTree.SelectedNode;
             if (t == null)
             {
-                Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNoSelect));
+                Util.ShowWarningDialog(MessageResLib.ErrNoSelect);
                 return;
             }
             string tag = (string)t.Tag;
             if (tag == null || tag.Equals(""))
             {
-                String errmes = m_resources.GetString(MessageConstants.ErrNotVar);
-                Util.ShowWarningDialog(errmes);
+                Util.ShowWarningDialog(MessageResLib.ErrNotVar);
+
                 return;
             }
 
@@ -147,13 +143,13 @@ namespace EcellLib
             TreeNode t = this.selectTree.SelectedNode;
             if (t == null)
             {
-                Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNoSelect));
+                Util.ShowWarningDialog(MessageResLib.ErrNoSelect);
                 return;
             }
             string tag = (string)t.Tag;
             if (tag == null || tag.Equals(""))
             {
-                Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNotVar));
+                Util.ShowWarningDialog(MessageResLib.ErrNotVar);
                 return;
             }
 
@@ -192,14 +188,14 @@ namespace EcellLib
             TreeNode t = this.selectTree.SelectedNode;
             if (t == null)
             {
-                Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNoSelect));
+                Util.ShowWarningDialog(MessageResLib.ErrNoSelect);
                 return;
             }
             string tag = (string)t.Tag;
             if (tag == null || tag.Equals(""))
             {
-                String errmes = m_resources.GetString(MessageConstants.ErrNotVar);
-                Util.ShowWarningDialog(errmes);
+                Util.ShowWarningDialog(MessageResLib.ErrNotVar);
+
                 return;
             }
 
@@ -236,13 +232,13 @@ namespace EcellLib
             TreeNode t = this.selectTree.SelectedNode;
             if (t == null)
             {
-                Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNoSelect));
+                Util.ShowWarningDialog(MessageResLib.ErrNoSelect);
                 return;
             }
             string tag = (string)t.Tag;
             if (tag == null || tag.Equals(""))
             {
-                Util.ShowWarningDialog(m_resources.GetString(MessageConstants.ErrNotVar));
+                Util.ShowWarningDialog(MessageResLib.ErrNotVar);
                 return;
             }
 

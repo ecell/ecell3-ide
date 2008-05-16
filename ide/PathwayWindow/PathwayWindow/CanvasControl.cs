@@ -51,7 +51,6 @@ using UMD.HCIL.PiccoloX.Components;
 using EcellLib.PathwayWindow.Nodes;
 using EcellLib.PathwayWindow.Handler;
 using EcellLib.PathwayWindow.UIComponent;
-using EcellLib.PathwayWindow.Resources;
 using EcellLib.PathwayWindow.Graphic;
 using EcellLib.Objects;
 using EcellLib.PathwayWindow.Exceptions;
@@ -662,14 +661,14 @@ namespace EcellLib.PathwayWindow
             {
                 PPathwayProcess node = (PPathwayProcess)obj;
                 if (m_processes.ContainsKey(node.EcellObject.Key))
-                    throw new PathwayException(m_resources.GetString(MessageConstants.ErrSameObj));
+                    throw new PathwayException(MessageResPathway.ErrSameObj);
                 m_processes.Add(node.EcellObject.Key, node);
             }
             else if (obj is PPathwayText)
             {
                 PPathwayText node = (PPathwayText)obj;
                 if (m_processes.ContainsKey(node.EcellObject.Key))
-                    throw new PathwayException(m_resources.GetString(MessageConstants.ErrSameObj));
+                    throw new PathwayException(MessageResPathway.ErrSameObj);
                 m_texts.Add(node.EcellObject.Key, node);
             }
             if (obj.Canvas == null)
@@ -699,7 +698,7 @@ namespace EcellLib.PathwayWindow
                 return;
             if (m_layers.ContainsKey(name))
             {
-                Util.ShowNoticeDialog(name + m_resources.GetString(MessageConstants.ErrAlrExist));
+                Util.ShowNoticeDialog(name + MessageResPathway.ErrAlrExist);
                 return;
             }
             PPathwayLayer layer = new PPathwayLayer(name);

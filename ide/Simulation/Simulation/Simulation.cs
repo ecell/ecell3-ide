@@ -117,14 +117,14 @@ namespace EcellLib.Simulation
             m_runSim.Name = "MenuItemRunSimulation";
             m_runSim.Size = new Size(96, 22);
             m_runSim.Image = (Image)resources.GetObject("media_play_green");
-            m_runSim.Text = Simulation.s_resources.GetString(MessageConstants.MenuItemRun);
+            m_runSim.Text = MessageResSimulation.MenuItemRun;
             m_runSim.Enabled = false;
             m_runSim.Click += new EventHandler(this.RunSimulation);
 
             m_suspendSim = new ToolStripMenuItem();
             m_suspendSim.Name = "MenuItemSuspendSimulation";
             m_suspendSim.Size = new Size(96, 22);
-            m_suspendSim.Text = Simulation.s_resources.GetString(MessageConstants.MenuItemSuspend);
+            m_suspendSim.Text = MessageResSimulation.MenuItemSuspend;
             m_suspendSim.Image = (Image)resources.GetObject("media_pause"); 
             m_suspendSim.Enabled = false;
             m_suspendSim.Click += new EventHandler(this.SuspendSimulation);
@@ -133,7 +133,7 @@ namespace EcellLib.Simulation
             m_stopSim.Name = "MenuItemStopSimulation";
             m_stopSim.Size = new Size(96, 22);
             m_stopSim.Image = (Image)resources.GetObject("media_stop_red");
-            m_stopSim.Text = Simulation.s_resources.GetString(MessageConstants.MenuItemStop);
+            m_stopSim.Text = MessageResSimulation.MenuItemStop;
             m_stopSim.Enabled = false;
             m_stopSim.Click += new EventHandler(this.ResetSimulation);
 
@@ -151,7 +151,7 @@ namespace EcellLib.Simulation
             m_setupSim = new ToolStripMenuItem();
             m_setupSim.Name = "MenuItemSetupSimulation";
             m_setupSim.Size = new Size(96, 22);
-            m_setupSim.Text = Simulation.s_resources.GetString(MessageConstants.MenuItemSetupSim);
+            m_setupSim.Text = MessageResSimulation.MenuItemSetupSim;
             m_setupSim.Tag = 10;
             m_setupSim.Enabled = false;
             m_setupSim.Click += new EventHandler(this.SetupSimulation);
@@ -192,7 +192,7 @@ namespace EcellLib.Simulation
             button1.Name = "RunSimulation";
             button1.Size = new System.Drawing.Size(23, 22);
             button1.Text = "";
-            button1.ToolTipText = Simulation.s_resources.GetString(MessageConstants.ToolTipRun);
+            button1.ToolTipText = MessageResSimulation.ToolTipRun;
             button1.Click += new System.EventHandler(this.RunSimulation);
             list.Add(button1);
 
@@ -203,7 +203,7 @@ namespace EcellLib.Simulation
             button3.Size = new System.Drawing.Size(23, 22);
             button3.Tag = 3;
             button3.Text = "";
-            button3.ToolTipText = Simulation.s_resources.GetString(MessageConstants.ToolTipSuspend);
+            button3.ToolTipText = MessageResSimulation.ToolTipSuspend;
             button3.Click += new System.EventHandler(this.SuspendSimulation);
             list.Add(button3);
 
@@ -214,7 +214,7 @@ namespace EcellLib.Simulation
             button2.Size = new System.Drawing.Size(23, 22);
             button2.Text = "";
             button2.Tag = 4;
-            button2.ToolTipText = Simulation.s_resources.GetString(MessageConstants.ToolTipStop);
+            button2.ToolTipText = MessageResSimulation.ToolTipStop;
             button2.Click += new System.EventHandler(this.ResetSimulation);
             list.Add(button2);
 
@@ -252,7 +252,7 @@ namespace EcellLib.Simulation
             button4.Size = new System.Drawing.Size(23, 22);
             button4.Text = "";
             button4.Tag = 9;
-            button4.ToolTipText = Simulation.s_resources.GetString(MessageConstants.ToolTipStep);
+            button4.ToolTipText = MessageResSimulation.ToolTipStep;
             button4.Click += new System.EventHandler(this.Step);
             list.Add(button4);
 
@@ -442,7 +442,7 @@ namespace EcellLib.Simulation
         {
             if (m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Running)
             {
-                if (!Util.ShowOKCancelDialog(Simulation.s_resources.GetString(MessageConstants.ConfirmSetup)))
+                if (!Util.ShowOKCancelDialog(MessageResSimulation.ConfirmSetup))
                 {
                     return;
                 }
@@ -471,7 +471,7 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrRunning);
+                String errmes = MessageResSimulation.ErrRunning;
                 Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
                 if (m_type != ProjectStatus.Uninitialized)
                     m_pManager.ChangeStatus(preType);
@@ -497,7 +497,7 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                String errmes = Simulation.s_resources.GetString(MessageConstants.ErrSuspend);
+                String errmes = MessageResSimulation.ErrSuspend;
                 Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
                 m_pManager.ChangeStatus(preType);
             }
@@ -534,7 +534,7 @@ namespace EcellLib.Simulation
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(Simulation.s_resources.GetString(MessageConstants.ErrStep));
+                Util.ShowErrorDialog(MessageResSimulation.ErrStep);
                 m_pManager.ChangeStatus(preType);                
             }
         }
@@ -561,7 +561,7 @@ namespace EcellLib.Simulation
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(Simulation.s_resources.GetString(MessageConstants.ErrReset));
+                Util.ShowErrorDialog(MessageResSimulation.ErrReset);
                 m_pManager.ChangeStatus(preType);
             }
         }

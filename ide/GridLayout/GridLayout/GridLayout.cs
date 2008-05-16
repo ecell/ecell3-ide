@@ -37,7 +37,6 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.ComponentModel;
-using GridLayout;
 using EcellLib.Layout;
 using EcellLib.Objects;
 
@@ -46,7 +45,7 @@ namespace EcellLib.GridLayout
     /// <summary>
     /// Layout algorithm to layout nodes on grid.
     /// </summary>
-    public class GridLayout : LayoutBase, ILayoutAlgorithm
+    public partial class GridLayout : LayoutBase, ILayoutAlgorithm
     {
         #region fields
         /// <summary>
@@ -170,8 +169,7 @@ namespace EcellLib.GridLayout
         /// <returns>menu name of this algorithm</returns>
         public string GetMenuText()
         {
-            ComponentResourceManager crm = new ComponentResourceManager(typeof(GridLayout));
-            return crm.GetString(MessageConstants.MenuItemGrid);
+            return GridLayout.MenuItemGrid;
         }
 
         /// <summary>
@@ -189,8 +187,7 @@ namespace EcellLib.GridLayout
         /// <returns></returns>
         public string GetToolTipText()
         {
-            ComponentResourceManager crm = new ComponentResourceManager(typeof(GridLayout));
-            return crm.GetString(MessageConstants.ToolTip);
+            return GridLayout.ToolTip;
         }
 
         /// <summary>

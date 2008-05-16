@@ -114,15 +114,16 @@ namespace EcellLib.Analysis
 
             if (m_owner.JobManager.IsError())
             {
-                String mes = Analysis.s_resources.GetString(MessageConstants.ErrFindErrorJob);
-                if (!Util.ShowYesNoDialog(mes))
+                if (!Util.ShowYesNoDialog(MessageResAnalysis.ErrFindErrorJob))
+
+
                 {
                     return;
                 }
             }
             JudgeRobustAnalysis();
-            String finMes = Analysis.s_resources.GetString(MessageConstants.FinishRAnalysis);
-            Util.ShowNoticeDialog(finMes);
+            Util.ShowNoticeDialog(MessageResAnalysis.FinishRAnalysis);
+
         }
         #endregion
 
@@ -138,20 +139,20 @@ namespace EcellLib.Analysis
             int maxSize = Convert.ToInt32(m_param.MaxData);
             if (num <= 0)
             {
-                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrSampleNumPositive);
-                Util.ShowErrorDialog(errmes);
+                Util.ShowErrorDialog(MessageResAnalysis.ErrSampleNumPositive);
+
                 return;
             }
             if (simTime <= 0.0)
             {
-                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrSimTimeUnder);
-                Util.ShowErrorDialog(errmes);
+                Util.ShowErrorDialog(MessageResAnalysis.ErrSimTimeUnder);
+
                 return;
             }
             if (maxSize > AnalysisWindow.MaxSize)
             {
-                string errmes = Analysis.s_resources.GetString(MessageConstants.ErrOverMax) + "[" + AnalysisWindow.MaxSize + "]";
-                Util.ShowErrorDialog(errmes);
+                Util.ShowErrorDialog(MessageResAnalysis.ErrOverMax + "[" + AnalysisWindow.MaxSize + "]");
+
                 return;
             }
 
@@ -163,8 +164,8 @@ namespace EcellLib.Analysis
             if (paramList == null) return;
             if (paramList.Count < 2)
             {
-                String mes = Analysis.s_resources.GetString(MessageConstants.ErrParamProp2);
-                Util.ShowErrorDialog(mes);
+                Util.ShowErrorDialog(MessageResAnalysis.ErrParamProp2);
+
                 return;
             }
             List<SaveLoggerProperty> saveList = m_owner.GetRAObservedDataList();
@@ -211,8 +212,8 @@ namespace EcellLib.Analysis
             if (pList == null) return;
             if (pList.Count < 2)
             {
-                String mes = Analysis.s_resources.GetString(MessageConstants.ErrParamProp2);
-                Util.ShowErrorDialog(mes);
+                Util.ShowErrorDialog(MessageResAnalysis.ErrParamProp2);
+
                 return;
             }
             int count = 0;

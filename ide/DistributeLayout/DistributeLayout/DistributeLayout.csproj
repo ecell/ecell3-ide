@@ -67,7 +67,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessageConstants.cs" />
     <Compile Include="DistributeLayout.cs" />
     <Compile Include="DistributeLayout.Designer.cs">
       <AutoGen>True</AutoGen>

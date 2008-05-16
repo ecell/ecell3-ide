@@ -89,7 +89,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessageConstants.cs" />
     <Compile Include="EntityList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,7 +153,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\%24this.Icon.ico" />
     <Content Include="Resources\EntityListWindow.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -93,7 +93,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Handler\PathwayResizeHandler.cs" />
-    <Compile Include="MessageConstants.cs" />
     <Compile Include="AnimationControl.cs" />
     <Compile Include="Dialog\PropertyDialogTabPage.cs">
       <SubType>Component</SubType>
@@ -118,7 +117,6 @@
     <Compile Include="Figure\Ellilpse.cs" />
     <Compile Include="Figure\FigureBase.cs" />
     <Compile Include="Figure\Rectangle.cs" />
-    <Compile Include="GridLayout.cs" />
     <Compile Include="Handler\IPathwayEventHandler.cs" />
     <Compile Include="Handler\LineHandler.cs" />
     <Compile Include="Handler\NamespaceDoc.cs" />
@@ -131,7 +129,7 @@
     <Compile Include="MenuControl.cs" />
     <Compile Include="Nodes\PPathwayText.cs" />
     <Compile Include="PathwayConstants.cs" />
-    <Compile Include="Resources\MessageResPathway.Designer.cs">
+    <Compile Include="MessageResPathway.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResPathway.resx</DependentUpon>
@@ -183,7 +181,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Handler\CreateSystemMouseHandler.cs" />
     <Compile Include="Handler\ObjectDragHandler.cs" />
-    <Compile Include="Resources\PathwayResource.Designer.cs">
+    <Compile Include="PathwayResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PathwayResource.resx</DependentUpon>
@@ -227,18 +225,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\MessageResPathway.ja.resx">
+    <EmbeddedResource Include="MessageResPathway.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\MessageResPathway.resx">
+    <EmbeddedResource Include="MessageResPathway.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResPathway.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\PathwayResource.ja.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\PathwayResource.resx">
+    <EmbeddedResource Include="PathwayResource.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PathwayResource.Designer.cs</LastGenOutput>
