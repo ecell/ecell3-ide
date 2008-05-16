@@ -36,6 +36,9 @@ namespace EcellLib.MessageListWindow
 {
     class MessageConstants
     {
+        /// <summary>
+        /// Window name of this plugin.
+        /// </summary>
         public const string MessageListWindow = "MessageListWindow";
     }
 }

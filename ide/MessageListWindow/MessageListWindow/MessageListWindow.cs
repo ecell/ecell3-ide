@@ -109,6 +109,12 @@ namespace EcellLib.MessageListWindow
         }
         #endregion
 
+        /// <summary>
+        /// get the error message with using index.
+        /// if index == -1, get the all messages.
+        /// </summary>
+        /// <param name="ind">the message index.</param>
+        /// <returns>the list of messages.</returns>
         public IEnumerable<IMessageEntry> GetMessages(int ind)
         {
             int count = m_env.MessageManager.Count;

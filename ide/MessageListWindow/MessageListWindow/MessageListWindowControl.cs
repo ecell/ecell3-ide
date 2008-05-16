@@ -53,6 +53,9 @@ namespace EcellLib.MessageListWindow
         /// </summary>
         private static ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResMessageList));
 
+        /// <summary>
+        /// get / set the parent plugin.
+        /// </summary>
         public MessageListWindow Control
         {
             get { return this.m_control; }
@@ -94,7 +97,7 @@ namespace EcellLib.MessageListWindow
         /// <summary>
         /// The event sequence to display the message.
         /// </summary>
-        /// <param name="message">the message entry object.</param>
+        /// <param name="mes">the message entry object.</param>
         public void AddMessageEntry(IMessageEntry mes)
         {
             if (m_messages.Contains(mes)) return;

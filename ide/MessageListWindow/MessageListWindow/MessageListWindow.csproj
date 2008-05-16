@@ -90,7 +90,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>MessageListWindowControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResMassageList.ja.resx">
+    <EmbeddedResource Include="MessageResMessageList.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MessageResMessageList.resx">

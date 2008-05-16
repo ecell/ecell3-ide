@@ -640,6 +640,7 @@ namespace EcellLib
                 this.m_env.PluginManager.Clear();
                 Trace.WriteLine("Close Project: " + l_message + System.Environment.NewLine);
                 m_env.ActionManager.Clear();
+                m_env.MessageManager.Clear();
             }
             catch (Exception l_ex)
             {
