@@ -73,8 +73,8 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         /// <param name="control">The control of PathwayView.</param>
         public CreateReactionMouseHandler(PathwayControl control)
+            : base(control)
         {
-            this.m_con = control;
         }
         #endregion
 

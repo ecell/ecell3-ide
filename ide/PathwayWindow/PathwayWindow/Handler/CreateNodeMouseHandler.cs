@@ -66,9 +66,8 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="control">PathwayControl instance.</param>
         /// <param name="cs">ComponentSetting</param>
         public CreateNodeMouseHandler(PathwayControl control, ComponentSetting cs)
+            : base(control)
         {
-            this.m_con = control;
-            this.m_resources = control.Resources;
             this.m_cs = cs;
             this.m_template = m_cs.CreateTemplate();
             this.m_template.Pickable = false;

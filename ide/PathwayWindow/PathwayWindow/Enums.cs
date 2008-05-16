@@ -56,7 +56,11 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// type of process
         /// </summary>
-        Process
+        Process,
+        /// <summary>
+        /// type of text
+        /// </summary>
+        Text
     };
 
     /// <summary>

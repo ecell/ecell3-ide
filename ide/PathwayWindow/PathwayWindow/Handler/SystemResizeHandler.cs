@@ -206,7 +206,7 @@ namespace EcellLib.PathwayWindow.Handler
                     continue;
                 // If duplicated object exists.
                 ResetSystemResize();
-                Util.ShowErrorDialog(m_resources.GetString(MessageConstants.ErrSameObj));
+                Util.ShowErrorDialog(m_canvas.Control.Resources.GetString(MessageConstants.ErrSameObj));
                 return;
             }
             string parentKey = m_obj.EcellObject.ParentSystemID;
@@ -221,7 +221,7 @@ namespace EcellLib.PathwayWindow.Handler
                     continue;
                 // If duplicated object exists.
                 ResetSystemResize();
-                Util.ShowErrorDialog(m_resources.GetString(MessageConstants.ErrSameObj));
+                Util.ShowErrorDialog(m_canvas.Control.Resources.GetString(MessageConstants.ErrSameObj));
                 return;
             }
 

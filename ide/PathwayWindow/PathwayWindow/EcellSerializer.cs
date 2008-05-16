@@ -245,36 +245,10 @@ namespace EcellLib.PathwayWindow {
                 string key = GetStringAttribute(node, PathwayConstants.xPathKey);
                 string type = GetStringAttribute(node, PathwayConstants.xPathType);
                 string classname = GetStringAttribute(node, PathwayConstants.xPathClass);
-                if(EcellObject.TEXT.Equals(type))
-                {
-                    SetPPathwayText(canvas, node, key);
-                }
-                else
-                {
-                    SetPPathwayObject(canvas, node, key, type);
-                }
+                SetPPathwayObject(canvas, node, key, type);
             }
         }
-        /// <summary>
-        /// Set PPathwayText
-        /// </summary>
-        /// <param name="canvas"></param>
-        /// <param name="node"></param>
-        /// <param name="key"></param>
-        private static void SetPPathwayText(CanvasControl canvas, XmlNode node, string key)
-        {
-            if (!canvas.Comments.ContainsKey(key))
-                return;
-            PPathwayText obj = canvas.Comments[key];
 
-            EcellObject eo = obj.EcellObject;
-            eo.X = GetFloatAttribute(node, PathwayConstants.xPathX);
-            eo.Y = GetFloatAttribute(node, PathwayConstants.xPathY);
-            eo.OffsetX = GetFloatAttribute(node, PathwayConstants.xPathOffsetX);
-            eo.OffsetY = GetFloatAttribute(node, PathwayConstants.xPathOffsetY);
-
-            canvas.Control.NotifyDataChanged(eo.Key, eo, false, false);
-        }
         /// <summary>
         /// Set PPathwayObject
         /// </summary>
@@ -298,36 +272,6 @@ namespace EcellLib.PathwayWindow {
             eo.Height = GetFloatAttribute(node, PathwayConstants.xPathHeight);
 
             canvas.Control.NotifyDataChanged(eo.Key, eo, false, false);
-        }
-
-        /// <summary>
-        /// SetComments
-        /// </summary>
-        /// <param name="canvas"></param>
-        /// <param name="comments"></param>
-        private static void SetComments(CanvasControl canvas, XmlNode comments)
-        {
-            if (comments == null || comments.ChildNodes.Count <= 0)
-                return;
-
-            foreach (XmlNode node in comments.ChildNodes)
-            {
-                if (!node.Name.Equals(PathwayConstants.xPathComment))
-                    continue;
-
-                PPathwayText text = new PPathwayText(canvas);
-                text.Name = GetStringAttribute(node, PathwayConstants.xPathName);
-                text.PText.Text = GetStringAttribute(node, PathwayConstants.xPathComment);
-                text.X = GetFloatAttribute(node, PathwayConstants.xPathX);
-                text.Y = GetFloatAttribute(node, PathwayConstants.xPathY);
-                text.OffsetX = GetFloatAttribute(node, PathwayConstants.xPathOffsetX);
-                text.OffsetY = GetFloatAttribute(node, PathwayConstants.xPathOffsetY);
-                text.Width = GetFloatAttribute(node, PathwayConstants.xPathWidth);
-                text.Height = GetFloatAttribute(node, PathwayConstants.xPathHeight);
-
-                canvas.AddText(text);
-            }
-
         }
 
         /// <summary>

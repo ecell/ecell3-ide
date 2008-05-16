@@ -47,8 +47,8 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         /// <param name="control"></param>
         public CreateTextMouseHandler(PathwayControl control)
+            : base(control)
         {
-            m_con = control;
         }
 
         /// <summary>

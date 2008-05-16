@@ -54,6 +54,10 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public const string NameOfDefaultVariable = "DefaultVariable";
         /// <summary>
+        /// The default name of text.
+        /// </summary>
+        public const string NameOfDefaultText = "DefaultText";
+        /// <summary>
         /// Class name of PPathwaySystem.
         /// </summary>
         public const string ClassPPathwaySystem = "PPathwaySystem";
@@ -65,6 +69,10 @@ namespace EcellLib.PathwayWindow
         /// Class name of PPathwayVariable.
         /// </summary>
         public const string ClassPPathwayVariable = "PPathwayVariable";
+        /// <summary>
+        /// Class name of PPathwayText.
+        /// </summary>
+        public const string ClassPPathwayText = "PPathwayText";
         #endregion
 
         #region Window Constants

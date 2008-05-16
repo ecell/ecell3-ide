@@ -56,11 +56,6 @@ namespace EcellLib.PathwayWindow.Handler
         protected CanvasControl m_canvas = null;
 
         /// <summary>
-        /// ResourceManager for PathwayWindow.
-        /// </summary>
-        protected ComponentResourceManager m_resources;
-
-        /// <summary>
         /// m_resideHandles contains a list of ResizeHandle for resizing a system.
         /// </summary>
         protected List<ResizeHandle> m_resizeHandles = new List<ResizeHandle>();
@@ -86,7 +81,6 @@ namespace EcellLib.PathwayWindow.Handler
         {
             this.m_obj = obj;
             this.m_canvas = obj.Canvas;
-            this.m_resources = m_canvas.Control.Resources;
 
             for (int i = 0; i < 8; i++)
             {
@@ -352,6 +346,7 @@ namespace EcellLib.PathwayWindow.Handler
                 get { return m_cursor; }
                 set { m_cursor = value; }
             }
+
             /// <summary>
             /// Constructor
             /// </summary>

@@ -299,7 +299,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void Refresh()
         {
             RefreshEdges();
-            RefreshText();
+            base.Refresh();
         }
 
         /// <summary>

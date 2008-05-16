@@ -437,17 +437,7 @@ namespace EcellLib.PathwayWindow
                 this.CreateCanvas(eo.ModelID);
                 return;
             }
-            // create new canvas
-            if (eo.Type.Equals(EcellObject.TEXT))
-            {
-                PPathwayText text = new PPathwayText(m_canvas);
-                text.EcellObject = eo;
-                text.PText.Text = ((EcellText)eo).Comment;
-                text.X = eo.X;
-                text.Y = eo.Y;
-                m_canvas.AddText(text);
-                return;
-            }
+
             // Error check.
             if (string.IsNullOrEmpty(eo.Key))
                 throw new PathwayException(m_resources.GetString(MessageConstants.ErrKeyNot));
@@ -479,13 +469,6 @@ namespace EcellLib.PathwayWindow
             // If case SystemSize
             if (oldKey.EndsWith(":SIZE"))
                 return;
-            // Set Text
-            if(eo is EcellText)
-            {
-                PPathwayText text = m_canvas.Comments[oldKey];
-                text.EcellObject = eo;
-                return;
-            }
             // Select changed object.
             PPathwayObject obj = m_canvas.GetSelectedObject(oldKey, type);
             if (obj == null)
@@ -494,11 +477,6 @@ namespace EcellLib.PathwayWindow
             // Change data.
             obj.ViewMode = false;
             obj.EcellObject = eo;
-            if (obj is PPathwaySystem)
-            {
-                obj.Width = eo.Width;
-                obj.Height = eo.Height;
-            }
             obj.ViewMode = m_isViewMode;
             obj.Refresh();
             m_canvas.DataChanged(oldKey, eo.Key, obj);
@@ -1050,7 +1028,7 @@ namespace EcellLib.PathwayWindow
         private List<EcellObject> GetCommentList()
         {
             List<EcellObject> nodeList = new List<EcellObject>();
-            foreach (PPathwayText obj in m_canvas.Comments.Values)
+            foreach (PPathwayText obj in m_canvas.Texts.Values)
                 nodeList.Add(obj.EcellObject);
             return nodeList;
         }

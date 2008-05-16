@@ -685,13 +685,13 @@ namespace EcellLib.PathwayWindow
             m_popMenuDict[MenuConstants.CanvasMenuChangeLayer].Visible = isPPathwayObject && !isRoot;
             m_popMenuDict[MenuConstants.CanvasMenuMoveFront].Visible = isPPathwayObject && !isRoot;
             m_popMenuDict[MenuConstants.CanvasMenuMoveBack].Visible = isPPathwayObject && !isRoot;
-            m_popMenuDict[MenuConstants.CanvasMenuSeparator5].Visible = isPPathwayObject && !isRoot;
+            m_popMenuDict[MenuConstants.CanvasMenuSeparator5].Visible = isPPathwayObject && !isRoot && !isPPathwayText;
             // Show Layout menus.
             m_popMenuDict[MenuConstants.CanvasMenuLayout].Visible = isLayoutMenu && !(isLine || isPPathwayText);
-            m_popMenuDict[MenuConstants.CanvasMenuSeparator2].Visible = isLayoutMenu && (isPPathwayObject);
+            m_popMenuDict[MenuConstants.CanvasMenuSeparator2].Visible = isLayoutMenu && !(isLine || isPPathwayText);
             // Show Logger menu.
-            m_popMenuDict[MenuConstants.CanvasMenuCreateLogger].Visible = isPPathwayObject;
-            m_popMenuDict[MenuConstants.CanvasMenuDeleteLogger].Visible = isPPathwayObject;
+            m_popMenuDict[MenuConstants.CanvasMenuCreateLogger].Visible = isPPathwayObject && !isPPathwayText;
+            m_popMenuDict[MenuConstants.CanvasMenuDeleteLogger].Visible = isPPathwayObject && !isPPathwayText;
         }
 
         /// <summary>

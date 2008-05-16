@@ -59,7 +59,7 @@ namespace EcellLib.PathwayWindow
     {
         #region Fields
         /// <summary>
-        /// Dictionary of ComponentSettings for creating PPathwaySystems.
+        /// Dictionary of ComponentSettings for creating PPathwaySystem.
         /// </summary>
         protected Dictionary<string, ComponentSetting> m_systemSettings;
         
@@ -72,6 +72,11 @@ namespace EcellLib.PathwayWindow
         /// Dictionary of ComponentSetting for creating PPathwayVariable.
         /// </summary>
         protected Dictionary<string, ComponentSetting> m_variableSettings;
+
+        /// <summary>
+        /// Dictionary of ComponentSettings for creating PPathwayText.
+        /// </summary>
+        protected Dictionary<string, ComponentSetting> m_textSettings;
 
         /// <summary>
         /// The name of default ComponentSetting for System.
@@ -87,6 +92,11 @@ namespace EcellLib.PathwayWindow
         /// The name of default ComponentSetting for Variable.
         /// </summary>
         protected string m_defaultVariableName;
+
+        /// <summary>
+        /// The name of default ComponentSetting for Text.
+        /// </summary>
+        protected string m_defaultTextName;
 
         /// <summary>
         /// ResourceManager for PathwayWindow.
@@ -118,6 +128,14 @@ namespace EcellLib.PathwayWindow
         public Dictionary<string, ComponentSetting> VariableSettings
         {
             get { return this.m_variableSettings; }
+        }
+
+        /// <summary>
+        /// Accessor for m_textSettings.
+        /// </summary>
+        public Dictionary<string, ComponentSetting> TextSettings
+        {
+            get { return this.m_textSettings; }
         }
 
         /// <summary>
@@ -166,6 +184,21 @@ namespace EcellLib.PathwayWindow
         }
 
         /// <summary>
+        /// Accessor for default ComponentSetting for Variable.
+        /// If it doesn't exist, null will be returned.
+        /// </summary>
+        public ComponentSetting DefaultTextSetting
+        {
+            get
+            {
+                if (m_defaultTextName != null && m_textSettings.ContainsKey(m_defaultTextName))
+                    return m_textSettings[m_defaultTextName];
+                else
+                    return null;
+            }
+        }
+
+        /// <summary>
         /// Accessor for ComponentSettings.
         /// </summary>
         public List<ComponentSetting> ComponentSettings
@@ -176,6 +209,7 @@ namespace EcellLib.PathwayWindow
                 list.Add(DefaultSystemSetting);
                 list.Add(DefaultVariableSetting);
                 list.Add(DefaultProcessSetting);
+                list.Add(DefaultTextSetting);
                 return list;
             }
         }
@@ -190,6 +224,7 @@ namespace EcellLib.PathwayWindow
             m_systemSettings = new Dictionary<string, ComponentSetting>();
             m_processSettings = new Dictionary<string, ComponentSetting>();
             m_variableSettings = new Dictionary<string, ComponentSetting>();
+            m_textSettings = new Dictionary<string, ComponentSetting>();
             SetComponentSettings();
         }
         #endregion
@@ -307,6 +342,10 @@ namespace EcellLib.PathwayWindow
             {
                 return ComponentType.Process;
             }
+            else if (type.Equals(EcellObject.TEXT))
+            {
+                return ComponentType.Text;
+            }
             else
             {
                 throw new NoSuchComponentKindException("Component kind \"" + type + "\" doesn't" +
@@ -332,6 +371,10 @@ namespace EcellLib.PathwayWindow
             {
                 return EcellObject.PROCESS;
             }
+            else if (cType == ComponentType.Text)
+            {
+                return EcellObject.TEXT;
+            }
             else
             {
                 return null;
@@ -356,6 +399,10 @@ namespace EcellLib.PathwayWindow
             else if (cType == ComponentType.Process)
             {
                 return DefaultProcessSetting;
+            }
+            else if (cType == ComponentType.Text)
+            {
+                return DefaultTextSetting;
             }
             else
             {
@@ -447,6 +494,20 @@ namespace EcellLib.PathwayWindow
             defProCs.FillBrush = Brushes.LimeGreen;
             defProCs.IsGradation = true;
             RegisterSetting(defProCs);
+
+            // Set hard coded default process ComponentSettings
+            ComponentSetting defTextCs = new ComponentSetting();
+            defTextCs.ComponentType = ComponentType.Text;
+            defTextCs.Name = PathwayConstants.NameOfDefaultText;
+            defTextCs.Class = PathwayConstants.ClassPPathwayText;
+            defTextCs.IsDefault = true;
+            defTextCs.Figure = FigureManager.CreateFigure("Rectangle", "0,0,100,40");
+            defTextCs.TextBrush = Brushes.Black;
+            defTextCs.LineBrush = Brushes.Black;
+            defTextCs.CenterBrush = Brushes.White;
+            defTextCs.FillBrush = Brushes.White;
+            defTextCs.IsGradation = false;
+            RegisterSetting(defTextCs);
         }
 
         /// <summary>
@@ -497,13 +558,16 @@ namespace EcellLib.PathwayWindow
             switch (cType)
             {
                 case ComponentType.System:
-                    dic = SystemSettings;
+                    dic = m_systemSettings;
                     break;
                 case ComponentType.Process:
-                    dic = ProcessSettings;
+                    dic = m_processSettings;
                     break;
                 case ComponentType.Variable:
-                    dic = VariableSettings;
+                    dic = m_variableSettings;
+                    break;
+                case ComponentType.Text:
+                    dic = m_textSettings;
                     break;
             }
             return dic;
@@ -640,6 +704,9 @@ namespace EcellLib.PathwayWindow
                     break;
                 case ComponentType.Variable:
                     m_defaultVariableName = setting.Name;
+                    break;
+                case ComponentType.Text:
+                    m_defaultTextName = setting.Name;
                     break;
             }
         }

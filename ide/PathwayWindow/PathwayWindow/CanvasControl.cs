@@ -137,7 +137,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// The dictionary for all comments
         /// </summary>
-        protected SortedDictionary<string, PPathwayText> m_comments = new SortedDictionary<string, PPathwayText>();
+        protected SortedDictionary<string, PPathwayText> m_texts = new SortedDictionary<string, PPathwayText>();
 
         /// <summary>
         /// DataTable for DataGridView displayed layer list.
@@ -321,10 +321,10 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_comments.
         /// </summary>
-        public SortedDictionary<string, PPathwayText> Comments
+        public SortedDictionary<string, PPathwayText> Texts
         {
-            get { return m_comments; }
-            set { m_comments = value; }
+            get { return m_texts; }
+            set { m_texts = value; }
         }
 
         /// <summary>
@@ -665,6 +665,13 @@ namespace EcellLib.PathwayWindow
                     throw new PathwayException(m_resources.GetString(MessageConstants.ErrSameObj));
                 m_processes.Add(node.EcellObject.Key, node);
             }
+            else if (obj is PPathwayText)
+            {
+                PPathwayText node = (PPathwayText)obj;
+                if (m_processes.ContainsKey(node.EcellObject.Key))
+                    throw new PathwayException(m_resources.GetString(MessageConstants.ErrSameObj));
+                m_texts.Add(node.EcellObject.Key, node);
+            }
             if (obj.Canvas == null)
                 obj.Canvas = this;
         }
@@ -676,18 +683,7 @@ namespace EcellLib.PathwayWindow
         public void AddText(PPathwayText text)
         {
             m_ctrlLayer.AddChild(text);
-            m_comments.Add(text.EcellObject.Key, text);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="text"></param>
-        public void RemoveText(PPathwayText text)
-        {
-            if (!m_ctrlLayer.ChildrenReference.Contains(text))
-                return;
-            m_ctrlLayer.RemoveChild(text);
-            m_comments.Remove(text.EcellObject.Key);
+            m_texts.Add(text.EcellObject.Key, text);
         }
         #endregion
 
@@ -1057,6 +1053,8 @@ namespace EcellLib.PathwayWindow
                 return m_processes[key];
             if (type.Equals(EcellObject.VARIABLE) && m_variables.ContainsKey(key))
                 return m_variables[key];
+            if (type.Equals(EcellObject.TEXT) && m_texts.ContainsKey(key))
+                return m_texts[key];
             return null;
         }
         /// <summary>
@@ -1199,13 +1197,6 @@ namespace EcellLib.PathwayWindow
         /// <param name="type">the type of deleted object.</param>
         public void DataDelete(string key, string type)
         {
-            if (type.Equals(EcellObject.TEXT))
-            {
-                PPathwayText text = m_comments[key];
-                RemoveText(text);
-                return;
-            }
-
             PPathwayObject obj = GetSelectedObject(key, type);
             if (obj == null)
                 return;
@@ -1227,6 +1218,11 @@ namespace EcellLib.PathwayWindow
                 ((PPathwayVariable)obj).NotifyRemoveToRelatedProcess();
                 m_variables.Remove(key);
             }
+            else if (obj is PPathwayText)
+            {
+                m_texts.Remove(key);
+            }
+
             RemoveObject(obj);
         }
         /// <summary>
@@ -1266,7 +1262,7 @@ namespace EcellLib.PathwayWindow
                 ResetSelectedObjects();
                 AddSelectedSystem((PPathwaySystem)obj);
             }
-            if (type.Equals(EcellObject.PROCESS) || type.Equals(EcellObject.VARIABLE))
+            if (type.Equals(EcellObject.PROCESS) || type.Equals(EcellObject.VARIABLE) || type.Equals(EcellObject.TEXT))
             {
                 ResetSelectedLine();
                 ResetSelectedSystem();
@@ -1289,7 +1285,7 @@ namespace EcellLib.PathwayWindow
             {
                 ResetSelectedObjects();
             }
-            if (type.Equals(EcellObject.PROCESS) || type.Equals(EcellObject.VARIABLE))
+            if (type.Equals(EcellObject.PROCESS) || type.Equals(EcellObject.VARIABLE) || type.Equals(EcellObject.TEXT))
             {
                 if (m_selectedNodes.Contains(obj))
                     m_selectedNodes.Remove(obj);
@@ -1319,7 +1315,9 @@ namespace EcellLib.PathwayWindow
                     centerBounds = obj.FullBounds;
                     AddSelectedSystem((PPathwaySystem)obj);
                     break;
-                case EcellObject.VARIABLE: case EcellObject.PROCESS:
+                case EcellObject.VARIABLE:
+                case EcellObject.PROCESS:
+                case EcellObject.TEXT:
                     centerBounds = PathUtil.GetFocusBound(obj.FullBounds, LEAST_FOCUS_SIZE);
                     AddSelectedNode(obj);
                     break;

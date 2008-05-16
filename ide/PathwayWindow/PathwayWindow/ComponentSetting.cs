@@ -364,6 +364,10 @@ namespace EcellLib.PathwayWindow
             {
                 obj = new PPathwaySystem();
             }
+            else if (className.Equals(PathwayConstants.ClassPPathwayText))
+            {
+                obj = new PPathwayText();
+            }
             else
             {
                 throw new NoSuchComponentClassException();
@@ -380,11 +384,6 @@ namespace EcellLib.PathwayWindow
         {
             PPathwayObject obj = CreateTemplate();
             obj.EcellObject = eo;
-            if (obj is PPathwaySystem)
-            {
-                obj.Width = eo.Width;
-                obj.Height = eo.Height;
-            }
             return obj;
         }
 
@@ -397,17 +396,6 @@ namespace EcellLib.PathwayWindow
             PPathwayObject obj = m_createMethod();
             obj.AddPath(m_figure.GraphicsPath, false);
             obj.Setting = this;
-            if (m_componentType == ComponentType.System)
-            {
-                obj.Width = PPathwaySystem.MIN_X_LENGTH;
-                obj.Height = PPathwaySystem.MIN_Y_LENGTH;
-            }
-            else
-            {
-                obj.Width = PPathwayNode.DEFAULT_WIDTH;
-                obj.Height = PPathwayNode.DEFAULT_HEIGHT;
-            }
-            obj.RefreshView();
             return obj;
         }
 

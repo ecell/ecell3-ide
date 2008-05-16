@@ -36,6 +36,7 @@ using UMD.HCIL.Piccolo.Event;
 using System.Drawing;
 using EcellLib.Objects;
 using EcellLib.PathwayWindow.Handler;
+using UMD.HCIL.Piccolo;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -69,10 +70,10 @@ namespace EcellLib.PathwayWindow.Nodes
             get { return m_ecellObj; }
             set
             {
-                this.m_pText.Text = ((EcellText)value).Comment;
                 this.m_name = value.Name;
-                this.Width = value.Width;
-                this.Height = value.Height;
+                base.m_pText.Text = ((EcellText)value).Comment;
+                base.Width = m_pText.Width;
+                base.Height = m_pText.Height;
                 base.EcellObject = value;
                 RefreshView();
             }
@@ -83,15 +84,13 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Constructor
         /// </summary>
-        public PPathwayText(CanvasControl canvas)
+        public PPathwayText()
         {
-            base.m_pText.Text = "Text000\n";
-            base.m_pText.ConstrainWidthToTextWidth = false;
+            base.m_pText.Text = "Text";
+            //base.m_pText.ConstrainWidthToTextWidth = false;
             base.LineBrush = Brushes.Black;
             base.FillBrush = Brushes.White;
-            base.AddInputEventListener(new NodeDragHandler(canvas));
             this.m_name = "Text";
-            this.m_canvas = canvas;
             this.m_tbox.LostFocus += new EventHandler(m_tbox_LostFocus);
             this.m_tbox.KeyPress += new KeyPressEventHandler(m_tbox_KeyPress);
             this.m_tbox.Multiline = true;
@@ -109,6 +108,8 @@ namespace EcellLib.PathwayWindow.Nodes
                 this.m_pText.Text = ((EcellText)m_ecellObj).Comment;
             this.m_pText.X = base.X;
             this.m_pText.Y = base.Y;
+            //this.m_pText.Width = base.Width;
+            //this.m_pText.Height = base.Height;
             this.m_pText.MoveToFront();
         }
 
@@ -118,7 +119,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <returns></returns>
         public override PPathwayObject CreateNewObject()
         {
-            return new PPathwayText(m_canvas);
+            return new PPathwayText();
         }
 
         /// <summary>
@@ -136,6 +137,19 @@ namespace EcellLib.PathwayWindow.Nodes
             m_tbox.Width = (int)(base.Width * viewScale + 5);
             m_tbox.Height = (int)(base.Height * viewScale + 5);
             m_tbox.Focus();
+        }
+
+        /// <summary>
+        /// the event sequence of selecting the PNode of process or variable in PathwayEditor.
+        /// </summary>
+        /// <param name="e">PInputEventArgs.</param>
+        public override void OnMouseDown(PInputEventArgs e)
+        {
+            if (e.Modifiers == Keys.Shift || m_isSelected)
+                m_canvas.NotifyAddSelect(this, true);
+            else
+                m_canvas.NotifySelectChanged(this);
+            base.OnMouseDown(e);
         }
 
         private void m_tbox_LostFocus(object sender, EventArgs e)
@@ -159,6 +173,8 @@ namespace EcellLib.PathwayWindow.Nodes
             else if (!m_tbox.Text.Equals(((EcellText)m_ecellObj).Comment))
             {
                 ((EcellText)m_ecellObj).Comment = m_tbox.Text;
+                base.Width = m_pText.Width;
+                base.Height = m_pText.Height;
                 NotifyDataChanged();
             }
         }

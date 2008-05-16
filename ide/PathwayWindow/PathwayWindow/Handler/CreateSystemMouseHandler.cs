@@ -109,9 +109,8 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         /// <param name="control">PathwayControl instance</param>
         public CreateSystemMouseHandler(PathwayControl control)
+            : base(control)
         {
-            base.m_con = control;
-            base.m_resources = control.Resources;
         }
 
         /// <summary>
