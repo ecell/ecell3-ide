@@ -7,7 +7,7 @@
     <ProjectGuid>{517EBCF9-A5DA-4BF0-B4BF-1C4A7BB899CE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlignLayout</RootNamespace>
+    <RootNamespace>EcellLib.AlignLayout</RootNamespace>
     <AssemblyName>AlignLayout</AssemblyName>
     <SccProjectName>
     </SccProjectName>
@@ -68,23 +68,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlignLayout.cs" />
-    <Compile Include="AlignLayout.Designer.cs">
-      <DependentUpon>AlignLayout.resx</DependentUpon>
+    <Compile Include="MessageResAlignLayout.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>MessageResAlignLayout.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AlignLayout.ja.resx">
-      <DependentUpon>AlignLayout.cs</DependentUpon>
+    <EmbeddedResource Include="MessageResAlignLayout.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="AlignLayout.resx">
-      <DependentUpon>AlignLayout.cs</DependentUpon>
+    <EmbeddedResource Include="MessageResAlignLayout.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>AlignLayout.Designer.cs</LastGenOutput>
+      <LastGenOutput>MessageResAlignLayout.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

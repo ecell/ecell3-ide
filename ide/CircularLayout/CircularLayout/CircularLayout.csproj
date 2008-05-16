@@ -7,7 +7,7 @@
     <ProjectGuid>{BF10EC05-D4CC-47C7-A4C1-94465ACDDAE2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CircularLayout</RootNamespace>
+    <RootNamespace>EcellLib.CircularLayout</RootNamespace>
     <AssemblyName>CircularLayout</AssemblyName>
     <SccProjectName>
     </SccProjectName>
@@ -69,23 +69,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CircularLayout.cs" />
-    <Compile Include="CircularLayout.Designer.cs">
+    <Compile Include="MessageResCircularLayout.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CircularLayout.resx</DependentUpon>
+      <DependentUpon>MessageResCircularLayout.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CircularLayout.ja.resx">
+    <EmbeddedResource Include="MessageResCircularLayout.ja.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>CircularLayout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CircularLayout.resx">
+    <EmbeddedResource Include="MessageResCircularLayout.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>CircularLayout.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>CircularLayout.Designer.cs</LastGenOutput>
+      <LastGenOutput>MessageResCircularLayout.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -7,7 +7,7 @@
     <ProjectGuid>{E1014A1A-00B5-4C97-832E-86EE773F0403}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DistributeLayout</RootNamespace>
+    <RootNamespace>EcellLib.DistributeLayout</RootNamespace>
     <AssemblyName>DistributeLayout</AssemblyName>
     <SccProjectName>
     </SccProjectName>
@@ -68,23 +68,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DistributeLayout.cs" />
-    <Compile Include="DistributeLayout.Designer.cs">
+    <Compile Include="MessageResDistributeLayout.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DistributeLayout.resx</DependentUpon>
+      <DependentUpon>MessageResDistributeLayout.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DistributeLayout.ja.resx">
+    <EmbeddedResource Include="MessageResDistributeLayout.ja.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>DistributeLayout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DistributeLayout.resx">
+    <EmbeddedResource Include="MessageResDistributeLayout.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>DistributeLayout.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DistributeLayout.Designer.cs</LastGenOutput>
+      <LastGenOutput>MessageResDistributeLayout.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

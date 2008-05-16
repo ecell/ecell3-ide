@@ -203,7 +203,6 @@ namespace EcellLib.MainWindow
         /// </summary>
         void LoadPlugins()
         {
-            m_env.PluginManager.AddPlugin(this);
             m_env.PluginManager.AppVersion = Assembly.GetExecutingAssembly().GetName().Version;
             m_env.PluginManager.CopyRight = global::EcellLib.MainWindow.Properties.Resources.CopyrightNotice;
 

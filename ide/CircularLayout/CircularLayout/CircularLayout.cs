@@ -41,8 +41,12 @@ namespace EcellLib.CircularLayout
     /// <summary>
     /// Layout algorithm to layout nodes on a circle
     /// </summary>
-    public partial class CircularLayout : LayoutBase, ILayoutAlgorithm
+    public class CircularLayout : LayoutBase, ILayoutAlgorithm
     {
+        public CircularLayout()
+        {
+        }
+
         /// <summary>
         /// Execute layout
         /// </summary>
@@ -522,13 +526,13 @@ namespace EcellLib.CircularLayout
         {
             if (num < 3)
             {
-                Util.ShowErrorDialog(CircularLayout.MsgLessNode);
+                Util.ShowErrorDialog(MessageResCircularLayout.MsgLessNode);
                 return false;
             }
 
             if (rect.Width == 0 || rect.Height == 0)
             {
-                Util.ShowErrorDialog(CircularLayout.MsgSelectRect);
+                Util.ShowErrorDialog(MessageResCircularLayout.MsgSelectRect);
                 return false;
             }
 
@@ -551,7 +555,7 @@ namespace EcellLib.CircularLayout
         /// <returns>menu name of this algorithm</returns>
         public string GetMenuText()
         {
-            return CircularLayout.MenuItemCircular;
+            return MessageResCircularLayout.MenuItemCircular;
         }
 
         /// <summary>
@@ -569,7 +573,7 @@ namespace EcellLib.CircularLayout
         /// <returns>tooltip</returns>
         public string GetToolTipText()
         {
-            return CircularLayout.ToolTip;
+            return MessageResCircularLayout.ToolTip;
         }
 
         /// <summary>

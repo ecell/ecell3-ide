@@ -41,6 +41,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -84,21 +85,17 @@ namespace EcellLib.PathwayWindow
         }
         #endregion
 
-        public PathwayWindow()
-        {
-            m_con = new PathwayControl(this);
-        }
-
         #region Initializer
         /// <summary>
         /// Initializes the plugin
         /// </summary>
         public override void Initialize()
         {
+            m_con = new PathwayControl(this);
             foreach (ILayoutAlgorithm algo in m_pManager.GetLayoutPlugins())
             {
                 // FIXME: ...
-                if (algo.GetName() == "GridLayout")
+                if (algo.GetName() == "Grid")
                 {
                     m_defaultLayoutAlgorithm = algo;
                 }

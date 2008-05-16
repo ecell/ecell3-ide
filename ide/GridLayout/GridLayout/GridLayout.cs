@@ -45,7 +45,7 @@ namespace EcellLib.GridLayout
     /// <summary>
     /// Layout algorithm to layout nodes on grid.
     /// </summary>
-    public partial class GridLayout : LayoutBase, ILayoutAlgorithm
+    public class GridLayout : LayoutBase, ILayoutAlgorithm
     {
         #region fields
         /// <summary>
@@ -94,6 +94,10 @@ namespace EcellLib.GridLayout
         /// </summary>
         private static float m_defMargin = 30;
         #endregion
+
+        public GridLayout()
+        {
+        }
 
         #region inherited from ILayoutAlgorithm
         /// <summary>
@@ -169,7 +173,7 @@ namespace EcellLib.GridLayout
         /// <returns>menu name of this algorithm</returns>
         public string GetMenuText()
         {
-            return GridLayout.MenuItemGrid;
+            return MessageResGridLayout.MenuItemGrid;
         }
 
         /// <summary>
@@ -187,7 +191,7 @@ namespace EcellLib.GridLayout
         /// <returns></returns>
         public string GetToolTipText()
         {
-            return GridLayout.ToolTip;
+            return MessageResGridLayout.ToolTip;
         }
 
         /// <summary>

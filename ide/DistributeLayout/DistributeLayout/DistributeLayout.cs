@@ -44,6 +44,10 @@ namespace EcellLib.DistributeLayout
     {
         enum Direction { Horizontally, Vertically }
 
+        public DistributeLayout()
+        {
+        }
+
         /// <summary>
         /// Execute layout
         /// </summary>
@@ -144,7 +148,7 @@ namespace EcellLib.DistributeLayout
         /// <returns></returns>
         public string GetMenuText()
         {
-            return DistributeLayout.MenuItemDistribute;
+            return MessageResDistributeLayout.MenuItemDistribute;
         }
 
         /// <summary>
@@ -162,7 +166,7 @@ namespace EcellLib.DistributeLayout
         /// <returns>a tooltip of this layout</returns>
         public string GetToolTipText()
         {
-            return DistributeLayout.ToolTip;
+            return MessageResDistributeLayout.ToolTip;
         }
 
         /// <summary>
@@ -172,8 +176,8 @@ namespace EcellLib.DistributeLayout
         public List<string> GetSubCommands()
         {
             List<string> subCommands = new List<string>();
-            subCommands.Add(DistributeLayout.MenuItemSubHorizontally);
-            subCommands.Add(DistributeLayout.MenuItemSubVertically);
+            subCommands.Add(MessageResDistributeLayout.MenuItemSubHorizontally);
+            subCommands.Add(MessageResDistributeLayout.MenuItemSubVertically);
 
             return subCommands;
         }

@@ -7,7 +7,7 @@
     <ProjectGuid>{4FFE2BEB-049B-46E4-88C9-50F6BCA79CC0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GridLayout</RootNamespace>
+    <RootNamespace>EcellLib.GridLayout</RootNamespace>
     <AssemblyName>GridLayout</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>
@@ -71,10 +71,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GridLayout.Designer.cs">
+    <Compile Include="MessageResGridLayout.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GridLayout.resx</DependentUpon>
+      <DependentUpon>MessageResGridLayout.resx</DependentUpon>
     </Compile>
     <Compile Include="ProgressDialog.cs">
       <SubType>Form</SubType>
@@ -86,15 +86,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GridLayout.ja.resx">
+    <EmbeddedResource Include="MessageResGridLayout.ja.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>GridLayout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GridLayout.resx">
+    <EmbeddedResource Include="MessageResGridLayout.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>GridLayout.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>GridLayout.Designer.cs</LastGenOutput>
+      <LastGenOutput>MessageResGridLayout.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ProgressDialog.resx">
       <SubType>Designer</SubType>

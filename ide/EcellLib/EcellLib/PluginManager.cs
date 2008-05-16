@@ -450,8 +450,19 @@ namespace EcellLib
         /// <param name="p">plugin</param>
         public void AddPlugin(IEcellPlugin p)
         {
+            if (p is IDockOwner)
+            {
+                if (m_dockOwner != null)
+                {
+                    throw new Exception("Dock owner is already set");
+                }
+                m_dockOwner = (IDockOwner)p;
+            }
+
             if (!m_pluginList.ContainsKey(p.GetPluginName()))
             {
+                p.Environment = m_env;
+                p.Initialize();
                 m_pluginList.Add(p.GetPluginName(), p);
             }
         }
@@ -644,15 +655,6 @@ namespace EcellLib
             {
                 throw e.InnerException;
             }
-
-            if (typeof(IDockOwner).IsAssignableFrom(pluginType))
-            {
-                m_dockOwner = (IDockOwner)p;
-            }
-
-            p.Environment = m_env;
-
-            p.Initialize();
 
             AddPlugin(p);
 

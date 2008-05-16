@@ -40,7 +40,7 @@ namespace EcellLib.AlignLayout
     /// <summary>
     /// Layout algorithm to align nodes
     /// </summary>
-    public partial class AlignLayout : LayoutBase, ILayoutAlgorithm
+    public class AlignLayout : LayoutBase, ILayoutAlgorithm
     {
         enum Alignment {
             /// <summary>
@@ -59,6 +59,10 @@ namespace EcellLib.AlignLayout
             /// Align horizontally at lower side.
             /// </summary>
             Lower
+        }
+
+        public AlignLayout()
+        {
         }
 
         /// <summary>
@@ -120,7 +124,7 @@ namespace EcellLib.AlignLayout
         /// <returns>menu name of this algorithm</returns>
         public string GetMenuText()
         {
-            return AlignLayout.MenuItemAlign;
+            return MessageResAlignLayout.MenuItemAlign;
         }
 
         /// <summary>
@@ -138,7 +142,7 @@ namespace EcellLib.AlignLayout
         /// <returns>tooltip</returns>
         public string GetToolTipText()
         {
-            return AlignLayout.ToolTip;
+            return MessageResAlignLayout.ToolTip;
         }
 
         /// <summary>
@@ -148,10 +152,10 @@ namespace EcellLib.AlignLayout
         public List<string> GetSubCommands()
         {
             List<string> subCommands = new List<string>();
-            subCommands.Add(AlignLayout.MenuItemSubLeft);
-            subCommands.Add(AlignLayout.MenuItemSubRight);
-            subCommands.Add(AlignLayout.MenuItemSubUpper);
-            subCommands.Add(AlignLayout.MenuItemSubLower);
+            subCommands.Add(MessageResAlignLayout.MenuItemSubLeft);
+            subCommands.Add(MessageResAlignLayout.MenuItemSubRight);
+            subCommands.Add(MessageResAlignLayout.MenuItemSubUpper);
+            subCommands.Add(MessageResAlignLayout.MenuItemSubLower);
 
             return subCommands;
         }
