@@ -229,6 +229,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.Name = "LayerView";
             this.TabText = this.Name;
             this.Text = this.Name;
+            this.Icon = PathwayResource.Icon_LayerView;
             this.groupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).EndInit();
             this.ResumeLayout(false);

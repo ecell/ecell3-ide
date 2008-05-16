@@ -35,6 +35,7 @@ using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using System.Windows.Forms;
+using EcellLib.PathwayWindow.Resources;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -101,6 +102,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.Controls.Add(this.groupBox);
             this.Name = "OverView";
             this.TabText = "OverView";
+            this.Icon = PathwayResource.Icon_OverView;
             this.Text = this.Name;
             this.groupBox.ResumeLayout(false);
             this.ResumeLayout(false);

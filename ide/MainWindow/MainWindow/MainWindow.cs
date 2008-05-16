@@ -182,6 +182,7 @@ namespace EcellLib.MainWindow
         public void Initialize()
         {
             InitializeComponent();
+            dockPanel.ShowDocumentIcon = true;
             // Load plugins
             LoadPlugins();
             //Load default window settings.
@@ -689,7 +690,7 @@ namespace EcellLib.MainWindow
         {
             Trace.WriteLine("Create dock: " + content.Text);
             //Create New DockContent
-            content.Tag = content.Text;
+            content.Tag = content.Name;
             content.Pane = null;
             content.PanelPane = null;
             content.FloatPane = null;
@@ -715,22 +716,22 @@ namespace EcellLib.MainWindow
                         typeof(System.Drawing.Image)),
                 new System.EventHandler(DockWindowMenuClick),
                 content.Name);
+            item.Tag = content.Name;
             item.Checked = true;
             item.Tag = content.Name;
             this.showWindowToolStripMenuItem.DropDown.Items.Add(item);
             m_dockMenuDic.Add(content.Name, item);
         }
+
         /// <summary>
         /// Get specified DockContent
         /// </summary>
         public DockContent GetDockContent(string name)
         {
-            if( m_dockWindowDic.ContainsKey(name))
-                return m_dockWindowDic[name];
-            else
-                return null;
+            EcellDockContent retval = null;
+            m_dockWindowDic.TryGetValue(name, out retval);
+            return retval;
         }
-
 
         private void DockContent_Closing(object sender, FormClosingEventArgs e)
         {

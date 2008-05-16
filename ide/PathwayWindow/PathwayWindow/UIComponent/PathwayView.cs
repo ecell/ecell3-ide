@@ -36,6 +36,7 @@ using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.PiccoloX.Components;
+using EcellLib.PathwayWindow.Resources;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -111,10 +112,12 @@ namespace EcellLib.PathwayWindow.UIComponent
             // PathwayView
             // 
             this.ClientSize = new System.Drawing.Size(622, 491);
+            this.Icon = PathwayResource.Icon_PathwayView;
             this.Name = "PathwayView";
             this.TabText = this.Name;
             this.Text = this.Name;
             this.ResumeLayout(false);
+
         }
 
         /// <summary>

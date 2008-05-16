@@ -591,23 +591,29 @@ namespace EcellLib.PathwayWindow
             textButton.Click += new EventHandler(ButtonStateChanged);
             list.Add(textButton);
 
-            PathwayToolStripButton zoominButton = new PathwayToolStripButton();
+            ToolStripButton zoominButton = new ToolStripButton();
             zoominButton.ImageTransparentColor = Color.Magenta;
             zoominButton.Name = MenuConstants.ToolButtonZoomIn;
-            zoominButton.Image = PathwayResource.zoom_in;
+            zoominButton.Image = (Image)TypeDescriptor.GetConverter(
+                    PathwayResource.Icon_ZoomIn).ConvertTo(
+                        PathwayResource.Icon_ZoomIn,
+                        typeof(Image));
             zoominButton.CheckOnClick = false;
             zoominButton.ToolTipText = m_resources.GetString(MenuConstants.ToolButtonZoomIn);
-            zoominButton.Handle = new Handle(Mode.CreateConstant, handleCount, 2f);
+            zoominButton.Tag = 2f;
             zoominButton.Click += new EventHandler(ZoomButton_Click);
             list.Add(zoominButton);
 
-            PathwayToolStripButton zoomoutButton = new PathwayToolStripButton();
+            ToolStripButton zoomoutButton = new ToolStripButton();
             zoomoutButton.ImageTransparentColor = Color.Magenta;
             zoomoutButton.Name = MenuConstants.ToolButtonZoomOut;
-            zoomoutButton.Image = PathwayResource.zoom_out;
+            zoomoutButton.Image = (Image)TypeDescriptor.GetConverter(
+                PathwayResource.Icon_ZoomOut).ConvertTo(
+                    PathwayResource.Icon_ZoomOut,
+                    typeof(Image));
             zoomoutButton.CheckOnClick = false;
             zoomoutButton.ToolTipText = m_resources.GetString(MenuConstants.ToolButtonZoomOut);
-            zoomoutButton.Handle = new Handle(Mode.CreateConstant, handleCount, 0.5f);
+            zoomoutButton.Tag = 0.5f;
             zoomoutButton.Click += new EventHandler(ZoomButton_Click);
             list.Add(zoomoutButton);
 
@@ -1240,13 +1246,9 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         private void ZoomButton_Click(object sender, EventArgs e)
         {
-            if (!(sender is PathwayToolStripButton))
-                return;
-            PathwayToolStripButton button = (PathwayToolStripButton)sender;
-            float rate = button.Handle.ZoomingRate;
             if (m_con.Canvas == null)
                 return;
-            m_con.Canvas.Zoom(rate);
+            m_con.Canvas.Zoom((float)((ToolStripButton)sender).Tag);
         }
         /// <summary>
         /// Export SVG format.

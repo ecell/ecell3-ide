@@ -31,6 +31,7 @@ namespace EcellLib.EntityListWindow
             InitializeComponent();
             this.Text = m_resources.GetString(MessageConstants.EntityList);
             this.TabText = this.Text;
+            this.Icon = (Icon)m_resources.GetObject("$this.Icon");
             this.treeView1.ImageList =m_owner.Environment.PluginManager.NodeImageList;
         }
     }

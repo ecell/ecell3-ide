@@ -19,6 +19,9 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
+    <Win32Resource>
+    </Win32Resource>
+    <ApplicationIcon>Resources\EntityListWindow.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ReferencePath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin;$(REFPATH)</ReferencePath>
@@ -103,6 +106,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="EntityList.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EntityList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MessageResEntList.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -147,7 +154,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ECellIDE.ico" />
+    <None Include="Resources\%24this.Icon.ico" />
+    <Content Include="Resources\EntityListWindow.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

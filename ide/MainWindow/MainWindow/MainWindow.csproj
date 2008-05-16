@@ -17,7 +17,7 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
-    <ApplicationIcon>ECellIDE.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\ECellIDE.ico</ApplicationIcon>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -120,6 +120,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResMain.resx</DependentUpon>
+    </Compile>
+    <Compile Include="MessageResMain.ja.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessageResMain.ja.resx</DependentUpon>
     </Compile>
     <Compile Include="PluginVersionListWindow.cs">
       <SubType>Form</SubType>
@@ -293,7 +298,7 @@
     <Compile Include="ZipUtil.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ECellIDE.ico" />
+    <Content Include="Resources\ECellIDE.ico" />
     <Content Include="Resources\splash.bmp" />
   </ItemGroup>
   <ItemGroup>

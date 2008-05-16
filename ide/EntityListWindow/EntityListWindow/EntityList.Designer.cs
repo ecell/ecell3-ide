@@ -31,7 +31,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityList));
             this.treeView1 = new EcellLib.EntityListWindow.MultiSelectTreeView();
             this.SuspendLayout();
             // 
@@ -39,11 +39,8 @@
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.HideSelection = false;
-            this.treeView1.ImageIndex = 0;
-            this.treeView1.ImageList = new System.Windows.Forms.ImageList();
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.SelectedImageIndex = 0;
             this.treeView1.Size = new System.Drawing.Size(203, 184);
             this.treeView1.TabIndex = 5;
             // 
@@ -53,6 +50,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(203, 184);
             this.Controls.Add(this.treeView1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "EntityList";
             this.TabText = "EntityList";
             this.Text = "EntityList";

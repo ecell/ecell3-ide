@@ -94,8 +94,7 @@
   <ItemGroup>
     <Compile Include="Handler\PathwayResizeHandler.cs" />
     <Compile Include="MessageConstants.cs" />
-    <Compile Include="AnimationControl.cs">
-    </Compile>
+    <Compile Include="AnimationControl.cs" />
     <Compile Include="Dialog\PropertyDialogTabPage.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -287,12 +286,15 @@
     <Content Include="Resources\arrow_long_bidir_w.gif" />
     <Content Include="Resources\arrow_long_left_w.gif" />
     <Content Include="Resources\arrow_long_right_w.gif" />
+    <Content Include="Resources\LayerView.ico" />
     <Content Include="Resources\move.cur" />
     <Content Include="Resources\move.gif" />
+    <None Include="Resources\PathwayView.ico" />
+    <Content Include="Resources\OverView.ico" />
     <Content Include="Resources\ten.GIF" />
     <Content Include="Resources\Text.png" />
-    <Content Include="Resources\zoom_in.png" />
-    <Content Include="Resources\zoom_out.png" />
+    <Content Include="Resources\ZoomIn.ico" />
+    <Content Include="Resources\ZoomOut.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
