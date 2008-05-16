@@ -271,9 +271,16 @@ namespace EcellLib.PathwayWindow.Handler
                 handle.OffsetX = m_obj.X + m_obj.Width / 2f;
             else if (pos == ResizeHandle.E || pos == ResizeHandle.W)
                 handle.OffsetY = m_obj.Y + m_obj.Height / 2f;
+            ResizeObject(x, y, width, height);
+            UpdateResizeHandlePositions();
+        }
 
-            // Resize System
-            if (width >= PPathwaySystem.MIN_X_LENGTH && height >= PPathwaySystem.MIN_Y_LENGTH)
+        /// <summary>
+        /// ResizeObject
+        /// </summary>
+        protected virtual void ResizeObject(float x, float y, float width, float height)
+        {
+            if (width >= 60 && height >= 40)
             {
                 m_obj.X = x;
                 m_obj.Y = y;
@@ -281,8 +288,8 @@ namespace EcellLib.PathwayWindow.Handler
                 m_obj.Height = height;
                 m_obj.RefreshView();
             }
-            UpdateResizeHandlePositions();
         }
+
         #endregion
 
         #region Inner Class

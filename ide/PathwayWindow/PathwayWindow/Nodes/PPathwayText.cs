@@ -72,8 +72,16 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 this.m_name = value.Name;
                 base.m_pText.Text = ((EcellText)value).Comment;
-                base.Width = m_pText.Width;
-                base.Height = m_pText.Height;
+                if (value.Width != 0 && value.Height != 0)
+                {
+                    base.Width = value.Width;
+                    base.Height = value.Height;
+                }
+                else
+                {
+                    base.Width = m_pText.Width;
+                    base.Height = m_pText.Height;
+                }
                 base.EcellObject = value;
                 RefreshView();
             }
@@ -124,7 +132,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public PPathwayText()
         {
             base.m_pText.Text = "Text";
-            //base.m_pText.ConstrainWidthToTextWidth = false;
+            base.m_pText.ConstrainWidthToTextWidth = false;
             base.LineBrush = Brushes.Black;
             base.FillBrush = Brushes.White;
             this.m_name = "Text";
@@ -145,8 +153,8 @@ namespace EcellLib.PathwayWindow.Nodes
                 this.m_pText.Text = ((EcellText)m_ecellObj).Comment;
             this.m_pText.X = base.X;
             this.m_pText.Y = base.Y;
-            //this.m_pText.Width = base.Width;
-            //this.m_pText.Height = base.Height;
+            this.m_pText.Width = base.Width;
+            this.m_pText.Height = base.Height;
             this.m_pText.MoveToFront();
         }
 
@@ -174,6 +182,15 @@ namespace EcellLib.PathwayWindow.Nodes
             m_tbox.Width = (int)(base.Width * viewScale + 5);
             m_tbox.Height = (int)(base.Height * viewScale + 5);
             m_tbox.Focus();
+        }
+
+        /// <summary>
+        /// RefreshView
+        /// </summary>
+        public override void RefreshView()
+        {
+            base.RefreshView();
+            m_resizeHandler.UpdateResizeHandlePositions();
         }
 
         /// <summary>

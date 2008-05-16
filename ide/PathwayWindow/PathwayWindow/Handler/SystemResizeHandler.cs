@@ -259,7 +259,21 @@ namespace EcellLib.PathwayWindow.Handler
             base.ResizeHandle_MouseDrag(sender, e);
             ValidateSystem();
         }
-
+        /// <summary>
+        /// ResizeObject
+        /// </summary>
+        protected virtual void ResizeObject(float x, float y, float width, float height)
+        {
+            // Resize System
+            if (width >= PPathwaySystem.MIN_X_LENGTH && height >= PPathwaySystem.MIN_Y_LENGTH)
+            {
+                m_obj.X = x;
+                m_obj.Y = y;
+                m_obj.Width = width;
+                m_obj.Height = height;
+                m_obj.RefreshView();
+            }
+        }
         #endregion
     }
 }
