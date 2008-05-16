@@ -52,6 +52,9 @@ namespace EcellLib.Message
             get { return this.m_object; }
         }
 
+        /// <summary>
+        /// get the location of message.
+        /// </summary>
         public override string Location
         {
             get { return m_object.Type + Constants.delimiterColon + m_object.Key; }

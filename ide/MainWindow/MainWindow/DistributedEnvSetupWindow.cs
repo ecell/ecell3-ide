@@ -36,7 +36,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using EcellLib.Session;
+using EcellLib.Job;
 
 namespace EcellLib.MainWindow
 {
@@ -53,14 +53,14 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// SessionManager object.
         /// </summary>
-        private ISessionManager m_manager = null;
+        private IJobManager m_manager = null;
         #endregion
 
         #region Events
         /// <summary>
         /// Constructor.
         /// </summary>
-        public DistributedEnvSetupWindow(ISessionManager manager)
+        public DistributedEnvSetupWindow(IJobManager manager)
         {
             m_manager = manager;
             InitializeComponent();

@@ -35,7 +35,7 @@ using System.Windows.Forms;
 
 using EcellLib;
 using EcellLib.Objects;
-using EcellLib.Session;
+using EcellLib.Job;
 
 namespace EcellLib.Analysis
 {
@@ -136,7 +136,7 @@ namespace EcellLib.Analysis
             m_param = m_owner.GetParameterEstimationParameter();
             m_mutation = m_param.Param.Initial;
             m_owner.ClearResult();
-            m_owner.SessionManager.ClearJob(0);
+            m_owner.JobManager.ClearJob(0);
 
             if (m_param.Population <= 0)
             {
@@ -177,10 +177,10 @@ namespace EcellLib.Analysis
                 return;
             }
 
-            m_owner.SessionManager.SetParameterRange(m_paramList);
+            m_owner.JobManager.SetParameterRange(m_paramList);
             m_saveList = m_owner.GetPEObservedDataList();
             if (m_saveList == null) return;
-            m_owner.SessionManager.SetLoggerData(m_saveList);
+            m_owner.JobManager.SetLoggerData(m_saveList);
             m_owner.SetResultGraphSize(m_param.Generation, 0.0, 0.0, 1.0, false, true);
 
             m_generation = 0;
@@ -195,7 +195,7 @@ namespace EcellLib.Analysis
         /// </summary>
         public void StopAnalysis()
         {
-            m_owner.SessionManager.StopRunningJobs();
+            m_owner.JobManager.StopRunningJobs();
             m_isRunning = false;
             m_owner.StopParameterEstimation();
         }
@@ -219,7 +219,7 @@ namespace EcellLib.Analysis
                 foreach (SaveLoggerProperty p in m_saveList)
                 {
                     Dictionary<double, double> logList =
-                        m_owner.SessionManager.SessionList[jobid].GetLogData(p.FullPath);
+                        m_owner.JobManager.JobList[jobid].GetLogData(p.FullPath);
                     value = 0.0;
                     if (logList.Count <= 0)
                     {
@@ -239,7 +239,7 @@ namespace EcellLib.Analysis
             {
                 int i = 0;
                 Dictionary<double, double> logList =
-                       m_owner.SessionManager.SessionList[jobid].GetLogData(p.FullPath);
+                       m_owner.JobManager.JobList[jobid].GetLogData(p.FullPath);
                 foreach (double v in logList.Values)
                 {
                     if (fList.Count <= i) fList.Add(f);
@@ -265,12 +265,12 @@ namespace EcellLib.Analysis
         /// <param name="e">EventArgs.</param>
         void FireTimer(object sender, EventArgs e)
         {
-            String tmpDir = m_owner.SessionManager.TmpRootDir;
-            if (!m_owner.SessionManager.IsFinished())
+            String tmpDir = m_owner.JobManager.TmpRootDir;
+            if (!m_owner.JobManager.IsFinished())
             {
                 if (m_isRunning == false)
                 {
-                    m_owner.SessionManager.StopRunningJobs();
+                    m_owner.JobManager.StopRunningJobs();
                     m_timer.Enabled = false;
                     m_timer.Stop();
                 }
@@ -295,14 +295,14 @@ namespace EcellLib.Analysis
             m_timer.Stop();
             if (m_generation == 0)
             {
-                m_execParamList = m_owner.SessionManager.RunSimParameterRange(tmpDir, m_model, m_param.Population, m_param.SimulationTime, false);
+                m_execParamList = m_owner.JobManager.RunSimParameterRange(tmpDir, m_model, m_param.Population, m_param.SimulationTime, false);
             }
             else
             {
                 FindElite();
                 SimplexCrossOver();
                 Mutate();
-                m_execParamList = m_owner.SessionManager.RunSimParameterSet(tmpDir, m_model, m_param.SimulationTime, false, m_execParamList);
+                m_execParamList = m_owner.JobManager.RunSimParameterSet(tmpDir, m_model, m_param.SimulationTime, false, m_execParamList);
             }
 
             m_generation++;
@@ -483,7 +483,7 @@ namespace EcellLib.Analysis
             
             while (m_execParamList.Count < m_param.Population)
             {
-                ExecuteParameter p = m_owner.SessionManager.CreateExecuteParameter();
+                ExecuteParameter p = m_owner.JobManager.CreateExecuteParameter();
                 m_execParamList.Add(iPos, p);
                 iPos++;
             }

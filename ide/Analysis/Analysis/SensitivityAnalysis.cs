@@ -36,7 +36,8 @@ using System.Windows.Forms;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 
-using EcellLib.Session;
+using EcellLib.Message;
+using EcellLib.Job;
 using EcellLib.Objects;
 
 namespace EcellLib.Analysis
@@ -229,7 +230,7 @@ namespace EcellLib.Analysis
             Dictionary<EcellObject, int> proList)
         {
             DataManager dManager = m_owner.DataManager;
-            string tmpDir = m_owner.SessionManager.TmpRootDir;
+            string tmpDir = m_owner.JobManager.TmpRootDir;
             double start = 0.0;
             double end = 0.0;
             int jobid = 0;
@@ -293,8 +294,8 @@ namespace EcellLib.Analysis
             double cTime = dManager.GetCurrentSimulationTime();
             dManager.SimulationStop();
 
-            m_owner.SessionManager.SetLoggerData(m_saveList);
-            m_execParam = m_owner.SessionManager.RunSimParameterSet(tmpDir, m_model, cTime, false, execDict);
+            m_owner.JobManager.SetLoggerData(m_saveList);
+            m_execParam = m_owner.JobManager.RunSimParameterSet(tmpDir, m_model, cTime, false, execDict);
         }
 
         /// <summary>
@@ -302,7 +303,7 @@ namespace EcellLib.Analysis
         /// </summary>
         public void StopAnalysis()
         {
-            m_owner.SessionManager.StopRunningJobs();
+            m_owner.JobManager.StopRunningJobs();
             m_isRunning = false;
             m_owner.StopSensitivityAnalysis();
         }
@@ -388,7 +389,7 @@ namespace EcellLib.Analysis
                 foreach (string path in headerList)
                 {
                     Dictionary<double, double> logList =
-                        m_owner.SessionManager.SessionList[jobid].GetLogData(path);
+                        m_owner.JobManager.JobList[jobid].GetLogData(path);
                     double value = 0.0;
                     foreach (double t in logList.Keys)
                         value = logList[t];
@@ -707,11 +708,11 @@ namespace EcellLib.Analysis
         {
             try
             {
-                if (!m_owner.SessionManager.IsFinished())
+                if (!m_owner.JobManager.IsFinished())
                 {
                     if (m_isRunning == false)
                     {
-                        m_owner.SessionManager.StopRunningJobs();
+                        m_owner.JobManager.StopRunningJobs();
                         m_timer.Enabled = false;
                         m_timer.Stop();
                     }
@@ -749,16 +750,16 @@ namespace EcellLib.Analysis
                 String finMes = Analysis.s_resources.GetString(MessageConstants.FinishSAnalysis);
                 Util.ShowNoticeDialog(finMes);
             }
-            catch (IgnoreException ie)
+            catch (IgnoreException)
             {
-                ie.ToString();
             }
             catch (Exception ex)
             {
                 String errMes = Analysis.s_resources.GetString(MessageConstants.ErrorSAnalysis);
-                Util.ShowErrorDialog(errMes + "\n" + ex.ToString());
+                Util.ShowErrorDialog(errMes);
+                m_owner.MessageManager.Append(
+                        new ApplicationMessageEntry(MessageType.Error, ex.ToString(), this));
             }
-
         }
         #endregion
     }

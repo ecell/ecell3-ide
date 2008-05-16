@@ -81,7 +81,6 @@ namespace EcellLib.Message
         /// Constructor with the initial parameters.
         /// </summary>
         /// <param name="type">the message type.</param>
-        /// <param name="location">the location of message.</param>
         /// <param name="message">the message string.</param>
         public MessageEntry(MessageType type, string message)
             : this(type, message, DateTime.Now)
@@ -92,8 +91,8 @@ namespace EcellLib.Message
         /// Constructor with the initial parameters.
         /// </summary>
         /// <param name="type">the message type.</param>
-        /// <param name="location">the location of message.</param>
         /// <param name="message">the message string.</param>
+        /// <param name="time">the date time of message.</param>
         public MessageEntry(MessageType type, string message, DateTime time)
         {
             m_type = type;
@@ -102,6 +101,10 @@ namespace EcellLib.Message
         }
         #endregion
 
+        /// <summary>
+        /// get the string of this object.
+        /// </summary>
+        /// <returns>the object string.</returns>
         public override string ToString()
         {
             return "[" + Timestamp + "] " + MessageType + ": " + Message + "(location: " + Location + ")";

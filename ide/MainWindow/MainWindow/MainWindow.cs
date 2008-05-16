@@ -2057,7 +2057,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void ClickDistributedEnvMenu(object sender, EventArgs e)
         {
-            DistributedEnvSetupWindow win = new DistributedEnvSetupWindow(m_env.SessionManager);
+            DistributedEnvSetupWindow win = new DistributedEnvSetupWindow(m_env.JobManager);
             win.Shown += new EventHandler(win.WindowShown);
             win.ShowDialog();
         }
@@ -2069,7 +2069,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void ClickJobStatusMenu(object sender, EventArgs e)
         {
-            DistributedEnvWindow win = new DistributedEnvWindow(m_env.SessionManager);
+            DistributedEnvWindow win = new DistributedEnvWindow(m_env.JobManager);
 
             win.Show();
         }

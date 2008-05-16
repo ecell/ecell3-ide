@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using EcellLib.Message;
-using EcellLib.Session;
+using EcellLib.Job;
 
 namespace EcellLib
 {
@@ -12,7 +12,7 @@ namespace EcellLib
         private PluginManager m_pManager;
         private MessageManager m_mManager;
         private ActionManager m_aManager;
-        private ISessionManager m_sManager;
+        private IJobManager m_jManager;
 
         public DataManager DataManager
         {
@@ -34,10 +34,10 @@ namespace EcellLib
             get { return m_aManager; }
         }
 
-        public ISessionManager SessionManager
+        public IJobManager JobManager
         {
-            get { return m_sManager; }
-            set { m_sManager = value; }
+            get { return m_jManager; }
+            set { m_jManager = value; }
         }
 
         public ApplicationEnvironment()
@@ -46,7 +46,7 @@ namespace EcellLib
             m_mManager = new MessageManager(this);
             m_pManager = new PluginManager(this);
             m_aManager = new ActionManager(this);
-            m_sManager = new SessionManager(this);
+            m_jManager = new JobManager(this);
         }
     }
 }

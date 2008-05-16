@@ -213,9 +213,9 @@
     </Compile>
     <Compile Include="ApplicationEnvironment.cs" />
     <Compile Include="Message\ApplicationMessageEntry.cs" />
-    <Compile Include="Session\ISessionManager.cs" />
-    <Compile Include="Session\LocalSessionProxy.cs" />
-    <Compile Include="Session\LocalSystemProxy.cs" />
+    <Compile Include="Job\IJobManager.cs" />
+    <Compile Include="Job\LocalJob.cs" />
+    <Compile Include="Job\LocalJobProxy.cs" />
     <Compile Include="Message\EntityMessageEntry.cs" />
     <Compile Include="Message\IMessageEntry.cs" />
     <Compile Include="Message\MessageManager.cs" />
@@ -242,12 +242,12 @@
     </Compile>
     <Compile Include="Project.cs" />
     <Compile Include="ScriptWriter.cs" />
-    <Compile Include="Session\SessionManager.cs" />
-    <Compile Include="Session\SessionProxy.cs" />
+    <Compile Include="Job\JobManager.cs" />
+    <Compile Include="Job\Job.cs" />
     <Compile Include="SimulationParameter.cs" />
     <Compile Include="DataLogger.cs" />
     <Compile Include="Eml.cs" />
-    <Compile Include="Session\SystemProxy.cs" />
+    <Compile Include="Job\JobProxy.cs" />
     <None Include="ecelllib.snk" />
   </ItemGroup>
   <ItemGroup>

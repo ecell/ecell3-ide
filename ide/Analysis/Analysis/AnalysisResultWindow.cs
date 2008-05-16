@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 using EcellLib;
 using EcellLib.Objects;
-using EcellLib.Session;
+using EcellLib.Job;
 using ZedGraph;
 
 namespace EcellLib.Analysis
@@ -348,8 +348,8 @@ namespace EcellLib.Analysis
 
             foreach (int jobid in m_jobList.Keys)
             {
-                double xd = m_owner.SessionManager.ParameterDic[jobid].ParamDic[xPath];
-                double yd = m_owner.SessionManager.ParameterDic[jobid].ParamDic[yPath];
+                double xd = m_owner.JobManager.ParameterDic[jobid].ParamDic[xPath];
+                double yd = m_owner.JobManager.ParameterDic[jobid].ParamDic[yPath];
 
                 DrawPoint(xd, yd, m_jobList[jobid]);
             }

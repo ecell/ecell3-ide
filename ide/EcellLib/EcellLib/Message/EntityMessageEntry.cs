@@ -54,6 +54,9 @@ namespace EcellLib.Message
             get { return m_entity; }
         }
 
+        /// <summary>
+        /// get the location of message.
+        /// </summary>
         public override string Location
         {
             get { return m_entity.EntityPath; }

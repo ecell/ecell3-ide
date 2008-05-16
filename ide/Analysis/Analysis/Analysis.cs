@@ -36,7 +36,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
 
-using EcellLib.Session;
+using EcellLib.Job;
 using WeifenLuo.WinFormsUI.Docking;
 using EcellLib.Plugin;
 using EcellLib.Objects;
@@ -122,9 +122,9 @@ namespace EcellLib.Analysis
         private Dictionary<string, List<double>> m_fccResult = new Dictionary<string, List<double>>();
         #endregion
 
-        public ISessionManager SessionManager
+        public IJobManager JobManager
         {
-            get { return m_env.SessionManager; }
+            get { return m_env.JobManager; }
         }
 
         /// <summary>
@@ -396,7 +396,7 @@ namespace EcellLib.Analysis
         {
             List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
             
-            String dir = m_env.SessionManager.TmpDir;
+            String dir = m_env.JobManager.TmpDir;
             double start = 0.0;
             double end = m_estimationParameter.SimulationTime;
             string formulator = m_estimationParameter.EstimationFormulator;
@@ -423,7 +423,7 @@ namespace EcellLib.Analysis
 
             foreach (EcellObservedData data in obsList)
             {
-                string dir = m_env.SessionManager.TmpDir;
+                string dir = m_env.JobManager.TmpDir;
                 string path = data.Key;
                 double start = 0.0;
                 double end = m_robustParameter.SimulationTime;
@@ -454,7 +454,7 @@ namespace EcellLib.Analysis
 
             foreach (EcellObservedData data in obsList)
             {
-                String dir = m_env.SessionManager.TmpDir;
+                String dir = m_env.JobManager.TmpDir;
                 string path = data.Key;
                 double start = 0.0;
                 double end = m_bifurcateParameter.SimulationTime;

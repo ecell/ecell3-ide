@@ -112,6 +112,9 @@ namespace EcellLib.Plugin
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public PluginBase()
         {
         }

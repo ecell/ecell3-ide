@@ -34,7 +34,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using EcellLib.Objects;
-using EcellLib.Session;
+using EcellLib.Job;
 using MathNet.Numerics;
 using MathNet.Numerics.Transformations;
 
@@ -153,7 +153,7 @@ namespace EcellLib.Analysis
         public void ExecuteAnalysis()
         {
             m_param = m_owner.GetBifurcationAnalysisPrameter();
-            String tmpDir = m_owner.SessionManager.TmpRootDir;
+            String tmpDir = m_owner.JobManager.TmpRootDir;
             double simTime = m_param.SimulationTime;
             int maxSize = Convert.ToInt32(m_param.MaxInput);
             m_isDone = false;
@@ -255,8 +255,8 @@ namespace EcellLib.Analysis
                 }
             }
 
-            m_owner.SessionManager.SetLoggerData(saveList);
-            m_execParam = m_owner.SessionManager.RunSimParameterSet(tmpDir, m_model, simTime, false, tmpDic);
+            m_owner.JobManager.SetLoggerData(saveList);
+            m_execParam = m_owner.JobManager.RunSimParameterSet(tmpDir, m_model, simTime, false, tmpDic);
             m_owner.ClearResult();
             m_isRunning = true;
             m_timer.Enabled = true;
@@ -268,7 +268,7 @@ namespace EcellLib.Analysis
         /// </summary>
         public void StopAnalysis()
         {
-            m_owner.SessionManager.StopRunningJobs();
+            m_owner.JobManager.StopRunningJobs();
             m_isRunning = false;
             m_owner.StopSensitivityAnalysis();
         }
@@ -463,16 +463,16 @@ namespace EcellLib.Analysis
             List<EcellObservedData> judgeList = m_owner.DataManager.GetObservedData();
             foreach (int jobid in m_execParam.Keys)
             {
-                if (m_owner.SessionManager.SessionList[jobid].Status != JobStatus.FINISHED)
+                if (m_owner.JobManager.JobList[jobid].Status != JobStatus.FINISHED)
                     continue;
-                double x = m_owner.SessionManager.ParameterDic[jobid].GetParameter(m_xPath);
-                double y = m_owner.SessionManager.ParameterDic[jobid].GetParameter(m_yPath);
+                double x = m_owner.JobManager.ParameterDic[jobid].GetParameter(m_xPath);
+                double y = m_owner.JobManager.ParameterDic[jobid].GetParameter(m_yPath);
 
                 bool isOK = true;
                 foreach (EcellObservedData p in judgeList)
                 {
                     Dictionary<double, double> logList =
-                        m_owner.SessionManager.SessionList[jobid].GetLogData(p.Key);
+                        m_owner.JobManager.JobList[jobid].GetLogData(p.Key);
 
                     double simTime = Convert.ToDouble(m_param.SimulationTime);
                     double winSize = Convert.ToDouble(m_param.WindowSize);
@@ -597,11 +597,11 @@ namespace EcellLib.Analysis
         /// <param name="e">EventArgs.</param>
         void FireTimer(object sender, EventArgs e)
         {
-            if (!m_owner.SessionManager.IsFinished())
+            if (!m_owner.JobManager.IsFinished())
             {
                 if (m_isRunning == false)
                 {
-                    m_owner.SessionManager.StopRunningJobs();
+                    m_owner.JobManager.StopRunningJobs();
                     m_timer.Enabled = false;
                     m_timer.Stop();
                 }
@@ -610,7 +610,7 @@ namespace EcellLib.Analysis
             m_timer.Enabled = false;
             m_timer.Stop();
 
-            if (m_owner.SessionManager.IsError())
+            if (m_owner.JobManager.IsError())
             {
                 String mes = Analysis.s_resources.GetString(MessageConstants.ErrFindErrorJob);
                 if (!Util.ShowYesNoDialog(mes))
@@ -631,9 +631,9 @@ namespace EcellLib.Analysis
                 return;
             }
             PrintResultData();
-            m_owner.SessionManager.ClearFinishedJobs();
-            String tmpDir = m_owner.SessionManager.TmpRootDir;
-            m_execParam = m_owner.SessionManager.RunSimParameterSet(tmpDir, m_model, m_param.SimulationTime, false, paramList);
+            m_owner.JobManager.ClearFinishedJobs();
+            String tmpDir = m_owner.JobManager.TmpRootDir;
+            m_execParam = m_owner.JobManager.RunSimParameterSet(tmpDir, m_model, m_param.SimulationTime, false, paramList);
 
             m_timer.Enabled = true;
             m_timer.Start();

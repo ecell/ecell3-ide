@@ -37,7 +37,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using EcellLib.Session;
+using EcellLib.Job;
 
 namespace EcellLib.MainWindow
 {
@@ -50,13 +50,13 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// SessionManager
         /// </summary>
-        ISessionManager m_manager;
+        IJobManager m_manager;
         #endregion
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public DistributedEnvWindow(ISessionManager manager)
+        public DistributedEnvWindow(IJobManager manager)
         {
             m_manager = manager;
             InitializeComponent();               
@@ -73,8 +73,8 @@ namespace EcellLib.MainWindow
         {
             if (e.RowIndex < 0) return;
             int jobid = Convert.ToInt32(JobGridView[0, e.RowIndex].Value);
-            if (!m_manager.SessionList.ContainsKey(jobid)) return;
-            string data = m_manager.SessionList[jobid].StdErr;
+            if (!m_manager.JobList.ContainsKey(jobid)) return;
+            string data = m_manager.JobList[jobid].StdErr;
 
             Util.ShowNoticeDialog(data);
         }
@@ -87,7 +87,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs.</param>
         private void WinShown(object sender, EventArgs e)
         {
-            foreach (SessionProxy s in m_manager.SessionList.Values)
+            foreach (EcellLib.Job.Job s in m_manager.JobList.Values)
             {
                 JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
             }
@@ -126,7 +126,7 @@ namespace EcellLib.MainWindow
                 }
             }
             JobGridView.Rows.Clear();
-            foreach (SessionProxy s in m_manager.SessionList.Values)
+            foreach (EcellLib.Job.Job s in m_manager.JobList.Values)
             {
                 JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
             }
@@ -152,7 +152,7 @@ namespace EcellLib.MainWindow
         private void DEWUpdateButton_Click(object sender, EventArgs e)
         {
             JobGridView.Rows.Clear();
-            foreach (SessionProxy s in m_manager.SessionList.Values)
+            foreach (EcellLib.Job.Job s in m_manager.JobList.Values)
             {
                 JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
             }
@@ -192,7 +192,7 @@ namespace EcellLib.MainWindow
                 foreach (DataGridViewRow r in JobGridView.SelectedRows)
                 {
                     int jobid = Convert.ToInt32(r.Cells[0].Value);
-                    m_manager.SessionList[jobid].Status = JobStatus.QUEUED;
+                    m_manager.JobList[jobid].Status = JobStatus.QUEUED;
                 }
                 m_manager.Run();
                 return;
