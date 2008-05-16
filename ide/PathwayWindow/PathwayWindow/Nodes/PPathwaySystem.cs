@@ -106,10 +106,6 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         protected SystemResizeHandler m_resizeHandler;
 
-        /// <summary>
-        /// the flag whether this system is changed.
-        /// </summary>
-        protected bool m_isChanged = true;
         #endregion
 
         #region Accessors
@@ -139,17 +135,10 @@ namespace EcellLib.PathwayWindow.Nodes
             set
             {
                 base.Canvas = value;
-                this.m_resizeHandler = new SystemResizeHandler(this);
+                m_resizeHandler.Canvas = value;
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public SystemResizeHandler ResizeHandler
-        {
-            get { return m_resizeHandler; }
-        }
         /// <summary>
         /// get/set the flag whether display this system with highlight.
         /// </summary>
@@ -169,7 +158,6 @@ namespace EcellLib.PathwayWindow.Nodes
                     this.Brush = m_fillBrush;
                     this.m_resizeHandler.HideResizeHandles();
                 }
-                m_isChanged = true;
             }
         }
 
@@ -191,6 +179,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             base.Width = DEFAULT_WIDTH;
             base.Height = DEFAULT_HEIGHT;
+            this.m_resizeHandler = new SystemResizeHandler(this);
         }
         #endregion
 
@@ -237,6 +226,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             base.m_path = m_figure.CreatePath(X, Y, Width, Height);
             base.RefreshView();
+            m_resizeHandler.UpdateResizeHandlePositions();
         }
         /// <summary>
         /// Refresh Text contents of this object.
@@ -294,6 +284,16 @@ namespace EcellLib.PathwayWindow.Nodes
                 return;
             m_canvas.NotifySelectChanged(this);
             base.OnMouseDown(e);
+        }
+
+        /// <summary>
+        /// OnMouseDrag
+        /// </summary>
+        /// <param name="e"></param>
+        public override void OnMouseDrag(PInputEventArgs e)
+        {
+            base.OnMouseDrag(e);
+            m_resizeHandler.UpdateResizeHandlePositions();
         }
 
         /// <summary>

@@ -639,7 +639,7 @@ namespace EcellLib.PathwayWindow.Nodes
             base.OffsetY = this.m_originalOffsetY;
             base.Width = this.m_originalWidth;
             base.Height = this.m_originalHeight;
-            RefreshText();
+            RefreshView();
             foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(this.EcellObject.Key))
             {
                 child.ResetPosition();

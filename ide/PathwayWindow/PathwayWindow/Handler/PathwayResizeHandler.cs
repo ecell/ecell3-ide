@@ -71,7 +71,23 @@ namespace EcellLib.PathwayWindow.Handler
         protected Cursor m_cursor;
         
         #endregion
+
+        #region Accessor
+        /// <summary>
+        /// Accessor for an instance of CanvasViewComponentSet which this instance belongs.
+        /// </summary>
+        public virtual CanvasControl Canvas
+        {
+            get { return m_canvas; }
+            set
+            {
+                m_canvas = value;
+
+            }
+        }
         
+        #endregion
+
         #region Constructor
         /// <summary>
         /// Constructor

@@ -581,15 +581,6 @@ namespace EcellLib.PathwayWindow
                 button.Click += new EventHandler(ButtonStateChanged);
                 list.Add(button);
             }
-            PathwayToolStripButton textButton = new PathwayToolStripButton();
-            textButton.ImageTransparentColor = Color.Magenta;
-            textButton.Name = MenuConstants.ToolButtonCreateText;
-            textButton.Image = PathwayResource.Text;
-            textButton.CheckOnClick = false;
-            textButton.ToolTipText = m_resources.GetString(MenuConstants.ToolButtonCreateText);
-            textButton.Handle = new Handle(Mode.CreateText, handleCount, new CreateTextMouseHandler(m_con));
-            textButton.Click += new EventHandler(ButtonStateChanged);
-            list.Add(textButton);
 
             ToolStripButton zoominButton = new ToolStripButton();
             zoominButton.ImageTransparentColor = Color.Magenta;

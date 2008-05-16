@@ -77,7 +77,44 @@ namespace EcellLib.PathwayWindow.Nodes
                 base.EcellObject = value;
                 RefreshView();
             }
-        }        
+        }
+
+        /// <summary>
+        /// CanvasControl
+        /// </summary>
+        public override CanvasControl Canvas
+        {
+            get
+            {
+                return base.Canvas;
+            }
+            set
+            {
+                base.Canvas = value;
+                m_resizeHandler.Canvas = value;
+            }
+        }
+        /// <summary>
+        /// get/set the flag whether display this system with highlight.
+        /// </summary>
+        public override bool IsHighLighted
+        {
+            get { return this.m_isSelected; }
+            set
+            {
+                this.m_isSelected = value;
+                if (value)
+                {
+                    this.Brush = m_highLightBrush;
+                    this.m_resizeHandler.ShowResizeHandles();
+                }
+                else
+                {
+                    this.Brush = m_fillBrush;
+                    this.m_resizeHandler.HideResizeHandles();
+                }
+            }
+        }
         #endregion
 
         #region Constructors
@@ -150,6 +187,16 @@ namespace EcellLib.PathwayWindow.Nodes
             else
                 m_canvas.NotifySelectChanged(this);
             base.OnMouseDown(e);
+        }
+
+        /// <summary>
+        /// OnMouseDrag
+        /// </summary>
+        /// <param name="e"></param>
+        public override void OnMouseDrag(PInputEventArgs e)
+        {
+            base.OnMouseDrag(e);
+            m_resizeHandler.UpdateResizeHandlePositions();
         }
 
         private void m_tbox_LostFocus(object sender, EventArgs e)

@@ -4247,6 +4247,13 @@ namespace EcellLib
             {
                 return CreateDefaultVariable(modelID, key, isProper);
             }
+            else if (type.Equals(Constants.xpathText))
+            {
+                string nodeKey = GetTemporaryID(modelID, EcellObject.TEXT, "/");
+                EcellText text = new EcellText(modelID, nodeKey, EcellObject.TEXT, EcellObject.TEXT, new List<EcellData>());
+                text.Comment = text.Name;
+                return text;
+            }
             return null;
         }
 
