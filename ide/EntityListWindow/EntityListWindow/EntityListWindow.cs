@@ -281,6 +281,7 @@ namespace EcellLib.EntityListWindow
                     List<string> fileList = m_dManager.GetDMDirData();
                     foreach (string d in fileList)
                     {
+                        if (!Util.IsDMFile(d)) continue;
                         TreeNode dNode = new TreeNode(d);
                         dNode.Tag = new TagData("", "", Constants.xpathDM);
                         dmNode.Nodes.Add(dNode);
@@ -1430,7 +1431,8 @@ namespace EcellLib.EntityListWindow
                 if (path == null) return;
                 try
                 {
-                    Process p = Process.Start(path);
+                    DMEditor edit = new DMEditor(path);
+                    edit.ShowDialog();
                 }
                 catch (Exception ex)
                 {

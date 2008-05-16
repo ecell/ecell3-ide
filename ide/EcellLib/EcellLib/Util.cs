@@ -682,6 +682,21 @@ namespace EcellLib
             }
         }
 
+        static public bool IsInstalledSDK()
+        {
+            return false;
+        }
+
+        static public bool IsDMFile(string fileName)
+        {
+            String name = Path.GetFileNameWithoutExtension(fileName);
+            if (name.EndsWith(Constants.xpathProcess))
+                return true;
+            if (name.EndsWith(Constants.xpathStepper))
+                return true;
+            return false;
+        }
+
         /// <summary>
         /// Get the plugin directory from register.
         /// </summary>
