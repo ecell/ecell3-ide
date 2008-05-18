@@ -29,6 +29,7 @@
 //
 
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
@@ -750,8 +751,9 @@ namespace EcellLib.Analysis
                 Util.ShowNoticeDialog(MessageResAnalysis.FinishSAnalysis);
 
             }
-            catch (IgnoreException)
+            catch (IgnoreException ex)
             {
+                Trace.WriteLine(ex);
             }
             catch (Exception ex)
             {

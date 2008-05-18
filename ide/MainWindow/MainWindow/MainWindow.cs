@@ -442,8 +442,9 @@ namespace EcellLib.MainWindow
                 else
                     return attribute.Value;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Trace.WriteLine(ex);
                 return null;
             }
         }

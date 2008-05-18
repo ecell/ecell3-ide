@@ -26,6 +26,7 @@
 //
 
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
@@ -80,8 +81,9 @@ namespace EcellLib.PathwayWindow.Graphic
                     e.Graphics.DrawString(s, e.Font, brush, bounds.Left, bounds.Top);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Trace.WriteLine(ex);
                 e.Graphics.DrawString(s, e.Font, brush, bounds.Left, bounds.Top);
             }
             base.OnDrawItem(e);

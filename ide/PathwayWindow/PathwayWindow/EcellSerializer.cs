@@ -288,8 +288,9 @@ namespace EcellLib.PathwayWindow {
                 else
                     return attribute.Value;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Trace.WriteLine(ex);
                 return null;
             }
         }
@@ -306,8 +307,9 @@ namespace EcellLib.PathwayWindow {
             {
                 return (float)Convert.ToDouble(value, CultureInfo.InvariantCulture);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Trace.WriteLine(ex);
                 return 0f;
             }
         }

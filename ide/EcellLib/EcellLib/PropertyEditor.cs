@@ -33,6 +33,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -1067,8 +1068,9 @@ namespace EcellLib
                             //                            data.Logged = m_propDict[data.Name].Logged;
                             data.Logged = isLogger;
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
+                            Trace.WriteLine(ex);
                             return null;
                         }
                         list.Add(data);
@@ -1371,8 +1373,9 @@ namespace EcellLib
                 obj.LayerID = m_currentObj.LayerID;
                 NotifyDataChanged(m_currentObj.ModelID, m_currentObj.Key, obj);
             }
-            catch (IgnoreException)
+            catch (IgnoreException ex)
             {
+                Trace.WriteLine(ex);
                 return;
             }
             catch (Exception ex)

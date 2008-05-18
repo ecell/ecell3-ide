@@ -34,6 +34,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Drawing;
 using System.Runtime.Serialization;
@@ -717,8 +718,9 @@ namespace EcellLib.PathwayWindow.Nodes
                     width -= strokeOutset;
                     height -= strokeOutset;
                 }
-                catch (OutOfMemoryException)
+                catch (OutOfMemoryException ex)
                 {
+                    Trace.WriteLine(ex);
                     // Catch the case where the path is a single point
                 }
             }
@@ -866,8 +868,9 @@ namespace EcellLib.PathwayWindow.Nodes
                     RectangleF b = m_tempPath.GetBounds();
                     SetBounds(b.X, b.Y, b.Width, b.Height);
                 }
-                catch (OutOfMemoryException)
+                catch (OutOfMemoryException ex)
                 {
+                    Trace.WriteLine(ex);
                     //Catch the case where the path is a single point
                 }
             }

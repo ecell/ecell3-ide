@@ -1270,8 +1270,9 @@ namespace EcellLib.PathwayWindow
             {
                 algorithm.DoLayout(subIdx, false, systemList, nodeList);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Trace.WriteLine(ex);
                 Util.ShowNoticeDialog(MessageResPathway.ErrLayout);
                 return;
             }

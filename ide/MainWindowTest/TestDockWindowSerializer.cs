@@ -82,8 +82,9 @@ namespace EcellLib.MainWindow
             {
                 DockWindowSerializer.LoadFromXML(_window, modelFile);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Trace.WriteLine(ex);
                 Debug.WriteLine("Failed to load:" + modelFile);
             }
             modelFile = Path.Combine(Util.GetUserDir(), "window.config");

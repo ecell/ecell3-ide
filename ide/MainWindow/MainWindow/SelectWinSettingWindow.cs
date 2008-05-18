@@ -93,7 +93,10 @@ namespace EcellLib.MainWindow
                     i++;
                 }
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+            }
             if (!isInitial)
             {
                 m_dicPath.Add(new WindowSetting(

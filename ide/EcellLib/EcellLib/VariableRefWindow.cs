@@ -355,8 +355,9 @@ namespace EcellLib
                     v.Coefficient = Convert.ToInt32(this.dgv[2, i].Value);
                     v.IsAccessor = Convert.ToInt32(this.dgv[3, i].Value);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Trace.WriteLine(ex);
                     String errmes = MessageResLib.ErrNoNumber;
                     MessageBox.Show(errmes,
                         "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);

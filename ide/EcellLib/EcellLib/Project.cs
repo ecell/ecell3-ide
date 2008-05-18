@@ -32,6 +32,7 @@
 //
 
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -1208,8 +1209,9 @@ namespace EcellLib
                     WrappedPolymorph l_property = l_simulator.GetStepperProperty(l_ecellObject.Key, l_name);
                     l_value = new EcellValue(l_property);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Trace.WriteLine(ex);
                     l_value = new EcellValue("");
                 }
                 EcellData l_ecellData = new EcellData(l_name, l_value, l_name);
@@ -1336,8 +1338,9 @@ namespace EcellLib
                     WrappedPolymorph l_property = l_simulator.GetEntityProperty(l_key + Constants.delimiterColon + l_name);
                     l_value = new EcellValue(l_property);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Trace.WriteLine(ex);
                     if (l_storedEcellDataDic.ContainsKey(l_name))
                     {
                         if (l_storedEcellDataDic[l_name].Value.CastToList()[0].IsList())
@@ -1474,8 +1477,9 @@ namespace EcellLib
                             l_key + Constants.delimiterColon + l_name);
                     l_value = new EcellValue(l_property);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Trace.WriteLine(ex);
                     if (l_storedEcellDataDic.ContainsKey(l_name))
                     {
                         if (l_storedEcellDataDic[l_name].Value.CastToList()[0].IsList())

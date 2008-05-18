@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Xml;
 using System.IO;
@@ -397,8 +398,9 @@ namespace EcellLib
                         l_initialCondition[l_type][l_nodeName.InnerText]
                             = XmlConvert.ToDouble(l_nodeID.InnerText);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        Trace.WriteLine(ex);
                         // do nothing
                     }
                 }

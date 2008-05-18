@@ -1231,12 +1231,11 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = String.Format(
-                    MessageResLib.ErrUpdate,
-                    new object[] { l_ecellObject.Type }
-                ) + l_message + " " + l_ecellObject.Type;
-                Trace.WriteLine(l_message);
-                throw new Exception(l_message + " {" + l_ex.ToString() + l_ex.StackTrace + "}");
+                throw new Exception(
+                    string.Format(
+                        MessageResLib.ErrUpdate,
+                        new object[] { l_ecellObject }),
+                    l_ex);
             }
         }
 
@@ -1471,9 +1470,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = MessageResLib.ErrDelete + l_message + " " + l_type;
-                Trace.WriteLine(l_message);
-                throw new Exception(l_message + " {" + l_ex.ToString() + "}");
+                throw new Exception(MessageResLib.ErrDelete, l_ex);
             }
             finally
             {
@@ -2067,9 +2064,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = MessageResLib.ErrDeleteSimParam + l_message;
-                Trace.WriteLine(l_message);
-                throw new Exception(l_message + " {" + l_ex.ToString() + "}");
+                throw new Exception(MessageResLib.ErrDeleteSimParam, l_ex);
             }
         }
 
@@ -2857,18 +2852,16 @@ namespace EcellLib
                     WrappedPolymorph l_newValue = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(0.01));
                     sim.SetEntityProperty(fullPath, l_newValue);
                 }
-                catch (Exception)
+                catch(Exception ex)
                 {
                     isEnable = false;
+                    throw ex;
                 }
             }
             catch (Exception l_ex)
             {
-                l_ex.ToString();
+                Trace.WriteLine(l_ex);
                 return false;
-                //throw new Exception(
-                //    MessageResLib.ErrGetProp +
-                //    "[" + l_dmName + "] {" + l_ex.ToString() + "}", l_ex);
             }
             return isEnable;
         }
@@ -2937,8 +2930,8 @@ namespace EcellLib
                                 Path.GetFileName(l_dirList[i]),
                                 l_reader.ReadLine(),
                                 File.GetLastWriteTime(l_prjFile).ToString()
-                                )
-                            );
+                            )
+                        );
                     }
                     catch (Exception l_ex)
                     {
@@ -2986,8 +2979,8 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(MessageResLib.ErrFindModel +
-                    " {" + l_ex.ToString() + "}");
+                Trace.WriteLine(l_ex);
+                throw new Exception(MessageResLib.ErrFindModel);
             }
         }
 
@@ -3006,28 +2999,13 @@ namespace EcellLib
         /// <returns>The savable simulation parameter ID</returns>
         public List<string> GetSavableSimulationParameter()
         {
-            try
+            Debug.Assert(m_currentProject.LoggerPolicyDic != null);
+            List<string> l_prmIDList = new List<string>();
+            foreach (string l_prmID in m_currentProject.LoggerPolicyDic.Keys)
             {
-                if (m_currentProject.LoggerPolicyDic != null
-                    && m_currentProject.LoggerPolicyDic.Count > 0)
-                {
-                    List<string> l_prmIDList = new List<string>();
-                    foreach (string l_prmID in m_currentProject.LoggerPolicyDic.Keys)
-                    {
-                        l_prmIDList.Add(l_prmID);
-                    }
-                    return l_prmIDList;
-                }
-                else
-                {
-                    return null;
-                }
+                l_prmIDList.Add(l_prmID);
             }
-            catch (Exception l_ex)
-            {
-                throw new Exception(MessageResLib.ErrSimParam +
-                    " {" + l_ex.ToString() + "}");
-            }
+            return l_prmIDList;
         }
 
         /// <summary>
@@ -3048,30 +3026,20 @@ namespace EcellLib
         public List<EcellObject> GetStepper(string l_parameterID, string l_modelID)
         {
             List<EcellObject> l_returnedStepper = new List<EcellObject>();
-            try
-            {
-                if (string.IsNullOrEmpty(l_modelID))
-                    throw new Exception(MessageResLib.ErrNullData);
-                if (string.IsNullOrEmpty(l_parameterID))
-                    l_parameterID = m_currentProject.SimulationParam;
-                if (string.IsNullOrEmpty(l_parameterID))
-                    throw new Exception(MessageResLib.ErrCurParamID);
+            if (string.IsNullOrEmpty(l_modelID))
+                throw new Exception(MessageResLib.ErrNullData);
+            if (string.IsNullOrEmpty(l_parameterID))
+                l_parameterID = m_currentProject.SimulationParam;
+            if (string.IsNullOrEmpty(l_parameterID))
+                throw new Exception(MessageResLib.ErrCurParamID);
 
-                List<EcellObject> tempList = m_currentProject.StepperDic[l_parameterID][l_modelID];
-                foreach (EcellObject l_stepper in tempList)
-                {
-                    // DataStored4Stepper(l_simulator, l_stepper);
-                    l_returnedStepper.Add(l_stepper.Copy());
-                }
-                return l_returnedStepper;
-            }
-            catch (Exception l_ex)
+            List<EcellObject> tempList = m_currentProject.StepperDic[l_parameterID][l_modelID];
+            foreach (EcellObject l_stepper in tempList)
             {
-                throw new Exception(
-                    MessageResLib.ErrGetStep +
-                    " [" + l_parameterID + ", " + l_modelID + "] {" +
-                    l_ex.ToString() + "}");
+                // DataStored4Stepper(l_simulator, l_stepper);
+                l_returnedStepper.Add(l_stepper.Copy());
             }
+            return l_returnedStepper;
         }
 
         /// <summary>
@@ -3080,17 +3048,10 @@ namespace EcellLib
         /// <returns>The list of parameter ID</returns>
         public List<string> GetSimulationParameterIDs()
         {
-            try
-            {
-                if (m_currentProject.StepperDic == null)
-                    return new List<string>();
+            if (m_currentProject.StepperDic == null)
+                return new List<string>();
 
-                return new List<string>(m_currentProject.StepperDic.Keys);
-            }
-            catch (Exception l_ex)
-            {
-                throw new Exception(MessageResLib.ErrGetSimParams + " {" + l_ex.ToString() + "}");
-            }
+            return new List<string>(m_currentProject.StepperDic.Keys);
         }
 
         /// <summary>
@@ -3207,7 +3168,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(MessageResLib.ErrGetSysList + " [" + l_modelID + "] {"                        + l_ex.ToString() + "}");
+                throw new Exception(MessageResLib.ErrGetSysList + " [" + l_modelID + "]", l_ex);
             }
         }
 
@@ -3291,13 +3252,6 @@ namespace EcellLib
                         new Dictionary<string, double>());
                 SetPropertyList(dummyEcellObject, l_dic);
             }
-            /*
-            catch (Exception l_ex)
-            {
-                throw new Exception("Can't obtain the property of the \"Variable\". {"
-                        + l_ex.ToString() + "}");
-            }
-             */
             finally
             {
                 l_simulator = null;
@@ -3435,8 +3389,9 @@ namespace EcellLib
                             continue;
                         }
                     }
-                    catch (Exception)
+                    catch(Exception ex)
                     {
+                        Trace.WriteLine(ex);
                         // do nothing
                     }
                     simulator.SetEntityProperty(l_path, l_setSystemPropertyDic[l_path]);
@@ -3636,8 +3591,9 @@ namespace EcellLib
                 {
                     m_currentProject.Simulator.Initialize();
                 }
-                catch (Exception)
+                catch(Exception ex)
                 {
+                    Trace.WriteLine(ex);
                     l_message = MessageResLib.ErrInitSim + "[" + m_currentProject.Name + "]";
                 }
                 // Sets initial conditions.
@@ -3666,9 +3622,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = MessageResLib.ErrLoadModel + "[" + l_message + "]";
-                Trace.WriteLine(l_message);
-                throw new Exception(l_message, l_ex);
+                throw new Exception(MessageResLib.ErrLoadModel, l_ex);
             }
         }
 
@@ -3757,7 +3711,7 @@ namespace EcellLib
                         }
                     }
                 }
-                Trace.WriteLine("Load Project: " + l_message);
+                Trace.WriteLine("Load project: " + l_message);
             }
             catch (Exception l_ex)
             {
@@ -3770,10 +3724,7 @@ namespace EcellLib
                         l_prj = null;
                     }
                 }
-                Trace.WriteLine(l_ex.ToString());
-                l_message = MessageResLib.ErrLoadPrj + "[" + l_message + "]";
-                Trace.WriteLine(l_message);
-                throw new Exception(l_message + " {" + l_ex.ToString() + "}");
+                throw new Exception(MessageResLib.ErrLoadPrj, l_ex);
             }
             finally
             {
@@ -3873,13 +3824,15 @@ namespace EcellLib
                                     {
                                         try
                                         {
-                                            l_newData.Value
-                                                = new EcellValue(
-                                                    Convert.ToInt32(
-                                                        l_newData.Value.CastToList()[0].ToString()));
+                                            l_newData.Value = new EcellValue(
+                                                Convert.ToInt32(
+                                                    l_newData.Value.CastToList()[0].ToString()
+                                                )
+                                            );
                                         }
-                                        catch (Exception)
+                                        catch(Exception ex)
                                         {
+                                            Trace.WriteLine(ex);
                                             // do nothing
                                         }
                                     }
@@ -3919,9 +3872,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = MessageResLib.ErrLoadSimParam + "[" + l_message + "]";
-                Trace.WriteLine(l_message);
-                throw new Exception(l_message + " {" + l_ex.ToString() + "}");
+                throw new Exception(MessageResLib.ErrLoadSimParam + "[" + l_message + "]", l_ex);
             }
         }
         /// <summary>
@@ -3943,8 +3894,9 @@ namespace EcellLib
                 else
                     l_value = XmlConvert.ToDouble(l_newValue);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Trace.WriteLine(ex);
                 l_value = Double.PositiveInfinity;
             }
             return new EcellValue(l_value);
@@ -3989,8 +3941,7 @@ namespace EcellLib
                     EcellValue velue = l_ecellData.Value;
                     try
                     {
-                        string l_value
-                            = velue.ToString().Replace("(", "").Replace(")", "").Replace("\"", "");
+                        string l_value = velue.ToString().Replace("(", "").Replace(")", "").Replace("\"", "");
                         if (l_value.Equals(Double.PositiveInfinity.ToString()))
                             continue;
                         else if (l_value.Equals(Double.MaxValue.ToString()))
@@ -3998,8 +3949,9 @@ namespace EcellLib
 
                         XmlConvert.ToDouble(l_value);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        Trace.WriteLine(ex);
                         continue;
                     }
 
@@ -5034,8 +4986,8 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 l_message = MessageResLib.ErrUpdateLogPol + l_message;
-                Trace.WriteLine(l_message);
-                throw new Exception(l_message + " {" + l_ex.ToString() + "}");
+                Trace.WriteLine(l_ex);
+                throw new Exception(l_message);
             }
         }
 
@@ -5385,7 +5337,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 m_currentProject.SimulationStatus = SimulationStatus.Wait;
-                throw new Exception(MessageResLib.ErrRunSim + " {" + l_ex.ToString() + "}");
+                throw new Exception(MessageResLib.ErrRunSim, l_ex);
             }
         }
 
@@ -5429,9 +5381,8 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                string l_message = MessageResLib.ErrResetSim;
-                Trace.WriteLine(l_message);
-                throw new Exception(l_message + "{" + l_ex.ToString() + "}");
+                Trace.WriteLine(l_ex);
+                throw new Exception(MessageResLib.ErrResetSim, l_ex);
             }
             finally
             {
@@ -5452,9 +5403,8 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                string l_message = MessageResLib.ErrSuspendSim;
-                Trace.WriteLine(l_message);
-                throw new Exception(l_message + " {" + l_ex.ToString() + "}");
+                Trace.WriteLine(l_ex);
+                throw new Exception(MessageResLib.ErrSuspendSim, l_ex);
             }
         }
 
@@ -5510,8 +5460,8 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(MessageResLib.ErrSetInitParam + l_message
-                    + " {" + l_ex.ToString() + "}");
+                Trace.WriteLine(l_ex);
+                throw new Exception(MessageResLib.ErrSetInitParam + l_message);
             }
         }
 
@@ -5568,7 +5518,7 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(MessageResLib.ErrSetStepper + l_message + " {" + l_ex.ToString() + "}");
+                throw new Exception(MessageResLib.ErrSetStepper + l_message, l_ex);
             }
         }
         /// <summary>

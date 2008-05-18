@@ -33,6 +33,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -294,7 +295,10 @@ namespace EcellLib.GridLayout
                             relationMatrix[num, pos] = 1;
                             relationMatrix[pos, num] = 1;
                         }
-                        catch (KeyNotFoundException) { }
+                        catch (KeyNotFoundException ex)
+                        {
+                            Trace.WriteLine(ex);
+                        }
                     }
                 }
                 num++;

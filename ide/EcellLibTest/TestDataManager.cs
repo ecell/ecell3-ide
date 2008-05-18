@@ -54,8 +54,9 @@ namespace EcellLib
             {
                 _unitUnderTest.LoadUserActionFile(null);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Trace.WriteLine(ex);
                 Debug.WriteLine("Null error.");
             }
             // Test empty.
@@ -63,8 +64,9 @@ namespace EcellLib
             {
                 _unitUnderTest.LoadUserActionFile("");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Trace.WriteLine(ex);
                 Debug.WriteLine("Empty error.");
             }
             
@@ -73,8 +75,9 @@ namespace EcellLib
             {
                 _unitUnderTest.LoadUserActionFile(ActionFileUnCorrect);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Trace.WriteLine(ex);
                 Debug.WriteLine("");
             }
 
