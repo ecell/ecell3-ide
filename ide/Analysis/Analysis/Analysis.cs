@@ -434,7 +434,8 @@ namespace EcellLib.Analysis
 
             if (resList.Count < 1)
             {
-                Util.ShowErrorDialog(MessageResAnalysis.ErrObservProp);
+                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrNoSet,
+                    MessageResAnalysis.NameObservedData));
                 return null;
             }
 
@@ -464,7 +465,8 @@ namespace EcellLib.Analysis
 
             if (resList.Count < 1)
             {
-                Util.ShowErrorDialog(MessageResAnalysis.ErrObservProp);
+                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrNoSet,
+                    MessageResAnalysis.NameObservedData));
                 return null;
             }
 

@@ -88,6 +88,15 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   There are any error job. Do you want to confirm the result? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmFindErrorJob {
+            get {
+                return ResourceManager.GetString("ConfirmFindErrorJob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Do you want to stop the analysis? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmStopAnalysis {
@@ -97,173 +106,29 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
-        ///   The absolute perturbation is lager than 0.0. に類似しているローカライズされた文字列を検索します。
+        ///   Failed to execute the {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ErrAbsolutePert {
+        internal static string ErrExecute {
             get {
-                return ResourceManager.GetString("ErrAbsolutePert", resourceCulture);
+                return ResourceManager.GetString("ErrExecute", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Fail to execute the robust analysis. に類似しているローカライズされた文字列を検索します。
+        ///   {0} should be larger than {1}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ErrAnalysis {
+        internal static string ErrLarger {
             get {
-                return ResourceManager.GetString("ErrAnalysis", resourceCulture);
+                return ResourceManager.GetString("ErrLarger", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   There are any error job. Do you want to show the result? に類似しているローカライズされた文字列を検索します。
+        ///   {0} is not set.  に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ErrFindErrorJob {
+        internal static string ErrNoSet {
             get {
-                return ResourceManager.GetString("ErrFindErrorJob", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   The number of generation is lager than 0. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrGenerationNumPositive {
-            get {
-                return ResourceManager.GetString("ErrGenerationNumPositive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   There are invalid properties in execution parameters. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrInputReflect {
-            get {
-                return ResourceManager.GetString("ErrInputReflect", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   There are invalid properties in the selected parameter file. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrLoadParam {
-            get {
-                return ResourceManager.GetString("ErrLoadParam", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can&apos;t find the checked parameter for judgment. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrNotCheckParam {
-            get {
-                return ResourceManager.GetString("ErrNotCheckParam", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can&apos;t find the formulator of estimation. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrNotEstimateFormulator {
-            get {
-                return ResourceManager.GetString("ErrNotEstimateFormulator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can&apos;t get the observed parameter. Please set at least one property. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrObservProp {
-            get {
-                return ResourceManager.GetString("ErrObservProp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fail to execute the sensitivity analysis. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrorSAnalysis {
-            get {
-                return ResourceManager.GetString("ErrorSAnalysis", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   There are invalid parameters. Please check Number of sample, Simulation Time or Check window size. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrOutParam {
-            get {
-                return ResourceManager.GetString("ErrOutParam", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Get the exception while the prameter file is output. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrOutParamFile {
-            get {
-                return ResourceManager.GetString("ErrOutParamFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   The max number of input is over に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrOverMax {
-            get {
-                return ResourceManager.GetString("ErrOverMax", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can&apos;t get the parameter of property. Please set at least one property. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrParamProp1 {
-            get {
-                return ResourceManager.GetString("ErrParamProp1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can&apos;t get the parameter of property. Please set at least two property. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrParamProp2 {
-            get {
-                return ResourceManager.GetString("ErrParamProp2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Parameter should be two data. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrParamPropEqual2 {
-            get {
-                return ResourceManager.GetString("ErrParamPropEqual2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   The numner of population is lager than 0. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrPopulationNumPositive {
-            get {
-                return ResourceManager.GetString("ErrPopulationNumPositive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Number of sample, Simulation Time or Check window size should be positive number. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrPosValue {
-            get {
-                return ResourceManager.GetString("ErrPosValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can&apos;t find the parameter as random parameter. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrRandParam {
-            get {
-                return ResourceManager.GetString("ErrRandParam", resourceCulture);
+                return ResourceManager.GetString("ErrNoSet", resourceCulture);
             }
         }
         
@@ -286,74 +151,38 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
-        ///   The number of samples is larger than 0, に類似しているローカライズされた文字列を検索します。
+        ///   {0} should be set {1}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ErrSampleNumPositive {
+        internal static string ErrSetNumber {
             get {
-                return ResourceManager.GetString("ErrSampleNumPositive", resourceCulture);
+                return ResourceManager.GetString("ErrSetNumber", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   The simulation time is lager than 0.0. に類似しているローカライズされた文字列を検索します。
+        ///   {0} should be set {1} or more. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ErrSimTimeUnder {
+        internal static string ErrSetNumberMore {
             get {
-                return ResourceManager.GetString("ErrSimTimeUnder", resourceCulture);
+                return ResourceManager.GetString("ErrSetNumberMore", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Can not find the singular matrix. Please confirm whether the value of variable is set. に類似しているローカライズされた文字列を検索します。
+        ///   {0} should be smaller than {1}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ErrSingular {
+        internal static string ErrSmaller {
             get {
-                return ResourceManager.GetString("ErrSingular", resourceCulture);
+                return ResourceManager.GetString("ErrSmaller", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   The step is lager than and equal 1. に類似しているローカライズされた文字列を検索します。
+        ///   Finished to execute the {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ErrStepUnder {
+        internal static string InfoFinishExecute {
             get {
-                return ResourceManager.GetString("ErrStepUnder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Finished to execute the bifurcation analysis. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string FinishBAnalysis {
-            get {
-                return ResourceManager.GetString("FinishBAnalysis", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Finished to execute the parameter estimation. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string FinishPAnalysis {
-            get {
-                return ResourceManager.GetString("FinishPAnalysis", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Finished to execute the robust analysis. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string FinishRAnalysis {
-            get {
-                return ResourceManager.GetString("FinishRAnalysis", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Finished to execute the sensitivity analysis. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string FinishSAnalysis {
-            get {
-                return ResourceManager.GetString("FinishSAnalysis", resourceCulture);
+                return ResourceManager.GetString("InfoFinishExecute", resourceCulture);
             }
         }
         
@@ -417,6 +246,132 @@ namespace EcellLib.Analysis {
         internal static string MenuItemStopAnalysis {
             get {
                 return ResourceManager.GetString("MenuItemStopAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The absolute perturbation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameAbsolutePert {
+            get {
+                return ResourceManager.GetString("NameAbsolutePert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   bifurcation analysis に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameBifurcation {
+            get {
+                return ResourceManager.GetString("NameBifurcation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The estimation formulator に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameEstimationForm {
+            get {
+                return ResourceManager.GetString("NameEstimationForm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The number of generation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameGenerationNum {
+            get {
+                return ResourceManager.GetString("NameGenerationNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The number of samples for FFT に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameMaxSample {
+            get {
+                return ResourceManager.GetString("NameMaxSample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The observed data に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameObservedData {
+            get {
+                return ResourceManager.GetString("NameObservedData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The parameter data に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameParameterData {
+            get {
+                return ResourceManager.GetString("NameParameterData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   parameter estimation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameParameterEstimate {
+            get {
+                return ResourceManager.GetString("NameParameterEstimate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The number of populations に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NamePopulation {
+            get {
+                return ResourceManager.GetString("NamePopulation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The relative perturbation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameRelativePert {
+            get {
+                return ResourceManager.GetString("NameRelativePert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   robust analysis に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameRobustAnalysis {
+            get {
+                return ResourceManager.GetString("NameRobustAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   sensitivity analysis に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameSensAnalysis {
+            get {
+                return ResourceManager.GetString("NameSensAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The simulation time に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameSimulationTime {
+            get {
+                return ResourceManager.GetString("NameSimulationTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The number of step に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameStepNum {
+            get {
+                return ResourceManager.GetString("NameStepNum", resourceCulture);
             }
         }
         

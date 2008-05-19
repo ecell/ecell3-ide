@@ -126,65 +126,20 @@
   <data name="ConfirmClose" xml:space="preserve">
     <value>このウインドウを閉じてもよろしいですか？</value>
   </data>
+  <data name="ConfirmFindErrorJob" xml:space="preserve">
+    <value>エラーの発生したパラメータがあります。結果を表示してよろしいですか？</value>
+  </data>
   <data name="ConfirmStopAnalysis" xml:space="preserve">
     <value>この解析を終了してよろしいですか？</value>
   </data>
-  <data name="ErrAbsolutePert" xml:space="preserve">
-    <value>Absolute Partubationは0以上の値に設定してください。</value>
+  <data name="ErrExecute" xml:space="preserve">
+    <value>{0} の実行に失敗しました。</value>
   </data>
-  <data name="ErrAnalysis" xml:space="preserve">
-    <value>ロバスト解析に失敗しました。</value>
+  <data name="ErrLarger" xml:space="preserve">
+    <value>{0} は {1} より大きい値に設定してください。</value>
   </data>
-  <data name="ErrFindErrorJob" xml:space="preserve">
-    <value>エラーの発生したパラメータがあります。結果を表示してよろしいですか？</value>
-  </data>
-  <data name="ErrGenerationNumPositive" xml:space="preserve">
-    <value>世代数は0より大きい値に設定してください。</value>
-  </data>
-  <data name="ErrInputReflect" xml:space="preserve">
-    <value>実行パラメータの中に異常なパラメータが存在します。確認してください。</value>
-  </data>
-  <data name="ErrLoadParam" xml:space="preserve">
-    <value>選択したファイルに異常なパラメータが存在します。確認してください。</value>
-  </data>
-  <data name="ErrNotCheckParam" xml:space="preserve">
-    <value>チェックパラメータとして設定されたパラメータが存在しません。</value>
-  </data>
-  <data name="ErrNotEstimateFormulator" xml:space="preserve">
-    <value>推定を推評価する式が見つかりません。</value>
-  </data>
-  <data name="ErrObservProp" xml:space="preserve">
-    <value>監視対象パラメータが設定されていません。１つの監視パラメータは設定してください。</value>
-  </data>
-  <data name="ErrorSAnalysis" xml:space="preserve">
-    <value>感度解析の実行に失敗しました。</value>
-  </data>
-  <data name="ErrOutParam" xml:space="preserve">
-    <value>異常なパラメータが存在します。Number of sample、Simulation Time、Check window sizeをチェックしてください。</value>
-  </data>
-  <data name="ErrOutParamFile" xml:space="preserve">
-    <value>パラメータファイル出力中にエラーが発生しました。</value>
-  </data>
-  <data name="ErrOverMax" xml:space="preserve">
-    <value>最大入力数に規定以上の値が設定されています</value>
-  </data>
-  <data name="ErrParamProp1" xml:space="preserve">
-    <value>解析対象のプロパティが設定されていません。少なくとも1つのプロパティを設定してください。</value>
-  </data>
-  <data name="ErrParamProp2" xml:space="preserve">
-    <value>解析対象のプロパティが設定されていません。少なくとも2つのプロパティを設定してください。</value>
-  </data>
-  <data name="ErrParamPropEqual2" xml:space="preserve">
-    <value>解析対象のプロパティは2つである必要があります。</value>
-  </data>
-  <data name="ErrPopulationNumPositive" xml:space="preserve">
-    <value>個体数は0より大きい値に設定してください。</value>
-  </data>
-  <data name="ErrPosValue" xml:space="preserve">
-    <value>Number of sample、Simulation Time、Check Window Sizeには整数を入力してください。</value>
-  </data>
-  <data name="ErrRandParam" xml:space="preserve">
-    <value>ランダムパラメータとして設定されたパラメータが存在しません。</value>
+  <data name="ErrNoSet" xml:space="preserve">
+    <value>{0} が設定されていません。少なくとも{1}つ以上設定してください。</value>
   </data>
   <data name="ErrRelativePert" xml:space="preserve">
     <value>Relative Partubationは0以上の値に設定してください。</value>
@@ -192,29 +147,17 @@
   <data name="ErrSameAxis" xml:space="preserve">
     <value>X軸とＹ軸に設定したパラメータが同じです。</value>
   </data>
-  <data name="ErrSampleNumPositive" xml:space="preserve">
-    <value>サンプル数は0より大きい値に設定してください。</value>
+  <data name="ErrSetNumber" xml:space="preserve">
+    <value>{0} は {1} 個設定してください。</value>
   </data>
-  <data name="ErrSimTimeUnder" xml:space="preserve">
-    <value>シミュレーション時間が0.0より大きい値に設定してください。</value>
+  <data name="ErrSetNumberMore" xml:space="preserve">
+    <value>{0} は {1} 個以上設定してください。</value>
   </data>
-  <data name="ErrSingular" xml:space="preserve">
-    <value>感度解析の計算に失敗しました。VariableのValueの値が設定されているか確認してください。</value>
+  <data name="ErrSmaller" xml:space="preserve">
+    <value>{0} は {1} より小さい値に設定してください。</value>
   </data>
-  <data name="ErrStepUnder" xml:space="preserve">
-    <value>ステップ数を１以上の値に設定してください。</value>
-  </data>
-  <data name="FinishBAnalysis" xml:space="preserve">
-    <value>分岐解析の実行が終了しました。</value>
-  </data>
-  <data name="FinishPAnalysis" xml:space="preserve">
-    <value>パラメータ推定の実行が終了しました。</value>
-  </data>
-  <data name="FinishRAnalysis" xml:space="preserve">
-    <value>ロバスト解析の実行が終了しました。</value>
-  </data>
-  <data name="FinishSAnalysis" xml:space="preserve">
-    <value>感度解析の実行が終了しました。</value>
+  <data name="InfoFinishExecute" xml:space="preserve">
+    <value>{0} の実行が終了しました。</value>
   </data>
   <data name="MenuItemAnalysis" xml:space="preserve">
     <value>解析(&amp;A)...</value>
@@ -236,6 +179,48 @@
   </data>
   <data name="MenuItemStopAnalysis" xml:space="preserve">
     <value>解析停止</value>
+  </data>
+  <data name="NameAbsolutePert" xml:space="preserve">
+    <value>Absolute perturbation</value>
+  </data>
+  <data name="NameBifurcation" xml:space="preserve">
+    <value>分岐解析</value>
+  </data>
+  <data name="NameEstimationForm" xml:space="preserve">
+    <value>評価式</value>
+  </data>
+  <data name="NameGenerationNum" xml:space="preserve">
+    <value>世代数</value>
+  </data>
+  <data name="NameMaxSample" xml:space="preserve">
+    <value>FFTのサンプル数</value>
+  </data>
+  <data name="NameObservedData" xml:space="preserve">
+    <value>監視データ</value>
+  </data>
+  <data name="NameParameterData" xml:space="preserve">
+    <value>パラメータデータ</value>
+  </data>
+  <data name="NameParameterEstimate" xml:space="preserve">
+    <value>パラメータ推定</value>
+  </data>
+  <data name="NamePopulation" xml:space="preserve">
+    <value>個体数</value>
+  </data>
+  <data name="NameRelativePert" xml:space="preserve">
+    <value>Relative perturbation</value>
+  </data>
+  <data name="NameRobustAnalysis" xml:space="preserve">
+    <value>ロバスト解析</value>
+  </data>
+  <data name="NameSensAnalysis" xml:space="preserve">
+    <value>感度解析</value>
+  </data>
+  <data name="NameSimulationTime" xml:space="preserve">
+    <value>シミュレーション時間</value>
+  </data>
+  <data name="NameStepNum" xml:space="preserve">
+    <value>ステップ数</value>
   </data>
   <data name="ReflectMenuText" xml:space="preserve">
     <value>反映</value>

@@ -155,19 +155,12 @@ namespace EcellLib.Analysis
             m_param = m_owner.GetBifurcationAnalysisPrameter();
             String tmpDir = m_owner.JobManager.TmpRootDir;
             double simTime = m_param.SimulationTime;
-            int maxSize = Convert.ToInt32(m_param.MaxInput);
             m_isDone = false;
 
             if (simTime <= 0.0)
             {
-                Util.ShowErrorDialog(MessageResAnalysis.ErrSimTimeUnder);
-
-                return;
-            }
-            if (maxSize > AnalysisWindow.MaxSize)
-            {
-                Util.ShowErrorDialog(MessageResAnalysis.ErrOverMax + "[" + AnalysisWindow.MaxSize + "]");
-
+                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
+                    MessageResAnalysis.NameSimulationTime, 0.0));
                 return;
             }
 
@@ -179,8 +172,8 @@ namespace EcellLib.Analysis
             if (paramList == null) return;
             if (paramList.Count != 2)
             {
-                Util.ShowErrorDialog(MessageResAnalysis.ErrParamProp2);
-
+                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSetNumber,
+                    MessageResAnalysis.NameParameterData, 2));
                 return;
             }
             List<SaveLoggerProperty> saveList = m_owner.GetBAObservedDataList();
@@ -612,7 +605,7 @@ namespace EcellLib.Analysis
 
             if (m_owner.JobManager.IsError())
             {
-                if (!Util.ShowYesNoDialog(MessageResAnalysis.ErrFindErrorJob))
+                if (!Util.ShowYesNoDialog(MessageResAnalysis.ConfirmFindErrorJob))
 
 
                 {
@@ -627,7 +620,8 @@ namespace EcellLib.Analysis
                 PrintResultData();
                 m_isRunning = false;
                 m_owner.StopBifurcationAnalysis();
-                Util.ShowNoticeDialog(MessageResAnalysis.FinishBAnalysis);
+                Util.ShowNoticeDialog(String.Format(MessageResAnalysis.InfoFinishExecute,
+                    MessageResAnalysis.NameBifurcation));
 
                 return;
             }
