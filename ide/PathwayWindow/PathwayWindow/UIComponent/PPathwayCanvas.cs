@@ -98,7 +98,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e">MouseEventArgs.</param>
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            //base.OnMouseWheel(e);
             if (Control.ModifierKeys == Keys.Shift)
             {
                 m_canvas.PanCanvas(Direction.Horizontal, e.Delta);
@@ -112,6 +111,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             {
                 m_canvas.PanCanvas(Direction.Vertical, e.Delta);
             }
+            base.OnMouseWheel(e);
         }
         /// <summary>
         /// 
