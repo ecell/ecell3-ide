@@ -126,10 +126,10 @@ namespace EcellLib.MainWindow
             this.webBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.webBrowser.Location = new System.Drawing.Point(265, 3);
+            this.webBrowser.Location = new System.Drawing.Point(265, 0);
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(453, 437);
+            this.webBrowser.Size = new System.Drawing.Size(453, 443);
             this.webBrowser.TabIndex = 3;
             this.webBrowser.CanGoForwardChanged += new System.EventHandler(this.webBrowser_CanGoForwardChanged);
             this.webBrowser.CanGoBackChanged += new System.EventHandler(this.webBrowser_CanGoBackChanged);
@@ -414,9 +414,15 @@ namespace EcellLib.MainWindow
                 URLComboBox.Items.RemoveAt(URLComboBox.Items.Count - 1);
 
             if (webBrowser.Url == STARTUP)
-                webBrowser.Dock = DockStyle.None;
+            {
+                webBrowser.Left = 265;
+                webBrowser.Width = panel1.Width - 265;
+            }
             else
-                webBrowser.Dock = DockStyle.Fill;
+            {
+                webBrowser.Left = 0;
+                webBrowser.Width = panel1.Width;
+            }
         }
         /// <summary>
         /// Event on progress changed
@@ -460,7 +466,7 @@ namespace EcellLib.MainWindow
 
         #region Internal class
         /// <summary>
-        /// Internal class
+        /// Custom Label.
         /// </summary>
         private class ProjectLabel : Label
         {

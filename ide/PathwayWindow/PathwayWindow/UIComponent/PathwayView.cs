@@ -152,8 +152,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         void InitializeComponent()
         {
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
-            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.ObjectIDLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.ZoomRateLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.LocationLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusStrip.SuspendLayout();
@@ -172,13 +172,6 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.StatusStrip.TabIndex = 0;
             this.StatusStrip.Text = "statusStrip1";
             // 
-            // ProgressBar
-            // 
-            this.ProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.ProgressBar.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Size = new System.Drawing.Size(100, 16);
-            // 
             // ObjectIDLabel
             // 
             this.ObjectIDLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
@@ -191,6 +184,13 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.ObjectIDLabel.Spring = true;
             this.ObjectIDLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // ProgressBar
+            // 
+            this.ProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.ProgressBar.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Size = new System.Drawing.Size(100, 16);
+            // 
             // ZoomRateLabel
             // 
             this.ZoomRateLabel.AutoSize = false;
@@ -201,7 +201,6 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.ZoomRateLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.ZoomRateLabel.Name = "ZoomRateLabel";
             this.ZoomRateLabel.Size = new System.Drawing.Size(50, 17);
-            this.ZoomRateLabel.Text = "70%";
             // 
             // LocationLabel
             // 
