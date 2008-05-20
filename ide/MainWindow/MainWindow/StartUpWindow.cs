@@ -42,14 +42,29 @@ namespace EcellLib.MainWindow
     /// </summary>
     public class StartUpWindow : EcellDockContent
     {
-        private PictureBox pictureBox1;
-        private GroupBox groupBox1;
-        private WebBrowser webBrowser1;
+        #region Fields
         private const string URL = "http://chaperone.e-cell.org/trac/ecell-ide";
-        MainWindow m_window = null;
+        private PictureBox pictureBox;
+        private GroupBox groupBox;
+        private WebBrowser webBrowser;
+        private StatusStrip statusStrip;
+        private ToolStripStatusLabel URLLabel;
+        private ToolStripProgressBar ProgressBar;
+        private ToolStrip toolStrip;
+        private ToolStripButton ButtonBack;
+        private ToolStripButton ButtonForward;
+        private ToolStripComboBox URLComboBox;
+        private ToolStripButton ButtonStop;
+        private ToolStripButton ButtonNavigate;
+        private Panel panel1;
+        private ToolStripButton ButtonRefresh;
+        private MainWindow m_window = null;
+        private static readonly Uri STARTUP = new Uri(Path.Combine(Application.StartupPath, Constants.fileStartupHTML));
+        #endregion
 
+        #region Constructor
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="window"></param>
         public StartUpWindow(MainWindow window)
@@ -58,9 +73,204 @@ namespace EcellLib.MainWindow
             InitializeComponent();
             this.Text = MessageResMain.StartUpWindow;
             this.TabText = this.Text;
-            Uri uri = new Uri(Path.Combine(Application.StartupPath, Constants.fileStartupHTML));
-            webBrowser1.Navigate(uri);
+            webBrowser.Navigate(STARTUP);
             SetRecentFiles();
+        }
+
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartUpWindow));
+            this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.groupBox = new System.Windows.Forms.GroupBox();
+            this.webBrowser = new System.Windows.Forms.WebBrowser();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.URLLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.ButtonBack = new System.Windows.Forms.ToolStripButton();
+            this.ButtonForward = new System.Windows.Forms.ToolStripButton();
+            this.ButtonStop = new System.Windows.Forms.ToolStripButton();
+            this.ButtonRefresh = new System.Windows.Forms.ToolStripButton();
+            this.ButtonNavigate = new System.Windows.Forms.ToolStripButton();
+            this.URLComboBox = new System.Windows.Forms.ToolStripComboBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
+            this.statusStrip.SuspendLayout();
+            this.toolStrip.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // pictureBox
+            // 
+            this.pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox.Image")));
+            this.pictureBox.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(259, 89);
+            this.pictureBox.TabIndex = 1;
+            this.pictureBox.TabStop = false;
+            // 
+            // groupBox
+            // 
+            this.groupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.groupBox.Location = new System.Drawing.Point(12, 95);
+            this.groupBox.Name = "groupBox";
+            this.groupBox.Size = new System.Drawing.Size(245, 345);
+            this.groupBox.TabIndex = 2;
+            this.groupBox.TabStop = false;
+            this.groupBox.Text = "Recent Projects";
+            // 
+            // webBrowser
+            // 
+            this.webBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.webBrowser.Location = new System.Drawing.Point(265, 3);
+            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser.Name = "webBrowser";
+            this.webBrowser.Size = new System.Drawing.Size(453, 437);
+            this.webBrowser.TabIndex = 3;
+            this.webBrowser.CanGoForwardChanged += new System.EventHandler(this.webBrowser_CanGoForwardChanged);
+            this.webBrowser.CanGoBackChanged += new System.EventHandler(this.webBrowser_CanGoBackChanged);
+            this.webBrowser.ProgressChanged += new System.Windows.Forms.WebBrowserProgressChangedEventHandler(this.webBrowser_ProgressChanged);
+            this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
+            this.webBrowser.StatusTextChanged += new System.EventHandler(this.webBrowser_StatusTextChanged);
+            // 
+            // statusStrip
+            // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.URLLabel,
+            this.ProgressBar});
+            this.statusStrip.Location = new System.Drawing.Point(0, 468);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(718, 22);
+            this.statusStrip.TabIndex = 4;
+            this.statusStrip.Text = "statusStrip1";
+            // 
+            // URLLabel
+            // 
+            this.URLLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.URLLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.URLLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.URLLabel.Name = "URLLabel";
+            this.URLLabel.Size = new System.Drawing.Size(601, 17);
+            this.URLLabel.Spring = true;
+            this.URLLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // ProgressBar
+            // 
+            this.ProgressBar.BackColor = System.Drawing.SystemColors.Control;
+            this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Size = new System.Drawing.Size(100, 16);
+            // 
+            // toolStrip
+            // 
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ButtonBack,
+            this.ButtonForward,
+            this.ButtonStop,
+            this.ButtonRefresh,
+            this.ButtonNavigate,
+            this.URLComboBox});
+            this.toolStrip.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.Size = new System.Drawing.Size(718, 25);
+            this.toolStrip.TabIndex = 5;
+            this.toolStrip.Text = "toolStrip1";
+            // 
+            // ButtonBack
+            // 
+            this.ButtonBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonBack.Image = ((System.Drawing.Image)(resources.GetObject("ButtonBack.Image")));
+            this.ButtonBack.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ButtonBack.Name = "ButtonBack";
+            this.ButtonBack.Size = new System.Drawing.Size(23, 22);
+            this.ButtonBack.Text = "Back";
+            this.ButtonBack.Click += new System.EventHandler(this.Button_Click);
+            // 
+            // ButtonForward
+            // 
+            this.ButtonForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonForward.Image = ((System.Drawing.Image)(resources.GetObject("ButtonForward.Image")));
+            this.ButtonForward.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ButtonForward.Name = "ButtonForward";
+            this.ButtonForward.Size = new System.Drawing.Size(23, 22);
+            this.ButtonForward.Text = "Go";
+            this.ButtonForward.Click += new System.EventHandler(this.Button_Click);
+            // 
+            // ButtonStop
+            // 
+            this.ButtonStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonStop.Image = ((System.Drawing.Image)(resources.GetObject("ButtonStop.Image")));
+            this.ButtonStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ButtonStop.Name = "ButtonStop";
+            this.ButtonStop.Size = new System.Drawing.Size(23, 22);
+            this.ButtonStop.Text = "Stop";
+            this.ButtonStop.Click += new System.EventHandler(this.Button_Click);
+            // 
+            // ButtonRefresh
+            // 
+            this.ButtonRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonRefresh.Image = ((System.Drawing.Image)(resources.GetObject("ButtonRefresh.Image")));
+            this.ButtonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ButtonRefresh.Name = "ButtonRefresh";
+            this.ButtonRefresh.Size = new System.Drawing.Size(23, 22);
+            this.ButtonRefresh.Text = "Refresh";
+            this.ButtonRefresh.Click += new System.EventHandler(this.Button_Click);
+            // 
+            // ButtonNavigate
+            // 
+            this.ButtonNavigate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonNavigate.Image = ((System.Drawing.Image)(resources.GetObject("ButtonNavigate.Image")));
+            this.ButtonNavigate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ButtonNavigate.Name = "ButtonNavigate";
+            this.ButtonNavigate.Size = new System.Drawing.Size(23, 22);
+            this.ButtonNavigate.Text = "Navigate";
+            this.ButtonNavigate.Click += new System.EventHandler(this.Button_Click);
+            // 
+            // URLComboBox
+            // 
+            this.URLComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.URLComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.AllUrl;
+            this.URLComboBox.MaxDropDownItems = 10;
+            this.URLComboBox.MaxLength = 1000;
+            this.URLComboBox.Name = "URLComboBox";
+            this.URLComboBox.Size = new System.Drawing.Size(321, 25);
+            this.URLComboBox.SelectedIndexChanged += new System.EventHandler(this.URLComboBox_SelectedIndexChanged);
+            this.URLComboBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.URLComboBox_KeyPress);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.webBrowser);
+            this.panel1.Controls.Add(this.groupBox);
+            this.panel1.Controls.Add(this.pictureBox);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 25);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(718, 443);
+            this.panel1.TabIndex = 6;
+            // 
+            // StartUpWindow
+            // 
+            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ClientSize = new System.Drawing.Size(718, 490);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.toolStrip);
+            this.Controls.Add(this.statusStrip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "StartUpWindow";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
+            this.toolStrip.ResumeLayout(false);
+            this.toolStrip.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         private void SetRecentFiles()
@@ -75,71 +285,143 @@ namespace EcellLib.MainWindow
                 label.Left = 20;
                 label.Top = i * 25;
                 label.MouseClick += new MouseEventHandler(label_MouseClick);
-                groupBox1.Controls.Add(label);
+                groupBox.Controls.Add(label);
             }
         }
+        #endregion
 
-        private void InitializeComponent()
-        {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartUpWindow));
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(-2, -1);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(259, 89);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.groupBox1.Location = new System.Drawing.Point(12, 103);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(245, 386);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Recent Projects";
-            // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.webBrowser1.Location = new System.Drawing.Point(263, -1);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(423, 500);
-            this.webBrowser1.TabIndex = 3;
-            // 
-            // StartUpWindow
-            // 
-            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(688, 501);
-            this.Controls.Add(this.webBrowser1);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.pictureBox1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "StartUpWindow";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.ResumeLayout(false);
-
+        #region private methods
+        private void go()
+        {                   
+            this.webBrowser.Navigate(this.URLComboBox.Text);    
         }
 
+        private void stop()
+        {
+            this.webBrowser.Stop();        
+        }
+
+        private void forward()
+        {
+            this.webBrowser.GoForward();
+        
+        }
+
+        private void back()
+        {
+            this.webBrowser.GoBack();    
+        }
+
+        private void refresh()
+        {
+            try
+            {
+                this.webBrowser.Refresh();    
+            }
+            catch 
+            {
+            }
+        }
+        #endregion
+
+        #region Event Handlers
+        /// <summary>
+        /// Event handler on menu mouse clisk.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void label_MouseClick(object sender, MouseEventArgs e)
         {
             ProjectLabel label = (ProjectLabel)sender;
             m_window.LoadProject(label.Project, label.FilePath);
         }
 
+        /// <summary>
+        /// Event handler on ToolButton click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Click(object sender, EventArgs e)
+        {
+            if (sender == ButtonBack)
+                back();
+            else if (sender == ButtonForward)
+                forward();
+            else if (sender == ButtonStop)
+                stop();
+            else if (sender == ButtonNavigate)
+                go();
+            else if (sender == ButtonRefresh)
+                refresh();
+        }
+
+        /// <summary>
+        /// Event handler on ComboBox changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void URLComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            go();
+        }
+
+        /// <summary>
+        /// Event handler on ComboBox input.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void URLComboBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+                go();
+        }
+
+        /// <summary>
+        /// Event handler on complete refresh page.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            this.URLComboBox.Text = webBrowser.Url.AbsoluteUri;
+            if (URLComboBox.Items.Count == 0 || (string)URLComboBox.Items[0] != URLComboBox.Text)
+                URLComboBox.Items.Insert(0, URLComboBox.Text);
+            if (URLComboBox.Items.Count > URLComboBox.MaxDropDownItems)
+                URLComboBox.Items.RemoveAt(URLComboBox.Items.Count - 1);
+
+            if (webBrowser.Url == STARTUP)
+                webBrowser.Dock = DockStyle.None;
+            else
+                webBrowser.Dock = DockStyle.Fill;
+        }
+
+        void webBrowser_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
+        {
+            this.ProgressBar.Maximum = (int)e.MaximumProgress;
+            this.ProgressBar.Value = (int)e.CurrentProgress;
+        }
+
+        void webBrowser_StatusTextChanged(object sender, EventArgs e)
+        {
+            this.URLLabel.Text = webBrowser.StatusText;
+        }
+
+        void webBrowser_CanGoForwardChanged(object sender, EventArgs e)
+        {
+            this.ButtonForward.Enabled = webBrowser.CanGoForward;
+        }
+
+        void webBrowser_CanGoBackChanged(object sender, EventArgs e)
+        {
+            this.ButtonBack.Enabled = webBrowser.CanGoBack;
+        }
+
+        #endregion
+
+        #region Internal class
+        /// <summary>
+        /// Internal class
+        /// </summary>
         private class ProjectLabel : Label
         {
             private string m_project;
@@ -181,5 +463,6 @@ namespace EcellLib.MainWindow
             }
 
         }
+        #endregion
     }
 }
