@@ -141,27 +141,27 @@ namespace EcellLib.Analysis
             if (m_param.Population <= 0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                    MessageResAnalysis.NamePopulation, 0));
+                    new object[] { MessageResAnalysis.NamePopulation, 0 }));
                 return;
             }
             if (m_param.Generation <= 0)
             {
-                Util.ShowErrorDialog(
-                    String.Format(MessageResAnalysis.ErrLarger, MessageResAnalysis.NameGenerationNum, 0));
+                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
+                    new object[] { MessageResAnalysis.NameGenerationNum, 0 }));
 
                 return;
             }
             if (m_param.SimulationTime <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                    MessageResAnalysis.NameSimulationTime, 0.0));
+                    new object[] { MessageResAnalysis.NameSimulationTime, 0.0 }));
                 return;
             }
             if (m_param.EstimationFormulator == null ||
                 m_param.EstimationFormulator.Equals(""))
             {
                 Util.ShowErrorDialog(string.Format(MessageResAnalysis.ErrNoSet,
-                    MessageResAnalysis.NameEstimationForm));
+                    new object[] { MessageResAnalysis.NameEstimationForm }));
 
                 return;
             }
@@ -173,9 +173,9 @@ namespace EcellLib.Analysis
             m_paramList = m_owner.DataManager.GetParameterData();
             if (m_paramList == null) return;
             if (m_paramList.Count < 1)
-            {                
+            {
                 Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrNoSet,
-                    MessageResAnalysis.NameParameterData));
+                    new object[] { MessageResAnalysis.NameParameterData }));
                 return;
             }
 
@@ -289,7 +289,7 @@ namespace EcellLib.Analysis
                 FindElite();
 
                 Util.ShowNoticeDialog(String.Format(MessageResAnalysis.InfoFinishExecute,
-                    MessageResAnalysis.NameParameterEstimate));                
+                    new object[] { MessageResAnalysis.NameParameterEstimate }));                
                 return;
             }
 

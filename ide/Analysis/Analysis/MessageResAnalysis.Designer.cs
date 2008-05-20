@@ -133,15 +133,6 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
-        ///   The relative perturbation is lager than 0.0. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrRelativePert {
-            get {
-                return ResourceManager.GetString("ErrRelativePert", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   The selected data on X axis is same as the one on Y axis. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSameAxis {

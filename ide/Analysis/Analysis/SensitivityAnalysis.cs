@@ -189,19 +189,19 @@ namespace EcellLib.Analysis
             if (m_param.Step <= 0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                    MessageResAnalysis.NameStepNum, 0));
+                    new object[] { MessageResAnalysis.NameStepNum, 0 }));
                 return;
             }
             if (m_param.AbsolutePerturbation <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                    MessageResAnalysis.NameAbsolutePert, 0.0));                
+                    new object[] { MessageResAnalysis.NameAbsolutePert, 0.0 }));                
                 return;
             }
             if (m_param.RelativePerturbation <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                   MessageResAnalysis.NameRelativePert, 0.0));
+                   new object[] { MessageResAnalysis.NameRelativePert, 0.0 }));
                 return;
             }
 
@@ -529,7 +529,7 @@ namespace EcellLib.Analysis
             if (jocobianMatrix.Determinant() == 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrExecute,
-                    MessageResAnalysis.NameSensAnalysis));
+                    new object[] { MessageResAnalysis.NameSensAnalysis }));
                 throw new IgnoreException("Can't find Singular Matrix");
             }
             Matrix invJacobian = jocobianMatrix.Inverse();
@@ -747,9 +747,9 @@ namespace EcellLib.Analysis
                     }
                     m_owner.AddSensitivityDataOfFCC(m_activityList[i], res);
                 }
-                
+
                 Util.ShowNoticeDialog(String.Format(MessageResAnalysis.InfoFinishExecute,
-                    MessageResAnalysis.NameSensAnalysis));
+                    new object[] { MessageResAnalysis.NameSensAnalysis }));
             }
             catch (IgnoreException ex)
             {
@@ -758,7 +758,7 @@ namespace EcellLib.Analysis
             catch (Exception ex)
             {
                 Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrExecute,
-                    MessageResAnalysis.NameSensAnalysis));
+                    new object[] { MessageResAnalysis.NameSensAnalysis }));
 
                 m_owner.MessageManager.Append(
                         new ApplicationMessageEntry(MessageType.Error, ex.ToString(), this));

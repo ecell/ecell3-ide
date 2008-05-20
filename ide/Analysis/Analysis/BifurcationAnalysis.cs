@@ -160,7 +160,7 @@ namespace EcellLib.Analysis
             if (simTime <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                    MessageResAnalysis.NameSimulationTime, 0.0));
+                    new object[] { MessageResAnalysis.NameSimulationTime, 0.0 }));
                 return;
             }
 
@@ -173,7 +173,7 @@ namespace EcellLib.Analysis
             if (paramList.Count != 2)
             {
                 Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSetNumber,
-                    MessageResAnalysis.NameParameterData, 2));
+                    new object[] { MessageResAnalysis.NameParameterData, 2 }));
                 return;
             }
             List<SaveLoggerProperty> saveList = m_owner.GetBAObservedDataList();
@@ -621,7 +621,7 @@ namespace EcellLib.Analysis
                 m_isRunning = false;
                 m_owner.StopBifurcationAnalysis();
                 Util.ShowNoticeDialog(String.Format(MessageResAnalysis.InfoFinishExecute,
-                    MessageResAnalysis.NameBifurcation));
+                    new object[] { MessageResAnalysis.NameBifurcation }));
 
                 return;
             }

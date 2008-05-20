@@ -141,9 +141,6 @@
   <data name="ErrNoSet" xml:space="preserve">
     <value>{0} is not set. </value>
   </data>
-  <data name="ErrRelativePert" xml:space="preserve">
-    <value>The relative perturbation is lager than 0.0.</value>
-  </data>
   <data name="ErrSameAxis" xml:space="preserve">
     <value>The selected data on X axis is same as the one on Y axis.</value>
   </data>

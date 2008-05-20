@@ -132,6 +132,9 @@
   <data name="ErrImpScript" xml:space="preserve">
     <value>スクリプトの実行に失敗しました。</value>
   </data>
+  <data name="ErrLarger" xml:space="preserve">
+    <value>{0} は {1} より大きい値に設定してください。</value>
+  </data>
   <data name="ErrLoadModel" xml:space="preserve">
     <value>モデルのロードに失敗しました。再度実行してください。</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="ErrNoSelectPrj" xml:space="preserve">
     <value>プロジェクトが選択されていません。選択してください。</value>
+  </data>
+  <data name="ErrNoSet" xml:space="preserve">
+    <value>{0} が設定されていません。</value>
   </data>
   <data name="ErrNoWorkDir" xml:space="preserve">
     <value>作業用ディレクトリが設定されていません。</value>
@@ -218,6 +224,12 @@
   </data>
   <data name="MenuSaveZip" xml:space="preserve">
     <value>ZIP圧縮</value>
+  </data>
+  <data name="NameConc" xml:space="preserve">
+    <value>並列数</value>
+  </data>
+  <data name="NameWorkDir" xml:space="preserve">
+    <value>作業用ディレクトリ</value>
   </data>
   <data name="SaveConfirm" xml:space="preserve">
     <value>プロジェクトを閉じる前に、プロジェクトを保存しますか？</value>

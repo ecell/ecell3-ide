@@ -1452,11 +1452,7 @@ namespace EcellLib.EntityListWindow
             {
                 EcellObject obj = m_dManager.GetEcellObject(tag.m_modelID,
                     tag.m_key, tag.m_type);
-                if (obj == null)
-                {
-                    Util.ShowWarningDialog(MessageResEntList.ErrGetData + "(" + tag.m_modelID + "," + tag.m_key + ")");
-                    return;
-                }
+                Debug.Assert(obj != null);
                 ShowPropEditWindow(obj);
                 return;
             }

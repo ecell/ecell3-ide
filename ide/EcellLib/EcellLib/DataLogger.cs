@@ -394,6 +394,7 @@ namespace EcellLib
         /// <param name="l_saveType">The type of saved file.</param>
         public void Create(string l_savedDirName, LogData l_logData, String l_saveType)
         {
+            string l_fileName = null;
             try
             {
                 //
@@ -411,7 +412,7 @@ namespace EcellLib
                 //
                 // Sets the file name.
                 //
-                string l_fileName =
+                l_fileName =
                     l_logData.type + Constants.delimiterUnderbar +
                     l_logData.key + Constants.delimiterUnderbar +
                     l_logData.propName;
@@ -534,8 +535,8 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(
-                    MessageResLib.ErrCreEcd + "[" + l_logData.model + "] {" + l_ex.ToString() + "}");
+                throw new Exception(String.Format(MessageResLib.ErrCreFile,
+                    new object[] { l_fileName }), l_ex);
             }
         }
     }

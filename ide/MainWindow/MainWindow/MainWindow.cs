@@ -1193,14 +1193,13 @@ namespace EcellLib.MainWindow
                     null, m_newPrjDialog.textComment.Text,
                     m_newPrjDialog.GetDmList());
                 List<EcellObject> list = new List<EcellObject>();
-                list.Add(EcellObject.CreateObject(m_newPrjDialog.textModelName.Text, null, "Model", null, null));
+                list.Add(EcellObject.CreateObject(m_newPrjDialog.textModelName.Text, null, Constants.xpathModel, null, null));
                 m_env.DataManager.DataAdd(list);
                 foreach (string paramID in m_env.DataManager.GetSimulationParameterIDs())
                 {
                     m_env.PluginManager.ParameterAdd(m_newPrjDialog.textName.Text, paramID);
                 }
                 m_env.PluginManager.ParameterSet(m_env.DataManager.CurrentProjectID, m_env.DataManager.GetCurrentSimulationParameterID());
-
             }
             catch (Exception ex)
             {

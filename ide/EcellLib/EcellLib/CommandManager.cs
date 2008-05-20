@@ -1011,9 +1011,8 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(
-                    "Can't set the [" + l_value + "] value of the [" + l_fullPN + "] property. {"
-                    + l_ex.ToString() + "}");
+                throw new Exception(String.Format(MessageResLib.ErrSetPropCommand,
+                    new object[] { l_fullPN}), l_ex);
             }
         }
 

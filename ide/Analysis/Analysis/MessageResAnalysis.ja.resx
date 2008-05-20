@@ -141,9 +141,6 @@
   <data name="ErrNoSet" xml:space="preserve">
     <value>{0} が設定されていません。少なくとも{1}つ以上設定してください。</value>
   </data>
-  <data name="ErrRelativePert" xml:space="preserve">
-    <value>Relative Partubationは0以上の値に設定してください。</value>
-  </data>
   <data name="ErrSameAxis" xml:space="preserve">
     <value>X軸とＹ軸に設定したパラメータが同じです。</value>
   </data>

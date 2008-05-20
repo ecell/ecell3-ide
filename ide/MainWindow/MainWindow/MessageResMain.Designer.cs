@@ -106,6 +106,15 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
+        ///   {0} should be larger than {1}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrLarger {
+            get {
+                return ResourceManager.GetString("ErrLarger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Fail to export the model. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadModel {
@@ -165,6 +174,15 @@ namespace EcellLib.MainWindow {
         internal static string ErrNoSelectPrj {
             get {
                 return ResourceManager.GetString("ErrNoSelectPrj", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} is not set. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrNoSet {
+            get {
+                return ResourceManager.GetString("ErrNoSet", resourceCulture);
             }
         }
         
@@ -363,6 +381,24 @@ namespace EcellLib.MainWindow {
         internal static string MenuSaveZip {
             get {
                 return ResourceManager.GetString("MenuSaveZip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The concurrency に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameConc {
+            get {
+                return ResourceManager.GetString("NameConc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The working directory に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameWorkDir {
+            get {
+                return ResourceManager.GetString("NameWorkDir", resourceCulture);
             }
         }
         

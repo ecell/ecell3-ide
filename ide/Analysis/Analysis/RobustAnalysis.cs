@@ -115,7 +115,7 @@ namespace EcellLib.Analysis
             if (m_owner.JobManager.GetFinishedJobList().Count <= 0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrExecute,
-                    MessageResAnalysis.NameRobustAnalysis));
+                    new object[] { MessageResAnalysis.NameRobustAnalysis }));
                 return;
             }
             if (m_owner.JobManager.IsError())
@@ -128,7 +128,7 @@ namespace EcellLib.Analysis
             }
             JudgeRobustAnalysis();
             Util.ShowNoticeDialog(String.Format(MessageResAnalysis.InfoFinishExecute,
-                MessageResAnalysis.NameRobustAnalysis));
+                new object[] { MessageResAnalysis.NameRobustAnalysis }));
 
         }
         #endregion
@@ -146,19 +146,19 @@ namespace EcellLib.Analysis
             if (num <= 0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                    MessageResAnalysis.NameMaxSample, 0));
+                    new object[] { MessageResAnalysis.NameMaxSample, 0 }));
                 return;
             }
             if (simTime <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                    MessageResAnalysis.NameSimulationTime, 0.0));
+                    new object[] { MessageResAnalysis.NameSimulationTime, 0.0 }));
                 return;
             }
             if (maxSize > AnalysisWindow.MaxSize)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSmaller, 
-                    MessageResAnalysis.NameMaxSample, AnalysisWindow.MaxSize));
+                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSmaller,
+                    new object[] { MessageResAnalysis.NameMaxSample, AnalysisWindow.MaxSize }));
                 return;
             }
 
@@ -171,7 +171,7 @@ namespace EcellLib.Analysis
             if (paramList.Count < 2)
             {
                 Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSetNumberMore,
-                    MessageResAnalysis.NameParameterData, 2));
+                    new object[] { MessageResAnalysis.NameParameterData, 2 }));
                 return;
             }
             List<SaveLoggerProperty> saveList = m_owner.GetRAObservedDataList();
@@ -219,7 +219,7 @@ namespace EcellLib.Analysis
             if (pList.Count < 2)
             {
                 Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSetNumberMore,
-                    MessageResAnalysis.NameParameterData, 2));
+                    new object[] { MessageResAnalysis.NameParameterData, 2 }));
                 return;
             }
             int count = 0;
