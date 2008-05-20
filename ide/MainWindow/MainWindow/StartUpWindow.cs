@@ -180,6 +180,7 @@ namespace EcellLib.MainWindow
             this.toolStrip.Size = new System.Drawing.Size(718, 25);
             this.toolStrip.TabIndex = 5;
             this.toolStrip.Text = "toolStrip1";
+            this.toolStrip.SizeChanged += new System.EventHandler(this.toolStrip_SizeChanged);
             // 
             // ButtonBack
             // 
@@ -235,11 +236,14 @@ namespace EcellLib.MainWindow
             // 
             this.URLComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.URLComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.AllUrl;
+            this.URLComboBox.AutoSize = false;
             this.URLComboBox.MaxDropDownItems = 10;
             this.URLComboBox.MaxLength = 1000;
             this.URLComboBox.Name = "URLComboBox";
-            this.URLComboBox.Size = new System.Drawing.Size(321, 25);
+            this.URLComboBox.Size = new System.Drawing.Size(121, 20);
+            this.URLComboBox.ToolTipText = "URL ComboBox";
             this.URLComboBox.SelectedIndexChanged += new System.EventHandler(this.URLComboBox_SelectedIndexChanged);
+            this.URLComboBox.LocationChanged += new System.EventHandler(this.URLComboBox_LocationChanged);
             this.URLComboBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.URLComboBox_KeyPress);
             // 
             // panel1
@@ -326,18 +330,18 @@ namespace EcellLib.MainWindow
 
         #region Event Handlers
         /// <summary>
-        /// Event handler on menu mouse clisk.
+        /// Event on menu mouse clisk.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void label_MouseClick(object sender, MouseEventArgs e)
+        private void label_MouseClick(object sender, MouseEventArgs e)
         {
             ProjectLabel label = (ProjectLabel)sender;
             m_window.LoadProject(label.Project, label.FilePath);
         }
 
         /// <summary>
-        /// Event handler on ToolButton click
+        /// Event on ToolButton click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -356,7 +360,7 @@ namespace EcellLib.MainWindow
         }
 
         /// <summary>
-        /// Event handler on ComboBox changed
+        /// Event on ComboBox changed
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -366,7 +370,7 @@ namespace EcellLib.MainWindow
         }
 
         /// <summary>
-        /// Event handler on ComboBox input.
+        /// Event on ComboBox input.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -377,7 +381,27 @@ namespace EcellLib.MainWindow
         }
 
         /// <summary>
-        /// Event handler on complete refresh page.
+        /// Event on location changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void URLComboBox_LocationChanged(object sender, EventArgs e)
+        {
+            URLComboBox.Width = toolStrip.Width - 130;
+        }
+
+        /// <summary>
+        /// Event on size changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolStrip_SizeChanged(object sender, EventArgs e)
+        {
+            URLComboBox.Width = toolStrip.Width - 130;
+        }
+
+        /// <summary>
+        /// Event on complete refresh page.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -394,24 +418,40 @@ namespace EcellLib.MainWindow
             else
                 webBrowser.Dock = DockStyle.Fill;
         }
-
-        void webBrowser_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
+        /// <summary>
+        /// Event on progress changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void webBrowser_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
         {
             this.ProgressBar.Maximum = (int)e.MaximumProgress;
             this.ProgressBar.Value = (int)e.CurrentProgress;
         }
-
-        void webBrowser_StatusTextChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Event on status changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void webBrowser_StatusTextChanged(object sender, EventArgs e)
         {
             this.URLLabel.Text = webBrowser.StatusText;
         }
-
-        void webBrowser_CanGoForwardChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Event on GoForward changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void webBrowser_CanGoForwardChanged(object sender, EventArgs e)
         {
             this.ButtonForward.Enabled = webBrowser.CanGoForward;
         }
-
-        void webBrowser_CanGoBackChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Event on GoBack changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void webBrowser_CanGoBackChanged(object sender, EventArgs e)
         {
             this.ButtonBack.Enabled = webBrowser.CanGoBack;
         }
