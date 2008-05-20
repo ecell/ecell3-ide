@@ -167,17 +167,7 @@ namespace EcellLib.MainWindow
             string[] dirs = Directory.GetDirectories(path);
             foreach (string dir in dirs)
             {
-                string name = Path.GetFileNameWithoutExtension(dir);
-                bool ignored = false;
-                foreach (string ignoredDir in ignoredDirList)
-                {
-                    if (ignoredDir.Equals(name, StringComparison.OrdinalIgnoreCase))
-                    {
-                        ignored = true;
-                        break;
-                    }
-                }
-                if (ignored)
+                if (IsIgnoredDir(dir) || IsHidden(dir))
                     continue;
 
                 ProjectTreeNode childNode = new ProjectTreeNode(dir);
@@ -185,6 +175,35 @@ namespace EcellLib.MainWindow
 
                 CreateProjectTreeView(childNode, dir);
             }
+        }
+        /// <summary>
+        /// IsIgnoredDir
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <returns></returns>
+        private static bool IsIgnoredDir(string dir)
+        {
+            string name = Path.GetFileNameWithoutExtension(dir);
+            bool ignored = false;
+            foreach (string ignoredDir in ignoredDirList)
+            {
+                if (ignoredDir.Equals(name, StringComparison.OrdinalIgnoreCase))
+                {
+                    ignored = true;
+                    break;
+                }
+            }
+            return ignored;
+        }
+        /// <summary>
+        /// IsHidden
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <returns></returns>
+        private bool IsHidden(string dir)
+        {
+            FileAttributes fas = File.GetAttributes(dir);
+            return ((fas & FileAttributes.Hidden) == FileAttributes.Hidden); 
         }
 
         /// <summary>
