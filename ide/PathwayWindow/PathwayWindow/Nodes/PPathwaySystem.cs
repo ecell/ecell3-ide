@@ -116,8 +116,15 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             get { return base.m_ecellObj; }
             set {
-                base.Width = value.Width;
-                base.Height = value.Height;
+                if (value.Width < DEFAULT_WIDTH)
+                    base.Width = DEFAULT_WIDTH;
+                else
+                    base.Width = value.Width;
+                if (value.Height < DEFAULT_HEIGHT)
+                    base.Height = DEFAULT_HEIGHT;
+                else
+                    base.Height = value.Height;
+
                 base.EcellObject = value;
                 this.Refresh();
             }
