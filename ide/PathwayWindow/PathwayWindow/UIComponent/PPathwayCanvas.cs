@@ -42,6 +42,7 @@ using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Event;
 using EcellLib.PathwayWindow.Nodes;
+using UMD.HCIL.Piccolo.Util;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -73,6 +74,9 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_con = canvas.Control;
             // Preparing context menus.
             this.ContextMenuStrip = m_con.Menu.PopupMenu;
+            this.AnimatingRenderQuality = RenderQuality.HighQuality;
+            this.DefaultRenderQuality = RenderQuality.HighQuality;
+            this.InteractingRenderQuality = RenderQuality.HighQuality;
             //
             this.RemoveInputEventListener(PanEventHandler);
             this.RemoveInputEventListener(ZoomEventHandler);
