@@ -76,7 +76,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// MenuControl for PathwayWindow.
         /// </summary>
-        private MenuControl m_menuCon;
+        private MenuControl m_menu;
 
         /// <summary>
         /// AnimationControl for simulation.
@@ -197,8 +197,8 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public MenuControl Menu
         {
-            get { return m_menuCon; }
-            set { m_menuCon = value; }
+            get { return m_menu; }
+            set { m_menu = value; }
         }
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace EcellLib.PathwayWindow
                 RaiseCanvasChange();
                 if (m_canvas == null)
                     return;
-                m_canvas.PCanvas.AddInputEventListener(m_menuCon.Handle.EventHandler);
+                m_canvas.PCanvas.AddInputEventListener(m_menu.Handle.EventHandler);
             }
         }
 
@@ -308,7 +308,7 @@ namespace EcellLib.PathwayWindow
             m_csManager = new ComponentManager();
             SetNodeIcons();
             // Create menus
-            m_menuCon = new MenuControl(this);
+            m_menu = new MenuControl(this);
             // Set AnimationControl
             m_animCon = new AnimationControl(this);
             // Preparing Interfaces
@@ -383,7 +383,7 @@ namespace EcellLib.PathwayWindow
                 if (File.Exists(fileName))
                     this.LoadFromLeml(fileName);
                 else
-                    DoLayout(m_window.DefaultLayoutAlgorithm, 0, false);
+                    DoLayout(m_menu.DefaultLayoutAlgorithm, 0, false);
             }
             if(m_canvas != null)
                 m_canvas.Refresh();
@@ -591,12 +591,12 @@ namespace EcellLib.PathwayWindow
             // When a project is loaded or unloaded.
             if (status == ProjectStatus.Loaded)
             {
-                foreach (ToolStripMenuItem item in m_menuCon.LayoutMenus)
+                foreach (ToolStripMenuItem item in m_menu.LayoutMenus)
                     item.Enabled = true;
             }
             else if (status == ProjectStatus.Uninitialized)
             {
-                foreach (ToolStripMenuItem item in m_menuCon.LayoutMenus)
+                foreach (ToolStripMenuItem item in m_menu.LayoutMenus)
                     item.Enabled = false;
             }
             // When simulation started.
@@ -972,7 +972,7 @@ namespace EcellLib.PathwayWindow
         {
             // Create canvas
             Canvas = new CanvasControl(this, modelID);
-            m_menuCon.SetDefaultEventHandler();
+            m_menu.SetDefaultEventHandler();
             RaiseCanvasChange();
         }
 

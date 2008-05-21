@@ -112,6 +112,11 @@ namespace EcellLib.PathwayWindow
         private List<ILayoutAlgorithm> m_layoutList = new List<ILayoutAlgorithm>();
 
         /// <summary>
+        /// Default layout algorithm
+        /// </summary>
+        private ILayoutAlgorithm m_defaultLayoutAlgorithm;
+
+        /// <summary>
         /// ResourceManager for PathwayWindow.
         /// </summary>
         ComponentResourceManager m_resources;
@@ -185,6 +190,15 @@ namespace EcellLib.PathwayWindow
             get { return m_layoutList; }
             set { m_layoutList = value; }
         }
+
+        /// <summary>
+        /// DefaultLayoutAlgorithm
+        /// </summary>
+        public ILayoutAlgorithm DefaultLayoutAlgorithm
+        {
+            get { return m_defaultLayoutAlgorithm; }
+        }
+
         #endregion
 
         #region Constructors
@@ -197,10 +211,27 @@ namespace EcellLib.PathwayWindow
             m_con = control;
             m_resources = control.Resources;
             m_layoutList = m_con.Window.GetLayoutAlgorithms();
+            m_defaultLayoutAlgorithm = GetDefaultLayoutAlgorithm();
             m_menuLayoutList = CreateLayoutMenus();
             m_menuList = CreateMenuItems();
             m_buttonList = CreateToolButtonItems();
             m_popupMenu = CreatePopUpMenus();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private ILayoutAlgorithm GetDefaultLayoutAlgorithm()
+        {
+            ILayoutAlgorithm la = null;
+            foreach (ILayoutAlgorithm algo in m_layoutList)
+            {
+                if (algo.GetName() == "Grid")
+                {
+                    la = algo;
+                }
+            }
+            return la;
         }
         #endregion
 

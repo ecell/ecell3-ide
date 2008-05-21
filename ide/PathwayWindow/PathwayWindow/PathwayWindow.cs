@@ -75,14 +75,6 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         PathwayControl m_con;
 
-        ILayoutAlgorithm m_defaultLayoutAlgorithm;
-        #endregion
-
-        #region Accessors
-        public ILayoutAlgorithm DefaultLayoutAlgorithm
-        {
-            get { return m_defaultLayoutAlgorithm; }
-        }
         #endregion
 
         #region Initializer
@@ -92,14 +84,6 @@ namespace EcellLib.PathwayWindow
         public override void Initialize()
         {
             m_con = new PathwayControl(this);
-            foreach (ILayoutAlgorithm algo in m_pManager.GetLayoutPlugins())
-            {
-                // FIXME: ...
-                if (algo.GetName() == "Grid")
-                {
-                    m_defaultLayoutAlgorithm = algo;
-                }
-            }
         }
         #endregion
 
