@@ -265,7 +265,7 @@ namespace EcellLib.PathwayWindow.Handler
         protected override void ResizeObject(float x, float y, float width, float height)
         {
             // Resize System
-            if (width >= PPathwaySystem.MIN_X_LENGTH && height >= PPathwaySystem.MIN_Y_LENGTH)
+            if (width >= PPathwaySystem.MIN_WIDTH && height >= PPathwaySystem.MIN_HEIGHT)
             {
                 m_obj.X = x;
                 m_obj.Y = y;

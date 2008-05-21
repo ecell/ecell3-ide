@@ -71,11 +71,11 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// minimum width
         /// </summary>
-        public const float MIN_X_LENGTH = 80;
+        public const float MIN_WIDTH = 80;
         /// <summary>
         /// minimum height
         /// </summary>
-        public const float MIN_Y_LENGTH = 80;
+        public const float MIN_HEIGHT = 80;
         /// <summary>
         /// An outer radius of round-shaped corner of a system.
         /// </summary>
@@ -116,12 +116,12 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             get { return base.m_ecellObj; }
             set {
-                if (value.Width < DEFAULT_WIDTH)
-                    base.Width = DEFAULT_WIDTH;
+                if (value.Width < MIN_WIDTH)
+                    base.Width = MIN_WIDTH;
                 else
                     base.Width = value.Width;
-                if (value.Height < DEFAULT_HEIGHT)
-                    base.Height = DEFAULT_HEIGHT;
+                if (value.Height < MIN_HEIGHT)
+                    base.Height = MIN_HEIGHT;
                 else
                     base.Height = value.Height;
 

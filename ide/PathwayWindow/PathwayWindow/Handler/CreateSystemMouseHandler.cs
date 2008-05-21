@@ -173,7 +173,7 @@ namespace EcellLib.PathwayWindow.Handler
             
             RectangleF rect = PathUtil.GetRectangle(m_startPoint, e.Position);
             m_selectedPath.AddRectangle(rect.X, rect.Y, rect.Width, rect.Height);
-            if (rect.Width < PPathwaySystem.MIN_X_LENGTH || rect.Height < PPathwaySystem.MIN_Y_LENGTH)
+            if (rect.Width < PPathwaySystem.MIN_WIDTH || rect.Height < PPathwaySystem.MIN_HEIGHT)
             {
                 // When mouse surrounding region is smaller than minimum.
                 m_selectedPath.Pen = m_invalidPen;
@@ -229,7 +229,7 @@ namespace EcellLib.PathwayWindow.Handler
             }
             m_rect = PathUtil.GetRectangle(m_startPoint, e.Position);
 
-            if (m_rect.Width >= PPathwaySystem.MIN_X_LENGTH && m_rect.Height >= PPathwaySystem.MIN_Y_LENGTH)
+            if (m_rect.Width >= PPathwaySystem.MIN_WIDTH && m_rect.Height >= PPathwaySystem.MIN_HEIGHT)
             {
                 if (m_canvas.DoesSystemOverlaps(m_rect))
                 {
