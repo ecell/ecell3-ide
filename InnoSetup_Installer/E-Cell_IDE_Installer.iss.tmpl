@@ -406,9 +406,9 @@ Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName
 ;Root: HKLM; Subkey: "System\CurrentControlSet\Control\SessionManager\Environment"; ValueType: string; ValueName: "IRONPYTHONPATH"; ValueData: "%IRONPYTHONPATH%:{app}\bin";Components: main
 ;Root: HKLM; Subkey: "System\CurrentControlSet\Control\SessionManager\Environment"; ValueType: string; ValueName: "IRONPYTHONSTARTUP"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main
 
-Root: HKCR; Subkey: ".eml"; ValueType: string; ValueName: ""; ValueData: "E-CellProgramFile"; Flags: uninsdeletevalue; Components: main
+;Root: HKCR; Subkey: ".eml"; ValueType: string; ValueName: ""; ValueData: "E-CellProgramFile"; Flags: uninsdeletevalue; Components: main
 Root: HKCR; Subkey: "E-CellProgramFile"; ValueType: string; ValueName: ""; ValueData: "My Program File"; Flags: uninsdeletekey; Components: main
-Root: HKCR; Subkey: "E^Ce;;ProgramFile\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\bin\MainWindow.exe,0"; Components: main
+Root: HKCR; Subkey: "E-CellProgramFile\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\bin\MainWindow.exe,0"; Components: main
 Root: HKCR; Subkey: "E-CellProgramFile\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\bin\MainWindow.exe"" ""%1"""; Components: main
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Base"; ValueData: "{userdocs}\My E-Cell Projects"; Components: main
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Base"; ValueData: "{userdocs}\My E-Cell Projects";Components: main
