@@ -91,8 +91,8 @@ namespace EcellLib
                 string name = (string)this.dgv[0, i].Value;
                 if (nameList.Contains(name))
                 {
-                    String errmes = MessageResLib.ErrExistID;
-                    Util.ShowErrorDialog(name + errmes);
+                    Util.ShowErrorDialog(String.Format(MessageResLib.ErrExistVariableRef,
+                        new object[] { name }));
                     return null;
                 }
                 nameList.Add(name);
@@ -111,13 +111,12 @@ namespace EcellLib
                 }
                 if (v.Name == "")
                 {
-                    String errmes = MessageResLib.ErrInvalidName;
-                    Util.ShowWarningDialog(errmes + "(Name)");
+                    Util.ShowWarningDialog(MessageResLib.ErrInvalidID);
                     return null;
                 }
                 if (v.FullID == "" || !v.FullID.StartsWith(":"))
                 {
-                    Util.ShowWarningDialog(MessageResLib.ErrInvalidName + "(FullID)");
+                    Util.ShowWarningDialog(MessageResLib.ErrInvalidID);
                     return null;
                 }
 
@@ -290,7 +289,8 @@ namespace EcellLib
                 string name = (string)this.dgv[0, i].Value;
                 if (nameList.Contains(name))
                 {
-                    Util.ShowErrorDialog(MessageResLib.ErrExistID);
+                    Util.ShowErrorDialog(String.Format(MessageResLib.ErrExistVariableRef,
+                        new object[] { name }));
                     return;
                 }
                 nameList.Add(name);
@@ -309,12 +309,12 @@ namespace EcellLib
                 }
                 if (v.Name == "")
                 {
-                    Util.ShowWarningDialog(MessageResLib.ErrInvalidName + "(Name)");
+                    Util.ShowWarningDialog(MessageResLib.ErrInvalidID);
                     return;
                 }
                 if (v.FullID == "" || !v.FullID.StartsWith(":"))
                 {
-                    Util.ShowWarningDialog(MessageResLib.ErrInvalidName + "(FullID)");
+                    Util.ShowWarningDialog(MessageResLib.ErrInvalidID);
                     return;
                 }
 
@@ -343,8 +343,8 @@ namespace EcellLib
                 string name = (string)this.dgv[0, i].Value;
                 if (nameList.Contains(name))
                 {
-                    String errmes = MessageResLib.ErrExistID;
-                    Util.ShowErrorDialog(name + errmes);
+                    Util.ShowErrorDialog(String.Format(MessageResLib.ErrExistVariableRef,
+                        new object[] { name }));
                     return;
                 }
                 nameList.Add(name);
@@ -358,22 +358,19 @@ namespace EcellLib
                 catch (Exception ex)
                 {
                     Trace.WriteLine(ex);
-                    String errmes = MessageResLib.ErrNoNumber;
-                    MessageBox.Show(errmes,
-                        "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Util.ShowWarningDialog(MessageResLib.ErrNoNumber);
                     return;
                 }
                 if (v.Name == "")
                 {
-                    String errmes = MessageResLib.ErrInvalidName;
-                    Util.ShowWarningDialog(errmes + "(Name)");
+                    Util.ShowWarningDialog(String.Format(MessageResLib.ErrNoSet,
+                        new object[] { "Name" }));
                     return;
                 }
-                if (v.FullID == "" || !v.FullID.StartsWith(":"))
+                if (v.FullID == "")
                 {
-                    String errmes = MessageResLib.ErrInvalidName;
-                    MessageBox.Show(errmes + "(FullID)",
-                        "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Util.ShowWarningDialog(String.Format(MessageResLib.ErrNoSet,
+                        new object[] { "ID" }));
                     return;
                 }
 

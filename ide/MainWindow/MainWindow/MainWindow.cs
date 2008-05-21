@@ -1490,7 +1490,6 @@ namespace EcellLib.MainWindow
                         int end = s.LastIndexOf(" : [Model]");
                         string p = s.Substring(0, end);
                         m_env.DataManager.SaveModel(p);
-
                     }
                     else if (s.EndsWith(" : [SimulationParameter]"))
                     {

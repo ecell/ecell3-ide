@@ -249,7 +249,7 @@ namespace EcellLib
                 m_dManager.DataAdd(l_list);
                 m_pManager.ChangeStatus(ProjectStatus.Loaded);
                 s_modelID = l_modelID;
-//                m_cManager.DataManager.CurrentProject.Initialize(l_modelID);
+                //                m_cManager.DataManager.CurrentProject.Initialize(l_modelID);
             }
             catch (Exception l_ex)
             {
@@ -548,7 +548,7 @@ namespace EcellLib
                     }
                     return l_list;
                 }
-                else if(l_entityName.Equals(Constants.xpathProcess) || l_entityName.Equals(Constants.xpathVariable))
+                else if (l_entityName.Equals(Constants.xpathProcess) || l_entityName.Equals(Constants.xpathVariable))
                 {
                     List<string> l_list = new List<string>();
                     foreach (EcellObject l_parent in m_dManager.GetData(s_modelID, l_systemPath))
@@ -575,7 +575,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 throw new Exception(
-                        "Can't obtain the entity list of this [" + l_entityName + "][" + l_systemPath+ "] . {" 
+                        "Can't obtain the entity list of this [" + l_entityName + "][" + l_systemPath + "] . {"
                         + l_ex.ToString() + "}");
             }
         }
@@ -893,7 +893,7 @@ namespace EcellLib
                     m_dManager.CreateProject(Constants.defaultPrjID, DateTime.Now.ToString(), modelDir, new List<string>());
                 }
                 s_modelID = m_dManager.LoadModel(l_fileName, false);
-                m_pManager.LoadData(s_modelID);                
+                m_pManager.LoadData(s_modelID);
                 m_pManager.ChangeStatus(ProjectStatus.Loaded);
             }
             catch (Exception l_ex)
@@ -925,22 +925,15 @@ namespace EcellLib
         {
             m_dManager.CloseProject(null);
         }
-        
+
         /// <summary>
         /// Runs the simulator.
         /// </summary>
         /// <param name="l_interval">The time limit of the simulator</param>
         public void Run(double l_interval)
         {
-            try
-            {
-                m_pManager.ChangeStatus(ProjectStatus.Running);
-                m_dManager.SimulationStartKeepSetting(l_interval);
-            }
-            catch (Exception l_ex)
-            {
-                throw new Exception("Can't run the simulator. {" + l_ex.ToString() + "}");
-            }
+            m_pManager.ChangeStatus(ProjectStatus.Running);
+            m_dManager.SimulationStartKeepSetting(l_interval);
         }
 
         /// <summary>
@@ -949,15 +942,8 @@ namespace EcellLib
         /// <param name="l_interval">The time limit of the simulator</param>
         public void RunNotSuspend(double l_interval)
         {
-            try
-            {
-                m_pManager.ChangeStatus(ProjectStatus.Running);
-                m_dManager.SimulationStart(l_interval, 0);
-            }
-            catch (Exception l_ex)
-            {
-                throw new Exception("Can't run the simulator. {" + l_ex.ToString() + "}");
-            }
+            m_pManager.ChangeStatus(ProjectStatus.Running);
+            m_dManager.SimulationStart(l_interval, 0);
         }
 
         /// <summary>
@@ -1012,7 +998,7 @@ namespace EcellLib
             catch (Exception l_ex)
             {
                 throw new Exception(String.Format(MessageResLib.ErrSetPropCommand,
-                    new object[] { l_fullPN}), l_ex);
+                    new object[] { l_fullPN }), l_ex);
             }
         }
 
@@ -1022,15 +1008,8 @@ namespace EcellLib
         /// <param name="l_count">The step limit of the simulator</param>
         public void Step(int l_count)
         {
-            try
-            {
-                m_pManager.ChangeStatus(ProjectStatus.Running);
-                m_dManager.SimulationStartKeepSetting(l_count);
-            }
-            catch (Exception l_ex)
-            {
-                throw new Exception("Can't run the simulator. {" + l_ex.ToString() + "}");
-            }
+            m_pManager.ChangeStatus(ProjectStatus.Running);
+            m_dManager.SimulationStartKeepSetting(l_count);
         }
 
         /// <summary>
@@ -1039,15 +1018,8 @@ namespace EcellLib
         /// <param name="l_count">The step limit of the simulator</param>
         public void StepNotSuspend(int l_count)
         {
-            try
-            {
-                m_pManager.ChangeStatus(ProjectStatus.Running);
-                m_dManager.SimulationStart(l_count, 0);
-            }
-            catch (Exception l_ex)
-            {
-                throw new Exception("Can't run the simulator. {" + l_ex.ToString() + "}");
-            }
+            m_pManager.ChangeStatus(ProjectStatus.Running);
+            m_dManager.SimulationStart(l_count, 0);
         }
 
         /// <summary>
@@ -1164,7 +1136,7 @@ namespace EcellLib
                     //
                     // Searches the loaded "EcellObject".
                     //
-                    foreach(EcellObject l_system
+                    foreach (EcellObject l_system
                             in m_cManager.DataManager.GetData(
                                 CommandManager.s_modelID, l_systemKey))
                     {
@@ -1206,7 +1178,7 @@ namespace EcellLib
                     l_list.Add(this.m_ecellObject);
                     m_cManager.DataManager.DataAdd(l_list);
                 }
-                catch(Exception l_ex)
+                catch (Exception l_ex)
                 {
                     throw new Exception("Can't create the entity stub named [" + l_className + "]. {"
                             + l_ex.ToString() + "}");
@@ -1881,7 +1853,7 @@ namespace EcellLib
                     throw new Exception("Can't create the logger policy of [" + this.m_fullPN + "]. {"
                             + l_ex.ToString() + "}");
                 }
-            }       
+            }
         }
 
 

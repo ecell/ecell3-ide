@@ -147,9 +147,6 @@
   <data name="ErrDelRoot" xml:space="preserve">
     <value>ルートシステムは削除できません。</value>
   </data>
-  <data name="ErrExistID" xml:space="preserve">
-    <value>{0} はVariableReferenceListに存在します。</value>
-  </data>
   <data name="ErrExistObj" xml:space="preserve">
     <value>エンティティ {0} はすでに存在します。</value>
   </data>
@@ -159,59 +156,20 @@
   <data name="ErrExistStepper" xml:space="preserve">
     <value>ステッパー {0} はすでに存在します。</value>
   </data>
+  <data name="ErrExistVariableRef" xml:space="preserve">
+    <value>{0} はVariableReferenceListに存在します。</value>
+  </data>
   <data name="ErrFindEnt" xml:space="preserve">
-    <value>エンティティの取得に失敗しました。</value>
+    <value>エンティティ {0} が見つかりません。</value>
   </data>
-  <data name="ErrFindModel" xml:space="preserve">
-    <value>指定したモデルが見つかりませんでした。</value>
+  <data name="ErrFindFile" xml:space="preserve">
+    <value>ファイル {0} が見つかりません。</value>
   </data>
-  <data name="ErrFindPrj" xml:space="preserve">
-    <value>プロジェクトが見つかりませんでした。</value>
-  </data>
-  <data name="ErrFindPrjFile" xml:space="preserve">
-    <value>プロジェクトファイルが見つかりません。</value>
-  </data>
-  <data name="ErrFindRunSim" xml:space="preserve">
-    <value>実行中のシミュレーションがありません。</value>
-  </data>
-  <data name="ErrFindSimParam" xml:space="preserve">
-    <value>シミュレーションパラメータが見つかりません。</value>
-  </data>
-  <data name="ErrFindStepper" xml:space="preserve">
-    <value>ステッパーを見つけることができません。</value>
-  </data>
-  <data name="ErrFindSuper" xml:space="preserve">
-    <value>super systemを見つけることができません。</value>
-  </data>
-  <data name="ErrFindSystem" xml:space="preserve">
-    <value>systemを見つけることができません。</value>
-  </data>
-  <data name="ErrGetData" xml:space="preserve">
-    <value>ログデータを取得できませんでした。</value>
-  </data>
-  <data name="ErrGetEnt" xml:space="preserve">
-    <value>モデルの中から指定のエンティティを見つけることができませんでした。</value>
+  <data name="ErrGetLogData" xml:space="preserve">
+    <value>ログデータを取得できません。</value>
   </data>
   <data name="ErrGetProp" xml:space="preserve">
-    <value>指定のオブジェクトのプロパティを取得できませんでした。</value>
-  </data>
-  <data name="ErrGetSimParams" xml:space="preserve">
-    <value>シミュレーションパラメータの取得に失敗しました。</value>
-  </data>
-  <data name="ErrGetStep" xml:space="preserve">
-    <value>モデルの中に指定のシミュレーションパラメータが見つかりませんでした。</value>
-  </data>
-  <data name="ErrGetSysList" xml:space="preserve">
-    <value>システムリストを取得するのに失敗しました。</value>
-  </data>
-  <data name="ErrIDMalformed" xml:space="preserve">
-    <value>このIDの形式は異常です。</value>
-  </data>
-  <data name="ErrIDUnform" xml:space="preserve">
-    <value>Full IDが不正です。</value>
-  </data>
-  <data name="ErrInitParam" xml:space="preserve">
-    <value>初期パラメータを取得できませんでした。</value>
+    <value>エンティティ {0} のプロパティを取得できません。</value>
   </data>
   <data name="ErrInitSim" xml:space="preserve">
     <value>シミュレーターの初期化に失敗しました。</value>
@@ -219,71 +177,44 @@
   <data name="ErrInvalidID" xml:space="preserve">
     <value>ID文字列が不正です。</value>
   </data>
-  <data name="ErrInvalidName" xml:space="preserve">
-    <value>指定した文字列に異常な文字列が使用されています。</value>
-  </data>
-  <data name="ErrInvalidProp" xml:space="preserve">
-    <value>異常なプロパティが存在します。確認して下さい。</value>
-  </data>
   <data name="ErrLoadModel" xml:space="preserve">
-    <value>モデルのロードに失敗しました。</value>
+    <value>モデル {0} を開けません。</value>
   </data>
   <data name="ErrLoadPrj" xml:space="preserve">
-    <value>プロジェクトをロードするのに失敗しました。</value>
-  </data>
-  <data name="ErrLoadSimParam" xml:space="preserve">
-    <value>シミュレーションパラメータのロードに失敗しました。</value>
-  </data>
-  <data name="ErrNoInput" xml:space="preserve">
-    <value>必要な項目にデータが入っていません。</value>
+    <value>プロジェクト {0} を開けません。</value>
   </data>
   <data name="ErrNoNumber" xml:space="preserve">
     <value>coefficientとisAccessorは整数を入力してください。</value>
   </data>
   <data name="ErrNoSelect" xml:space="preserve">
-    <value>Variableが選択されていません。</value>
+    <value>Variableを選択してください。</value>
   </data>
   <data name="ErrNoSet" xml:space="preserve">
     <value>{0} が設定されていません。</value>
   </data>
   <data name="ErrNotCreStepper" xml:space="preserve">
-    <value> のステッパーを作成できませんでした。</value>
+    <value>ステッパー {0} を作成できません。</value>
   </data>
-  <data name="ErrNotVar" xml:space="preserve">
-    <value>選択したオブジェクトはvaraibleではありません。</value>
-  </data>
-  <data name="ErrNullData" xml:space="preserve">
-    <value>NULLのデータが存在します。</value>
-  </data>
-  <data name="ErrParseEml" xml:space="preserve">
-    <value>EMLファイルをパースするのに失敗しました。</value>
-  </data>
-  <data name="ErrPrjDir" xml:space="preserve">
-    <value>プロジェクトディレクトリが見つかりません。</value>
-  </data>
-  <data name="ErrReserveSize" xml:space="preserve">
-    <value>SIZEは予約語です。</value>
+  <data name="ErrReserved" xml:space="preserve">
+    <value>{0} は予約名です。</value>
   </data>
   <data name="ErrResetSim" xml:space="preserve">
-    <value>シミュレーションをリセットできませんでした。</value>
+    <value>シミュレーションをリセットできません。</value>
   </data>
   <data name="ErrRunning" xml:space="preserve">
     <value>シミュレーション実行中です。</value>
   </data>
   <data name="ErrRunSim" xml:space="preserve">
-    <value>シミュレーションの実行に失敗しました。</value>
+    <value>シミュレーションが実行できません。</value>
+  </data>
+  <data name="ErrSaveLog" xml:space="preserve">
+    <value>ログが保存できません。</value>
   </data>
   <data name="ErrSaveModel" xml:space="preserve">
-    <value>モデルの保存に失敗しました。</value>
-  </data>
-  <data name="ErrSaveNull" xml:space="preserve">
-    <value>nullもしくは空のパラメータを保存できませんでした。</value>
+    <value>モデル {0} を保存できません。</value>
   </data>
   <data name="ErrSavePrj" xml:space="preserve">
-    <value>プロジェクトの保存に失敗しました。</value>
-  </data>
-  <data name="ErrSaveSim" xml:space="preserve">
-    <value>シミュレーションパラメータの保存に失敗しました。</value>
+    <value>プロジェクト {0} を保存できません。</value>
   </data>
   <data name="ErrSetInitParam" xml:space="preserve">
     <value>初期パラメータの設定に失敗しました。</value>
@@ -309,6 +240,9 @@
   <data name="ErrSimParam" xml:space="preserve">
     <value>シミュレーションパラメータの取得に失敗しました。</value>
   </data>
+  <data name="ErrSimPropData" xml:space="preserve">
+    <value>シミュレーション中のプロパティ {0} の値を取得できません。</value>
+  </data>
   <data name="ErrSuspendSim" xml:space="preserve">
     <value>シミュレーションを一時停止できませんでした。</value>
   </data>
@@ -329,6 +263,15 @@
   </data>
   <data name="InfoDel" xml:space="preserve">
     <value>{0} {1} を削除しました。</value>
+  </data>
+  <data name="InfoResetSim" xml:space="preserve">
+    <value>シミュレーションリセット [ {0} ].</value>
+  </data>
+  <data name="InfoSaveModel" xml:space="preserve">
+    <value>モデル {0} を保存しました。</value>
+  </data>
+  <data name="InfoSavePrj" xml:space="preserve">
+    <value>プロジェクト {0} を保存しました。</value>
   </data>
   <data name="NameSimParam" xml:space="preserve">
     <value>シミュレーションパラメータ</value>

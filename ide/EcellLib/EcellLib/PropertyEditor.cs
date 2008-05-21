@@ -913,181 +913,181 @@ namespace EcellLib
             m_dManager.DataChanged(eo.ModelID, oldKey, eo.Type, eo, true, true);
         }
 
-        /// <summary>
-        /// Get the object from the property in PropertyEditor.
-        /// </summary>
-        /// <returns></returns>
-        public EcellObject Collect()
-        {
-            string id = "";
-            string modelID = "";
-            string key = "";
-            string classname = "";
-            string type = "";
-            bool isLogger = false;
-            EcellObject sizeObj = null;
-            List<EcellData> list = new List<EcellData>();
+        ///// <summary>
+        ///// Get the object from the property in PropertyEditor.
+        ///// </summary>
+        ///// <returns></returns>
+        //public EcellObject Collect()
+        //{
+        //    string id = "";
+        //    string modelID = "";
+        //    string key = "";
+        //    string classname = "";
+        //    string type = "";
+        //    bool isLogger = false;
+        //    EcellObject sizeObj = null;
+        //    List<EcellData> list = new List<EcellData>();
 
-            try
-            {
-                IEnumerator iter = layoutPanel.Controls.GetEnumerator();
-                while (iter.MoveNext())
-                {
-                    Control c = (Control)iter.Current;
-                    if (c == null) continue;
-                    TableLayoutPanelCellPosition pos =
-                        layoutPanel.GetPositionFromControl(c);
-                    if (pos.Column == 0)
-                    {
-                        CheckBox chk = c as CheckBox;
-                        if (chk == null)
-                        {
-                            isLogger = false;
-                            continue;
-                        }
-                        isLogger = chk.Checked;
-                        continue;
+        //    try
+        //    {
+        //        IEnumerator iter = layoutPanel.Controls.GetEnumerator();
+        //        while (iter.MoveNext())
+        //        {
+        //            Control c = (Control)iter.Current;
+        //            if (c == null) continue;
+        //            TableLayoutPanelCellPosition pos =
+        //                layoutPanel.GetPositionFromControl(c);
+        //            if (pos.Column == 0)
+        //            {
+        //                CheckBox chk = c as CheckBox;
+        //                if (chk == null)
+        //                {
+        //                    isLogger = false;
+        //                    continue;
+        //                }
+        //                isLogger = chk.Checked;
+        //                continue;
 
-                    }
-                    if (pos.Column != 2) continue;
-                    if ((string)c.Tag == "Add Property") continue;
+        //            }
+        //            if (pos.Column != 2) continue;
+        //            if ((string)c.Tag == "Add Property") continue;
 
-                    if ((string)c.Tag == "modelID") modelID = c.Text;
-                    else if ((string)c.Tag == "id")
-                    {
-                        id = c.Text;
-                        if (c.Text == "")
-                        {
-                            String errmes = MessageResLib.ErrNoInput;
-                            Util.ShowWarningDialog(errmes + "(ID)");
-                            return null;
-                        }
-                        else if (Util.IsNGforID(c.Text))
-                        //                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
-                        {
-                            Util.ShowWarningDialog(MessageResLib.ErrInvalidID);
+        //            if ((string)c.Tag == "modelID") modelID = c.Text;
+        //            else if ((string)c.Tag == "id")
+        //            {
+        //                id = c.Text;
+        //                if (c.Text == "")
+        //                {
+        //                    String errmes = MessageResLib.ErrNoInput;
+        //                    Util.ShowWarningDialog(errmes + "(ID)");
+        //                    return null;
+        //                }
+        //                else if (Util.IsNGforID(c.Text))
+        //                //                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
+        //                {
+        //                    Util.ShowWarningDialog(MessageResLib.ErrInvalidID);
 
-                            return null;
-                        }
-                        else if (c.Text.ToUpper() == "SIZE")
-                        {
-                            Util.ShowWarningDialog(MessageResLib.ErrReserveSize);
+        //                    return null;
+        //                }
+        //                else if (c.Text.ToUpper() == "SIZE")
+        //                {
+        //                    Util.ShowWarningDialog(MessageResLib.ErrReserveSize);
 
-                            return null;
-                        }
-                        else if (m_currentObj != null)
-                        {
-                            if (m_currentObj.Type == EcellObject.SYSTEM && Util.IsNGforSystemFullID(c.Text))
-                            {
-                                Util.ShowWarningDialog(MessageResLib.ErrInvalidID);
+        //                    return null;
+        //                }
+        //                else if (m_currentObj != null)
+        //                {
+        //                    if (m_currentObj.Type == EcellObject.SYSTEM && Util.IsNGforSystemFullID(c.Text))
+        //                    {
+        //                        Util.ShowWarningDialog(MessageResLib.ErrInvalidID);
 
-                                return null;
-                            }
-                            if (m_currentObj.Type != "System" && Util.IsNGforComponentFullID(c.Text))
-                            {
-                                Util.ShowWarningDialog(MessageResLib.ErrInvalidID);
+        //                        return null;
+        //                    }
+        //                    if (m_currentObj.Type != "System" && Util.IsNGforComponentFullID(c.Text))
+        //                    {
+        //                        Util.ShowWarningDialog(MessageResLib.ErrInvalidID);
 
-                                return null;
-                            }
-                        }
+        //                        return null;
+        //                    }
+        //                }
 
-                        if (!m_type.Equals(EcellObject.SYSTEM))
-                        {
-                            if (m_parentObj.Key == "") key = c.Text;
-                            else if (m_parentObj.Key == "/") key = "/:" + c.Text;
-                            else key = m_parentObj.Key + ":" + c.Text;
-                        }
-                        else
-                        {
-                            if (m_parentObj.Key == "") key = c.Text;
-                            else if (m_parentObj.Key == "/") key = "/" + c.Text;
-                            else key = m_parentObj.Key + "/" + c.Text;
+        //                if (!m_type.Equals(EcellObject.SYSTEM))
+        //                {
+        //                    if (m_parentObj.Key == "") key = c.Text;
+        //                    else if (m_parentObj.Key == "/") key = "/:" + c.Text;
+        //                    else key = m_parentObj.Key + ":" + c.Text;
+        //                }
+        //                else
+        //                {
+        //                    if (m_parentObj.Key == "") key = c.Text;
+        //                    else if (m_parentObj.Key == "/") key = "/" + c.Text;
+        //                    else key = m_parentObj.Key + "/" + c.Text;
 
-                        }
-                    }
-                    else if ((string)c.Tag == "classname") classname = c.Text;
-                    else if ((string)c.Tag == "type") type = c.Text;
-                    else if ((string)c.Tag == EcellProcess.VARIABLEREFERENCELIST)
-                    {
-                        EcellData data = new EcellData();
-                        data.Name = (string)c.Tag;
-                        data.Value = EcellValue.ToVariableReferenceList(m_refStr);
-                        data.EntityPath = type + ":" + m_parentObj.Key +
-                            ":" + id + ":" + (string)c.Tag;
-                        data.Settable = m_propDict[data.Name].Settable;
-                        data.Saveable = m_propDict[data.Name].Saveable;
-                        data.Loadable = m_propDict[data.Name].Loadable;
-                        data.Gettable = m_propDict[data.Name].Gettable;
-                        data.Logable = m_propDict[data.Name].Logable;
-                        data.Logged = m_propDict[data.Name].Logged;
+        //                }
+        //            }
+        //            else if ((string)c.Tag == "classname") classname = c.Text;
+        //            else if ((string)c.Tag == "type") type = c.Text;
+        //            else if ((string)c.Tag == EcellProcess.VARIABLEREFERENCELIST)
+        //            {
+        //                EcellData data = new EcellData();
+        //                data.Name = (string)c.Tag;
+        //                data.Value = EcellValue.ToVariableReferenceList(m_refStr);
+        //                data.EntityPath = type + ":" + m_parentObj.Key +
+        //                    ":" + id + ":" + (string)c.Tag;
+        //                data.Settable = m_propDict[data.Name].Settable;
+        //                data.Saveable = m_propDict[data.Name].Saveable;
+        //                data.Loadable = m_propDict[data.Name].Loadable;
+        //                data.Gettable = m_propDict[data.Name].Gettable;
+        //                data.Logable = m_propDict[data.Name].Logable;
+        //                data.Logged = m_propDict[data.Name].Logged;
 
-                        list.Add(data);
-                    }
-                    else if ((string)c.Tag == "DefinedSize")
-                    {
-                        if (c.Text == "") continue;
-                        List<EcellData> dList = new List<EcellData>();
-                        Dictionary<string, EcellData> sList = m_dManager.GetVariableProperty();
-                        foreach (string p in sList.Keys)
-                        {
-                            EcellData d = sList[p];
-                            if (p == "Value")
-                            {
-                                d.Value = new EcellValue(Convert.ToDouble(c.Text));
-                            }
-                            dList.Add(d);
-                        }
-                        sizeObj = EcellObject.CreateObject(modelID, key + ":SIZE", EcellObject.VARIABLE, EcellObject.VARIABLE, dList);
-                    }
-                    else
-                    {
-                        EcellData data = new EcellData();
-                        try
-                        {
-                            data.Name = (string)c.Tag;
-                            if (m_propDict[data.Name].Value.Type == typeof(int))
-                                data.Value = new EcellValue(Convert.ToInt32(c.Text));
-                            else if (m_propDict[data.Name].Value.Type == typeof(double))
-                            {
-                                if (c.Text == "1.79769313486232E+308")
-                                    data.Value = new EcellValue(Double.MaxValue);
-                                else
-                                    data.Value = new EcellValue(Convert.ToDouble(c.Text));
-                            }
-                            else if (m_propDict[data.Name].Value.Type == typeof(List<EcellValue>))
-                                data.Value = EcellValue.ToList(c.Text);
-                            else
-                                data.Value = new EcellValue(c.Text);
-                            data.EntityPath = type + ":" + m_parentObj.Key +
-                                ":" + id + ":" + (string)c.Tag;
-                            data.Settable = m_propDict[data.Name].Settable;
-                            data.Saveable = m_propDict[data.Name].Saveable;
-                            data.Loadable = m_propDict[data.Name].Loadable;
-                            data.Gettable = m_propDict[data.Name].Gettable;
-                            data.Logable = m_propDict[data.Name].Logable;
-                            //                            data.Logged = m_propDict[data.Name].Logged;
-                            data.Logged = isLogger;
-                        }
-                        catch (Exception ex)
-                        {
-                            Trace.WriteLine(ex);
-                            return null;
-                        }
-                        list.Add(data);
-                    }
-                }
+        //                list.Add(data);
+        //            }
+        //            else if ((string)c.Tag == "DefinedSize")
+        //            {
+        //                if (c.Text == "") continue;
+        //                List<EcellData> dList = new List<EcellData>();
+        //                Dictionary<string, EcellData> sList = m_dManager.GetVariableProperty();
+        //                foreach (string p in sList.Keys)
+        //                {
+        //                    EcellData d = sList[p];
+        //                    if (p == "Value")
+        //                    {
+        //                        d.Value = new EcellValue(Convert.ToDouble(c.Text));
+        //                    }
+        //                    dList.Add(d);
+        //                }
+        //                sizeObj = EcellObject.CreateObject(modelID, key + ":SIZE", EcellObject.VARIABLE, EcellObject.VARIABLE, dList);
+        //            }
+        //            else
+        //            {
+        //                EcellData data = new EcellData();
+        //                try
+        //                {
+        //                    data.Name = (string)c.Tag;
+        //                    if (m_propDict[data.Name].Value.Type == typeof(int))
+        //                        data.Value = new EcellValue(Convert.ToInt32(c.Text));
+        //                    else if (m_propDict[data.Name].Value.Type == typeof(double))
+        //                    {
+        //                        if (c.Text == "1.79769313486232E+308")
+        //                            data.Value = new EcellValue(Double.MaxValue);
+        //                        else
+        //                            data.Value = new EcellValue(Convert.ToDouble(c.Text));
+        //                    }
+        //                    else if (m_propDict[data.Name].Value.Type == typeof(List<EcellValue>))
+        //                        data.Value = EcellValue.ToList(c.Text);
+        //                    else
+        //                        data.Value = new EcellValue(c.Text);
+        //                    data.EntityPath = type + ":" + m_parentObj.Key +
+        //                        ":" + id + ":" + (string)c.Tag;
+        //                    data.Settable = m_propDict[data.Name].Settable;
+        //                    data.Saveable = m_propDict[data.Name].Saveable;
+        //                    data.Loadable = m_propDict[data.Name].Loadable;
+        //                    data.Gettable = m_propDict[data.Name].Gettable;
+        //                    data.Logable = m_propDict[data.Name].Logable;
+        //                    //                            data.Logged = m_propDict[data.Name].Logged;
+        //                    data.Logged = isLogger;
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    Trace.WriteLine(ex);
+        //                    return null;
+        //                }
+        //                list.Add(data);
+        //            }
+        //        }
 
-                EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
-                obj.Children = new List<EcellObject>();
-                if (sizeObj != null) obj.Children.Add(sizeObj);
+        //        EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
+        //        obj.Children = new List<EcellObject>();
+        //        if (sizeObj != null) obj.Children.Add(sizeObj);
 
-                return obj;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
+        //        return obj;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return null;
+        //    }
+        //}
 
         /// <summary>
         /// Update property of the selected TreeNode.
@@ -1127,27 +1127,27 @@ namespace EcellLib
                     {
                         key = c.Text;
                         if (c.Text == "")
-                        {
-                            String errmes = MessageResLib.ErrNoInput;
-                            Util.ShowWarningDialog(errmes + "(ID)");
+                        {                           
+                            Util.ShowWarningDialog(String.Format(MessageResLib.ErrNoSet,
+                                new object [] { "ID" }));
                             return;
                         }
                         else if (c.Text.ToUpper() == "SIZE")
                         {
-                            Util.ShowWarningDialog(MessageResLib.ErrReserveSize);
-
+                            Util.ShowWarningDialog(String.Format(MessageResLib.ErrReserved,
+                                new object[] { "SIZE" }));
                             return;
                         }
-                        else if (m_currentObj.Type.Equals(EcellObject.SYSTEM) && Util.IsNGforSystemFullID(c.Text))
+                        else if (m_currentObj.Type.Equals(EcellObject.SYSTEM) && 
+                            Util.IsNGforSystemFullID(c.Text))
                         {
                             Util.ShowWarningDialog(MessageResLib.ErrInvalidID);
-
                             return;
                         }
-                        else if (!m_currentObj.Type.Equals(EcellObject.SYSTEM) && Util.IsNGforComponentFullID(c.Text))
+                        else if (!m_currentObj.Type.Equals(EcellObject.SYSTEM) && 
+                            Util.IsNGforComponentFullID(c.Text))
                         {
                             Util.ShowWarningDialog(MessageResLib.ErrInvalidID);
-
                             return;
                         }
                         else if (m_currentObj.Type.Equals(EcellObject.PROCESS) ||
@@ -1157,7 +1157,6 @@ namespace EcellLib
                             if (kpos < 0 || kpos == c.Text.Length - 1)
                             {
                                 Util.ShowWarningDialog(MessageResLib.ErrInvalidID);
-
                                 return;
                             }
                         }
@@ -1352,26 +1351,17 @@ namespace EcellLib
                         list.Add(data);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                String errmes = MessageResLib.ErrInvalidProp;
-                Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
-                return;
-            }
 
-            try
-            {
-                EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
-                obj.Children = m_currentObj.Children;
-                obj.X = m_currentObj.X;
-                obj.Y = m_currentObj.Y;
-                obj.OffsetX = m_currentObj.OffsetX;
-                obj.OffsetY = m_currentObj.OffsetY;
-                obj.Width = m_currentObj.Width;
-                obj.Height = m_currentObj.Height;
-                obj.LayerID = m_currentObj.LayerID;
-                NotifyDataChanged(m_currentObj.ModelID, m_currentObj.Key, obj);
+                EcellObject uobj = EcellObject.CreateObject(modelID, key, type, classname, list);
+                uobj.Children = m_currentObj.Children;
+                uobj.X = m_currentObj.X;
+                uobj.Y = m_currentObj.Y;
+                uobj.OffsetX = m_currentObj.OffsetX;
+                uobj.OffsetY = m_currentObj.OffsetY;
+                uobj.Width = m_currentObj.Width;
+                uobj.Height = m_currentObj.Height;
+                uobj.LayerID = m_currentObj.LayerID;
+                NotifyDataChanged(m_currentObj.ModelID, m_currentObj.Key, uobj);
             }
             catch (IgnoreException ex)
             {
@@ -1379,7 +1369,7 @@ namespace EcellLib
                 return;
             }
             catch (Exception ex)
-            {                
+            {
                 Util.ShowErrorDialog(ex.Message);
                 return;
             }

@@ -103,7 +103,7 @@ namespace EcellLib
             string tag = (string)t.Tag;
             if (tag == null || tag.Equals(""))
             {
-                Util.ShowWarningDialog(MessageResLib.ErrNotVar);
+                Util.ShowWarningDialog(MessageResLib.ErrNoSelect);
 
                 return;
             }
@@ -149,7 +149,7 @@ namespace EcellLib
             string tag = (string)t.Tag;
             if (tag == null || tag.Equals(""))
             {
-                Util.ShowWarningDialog(MessageResLib.ErrNotVar);
+                Util.ShowWarningDialog(MessageResLib.ErrNoSelect);
                 return;
             }
 
@@ -194,7 +194,7 @@ namespace EcellLib
             string tag = (string)t.Tag;
             if (tag == null || tag.Equals(""))
             {
-                Util.ShowWarningDialog(MessageResLib.ErrNotVar);
+                Util.ShowWarningDialog(MessageResLib.ErrNoSelect);
 
                 return;
             }
@@ -238,7 +238,7 @@ namespace EcellLib
             string tag = (string)t.Tag;
             if (tag == null || tag.Equals(""))
             {
-                Util.ShowWarningDialog(MessageResLib.ErrNotVar);
+                Util.ShowWarningDialog(MessageResLib.ErrNoSelect);
                 return;
             }
 

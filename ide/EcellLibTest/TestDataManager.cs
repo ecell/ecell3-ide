@@ -836,15 +836,6 @@ namespace EcellLib
         }
 
         [Test()]
-        public void TestSaveProject()
-        {
-            string l_prjID = null;
-            _unitUnderTest.SaveProject(l_prjID);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-
-        [Test()]
         public void TestSaveScript()
         {
             string l_fileName = null;

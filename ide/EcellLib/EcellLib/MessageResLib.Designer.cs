@@ -151,15 +151,6 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   {0} already exists in this VariableReferenceList. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrExistID {
-            get {
-                return ResourceManager.GetString("ErrExistID", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   {0} already exists in project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrExistObj {
@@ -187,7 +178,16 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not find entity. に類似しているローカライズされた文字列を検索します。
+        ///   {0} already exists in this VariableReferenceList. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrExistVariableRef {
+            get {
+                return ResourceManager.GetString("ErrExistVariableRef", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can not find the entity {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrFindEnt {
             get {
@@ -196,97 +196,25 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Could not find the model. に類似しているローカライズされた文字列を検索します。
+        ///   Can not find the file {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ErrFindModel {
+        internal static string ErrFindFile {
             get {
-                return ResourceManager.GetString("ErrFindModel", resourceCulture);
+                return ResourceManager.GetString("ErrFindFile", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Could not find the project. に類似しているローカライズされた文字列を検索します。
+        ///   Can not retrieve the log data. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ErrFindPrj {
+        internal static string ErrGetLogData {
             get {
-                return ResourceManager.GetString("ErrFindPrj", resourceCulture);
+                return ResourceManager.GetString("ErrGetLogData", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Could not find the project file. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrFindPrjFile {
-            get {
-                return ResourceManager.GetString("ErrFindPrjFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Could not find the running simulation. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrFindRunSim {
-            get {
-                return ResourceManager.GetString("ErrFindRunSim", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Could not find the simulation parameter. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrFindSimParam {
-            get {
-                return ResourceManager.GetString("ErrFindSimParam", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Could not find stepper. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrFindStepper {
-            get {
-                return ResourceManager.GetString("ErrFindStepper", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Could find the super system. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrFindSuper {
-            get {
-                return ResourceManager.GetString("ErrFindSuper", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Could find the system. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrFindSystem {
-            get {
-                return ResourceManager.GetString("ErrFindSystem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Could not retrieve the log data. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrGetData {
-            get {
-                return ResourceManager.GetString("ErrGetData", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Could not find entities in the model. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrGetEnt {
-            get {
-                return ResourceManager.GetString("ErrGetEnt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Could not obtain properties. に類似しているローカライズされた文字列を検索します。
+        ///   Can not obtain the properties of entity {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrGetProp {
             get {
@@ -295,61 +223,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Could not retrieve simulation parameters. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrGetSimParams {
-            get {
-                return ResourceManager.GetString("ErrGetSimParams", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Could not find the simulation parameter in model. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrGetStep {
-            get {
-                return ResourceManager.GetString("ErrGetStep", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Could not get the list of system. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrGetSysList {
-            get {
-                return ResourceManager.GetString("ErrGetSysList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   This ID is malformed. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrIDMalformed {
-            get {
-                return ResourceManager.GetString("ErrIDMalformed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Invarid Full ID. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrIDUnform {
-            get {
-                return ResourceManager.GetString("ErrIDUnform", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Could not obtain the initial parameters. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrInitParam {
-            get {
-                return ResourceManager.GetString("ErrInitParam", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Could not initialize the simulator. に類似しているローカライズされた文字列を検索します。
+        ///   Can not initialize the simulator. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrInitSim {
             get {
@@ -358,7 +232,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   There are invalid characters in ID. に類似しているローカライズされた文字列を検索します。
+        ///   There are any invalid characters. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrInvalidID {
             get {
@@ -367,25 +241,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   There are any invalid characters. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrInvalidName {
-            get {
-                return ResourceManager.GetString("ErrInvalidName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   There are invalid property in this window, に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrInvalidProp {
-            get {
-                return ResourceManager.GetString("ErrInvalidProp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can not load the model. に類似しているローカライズされた文字列を検索します。
+        ///   Can not load the model {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadModel {
             get {
@@ -394,29 +250,11 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not load the project. に類似しているローカライズされた文字列を検索します。
+        ///   Can not load the project {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadPrj {
             get {
                 return ResourceManager.GetString("ErrLoadPrj", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can not load the simulation parameter. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrLoadSimParam {
-            get {
-                return ResourceManager.GetString("ErrLoadSimParam", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Please input the necessary item. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrNoInput {
-            get {
-                return ResourceManager.GetString("ErrNoInput", resourceCulture);
             }
         }
         
@@ -430,7 +268,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   No select the variable. に類似しているローカライズされた文字列を検索します。
+        ///   Please select the variable. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNoSelect {
             get {
@@ -448,7 +286,7 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///    can not be created. に類似しているローカライズされた文字列を検索します。
+        ///   Can not create the stepper {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNotCreStepper {
             get {
@@ -457,47 +295,11 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   This is not variable. に類似しているローカライズされた文字列を検索します。
+        ///   {0} is the reserved name. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ErrNotVar {
+        internal static string ErrReserved {
             get {
-                return ResourceManager.GetString("ErrNotVar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   There are the object with null data. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrNullData {
-            get {
-                return ResourceManager.GetString("ErrNullData", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can not parse the eml file. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrParseEml {
-            get {
-                return ResourceManager.GetString("ErrParseEml", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can not find the project directory, に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrPrjDir {
-            get {
-                return ResourceManager.GetString("ErrPrjDir", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   SIZE is the reserved name. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrReserveSize {
-            get {
-                return ResourceManager.GetString("ErrReserveSize", resourceCulture);
+                return ResourceManager.GetString("ErrReserved", resourceCulture);
             }
         }
         
@@ -529,7 +331,16 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not save the model. に類似しているローカライズされた文字列を検索します。
+        ///   Can not save the log. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSaveLog {
+            get {
+                return ResourceManager.GetString("ErrSaveLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can not save the model {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSaveModel {
             get {
@@ -538,29 +349,11 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not save the null or empty property. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrSaveNull {
-            get {
-                return ResourceManager.GetString("ErrSaveNull", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can not save the project に類似しているローカライズされた文字列を検索します。
+        ///   Can not save the project {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSavePrj {
             get {
                 return ResourceManager.GetString("ErrSavePrj", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can not save the simulation parameter. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrSaveSim {
-            get {
-                return ResourceManager.GetString("ErrSaveSim", resourceCulture);
             }
         }
         
@@ -637,6 +430,15 @@ namespace EcellLib {
         }
         
         /// <summary>
+        ///   Can not the value of property {0} under the simulation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSimPropData {
+            get {
+                return ResourceManager.GetString("ErrSimPropData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Can not suspend the simulation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSuspendSim {
@@ -696,6 +498,33 @@ namespace EcellLib {
         internal static string InfoDel {
             get {
                 return ResourceManager.GetString("InfoDel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reset the simulation [{0}]. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoResetSim {
+            get {
+                return ResourceManager.GetString("InfoResetSim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save the model {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoSaveModel {
+            get {
+                return ResourceManager.GetString("InfoSaveModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save the project {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoSavePrj {
+            get {
+                return ResourceManager.GetString("InfoSavePrj", resourceCulture);
             }
         }
         
