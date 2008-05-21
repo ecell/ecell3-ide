@@ -51,7 +51,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// used for painting within rectangle. For viewing objects under rectangle area,
         /// this color has alpha value.
         /// </summary>
-        SolidBrush m_brush = new SolidBrush(Color.FromArgb(125, Color.Red));
+        SolidBrush m_brush = new SolidBrush(Color.FromArgb(64, Color.Red));
 
         /// <summary>
         /// Cursor to move this object.

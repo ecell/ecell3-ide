@@ -54,7 +54,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         private StatusStrip StatusStrip;
         private ToolStripProgressBar ProgressBar;
         private ToolStripStatusLabel ObjectIDLabel;
-        private ToolStripStatusLabel ZoomRateLabel;
         private ToolStripStatusLabel LocationLabel;
 
         /// <summary>
@@ -100,33 +99,13 @@ namespace EcellLib.PathwayWindow.UIComponent
             PCanvas canvas = m_con.Canvas.PCanvas;
             m_scrolCtrl.Canvas = canvas;
             canvas.MouseMove += new MouseEventHandler(canvas_MouseMove);
-            canvas.Camera.ViewTransformChanged += new PPropertyEventHandler(Camera_ViewTransformChanged);
             this.Controls.Add(canvas);
             this.Controls.Add(m_scrolCtrl);
             this.Controls.Add(StatusStrip);
             this.Text = m_con.Canvas.ModelID;
             this.TabText = this.Text;
-            SetZoomRate();
             this.Activate();
             this.Parent.Refresh();
-        }
-
-        /// <summary>
-        /// Event on zooming rate changed.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Camera_ViewTransformChanged(object sender, PPropertyEventArgs e)
-        {
-            SetZoomRate();
-        }
-        /// <summary>
-        /// SetZoomRate
-        /// </summary>
-        private void SetZoomRate()
-        {
-            float zoomRate = 100f * m_con.Canvas.PCanvas.Camera.ViewScale;
-            this.ZoomRateLabel.Text = zoomRate.ToString("###") + "%";
         }
 
         /// <summary>
@@ -154,7 +133,6 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.ObjectIDLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.ZoomRateLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.LocationLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -164,7 +142,6 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ObjectIDLabel,
             this.ProgressBar,
-            this.ZoomRateLabel,
             this.LocationLabel});
             this.StatusStrip.Location = new System.Drawing.Point(0, 469);
             this.StatusStrip.Name = "StatusStrip";
@@ -190,17 +167,6 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.ProgressBar.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.ProgressBar.Name = "ProgressBar";
             this.ProgressBar.Size = new System.Drawing.Size(100, 16);
-            // 
-            // ZoomRateLabel
-            // 
-            this.ZoomRateLabel.AutoSize = false;
-            this.ZoomRateLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.ZoomRateLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            this.ZoomRateLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.ZoomRateLabel.Name = "ZoomRateLabel";
-            this.ZoomRateLabel.Size = new System.Drawing.Size(50, 17);
             // 
             // LocationLabel
             // 
