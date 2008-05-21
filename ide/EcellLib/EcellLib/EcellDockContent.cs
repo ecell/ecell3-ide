@@ -87,7 +87,7 @@ namespace EcellLib
             }
         }
 
-        private Point GetDesktopLocation(Control control)
+        public Point GetDesktopLocation(Control control)
         {
             Point pos = control.Location;
             if (control.Parent != null)

@@ -120,8 +120,8 @@ namespace EcellLib.PathwayWindow.UIComponent
                 this.ObjectIDLabel.Text = ((PPathwayObject)node).EcellObject.Key;
             else
                 this.ObjectIDLabel.Text = null;
-
-            PointF pos = m_con.Canvas.SystemPosToCanvasPos(e.Location);
+            Point systemPos = GetDesktopLocation(m_con.Canvas.PCanvas);
+            PointF pos = m_con.Canvas.SystemPosToCanvasPos(new Point(e.Location.X + systemPos.X,e.Location.Y + systemPos.Y));
             this.LocationLabel.Text = "X:" + pos.X.ToString("###.##") + ", Y:" + pos.Y.ToString("###.##");
         }
 
