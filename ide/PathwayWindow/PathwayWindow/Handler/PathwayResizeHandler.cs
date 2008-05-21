@@ -82,7 +82,6 @@ namespace EcellLib.PathwayWindow.Handler
             set
             {
                 m_canvas = value;
-
             }
         }
         
@@ -96,6 +95,7 @@ namespace EcellLib.PathwayWindow.Handler
         public PathwayResizeHandler(PPathwayObject obj)
         {
             this.m_obj = obj;
+            this.m_obj.VisibleChanged += new PPropertyEventHandler(m_obj_VisibleChanged);
             this.m_canvas = obj.Canvas;
 
             for (int i = 0; i < 8; i++)
@@ -111,6 +111,7 @@ namespace EcellLib.PathwayWindow.Handler
                 m_resizeHandles.Add(handle);
             }
         }
+
         /// <summary>
         /// GetCursor
         /// </summary>
@@ -137,7 +138,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         public void ShowResizeHandles()
         {
-            UpdateResizeHandlePositions();
+            UpdateResizeHandle();
             foreach (PNode node in m_resizeHandles)
                 m_canvas.ControlLayer.AddChild(node);
         }
@@ -155,9 +156,9 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// Reset reside handles' positions.
         /// </summary>
-        public void UpdateResizeHandlePositions()
+        public void UpdateResizeHandle()
         {
-            PointF gP = new PointF(m_obj.X + m_obj.OffsetX, m_obj.Y + m_obj.OffsetY);
+            PointF gP = m_obj.PointF;
 
             m_resizeHandles[ResizeHandle.NW].OffsetX = gP.X;
             m_resizeHandles[ResizeHandle.NW].OffsetY =  gP.Y;
@@ -176,6 +177,22 @@ namespace EcellLib.PathwayWindow.Handler
             m_resizeHandles[ResizeHandle.W].OffsetX = gP.X;
             m_resizeHandles[ResizeHandle.W].OffsetY = gP.Y + m_obj.Height / 2f;
         }
+
+        /// <summary>
+        /// ResizeObject
+        /// </summary>
+        protected virtual void ResizeObject(float x, float y, float width, float height)
+        {
+            if (width >= PPathwayNode.DEFAULT_WIDTH && height >= PPathwayNode.DEFAULT_HEIGHT)
+            {
+                m_obj.X = x;
+                m_obj.Y = y;
+                m_obj.Width = width;
+                m_obj.Height = height;
+                m_obj.RefreshView();
+            }
+        }
+
         #endregion
 
         #region Event Handlers
@@ -208,8 +225,6 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="e"></param>
         protected virtual void ResizeHandle_MouseDown(object sender, PInputEventArgs e)
         {
-            if (m_obj == null)
-                return;
             m_obj.MemorizePosition();
         }
 
@@ -272,22 +287,19 @@ namespace EcellLib.PathwayWindow.Handler
             else if (pos == ResizeHandle.E || pos == ResizeHandle.W)
                 handle.OffsetY = m_obj.Y + m_obj.Height / 2f;
             ResizeObject(x, y, width, height);
-            UpdateResizeHandlePositions();
         }
 
         /// <summary>
-        /// ResizeObject
+        /// 
         /// </summary>
-        protected virtual void ResizeObject(float x, float y, float width, float height)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void m_obj_VisibleChanged(object sender, PPropertyEventArgs e)
         {
-            if (width >= 60 && height >= 40)
-            {
-                m_obj.X = x;
-                m_obj.Y = y;
-                m_obj.Width = width;
-                m_obj.Height = height;
-                m_obj.RefreshView();
-            }
+            if (m_obj.Visible && m_obj.IsHighLighted)
+                ShowResizeHandles();
+            else
+                HideResizeHandles();
         }
 
         #endregion
@@ -341,7 +353,7 @@ namespace EcellLib.PathwayWindow.Handler
             /// <summary>
             /// Half of width of a ResizeHandle
             /// </summary>
-            protected readonly float HALF_WIDTH = 10;
+            protected readonly float HALF_WIDTH = 5;
 
             #endregion
             /// <summary>

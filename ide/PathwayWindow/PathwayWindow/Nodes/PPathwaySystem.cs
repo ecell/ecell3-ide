@@ -226,7 +226,7 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             base.m_path = m_figure.CreatePath(X, Y, Width, Height);
             base.RefreshView();
-            m_resizeHandler.UpdateResizeHandlePositions();
+            m_resizeHandler.UpdateResizeHandle();
         }
         /// <summary>
         /// Refresh Text contents of this object.
@@ -285,17 +285,15 @@ namespace EcellLib.PathwayWindow.Nodes
             m_canvas.NotifySelectChanged(this);
             base.OnMouseDown(e);
         }
-
         /// <summary>
-        /// OnMouseDrag
+        /// 
         /// </summary>
         /// <param name="e"></param>
         public override void OnMouseDrag(PInputEventArgs e)
         {
             base.OnMouseDrag(e);
-            m_resizeHandler.UpdateResizeHandlePositions();
+            m_resizeHandler.UpdateResizeHandle();
         }
-
         /// <summary>
         /// Check if this PSystem's region overlaps given rectangle
         /// </summary>

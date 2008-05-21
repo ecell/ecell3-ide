@@ -98,7 +98,7 @@ namespace EcellLib.PathwayWindow.Handler
             m_obj.ResetPosition();
             m_obj.RefreshView();
             ValidateSystem();
-            UpdateResizeHandlePositions();
+            UpdateResizeHandle();
             m_canvas.ResetSelectedObjects();
             ClearSurroundState();
         }
@@ -241,7 +241,7 @@ namespace EcellLib.PathwayWindow.Handler
             }
 
             // Fire DataChanged for child in system.!
-            UpdateResizeHandlePositions();
+            UpdateResizeHandle();
             m_canvas.ResetSelectedObjects();
             ClearSurroundState();
 
@@ -262,7 +262,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <summary>
         /// ResizeObject
         /// </summary>
-        protected virtual void ResizeObject(float x, float y, float width, float height)
+        protected override void ResizeObject(float x, float y, float width, float height)
         {
             // Resize System
             if (width >= PPathwaySystem.MIN_X_LENGTH && height >= PPathwaySystem.MIN_Y_LENGTH)

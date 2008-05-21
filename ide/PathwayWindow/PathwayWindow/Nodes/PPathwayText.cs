@@ -190,7 +190,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void RefreshView()
         {
             base.RefreshView();
-            m_resizeHandler.UpdateResizeHandlePositions();
+            m_resizeHandler.UpdateResizeHandle();
         }
 
         /// <summary>
@@ -205,15 +205,14 @@ namespace EcellLib.PathwayWindow.Nodes
                 m_canvas.NotifySelectChanged(this);
             base.OnMouseDown(e);
         }
-
         /// <summary>
-        /// OnMouseDrag
+        /// 
         /// </summary>
         /// <param name="e"></param>
         public override void OnMouseDrag(PInputEventArgs e)
         {
             base.OnMouseDrag(e);
-            m_resizeHandler.UpdateResizeHandlePositions();
+            m_resizeHandler.UpdateResizeHandle();
         }
 
         private void m_tbox_LostFocus(object sender, EventArgs e)

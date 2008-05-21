@@ -77,7 +77,7 @@ namespace EcellLib.Message
         #endregion
 
         #region Constructor
-        // <summary>
+        /// <summary>
         /// Constructor with the initial parameters.
         /// </summary>
         /// <param name="type">the message type.</param>

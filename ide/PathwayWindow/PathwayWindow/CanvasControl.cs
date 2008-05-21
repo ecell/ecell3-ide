@@ -674,17 +674,6 @@ namespace EcellLib.PathwayWindow
             if (obj.Canvas == null)
                 obj.Canvas = this;
         }
-        #region Methods to control texts.
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="text"></param>
-        public void AddText(PPathwayText text)
-        {
-            m_ctrlLayer.AddChild(text);
-            m_texts.Add(text.EcellObject.Key, text);
-        }
-        #endregion
 
         #region Methods to control Layer.
         /// <summary>
