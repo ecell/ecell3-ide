@@ -1261,11 +1261,28 @@ namespace EcellLib.PathwayWindow
         {
             List<EcellObject> systemList = GetSystemList();
             List<EcellObject> nodeList = GetNodeList();
-
+            int nodeNum = 0;
             // Check Selected nodes when the layout algorithm uses selected objects.
             if (algorithm.GetLayoutType() == LayoutType.Selected)
+            {
+                foreach (EcellObject node in GetNodeList())
+                {
+                    node.isFixed = m_canvas.GetSelectedObject(node.Key, node.Type).IsHighLighted;
+                    nodeList.Add(node);
+                    if (node.isFixed)
+                        nodeNum++;
+                }
+            }
+            else if (algorithm.GetLayoutType() == LayoutType.Whole)
+            {
                 foreach (EcellObject node in nodeList)
-                    node.isFixed = this.Canvas.GetSelectedObject(node.Key, node.Type).IsHighLighted;
+                {
+                    node.isFixed = true;
+                    nodeList.Add(node);
+                    nodeNum++;
+                }
+            }
+            // Do Layout
             try
             {
                 algorithm.DoLayout(subIdx, false, systemList, nodeList);
@@ -1283,9 +1300,12 @@ namespace EcellLib.PathwayWindow
             int i = 0;
             foreach (EcellObject node in nodeList)
             {
+                if (!node.isFixed)
+                    continue;
+
                 i++;
                 node.isFixed = false;
-                if(i != nodeList.Count)
+                if(i != nodeNum)
                     this.NotifyDataChanged(node.Key, node, isRecorded, false);
                 else
                     this.NotifyDataChanged(node.Key, node, isRecorded, true);

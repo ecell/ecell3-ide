@@ -64,11 +64,11 @@ namespace EcellLib.CircularLayout
                              List<EcellObject> systemList,
                              List<EcellObject> nodeList)
         {
-            // Error check.
-            if (nodeList == null || nodeList.Count <= 2)
-                return false;
             // Set selected node list.
             List<EcellObject> selectedList = GetSelectedObject(nodeList);
+            // Error check.
+            if (selectedList.Count <= 2)
+                return false;
 
             // Number of layouts to be layouted.
             int nodeNum = selectedList.Count;

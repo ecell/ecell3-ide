@@ -83,9 +83,10 @@ namespace EcellLib.AlignLayout
                              List<EcellObject> nodeList)
         {
             // Error check.
-            if (nodeList == null || nodeList.Count <= 1)
-                return false;
             nodeList = GetSelectedObject(nodeList);
+            if (nodeList.Count <= 1)
+                return false;
+
             RectangleF rect = GetSurroundingRect(nodeList);
 
             Alignment align = GetAlignment(subNum);

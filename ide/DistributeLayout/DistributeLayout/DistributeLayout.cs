@@ -65,14 +65,12 @@ namespace EcellLib.DistributeLayout
                              List<EcellObject> systemList,
                              List<EcellObject> nodeList)
         {
-            if (nodeList == null || nodeList.Count <= 1)
-                return false;
+            // Set selected node list.
             nodeList = GetSelectedObject(nodeList);
             if (nodeList.Count <= 2)
                 return false;
 
             RectangleF rect = GetSurroundingRect(nodeList);
-
             Direction dir = GetDirection(subNum);
 
             SortedDictionary<float, List<EcellObject>> posDict = new SortedDictionary<float, List<EcellObject>>();
