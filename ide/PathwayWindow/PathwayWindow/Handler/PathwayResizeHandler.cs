@@ -287,6 +287,7 @@ namespace EcellLib.PathwayWindow.Handler
             else if (pos == ResizeHandle.E || pos == ResizeHandle.W)
                 handle.OffsetY = m_obj.Y + m_obj.Height / 2f;
             ResizeObject(x, y, width, height);
+            UpdateResizeHandle();
         }
 
         /// <summary>
