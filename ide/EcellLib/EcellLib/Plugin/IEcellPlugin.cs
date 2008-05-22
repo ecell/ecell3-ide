@@ -73,7 +73,7 @@ namespace EcellLib.Plugin
         /// Get toolbar buttons for each plugin.
         /// </summary>
         /// <returns>null</returns>
-        List<ToolStripItem> GetToolBarMenuStripItems();
+        ToolStrip GetToolBarMenuStrip();
 
         /// <summary>
         /// Get the window forms of each plugin.

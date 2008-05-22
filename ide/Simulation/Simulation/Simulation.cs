@@ -172,10 +172,10 @@ namespace EcellLib.Simulation
         /// Get toolbar buttons for Simulation.
         /// </summary>
         /// <returns>List of ToolStripItem.</returns>
-        public override List<ToolStripItem> GetToolBarMenuStripItems()
+        public override ToolStrip GetToolBarMenuStrip()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Simulation));
-            List<ToolStripItem> list = new List<ToolStripItem>();
+            ToolStrip list = new ToolStrip();
 
             m_paramsCombo = new ToolStripComboBox();
             m_paramsCombo.Name = "SimulationParameter";
@@ -183,7 +183,7 @@ namespace EcellLib.Simulation
             m_paramsCombo.AutoSize = false;
             m_paramsCombo.SelectedIndexChanged += new EventHandler(ParameterSelectedIndexChanged);
             m_paramsCombo.Tag = 1;
-            list.Add(m_paramsCombo);
+            list.Items.Add(m_paramsCombo);
 
             ToolStripButton button1 = new ToolStripButton();
             button1.Image = (Image)resources.GetObject("media_play_green");
@@ -194,7 +194,7 @@ namespace EcellLib.Simulation
             button1.Text = "";
             button1.ToolTipText = MessageResSimulation.ToolTipRun;
             button1.Click += new System.EventHandler(this.RunSimulation);
-            list.Add(button1);
+            list.Items.Add(button1);
 
             ToolStripButton button3 = new ToolStripButton();
             button3.Image = (Image)resources.GetObject("media_pause");
@@ -205,7 +205,7 @@ namespace EcellLib.Simulation
             button3.Text = "";
             button3.ToolTipText = MessageResSimulation.ToolTipSuspend;
             button3.Click += new System.EventHandler(this.SuspendSimulation);
-            list.Add(button3);
+            list.Items.Add(button3);
 
             ToolStripButton button2 = new ToolStripButton();
             button2.Image = (Image)resources.GetObject("media_stop_red");
@@ -216,14 +216,14 @@ namespace EcellLib.Simulation
             button2.Tag = 4;
             button2.ToolTipText = MessageResSimulation.ToolTipStop;
             button2.Click += new System.EventHandler(this.ResetSimulation);
-            list.Add(button2);
+            list.Items.Add(button2);
 
             ToolStripLabel label1 = new ToolStripLabel();
             label1.Name = "TimeLabel";
             label1.Size = new System.Drawing.Size(81, 22);
             label1.Text = " Time: ";
             label1.Tag = 5;
-            list.Add(label1);
+            list.Items.Add(label1);
 
             m_timeText = new ToolStripTextBox();
             m_timeText.Name = "TimeText";
@@ -232,18 +232,18 @@ namespace EcellLib.Simulation
             m_timeText.ReadOnly = true;
             m_timeText.Tag = 6;
             m_timeText.TextBoxTextAlign =  HorizontalAlignment.Right;
-            list.Add(m_timeText);
+            list.Items.Add(m_timeText);
 
             ToolStripLabel label2 = new ToolStripLabel();
             label2.Name = "SecLabel";
             label2.Size = new System.Drawing.Size(50, 22);
             label2.Text = "sec";
             label2.Tag = 7;
-            list.Add(label2);
+            list.Items.Add(label2);
 
             ToolStripSeparator sep = new ToolStripSeparator();
             sep.Tag = 8;
-            list.Add(sep);
+            list.Items.Add(sep);
 
             ToolStripButton button4 = new ToolStripButton();
             button4.Image = (Image)resources.GetObject("media_step_forward");
@@ -254,7 +254,7 @@ namespace EcellLib.Simulation
             button4.Tag = 9;
             button4.ToolTipText = MessageResSimulation.ToolTipStep;
             button4.Click += new System.EventHandler(this.Step);
-            list.Add(button4);
+            list.Items.Add(button4);
 
             m_stepText = new ToolStripTextBox();
             m_stepText.Name = "StepText";
@@ -262,7 +262,7 @@ namespace EcellLib.Simulation
             m_stepText.Text = "1";
             m_stepText.Tag = 10;
             m_stepText.TextBoxTextAlign = HorizontalAlignment.Right;
-            list.Add(m_stepText);
+            list.Items.Add(m_stepText);
 
             m_stepUnitCombo = new ToolStripComboBox();
             m_stepUnitCombo.Name = "StepCourse";
@@ -272,8 +272,8 @@ namespace EcellLib.Simulation
             m_stepUnitCombo.Items.Add("Step");
             m_stepUnitCombo.Items.Add("Sec");
             m_stepUnitCombo.SelectedText = "Step";
-            list.Add(m_stepUnitCombo);
-
+            list.Items.Add(m_stepUnitCombo);
+            list.Location = new Point(400, 0);
             return list;
         }
 

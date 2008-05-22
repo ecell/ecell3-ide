@@ -89,7 +89,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// A list of toolbox buttons.
         /// </summary>
-        private List<ToolStripItem> m_buttonList;
+        private ToolStrip m_buttonList;
 
         /// <summary>
         /// Indicate which pathway-related toolbar button is selected.
@@ -121,7 +121,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_buttonList.
         /// </summary>
-        public List<ToolStripItem> ToolButtonList
+        public ToolStrip ToolButtons
         {
             get { return m_buttonList; }
             set { m_buttonList = value; }
@@ -208,7 +208,7 @@ namespace EcellLib.PathwayWindow
             m_defaultLayoutAlgorithm = GetDefaultLayoutAlgorithm();
             m_menuLayoutList = CreateLayoutMenus();
             m_menuList = CreateMenuItems();
-            m_buttonList = CreateToolButtonItems();
+            m_buttonList = CreateToolButtons();
             m_popupMenu = CreatePopUpMenus();
         }
         /// <summary>
@@ -513,9 +513,9 @@ namespace EcellLib.PathwayWindow
         /// Create ToolStripItems.
         /// </summary>
         /// <returns>the list of ToolStripItems.</returns>
-        private List<ToolStripItem> CreateToolButtonItems()
+        private ToolStrip CreateToolButtons()
         {
-            List<ToolStripItem> list = new List<ToolStripItem>();
+            ToolStrip list = new ToolStrip();
 
             // Used for ID of handle
             int handleCount = 0;
@@ -529,7 +529,7 @@ namespace EcellLib.PathwayWindow
             handButton.Handle = new Handle(Mode.Pan, handleCount, new PPathwayPanEventHandler(m_con));
             m_handleDict.Add(MenuConstants.ToolButtonMoveCanvas, handButton.Handle);
             handButton.Click += new EventHandler(ButtonStateChanged);
-            list.Add(handButton);
+            list.Items.Add(handButton);
 
             PathwayToolStripButton button0 = new PathwayToolStripButton();
             button0.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -540,10 +540,10 @@ namespace EcellLib.PathwayWindow
             button0.Handle = new Handle(Mode.Select, handleCount, new DefaultMouseHandler(m_con));
             m_handleDict.Add(MenuConstants.ToolButtonSelectMode, button0.Handle);
             button0.Click += new EventHandler(ButtonStateChanged);
-            list.Add(button0);
+            list.Items.Add(button0);
 
-            ToolStripSeparator sep = new ToolStripSeparator();
-            list.Add(sep);
+            ToolStripSeparator sep1 = new ToolStripSeparator();
+            list.Items.Add(sep1);
 
             PathwayToolStripButton arrowButton = new PathwayToolStripButton();
             arrowButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -554,7 +554,7 @@ namespace EcellLib.PathwayWindow
             arrowButton.Handle = new Handle(Mode.CreateOneWayReaction, handleCount, new CreateReactionMouseHandler(m_con));
             m_handleDict.Add(MenuConstants.ToolButtonAddOnewayReaction, arrowButton.Handle);
             arrowButton.Click += new EventHandler(ButtonStateChanged);
-            list.Add(arrowButton);
+            list.Items.Add(arrowButton);
 
             PathwayToolStripButton bidirButton = new PathwayToolStripButton();
             bidirButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -565,7 +565,7 @@ namespace EcellLib.PathwayWindow
             bidirButton.Handle = new Handle(Mode.CreateMutualReaction, handleCount, new CreateReactionMouseHandler(m_con));
             m_handleDict.Add(MenuConstants.ToolButtonAddMutualReaction, bidirButton.Handle);
             bidirButton.Click += new EventHandler(ButtonStateChanged);
-            list.Add(bidirButton);
+            list.Items.Add(bidirButton);
 
             PathwayToolStripButton constButton = new PathwayToolStripButton();
             constButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -576,7 +576,7 @@ namespace EcellLib.PathwayWindow
             constButton.Handle = new Handle(Mode.CreateConstant, handleCount, new CreateReactionMouseHandler(m_con));
             m_handleDict.Add(MenuConstants.ToolButtonAddConstant, constButton.Handle);
             constButton.Click += new EventHandler(ButtonStateChanged);
-            list.Add(constButton);
+            list.Items.Add(constButton);
 
             foreach (ComponentSetting cs in m_con.ComponentManager.ComponentSettings)
             {
@@ -603,8 +603,11 @@ namespace EcellLib.PathwayWindow
 
                 m_handleDict.Add(cs.Name, button.Handle);
                 button.Click += new EventHandler(ButtonStateChanged);
-                list.Add(button);
+                list.Items.Add(button);
             }
+
+            ToolStripSeparator sep2 = new ToolStripSeparator();
+            list.Items.Add(sep2);
 
             ToolStripButton zoominButton = new ToolStripButton();
             zoominButton.ImageTransparentColor = Color.Magenta;
@@ -617,7 +620,7 @@ namespace EcellLib.PathwayWindow
             zoominButton.ToolTipText = MessageResPathway.ToolButtonZoomIn;
             zoominButton.Tag = 2f;
             zoominButton.Click += new EventHandler(ZoomButton_Click);
-            list.Add(zoominButton);
+            list.Items.Add(zoominButton);
 
             ToolStripButton zoomoutButton = new ToolStripButton();
             zoomoutButton.ImageTransparentColor = Color.Magenta;
@@ -630,7 +633,7 @@ namespace EcellLib.PathwayWindow
             zoomoutButton.ToolTipText = MessageResPathway.ToolButtonZoomOut;
             zoomoutButton.Tag = 0.5f;
             zoomoutButton.Click += new EventHandler(ZoomButton_Click);
-            list.Add(zoomoutButton);
+            list.Items.Add(zoomoutButton);
 
             // SelectMode is default.
             button0.Checked = true;
@@ -802,7 +805,7 @@ namespace EcellLib.PathwayWindow
             // Set new EventHandler 
             m_handle = handle;
             handler = m_handle.EventHandler;
-            foreach (ToolStripItem item in m_buttonList)
+            foreach (ToolStripItem item in m_buttonList.Items)
             {
                 if (!(item is PathwayToolStripButton))
                     continue;

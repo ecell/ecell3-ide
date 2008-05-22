@@ -40,16 +40,6 @@ namespace EcellLib.ObjectList2
                 }
             }
 
-            // ToolBoxÇâ¡Ç¶ÇÈÅB
-            List<ToolStripItem> toolList = pb.GetToolBarMenuStripItems();
-            if (toolList != null)
-            {
-                foreach (ToolStripItem button in toolList)
-                {
-                    toolStrip1.Items.Add(button);
-                }
-            }
-
             // UserControlÇâ¡Ç¶ÇÈÅB
             IEnumerable<EcellDockContent> windowList = pb.GetWindowsForms();
             foreach (EcellDockContent win in windowList)

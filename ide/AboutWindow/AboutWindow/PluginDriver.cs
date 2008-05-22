@@ -33,16 +33,7 @@ namespace EcellLib.AboutWindow
             }
 
             //ToolBox‚ð‰Á‚¦
-            List<ToolStripItem> toolList = pb.GetToolBarMenuStripItems();
-
-            if (toolList != null)
-            {
-                foreach (ToolStripButton button in toolList)
-                {
-                    toolStrip1.Items.Add(button);
-                }
-            }
-
+            ToolStrip toolList = pb.GetToolBarMenuStrip();
             Util.ShowNoticeDialog("plugin name: " + pb.GetPluginName());
         }
           

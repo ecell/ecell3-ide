@@ -284,9 +284,9 @@ namespace EcellLib.PathwayWindow
         /// Get toolbar buttons for PathwayWindow plugin.
         /// </summary>
         /// <returns>the list of ToolBarMenu.</returns>
-        public override List<ToolStripItem> GetToolBarMenuStripItems()
+        public override ToolStrip GetToolBarMenuStrip()
         {
-            return m_con.Menu.ToolButtonList;
+            return m_con.Menu.ToolButtons;
         }
 
         /// <summary>

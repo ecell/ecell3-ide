@@ -32,8 +32,8 @@ namespace EcellLib.Simulation
                 menu});
             }
 
-            List<ToolStripItem> toolList = pb.GetToolBarMenuStripItems();
-            foreach (ToolStripItem tool in toolList)
+            ToolStrip toolList = pb.GetToolBarMenuStrip();
+            foreach (ToolStripItem tool in toolList.Items)
             {
                 this.toolstrip.Items.AddRange(new ToolStripItem[] {
                     tool});

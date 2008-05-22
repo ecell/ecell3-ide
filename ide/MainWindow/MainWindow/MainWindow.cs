@@ -332,12 +332,10 @@ namespace EcellLib.MainWindow
                 }
             }
             // Set ToolBar
-            List<ToolStripItem> toolList = pb.GetToolBarMenuStripItems();
+            ToolStrip toolList = pb.GetToolBarMenuStrip();
             if (toolList != null)
             {
-                ToolStrip toolStrip = new ToolStrip();
-                toolStrip.Items.AddRange(toolList.ToArray());
-                this.toolStripContainer.TopToolStripPanel.Join(toolStrip);
+                this.toolStripContainer.TopToolStripPanel.Join(toolList,toolList.Location);
             }
         }
 
@@ -769,7 +767,7 @@ namespace EcellLib.MainWindow
         /// Get toolbar buttons for MainWindow plugin.
         /// </summary>
         /// <returns>null.</returns>
-        public List<ToolStripItem> GetToolBarMenuStripItems()
+        public ToolStrip GetToolBarMenuStrip()
         {
             return null;
         }

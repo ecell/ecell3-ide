@@ -113,8 +113,6 @@ namespace EcellLib.SearchWindow
         /// <returns>null.</returns>
         public override List<ToolStripMenuItem> GetMenuStripItems()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResSearch));
-
             List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();
 
             m_searchMenu = new ToolStripMenuItem();
@@ -141,11 +139,9 @@ namespace EcellLib.SearchWindow
         /// Get toolbar buttons for SearchWindow plugin.
         /// </summary>
         /// <returns>null</returns>
-        public override List<ToolStripItem> GetToolBarMenuStripItems()
+        public override ToolStrip GetToolBarMenuStrip()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResSearch));
-
-            List<ToolStripItem> list = new List<ToolStripItem>();
+            ToolStrip list = new ToolStrip();
             m_text = new ToolStripTextBox();
             m_text.Name = "SearchText";
             m_text.Size = new System.Drawing.Size(60, 25);
@@ -154,7 +150,7 @@ namespace EcellLib.SearchWindow
             m_text.Tag = 5;
             m_text.TextBoxTextAlign = HorizontalAlignment.Left;
             m_text.KeyPress += new KeyPressEventHandler(m_text_KeyPress);
-            list.Add(m_text);
+            list.Items.Add(m_text);
 
             ToolStripButton button1 = new ToolStripButton();
             button1.Image = (Image)Resource1.find;
@@ -166,9 +162,9 @@ namespace EcellLib.SearchWindow
             button1.Text = "";
             button1.ToolTipText = MessageResSearch.ToolTipSearch;
             button1.Click += new System.EventHandler(this.Search);
-            list.Add(button1);
+            list.Items.Add(button1);
 
-
+            list.Location = new Point(300, 0);
             return list;
         }
 

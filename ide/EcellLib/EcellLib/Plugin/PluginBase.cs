@@ -156,10 +156,10 @@ namespace EcellLib.Plugin
         }
 
         /// <summary>
-        /// Get toolbar buttons for each plugin.
+        /// Get toolbar buttons of each plugin.
         /// </summary>
         /// <returns>null</returns>
-        public virtual List<ToolStripItem> GetToolBarMenuStripItems()
+        public virtual ToolStrip GetToolBarMenuStrip()
         {
             return null;
         }

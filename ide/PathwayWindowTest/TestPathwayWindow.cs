@@ -4,6 +4,7 @@ namespace EcellLib.PathwayWindow
     using NUnit.Framework;
     using System.Collections.Generic;
     using EcellLib.Objects;
+    using System.Windows.Forms;
 
     /// <summary>
     /// Auto Generated TestCase of PathwayWindow
@@ -175,9 +176,9 @@ namespace EcellLib.PathwayWindow
         [Test()]
         public void TestGetToolBarMenuStripItems()
         {
-            System.Collections.Generic.List<System.Windows.Forms.ToolStripItem> expectedList = null;
-            System.Collections.Generic.List<System.Windows.Forms.ToolStripItem> resultList = null;
-            resultList = _unitUnderTest.GetToolBarMenuStripItems();
+            ToolStrip expectedList = null;
+            ToolStrip resultList = null;
+            resultList = _unitUnderTest.GetToolBarMenuStrip();
             Assert.AreEqual(expectedList, resultList, "GetToolBarMenuStripItems method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
