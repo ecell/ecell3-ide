@@ -177,6 +177,9 @@
   <data name="ErrInvalidID" xml:space="preserve">
     <value>ID文字列が不正です。</value>
   </data>
+  <data name="ErrLoadFile" xml:space="preserve">
+    <value>ファイル {0} を読み込むことができません。</value>
+  </data>
   <data name="ErrLoadModel" xml:space="preserve">
     <value>モデル {0} を開けません。</value>
   </data>

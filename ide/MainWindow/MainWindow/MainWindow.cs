@@ -588,8 +588,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                string errmes = MessageResMain.ErrLoadModel;
-                Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
+                Util.ShowErrorDialog(ex.Message);
                 CloseProjectDelegate dlg = new CloseProjectDelegate(CloseProject);
                 this.Invoke(dlg, new object[] { m_project });
             }
@@ -1204,7 +1203,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResMain.ErrCreatePrj);
+                Util.ShowErrorDialog(ex.Message);
                 CloseProject(m_newPrjDialog.textName.Text);
             }
             CancelNewProject();
@@ -1600,8 +1599,7 @@ namespace EcellLib.MainWindow
             }
             catch (Exception ex)
             {
-                String errmes = MessageResMain.ErrLoadModel;
-                Util.ShowErrorDialog(errmes + "\n\n" + ex);
+                Util.ShowErrorDialog(ex.Message);
                 return;
             }
 
@@ -1694,7 +1692,7 @@ namespace EcellLib.MainWindow
                 catch (Exception ex)
                 {
                     Trace.WriteLine(ex);
-                    Util.ShowYesNoDialog(MessageResMain.ErrExpModel);
+                    Util.ShowYesNoDialog(ex.Message);
                 }
             }
             m_savePrjDialog.Close();
@@ -1885,7 +1883,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResMain.ErrImpScript);
+                Util.ShowErrorDialog(ex.Message);
             }
         }
 

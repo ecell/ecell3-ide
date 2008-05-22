@@ -191,8 +191,17 @@ namespace EcellLib
         /// <param name="filenName">saved file name.</param>
         public void LoadUserActionFile(string filenName)
         {
-            CloseProject(null);
-            m_env.ActionManager.LoadActionFile(filenName);
+            try
+            {
+                CloseProject(null);
+                m_env.ActionManager.LoadActionFile(filenName);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                throw new Exception(String.Format(MessageResLib.ErrLoadFile,
+                    new object[] { filenName }), ex);
+            }
         }
 
 

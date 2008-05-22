@@ -177,6 +177,9 @@
   <data name="ErrInvalidID" xml:space="preserve">
     <value>There are any invalid characters.</value>
   </data>
+  <data name="ErrLoadFile" xml:space="preserve">
+    <value>Can not the file [ {0} ].</value>
+  </data>
   <data name="ErrLoadModel" xml:space="preserve">
     <value>Can not load the model {0}.</value>
   </data>

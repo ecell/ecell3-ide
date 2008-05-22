@@ -70,56 +70,11 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
-        ///   Concurrency should be larger than 1. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrConcInvalid {
-            get {
-                return ResourceManager.GetString("ErrConcInvalid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fail to create the project. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrCreatePrj {
-            get {
-                return ResourceManager.GetString("ErrCreatePrj", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fail to export the selected model. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrExpModel {
-            get {
-                return ResourceManager.GetString("ErrExpModel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fail to import the script. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrImpScript {
-            get {
-                return ResourceManager.GetString("ErrImpScript", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   {0} should be larger than {1}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLarger {
             get {
                 return ResourceManager.GetString("ErrLarger", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fail to export the model. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrLoadModel {
-            get {
-                return ResourceManager.GetString("ErrLoadModel", resourceCulture);
             }
         }
         

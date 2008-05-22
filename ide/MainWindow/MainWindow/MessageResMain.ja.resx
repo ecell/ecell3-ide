@@ -120,12 +120,6 @@
   <data name="ConfirmRestart" xml:space="preserve">
     <value>この設定は次回起動時から有効になります。</value>
   </data>
-  <data name="ErrConcInvalid" xml:space="preserve">
-    <value>Concurrencyに１以上を設定してください。</value>
-  </data>
-  <data name="ErrCreatePrj" xml:space="preserve">
-    <value>プロジェクトの作成に失敗しました。</value>
-  </data>
   <data name="ErrExpModel" xml:space="preserve">
     <value>モデルの出力に失敗しました。</value>
   </data>
