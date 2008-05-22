@@ -162,9 +162,6 @@
   <data name="MenuItemShowID" xml:space="preserve">
     <value>Show &amp;IDs(Pathway)</value>
   </data>
-  <data name="MsgLayoutNoNode" xml:space="preserve">
-    <value>Please select at least one node to layout</value>
-  </data>
   <data name="ErrLoadLEML" xml:space="preserve">
     <value>Fail to load EcellObject position settings.</value>
   </data>
@@ -372,25 +369,25 @@
   <data name="WindowToolbox" xml:space="preserve">
     <value>Toolbox</value>
   </data>
-  <data name="CenterBrush" xml:space="preserve">
+  <data name="DialogTextCenterBrush" xml:space="preserve">
     <value>Center color</value>
   </data>
-  <data name="Figure" xml:space="preserve">
+  <data name="DialogTextFigure" xml:space="preserve">
     <value>Object figure</value>
   </data>
-  <data name="FillBrush" xml:space="preserve">
+  <data name="DialogTextFillBrush" xml:space="preserve">
     <value>Fill color</value>
   </data>
-  <data name="IconFile" xml:space="preserve">
+  <data name="DialogTextIconFile" xml:space="preserve">
     <value>Icon file</value>
   </data>
-  <data name="IsGradation" xml:space="preserve">
+  <data name="DialogTextIsGradation" xml:space="preserve">
     <value>Gradation</value>
   </data>
-  <data name="LineBrush" xml:space="preserve">
+  <data name="DialogTextLineBrush" xml:space="preserve">
     <value>Line color</value>
   </data>
-  <data name="TextBrush" xml:space="preserve">
+  <data name="DialogTextTextBrush" xml:space="preserve">
     <value>Text color</value>
   </data>
   <data name="ErrLoadWindowSettings" xml:space="preserve">

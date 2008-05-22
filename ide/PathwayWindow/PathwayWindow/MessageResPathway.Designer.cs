@@ -178,15 +178,6 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
-        ///   Center color に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string CenterBrush {
-            get {
-                return ResourceManager.GetString("CenterBrush", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Are you sure you want to delete? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmDelete {
@@ -223,6 +214,15 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
+        ///   Center color に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextCenterBrush {
+            get {
+                return ResourceManager.GetString("DialogTextCenterBrush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Edge Brush に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextEdgeBrush {
@@ -246,6 +246,51 @@ namespace EcellLib.PathwayWindow {
         internal static string DialogTextEditMode {
             get {
                 return ResourceManager.GetString("DialogTextEditMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Object figure に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextFigure {
+            get {
+                return ResourceManager.GetString("DialogTextFigure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fill color に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextFillBrush {
+            get {
+                return ResourceManager.GetString("DialogTextFillBrush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Icon file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextIconFile {
+            get {
+                return ResourceManager.GetString("DialogTextIconFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Gradation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextIsGradation {
+            get {
+                return ResourceManager.GetString("DialogTextIsGradation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Line color に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextLineBrush {
+            get {
+                return ResourceManager.GetString("DialogTextLineBrush", resourceCulture);
             }
         }
         
@@ -291,6 +336,15 @@ namespace EcellLib.PathwayWindow {
         internal static string DialogTextPropertyBrush {
             get {
                 return ResourceManager.GetString("DialogTextPropertyBrush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Text color に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextTextBrush {
+            get {
+                return ResourceManager.GetString("DialogTextTextBrush", resourceCulture);
             }
         }
         
@@ -484,42 +538,6 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
-        ///   Object figure に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string Figure {
-            get {
-                return ResourceManager.GetString("Figure", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fill color に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string FillBrush {
-            get {
-                return ResourceManager.GetString("FillBrush", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Icon file に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string IconFile {
-            get {
-                return ResourceManager.GetString("IconFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Gradation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string IsGradation {
-            get {
-                return ResourceManager.GetString("IsGradation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Input new Layer name. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string LayerDialogMessage {
@@ -606,15 +624,6 @@ namespace EcellLib.PathwayWindow {
         internal static string LayerMenuSelectNodes {
             get {
                 return ResourceManager.GetString("LayerMenuSelectNodes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Line color に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string LineBrush {
-            get {
-                return ResourceManager.GetString("LineBrush", resourceCulture);
             }
         }
         
@@ -741,24 +750,6 @@ namespace EcellLib.PathwayWindow {
         internal static string MenuToolTipViewMode {
             get {
                 return ResourceManager.GetString("MenuToolTipViewMode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Please select at least one node to layout に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MsgLayoutNoNode {
-            get {
-                return ResourceManager.GetString("MsgLayoutNoNode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Text color に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string TextBrush {
-            get {
-                return ResourceManager.GetString("TextBrush", resourceCulture);
             }
         }
         

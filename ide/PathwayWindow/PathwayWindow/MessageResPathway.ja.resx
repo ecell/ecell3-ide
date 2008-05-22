@@ -162,9 +162,6 @@
   <data name="MenuItemShowID" xml:space="preserve">
     <value>ID表示/非表示(&amp;I)</value>
   </data>
-  <data name="MsgLayoutNoNode" xml:space="preserve">
-    <value>レイアウトをする１つ以上のノードを選択して下さい。</value>
-  </data>
   <data name="ErrLoadLEML" xml:space="preserve">
     <value>オブジェクト位置情報の読み込みに失敗しました。</value>
   </data>
@@ -372,25 +369,25 @@
   <data name="WindowToolbox" xml:space="preserve">
     <value>ツールボックス</value>
   </data>
-  <data name="CenterBrush" xml:space="preserve">
+  <data name="DialogTextCenterBrush" xml:space="preserve">
     <value>中央色</value>
   </data>
-  <data name="Figure" xml:space="preserve">
+  <data name="DialogTextFigure" xml:space="preserve">
     <value>オブジェクト形状</value>
   </data>
-  <data name="FillBrush" xml:space="preserve">
+  <data name="DialogTextFillBrush" xml:space="preserve">
     <value>塗りつぶし色</value>
   </data>
-  <data name="IconFile" xml:space="preserve">
+  <data name="DialogTextIconFile" xml:space="preserve">
     <value>アイコンファイル</value>
   </data>
-  <data name="IsGradation" xml:space="preserve">
+  <data name="DialogTextIsGradation" xml:space="preserve">
     <value>グラデーション</value>
   </data>
-  <data name="LineBrush" xml:space="preserve">
+  <data name="DialogTextLineBrush" xml:space="preserve">
     <value>線の色</value>
   </data>
-  <data name="TextBrush" xml:space="preserve">
+  <data name="DialogTextTextBrush" xml:space="preserve">
     <value>文字色</value>
   </data>
   <data name="ErrLoadWindowSettings" xml:space="preserve">

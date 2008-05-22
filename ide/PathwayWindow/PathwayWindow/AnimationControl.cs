@@ -38,7 +38,6 @@ using System.Drawing.Drawing2D;
 using EcellLib.PathwayWindow.UIComponent;
 using System.Diagnostics;
 using EcellLib.PathwayWindow.Graphic;
-using System.ComponentModel;
 using EcellLib.PathwayWindow.Dialog;
 using System.IO;
 using System.Xml;

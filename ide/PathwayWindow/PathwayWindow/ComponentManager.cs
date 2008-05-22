@@ -38,7 +38,6 @@ using System.Drawing;
 using System.Xml;
 using System.Windows.Forms;
 using System.IO;
-using System.ComponentModel;
 using EcellLib.PathwayWindow.Nodes;
 using EcellLib.PathwayWindow.Exceptions;
 using EcellLib.PathwayWindow.Figure;
@@ -96,11 +95,6 @@ namespace EcellLib.PathwayWindow
         /// The name of default ComponentSetting for Text.
         /// </summary>
         protected string m_defaultTextName;
-
-        /// <summary>
-        /// ResourceManager for PathwayWindow.
-        /// </summary>
-        protected static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResPathway));
 
         #endregion
 
@@ -805,13 +799,13 @@ namespace EcellLib.PathwayWindow
             public ComponentItem(ComponentSetting cs)
             {
                 // Create UI Object
-                this.m_figureBox = new PropertyComboboxItem(s_resources.GetString(PathwayConstants.xPathFigure), cs.Figure.Type, new List<string>());
-                this.m_textBrush = new PropertyBrushItem(s_resources.GetString(PathwayConstants.xPathTextBrush), cs.TextBrush);
-                this.m_lineBrush = new PropertyBrushItem(s_resources.GetString(PathwayConstants.xPathLineBrush), cs.LineBrush);
-                this.m_fillBrush = new PropertyBrushItem(s_resources.GetString(PathwayConstants.xPathFillBrush), cs.FillBrush);
-                this.m_centerBrush = new PropertyBrushItem(s_resources.GetString(PathwayConstants.xPathCenterBrush), cs.CenterBrush);
-                this.m_isGradation = new PropertyCheckBoxItem(s_resources.GetString(PathwayConstants.xPathIsGradation), cs.IsGradation);
-                this.m_iconFile = new PropertyFileItem(s_resources.GetString(PathwayConstants.xPathIconFile), cs.IconFileName);
+                this.m_figureBox = new PropertyComboboxItem(MessageResPathway.DialogTextFigure, cs.Figure.Type, new List<string>());
+                this.m_textBrush = new PropertyBrushItem(MessageResPathway.DialogTextTextBrush, cs.TextBrush);
+                this.m_lineBrush = new PropertyBrushItem(MessageResPathway.DialogTextLineBrush, cs.LineBrush);
+                this.m_fillBrush = new PropertyBrushItem(MessageResPathway.DialogTextFillBrush, cs.FillBrush);
+                this.m_centerBrush = new PropertyBrushItem(MessageResPathway.DialogTextCenterBrush, cs.CenterBrush);
+                this.m_isGradation = new PropertyCheckBoxItem(MessageResPathway.DialogTextIsGradation, cs.IsGradation);
+                this.m_iconFile = new PropertyFileItem(MessageResPathway.DialogTextIconFile, cs.IconFileName);
                 this.pCanvas = new PToolBoxCanvas();
                 this.SuspendLayout();
                 // Set Gradation

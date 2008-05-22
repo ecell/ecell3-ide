@@ -37,7 +37,6 @@
 using System;
 using System.Diagnostics;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Text;
 using System.Data;
 using System.Drawing;
@@ -202,11 +201,6 @@ namespace EcellLib.PathwayWindow
         /// BackGroundBrush
         /// </summary>
         private Brush m_bgBrush = null;
-
-        /// <summary>
-        /// ResourceManager for PathwayWindow.
-        /// </summary>
-        private ComponentResourceManager m_resources;
         #endregion
 
         #region Accessors
