@@ -124,9 +124,21 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         private Dictionary<string, ToolStripItem> m_cMenuDict = new Dictionary<string, ToolStripItem>();
         /// <summary>
-        /// Selected DataRow.
+        /// A name of selected layer.
         /// </summary>
-        private DataGridViewRow m_selectedRow = null;
+        private string m_selectedLayer = null;
+        #endregion
+
+        #region MyRegion
+        /// <summary>
+        /// A name of selected layer.
+        /// </summary>
+        public string SelectedLayer
+        {
+            get { return m_selectedLayer; }
+            set { m_selectedLayer = value; }
+        }
+        
         #endregion
 
         #region Constructor
@@ -288,6 +300,7 @@ namespace EcellLib.PathwayWindow.UIComponent
 
             return nodeMenu;
         }
+
         #endregion
 
         #region Event sequences
@@ -358,8 +371,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void SelectNodesClick(object sender, EventArgs e)
         {
             CanvasControl canvas = m_con.Canvas;
-            string name = (string)m_selectedRow.Cells[1].FormattedValue;
-            canvas.SelectNodesUnderLayer(name);
+            canvas.SelectNodesUnderLayer(m_selectedLayer);
         }
 
         /// <summary>
@@ -370,8 +382,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void MoveFrontClick(object sender, EventArgs e)
         {
             CanvasControl canvas = m_con.Canvas;
-            string name = (string)m_selectedRow.Cells[1].FormattedValue;
-            PLayer layer = canvas.Layers[name];
+            PLayer layer = canvas.Layers[m_selectedLayer];
             canvas.LayerMoveToFront(layer);
         }
 
@@ -383,8 +394,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void MoveBackClick(object sender, EventArgs e)
         {
             CanvasControl canvas = m_con.Canvas;
-            string name = (string)m_selectedRow.Cells[1].FormattedValue;
-            PLayer layer = canvas.Layers[name];
+            PLayer layer = canvas.Layers[m_selectedLayer];
             canvas.LayerMoveToBack(layer);
         }
 
@@ -422,9 +432,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void DeleteLayerClick(object sender, EventArgs e)
         {
-            string name = (string)m_selectedRow.Cells[1].FormattedValue;
             CanvasControl canvas = m_con.Canvas;
-            canvas.DeleteLayer(name);
+            canvas.DeleteLayer(m_selectedLayer);
         }
 
         /// <summary>
@@ -435,7 +444,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void RenameLayerClick(object sender, EventArgs e)
         {
             CanvasControl canvas = m_con.Canvas;
-            string oldName = (string)m_selectedRow.Cells[1].FormattedValue;
+            string oldName = m_selectedLayer;
             string newName = InputBoxDialog.Show(MessageResPathway.LayerDialogMessage, MessageResPathway.LayerDialogTitle, oldName);
             if (newName == null || newName.Equals(""))
                 return;
@@ -455,7 +464,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void MergeLayerClick(object sender, EventArgs e)
         {
-            string oldName = (string)m_selectedRow.Cells[1].FormattedValue;
             CanvasControl canvas = m_con.Canvas;
             List<string> list = canvas.GetLayerNameList();
             string newName = SelectBoxDialog.Show(MessageResPathway.LayerDialogMessage, MessageResPathway.LayerDialogTitle, list);
@@ -463,7 +471,7 @@ namespace EcellLib.PathwayWindow.UIComponent
                 return;
             Debug.Assert(!canvas.Layers.ContainsKey(newName));
 
-            canvas.MergeLayer(oldName, newName);
+            canvas.MergeLayer(m_selectedLayer, newName);
         }
 
         /// <summary>
@@ -483,8 +491,8 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_cMenuDict[MenuDelete].Visible = true;
             if (e.RowIndex >= 0)
             {
-                m_selectedRow = m_dgv.Rows[e.RowIndex];
-                m_selectedRow.Selected = true;
+                m_selectedLayer = (string)m_dgv.Rows[e.RowIndex].Cells[1].FormattedValue;
+                m_dgv.Rows[e.RowIndex].Selected = true;
             }
         }
 
@@ -503,7 +511,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_cMenuDict[MenuRename].Visible = false;
             m_cMenuDict[MenuMerge].Visible = false;
             m_cMenuDict[MenuDelete].Visible = false;
-            m_selectedRow = null;
+            m_selectedLayer = null;
         }
         #endregion
     }

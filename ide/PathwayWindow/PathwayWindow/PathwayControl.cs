@@ -687,6 +687,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="isAnchor">Whether this action is an anchor or not</param>
         public void NotifyDataAdd(EcellObject eo, bool isAnchor)
         {
+            // Set current layer.
+            eo.LayerID = m_layerView.SelectedLayer;
             List<EcellObject> list = new List<EcellObject>();
             list.Add(eo);
             try
@@ -1024,13 +1026,13 @@ namespace EcellLib.PathwayWindow
             if (system != null)
             {
                 eo = system.EcellObject;
-                copyNodes.Add(m_window.GetEcellObject(eo.ModelID, eo.Key, eo.Type));
+                copyNodes.Add(m_window.GetEcellObject(eo));
                 foreach (PPathwayObject child in Canvas.GetAllObjectUnder(system.EcellObject.Key))
                 {
                     if (child is PPathwaySystem)
                     {
                         eo = child.EcellObject;
-                        copyNodes.Add(m_window.GetEcellObject(eo.ModelID, eo.Key, eo.Type));
+                        copyNodes.Add(m_window.GetEcellObject(eo));
                     }
                 }
             }
@@ -1040,7 +1042,7 @@ namespace EcellLib.PathwayWindow
                 if (node is PPathwayVariable)
                 {
                     eo = node.EcellObject;
-                    copyNodes.Add(m_window.GetEcellObject(eo.ModelID, eo.Key, eo.Type));
+                    copyNodes.Add(m_window.GetEcellObject(eo));
                 }
             }
             //Copy Processes
@@ -1049,7 +1051,7 @@ namespace EcellLib.PathwayWindow
                 if (node is PPathwayProcess)
                 {
                     eo = node.EcellObject;
-                    copyNodes.Add(m_window.GetEcellObject(eo.ModelID, eo.Key, eo.Type));
+                    copyNodes.Add(m_window.GetEcellObject(eo));
                 }
             }
             return copyNodes;
@@ -1243,7 +1245,7 @@ namespace EcellLib.PathwayWindow
         public void DoLayout(ILayoutAlgorithm algorithm, int subIdx, bool isRecorded)
         {
             List<EcellObject> systemList = GetSystemList();
-            List<EcellObject> nodeList = GetNodeList();
+            List<EcellObject> nodeList = new List<EcellObject>();
             int nodeNum = 0;
             // Check Selected nodes when the layout algorithm uses selected objects.
             if (algorithm.GetLayoutType() == LayoutType.Selected)
@@ -1258,7 +1260,7 @@ namespace EcellLib.PathwayWindow
             }
             else if (algorithm.GetLayoutType() == LayoutType.Whole)
             {
-                foreach (EcellObject node in nodeList)
+                foreach (EcellObject node in GetNodeList())
                 {
                     node.isFixed = true;
                     nodeList.Add(node);
