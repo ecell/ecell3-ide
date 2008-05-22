@@ -213,6 +213,9 @@
   <data name="ErrRunSim" xml:space="preserve">
     <value>シミュレーションが実行できません。</value>
   </data>
+  <data name="ErrSaveAct" xml:space="preserve">
+    <value>アクションファイルを保存できません。</value>
+  </data>
   <data name="ErrSaveLog" xml:space="preserve">
     <value>ログが保存できません。</value>
   </data>
@@ -221,6 +224,9 @@
   </data>
   <data name="ErrSavePrj" xml:space="preserve">
     <value>プロジェクト {0} を保存できません。</value>
+  </data>
+  <data name="ErrSaveScript" xml:space="preserve">
+    <value>スクリプトファイルを保存できません。</value>
   </data>
   <data name="ErrSetInitParam" xml:space="preserve">
     <value>初期パラメータの設定に失敗しました。</value>

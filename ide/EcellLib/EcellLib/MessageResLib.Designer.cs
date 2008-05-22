@@ -349,6 +349,15 @@ namespace EcellLib {
         }
         
         /// <summary>
+        ///   Can not save the action file. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSaveAct {
+            get {
+                return ResourceManager.GetString("ErrSaveAct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Can not save the log. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSaveLog {
@@ -372,6 +381,15 @@ namespace EcellLib {
         internal static string ErrSavePrj {
             get {
                 return ResourceManager.GetString("ErrSavePrj", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can not save the script file. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSaveScript {
+            get {
+                return ResourceManager.GetString("ErrSaveScript", resourceCulture);
             }
         }
         

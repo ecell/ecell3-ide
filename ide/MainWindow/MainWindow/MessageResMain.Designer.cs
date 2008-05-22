@@ -70,6 +70,15 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
+        ///   There are any invalid characters in {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrIDNG {
+            get {
+                return ResourceManager.GetString("ErrIDNG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} should be larger than {1}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLarger {
@@ -79,7 +88,7 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
-        ///   Fail to load the plugin {0} (location: {1}). に類似しているローカライズされた文字列を検索します。
+        ///   Can not load the plugin {0} (location: {1}). に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadPlugin {
             get {
@@ -88,7 +97,7 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
-        ///   Fail to load window settings. に類似しているローカライズされた文字列を検索します。
+        ///   Can not load window settings. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadWindowSettings {
             get {
@@ -97,38 +106,11 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
-        ///   There are invalid characters in model id. に類似しているローカライズされた文字列を検索します。
+        ///   No select. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ErrModelNG {
+        internal static string ErrNoSelect {
             get {
-                return ResourceManager.GetString("ErrModelNG", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   No input the model id. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrModelNull {
-            get {
-                return ResourceManager.GetString("ErrModelNull", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   No select the model. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrNoSelectExp {
-            get {
-                return ResourceManager.GetString("ErrNoSelectExp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   No select the project. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrNoSelectPrj {
-            get {
-                return ResourceManager.GetString("ErrNoSelectPrj", resourceCulture);
+                return ResourceManager.GetString("ErrNoSelect", resourceCulture);
             }
         }
         
@@ -142,119 +124,11 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
-        ///   No set the working directory. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrNoWorkDir {
-            get {
-                return ResourceManager.GetString("ErrNoWorkDir", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fail to open the project. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrOpenPrj {
-            get {
-                return ResourceManager.GetString("ErrOpenPrj", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   There are invalid characters in project id. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrPrjIdNG {
-            get {
-                return ResourceManager.GetString("ErrPrjIdNG", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   No input the project id. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrPrjIdNull {
-            get {
-                return ResourceManager.GetString("ErrPrjIdNull", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fail to save the action. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrSaveAction {
-            get {
-                return ResourceManager.GetString("ErrSaveAction", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fail to save the project. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrSavePrj {
-            get {
-                return ResourceManager.GetString("ErrSavePrj", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fail to save the script. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrSaveScript {
-            get {
-                return ResourceManager.GetString("ErrSaveScript", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fail to save window settings. に類似しているローカライズされた文字列を検索します。
+        ///   Can not save the window settings. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSaveWindowSettings {
             get {
                 return ResourceManager.GetString("ErrSaveWindowSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Please select at least one item. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrSelectSave {
-            get {
-                return ResourceManager.GetString("ErrSelectSave", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fail to show the dialog to open project. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrShowOpenPrj {
-            get {
-                return ResourceManager.GetString("ErrShowOpenPrj", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fail to show the dialog to save project. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrShowSavePrj {
-            get {
-                return ResourceManager.GetString("ErrShowSavePrj", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can not find the parameter of E-Cell IDE. Please re-install E-Cell IDE. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrStartup {
-            get {
-                return ResourceManager.GetString("ErrStartup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fail to set the property of distributed environment. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrUpdateDistEnv {
-            get {
-                return ResourceManager.GetString("ErrUpdateDistEnv", resourceCulture);
             }
         }
         

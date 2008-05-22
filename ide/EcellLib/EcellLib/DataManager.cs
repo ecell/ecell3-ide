@@ -182,7 +182,15 @@ namespace EcellLib
         /// <param name="fileName">saved file name.</param>
         public void SaveUserAction(string fileName)
         {
-            m_env.ActionManager.SaveActionFile(fileName);
+            try
+            {
+                m_env.ActionManager.SaveActionFile(fileName);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                throw new Exception(String.Format(MessageResLib.ErrSaveAct), ex);
+            }
         }
 
         /// <summary>
@@ -4569,8 +4577,16 @@ namespace EcellLib
         /// <param name="l_fileName"></param>
         public void SaveScript(string l_fileName)
         {
-            ScriptWriter writer = new ScriptWriter(m_currentProject);
-            writer.SaveScript(l_fileName);
+            try
+            {
+                ScriptWriter writer = new ScriptWriter(m_currentProject);
+                writer.SaveScript(l_fileName);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                throw new Exception(MessageResLib.ErrSaveScript, ex);
+            }
         }
 
         /// <summary>

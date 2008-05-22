@@ -102,36 +102,28 @@ namespace EcellLib
         /// <param name="l_fileName"></param>
         public void SaveScript(string l_fileName)
         {
-            try
+            ClearScriptInfo();
+            Encoding enc = Encoding.GetEncoding(932);
+            File.WriteAllText(l_fileName, "", enc);
+            WritePrefix(l_fileName, enc);
+            foreach (EcellObject modelObj in m_currentProject.ModelList)
             {
-                ClearScriptInfo();
-                Encoding enc = Encoding.GetEncoding(932);
-                File.WriteAllText(l_fileName, "", enc);
-                WritePrefix(l_fileName, enc);
-                foreach (EcellObject modelObj in m_currentProject.ModelList)
+                String modelName = modelObj.ModelID;
+                WriteModelEntry(l_fileName, enc, modelName);
+                WriteModelProperty(l_fileName, enc, modelName);
+                File.AppendAllText(l_fileName, "\n# System\n", enc);
+                foreach (EcellObject sysObj in m_currentProject.SystemDic[modelName])
                 {
-                    String modelName = modelObj.ModelID;
-                    WriteModelEntry(l_fileName, enc, modelName);
-                    WriteModelProperty(l_fileName, enc, modelName);
-                    File.AppendAllText(l_fileName, "\n# System\n", enc);
-                    foreach (EcellObject sysObj in m_currentProject.SystemDic[modelName])
-                    {
-                        WriteSystemEntry(l_fileName, enc, modelName, sysObj);
-                        WriteSystemProperty(l_fileName, enc, modelName, sysObj);
-                    }
-                    foreach (EcellObject sysObj in m_currentProject.SystemDic[modelName])
-                    {
-                        WriteComponentEntry(l_fileName, enc, sysObj);
-                        WriteComponentProperty(l_fileName, enc, sysObj);
-                    }
+                    WriteSystemEntry(l_fileName, enc, modelName, sysObj);
+                    WriteSystemProperty(l_fileName, enc, modelName, sysObj);
                 }
-                WriteSimulationForStep(l_fileName, 100, enc);
-
+                foreach (EcellObject sysObj in m_currentProject.SystemDic[modelName])
+                {
+                    WriteComponentEntry(l_fileName, enc, sysObj);
+                    WriteComponentProperty(l_fileName, enc, sysObj);
+                }
             }
-            catch (Exception l_ex)
-            {
-                l_ex.ToString();
-            }
+            WriteSimulationForStep(l_fileName, 100, enc);
         }
 
         /// <summary>

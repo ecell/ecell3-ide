@@ -213,6 +213,9 @@
   <data name="ErrRunSim" xml:space="preserve">
     <value>Can not execute the simulation.</value>
   </data>
+  <data name="ErrSaveAct" xml:space="preserve">
+    <value>Can not save the action file.</value>
+  </data>
   <data name="ErrSaveLog" xml:space="preserve">
     <value>Can not save the log.</value>
   </data>
@@ -221,6 +224,9 @@
   </data>
   <data name="ErrSavePrj" xml:space="preserve">
     <value>Can not save the project {0}.</value>
+  </data>
+  <data name="ErrSaveScript" xml:space="preserve">
+    <value>Can not save the script file.</value>
   </data>
   <data name="ErrSetInitParam" xml:space="preserve">
     <value>Can not set the initial parameters.</value>

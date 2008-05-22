@@ -197,7 +197,7 @@ namespace EcellLib.MainWindow
             m_userWindowSettingPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Application.ProductName);
             m_userWindowSettingPath = Path.Combine(m_userWindowSettingPath, Constants.fileWinSetting);
         }
-        
+
         /// <summary>
         /// Load plugins.
         /// </summary>
@@ -216,7 +216,7 @@ namespace EcellLib.MainWindow
                     System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
                 m_currentDir = m_currentDir + "\\e-cell\\project";
             }
-            
+
             LoadAllPlugins();
             m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
 
@@ -361,10 +361,8 @@ namespace EcellLib.MainWindow
                 }
                 ResetRecentProject();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Util.ShowErrorDialog(MessageResMain.ErrLoadWindowSettings + System.Environment.NewLine + filename + System.Environment.NewLine + ex.Message);
-
             }
         }
 
@@ -473,7 +471,7 @@ namespace EcellLib.MainWindow
                 xmlOut.WriteStartElement("RecentFiles");
                 int count = m_recentProjects.Count;
                 int i = 0;
-                foreach (KeyValuePair<string,string> project in m_recentProjects)
+                foreach (KeyValuePair<string, string> project in m_recentProjects)
                 {
                     i++;
                     if (i <= count - 5)
@@ -509,7 +507,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResMain.ErrSaveWindowSettings + System.Environment.NewLine + filename);
+                Util.ShowErrorDialog(MessageResMain.ErrSaveWindowSettings);
             }
         }
 
@@ -530,8 +528,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResMain.ErrLoadWindowSettings + System.Environment.NewLine + filename + System.Environment.NewLine + ex.Message);
-
+                Util.ShowErrorDialog(MessageResMain.ErrLoadWindowSettings);
 
                 return false;
             }
@@ -623,14 +620,16 @@ namespace EcellLib.MainWindow
 
         private bool CheckProjectID(string l_prjID)
         {
-            if (l_prjID == "")
+            if (String.IsNullOrEmpty(l_prjID))
             {
-                Util.ShowWarningDialog(MessageResMain.ErrPrjIdNull);
+                Util.ShowWarningDialog(String.Format(MessageResMain.ErrNoSet,
+                    new object[] { "Project ID" }));
                 return false;
             }
             if (Util.IsNGforIDonWindows(l_prjID) || l_prjID.Length > 64)
             {
-                Util.ShowWarningDialog(MessageResMain.ErrPrjIdNG);
+                Util.ShowWarningDialog(String.Format(MessageResMain.ErrIDNG,
+                    new object[] { "Project ID" }));
                 return false;
             }
             return true;
@@ -642,14 +641,16 @@ namespace EcellLib.MainWindow
         /// <returns></returns>
         private bool CheckModelID(string l_modelID)
         {
-            if (l_modelID == "")
+            if (String.IsNullOrEmpty(l_modelID))
             {
-                Util.ShowWarningDialog(MessageResMain.ErrModelNull);
+                Util.ShowWarningDialog(String.Format(MessageResMain.ErrNoSet,
+                    new object[] { "Model ID" }));
                 return false;
             }
             if (l_modelID.Length > 64 || Util.IsNGforIDonWindows(l_modelID))
             {
-                Util.ShowWarningDialog(MessageResMain.ErrModelNG);
+                Util.ShowWarningDialog(String.Format(MessageResMain.ErrIDNG,
+                    new object[] { "Model ID" }));
                 return false;
             }
             return true;
@@ -895,7 +896,7 @@ namespace EcellLib.MainWindow
         {
             // nothing
         }
-        
+
         /// <summary>
         /// The event sequence on changing value with the simulation.
         /// </summary>
@@ -973,7 +974,7 @@ namespace EcellLib.MainWindow
                 exportModelToolStripMenuItem.Enabled = false;
                 importModelToolStripMenuItem.Enabled = true;
                 importScriptToolStripMenuItem.Enabled = true;
-                saveScriptToolStripMenuItem.Enabled = false;                
+                saveScriptToolStripMenuItem.Enabled = false;
                 printToolStripMenuItem.Enabled = false;
                 exitToolStripMenuItem.Enabled = true;
             }
@@ -1013,7 +1014,7 @@ namespace EcellLib.MainWindow
         /// <param name="status"></param>
         public void ChangeUndoStatus(UndoStatus status)
         {
-            switch(status)
+            switch (status)
             {
                 case UndoStatus.UNDO_REDO:
                     undoToolStripMenuItem.Enabled = true;
@@ -1179,9 +1180,9 @@ namespace EcellLib.MainWindow
         /// </summary>
         private void CreateNewProject()
         {
-            if (!CheckProjectID(m_newPrjDialog.textName.Text)) 
+            if (!CheckProjectID(m_newPrjDialog.textName.Text))
                 return;
-            if (!CheckModelID(m_newPrjDialog.textModelName.Text)) 
+            if (!CheckModelID(m_newPrjDialog.textModelName.Text))
                 return;
 
             try
@@ -1235,29 +1236,20 @@ namespace EcellLib.MainWindow
                     m_editCount = 0;
                 }
             }
-            // Show OpenProjectDialog.
-            try
+
+            m_managePrjDialog = new ManageProjectDialog();
+            m_managePrjDialog.CreateProjectTreeView(null, m_currentDir);
+            if (m_managePrjDialog.ShowDialog() == DialogResult.OK)
             {
-                m_managePrjDialog = new ManageProjectDialog();
-                m_managePrjDialog.CreateProjectTreeView(null, m_currentDir);
-                if (m_managePrjDialog.ShowDialog() == DialogResult.OK)
-                {
-                    // Close current project.
-                    if (m_project != null)
-                        CloseProject(m_project);
-                    // Load new project.
-                    OpenProject();
-                }
-                else
-                {
-                    CloseOpenProjectDialog();
-                }
+                // Close current project.
+                if (m_project != null)
+                    CloseProject(m_project);
+                // Load new project.
+                OpenProject();
             }
-            catch (Exception ex)
+            else
             {
-                Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResMain.ErrShowOpenPrj);
-                return;
+                CloseOpenProjectDialog();
             }
         }
 
@@ -1285,7 +1277,7 @@ namespace EcellLib.MainWindow
 
                 if (!CheckProjectID(prjID))
                     return;
-                
+
                 if (fileName.EndsWith("eml"))
                 {
                     string modelDir = Path.GetDirectoryName(fileName);
@@ -1311,7 +1303,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResMain.ErrOpenPrj);
+                Util.ShowErrorDialog(ex.Message);
             }
 
             CloseOpenProjectDialog();
@@ -1339,51 +1331,6 @@ namespace EcellLib.MainWindow
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ManageProjectMenuClick(object sender, EventArgs e)
-        {
-            // Check the modification and confirm save.
-            if (m_editCount > 0)
-            {
-                if (Util.ShowYesNoDialog(MessageResMain.SaveConfirm))
-                {
-                    m_isClose = true;
-                    SaveProjectMenuClick(sender, e);
-                    m_editCount = 0;
-                }
-            }
-            // Show OpenProjectDialog.
-            ManageProjectDialog dialog = null;
-            try
-            {
-                dialog = new ManageProjectDialog();
-                dialog.CreateProjectTreeView(null, m_currentDir);
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-
-                }
-                else
-                {
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResMain.ErrShowOpenPrj);
-                return;
-            }
-            finally
-            {
-                if (dialog != null)
-                    dialog.Dispose();
-            }
-        }
-
-        /// <summary>
         /// The action of [save project] menu click.
         /// Show SaveProjectDialog and select the save instance.
         /// </summary>
@@ -1391,27 +1338,12 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void SaveProjectMenuClick(object sender, EventArgs e)
         {
-            try
+            SetUpSaveProjectDialog();
+            if (m_savePrjDialog.ShowDialog() == DialogResult.OK)
             {
-                SetUpSaveProjectDialog();
-                if (m_savePrjDialog.ShowDialog() == DialogResult.OK)
-                {
-                    SaveProject();
-                }
+                SaveProject();
             }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResMain.ErrShowSavePrj);
-                if (m_savePrjDialog != null)
-                {
-                    m_savePrjDialog.Dispose();
-                }
-            }
-            finally
-            {
-                CloseSaveProjectDialog();
-            }
+            CloseSaveProjectDialog();
         }
 
         private void SetUpSaveProjectDialog()
@@ -1477,7 +1409,7 @@ namespace EcellLib.MainWindow
                 CheckedListBox box = m_savePrjDialog.CheckedListBox;
                 if (box.CheckedItems.Count <= 0)
                 {
-                    Util.ShowWarningDialog(MessageResMain.ErrSelectSave);
+                    Util.ShowWarningDialog(MessageResMain.ErrNoSelect);
                     return;
                 }
                 foreach (string s in box.CheckedItems)
@@ -1504,9 +1436,8 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResMain.ErrSavePrj);
+                Util.ShowErrorDialog(ex.Message);
             }
-
         }
 
         /// <summary>
@@ -1672,8 +1603,8 @@ namespace EcellLib.MainWindow
 
             if (list.Count <= 0)
             {
-                Util.ShowWarningDialog(MessageResMain.ErrNoSelectExp);
-
+                Util.ShowWarningDialog(MessageResMain.ErrNoSelect);
+                return;
             }
             else
             {
@@ -1690,7 +1621,7 @@ namespace EcellLib.MainWindow
                 catch (Exception ex)
                 {
                     Trace.WriteLine(ex);
-                    Util.ShowYesNoDialog(ex.Message);
+                    Util.ShowErrorDialog(ex.Message);
                 }
             }
             m_savePrjDialog.Close();
@@ -1717,8 +1648,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResMain.ErrSaveScript);
-
+                Util.ShowErrorDialog(ex.Message);
             }
         }
 
@@ -1789,7 +1719,7 @@ namespace EcellLib.MainWindow
         private void ModelEditorMenuClick(object sender, EventArgs e)
         {
             m_currentDir = Util.GetBaseDir();
-            
+
             SelectDirectory dialog = new SelectDirectory();
             String mes = MessageResMain.ExpModelMes;
             dialog.Description = mes;
@@ -1826,7 +1756,7 @@ namespace EcellLib.MainWindow
                 PythonEngine engine = new PythonEngine();
                 engine.AddToPath(Directory.GetCurrentDirectory());
                 string startup = Util.GetStartupFile();
-//                string startup = Environment.GetEnvironmentVariable("IRONPYTHONSTARTUP");
+                //                string startup = Environment.GetEnvironmentVariable("IRONPYTHONSTARTUP");
                 if (startup != null && startup.Length > 0)
                 {
                     try
@@ -1905,7 +1835,7 @@ namespace EcellLib.MainWindow
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResMain.ErrSaveAction);
+                Util.ShowErrorDialog(ex.Message);
             }
         }
 
@@ -2011,18 +1941,11 @@ namespace EcellLib.MainWindow
         private void SetupIDEMenuClick(object sender, EventArgs e)
         {
             SelectWinSettingWindow win = new SelectWinSettingWindow();
-            try
+
+            string path = win.ShowWindow(false);
+            if (path != null)
             {
-                string path = win.ShowWindow(false);
-                if (path != null)
-                {
-                    loadWindowSetting(path);
-                }
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResMain.ErrLoadWindowSettings);          
+                loadWindowSetting(path);
             }
         }
 

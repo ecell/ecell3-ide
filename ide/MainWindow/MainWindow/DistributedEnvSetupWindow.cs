@@ -136,43 +136,34 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs.</param>
         private void DEApplyButton_Click(object sender, EventArgs e)
         {
-            try
+            int conc = Convert.ToInt32(DEConcTextBox.Text);
+            if (conc <= 0)
             {
-                int conc = Convert.ToInt32(DEConcTextBox.Text);
-                if (conc <= 0)
-                {
-                    Util.ShowErrorDialog(String.Format(MessageResMain.ErrLarger,
-                        new object[] { MessageResMain.NameConc, 0 }));
-                    return;
-                }
-                if (DEWorkDirTextBox.Text == null ||
-                    DEWorkDirTextBox.Text == "")
-                {
-                    Util.ShowErrorDialog(String.Format(MessageResMain.ErrNoSet,
-                        MessageResMain.NameWorkDir));
-                    return;
-                }
-                string envName = DEEnvComboBox.Text;
-                m_manager.SetCurrentEnvironment(envName);
-                m_manager.TmpRootDir = DEWorkDirTextBox.Text;
-                m_manager.Concurrency = conc;
-                for (int i = 1; i < DEOptionGridView.Rows.Count; i++)
-                {
-                    string propName = DEOptionGridView[0, i].Value.ToString();
-                    if (m_propDict.ContainsKey(propName))
-                    {
-                        m_propDict[propName] = DEOptionGridView[1, i].Value.ToString();
-                    }
-                }
-                m_manager.SetEnvironmentProperty(m_propDict);
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-                Util.ShowErrorDialog(MessageResMain.ErrUpdateDistEnv);
-
+                Util.ShowErrorDialog(String.Format(MessageResMain.ErrLarger,
+                    new object[] { MessageResMain.NameConc, 0 }));
                 return;
             }
+            if (DEWorkDirTextBox.Text == null ||
+                DEWorkDirTextBox.Text == "")
+            {
+                Util.ShowErrorDialog(String.Format(MessageResMain.ErrNoSet,
+                    MessageResMain.NameWorkDir));
+                return;
+            }
+            string envName = DEEnvComboBox.Text;
+            m_manager.SetCurrentEnvironment(envName);
+            m_manager.TmpRootDir = DEWorkDirTextBox.Text;
+            m_manager.Concurrency = conc;
+            for (int i = 1; i < DEOptionGridView.Rows.Count; i++)
+            {
+                string propName = DEOptionGridView[0, i].Value.ToString();
+                if (m_propDict.ContainsKey(propName))
+                {
+                    m_propDict[propName] = DEOptionGridView[1, i].Value.ToString();
+                }
+            }
+            m_manager.SetEnvironmentProperty(m_propDict);
+
             this.Close();
         }
 
