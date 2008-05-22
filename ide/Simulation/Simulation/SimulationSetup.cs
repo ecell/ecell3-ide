@@ -319,10 +319,9 @@ namespace EcellLib.Simulation
 
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    String errmes = MessageResSimulation.ErrInvalidParam;
-                    Util.ShowErrorDialog(errmes + "\n\n" + ex);
+                    Util.ShowErrorDialog(MessageResSimulation.ErrInvalidValue);
                     return;
                 }
             }
@@ -433,9 +432,10 @@ namespace EcellLib.Simulation
                 // frequency
                 if (freqByStepRadio.Checked)
                 {
-                    if (freqByStepTextBox.Text == "")
-                    {
-                        Util.ShowErrorDialog(MessageResSimulation.ErrNoInputStep);
+                    if (String.IsNullOrEmpty( freqByStepTextBox.Text))
+                    {                        
+                        Util.ShowErrorDialog(String.Format(MessageResSimulation.ErrNoInput,
+                            new object[] { "Step" }));
 
                         return;
                     }
@@ -445,7 +445,8 @@ namespace EcellLib.Simulation
                 {
                     if (freqBySecTextBox.Text == "")
                     {
-                        Util.ShowErrorDialog(MessageResSimulation.ErrNoInputSec);
+                        Util.ShowErrorDialog(String.Format(MessageResSimulation.ErrNoInput,
+                            new object[] { "Sec" }));
 
                         return;
                     }
@@ -465,7 +466,8 @@ namespace EcellLib.Simulation
                 {
                     if (maxKbTextBox.Text == "")
                     {
-                        Util.ShowErrorDialog(MessageResSimulation.ErrNoInputDisk);
+                        Util.ShowErrorDialog(String.Format(MessageResSimulation.ErrNoInput,
+                            new object[] { "Disk Size" }));
 
                         return;
                     }
@@ -564,8 +566,7 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                String errmes = MessageResSimulation.ErrComboIndChange;
-                Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
+                Util.ShowErrorDialog(ex.Message);
                 return;
             }
 
@@ -657,25 +658,14 @@ namespace EcellLib.Simulation
             if (paramCombo.SelectedItem == null) return;
 
             string param = paramCombo.SelectedItem.ToString();
-            if (param == "DefaultParameter")
+            if (param == "DefaultParameter" || paramCombo.Items.Count == 1)
             {
-                String errmes = MessageResSimulation.ErrDelDefParam;
-                MessageBox.Show(errmes, "WARNING",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Util.ShowWarningDialog(String.Format(MessageResSimulation.ErrDelParam,
+                    new object[] { param }));
                 return;
             }
-            if (paramCombo.Items.Count == 1)
-            {
-                String errmes = MessageResSimulation.ErrDelParam;
-                MessageBox.Show(errmes, "WARNING",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            else
-            {
-                paramCombo.Items.Remove(param);
-                paramCombo.SelectedIndex = 0;
-            }
+            paramCombo.Items.Remove(param);
+            paramCombo.SelectedIndex = 0;
             m_owner.DataManager.DeleteSimulationParameter(param);
         }
 

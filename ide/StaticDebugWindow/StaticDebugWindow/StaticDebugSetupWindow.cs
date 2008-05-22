@@ -83,36 +83,28 @@ namespace EcellLib.StaticDebugWindow
 
             layoutPanel.Controls.Clear();
             layoutPanel.RowStyles.Clear();
-            layoutPanel.Size = new Size(width, 25 * (checkList.Count + 1) / 2 );
+            layoutPanel.Size = new Size(width, 25 * (checkList.Count + 1) / 2);
             layoutPanel.RowCount = checkList.Count / 2 + 1;
 
-            try
+            int j = 0, k = 0;
+            layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+            for (int i = 0; i < checkList.Count; i++)
             {
-                int j = 0, k = 0;
-                layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                for (int i = 0; i < checkList.Count; i++)
+                CheckBox c1 = new CheckBox();
+                c1.Checked = true;
+                c1.Width = 150;
+                c1.Text = checkList[i];
+                layoutPanel.Controls.Add(c1, j, k);
+                if (j == 0) j++;
+                else
                 {
-                    CheckBox c1 = new CheckBox();
-                    c1.Checked = true;
-                    c1.Width = 150;
-                    c1.Text = checkList[i];
-                    layoutPanel.Controls.Add(c1, j, k);
-                    if (j == 0) j++;
-                    else
-                    {
-                        layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                        j = 0;
-                        k++;
-                    }
+                    layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                    j = 0;
+                    k++;
                 }
-                panel1.ClientSize = panel1.Size;
-                layoutPanel.ResumeLayout(false);
             }
-            catch (Exception ex)
-            {
-                String errmes = MessageResStDebug.ErrLayout;
-                Util.ShowErrorDialog(errmes + "\n\n" + ex);
-            }
+            panel1.ClientSize = panel1.Size;
+            layoutPanel.ResumeLayout(false);
         }
 
         #region Common

@@ -838,6 +838,7 @@ namespace EcellLib
         {
             List<EcellObject> l_usableList = new List<EcellObject>();
             string l_type = null;
+
             bool l_isUndoable = true; // Whether DataAdd action is undoable or not
             try
             {

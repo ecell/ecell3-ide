@@ -120,18 +120,6 @@
   <data name="CreLoggerMenuText" xml:space="preserve">
     <value>ロガー設定</value>
   </data>
-  <data name="ErrAddObj" xml:space="preserve">
-    <value>オブジェクトの追加に失敗しました。</value>
-  </data>
-  <data name="ErrCreBitmap" xml:space="preserve">
-    <value>この画面のビットマップの作成に失敗しました。</value>
-  </data>
-  <data name="ErrNotFindPage" xml:space="preserve">
-    <value>検索条件に一致するオブジェクトが見つかりませんでした。</value>
-  </data>
-  <data name="ErrSelectObj" xml:space="preserve">
-    <value>オブジェクトの選択に失敗しました。</value>
-  </data>
   <data name="ObjectList" xml:space="preserve">
     <value>オブジェクト一覧</value>
   </data>

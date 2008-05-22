@@ -99,10 +99,10 @@ namespace EcellLib.MainWindow
         [Test()]
         public void TestGetToolBarMenuStripItems()
         {
-            System.Collections.Generic.List<System.Windows.Forms.ToolStripItem> expectedList = null;
-            System.Collections.Generic.List<System.Windows.Forms.ToolStripItem> resultList = null;
-            resultList = _unitUnderTest.GetToolBarMenuStripItems();
-            Assert.AreEqual(expectedList, resultList, "GetToolBarMenuStripItems method returned unexpected result.");
+            System.Windows.Forms.ToolStrip expected = null;
+            System.Windows.Forms.ToolStrip result = null;
+            result = _unitUnderTest.GetToolBarMenuStrip();
+            Assert.AreEqual(expected, result, "GetToolBarMenuStripItems method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
         }

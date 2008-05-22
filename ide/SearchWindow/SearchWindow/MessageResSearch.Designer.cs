@@ -61,24 +61,6 @@ namespace EcellLib.SearchWindow {
         }
         
         /// <summary>
-        ///   Can&apos;t find the object by input search condition. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrNotFind {
-            get {
-                return ResourceManager.GetString("ErrNotFind", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Get exception while system show the property editor. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrShowPropEdit {
-            get {
-                return ResourceManager.GetString("ErrShowPropEdit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   &amp;Search... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemSearchText {

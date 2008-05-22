@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Threading;
@@ -640,12 +641,8 @@ namespace EcellLib.TracerWindow
         {
             DataGridViewImageCell cell = dgv.Rows[rowIndex].Cells[columnIndex] as DataGridViewImageCell;
             DataGridViewImageCell cell1 = dgv.Rows[rowIndex].Cells[columnIndex + 1] as DataGridViewImageCell;
-            if (cell == null || cell1 == null)
-            {
-                Util.ShowErrorDialog(MessageResTrace.ErrColorDlg);
-
-                return;
-            }
+            Debug.Assert(cell != null);
+            Debug.Assert(cell1 != null);
 
             DialogResult r = m_colorDialog.ShowDialog();
             if (r == DialogResult.OK)
@@ -743,12 +740,7 @@ namespace EcellLib.TracerWindow
         public void DeleteTraceEntry(TagData tag)
         {
             EcellObject m_currentObj = m_owner.DataManager.GetEcellObject(tag.M_modelID, tag.M_key, tag.Type);
-
-            if (m_currentObj == null)
-            {
-                Util.ShowNoticeDialog(MessageResTrace.ErrNotFind + "(" + tag.M_modelID + ")");
-                return;
-            }
+            Debug.Assert(m_currentObj != null);
 
             foreach (EcellData d in m_currentObj.Value)
             {

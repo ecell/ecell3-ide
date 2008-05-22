@@ -120,62 +120,23 @@
   <data name="ConfirmSetup" xml:space="preserve">
     <value>Simulation is running. Would you reset the simulation?</value>
   </data>
-  <data name="ErrAlready" xml:space="preserve">
-    <value>This name already exists.</value>
-  </data>
-  <data name="ErrComboIndChange" xml:space="preserve">
-    <value>Can not select this item. Please select another item.</value>
-  </data>
-  <data name="ErrDelDefParam" xml:space="preserve">
-    <value>Can not delete the default parameter.</value>
-  </data>
   <data name="ErrDelParam" xml:space="preserve">
-    <value>Can not delete the selected parameter.</value>
+    <value>Can not delete the selected parameter {0}.</value>
   </data>
   <data name="ErrDelStep" xml:space="preserve">
     <value>Can not delete the stepper. </value>
   </data>
   <data name="ErrIDNG" xml:space="preserve">
-    <value>Format error. There are invalid characters,</value>
+    <value>There are any invalid characters in ID.</value>
   </data>
-  <data name="ErrInvalidParam" xml:space="preserve">
+  <data name="ErrInvalidValue" xml:space="preserve">
     <value>There are any invalid parameters.</value>
   </data>
   <data name="ErrNoInput" xml:space="preserve">
-    <value>No input the name. Please input the name.</value>
-  </data>
-  <data name="ErrNoInputDisk" xml:space="preserve">
-    <value>Please input the max size of disk.</value>
-  </data>
-  <data name="ErrNoInputSec" xml:space="preserve">
-    <value>Please input the interval of log.</value>
-  </data>
-  <data name="ErrNoInputStep" xml:space="preserve">
-    <value>Please input the interval of log.</value>
-  </data>
-  <data name="ErrNoSelectAct" xml:space="preserve">
-    <value>Please input how to act when disk is full.</value>
-  </data>
-  <data name="ErrNoSelectDisk" xml:space="preserve">
-    <value>Please input how to set the max size of disk.</value>
-  </data>
-  <data name="ErrNoSelectLog" xml:space="preserve">
-    <value>Please set the policy of logging.</value>
-  </data>
-  <data name="ErrReset" xml:space="preserve">
-    <value>Get exception while system reset simulation.</value>
-  </data>
-  <data name="ErrRunning" xml:space="preserve">
-    <value>Get exception while system run simulation.</value>
-  </data>
-  <data name="ErrStep" xml:space="preserve">
-    <value>Get exception while system step simulation.</value>
-  </data>
-  <data name="ErrSuspend" xml:space="preserve">
-    <value>Get exception while system suspend simulation.</value>
+    <value>No input [ {0} ].</value>
   </data>
   <data name="ErrUpdateLog" xml:space="preserve">
-    <value>Fail to update the simulation parameters.</value>
+    <value>Can not update the simulation parameters.</value>
   </data>
   <data name="MenuItemRun" xml:space="preserve">
     <value>&amp;Run</value>

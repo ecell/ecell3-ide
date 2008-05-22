@@ -123,14 +123,8 @@
   <data name="ErrCheckVar" xml:space="preserve">
     <value>Variableのチェックしてください。</value>
   </data>
-  <data name="ErrFormat" xml:space="preserve">
-    <value>このプロパティの値は型が合っていません。</value>
-  </data>
   <data name="ErrInvalidID" xml:space="preserve">
     <value>このコンポーネントには不正なIDが付けられています</value>
-  </data>
-  <data name="ErrLayout" xml:space="preserve">
-    <value>静的デバッグのレイアウトに失敗しました。</value>
   </data>
   <data name="ErrMaxMin" xml:space="preserve">
     <value>最小値が最大値を超えています。</value>
@@ -152,9 +146,6 @@
   </data>
   <data name="ErrPositiveZero" xml:space="preserve">
     <value>このプロパティの値は0以上の値にして下さい。</value>
-  </data>
-  <data name="ErrShowPropEdit" xml:space="preserve">
-    <value>プロパティ編集ダイアログの表示に失敗しました。</value>
   </data>
   <data name="MenuItemStaticDebugText" xml:space="preserve">
     <value>静的デバッガ(&amp;D)...</value>

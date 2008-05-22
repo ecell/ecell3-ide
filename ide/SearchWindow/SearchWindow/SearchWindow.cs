@@ -54,7 +54,7 @@ namespace EcellLib.SearchWindow
         /// </summary>
         ToolStripTextBox m_text;
         #endregion
-
+        
         #region Events
         /// <summary>
         /// the action of clicking [Search] menu.

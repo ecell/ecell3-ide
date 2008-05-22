@@ -152,7 +152,7 @@ namespace EcellLib.PropertyWindow
             m_dgv.CellEndEdit += new DataGridViewCellEventHandler(ChangeProperty);
             m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(ShowEditingControl);
             m_dgv.MouseLeave += new EventHandler(LeaveMouse);
-            
+
             m_time = new System.Windows.Forms.Timer();
             m_time.Enabled = false;
             m_time.Interval = 100;
@@ -174,15 +174,7 @@ namespace EcellLib.PropertyWindow
         private void NotifyDataChanged(string modelID, string key, EcellObject obj)
         {
             m_isChanging = true;
-            try
-            {
-                m_dManager.DataChanged(modelID, key, obj.Type, obj);
-            }
-            catch (IgnoreException ex)
-            {
-                ex.ToString();
-                return;
-            }
+            m_dManager.DataChanged(modelID, key, obj.Type, obj);
             m_current = obj;
             m_isChanging = false;
         }
@@ -277,7 +269,7 @@ namespace EcellLib.PropertyWindow
                         }
                     }
                     EcellObject obj = EcellObject.CreateObject(sysObj.ModelID,
-                        sysObj.Key + ":SIZE", Constants.xpathVariable, 
+                        sysObj.Key + ":SIZE", Constants.xpathVariable,
                         Constants.xpathVariable, dlist);
                     List<EcellObject> rList = new List<EcellObject>();
                     rList.Add(obj);
@@ -386,7 +378,7 @@ namespace EcellLib.PropertyWindow
             if (d.Name.Equals(Constants.xpathClassName))
             {
                 c2 = new DataGridViewComboBoxCell();
-                if (type == Constants.xpathSystem || 
+                if (type == Constants.xpathSystem ||
                     type == Constants.xpathVariable)
                 {
                     ((DataGridViewComboBoxCell)c2).Items.Add(type);
@@ -442,7 +434,7 @@ namespace EcellLib.PropertyWindow
                     ((DataGridViewComboBoxCell)c2).Items.AddRange(new object[] { obj.Key });
                 }
                 m_stepperID = d.Value.ToString();
-                m_stepperID =  m_stepperID.Replace("(", "");
+                m_stepperID = m_stepperID.Replace("(", "");
                 m_stepperID = m_stepperID.Replace(")", "");
                 m_stepperID = m_stepperID.Replace("\"", "");
 
@@ -487,7 +479,7 @@ namespace EcellLib.PropertyWindow
             dock.TabText = dock.Text;
             dock.Controls.Add(m_dgv);
             dock.IsSavable = true;
-            return new EcellDockContent[] { dock }; 
+            return new EcellDockContent[] { dock };
         }
 
         /// <summary>
@@ -694,18 +686,9 @@ namespace EcellLib.PropertyWindow
         /// <returns>The bitmap data of plugin.</returns>
         public override Bitmap Print(string name)
         {
-            try
-            {
-                Bitmap bitmap = new Bitmap(m_dgv.Width, m_dgv.Height);
-                m_dgv.DrawToBitmap(bitmap, m_dgv.ClientRectangle);
-                return bitmap;
-            }
-            catch (Exception ex)
-            {
-                String errmes = MessageResProperty.ErrCreBitmap;
-                Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
-                return null;
-            }
+            Bitmap bitmap = new Bitmap(m_dgv.Width, m_dgv.Height);
+            m_dgv.DrawToBitmap(bitmap, m_dgv.ClientRectangle);
+            return bitmap;
         }
 
         /// <summary>
@@ -876,7 +859,7 @@ namespace EcellLib.PropertyWindow
                 return;
 
             EcellObject obj = m_current.Copy();
-            obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).Value = 
+            obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).Value =
                 EcellValue.ToVariableReferenceList(refStr);
 
             m_win.Close();
@@ -887,9 +870,7 @@ namespace EcellLib.PropertyWindow
             }
             catch (Exception ex)
             {
-                ex.ToString();
-                String errmes = MessageResProperty.ErrChanged;
-                Util.ShowErrorDialog(errmes + "\n\n" + ex.ToString());
+                Util.ShowErrorDialog(ex.Message);
                 m_isChanging = false;
                 return;
             }
@@ -918,9 +899,7 @@ namespace EcellLib.PropertyWindow
             }
             catch (Exception ex)
             {
-                ex.ToString();
-                String errmes = MessageResProperty.ErrChanged;
-                Util.ShowErrorDialog(errmes + "\n\n" + ex.ToString());
+                Util.ShowErrorDialog(ex.Message);
                 m_isChanging = false;
             }
 
@@ -973,7 +952,7 @@ namespace EcellLib.PropertyWindow
                     DataGridViewRow row = new DataGridViewRow();
 
                     bool isAccessor = false;
-                    if (v.IsAccessor == 1) 
+                    if (v.IsAccessor == 1)
                         isAccessor = true;
                     m_win.dgv.Rows.Add(new object[] { v.Name, v.FullID, v.Coefficient, isAccessor });
                 }
@@ -1010,18 +989,18 @@ namespace EcellLib.PropertyWindow
             {
                 if (e.ColumnIndex == 0)
                 {
-                    if (editCell.Value == null) 
+                    if (editCell.Value == null)
                         return;
                     string name = editCell.Value.ToString();
                     for (int i = 0; i < m_dgv.Rows.Count; i++)
                     {
-                        if (e.RowIndex == i) 
+                        if (e.RowIndex == i)
                             continue;
                         if (m_dgv[0, i].Value == null)
                             continue;
                         if (name.Equals(m_dgv[0, i].Value.ToString()))
                         {
-                            Util.ShowErrorDialog(MessageResProperty.SameProp);
+                            Util.ShowErrorDialog(MessageResProperty.ErrSameProp);
                             try
                             {
                                 m_dgv.Rows.RemoveAt(e.RowIndex);
@@ -1053,14 +1032,12 @@ namespace EcellLib.PropertyWindow
                     catch (Exception ex)
                     {
                         m_isChanging = false;
-                        ex.ToString();
-                        String errmes = MessageResProperty.ErrChanged;
-                        Util.ShowErrorDialog(errmes + "\n\n" + ex.ToString());
+                        Util.ShowErrorDialog(ex.Message);
                     }
                 }
                 else
                 {
-                    Util.ShowErrorDialog(MessageResProperty.NoProp);
+                    Util.ShowErrorDialog(MessageResProperty.ErrNoProp);
 
                     try
                     {
@@ -1097,9 +1074,7 @@ namespace EcellLib.PropertyWindow
                 catch (Exception ex)
                 {
                     m_isChanging = false;
-                    ex.ToString();
-                    String errmes = MessageResProperty.ErrChanged;
-                    Util.ShowErrorDialog(errmes + "\n\n" + ex.ToString());
+                    Util.ShowErrorDialog(ex.Message);
                     return;
                 }
             }
@@ -1134,10 +1109,8 @@ namespace EcellLib.PropertyWindow
                 }
                 catch (Exception ex)
                 {
-                    ex.ToString();
                     m_isChanging = false;
-                    String errmes = MessageResProperty.ErrChanged;
-                    Util.ShowErrorDialog(errmes + "\n\n" + ex.ToString());
+                    Util.ShowErrorDialog(ex.Message);
                     return;
                 }
             }
@@ -1174,10 +1147,8 @@ namespace EcellLib.PropertyWindow
                 }
                 catch (Exception ex)
                 {
-                    ex.ToString();
                     m_isChanging = false;
-                    String errmes = MessageResProperty.ErrChanged;
-                    Util.ShowErrorDialog(errmes + "\n\n" + ex.ToString());
+                    Util.ShowErrorDialog(ex.Message);
                 }
             }
         }
@@ -1239,9 +1210,7 @@ namespace EcellLib.PropertyWindow
             catch (Exception ex)
             {
                 m_isChanging = false;
-                ex.ToString();
-                String errmes = MessageResProperty.ErrChanged;
-                Util.ShowErrorDialog(errmes + "\n\n" + ex.ToString());
+                Util.ShowErrorDialog(ex.Message);
                 return;
             }
         }
@@ -1285,9 +1254,7 @@ namespace EcellLib.PropertyWindow
             catch (Exception ex)
             {
                 m_isChanging = false;
-                ex.ToString();
-                String errmes = MessageResProperty.ErrChanged;
-                Util.ShowErrorDialog(errmes + "\n\n" + ex.ToString());
+                Util.ShowErrorDialog(ex.Message);
                 return;
             }
         }

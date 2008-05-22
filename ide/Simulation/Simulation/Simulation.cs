@@ -471,8 +471,8 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                String errmes = MessageResSimulation.ErrRunning;
-                Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
+                Trace.WriteLine(ex);
+                Util.ShowErrorDialog(ex.Message);
                 if (m_type != ProjectStatus.Uninitialized)
                     m_pManager.ChangeStatus(preType);
             }
@@ -497,8 +497,8 @@ namespace EcellLib.Simulation
             }
             catch (Exception ex)
             {
-                String errmes = MessageResSimulation.ErrSuspend;
-                Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
+                Trace.WriteLine(ex);
+                Util.ShowErrorDialog(ex.Message);
                 m_pManager.ChangeStatus(preType);
             }
         }
@@ -534,7 +534,7 @@ namespace EcellLib.Simulation
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResSimulation.ErrStep);
+                Util.ShowErrorDialog(ex.Message);
                 m_pManager.ChangeStatus(preType);                
             }
         }
@@ -561,7 +561,7 @@ namespace EcellLib.Simulation
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResSimulation.ErrReset);
+                Util.ShowErrorDialog(ex.Message);
                 m_pManager.ChangeStatus(preType);
             }
         }

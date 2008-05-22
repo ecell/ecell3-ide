@@ -637,8 +637,6 @@ namespace EcellLib.ObjectList
                     return;
                 }
             }
-            Util.ShowWarningDialog(MessageResObjList.ErrNotFindPage);
-
         }
 
         /// <summary>

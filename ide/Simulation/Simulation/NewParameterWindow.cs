@@ -79,51 +79,55 @@ namespace EcellLib.Simulation
         public void AddStepperClick(object sender, EventArgs e)
         {
             string data = paramTextBox.Text;
-            if (data == "" || data == null)
+            if (String.IsNullOrEmpty(data))
             {
-                Util.ShowWarningDialog(MessageResSimulation.ErrNoInput);
+                Util.ShowWarningDialog(String.Format(MessageResSimulation.ErrNoInput,
+                    new object[] { "Name" }));
 
                 return;
             }
-            if (m_win.IsExistStepper(data))
-            {
-                Util.ShowWarningDialog(MessageResSimulation.ErrAlready);
-                return;
-            }
+
             if (Util.IsNGforID(data))
             {
                 Util.ShowWarningDialog(MessageResSimulation.ErrIDNG);
                 return;
             }
-            string paramID = m_win.GetCurrentParameter();
-            string modelID = m_win.GetCurrentModel();
-            string stepperID = m_win.GetCurrentStepper();
-            Dictionary<string, EcellData> propDict =
-                m_owner.DataManager.GetStepperProperty(stepperID);
-            List<EcellData> list = new List<EcellData>();
-            foreach (string key in propDict.Keys)
+            try
             {
-                if (propDict[key].Name == Constants.propProcessList || 
-                    propDict[key].Name == Constants.propSystemList ||
-                    propDict[key].Name == Constants.propReadVariableList ||
-                    propDict[key].Name == Constants.propWriteVariableList)
+                string paramID = m_win.GetCurrentParameter();
+                string modelID = m_win.GetCurrentModel();
+                string stepperID = m_win.GetCurrentStepper();
+                Dictionary<string, EcellData> propDict =
+                    m_owner.DataManager.GetStepperProperty(stepperID);
+                List<EcellData> list = new List<EcellData>();
+                foreach (string key in propDict.Keys)
                 {
-                    EcellData d = propDict[key];
-                    List<EcellValue> nulllist = new List<EcellValue>();
-                    d.Value = new EcellValue(nulllist);
-                    list.Add(d);
+                    if (propDict[key].Name == Constants.propProcessList ||
+                        propDict[key].Name == Constants.propSystemList ||
+                        propDict[key].Name == Constants.propReadVariableList ||
+                        propDict[key].Name == Constants.propWriteVariableList)
+                    {
+                        EcellData d = propDict[key];
+                        List<EcellValue> nulllist = new List<EcellValue>();
+                        d.Value = new EcellValue(nulllist);
+                        list.Add(d);
+                    }
+                    else
+                    {
+                        list.Add(propDict[key]);
+                    }
                 }
-                else
-                {
-                    list.Add(propDict[key]);
-                }
+                EcellObject obj = EcellObject.CreateObject(modelID, data, Constants.xpathStepper, stepperID, list);
+                m_owner.DataManager.AddStepperID(paramID, obj);
+                m_win.AddStepper(data);
+                m_win.SetStepperList(m_owner.DataManager.GetStepper(paramID, modelID));
+                Close();
+                Dispose();
             }
-            EcellObject obj = EcellObject.CreateObject(modelID, data, Constants.xpathStepper, stepperID, list);
-            m_owner.DataManager.AddStepperID(paramID, obj);
-            m_win.AddStepper(data);
-            m_win.SetStepperList(m_owner.DataManager.GetStepper(paramID, modelID));
-            Close();
-            Dispose();
+            catch (Exception ex)
+            {                
+                Util.ShowErrorDialog(ex.Message);
+            }
         }
 
         /// <summary>
@@ -154,9 +158,10 @@ namespace EcellLib.Simulation
         /// <param name="e">EventArgs</param>
         public void NewParameterClick(object sender, EventArgs e)
         {
-            if (paramTextBox.Text == "")
+            if (String.IsNullOrEmpty(paramTextBox.Text))
             {
-                Util.ShowWarningDialog(MessageResSimulation.ErrNoInput);
+                Util.ShowWarningDialog(String.Format(MessageResSimulation.ErrNoInput,
+                    new object[] { "Name" }));
                 return;
             }
             if (Util.IsNGforID(paramTextBox.Text))

@@ -61,25 +61,7 @@ namespace EcellLib.PropertyWindow {
         }
         
         /// <summary>
-        ///   Get exception while system change the property of object. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrChanged {
-            get {
-                return ResourceManager.GetString("ErrChanged", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Get exception while system create the bitmap of this window. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrCreBitmap {
-            get {
-                return ResourceManager.GetString("ErrCreBitmap", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Format Error. に類似しているローカライズされた文字列を検索します。
+        ///   Invalid value. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrFormat {
             get {
@@ -99,9 +81,18 @@ namespace EcellLib.PropertyWindow {
         /// <summary>
         ///   Input the name of property before input the value. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string NoProp {
+        internal static string ErrNoProp {
             get {
-                return ResourceManager.GetString("NoProp", resourceCulture);
+                return ResourceManager.GetString("ErrNoProp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   There are the property have the same name. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSameProp {
+            get {
+                return ResourceManager.GetString("ErrSameProp", resourceCulture);
             }
         }
         
@@ -111,15 +102,6 @@ namespace EcellLib.PropertyWindow {
         internal static string PropertyWindow {
             get {
                 return ResourceManager.GetString("PropertyWindow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   There are the property have the same name. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string SameProp {
-            get {
-                return ResourceManager.GetString("SameProp", resourceCulture);
             }
         }
     }

@@ -282,14 +282,6 @@ namespace EcellLib.StaticDebugWindow
                 m_errorList.Add(mes);
                 return;
             }
-            if (!val.IsInt() || 
-                (val.IsInt() && (val.CastToInt() != 0 && val.CastToInt() != 1)))
-            {
-                ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        MessageResStDebug.ErrFormat);
-                m_errorList.Add(mes);
-                return;
-            }
         }
 
         /// <summary>
@@ -305,13 +297,6 @@ namespace EcellLib.StaticDebugWindow
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
                         MessageResStDebug.ErrNoSet);
-                m_errorList.Add(mes);
-                return;
-            }
-            if (!val.IsDouble())
-            {
-                ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        MessageResStDebug.ErrFormat);
                 m_errorList.Add(mes);
                 return;
             }
@@ -338,13 +323,6 @@ namespace EcellLib.StaticDebugWindow
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
                         MessageResStDebug.ErrNoSet);
-                m_errorList.Add(mes);
-                return;
-            }
-            if (!val.IsDouble())
-            {
-                ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        MessageResStDebug.ErrFormat);
                 m_errorList.Add(mes);
                 return;
             }

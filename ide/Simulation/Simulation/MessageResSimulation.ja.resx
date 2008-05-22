@@ -120,62 +120,23 @@
   <data name="ConfirmSetup" xml:space="preserve">
     <value>シミュレーション実行中です。シミュレーションをリセットしてよろしいですか？</value>
   </data>
-  <data name="ErrAlready" xml:space="preserve">
-    <value>この名前は既に使用されています。</value>
-  </data>
-  <data name="ErrComboIndChange" xml:space="preserve">
-    <value>この項目を選択することができません。他の項目を選択してください。</value>
-  </data>
-  <data name="ErrDelDefParam" xml:space="preserve">
-    <value>デフォルトパラメータを削除することはできません。</value>
-  </data>
   <data name="ErrDelParam" xml:space="preserve">
-    <value>選択したパラメータを削除することができません。</value>
+    <value>パラメータ {0} を削除できません。</value>
   </data>
   <data name="ErrDelStep" xml:space="preserve">
     <value>少なくともモデルには１つのステッパーが必要です。</value>
   </data>
   <data name="ErrIDNG" xml:space="preserve">
-    <value>ＩＤに不適切な文字列が含まれています。確認してください。</value>
+    <value>IDに使用できないな文字が含まれています。</value>
   </data>
-  <data name="ErrInvalidParam" xml:space="preserve">
-    <value>入力されたパラメータに異常なパラメータがあります。</value>
+  <data name="ErrInvalidValue" xml:space="preserve">
+    <value>入力された値が異常です。</value>
   </data>
   <data name="ErrNoInput" xml:space="preserve">
-    <value>名前が入力されていません。入力してください。</value>
-  </data>
-  <data name="ErrNoInputDisk" xml:space="preserve">
-    <value>最大ディスクサイズを設定してください。</value>
-  </data>
-  <data name="ErrNoInputSec" xml:space="preserve">
-    <value>ログの時間間隔を設定してください。</value>
-  </data>
-  <data name="ErrNoInputStep" xml:space="preserve">
-    <value>ログのステップの間隔を設定してください。</value>
-  </data>
-  <data name="ErrNoSelectAct" xml:space="preserve">
-    <value>ディスクが一杯になったときの処理方法を設定してください。</value>
-  </data>
-  <data name="ErrNoSelectDisk" xml:space="preserve">
-    <value>最大ディスクの設定方法を指定してください。</value>
-  </data>
-  <data name="ErrNoSelectLog" xml:space="preserve">
-    <value>ロギングポリシーを設定してください。</value>
-  </data>
-  <data name="ErrReset" xml:space="preserve">
-    <value>シミュレーションのリセットに失敗しました。</value>
-  </data>
-  <data name="ErrRunning" xml:space="preserve">
-    <value>シミュレーションの実行に失敗しました。</value>
-  </data>
-  <data name="ErrStep" xml:space="preserve">
-    <value>ステップ実行に失敗しました。</value>
-  </data>
-  <data name="ErrSuspend" xml:space="preserve">
-    <value>シミュレーションの停止に失敗しました。</value>
+    <value>{0} が入力されていません。</value>
   </data>
   <data name="ErrUpdatELog" xml:space="preserve">
-    <value>ロギングポリシーの更新に失敗しました。</value>
+    <value>ロギングポリシーを更新できません。</value>
   </data>
   <data name="MenuItemRun" xml:space="preserve">
     <value>シミュレーション実行(&amp;R)</value>

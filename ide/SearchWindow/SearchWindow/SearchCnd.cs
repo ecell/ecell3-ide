@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -168,11 +169,7 @@ namespace EcellLib.SearchWindow
             string type = (string)dgv.Rows[index].Cells[3].Value;
 
             EcellObject obj = m_owner.DataManager.GetEcellObject(model, id, type);
-            if (obj == null)
-            {
-                Util.ShowWarningDialog(MessageResSearch.ErrNotFind + "(" + model + "," + id + ")");
-                return;
-            }
+            Debug.Assert(obj != null);
             ShowPropEditWindow(obj);
         }
 

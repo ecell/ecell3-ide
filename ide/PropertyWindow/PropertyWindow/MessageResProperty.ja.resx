@@ -117,25 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ErrChanged" xml:space="preserve">
-    <value>プロパティを更新するのに失敗しました。確認してください。</value>
-  </data>
-  <data name="ErrCreBitmap" xml:space="preserve">
-    <value>この画面のビットマップを作成するのに失敗しました。</value>
-  </data>
   <data name="ErrFormat" xml:space="preserve">
-    <value>フォーマットが異常です。</value>
+    <value>入力された値が異常です。</value>
   </data>
   <data name="ErrID" xml:space="preserve">
-    <value>IDに異常な文字列が含まれています。</value>
+    <value>IDに使用できない文字列が含まれています。</value>
   </data>
-  <data name="NoProp" xml:space="preserve">
-    <value>プロパティ名を入力する前に値が入力されました。</value>
+  <data name="ErrNoProp" xml:space="preserve">
+    <value>プロパティ名が入力されていません。</value>
+  </data>
+  <data name="ErrSameProp" xml:space="preserve">
+    <value>同じ名前のプロパティが存在します。</value>
   </data>
   <data name="PropertyWindow" xml:space="preserve">
     <value>プロパティ</value>
-  </data>
-  <data name="SameProp" xml:space="preserve">
-    <value>同じ名前のプロパティが存在します。</value>
   </data>
 </root>

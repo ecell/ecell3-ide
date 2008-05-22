@@ -70,42 +70,6 @@ namespace EcellLib.ObjectList {
         }
         
         /// <summary>
-        ///   Get exception while system add the object. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrAddObj {
-            get {
-                return ResourceManager.GetString("ErrAddObj", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Get exception while system create the bitmap of window. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrCreBitmap {
-            get {
-                return ResourceManager.GetString("ErrCreBitmap", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can&apos;t find the object by input search condition. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrNotFindPage {
-            get {
-                return ResourceManager.GetString("ErrNotFindPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Get exception while system select the object. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrSelectObj {
-            get {
-                return ResourceManager.GetString("ErrSelectObj", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   ObjectList に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ObjectList {
