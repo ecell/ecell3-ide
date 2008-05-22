@@ -70,65 +70,29 @@ namespace EcellLib.EntityListWindow {
         }
         
         /// <summary>
-        ///   Can&apos;t delete this object. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrDelData {
-            get {
-                return ResourceManager.GetString("ErrDelData", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can&apos;t find the object in this model. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrGetData {
-            get {
-                return ResourceManager.GetString("ErrGetData", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can&apos;t find the object by input search condition. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrNotFind {
-            get {
-                return ResourceManager.GetString("ErrNotFind", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can&apos;t find the installed E-Cell SDK. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrNotInstallSDK {
-            get {
-                return ResourceManager.GetString("ErrNotInstallSDK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fail to create the bitmap of this window. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrPrintData {
-            get {
-                return ResourceManager.GetString("ErrPrintData", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fail to show property editor.\nPlease confirm the property of object.\n に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrShowPropEditor {
-            get {
-                return ResourceManager.GetString("ErrShowPropEditor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Can&apos;t start up the application assciated with this file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrStartupApp {
             get {
                 return ResourceManager.GetString("ErrStartupApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can not find the object by input search condition. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NoticeNotFind {
+            get {
+                return ResourceManager.GetString("NoticeNotFind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can not find the installed E-Cell SDK. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NoticeNotInstallSDK {
+            get {
+                return ResourceManager.GetString("NoticeNotInstallSDK", resourceCulture);
             }
         }
         
@@ -237,6 +201,24 @@ namespace EcellLib.EntityListWindow {
         internal static string PopDelParamText {
             get {
                 return ResourceManager.GetString("PopDelParamText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open DM with the associated application. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string PopDMAppText {
+            get {
+                return ResourceManager.GetString("PopDMAppText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open DM ... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string PopDMEditorText {
+            get {
+                return ResourceManager.GetString("PopDMEditorText", resourceCulture);
             }
         }
         

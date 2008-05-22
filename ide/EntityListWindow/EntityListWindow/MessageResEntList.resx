@@ -120,26 +120,14 @@
   <data name="EntityList" xml:space="preserve">
     <value>Project Explorer</value>
   </data>
-  <data name="ErrDelData" xml:space="preserve">
-    <value>Can't delete this object.</value>
-  </data>
-  <data name="ErrGetData" xml:space="preserve">
-    <value>Can't find the object in this model.</value>
-  </data>
-  <data name="ErrNotFind" xml:space="preserve">
-    <value>Can't find the object by input search condition.</value>
-  </data>
-  <data name="ErrNotInstallSDK" xml:space="preserve">
-    <value>Can't find the installed E-Cell SDK.</value>
-  </data>
-  <data name="ErrPrintData" xml:space="preserve">
-    <value>Fail to create the bitmap of this window.</value>
-  </data>
-  <data name="ErrShowPropEditor" xml:space="preserve">
-    <value>Fail to show property editor.\nPlease confirm the property of object.\n</value>
-  </data>
   <data name="ErrStartupApp" xml:space="preserve">
     <value>Can't start up the application assciated with this file.</value>
+  </data>
+  <data name="NoticeNotFind" xml:space="preserve">
+    <value>Can not find the object by input search condition.</value>
+  </data>
+  <data name="NoticeNotInstallSDK" xml:space="preserve">
+    <value>Can not find the installed E-Cell SDK.</value>
   </data>
   <data name="PopAddModelText" xml:space="preserve">
     <value>Add model</value>
@@ -176,6 +164,12 @@
   </data>
   <data name="PopDelParamText" xml:space="preserve">
     <value>Delete Parameter</value>
+  </data>
+  <data name="PopDMAppText" xml:space="preserve">
+    <value>Open DM with the associated application.</value>
+  </data>
+  <data name="PopDMEditorText" xml:space="preserve">
+    <value>Open DM ...</value>
   </data>
   <data name="PopMergeText" xml:space="preserve">
     <value>Merge to supersystem</value>

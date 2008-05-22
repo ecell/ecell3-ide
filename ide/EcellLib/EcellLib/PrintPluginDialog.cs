@@ -39,10 +39,6 @@ namespace EcellLib
                 m_pManager.Print(this.listBox1.SelectedItem.ToString());
                 this.Close();
             }
-            else
-            {
-                Util.ShowWarningDialog("Please select the plugin to print.");
-            }
         }
 
         /// <summary>

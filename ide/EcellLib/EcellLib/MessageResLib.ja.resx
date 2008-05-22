@@ -127,7 +127,7 @@
     <value>{0} を追加できません({1})。</value>
   </data>
   <data name="ErrClosePrj" xml:space="preserve">
-    <value>プロジェクト {0} を閉じれません。</value>
+    <value>プロジェクト {0} を閉じることができません。</value>
   </data>
   <data name="ErrCombiStepProc" xml:space="preserve">
     <value>このステッパーとプロセスの組み合わせは選択できません。</value>
@@ -186,7 +186,7 @@
   <data name="ErrNoNumber" xml:space="preserve">
     <value>coefficientとisAccessorは整数を入力してください。</value>
   </data>
-  <data name="ErrNoSelect" xml:space="preserve">
+  <data name="ErrNoSelectVar" xml:space="preserve">
     <value>Variableを選択してください。</value>
   </data>
   <data name="ErrNoSet" xml:space="preserve">
@@ -194,6 +194,9 @@
   </data>
   <data name="ErrNotCreStepper" xml:space="preserve">
     <value>ステッパー {0} を作成できません。</value>
+  </data>
+  <data name="ErrPrint" xml:space="preserve">
+    <value>印刷できません。</value>
   </data>
   <data name="ErrReserved" xml:space="preserve">
     <value>{0} は予約名です。</value>

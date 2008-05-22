@@ -120,27 +120,14 @@
   <data name="EntityList" xml:space="preserve">
     <value>プロジェクトエクスプローラ</value>
   </data>
-  <data name="ErrDelData" xml:space="preserve">
-    <value>オブジェクトの削除に失敗しました。このオブジェクトを確認してください。</value>
-  </data>
-  <data name="ErrGetData" xml:space="preserve">
-    <value>このモデルに指定のオブジェクトが存在しませんでした。</value>
-  </data>
-  <data name="ErrNotFind" xml:space="preserve">
-    <value>検索条件に一致するオブジェクトが見つかりませんでした。</value>
-  </data>
-  <data name="ErrNotInstallSDK" xml:space="preserve">
-    <value>E-Cell SDKがインストールされていません。インストールしてください。</value>
-  </data>
-  <data name="ErrPrintData" xml:space="preserve">
-    <value>この画面のビットマップの作成に失敗しました。</value>
-  </data>
-  <data name="ErrShowPropEditor" xml:space="preserve">
-    <value>プロパティ編集ダイアログの表示に失敗しました。
-表示するオブジェクトを確認してください。</value>
-  </data>
   <data name="ErrStartupApp" xml:space="preserve">
     <value>このファイルに関連付けられたアプリケーションが起動できませんでした。ファイルタイプへの関連付けを行ってください。</value>
+  </data>
+  <data name="NoticeNotFind" xml:space="preserve">
+    <value>検索条件に一致するオブジェクトが見つかりませんでした。</value>
+  </data>
+  <data name="NoticeNotInstallSDK" xml:space="preserve">
+    <value>E-Cell SDKがインストールされていません。インストールしてください。</value>
   </data>
   <data name="PopAddModelText" xml:space="preserve">
     <value>モデル追加</value>
@@ -177,6 +164,12 @@
   </data>
   <data name="PopDelParamText" xml:space="preserve">
     <value>パラメータ未定解除</value>
+  </data>
+  <data name="PopDMAppText" xml:space="preserve">
+    <value>関連アプリケーションで開く...</value>
+  </data>
+  <data name="PopDMEditorText" xml:space="preserve">
+    <value>開く...</value>
   </data>
   <data name="PopMergeText" xml:space="preserve">
     <value>マージ</value>

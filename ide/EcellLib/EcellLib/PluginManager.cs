@@ -505,9 +505,16 @@ namespace EcellLib
             m_dialog.Document = m_printDoc;
             System.Windows.Forms.DialogResult result = m_dialog.ShowDialog();
 
-            if (result == System.Windows.Forms.DialogResult.OK)
+            try
             {
-                m_printDoc.Print();
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    m_printDoc.Print();
+                }
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(MessageResLib.ErrPrint);
             }
         }
 

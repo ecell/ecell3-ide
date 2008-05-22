@@ -270,9 +270,9 @@ namespace EcellLib {
         /// <summary>
         ///   Please select the variable. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ErrNoSelect {
+        internal static string ErrNoSelectVar {
             get {
-                return ResourceManager.GetString("ErrNoSelect", resourceCulture);
+                return ResourceManager.GetString("ErrNoSelectVar", resourceCulture);
             }
         }
         
@@ -291,6 +291,15 @@ namespace EcellLib {
         internal static string ErrNotCreStepper {
             get {
                 return ResourceManager.GetString("ErrNotCreStepper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can not print the image of plugin. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrPrint {
+            get {
+                return ResourceManager.GetString("ErrPrint", resourceCulture);
             }
         }
         

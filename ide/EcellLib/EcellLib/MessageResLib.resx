@@ -186,7 +186,7 @@
   <data name="ErrNoNumber" xml:space="preserve">
     <value>Please input integer at coefficient and isAccessor.</value>
   </data>
-  <data name="ErrNoSelect" xml:space="preserve">
+  <data name="ErrNoSelectVar" xml:space="preserve">
     <value>Please select the variable.</value>
   </data>
   <data name="ErrNoSet" xml:space="preserve">
@@ -194,6 +194,9 @@
   </data>
   <data name="ErrNotCreStepper" xml:space="preserve">
     <value>Can not create the stepper {0}.</value>
+  </data>
+  <data name="ErrPrint" xml:space="preserve">
+    <value>Can not print the image of plugin.</value>
   </data>
   <data name="ErrReserved" xml:space="preserve">
     <value>{0} is the reserved name.</value>

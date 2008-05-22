@@ -874,20 +874,27 @@ namespace EcellLib.Analysis
             if (obj == null) return;
             EcellDragObject dobj = obj as EcellDragObject;
 
-            DataManager dManager = m_owner.DataManager;
-            EcellObject t = dManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
-            foreach (EcellData d in t.Value)
+            try
             {
-                if (d.EntityPath.Equals(dobj.Path))
+                DataManager dManager = m_owner.DataManager;
+                EcellObject t = dManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
+                foreach (EcellData d in t.Value)
                 {
-                    if (d.Max == 0.0 && d.Min == 0.0)
+                    if (d.EntityPath.Equals(dobj.Path))
                     {
-                        d.Max = Convert.ToDouble(d.Value.ToString()) * 1.5;
-                        d.Min = Convert.ToDouble(d.Value.ToString()) * 0.5;
+                        if (d.Max == 0.0 && d.Min == 0.0)
+                        {
+                            d.Max = Convert.ToDouble(d.Value.ToString()) * 1.5;
+                            d.Min = Convert.ToDouble(d.Value.ToString()) * 0.5;
+                        }
+                        dManager.SetParameterData(new EcellParameterData(d.EntityPath, d.Max, d.Min, d.Step));
+                        break;
                     }
-                    dManager.SetParameterData(new EcellParameterData(d.EntityPath, d.Max, d.Min, d.Step));
-                    break;
                 }
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
             }
         }
 
@@ -931,17 +938,24 @@ namespace EcellLib.Analysis
             if (obj == null) return;
             EcellDragObject dobj = obj as EcellDragObject;
 
-            DataManager dManager = m_owner.DataManager;
-            EcellObject t = dManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
-            foreach (EcellData d in t.Value)
+            try
             {
-                if (d.EntityPath.Equals(dobj.Path))
+                DataManager dManager = m_owner.DataManager;
+                EcellObject t = dManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
+                foreach (EcellData d in t.Value)
                 {
-                    EcellObservedData data = new EcellObservedData(d.EntityPath, d.Value.CastToDouble());
-                    m_owner.DataManager.SetObservedData(data);
+                    if (d.EntityPath.Equals(dobj.Path))
+                    {
+                        EcellObservedData data = new EcellObservedData(d.EntityPath, d.Value.CastToDouble());
+                        m_owner.DataManager.SetObservedData(data);
 
-                    return;
+                        return;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
             }
         }
 

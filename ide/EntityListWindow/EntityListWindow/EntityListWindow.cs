@@ -167,6 +167,8 @@ namespace EcellLib.EntityListWindow
         /// Cotext menu to compile dm on popup menu.
         /// </summary>
         private MenuItem m_compileDM;
+        private MenuItem m_editorDM;
+        private MenuItem m_appDM;
         /// <summary>
         /// ComponentResourceManager for EntityListWindow.
         /// </summary>
@@ -207,6 +209,8 @@ namespace EcellLib.EntityListWindow
             m_delProObservedData = new MenuItem();
             m_merge = new MenuItem();
             m_compileDM = new MenuItem();
+            m_appDM = new MenuItem();
+            m_editorDM = new MenuItem();
         }
         #endregion
 
@@ -301,8 +305,8 @@ namespace EcellLib.EntityListWindow
                         m_modelNodeDic[currentPrj].Nodes.Add(node);
                     continue;
                 }
-                else if (obj.Type == Constants.xpathProcess || 
-                    obj.Type ==Constants.xpathVariable)
+                else if (obj.Type == Constants.xpathProcess ||
+                    obj.Type == Constants.xpathVariable)
                 {
                     if (obj.Key.EndsWith(Constants.headerSize))
                         continue;
@@ -515,18 +519,9 @@ namespace EcellLib.EntityListWindow
         {
             if (m_form == null) return null;
 
-            try
-            {
-                Bitmap bitmap = new Bitmap(m_form.treeView1.Width, m_form.treeView1.Height);
-                m_form.treeView1.DrawToBitmap(bitmap, m_form.treeView1.ClientRectangle);
-                return bitmap;
-            }
-            catch (Exception ex)
-            {
-                String errmese = MessageResEntList.ErrPrintData;
-                Util.ShowErrorDialog(errmese + "\n\n" + ex);
-                return null;
-            }
+            Bitmap bitmap = new Bitmap(m_form.treeView1.Width, m_form.treeView1.Height);
+            m_form.treeView1.DrawToBitmap(bitmap, m_form.treeView1.ClientRectangle);
+            return bitmap;
         }
 
         /// <summary>
@@ -603,6 +598,8 @@ namespace EcellLib.EntityListWindow
             m_delVarLogger.Text = MessageResEntList.PopDelLoggerText;
             m_merge.Text = MessageResEntList.PopMergeText;
             m_compileDM.Text = MessageResEntList.PopCompileText;
+            m_editorDM.Text = MessageResEntList.PopDMEditorText;
+            m_appDM.Text = MessageResEntList.PopDMAppText;
             m_creVarParameterData.Text = MessageResEntList.PopCreParamText;
             m_creProParameterData.Text = MessageResEntList.PopCreParamText;
             m_delVarParameterData.Text = MessageResEntList.PopDelParamText;
@@ -627,6 +624,8 @@ namespace EcellLib.EntityListWindow
             del.Click += new EventHandler(TreeviewDelete);
             m_merge.Click += new EventHandler(TreeviewMerge);
             m_compileDM.Click += new EventHandler(TreeViewCompile);
+            m_appDM.Click += new EventHandler(TreeViewDMDisplayWithApp);
+            m_editorDM.Click += new EventHandler(TreeViewDMDisplay);
             searchMenu.Click += new EventHandler(TreeviewSearch);
             sortNameMenu.Click += new EventHandler(TreeViewSortName);
             sortTypeMenu.Click += new EventHandler(TreeViewSortType);
@@ -720,9 +719,14 @@ namespace EcellLib.EntityListWindow
                 });
             m_dmMenu.MenuItems.AddRange(new MenuItem[]
             {
-                m_compileDM.CloneMenu()
+                m_editorDM.CloneMenu(),
+                m_appDM.CloneMenu(),
+                separator.CloneMenu(),
+                m_compileDM.CloneMenu(),                
             });
         }
+
+
 
         /// <summary>
         /// Create the menu item of popup menu to set and reset the logger.
@@ -1047,7 +1051,7 @@ namespace EcellLib.EntityListWindow
                     || (keydata[0] == "" && tmpText == "/"))
                 {
                     if ((keydata.Length == 1 || key == "/") &&
-                        (tag.m_type == type || type == null)) 
+                        (tag.m_type == type || type == null))
                         return node;
                     if (keydata.Length == 1 || key == "/") continue;
                     key = keydata[1];
@@ -1081,6 +1085,24 @@ namespace EcellLib.EntityListWindow
                     continue;
                 }
                 tag.m_key = newKey + ":" + t.Text;
+            }
+        }
+
+        private void DisplayDMEditor(string path)
+        {
+            DMEditor edit = new DMEditor(path);
+            edit.ShowDialog();
+        }
+
+        private void DisplayDMWithApp(string path)
+        {
+            try
+            {
+                Process p = Process.Start(path);
+            }
+            catch (Exception)
+            {
+                Util.ShowErrorDialog(MessageResEntList.ErrStartupApp);
             }
         }
         #endregion
@@ -1298,16 +1320,16 @@ namespace EcellLib.EntityListWindow
 
             try
             {
-                if (tag.m_type == Constants.xpathModel) 
+                if (tag.m_type == Constants.xpathModel)
                     m_dManager.DataDelete(tag.m_modelID, null, Constants.xpathModel);
-                else 
+                else
                     m_dManager.DataDelete(tag.m_modelID, tag.m_key, tag.m_type);
                 if (modelID != null) m_pManager.SelectChanged(modelID, key, type);
             }
             catch (Exception ex)
             {
-                Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResEntList.ErrDelData);
+                Trace.WriteLine(ex.Message);
+                Util.ShowErrorDialog(ex.Message);
                 return;
             }
         }
@@ -1337,17 +1359,16 @@ namespace EcellLib.EntityListWindow
 
             try
             {
-                if (tag.m_type == Constants.xpathModel) 
+                if (tag.m_type == Constants.xpathModel)
                     m_dManager.DataDelete(tag.m_modelID, null, Constants.xpathModel);
-                else if (tag.m_type == Constants.xpathSystem) 
+                else if (tag.m_type == Constants.xpathSystem)
                     m_dManager.SystemDeleteAndMove(tag.m_modelID, tag.m_key);
                 else m_dManager.DataDelete(tag.m_modelID, tag.m_key, tag.m_type);
-//                if (modelID != null) m_pManager.SelectChanged(modelID, key, type);
+                //                if (modelID != null) m_pManager.SelectChanged(modelID, key, type);
             }
             catch (Exception ex)
             {
-                String errmes = MessageResEntList.ErrDelData;
-                Util.ShowErrorDialog(errmes + "\n\n" + ex);
+                Util.ShowErrorDialog(ex.Message);
                 return;
             }
         }
@@ -1362,10 +1383,28 @@ namespace EcellLib.EntityListWindow
             string path = m_dManager.GetDMFileName(m_targetNode.Text);
             if (!CheckInstalledSDK())
             {
-                Util.ShowNoticeDialog(MessageResEntList.ErrNotInstallSDK);
+                Util.ShowNoticeDialog(MessageResEntList.NoticeNotInstallSDK);
                 return;
             }
             // not implement.
+        }
+
+        private void TreeViewDMDisplay(object sender, EventArgs e)
+        {
+            TreeNode node = m_targetNode;
+            if (node == null) return;
+            string path = m_dManager.GetDMFileName(node.Text);
+            if (path == null) return;
+            DisplayDMEditor(path);
+        }
+
+        private void TreeViewDMDisplayWithApp(object sender, EventArgs e)
+        {
+            TreeNode node = m_targetNode;
+            if (node == null) return;
+            string path = m_dManager.GetDMFileName(node.Text);
+            if (path == null) return;
+            DisplayDMWithApp(path);
         }
 
         /// <summary>
@@ -1412,7 +1451,7 @@ namespace EcellLib.EntityListWindow
         /// </summary>
         /// <param name="sender">TreeView</param>
         /// <param name="e">TreeNodeMouseClickEventArgs</param>
-        void NodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void NodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeView t = (TreeView)sender;
             TreeNode node = t.SelectedNode;
@@ -1429,18 +1468,8 @@ namespace EcellLib.EntityListWindow
             {
                 string path = m_dManager.GetDMFileName(node.Text);
                 if (path == null) return;
-                try
-                {
-                    DMEditor edit = new DMEditor(path);
-                    edit.ShowDialog();
-                }
-                catch (Exception ex)
-                {
-                    ex.ToString();
-                    String errmes = MessageResEntList.ErrStartupApp;
-                    Util.ShowErrorDialog(errmes + "\n\n" + path);
-                    return;
-                }
+                DisplayDMEditor(path);
+
                 return;
             }
 
@@ -1448,20 +1477,12 @@ namespace EcellLib.EntityListWindow
             if (m_type != ProjectStatus.Uninitialized &&
                 m_type != ProjectStatus.Loaded)
                 return;
-            try
-            {
-                EcellObject obj = m_dManager.GetEcellObject(tag.m_modelID,
-                    tag.m_key, tag.m_type);
-                Debug.Assert(obj != null);
-                ShowPropEditWindow(obj);
-                return;
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResEntList.ErrGetData);
-                return;
-            }
+
+            EcellObject obj = m_dManager.GetEcellObject(tag.m_modelID,
+                tag.m_key, tag.m_type);
+            Debug.Assert(obj != null);
+            ShowPropEditWindow(obj);
+            return;
         }
 
         /// <summary>
@@ -1497,7 +1518,7 @@ namespace EcellLib.EntityListWindow
                         m_form.treeView1.ContextMenu = null;
                     return;
                 }
-                
+
                 if (tag.m_type == Constants.xpathProject)
                 {
                     m_targetNode = node;

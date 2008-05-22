@@ -39,10 +39,16 @@ using System.Windows.Forms;
 
 namespace EcellLib.EntityListWindow
 {
+    /// <summary>
+    /// Form class to display the source of DM.
+    /// </summary>
     public partial class DMEditor : Form
     {
+        #region Fileds
         private string m_path;
+        #endregion
 
+        #region Constructor
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -61,12 +67,24 @@ namespace EcellLib.EntityListWindow
             m_path = path;
             InitializeComponent();
         }
+        #endregion
 
+        #region Events
+        /// <summary>
+        /// The event sequence when the close button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DMECloseButtonClick(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// The event sequence when this form is shown.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DMEditorShown(object sender, EventArgs e)
         {
             if (!Util.IsInstalledSDK())
@@ -85,7 +103,12 @@ namespace EcellLib.EntityListWindow
             l_reader.Close();
         }
 
-        private void DMESaveButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// The event sequence when the save button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DMESaveButtonClick(object sender, EventArgs e)
         {
             StreamWriter writer = null;
             try
@@ -101,5 +124,6 @@ namespace EcellLib.EntityListWindow
                 }
             }
         }
+        #endregion
     }
 }

@@ -101,7 +101,7 @@ namespace EcellLib.EntityListWindow
             resources.ApplyResources(this.DMESaveButton, "DMESaveButton");
             this.DMESaveButton.Name = "DMESaveButton";
             this.DMESaveButton.UseVisualStyleBackColor = true;
-            this.DMESaveButton.Click += new System.EventHandler(this.DMESaveButton_Click);
+            this.DMESaveButton.Click += new System.EventHandler(this.DMESaveButtonClick);
             // 
             // DMETextBox
             // 
