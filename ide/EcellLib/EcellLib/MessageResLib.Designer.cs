@@ -394,42 +394,6 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   Can not update the stepper, に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrSetStepper {
-            get {
-                return ResourceManager.GetString("ErrSetStepper", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Get exception while system show the property editor. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrShowPropEdit {
-            get {
-                return ResourceManager.GetString("ErrShowPropEdit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fail to show property editor.\nPlease confirm the property of object.\n に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrShowPropEditor {
-            get {
-                return ResourceManager.GetString("ErrShowPropEditor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can not get simulation parameter. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrSimParam {
-            get {
-                return ResourceManager.GetString("ErrSimParam", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Can not the value of property {0} under the simulation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSimPropData {
@@ -444,15 +408,6 @@ namespace EcellLib {
         internal static string ErrSuspendSim {
             get {
                 return ResourceManager.GetString("ErrSuspendSim", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Could not update {0}. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrUpdate {
-            get {
-                return ResourceManager.GetString("ErrUpdate", resourceCulture);
             }
         }
         
@@ -525,6 +480,24 @@ namespace EcellLib {
         internal static string InfoSavePrj {
             get {
                 return ResourceManager.GetString("InfoSavePrj", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Suspend the simulation [{0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoSuspend {
+            get {
+                return ResourceManager.GetString("InfoSuspend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Update the policy of logging {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoUpdateLogPol {
+            get {
+                return ResourceManager.GetString("InfoUpdateLogPol", resourceCulture);
             }
         }
         

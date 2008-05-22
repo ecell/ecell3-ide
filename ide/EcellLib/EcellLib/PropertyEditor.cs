@@ -60,7 +60,7 @@ namespace EcellLib
         /// <summary>
         /// key is property name, value is property data type.
         /// </summary>
-        private Dictionary<string, EcellData> m_propDict = new Dictionary<string,EcellData>();
+        private Dictionary<string, EcellData> m_propDict = new Dictionary<string, EcellData>();
         /// <summary>
         /// m_win (editable variable reference list window)
         /// </summary>
@@ -142,8 +142,8 @@ namespace EcellLib
             }
             catch (Exception ex)
             {
-                String errmes = MessageResLib.ErrShowPropEditor;
-                Util.ShowErrorDialog(errmes + "\n\n" + ex);
+                Util.ShowErrorDialog(String.Format(MessageResLib.ErrSetProp,
+                    new object[] { obj.Key }));
             }
             finally
             {
@@ -238,7 +238,7 @@ namespace EcellLib
                 throw new Exception("Invalid parameter(MAX < Min).");
             }
             if (!isCheck)
-                m_dManager.SetParameterData(new EcellParameterData(d.EntityPath, 
+                m_dManager.SetParameterData(new EcellParameterData(d.EntityPath,
                     d.Max, d.Min, d.Step));
             else
                 m_dManager.RemoveParameterData(new EcellParameterData(d.EntityPath, 0.0));
@@ -326,7 +326,7 @@ namespace EcellLib
                     m_propDict[key].Value.Type == typeof(double))
                 {
                     CheckBox c = new CheckBox();
-                    if (m_dManager.IsContainsParameterData(m_propDict[key].EntityPath)) 
+                    if (m_dManager.IsContainsParameterData(m_propDict[key].EntityPath))
                         c.Checked = false;
                     else c.Checked = true;
                     c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
@@ -517,7 +517,7 @@ namespace EcellLib
                     }
                 }
             }
-  
+
             panel2.ClientSize = panel2.Size;
         }
 
@@ -621,280 +621,272 @@ namespace EcellLib
                 layoutPanel.RowCount = m_propDict.Keys.Count + 5;
             }
 
-            try
-            {
-                layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                Label l1 = new Label();
-                l1.Text = "modelID";
-                l1.Dock = DockStyle.Fill;
-                layoutPanel.Controls.Add(l1, 1, i);
-                TextBox t1 = new TextBox();
-                t1.Tag = "modelID";
-                t1.Dock = DockStyle.Fill;
-                t1.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                if (m_currentObj != null) t1.Text = m_currentObj.ModelID;
-                else t1.Text = m_parentObj.ModelID;
-                t1.ReadOnly = true;
-                layoutPanel.Controls.Add(t1, 2, i);
-                i++;
+            layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+            Label l1 = new Label();
+            l1.Text = "modelID";
+            l1.Dock = DockStyle.Fill;
+            layoutPanel.Controls.Add(l1, 1, i);
+            TextBox t1 = new TextBox();
+            t1.Tag = "modelID";
+            t1.Dock = DockStyle.Fill;
+            t1.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+            if (m_currentObj != null) t1.Text = m_currentObj.ModelID;
+            else t1.Text = m_parentObj.ModelID;
+            t1.ReadOnly = true;
+            layoutPanel.Controls.Add(t1, 2, i);
+            i++;
 
-                layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                Label l2 = new Label();
-                l2.Text = "id";
-                l2.Dock = DockStyle.Fill;
-                layoutPanel.Controls.Add(l2, 1, i);
-                TextBox t2 = new TextBox();
-                t2.Tag = "id";
-                if (m_currentObj == null)
+            layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+            Label l2 = new Label();
+            l2.Text = "id";
+            l2.Dock = DockStyle.Fill;
+            layoutPanel.Controls.Add(l2, 1, i);
+            TextBox t2 = new TextBox();
+            t2.Tag = "id";
+            if (m_currentObj == null)
+            {
+                t2.Text = preId;
+                t2.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+            }
+            else
+            {
+                //                    t2.ReadOnly = true;
+                t2.Text = m_currentObj.Key;
+                if (m_currentObj.Key.Equals("/"))
                 {
-                    t2.Text = preId;
-                    t2.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                    t2.ReadOnly = true;
                 }
                 else
                 {
-//                    t2.ReadOnly = true;
-                    t2.Text = m_currentObj.Key;
-                    if (m_currentObj.Key.Equals("/"))
+                    t2.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                }
+            }
+            m_idText = t2;
+            t2.Dock = DockStyle.Fill;
+            layoutPanel.Controls.Add(t2, 2, i);
+            i++;
+
+            layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+            Label l3 = new Label();
+            l3.Text = "classname";
+            l3.Dock = DockStyle.Fill;
+            layoutPanel.Controls.Add(l3, 1, i);
+            ComboBox combo = new ComboBox();
+            combo.DropDownStyle = ComboBoxStyle.DropDownList;
+            int j = 0;
+            if (m_type.Equals(EcellObject.PROCESS))
+            {
+                List<string> list = m_dManager.GetProcessList();
+                int selectedIndex = -1;
+                foreach (string str in list)
+                {
+                    combo.Items.AddRange(new object[] { str });
+                    if (str == m_propName) selectedIndex = j;
+                    j++;
+                }
+                if (selectedIndex == -1)
+                {
+                    combo.Items.AddRange(new object[] { m_propName });
+                    selectedIndex = j;
+                }
+                combo.SelectedIndex = selectedIndex;
+                combo.SelectedIndexChanged += new EventHandler(ComboSelectedIndexChanged);
+            }
+            else if (m_type.Equals(EcellObject.SYSTEM))
+            {
+                combo.Items.AddRange(new object[] { EcellObject.SYSTEM });
+                combo.SelectedIndex = j;
+            }
+            else if (m_type.Equals(EcellObject.VARIABLE))
+            {
+                combo.Items.AddRange(new object[] { EcellObject.VARIABLE });
+                combo.SelectedIndex = j;
+            }
+            combo.Tag = "classname";
+            combo.Dock = DockStyle.Fill;
+            combo.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+            layoutPanel.Controls.Add(combo, 2, i);
+            i++;
+
+            layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+            Label l4 = new Label();
+            l4.Text = "type";
+            l4.Dock = DockStyle.Fill;
+            layoutPanel.Controls.Add(l4, 1, i);
+            TextBox t4 = new TextBox();
+            t4.Text = "";
+            t4.Tag = "type";
+            t4.Dock = DockStyle.Fill;
+            t4.Text = m_type;
+            t4.ReadOnly = true;
+            t4.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+            layoutPanel.Controls.Add(t4, 2, i);
+            i++;
+
+            foreach (string key in m_propDict.Keys)
+            {
+                if (key == "Size")
+                {
+                    continue;
+                }
+
+                layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                if (m_propDict[key].Logable)
+                {
+                    CheckBox c = new CheckBox();
+                    if (m_propDict[key].Logged)
                     {
-                        t2.ReadOnly = true;
+                        c.Checked = true;
                     }
                     else
                     {
-                        t2.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                    }
-                }
-                m_idText = t2;
-                t2.Dock = DockStyle.Fill;
-                layoutPanel.Controls.Add(t2, 2, i);
-                i++;
-
-                layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                Label l3 = new Label();
-                l3.Text = "classname";
-                l3.Dock = DockStyle.Fill;
-                layoutPanel.Controls.Add(l3, 1, i);
-                ComboBox combo = new ComboBox();
-                combo.DropDownStyle = ComboBoxStyle.DropDownList;
-                int j = 0;
-                if (m_type.Equals(EcellObject.PROCESS))
-                {
-                    List<string> list = m_dManager.GetProcessList();
-                    int selectedIndex = -1;
-                    foreach (string str in list)
-                    {
-                        combo.Items.AddRange(new object[] { str });
-                        if (str == m_propName) selectedIndex = j;
-                        j++;
-                    }
-                    if (selectedIndex == -1)
-                    {
-                        combo.Items.AddRange(new object[] { m_propName });
-                        selectedIndex = j;
-                    }
-                    combo.SelectedIndex = selectedIndex;
-                    combo.SelectedIndexChanged += new EventHandler(ComboSelectedIndexChanged);
-                }
-                else if (m_type.Equals(EcellObject.SYSTEM))
-                {
-                    combo.Items.AddRange(new object[] { EcellObject.SYSTEM });
-                    combo.SelectedIndex = j;
-                }
-                else if (m_type.Equals(EcellObject.VARIABLE))
-                {
-                    combo.Items.AddRange(new object[] { EcellObject.VARIABLE });
-                    combo.SelectedIndex = j;
-                }
-                combo.Tag = "classname";
-                combo.Dock = DockStyle.Fill;
-                combo.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                layoutPanel.Controls.Add(combo, 2, i);
-                i++;
-
-                layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                Label l4 = new Label();
-                l4.Text = "type";
-                l4.Dock = DockStyle.Fill;
-                layoutPanel.Controls.Add(l4, 1, i);
-                TextBox t4 = new TextBox();
-                t4.Text = "";
-                t4.Tag = "type";
-                t4.Dock = DockStyle.Fill;
-                t4.Text = m_type;
-                t4.ReadOnly = true;
-                t4.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                layoutPanel.Controls.Add(t4, 2, i);
-                i++;
-
-                foreach (string key in m_propDict.Keys)
-                {
-                    if (key == "Size")
-                    {
-                        continue;
-                    }
-
-                    layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                    if (m_propDict[key].Logable)
-                    {
-                        CheckBox c = new CheckBox();
-                        if (m_propDict[key].Logged)
-                        {
-                            c.Checked = true;
-                        }
-                        else
-                        {
-                            c.Checked = false;
-                        }
-                        c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                        c.Text = "";
-                        c.AutoSize = true;
-                        c.Enabled = true;
-                        layoutPanel.Controls.Add(c, 0, i);
-                    }
-                    else
-                    {
-                        CheckBox c = new CheckBox();
-                        c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                        c.Text = "";
-                        c.AutoSize = true;
                         c.Checked = false;
-                        c.Enabled = false;
-                        layoutPanel.Controls.Add(c, 0, i);
                     }
-
-                    Label l = new Label();
-                    l.Text = key;
-                    l.Dock = DockStyle.Fill;
-                    layoutPanel.Controls.Add(l, 1, i);
-
-                    if (key == EcellProcess.VARIABLEREFERENCELIST)
-                    {
-                        Button b = new Button();
-                        b.Text = "Edit Variable References ...";
-                        b.Tag = key;
-                        b.Dock = DockStyle.Fill;
-                        b.Click += new EventHandler(ShowVarRefWindow);
-                        b.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                        layoutPanel.Controls.Add(b, 2, i);
-                    }
-                    else if (key == EcellProcess.STEPPERID)
-                    {
-                        ComboBox t = new ComboBox();
-                        List<EcellObject> slist;
-                        slist = m_dManager.GetStepper(null, m_currentObj.ModelID);
-                        foreach (EcellObject obj in slist)
-                        {
-                            t.Items.AddRange(new object[] { obj.Key });
-                        }
-
-                        t.Text = m_propDict[key].Value.ToString();
-                        t.Tag = key;
-                        t.Dock = DockStyle.Fill;
-                        t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                        layoutPanel.Controls.Add(t, 2, i);
-                    }
-                    else
-                    {
-                        TextBox t = new TextBox();
-                        t.Text = "";
-                        t.Tag = key;
-                        t.Dock = DockStyle.Fill;
-                        t.Text = m_propDict[key].Value.ToString();
-                        if (!m_propDict[key].Settable)
-                        {
-                            t.ReadOnly = true;
-                        }
-                        t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                        layoutPanel.Controls.Add(t, 2, i);
-
-                        if ((key == "Expression"))
-                        {
-                            Button b = new Button();
-                            b.Text = "...";
-                            b.Tag = "Formulator";
-                            b.Dock = DockStyle.Fill;
-                            b.Click += new EventHandler(ShowFormulatorWindow);
-                            m_text = t;
-                            layoutPanel.Controls.Add(b, 3, i);
-                        }
-                        else if (tmpProcDict != null && !tmpProcDict.ContainsKey(key))
-                        {
-                            Button b = new Button();
-                            b.Text = "Delete";
-                            b.Tag = key;
-                            b.Dock = DockStyle.Fill;
-                            b.Click += new EventHandler(DeletePropertyForProcess);
-                            layoutPanel.Controls.Add(b, 3, i);
-                        }
-                    }
-                    i++;
+                    c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                    c.Text = "";
+                    c.AutoSize = true;
+                    c.Enabled = true;
+                    layoutPanel.Controls.Add(c, 0, i);
                 }
-                if (m_type.Equals(EcellObject.PROCESS) && 
-                    this.m_dManager.IsEnableAddProperty(m_propName))
+                else
+                {
+                    CheckBox c = new CheckBox();
+                    c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                    c.Text = "";
+                    c.AutoSize = true;
+                    c.Checked = false;
+                    c.Enabled = false;
+                    layoutPanel.Controls.Add(c, 0, i);
+                }
+
+                Label l = new Label();
+                l.Text = key;
+                l.Dock = DockStyle.Fill;
+                layoutPanel.Controls.Add(l, 1, i);
+
+                if (key == EcellProcess.VARIABLEREFERENCELIST)
                 {
                     Button b = new Button();
-                    b.Text = "Add Property";
-                    b.Tag = "Add Property";
+                    b.Text = "Edit Variable References ...";
+                    b.Tag = key;
                     b.Dock = DockStyle.Fill;
-                    b.Click += new EventHandler(AddPropertyForProcess);
+                    b.Click += new EventHandler(ShowVarRefWindow);
+                    b.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                     layoutPanel.Controls.Add(b, 2, i);
-                    i++;
                 }
-
-                if (m_currentObj == null && m_type.Equals(EcellObject.SYSTEM))
+                else if (key == EcellProcess.STEPPERID)
                 {
-                    layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                    Label l = new Label();
-                    l.Text = "Size";
-                    l.Dock = DockStyle.Fill;
-                    layoutPanel.Controls.Add(l, 1, i);
-
-                    TextBox t = new TextBox();
-                    t.Text = "";
-                    t.Tag = "DefinedSize";
-                    t.Dock = DockStyle.Fill;
-                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                    layoutPanel.Controls.Add(t, 2, i);
-                }
-                else if (m_currentObj != null && m_currentObj.Type.Equals(EcellObject.SYSTEM))
-                {
-                    layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                    Label l = new Label();
-                    l.Text = "Size";
-                    l.Dock = DockStyle.Fill;
-                    layoutPanel.Controls.Add(l, 1, i);
-
-                    TextBox t = new TextBox();
-                    t.Text = "";
-                    t.Tag = "DefinedSize";
-                    t.Dock = DockStyle.Fill;
-                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-                    layoutPanel.Controls.Add(t, 2, i);
-
-                    if (m_currentObj.Children != null)
+                    ComboBox t = new ComboBox();
+                    List<EcellObject> slist;
+                    slist = m_dManager.GetStepper(null, m_currentObj.ModelID);
+                    foreach (EcellObject obj in slist)
                     {
-                        foreach (EcellObject o in m_currentObj.Children)
+                        t.Items.AddRange(new object[] { obj.Key });
+                    }
+
+                    t.Text = m_propDict[key].Value.ToString();
+                    t.Tag = key;
+                    t.Dock = DockStyle.Fill;
+                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                    layoutPanel.Controls.Add(t, 2, i);
+                }
+                else
+                {
+                    TextBox t = new TextBox();
+                    t.Text = "";
+                    t.Tag = key;
+                    t.Dock = DockStyle.Fill;
+                    t.Text = m_propDict[key].Value.ToString();
+                    if (!m_propDict[key].Settable)
+                    {
+                        t.ReadOnly = true;
+                    }
+                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                    layoutPanel.Controls.Add(t, 2, i);
+
+                    if ((key == "Expression"))
+                    {
+                        Button b = new Button();
+                        b.Text = "...";
+                        b.Tag = "Formulator";
+                        b.Dock = DockStyle.Fill;
+                        b.Click += new EventHandler(ShowFormulatorWindow);
+                        m_text = t;
+                        layoutPanel.Controls.Add(b, 3, i);
+                    }
+                    else if (tmpProcDict != null && !tmpProcDict.ContainsKey(key))
+                    {
+                        Button b = new Button();
+                        b.Text = "Delete";
+                        b.Tag = key;
+                        b.Dock = DockStyle.Fill;
+                        b.Click += new EventHandler(DeletePropertyForProcess);
+                        layoutPanel.Controls.Add(b, 3, i);
+                    }
+                }
+                i++;
+            }
+            if (m_type.Equals(EcellObject.PROCESS) &&
+                this.m_dManager.IsEnableAddProperty(m_propName))
+            {
+                Button b = new Button();
+                b.Text = "Add Property";
+                b.Tag = "Add Property";
+                b.Dock = DockStyle.Fill;
+                b.Click += new EventHandler(AddPropertyForProcess);
+                layoutPanel.Controls.Add(b, 2, i);
+                i++;
+            }
+
+            if (m_currentObj == null && m_type.Equals(EcellObject.SYSTEM))
+            {
+                layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                Label l = new Label();
+                l.Text = "Size";
+                l.Dock = DockStyle.Fill;
+                layoutPanel.Controls.Add(l, 1, i);
+
+                TextBox t = new TextBox();
+                t.Text = "";
+                t.Tag = "DefinedSize";
+                t.Dock = DockStyle.Fill;
+                t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                layoutPanel.Controls.Add(t, 2, i);
+            }
+            else if (m_currentObj != null && m_currentObj.Type.Equals(EcellObject.SYSTEM))
+            {
+                layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                Label l = new Label();
+                l.Text = "Size";
+                l.Dock = DockStyle.Fill;
+                layoutPanel.Controls.Add(l, 1, i);
+
+                TextBox t = new TextBox();
+                t.Text = "";
+                t.Tag = "DefinedSize";
+                t.Dock = DockStyle.Fill;
+                t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                layoutPanel.Controls.Add(t, 2, i);
+
+                if (m_currentObj.Children != null)
+                {
+                    foreach (EcellObject o in m_currentObj.Children)
+                    {
+                        if (o.Key.EndsWith(":SIZE"))
                         {
-                            if (o.Key.EndsWith(":SIZE"))
+                            foreach (EcellData d in o.Value)
                             {
-                                foreach (EcellData d in o.Value)
+                                if (d.EntityPath.EndsWith(":Value"))
                                 {
-                                    if (d.EntityPath.EndsWith(":Value"))
-                                    {
-                                        t.Text = d.Value.ToString();
-                                    }
+                                    t.Text = d.Value.ToString();
                                 }
                             }
                         }
                     }
                 }
+            }
 
-                panel1.ClientSize = panel1.Size;
-            }
-            catch (Exception ex)
-            {
-                String errmes = MessageResLib.ErrShowPropEdit;
-                Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
-            }
+            panel1.ClientSize = panel1.Size;
         }
 
         /// <summary>
@@ -1127,9 +1119,9 @@ namespace EcellLib
                     {
                         key = c.Text;
                         if (c.Text == "")
-                        {                           
+                        {
                             Util.ShowWarningDialog(String.Format(MessageResLib.ErrNoSet,
-                                new object [] { "ID" }));
+                                new object[] { "ID" }));
                             return;
                         }
                         else if (c.Text.ToUpper() == "SIZE")
@@ -1138,13 +1130,13 @@ namespace EcellLib
                                 new object[] { "SIZE" }));
                             return;
                         }
-                        else if (m_currentObj.Type.Equals(EcellObject.SYSTEM) && 
+                        else if (m_currentObj.Type.Equals(EcellObject.SYSTEM) &&
                             Util.IsNGforSystemFullID(c.Text))
                         {
                             Util.ShowWarningDialog(MessageResLib.ErrInvalidID);
                             return;
                         }
-                        else if (!m_currentObj.Type.Equals(EcellObject.SYSTEM) && 
+                        else if (!m_currentObj.Type.Equals(EcellObject.SYSTEM) &&
                             Util.IsNGforComponentFullID(c.Text))
                         {
                             Util.ShowWarningDialog(MessageResLib.ErrInvalidID);
@@ -1423,7 +1415,7 @@ namespace EcellLib
             data.Logged = false;
             data.Saveable = true;
             data.Settable = true;
-            
+
             m_propDict.Add(name, data);
 
             Control cnt = null;
@@ -1431,60 +1423,62 @@ namespace EcellLib
             layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
             layoutPanel.RowCount = m_propDict.Keys.Count + 5;
 
-            try {
+            try
+            {
                 IEnumerator iter = layoutPanel.Controls.GetEnumerator();
-                    while (iter.MoveNext())
+                while (iter.MoveNext())
+                {
+                    Control c = (Control)iter.Current;
+                    if (c == null) continue;
+                    TableLayoutPanelCellPosition pos =
+                        layoutPanel.GetPositionFromControl(c);
+                    if (pos.Column != 2) continue;
+                    if (c.Tag.Equals("Add Property"))
                     {
-                        Control c = (Control)iter.Current;
-                        if (c == null) continue;
-                        TableLayoutPanelCellPosition pos =
-                            layoutPanel.GetPositionFromControl(c);
-                        if (pos.Column != 2) continue;
-                        if (c.Tag.Equals("Add Property"))
-                        {
-                            layoutPanel.Controls.Remove(c);
-                            layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                        layoutPanel.Controls.Remove(c);
+                        layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
 
-                            CheckBox chk = new CheckBox();
-                            chk.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                            chk.Text = "";
-                            chk.AutoSize = true;
-                            chk.Checked = false;
-                            chk.Enabled = false;
-                            layoutPanel.Controls.Add(chk, 0, pos.Row);
+                        CheckBox chk = new CheckBox();
+                        chk.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                        chk.Text = "";
+                        chk.AutoSize = true;
+                        chk.Checked = false;
+                        chk.Enabled = false;
+                        layoutPanel.Controls.Add(chk, 0, pos.Row);
 
-                            Label l = new Label();
-                            l.Text = name;
-                            l.Dock = DockStyle.Fill;
-                            layoutPanel.Controls.Add(l, 1, pos.Row);
+                        Label l = new Label();
+                        l.Text = name;
+                        l.Dock = DockStyle.Fill;
+                        layoutPanel.Controls.Add(l, 1, pos.Row);
 
-                            TextBox t = new TextBox();
-                            t.Text = "";
-                            t.Tag = name;
-                            t.Dock = DockStyle.Fill;
-                            t.Text = "0.0";
-                            layoutPanel.Controls.Add(t, 2, pos.Row);
+                        TextBox t = new TextBox();
+                        t.Text = "";
+                        t.Tag = name;
+                        t.Dock = DockStyle.Fill;
+                        t.Text = "0.0";
+                        layoutPanel.Controls.Add(t, 2, pos.Row);
 
-                            Button b = new Button();
-                            b.Text = "Delete";
-                            b.Tag = name;
-                            b.Dock = DockStyle.Fill;
-                            b.Click += new EventHandler(DeletePropertyForProcess);
-                            layoutPanel.Controls.Add(b, 3, pos.Row);
+                        Button b = new Button();
+                        b.Text = "Delete";
+                        b.Tag = name;
+                        b.Dock = DockStyle.Fill;
+                        b.Click += new EventHandler(DeletePropertyForProcess);
+                        layoutPanel.Controls.Add(b, 3, pos.Row);
 
-                            layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                            Button b1 = new Button();
-                            b1.Text = "Add Property";
-                            b1.Tag = "Add Property";
-                            b1.Dock = DockStyle.Fill;
-                            b1.Click += new EventHandler(AddPropertyForProcess);
-                            layoutPanel.Controls.Add(b1, 2, pos.Row + 1);
+                        layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                        Button b1 = new Button();
+                        b1.Text = "Add Property";
+                        b1.Tag = "Add Property";
+                        b1.Dock = DockStyle.Fill;
+                        b1.Click += new EventHandler(AddPropertyForProcess);
+                        layoutPanel.Controls.Add(b1, 2, pos.Row + 1);
 
-                            break;
-                        }
+                        break;
                     }
+                }
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 ex.ToString();
             }

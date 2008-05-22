@@ -228,26 +228,11 @@
   <data name="ErrSetSimParam" xml:space="preserve">
     <value>Can not set the simulation parameter.</value>
   </data>
-  <data name="ErrSetStepper" xml:space="preserve">
-    <value>Can not update the stepper,</value>
-  </data>
-  <data name="ErrShowPropEdit" xml:space="preserve">
-    <value>Get exception while system show the property editor.</value>
-  </data>
-  <data name="ErrShowPropEditor" xml:space="preserve">
-    <value>Fail to show property editor.\nPlease confirm the property of object.\n</value>
-  </data>
-  <data name="ErrSimParam" xml:space="preserve">
-    <value>Can not get simulation parameter.</value>
-  </data>
   <data name="ErrSimPropData" xml:space="preserve">
     <value>Can not the value of property {0} under the simulation.</value>
   </data>
   <data name="ErrSuspendSim" xml:space="preserve">
     <value>Can not suspend the simulation.</value>
-  </data>
-  <data name="ErrUpdate" xml:space="preserve">
-    <value>Could not update {0}.</value>
   </data>
   <data name="ErrUpdateLogPol" xml:space="preserve">
     <value>Can not set the policy of logger.</value>
@@ -272,6 +257,12 @@
   </data>
   <data name="InfoSavePrj" xml:space="preserve">
     <value>Save the project {0}.</value>
+  </data>
+  <data name="InfoSuspend" xml:space="preserve">
+    <value>Suspend the simulation [{0}.</value>
+  </data>
+  <data name="InfoUpdateLogPol" xml:space="preserve">
+    <value>Update the policy of logging {0}.</value>
   </data>
   <data name="NameSimParam" xml:space="preserve">
     <value>simulation parameter</value>

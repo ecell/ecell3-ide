@@ -4815,19 +4815,9 @@ namespace EcellLib
         /// <param name="l_loggerPolicy">The "LoggerPolicy"</param>
         public void SetLoggerPolicy(string l_parameterID, ref LoggerPolicy l_loggerPolicy)
         {
-            string l_message = null;
-            try
-            {
-                l_message = "[" + l_parameterID + "]";
                 m_currentProject.LoggerPolicyDic[l_parameterID] = l_loggerPolicy;
-                Trace.WriteLine("Update Logger Policy: " + l_message);
-            }
-            catch (Exception l_ex)
-            {
-                l_message = MessageResLib.ErrUpdateLogPol + l_message;
-                Trace.WriteLine(l_ex);
-                throw new Exception(l_message);
-            }
+                Trace.WriteLine(String.Format(MessageResLib.InfoUpdateLogPol,
+                    new object[] { l_parameterID }));
         }
 
         /// <summary>
@@ -4955,9 +4945,9 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                l_message = MessageResLib.ErrSetSimParam + l_message;
+                l_message = MessageResLib.ErrSetSimParam;
                 Trace.WriteLine(l_message);
-                throw new Exception(l_message + " {" + l_ex.ToString() + "}");
+                throw new Exception(l_message, l_ex);
             }
         }
 
@@ -5217,12 +5207,14 @@ namespace EcellLib
             {
                 m_currentProject.Simulator.Suspend();
                 m_currentProject.SimulationStatus = SimulationStatus.Suspended;
-                Trace.WriteLine("Suspend Simulator: [" + m_currentProject.Simulator.GetCurrentTime() + "]");
+                Trace.WriteLine(String.Format(MessageResLib.InfoSuspend,
+                    new object[] { m_currentProject.Simulator.GetCurrentTime() }));
             }
             catch (Exception l_ex)
             {
-                Trace.WriteLine(l_ex);
-                throw new Exception(MessageResLib.ErrSuspendSim, l_ex);
+                string l_message = MessageResLib.ErrSuspendSim;
+                Trace.WriteLine(l_message);
+                throw new Exception(l_message, l_ex);
             }
         }
 
@@ -5327,10 +5319,10 @@ namespace EcellLib
             }
             catch (Exception l_ex)
             {
-                throw new Exception(MessageResLib.ErrSetStepper + l_message, l_ex);
+                throw new Exception(MessageResLib.ErrSetSimParam, l_ex);
             }
             if (!l_updateFlag)
-                throw new Exception(MessageResLib.ErrSetStepper);
+                throw new Exception(MessageResLib.ErrSetSimParam);
         }
         /// <summary>
         /// 

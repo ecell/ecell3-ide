@@ -136,10 +136,10 @@
     <value>ファイル {0} を作成できません。</value>
   </data>
   <data name="ErrCrePrj" xml:space="preserve">
-    <value>プロジェクト {0} を作成できませんでした。</value>
+    <value>プロジェクト {0} を作成できません。</value>
   </data>
   <data name="ErrCreSimParam" xml:space="preserve">
-    <value>シミュレーションパラメータ {0} の作成に失敗しました。</value>
+    <value>シミュレーションパラメータ {0} を作成できません。</value>
   </data>
   <data name="ErrDelete" xml:space="preserve">
     <value>{0} を削除できません。</value>
@@ -172,7 +172,7 @@
     <value>エンティティ {0} のプロパティを取得できません。</value>
   </data>
   <data name="ErrInitSim" xml:space="preserve">
-    <value>シミュレーターの初期化に失敗しました。</value>
+    <value>シミュレーターを初期化できません。</value>
   </data>
   <data name="ErrInvalidID" xml:space="preserve">
     <value>ID文字列が不正です。</value>
@@ -226,31 +226,16 @@
     <value>プロパティ {1} を設定できません。</value>
   </data>
   <data name="ErrSetSimParam" xml:space="preserve">
-    <value>シミュレーションパラメータの設定に失敗しました。</value>
-  </data>
-  <data name="ErrSetStepper" xml:space="preserve">
-    <value>ステッパーの更新に失敗しました。</value>
-  </data>
-  <data name="ErrShowPropEdit" xml:space="preserve">
-    <value>プロパティ編集ダイアログの表示に失敗しました。</value>
-  </data>
-  <data name="ErrShowPropEditor" xml:space="preserve">
-    <value>プロパティ編集ダイアログの表示に失敗しました。\n表示するオブジェクトを確認してください。</value>
-  </data>
-  <data name="ErrSimParam" xml:space="preserve">
-    <value>シミュレーションパラメータの取得に失敗しました。</value>
+    <value>シミュレーションパラメータを設定できません。</value>
   </data>
   <data name="ErrSimPropData" xml:space="preserve">
     <value>シミュレーション中のプロパティ {0} の値を取得できません。</value>
   </data>
   <data name="ErrSuspendSim" xml:space="preserve">
-    <value>シミュレーションを一時停止できませんでした。</value>
-  </data>
-  <data name="ErrUpdate" xml:space="preserve">
-    <value>{0}の更新に失敗しました。</value>
+    <value>シミュレーションを一時停止できません。</value>
   </data>
   <data name="ErrUpdateLogPol" xml:space="preserve">
-    <value>ロガーポリシーの設定に失敗しました。</value>
+    <value>ロガーポリシーを設定できません。</value>
   </data>
   <data name="InfoAdd" xml:space="preserve">
     <value>{0} を作成しました({1}).</value>
@@ -272,6 +257,12 @@
   </data>
   <data name="InfoSavePrj" xml:space="preserve">
     <value>プロジェクト {0} を保存しました。</value>
+  </data>
+  <data name="InfoSuspend" xml:space="preserve">
+    <value>シミュレーション一時停止 [ {0} ].</value>
+  </data>
+  <data name="InfoUpdateLogPol" xml:space="preserve">
+    <value>{0} のロガーポリシーを設定しました。</value>
   </data>
   <data name="NameSimParam" xml:space="preserve">
     <value>シミュレーションパラメータ</value>
