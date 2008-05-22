@@ -239,7 +239,6 @@ namespace EcellLib.PathwayWindow
             catch (Exception e)
             {
                 Debug.WriteLine(e.StackTrace);
-                //MessageBox.Show(m_resources.GetString("ErrNotComXml"), "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 CreateDefaultSettings();
                 return;
             }
@@ -589,19 +588,25 @@ namespace EcellLib.PathwayWindow
             // Create component.
             foreach (XmlNode componentNode in componentList.ChildNodes)
             {
-                ComponentSetting cs = new ComponentSetting();
-                try
-                {
-                    string type = componentNode.Attributes[PathwayConstants.xPathType].Value;
-                    string isDefault = componentNode.Attributes[PathwayConstants.xPathIsDafault].Value;
-                    cs.ComponentType = ParseStringToComponentType(type);
-                    cs.IsDefault = bool.Parse(isDefault);
-                }
-                catch (NoSuchComponentKindException e)
-                {
-                    Util.ShowWarningDialog(MessageResPathway.ErrCreateKind + "\n\n" + e.Message);
-                    continue;
-                }
+                ComponentSetting cs = LoadComponentSetting(componentNode);
+                list.Add(cs);
+            }
+            return list;
+        }
+        /// <summary>
+        /// LoadComponentSetting
+        /// </summary>
+        /// <param name="componentNode"></param>
+        /// <returns></returns>
+        private static ComponentSetting LoadComponentSetting(XmlNode componentNode)
+        {
+            ComponentSetting cs = new ComponentSetting();
+            try
+            {
+                string type = componentNode.Attributes[PathwayConstants.xPathType].Value;
+                string isDefault = componentNode.Attributes[PathwayConstants.xPathIsDafault].Value;
+                cs.ComponentType = ParseStringToComponentType(type);
+                cs.IsDefault = bool.Parse(isDefault);
 
                 foreach (XmlNode parameterNode in componentNode.ChildNodes)
                 {
@@ -619,54 +624,63 @@ namespace EcellLib.PathwayWindow
                     }
                     else if (parameterNode.Name.Equals(PathwayConstants.xPathFigure))
                     {
-                        foreach (XmlNode figureNode in parameterNode.ChildNodes)
-                        {
-                            if (figureNode.Name.Equals(PathwayConstants.xPathSize))
-                            {
-                                cs.Figure = FigureManager.CreateFigure(parameterNode.Attributes[PathwayConstants.xPathType].Value, figureNode.InnerText);
-                            }
-                            else if (figureNode.Name.Equals(PathwayConstants.xPathTextBrush))
-                            {
-                                Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
-                                if (brush != null)
-                                {
-                                    cs.TextBrush = brush;
-                                }
-                            }
-                            else if (figureNode.Name.Equals(PathwayConstants.xPathLineBrush))
-                            {
-                                Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
-                                if (brush != null)
-                                {
-                                    cs.LineBrush = brush;
-                                }
-                            }
-                            else if (figureNode.Name.Equals(PathwayConstants.xPathFillBrush))
-                            {
-                                Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
-                                if (brush != null)
-                                {
-                                    cs.FillBrush = brush;
-                                }
-                            }
-                            else if (figureNode.Name.Equals(PathwayConstants.xPathCenterBrush))
-                            {
-                                Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
-                                if (brush != null)
-                                {
-                                    cs.CenterBrush = brush;
-                                }
-                            }
-                            else if (figureNode.Name.Equals(PathwayConstants.xPathIsGradation))
-                            {
-                                cs.IsGradation = bool.Parse(figureNode.InnerText);
-                            }
-                        }
+                        LoadFigure(cs, parameterNode);
                     }
                 }
-                list.Add(cs);
             }
-            return list;
+            catch (Exception e)
+            {
+                throw new PathwayException(MessageResPathway.ErrCreateComponent, e);
+            }
+
+            return cs;
+        }
+
+        private static void LoadFigure(ComponentSetting cs, XmlNode parameterNode)
+        {
+            foreach (XmlNode figureNode in parameterNode.ChildNodes)
+            {
+                if (figureNode.Name.Equals(PathwayConstants.xPathSize))
+                {
+                    cs.Figure = FigureManager.CreateFigure(parameterNode.Attributes[PathwayConstants.xPathType].Value, figureNode.InnerText);
+                }
+                else if (figureNode.Name.Equals(PathwayConstants.xPathTextBrush))
+                {
+                    Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
+                    if (brush != null)
+                    {
+                        cs.TextBrush = brush;
+                    }
+                }
+                else if (figureNode.Name.Equals(PathwayConstants.xPathLineBrush))
+                {
+                    Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
+                    if (brush != null)
+                    {
+                        cs.LineBrush = brush;
+                    }
+                }
+                else if (figureNode.Name.Equals(PathwayConstants.xPathFillBrush))
+                {
+                    Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
+                    if (brush != null)
+                    {
+                        cs.FillBrush = brush;
+                    }
+                }
+                else if (figureNode.Name.Equals(PathwayConstants.xPathCenterBrush))
+                {
+                    Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
+                    if (brush != null)
+                    {
+                        cs.CenterBrush = brush;
+                    }
+                }
+                else if (figureNode.Name.Equals(PathwayConstants.xPathIsGradation))
+                {
+                    cs.IsGradation = bool.Parse(figureNode.InnerText);
+                }
+            }
         }
 
         /// <summary>

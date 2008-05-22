@@ -47,5 +47,14 @@ namespace EcellLib.PathwayWindow.Exceptions
             : base(message)
         {
         }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="e"></param>
+        public PathwayException(string message, Exception e)
+            : base(message, e)
+        {
+        }
     }
 }

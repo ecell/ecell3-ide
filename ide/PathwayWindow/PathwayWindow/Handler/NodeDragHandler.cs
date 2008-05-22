@@ -240,7 +240,9 @@ namespace EcellLib.PathwayWindow.Handler
                 // Reset if system is duplicated.
                 else if (!oldSysKey.Equals(newSysKey) && m_canvas.Systems.ContainsKey(newSysKey))
                 {
-                    Util.ShowErrorDialog(newSysKey + MessageResPathway.ErrAlrExist);
+                    Util.ShowErrorDialog(string.Format(
+                        MessageResPathway.ErrAlrExist,
+                        new object[] { newSysKey }));
                     system.ResetPosition();
                     system.IsInvalid = false;
                 }
@@ -293,7 +295,9 @@ namespace EcellLib.PathwayWindow.Handler
                 else if (!newSystem.Equals(node.EcellObject.ParentSystemID)
                     && m_canvas.GetSelectedObject(newKey, node.EcellObject.Type) != null)
                 {
-                    Util.ShowErrorDialog(node.EcellObject.Name + ":" + MessageResPathway.ErrAlrExist);
+                    Util.ShowErrorDialog(string.Format(
+                        MessageResPathway.ErrAlrExist,
+                        new object[] { node.EcellObject.Name }));
                     isError = true;
                     continue;
                 }

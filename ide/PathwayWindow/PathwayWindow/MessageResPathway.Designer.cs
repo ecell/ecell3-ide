@@ -396,36 +396,9 @@ namespace EcellLib.PathwayWindow {
         /// <summary>
         ///   Fail to convert the information to component object. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ErrCreateKind {
+        internal static string ErrCreateComponent {
             get {
-                return ResourceManager.GetString("ErrCreateKind", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Can not delete the root system. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrDelRoot {
-            get {
-                return ResourceManager.GetString("ErrDelRoot", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   No set the object id. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrKeyNot {
-            get {
-                return ResourceManager.GetString("ErrKeyNot", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Layer does not exist. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrLayerNot {
-            get {
-                return ResourceManager.GetString("ErrLayerNot", resourceCulture);
+                return ResourceManager.GetString("ErrCreateComponent", resourceCulture);
             }
         }
         
@@ -457,24 +430,6 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
-        ///   Can&apos;t find ComponentSettings.xml file in the &lt;ECell-HOME&gt;&quot;\\plugins\\pathway directory に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrNotComXml {
-            get {
-                return ResourceManager.GetString("ErrNotComXml", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Canvas ID is not set for  に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrNotSetCanvas {
-            get {
-                return ResourceManager.GetString("ErrNotSetCanvas", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Can not create an object outside the root system に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrOutRoot {
@@ -493,15 +448,6 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
-        ///   There are the objects that have the same ID. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrSameObj {
-            get {
-                return ResourceManager.GetString("ErrSameObj", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Fail to save EcellObject position settings. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSaveLEML {
@@ -516,15 +462,6 @@ namespace EcellLib.PathwayWindow {
         internal static string ErrSystemOverlap {
             get {
                 return ResourceManager.GetString("ErrSystemOverlap", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toolbox is available only with a select mode. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrToolBox {
-            get {
-                return ResourceManager.GetString("ErrToolBox", resourceCulture);
             }
         }
         

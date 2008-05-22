@@ -957,11 +957,6 @@ namespace EcellLib.PathwayWindow
                 // Return if system is null or root.
                 if (string.IsNullOrEmpty(system.EcellObject.Key))
                     return;
-                if (system.EcellObject.Key.Equals("/"))
-                {
-                    Util.ShowErrorDialog(MessageResPathway.ErrDelRoot);
-                    return;
-                }
                 // Delete sys.
                 m_con.NotifyDataDelete(system.EcellObject, true);
                 canvas.ResetSelectedSystem();

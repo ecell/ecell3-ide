@@ -331,8 +331,8 @@ namespace EcellLib.PathwayWindow
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.StackTrace);
-                throw new PathwayException(MessageResPathway.ErrUnknowType + "\n" + e.StackTrace);
+                Debug.WriteLine(e.StackTrace);
+                throw new PathwayException(MessageResPathway.ErrUnknowType, e);
             }
         }
         /// <summary>
@@ -417,10 +417,8 @@ namespace EcellLib.PathwayWindow
                 return;
             }
             // Error check.
-            if (string.IsNullOrEmpty(eo.Key))
-                throw new PathwayException(MessageResPathway.ErrKeyNot);
-            if (string.IsNullOrEmpty(eo.ModelID) || !m_canvas.ModelID.Equals(eo.ModelID))
-                throw new PathwayException(MessageResPathway.ErrNotSetCanvas + eo.Key);
+            Debug.Assert(string.IsNullOrEmpty(eo.Key));
+            Debug.Assert(string.IsNullOrEmpty(eo.ModelID) || !m_canvas.ModelID.Equals(eo.ModelID));
             if (eo.Key.EndsWith(":SIZE"))
                 return;
 

@@ -205,7 +205,9 @@ namespace EcellLib.PathwayWindow.Handler
                     continue;
                 // If duplicated object exists.
                 ResetSystemResize();
-                Util.ShowErrorDialog(MessageResPathway.ErrSameObj);
+                Util.ShowErrorDialog(string.Format(
+                        MessageResPathway.ErrAlrExist,
+                        new object[] { obj.EcellObject.Name }));
                 return;
             }
             string parentKey = m_obj.EcellObject.ParentSystemID;
@@ -220,7 +222,9 @@ namespace EcellLib.PathwayWindow.Handler
                     continue;
                 // If duplicated object exists.
                 ResetSystemResize();
-                Util.ShowErrorDialog(MessageResPathway.ErrSameObj);
+                Util.ShowErrorDialog(string.Format(
+                        MessageResPathway.ErrAlrExist,
+                        new object[] { obj.EcellObject.Name }));
                 return;
             }
 

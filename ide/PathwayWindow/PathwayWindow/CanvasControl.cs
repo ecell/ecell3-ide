@@ -658,14 +658,18 @@ namespace EcellLib.PathwayWindow
             {
                 PPathwayProcess node = (PPathwayProcess)obj;
                 if (m_processes.ContainsKey(node.EcellObject.Key))
-                    throw new PathwayException(MessageResPathway.ErrSameObj);
+                    throw new PathwayException(string.Format(
+                        MessageResPathway.ErrAlrExist,
+                        new object[] { node.EcellObject.Key }));
                 m_processes.Add(node.EcellObject.Key, node);
             }
             else if (obj is PPathwayText)
             {
                 PPathwayText node = (PPathwayText)obj;
                 if (m_processes.ContainsKey(node.EcellObject.Key))
-                    throw new PathwayException(MessageResPathway.ErrSameObj);
+                    throw new PathwayException(string.Format(
+                        MessageResPathway.ErrAlrExist,
+                        new object[] { node.EcellObject.Key }));
                 m_texts.Add(node.EcellObject.Key, node);
             }
             if (obj.Canvas == null)

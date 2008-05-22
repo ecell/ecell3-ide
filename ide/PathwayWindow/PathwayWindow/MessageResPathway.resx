@@ -129,32 +129,17 @@
   <data name="ErrCompInvalid" xml:space="preserve">
     <value>ComponentSettings.xml is imcomplete for the following reason</value>
   </data>
-  <data name="ErrCreateKind" xml:space="preserve">
+  <data name="ErrCreateComponent" xml:space="preserve">
     <value>Fail to convert the information to component object.</value>
-  </data>
-  <data name="ErrDelRoot" xml:space="preserve">
-    <value>Can not delete the root system.</value>
-  </data>
-  <data name="ErrKeyNot" xml:space="preserve">
-    <value>No set the object id.</value>
   </data>
   <data name="ErrLayout" xml:space="preserve">
     <value>Can't execute this layout due to an unexpected error, sorry.</value>
-  </data>
-  <data name="ErrNotComXml" xml:space="preserve">
-    <value>Can't find ComponentSettings.xml file in the &lt;ECell-HOME&gt;"\\plugins\\pathway directory</value>
-  </data>
-  <data name="ErrNotSetCanvas" xml:space="preserve">
-    <value>Canvas ID is not set for </value>
   </data>
   <data name="ErrOutRoot" xml:space="preserve">
     <value>Can not create an object outside the root system</value>
   </data>
   <data name="ErrOverSystem" xml:space="preserve">
     <value>A system can't be overlapping other systems</value>
-  </data>
-  <data name="ErrSameObj" xml:space="preserve">
-    <value>There are the objects that have the same ID.</value>
   </data>
   <data name="ErrUnknowType" xml:space="preserve">
     <value>The added object have the unknown type.</value>
@@ -189,17 +174,11 @@
   <data name="LayerMenuChange" xml:space="preserve">
     <value>Change Layer</value>
   </data>
-  <data name="ErrLayerNot" xml:space="preserve">
-    <value>Layer does not exist.</value>
-  </data>
   <data name="MenuItemViewMode" xml:space="preserve">
     <value>View Mode</value>
   </data>
   <data name="LayerMenuSelectNodes" xml:space="preserve">
     <value>Select nodes under...</value>
-  </data>
-  <data name="CanvasMenuBidirArrow" xml:space="preserve">
-    <value>Process &lt;-&gt; Variable</value>
   </data>
   <data name="CanvasMenuChangeLayer" xml:space="preserve">
     <value>Change Layer</value>
@@ -257,9 +236,6 @@
   </data>
   <data name="MenuToolTipSetup" xml:space="preserve">
     <value>Show PropertyDialog of PathwayWindow.</value>
-  </data>
-  <data name="ErrToolBox" xml:space="preserve">
-    <value>Toolbox is available only with a select mode.</value>
   </data>
   <data name="ErrSystemOverlap" xml:space="preserve">
     <value>There is no space to create new system.</value>
@@ -392,5 +368,8 @@
   </data>
   <data name="ErrLoadWindowSettings" xml:space="preserve">
     <value>Failed to load window settings</value>
+  </data>
+  <data name="CanvasMenuBidirArrow" xml:space="preserve">
+    <value>Process &lt;-&gt; Variable</value>
   </data>
 </root>

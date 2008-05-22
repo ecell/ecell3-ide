@@ -39,6 +39,7 @@ using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using EcellLib.PathwayWindow.Dialog;
+using System.Diagnostics;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -460,11 +461,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             string newName = SelectBoxDialog.Show(MessageResPathway.LayerDialogMessage, MessageResPathway.LayerDialogTitle, list);
             if (newName == null || newName.Equals(""))
                 return;
-            if (!canvas.Layers.ContainsKey(newName))
-            {
-                Util.ShowNoticeDialog(MessageResPathway.ErrLayerNot);
-                return;
-            }
+            Debug.Assert(!canvas.Layers.ContainsKey(newName));
 
             canvas.MergeLayer(oldName, newName);
         }
