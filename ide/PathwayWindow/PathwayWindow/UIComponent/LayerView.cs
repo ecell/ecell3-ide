@@ -126,10 +126,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// Selected DataRow.
         /// </summary>
         private DataGridViewRow m_selectedRow = null;
-        /// <summary>
-        /// ResourceManager for PathwayWindow.
-        /// </summary>
-        ComponentResourceManager m_resources;
         #endregion
 
         #region Constructor
@@ -140,13 +136,12 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             base.m_isSavable = true;
             this.m_con = control;
-            this.m_resources = control.Resources;
             this.m_con.CanvasChange += new EventHandler(m_con_CanvasChange);
             InitializeComponent();
             // Preparing context menus.
             m_dgv.ContextMenuStrip = CreatePopUpMenus();
             m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(m_dgv_EditingControlShowing);
-            this.Text = m_resources.GetString(PathwayConstants.WindowLayer);
+            this.Text = MessageResPathway.WindowLayer;
             this.TabText = this.Text;
         }
 
@@ -245,19 +240,19 @@ namespace EcellLib.PathwayWindow.UIComponent
             ContextMenuStrip nodeMenu = new ContextMenuStrip();
 
             ToolStripItem menuSelectNodes = new ToolStripMenuItem(MenuSelectNode);
-            menuSelectNodes.Text = m_resources.GetString(MenuSelectNode);
+            menuSelectNodes.Text = MessageResPathway.LayerMenuSelectNodes;
             menuSelectNodes.Click += new EventHandler(SelectNodesClick);
             nodeMenu.Items.Add(menuSelectNodes);
             m_cMenuDict.Add(MenuSelectNode, menuSelectNodes);
 
             ToolStripItem menuMoveFront = new ToolStripMenuItem(MenuMoveFront);
-            menuMoveFront.Text = m_resources.GetString(MenuMoveFront);
+            menuMoveFront.Text = MessageResPathway.LayerMenuMoveFront;
             menuMoveFront.Click += new EventHandler(MoveFrontClick);
             nodeMenu.Items.Add(menuMoveFront);
             m_cMenuDict.Add(MenuMoveFront, menuMoveFront);
 
             ToolStripItem menuMoveBack = new ToolStripMenuItem(MenuMoveBack);
-            menuMoveBack.Text = m_resources.GetString(MenuMoveBack);
+            menuMoveBack.Text = MessageResPathway.LayerMenuMoveBack;
             menuMoveBack.Click += new EventHandler(MoveBackClick);
             nodeMenu.Items.Add(menuMoveBack);
             m_cMenuDict.Add(MenuMoveBack, menuMoveBack);
@@ -267,25 +262,25 @@ namespace EcellLib.PathwayWindow.UIComponent
             nodeMenu.Items.Add(separator);
 
             ToolStripItem menuCreateLayer = new ToolStripMenuItem(MenuCreate);
-            menuCreateLayer.Text = m_resources.GetString(MenuCreate);
+            menuCreateLayer.Text = MessageResPathway.LayerMenuCreate;
             menuCreateLayer.Click += new EventHandler(CreateLayerClick);
             nodeMenu.Items.Add(menuCreateLayer);
             m_cMenuDict.Add(MenuCreate, menuCreateLayer);
 
             ToolStripItem menuRenameLayer = new ToolStripMenuItem(MenuRename);
-            menuRenameLayer.Text = m_resources.GetString(MenuRename);
+            menuRenameLayer.Text = MessageResPathway.LayerMenuRename;
             menuRenameLayer.Click += new EventHandler(RenameLayerClick);
             nodeMenu.Items.Add(menuRenameLayer);
             m_cMenuDict.Add(MenuRename, menuRenameLayer);
 
             ToolStripItem menuMergeLayer = new ToolStripMenuItem(MenuMerge);
-            menuMergeLayer.Text = m_resources.GetString(MenuMerge);
+            menuMergeLayer.Text = MessageResPathway.LayerMenuMerge;
             menuMergeLayer.Click += new EventHandler(MergeLayerClick);
             nodeMenu.Items.Add(menuMergeLayer);
             m_cMenuDict.Add(MenuMerge, menuMergeLayer);
 
             ToolStripItem menuDeleteLayer = new ToolStripMenuItem(MenuDelete);
-            menuDeleteLayer.Text = m_resources.GetString(MenuDelete);
+            menuDeleteLayer.Text = MessageResPathway.LayerMenuDelete;
             menuDeleteLayer.Click += new EventHandler(DeleteLayerClick);
             nodeMenu.Items.Add(menuDeleteLayer);
             m_cMenuDict.Add(MenuDelete, menuDeleteLayer);
@@ -440,7 +435,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             CanvasControl canvas = m_con.Canvas;
             string oldName = (string)m_selectedRow.Cells[1].FormattedValue;
-            string newName = InputBoxDialog.Show(m_resources.GetString(DialogMessage), m_resources.GetString(DialogTitle), oldName);
+            string newName = InputBoxDialog.Show(MessageResPathway.LayerDialogMessage, MessageResPathway.LayerDialogTitle, oldName);
             if (newName == null || newName.Equals(""))
                 return;
             if (canvas.Layers.ContainsKey(newName))
@@ -462,7 +457,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             string oldName = (string)m_selectedRow.Cells[1].FormattedValue;
             CanvasControl canvas = m_con.Canvas;
             List<string> list = canvas.GetLayerNameList();
-            string newName = SelectBoxDialog.Show(m_resources.GetString(DialogMessage), m_resources.GetString(DialogTitle), list);
+            string newName = SelectBoxDialog.Show(MessageResPathway.LayerDialogMessage, MessageResPathway.LayerDialogTitle, list);
             if (newName == null || newName.Equals(""))
                 return;
             if (!canvas.Layers.ContainsKey(newName))

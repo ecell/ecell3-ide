@@ -64,11 +64,6 @@ namespace EcellLib.PathwayWindow.Handler
         /// the delta of moving.
         /// </summary>
         private SizeF m_movingDelta = new SizeF(0, 0);
-
-        /// <summary>
-        /// ResourceManager for PathwayWindow.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
         #endregion
 
         /// <summary>

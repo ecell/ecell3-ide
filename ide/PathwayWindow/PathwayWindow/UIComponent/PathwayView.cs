@@ -77,7 +77,7 @@ namespace EcellLib.PathwayWindow.UIComponent
 
             InitializeComponent();
 
-            this.Text = m_con.Resources.GetString(PathwayConstants.WindowPathway);
+            this.Text = MessageResPathway.WindowPathway;
             this.TabText = this.Text;
         }
         #endregion
@@ -91,7 +91,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void m_con_CanvasChange(object sender, EventArgs e)
         {
             this.Controls.Clear();
-            this.Text = m_con.Resources.GetString(PathwayConstants.WindowPathway);
+            this.Text = MessageResPathway.WindowPathway;
             this.TabText = this.Text;
             if (m_con.Canvas == null)
                 return;

@@ -123,10 +123,6 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         protected PathwayControl m_con = null;
         /// <summary>
-        /// ResourceManager for PathwayWindow.
-        /// </summary>
-        private ComponentResourceManager m_resources;
-        /// <summary>
         /// CanvasControl.
         /// </summary>
         protected CanvasControl m_canvas = null;
@@ -146,15 +142,6 @@ namespace EcellLib.PathwayWindow
         #endregion
 
         #region Accessors
-        /// <summary>
-        /// MessageResourses
-        /// </summary>
-        public ComponentResourceManager Resources
-        {
-            get { return m_resources; }
-            set { m_resources = value; }
-        }
-
         /// <summary>
         /// Get/Set m_thresholdHigh
         /// </summary>
@@ -282,7 +269,6 @@ namespace EcellLib.PathwayWindow
         {
             m_con = control;
             LoadSettings();
-            m_resources = control.Resources;
             m_dManager = m_con.Window.DataManager;
             // Set Timer.
             m_time = new Timer();
@@ -853,9 +839,9 @@ namespace EcellLib.PathwayWindow
                 m_control = control;
 
                 // set Brushes
-                this.m_bgBrushItem = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextBackgroundBrush), control.EditBGBrush);
-                this.m_edgeWidth = new PropertyTextItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeWidth), control.EdgeWidth.ToString());
-                this.m_edgeBrushItem = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.EditEdgeBrush);
+                this.m_bgBrushItem = new PropertyBrushItem(MessageResPathway.DialogTextBackgroundBrush, control.EditBGBrush);
+                this.m_edgeWidth = new PropertyTextItem(MessageResPathway.DialogTextEdgeWidth, control.EdgeWidth.ToString());
+                this.m_edgeBrushItem = new PropertyBrushItem(MessageResPathway.DialogTextEdgeBrush, control.EditEdgeBrush);
                 this.SuspendLayout();
                 // 
                 // Initialize
@@ -865,7 +851,7 @@ namespace EcellLib.PathwayWindow
                 this.Controls.Add(this.m_bgBrushItem);
                 this.Controls.Add(this.m_edgeBrushItem);
                 this.Controls.Add(this.m_edgeWidth);
-                this.Text = m_control.Resources.GetString(AnimationConstants.DialogTextEditMode);
+                this.Text = MessageResPathway.DialogTextEditMode;
                 this.TabStop = false;
 
                 // Set Position
@@ -902,9 +888,9 @@ namespace EcellLib.PathwayWindow
             {
                 m_control = control;
                 // set Brushes
-                m_bgBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextBackgroundBrush), control.ViewBGBrush);
-                m_edgeBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.ViewEdgeBrush);
-                m_edgeWidth = new PropertyTextItem(m_control.Resources.GetString(AnimationConstants.DialogTextMaxEdgeWidth), control.MaxEdgeWidth.ToString());
+                m_bgBrush = new PropertyBrushItem(MessageResPathway.DialogTextBackgroundBrush, control.ViewBGBrush);
+                m_edgeBrush = new PropertyBrushItem(MessageResPathway.DialogTextEdgeBrush, control.ViewEdgeBrush);
+                m_edgeWidth = new PropertyTextItem(MessageResPathway.DialogTextMaxEdgeWidth, control.MaxEdgeWidth.ToString());
 
                 this.SuspendLayout();
                 // 
@@ -915,7 +901,7 @@ namespace EcellLib.PathwayWindow
                 this.Controls.Add(m_bgBrush);
                 this.Controls.Add(m_edgeBrush);
                 this.Controls.Add(m_edgeWidth);
-                this.Text = m_control.Resources.GetString(AnimationConstants.DialogTextViewMode);
+                this.Text = MessageResPathway.DialogTextViewMode;
                 this.TabStop = false;
 
                 // SetPosition 
@@ -956,13 +942,13 @@ namespace EcellLib.PathwayWindow
             {
                 m_control = control;
                 // set Brushes
-                m_thresholdHigh = new PropertyTextItem(m_control.Resources.GetString(AnimationConstants.DialogTextThresholdHigh), control.ThresholdHigh.ToString());
-                m_edgeHighBrush = new PropertyBrushItem("　　　" + m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.HighEdgeBrush);
-                m_thresholdLow = new PropertyTextItem(m_control.Resources.GetString(AnimationConstants.DialogTextThresholdLow), control.ThresholdLow.ToString());
-                m_edgeLowBrush = new PropertyBrushItem("　　　" + m_control.Resources.GetString(AnimationConstants.DialogTextEdgeBrush), control.LowEdgeBrush);
-                m_edgeNGBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextNGBrush), control.NgEdgeBrush);
-                m_propBrush = new PropertyBrushItem(m_control.Resources.GetString(AnimationConstants.DialogTextPropertyBrush), control.PropertyBrush);
-                m_lineCheckBox = new PropertyCheckBoxItem(m_control.Resources.GetString(AnimationConstants.DialogTextLogarithmic), control.IsLogarithmic);
+                m_thresholdHigh = new PropertyTextItem(MessageResPathway.DialogTextThresholdHigh, control.ThresholdHigh.ToString());
+                m_edgeHighBrush = new PropertyBrushItem("　　　" + MessageResPathway.DialogTextEdgeBrush, control.HighEdgeBrush);
+                m_thresholdLow = new PropertyTextItem(MessageResPathway.DialogTextThresholdLow, control.ThresholdLow.ToString());
+                m_edgeLowBrush = new PropertyBrushItem("　　　" + MessageResPathway.DialogTextEdgeBrush, control.LowEdgeBrush);
+                m_edgeNGBrush = new PropertyBrushItem(MessageResPathway.DialogTextNGBrush, control.NgEdgeBrush);
+                m_propBrush = new PropertyBrushItem(MessageResPathway.DialogTextPropertyBrush, control.PropertyBrush);
+                m_lineCheckBox = new PropertyCheckBoxItem(MessageResPathway.DialogTextLogarithmic, control.IsLogarithmic);
 
                 this.SuspendLayout();
                 // 
@@ -977,7 +963,7 @@ namespace EcellLib.PathwayWindow
                 this.Controls.Add(m_edgeNGBrush);
                 this.Controls.Add(m_propBrush);
                 this.Controls.Add(m_lineCheckBox);
-                this.Text = m_control.Resources.GetString(AnimationConstants.DialogTextAnimationSetting);
+                this.Text = MessageResPathway.DialogTextAnimationSetting;
                 this.TabStop = false;
 
                 // SetPosition 

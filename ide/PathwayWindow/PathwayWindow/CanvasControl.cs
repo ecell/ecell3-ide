@@ -389,7 +389,6 @@ namespace EcellLib.PathwayWindow
         {
             m_con = control;
             m_modelId = modelID;
-            m_resources = m_con.Resources;
 
             // Preparing PathwayViewCanvas
             m_pCanvas = new PPathwayCanvas(this);
@@ -647,14 +646,18 @@ namespace EcellLib.PathwayWindow
             {
                 PPathwaySystem system = (PPathwaySystem)obj;
                 if (m_systems.ContainsKey(system.EcellObject.Key))
-                    throw new PathwayException(m_resources.GetString(""));
+                    throw new PathwayException(string.Format(
+                        MessageResPathway.ErrAlrExist,
+                        new object[] { system.EcellObject.Key }));
                 m_systems.Add(system.EcellObject.Key, system);
             }
             else if (obj is PPathwayVariable)
             {
                 PPathwayVariable node = (PPathwayVariable)obj;
                 if (m_variables.ContainsKey(node.EcellObject.Key))
-                    throw new PathwayException(m_resources.GetString(""));
+                    throw new PathwayException(string.Format(
+                        MessageResPathway.ErrAlrExist,
+                        new object[] { node.EcellObject.Key }));
                 m_variables.Add(node.EcellObject.Key, node);
             }
             else if (obj is PPathwayProcess)

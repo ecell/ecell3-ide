@@ -46,11 +46,6 @@ namespace EcellLib.PathwayWindow.Handler
         /// PathwayControl
         /// </summary>
         protected PathwayControl m_con;
-
-        /// <summary>
-        /// ResourceManager for PathwayWindow.
-        /// </summary>
-        protected ComponentResourceManager m_resources;
         
         #endregion
 
@@ -84,7 +79,6 @@ namespace EcellLib.PathwayWindow.Handler
         public PPathwayInputEventHandler(PathwayControl control)
         {
             this.m_con = control;
-            this.m_resources = control.Resources;
         }
         #endregion
 

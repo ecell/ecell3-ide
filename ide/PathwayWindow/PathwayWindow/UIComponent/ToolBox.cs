@@ -55,7 +55,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             InitializeComponent();
             m_con = control;
             SetToolBoxItems();
-            this.Text = m_con.Resources.GetString(PathwayConstants.WindowToolbox);
+            this.Text = MessageResPathway.WindowToolbox;
             this.TabText = this.Text;
         }
 

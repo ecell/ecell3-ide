@@ -137,11 +137,6 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         private bool m_isViewMode = false;
 
-        /// <summary>
-        /// ResourceManager for PathwayWindow.
-        /// </summary>
-        ComponentResourceManager m_resources;
-
         #region Accessors
         /// <summary>
         ///  get/set PathwayWindow related this object.
@@ -208,15 +203,6 @@ namespace EcellLib.PathwayWindow
         {
             get { return m_animCon; }
             set { m_animCon = value; }
-        }
-
-        /// <summary>
-        /// MessageResourses
-        /// </summary>
-        public ComponentResourceManager Resources
-        {
-            get { return m_resources; }
-            set { m_resources = value; }
         }
         #endregion
 
@@ -304,7 +290,6 @@ namespace EcellLib.PathwayWindow
             this.m_window = window;
             // Create Internal object.
             m_canvas = null;
-            m_resources = new ComponentResourceManager(typeof(MessageResPathway));
             m_csManager = new ComponentManager();
             SetNodeIcons();
             // Create menus
@@ -413,7 +398,7 @@ namespace EcellLib.PathwayWindow
         {
             // Null check.
             if (eo == null)
-                throw new PathwayException(MessageResPathway.ErrAddObjNot);
+                return;
             // Ignore Stepper
             if (Constants.xpathStepper.Equals(eo.Type))
                 return;
@@ -1296,7 +1281,12 @@ namespace EcellLib.PathwayWindow
 
             // Set Layout.
             foreach (EcellObject system in systemList)
+            {
+                if (!system.isFixed)
+                    continue;
+                system.isFixed = false;
                 this.NotifyDataChanged(system.Key, system, isRecorded, false);
+            }
             int i = 0;
             foreach (EcellObject node in nodeList)
             {
