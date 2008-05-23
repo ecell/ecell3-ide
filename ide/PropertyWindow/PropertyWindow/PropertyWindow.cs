@@ -473,7 +473,6 @@ namespace EcellLib.PropertyWindow
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
             EcellDockContent dock = new EcellDockContent();
-            dock.Dock = DockStyle.Fill;
             dock.Name = "PropertyWindow";
             dock.Text = MessageResProperty.PropertyWindow;
             dock.TabText = dock.Text;

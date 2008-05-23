@@ -64,8 +64,9 @@ namespace EcellLib
             // 
             // EcellDockContent
             // 
-            this.ClientSize = new System.Drawing.Size(292, 273);
+            this.ClientSize = new System.Drawing.Size(392, 373);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Location = new System.Drawing.Point(50, 50);
             this.Name = "EcellDockContent";
             this.ResumeLayout(false);
 

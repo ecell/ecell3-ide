@@ -3,6 +3,7 @@ namespace EcellLib.MainWindow
     using System;
     using NUnit.Framework;
     using System.Collections.Generic;
+    using System.Windows.Forms;
 
     /// <summary>
     /// Test code for MainWindow

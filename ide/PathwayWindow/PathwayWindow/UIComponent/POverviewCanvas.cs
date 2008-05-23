@@ -38,6 +38,7 @@ using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
+using UMD.HCIL.Piccolo.Util;
 
 namespace EcellLib.PathwayWindow.UIComponent
 {
@@ -76,6 +77,10 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_transparentNode = PPath.CreateRectangle(-500, -500, 1300, 1300);
             m_transparentNode.Brush = new SolidBrush(Color.FromArgb(0, Color.White));
             m_transparentNode.Pickable = true;
+
+            this.AnimatingRenderQuality = RenderQuality.HighQuality;
+            this.DefaultRenderQuality = RenderQuality.HighQuality;
+            this.InteractingRenderQuality = RenderQuality.HighQuality;
 
             this.Camera.AddLayer(observedLayer);
             this.RemoveInputEventListener(this.PanEventHandler);
