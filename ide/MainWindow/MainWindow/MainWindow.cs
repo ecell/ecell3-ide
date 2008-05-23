@@ -216,10 +216,20 @@ namespace EcellLib.MainWindow
                     System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
                 m_currentDir = m_currentDir + "\\e-cell\\project";
             }
-
-            LoadAllPlugins();
+            // Load plugins
+            foreach (string pluginDir in Util.GetPluginDirs())
+            {
+                string[] files = Directory.GetFiles(
+                    pluginDir,
+                    Constants.delimiterWildcard + Constants.FileExtPlugin);
+                foreach (string fileName in files)
+                {
+                    LoadPlugin(fileName);
+                }
+            }
             m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
 
+            // Set menu availability.
             foreach (ToolStripItem tool in menustrip.Items)
             {
                 ToolStripMenuItem menu = (ToolStripMenuItem)tool;
@@ -228,30 +238,6 @@ namespace EcellLib.MainWindow
                 {
                     menu.Enabled = false;
                 }
-            }
-        }
-
-        /// <summary>
-        /// set base plugin data and load plugin.
-        /// </summary>
-        private void LoadAllPlugins()
-        {
-            List<string> pluginList = new List<string>();
-
-            foreach (string pluginDir in Util.GetPluginDirs())
-            {
-                string[] files = Directory.GetFiles(
-                    pluginDir,
-                    Constants.delimiterWildcard + Constants.FileExtPlugin);
-                foreach (string fileName in files)
-                {
-                    pluginList.Add(fileName);
-                }
-            }
-
-            foreach (string pName in pluginList)
-            {
-                LoadPlugin(pName);
             }
         }
 
@@ -685,7 +671,6 @@ namespace EcellLib.MainWindow
         {
             Trace.WriteLine("Create dock: " + content.Text);
             //Create New DockContent
-            content.Tag = content.Name;
             content.Pane = null;
             content.PanelPane = null;
             content.FloatPane = null;

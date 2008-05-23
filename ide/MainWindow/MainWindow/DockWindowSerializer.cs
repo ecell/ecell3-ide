@@ -350,7 +350,12 @@ namespace EcellLib.MainWindow {
             }
             catch (Exception e)
             {
-                throw new Exception(MessageResMain.ErrLoadWindowSettings, e);
+                foreach (DockContent content in dockPanel.Contents)
+                {
+                }
+
+                Debug.Print(e.StackTrace);
+                throw new Exception("Failed to load file: " + filename, e);
             }
             finally
             {
@@ -813,13 +818,13 @@ namespace EcellLib.MainWindow {
             DockContent dock = window.GetDockContent(content.Name);
             if (dock == null)
                 return null;
+            dock.Pane = null;
+            dock.PanelPane = null;
+            dock.FloatPane = null;
             dock.IsHidden = content.IsHidden;
             dock.IsFloat = content.IsFloat;
             dock.AutoHidePortion = content.AutoHidePortion;
             window.CheckWindowMenu(content.Name, !content.IsHidden);
-            dock.Pane = null;
-            dock.PanelPane = null;
-            dock.FloatPane = null;
             
             return dock;
         }
