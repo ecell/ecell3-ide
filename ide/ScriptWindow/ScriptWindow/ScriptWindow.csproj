@@ -67,11 +67,36 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageResScript.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessageResScript.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptCommandWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScriptCommandWindow.Designer.cs">
+      <DependentUpon>ScriptCommandWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ScriptWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AssemblyInfo.cs.tmpl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MessageResScript.ja.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MessageResScript.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MessageResScript.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScriptCommandWindow.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScriptCommandWindow.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
