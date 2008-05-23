@@ -127,8 +127,15 @@ namespace EcellLib.Objects
         /// </summary>
         public string Key
         {
-            get { return this.m_fullID.Substring(1); }
-            set { this.m_fullID = ":" + value; }
+            get {
+                string path = this.m_fullID;
+                string[] ele = path.Split(new char[] { ':' });
+                string result = ele[ele.Length - 2] + Constants.delimiterColon + ele[ele.Length - 1];
+                    
+                return result;
+            }
+            set { this.m_fullID = Constants.delimiterColon + value; }
+
         }
 
         /// <summary>

@@ -350,8 +350,7 @@ namespace EcellLib.MainWindow {
             }
             catch (Exception e)
             {
-                Debug.Print(e.StackTrace);
-                throw new Exception("Failed to load file: " + filename, e);
+                throw new Exception(MessageResMain.ErrLoadWindowSettings, e);
             }
             finally
             {

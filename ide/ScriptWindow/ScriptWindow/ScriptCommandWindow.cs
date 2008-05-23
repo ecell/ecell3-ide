@@ -33,16 +33,21 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
 using EcellLib;
 using EcellLib.Message;
 
+using IronPython.Hosting;
+
 namespace EcellLib.ScriptWindow
 {
     public partial class ScriptCommandWindow : EcellDockContent
     {
+        private PythonEngine m_engine;
+
         public ScriptCommandWindow()
         {
             base.m_isSavable = true;
@@ -50,6 +55,70 @@ namespace EcellLib.ScriptWindow
             this.Name = "ScriptWindow";
             this.Text = MessageResScript.ScriptWindow;
             this.TabText = this.Text;
+
+            EngineOptions options = new EngineOptions();
+            options.ShowClrExceptions = true;
+            options.ClrDebuggingEnabled = true;
+            options.ExceptionDetail = false;            
+            m_engine = new PythonEngine(options);
+            m_engine.AddToPath(Directory.GetCurrentDirectory());
+        }
+
+        private void CommandTextKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                ExecuteToConsole(SWCommandText.Text);
+                SWCommandText.Text = "";
+            }
+            base.OnKeyPress(e);
+        }
+
+        public void ExecuteFile(string file)
+        {
+            if (String.IsNullOrEmpty(file)) return;
+
+            string stdOut;
+            MemoryStream standardOutput = new MemoryStream();
+            try
+            {
+                m_engine.SetStandardOutput(standardOutput);
+                m_engine.ExecuteFile(file);
+                stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
+                SWMessageText.Text += stdOut;
+            }
+            catch (Exception ex)
+            {
+                SWMessageText.Text += ex.Message + "\r\n";
+            }
+            finally
+            {
+                standardOutput.Dispose();
+            }
+        }
+
+
+        public void ExecuteToConsole(string cmd)
+        {
+            if (String.IsNullOrEmpty(cmd)) return;
+
+            string stdOut;
+            MemoryStream standardOutput = new MemoryStream();
+            try
+            {
+                m_engine.SetStandardOutput(standardOutput);
+                m_engine.ExecuteToConsole(cmd);
+                stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
+                SWMessageText.Text += stdOut;
+            }
+            catch (Exception ex)
+            {
+                SWMessageText.Text += ex.Message + "\r\n";
+            }
+            finally
+            {
+                standardOutput.Dispose();
+            }
         }
     }
 }

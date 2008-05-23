@@ -544,6 +544,7 @@ namespace EcellLib.MainWindow
             // Load default window settings when failed.
             if (!loadWindowSetting(m_userWindowSettingPath))
             {
+                
                 SelectWinSettingWindow win = new SelectWinSettingWindow();
                 try
                 {
@@ -1755,19 +1756,32 @@ namespace EcellLib.MainWindow
                 //
                 PythonEngine engine = new PythonEngine();
                 engine.AddToPath(Directory.GetCurrentDirectory());
-                string startup = Util.GetStartupFile();
+                string scriptFile = openScriptDialog.FileName;
                 //                string startup = Environment.GetEnvironmentVariable("IRONPYTHONSTARTUP");
-                if (!String.IsNullOrEmpty(startup))
+                //if (!String.IsNullOrEmpty(startup))
+                //{
+                //    try
+                //    {
+                //        engine.ExecuteFile(startup);
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        Util.ShowErrorDialog(MessageResMain.ErrLoadPlugin + ex.Message);
+                //    }
+                //}
+                try
                 {
-                    try
-                    {
-                        engine.ExecuteFile(startup);
-                    }
-                    catch
-                    {
-                    }
+                    MemoryStream standardOutput = new MemoryStream();
+                    engine.SetStandardOutput(standardOutput);
+                    engine.ExecuteFile(scriptFile);
+                    string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
                 }
-                engine.ExecuteFile(openScriptDialog.FileName);                
+                catch (Exception ex)
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResMain.ErrLoadFile,
+                        new object[] { scriptFile })); 
+                }
+
                 //
                 // Executes continuously.
                 //

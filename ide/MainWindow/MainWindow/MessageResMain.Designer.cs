@@ -88,6 +88,15 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
+        ///   Can not load the file [ {0} ]. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrLoadFile {
+            get {
+                return ResourceManager.GetString("ErrLoadFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Can not load the plugin {0} (location: {1}). に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadPlugin {

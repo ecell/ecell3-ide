@@ -56,6 +56,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\EcellLib.dll</HintPath>
     </Reference>
+    <Reference Include="IronMath">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(IRONPYTHONHOME)\IronMath.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPython">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(IRONPYTHONHOME)\IronPython.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -92,6 +100,10 @@
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResScript.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScriptCommandWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScriptCommandWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ScriptCommandWindow.resx">
       <SubType>Designer</SubType>

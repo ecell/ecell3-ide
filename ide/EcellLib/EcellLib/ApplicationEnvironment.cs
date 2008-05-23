@@ -12,6 +12,7 @@ namespace EcellLib
         private PluginManager m_pManager;
         private MessageManager m_mManager;
         private ActionManager m_aManager;
+        private CommandManager m_cManager;
         private IJobManager m_jManager;
 
         public DataManager DataManager
@@ -34,6 +35,11 @@ namespace EcellLib
             get { return m_aManager; }
         }
 
+        public CommandManager CommandManager
+        {
+            get { return m_cManager; }
+        }
+
         public IJobManager JobManager
         {
             get { return m_jManager; }
@@ -47,6 +53,7 @@ namespace EcellLib
             m_pManager = new PluginManager(this);
             m_aManager = new ActionManager(this);
             m_jManager = new JobManager(this);
+            m_cManager = new CommandManager(this);
         }
     }
 }

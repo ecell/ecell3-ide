@@ -126,6 +126,9 @@
   <data name="ErrLarger" xml:space="preserve">
     <value>{0} は {1} より大きい値に設定してください。</value>
   </data>
+  <data name="ErrLoadFile" xml:space="preserve">
+    <value>ファイル {0} を読み込めません。</value>
+  </data>
   <data name="ErrLoadPlugin" xml:space="preserve">
     <value>プラグイン {0} (場所: {1}) をロードできません。</value>
   </data>
