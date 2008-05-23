@@ -46,6 +46,7 @@
             // 
             resources.ApplyResources(this.SWMessageText, "SWMessageText");
             this.SWMessageText.Name = "SWMessageText";
+            this.SWMessageText.ReadOnly = true;
             // 
             // SWCommandText
             // 

@@ -1754,7 +1754,9 @@ namespace EcellLib.MainWindow
                 //
                 // IronPython
                 //
+                
                 PythonEngine engine = new PythonEngine();
+                
                 engine.AddToPath(Directory.GetCurrentDirectory());
                 string scriptFile = openScriptDialog.FileName;
                 //                string startup = Environment.GetEnvironmentVariable("IRONPYTHONSTARTUP");

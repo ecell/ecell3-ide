@@ -110,18 +110,18 @@ namespace EcellLib.MainWindow
         /// </summary>
         private void LayoutSetting(bool isInitial)
         {
-            int id = 1;
-            int curId = 1;
+            int id = 0;
+            int curId = 0;
             if (!isInitial)
             {
-                curId = m_dicPath.Count;
+                curId = m_dicPath.Count - 1;
             }
             foreach (WindowSetting d in m_dicPath)
             {
                 RadioButton b = new RadioButton();
-                b.Tag = Convert.ToInt32(id);
+                b.Tag = (Int32)id;
                 b.Text = d.Name;
-                if (m_dicPath.Count == id)
+                if (curId == id)
                 {
                     b.Checked = true;
                     SWSNoteTextBox.Text = d.Note;
@@ -135,7 +135,7 @@ namespace EcellLib.MainWindow
                     }
                 }
                 b.CheckedChanged += new EventHandler(ChangePatternRadioBox);
-                SWSPatternListLayoutPanel.Controls.Add(b, 0, id - 1);
+                SWSPatternListLayoutPanel.Controls.Add(b, 0, id);
                 m_patternList.Add(b);
                 id++;
             }
@@ -207,7 +207,7 @@ namespace EcellLib.MainWindow
             foreach ( RadioButton r in m_patternList)
             {
                 if (!r.Checked) continue;
-                Int32 id = (Int32)r.Tag;
+                int id = (Int32)r.Tag;
                 m_selectPath = m_dicPath[id].Path;
                 break;
             }
