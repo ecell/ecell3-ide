@@ -41,6 +41,9 @@ using EcellLib.Plugin;
 
 namespace EcellLib.ScriptWindow
 {
+    /// <summary>
+    /// Plugin class to display the script window and execute the script.
+    /// </summary>
     public class ScriptWindow : PluginBase
     {
         #region Fields

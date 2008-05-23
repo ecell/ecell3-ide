@@ -44,10 +44,19 @@ using IronPython.Hosting;
 
 namespace EcellLib.ScriptWindow
 {
+    /// <summary>
+    /// Form to input the command and display the script result.
+    /// </summary>
     public partial class ScriptCommandWindow : EcellDockContent
     {
+        #region Fields
         private PythonEngine m_engine;
+        #endregion
 
+        #region Construcotor
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public ScriptCommandWindow()
         {
             base.m_isSavable = true;
@@ -62,18 +71,34 @@ namespace EcellLib.ScriptWindow
             options.ExceptionDetail = false;            
             m_engine = new PythonEngine(options);
             m_engine.AddToPath(Directory.GetCurrentDirectory());
-        }
 
+            ExecuteToConsole("from EcellIDE import *", false);
+            ExecuteToConsole("import time", false);
+            ExecuteToConsole("import System.Threading", false);
+        }
+        #endregion
+
+        #region Events
+        /// <summary>
+        /// The event sequence when key is pressed.
+        /// </summary>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e"></param>
         private void CommandTextKeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                ExecuteToConsole(SWCommandText.Text);
+                ExecuteToConsole(SWCommandText.Text, true);
                 SWCommandText.Text = "";
             }
             base.OnKeyPress(e);
         }
+        #endregion
 
+        /// <summary>
+        /// Execute the script by using the file.
+        /// </summary>
+        /// <param name="file">the loaded file.</param>
         public void ExecuteFile(string file)
         {
             if (String.IsNullOrEmpty(file)) return;
@@ -97,8 +122,12 @@ namespace EcellLib.ScriptWindow
             }
         }
 
-
-        public void ExecuteToConsole(string cmd)
+        /// <summary>
+        /// Execute the script by using the command.
+        /// </summary>
+        /// <param name="cmd">the command string.</param>
+        /// <param name="isOut">the flag whether this command is out.</param>
+        public void ExecuteToConsole(string cmd, bool isOut)
         {
             if (String.IsNullOrEmpty(cmd)) return;
 
@@ -109,6 +138,8 @@ namespace EcellLib.ScriptWindow
                 m_engine.SetStandardOutput(standardOutput);
                 m_engine.ExecuteToConsole(cmd);
                 stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
+                if (isOut)
+                    SWMessageText.Text += ">>> " + cmd + "\r\n";
                 SWMessageText.Text += stdOut;
             }
             catch (Exception ex)
