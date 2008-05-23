@@ -1757,7 +1757,7 @@ namespace EcellLib.MainWindow
                 engine.AddToPath(Directory.GetCurrentDirectory());
                 string startup = Util.GetStartupFile();
                 //                string startup = Environment.GetEnvironmentVariable("IRONPYTHONSTARTUP");
-                if (startup != null && startup.Length > 0)
+                if (!String.IsNullOrEmpty(startup))
                 {
                     try
                     {
@@ -1767,7 +1767,7 @@ namespace EcellLib.MainWindow
                     {
                     }
                 }
-                engine.ExecuteFile(openScriptDialog.FileName);
+                engine.ExecuteFile(openScriptDialog.FileName);                
                 //
                 // Executes continuously.
                 //
