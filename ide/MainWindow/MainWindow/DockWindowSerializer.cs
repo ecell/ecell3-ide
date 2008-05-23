@@ -419,7 +419,6 @@ namespace EcellLib.MainWindow {
                     continue;
                 // Create new content.
                 content.IsHidden = true;
-                content.IsFloat = true;
                 content.AutoHidePortion = 0.25;
                 window.CheckWindowMenu(content.Name, !content.IsHidden);
                 content.Pane = null;
@@ -428,6 +427,7 @@ namespace EcellLib.MainWindow {
                 contentList.Add(content);
                 DockPane pane = dockPanel.DockPaneFactory.CreateDockPane(content, DockState.Float, false);
                 content.DockHandler.FloatPane = pane;
+                content.IsFloat = true;
                 paneList.Add(pane);
                 FloatWindow fw = dockPanel.FloatWindowFactory.CreateFloatWindow(dockPanel, pane, content.Bounds);
                 CheckWindowSize(fw);
