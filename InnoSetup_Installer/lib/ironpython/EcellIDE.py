@@ -46,9 +46,6 @@ class Session:
     def createStepperStub(self, anID):
         return StepperStub(self.theCommandManager, anID)
 
-    def deleteDefaultStepperStub(self):
-        self.theCommandManager.DeleteDefaultStepperStub()
-
     def execNumpy(self, methodName, matrix, methodArgumentList):
         tmpFileName = time.time()
         try:
@@ -159,9 +156,6 @@ class Session:
 
     def loadModel(self, aEmlFileName):
         self.theCommandManager.LoadModel(aEmlFileName)
-
-    def message(self, aMessage):
-        self.theCommandManager.Message(aMessage)
 
     def refresh(self):
         self.theCommandManager.Refresh()

@@ -157,9 +157,6 @@ class Session:
     def loadModel(self, aEmlFileName):
         self.theCommandManager.LoadModel(aEmlFileName)
 
-    def message(self, aMessage):
-        self.theCommandManager.Message(aMessage)
-
     def refresh(self):
         self.theCommandManager.Refresh()
 

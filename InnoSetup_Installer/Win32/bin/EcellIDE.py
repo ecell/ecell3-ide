@@ -19,6 +19,10 @@ class Session:
     'Session class'
 
     def __init__(self, aCommandManager = None):
+	'''
+	Constructor.
+	Initialize the parameters and execute the library of python.
+	'''
         if aCommandManager is None:
             self.theCommandManager = EcellLib.CommandManager.GetInstance()
         else:
@@ -26,12 +30,30 @@ class Session:
         self.execNumpyFileName = "ExecNumpy.bat"
 
     def createEntityStub(self, aFullID):
+	'''
+	Create the entity having the input ID.	
+	Return the EntityStub object.
+	  aFullID ... input the full ID.
+	             (for example, Process:/cell:Translate_CI)
+	'''
         return EntityStub(self.theCommandManager, aFullID)
 
     def createLogger(self, aFullPN):
+	'''
+	Create the logger entity.
+	This function do not have the return object.
+	  aFullID ... input the full ID.
+	             (for example, Process:/cell:Translate_CI:Activity)
+	'''
         self.theCommandManager.CreateLogger(aFullPN)
 
     def createLoggerStub(self, aFullPN):
+	'''
+	Create the logger entity.
+	Return the LoggerStub object.
+	  aFullID ... input the full ID.
+	             (for example, Process:/cell:Translate_CI:Activity)
+	'''
         return LoggerStub(self.theCommandManager, aFullPN)
 
     def createModel(self, aModelName):
@@ -45,9 +67,6 @@ class Session:
 
     def createStepperStub(self, anID):
         return StepperStub(self.theCommandManager, anID)
-
-    def deleteDefaultStepperStub(self):
-        self.theCommandManager.DeleteDefaultStepperStub()
 
     def execNumpy(self, methodName, matrix, methodArgumentList):
         tmpFileName = time.time()
@@ -159,9 +178,6 @@ class Session:
 
     def loadModel(self, aEmlFileName):
         self.theCommandManager.LoadModel(aEmlFileName)
-
-    def message(self, aMessage):
-        self.theCommandManager.Message(aMessage)
 
     def refresh(self):
         self.theCommandManager.Refresh()
