@@ -391,29 +391,29 @@ Source: UninsHs.exe; DestDir: {app}; Flags: restartreplace ; Components: main; C
 [Registry]
 ;Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "IRONPYTHONPATH"; ValueData: "%IRONPYTHONPATH%:{app}\bin"; Components: main
 ;Root: HKCU; Subkey: "Environment"; ValueType: string; ValueName: "IRONPYTHONSTARTUP"; ValueData: "{app}\lib\ironpython\__init__.py"; Components: main
-Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Analysis"; ValueData: "{app}\bin";Components: main
-Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE DM"; ValueData: "{app}\lib\ecell-3.1\dms";Components: main
-Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Plugin"; ValueData: "{app}\plugins";Components: main
-Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Tmp"; ValueData: "{app}\tmp";Components: main
-Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE StaticDebug Plugin"; ValueData: "{app}\plugins\staticdebug";Components: main
-Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE WINDOW SETTING"; ValueData: "{app}\conf";Components: main
-Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Startup"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main
-Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Analysis"; ValueData: "{app}\bin";Components: main
-Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE DM"; ValueData: "{app}\modules";Components: main
-Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Plugin"; ValueData: "{app}\plugins";Components: main
-Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Tmp"; ValueData: "{app}\tmp";Components: main
-Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE StaticDebug Plugin"; ValueData: "{app}\plugins\staticdebug";Components: main
-Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE WINDOW SETTING"; ValueData: "{app}\conf";Components: main
-Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Startup"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main
-;Root: HKLM; Subkey: "System\CurrentControlSet\Control\SessionManager\Environment"; ValueType: string; ValueName: "IRONPYTHONPATH"; ValueData: "%IRONPYTHONPATH%:{app}\bin";Components: main
-;Root: HKLM; Subkey: "System\CurrentControlSet\Control\SessionManager\Environment"; ValueType: string; ValueName: "IRONPYTHONSTARTUP"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Analysis"; ValueData: "{app}\bin";Components: main; Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE DM"; ValueData: "{app}\lib\ecell-3.1\dms";Components: main; Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Plugin"; ValueData: "{app}\plugins";Components: main; Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Tmp"; ValueData: "{app}\tmp";Components: main; Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE StaticDebug Plugin"; ValueData: "{app}\plugins\staticdebug";Components: main; Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE WINDOW SETTING"; ValueData: "{app}\conf";Components: main; Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Startup"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Analysis"; ValueData: "{app}\bin";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE DM"; ValueData: "{app}\modules";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Plugin"; ValueData: "{app}\plugins";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Tmp"; ValueData: "{app}\tmp";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE StaticDebug Plugin"; ValueData: "{app}\plugins\staticdebug";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE WINDOW SETTING"; ValueData: "{app}\conf";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Startup"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main; Flags: uninsdeletekey;
+;Root: HKLM; Subkey: "System\CurrentControlSet\Control\SessionManager\Environment"; ValueType: string; ValueName: "IRONPYTHONPATH"; ValueData: "%IRONPYTHONPATH%:{app}\bin";Components: main; Flags: uninsdeletekey;
+;Root: HKLM; Subkey: "System\CurrentControlSet\Control\SessionManager\Environment"; ValueType: string; ValueName: "IRONPYTHONSTARTUP"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main; Flags: uninsdeletekey;
 
-;Root: HKCR; Subkey: ".eml"; ValueType: string; ValueName: ""; ValueData: "E-CellProgramFile"; Flags: uninsdeletevalue; Components: main
-Root: HKCR; Subkey: "E-CellProgramFile"; ValueType: string; ValueName: ""; ValueData: "My Program File"; Flags: uninsdeletekey; Components: main
-Root: HKCR; Subkey: "E-CellProgramFile\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\bin\MainWindow.exe,0"; Components: main
-Root: HKCR; Subkey: "E-CellProgramFile\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\bin\MainWindow.exe"" ""%1"""; Components: main
-Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Base"; ValueData: "{userdocs}\My E-Cell Projects"; Components: main
-Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Base"; ValueData: "{userdocs}\My E-Cell Projects";Components: main
+;Root: HKCR; Subkey: ".eml"; ValueType: string; ValueName: ""; ValueData: "E-CellProgramFile"; Flags: uninsdeletevalue; Components: main; Flags: uninsdeletekey;
+Root: HKCR; Subkey: "E-CellProgramFile"; ValueType: string; ValueName: ""; ValueData: "My Program File"; Flags: uninsdeletekey; Components: main; Flags: uninsdeletekey;
+Root: HKCR; Subkey: "E-CellProgramFile\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\bin\MainWindow.exe,0"; Components: main; Flags: uninsdeletekey;
+Root: HKCR; Subkey: "E-CellProgramFile\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\bin\MainWindow.exe"" ""%1"""; Components: main; Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Base"; ValueData: "{userdocs}\My E-Cell Projects"; Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Base"; ValueData: "{userdocs}\My E-Cell Projects";Components: main; Flags: uninsdeletekey;
 
 [Icons]
 Name: "{group}\E-Cell IDE"; Filename: "{app}\bin\MainWindow.exe"; IconIndex: 0; Components: extension
@@ -458,7 +458,14 @@ begin
   if (not RegKeyExists(HKLM, 'Software\Microsoft\.NETFramework\policy\v2.0')) then begin
     MsgBox('This application needs Microsoft .NET Framework version 2.0', mbInformation, MB_OK);
     Result := false
+  else
+    if (not RegKeyExists(HKLM, 'Software\KeioUniv\E-Cell IDE\E-Cell IDE Plugin')) then begin
+      MsgBox('E-Cell IDE is already installed, please unistall E-Cell IDE.', mbInformation, MB_OK);
+      Result := false
+    end;  
   end;
+  
+  
 
   if (Result = true) then
   begin
