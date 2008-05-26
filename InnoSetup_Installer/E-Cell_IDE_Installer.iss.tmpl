@@ -405,6 +405,7 @@ Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE StaticDebug Plugin"; ValueData: "{app}\plugins\staticdebug";Components: main; Flags: uninsdeletekey;
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE WINDOW SETTING"; ValueData: "{app}\conf";Components: main; Flags: uninsdeletekey;
 Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Startup"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE"; ValueData: "true";Components: main; Flags: uninsdeletekey;
 ;Root: HKLM; Subkey: "System\CurrentControlSet\Control\SessionManager\Environment"; ValueType: string; ValueName: "IRONPYTHONPATH"; ValueData: "%IRONPYTHONPATH%:{app}\bin";Components: main; Flags: uninsdeletekey;
 ;Root: HKLM; Subkey: "System\CurrentControlSet\Control\SessionManager\Environment"; ValueType: string; ValueName: "IRONPYTHONSTARTUP"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main; Flags: uninsdeletekey;
 
@@ -459,7 +460,7 @@ begin
     MsgBox('This application needs Microsoft .NET Framework version 2.0', mbInformation, MB_OK);
     Result := false
   else
-    if (not RegKeyExists(HKLM, 'Software\KeioUniv\E-Cell IDE\E-Cell IDE Plugin')) then begin
+    if (RegKeyExists(HKLM, 'Software\KeioUniv\E-Cell IDE\E-Cell IDE')) then begin
       MsgBox('E-Cell IDE is already installed, please unistall E-Cell IDE.', mbInformation, MB_OK);
       Result := false
     end;  
