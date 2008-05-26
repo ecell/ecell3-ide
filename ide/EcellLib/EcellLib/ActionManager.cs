@@ -531,7 +531,6 @@ namespace EcellLib
         /// </summary>
         public override void UnExecute()
         {
-            throw new Exception("Sorry. Not implemented.");
         }
     }
 
@@ -618,7 +617,6 @@ namespace EcellLib
         /// </summary>
         public override void UnExecute()
         {
-            throw new Exception("The method or operation is not implemented.");
         }
     }
 

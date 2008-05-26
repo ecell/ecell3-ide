@@ -456,7 +456,8 @@ namespace EcellLib.Objects
             }
             catch (Exception l_ex)
             {
-                throw new Exception("Can't make a copy of an EcellObject", l_ex);
+                throw new Exception(String.Format(MessageResLib.ErrCopy,
+                    new object[] { this.Key }), l_ex);
             }
         }
 

@@ -132,6 +132,9 @@
   <data name="ErrCombiStepProc" xml:space="preserve">
     <value>The selected process cannot be used in combination with the system's stepper.</value>
   </data>
+  <data name="ErrCopy" xml:space="preserve">
+    <value>Can not copy the object [{0}].</value>
+  </data>
   <data name="ErrCreFile" xml:space="preserve">
     <value>Can not create the file ({0}).</value>
   </data>

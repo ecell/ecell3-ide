@@ -2714,7 +2714,7 @@ namespace EcellLib
                 l_entityList.Clear();
                 l_entityList = null;
                 throw new Exception(String.Format(MessageResLib.ErrFindEnt,
-                    new object[] { l_entityName }));
+                    new object[] { l_entityName }), l_ex);
             }
         }
 
@@ -3820,13 +3820,11 @@ namespace EcellLib
         {
             Debug.Assert(l_stepperList != null && l_stepperList.Count > 0);
 
-            bool l_existStepper = false;
             foreach (EcellObject l_stepper in l_stepperList)
             {
                 if (l_stepper == null)
                     continue;
 
-                l_existStepper = true;
                 l_simulator.CreateStepper(l_stepper.Classname, l_stepper.Key);
 
                 // 4 property
@@ -3897,7 +3895,7 @@ namespace EcellLib
             Dictionary<string, Dictionary<string, double>> l_initialCondition,
             Dictionary<string, WrappedPolymorph> l_setPropertyDic)
         {
-            Debug.Assert(l_systemList.Count != null && l_systemList.Count > 0);
+            Debug.Assert(l_systemList != null && l_systemList.Count > 0);
 
             bool l_existSystem = false;
             Dictionary<string, WrappedPolymorph> l_processPropertyDic = new Dictionary<string, WrappedPolymorph>();

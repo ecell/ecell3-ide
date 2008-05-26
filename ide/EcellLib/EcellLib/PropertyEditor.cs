@@ -121,6 +121,8 @@ namespace EcellLib
         /// <summary>
         /// Show PropertyEditor Dialog.
         /// </summary>
+        /// <param name="dManager">DataManager.</param>
+        /// <param name="pManager">PluginManager.</param>
         /// <param name="obj"></param>
         public static void Show(DataManager dManager, PluginManager pManager, EcellObject obj)
         {
@@ -140,7 +142,7 @@ namespace EcellLib
                 ex.ToString();
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Util.ShowErrorDialog(String.Format(MessageResLib.ErrSetProp,
                     new object[] { obj.Key }));

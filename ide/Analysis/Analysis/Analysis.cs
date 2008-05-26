@@ -122,6 +122,9 @@ namespace EcellLib.Analysis
         private Dictionary<string, List<double>> m_fccResult = new Dictionary<string, List<double>>();
         #endregion
 
+        /// <summary>
+        /// get the JobManager.
+        /// </summary>
         public IJobManager JobManager
         {
             get { return m_env.JobManager; }

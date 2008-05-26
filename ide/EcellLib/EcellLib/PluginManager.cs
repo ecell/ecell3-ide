@@ -454,7 +454,8 @@ namespace EcellLib
             {
                 if (m_dockOwner != null)
                 {
-                    throw new Exception("Dock owner is already set");
+                    throw new Exception(String.Format(MessageResLib.ErrAdd,
+                        new object[] { p.GetPluginName(), "Plugin" }));
                 }
                 m_dockOwner = (IDockOwner)p;
             }
@@ -512,7 +513,7 @@ namespace EcellLib
                     m_printDoc.Print();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Util.ShowErrorDialog(MessageResLib.ErrPrint);
             }
@@ -636,7 +637,8 @@ namespace EcellLib
             Type aType = handle.GetType(className);
             if (aType == null)
             {
-                throw new Exception("The assembly " + handle + " does not contain the class " + className);
+                throw new Exception(String.Format(MessageResLib.ErrLoadFile,
+                    new object[] { path }));
             }
             return RegisterPlugin(aType);
         }

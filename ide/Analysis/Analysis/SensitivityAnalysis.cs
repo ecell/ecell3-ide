@@ -528,9 +528,10 @@ namespace EcellLib.Analysis
             Matrix jocobianMatrix = epsilonMatrix * m_linkMatrix;
             if (jocobianMatrix.Determinant() == 0.0)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrExecute,
-                    new object[] { MessageResAnalysis.NameSensAnalysis }));
-                throw new IgnoreException("Can't find Singular Matrix");
+                String errmes = String.Format(MessageResAnalysis.ErrExecute,
+                    new object[] { MessageResAnalysis.NameSensAnalysis });
+                Util.ShowErrorDialog(errmes);
+                throw new IgnoreException(errmes);
             }
             Matrix invJacobian = jocobianMatrix.Inverse();
 

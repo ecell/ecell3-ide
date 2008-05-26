@@ -297,6 +297,9 @@ namespace EcellLib.Job
         /// <summary>
         /// Regist the session of e-cell.
         /// </summary>
+        /// <param name="arg">the argument of script.</param>
+        /// <param name="extFile">the list of extension file.</param>
+        /// <param name="script">the script file.</param>
         /// <returns>the status of job.</returns>
         public int RegisterEcellSession(string script, string arg, List<string> extFile)
         {

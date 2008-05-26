@@ -106,6 +106,15 @@ namespace EcellLib {
         }
         
         /// <summary>
+        ///   Can not copy the object [{0}]. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrCopy {
+            get {
+                return ResourceManager.GetString("ErrCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Can not create the file ({0}). に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrCreFile {
