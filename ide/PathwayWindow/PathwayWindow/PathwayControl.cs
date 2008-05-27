@@ -831,37 +831,41 @@ namespace EcellLib.PathwayWindow
             // Get EcellReference List.
             List<EcellReference> refList = process.ReferenceList;
             List<EcellReference> newList = new List<EcellReference>();
-            EcellReference changedRef = null;
+            EcellReference oldRef = null;
+            EcellReference newRef = null;
 
             foreach (EcellReference er in refList)
             {
                 if (er.FullID.EndsWith(varKey))
-                    changedRef = er.Copy();
+                    oldRef = er.Copy();
                 else
                     newList.Add(er.Copy());
             }
 
-            if (changedRef != null && changeType != RefChangeType.Delete)
+            if (oldRef != null && changeType != RefChangeType.Delete)
             {
+                newRef = oldRef.Copy();
                 switch(changeType)
                 {
                     case RefChangeType.SingleDir:
-                        changedRef.Coefficient = coefficient;
-                        changedRef.Name = PathUtil.GetNewReferenceName(newList, coefficient);
-                        newList.Add(changedRef);
+                        newRef.Coefficient = coefficient;
+                        newRef.Name = PathUtil.GetNewReferenceName(newList, coefficient);
+                        newList.Add(newRef);
+                        if(oldRef.Coefficient != 0 && coefficient != 0 && oldRef.Coefficient != coefficient)
+                            newList.Add(oldRef);
                         break;
                     case RefChangeType.BiDir:
-                        EcellReference copyRef = changedRef.Copy();
-                        changedRef.Coefficient = -1;
-                        changedRef.Name = PathUtil.GetNewReferenceName(newList, -1);
+                        EcellReference copyRef = newRef.Copy();
+                        newRef.Coefficient = -1;
+                        newRef.Name = PathUtil.GetNewReferenceName(newList, -1);
                         copyRef.Coefficient = 1;
                         copyRef.Name = PathUtil.GetNewReferenceName(newList, 1);
-                        newList.Add(changedRef);
+                        newList.Add(newRef);
                         newList.Add(copyRef);
                         break;
                 }
             }
-            else if(changedRef == null)
+            else if(newRef == null)
             {
                 switch(changeType)
                 {
