@@ -62,6 +62,9 @@ namespace EcellLib.Simulation
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// DataManager.
+        /// </summary>
         public DataManager DataManager
         {
             get { return m_owner.DataManager; }

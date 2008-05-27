@@ -129,6 +129,10 @@ namespace EcellLib.TracerWindow
         int m_winCount = 1;
         #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public TracerWindow()
         {
             m_entry = new Dictionary<TagData, List<TraceWindow>>();
@@ -138,8 +142,9 @@ namespace EcellLib.TracerWindow
             m_time.Interval = 100;
             m_time.Tick += new EventHandler(TimerFire);
         }
+        #endregion
 
-        #region Initializer 
+        #region Initializer
         /// <summary>
         /// Initialize the plugin.
         /// </summary>
