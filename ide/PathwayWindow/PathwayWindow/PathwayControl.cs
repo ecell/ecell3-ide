@@ -370,8 +370,6 @@ namespace EcellLib.PathwayWindow
                 else
                     DoLayout(m_menu.DefaultLayoutAlgorithm, 0, false);
             }
-            if(m_canvas != null)
-                m_canvas.Refresh();
         }
 
         /// <summary>
@@ -427,7 +425,8 @@ namespace EcellLib.PathwayWindow
             ComponentSetting cs = m_csManager.GetDefaultComponentSetting(cType);
             PPathwayObject obj = cs.CreateNewComponent(eo);
             m_canvas.DataAdd(eo.ParentSystemID, obj, eo.IsPosSet, isFirst);
-            NotifyDataChanged(eo.Key, eo.Key, obj, !isFirst, false);
+            if(!isFirst)
+                NotifyDataChanged(eo.Key, eo.Key, obj, true, false);
         }
 
         /// <summary>

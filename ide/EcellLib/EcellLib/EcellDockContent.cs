@@ -87,7 +87,11 @@ namespace EcellLib
                 return GetDesktopLocation(this);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="control"></param>
+        /// <returns></returns>
         public Point GetDesktopLocation(Control control)
         {
             Point pos = control.Location;

@@ -70,8 +70,8 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_con = control;
             m_con.CanvasChange += new EventHandler(m_con_CanvasChange);
             m_area = new PDisplayedArea();
-            this.Text = MessageResPathway.WindowOverview;
-            this.TabText = this.Text;
+            base.Text = MessageResPathway.WindowOverview;
+            base.TabText = base.Text;
         }
         #endregion
 

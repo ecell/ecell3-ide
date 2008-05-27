@@ -457,36 +457,58 @@ namespace EcellLib
             }
         }
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class Util
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
         public static void ShowErrorDialog(string msg)
         {
             MessageBox.Show(msg, "Error",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
         public static void ShowWarningDialog(string msg)
         {
             MessageBox.Show(msg, "Warning",
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
         public static void ShowNoticeDialog(string msg)
         {
             MessageBox.Show(msg, "Information",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
         public static bool ShowYesNoDialog(string msg)
         {
             return MessageBox.Show(msg, "Confirmation",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
                     DialogResult.Yes;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public class CancelException : Exception {}
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
         public static bool ShowYesNoCancelDialog(string msg)
         {
             switch (MessageBox.Show(msg, "Confirmation",
@@ -500,7 +522,11 @@ namespace EcellLib
                     throw new CancelException();
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
         public static bool ShowOKCancelDialog(string msg)
         {
             return MessageBox.Show(msg, "Confirmation",
@@ -508,7 +534,9 @@ namespace EcellLib
                     DialogResult.OK;
         }
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class Util
     {
         /// <summary>
@@ -611,7 +639,10 @@ namespace EcellLib
         {
             return GetRegistryValue(Constants.registryBaseDirKey);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         static public string GetStartupFile()
         {
             return GetRegistryValue(Constants.registryStartup);
@@ -681,12 +712,19 @@ namespace EcellLib
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         static public bool IsInstalledSDK()
         {
             return false;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         static public bool IsDMFile(string fileName)
         {
             String name = Path.GetFileNameWithoutExtension(fileName);

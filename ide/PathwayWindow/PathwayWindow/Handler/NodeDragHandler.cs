@@ -355,7 +355,7 @@ namespace EcellLib.PathwayWindow.Handler
             PointF offset = system.Offset;
             if (Math.Abs(offset.X) <= 5 && Math.Abs( offset.Y) <= 5)
             {
-                m_canvas.Refresh();
+                system.RefreshView();
                 return;
             }
 

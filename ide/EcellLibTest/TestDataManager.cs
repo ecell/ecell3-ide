@@ -5,7 +5,9 @@ namespace EcellLib
     using NUnit.Framework;
     using System.IO;
     using System.Diagnostics;
-
+    /// <summary>
+    /// 
+    /// </summary>
     [TestFixture()]
     public class TestDataManager
     {
@@ -14,19 +16,25 @@ namespace EcellLib
         private static readonly string EmlFile = "";
 
         private DataManager _unitUnderTest;
-
+        /// <summary>
+        /// 
+        /// </summary>
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
             _unitUnderTest = new ApplicationEnvironment().DataManager;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [TestFixtureTearDown()]
         public void TestFixtureTearDown()
         {
             _unitUnderTest = null;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestPath()
         {
@@ -38,14 +46,18 @@ namespace EcellLib
             Assert.AreEqual("c:\\temp\\sample", Path.Combine(dir2, name));
             Debug.Print(Path.Combine(dir2, name));
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSaveUserAction()
         {
             string fileName = "";
             _unitUnderTest.SaveUserAction(fileName);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLoadUserActionFile()
         {
@@ -84,7 +96,9 @@ namespace EcellLib
             // Test correct file.
             _unitUnderTest.LoadUserActionFile(ActionFile);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestAddStepperIDL_parameterIDL_stepper()
         {
@@ -94,7 +108,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestAddStepperIDL_parameterIDL_stepperL_isRecorded()
         {
@@ -105,7 +121,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestCloseProject()
         {
@@ -114,7 +132,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestContainsModel()
         {
@@ -126,7 +146,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataAddL_ecellObjectList()
         {
@@ -135,7 +157,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataAddL_ecellObjectListL_isRecordedL_isAnchor()
         {
@@ -146,7 +170,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataChangedL_ecellObjectList()
         {
@@ -155,7 +181,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataChangedL_ecellObjectListL_isRecordedL_isAnchor()
         {
@@ -166,7 +194,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataChangedL_modelIDL_keyL_typeL_ecellObject()
         {
@@ -178,7 +208,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataChangedL_modelIDL_keyL_typeL_ecellObjectL_isRecordedL_isAnchor()
         {
@@ -192,7 +224,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataDeleteL_modelIDL_keyL_type()
         {
@@ -203,7 +237,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataDeleteL_modelIDL_keyL_typeL_isRecordedL_isAnchor()
         {
@@ -216,7 +252,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestIsDataExists()
         {
@@ -230,7 +268,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSystemDeleteAndMoveModelIDKey()
         {
@@ -240,7 +280,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSystemDeleteAndMoveModelIDKeyIsRecordedIsAnchor()
         {
@@ -252,7 +294,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSystemAddAndMove()
         {
@@ -264,7 +308,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDeleteSimulationParameterL_parameterID()
         {
@@ -273,7 +319,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDeleteSimulationParameterL_parameterIDL_isRecordedL_isAnchor()
         {
@@ -284,7 +332,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDeleteStepperIDL_parameterIDL_stepper()
         {
@@ -294,7 +344,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDeleteStepperIDL_parameterIDL_stepperL_isRecorded()
         {
@@ -305,7 +357,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestExists()
         {
@@ -318,7 +372,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestExportModel()
         {
@@ -328,7 +384,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetCurrentSimulationParameterID()
         {
@@ -339,7 +397,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetCurrentSimulationTime()
         {
@@ -350,7 +410,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetData()
         {
@@ -363,7 +425,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetEcellObject()
         {
@@ -377,7 +441,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetEcellData()
         {
@@ -392,7 +458,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetLogDataL_startTimeL_endTimeL_intervalL_fullID()
         {
@@ -407,7 +475,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetInitialConditionL_paremterIDL_modelID()
         {
@@ -420,7 +490,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetInitialConditionL_paremterIDL_modelIDL_type()
         {
@@ -434,7 +506,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetLogDataL_startTimeL_endTimeL_interval()
         {
@@ -448,7 +522,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetLoggerList()
         {
@@ -459,7 +535,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetLoggerPolicy()
         {
@@ -471,7 +549,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetNextEvent()
         {
@@ -482,7 +562,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetEntityList()
         {
@@ -495,7 +577,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetEntityProperty()
         {
@@ -507,7 +591,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetModelList()
         {
@@ -518,7 +604,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetProcessList()
         {
@@ -529,7 +617,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestIsEnableAddProperty()
         {
@@ -541,7 +631,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetProcessProperty()
         {
@@ -553,7 +645,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetProjects()
         {
@@ -565,7 +659,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetSavableModel()
         {
@@ -576,7 +672,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetSavableProject()
         {
@@ -587,7 +685,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetSavableSimulationParameter()
         {
@@ -598,7 +698,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetSavableSimulationResult()
         {
@@ -609,7 +711,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetStepper()
         {
@@ -622,7 +726,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetSimulationParameterIDs()
         {
@@ -633,7 +739,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetStepperList()
         {
@@ -644,7 +752,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetStepperProperty()
         {
@@ -656,7 +766,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetSystemList()
         {
@@ -667,7 +779,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetSystemListL_modelID()
         {
@@ -679,7 +793,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetSystemProperty()
         {
@@ -690,7 +806,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetVariableList()
         {
@@ -701,7 +819,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetTemporaryID()
         {
@@ -715,7 +835,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetVariableProperty()
         {
@@ -726,7 +848,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestInitialize()
         {
@@ -735,7 +859,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestIsActive()
         {
@@ -746,7 +872,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLoadModel()
         {
@@ -759,7 +887,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLoadProject()
         {
@@ -769,7 +899,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLoadSimulationParameter()
         {
@@ -778,7 +910,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestCreateDefaultObject()
         {
@@ -793,7 +927,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestCreateProject()
         {
@@ -805,7 +941,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestCreateSimulationParameterL_parameterID()
         {
@@ -814,7 +952,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestCreateSimulationParameterL_parameterIDL_isRecordedL_isAnchor()
         {
@@ -825,7 +965,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSaveModel()
         {
@@ -834,7 +976,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSaveScript()
         {
@@ -843,7 +987,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSaveSimulationParameter()
         {
@@ -852,7 +998,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSaveSimulationResult()
         {
@@ -865,7 +1013,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSetEntityProperty()
         {
@@ -875,7 +1025,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSetLoggerPolicy()
         {
@@ -887,7 +1039,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSetPositions()
         {
@@ -896,7 +1050,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSetSimulationParameterL_parameterID()
         {
@@ -905,7 +1061,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSetSimulationParameterL_parameterIDL_isRecordedL_isAnchor()
         {
@@ -916,7 +1074,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSimulationStartL_stepLimitL_statusNum()
         {
@@ -926,7 +1086,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSimulationStartL_timeLimitL_statusNum()
         {
@@ -936,7 +1098,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSimulationStartKeepSettingL_stepLimit()
         {
@@ -945,7 +1109,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSimulationStartKeepSettingL_timeLimit()
         {
@@ -954,7 +1120,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSimulationStop()
         {
@@ -962,7 +1130,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSimulationSuspend()
         {
@@ -970,7 +1140,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestUpdateInitialCondition()
         {
@@ -982,7 +1154,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestUpdateStepperIDL_parameterIDL_stepperList()
         {
@@ -992,7 +1166,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestUpdateStepperIDL_parameterIDL_stepperListL_isRecorded()
         {
@@ -1003,7 +1179,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestUndoAction()
         {
@@ -1011,7 +1189,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestRedoAction()
         {

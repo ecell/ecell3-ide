@@ -288,6 +288,9 @@ namespace EcellLib
         {
             get { return m_isUndoable; }
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public ApplicationEnvironment Environment
         {
             get { return m_env; }

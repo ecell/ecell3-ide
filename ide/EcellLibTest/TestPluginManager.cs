@@ -8,29 +8,40 @@ using EcellLib.Message;
 
 namespace EcellLib
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [TestFixture()]
     public class TestPluginManager
     {
         private PluginManager _unitUnderTest;
-
+        /// <summary>
+        /// 
+        /// </summary>
         [SetUp()]
         public void SetUp()
         {
             _unitUnderTest = new ApplicationEnvironment().PluginManager;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [TearDown()]
         public void TearDown()
         {
             _unitUnderTest = null;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestConstructorPluginManager()
         {
             Assert.IsNotNull(_unitUnderTest, "Constructor of type, PluginManager failed to create instance.");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestFocusDataChanged()
         {
@@ -41,7 +52,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestFocusClear()
         {
@@ -49,7 +62,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSelectChanged()
         {
@@ -59,7 +74,9 @@ namespace EcellLib
             _unitUnderTest.SelectChanged(modelID, key, type);
             Assert.Fail("Create or modify test(s).");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestAddSelect()
         {
@@ -70,7 +87,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestRemoveSelect()
         {
@@ -81,7 +100,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestResetSelect()
         {
@@ -89,7 +110,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataChanged()
         {
@@ -101,7 +124,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataAdd()
         {
@@ -110,7 +135,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestDataDelete()
         {
@@ -121,7 +148,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestParameterAdd()
         {
@@ -131,7 +160,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestParameterDelete()
         {
@@ -141,7 +172,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestWarnData()
         {
@@ -153,7 +186,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLoadData()
         {
@@ -162,7 +197,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestAddPlugin()
         {
@@ -171,7 +208,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestShowSelectPlugin()
         {
@@ -179,7 +218,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestPrint()
         {
@@ -188,7 +229,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestClear()
         {
@@ -196,7 +239,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLoggerAdd()
         {
@@ -208,7 +253,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestAdvancedTime()
         {
@@ -217,7 +264,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestMessage()
         {
@@ -227,7 +276,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSaveModel()
         {
@@ -237,7 +288,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestImageAdd()
         {
@@ -247,7 +300,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetImageIndex()
         {
@@ -259,7 +314,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLoadPlugin()
         {
@@ -271,7 +328,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestUnloadPlugin()
         {
@@ -280,7 +339,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestCurrentToolBarMenu()
         {
@@ -291,7 +352,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestChangeStatus()
         {
@@ -300,7 +363,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestChangeUndoStatus()
         {
@@ -309,7 +374,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetPlugin()
         {
@@ -321,7 +388,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetLayoutPlugins()
         {
@@ -331,7 +400,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetPluginVersionList()
         {
@@ -341,7 +412,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSetPosition()
         {

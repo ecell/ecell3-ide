@@ -646,7 +646,7 @@ namespace EcellLib
         /// <summary>
         /// Add a plugin to the registry
         /// </summary>
-        /// <param name="p">the plugin</param>
+        /// <param name="pluginType">the plugin</param>
         public IEcellPlugin RegisterPlugin(Type pluginType)
         {
             IEcellPlugin p = null;

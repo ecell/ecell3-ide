@@ -47,6 +47,9 @@ namespace EcellLib.Plugin
     /// </summary>
     public interface IEcellPlugin
     {
+        /// <summary>
+        /// 
+        /// </summary>
         ApplicationEnvironment Environment { get; set; }
 
         #region Methods to return answer or objects.

@@ -55,21 +55,30 @@ namespace EcellLib.Message
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// 
+        /// </summary>
         public MessageType MessageType
         {
             get { return m_type; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public string Message
         {
             get { return m_message; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public DateTime Timestamp
         {
             get { return m_time; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public abstract string Location
         {
             get;

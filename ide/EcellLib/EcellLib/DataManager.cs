@@ -1808,7 +1808,6 @@ namespace EcellLib
             if (system.Key.Equals("/"))
             {
                 throw new Exception(MessageResLib.ErrDelRoot);
-                return;
             }
             // Get objects under this system.
             List<EcellObject> eoList = GetObjectUnder(modelID, key);

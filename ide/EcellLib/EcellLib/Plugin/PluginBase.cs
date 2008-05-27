@@ -122,6 +122,9 @@ namespace EcellLib.Plugin
 
         #region Inherited methods from IEcellPlugin.
         #region Methods involved in the object lifecycle
+        /// <summary>
+        /// 
+        /// </summary>
         public virtual void Initialize()
         {
         }

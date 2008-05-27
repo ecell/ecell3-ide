@@ -3,25 +3,33 @@ namespace EcellLib
     using System;
     using NUnit.Framework;
 
-
+    /// <summary>
+    /// 
+    /// </summary>
     [TestFixture()]
     public class TestPluginData
     {
 
         private PluginData _unitUnderTest;
-
+        /// <summary>
+        /// 
+        /// </summary>
         [SetUp()]
         public void SetUp()
         {
             _unitUnderTest = new PluginData();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [TearDown()]
         public void TearDown()
         {
             _unitUnderTest = null;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestConstructorPluginData()
         {
@@ -30,7 +38,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestConstructorPluginDataIdKey()
         {
@@ -41,7 +51,9 @@ namespace EcellLib
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestEquals()
         {

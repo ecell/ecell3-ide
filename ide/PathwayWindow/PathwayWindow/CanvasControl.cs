@@ -869,7 +869,6 @@ namespace EcellLib.PathwayWindow
             PPathwayLayer layer = m_layers[layerName];
             // Set Visibility.
             layer.Visible = isShown;
-            Refresh();
         }
 
         /// <summary>
@@ -1429,20 +1428,6 @@ namespace EcellLib.PathwayWindow
             ResetSelectedSystem();
             ResetSelectedNodes();
             ResetSelectedLine();
-        }
-
-        /// <summary>
-        /// Change visibility of control layer, according to visibility of object layers.
-        /// If any object layer is visible, control layer is visible.
-        /// Otherwise, a control layer is not visible
-        /// </summary>
-        public void Refresh()
-        {
-            foreach (PPathwayObject obj in GetAllObjects())
-            {
-                obj.RefreshView();
-            }
-            m_pCanvas.Refresh();
         }
 
         /// <summary>

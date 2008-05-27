@@ -57,7 +57,9 @@ namespace EcellLib.Job
         private Dictionary<int, ExecuteParameter> m_parameterDic = new Dictionary<int, ExecuteParameter>();
 
         private Timer m_timer;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public ApplicationEnvironment Environment
         {
             get { return m_env; }
