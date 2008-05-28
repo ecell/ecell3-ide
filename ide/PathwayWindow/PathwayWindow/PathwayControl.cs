@@ -318,6 +318,7 @@ namespace EcellLib.PathwayWindow
                 string modelId = CheckNewModel(data);
                 bool isFirst = (modelId != null);
                 // Load each EcellObject onto the canvas.
+                Console.WriteLine(DateTime.Now.ToLongTimeString() + " : START");
                 foreach (EcellObject obj in data)
                 {
                     DataAdd(obj, true, isFirst);
@@ -326,6 +327,7 @@ namespace EcellLib.PathwayWindow
                     foreach (EcellObject node in obj.Children)
                         DataAdd(node, true, isFirst);
                 }
+                Console.WriteLine(DateTime.Now.ToLongTimeString() + " : END");
                 // Set layout.
                 SetLayout(data, modelId, isFirst);
             }
@@ -421,9 +423,11 @@ namespace EcellLib.PathwayWindow
                 return;
 
             // Create PathwayObject and set to canvas.
+//            Console.WriteLine(DateTime.Now.ToLongTimeString() + " : START CS");
             ComponentType cType = ComponentManager.ParseStringToComponentType(eo.Type);
             ComponentSetting cs = m_csManager.GetDefaultComponentSetting(cType);
             PPathwayObject obj = cs.CreateNewComponent(eo);
+//            Console.WriteLine(DateTime.Now.ToLongTimeString() + " : END CS");
             m_canvas.DataAdd(eo.ParentSystemID, obj, eo.IsPosSet, isFirst);
             if(!isFirst)
                 NotifyDataChanged(eo.Key, eo.Key, obj, true, false);
@@ -716,6 +720,33 @@ namespace EcellLib.PathwayWindow
         {
             m_window.NotifyDataChanged(oldKey, eo, isRecorded, isAnchor);
         }
+
+        public void NotiftSetPosition(EcellObject eo)
+        {
+            m_window.NotiftSetPosition(eo);
+        }
+
+        public void SetPosition(EcellObject eo)
+        {
+            // Select Canvas
+            if (m_canvas == null)
+                return;
+            // If case SystemSize
+            if (eo.Key.EndsWith(":SIZE"))
+                return;
+            // Select changed object.
+            PPathwayObject obj = m_canvas.GetSelectedObject(eo.Key, eo.Type);
+            if (obj == null)
+                return;
+
+            // Change data.
+            obj.ViewMode = false;
+            obj.EcellObject = eo;
+            obj.ViewMode = m_isViewMode;
+
+            m_canvas.SetPosition(obj);
+        }
+
 
         /// <summary>
         /// Notify DataChanged event to outside (PathwayControl -> PathwayWindow -> DataManager)

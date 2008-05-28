@@ -193,6 +193,16 @@ namespace EcellLib.PathwayWindow
             m_dManager.DataChanged(eo.ModelID, oldKey, eo.Type, eo, isRecorded, isAnchor);
         }
 
+        public void NotiftSetPosition(EcellObject eo)
+        {
+            m_dManager.SetPosition(eo);
+        }
+
+        public override void SetPosition(EcellObject eo)
+        {
+            m_con.SetPosition(eo);
+        }
+
         /// <summary>
         /// Inform the deleting of EcellObject in PathwayEditor to DataManager.
         /// </summary>

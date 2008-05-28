@@ -604,7 +604,8 @@ namespace EcellLib.PathwayWindow
                     obj.X = maxX + PPathwaySystem.SYSTEM_MARGIN;
                     obj.Y = system.Y + system.Offset.Y + PPathwaySystem.SYSTEM_MARGIN;
                     SetSystemSize(obj);
-                    system.MakeSpace(obj, !isFirst);
+                    if (!isFirst)
+                        system.MakeSpace(obj, !isFirst);
                 }
             }
             obj.Refresh();
@@ -1162,6 +1163,7 @@ namespace EcellLib.PathwayWindow
             obj.ParentObject = m_systems[obj.EcellObject.ParentSystemID];
 
         }
+        
         /// <summary>
         /// The event sequence on changing value of data at other plugin.
         /// </summary>
@@ -1178,6 +1180,20 @@ namespace EcellLib.PathwayWindow
             obj.ViewMode = m_isViewMode;
             obj.RefreshView();
         }
+
+        /// <summary>
+        /// The event sequence on changing value of data at other plugin.
+        /// </summary>
+        /// <param name="obj">Changed value of object.</param>
+        public void SetPosition(PPathwayObject obj)
+        {
+            // Set Layer
+            SetLayer(obj);
+            // Set visibility
+            //obj.RefreshView();
+        }
+
+
         /// <summary>
         /// event sequence of deleting the object.
         /// </summary>

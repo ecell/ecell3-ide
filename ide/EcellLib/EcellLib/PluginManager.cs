@@ -309,7 +309,9 @@ namespace EcellLib
         {
             foreach (IEcellPlugin p in m_pluginList.Values)
             {
+                Console.WriteLine(DateTime.Now.ToLongTimeString() + " : START [" + p.GetPluginName() + "]");
                 p.DataAdd(data);
+                Console.WriteLine(DateTime.Now.ToLongTimeString() + " : END [" + p.GetPluginName() + "]");
             }
         }
 

@@ -4877,6 +4877,12 @@ namespace EcellLib
             }
         }
 
+        public void SetPosition(EcellObject eo)
+        {
+            // not implement.
+            m_env.PluginManager.SetPosition(eo);
+        }
+
         /// <summary>
         /// Sets the parameter of the simulator.
         /// </summary>
