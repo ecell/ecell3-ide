@@ -560,6 +560,7 @@ namespace EcellLib.PathwayWindow
             SetLayer(obj);
             obj.Canvas = this;
             obj.ShowingID = m_showingId;
+            obj.ViewMode = m_isViewMode;
 
             RegisterObjToSet(obj);
             if (obj is PPathwayNode)
@@ -579,11 +580,10 @@ namespace EcellLib.PathwayWindow
             // If obj hasn't coordinate, it will be settled. 
             if (obj is PPathwayNode)
             {
-                obj.ViewMode = false;
                 if (!hasCoords)
-                    obj.PointF = GetVacantPoint(systemName);
+                    obj.CenterPointF = GetVacantPoint(systemName);
                 else if (!system.Rect.Contains(obj.PointF))
-                    obj.PointF = GetVacantPoint(systemName, obj.Rect);
+                    obj.CenterPointF = GetVacantPoint(systemName, obj.Rect);
             }
             if (obj is PPathwaySystem)
             {
@@ -1176,7 +1176,7 @@ namespace EcellLib.PathwayWindow
             // Set Layer
             SetLayer(obj);
             // Set visibility
-            obj.ViewMode = m_isViewMode;
+            obj.RefreshView();
         }
 
         /// <summary>

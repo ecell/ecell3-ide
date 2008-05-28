@@ -388,8 +388,6 @@ namespace EcellLib.PathwayWindow.Nodes
         {
             get { return this.m_lineBrush; }
             set {
-                if (m_lineBrush == value)
-                    return;
                 this.m_lineBrush = value;
                 Pen = new Pen(value, 0);
             }
@@ -411,8 +409,6 @@ namespace EcellLib.PathwayWindow.Nodes
             set
             {
                 this.m_isSelected = value;
-                if (this.Brush == m_highLightBrush)
-                    return;
                 if (value)
                     this.Brush = m_highLightBrush;
                 else
@@ -428,8 +424,6 @@ namespace EcellLib.PathwayWindow.Nodes
             get { return m_isViewMode; }
             set
             {
-                if (m_isViewMode == value)
-                    return;
                 m_isViewMode = value;
                 RefreshView();
                 SetTextVisiblity();
@@ -446,7 +440,9 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 this.m_isInvalid = value;
                 if (value)
+                {
                     this.Brush = m_invalidBrush;
+                }
                 else if (m_isSelected)
                     this.Brush = m_highLightBrush;
                 else

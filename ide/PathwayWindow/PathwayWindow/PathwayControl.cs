@@ -455,9 +455,7 @@ namespace EcellLib.PathwayWindow
                 return;
 
             // Change data.
-            obj.ViewMode = false;
             obj.EcellObject = eo;
-            obj.ViewMode = m_isViewMode;
             m_canvas.DataChanged(oldKey, eo.Key, obj);
         }
 
@@ -498,9 +496,7 @@ namespace EcellLib.PathwayWindow
                 return;
 
             // Change data.
-            obj.ViewMode = false;
             obj.EcellObject = eo;
-            obj.ViewMode = m_isViewMode;
 
             m_canvas.SetPosition(obj);
         }
