@@ -372,8 +372,6 @@ namespace EcellLib.PathwayWindow.Nodes
             get { return this.m_fillBrush; }
             set
             {
-                if (m_fillBrush == value)
-                    return;
                 this.m_fillBrush = value;
                 base.Brush = m_fillBrush;
             }
