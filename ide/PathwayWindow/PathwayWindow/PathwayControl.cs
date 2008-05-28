@@ -312,6 +312,7 @@ namespace EcellLib.PathwayWindow
         public void DataAdd(List<EcellObject> data)
         {
             // Load Model.
+            Debug.Print("Start:" + DateTime.Now);
             try
             {
                 // Check New Model.
@@ -336,6 +337,7 @@ namespace EcellLib.PathwayWindow
                 Debug.WriteLine(e.StackTrace);
                 throw new PathwayException(MessageResPathway.ErrUnknowType, e);
             }
+            Debug.Print("End:" + DateTime.Now);
         }
         /// <summary>
         /// Check new model.

@@ -105,6 +105,35 @@ namespace EcellLib.PathwayWindow.Nodes
                 }
             }
         }
+
+        /// <summary>
+        /// get/set m_isViewMode.
+        /// </summary>
+        public override bool ViewMode
+        {
+            get
+            {
+                return base.ViewMode;
+            }
+            set
+            {
+                if (m_isViewMode != value)
+                {
+                    m_path.Reset();
+                    PointF centerPos = this.CenterPointF;
+                    if (value)
+                    {
+                        base.AddPath(m_tempFigure.GraphicsPath, false);
+                    }
+                    else
+                    {
+                        base.AddPath(m_figure.GraphicsPath, false);
+                    }
+                    base.CenterPointF = centerPos;
+                }
+                base.ViewMode = value;
+            }
+        }
         #endregion
 
         #region Constructor
@@ -302,24 +331,6 @@ namespace EcellLib.PathwayWindow.Nodes
             base.Refresh();
         }
 
-        /// <summary>
-        /// Change View Mode.
-        /// </summary>
-        public override void RefreshView()
-        {
-            m_path.Reset();
-            PointF centerPos = this.CenterPointF;
-            if (m_isViewMode)
-            {
-                base.AddPath(m_tempFigure.GraphicsPath, false);
-            }
-            else
-            {
-                base.AddPath(m_figure.GraphicsPath, false);
-            }
-            base.CenterPointF = centerPos;
-            base.RefreshView();
-        }
         /// <summary>
         /// SetTextVisiblity
         /// </summary>

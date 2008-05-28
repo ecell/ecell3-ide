@@ -351,6 +351,8 @@ namespace EcellLib.PathwayWindow.Nodes
             set
             {
                 this.m_figure = value;
+                this.m_path.Reset();
+                this.AddPath(m_figure.GraphicsPath, false);
                 RefreshView();
             }
         }
@@ -643,7 +645,6 @@ namespace EcellLib.PathwayWindow.Nodes
             foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(this.EcellObject.Key))
             {
                 child.ResetPosition();
-                child.RefreshView();
             }
         }
         /// <summary>

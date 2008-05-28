@@ -63,10 +63,10 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         public PDisplayedArea()
         {
-            this.Brush = m_brush;
-            this.Pen = new Pen(Brushes.DarkRed, 4);
+            base.Brush = m_brush;
+            base.Pen = new Pen(Brushes.DarkRed, 4);
             RectangleFigure fig = new RectangleFigure();
-            this.AddPath(fig.GraphicsPath, false);
+            base.AddPath(fig.GraphicsPath, false);
         }
 
         #region inherited from PPathwayObject
