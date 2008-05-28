@@ -934,7 +934,7 @@ namespace EcellLib.PathwayWindow
                     line.Info.ProcessKey,
                     line.Info.VariableKey,
                     RefChangeType.Delete,
-                    0,
+                    line.Info.Coefficient,
                     true);
                 canvas.ResetSelectedLine();
             }

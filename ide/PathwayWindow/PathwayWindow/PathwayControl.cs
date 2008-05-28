@@ -836,7 +836,7 @@ namespace EcellLib.PathwayWindow
 
             foreach (EcellReference er in refList)
             {
-                if (er.FullID.EndsWith(varKey))
+                if (CheckReference(er, varKey, changeType, coefficient))
                     oldRef = er.Copy();
                 else
                     newList.Add(er.Copy());
@@ -904,6 +904,25 @@ namespace EcellLib.PathwayWindow
                 Debug.WriteLine(e.Message);
             }
 
+        }
+
+        /// <summary>
+        /// Check Selected reference
+        /// </summary>
+        /// <param name="er"></param>
+        /// <param name="varKey"></param>
+        /// <param name="changeType"></param>
+        /// <param name="coefficient"></param>
+        /// <returns></returns>
+        private bool CheckReference(EcellReference er, string varKey, RefChangeType changeType, int coefficient)
+        {
+            if (!varKey.Equals(er.Key))
+                return false;
+            if (changeType == RefChangeType.BiDir || coefficient == 0)
+                return true;
+            if (er.Coefficient == coefficient)
+                return true;
+            return false;
         }
 
         /// <summary>
