@@ -1382,10 +1382,17 @@ namespace EcellLib.PathwayWindow
                 NotifySetPosition(system);
             }
             int i = 0;
+            int allcount = nodeList.Count;
+            int count = 0;
+            Progress(50);
             foreach (EcellObject node in nodeList)
             {
                 if (!node.isFixed)
+                {
+                    Progress(count * 50 / allcount + 50);
+                    count++;
                     continue;
+                }
 
                 i++;
                 node.isFixed = false;
@@ -1393,7 +1400,10 @@ namespace EcellLib.PathwayWindow
                     NotifySetPosition(node);
                 else
                     NotifySetPosition(node);
+                Progress(count * 50 / allcount + 50);
+                count++;
             }
+            Progress(100);
         }
 
         #endregion
