@@ -73,6 +73,8 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         public void Initialize()
         {
+            if (m_con.Canvas == null)
+                return;
             m_con.Canvas.PCanvas.Cursor = new Cursor(new MemoryStream(PathwayResource.move));
             m_con.Canvas.ResetSelectedObjects();
             PCanvas canvas = m_con.Canvas.PCanvas;
@@ -83,6 +85,8 @@ namespace EcellLib.PathwayWindow.Handler
         /// </summary>
         public void Reset()
         {
+            if (m_con.Canvas == null)
+                return;
             m_con.Canvas.PCanvas.Cursor = Cursors.Arrow;
             PCanvas canvas = m_con.Canvas.PCanvas;
             canvas.Camera.Pickable = true;

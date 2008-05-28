@@ -815,14 +815,15 @@ namespace EcellLib.PathwayWindow
                 else
                     button.Checked = false;
             }
+
+            if (m_con.Canvas == null)
+                return;
+
             ((IPathwayEventHandler)handler).Initialize();
             AddInputEventListener(handler);
             if (handler is DefaultMouseHandler
                 || handler is PPathwayPanEventHandler)
                 m_defHandle = handle;
-
-            if (m_con.Canvas == null)
-                return;
             m_con.Canvas.LineHandler.SetLineVisibility(false);
         }
 
