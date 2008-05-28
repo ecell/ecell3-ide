@@ -4879,8 +4879,10 @@ namespace EcellLib
 
         public void SetPosition(EcellObject eo)
         {
+            EcellObject oldNode = m_currentProject.GetEcellObject(eo.ModelID, eo.Type, eo.Key);
+            oldNode.SetPosition(eo);
             // not implement.
-            m_env.PluginManager.SetPosition(eo);
+            m_env.PluginManager.SetPosition(oldNode.Copy());
         }
 
         /// <summary>

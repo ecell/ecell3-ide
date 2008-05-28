@@ -192,12 +192,18 @@ namespace EcellLib.PathwayWindow
                 return;
             m_dManager.DataChanged(eo.ModelID, oldKey, eo.Type, eo, isRecorded, isAnchor);
         }
-
-        public void NotiftSetPosition(EcellObject eo)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eo"></param>
+        public void NotifySetPosition(EcellObject eo)
         {
             m_dManager.SetPosition(eo);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eo"></param>
         public override void SetPosition(EcellObject eo)
         {
             m_con.SetPosition(eo);

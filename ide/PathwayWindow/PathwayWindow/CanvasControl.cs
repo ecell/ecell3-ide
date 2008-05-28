@@ -592,11 +592,11 @@ namespace EcellLib.PathwayWindow
                     float maxX = system.X + system.OffsetX;
                     float x = 0f;
                     List<PPathwayObject> list = GetAllObjectUnder(system.EcellObject.Key);
-                    foreach (PPathwayObject ppo in list)
+                    foreach (PPathwayObject child in list)
                     {
-                        if (ppo == obj)
+                        if (child == obj)
                             continue;
-                        x = ppo.X + ppo.OffsetX + ppo.Width;
+                        x = child.X + child.OffsetX + child.Width;
                         if (maxX < x)
                             maxX = x;
                     }
@@ -604,8 +604,7 @@ namespace EcellLib.PathwayWindow
                     obj.X = maxX + PPathwaySystem.SYSTEM_MARGIN;
                     obj.Y = system.Y + system.Offset.Y + PPathwaySystem.SYSTEM_MARGIN;
                     SetSystemSize(obj);
-                    if (!isFirst)
-                        system.MakeSpace(obj, !isFirst);
+                    system.MakeSpace(obj, !isFirst);
                 }
             }
             obj.Refresh();

@@ -271,13 +271,13 @@ namespace EcellLib.PathwayWindow.Nodes
                 if (!obj.Rect.Contains(child.Rect) && !obj.Rect.IntersectsWith(child.Rect))
                     continue;
                 child.PointF = m_canvas.GetVacantPoint(m_ecellObj.Key, child.Rect);
-                m_canvas.Control.NotifyDataChanged(child.EcellObject.Key, child.EcellObject.Key, child, isRecorded, false);
+                m_canvas.Control.NotifySetPosition(child);
             }
 
             // Make parent system create space for this system.
             if (m_parentSystem != null)
                 m_parentSystem.MakeSpace(this, isRecorded);
-            m_canvas.Control.NotifyDataChanged(m_ecellObj.Key, m_ecellObj.Key, this, isRecorded, false);
+            m_canvas.Control.NotifySetPosition(this);
             this.Refresh();
         }
 

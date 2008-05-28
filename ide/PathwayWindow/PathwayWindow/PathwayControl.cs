@@ -431,8 +431,7 @@ namespace EcellLib.PathwayWindow
             PPathwayObject obj = cs.CreateNewComponent(eo);
 //            Console.WriteLine(DateTime.Now.ToLongTimeString() + " : END CS");
             m_canvas.DataAdd(eo.ParentSystemID, obj, eo.IsPosSet, isFirst);
-            if(!isFirst)
-                NotifyDataChanged(eo.Key, eo.Key, obj, true, false);
+            NotifySetPosition(obj);
         }
 
         /// <summary>
@@ -479,6 +478,31 @@ namespace EcellLib.PathwayWindow
 
             // Delete object.
             m_canvas.DataDelete(key, type);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eo"></param>
+        public void SetPosition(EcellObject eo)
+        {
+            // Select Canvas
+            if (m_canvas == null)
+                return;
+            // If case SystemSize
+            if (eo.Key.EndsWith(":SIZE"))
+                return;
+            // Select changed object.
+            PPathwayObject obj = m_canvas.GetSelectedObject(eo.Key, eo.Type);
+            if (obj == null)
+                return;
+
+            // Change data.
+            obj.ViewMode = false;
+            obj.EcellObject = eo;
+            obj.ViewMode = m_isViewMode;
+
+            m_canvas.SetPosition(obj);
         }
 
         /// <summary>
@@ -722,31 +746,29 @@ namespace EcellLib.PathwayWindow
         {
             m_window.NotifyDataChanged(oldKey, eo, isRecorded, isAnchor);
         }
-
-        public void NotiftSetPosition(EcellObject eo)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eo"></param>
+        public void NotifySetPosition(PPathwayObject obj)
         {
-            m_window.NotiftSetPosition(eo);
+            EcellObject eo = obj.EcellObject;
+            eo.X = obj.X;
+            eo.Y = obj.Y;
+            eo.Width = obj.Width;
+            eo.Height = obj.Height;
+            eo.OffsetX = obj.OffsetX;
+            eo.OffsetY = obj.OffsetY;
+
+            NotifySetPosition(eo);
         }
-
-        public void SetPosition(EcellObject eo)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eo"></param>
+        public void NotifySetPosition(EcellObject eo)
         {
-            // Select Canvas
-            if (m_canvas == null)
-                return;
-            // If case SystemSize
-            if (eo.Key.EndsWith(":SIZE"))
-                return;
-            // Select changed object.
-            PPathwayObject obj = m_canvas.GetSelectedObject(eo.Key, eo.Type);
-            if (obj == null)
-                return;
-
-            // Change data.
-            obj.ViewMode = false;
-            obj.EcellObject = eo;
-            obj.ViewMode = m_isViewMode;
-
-            m_canvas.SetPosition(obj);
+            m_window.NotifySetPosition(eo);
         }
 
 
@@ -1340,7 +1362,7 @@ namespace EcellLib.PathwayWindow
                 if (!system.isFixed)
                     continue;
                 system.isFixed = false;
-                this.NotifyDataChanged(system.Key, system, isRecorded, false);
+                NotifySetPosition(system);
             }
             int i = 0;
             foreach (EcellObject node in nodeList)
@@ -1351,9 +1373,9 @@ namespace EcellLib.PathwayWindow
                 i++;
                 node.isFixed = false;
                 if(i != nodeNum)
-                    this.NotifyDataChanged(node.Key, node, isRecorded, false);
+                    NotifySetPosition(node);
                 else
-                    this.NotifyDataChanged(node.Key, node, isRecorded, true);
+                    NotifySetPosition(node);
             }
         }
 

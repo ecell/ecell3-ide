@@ -273,8 +273,7 @@ namespace EcellLib.PathwayWindow {
             eo.Width = GetFloatAttribute(node, PathwayConstants.xPathWidth);
             eo.Height = GetFloatAttribute(node, PathwayConstants.xPathHeight);
 
-            canvas.Control.NotiftSetPosition(eo);
-//            canvas.Control.NotifyDataChanged(eo.Key, eo, false, false);
+            canvas.Control.NotifySetPosition(eo);
         }
 
         /// <summary>
