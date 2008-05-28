@@ -649,7 +649,6 @@ namespace EcellLib.MainWindow
         public void LoadModelThread(string modelID)
         {
             m_env.PluginManager.LoadData(modelID);
-            m_env.DataManager.SetPositions(modelID);
             m_editCount = 0;
         }
         /// <summary>

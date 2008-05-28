@@ -318,7 +318,6 @@ namespace EcellLib.PathwayWindow
                 string modelId = CheckNewModel(data);
                 bool isFirst = (modelId != null);
                 // Load each EcellObject onto the canvas.
-                Console.WriteLine(DateTime.Now.ToLongTimeString() + " : START");
                 foreach (EcellObject obj in data)
                 {
                     DataAdd(obj, true, isFirst);
@@ -327,7 +326,6 @@ namespace EcellLib.PathwayWindow
                     foreach (EcellObject node in obj.Children)
                         DataAdd(node, true, isFirst);
                 }
-                Console.WriteLine(DateTime.Now.ToLongTimeString() + " : END");
                 // Set layout.
                 SetLayout(data, modelId, isFirst);
             }
@@ -396,7 +394,6 @@ namespace EcellLib.PathwayWindow
             bool isAnchor,
             bool isFirst)
         {
-            Console.WriteLine(DateTime.Now.ToLongTimeString() + " : ADD : " + eo.Key); 
             // Null check.
             if (eo == null)
                 return;
@@ -483,7 +480,6 @@ namespace EcellLib.PathwayWindow
         /// <param name="eo"></param>
         public void SetPosition(EcellObject eo)
         {
-            Console.WriteLine(DateTime.Now.ToLongTimeString() + " : SETPOSITION : " + eo.Key);
             // Select Canvas
             if (m_canvas == null)
                 return;

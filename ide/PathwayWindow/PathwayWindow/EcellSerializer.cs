@@ -166,19 +166,14 @@ namespace EcellLib.PathwayWindow {
             XmlDocument xmlD = new XmlDocument();
             try
             {
-                Console.WriteLine(DateTime.Now.ToLongTimeString() + " : START LOAD LEML");
                 xmlD.Load(filename);
                 XmlNode applicationData = GetNodeByKey(xmlD, PathwayConstants.xPathApplication);
                 // Load EcellObjects
                 XmlNode ecellObjects = GetNodeByKey(applicationData, PathwayConstants.xPathEcellObjectList);
-                Console.WriteLine(DateTime.Now.ToLongTimeString() + " : START END LEML");
-                Console.WriteLine(DateTime.Now.ToLongTimeString() + " : START CHANGED");
                 SetEcellObjects(canvas, ecellObjects);
                 // Load Layers
                 XmlNode layers = GetNodeByKey(applicationData, PathwayConstants.xPathLayerList);
                 SetLayers(canvas, layers);
-                // Load Comments
-                Console.WriteLine(DateTime.Now.ToLongTimeString() + " : END CHANGED");
             }
             catch (Exception ex)
             {
