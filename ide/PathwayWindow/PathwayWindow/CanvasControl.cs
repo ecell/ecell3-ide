@@ -1188,7 +1188,7 @@ namespace EcellLib.PathwayWindow
             // Set Layer
             SetLayer(obj);
             // Set visibility
-            //obj.RefreshView();
+            obj.RefreshView();
         }
 
 

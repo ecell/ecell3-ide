@@ -312,7 +312,6 @@ namespace EcellLib.PathwayWindow
         public void DataAdd(List<EcellObject> data)
         {
             // Load Model.
-            Debug.Print("Start:" + DateTime.Now);
             try
             {
                 // Check New Model.
@@ -337,7 +336,6 @@ namespace EcellLib.PathwayWindow
                 Debug.WriteLine(e.StackTrace);
                 throw new PathwayException(MessageResPathway.ErrUnknowType, e);
             }
-            Debug.Print("End:" + DateTime.Now);
         }
         /// <summary>
         /// Check new model.
@@ -398,6 +396,7 @@ namespace EcellLib.PathwayWindow
             bool isAnchor,
             bool isFirst)
         {
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + " : ADD : " + eo.Key); 
             // Null check.
             if (eo == null)
                 return;
@@ -443,6 +442,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="eo">Changed value of object.</param>
         public void DataChanged(string modelID, string oldKey, string type, EcellObject eo)
         {
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + " : CHANGE : " + eo.Key);
             // Select Canvas
             if (m_canvas == null)
                 return;
@@ -458,7 +458,6 @@ namespace EcellLib.PathwayWindow
             obj.ViewMode = false;
             obj.EcellObject = eo;
             obj.ViewMode = m_isViewMode;
-            obj.Refresh();
             m_canvas.DataChanged(oldKey, eo.Key, obj);
         }
 
@@ -486,6 +485,7 @@ namespace EcellLib.PathwayWindow
         /// <param name="eo"></param>
         public void SetPosition(EcellObject eo)
         {
+            Console.WriteLine(DateTime.Now.ToLongTimeString() + " : SETPOSITION : " + eo.Key);
             // Select Canvas
             if (m_canvas == null)
                 return;

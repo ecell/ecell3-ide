@@ -508,6 +508,7 @@ namespace EcellLib.Objects
             this.OffsetY = obj.OffsetY;
             this.Width = obj.Width;
             this.Height = obj.Height;
+            this.LayerID = obj.LayerID;
         }
 
         /// <summary>
