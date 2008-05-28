@@ -741,7 +741,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="eo"></param>
+        /// <param name="obj"></param>
         public void NotifySetPosition(PPathwayObject obj)
         {
             EcellObject eo = obj.EcellObject;

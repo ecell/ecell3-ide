@@ -143,7 +143,6 @@ namespace EcellLib.PathwayWindow.Nodes
         }
         #endregion
 
-
         /// <summary>
         /// Refresh Text contents of this object.
         /// </summary>

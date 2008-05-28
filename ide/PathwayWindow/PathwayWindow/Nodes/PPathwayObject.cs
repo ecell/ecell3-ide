@@ -351,9 +351,6 @@ namespace EcellLib.PathwayWindow.Nodes
             set
             {
                 this.m_figure = value;
-                this.m_path.Reset();
-                this.AddPath(m_figure.GraphicsPath, false);
-                RefreshView();
             }
         }
         /// <summary>
@@ -644,7 +641,10 @@ namespace EcellLib.PathwayWindow.Nodes
             base.Width = this.m_originalWidth;
             base.Height = this.m_originalHeight;
             RefreshView();
-            foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(this.EcellObject.Key))
+            // if system refresh children.
+            if (m_ecellObj == null || !(m_ecellObj is EcellSystem))
+                return;
+            foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(m_ecellObj.Key))
             {
                 child.ResetPosition();
             }

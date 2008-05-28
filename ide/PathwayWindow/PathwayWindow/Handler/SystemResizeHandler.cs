@@ -96,7 +96,6 @@ namespace EcellLib.PathwayWindow.Handler
         {
             // Resizing is aborted
             m_obj.ResetPosition();
-            m_obj.RefreshView();
             ValidateSystem();
             UpdateResizeHandle();
             m_canvas.ResetSelectedObjects();

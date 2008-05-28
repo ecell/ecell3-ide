@@ -4876,7 +4876,10 @@ namespace EcellLib
                     m_env.PluginManager.SetPosition(eo);
             }
         }
-
+        /// <summary>
+        /// SetPosition
+        /// </summary>
+        /// <param name="eo"></param>
         public void SetPosition(EcellObject eo)
         {
             EcellObject oldNode = m_currentProject.GetEcellObject(eo.ModelID, eo.Type, eo.Key);

@@ -320,7 +320,6 @@ namespace EcellLib.PathwayWindow.Handler
                 foreach (PPathwayObject node in nodeList)
                 {
                     node.ResetPosition();
-                    node.Refresh();
                 }
                 return;
             }
