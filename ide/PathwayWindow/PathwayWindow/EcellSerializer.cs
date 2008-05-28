@@ -234,17 +234,27 @@ namespace EcellLib.PathwayWindow {
             if (ecellObjects == null || ecellObjects.ChildNodes.Count <= 0)
                 return;
 
+            canvas.Control.Progress(50);
+            int allcount = ecellObjects.ChildNodes.Count;
+            int count = 0;
             foreach (XmlNode node in ecellObjects.ChildNodes)
             {
                 if (!node.Name.Equals(PathwayConstants.xPathEcellObject))
+                {
+                    count++;
+                    canvas.Control.Progress(count * 50 / allcount + 50);
                     continue;
+                }
 
                 string modelID = GetStringAttribute(node, PathwayConstants.xPathModelID);
                 string key = GetStringAttribute(node, PathwayConstants.xPathKey);
                 string type = GetStringAttribute(node, PathwayConstants.xPathType);
                 string classname = GetStringAttribute(node, PathwayConstants.xPathClass);
                 SetPPathwayObject(canvas, node, key, type);
+                canvas.Control.Progress(count * 50 / allcount + 50);
+                count++;
             }
+            canvas.Control.Progress(100);
         }
         /// <summary>
         /// Set PPathwayObject

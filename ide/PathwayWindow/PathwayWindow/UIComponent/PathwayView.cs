@@ -62,6 +62,13 @@ namespace EcellLib.PathwayWindow.UIComponent
         protected PScrollableControl m_scrolCtrl;
         #endregion
 
+        #region
+        public ToolStripProgressBar ProgressBarControl
+        {
+            get { return this.ProgressBar; }
+        }
+        #endregion
+
         #region Constructor
         /// <summary>
         /// Constructor
@@ -166,6 +173,8 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.ProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.ProgressBar.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Minimum = 0;
+            this.ProgressBar.Maximum = 100;
             this.ProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
             // LocationLabel

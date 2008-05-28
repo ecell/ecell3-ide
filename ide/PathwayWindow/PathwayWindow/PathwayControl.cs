@@ -317,17 +317,36 @@ namespace EcellLib.PathwayWindow
                 // Check New Model.
                 string modelId = CheckNewModel(data);
                 bool isFirst = (modelId != null);
+                int allcount = data.Count;
+                int count = 0;
+                Progress(0);
                 // Load each EcellObject onto the canvas.
                 foreach (EcellObject obj in data)
                 {
                     DataAdd(obj, true, isFirst);
                     if (!(obj is EcellSystem))
+                    {
+                        if (isFirst)
+                        {
+                            Progress(count * 50 / allcount);
+                            count++;
+                        }
                         continue;
+                    }
                     foreach (EcellObject node in obj.Children)
                         DataAdd(node, true, isFirst);
+                    if (isFirst)
+                    {
+                        Progress(count * 50 / allcount);
+                        count++;
+                    }
                 }
+                if (isFirst)
+                    Progress(50);
                 // Set layout.
                 SetLayout(data, modelId, isFirst);
+                if (isFirst)
+                    Progress(0);
             }
             catch (Exception e)
             {
@@ -370,6 +389,12 @@ namespace EcellLib.PathwayWindow
                 else
                     DoLayout(m_menu.DefaultLayoutAlgorithm, 0, false);
             }
+        }
+
+        public void Progress(int percent)
+        {
+            m_pathwayView.ProgressBarControl.ProgressBar.Value = percent;
+            Application.DoEvents();
         }
 
         /// <summary>
