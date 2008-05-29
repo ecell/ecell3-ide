@@ -37,6 +37,7 @@ using System.Drawing;
 using EcellLib.Objects;
 using EcellLib.PathwayWindow.Handler;
 using UMD.HCIL.Piccolo;
+using EcellLib.PathwayWindow.Graphic;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -164,6 +165,29 @@ namespace EcellLib.PathwayWindow.Nodes
         public override PPathwayObject CreateNewObject()
         {
             return new PPathwayText();
+        }
+
+        /// <summary>
+        /// Create SVG object.
+        /// </summary>
+        /// <returns></returns>
+        public override string CreateSVGObject()
+        {
+            string svgObj = "<!--" + this.m_ecellObj.Key + "-->\n";
+            if (!base.Visible)
+                return svgObj;
+            // Create object
+            string textBrush = BrushManager.ParseBrushToString(m_setting.TextBrush);
+            string lineBrush = BrushManager.ParseBrushToString(m_setting.LineBrush);
+            string fillBrush = "url(#" + m_setting.Name + ")";
+            svgObj += m_figure.CreateSVGObject(this.Rect, lineBrush, fillBrush);
+            // Create Text
+            if (m_showingId)
+            {
+                PointF textPos = new PointF(m_pText.X, m_pText.Y + 16);
+                svgObj += SVGUtil.Text(textPos, m_pText.Text, textBrush, "", m_pText.Font.Size);
+            }
+            return svgObj;
         }
 
         /// <summary>

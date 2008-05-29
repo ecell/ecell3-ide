@@ -264,7 +264,7 @@ namespace EcellLib.PathwayWindow.Nodes
             if (!string.IsNullOrEmpty(text.Text) && text.Visible)
             {
                 PointF pos = new PointF(text.X, text.Y + text.Height);
-                obj += SVGUtil.Text(pos, text.Text, BrushManager.ParseBrushToString(text.TextBrush));
+                obj += SVGUtil.Text(pos, text.Text, BrushManager.ParseBrushToString(text.TextBrush), "", text.Font.Size);
             }
             return obj;
         }

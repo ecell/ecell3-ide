@@ -41,6 +41,14 @@ namespace EcellLib.PathwayWindow.Graphic
     public class SVGUtil
     {
         /// <summary>
+        /// 
+        /// </summary>
+        public const string SVG_FONT_FAMILY = "PGothic;sans-serif";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const float SVG_FONT_SIZE = 16;
+        /// <summary>
         /// Create Rectangle object.
         /// </summary>
         /// <param name="rect"></param>
@@ -263,7 +271,7 @@ namespace EcellLib.PathwayWindow.Graphic
         /// <returns></returns>
         public static string Text(PointF point, string text, string brush)
         {
-            return Text(point, text, brush, "");
+            return Text(point, text, brush, "bold", SVG_FONT_SIZE);
         }
         /// <summary>
         /// Create Text object.
@@ -271,18 +279,24 @@ namespace EcellLib.PathwayWindow.Graphic
         /// <param name="point"></param>
         /// <param name="text"></param>
         /// <param name="brush"></param>
+        /// <param name="font"></param>
         /// <param name="weight"></param>
+        /// <param name="size"></param>
         /// <returns></returns>
-        public static string Text(PointF point, string text, string brush, string weight)
+        public static string Text(PointF point, string text, string brush, string weight, float size)
         {
             string obj = "<text x=\"" + point.X.ToString()
             + "\" y=\"" + point.Y.ToString()
-            + "\" font-family=\"MS-Gothic"
-            + "\" font-size=\"16"
+            //+ "\" font-family=\"" + SVG_FONT_FAMILY
+            + "\" font-size=\"" + size.ToString()
             + "\" font-weight=\"" + weight
             + "\" fill=\"" + brush
-            + "\">" + text + "</text>\n";
+            + "\">\n" + SetText(text, point.X.ToString(), size.ToString()) + "</text>\n";
             return obj;
+        }
+        private static string SetText(string text, string x, string size)
+        {
+            return "<tspan>" + text.Replace("\n", "</tspan>\n<tspan x=\"" + x + "\" dy=\"" + size + "\">") + "</tspan>\n";
         }
         /// <summary>
         /// Create GradationBrush object.

@@ -390,7 +390,10 @@ namespace EcellLib.PathwayWindow
                     DoLayout(m_menu.DefaultLayoutAlgorithm, 0, false);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="percent"></param>
         public void Progress(int percent)
         {
             m_pathwayView.ProgressBarControl.ProgressBar.Value = percent;

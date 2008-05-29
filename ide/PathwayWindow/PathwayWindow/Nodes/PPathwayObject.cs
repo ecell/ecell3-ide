@@ -600,17 +600,20 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <returns></returns>
         public virtual string CreateSVGObject()
         {
-            string textBrush = BrushManager.ParseBrushToString(m_setting.TextBrush);
-            string lineBrush = BrushManager.ParseBrushToString(m_setting.LineBrush);
-            string fillBrush = "url(#" + m_setting.Name + ")";
-            PointF textPos = new PointF(m_pText.X, m_pText.Y + m_pText.Height);
             string svgObj = "<!--" + this.m_ecellObj.Key + "-->\n";
             if (!base.Visible)
                 return svgObj;
-
+            // Create object
+            string textBrush = BrushManager.ParseBrushToString(m_setting.TextBrush);
+            string lineBrush = BrushManager.ParseBrushToString(m_setting.LineBrush);
+            string fillBrush = "url(#" + m_setting.Name + ")";
             svgObj += m_figure.CreateSVGObject(this.Rect, lineBrush, fillBrush);
-            if(m_showingId)
-                svgObj += SVGUtil.Text(textPos, m_pText.Text, textBrush, "bold");
+            // Create Text
+            if (m_showingId)
+            {
+                PointF textPos = new PointF(m_pText.X, m_pText.Y + SVGUtil.SVG_FONT_SIZE);
+                svgObj += SVGUtil.Text(textPos, m_pText.Text, textBrush);
+            }
             return svgObj;
         }
         #endregion

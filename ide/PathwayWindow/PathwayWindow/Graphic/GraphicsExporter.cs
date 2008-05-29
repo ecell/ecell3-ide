@@ -99,10 +99,14 @@ namespace EcellLib.PathwayWindow.Graphic
 
         private static string GetGradationBrush(ComponentSetting setting)
         {
+            string fillBrush = BrushManager.ParseBrushToString(setting.FillBrush);
+            string centerBrush = BrushManager.ParseBrushToString(setting.FillBrush);
+            if (setting.IsGradation)
+                centerBrush = BrushManager.ParseBrushToString(setting.CenterBrush);
             string brush = SVGUtil.GradationBrush(
                 setting.Name,
-                BrushManager.ParseBrushToString(setting.CenterBrush),
-                BrushManager.ParseBrushToString(setting.FillBrush));
+                centerBrush,
+                fillBrush);
             return brush;
         }
     }

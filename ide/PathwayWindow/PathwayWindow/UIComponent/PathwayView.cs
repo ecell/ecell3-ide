@@ -63,6 +63,9 @@ namespace EcellLib.PathwayWindow.UIComponent
         #endregion
 
         #region
+        /// <summary>
+        /// 
+        /// </summary>
         public ToolStripProgressBar ProgressBarControl
         {
             get { return this.ProgressBar; }

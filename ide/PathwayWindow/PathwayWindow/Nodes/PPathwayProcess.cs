@@ -160,22 +160,22 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <returns></returns>
         public override string CreateSVGObject()
         {
-            string obj;
+            string obj = "";
+            foreach (List<PPathwayLine> list in m_lines.Values)
+                foreach (PPathwayLine line in list)
+                    if(line.Visible)
+                        obj += line.CreateSVGObject();
+
             if (!m_isViewMode)
             {
-                obj = base.CreateSVGObject();
+                obj += base.CreateSVGObject();
             }
             else
             {
                 string lineBrush = BrushManager.ParseBrushToString(m_setting.LineBrush);
                 string fillBrush = "url(#" + m_setting.Name + ")";
-                obj = m_tempFigure.CreateSVGObject(this.Rect, lineBrush, fillBrush);
+                obj += m_tempFigure.CreateSVGObject(this.Rect, lineBrush, fillBrush);
             }
-
-            foreach (List<PPathwayLine> list in m_lines.Values)
-                foreach (PPathwayLine line in list)
-                    if(line.Visible)
-                        obj += line.CreateSVGObject();
             return obj;
         }
 
