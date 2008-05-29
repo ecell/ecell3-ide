@@ -269,6 +269,14 @@
       <SubType>Designer</SubType>
       <DependentUpon>StartUpWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ProjectWizardWindow.ja.resx">
+      <DependentUpon>ProjectWizardWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectWizardWindow.resx">
+      <DependentUpon>ProjectWizardWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagram2.cd" />
     <None Include="Properties\AssemblyInfo.cs.tmpl" />
@@ -297,6 +305,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ZipUtil.cs" />
+    <Compile Include="ProjectWizardWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProjectWizardWindow.Designer.cs">
+      <DependentUpon>ProjectWizardWindow.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\ECellIDE.ico" />
