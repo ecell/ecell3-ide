@@ -120,6 +120,7 @@ namespace EcellLib.Analysis
         private List<string> m_headerList = new List<string>();
         private Dictionary<string, List<double>> m_cccResult = new Dictionary<string, List<double>>();
         private Dictionary<string, List<double>> m_fccResult = new Dictionary<string, List<double>>();
+        private string m_currentAnalysus = null;
         #endregion
 
         /// <summary>
@@ -232,6 +233,7 @@ namespace EcellLib.Analysis
         public void CloseAnalysisWindow()
         {
             m_win = null;
+            m_currentAnalysus = null;
             StopBifurcationAnalysis();
             StopParameterEstimation();
             StopRobustAnalysis();
@@ -534,7 +536,8 @@ namespace EcellLib.Analysis
                     m_robustAnalysis.StopAnalysis();
                 }
                 return;
-            }           
+            }
+            m_currentAnalysus = "RobustAnalysis";
             m_robustAnalysis = new RobustAnalysis(this);
             m_robustAnalysis.ExecuteAnalysis();
         }
@@ -557,6 +560,7 @@ namespace EcellLib.Analysis
                 }
                 return;
             }
+            m_currentAnalysus = "ParameterEstimation";
             m_parameterEstimation = new ParameterEstimation(this);
             m_parameterEstimation.ExecuteAnalysis();
         }
@@ -579,25 +583,9 @@ namespace EcellLib.Analysis
                 }
                 return;
             }
+            m_currentAnalysus = "SensitivityAnalysis";
             m_sensitivityAnalysis = new SensitivityAnalysis(this);
             m_sensitivityAnalysis.ExecuteAnalysis();
-        }
-
-        /// <summary>
-        /// Stop the all process of analysis.
-        /// </summary>
-        /// <param name="sender">MenuItem.</param>
-        /// <param name="e">EventArgs.</param>
-        private void StopAnalysis(object sender, EventArgs e)
-        {
-            if (m_bifurcationAnalysis != null)
-                m_bifurcationAnalysis.StopAnalysis();
-            if (m_parameterEstimation != null)
-                m_parameterEstimation.StopAnalysis();
-            if (m_robustAnalysis != null)
-                m_robustAnalysis.StopAnalysis();
-            if (m_sensitivityAnalysis != null)
-                m_sensitivityAnalysis.StopAnalysis();
         }
 
         /// <summary>
@@ -618,8 +606,26 @@ namespace EcellLib.Analysis
                 }
                 return;
             }
+            m_currentAnalysus = "BifurcationAnalysis";
             m_bifurcationAnalysis = new BifurcationAnalysis(this);
             m_bifurcationAnalysis.ExecuteAnalysis();
+        }
+
+        /// <summary>
+        /// Stop the all process of analysis.
+        /// </summary>
+        /// <param name="sender">MenuItem.</param>
+        /// <param name="e">EventArgs.</param>
+        private void StopAnalysis(object sender, EventArgs e)
+        {
+            if (m_bifurcationAnalysis != null)
+                m_bifurcationAnalysis.StopAnalysis();
+            if (m_parameterEstimation != null)
+                m_parameterEstimation.StopAnalysis();
+            if (m_robustAnalysis != null)
+                m_robustAnalysis.StopAnalysis();
+            if (m_sensitivityAnalysis != null)
+                m_sensitivityAnalysis.StopAnalysis();
         }
         #endregion
 
@@ -677,20 +683,64 @@ namespace EcellLib.Analysis
             ToolStripMenuItem stopAnalysisItem = new ToolStripMenuItem();
             stopAnalysisItem.Text = MessageResAnalysis.MenuItemStopAnalysis;
             stopAnalysisItem.ToolTipText = MessageResAnalysis.MenuItemStopAnalysis;
-            stopAnalysisItem.Tag = 80;
+            stopAnalysisItem.Tag = 90;
             stopAnalysisItem.Enabled = true;
             stopAnalysisItem.Click += new EventHandler(StopAnalysis);
 
+            ToolStripMenuItem saveAnalysisResultItem = new ToolStripMenuItem();
+            saveAnalysisResultItem.Text = MessageResAnalysis.MenuItemSaveAnalysisResult;
+            saveAnalysisResultItem.ToolTipText = MessageResAnalysis.MenuItemSaveAnalysisResult;
+            saveAnalysisResultItem.Tag = 100;
+            saveAnalysisResultItem.Enabled = true;
+            saveAnalysisResultItem.Click += new EventHandler(SaveAnalysisResult);
+
+            ToolStripMenuItem loadAnalysisResultItem = new ToolStripMenuItem();
+            loadAnalysisResultItem.Text = MessageResAnalysis.MenuItemLoadAnalysisResult;
+            loadAnalysisResultItem.ToolTipText = MessageResAnalysis.MenuItemLoadAnalysisResult;
+            loadAnalysisResultItem.Tag = 100;
+            loadAnalysisResultItem.Enabled = true;
+            loadAnalysisResultItem.Click += new EventHandler(LoadAnalysisResult);
 
             ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
             analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisItem, m_parameterEstimationItem, 
-                m_sensitivityAnalysisItem, m_bifurcationAnalysisItem, stopAnalysisItem });
+                m_sensitivityAnalysisItem, m_bifurcationAnalysisItem, stopAnalysisItem,
+                saveAnalysisResultItem, loadAnalysisResultItem
+            });
             analysisMenu.Text = "Analysis";
             analysisMenu.Name = "MenuItemAnalysis";
 
             list.Add(analysisMenu);
 
             return list;
+        }
+
+        private void SaveAnalysisResult(object sender, EventArgs e)
+        {
+            if (m_currentAnalysus == null) return;
+
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = Constants.FileExtCSV;
+            if (dialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            if (m_currentAnalysus.Equals("RobustAnalysis"))
+                m_rWin.SaveRobustAnalysisResult(dialog.FileName);
+            else if (m_currentAnalysus.Equals("BifurcationAnalysis"))
+                m_rWin.SaveBifurcationResult(dialog.FileName);
+            else if (m_currentAnalysus.Equals("ParameterEstimation"))
+                m_rWin.SaveParameterEstimationResult(dialog.FileName);
+            else if (m_currentAnalysus.Equals("SensitivityAnalysis"))
+                m_rWin.SaveSensitivityAnalysisResult(dialog.FileName);
+        }
+
+        private void LoadAnalysisResult(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = Constants.FileExtCSV;
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                m_rWin.LoadResultFile(dialog.FileName);
+            }
         }
 
         /// <summary>

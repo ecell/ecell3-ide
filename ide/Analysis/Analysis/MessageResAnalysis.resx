@@ -144,6 +144,9 @@
   <data name="ErrSameAxis" xml:space="preserve">
     <value>The selected data on X axis is same as the one on Y axis.</value>
   </data>
+  <data name="ErrSaveFile" xml:space="preserve">
+    <value>Can not save {0}.</value>
+  </data>
   <data name="ErrSetNumber" xml:space="preserve">
     <value>{0} should be set {1}.</value>
   </data>
@@ -165,11 +168,23 @@
   <data name="MenuItemBifurcationAnalysis" xml:space="preserve">
     <value>&amp;Bifurcation Analysis</value>
   </data>
+  <data name="MenuItemLoadAnalysisCond" xml:space="preserve">
+    <value>Load Analysis Parameter ...</value>
+  </data>
+  <data name="MenuItemLoadAnalysisResult" xml:space="preserve">
+    <value>Load Analysis Result ...</value>
+  </data>
   <data name="MenuItemParameterEstimation" xml:space="preserve">
     <value>&amp;Parameter Estimation</value>
   </data>
   <data name="MenuItemRobustAnalysis" xml:space="preserve">
     <value>&amp;Robust Analysis</value>
+  </data>
+  <data name="MenuItemSaveAnalysisCond" xml:space="preserve">
+    <value>Save Analysis Parameter ...</value>
+  </data>
+  <data name="MenuItemSaveAnalysisResult" xml:space="preserve">
+    <value>Save Analysis Result ...</value>
   </data>
   <data name="MenuItemSensitivityAnalysis" xml:space="preserve">
     <value>&amp;Sensitivity Analysis</value>

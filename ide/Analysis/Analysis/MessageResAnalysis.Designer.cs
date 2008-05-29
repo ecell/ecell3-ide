@@ -142,6 +142,15 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   Can not save {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSaveFile {
+            get {
+                return ResourceManager.GetString("ErrSaveFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} should be set {1}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSetNumber {
@@ -205,6 +214,24 @@ namespace EcellLib.Analysis {
         }
         
         /// <summary>
+        ///   Load Analysis Parameter ... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemLoadAnalysisCond {
+            get {
+                return ResourceManager.GetString("MenuItemLoadAnalysisCond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load Analysis Result ... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemLoadAnalysisResult {
+            get {
+                return ResourceManager.GetString("MenuItemLoadAnalysisResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   &amp;Parameter Estimation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemParameterEstimation {
@@ -219,6 +246,24 @@ namespace EcellLib.Analysis {
         internal static string MenuItemRobustAnalysis {
             get {
                 return ResourceManager.GetString("MenuItemRobustAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save Analysis Parameter ... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemSaveAnalysisCond {
+            get {
+                return ResourceManager.GetString("MenuItemSaveAnalysisCond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save Analysis Result ... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemSaveAnalysisResult {
+            get {
+                return ResourceManager.GetString("MenuItemSaveAnalysisResult", resourceCulture);
             }
         }
         

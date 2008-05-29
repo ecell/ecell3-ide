@@ -144,6 +144,9 @@
   <data name="ErrSameAxis" xml:space="preserve">
     <value>X軸とＹ軸に設定したパラメータが同じです。</value>
   </data>
+  <data name="ErrSaveFile" xml:space="preserve">
+    <value>{0} が保存できません。</value>
+  </data>
   <data name="ErrSetNumber" xml:space="preserve">
     <value>{0} は {1} 個設定してください。</value>
   </data>

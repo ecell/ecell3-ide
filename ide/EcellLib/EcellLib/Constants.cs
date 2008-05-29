@@ -123,6 +123,10 @@ namespace EcellLib
         /// </summary>
         public const string FilterActionFile = "Action File(*.xml)|*.xml";
         /// <summary>
+        /// File Filter for the csv file.
+        /// </summary>
+        public const string FileExtCSV = "CSV File(*.csv)|*.csv|all(*.*)|*.*";
+        /// <summary>
         /// File Filter for the model file.
         /// </summary>
         public const string FilterEmlFile = "Model File(*.eml)|*.eml|all(*.*)|*.*";

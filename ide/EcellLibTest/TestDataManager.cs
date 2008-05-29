@@ -13,7 +13,6 @@ namespace EcellLib
     {
         private static readonly string ActionFile = Path.Combine(Util.GetUserDir(), "");
         private static readonly string ActionFileUnCorrect = Path.Combine(Util.GetUserDir(), "");
-        private static readonly string EmlFile = "";
 
         private DataManager _unitUnderTest;
         /// <summary>

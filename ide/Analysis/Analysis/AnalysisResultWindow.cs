@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.IO;
 using System.Windows.Forms;
 
 using EcellLib;
@@ -364,6 +365,380 @@ namespace EcellLib.Analysis
             if (isX) RAXComboBox.SelectedText = name;
             if (isY) RAYComboBox.SelectedText = name;
         }
+
+        /// <summary>
+        /// Load the file written the analysis result.
+        /// </summary>
+        /// <param name="filename">the load file.</param>
+        public void LoadResultFile(string filename)
+        {
+            StreamReader reader = null;
+            try
+            {
+                reader = new StreamReader(filename, Encoding.ASCII);
+
+                string header = reader.ReadLine();
+                if (header.StartsWith("#BIFURCATION"))
+                {
+                    LoadBifurcationResult(reader);
+                }
+                else if (header.StartsWith("#PARAMETER"))
+                {
+                    LoadParameterEstimationResult(reader);
+                }
+                else if (header.StartsWith("#ROBUST"))
+                {
+                    LoadRobustAnalysisResult(reader);
+                }
+                else if (header.StartsWith("#SENSITIVITY"))
+                {
+                    LoadSensitivityAnalysisResult(reader);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                if (reader != null)
+                    reader.Close();
+            }
+        }
+
+        private void LoadBifurcationResult(StreamReader reader)
+        {
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.StartsWith("#")) continue;
+                string[] ele = line.Split(new char[] { ',' });
+                AddJudgementDataForBifurcation(Convert.ToDouble(ele[0]),
+                    Convert.ToDouble(ele[1]));
+            }
+        }
+
+        private void LoadParameterEstimationResult(StreamReader reader)
+        {
+            int readPos = 0;
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.StartsWith("#GENERATION"))
+                {
+                    readPos = 1;
+                    continue;
+                }
+                else if (line.StartsWith("#PARAMETER"))
+                {
+                    readPos = 2;
+                    continue;
+                }
+                else if (line.StartsWith("#VALUE"))
+                {
+                    readPos = 3;
+                    continue;
+                }
+                else if (line.StartsWith("#"))
+                {
+                    continue;
+                }
+
+                ExecuteParameter param = new ExecuteParameter();
+                if (readPos == 1)
+                {
+                    string[] ele = line.Split(new char[] { ',' });
+                    AddEstimationData(Convert.ToInt32(ele[0]), Convert.ToDouble(ele[1]));
+                }
+                else if (readPos == 2)
+                {
+                    string[] ele = line.Split(new char[] { ',' });
+                    param.AddParameter(ele[0], Convert.ToDouble(ele[1]));
+                }
+                else if (readPos == 3)
+                {
+                    string[] ele = line.Split(new char[] { ',' });
+                    double v = Convert.ToDouble(ele[0]);
+                    AddEstimateParameter(param, v, 10);
+                }
+            }
+        }
+
+        private void LoadRobustAnalysisResult(StreamReader reader)
+        {
+            string line;
+            string[] ele;
+            line = reader.ReadLine();
+            ele = line.Split(new char[] { ',' });
+            Dictionary<int, string> paramDic = new Dictionary<int, string>();
+            for (int i = 0; i < ele.Length; i++)
+            {
+                if (String.IsNullOrEmpty(ele[i])) continue;
+
+                if (i == 1)
+                    SetResultEntryBox(ele[i], true, false);
+                else if (i == 2)
+                    SetResultEntryBox(ele[i], false, true);
+                else
+                    SetResultEntryBox(ele[i], false, false);
+                paramDic.Add(i, ele[i]);
+            }
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.StartsWith("#")) continue;
+                double x = 0.0;
+                double y = 0.0;
+                ExecuteParameter p = new ExecuteParameter();
+                ele = line.Split(new char[] { ',' });
+                bool result = Convert.ToBoolean(ele[0]);
+                for (int j = 1; j < ele.Length; j++)
+                {
+                    if (String.IsNullOrEmpty(ele[j])) continue;
+                    if (j == 1) x = Convert.ToDouble(ele[j]);
+                    if (j == 2) y = Convert.ToDouble(ele[j]);
+                    p.AddParameter(paramDic[j], Convert.ToDouble(ele[j]));
+                }
+                int jobid = m_owner.JobManager.CreateJobEntry(p);
+                AddJudgementData(jobid, x, y, result);
+            }
+        }
+
+        private void LoadSensitivityAnalysisResult(StreamReader reader)
+        {
+            bool isFirst = true;
+            int readPos = 0;
+            string line;
+            string[] ele;
+            int i;
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (line.StartsWith("#CCC"))
+                {
+                    isFirst = true;
+                    readPos = 1;
+                    continue;
+                }
+                else if (line.StartsWith("#FCC"))
+                {
+                    isFirst = true;
+                    readPos = 2;
+                    continue;
+                }
+                else if (line.StartsWith("#"))
+                {
+                    continue;
+                }
+
+                if (readPos == 1)
+                {
+
+                    if (isFirst)
+                    {                        
+                        List<string> headList = new List<string>();
+                        ele = line.Split(new char[] { ',' });
+                        for (i = 1; i < ele.Length; i++)
+                        {
+                            if (String.IsNullOrEmpty(ele[i])) continue;
+                            headList.Add(ele[i]);
+                        }
+                        SetSensitivityHeader(headList);
+                        isFirst = false;
+                        continue;
+                    }
+                    List<double> valList = new List<double>();
+                    ele = line.Split(new char[] { ',' });
+                    for (i = 1; i < ele.Length; i++)
+                    {
+                        if (String.IsNullOrEmpty(ele[i])) continue;
+                        valList.Add(Convert.ToDouble(ele[i]));
+                    }
+                    AddSensitivityDataOfCCC(ele[0], valList);
+                }
+                else if (readPos == 2)
+                {
+                    if (isFirst)
+                    {
+                        isFirst = false;
+                        continue;
+                    }
+                    List<double> valList = new List<double>();
+                    ele = line.Split(new char[] { ',' });
+                    for (i = 1; i < ele.Length; i++)
+                    {
+                        if (String.IsNullOrEmpty(ele[i])) continue;
+                        valList.Add(Convert.ToDouble(ele[i]));
+                    }
+                    AddSensitivityDataOfFCC(ele[0], valList);                    
+                }
+            }
+        }
+
+        /// <summary>
+        /// Save the result of bifurcation analysis to the file.
+        /// </summary>
+        /// <param name="fileName">the save file name.</param>
+        public void SaveBifurcationResult(string fileName)
+        {
+            StreamWriter writer = null;
+            try
+            {
+                writer = new StreamWriter(fileName, false, Encoding.ASCII);
+
+                writer.WriteLine("#BIFURCATION");
+                foreach (LineItem c in m_zCnt.GraphPane.CurveList)
+                {
+                    for ( int i = 0 ; i < c.Points.Count ; i++ )
+                    {
+                        writer.WriteLine(c[i].X + "," + c[i].Y);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSaveFile,
+                    new object[] { fileName }));
+            }
+            finally
+            {
+                writer.Close();
+            }
+        }
+
+        /// <summary>
+        /// Save the result of parameter estimation to the file.
+        /// </summary>
+        /// <param name="fileName">the save file name.</param>
+        public void SaveParameterEstimationResult(string fileName)
+        {
+            StreamWriter writer = null;
+            try
+            {
+                writer = new StreamWriter(fileName, false, Encoding.ASCII);
+                writer.WriteLine("#PARAMETER");
+                writer.WriteLine("#GENERATION");
+                for (int i = 0; i < m_line.Points.Count; i++)
+                {
+                    writer.WriteLine(m_line[i].X + "," + m_line[i].Y);
+                }
+
+                writer.WriteLine("#PARAMETER");
+                foreach (DataGridViewRow r in PEEstimateView.Rows)
+                {
+                    foreach (DataGridViewCell c in r.Cells)
+                    {
+                        writer.Write(c.Value.ToString() + ",");
+                    }
+                    writer.WriteLine("");
+                }
+
+                writer.WriteLine("#VALUE");
+                writer.WriteLine(PEEstimationValue.Text);
+            }
+            catch (Exception)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSaveFile,
+                    new object[] { fileName }));
+            }
+            finally
+            {
+                writer.Close();
+            }
+        }
+
+        /// <summary>
+        /// Save the result of robust analysis to the file.
+        /// </summary>
+        /// <param name="fileName">the save file name.</param>
+        public void SaveRobustAnalysisResult(string fileName)
+        {
+            StreamWriter writer = null;
+            try
+            {
+                writer = new StreamWriter(fileName, false, Encoding.ASCII);
+
+                List<string> paramList = new List<string>();
+                writer.Write(",");
+                for (int ind = 0; ind < RAXComboBox.Items.Count; ind++)
+                {
+                    string name = RAXComboBox.Items[ind] as string;
+                    writer.Write("," + name);
+                }
+                writer.WriteLine("");
+
+                writer.WriteLine("#ROBUST");
+                foreach (int jobid in m_jobList.Keys)
+                {
+                    writer.Write(m_jobList[jobid]);
+                    foreach (string param in paramList)
+                    {
+                        double data = m_owner.JobManager.ParameterDic[jobid].ParamDic[param];
+                        writer.Write("," + data);
+                    }
+                    writer.WriteLine("");
+                }
+            }
+            catch (Exception)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSaveFile,
+                    new object[] { fileName }));
+            }
+            finally
+            {
+                writer.Close();
+            }
+        }
+
+        /// <summary>
+        /// Save the result of sensitivity analysis to the file.
+        /// </summary>
+        /// <param name="fileName">the save file name.</param>
+        public void SaveSensitivityAnalysisResult(string fileName)
+        {
+            StreamWriter writer = null;
+            try
+            {
+                writer = new StreamWriter(fileName, false, Encoding.ASCII);
+
+                writer.WriteLine("#SENSITIVITY");
+                writer.WriteLine("#CCC");
+                foreach (DataGridViewRow r in SACCCGridView.Rows)
+                {
+                    foreach (DataGridViewCell c in r.Cells)
+                    {
+                        if (c.Value == null)
+                            writer.Write(",");
+                        else
+                            writer.Write(c.Value.ToString() + ",");
+                    }
+                    writer.WriteLine("");
+                }
+                writer.WriteLine("#FCC");
+                foreach (DataGridViewRow r in SAFCCGridView.Rows)
+                {
+                    foreach (DataGridViewCell c in r.Cells)
+                    {
+                        if (c.Value == null)
+                            writer.Write(",");
+                        else
+                            writer.Write(c.Value.ToString() + ",");
+                    }
+                    writer.WriteLine("");
+                }
+
+            }
+            catch (Exception)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSaveFile,
+                    new object[] { fileName }));
+            }
+            finally
+            {
+                writer.Close();
+            }
+
+        }
+
+
 
         #region Events
         /// <summary>

@@ -279,7 +279,6 @@ namespace EcellLib.PathwayWindow.Graphic
         /// <param name="point"></param>
         /// <param name="text"></param>
         /// <param name="brush"></param>
-        /// <param name="font"></param>
         /// <param name="weight"></param>
         /// <param name="size"></param>
         /// <returns></returns>

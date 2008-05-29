@@ -148,11 +148,17 @@ namespace EcellLib.MainWindow
             set { m_recentProjects = value; }
         }
 
+        /// <summary>
+        /// get DockPanel.
+        /// </summary>
         public virtual DockPanel DockPanel
         {
             get { return dockPanel; }
         }
 
+        /// <summary>
+        /// get / set ApplicationEnvironment object.
+        /// </summary>
         public virtual ApplicationEnvironment Environment
         {
             get { return m_env; }
@@ -1762,7 +1768,7 @@ namespace EcellLib.MainWindow
                     engine.ExecuteFile(scriptFile);
                     string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Util.ShowErrorDialog(String.Format(MessageResMain.ErrLoadFile,
                         new object[] { scriptFile })); 

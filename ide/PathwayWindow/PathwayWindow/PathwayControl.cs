@@ -467,7 +467,6 @@ namespace EcellLib.PathwayWindow
         /// <param name="eo">Changed value of object.</param>
         public void DataChanged(string modelID, string oldKey, string type, EcellObject eo)
         {
-            Console.WriteLine(DateTime.Now.ToLongTimeString() + " : CHANGE : " + eo.Key);
             // Select Canvas
             if (m_canvas == null)
                 return;

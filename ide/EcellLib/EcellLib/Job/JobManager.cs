@@ -297,6 +297,24 @@ namespace EcellLib.Job
         }
 
         /// <summary>
+        /// Create the job entry when the analysis result is loaded.
+        /// </summary>
+        /// <param name="param">the analysis parameter.</param>
+        /// <returns>return jobid.</returns>
+        public int CreateJobEntry(ExecuteParameter param)
+        {
+            if (m_proxy == null) return -1;
+            Job s = m_proxy.CreateJob();
+            if (s == null) return -1;
+
+            s.Status = JobStatus.FINISHED;
+            m_parameterDic.Add(s.JobID, param);
+            m_sessionList.Add(s.JobID, s);
+
+            return s.JobID;
+        }
+
+        /// <summary>
         /// Regist the session of e-cell.
         /// </summary>
         /// <param name="arg">the argument of script.</param>

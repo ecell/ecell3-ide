@@ -266,5 +266,11 @@ namespace EcellLib.Job
         /// Update the information of session.
         /// </summary>
         void Update();
+        /// <summary>
+        /// Create the job entry when the analysis result is loaded.
+        /// </summary>
+        /// <param name="param">the analysis parameter.</param>
+        /// <returns>return jobid.</returns>
+        int CreateJobEntry(ExecuteParameter param);
     }
 }

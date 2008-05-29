@@ -70,10 +70,15 @@ namespace EcellLib.ObjectList2
         private Dictionary<string, IObjectListTabPage> m_TabDict;
         #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Construcotor.
+        /// </summary>
         public ObjectList2()
         {
             m_TabDict = new Dictionary<string, IObjectListTabPage>();
         }
+        #endregion
 
         #region Initializer
         /// <summary>
