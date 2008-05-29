@@ -1956,6 +1956,21 @@ namespace EcellLib.MainWindow
         }
 
         /// <summary>
+        /// Event when setup IDE button is clicked.
+        /// </summary>
+        /// <param name="sender">MenuItem</param>
+        /// <param name="e">EventArgs</param>
+        private void ProjectWizardMenuClick(object sender, EventArgs e)
+        {
+            ProjectWizardWindow win = new ProjectWizardWindow();
+            if (win.ShowDialog() == DialogResult.OK && win.SelectedProject != null)
+            {
+                Project prj = win.SelectedProject;
+                LoadProject(prj.Name, prj.FilePath);
+            }
+        }
+
+        /// <summary>
         /// Event when this form is closed.
         /// </summary>
         /// <param name="sender">this form.</param>

@@ -38,6 +38,7 @@ namespace EcellLib.MainWindow
             this.menustrip = new System.Windows.Forms.MenuStrip();
             this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.newProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectWizardMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -118,6 +119,7 @@ namespace EcellLib.MainWindow
             // 
             this.MenuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newProjectToolStripMenuItem,
+            this.projectWizardMenuItem,
             this.openProjectToolStripMenuItem,
             this.saveProjectToolStripMenuItem,
             this.closeProjectToolStripMenuItem,
@@ -147,6 +149,12 @@ namespace EcellLib.MainWindow
             resources.ApplyResources(this.newProjectToolStripMenuItem, "newProjectToolStripMenuItem");
             this.newProjectToolStripMenuItem.Tag = "1";
             this.newProjectToolStripMenuItem.Click += new System.EventHandler(this.NewProjectMenuClick);
+            // 
+            // projectWizardMenuItem
+            // 
+            this.projectWizardMenuItem.Name = "projectWizardMenuItem";
+            resources.ApplyResources(this.projectWizardMenuItem, "projectWizardMenuItem");
+            this.projectWizardMenuItem.Click += new System.EventHandler(this.ProjectWizardMenuClick);
             // 
             // openProjectToolStripMenuItem
             // 
@@ -512,6 +520,7 @@ namespace EcellLib.MainWindow
         /// MenuItem to display the list of jobs.
         /// </summary>
         public System.Windows.Forms.ToolStripMenuItem jobStatusToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem projectWizardMenuItem;
     }
 }
 

@@ -56,9 +56,9 @@
             // SWSSelectButton
             // 
             resources.ApplyResources(this.SWSSelectButton, "SWSSelectButton");
+            this.SWSSelectButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.SWSSelectButton.Name = "SWSSelectButton";
             this.SWSSelectButton.UseVisualStyleBackColor = true;
-            this.SWSSelectButton.Click += new System.EventHandler(this.ClickSWSSelectButton);
             // 
             // SWSCloseButton
             // 
@@ -83,7 +83,7 @@
             // SWSPatternListLayoutPanel
             // 
             resources.ApplyResources(this.SWSPatternListLayoutPanel, "SWSPatternListLayoutPanel");
-            this.SWSPatternListLayoutPanel.Controls.Add(this.groupBox1, 0, 8);
+            this.SWSPatternListLayoutPanel.Controls.Add(this.groupBox1, 0, 5);
             this.SWSPatternListLayoutPanel.Name = "SWSPatternListLayoutPanel";
             // 
             // groupBox1
