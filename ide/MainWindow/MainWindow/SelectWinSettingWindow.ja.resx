@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="$this.Text" xml:space="preserve">
-    <value>プロジェクトウィザード画面</value>
+    <value>IDE画面を選択してください</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>コメント</value>
+    <value>メモ</value>
   </data>
   <data name="SIAutoRadioButton.Text" xml:space="preserve">
     <value>自動</value>

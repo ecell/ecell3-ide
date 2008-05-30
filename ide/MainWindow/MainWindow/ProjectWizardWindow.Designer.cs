@@ -30,18 +30,21 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectWizardWindow));
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.SWSSelectButton = new System.Windows.Forms.Button();
-            this.SWSCloseButton = new System.Windows.Forms.Button();
+            this.OKButton = new System.Windows.Forms.Button();
+            this.CloseButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.SWSPictureBox = new System.Windows.Forms.PictureBox();
+            this.PictureBox = new System.Windows.Forms.PictureBox();
             this.SWSPatternListLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.ProjectCommentTextBox = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.SWSNoteTextBox = new System.Windows.Forms.TextBox();
+            this.ProjectIDTextBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.SWSPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.SWSPatternListLayoutPanel.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -49,57 +52,74 @@
             // tableLayoutPanel3
             // 
             resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
-            this.tableLayoutPanel3.Controls.Add(this.SWSSelectButton, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.SWSCloseButton, 3, 0);
+            this.tableLayoutPanel3.Controls.Add(this.OKButton, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.CloseButton, 3, 0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             // 
-            // SWSSelectButton
+            // OKButton
             // 
-            resources.ApplyResources(this.SWSSelectButton, "SWSSelectButton");
-            this.SWSSelectButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.SWSSelectButton.Name = "SWSSelectButton";
-            this.SWSSelectButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.OKButton, "OKButton");
+            this.OKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.OKButton.Name = "OKButton";
+            this.OKButton.UseVisualStyleBackColor = true;
+            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
-            // SWSCloseButton
+            // CloseButton
             // 
-            resources.ApplyResources(this.SWSCloseButton, "SWSCloseButton");
-            this.SWSCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.SWSCloseButton.Name = "SWSCloseButton";
-            this.SWSCloseButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.CloseButton, "CloseButton");
+            this.CloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CloseButton.Name = "CloseButton";
+            this.CloseButton.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel2
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.SWSPictureBox, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.PictureBox, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.SWSPatternListLayoutPanel, 2, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
-            // SWSPictureBox
+            // PictureBox
             // 
-            resources.ApplyResources(this.SWSPictureBox, "SWSPictureBox");
-            this.SWSPictureBox.Name = "SWSPictureBox";
-            this.SWSPictureBox.TabStop = false;
+            resources.ApplyResources(this.PictureBox, "PictureBox");
+            this.PictureBox.Name = "PictureBox";
+            this.PictureBox.TabStop = false;
             // 
             // SWSPatternListLayoutPanel
             // 
             resources.ApplyResources(this.SWSPatternListLayoutPanel, "SWSPatternListLayoutPanel");
+            this.SWSPatternListLayoutPanel.Controls.Add(this.groupBox3, 0, 6);
             this.SWSPatternListLayoutPanel.Controls.Add(this.groupBox1, 0, 5);
             this.SWSPatternListLayoutPanel.Name = "SWSPatternListLayoutPanel";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.ProjectCommentTextBox);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
+            // 
+            // ProjectCommentTextBox
+            // 
+            this.ProjectCommentTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.ProjectCommentTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            resources.ApplyResources(this.ProjectCommentTextBox, "ProjectCommentTextBox");
+            this.ProjectCommentTextBox.Name = "ProjectCommentTextBox";
+            this.ProjectCommentTextBox.ReadOnly = true;
+            // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.SWSNoteTextBox);
+            this.groupBox1.Controls.Add(this.ProjectIDTextBox);
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
-            // SWSNoteTextBox
+            // ProjectIDTextBox
             // 
-            this.SWSNoteTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.SWSNoteTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            resources.ApplyResources(this.SWSNoteTextBox, "SWSNoteTextBox");
-            this.SWSNoteTextBox.Name = "SWSNoteTextBox";
-            this.SWSNoteTextBox.ReadOnly = true;
+            this.ProjectIDTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.ProjectIDTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            resources.ApplyResources(this.ProjectIDTextBox, "ProjectIDTextBox");
+            this.ProjectIDTextBox.Name = "ProjectIDTextBox";
+            this.ProjectIDTextBox.ReadOnly = true;
             // 
             // tableLayoutPanel1
             // 
@@ -110,10 +130,10 @@
             // 
             // ProjectWizardWindow
             // 
-            this.AcceptButton = this.SWSSelectButton;
+            this.AcceptButton = this.OKButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.SWSCloseButton;
+            this.CancelButton = this.CloseButton;
             this.ControlBox = false;
             this.Controls.Add(this.tableLayoutPanel1);
             this.MaximizeBox = false;
@@ -123,8 +143,10 @@
             this.ShowInTaskbar = false;
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.SWSPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
             this.SWSPatternListLayoutPanel.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -135,14 +157,16 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.Button SWSSelectButton;
+        private System.Windows.Forms.Button OKButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.PictureBox SWSPictureBox;
+        private System.Windows.Forms.PictureBox PictureBox;
         private System.Windows.Forms.TableLayoutPanel SWSPatternListLayoutPanel;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox SWSNoteTextBox;
+        private System.Windows.Forms.TextBox ProjectIDTextBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button SWSCloseButton;
+        private System.Windows.Forms.Button CloseButton;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox ProjectCommentTextBox;
 
 
     }

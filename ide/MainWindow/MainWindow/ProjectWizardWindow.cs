@@ -47,14 +47,14 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// The path of the initial window setting file.
         /// </summary>
-        private Project m_selectedProject = null;
+        private Project m_project = null;
         /// <summary>
         /// 
         /// </summary>
         public Project SelectedProject
         {
-            get { return m_selectedProject; }
-            set { m_selectedProject = value; }
+            get { return m_project; }
+            set { m_project = value; }
         }
         /// <summary>
         /// Constructor/
@@ -98,9 +98,11 @@ namespace EcellLib.MainWindow
         void label_Click(object sender, EventArgs e)
         {
             ProjectLabel label = (ProjectLabel)sender;
-            m_selectedProject = label.Project;
-            string filepath = Path.Combine(m_selectedProject.ProjectPath, m_selectedProject.Name + Constants.FileExtPNG);
-            SWSPictureBox.Image = Image.FromFile(filepath); 
+            m_project = label.Project;
+            string filepath = Path.Combine(m_project.ProjectPath, m_project.Name + Constants.FileExtPNG);
+            PictureBox.Image = Image.FromFile(filepath);
+            ProjectIDTextBox.Text = m_project.Name;
+            ProjectCommentTextBox.Text = m_project.Comment;
         }
 
         #region Internal class
@@ -154,6 +156,14 @@ namespace EcellLib.MainWindow
 
         }
         #endregion
+
+        private void OKButton_Click(object sender, EventArgs e)
+        {
+            if (m_project == null)
+                return;
+            m_project.Name = ProjectIDTextBox.Text;
+            m_project.Comment = ProjectCommentTextBox.Text;
+        }
 
     }
 }

@@ -122,78 +122,78 @@
     <value>4</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="SWSSelectButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="OKButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom</value>
   </data>
-  <data name="SWSSelectButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="OKButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="SWSSelectButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>584, 3</value>
+  <data name="OKButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>453, 3</value>
   </data>
-  <data name="SWSSelectButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="OKButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 28</value>
   </data>
-  <data name="SWSSelectButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="OKButton.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="SWSSelectButton.Text" xml:space="preserve">
+  <data name="OKButton.Text" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="&gt;&gt;SWSSelectButton.Name" xml:space="preserve">
-    <value>SWSSelectButton</value>
+  <data name="&gt;&gt;OKButton.Name" xml:space="preserve">
+    <value>OKButton</value>
   </data>
-  <data name="&gt;&gt;SWSSelectButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;OKButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;SWSSelectButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;OKButton.Parent" xml:space="preserve">
     <value>tableLayoutPanel3</value>
   </data>
-  <data name="&gt;&gt;SWSSelectButton.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;OKButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="SWSCloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="CloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom</value>
   </data>
-  <data name="SWSCloseButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="CloseButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="SWSCloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>669, 3</value>
+  <data name="CloseButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>538, 3</value>
   </data>
-  <data name="SWSCloseButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="CloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 28</value>
   </data>
-  <data name="SWSCloseButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="CloseButton.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="SWSCloseButton.Text" xml:space="preserve">
+  <data name="CloseButton.Text" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="&gt;&gt;SWSCloseButton.Name" xml:space="preserve">
-    <value>SWSCloseButton</value>
+  <data name="&gt;&gt;CloseButton.Name" xml:space="preserve">
+    <value>CloseButton</value>
   </data>
-  <data name="&gt;&gt;SWSCloseButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;CloseButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;SWSCloseButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;CloseButton.Parent" xml:space="preserve">
     <value>tableLayoutPanel3</value>
   </data>
-  <data name="&gt;&gt;SWSCloseButton.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;CloseButton.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="tableLayoutPanel3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="tableLayoutPanel3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 469</value>
+    <value>3, 431</value>
   </data>
   <data name="tableLayoutPanel3.RowCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="tableLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 34</value>
+    <value>615, 34</value>
   </data>
   <data name="tableLayoutPanel3.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -211,100 +211,157 @@
     <value>1</value>
   </data>
   <data name="tableLayoutPanel3.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="SWSSelectButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="SWSCloseButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,80,Absolute,5,Absolute,80" /&gt;&lt;Rows Styles="Percent,100,Absolute,34" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="OKButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CloseButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,80,Absolute,5,Absolute,80" /&gt;&lt;Rows Styles="Percent,100,Absolute,34" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tableLayoutPanel2.CellBorderStyle" type="System.Windows.Forms.TableLayoutPanelCellBorderStyle, System.Windows.Forms">
+    <value>Single</value>
   </data>
   <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;SWSPictureBox.Name" xml:space="preserve">
-    <value>SWSPictureBox</value>
-  </data>
-  <data name="&gt;&gt;SWSPictureBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SWSPictureBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;SWSPictureBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;SWSPatternListLayoutPanel.Name" xml:space="preserve">
-    <value>SWSPatternListLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;SWSPatternListLayoutPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SWSPatternListLayoutPanel.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;SWSPatternListLayoutPanel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="SWSPatternListLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="groupBox1" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Percent,100,Absolute,20,Absolute,20,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="tableLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="PictureBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="tableLayoutPanel2.RowCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>746, 460</value>
-  </data>
-  <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Name" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="SWSPictureBox" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="SWSPatternListLayoutPanel" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,5,Absolute,200" /&gt;&lt;Rows Styles="Percent,100,Absolute,460,Absolute,460" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="SWSPictureBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="SWSPictureBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="PictureBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="SWSPictureBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+  <data name="PictureBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 4</value>
   </data>
-  <data name="SWSPictureBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>535, 454</value>
+  <data name="PictureBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>398, 414</value>
   </data>
-  <data name="SWSPictureBox.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>StretchImage</value>
+  <data name="PictureBox.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>CenterImage</value>
   </data>
-  <data name="SWSPictureBox.TabIndex" type="System.Int32, mscorlib">
+  <data name="PictureBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;SWSPictureBox.Name" xml:space="preserve">
-    <value>SWSPictureBox</value>
+  <data name="&gt;&gt;PictureBox.Name" xml:space="preserve">
+    <value>PictureBox</value>
   </data>
-  <data name="&gt;&gt;SWSPictureBox.Type" xml:space="preserve">
+  <data name="&gt;&gt;PictureBox.Type" xml:space="preserve">
     <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;SWSPictureBox.Parent" xml:space="preserve">
+  <data name="&gt;&gt;PictureBox.Parent" xml:space="preserve">
     <value>tableLayoutPanel2</value>
   </data>
-  <data name="&gt;&gt;SWSPictureBox.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;PictureBox.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="SWSPatternListLayoutPanel.CellBorderStyle" type="System.Windows.Forms.TableLayoutPanelCellBorderStyle, System.Windows.Forms">
+    <value>Single</value>
   </data>
   <data name="SWSPatternListLayoutPanel.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
+  </data>
+  <data name="ProjectCommentTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ProjectCommentTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 15</value>
+  </data>
+  <data name="ProjectCommentTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 10</value>
+  </data>
+  <data name="ProjectCommentTextBox.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ProjectCommentTextBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Horizontal</value>
+  </data>
+  <data name="ProjectCommentTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 207</value>
+  </data>
+  <data name="ProjectCommentTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ProjectCommentTextBox.Name" xml:space="preserve">
+    <value>ProjectCommentTextBox</value>
+  </data>
+  <data name="&gt;&gt;ProjectCommentTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ProjectCommentTextBox.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;ProjectCommentTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 185</value>
+  </data>
+  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>188, 225</value>
+  </data>
+  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
+    <value>SWSPatternListLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ProjectIDTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ProjectIDTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 15</value>
+  </data>
+  <data name="ProjectIDTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 10</value>
+  </data>
+  <data name="ProjectIDTextBox.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ProjectIDTextBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Horizontal</value>
+  </data>
+  <data name="ProjectIDTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 26</value>
+  </data>
+  <data name="ProjectIDTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ProjectIDTextBox.Name" xml:space="preserve">
+    <value>ProjectIDTextBox</value>
+  </data>
+  <data name="&gt;&gt;ProjectIDTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ProjectIDTextBox.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;ProjectIDTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 134</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>188, 44</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Project ID</value>
   </data>
   <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
     <value>groupBox1</value>
@@ -316,19 +373,19 @@
     <value>SWSPatternListLayoutPanel</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="SWSPatternListLayoutPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="SWSPatternListLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>549, 3</value>
+    <value>415, 4</value>
   </data>
   <data name="SWSPatternListLayoutPanel.RowCount" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="SWSPatternListLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 454</value>
+    <value>196, 414</value>
   </data>
   <data name="SWSPatternListLayoutPanel.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -346,79 +403,37 @@
     <value>1</value>
   </data>
   <data name="SWSPatternListLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="groupBox1" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Percent,100,Absolute,20,Absolute,20,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="groupBox3" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="groupBox1" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,50,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
-  <data name="&gt;&gt;SWSNoteTextBox.Name" xml:space="preserve">
-    <value>SWSNoteTextBox</value>
-  </data>
-  <data name="&gt;&gt;SWSNoteTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SWSNoteTextBox.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;SWSNoteTextBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="groupBox1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="tableLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 128</value>
+  <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
   </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 323</value>
+  <data name="tableLayoutPanel2.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+  <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>615, 422</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Note</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>SWSPatternListLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+  <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="SWSNoteTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="&gt;&gt;tableLayoutPanel2.Name" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
   </data>
-  <data name="SWSNoteTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 15</value>
+  <data name="&gt;&gt;tableLayoutPanel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="SWSNoteTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>10, 10, 10, 10</value>
+  <data name="&gt;&gt;tableLayoutPanel2.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
   </data>
-  <data name="SWSNoteTextBox.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="SWSNoteTextBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Horizontal</value>
-  </data>
-  <data name="SWSNoteTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 305</value>
-  </data>
-  <data name="SWSNoteTextBox.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;tableLayoutPanel2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;SWSNoteTextBox.Name" xml:space="preserve">
-    <value>SWSNoteTextBox</value>
-  </data>
-  <data name="&gt;&gt;SWSNoteTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SWSNoteTextBox.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;SWSNoteTextBox.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="PictureBox" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="SWSPatternListLayoutPanel" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,5,Absolute,202" /&gt;&lt;Rows Styles="Percent,100,Absolute,421,Absolute,421" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
@@ -433,7 +448,7 @@
     <value>2</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>752, 506</value>
+    <value>621, 468</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -460,7 +475,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>752, 506</value>
+    <value>621, 468</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>ProjectWizardWindow</value>
