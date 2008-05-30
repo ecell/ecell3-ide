@@ -1054,6 +1054,7 @@ namespace EcellLib.PathwayWindow
             // Create canvas
             Canvas = new CanvasControl(this, modelID);
             m_menu.SetDefaultEventHandler();
+            m_menu.Zoom(1f);
             RaiseCanvasChange();
         }
 

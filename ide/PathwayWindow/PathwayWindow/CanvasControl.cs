@@ -1385,6 +1385,7 @@ namespace EcellLib.PathwayWindow
             float zoomX = this.PCanvas.Camera.ViewBounds.X + (this.PCanvas.Camera.ViewBounds.Width / 2);
             float zoomY = this.PCanvas.Camera.ViewBounds.Y + (this.PCanvas.Camera.ViewBounds.Height / 2);
             this.PCanvas.Camera.ScaleViewBy(rate, zoomX, zoomY);
+            //m_con.Menu.ZoomRate.Text = m_pCanvas.Camera.ViewScale.ToString();
             UpdateOverview();
         }
 

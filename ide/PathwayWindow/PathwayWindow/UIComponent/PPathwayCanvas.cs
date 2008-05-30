@@ -108,8 +108,8 @@ namespace EcellLib.PathwayWindow.UIComponent
             }
             else if (Control.ModifierKeys == Keys.Control || e.Button == MouseButtons.Right)
             {
-                float zoom = (float)1.00 + (float)e.Delta / 1200;
-                m_canvas.Zoom(zoom);
+                float zoomRate = (float)1.00 + (float)e.Delta / 1200;
+                m_con.Menu.Zoom(zoomRate);
             }
             else
             {

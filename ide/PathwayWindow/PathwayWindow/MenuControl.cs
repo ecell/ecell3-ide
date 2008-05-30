@@ -112,6 +112,11 @@ namespace EcellLib.PathwayWindow
         private List<ILayoutAlgorithm> m_layoutList = new List<ILayoutAlgorithm>();
 
         /// <summary>
+        /// 
+        /// </summary>
+        private ToolStripComboBox m_zoomRate;
+
+        /// <summary>
         /// Default layout algorithm
         /// </summary>
         private ILayoutAlgorithm m_defaultLayoutAlgorithm;
@@ -192,6 +197,14 @@ namespace EcellLib.PathwayWindow
         public ILayoutAlgorithm DefaultLayoutAlgorithm
         {
             get { return m_defaultLayoutAlgorithm; }
+        }
+
+        /// <summary>
+        /// ZoomRate
+        /// </summary>
+        public ToolStripComboBox ZoomRate
+        {
+            get { return m_zoomRate; }
         }
 
         #endregion
@@ -635,6 +648,16 @@ namespace EcellLib.PathwayWindow
             zoomoutButton.Click += new EventHandler(ZoomButton_Click);
             list.Items.Add(zoomoutButton);
 
+            m_zoomRate = new ToolStripComboBox();
+            object[] arr = {400, 300, 200, 150, 125, 100, 80, 60, 40, 30, 20};
+            m_zoomRate.Text = "70";
+            m_zoomRate.Width = 20;
+            m_zoomRate.ComboBox.Width = 15;
+            m_zoomRate.MaxLength = 5;
+            m_zoomRate.Items.AddRange(arr);
+            m_zoomRate.KeyDown += new KeyEventHandler(ZoomRate_KeyDown);
+            m_zoomRate.SelectedIndexChanged += new EventHandler(ZoomRate_SelectedIndexChanged);
+            list.Items.Add(m_zoomRate);
             // SelectMode is default.
             button0.Checked = true;
             m_handle = (Handle)button0.Handle;
@@ -1260,9 +1283,59 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         private void ZoomButton_Click(object sender, EventArgs e)
         {
+            float zoomRate = (float)((ToolStripButton)sender).Tag;
+            Zoom(zoomRate);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ZoomRate_KeyDown(object sender, KeyEventArgs e)
+        {
             if (m_con.Canvas == null)
                 return;
-            m_con.Canvas.Zoom((float)((ToolStripButton)sender).Tag);
+            if (e.KeyCode != Keys.Enter)
+                return;
+            float zoomRate;
+            try
+            {
+                zoomRate = float.Parse(m_zoomRate.Text) / m_con.Canvas.PCanvas.Camera.ViewScale / 100f;
+            }
+            catch
+            {
+                zoomRate = m_con.Canvas.PCanvas.Camera.ViewScale * 100f;
+                m_zoomRate.Text = zoomRate.ToString("###");
+                return;
+            }
+            Zoom(zoomRate);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ZoomRate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (m_con.Canvas == null)
+                return;
+            string rate = m_zoomRate.Items[m_zoomRate.SelectedIndex].ToString();
+            float zoomRate = float.Parse(rate) / m_con.Canvas.PCanvas.Camera.ViewScale / 100f;
+            Zoom(zoomRate);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="zoomRate"></param>
+        public void Zoom(float zoomRate)
+        {
+            if (m_con.Canvas == null)
+                return;
+            
+            m_con.Canvas.Zoom(zoomRate);
+            float rate = m_con.Canvas.PCanvas.Camera.ViewScale * 100f;
+            m_zoomRate.Text = rate.ToString("###");
         }
         /// <summary>
         /// Export SVG format.

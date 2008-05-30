@@ -134,7 +134,7 @@ namespace EcellLib.PathwayWindow.Graphic
             + innerPath + innerR + " " + innerR + " l " + sWidth + " 0" + "\n"
             + innerPath + innerR + " -" + innerR + " l " + "0 -" + sHeight + "\n"
             + innerPath + " -" + innerR + " -" + innerR + " l -" + sWidth + " 0" + " Z\"\n"
-            + "fill=\"" + fillBrush + "\" stroke=\"" + lineBrush + "\" stroke-width=\"1\"/>";
+            + "fill=\"" + fillBrush + "\" stroke=\"" + lineBrush + "\" stroke-width=\"1\"/>\n";
             return obj;
 
         }
@@ -286,7 +286,7 @@ namespace EcellLib.PathwayWindow.Graphic
         {
             string obj = "<text x=\"" + point.X.ToString()
             + "\" y=\"" + point.Y.ToString()
-            //+ "\" font-family=\"" + SVG_FONT_FAMILY
+            + "\" font-family=\"" + SVG_FONT_FAMILY
             + "\" font-size=\"" + size.ToString()
             + "\" font-weight=\"" + weight
             + "\" fill=\"" + brush
