@@ -130,7 +130,7 @@ namespace EcellLib.Objects
         /// <summary>
         /// The children of this
         /// </summary>
-        private List<EcellObject> m_children;
+        protected List<EcellObject> m_children;
         /// <summary>
         /// Fixed flag.
         /// </summary>

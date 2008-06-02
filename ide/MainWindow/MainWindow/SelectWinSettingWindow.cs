@@ -189,9 +189,9 @@ namespace EcellLib.MainWindow
                 if (tmpLang == "AUTO")
                     Util.ShowNoticeDialog(MessageResMain.ConfirmRestart);
                 else if (tmpLang == "EN_US")
-                    Util.ShowNoticeDialog("The change will take effect after you restart this application.");
+                    Util.ShowNoticeDialog("The language setting will take effect after you restart this application.");
                 else
-                    Util.ShowNoticeDialog("この設定は次回起動時から有効になります。");
+                    Util.ShowNoticeDialog("言語設定は次回起動時から有効になります。");
             }
 
             return m_selectPath;

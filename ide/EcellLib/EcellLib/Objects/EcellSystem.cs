@@ -78,13 +78,9 @@ namespace EcellLib.Objects
         /// <param name="l_data">properties.</param>
         public EcellSystem(string l_modelID, string l_key,
             string l_type, string l_class, List<EcellData> l_data)
+            : base(l_modelID, l_key, l_type, l_class, l_data)
         {
-            this.ModelID = l_modelID;
-            this.Key = l_key;
-            this.Type = l_type;
-            this.Classname = l_class;
-            this.SetEcellDatas(l_data);
-            this.Children = new List<EcellObject>();
+            m_children = new List<EcellObject>();
         }
         #endregion
 

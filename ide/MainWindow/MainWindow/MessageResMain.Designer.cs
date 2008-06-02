@@ -61,7 +61,7 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
-        ///   The change will take effect after you restart this application. に類似しているローカライズされた文字列を検索します。
+        ///   The language setting will take effect after you restart this application. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmRestart {
             get {
