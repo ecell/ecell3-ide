@@ -563,7 +563,7 @@ namespace EcellLib.PropertyWindow
                 AddProperty(dSize, type);
             }
 
-            if (m_type == ProjectStatus.Suspended)
+            if (m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Stepping)
             {
                 UpdatePropForSimulation();
             }

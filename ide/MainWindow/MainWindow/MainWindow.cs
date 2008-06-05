@@ -1289,15 +1289,14 @@ namespace EcellLib.MainWindow
                     project.Comment = comment;
                     project.Save(m_managePrjDialog.FileName);
                 }
+                CloseOpenProjectDialog();
                 LoadProject(prjID, fileName);
             }
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
                 Util.ShowErrorDialog(ex.Message);
-            }
-
-            CloseOpenProjectDialog();
+            }            
         }
 
         /// <summary>
@@ -1309,6 +1308,18 @@ namespace EcellLib.MainWindow
         {
             if (m_project != null)
                 CloseProject(m_project);
+
+            
+            string prjDir = Path.GetDirectoryName(fileName);
+            string dmDir = Path.Combine(prjDir, Constants.DMDirName);
+            string tmpDir = Path.Combine(dmDir, Constants.TmpDirName);
+            Dictionary<string, string> fileDic = new Dictionary<string, string>();
+            if (Directory.Exists(tmpDir))
+            {
+                Util.CopyDirectory(tmpDir, dmDir);
+                Directory.Delete(tmpDir, true);
+            }
+
             m_env.DataManager.LoadProject(prjID, fileName);
             m_isLoadProject = true;
             m_project = prjID;

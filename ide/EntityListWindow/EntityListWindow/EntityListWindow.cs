@@ -182,7 +182,7 @@ namespace EcellLib.EntityListWindow
         public EntityListWindow()
         {
             m_propDict = new Dictionary<string, EcellData>();
-
+            
             m_prjMenu = new ContextMenu();
             m_prjLoadMenu = new ContextMenu();
             m_modelMenu = new ContextMenu();
@@ -1381,12 +1381,8 @@ namespace EcellLib.EntityListWindow
         private void TreeViewCompile(object sender, EventArgs e)
         {
             string path = m_dManager.GetDMFileName(m_targetNode.Text);
-            if (!CheckInstalledSDK())
-            {
-                Util.ShowNoticeDialog(MessageResEntList.NoticeNotInstallSDK);
-                return;
-            }
-            // not implement.
+
+            DMCompiler.Compile(path, m_env);
         }
 
         private void TreeViewDMDisplay(object sender, EventArgs e)

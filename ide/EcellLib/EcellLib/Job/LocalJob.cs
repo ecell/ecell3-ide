@@ -75,7 +75,6 @@ namespace EcellLib.Job
             psi.CreateNoWindow = true;
             psi.Arguments = @Argument;
             psi.WorkingDirectory = Util.GetAnalysisDir();
-            psi.CreateNoWindow = true;
             psi.RedirectStandardError = true;
             psi.RedirectStandardOutput = true;
             if (psi.EnvironmentVariables.ContainsKey("IRONPYTHONSTARTUP"))

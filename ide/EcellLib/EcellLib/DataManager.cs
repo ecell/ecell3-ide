@@ -646,6 +646,7 @@ namespace EcellLib
                         }
                     }
                 }
+                this.m_currentProject.Simulator.Dispose();
                 this.m_currentProject = null;
                 this.m_env.PluginManager.AdvancedTime(0);
                 this.m_env.PluginManager.Clear();

@@ -92,7 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis.cs" />
-    <Compile Include="AnalysisResult.cs" />
     <Compile Include="AnalysisResultWindow.cs">
       <SubType>Form</SubType>
     </Compile>

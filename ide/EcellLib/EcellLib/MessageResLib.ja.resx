@@ -201,6 +201,9 @@
   <data name="ErrNotCreStepper" xml:space="preserve">
     <value>ステッパー {0} を作成できません。</value>
   </data>
+  <data name="ErrNotInstall" xml:space="preserve">
+    <value>{0} がインストールされていません。</value>
+  </data>
   <data name="ErrPrint" xml:space="preserve">
     <value>印刷できません。</value>
   </data>

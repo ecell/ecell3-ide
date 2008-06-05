@@ -207,6 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="DMCompiler.cs" />
     <Compile Include="EcellDockContent.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -201,6 +201,9 @@
   <data name="ErrNotCreStepper" xml:space="preserve">
     <value>Can not create the stepper {0}.</value>
   </data>
+  <data name="ErrNotInstall" xml:space="preserve">
+    <value>{0} is not installed.</value>
+  </data>
   <data name="ErrPrint" xml:space="preserve">
     <value>Can not print the image of plugin.</value>
   </data>

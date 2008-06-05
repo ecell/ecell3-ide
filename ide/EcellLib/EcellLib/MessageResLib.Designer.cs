@@ -313,6 +313,15 @@ namespace EcellLib {
         }
         
         /// <summary>
+        ///   {0} is not installed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrNotInstall {
+            get {
+                return ResourceManager.GetString("ErrNotInstall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Can not print the image of plugin. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrPrint {

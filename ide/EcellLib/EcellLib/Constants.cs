@@ -438,6 +438,10 @@ namespace EcellLib
         /// </summary>
         public const string DMDirName = "DMs";
         /// <summary>
+        /// tmp directory name
+        /// </summary>
+        public const string TmpDirName = "tmp";
+        /// <summary>
         /// Reserved the header of average.
         /// </summary>
         public const string headerAverage = "avg";
