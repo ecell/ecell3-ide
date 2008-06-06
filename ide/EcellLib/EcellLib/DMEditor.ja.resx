@@ -126,6 +126,9 @@
   <data name="DMEComileButton.Text" xml:space="preserve">
     <value>コンパイル</value>
   </data>
+  <data name="DMELoadButton.Text" xml:space="preserve">
+    <value>開く</value>
+  </data>
   <data name="DMESaveButton.Text" xml:space="preserve">
     <value>保存</value>
   </data>

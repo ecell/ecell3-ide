@@ -455,4 +455,7 @@
   <data name="jobStatusToolStripMenuItem.Text" xml:space="preserve">
     <value>スクリプトの状態表示 ...</value>
   </data>
+  <data name="scriptEditorToolStripMenuItem.Text" xml:space="preserve">
+    <value>スクリプトの編集 ...</value>
+  </data>
 </root>

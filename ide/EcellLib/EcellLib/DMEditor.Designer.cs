@@ -27,7 +27,7 @@
 // written by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
-namespace EcellLib.EntityListWindow
+namespace EcellLib
 {
     partial class DMEditor
     {
@@ -63,7 +63,9 @@ namespace EcellLib.EntityListWindow
             this.DMECloseButton = new System.Windows.Forms.Button();
             this.DMEComileButton = new System.Windows.Forms.Button();
             this.DMESaveButton = new System.Windows.Forms.Button();
+            this.DMELoadButton = new System.Windows.Forms.Button();
             this.DMETextBox = new System.Windows.Forms.RichTextBox();
+            this.DMEOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -78,9 +80,10 @@ namespace EcellLib.EntityListWindow
             // tableLayoutPanel2
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.DMECloseButton, 4, 0);
+            this.tableLayoutPanel2.Controls.Add(this.DMECloseButton, 6, 0);
             this.tableLayoutPanel2.Controls.Add(this.DMEComileButton, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.DMESaveButton, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.DMESaveButton, 4, 0);
+            this.tableLayoutPanel2.Controls.Add(this.DMELoadButton, 2, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // DMECloseButton
@@ -95,6 +98,7 @@ namespace EcellLib.EntityListWindow
             resources.ApplyResources(this.DMEComileButton, "DMEComileButton");
             this.DMEComileButton.Name = "DMEComileButton";
             this.DMEComileButton.UseVisualStyleBackColor = true;
+            this.DMEComileButton.Click += new System.EventHandler(this.DMEComileButtonClick);
             // 
             // DMESaveButton
             // 
@@ -103,10 +107,21 @@ namespace EcellLib.EntityListWindow
             this.DMESaveButton.UseVisualStyleBackColor = true;
             this.DMESaveButton.Click += new System.EventHandler(this.DMESaveButtonClick);
             // 
+            // DMELoadButton
+            // 
+            resources.ApplyResources(this.DMELoadButton, "DMELoadButton");
+            this.DMELoadButton.Name = "DMELoadButton";
+            this.DMELoadButton.UseVisualStyleBackColor = true;
+            this.DMELoadButton.Click += new System.EventHandler(this.DMELoadButtonClick);
+            // 
             // DMETextBox
             // 
             resources.ApplyResources(this.DMETextBox, "DMETextBox");
             this.DMETextBox.Name = "DMETextBox";
+            // 
+            // DMEOpenFileDialog
+            // 
+            this.DMEOpenFileDialog.FileName = "DME";
             // 
             // DMEditor
             // 
@@ -125,9 +140,29 @@ namespace EcellLib.EntityListWindow
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Button DMECloseButton;
-        private System.Windows.Forms.Button DMEComileButton;
-        private System.Windows.Forms.Button DMESaveButton;
-        private System.Windows.Forms.RichTextBox DMETextBox;
+        /// <summary>
+        /// Button to close this window.
+        /// </summary>
+        protected System.Windows.Forms.Button DMECloseButton;
+        /// <summary>
+        /// Button to compile the source file.
+        /// </summary>
+        protected System.Windows.Forms.Button DMEComileButton;
+        /// <summary>
+        /// Button to save the source file.
+        /// </summary>
+        protected System.Windows.Forms.Button DMESaveButton;
+        /// <summary>
+        /// Button to load the source file.
+        /// </summary>
+        protected System.Windows.Forms.Button DMELoadButton;
+        /// <summary>
+        /// File selection dialog.
+        /// </summary>
+        protected System.Windows.Forms.OpenFileDialog DMEOpenFileDialog;
+        /// <summary>
+        /// RichTextBox to display the source file.
+        /// </summary>
+        protected System.Windows.Forms.RichTextBox DMETextBox;
     }
 }

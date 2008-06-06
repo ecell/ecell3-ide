@@ -37,7 +37,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib.EntityListWindow
+namespace EcellLib
 {
     /// <summary>
     /// Form class to display the source of DM.
@@ -45,7 +45,14 @@ namespace EcellLib.EntityListWindow
     public partial class DMEditor : Form
     {
         #region Fileds
-        private string m_path;
+        /// <summary>
+        /// The path of loaded file.
+        /// </summary>
+        protected string m_path;
+        /// <summary>
+        /// Application Environment object.
+        /// </summary>
+        protected ApplicationEnvironment m_env;
         #endregion
 
         #region Constructor
@@ -62,10 +69,12 @@ namespace EcellLib.EntityListWindow
         /// Constructor with the initial parameters.
         /// </summary>
         /// <param name="path"></param>
-        public DMEditor(string path)
+        /// <param name="env"></param>
+        public DMEditor(string path, ApplicationEnvironment env)
         {
             m_path = path;
             InitializeComponent();
+            m_env = env;
         }
         #endregion
 
@@ -85,7 +94,7 @@ namespace EcellLib.EntityListWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DMEditorShown(object sender, EventArgs e)
+        protected virtual void DMEditorShown(object sender, EventArgs e)
         {
             if (!Util.IsInstalledSDK())
                 DMEComileButton.Enabled = false;
@@ -93,8 +102,16 @@ namespace EcellLib.EntityListWindow
                 DMEComileButton.Enabled = true;
 
             if (m_path == null) return;
+            LoadFile();
+        }
+
+        /// <summary>
+        /// Load the selected file.
+        /// </summary>
+        protected void LoadFile()
+        {
             string line = "";
-            
+            DMETextBox.Text = "";
             TextReader l_reader = new StreamReader(m_path);
             while ((line = l_reader.ReadLine()) != null)
             {
@@ -108,7 +125,7 @@ namespace EcellLib.EntityListWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DMESaveButtonClick(object sender, EventArgs e)
+        protected void DMESaveButtonClick(object sender, EventArgs e)
         {
             StreamWriter writer = null;
             try
@@ -124,6 +141,35 @@ namespace EcellLib.EntityListWindow
                 }
             }
         }
+
+        /// <summary>
+        /// The event sequence when the load button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void DMELoadButtonClick(object sender, EventArgs e)
+        {
+            DMEOpenFileDialog.Filter = Constants.FilterDMFile;
+            if (DMEOpenFileDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            DMETextBox.Text = "";
+            m_path = DMEOpenFileDialog.FileName;
+            LoadFile();
+        }
+
+        /// <summary>
+        /// The event sequence when the comile button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void DMEComileButtonClick(object sender, EventArgs e)
+        {
+            DMESaveButtonClick(DMESaveButton, e);
+            DMCompiler.Compile(m_path, m_env);
+        }
         #endregion
+
+
     }
 }

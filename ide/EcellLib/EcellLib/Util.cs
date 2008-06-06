@@ -718,8 +718,19 @@ namespace EcellLib
         /// <returns></returns>
         static public bool IsInstalledSDK()
         {
-            return false;
+            string stageHome = System.Environment.GetEnvironmentVariable("ECELL_STAGING_HOME");
+            if (String.IsNullOrEmpty(stageHome))
+            {
+                return false;
+            }
+            string VS80 = System.Environment.GetEnvironmentVariable("VS80COMNTOOLS");
+            if (string.IsNullOrEmpty(VS80))
+            {
+                return false;
+            }
+            return true;
         }
+
         /// <summary>
         /// 
         /// </summary>

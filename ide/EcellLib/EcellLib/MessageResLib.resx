@@ -282,6 +282,9 @@
   <data name="InfoUpdateLogPol" xml:space="preserve">
     <value>Update the policy of logging {0}.</value>
   </data>
+  <data name="NameExecute" xml:space="preserve">
+    <value>Execute</value>
+  </data>
   <data name="NameSimParam" xml:space="preserve">
     <value>simulation parameter</value>
   </data>

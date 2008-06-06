@@ -89,12 +89,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DMEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DMEditor.Designer.cs">
-      <DependentUpon>DMEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="EntityList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,14 +105,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="DMEditor.ja.resx">
-      <DependentUpon>DMEditor.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DMEditor.resx">
-      <DependentUpon>DMEditor.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="EntityList.resx">
       <SubType>Designer</SubType>
       <DependentUpon>EntityList.cs</DependentUpon>

@@ -556,6 +556,15 @@ namespace EcellLib {
         }
         
         /// <summary>
+        ///   Execute に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameExecute {
+            get {
+                return ResourceManager.GetString("NameExecute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   simulation parameter に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameSimParam {

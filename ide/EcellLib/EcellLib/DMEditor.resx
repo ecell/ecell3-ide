@@ -122,7 +122,24 @@
     <value>1</value>
   </data>
   <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>7</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="DMECloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="DMECloseButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>364, 3</value>
+  </data>
+  <data name="DMECloseButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 26</value>
+  </data>
+  <data name="DMECloseButton.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="DMECloseButton.Text" xml:space="preserve">
+    <value>Close</value>
   </data>
   <data name="&gt;&gt;DMECloseButton.Name" xml:space="preserve">
     <value>DMECloseButton</value>
@@ -136,6 +153,21 @@
   <data name="&gt;&gt;DMECloseButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="DMEComileButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
+  <data name="DMEComileButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="DMEComileButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 26</value>
+  </data>
+  <data name="DMEComileButton.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="DMEComileButton.Text" xml:space="preserve">
+    <value>Compile</value>
+  </data>
   <data name="&gt;&gt;DMEComileButton.Name" xml:space="preserve">
     <value>DMEComileButton</value>
   </data>
@@ -147,6 +179,21 @@
   </data>
   <data name="&gt;&gt;DMEComileButton.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="DMESaveButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
+  <data name="DMESaveButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>279, 3</value>
+  </data>
+  <data name="DMESaveButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 26</value>
+  </data>
+  <data name="DMESaveButton.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="DMESaveButton.Text" xml:space="preserve">
+    <value>Save</value>
   </data>
   <data name="&gt;&gt;DMESaveButton.Name" xml:space="preserve">
     <value>DMESaveButton</value>
@@ -160,19 +207,44 @@
   <data name="&gt;&gt;DMESaveButton.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="DMELoadButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
+  <data name="DMELoadButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>194, 3</value>
+  </data>
+  <data name="DMELoadButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 26</value>
+  </data>
+  <data name="DMELoadButton.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="DMELoadButton.Text" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="&gt;&gt;DMELoadButton.Name" xml:space="preserve">
+    <value>DMELoadButton</value>
+  </data>
+  <data name="&gt;&gt;DMELoadButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DMELoadButton.Parent" xml:space="preserve">
+    <value>tableLayoutPanel2</value>
+  </data>
+  <data name="&gt;&gt;DMELoadButton.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="tableLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 345</value>
+    <value>3, 430</value>
   </data>
   <data name="tableLayoutPanel2.RowCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>348, 34</value>
+    <value>441, 32</value>
   </data>
   <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -190,7 +262,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="DMECloseButton" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="DMEComileButton" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="DMESaveButton" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,80,Percent,100,Absolute,80,Absolute,5,Absolute,80" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="DMECloseButton" Row="0" RowSpan="1" Column="6" ColumnSpan="1" /&gt;&lt;Control Name="DMEComileButton" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="DMESaveButton" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="DMELoadButton" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,80,Percent,100,Absolute,80,Absolute,5,Absolute,80,Absolute,5,Absolute,80" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="DMETextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -199,7 +271,7 @@
     <value>3, 3</value>
   </data>
   <data name="DMETextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>348, 336</value>
+    <value>441, 421</value>
   </data>
   <data name="DMETextBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -229,7 +301,7 @@
     <value>2</value>
   </data>
   <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>354, 382</value>
+    <value>447, 465</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -247,97 +319,19 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel2" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="DMETextBox" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,20" /&gt;&lt;Rows Styles="Percent,100,Absolute,40" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel2" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="DMETextBox" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Percent,100,Absolute,38" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
-  <data name="DMECloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom</value>
+  <data name="DMEOpenFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>17, 17</value>
   </data>
-  <data name="DMECloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>271, 3</value>
-  </data>
-  <data name="DMECloseButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 28</value>
-  </data>
-  <data name="DMECloseButton.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="DMECloseButton.Text" xml:space="preserve">
-    <value>Close</value>
-  </data>
-  <data name="&gt;&gt;DMECloseButton.Name" xml:space="preserve">
-    <value>DMECloseButton</value>
-  </data>
-  <data name="&gt;&gt;DMECloseButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DMECloseButton.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;DMECloseButton.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="DMEComileButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom</value>
-  </data>
-  <data name="DMEComileButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="DMEComileButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 28</value>
-  </data>
-  <data name="DMEComileButton.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="DMEComileButton.Text" xml:space="preserve">
-    <value>Compile</value>
-  </data>
-  <data name="&gt;&gt;DMEComileButton.Name" xml:space="preserve">
-    <value>DMEComileButton</value>
-  </data>
-  <data name="&gt;&gt;DMEComileButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DMEComileButton.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;DMEComileButton.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="DMESaveButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom</value>
-  </data>
-  <data name="DMESaveButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>186, 3</value>
-  </data>
-  <data name="DMESaveButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 28</value>
-  </data>
-  <data name="DMESaveButton.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="DMESaveButton.Text" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="&gt;&gt;DMESaveButton.Name" xml:space="preserve">
-    <value>DMESaveButton</value>
-  </data>
-  <data name="&gt;&gt;DMESaveButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DMESaveButton.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;DMESaveButton.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>354, 382</value>
+    <value>447, 465</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -506,7 +500,13 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>DM Editor</value>
+    <value>Source Editor</value>
+  </data>
+  <data name="&gt;&gt;DMEOpenFileDialog.Name" xml:space="preserve">
+    <value>DMEOpenFileDialog</value>
+  </data>
+  <data name="&gt;&gt;DMEOpenFileDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>DMEditor</value>

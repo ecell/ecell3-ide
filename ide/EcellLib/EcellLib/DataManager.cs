@@ -44,6 +44,10 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
+
+using IronPython.Hosting;
+using IronPython.Runtime;
+
 using EcellCoreLib;
 using EcellLib.Objects;
 
@@ -4585,6 +4589,32 @@ namespace EcellLib
             {
                 Trace.WriteLine(ex);
                 throw new Exception(MessageResLib.ErrSaveScript, ex);
+            }
+        }
+
+        /// <summary>
+        /// Compile the dm source file.
+        /// </summary>
+        /// <param name="l_fileName">the source file name.</param>
+        public void ExecuteScript(string l_fileName)
+        {
+            PythonEngine engine = new PythonEngine();
+
+            engine.AddToPath(Directory.GetCurrentDirectory());
+            engine.AddToPath(Util.GetAnalysisDir());
+            string scriptFile = l_fileName;
+
+            try
+            {
+                MemoryStream standardOutput = new MemoryStream();
+                engine.SetStandardOutput(standardOutput);
+                engine.ExecuteFile(scriptFile);
+                string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
+            }
+            catch (Exception)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResLib.ErrLoadFile,
+                    new object[] { scriptFile }));
             }
         }
 

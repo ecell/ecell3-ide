@@ -1755,35 +1755,27 @@ namespace EcellLib.MainWindow
                 //
                 // IronPython
                 //
-                
-                PythonEngine engine = new PythonEngine();
-                
-                engine.AddToPath(Directory.GetCurrentDirectory());
-                string scriptFile = openScriptDialog.FileName;
-                //                string startup = Environment.GetEnvironmentVariable("IRONPYTHONSTARTUP");
-                //if (!String.IsNullOrEmpty(startup))
+                m_env.DataManager.ExecuteScript(openScriptDialog.FileName);
+
+                //PythonEngine engine = new PythonEngine();
+
+                //string crDir = Directory.GetCurrentDirectory();
+                //Console.WriteLine(crDir);
+                //engine.AddToPath(Directory.GetCurrentDirectory());
+                //string scriptFile = openScriptDialog.FileName;
+
+                //try
                 //{
-                //    try
-                //    {
-                //        engine.ExecuteFile(startup);
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        Util.ShowErrorDialog(MessageResMain.ErrLoadPlugin + ex.Message);
-                //    }
+                //    MemoryStream standardOutput = new MemoryStream();
+                //    engine.SetStandardOutput(standardOutput);
+                //    engine.ExecuteFile(scriptFile);
+                //    string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
                 //}
-                try
-                {
-                    MemoryStream standardOutput = new MemoryStream();
-                    engine.SetStandardOutput(standardOutput);
-                    engine.ExecuteFile(scriptFile);
-                    string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
-                }
-                catch (Exception)
-                {
-                    Util.ShowErrorDialog(String.Format(MessageResMain.ErrLoadFile,
-                        new object[] { scriptFile })); 
-                }
+                //catch (Exception)
+                //{
+                //    Util.ShowErrorDialog(String.Format(MessageResMain.ErrLoadFile,
+                //        new object[] { scriptFile }));
+                //}
 
                 //
                 // Executes continuously.
@@ -2030,6 +2022,12 @@ namespace EcellLib.MainWindow
         /// <returns>If contains size, retur true.</returns>
         [System.Runtime.InteropServices.DllImport("kernel32.dll")]
         public static extern bool SetProcessWorkingSetSize(IntPtr hwnd, int min, int max);
+
+        private void ClickScriptEditorMenu(object sender, EventArgs e)
+        {
+            ScriptEditor edit = new ScriptEditor(m_env);
+            edit.ShowDialog();
+        }
 
     }
 }

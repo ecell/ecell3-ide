@@ -1090,7 +1090,7 @@ namespace EcellLib.EntityListWindow
 
         private void DisplayDMEditor(string path)
         {
-            DMEditor edit = new DMEditor(path);
+            DMEditor edit = new DMEditor(path, m_env);
             edit.ShowDialog();
         }
 
