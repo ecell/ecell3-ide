@@ -967,6 +967,7 @@ namespace EcellLib.MainWindow
                 importScriptToolStripMenuItem.Enabled = true;
                 saveScriptToolStripMenuItem.Enabled = false;
                 printToolStripMenuItem.Enabled = false;
+                saveActionMenuItem.Enabled = false;
                 exitToolStripMenuItem.Enabled = true;
             }
             else if (type == ProjectStatus.Loaded || type == ProjectStatus.Stepping)
@@ -980,6 +981,7 @@ namespace EcellLib.MainWindow
                 importScriptToolStripMenuItem.Enabled = false;
                 saveScriptToolStripMenuItem.Enabled = true;
                 printToolStripMenuItem.Enabled = true;
+                saveActionMenuItem.Enabled = true;
                 exitToolStripMenuItem.Enabled = true;
             }
             else
@@ -994,6 +996,7 @@ namespace EcellLib.MainWindow
                 importScriptToolStripMenuItem.Enabled = false;
                 saveScriptToolStripMenuItem.Enabled = false;
                 printToolStripMenuItem.Enabled = true;
+                saveActionMenuItem.Enabled = false;
                 exitToolStripMenuItem.Enabled = true;
             }
             m_type = type;

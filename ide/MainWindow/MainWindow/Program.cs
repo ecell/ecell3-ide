@@ -125,6 +125,7 @@ namespace EcellLib.MainWindow
                 IEcellPlugin mainWnd = env.PluginManager.RegisterPlugin(
                     typeof(EcellLib.MainWindow.MainWindow));
                 me.MainForm = (Form)mainWnd;
+                env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
                 ((Form)mainWnd).Show();
                 if (frmSplash != null)
                 {

@@ -766,6 +766,8 @@ namespace EcellLib.Analysis
                 m_parameterEstimationItem.Enabled = true;
                 m_sensitivityAnalysisItem.Enabled = true;
                 m_bifurcationAnalysisItem.Enabled = true;
+
+                
             }
             else
             {

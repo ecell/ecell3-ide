@@ -127,6 +127,7 @@ namespace EcellLib
         /// <param name="e"></param>
         protected void DMESaveButtonClick(object sender, EventArgs e)
         {
+            if (String.IsNullOrEmpty(m_path)) return;
             StreamWriter writer = null;
             try
             {
