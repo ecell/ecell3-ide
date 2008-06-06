@@ -3039,6 +3039,16 @@ namespace EcellLib
             }
             return resultList;
         }
+
+        /// <summary>
+        /// Get the DM directory of current project.
+        /// </summary>
+        /// <returns></returns>
+        public string GetDMDir()
+        {
+            return Path.Combine(m_currentProject.ProjectPath, Constants.DMDirName);
+        }
+
         /// <summary>
         /// 
         /// </summary>

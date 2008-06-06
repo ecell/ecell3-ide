@@ -70,6 +70,15 @@ namespace EcellLib.EntityListWindow {
         }
         
         /// <summary>
+        ///   Can not create {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrCreateFile {
+            get {
+                return ResourceManager.GetString("ErrCreateFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Can&apos;t start up the application assciated with this file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrStartupApp {
@@ -232,6 +241,15 @@ namespace EcellLib.EntityListWindow {
         }
         
         /// <summary>
+        ///   New ... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string PopNewDMText {
+            get {
+                return ResourceManager.GetString("PopNewDMText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Search... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string PopSearchText {
@@ -255,6 +273,15 @@ namespace EcellLib.EntityListWindow {
         internal static string SortTypeText {
             get {
                 return ResourceManager.GetString("SortTypeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Please input name that the last string is &quot;Process&quot; or &quot;Stepper&quot;. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WarnDMName {
+            get {
+                return ResourceManager.GetString("WarnDMName", resourceCulture);
             }
         }
     }

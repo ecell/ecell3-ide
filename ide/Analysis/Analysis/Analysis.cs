@@ -765,9 +765,7 @@ namespace EcellLib.Analysis
                 m_robustAnalysisItem.Enabled = true;
                 m_parameterEstimationItem.Enabled = true;
                 m_sensitivityAnalysisItem.Enabled = true;
-                m_bifurcationAnalysisItem.Enabled = true;
-
-                
+                m_bifurcationAnalysisItem.Enabled = true;                
             }
             else
             {

@@ -96,6 +96,10 @@ namespace EcellLib.EntityListWindow
         /// </summary>
         private ContextMenu m_dmMenu;
         /// <summary>
+        /// m_dmsMEnu (popup menu on tree node for DMs)
+        /// </summary>
+        private ContextMenu m_dmsMenu;
+        /// <summary>
         /// m_targetNode (selected tree node when show popup menu)
         /// </summary>
         private TreeNode m_targetNode;
@@ -191,6 +195,7 @@ namespace EcellLib.EntityListWindow
             m_procMenu = new ContextMenu();
             m_varMenu = new ContextMenu();
             m_dmMenu = new ContextMenu();
+            m_dmsMenu = new ContextMenu();
             m_creSysLogger = new MenuItem();
             m_delSysLogger = new MenuItem();
             m_creTopSysLogger = new MenuItem();
@@ -282,7 +287,7 @@ namespace EcellLib.EntityListWindow
                     m_modelNodeDic.Add(obj.ModelID, modelNode);
                     m_paramNodeDic.Add(obj.ModelID, paramNode);
 
-                    List<string> fileList = m_dManager.GetDMDirData();
+                    List<string> fileList = m_env.DataManager.GetDMDirData();
                     foreach (string d in fileList)
                     {
                         if (!Util.IsDMFile(d)) continue;
@@ -300,7 +305,7 @@ namespace EcellLib.EntityListWindow
                     node.ImageIndex = m_pManager.GetImageIndex(obj.Type);
                     node.SelectedImageIndex = node.ImageIndex;
                     node.Tag = new TagData(obj.ModelID, "", Constants.xpathModel);
-                    string currentPrj = m_dManager.CurrentProjectID;
+                    string currentPrj = m_env.DataManager.CurrentProjectID;
                     if (m_modelNodeDic.ContainsKey(currentPrj))
                         m_modelNodeDic[currentPrj].Nodes.Add(node);
                     continue;
@@ -587,6 +592,7 @@ namespace EcellLib.EntityListWindow
             MenuItem separator = new MenuItem("-");
             MenuItem sortNameMenu = new MenuItem();
             MenuItem sortTypeMenu = new MenuItem();
+            MenuItem newDmMenu = new MenuItem();
 
             m_creSysLogger.Text = MessageResEntList.PopCreLoggerText;
             m_delSysLogger.Text = MessageResEntList.PopDelLoggerText;
@@ -616,6 +622,7 @@ namespace EcellLib.EntityListWindow
             searchMenu.Text = MessageResEntList.PopSearchText;
             sortNameMenu.Text = MessageResEntList.SortNameText;
             sortTypeMenu.Text = MessageResEntList.SortTypeText;
+            newDmMenu.Text = MessageResEntList.PopNewDMText;
 
             addModel.Click += new EventHandler(TreeviewAddModel);
             addSystem.Click += new EventHandler(TreeviewAddSystem);
@@ -629,6 +636,7 @@ namespace EcellLib.EntityListWindow
             searchMenu.Click += new EventHandler(TreeviewSearch);
             sortNameMenu.Click += new EventHandler(TreeViewSortName);
             sortTypeMenu.Click += new EventHandler(TreeViewSortType);
+            newDmMenu.Click += new EventHandler(TreeViewNewDm);
 
             searchMenu.Shortcut = Shortcut.CtrlF;
 
@@ -724,7 +732,13 @@ namespace EcellLib.EntityListWindow
                 separator.CloneMenu(),
                 m_compileDM.CloneMenu(),                
             });
+
+            m_dmsMenu.MenuItems.AddRange(new MenuItem[]
+            {
+                newDmMenu.CloneMenu()
+            });
         }
+
 
 
 
@@ -766,7 +780,7 @@ namespace EcellLib.EntityListWindow
                 if (!d.Settable || !d.Logable) continue;
                 MenuItem item = new MenuItem(d.Name);
                 item.Tag = d.EntityPath;
-                if (m_dManager.IsContainsParameterData(d.EntityPath))
+                if (m_env.DataManager.IsContainsParameterData(d.EntityPath))
                 {
                     item.Click += new EventHandler(TreeViewDelParameterData);
                     delLogger.MenuItems.Add(item);
@@ -789,7 +803,7 @@ namespace EcellLib.EntityListWindow
                 if (!d.Logable) continue;
                 MenuItem item = new MenuItem(d.Name);
                 item.Tag = d.EntityPath;
-                if (m_dManager.IsContainsObservedData(d.EntityPath))
+                if (m_env.DataManager.IsContainsObservedData(d.EntityPath))
                 {
                     item.Click += new EventHandler(TreeViewDelObservedData);
                     delLogger.MenuItems.Add(item);
@@ -808,7 +822,7 @@ namespace EcellLib.EntityListWindow
         /// <param name="obj">the selected object</param>
         private void ShowPropEditWindow(EcellObject obj)
         {
-            PropertyEditor.Show(m_dManager, m_pManager, obj);
+            PropertyEditor.Show(m_env.DataManager, m_env.PluginManager, obj);
         }
 
         /// <summary>
@@ -949,7 +963,7 @@ namespace EcellLib.EntityListWindow
             TagData t = (TagData)node.Tag;
             if (t == null) return null;
 
-            EcellObject obj = m_dManager.GetEcellObject(t.m_modelID, t.m_key, t.m_type);
+            EcellObject obj = m_env.DataManager.GetEcellObject(t.m_modelID, t.m_key, t.m_type);
             return obj;
         }
 
@@ -1003,7 +1017,7 @@ namespace EcellLib.EntityListWindow
         /// <returns>TreeNode</returns>
         internal TreeNode GetTargetModel(string modelID)
         {
-            string currentPrj = m_dManager.CurrentProjectID;
+            string currentPrj = m_env.DataManager.CurrentProjectID;
             if (m_modelNodeDic.ContainsKey(currentPrj))
             {
                 TreeNode modelsNode = m_modelNodeDic[currentPrj];
@@ -1119,7 +1133,7 @@ namespace EcellLib.EntityListWindow
             string key = m.Tag as string;
             if (key == null) return;
 
-            EcellObject obj = m_dManager.GetEcellObject(
+            EcellObject obj = m_env.DataManager.GetEcellObject(
                     m_currentObj.ModelID,
                     m_currentObj.Key,
                     m_currentObj.Type);
@@ -1129,7 +1143,8 @@ namespace EcellLib.EntityListWindow
             {
                 if (key.Equals(d.EntityPath))
                 {
-                    m_dManager.SetParameterData(new EcellParameterData(key, Convert.ToDouble(d.Value.ToString())));
+                    m_env.DataManager.SetParameterData(new EcellParameterData(key, 
+                        Convert.ToDouble(d.Value.ToString())));
                     return;
                 }
             }
@@ -1146,7 +1161,7 @@ namespace EcellLib.EntityListWindow
             string key = m.Tag as string;
             if (key == null) return;
 
-            m_dManager.RemoveParameterData(new EcellParameterData(key, 0.0));
+            m_env.DataManager.RemoveParameterData(new EcellParameterData(key, 0.0));
         }
 
         /// <summary>
@@ -1160,7 +1175,7 @@ namespace EcellLib.EntityListWindow
             string key = m.Tag as string;
             if (key == null) return;
 
-            EcellObject obj = m_dManager.GetEcellObject(
+            EcellObject obj = m_env.DataManager.GetEcellObject(
                     m_currentObj.ModelID,
                     m_currentObj.Key,
                     m_currentObj.Type);
@@ -1170,7 +1185,8 @@ namespace EcellLib.EntityListWindow
             {
                 if (key.Equals(d.EntityPath))
                 {
-                    m_dManager.SetObservedData(new EcellObservedData(key, Convert.ToDouble(d.Value.ToString())));
+                    m_env.DataManager.SetObservedData(new EcellObservedData(key, 
+                        Convert.ToDouble(d.Value.ToString())));
                     return;
                 }
             }
@@ -1187,7 +1203,7 @@ namespace EcellLib.EntityListWindow
             string key = m.Tag as string;
             if (key == null) return;
 
-            m_dManager.RemoveObservedData(new EcellObservedData(key, 0.0));
+            m_env.DataManager.RemoveObservedData(new EcellObservedData(key, 0.0));
         }
 
         /// <summary>
@@ -1200,7 +1216,7 @@ namespace EcellLib.EntityListWindow
             MenuItem m = (MenuItem)sender;
             string prop = m.Text;
             // Get EcellObject
-            EcellObject obj = m_dManager.GetEcellObject(
+            EcellObject obj = m_env.DataManager.GetEcellObject(
                 m_currentObj.ModelID,
                 m_currentObj.Key,
                 m_currentObj.Type);
@@ -1219,7 +1235,7 @@ namespace EcellLib.EntityListWindow
                 }
             }
             // modify changes
-            m_dManager.DataChanged(obj.ModelID,
+            m_env.DataManager.DataChanged(obj.ModelID,
                 obj.Key,
                 obj.Type,
                 obj);
@@ -1235,7 +1251,7 @@ namespace EcellLib.EntityListWindow
             MenuItem m = (MenuItem)sender;
             string prop = m.Text;
             // Get EcellObject
-            EcellObject obj = m_dManager.GetEcellObject(
+            EcellObject obj = m_env.DataManager.GetEcellObject(
                 m_currentObj.ModelID,
                 m_currentObj.Key,
                 m_currentObj.Type);
@@ -1249,7 +1265,7 @@ namespace EcellLib.EntityListWindow
                 }
             }
             // modify changes
-            m_dManager.DataChanged(obj.ModelID,
+            m_env.DataManager.DataChanged(obj.ModelID,
                 obj.Key,
                 obj.Type,
                 obj);
@@ -1272,7 +1288,8 @@ namespace EcellLib.EntityListWindow
         /// <param name="e">EventArgs</param>
         public void TreeviewAddSystem(object sender, EventArgs e)
         {
-            m_dManager.CreateDefaultObject(m_currentObj.ModelID, m_currentObj.Key, Constants.xpathSystem, true);
+            m_env.DataManager.CreateDefaultObject(m_currentObj.ModelID, 
+                m_currentObj.Key, Constants.xpathSystem, true);
         }
 
         /// <summary>
@@ -1282,7 +1299,8 @@ namespace EcellLib.EntityListWindow
         /// <param name="e">EventArgs</param>
         public void TreeviewAddVariable(object sender, EventArgs e)
         {
-            m_dManager.CreateDefaultObject(m_currentObj.ModelID, m_currentObj.Key, Constants.xpathVariable, true);
+            m_env.DataManager.CreateDefaultObject(m_currentObj.ModelID, 
+                m_currentObj.Key, Constants.xpathVariable, true);
         }
 
         /// <summary>
@@ -1292,7 +1310,8 @@ namespace EcellLib.EntityListWindow
         /// <param name="e">EventArgs</param>
         public void TreeviewAddProcess(object sender, EventArgs e)
         {
-            m_dManager.CreateDefaultObject(m_currentObj.ModelID, m_currentObj.Key, Constants.xpathProcess, true);
+            m_env.DataManager.CreateDefaultObject(m_currentObj.ModelID, 
+                m_currentObj.Key, Constants.xpathProcess, true);
         }
 
         /// <summary>
@@ -1321,9 +1340,9 @@ namespace EcellLib.EntityListWindow
             try
             {
                 if (tag.m_type == Constants.xpathModel)
-                    m_dManager.DataDelete(tag.m_modelID, null, Constants.xpathModel);
+                    m_env.DataManager.DataDelete(tag.m_modelID, null, Constants.xpathModel);
                 else
-                    m_dManager.DataDelete(tag.m_modelID, tag.m_key, tag.m_type);
+                    m_env.DataManager.DataDelete(tag.m_modelID, tag.m_key, tag.m_type);
                 if (modelID != null) m_pManager.SelectChanged(modelID, key, type);
             }
             catch (Exception ex)
@@ -1360,10 +1379,10 @@ namespace EcellLib.EntityListWindow
             try
             {
                 if (tag.m_type == Constants.xpathModel)
-                    m_dManager.DataDelete(tag.m_modelID, null, Constants.xpathModel);
+                    m_env.DataManager.DataDelete(tag.m_modelID, null, Constants.xpathModel);
                 else if (tag.m_type == Constants.xpathSystem)
-                    m_dManager.SystemDeleteAndMove(tag.m_modelID, tag.m_key);
-                else m_dManager.DataDelete(tag.m_modelID, tag.m_key, tag.m_type);
+                    m_env.DataManager.SystemDeleteAndMove(tag.m_modelID, tag.m_key);
+                else m_env.DataManager.DataDelete(tag.m_modelID, tag.m_key, tag.m_type);
                 //                if (modelID != null) m_pManager.SelectChanged(modelID, key, type);
             }
             catch (Exception ex)
@@ -1380,16 +1399,26 @@ namespace EcellLib.EntityListWindow
         /// <param name="e">EventArgs.</param>
         private void TreeViewCompile(object sender, EventArgs e)
         {
-            string path = m_dManager.GetDMFileName(m_targetNode.Text);
+            string path = m_env.DataManager.GetDMFileName(m_targetNode.Text);
 
             DMCompiler.Compile(path, m_env);
+        }
+
+
+        private void TreeViewNewDm(object sender, EventArgs e)
+        {
+            TreeNode node = m_form.treeView1.SelectedNode;
+            if (node == null) return;
+            string dmDir = m_env.DataManager.GetDMDir();
+            InputName ind = new InputName(dmDir, node);
+            ind.ShowDialog();
         }
 
         private void TreeViewDMDisplay(object sender, EventArgs e)
         {
             TreeNode node = m_targetNode;
             if (node == null) return;
-            string path = m_dManager.GetDMFileName(node.Text);
+            string path = m_env.DataManager.GetDMFileName(node.Text);
             if (path == null) return;
             DisplayDMEditor(path);
         }
@@ -1398,7 +1427,7 @@ namespace EcellLib.EntityListWindow
         {
             TreeNode node = m_targetNode;
             if (node == null) return;
-            string path = m_dManager.GetDMFileName(node.Text);
+            string path = m_env.DataManager.GetDMFileName(node.Text);
             if (path == null) return;
             DisplayDMWithApp(path);
         }
@@ -1462,7 +1491,7 @@ namespace EcellLib.EntityListWindow
             }
             if (tag.m_type == Constants.xpathDM)
             {
-                string path = m_dManager.GetDMFileName(node.Text);
+                string path = m_env.DataManager.GetDMFileName(node.Text);
                 if (path == null) return;
                 DisplayDMEditor(path);
 
@@ -1474,7 +1503,7 @@ namespace EcellLib.EntityListWindow
                 m_type != ProjectStatus.Loaded)
                 return;
 
-            EcellObject obj = m_dManager.GetEcellObject(tag.m_modelID,
+            EcellObject obj = m_env.DataManager.GetEcellObject(tag.m_modelID,
                 tag.m_key, tag.m_type);
             Debug.Assert(obj != null);
             ShowPropEditWindow(obj);
@@ -1495,7 +1524,15 @@ namespace EcellLib.EntityListWindow
             TreeNode node = t.GetNodeAt(e.X, e.Y);
             if (node == null) return;
             TagData tag = (TagData)node.Tag;
-            if (tag == null) return;
+            if (tag == null)
+            {
+                if (!node.Text.Equals("DMs")) return;
+                m_targetNode = node;
+                m_form.treeView1.SelectedNode = node;
+                m_form.treeView1.ContextMenu = m_dmsMenu;
+
+                return;
+            }
             if (tag.m_type == Constants.xpathParameters) return;
             if (e.Button == MouseButtons.Right)
             {
@@ -1507,7 +1544,7 @@ namespace EcellLib.EntityListWindow
                 if (tag.m_type == Constants.xpathDM)
                 {
                     m_targetNode = node;
-                    string file = m_dManager.GetDMFileName(node.Text);
+                    string file = m_env.DataManager.GetDMFileName(node.Text);
                     if (file != null)
                         m_form.treeView1.ContextMenu = m_dmMenu;
                     else
@@ -1531,7 +1568,7 @@ namespace EcellLib.EntityListWindow
                 else if (tag.m_type == Constants.xpathSystem)
                 {
                     m_targetNode = node;
-                    List<EcellObject> list = m_dManager.GetData(tag.m_modelID, tag.m_key);
+                    List<EcellObject> list = m_env.DataManager.GetData(tag.m_modelID, tag.m_key);
                     if (list == null || list.Count == 0) return;
                     EcellObject obj = list[0];
 

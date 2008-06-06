@@ -120,6 +120,9 @@
   <data name="EntityList" xml:space="preserve">
     <value>プロジェクトエクスプローラ</value>
   </data>
+  <data name="ErrCreateFile" xml:space="preserve">
+    <value>{0} が作成できません。</value>
+  </data>
   <data name="ErrStartupApp" xml:space="preserve">
     <value>このファイルに関連付けられたアプリケーションが起動できませんでした。ファイルタイプへの関連付けを行ってください。</value>
   </data>
@@ -174,6 +177,9 @@
   <data name="PopMergeText" xml:space="preserve">
     <value>マージ</value>
   </data>
+  <data name="PopNewDMText" xml:space="preserve">
+    <value>新規作成</value>
+  </data>
   <data name="PopSearchText" xml:space="preserve">
     <value>検索...</value>
   </data>
@@ -182,5 +188,8 @@
   </data>
   <data name="SortTypeText" xml:space="preserve">
     <value>タイプでソート</value>
+  </data>
+  <data name="WarnDMName" xml:space="preserve">
+    <value>ProcessもしくはStepperで終わる名前を入力してください。</value>
   </data>
 </root>
