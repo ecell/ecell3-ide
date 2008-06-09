@@ -95,6 +95,7 @@
             this.CancelButton = this.INCancelButton;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "InputName";
+            this.Shown += new System.EventHandler(this.InputNameShown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);

@@ -68,6 +68,8 @@
             this.imageList1.Images.SetKeyName(2, "System");
             this.imageList1.Images.SetKeyName(3, "Process");
             this.imageList1.Images.SetKeyName(4, "Variable");
+            this.imageList1.Images.SetKeyName(5, "dm");
+            this.imageList1.Images.SetKeyName(6, "Parameters");
             // 
             // tableLayoutPanel2
             // 

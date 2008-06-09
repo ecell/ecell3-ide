@@ -501,7 +501,7 @@ namespace EcellLib.PropertyWindow
         private void ChangeObject(string modelID, string key, string type)
         {
             // When called with illegal arguments, this method will do nothing;
-            if (modelID == null || key == null)
+            if (String.IsNullOrEmpty(modelID) || String.IsNullOrEmpty(key))
             {
                 return;
             }

@@ -292,6 +292,8 @@ namespace EcellLib.EntityListWindow
                     {
                         if (!Util.IsDMFile(d)) continue;
                         TreeNode dNode = new TreeNode(d);
+                        dNode.ImageIndex = m_env.PluginManager.GetImageIndex(Constants.xpathDM);
+                        dNode.SelectedImageIndex = dNode.ImageIndex;
                         dNode.Tag = new TagData("", "", Constants.xpathDM);
                         dmNode.Nodes.Add(dNode);
                     }
@@ -486,6 +488,8 @@ namespace EcellLib.EntityListWindow
             }
             TreeNode paramNode = new TreeNode(parameterID);
             paramNode.Tag = new TagData("", "", Constants.xpathParameters);
+            paramNode.ImageIndex = m_env.PluginManager.GetImageIndex(Constants.xpathParameters);
+            paramNode.SelectedImageIndex = paramNode.ImageIndex;
             paramsNode.Nodes.Add(paramNode);
 
             return;
@@ -882,7 +886,7 @@ namespace EcellLib.EntityListWindow
             if (isLog) node = new TreeNode(name + "[logged]");
             else node = new TreeNode(name);
 
-            node.ImageIndex = m_pManager.GetImageIndex(obj.Type);
+            node.ImageIndex = m_env.PluginManager.GetImageIndex(obj.Type);
             node.SelectedImageIndex = node.ImageIndex;
             node.Tag = new TagData(obj.ModelID, obj.Key, obj.Type);
             parent.Nodes.Add(node);

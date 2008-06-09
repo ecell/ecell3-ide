@@ -159,6 +159,8 @@ namespace EcellLib
             m_imageList.Images.SetKeyName(2, Constants.xpathSystem);
             m_imageList.Images.SetKeyName(3, Constants.xpathProcess);
             m_imageList.Images.SetKeyName(4, Constants.xpathVariable);
+            m_imageList.Images.SetKeyName(5, Constants.xpathDM);
+            m_imageList.Images.SetKeyName(6, Constants.xpathParameters);
         }
 
         /// <summary>

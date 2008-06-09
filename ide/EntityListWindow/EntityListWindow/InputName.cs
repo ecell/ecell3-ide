@@ -83,6 +83,16 @@ namespace EcellLib.EntityListWindow
                     new object[] { name }));                
             }
         }
+
+        /// <summary>
+        /// The event sequence to show this form.
+        /// </summary>
+        /// <param name="sender">This form.</param>
+        /// <param name="e">EventArgs.</param>
+        private void InputNameShown(object sender, EventArgs e)
+        {
+            INTextBox.Focus();
+        }
         #endregion
     }
 }
