@@ -35,12 +35,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VariableSelectWindow));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.selectTree = new System.Windows.Forms.TreeView();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.VSProductButton = new System.Windows.Forms.Button();
             this.VSCloseButton = new System.Windows.Forms.Button();
             this.VSSourceButton = new System.Windows.Forms.Button();
             this.VSConstantButton = new System.Windows.Forms.Button();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -59,25 +59,13 @@
             this.selectTree.Name = "selectTree";
             this.selectTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.SelectTreeDoubleClick);
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Project");
-            this.imageList1.Images.SetKeyName(1, "Model");
-            this.imageList1.Images.SetKeyName(2, "System");
-            this.imageList1.Images.SetKeyName(3, "Process");
-            this.imageList1.Images.SetKeyName(4, "Variable");
-            this.imageList1.Images.SetKeyName(5, "dm");
-            this.imageList1.Images.SetKeyName(6, "Parameters");
-            // 
             // tableLayoutPanel2
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.VSProductButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.VSCloseButton, 4, 0);
+            this.tableLayoutPanel2.Controls.Add(this.VSProductButton, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.VSCloseButton, 6, 0);
             this.tableLayoutPanel2.Controls.Add(this.VSSourceButton, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.VSConstantButton, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.VSConstantButton, 4, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // VSProductButton
@@ -104,6 +92,18 @@
             resources.ApplyResources(this.VSConstantButton, "VSConstantButton");
             this.VSConstantButton.Name = "VSConstantButton";
             this.VSConstantButton.UseVisualStyleBackColor = true;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "Project");
+            this.imageList1.Images.SetKeyName(1, "Model");
+            this.imageList1.Images.SetKeyName(2, "System");
+            this.imageList1.Images.SetKeyName(3, "Process");
+            this.imageList1.Images.SetKeyName(4, "Variable");
+            this.imageList1.Images.SetKeyName(5, "dm");
+            this.imageList1.Images.SetKeyName(6, "Parameters");
             // 
             // VariableSelectWindow
             // 

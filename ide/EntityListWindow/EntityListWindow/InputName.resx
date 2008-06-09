@@ -503,7 +503,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Create</value>
+    <value>Input the name</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>InputName</value>
