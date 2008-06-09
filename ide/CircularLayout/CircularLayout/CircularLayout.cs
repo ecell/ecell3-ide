@@ -68,8 +68,10 @@ namespace EcellLib.CircularLayout
             List<EcellObject> selectedList = GetSelectedObject(nodeList);
             // Error check.
             if (selectedList.Count <= 2)
+            {
+                Util.ShowNoticeDialog(MessageResCircularLayout.MsgLessNode);
                 return false;
-
+            }
             // Number of layouts to be layouted.
             int nodeNum = selectedList.Count;
             // Get region.

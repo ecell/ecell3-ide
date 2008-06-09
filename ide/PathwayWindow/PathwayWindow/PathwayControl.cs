@@ -1400,10 +1400,21 @@ namespace EcellLib.PathwayWindow
 
                 i++;
                 node.isFixed = false;
-                if(i != nodeNum)
-                    NotifySetPosition(node);
+
+                if (isRecorded)
+                {
+                    if (i != nodeNum)
+                        NotifyDataChanged(node.Key,node,isRecorded, false);
+                    else
+                        NotifyDataChanged(node.Key, node, isRecorded, true);
+                }
                 else
-                    NotifySetPosition(node);
+                {
+                    if (i != nodeNum)
+                        NotifySetPosition(node);
+                    else
+                        NotifySetPosition(node);
+                }
                 Progress(count * 50 / allcount + 50);
                 count++;
             }
