@@ -1021,7 +1021,7 @@ namespace EcellLib.PathwayWindow
             {
                 foreach (PPathwayObject obj in layer.NodeList)
                 {
-                    if (obj is PPathwaySystem)
+                    if (!(obj is PPathwayNode))
                         continue;
                     if (!obj.Visible || !obj.Rect.Contains(pointF))
                         continue;
