@@ -1378,6 +1378,7 @@ namespace EcellLib.PathwayWindow
         void timer_Tick(object sender, EventArgs e)
         {
             this.UpdateOverview();
+            m_con.Menu.Zoom(1f);
             ((Timer)sender).Stop();
             ((Timer)sender).Dispose();
         }
