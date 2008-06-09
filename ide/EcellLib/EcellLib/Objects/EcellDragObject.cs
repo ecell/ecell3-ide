@@ -49,6 +49,8 @@ namespace EcellLib.Objects
         string m_key;
         string m_type;
         string m_path;
+        bool m_isSettable;
+        bool m_isLogable;
 
         /// <summary>
         /// Constructor without initial parameters.
@@ -59,21 +61,28 @@ namespace EcellLib.Objects
             m_key = "";
             m_type = "";
             m_path = "";
+            m_isSettable = false;
+            m_isLogable = false;
         }
 
         /// <summary>
         /// Constructor with initial parameters.
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        /// <param name="path"></param>
-        public EcellDragObject(string modelID, string key, string type, string path)
+        /// <param name="modelID">the model ID.</param>
+        /// <param name="key">the key of this object.</param>
+        /// <param name="type">the type of this object.</param>
+        /// <param name="path">the property path of this object.</param>
+        /// <param name="isLogable">the flag whether this property is able to log.</param>
+        /// <param name="isSettable">the flag whether this property is able to set.</param>
+        public EcellDragObject(string modelID, string key, string type, 
+            string path, bool isSettable, bool isLogable)
         {
             m_modelID = modelID;
             m_key = key;
             m_type = type;
             m_path = path;
+            m_isSettable = isSettable;
+            m_isLogable = isLogable;
         }
 
         /// <summary>
@@ -110,6 +119,24 @@ namespace EcellLib.Objects
         {
             get { return this.m_path; }
             set { this.m_path = value; }
+        }
+
+        /// <summary>
+        /// get / set the flag whether this property is able to set.
+        /// </summary>
+        public bool IsSettable
+        {
+            get { return this.m_isSettable; }
+            set { this.m_isSettable = value; }
+        }
+
+        /// <summary>
+        /// get / set the flag whether this property is able to log.
+        /// </summary>
+        public bool IsLogable
+        {
+            get { return this.m_isLogable; }
+            set { this.m_isLogable = value; }
         }
     }
 }

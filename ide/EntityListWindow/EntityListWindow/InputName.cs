@@ -15,7 +15,13 @@ namespace EcellLib.EntityListWindow
     public partial class InputName : Form
     {
         #region Fields
+        /// <summary>
+        /// The path of dm directory for the current project.
+        /// </summary>
         private string m_dir;
+        /// <summary>
+        /// The current selected node.
+        /// </summary>
         private TreeNode m_node;
         #endregion
 
@@ -23,8 +29,8 @@ namespace EcellLib.EntityListWindow
         /// <summary>
         /// Constructor with the initial parameters.
         /// </summary>
-        /// <param name="dmDir"></param>
-        /// <param name="node"></param>
+        /// <param name="dmDir">The path of dm directory.</param>
+        /// <param name="node">The current selected node.</param>
         public InputName(string dmDir, TreeNode node)
         {
             InitializeComponent();
@@ -34,11 +40,21 @@ namespace EcellLib.EntityListWindow
         #endregion
 
         #region Events
+        /// <summary>
+        /// The event sequence when the cancel button is clicked.
+        /// </summary>
+        /// <param name="sender">Button.</param>
+        /// <param name="e">EventArgs.</param>
         private void INCancelButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// The event sequence when the create button is clicked.
+        /// </summary>
+        /// <param name="sender">Button.</param>
+        /// <param name="e">EventArgs.</param>
         private void INNewButton_Click(object sender, EventArgs e)
         {
             String name = INTextBox.Text;

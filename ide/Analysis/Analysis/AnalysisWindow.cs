@@ -873,6 +873,7 @@ namespace EcellLib.Analysis
             object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
             if (obj == null) return;
             EcellDragObject dobj = obj as EcellDragObject;
+            if (!dobj.IsSettable) return;
 
             try
             {
@@ -906,7 +907,13 @@ namespace EcellLib.Analysis
         private void DragEnterParam(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
-            if (obj != null)
+            if (obj == null)
+            {
+                e.Effect = DragDropEffects.None;
+                return;
+            }
+            EcellDragObject dobj = obj as EcellDragObject;
+            if (dobj != null && dobj.IsSettable)
                 e.Effect = DragDropEffects.Move;
             else
                 e.Effect = DragDropEffects.None;
@@ -920,7 +927,13 @@ namespace EcellLib.Analysis
         private void DragEnterObservedData(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
-            if (obj != null)
+            if (obj == null)
+            {
+                e.Effect = DragDropEffects.None;
+                return;
+            }
+            EcellDragObject dobj = obj as EcellDragObject;
+            if (dobj != null && dobj.IsLogable)
                 e.Effect = DragDropEffects.Move;
             else
                 e.Effect = DragDropEffects.None;
@@ -937,6 +950,7 @@ namespace EcellLib.Analysis
             
             if (obj == null) return;
             EcellDragObject dobj = obj as EcellDragObject;
+            if (!dobj.IsLogable) return;
 
             try
             {
@@ -1191,7 +1205,7 @@ namespace EcellLib.Analysis
             DataGridViewRow r = v.Rows[e.RowIndex];
             if (r.Tag == null) return;
             EcellObservedData obj = r.Tag as EcellObservedData;
-            if (obj == null) return;
+            if (obj == null) return;           
 
             EcellObservedData p = ExtractObservedDataFromRow(r);
             m_owner.DataManager.SetObservedData(p);

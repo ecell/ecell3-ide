@@ -780,12 +780,16 @@ namespace EcellLib.PropertyWindow
             {
                 if (!d.Name.Equals(s))
                     continue;
-                if (!d.Logable)
+                if (!d.Logable && !d.Settable)
+                    break;
+                if (!d.Value.IsDouble())
                     break;
                 EcellDragObject dobj = new EcellDragObject(m_current.ModelID,
                     m_current.Key,
                     m_current.Type,
-                    d.EntityPath);
+                    d.EntityPath,
+                    d.Settable,
+                    d.Logable);
 
                 v.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
                 return;
