@@ -40,6 +40,8 @@ using System.Text;
 using System.Threading;
 using System.Drawing.Drawing2D;
 using EcellLib.Objects;
+using UMD.HCIL.Piccolo;
+using EcellLib.PathwayWindow;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -53,6 +55,8 @@ namespace EcellLib.PathwayWindow.Nodes
         /// Edges will be refreshed every time when this process has moved by this distance.
         /// </summary>
         protected const float m_refreshDistance = 4;
+
+        private List<PPathwayAlias> m_aliases = new List<PPathwayAlias>();
         #endregion
 
         /// <summary>
@@ -64,16 +68,37 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// get/set the related element.
         /// </summary>
-        public new EcellVariable EcellObject
+        public override EcellObject EcellObject
         {
-            get { return (EcellVariable)base.m_ecellObj; }
+            get { return base.m_ecellObj; }
             set
             {
                 base.EcellObject = value;
-                Refresh();
+                ResetAlias();
             }
         }
         #endregion
+
+        private void ResetAlias()
+        {
+            if (m_ecellObj == null)
+                return;
+            // Remove current alias
+            foreach (PPathwayAlias alias in m_aliases)
+                this.RemoveChild(alias);
+
+            // Set alias
+            foreach (EcellObject eo in m_ecellObj.Children)
+            {
+                PPathwayAlias alias = new PPathwayAlias(this);
+                alias.AddPath(m_setting.Figure.GraphicsPath,false);
+                alias.Setting = m_setting;
+                alias.EcellObject = eo;
+                m_canvas.SetLayer(alias);
+                m_aliases.Add(alias);
+                alias.RefreshView();
+            }
+        }
 
         /// <summary>
         /// 

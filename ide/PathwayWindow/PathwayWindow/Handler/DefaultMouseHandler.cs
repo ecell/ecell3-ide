@@ -149,7 +149,7 @@ namespace EcellLib.PathwayWindow.Handler
                 if (!(obj is PPathwayNode))
                     continue;
                 if (!newlySelectedList.Contains(obj))
-                    canvas.NotifyAddSelect(obj, false);
+                    canvas.NotifyRemoveSelect(obj);
             }
             foreach (PNode obj in newlySelectedList)
             {
@@ -157,7 +157,7 @@ namespace EcellLib.PathwayWindow.Handler
                     continue;
                 PPathwayNode node = (PPathwayNode)obj;
                 if(!canvas.SelectedNodes.Contains(node))
-                    canvas.NotifyAddSelect(node, true);
+                    canvas.NotifyAddSelect(node);
             }
         }
 

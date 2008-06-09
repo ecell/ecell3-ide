@@ -294,6 +294,7 @@ namespace EcellLib.PathwayWindow.Nodes
                     base.OffsetY = m_ecellObj.OffsetY;
                 }
                 MemorizePosition();
+                Refresh();
             }
         }
         /// <summary>

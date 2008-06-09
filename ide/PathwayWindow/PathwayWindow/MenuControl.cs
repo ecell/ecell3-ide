@@ -220,7 +220,7 @@ namespace EcellLib.PathwayWindow
             m_layoutList = m_con.Window.GetLayoutAlgorithms();
             m_defaultLayoutAlgorithm = GetDefaultLayoutAlgorithm();
             m_menuLayoutList = CreateLayoutMenus();
-            m_menuList = CreateMenuItems();
+            m_menuList = CreateToolMenus();
             m_buttonList = CreateToolButtons();
             m_popupMenu = CreatePopUpMenus();
         }
@@ -360,6 +360,11 @@ namespace EcellLib.PathwayWindow
             nodeMenu.Items.Add(merge);
             m_popMenuDict.Add(MenuConstants.CanvasMenuMerge, merge);
 
+            ToolStripItem alias = new ToolStripMenuItem(MessageResPathway.CanvasMenuAlias);
+            alias.Click += new EventHandler(CreateAliasClick);
+            nodeMenu.Items.Add(alias);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuAlias, alias);
+
             ToolStripSeparator separator4 = new ToolStripSeparator();
             nodeMenu.Items.Add(separator4);
             m_popMenuDict.Add(MenuConstants.CanvasMenuSeparator4, separator4);
@@ -417,7 +422,7 @@ namespace EcellLib.PathwayWindow
         /// Create Tool Menus.
         /// </summary>
         /// <returns></returns>
-        private List<ToolStripMenuItem> CreateMenuItems()
+        private List<ToolStripMenuItem> CreateToolMenus()
         {
             List<ToolStripMenuItem> menuList = new List<ToolStripMenuItem>();
 
@@ -649,11 +654,11 @@ namespace EcellLib.PathwayWindow
             list.Items.Add(zoomoutButton);
 
             m_zoomRate = new ToolStripComboBox();
-            object[] arr = {400, 300, 200, 150, 125, 100, 80, 60, 40, 30, 20};
-            m_zoomRate.Text = "70";
+            object[] arr = { "400%", "300%", "200%", "150%", "125%", "100%", "80%", "60%", "40%", "30%", "20%" };
+            m_zoomRate.Text = "70%";
+            m_zoomRate.MaxLength = 5;
             m_zoomRate.Width = 20;
             m_zoomRate.ComboBox.Width = 15;
-            m_zoomRate.MaxLength = 5;
             m_zoomRate.Items.AddRange(arr);
             m_zoomRate.KeyDown += new KeyEventHandler(ZoomRate_KeyDown);
             m_zoomRate.SelectedIndexChanged += new EventHandler(ZoomRate_SelectedIndexChanged);
@@ -676,8 +681,11 @@ namespace EcellLib.PathwayWindow
         {
             // Set popup menu visibility flags.
             PNode node = m_con.Canvas.FocusNode;
+            bool isNull = (node == null);
             bool isPPathwayObject = (node is PPathwayObject);
             bool isPPathwayNode = (node is PPathwayNode);
+            bool isPPathwayVariable = false;// (node is PPathwayVariable);
+            bool isPPathwayAlias = (node is PPathwayAlias);
             bool isPPathwaySystem = (node is PPathwaySystem);
             bool isPPathwayText = (node is PPathwayText);
             bool isRoot = false;
@@ -721,6 +729,7 @@ namespace EcellLib.PathwayWindow
             m_popMenuDict[MenuConstants.CanvasMenuPaste].Visible = isCopiedObject;
             m_popMenuDict[MenuConstants.CanvasMenuDelete].Visible = (isPPathwayObject && !isRoot) || isLine || isPPathwayText;
             m_popMenuDict[MenuConstants.CanvasMenuMerge].Visible = isPPathwaySystem && !isRoot;
+            m_popMenuDict[MenuConstants.CanvasMenuAlias].Visible = isPPathwayVariable;
             m_popMenuDict[MenuConstants.CanvasMenuSeparator4].Visible = isCopiedObject || (isPPathwayObject && !isRoot);
             // Show Layer menu.
             m_popMenuDict[MenuConstants.CanvasMenuChangeLayer].Visible = isPPathwayObject && !isRoot;
@@ -729,7 +738,7 @@ namespace EcellLib.PathwayWindow
             m_popMenuDict[MenuConstants.CanvasMenuSeparator5].Visible = isPPathwayObject && !isRoot && !isPPathwayText;
             // Show Layout menus.
             m_popMenuDict[MenuConstants.CanvasMenuLayout].Visible = isLayoutMenu && !(isLine || isPPathwayText);
-            m_popMenuDict[MenuConstants.CanvasMenuSeparator2].Visible = isLayoutMenu && !(isLine || isPPathwayText);
+            m_popMenuDict[MenuConstants.CanvasMenuSeparator2].Visible = isLayoutMenu && !(isNull || isLine || isPPathwayText);
             // Show Logger menu.
             m_popMenuDict[MenuConstants.CanvasMenuCreateLogger].Visible = isPPathwayObject && !isPPathwayText;
             m_popMenuDict[MenuConstants.CanvasMenuDeleteLogger].Visible = isPPathwayObject && !isPPathwayText;
@@ -931,6 +940,19 @@ namespace EcellLib.PathwayWindow
             m_con.Window.NotifyDataMerge(system.EcellObject.ModelID, system.EcellObject.Key);
             if (system.IsHighLighted)
                 canvas.ResetSelectedSystem();
+        }
+
+        private void CreateAliasClick(object sender, EventArgs e)
+        {
+            // Check active canvas.
+            CanvasControl canvas = m_con.Canvas;
+            PPathwayVariable var = (PPathwayVariable)canvas.FocusNode;
+            EcellObject eo = var.EcellObject;
+            EcellObject alias = EcellObject.CreateObject(eo.ModelID, eo.Key, eo.Type, eo.Classname, null);
+            alias.SetPosition(eo);
+            alias.PointF = m_con.MousePosition;
+            eo.Children.Add(alias);
+            m_con.NotifyDataChanged(eo.Key, eo, true, true);
         }
 
         /// <summary>
@@ -1300,12 +1322,12 @@ namespace EcellLib.PathwayWindow
             float zoomRate;
             try
             {
-                zoomRate = float.Parse(m_zoomRate.Text) / m_con.Canvas.PCanvas.Camera.ViewScale / 100f;
+                zoomRate = float.Parse(m_zoomRate.Text.Replace("%", "")) / m_con.Canvas.PCanvas.Camera.ViewScale / 100f;
             }
             catch
             {
                 zoomRate = m_con.Canvas.PCanvas.Camera.ViewScale * 100f;
-                m_zoomRate.Text = zoomRate.ToString("###");
+                m_zoomRate.Text = zoomRate.ToString("###") + "%";
                 return;
             }
             Zoom(zoomRate);
@@ -1319,7 +1341,7 @@ namespace EcellLib.PathwayWindow
         {
             if (m_con.Canvas == null)
                 return;
-            string rate = m_zoomRate.Items[m_zoomRate.SelectedIndex].ToString();
+            string rate = m_zoomRate.Items[m_zoomRate.SelectedIndex].ToString().Replace("%","");
             float zoomRate = float.Parse(rate) / m_con.Canvas.PCanvas.Camera.ViewScale / 100f;
             Zoom(zoomRate);
         }
@@ -1335,7 +1357,7 @@ namespace EcellLib.PathwayWindow
             
             m_con.Canvas.Zoom(zoomRate);
             float rate = m_con.Canvas.PCanvas.Camera.ViewScale * 100f;
-            m_zoomRate.Text = rate.ToString("###");
+            m_zoomRate.Text = rate.ToString("###") + "%";
         }
         /// <summary>
         /// Export SVG format.

@@ -74,19 +74,6 @@ namespace EcellLib.PathwayWindow.Nodes
 
         #region Accessors
         /// <summary>
-        /// get/set the related element.
-        /// </summary>
-        public new EcellProcess EcellObject
-        {
-            get { return (EcellProcess)base.m_ecellObj; }
-            set
-            {
-                base.EcellObject = value;
-                Refresh();
-            }
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         public Brush EdgeBrush
@@ -206,9 +193,10 @@ namespace EcellLib.PathwayWindow.Nodes
         public void CreateEdges()
         {
             // Error Check
-            if (this.EcellObject == null || this.EcellObject.ReferenceList == null)
+            EcellProcess process = (EcellProcess)m_ecellObj;
+            if (process == null || process.ReferenceList == null)
                 return;
-            List<EcellReference> list = EcellObject.ReferenceList;
+            List<EcellReference> list = process.ReferenceList;
             // Check if this node is tarminal node or not.
             bool isEndNode = true;
             foreach (EcellReference er in list)

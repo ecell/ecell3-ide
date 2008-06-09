@@ -372,4 +372,7 @@
   <data name="CanvasMenuBidirArrow" xml:space="preserve">
     <value>プロセス &lt;-&gt; バリアブル</value>
   </data>
+  <data name="CanvasMenuAlias" xml:space="preserve">
+    <value>エイリアス作成</value>
+  </data>
 </root>

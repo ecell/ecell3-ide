@@ -345,8 +345,7 @@ namespace EcellLib.PathwayWindow
                     Progress(50);
                 // Set layout.
                 SetLayout(data, modelId, isFirst);
-                if (isFirst)
-                    Progress(0);
+                Progress(0);
             }
             catch (Exception e)
             {
@@ -396,6 +395,8 @@ namespace EcellLib.PathwayWindow
         /// <param name="percent"></param>
         public void Progress(int percent)
         {
+            if (percent == 100)
+                percent = 0;
             m_pathwayView.ProgressBarControl.ProgressBar.Value = percent;
             Application.DoEvents();
         }
@@ -1406,7 +1407,7 @@ namespace EcellLib.PathwayWindow
                 Progress(count * 50 / allcount + 50);
                 count++;
             }
-            Progress(100);
+            Progress(0);
         }
 
         #endregion

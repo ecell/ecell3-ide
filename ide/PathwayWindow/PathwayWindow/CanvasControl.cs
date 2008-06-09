@@ -426,8 +426,6 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         public void NotifySelectChanged(PPathwayObject obj)
         {
-            if (m_con == null)
-                return;
             m_isSelectChanged = true;
             m_con.Window.NotifySelectChanged(
                 this.m_modelId, 
@@ -438,17 +436,25 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Notify SelectChanged event to outside.
         /// <param name="obj">the selected object.</param>
-        /// <param name="isSelect">the flag whether this object is selected.</param>
         /// </summary>
-        public void NotifyAddSelect(PPathwayObject obj, bool isSelect)
+        public void NotifyAddSelect(PPathwayObject obj)
         {
-            if (m_con == null)
-                return;
             m_con.Window.NotifyAddSelect(
                 this.m_modelId, 
                 obj.EcellObject.Key, 
-                obj.EcellObject.Type, 
-                isSelect);
+                obj.EcellObject.Type);
+        }
+
+        /// <summary>
+        /// Notify SelectChanged event to outside.
+        /// <param name="obj">the selected object.</param>
+        /// </summary>
+        public void NotifyRemoveSelect(PPathwayObject obj)
+        {
+            m_con.Window.NotifyRemoveSelect(
+                this.m_modelId,
+                obj.EcellObject.Key,
+                obj.EcellObject.Type);
         }
 
         /// <summary>
@@ -882,7 +888,7 @@ namespace EcellLib.PathwayWindow
                 return;
             foreach (PPathwayObject obj in layer.NodeList)
             {
-                NotifyAddSelect(obj, true);
+                NotifyAddSelect(obj);
             }
         }
 
@@ -1046,7 +1052,7 @@ namespace EcellLib.PathwayWindow
             return null;
         }
         /// <summary>
-        /// Get all EcellObjects of this object.
+        /// Get all PPathwayObject of this canvas.
         /// </summary>
         /// <returns>A list which contains all PathwayElements of this object</returns>
         public List<PPathwayObject> GetAllObjects()
@@ -1054,6 +1060,7 @@ namespace EcellLib.PathwayWindow
             List<PPathwayObject> returnList = new List<PPathwayObject>();
             returnList.AddRange(GetSystemList());
             returnList.AddRange(GetNodeList());
+            returnList.AddRange(GetTextList());
 
             return returnList;
         }
@@ -1073,7 +1080,7 @@ namespace EcellLib.PathwayWindow
             return returnList;
         }
         /// <summary>
-        /// Get all EcellSystems of this object.
+        /// Get all PPathwaySystem of this canvas.
         /// </summary>
         /// <returns>A list which contains all PathwayElements of this object</returns>
         public List<PPathwayObject> GetSystemList()
@@ -1085,7 +1092,7 @@ namespace EcellLib.PathwayWindow
             return returnList;
         }
         /// <summary>
-        /// Get all EcellProcesss of this object.
+        /// Get all PPathwayNode of this canvas.
         /// </summary>
         /// <returns>A list which contains all PathwayElements of this object</returns>
         public List<PPathwayObject> GetNodeList()
@@ -1095,6 +1102,18 @@ namespace EcellLib.PathwayWindow
                 returnList.Add(process);
             foreach (PPathwayVariable variable in this.m_variables.Values)
                 returnList.Add(variable);
+
+            return returnList;
+        }
+        /// <summary>
+        /// Get all PPathwayNode of this canvas.
+        /// </summary>
+        /// <returns></returns>
+        public List<PPathwayObject> GetTextList()
+        {
+            List<PPathwayObject> returnList = new List<PPathwayObject>();
+            foreach (PPathwayText text in this.m_texts.Values)
+                returnList.Add(text);
 
             return returnList;
         }

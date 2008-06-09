@@ -254,7 +254,7 @@ namespace EcellLib.PathwayWindow {
                 canvas.Control.Progress(count * 50 / allcount + 50);
                 count++;
             }
-            canvas.Control.Progress(100);
+            canvas.Control.Progress(0);
         }
         /// <summary>
         /// Set PPathwayObject

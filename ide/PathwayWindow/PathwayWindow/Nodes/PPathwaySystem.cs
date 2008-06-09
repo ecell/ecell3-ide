@@ -126,7 +126,6 @@ namespace EcellLib.PathwayWindow.Nodes
                     base.Height = value.Height;
 
                 base.EcellObject = value;
-                this.Refresh();
             }
         }
 

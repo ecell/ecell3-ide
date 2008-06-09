@@ -544,6 +544,8 @@ namespace EcellLib
         /// <returns></returns>
         public EcellObject GetEcellObject(string model, string type, string key)
         {
+            if (type.Equals(EcellObject.MODEL))
+                return m_modelList[0];
             if (type.Equals(EcellObject.SYSTEM))
                 return GetSystem(model, key);
             else 
@@ -1251,7 +1253,7 @@ namespace EcellLib
                     Constants.delimiterPath));
             string l_childPath = l_ecellObject.Key.Substring(l_ecellObject.Key.LastIndexOf(
                     Constants.delimiterPath) + 1);
-            string l_key = null;
+            string l_key = Constants.xpathSystem + Constants.delimiterColon + l_ecellObject.Key;
             if (l_parentPath.Length == 0)
             {
                 if (l_childPath.Length == 0)

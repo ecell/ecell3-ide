@@ -295,6 +295,10 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         internal const string CanvasMenuMerge = "CanvasMenuMerge";
         /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for delete
+        /// </summary>
+        internal const string CanvasMenuAlias = "CanvasMenuAlias";
+        /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for Set Layout
         /// </summary>
         internal const string CanvasMenuLayout = "CanvasMenuLayout";

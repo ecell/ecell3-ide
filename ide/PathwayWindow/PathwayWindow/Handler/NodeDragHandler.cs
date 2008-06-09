@@ -259,6 +259,12 @@ namespace EcellLib.PathwayWindow.Handler
                 PPathwayText text = (PPathwayText)e.PickedNode;
                 text.NotifyDataChanged();
             }
+            // Move Text
+            else if (e.PickedNode is PPathwayAlias)
+            {
+                PPathwayAlias alias = (PPathwayAlias)e.PickedNode;
+                alias.NotifyDataChanged();
+            }
             //SetBackToDefault();
             m_canvas.PCanvas.Refresh();
             m_canvas.UpdateOverview();

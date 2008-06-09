@@ -112,18 +112,6 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// get/set related element.
-        /// </summary>
-        public override EcellObject EcellObject
-        {
-            get { return base.m_ecellObj; }
-            set
-            {   
-                base.EcellObject = value;
-                Refresh();
-            }
-        }
-        /// <summary>
         /// 
         /// </summary>
         public virtual PText PPropertyText
@@ -177,7 +165,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void OnMouseDown(PInputEventArgs e)
         {
             if (e.Modifiers == Keys.Shift || m_isSelected)
-                m_canvas.NotifyAddSelect(this, true);
+                m_canvas.NotifyAddSelect(this);
             else
                 m_canvas.NotifySelectChanged(this);
             base.OnMouseDown(e);

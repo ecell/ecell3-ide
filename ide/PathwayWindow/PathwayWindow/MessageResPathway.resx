@@ -372,4 +372,7 @@
   <data name="CanvasMenuBidirArrow" xml:space="preserve">
     <value>Process &lt;-&gt; Variable</value>
   </data>
+  <data name="CanvasMenuAlias" xml:space="preserve">
+    <value>Create alias</value>
+  </data>
 </root>

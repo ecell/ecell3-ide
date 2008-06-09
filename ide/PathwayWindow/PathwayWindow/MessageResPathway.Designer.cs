@@ -61,6 +61,15 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
+        ///   Create alias に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuAlias {
+            get {
+                return ResourceManager.GetString("CanvasMenuAlias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Process &lt;-&gt; Variable に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuBidirArrow {

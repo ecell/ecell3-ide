@@ -223,7 +223,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void OnMouseDown(PInputEventArgs e)
         {
             if (e.Modifiers == Keys.Shift || m_isSelected)
-                m_canvas.NotifyAddSelect(this, true);
+                m_canvas.NotifyAddSelect(this);
             else
                 m_canvas.NotifySelectChanged(this);
             base.OnMouseDown(e);

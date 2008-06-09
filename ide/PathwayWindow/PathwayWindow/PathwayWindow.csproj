@@ -127,6 +127,7 @@
     <Compile Include="Handler\SystemResizeHandler.cs" />
     <Compile Include="Handler\ToolBoxDragHandler.cs" />
     <Compile Include="MenuControl.cs" />
+    <Compile Include="Nodes\PPathwayAlias.cs" />
     <Compile Include="Nodes\PPathwayText.cs" />
     <Compile Include="PathwayConstants.cs" />
     <Compile Include="MessageResPathway.Designer.cs">

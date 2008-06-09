@@ -248,14 +248,19 @@ namespace EcellLib.PathwayWindow
         /// <param name="modelID">the modelID of selected object.</param>
         /// <param name="key">the key of selected object.</param>
         /// <param name="type">the type of selected object.</param>
-        /// <param name="isSelected">Is object is selected or not</param>
-        public void NotifyAddSelect(string modelID, string key, string type, bool isSelected)
+        public void NotifyAddSelect(string modelID, string key, string type)
         {
-            if (isSelected)
-                m_pManager.AddSelect(modelID, key, type);
-            else
-                m_pManager.RemoveSelect(modelID, key, type);
-
+            m_pManager.AddSelect(modelID, key, type);
+        }
+        /// <summary>
+        /// Inform the selected EcellObject in PathwayEditor to PluginManager.
+        /// </summary>
+        /// <param name="modelID">the modelID of selected object.</param>
+        /// <param name="key">the key of selected object.</param>
+        /// <param name="type">the type of selected object.</param>
+        public void NotifyRemoveSelect(string modelID, string key, string type)
+        {
+            m_pManager.RemoveSelect(modelID, key, type);
         }
         /// <summary>
         /// Inform the plugin message.
