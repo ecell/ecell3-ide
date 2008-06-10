@@ -119,6 +119,7 @@ namespace EcellLib.ObjectList2
             win.Controls.Add(m_tabControl);
             win.Name = "ObjectList2";
             win.Text = MessageResObjList.ObjectList;
+            win.Icon = MessageResObjList.objlist;
             win.TabText = win.Text;
             win.IsSavable = true;
             return new EcellDockContent[] { win };

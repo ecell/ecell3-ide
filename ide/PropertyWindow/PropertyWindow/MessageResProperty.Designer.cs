@@ -96,6 +96,13 @@ namespace EcellLib.PropertyWindow {
             }
         }
         
+        internal static System.Drawing.Icon proper {
+            get {
+                object obj = ResourceManager.GetObject("proper", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Property に類似しているローカライズされた文字列を検索します。
         /// </summary>

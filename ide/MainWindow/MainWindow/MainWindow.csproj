@@ -315,6 +315,7 @@
   <ItemGroup>
     <Content Include="Resources\ECellIDE.ico" />
     <Content Include="Resources\splash.bmp" />
+    <Content Include="Resources\welcome.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

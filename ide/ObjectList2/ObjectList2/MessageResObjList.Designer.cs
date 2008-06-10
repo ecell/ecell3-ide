@@ -78,6 +78,13 @@ namespace EcellLib.ObjectList2 {
             }
         }
         
+        internal static System.Drawing.Icon objlist {
+            get {
+                object obj = ResourceManager.GetObject("objlist", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Search ... に類似しているローカライズされた文字列を検索します。
         /// </summary>
