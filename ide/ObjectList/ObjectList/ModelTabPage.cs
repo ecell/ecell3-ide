@@ -42,6 +42,10 @@ namespace EcellLib.ObjectList
     class ModelTabPage : IObjectListTabPage
     {
         /// <summary>
+        /// The flag whether the select change start in this plugin.
+        /// </summary>
+        private bool m_isSelected = false;
+        /// <summary>
         /// The owner of this object.
         /// </summary>
         private ObjectList m_owner;
@@ -702,6 +706,7 @@ namespace EcellLib.ObjectList
         /// <param name="type">Type of the selected object.</param>
         public void SelectChanged(string modelID, string id, string type)
         {
+            if (m_isSelected) return;
             ClearSelection();
             int ind = SearchObjectIndex(id, type);
             if (ind < 0 || ind > m_gridView.RowCount - 1)
@@ -878,7 +883,9 @@ namespace EcellLib.ObjectList
             if (ind < 0) return;
             EcellObject obj = m_gridView.Rows[ind].Tag as EcellObject;
             if (obj == null) return;
+            m_isSelected = true;
             m_owner.PluginManager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
+            m_isSelected = false;
         }
 
         /// <summary>
