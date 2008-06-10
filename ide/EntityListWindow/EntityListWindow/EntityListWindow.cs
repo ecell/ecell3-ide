@@ -496,6 +496,48 @@ namespace EcellLib.EntityListWindow
         }
 
         /// <summary>
+        /// The event sequence when the parameter is deleted.
+        /// </summary>
+        /// <param name="projectID">the project id of deleted parameter.</param>
+        /// <param name="parameterID">the id of deleted parameter.</param>
+        public override void ParameterDelete(string projectID, string parameterID)
+        {
+            TreeNode paramsNode = null;
+            if (m_paramNodeDic.ContainsKey(projectID))
+            {
+                paramsNode = m_paramNodeDic[projectID];
+            }
+            else
+            {
+                IEnumerator nodeEnumerator = m_form.treeView1.Nodes.GetEnumerator();
+                while (nodeEnumerator.MoveNext())
+                {
+                    TreeNode project = (TreeNode)nodeEnumerator.Current;
+                    if (project.Text.Equals(projectID))
+                    {
+                        paramsNode = new TreeNode(Constants.xpathParameters);
+                        paramsNode.Tag = null;
+                        project.Nodes.Add(paramsNode);
+                        m_paramNodeDic.Add(projectID, paramsNode);
+                        break;
+                    }
+                }
+                if (paramsNode == null)
+                {
+                    return;
+                }
+            }
+            foreach (TreeNode t in paramsNode.Nodes)
+            {
+                if (t.Text == parameterID)
+                {
+                    paramsNode.Nodes.Remove(t);
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
         /// The event sequence on closing project.
         /// </summary>
         public override void Clear()

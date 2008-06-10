@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageListWindowControl));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.MLWMessageDridView = new System.Windows.Forms.DataGridView();
             this.MLWDateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -102,6 +103,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(401, 227);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MessageListWindowControl";
             this.TabText = "MessageListWindowControl";
             this.Text = "MessageListWindowControl";
