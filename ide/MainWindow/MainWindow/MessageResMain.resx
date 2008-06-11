@@ -177,6 +177,12 @@
   <data name="NameWorkDir" xml:space="preserve">
     <value>The working directory</value>
   </data>
+  <data name="ProjectWizardSelectDM" xml:space="preserve">
+    <value>Select DM.</value>
+  </data>
+  <data name="ProjectWizardSelectTemplete" xml:space="preserve">
+    <value>Select templete project.</value>
+  </data>
   <data name="SaveConfirm" xml:space="preserve">
     <value>Do you want to save the project before the project is closed?</value>
   </data>

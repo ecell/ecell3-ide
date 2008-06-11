@@ -120,6 +120,9 @@
   <data name="$this.Text" xml:space="preserve">
     <value>プロジェクトウィザード画面</value>
   </data>
+  <data name="button1.Text" xml:space="preserve">
+    <value>戻る</value>
+  </data>
   <data name="CloseButton.Text" xml:space="preserve">
     <value>キャンセル</value>
   </data>
@@ -129,7 +132,7 @@
   <data name="groupBox1.Text" xml:space="preserve">
     <value>プロジェクトID</value>
   </data>
-  <data name="SelectButton.Text" xml:space="preserve">
-    <value>OK</value>
+  <data name="OKButton.Text" xml:space="preserve">
+    <value>進む</value>
   </data>
 </root>

@@ -177,6 +177,12 @@
   <data name="NameWorkDir" xml:space="preserve">
     <value>作業用ディレクトリ</value>
   </data>
+  <data name="ProjectWizardSelectDM" xml:space="preserve">
+    <value>使用するDMを選択してください</value>
+  </data>
+  <data name="ProjectWizardSelectTemplete" xml:space="preserve">
+    <value>テンプレートとするプロジェクトを選択してください</value>
+  </data>
   <data name="SaveConfirm" xml:space="preserve">
     <value>プロジェクトを閉じる前に、プロジェクトを保存しますか？</value>
   </data>

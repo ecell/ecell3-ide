@@ -62,7 +62,9 @@ namespace EcellLib.MainWindow
         public ProjectWizardWindow()
         {
             InitializeComponent();
+            textBox1.Text = MessageResMain.ProjectWizardSelectTemplete;
             LoadProjectTemplete();
+
         }
 
         /// <summary>
@@ -78,6 +80,8 @@ namespace EcellLib.MainWindow
             int i = 0;
             foreach (string dir in dirs)
             {
+                if (i >= 5)
+                    break;
                 string prjXMLFileName = Path.Combine(dir, Constants.fileProjectXML);
                 // Check project.xml and load.
                 if (!File.Exists(prjXMLFileName))
@@ -87,6 +91,7 @@ namespace EcellLib.MainWindow
                 ProjectLabel label = new ProjectLabel(project);
                 label.Click += new EventHandler(label_Click);
                 SWSPatternListLayoutPanel.Controls.Add(label, 0, i);
+                i++;
             }
         }
         /// <summary>
@@ -103,6 +108,7 @@ namespace EcellLib.MainWindow
             PictureBox.Image = Image.FromFile(filepath);
             ProjectIDTextBox.Text = m_project.Name;
             ProjectCommentTextBox.Text = m_project.Comment;
+            OKButton.Enabled = true;
         }
 
         #region Internal class
@@ -163,7 +169,24 @@ namespace EcellLib.MainWindow
                 return;
             m_project.Name = ProjectIDTextBox.Text;
             m_project.Comment = ProjectCommentTextBox.Text;
+            // Set Page
+            textBox1.Text = MessageResMain.ProjectWizardSelectDM;
+            OKButton.Tag = OKButton.Text;
+            OKButton.Text = "OK";
+            OKButton.DialogResult = DialogResult.OK;
+            this.tableLayoutPanel1.Controls.Remove(tableLayoutPanel2);
+            this.tableLayoutPanel1.Controls.Add(tableLayoutPanel4, 0, 1);
+            button1.Enabled = true;
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = MessageResMain.ProjectWizardSelectTemplete;
+            OKButton.Text = (string)OKButton.Tag;
+            OKButton.DialogResult = DialogResult.None;
+            this.tableLayoutPanel1.Controls.Remove(tableLayoutPanel4);
+            this.tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 1);
+            button1.Enabled = false;
+        }
     }
 }

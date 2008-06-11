@@ -241,6 +241,24 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
+        ///   Select DM. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ProjectWizardSelectDM {
+            get {
+                return ResourceManager.GetString("ProjectWizardSelectDM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Select templete project. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ProjectWizardSelectTemplete {
+            get {
+                return ResourceManager.GetString("ProjectWizardSelectTemplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Do you want to save the project before the project is closed? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string SaveConfirm {

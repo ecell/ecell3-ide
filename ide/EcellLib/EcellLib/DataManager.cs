@@ -1238,7 +1238,7 @@ namespace EcellLib
                 throw new Exception(
                     string.Format(
                     MessageResLib.ErrSetProp,
-                    new object[] { l_ecellObject.Key }),
+                    new object[] { l_key }),
                     l_ex);
             }
         }
