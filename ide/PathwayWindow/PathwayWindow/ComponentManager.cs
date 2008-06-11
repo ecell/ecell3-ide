@@ -755,7 +755,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// private class for ComponentSettingDialog
         /// </summary>
-        private class ComponentTabPage : PropertyDialogTabPage
+        internal class ComponentTabPage : PropertyDialogTabPage
         {
             ComponentManager m_manager = null;
 
@@ -768,7 +768,7 @@ namespace EcellLib.PathwayWindow
                 int top = 0;
                 foreach (ComponentSetting cs in m_manager.ComponentSettings)
                 {
-                    ComponentItem item = new ComponentItem(cs);
+                    ComponentSetting.ComponentItem item = new ComponentSetting.ComponentItem(cs);
                     item.Top = top;
                     item.SuspendLayout();
                     this.Controls.Add(item);
@@ -781,190 +781,12 @@ namespace EcellLib.PathwayWindow
             public override void ApplyChange()
             {
                 base.ApplyChange();
-                foreach (ComponentItem item in this.Controls)
+                foreach (ComponentSetting.ComponentItem item in this.Controls)
                 {
                     item.ApplyChange();
                 }
                 m_manager.SaveComponentSettings();
             }
-        }
-
-        /// <summary>
-        /// private class for ComponentSettingDialog
-        /// </summary>
-        private class ComponentItem : GroupBox
-        {
-            #region Fields
-            private PropertyComboboxItem m_figureBox;
-            private PropertyBrushItem m_textBrush;
-            private PropertyBrushItem m_lineBrush;
-            private PropertyBrushItem m_fillBrush;
-            private PropertyBrushItem m_centerBrush;
-            private PropertyCheckBoxItem m_isGradation;
-            private PropertyFileItem m_iconFile;
-
-            private PToolBoxCanvas pCanvas;
-            #endregion
-
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="cs"></param>
-            public ComponentItem(ComponentSetting cs)
-            {
-                // Create UI Object
-                this.m_figureBox = new PropertyComboboxItem(MessageResPathway.DialogTextFigure, cs.Figure.Type, new List<string>());
-                this.m_textBrush = new PropertyBrushItem(MessageResPathway.DialogTextTextBrush, cs.TextBrush);
-                this.m_lineBrush = new PropertyBrushItem(MessageResPathway.DialogTextLineBrush, cs.LineBrush);
-                this.m_fillBrush = new PropertyBrushItem(MessageResPathway.DialogTextFillBrush, cs.FillBrush);
-                this.m_centerBrush = new PropertyBrushItem(MessageResPathway.DialogTextCenterBrush, cs.CenterBrush);
-                this.m_isGradation = new PropertyCheckBoxItem(MessageResPathway.DialogTextIsGradation, cs.IsGradation);
-                this.m_iconFile = new PropertyFileItem(MessageResPathway.DialogTextIconFile, cs.IconFileName);
-                this.pCanvas = new PToolBoxCanvas();
-                this.SuspendLayout();
-                // Set Gradation
-                this.m_centerBrush.ComboBox.Enabled = m_isGradation.Checked;
-
-                // Set to GroupBox
-                this.Anchor = (AnchorStyles)((AnchorStyles.Top | AnchorStyles.Left)| AnchorStyles.Right);
-                this.AutoSize = true;
-                this.Controls.Add(this.m_isGradation);
-                this.Controls.Add(this.m_figureBox);
-                this.Controls.Add(this.m_textBrush);
-                this.Controls.Add(this.m_lineBrush);
-                this.Controls.Add(this.m_fillBrush);
-                this.Controls.Add(this.m_centerBrush);
-                this.Controls.Add(this.m_iconFile);
-                this.Controls.Add(this.pCanvas);
-                this.Name = "GroupBox";
-                this.Text = cs.Name;
-                this.TabStop = false;
-                // Set Position
-                this.m_figureBox.Location = new Point(5, 15);
-                this.m_textBrush.Location = new Point(5, 40);
-                this.m_lineBrush.Location = new Point(5, 65);
-                this.m_fillBrush.Location = new Point(5, 90);
-                this.m_isGradation.Location = new Point(5, 115);
-                this.m_centerBrush.Location = new Point(5, 140);
-                this.m_iconFile.Location = new Point(5, 165);
-                // Set EventHandler
-                this.m_figureBox.ComboBox.Items.AddRange(FigureManager.GetFigureList().ToArray());
-                this.m_figureBox.TextChange += new EventHandler(figureBox_TextChange);
-                this.m_textBrush.BrushChange += new EventHandler(textBrush_BrushChange);
-                this.m_lineBrush.BrushChange += new EventHandler(lineBrush_BrushChange);
-                this.m_fillBrush.BrushChange += new EventHandler(fillBrush_BrushChange);
-                this.m_centerBrush.BrushChange += new EventHandler(fillBrush_BrushChange);
-                this.m_isGradation.CheckedChanged += new EventHandler(isGradation_CheckedChanged);
-                // Set pCanvas
-                this.pCanvas.AllowDrop = true;
-                this.pCanvas.GridFitText = false;
-                this.pCanvas.Name = "pCanvas";
-                this.pCanvas.RegionManagement = true;
-                this.pCanvas.Location = new System.Drawing.Point(240, 30);
-                this.pCanvas.Size = new System.Drawing.Size(80, 80);
-                this.pCanvas.BackColor = System.Drawing.Color.Silver;
-                this.pCanvas.Setting = cs;
-                this.pCanvas.PPathwayObject.PText.Text = "Sample";
-                this.pCanvas.PPathwayObject.Refresh();
-                // Set FileDialog
-
-                this.m_iconFile.Dialog.Filter = "All Supported Format|*.BMP;*.DIB;*.RLE;*.JPG;*.JPEG;*.JPE;*.JFIF;*.GIF;*.PNG;*.ICO;*.EMF;*.WMF;*.TIF;*.TIFF|BMP File|*.BMP;*.DIB;*.RLE|JPEG File|*.JPG;*.JPEG;*.JPE;*.JFIF|GIF File|*.GIF|PNG File|*.PNG|ICO File|*.ICO|EMF File, WMF File|*.EMF;*.WMF|TIFF File|*.TIF;*.TIFF";
-                this.m_iconFile.Dialog.FilterIndex = 0;
-
-                this.ResumeLayout(false);
-                this.PerformLayout();
-                this.Height = 220;
-            }
-
-            /// <summary>
-            /// Apply changes to ComponentSettings.
-            /// </summary>
-            public void ApplyChange()
-            {
-                ComponentSetting cs = this.pCanvas.Setting;
-                cs.TextBrush = m_textBrush.Brush;
-                cs.LineBrush = m_lineBrush.Brush;
-                cs.FillBrush = m_fillBrush.Brush;
-                cs.CenterBrush = m_centerBrush.Brush;
-                cs.IsGradation = m_isGradation.Checked;
-                cs.IconFileName = m_iconFile.FileName;
-                string type = m_figureBox.ComboBox.Text;
-                string args = cs.Figure.Coordinates;
-                cs.Figure = FigureManager.CreateFigure(type, args);
-            }
-
-            #region EventHandlers
-            /// <summary>
-            /// Event on ChangeTextBrush
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private void textBrush_BrushChange(object sender, EventArgs e)
-            {
-                this.pCanvas.PPathwayObject.PText.TextBrush = m_textBrush.Brush;
-            }
-            /// <summary>
-            /// Event on ChangeLineBrush
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private void lineBrush_BrushChange(object sender, EventArgs e)
-            {
-                this.pCanvas.PPathwayObject.LineBrush = m_lineBrush.Brush;
-            }
-            /// <summary>
-            /// Event on ChangeFillBrush
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private void fillBrush_BrushChange(object sender, EventArgs e)
-            {
-                PropertyBrushItem brushBox = (PropertyBrushItem)sender;
-                if (brushBox.Brush == null)
-                    return;
-                ChangeFillBrush();
-            }
-            /// <summary>
-            /// Event on ChangeIsGradation
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private void isGradation_CheckedChanged(object sender, EventArgs e)
-            {
-                m_centerBrush.ComboBox.Enabled = m_isGradation.Checked;
-                ChangeFillBrush();
-            }
-            /// <summary>
-            /// ChangeFillBrush
-            /// </summary>
-            private void ChangeFillBrush()
-            {
-                if (m_isGradation.Checked)
-                {
-                    PathGradientBrush pthGrBrush = new PathGradientBrush(this.pCanvas.PPathwayObject.Path);
-                    pthGrBrush.CenterColor = BrushManager.ParseBrushToColor(m_centerBrush.Brush);
-                    pthGrBrush.SurroundColors = new Color[] { BrushManager.ParseBrushToColor(m_fillBrush.Brush) };
-                    this.pCanvas.PPathwayObject.FillBrush = pthGrBrush;
-                }
-                else
-                {
-                    this.pCanvas.PPathwayObject.FillBrush = m_fillBrush.Brush;
-                }
-            }
-            /// <summary>
-            /// Event on ChangeFigure
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            void figureBox_TextChange(object sender, EventArgs e)
-            {
-                string type = m_figureBox.ComboBox.Text;
-                string args = this.pCanvas.Setting.Figure.Coordinates;
-                IFigure figure = FigureManager.CreateFigure(type, args);
-                this.pCanvas.PPathwayObject.Figure = figure;
-            }
-
-            #endregion
         }
     }
 }

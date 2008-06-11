@@ -91,7 +91,6 @@ namespace EcellLib.PathwayWindow.Nodes
             foreach (EcellObject eo in m_ecellObj.Children)
             {
                 PPathwayAlias alias = new PPathwayAlias(this);
-                alias.AddPath(m_setting.Figure.GraphicsPath,false);
                 alias.Setting = m_setting;
                 alias.EcellObject = eo;
                 m_canvas.SetLayer(alias);

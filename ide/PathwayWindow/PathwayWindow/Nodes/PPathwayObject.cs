@@ -352,6 +352,11 @@ namespace EcellLib.PathwayWindow.Nodes
             set
             {
                 this.m_figure = value;
+                MemorizePosition();
+                m_path.Reset();
+                AddPath(m_figure.GraphicsPath, false);
+                ResetPosition();
+                RefreshView();
             }
         }
         /// <summary>
@@ -676,6 +681,7 @@ namespace EcellLib.PathwayWindow.Nodes
             this.PText.TextBrush = m_setting.TextBrush;
             this.LineBrush = m_setting.LineBrush;
             this.Figure = m_setting.Figure;
+            RefreshView();
         }
 
         #region Methods to control Bounds
