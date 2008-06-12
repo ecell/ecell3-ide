@@ -400,76 +400,13 @@ namespace EcellLib
         /// <summary>
         /// Sets the list of the DM.
         /// </summary>
-        internal void SetDMList()
+        public void SetDMList()
         {
-            //
             // Initialize
-            //
-            this.m_dmDic = new Dictionary<string, List<string>>();
-            // 4 Process
-            this.m_dmDic.Add(Constants.xpathProcess, new List<string>());
-            // 4 Stepper
-            this.m_dmDic.Add(Constants.xpathStepper, new List<string>());
-            // 4 System
-            List<string> l_systemList = new List<string>();
-            l_systemList.Add(Constants.xpathSystem);
-            this.m_dmDic.Add(Constants.xpathSystem, l_systemList);
-            // 4 Variable
-            List<string> l_variableList = new List<string>();
-            l_variableList.Add(Constants.xpathVariable);
-            this.m_dmDic.Add(Constants.xpathVariable, l_variableList);
-            //
-            // Searches the DM paths
-            //
-            string[] l_dmPathArray = Util.GetDMDirs(m_prjPath);
-            if (l_dmPathArray == null)
-            {
-                throw new Exception("ErrFindDmDir");
-            }
-            foreach (string dmPath in l_dmPathArray)
-            {
-                if (!Directory.Exists(dmPath))
-                {
-                    continue;
-                }
-                // 4 Process
-                string[] l_processDMArray = Directory.GetFiles(
-                    dmPath,
-                    Constants.delimiterWildcard + Constants.xpathProcess + Constants.FileExtDM
-                    );
-                foreach (string l_processDM in l_processDMArray)
-                {
-                    this.m_dmDic[Constants.xpathProcess].Add(Path.GetFileNameWithoutExtension(l_processDM));
-                }
-                // 4 Stepper
-                string[] l_stepperDMArray = Directory.GetFiles(
-                    dmPath,
-                    Constants.delimiterWildcard + Constants.xpathStepper + Constants.FileExtDM
-                    );
-                foreach (string l_stepperDM in l_stepperDMArray)
-                {
-                    this.m_dmDic[Constants.xpathStepper].Add(Path.GetFileNameWithoutExtension(l_stepperDM));
-                }
-                // 4 System
-                string[] l_systemDMArray = Directory.GetFiles(
-                    dmPath,
-                    Constants.delimiterWildcard + Constants.xpathSystem + Constants.FileExtDM
-                    );
-                foreach (string l_systemDM in l_systemDMArray)
-                {
-                    this.m_dmDic[Constants.xpathSystem].Add(Path.GetFileNameWithoutExtension(l_systemDM));
-                }
-                // 4 Variable
-                string[] l_variableDMArray = Directory.GetFiles(
-                    dmPath,
-                    Constants.delimiterWildcard + Constants.xpathVariable + Constants.FileExtDM
-                    );
-                foreach (string l_variableDM in l_variableDMArray)
-                {
-                    this.m_dmDic[Constants.xpathVariable].Add(Path.GetFileNameWithoutExtension(l_variableDM));
-                }
-            }
+            Dictionary<string, List<string>> dmDic = Util.GetDmDic(m_prjPath);
+            this.m_dmDic = dmDic;
         }
+
         /// <summary>
         /// SortSystems
         /// </summary>

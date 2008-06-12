@@ -560,7 +560,7 @@ namespace EcellLib
         /// Get the temporary directory from register.
         /// </summary>
         /// <returns></returns>
-        static public string GetTmpDir()
+        public static string GetTmpDir()
         {
             String topDir = Path.GetTempPath() + "\\E-Cell IDE";
             if (!Directory.Exists(topDir))
@@ -583,7 +583,7 @@ namespace EcellLib
         /// Set the working directory to set directiroy.
         /// </summary>
         /// <param name="l_basedir">set directory.</param>
-        static public void SetBaseDir(string l_basedir)
+        public static void SetBaseDir(string l_basedir)
         {
             Microsoft.Win32.RegistryKey l_key = Microsoft.Win32.Registry.CurrentUser;
             Microsoft.Win32.RegistryKey l_subkey = null;
@@ -617,7 +617,7 @@ namespace EcellLib
         /// Get the analysis directory from register.
         /// </summary>
         /// <returns></returns>
-        static public string GetAnalysisDir()
+        public static string GetAnalysisDir()
         {
             return GetRegistryValue(Constants.registryAnalysisDirKey);
         }
@@ -626,7 +626,7 @@ namespace EcellLib
         /// Get the directory of window setting..
         /// </summary>
         /// <returns>the directory path.</returns>
-        static public string GetWindowSettingDir()
+        public static string GetWindowSettingDir()
         {
             return GetRegistryValue(Constants.registryWinSetDir);
         }
@@ -635,7 +635,7 @@ namespace EcellLib
         /// Get the working directory from register.
         /// </summary>
         /// <returns>the working directory.</returns>
-        static public string GetBaseDir()
+        public static string GetBaseDir()
         {
             return GetRegistryValue(Constants.registryBaseDirKey);
         }
@@ -643,7 +643,7 @@ namespace EcellLib
         /// 
         /// </summary>
         /// <returns></returns>
-        static public string GetStartupFile()
+        public static string GetStartupFile()
         {
             return GetRegistryValue(Constants.registryStartup);
         }
@@ -652,7 +652,7 @@ namespace EcellLib
         /// Get the DM direcory from register.
         /// </summary>
         /// <returns>DM directory.</returns>
-        static public string[] GetDMDirs(String currentProjectPath)
+        public static string[] GetDMDirs(String currentProjectPath)
         {
             List<string> dmDirs = new List<string>();
             List<string> candidates = new List<string>();
@@ -669,6 +669,81 @@ namespace EcellLib
                     dmDirs.Add(dmDir);
             }
             return dmDirs.ToArray();
+        }
+
+        /// <summary>
+        /// Get the DM dictionary.
+        /// </summary>
+        /// <param name="dmDir"></param>
+        /// <returns></returns>
+        public static Dictionary<string, List<string>> GetDmDic(string dmDir)
+        {
+            Dictionary<string, List<string>> dmDic = new Dictionary<string, List<string>>();
+            dmDic = new Dictionary<string, List<string>>();
+            // 4 Process
+            dmDic.Add(Constants.xpathProcess, new List<string>());
+            // 4 Stepper
+            dmDic.Add(Constants.xpathStepper, new List<string>());
+            // 4 System
+            List<string> l_systemList = new List<string>();
+            l_systemList.Add(Constants.xpathSystem);
+            dmDic.Add(Constants.xpathSystem, l_systemList);
+            // 4 Variable
+            List<string> l_variableList = new List<string>();
+            l_variableList.Add(Constants.xpathVariable);
+            dmDic.Add(Constants.xpathVariable, l_variableList);
+            //
+            // Searches the DM paths
+            //
+            string[] l_dmPathArray = GetDMDirs(dmDir);
+            if (l_dmPathArray == null)
+            {
+                throw new Exception("ErrFindDmDir");
+            }
+            foreach (string dmPath in l_dmPathArray)
+            {
+                if (!Directory.Exists(dmPath))
+                {
+                    continue;
+                }
+                // 4 Process
+                string[] l_processDMArray = Directory.GetFiles(
+                    dmPath,
+                    Constants.delimiterWildcard + Constants.xpathProcess + Constants.FileExtDM
+                    );
+                foreach (string l_processDM in l_processDMArray)
+                {
+                    dmDic[Constants.xpathProcess].Add(Path.GetFileNameWithoutExtension(l_processDM));
+                }
+                // 4 Stepper
+                string[] l_stepperDMArray = Directory.GetFiles(
+                    dmPath,
+                    Constants.delimiterWildcard + Constants.xpathStepper + Constants.FileExtDM
+                    );
+                foreach (string l_stepperDM in l_stepperDMArray)
+                {
+                    dmDic[Constants.xpathStepper].Add(Path.GetFileNameWithoutExtension(l_stepperDM));
+                }
+                // 4 System
+                string[] l_systemDMArray = Directory.GetFiles(
+                    dmPath,
+                    Constants.delimiterWildcard + Constants.xpathSystem + Constants.FileExtDM
+                    );
+                foreach (string l_systemDM in l_systemDMArray)
+                {
+                    dmDic[Constants.xpathSystem].Add(Path.GetFileNameWithoutExtension(l_systemDM));
+                }
+                // 4 Variable
+                string[] l_variableDMArray = Directory.GetFiles(
+                    dmPath,
+                    Constants.delimiterWildcard + Constants.xpathVariable + Constants.FileExtDM
+                    );
+                foreach (string l_variableDM in l_variableDMArray)
+                {
+                    dmDic[Constants.xpathVariable].Add(Path.GetFileNameWithoutExtension(l_variableDM));
+                }
+            }
+            return dmDic;
         }
 
         /// <summary>

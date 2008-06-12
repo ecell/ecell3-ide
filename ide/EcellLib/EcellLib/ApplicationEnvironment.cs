@@ -11,6 +11,8 @@ namespace EcellLib
     /// </summary>
     public class ApplicationEnvironment
     {
+        private static readonly ApplicationEnvironment instance = new ApplicationEnvironment();
+
         private DataManager m_dManager;
         private PluginManager m_pManager;
         private MessageManager m_mManager;
@@ -63,7 +65,7 @@ namespace EcellLib
         /// <summary>
         /// 
         /// </summary>
-        public ApplicationEnvironment()
+        private ApplicationEnvironment()
         {
             m_dManager = new DataManager(this);
             m_mManager = new MessageManager(this);
@@ -71,6 +73,14 @@ namespace EcellLib
             m_aManager = new ActionManager(this);
             m_jManager = new JobManager(this);
             m_cManager = new CommandManager(this);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static ApplicationEnvironment GetInstance()
+        {
+            return instance;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace EcellLib
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
-            _unitUnderTest = new ApplicationEnvironment().DataManager;
+            _unitUnderTest = ApplicationEnvironment.GetInstance().DataManager;
         }
         /// <summary>
         /// 

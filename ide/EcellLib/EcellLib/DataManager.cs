@@ -2775,7 +2775,6 @@ namespace EcellLib
         public List<string> GetProcessList()
         {
             m_currentProject.SetDMList();
-            Util.GetDMDirs(null);
             return m_currentProject.DmDic[Constants.xpathProcess];
         }
 
@@ -3502,8 +3501,8 @@ namespace EcellLib
                 }
                 if (m_currentProject.Simulator == null)
                 {
-                    m_currentProject.Simulator = CreateSimulatorInstance();
                     m_currentProject.SetDMList();
+                    m_currentProject.Simulator = CreateSimulatorInstance();
                 }
                 EcellObject l_modelObj = EmlReader.Parse(l_filename,
                         m_currentProject.Simulator);
@@ -3576,13 +3575,13 @@ namespace EcellLib
                 l_prj.Name = l_prjID;
                 m_currentProject = l_prj;
                 m_currentProject.SetDMList();
-                m_env.PluginManager.ParameterSet(l_prjID, m_currentProject.SimulationParam);
                 m_currentProject.Simulator = CreateSimulatorInstance();
                 m_currentProject.LoggerPolicyDic = new Dictionary<string, LoggerPolicy>();
                 m_currentProject.StepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
                 m_currentProject.ModelList = new List<EcellObject>();
                 m_currentProject.SystemDic = new Dictionary<string, List<EcellObject>>();
                 m_projectList.Add(l_prj);
+                m_env.PluginManager.ParameterSet(l_prjID, m_currentProject.SimulationParam);
 
                 List<EcellData> l_ecellDataList = new List<EcellData>();
                 l_ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(l_prj.Comment), null));

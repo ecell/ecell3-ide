@@ -112,7 +112,7 @@ namespace EcellLib.MainWindow
             Application.SetCompatibleTextRenderingDefault(false);
 
             ComponentResourceManager resources = new ComponentResourceManager(typeof(MainWindow));
-            ApplicationEnvironment env = new ApplicationEnvironment();
+            ApplicationEnvironment env = ApplicationEnvironment.GetInstance();
 
             Splash frmSplash = !s_noSplash ? new Splash(): null;
             ApplicationContext me = new ApplicationContext();

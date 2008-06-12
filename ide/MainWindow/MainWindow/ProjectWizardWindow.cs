@@ -65,6 +65,18 @@ namespace EcellLib.MainWindow
             textBox1.Text = MessageResMain.ProjectWizardSelectTemplete;
             LoadProjectTemplete();
 
+            MainLayoutPanel.Controls.Remove(DMLayoutPanel);
+            MainLayoutPanel.Controls.Add(ProjectLayoutPanel, 0, 1);
+
+            Dictionary<string,List<string>> dmDic = Util.GetDmDic(null);
+            foreach (List<string> list in dmDic.Values)
+            {
+                foreach (string dm in list)
+                {
+                    this.DMListBox.Items.Add(dm);
+                }
+            }
+
         }
 
         /// <summary>
@@ -90,7 +102,7 @@ namespace EcellLib.MainWindow
                 Project project = new Project(prjXMLFileName);
                 ProjectLabel label = new ProjectLabel(project);
                 label.Click += new EventHandler(label_Click);
-                SWSPatternListLayoutPanel.Controls.Add(label, 0, i);
+                ProjectPatternList.Controls.Add(label, 0, i);
                 i++;
             }
         }
@@ -170,23 +182,45 @@ namespace EcellLib.MainWindow
             m_project.Name = ProjectIDTextBox.Text;
             m_project.Comment = ProjectCommentTextBox.Text;
             // Set Page
+            SetNextPage();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        private void SetNextPage()
+        {
             textBox1.Text = MessageResMain.ProjectWizardSelectDM;
             OKButton.Tag = OKButton.Text;
             OKButton.Text = "OK";
             OKButton.DialogResult = DialogResult.OK;
-            this.tableLayoutPanel1.Controls.Remove(tableLayoutPanel2);
-            this.tableLayoutPanel1.Controls.Add(tableLayoutPanel4, 0, 1);
-            button1.Enabled = true;
+            MainLayoutPanel.Controls.Remove(ProjectLayoutPanel);
+            ProjectLayoutPanel.Dock = DockStyle.Fill;
+            MainLayoutPanel.Controls.Add(DMLayoutPanel, 0, 1);
+            BackButton.Enabled = true;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void BackButton_Click(object sender, EventArgs e)
         {
             textBox1.Text = MessageResMain.ProjectWizardSelectTemplete;
             OKButton.Text = (string)OKButton.Tag;
             OKButton.DialogResult = DialogResult.None;
-            this.tableLayoutPanel1.Controls.Remove(tableLayoutPanel4);
-            this.tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 1);
-            button1.Enabled = false;
+            MainLayoutPanel.Controls.Remove(DMLayoutPanel);
+            MainLayoutPanel.Controls.Add(ProjectLayoutPanel, 0, 1);
+            BackButton.Enabled = false;
+        }
+
+        private void DMAddAll_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DMAdd_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DMRemove_Click(object sender, EventArgs e)
+        {
         }
     }
 }

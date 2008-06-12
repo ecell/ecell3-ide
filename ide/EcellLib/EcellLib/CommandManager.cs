@@ -93,7 +93,7 @@ namespace EcellLib
         public static CommandManager GetInstance()
         {
             if (s_instance == null)
-                new ApplicationEnvironment();
+                ApplicationEnvironment.GetInstance();
 
             return s_instance;
         }

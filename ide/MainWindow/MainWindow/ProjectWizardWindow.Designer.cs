@@ -29,69 +29,108 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectWizardWindow));
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.CloseButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.OKButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.DMLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.DMListBox = new System.Windows.Forms.ListBox();
+            this.ProjectDMListBox = new System.Windows.Forms.ListBox();
+            this.DMSelectLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.DMAddAllButton = new System.Windows.Forms.Button();
+            this.DMAddButon = new System.Windows.Forms.Button();
+            this.DMRemoveButton = new System.Windows.Forms.Button();
+            this.DMListLabel = new System.Windows.Forms.Label();
+            this.ProjectDMLabel = new System.Windows.Forms.Label();
+            this.ProjectLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
-            this.SWSPatternListLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.ProjectPatternList = new System.Windows.Forms.TableLayoutPanel();
+            this.CommentBox = new System.Windows.Forms.GroupBox();
             this.ProjectCommentTextBox = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ProjectBox = new System.Windows.Forms.GroupBox();
             this.ProjectIDTextBox = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.MainLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.ButtonLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.CloseButton = new System.Windows.Forms.Button();
+            this.BackButton = new System.Windows.Forms.Button();
+            this.OKButton = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel3.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
+            this.DMLayoutPanel.SuspendLayout();
+            this.DMSelectLayoutPanel.SuspendLayout();
+            this.ProjectLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
-            this.SWSPatternListLayoutPanel.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.ProjectPatternList.SuspendLayout();
+            this.CommentBox.SuspendLayout();
+            this.ProjectBox.SuspendLayout();
+            this.MainLayoutPanel.SuspendLayout();
+            this.ButtonLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel4
+            // DMLayoutPanel
             // 
-            resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            resources.ApplyResources(this.DMLayoutPanel, "DMLayoutPanel");
+            this.DMLayoutPanel.Controls.Add(this.DMListBox, 1, 1);
+            this.DMLayoutPanel.Controls.Add(this.ProjectDMListBox, 3, 1);
+            this.DMLayoutPanel.Controls.Add(this.DMSelectLayoutPanel, 2, 1);
+            this.DMLayoutPanel.Controls.Add(this.DMListLabel, 1, 0);
+            this.DMLayoutPanel.Controls.Add(this.ProjectDMLabel, 3, 0);
+            this.DMLayoutPanel.Name = "DMLayoutPanel";
             // 
-            // tableLayoutPanel3
+            // DMListBox
             // 
-            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
-            this.tableLayoutPanel3.Controls.Add(this.CloseButton, 3, 0);
-            this.tableLayoutPanel3.Controls.Add(this.button1, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.OKButton, 2, 0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            resources.ApplyResources(this.DMListBox, "DMListBox");
+            this.DMListBox.FormattingEnabled = true;
+            this.DMListBox.MultiColumn = true;
+            this.DMListBox.Name = "DMListBox";
             // 
-            // CloseButton
+            // ProjectDMListBox
             // 
-            resources.ApplyResources(this.CloseButton, "CloseButton");
-            this.CloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CloseButton.Name = "CloseButton";
-            this.CloseButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.ProjectDMListBox, "ProjectDMListBox");
+            this.ProjectDMListBox.FormattingEnabled = true;
+            this.ProjectDMListBox.MultiColumn = true;
+            this.ProjectDMListBox.Name = "ProjectDMListBox";
             // 
-            // button1
+            // DMSelectLayoutPanel
             // 
-            resources.ApplyResources(this.button1, "button1");
-            this.button1.Name = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            resources.ApplyResources(this.DMSelectLayoutPanel, "DMSelectLayoutPanel");
+            this.DMSelectLayoutPanel.Controls.Add(this.DMAddAllButton, 0, 1);
+            this.DMSelectLayoutPanel.Controls.Add(this.DMAddButon, 0, 2);
+            this.DMSelectLayoutPanel.Controls.Add(this.DMRemoveButton, 0, 3);
+            this.DMSelectLayoutPanel.Name = "DMSelectLayoutPanel";
             // 
-            // OKButton
+            // DMAddAllButton
             // 
-            resources.ApplyResources(this.OKButton, "OKButton");
-            this.OKButton.Name = "OKButton";
-            this.OKButton.UseVisualStyleBackColor = true;
-            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
+            resources.ApplyResources(this.DMAddAllButton, "DMAddAllButton");
+            this.DMAddAllButton.Name = "DMAddAllButton";
+            this.DMAddAllButton.UseVisualStyleBackColor = true;
+            this.DMAddAllButton.Click += new System.EventHandler(this.DMAddAll_Click);
             // 
-            // tableLayoutPanel2
+            // DMAddButon
             // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.PictureBox, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.SWSPatternListLayoutPanel, 1, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            resources.ApplyResources(this.DMAddButon, "DMAddButon");
+            this.DMAddButon.Name = "DMAddButon";
+            this.DMAddButon.UseVisualStyleBackColor = true;
+            this.DMAddButon.Click += new System.EventHandler(this.DMAdd_Click);
+            // 
+            // DMRemoveButton
+            // 
+            resources.ApplyResources(this.DMRemoveButton, "DMRemoveButton");
+            this.DMRemoveButton.Name = "DMRemoveButton";
+            this.DMRemoveButton.UseVisualStyleBackColor = true;
+            this.DMRemoveButton.Click += new System.EventHandler(this.DMRemove_Click);
+            // 
+            // DMListLabel
+            // 
+            resources.ApplyResources(this.DMListLabel, "DMListLabel");
+            this.DMListLabel.Name = "DMListLabel";
+            // 
+            // ProjectDMLabel
+            // 
+            resources.ApplyResources(this.ProjectDMLabel, "ProjectDMLabel");
+            this.ProjectDMLabel.Name = "ProjectDMLabel";
+            // 
+            // ProjectLayoutPanel
+            // 
+            resources.ApplyResources(this.ProjectLayoutPanel, "ProjectLayoutPanel");
+            this.ProjectLayoutPanel.Controls.Add(this.PictureBox, 0, 0);
+            this.ProjectLayoutPanel.Controls.Add(this.ProjectPatternList, 1, 0);
+            this.ProjectLayoutPanel.Name = "ProjectLayoutPanel";
             // 
             // PictureBox
             // 
@@ -100,19 +139,19 @@
             this.PictureBox.Name = "PictureBox";
             this.PictureBox.TabStop = false;
             // 
-            // SWSPatternListLayoutPanel
+            // ProjectPatternList
             // 
-            resources.ApplyResources(this.SWSPatternListLayoutPanel, "SWSPatternListLayoutPanel");
-            this.SWSPatternListLayoutPanel.Controls.Add(this.groupBox3, 0, 6);
-            this.SWSPatternListLayoutPanel.Controls.Add(this.groupBox1, 0, 5);
-            this.SWSPatternListLayoutPanel.Name = "SWSPatternListLayoutPanel";
+            resources.ApplyResources(this.ProjectPatternList, "ProjectPatternList");
+            this.ProjectPatternList.Controls.Add(this.CommentBox, 0, 6);
+            this.ProjectPatternList.Controls.Add(this.ProjectBox, 0, 5);
+            this.ProjectPatternList.Name = "ProjectPatternList";
             // 
-            // groupBox3
+            // CommentBox
             // 
-            this.groupBox3.Controls.Add(this.ProjectCommentTextBox);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.TabStop = false;
+            this.CommentBox.Controls.Add(this.ProjectCommentTextBox);
+            resources.ApplyResources(this.CommentBox, "CommentBox");
+            this.CommentBox.Name = "CommentBox";
+            this.CommentBox.TabStop = false;
             // 
             // ProjectCommentTextBox
             // 
@@ -122,12 +161,12 @@
             this.ProjectCommentTextBox.Name = "ProjectCommentTextBox";
             this.ProjectCommentTextBox.ReadOnly = true;
             // 
-            // groupBox1
+            // ProjectBox
             // 
-            this.groupBox1.Controls.Add(this.ProjectIDTextBox);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
+            this.ProjectBox.Controls.Add(this.ProjectIDTextBox);
+            resources.ApplyResources(this.ProjectBox, "ProjectBox");
+            this.ProjectBox.Name = "ProjectBox";
+            this.ProjectBox.TabStop = false;
             // 
             // ProjectIDTextBox
             // 
@@ -137,13 +176,43 @@
             this.ProjectIDTextBox.Name = "ProjectIDTextBox";
             this.ProjectIDTextBox.ReadOnly = true;
             // 
-            // tableLayoutPanel1
+            // MainLayoutPanel
             // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.textBox1, 0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            resources.ApplyResources(this.MainLayoutPanel, "MainLayoutPanel");
+            this.MainLayoutPanel.Controls.Add(this.DMLayoutPanel, 0, 1);
+            this.MainLayoutPanel.Controls.Add(this.ProjectLayoutPanel, 0, 2);
+            this.MainLayoutPanel.Controls.Add(this.ButtonLayoutPanel, 0, 3);
+            this.MainLayoutPanel.Controls.Add(this.textBox1, 0, 0);
+            this.MainLayoutPanel.Name = "MainLayoutPanel";
+            // 
+            // ButtonLayoutPanel
+            // 
+            resources.ApplyResources(this.ButtonLayoutPanel, "ButtonLayoutPanel");
+            this.ButtonLayoutPanel.Controls.Add(this.CloseButton, 3, 0);
+            this.ButtonLayoutPanel.Controls.Add(this.BackButton, 1, 0);
+            this.ButtonLayoutPanel.Controls.Add(this.OKButton, 2, 0);
+            this.ButtonLayoutPanel.Name = "ButtonLayoutPanel";
+            // 
+            // CloseButton
+            // 
+            resources.ApplyResources(this.CloseButton, "CloseButton");
+            this.CloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CloseButton.Name = "CloseButton";
+            this.CloseButton.UseVisualStyleBackColor = true;
+            // 
+            // BackButton
+            // 
+            resources.ApplyResources(this.BackButton, "BackButton");
+            this.BackButton.Name = "BackButton";
+            this.BackButton.UseVisualStyleBackColor = true;
+            this.BackButton.Click += new System.EventHandler(this.BackButton_Click);
+            // 
+            // OKButton
+            // 
+            resources.ApplyResources(this.OKButton, "OKButton");
+            this.OKButton.Name = "OKButton";
+            this.OKButton.UseVisualStyleBackColor = true;
+            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
             // textBox1
             // 
@@ -159,43 +228,54 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CloseButton;
             this.ControlBox = false;
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.MainLayoutPanel);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProjectWizardWindow";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
+            this.DMLayoutPanel.ResumeLayout(false);
+            this.DMLayoutPanel.PerformLayout();
+            this.DMSelectLayoutPanel.ResumeLayout(false);
+            this.ProjectLayoutPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
-            this.SWSPatternListLayoutPanel.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.ProjectPatternList.ResumeLayout(false);
+            this.CommentBox.ResumeLayout(false);
+            this.CommentBox.PerformLayout();
+            this.ProjectBox.ResumeLayout(false);
+            this.ProjectBox.PerformLayout();
+            this.MainLayoutPanel.ResumeLayout(false);
+            this.MainLayoutPanel.PerformLayout();
+            this.ButtonLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.Button OKButton;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TableLayoutPanel DMLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel ProjectLayoutPanel;
         private System.Windows.Forms.PictureBox PictureBox;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button CloseButton;
-        private System.Windows.Forms.TableLayoutPanel SWSPatternListLayoutPanel;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TableLayoutPanel MainLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel ProjectPatternList;
+        private System.Windows.Forms.GroupBox CommentBox;
         private System.Windows.Forms.TextBox ProjectCommentTextBox;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox ProjectBox;
         private System.Windows.Forms.TextBox ProjectIDTextBox;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ListBox DMListBox;
+        private System.Windows.Forms.ListBox ProjectDMListBox;
+        private System.Windows.Forms.TableLayoutPanel DMSelectLayoutPanel;
+        private System.Windows.Forms.Button DMAddAllButton;
+        private System.Windows.Forms.Button DMAddButon;
+        private System.Windows.Forms.Button DMRemoveButton;
+        private System.Windows.Forms.Label DMListLabel;
+        private System.Windows.Forms.Label ProjectDMLabel;
+        private System.Windows.Forms.TableLayoutPanel ButtonLayoutPanel;
+        private System.Windows.Forms.Button CloseButton;
+        private System.Windows.Forms.Button BackButton;
+        private System.Windows.Forms.Button OKButton;
 
 
     }
