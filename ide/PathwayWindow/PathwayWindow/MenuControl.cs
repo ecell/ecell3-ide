@@ -330,9 +330,11 @@ namespace EcellLib.PathwayWindow
             nodeMenu.Items.Add(constant);
             m_popMenuDict.Add(MenuConstants.CanvasMenuConstantLine, constant);
 
-            ToolStripSeparator separator3 = new ToolStripSeparator();
-            nodeMenu.Items.Add(separator3);
-            m_popMenuDict.Add(MenuConstants.CanvasMenuSeparator3, separator3);
+            ToolStripItem deleteArrow = new ToolStripMenuItem(MessageResPathway.CanvasMenuDelete);
+            deleteArrow.Name = MenuConstants.CanvasMenuDeleteArrow;
+            deleteArrow.Click += new EventHandler(ChangeLineClick);
+            nodeMenu.Items.Add(deleteArrow);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuDeleteArrow, deleteArrow);
 
             // Add Edit menus
             ToolStripItem cut = new ToolStripMenuItem(MessageResPathway.CanvasMenuCut);
@@ -722,12 +724,12 @@ namespace EcellLib.PathwayWindow
             m_popMenuDict[MenuConstants.CanvasMenuLeftArrow].Visible = isLine;
             m_popMenuDict[MenuConstants.CanvasMenuBidirArrow].Visible = isLine;
             m_popMenuDict[MenuConstants.CanvasMenuConstantLine].Visible = isLine;
-            m_popMenuDict[MenuConstants.CanvasMenuSeparator3].Visible = isLine;
+            m_popMenuDict[MenuConstants.CanvasMenuDeleteArrow].Visible = isLine;
             // Show Node / System edit menus.
             m_popMenuDict[MenuConstants.CanvasMenuCut].Visible = isPPathwayObject && !isRoot;
             m_popMenuDict[MenuConstants.CanvasMenuCopy].Visible = isPPathwayObject && !isRoot;
             m_popMenuDict[MenuConstants.CanvasMenuPaste].Visible = isCopiedObject;
-            m_popMenuDict[MenuConstants.CanvasMenuDelete].Visible = (isPPathwayObject && !isRoot) || isLine || isPPathwayText;
+            m_popMenuDict[MenuConstants.CanvasMenuDelete].Visible = (isPPathwayObject && !isRoot) || isPPathwayText;
             m_popMenuDict[MenuConstants.CanvasMenuMerge].Visible = isPPathwaySystem && !isRoot;
             m_popMenuDict[MenuConstants.CanvasMenuAlias].Visible = isPPathwayVariable;
             m_popMenuDict[MenuConstants.CanvasMenuSeparator4].Visible = isCopiedObject || (isPPathwayObject && !isRoot);
@@ -1083,7 +1085,16 @@ namespace EcellLib.PathwayWindow
                 return;
             canvas.ResetSelectedLine();
 
-            // Change edgeInfo.
+            // Delete old edge.
+            m_con.NotifyVariableReferenceChanged(
+                line.Info.ProcessKey,
+                line.Info.VariableKey,
+                RefChangeType.Delete,
+                0,
+                false);
+            if (item.Name == MenuConstants.CanvasMenuDeleteArrow)
+                return;
+            // Create new edgeInfo.
             RefChangeType changeType = RefChangeType.SingleDir;
             int coefficient = 0;
             if (item.Name == MenuConstants.CanvasMenuRightArrow)

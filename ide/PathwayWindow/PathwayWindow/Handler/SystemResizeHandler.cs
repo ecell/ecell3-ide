@@ -230,6 +230,8 @@ namespace EcellLib.PathwayWindow.Handler
             // Move objects.
             foreach (PPathwayObject obj in currentDict.Values)
             {
+                if (obj is PPathwayText)
+                    continue;
                 string oldKey = obj.EcellObject.Key;
                 string newKey = PathUtil.GetMovedKey(oldKey, parentKey, systemName);
                 // Set node change
@@ -237,6 +239,8 @@ namespace EcellLib.PathwayWindow.Handler
             }
             foreach (PPathwayObject obj in beforeDict.Values)
             {
+                if (obj is PPathwayText)
+                    continue;
                 string oldKey = obj.EcellObject.Key;
                 string newKey = PathUtil.GetMovedKey(oldKey, systemName, parentKey);
                 // Set node change

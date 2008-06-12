@@ -331,6 +331,10 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         internal const string CanvasMenuBidirArrow = "CanvasMenuBidirArrow";
         /// <summary>
+        /// Key definition of m_cMenuDict and MessageResPathway for rightArrow
+        /// </summary>
+        internal const string CanvasMenuDeleteArrow = "CanvasMenuDeleteArrow";
+        /// <summary>
         /// Key definition of m_cMenuDict and MessageResPathway for constantLine
         /// </summary>
         internal const string CanvasMenuConstantLine = "CanvasMenuConstantLine";
