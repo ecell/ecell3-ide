@@ -45,15 +45,17 @@ namespace EcellLib.PathwayWindow.Nodes
     /// </summary>
     public class PPathwayLine : PPath
     {
+        public const float ARROW_DEGREE = 18f;
         /// <summary>
         ///  Arrow design settings
+        /// radian = x / 360 * 2pi, x = 15, 2pi = 6.283
         /// </summary>
-        public const float ARROW_RADIAN_A = 0.471f;
+        public static readonly float ARROW_RADIAN_A = ARROW_DEGREE / 360 * 6.283f;
 
         /// <summary>
         ///  Arrow design settings
         /// </summary>
-        public const float ARROW_RADIAN_B = 5.812f;
+        public static readonly float ARROW_RADIAN_B = 6.283f - ARROW_DEGREE / 360 * 6.283f;
 
         /// <summary>
         ///  Arrow design settings

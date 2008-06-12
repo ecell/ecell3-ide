@@ -196,6 +196,8 @@ namespace EcellLib.PathwayWindow.Handler
             foreach (PPathwayObject obj in currentDict.Values)
             {
                 // Check duplicated object.
+                if (obj is PPathwayText)
+                    continue;
                 if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(systemName + "/" + obj.EcellObject.Name))
                     continue;
                 else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(systemName + ":" + obj.EcellObject.Name))
@@ -213,6 +215,8 @@ namespace EcellLib.PathwayWindow.Handler
             foreach (PPathwayObject obj in beforeDict.Values)
             {
                 // Check duplicated object.
+                if (obj is PPathwayText)
+                    continue;
                 if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(parentKey + "/" + obj.EcellObject.Name))
                     continue;
                 else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(parentKey + ":" + obj.EcellObject.Name))
