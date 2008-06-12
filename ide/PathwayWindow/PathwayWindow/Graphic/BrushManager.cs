@@ -155,9 +155,13 @@ namespace EcellLib.PathwayWindow.Graphic
         /// <returns></returns>
         public static Color ParseBrushToColor(Brush brush)
         {
+            if(brush is SolidBrush)
+                return ((SolidBrush)brush).Color;
+
             Color color = Color.Black;
             if (brush == null)
                 return color;
+
             string brushName = ParseBrushToString(brush);
 
             if (m_colorDic == null)

@@ -152,7 +152,6 @@ namespace EcellLib.PathwayWindow
             string modelID = null;
             string key = null;
             string type = null;
-            bool isSelected = false;
             _unitUnderTest.NotifyAddSelect(modelID, key, type);
             Assert.Fail("Create or modify test(s).");
 

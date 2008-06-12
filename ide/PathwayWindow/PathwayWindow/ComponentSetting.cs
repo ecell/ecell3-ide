@@ -642,6 +642,7 @@ namespace EcellLib.PathwayWindow
                 string args = this.pCanvas.Setting.Figure.Coordinates;
                 IFigure figure = FigureManager.CreateFigure(type, args);
                 this.pCanvas.PPathwayObject.Figure = figure;
+                ChangeFillBrush();
             }
 
             #endregion

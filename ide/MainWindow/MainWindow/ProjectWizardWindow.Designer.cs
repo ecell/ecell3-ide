@@ -76,15 +76,15 @@
             // 
             resources.ApplyResources(this.DMListBox, "DMListBox");
             this.DMListBox.FormattingEnabled = true;
-            this.DMListBox.MultiColumn = true;
             this.DMListBox.Name = "DMListBox";
+            this.DMListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             // 
             // ProjectDMListBox
             // 
             resources.ApplyResources(this.ProjectDMListBox, "ProjectDMListBox");
             this.ProjectDMListBox.FormattingEnabled = true;
-            this.ProjectDMListBox.MultiColumn = true;
             this.ProjectDMListBox.Name = "ProjectDMListBox";
+            this.ProjectDMListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             // 
             // DMSelectLayoutPanel
             // 
@@ -265,7 +265,7 @@
         private System.Windows.Forms.TextBox ProjectIDTextBox;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ListBox DMListBox;
-        private System.Windows.Forms.ListBox ProjectDMListBox;
+        public System.Windows.Forms.ListBox ProjectDMListBox;
         private System.Windows.Forms.TableLayoutPanel DMSelectLayoutPanel;
         private System.Windows.Forms.Button DMAddAllButton;
         private System.Windows.Forms.Button DMAddButon;

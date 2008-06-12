@@ -229,6 +229,7 @@ namespace EcellLib.PathwayWindow.Dialog
         }
         #endregion
 
+        #region Accesor
         /// <summary>
         /// Get/Set m_brush.
         /// </summary>
@@ -250,6 +251,8 @@ namespace EcellLib.PathwayWindow.Dialog
         {
             get { return m_comboBoxBrush; }
         }
+        
+        #endregion
 
         /// <summary>
         /// Constructor
@@ -276,16 +279,33 @@ namespace EcellLib.PathwayWindow.Dialog
             this.m_comboBoxBrush.Text = BrushManager.ParseBrushToString(m_brush);
             this.m_comboBoxBrush.Items.AddRange(BrushManager.GetBrushNameList().ToArray());
             this.m_comboBoxBrush.ImageList = BrushManager.GetBrushImageList();
-            this.m_comboBoxBrush.TextChanged += new EventHandler(cBoxNomalBrush_TextChanged);
+            this.m_comboBoxBrush.KeyDown += new KeyEventHandler(cBoxNomalBrush_KeyDown);
+            this.m_comboBoxBrush.SelectedIndexChanged += new EventHandler(cBoxBrush_SelectedIndexChanged);
 
             this.ResumeLayout(false);
             this.PerformLayout();
         }
 
-        void cBoxNomalBrush_TextChanged(object sender, EventArgs e)
+        void cBoxBrush_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ComboBox cBox = (ComboBox)sender;
-            Brush = BrushManager.ParseStringToBrush(cBox.Text);
+            string brushName = ((ComboBox)sender).Text;
+            SetBrush(brushName);
+        }
+
+        void cBoxNomalBrush_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(!(e.KeyCode == Keys.Enter))
+                return;
+            string brushName = ((ComboBox)sender).Text;
+            SetBrush(brushName);
+        }
+
+        private void SetBrush(string brushName)
+        {
+            Brush brush = BrushManager.ParseStringToBrush(brushName);
+            if (brush == null)
+                brush = Brushes.Transparent;
+            this.Brush = brush;
         }
     }
 

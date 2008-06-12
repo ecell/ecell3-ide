@@ -211,16 +211,31 @@ namespace EcellLib.MainWindow
 
         private void DMAddAll_Click(object sender, EventArgs e)
         {
-
+            foreach (object lob in DMListBox.Items)
+            {
+                if (ProjectDMListBox.Items.Contains(lob))
+                    continue;
+                ProjectDMListBox.Items.Add(lob);
+            }
         }
 
         private void DMAdd_Click(object sender, EventArgs e)
         {
-
+            ListBox.SelectedObjectCollection lsc = DMListBox.SelectedItems;
+            foreach (object lob in lsc)
+            {
+                if(ProjectDMListBox.Items.Contains(lob))
+                    continue;
+                ProjectDMListBox.Items.Add(lob);
+            }
         }
 
         private void DMRemove_Click(object sender, EventArgs e)
         {
+            while (ProjectDMListBox.SelectedIndex > -1)
+            {
+                ProjectDMListBox.Items.RemoveAt(ProjectDMListBox.SelectedIndex);
+            }
         }
     }
 }
