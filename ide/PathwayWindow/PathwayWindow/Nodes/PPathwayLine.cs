@@ -45,6 +45,9 @@ namespace EcellLib.PathwayWindow.Nodes
     /// </summary>
     public class PPathwayLine : PPath
     {
+        /// <summary>
+        ///  Arrow design settings
+        /// </summary>
         public const float ARROW_DEGREE = 18f;
         /// <summary>
         ///  Arrow design settings

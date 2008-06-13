@@ -638,7 +638,7 @@ namespace EcellLib.PathwayWindow
                         typeof(Image));
             zoominButton.CheckOnClick = false;
             zoominButton.ToolTipText = MessageResPathway.ToolButtonZoomIn;
-            zoominButton.Tag = 2f;
+            zoominButton.Tag = true;
             zoominButton.Click += new EventHandler(ZoomButton_Click);
             list.Items.Add(zoominButton);
 
@@ -651,7 +651,7 @@ namespace EcellLib.PathwayWindow
                     typeof(Image));
             zoomoutButton.CheckOnClick = false;
             zoomoutButton.ToolTipText = MessageResPathway.ToolButtonZoomOut;
-            zoomoutButton.Tag = 0.5f;
+            zoomoutButton.Tag = false;
             zoomoutButton.Click += new EventHandler(ZoomButton_Click);
             list.Items.Add(zoomoutButton);
 
@@ -1316,8 +1316,39 @@ namespace EcellLib.PathwayWindow
         /// <param name="e"></param>
         private void ZoomButton_Click(object sender, EventArgs e)
         {
-            float zoomRate = (float)((ToolStripButton)sender).Tag;
+            float current = m_con.Canvas.PCanvas.Camera.ViewScale * 100f;
+            bool extend = (bool)((ToolStripButton)sender).Tag;
+            float zoomRate = GetZoomRate(current, extend);
             Zoom(zoomRate);
+        }
+
+        private float GetZoomRate(float current, bool extend)
+        {
+            float newRate = current;
+            if (extend)
+            {
+                foreach (object obj in ZoomRate.Items)
+                {
+                    string str = (string)obj;
+                    float f = float.Parse(str.Replace("%",""));
+                    if(f > current+1)
+                        newRate = f;
+                }
+            }
+            else
+            {
+                foreach (object obj in ZoomRate.Items)
+                {
+                    string str = (string)obj;
+                    float f = float.Parse(str.Replace("%", ""));
+                    if (f < current-1)
+                    {
+                        newRate = f;
+                        break;
+                    }
+                }
+            }
+            return newRate / current;
         }
         /// <summary>
         /// 
