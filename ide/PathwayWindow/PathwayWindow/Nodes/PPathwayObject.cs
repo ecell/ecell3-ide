@@ -288,8 +288,7 @@ namespace EcellLib.PathwayWindow.Nodes
                 this.m_ecellObj = value;
                 if (m_ecellObj.IsPosSet)
                 {
-                    base.X = m_ecellObj.X;
-                    base.Y = m_ecellObj.Y;
+                    this.CenterPointF = m_ecellObj.CenterPointF;
                     base.OffsetX = m_ecellObj.OffsetX;
                     base.OffsetY = m_ecellObj.OffsetY;
                 }
@@ -676,12 +675,11 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// Refresh ComponentSetting.
         /// </summary>
-        private void RefreshSettings()
+        protected virtual void RefreshSettings()
         {
             this.PText.TextBrush = m_setting.TextBrush;
             this.LineBrush = m_setting.LineBrush;
             this.Figure = m_setting.Figure;
-            RefreshView();
         }
 
         #region Methods to control Bounds

@@ -1302,6 +1302,8 @@ namespace EcellLib.PathwayWindow
             if (obj == null)
                 return;
 
+            if (m_focusNode == obj)
+                m_focusNode = null;
             if (type.Equals(EcellObject.SYSTEM))
             {
                 ResetSelectedObjects();
@@ -1325,6 +1327,7 @@ namespace EcellLib.PathwayWindow
             if (key == null || type == null)
                 return;
             PPathwayObject obj = GetSelectedObject(key, type);
+            m_focusNode = obj;
             if (obj == null)
                 return;
             // Set select change.

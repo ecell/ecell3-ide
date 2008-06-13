@@ -44,10 +44,15 @@ namespace EcellLib.MainWindow
     /// </summary>
     public partial class ProjectWizardWindow : Form
     {
+        #region Fields
         /// <summary>
         /// The path of the initial window setting file.
         /// </summary>
         private Project m_project = null;
+        
+        #endregion
+
+        #region Accessors
         /// <summary>
         /// 
         /// </summary>
@@ -56,8 +61,13 @@ namespace EcellLib.MainWindow
             get { return m_project; }
             set { m_project = value; }
         }
+        
+        #endregion
+
+        #region Constructor
+        
         /// <summary>
-        /// Constructor/
+        /// Constructor
         /// </summary>
         public ProjectWizardWindow()
         {
@@ -78,7 +88,9 @@ namespace EcellLib.MainWindow
             }
 
         }
+        #endregion
 
+        #region private Method
         /// <summary>
         /// Load the list of window setting.
         /// </summary>
@@ -112,7 +124,7 @@ namespace EcellLib.MainWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void label_Click(object sender, EventArgs e)
+        private void label_Click(object sender, EventArgs e)
         {
             ProjectLabel label = (ProjectLabel)sender;
             m_project = label.Project;
@@ -122,6 +134,93 @@ namespace EcellLib.MainWindow
             ProjectCommentTextBox.Text = m_project.Comment;
             OKButton.Enabled = true;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OKButton_Click(object sender, EventArgs e)
+        {
+            if (m_project == null)
+                return;
+            m_project.Name = ProjectIDTextBox.Text;
+            m_project.Comment = ProjectCommentTextBox.Text;
+            // Set Page
+            SetNextPage();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        private void SetNextPage()
+        {
+            textBox1.Text = MessageResMain.ProjectWizardSelectDM;
+            OKButton.Tag = OKButton.Text;
+            OKButton.Text = "OK";
+            OKButton.DialogResult = DialogResult.OK;
+            MainLayoutPanel.Controls.Remove(ProjectLayoutPanel);
+            ProjectLayoutPanel.Dock = DockStyle.Fill;
+            MainLayoutPanel.Controls.Add(DMLayoutPanel, 0, 1);
+            BackButton.Enabled = true;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = MessageResMain.ProjectWizardSelectTemplete;
+            OKButton.Text = (string)OKButton.Tag;
+            OKButton.DialogResult = DialogResult.None;
+            MainLayoutPanel.Controls.Remove(DMLayoutPanel);
+            MainLayoutPanel.Controls.Add(ProjectLayoutPanel, 0, 1);
+            BackButton.Enabled = false;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DMAddAll_Click(object sender, EventArgs e)
+        {
+            foreach (object lob in DMListBox.Items)
+            {
+                if (ProjectDMListBox.Items.Contains(lob))
+                    continue;
+                ProjectDMListBox.Items.Add(lob);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DMAdd_Click(object sender, EventArgs e)
+        {
+            ListBox.SelectedObjectCollection lsc = DMListBox.SelectedItems;
+            foreach (object lob in lsc)
+            {
+                if(ProjectDMListBox.Items.Contains(lob))
+                    continue;
+                ProjectDMListBox.Items.Add(lob);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DMRemove_Click(object sender, EventArgs e)
+        {
+            while (ProjectDMListBox.SelectedIndex > -1)
+            {
+                ProjectDMListBox.Items.RemoveAt(ProjectDMListBox.SelectedIndex);
+            }
+        }
+
+        #endregion
+
 
         #region Internal class
         /// <summary>
@@ -175,67 +274,5 @@ namespace EcellLib.MainWindow
         }
         #endregion
 
-        private void OKButton_Click(object sender, EventArgs e)
-        {
-            if (m_project == null)
-                return;
-            m_project.Name = ProjectIDTextBox.Text;
-            m_project.Comment = ProjectCommentTextBox.Text;
-            // Set Page
-            SetNextPage();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        private void SetNextPage()
-        {
-            textBox1.Text = MessageResMain.ProjectWizardSelectDM;
-            OKButton.Tag = OKButton.Text;
-            OKButton.Text = "OK";
-            OKButton.DialogResult = DialogResult.OK;
-            MainLayoutPanel.Controls.Remove(ProjectLayoutPanel);
-            ProjectLayoutPanel.Dock = DockStyle.Fill;
-            MainLayoutPanel.Controls.Add(DMLayoutPanel, 0, 1);
-            BackButton.Enabled = true;
-        }
-
-        private void BackButton_Click(object sender, EventArgs e)
-        {
-            textBox1.Text = MessageResMain.ProjectWizardSelectTemplete;
-            OKButton.Text = (string)OKButton.Tag;
-            OKButton.DialogResult = DialogResult.None;
-            MainLayoutPanel.Controls.Remove(DMLayoutPanel);
-            MainLayoutPanel.Controls.Add(ProjectLayoutPanel, 0, 1);
-            BackButton.Enabled = false;
-        }
-
-        private void DMAddAll_Click(object sender, EventArgs e)
-        {
-            foreach (object lob in DMListBox.Items)
-            {
-                if (ProjectDMListBox.Items.Contains(lob))
-                    continue;
-                ProjectDMListBox.Items.Add(lob);
-            }
-        }
-
-        private void DMAdd_Click(object sender, EventArgs e)
-        {
-            ListBox.SelectedObjectCollection lsc = DMListBox.SelectedItems;
-            foreach (object lob in lsc)
-            {
-                if(ProjectDMListBox.Items.Contains(lob))
-                    continue;
-                ProjectDMListBox.Items.Add(lob);
-            }
-        }
-
-        private void DMRemove_Click(object sender, EventArgs e)
-        {
-            while (ProjectDMListBox.SelectedIndex > -1)
-            {
-                ProjectDMListBox.Items.RemoveAt(ProjectDMListBox.SelectedIndex);
-            }
-        }
     }
 }

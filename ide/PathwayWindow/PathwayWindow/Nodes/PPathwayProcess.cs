@@ -106,21 +106,12 @@ namespace EcellLib.PathwayWindow.Nodes
             {
                 if (m_isViewMode != value)
                 {
-                    m_path.Reset();
-                    PointF centerPos = this.CenterPointF;
-                    if (value)
-                    {
-                        base.AddPath(m_tempFigure.GraphicsPath, false);
-                    }
-                    else
-                    {
-                        base.AddPath(m_figure.GraphicsPath, false);
-                    }
-                    base.CenterPointF = centerPos;
+                    ChangePath(value);
                 }
                 base.ViewMode = value;
             }
         }
+
         #endregion
 
         #region Constructor
@@ -256,6 +247,32 @@ namespace EcellLib.PathwayWindow.Nodes
             foreach (List<PPathwayLine> list in m_lines.Values)
                 foreach (PPathwayLine line in list)
                     line.Pen.Width = width;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        protected override void RefreshSettings()
+        {
+            base.RefreshSettings();
+            ChangePath(m_isViewMode);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        private void ChangePath(bool value)
+        {
+            m_path.Reset();
+            PointF centerPos = this.CenterPointF;
+            if (value)
+            {
+                base.AddPath(m_tempFigure.GraphicsPath, false);
+            }
+            else
+            {
+                base.AddPath(m_figure.GraphicsPath, false);
+            }
+            base.CenterPointF = centerPos;
         }
 
         /// <summary>

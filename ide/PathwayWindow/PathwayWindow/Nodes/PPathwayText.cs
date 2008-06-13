@@ -197,6 +197,7 @@ namespace EcellLib.PathwayWindow.Nodes
         public override void OnDoubleClick(PInputEventArgs e)
         {
             base.OnDoubleClick(e);
+            m_canvas.NotifyRemoveSelect(this);
             PointF pos = new PointF(base.X + base.OffsetX, base.Y + base.OffsetY);
             m_canvas.PCanvas.Controls.Add(m_tbox);
             float viewScale = m_canvas.PCanvas.Camera.ViewScale;

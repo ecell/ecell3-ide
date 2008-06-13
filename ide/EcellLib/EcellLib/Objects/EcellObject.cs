@@ -281,6 +281,20 @@ namespace EcellLib.Objects
                 m_y = value.Y;
             }
         }
+
+        /// <summary>
+        /// Accessor for CenterPointF.
+        /// </summary>
+        public PointF CenterPointF
+        {
+            get { return new PointF(m_x + m_offsetX + m_width / 2f, m_y + m_offsetY + m_height / 2f); }
+            set
+            {
+                m_x = value.X - m_width / 2f;
+                m_y = value.Y - m_height / 2f;
+            }
+        }
+
         /// <summary>
         /// PointF
         /// </summary>
