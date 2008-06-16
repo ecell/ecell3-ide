@@ -410,7 +410,7 @@ Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName
 ;Root: HKLM; Subkey: "System\CurrentControlSet\Control\SessionManager\Environment"; ValueType: string; ValueName: "IRONPYTHONSTARTUP"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main; Flags: uninsdeletekey;
 
 ;Root: HKCR; Subkey: ".eml"; ValueType: string; ValueName: ""; ValueData: "E-CellProgramFile"; Flags: uninsdeletevalue; Components: main; Flags: uninsdeletekey;
-Root: HKCR; Subkey: "E-CellProgramFile"; ValueType: string; ValueName: ""; ValueData: "My Program File"; Flags: uninsdeletekey; Components: main; Flags: uninsdeletekey;
+Root: HKCR; Subkey: "E-CellProgramFile"; ValueType: string; ValueName: ""; ValueData: "My Program File"; Components: main; Flags: uninsdeletekey;
 Root: HKCR; Subkey: "E-CellProgramFile\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\bin\MainWindow.exe,0"; Components: main; Flags: uninsdeletekey;
 Root: HKCR; Subkey: "E-CellProgramFile\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\bin\MainWindow.exe"" ""%1"""; Components: main; Flags: uninsdeletekey;
 Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Base"; ValueData: "{userdocs}\My E-Cell Projects"; Components: main; Flags: uninsdeletekey;
@@ -459,7 +459,10 @@ begin
   if (not RegKeyExists(HKLM, 'Software\Microsoft\.NETFramework\policy\v2.0')) then begin
     MsgBox('This application needs Microsoft .NET Framework version 2.0', mbInformation, MB_OK);
     Result := false
-  else
+  end;
+  
+  if (Result = true) then
+  begin
     if (RegKeyExists(HKLM, 'Software\KeioUniv\E-Cell IDE\E-Cell IDE')) then begin
       MsgBox('E-Cell IDE is already installed, please unistall E-Cell IDE.', mbInformation, MB_OK);
       Result := false
