@@ -58,7 +58,7 @@ namespace EcellLib.MainWindow
         private Panel panel1;
         private ToolStripButton ButtonRefresh;
         private MainWindow m_window = null;
-        private static readonly Uri STARTUP = new Uri(Path.Combine(Application.StartupPath, Constants.fileStartupHTML));
+        private static Uri STARTUP;
         #endregion
 
         #region Constructor
@@ -72,6 +72,8 @@ namespace EcellLib.MainWindow
             InitializeComponent();
             this.Text = MessageResMain.StartUpWindow;
             this.TabText = this.Text;
+            string lang = Util.GetLang();
+            STARTUP = new Uri(Path.Combine(Util.GetWindowSettingDir(), lang + "_" + Constants.fileStartupHTML));
             webBrowser.Navigate(STARTUP);
             SetRecentFiles();
         }
@@ -404,6 +406,7 @@ namespace EcellLib.MainWindow
             if (URLComboBox.Items.Count > URLComboBox.MaxDropDownItems)
                 URLComboBox.Items.RemoveAt(URLComboBox.Items.Count - 1);
 
+            this.Text = webBrowser.Url.ToString();
             if (webBrowser.Url == STARTUP)
             {
                 webBrowser.Left = 265;

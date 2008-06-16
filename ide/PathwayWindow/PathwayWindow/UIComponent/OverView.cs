@@ -51,7 +51,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <summary>
         /// GroupBox
         /// </summary>
-        private GroupBox groupBox;
+        private Panel panel;
 
         /// <summary>
         /// Display rectangles using overview.
@@ -81,30 +81,28 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         void InitializeComponent()
         {
-            this.groupBox = new System.Windows.Forms.GroupBox();
-            this.groupBox.SuspendLayout();
+            this.panel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
-            // groupBox
+            // panel
             // 
-            this.groupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox.Location = new System.Drawing.Point(0, 0);
-            this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(292, 273);
-            this.groupBox.TabIndex = 1;
-            this.groupBox.TabStop = false;
-            this.groupBox.Text = "OverView";
+            this.panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel.Location = new System.Drawing.Point(0, 0);
+            this.panel.Name = "panel";
+            this.panel.Size = new System.Drawing.Size(292, 273);
+            this.panel.TabIndex = 1;
             // 
             // OverView
             // 
             this.ClientSize = new System.Drawing.Size(292, 273);
-            this.Controls.Add(this.groupBox);
+            this.Controls.Add(this.panel);
+            this.Icon = global::EcellLib.PathwayWindow.PathwayResource.Icon_OverView;
             this.Name = "OverView";
             this.TabText = "OverView";
-            this.Icon = PathwayResource.Icon_OverView;
             this.Text = this.Name;
-            this.groupBox.ResumeLayout(false);
             this.ResumeLayout(false);
+
         }
 
         /// <summary>
@@ -114,11 +112,11 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <param name="e"></param>
         void m_con_CanvasChange(object sender, EventArgs e)
         {
-            this.groupBox.Controls.Clear();
+            this.panel.Controls.Clear();
             if (m_con.Canvas == null)
                 return;
             PCanvas canvas = m_con.Canvas.OverviewCanvas;
-            this.groupBox.Controls.Add(canvas);
+            this.panel.Controls.Add(canvas);
         }
         #endregion
     }

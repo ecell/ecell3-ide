@@ -190,6 +190,6 @@
     <value>DMディレクトリを選択してください</value>
   </data>
   <data name="StartUpWindow" xml:space="preserve">
-    <value>スタートアップ</value>
+    <value>ウェブブラウザ</value>
   </data>
 </root>

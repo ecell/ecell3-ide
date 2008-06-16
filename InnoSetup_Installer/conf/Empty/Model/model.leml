@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--PathwayWindow configuration file.-->
+<!--Automatically generated file. DO NOT modify!-->
+<Application Name="E-Cell IDE" Version="1.1.1327.0" ConfigFileVersion="1.0">
+  <LayerList />
+  <EcellObjectList>
+    <EcellObject Class="System" ModelID="model" Type="System" Key="/" Layer="" X="-0.5000005" Y="-0.5000006" OffsetX="0" OffsetY="0" Width="500" Height="500" />
+  </EcellObjectList>
+</Application>

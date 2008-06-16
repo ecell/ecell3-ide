@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<eml>
+<stepper class="FixedODE1Stepper" id="DefaultStepper">
+<property name="MaxStepInterval">
+<value>INF</value>
+</property>
+<property name="MinStepInterval">
+<value>0</value>
+</property>
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepInterval">
+<value>0.001</value>
+</property>
+</stepper>
+<system class="System" id="/">
+<property name="Name">
+<value>The Root System</value>
+</property>
+<property name="StepperID">
+<value>DefaultStepper</value>
+</property>
+</system>
+</eml>

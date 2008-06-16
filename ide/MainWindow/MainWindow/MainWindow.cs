@@ -668,7 +668,7 @@ namespace EcellLib.MainWindow
             content.Name = "StartUpWindow";
             content.Text = "StartUpWindow";
             content.DockHandler.DockPanel = this.dockPanel;
-            content.Show(this.dockPanel, DockState.Document);
+            SetDockContent(content);
         }
 
         /// <summary>

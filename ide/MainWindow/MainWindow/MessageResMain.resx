@@ -190,6 +190,6 @@
     <value>Please select the dm directory.</value>
   </data>
   <data name="StartUpWindow" xml:space="preserve">
-    <value>StartUp</value>
+    <value>Web Browzer</value>
   </data>
 </root>

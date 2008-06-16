@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--PathwayWindow configuration file.-->
+<!--Automatically generated file. DO NOT modify!-->
+<Application Name="E-Cell IDE" Version="1.1.1244.0" ConfigFileVersion="1.0">
+  <LayerList>
+    <Layer Name="Layer0" Visible="True" />
+  </LayerList>
+  <EcellObjectList>
+    <EcellObject Class="System" ModelID="Oscillation" Type="System" Key="/" Layer="SystemLayer" X="-0.5000005" Y="-0.5000006" OffsetX="0" OffsetY="0" Width="920" Height="920" />
+    <EcellObject Class="System" ModelID="Oscillation" Type="System" Key="/cell" Layer="Layer0" X="59.5" Y="59.5" OffsetX="0" OffsetY="0" Width="800" Height="800" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="Oscillation" Type="Process" Key="/cell:Degrade_cI" Layer="Layer0" X="759.8384" Y="248.8989" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="Oscillation" Type="Process" Key="/cell:Degrade_CI" Layer="Layer0" X="438.4098" Y="111.756" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="Oscillation" Type="Process" Key="/cell:Degrade_lacI" Layer="Layer0" X="121.2669" Y="251.756" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="Oscillation" Type="Process" Key="/cell:Degrade_LacI" Layer="Layer0" X="105.5529" Y="543.1845" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="Oscillation" Type="Process" Key="/cell:Degrade_tetR" Layer="Layer0" X="448.4099" Y="687.4705" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="Oscillation" Type="Process" Key="/cell:Degrade_TetR" Layer="Layer0" X="774.124" Y="533.1845" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="Oscillation" Type="Process" Key="/cell:Transcript_cI" Layer="Layer0" X="661.2669" Y="386.0417" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="Oscillation" Type="Process" Key="/cell:Transcript_lacI" Layer="Layer0" X="336.9812" Y="244.6132" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="Oscillation" Type="Process" Key="/cell:Transcript_tetR" Layer="Layer0" X="331.267" Y="536.0416" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="Oscillation" Type="Process" Key="/cell:Translate_CI" Layer="Layer0" X="548.4098" Y="247.4703" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="Oscillation" Type="Process" Key="/cell:Translate_Lacl" Layer="Layer0" X="225.5528" Y="394.6132" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="Oscillation" Type="Process" Key="/cell:Translate_TetR" Layer="Layer0" X="561.2669" Y="533.1845" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="Variable" ModelID="Oscillation" Type="Variable" Key="/cell:cI" Layer="Layer0" X="661.267" Y="298.8989" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Oscillation" Type="Variable" Key="/cell:CI" Layer="Layer0" X="436.9813" Y="207.4703" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Oscillation" Type="Variable" Key="/cell:lacI" Layer="Layer0" X="224.1241" Y="301.756" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Oscillation" Type="Variable" Key="/cell:LacI" Layer="Layer0" X="225.5528" Y="493.1845" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Oscillation" Type="Variable" Key="/cell:tetR" Layer="Layer0" X="445.5527" Y="587.4702" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Variable" ModelID="Oscillation" Type="Variable" Key="/cell:TetR" Layer="Layer0" X="661.2669" Y="476.0418" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="Text" ModelID="Oscillation" Type="Text" Key="/:Text0" Layer="Layer0" X="92.44719" Y="102.8701" OffsetX="0" OffsetY="0" Width="226.7152" Height="107.3047" />
+  </EcellObjectList>
+</Application>

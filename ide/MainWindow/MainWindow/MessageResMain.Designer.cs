@@ -277,7 +277,7 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
-        ///   StartUp に類似しているローカライズされた文字列を検索します。
+        ///   Web Browzer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string StartUpWindow {
             get {

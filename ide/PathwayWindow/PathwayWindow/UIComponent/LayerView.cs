@@ -118,7 +118,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// PPath to show main pathway area in the overview.
         /// Normally, this node is colored in red.
         /// </summary>
-        private GroupBox groupBox;
+        private Panel panel;
         /// <summary>
         /// List of ToolStripMenuItems for ContextMenu
         /// </summary>
@@ -182,22 +182,21 @@ namespace EcellLib.PathwayWindow.UIComponent
         void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.groupBox = new System.Windows.Forms.GroupBox();
+            this.panel = new System.Windows.Forms.Panel();
             this.m_dgv = new System.Windows.Forms.DataGridView();
-            this.groupBox.SuspendLayout();
+            this.panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox
             // 
-            this.groupBox.Controls.Add(this.m_dgv);
-            this.groupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox.Location = new System.Drawing.Point(0, 0);
-            this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(281, 243);
-            this.groupBox.TabIndex = 1;
-            this.groupBox.TabStop = false;
-            this.groupBox.Text = "Layers";
+            this.panel.Controls.Add(this.m_dgv);
+            this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel.Location = new System.Drawing.Point(0, 0);
+            this.panel.Name = "panel";
+            this.panel.Size = new System.Drawing.Size(281, 243);
+            this.panel.TabIndex = 1;
+            this.panel.TabStop = false;
             // 
             // m_dgv
             // 
@@ -232,12 +231,12 @@ namespace EcellLib.PathwayWindow.UIComponent
             // LayerView
             // 
             this.ClientSize = new System.Drawing.Size(281, 243);
-            this.Controls.Add(this.groupBox);
+            this.Controls.Add(this.panel);
             this.Name = "LayerView";
             this.TabText = this.Name;
             this.Text = this.Name;
             this.Icon = PathwayResource.Icon_LayerView;
-            this.groupBox.ResumeLayout(false);
+            this.panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).EndInit();
             this.ResumeLayout(false);
 
