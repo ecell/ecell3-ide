@@ -49,7 +49,6 @@ namespace EcellLib.MainWindow
         private WebBrowser webBrowser;
         private StatusStrip statusStrip;
         private ToolStripStatusLabel URLLabel;
-        private ToolStripProgressBar ProgressBar;
         private ToolStrip toolStrip;
         private ToolStripButton ButtonBack;
         private ToolStripButton ButtonForward;
@@ -85,7 +84,6 @@ namespace EcellLib.MainWindow
             this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.URLLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.ButtonBack = new System.Windows.Forms.ToolStripButton();
             this.ButtonForward = new System.Windows.Forms.ToolStripButton();
@@ -140,8 +138,7 @@ namespace EcellLib.MainWindow
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.URLLabel,
-            this.ProgressBar});
+            this.URLLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 468);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(718, 22);
@@ -156,15 +153,9 @@ namespace EcellLib.MainWindow
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.URLLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.URLLabel.Name = "URLLabel";
-            this.URLLabel.Size = new System.Drawing.Size(601, 17);
+            this.URLLabel.Size = new System.Drawing.Size(672, 17);
             this.URLLabel.Spring = true;
             this.URLLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // ProgressBar
-            // 
-            this.ProgressBar.BackColor = System.Drawing.SystemColors.Control;
-            this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
             // toolStrip
             // 
@@ -431,8 +422,8 @@ namespace EcellLib.MainWindow
         /// <param name="e"></param>
         private void webBrowser_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
         {
-            this.ProgressBar.Maximum = (int)e.MaximumProgress;
-            this.ProgressBar.Value = (int)e.CurrentProgress;
+            this.m_window.NotifyProgressChanged((int)e.MaximumProgress,
+                                            (int)e.CurrentProgress);
         }
         /// <summary>
         /// Event on status changed

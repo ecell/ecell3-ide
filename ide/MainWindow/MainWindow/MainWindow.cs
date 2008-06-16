@@ -184,6 +184,8 @@ namespace EcellLib.MainWindow
         public void Initialize()
         {
             InitializeComponent();
+            ToolStripProgressBar p = m_env.PluginManager.ProgressBar;
+            MWstatusStrip.Items.Add(p);
             dockPanel.ShowDocumentIcon = true;
             // Load plugins
             LoadPlugins();
@@ -1255,6 +1257,16 @@ namespace EcellLib.MainWindow
             m_managePrjDialog.Close();
             m_managePrjDialog.Dispose();
             m_managePrjDialog = null;
+        }
+
+        /// <summary>
+        /// Inform the progress of process.
+        /// </summary>
+        /// <param name="max">the max progress.</param>
+        /// <param name="percent">the percent of progress.</param>
+        public void NotifyProgressChanged(int max, int percent)
+        {
+            m_env.PluginManager.Progress(max, percent);
         }
 
         /// <summary>

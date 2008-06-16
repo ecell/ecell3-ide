@@ -84,6 +84,10 @@ namespace EcellLib
         /// </summary>
         private ApplicationEnvironment m_env;
         /// <summary>
+        /// The progress bar.
+        /// </summary>
+        private ToolStripProgressBar m_progress;
+        /// <summary>
         /// m_printBase (set plugin for print)
         /// </summary>
         private string m_printBase;
@@ -161,6 +165,8 @@ namespace EcellLib
             m_imageList.Images.SetKeyName(4, Constants.xpathVariable);
             m_imageList.Images.SetKeyName(5, Constants.xpathDM);
             m_imageList.Images.SetKeyName(6, Constants.xpathParameters);
+
+            m_progress = new ToolStripProgressBar();
         }
 
         /// <summary>
@@ -208,6 +214,14 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// get the progress bar.
+        /// </summary>
+        public ToolStripProgressBar ProgressBar
+        {
+            get { return this.m_progress; }
+        }
+
+        /// <summary>
         /// set data that the plugin focus on.
         /// </summary>
         /// <param name="modelID">the model ID of data that plugin focus on.</param>
@@ -233,6 +247,20 @@ namespace EcellLib
         public void FocusClear()
         {
             this.m_pluginDic.Clear();
+        }
+
+        /// <summary>
+        /// Set the percent of process at ProgressBar.
+        /// </summary>
+        /// <param name="max">the max progress.</param>
+        /// <param name="percent">the percent of process.</param>
+        public void Progress(int max, int percent)
+        {
+            m_progress.Maximum = max;
+            if (percent == max)
+                percent = 0;
+            m_progress.Value = percent;
+            Application.DoEvents();
         }
 
         /// <summary>

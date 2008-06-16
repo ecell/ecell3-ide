@@ -233,8 +233,8 @@ namespace EcellLib.PathwayWindow {
         {
             if (ecellObjects == null || ecellObjects.ChildNodes.Count <= 0)
                 return;
-
-            canvas.Control.Progress(50);
+            
+            canvas.Control.Progress(100, 50);
             int allcount = ecellObjects.ChildNodes.Count;
             int count = 0;
             foreach (XmlNode node in ecellObjects.ChildNodes)
@@ -242,7 +242,7 @@ namespace EcellLib.PathwayWindow {
                 if (!node.Name.Equals(PathwayConstants.xPathEcellObject))
                 {
                     count++;
-                    canvas.Control.Progress(count * 50 / allcount + 50);
+                    canvas.Control.Progress(100, count * 50 / allcount + 50);
                     continue;
                 }
 
@@ -251,10 +251,10 @@ namespace EcellLib.PathwayWindow {
                 string type = GetStringAttribute(node, PathwayConstants.xPathType);
                 string classname = GetStringAttribute(node, PathwayConstants.xPathClass);
                 SetPPathwayObject(canvas, node, key, type);
-                canvas.Control.Progress(count * 50 / allcount + 50);
+                canvas.Control.Progress(100, count * 50 / allcount + 50);
                 count++;
             }
-            canvas.Control.Progress(0);
+            canvas.Control.Progress(100, 100);
         }
         /// <summary>
         /// Set PPathwayObject

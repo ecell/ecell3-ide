@@ -271,6 +271,16 @@ namespace EcellLib.PathwayWindow
         {
             m_pManager.Message(type, message);
         }
+
+        /// <summary>
+        /// Inform the progress of process.
+        /// </summary>
+        /// <param name="max">the max progress.</param>
+        /// <param name="percent">the percent of progress.</param>
+        public void NotifyProgressChange(int max, int percent)
+        {
+            m_env.PluginManager.Progress(max, percent);
+        }
         #endregion
 
         #region Inherited from IEcellPlugin

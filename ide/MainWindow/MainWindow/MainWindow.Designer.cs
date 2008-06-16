@@ -70,6 +70,7 @@ namespace EcellLib.MainWindow
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jobStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scriptEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemRun = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemAnalysis = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemDebug = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,7 +79,8 @@ namespace EcellLib.MainWindow
             this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
-            this.scriptEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MWstatusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.SuspendLayout();
             this.menustrip.SuspendLayout();
@@ -86,6 +88,10 @@ namespace EcellLib.MainWindow
             // 
             // toolStripContainer
             // 
+            // 
+            // toolStripContainer.BottomToolStripPanel
+            // 
+            this.toolStripContainer.BottomToolStripPanel.Controls.Add(this.MWstatusStrip);
             // 
             // toolStripContainer.ContentPanel
             // 
@@ -371,6 +377,12 @@ namespace EcellLib.MainWindow
             resources.ApplyResources(this.jobStatusToolStripMenuItem, "jobStatusToolStripMenuItem");
             this.jobStatusToolStripMenuItem.Click += new System.EventHandler(this.ClickJobStatusMenu);
             // 
+            // scriptEditorToolStripMenuItem
+            // 
+            this.scriptEditorToolStripMenuItem.Name = "scriptEditorToolStripMenuItem";
+            resources.ApplyResources(this.scriptEditorToolStripMenuItem, "scriptEditorToolStripMenuItem");
+            this.scriptEditorToolStripMenuItem.Click += new System.EventHandler(this.ClickScriptEditorMenu);
+            // 
             // MenuItemRun
             // 
             this.MenuItemRun.Name = "MenuItemRun";
@@ -405,11 +417,10 @@ namespace EcellLib.MainWindow
             resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             this.openScriptDialog.RestoreDirectory = true;
             // 
-            // scriptEditorToolStripMenuItem
+            // MWstatusStrip
             // 
-            this.scriptEditorToolStripMenuItem.Name = "scriptEditorToolStripMenuItem";
-            resources.ApplyResources(this.scriptEditorToolStripMenuItem, "scriptEditorToolStripMenuItem");
-            this.scriptEditorToolStripMenuItem.Click += new System.EventHandler(this.ClickScriptEditorMenu);
+            resources.ApplyResources(this.MWstatusStrip, "MWstatusStrip");
+            this.MWstatusStrip.Name = "MWstatusStrip";
             // 
             // MainWindow
             // 
@@ -421,6 +432,8 @@ namespace EcellLib.MainWindow
             this.Name = "MainWindow";
             this.Disposed += new System.EventHandler(this.MainWindowDisposed);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindowFormClosing);
+            this.toolStripContainer.BottomToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer.ContentPanel.ResumeLayout(false);
             this.toolStripContainer.ContentPanel.PerformLayout();
             this.toolStripContainer.ResumeLayout(false);
@@ -530,6 +543,7 @@ namespace EcellLib.MainWindow
         public System.Windows.Forms.ToolStripMenuItem jobStatusToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem projectWizardMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scriptEditorToolStripMenuItem;
+        private System.Windows.Forms.StatusStrip MWstatusStrip;
     }
 }
 

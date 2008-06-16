@@ -52,7 +52,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         protected PathwayControl m_con;
         private StatusStrip StatusStrip;
-        private ToolStripProgressBar ProgressBar;
         private ToolStripStatusLabel ObjectIDLabel;
         private ToolStripStatusLabel LocationLabel;
 
@@ -60,16 +59,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// PScrollableControl
         /// </summary>
         protected PScrollableControl m_scrolCtrl;
-        #endregion
-
-        #region
-        /// <summary>
-        /// 
-        /// </summary>
-        public ToolStripProgressBar ProgressBarControl
-        {
-            get { return this.ProgressBar; }
-        }
         #endregion
 
         #region Constructor
@@ -142,7 +131,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         {
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.ObjectIDLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.LocationLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -151,7 +139,6 @@ namespace EcellLib.PathwayWindow.UIComponent
             // 
             this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ObjectIDLabel,
-            this.ProgressBar,
             this.LocationLabel});
             this.StatusStrip.Location = new System.Drawing.Point(0, 469);
             this.StatusStrip.Name = "StatusStrip";
@@ -167,18 +154,9 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.ObjectIDLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.ObjectIDLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.ObjectIDLabel.Name = "ObjectIDLabel";
-            this.ObjectIDLabel.Size = new System.Drawing.Size(357, 17);
+            this.ObjectIDLabel.Size = new System.Drawing.Size(476, 17);
             this.ObjectIDLabel.Spring = true;
             this.ObjectIDLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // ProgressBar
-            // 
-            this.ProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.ProgressBar.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Minimum = 0;
-            this.ProgressBar.Maximum = 100;
-            this.ProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
             // LocationLabel
             // 

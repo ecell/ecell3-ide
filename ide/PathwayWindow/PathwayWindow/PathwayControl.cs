@@ -319,7 +319,7 @@ namespace EcellLib.PathwayWindow
                 bool isFirst = (modelId != null);
                 int allcount = data.Count;
                 int count = 0;
-                Progress(0);
+                Progress(100, 0);
                 // Load each EcellObject onto the canvas.
                 foreach (EcellObject obj in data)
                 {
@@ -328,7 +328,7 @@ namespace EcellLib.PathwayWindow
                     {
                         if (isFirst)
                         {
-                            Progress(count * 50 / allcount);
+                            Progress(100, count * 50 / allcount);
                             count++;
                         }
                         continue;
@@ -337,15 +337,15 @@ namespace EcellLib.PathwayWindow
                         DataAdd(node, true, isFirst);
                     if (isFirst)
                     {
-                        Progress(count * 50 / allcount);
+                        Progress(100, count * 50 / allcount);
                         count++;
                     }
                 }
                 if (isFirst)
-                    Progress(50);
+                    Progress(100, 50);
                 // Set layout.
                 SetLayout(data, modelId, isFirst);
-                Progress(0);
+                Progress(100, 100);
             }
             catch (Exception e)
             {
@@ -389,16 +389,18 @@ namespace EcellLib.PathwayWindow
                     DoLayout(m_menu.DefaultLayoutAlgorithm, 0, false);
             }
         }
+
         /// <summary>
-        /// 
+        /// Set the percent of progress.
         /// </summary>
-        /// <param name="percent"></param>
-        public void Progress(int percent)
+        /// <param name="max">the max progress of process.</param>
+        /// <param name="percent">the percent of progress.</param>
+        public void Progress(int max, int percent)
         {
             if (percent == 100)
                 percent = 0;
-            m_pathwayView.ProgressBarControl.ProgressBar.Value = percent;
-            Application.DoEvents();
+
+            m_window.NotifyProgressChange(max, percent);
         }
 
         /// <summary>
@@ -1388,12 +1390,12 @@ namespace EcellLib.PathwayWindow
             int i = 0;
             int allcount = nodeList.Count;
             int count = 0;
-            Progress(50);
+            Progress(100, 50);
             foreach (EcellObject node in nodeList)
             {
                 if (!node.isFixed)
                 {
-                    Progress(count * 50 / allcount + 50);
+                    Progress(100, count * 50 / allcount + 50);
                     count++;
                     continue;
                 }
@@ -1415,10 +1417,10 @@ namespace EcellLib.PathwayWindow
                     else
                         NotifySetPosition(node);
                 }
-                Progress(count * 50 / allcount + 50);
+                Progress(100, count * 50 / allcount + 50);
                 count++;
             }
-            Progress(0);
+            Progress(100, 100);
         }
 
         #endregion
