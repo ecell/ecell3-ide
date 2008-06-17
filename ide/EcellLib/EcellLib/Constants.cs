@@ -78,6 +78,10 @@ namespace EcellLib
         /// <summary>
         /// Reserved extension for DM's.
         /// </summary>
+        public const string WildCard = "*";
+        /// <summary>
+        /// Reserved extension for DM's.
+        /// </summary>
         public const string FileExtDM = ".dll";
         /// <summary>
         /// Reserved extension for plugins.

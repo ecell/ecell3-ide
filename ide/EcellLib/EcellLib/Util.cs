@@ -308,30 +308,49 @@ namespace EcellLib
         /// <summary>
         /// Copy Directory.
         /// </summary>
-        /// <param name="sourceDirName"></param>
-        /// <param name="destDirName"></param>
-        public static void CopyDirectory(string sourceDirName, string destDirName)
+        /// <param name="sourceDir"></param>
+        /// <param name="targetDir"></param>
+        public static void CopyDirectory(string sourceDir, string targetDir)
         {
-            if (!System.IO.Directory.Exists(destDirName))
+            if (sourceDir.Equals(targetDir))
+                targetDir = GetNewDir(targetDir);
+            else if (Directory.Exists(targetDir))
+                targetDir = GetNewDir(targetDir);
+
+            // List up directories and files.
+            string[] dirs = System.IO.Directory.GetDirectories(sourceDir, "*.*", SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(sourceDir, "*.*", SearchOption.AllDirectories);
+
+            // Create directory if necessary.
+            if (!Directory.Exists(targetDir))
             {
-                System.IO.Directory.CreateDirectory(destDirName);
-                System.IO.File.SetAttributes(destDirName,
-                    System.IO.File.GetAttributes(sourceDirName));
+                Directory.CreateDirectory(targetDir);
+                File.SetAttributes(targetDir, File.GetAttributes(sourceDir));
             }
-            if (destDirName[destDirName.Length - 1] !=
-                    System.IO.Path.DirectorySeparatorChar)
-                destDirName = destDirName + System.IO.Path.DirectorySeparatorChar;
-
-            string[] files = System.IO.Directory.GetFiles(sourceDirName);
-            foreach (string file in files)
-                System.IO.File.Copy(file,
-                    destDirName + System.IO.Path.GetFileName(file), true);
-
-            string[] dirs = System.IO.Directory.GetDirectories(sourceDirName);
+            // Copy directories.
             foreach (string dir in dirs)
-                CopyDirectory(dir, destDirName + System.IO.Path.GetFileName(dir));
+                Directory.CreateDirectory(dir.Replace(sourceDir, targetDir));
+            // Copy Files.
+            foreach (string file in files)
+                File.Copy(file, file.Replace(sourceDir, targetDir));
         }
 
+        /// <summary>
+        /// Get New Directory name.
+        /// </summary>
+        /// <param name="targetDir"></param>
+        /// <returns></returns>
+        public static string GetNewDir(string targetDir)
+        {
+            int revNo = 0;
+            string newDir = "";
+            do
+            {
+                revNo++;
+                newDir = targetDir + revNo.ToString();
+            } while (Directory.Exists(newDir));
+            return newDir;
+        }
 
         /// <summary>
         /// Get the name and the parent path from the full object path.

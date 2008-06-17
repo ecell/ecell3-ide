@@ -171,6 +171,8 @@ namespace EcellLib.MainWindow
             textBox1.Text = MessageResMain.ProjectWizardSelectDM;
             OKButton.Text = MessageResMain.ProjectWizardCreate;
             OKButton.DialogResult = DialogResult.OK;
+            DMRemoveButton.Visible = true;
+            DMAddButon.Visible = true;
             MainLayoutPanel.Controls.Remove(ProjectLayoutPanel);
             ProjectLayoutPanel.Dock = DockStyle.Fill;
             MainLayoutPanel.Controls.Add(DMLayoutPanel, 0, 1);
@@ -186,6 +188,8 @@ namespace EcellLib.MainWindow
             textBox1.Text = MessageResMain.ProjectWizardSelectTemplete;
             OKButton.Text = MessageResMain.ProjectWizardGoForward;
             OKButton.DialogResult = DialogResult.None;
+            DMAddButon.Visible = false;
+            DMRemoveButton.Visible = false;
             MainLayoutPanel.Controls.Remove(DMLayoutPanel);
             MainLayoutPanel.Controls.Add(ProjectLayoutPanel, 0, 1);
             BackButton.Enabled = false;

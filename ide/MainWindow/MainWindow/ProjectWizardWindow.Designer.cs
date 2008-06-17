@@ -31,9 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectWizardWindow));
             this.DMLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.DMListBox = new System.Windows.Forms.ListBox();
-            this.DMSelectLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.DMAddButon = new System.Windows.Forms.Button();
-            this.DMRemoveButton = new System.Windows.Forms.Button();
             this.DMListLabel = new System.Windows.Forms.Label();
             this.ProjectLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
@@ -48,8 +45,9 @@
             this.BackButton = new System.Windows.Forms.Button();
             this.OKButton = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.DMAddButon = new System.Windows.Forms.Button();
+            this.DMRemoveButton = new System.Windows.Forms.Button();
             this.DMLayoutPanel.SuspendLayout();
-            this.DMSelectLayoutPanel.SuspendLayout();
             this.ProjectLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
             this.ProjectPatternList.SuspendLayout();
@@ -63,7 +61,6 @@
             // 
             resources.ApplyResources(this.DMLayoutPanel, "DMLayoutPanel");
             this.DMLayoutPanel.Controls.Add(this.DMListBox, 1, 1);
-            this.DMLayoutPanel.Controls.Add(this.DMSelectLayoutPanel, 2, 1);
             this.DMLayoutPanel.Controls.Add(this.DMListLabel, 1, 0);
             this.DMLayoutPanel.Name = "DMLayoutPanel";
             // 
@@ -73,27 +70,6 @@
             this.DMListBox.FormattingEnabled = true;
             this.DMListBox.Name = "DMListBox";
             this.DMListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            // 
-            // DMSelectLayoutPanel
-            // 
-            resources.ApplyResources(this.DMSelectLayoutPanel, "DMSelectLayoutPanel");
-            this.DMSelectLayoutPanel.Controls.Add(this.DMAddButon, 0, 1);
-            this.DMSelectLayoutPanel.Controls.Add(this.DMRemoveButton, 0, 2);
-            this.DMSelectLayoutPanel.Name = "DMSelectLayoutPanel";
-            // 
-            // DMAddButon
-            // 
-            resources.ApplyResources(this.DMAddButon, "DMAddButon");
-            this.DMAddButon.Name = "DMAddButon";
-            this.DMAddButon.UseVisualStyleBackColor = true;
-            this.DMAddButon.Click += new System.EventHandler(this.DMAdd_Click);
-            // 
-            // DMRemoveButton
-            // 
-            resources.ApplyResources(this.DMRemoveButton, "DMRemoveButton");
-            this.DMRemoveButton.Name = "DMRemoveButton";
-            this.DMRemoveButton.UseVisualStyleBackColor = true;
-            this.DMRemoveButton.Click += new System.EventHandler(this.DMRemove_Click);
             // 
             // DMListLabel
             // 
@@ -161,9 +137,11 @@
             // ButtonLayoutPanel
             // 
             resources.ApplyResources(this.ButtonLayoutPanel, "ButtonLayoutPanel");
-            this.ButtonLayoutPanel.Controls.Add(this.CloseButton, 3, 0);
-            this.ButtonLayoutPanel.Controls.Add(this.BackButton, 1, 0);
-            this.ButtonLayoutPanel.Controls.Add(this.OKButton, 2, 0);
+            this.ButtonLayoutPanel.Controls.Add(this.DMRemoveButton, 1, 0);
+            this.ButtonLayoutPanel.Controls.Add(this.DMAddButon, 1, 0);
+            this.ButtonLayoutPanel.Controls.Add(this.CloseButton, 6, 0);
+            this.ButtonLayoutPanel.Controls.Add(this.BackButton, 4, 0);
+            this.ButtonLayoutPanel.Controls.Add(this.OKButton, 5, 0);
             this.ButtonLayoutPanel.Name = "ButtonLayoutPanel";
             // 
             // CloseButton
@@ -194,6 +172,20 @@
             resources.ApplyResources(this.textBox1, "textBox1");
             this.textBox1.Name = "textBox1";
             // 
+            // DMAddButon
+            // 
+            resources.ApplyResources(this.DMAddButon, "DMAddButon");
+            this.DMAddButon.Name = "DMAddButon";
+            this.DMAddButon.UseVisualStyleBackColor = true;
+            this.DMAddButon.Click += new System.EventHandler(this.DMAdd_Click);
+            // 
+            // DMRemoveButton
+            // 
+            resources.ApplyResources(this.DMRemoveButton, "DMRemoveButton");
+            this.DMRemoveButton.Name = "DMRemoveButton";
+            this.DMRemoveButton.UseVisualStyleBackColor = true;
+            this.DMRemoveButton.Click += new System.EventHandler(this.DMRemove_Click);
+            // 
             // ProjectWizardWindow
             // 
             this.AcceptButton = this.OKButton;
@@ -210,7 +202,6 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.DMLayoutPanel.ResumeLayout(false);
             this.DMLayoutPanel.PerformLayout();
-            this.DMSelectLayoutPanel.ResumeLayout(false);
             this.ProjectLayoutPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
             this.ProjectPatternList.ResumeLayout(false);
@@ -238,14 +229,13 @@
         private System.Windows.Forms.TextBox ProjectIDTextBox;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ListBox DMListBox;
-        private System.Windows.Forms.TableLayoutPanel DMSelectLayoutPanel;
-        private System.Windows.Forms.Button DMAddButon;
-        private System.Windows.Forms.Button DMRemoveButton;
         private System.Windows.Forms.Label DMListLabel;
         private System.Windows.Forms.TableLayoutPanel ButtonLayoutPanel;
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.Button BackButton;
         private System.Windows.Forms.Button OKButton;
+        private System.Windows.Forms.Button DMRemoveButton;
+        private System.Windows.Forms.Button DMAddButon;
 
 
     }
