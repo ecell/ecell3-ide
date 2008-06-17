@@ -73,7 +73,10 @@ namespace EcellLib.MainWindow
             this.Text = MessageResMain.StartUpWindow;
             this.TabText = this.Text;
             string lang = Util.GetLang();
-            STARTUP = new Uri(Path.Combine(Util.GetWindowSettingDir(), lang + "_" + Constants.fileStartupHTML));
+            string filename = Path.Combine(Util.GetWindowSettingDir(), lang + "_" + Constants.fileStartupHTML);
+            if(!File.Exists(filename))
+                filename = Path.Combine(Util.GetWindowSettingDir(), lang + "AUTO_" + Constants.fileStartupHTML);
+            STARTUP = new Uri(filename);
             webBrowser.Navigate(STARTUP);
             SetRecentFiles();
         }
