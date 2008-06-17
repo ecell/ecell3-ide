@@ -120,10 +120,10 @@
   <data name="$this.Text" xml:space="preserve">
     <value>プロジェクトを開く</value>
   </data>
-  <data name="OPCancelButton.Text" xml:space="preserve">
+  <data name="MPCancelButton.Text" xml:space="preserve">
     <value>キャンセル</value>
   </data>
-  <data name="OPOpenButton.Text" xml:space="preserve">
+  <data name="MPOpenButton.Text" xml:space="preserve">
     <value>開く</value>
   </data>
 </root>

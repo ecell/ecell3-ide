@@ -126,14 +126,14 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="MPButtonPanel.ColumnCount" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="MPOpenButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="MPOpenButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>331, 3</value>
+    <value>351, 3</value>
   </data>
   <data name="MPOpenButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -160,7 +160,7 @@
     <value>Fill</value>
   </data>
   <data name="MPCancelButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>421, 3</value>
+    <value>441, 3</value>
   </data>
   <data name="MPCancelButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>

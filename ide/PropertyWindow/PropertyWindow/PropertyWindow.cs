@@ -379,7 +379,8 @@ namespace EcellLib.PropertyWindow
             {
                 c2 = new DataGridViewComboBoxCell();
                 if (type == Constants.xpathSystem ||
-                    type == Constants.xpathVariable)
+                    type == Constants.xpathVariable ||
+                    type == Constants.xpathText)
                 {
                     ((DataGridViewComboBoxCell)c2).Items.Add(type);
                     c2.Value = type;

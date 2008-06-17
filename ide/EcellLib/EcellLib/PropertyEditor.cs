@@ -258,7 +258,8 @@ namespace EcellLib
             }
             else if (m_type.Equals(EcellObject.SYSTEM) ||
                 m_type.Equals(EcellObject.VARIABLE) ||
-                m_type.Equals(EcellObject.PROCESS))
+                m_type.Equals(EcellObject.PROCESS) ||
+                m_type.Equals(EcellObject.TEXT))
             {
                 LayoutNodePropertyEditor();
                 LayoutNodeCommit();
@@ -702,6 +703,11 @@ namespace EcellLib
             else if (m_type.Equals(EcellObject.VARIABLE))
             {
                 combo.Items.AddRange(new object[] { EcellObject.VARIABLE });
+                combo.SelectedIndex = j;
+            }
+            else if (m_type.Equals(EcellObject.TEXT))
+            {
+                combo.Items.AddRange(new object[] { EcellObject.TEXT });
                 combo.SelectedIndex = j;
             }
             combo.Tag = "classname";
