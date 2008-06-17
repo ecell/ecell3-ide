@@ -617,8 +617,10 @@ namespace EcellLib.PathwayWindow
                     button.Handle = new Handle(Mode.CreateNode, handleCount++, new CreateNodeMouseHandler(m_con, cs), cs.ComponentType);
                     if (cs.ComponentType == ComponentType.Process)
                         button.ToolTipText = MessageResPathway.ToolButtonCreateProcess;
-                    else if(cs.ComponentType == ComponentType.Variable)
+                    else if (cs.ComponentType == ComponentType.Variable)
                         button.ToolTipText = MessageResPathway.ToolButtonCreateVariable;
+                    else if (cs.ComponentType == ComponentType.Text)
+                        button.ToolTipText = MessageResPathway.ToolButtonCreateText;
                 }
 
                 m_handleDict.Add(cs.Name, button.Handle);

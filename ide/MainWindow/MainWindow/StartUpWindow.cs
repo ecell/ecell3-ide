@@ -75,7 +75,7 @@ namespace EcellLib.MainWindow
             string lang = Util.GetLang();
             string filename = Path.Combine(Util.GetWindowSettingDir(), lang + "_" + Constants.fileStartupHTML);
             if(!File.Exists(filename))
-                filename = Path.Combine(Util.GetWindowSettingDir(), lang + "AUTO_" + Constants.fileStartupHTML);
+                filename = Path.Combine(Util.GetWindowSettingDir(), "AUTO_" + Constants.fileStartupHTML);
             STARTUP = new Uri(filename);
             webBrowser.Navigate(STARTUP);
             SetRecentFiles();
@@ -240,7 +240,7 @@ namespace EcellLib.MainWindow
             this.URLComboBox.ToolTipText = "URL ComboBox";
             this.URLComboBox.SelectedIndexChanged += new System.EventHandler(this.URLComboBox_SelectedIndexChanged);
             this.URLComboBox.LocationChanged += new System.EventHandler(this.URLComboBox_LocationChanged);
-            this.URLComboBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.URLComboBox_KeyPress);
+            this.URLComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.URLComboBox_KeyDown);
             // 
             // panel1
             // 
@@ -370,9 +370,9 @@ namespace EcellLib.MainWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void URLComboBox_KeyPress(object sender, KeyPressEventArgs e)
+        private void URLComboBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Return)
+            if (e.KeyCode == Keys.Return)
                 go();
         }
 
