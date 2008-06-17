@@ -155,8 +155,7 @@ namespace EcellLib.MainWindow
         private void SetNextPage()
         {
             textBox1.Text = MessageResMain.ProjectWizardSelectDM;
-            OKButton.Tag = OKButton.Text;
-            OKButton.Text = "OK";
+            OKButton.Text = MessageResMain.ProjectWizardCreate;
             OKButton.DialogResult = DialogResult.OK;
             MainLayoutPanel.Controls.Remove(ProjectLayoutPanel);
             ProjectLayoutPanel.Dock = DockStyle.Fill;
@@ -171,7 +170,7 @@ namespace EcellLib.MainWindow
         private void BackButton_Click(object sender, EventArgs e)
         {
             textBox1.Text = MessageResMain.ProjectWizardSelectTemplete;
-            OKButton.Text = (string)OKButton.Tag;
+            OKButton.Text = MessageResMain.ProjectWizardGoForward;
             OKButton.DialogResult = DialogResult.None;
             MainLayoutPanel.Controls.Remove(DMLayoutPanel);
             MainLayoutPanel.Controls.Add(ProjectLayoutPanel, 0, 1);

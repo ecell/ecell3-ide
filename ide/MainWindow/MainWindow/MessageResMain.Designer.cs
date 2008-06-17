@@ -241,6 +241,24 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
+        ///   Create に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ProjectWizardCreate {
+            get {
+                return ResourceManager.GetString("ProjectWizardCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Next に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ProjectWizardGoForward {
+            get {
+                return ResourceManager.GetString("ProjectWizardGoForward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Select DM. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ProjectWizardSelectDM {

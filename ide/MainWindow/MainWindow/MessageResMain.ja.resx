@@ -177,6 +177,12 @@
   <data name="NameWorkDir" xml:space="preserve">
     <value>作業用ディレクトリ</value>
   </data>
+  <data name="ProjectWizardCreate" xml:space="preserve">
+    <value>作成</value>
+  </data>
+  <data name="ProjectWizardGoForward" xml:space="preserve">
+    <value>進む</value>
+  </data>
   <data name="ProjectWizardSelectDM" xml:space="preserve">
     <value>使用するDMを選択してください</value>
   </data>

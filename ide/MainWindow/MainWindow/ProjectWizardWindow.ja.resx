@@ -120,7 +120,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>プロジェクトウィザード画面</value>
   </data>
-  <data name="button1.Text" xml:space="preserve">
+  <data name="BackButton.Text" xml:space="preserve">
     <value>戻る</value>
   </data>
   <data name="CloseButton.Text" xml:space="preserve">

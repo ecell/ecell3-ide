@@ -159,7 +159,6 @@
             this.ProjectCommentTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             resources.ApplyResources(this.ProjectCommentTextBox, "ProjectCommentTextBox");
             this.ProjectCommentTextBox.Name = "ProjectCommentTextBox";
-            this.ProjectCommentTextBox.ReadOnly = true;
             // 
             // ProjectBox
             // 
@@ -174,7 +173,6 @@
             this.ProjectIDTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             resources.ApplyResources(this.ProjectIDTextBox, "ProjectIDTextBox");
             this.ProjectIDTextBox.Name = "ProjectIDTextBox";
-            this.ProjectIDTextBox.ReadOnly = true;
             // 
             // MainLayoutPanel
             // 
@@ -213,7 +211,7 @@
             this.OKButton.Name = "OKButton";
             this.OKButton.UseVisualStyleBackColor = true;
             this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
-
+            // 
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.Control;
