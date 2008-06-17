@@ -60,7 +60,8 @@ namespace EcellLib
         /// <param name="e"></param>
         protected override void DMEditorShown(object sender, EventArgs e)
         {
-            DMEComileButton.Enabled = true;
+            DMEComileButton.Text = MessageResLib.NameExecute;
+            DMEComileButton.Enabled = false;
 
             if (m_path == null) return;
             LoadFile();
@@ -74,12 +75,13 @@ namespace EcellLib
         protected override void DMELoadButtonClick(object sender, EventArgs e)
         {
             DMEOpenFileDialog.Filter = Constants.FilterEssFile;
-            DMEComileButton.Text = MessageResLib.NameExecute;
+
             if (DMEOpenFileDialog.ShowDialog() != DialogResult.OK)
                 return;
 
             DMETextBox.Text = "";
             m_path = DMEOpenFileDialog.FileName;
+            DMEComileButton.Enabled = true;
             LoadFile();
         }
 
