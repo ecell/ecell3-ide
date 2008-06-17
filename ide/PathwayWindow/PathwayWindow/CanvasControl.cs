@@ -1178,6 +1178,14 @@ namespace EcellLib.PathwayWindow
                 m_processes.Add(newkey, (PPathwayProcess)obj);
                 m_processes[newkey].Refresh();
             }
+            else if (obj is PPathwayText)
+            {
+                if (!m_texts.ContainsKey(oldkey))
+                    return;
+                m_texts.Remove(oldkey);
+                m_texts.Add(newkey, (PPathwayText)obj);
+                m_texts[newkey].Refresh();
+            }
             obj.ParentObject = m_systems[obj.EcellObject.ParentSystemID];
 
         }

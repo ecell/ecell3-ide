@@ -213,7 +213,7 @@
             this.OKButton.Name = "OKButton";
             this.OKButton.UseVisualStyleBackColor = true;
             this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
-            // 
+
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.Control;
