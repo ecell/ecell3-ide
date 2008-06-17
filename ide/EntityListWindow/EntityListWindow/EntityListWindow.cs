@@ -1530,6 +1530,7 @@ namespace EcellLib.EntityListWindow
             TagData tag = (TagData)node.Tag;
             if (tag == null) return;
             if (tag.m_modelID == null) return;
+            if (tag.m_type == Constants.xpathProject) return;
             if (tag.m_type == Constants.xpathParameters)
             {
                 m_pManager.SelectChanged("", node.Text, tag.m_type);
@@ -1566,13 +1567,25 @@ namespace EcellLib.EntityListWindow
         private void NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeView t = (TreeView)sender;
-            if (t == null) return;
+            if (t == null)
+            {
+                m_form.treeView1.ContextMenu = null;
+                return;
+            }
             TreeNode node = t.GetNodeAt(e.X, e.Y);
-            if (node == null) return;
+            if (node == null)
+            {
+                m_form.treeView1.ContextMenu = null;
+                return;
+            }
             TagData tag = (TagData)node.Tag;
             if (tag == null)
             {
-                if (!node.Text.Equals("DMs")) return;
+                if (!node.Text.Equals("DMs"))
+                {
+                    m_form.treeView1.ContextMenu = null;
+                    return;
+                }
                 m_targetNode = node;
                 m_form.treeView1.SelectedNode = node;
                 m_form.treeView1.ContextMenu = m_dmsMenu;
