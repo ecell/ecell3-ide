@@ -126,6 +126,15 @@
   <data name="CloseButton.Text" xml:space="preserve">
     <value>キャンセル</value>
   </data>
+  <data name="DMAddButon.Text" xml:space="preserve">
+    <value>追加</value>
+  </data>
+  <data name="DMListLabel.Text" xml:space="preserve">
+    <value>DMディレクトリ一覧</value>
+  </data>
+  <data name="DMRemoveButton.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
   <data name="groupBox.Text" xml:space="preserve">
     <value>コメント</value>
   </data>

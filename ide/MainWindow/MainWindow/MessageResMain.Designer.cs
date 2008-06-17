@@ -259,7 +259,7 @@ namespace EcellLib.MainWindow {
         }
         
         /// <summary>
-        ///   Select DM. に類似しているローカライズされた文字列を検索します。
+        ///   Add extra DM directories. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ProjectWizardSelectDM {
             get {

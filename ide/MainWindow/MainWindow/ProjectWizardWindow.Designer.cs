@@ -31,13 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectWizardWindow));
             this.DMLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.DMListBox = new System.Windows.Forms.ListBox();
-            this.ProjectDMListBox = new System.Windows.Forms.ListBox();
             this.DMSelectLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.DMAddAllButton = new System.Windows.Forms.Button();
             this.DMAddButon = new System.Windows.Forms.Button();
             this.DMRemoveButton = new System.Windows.Forms.Button();
             this.DMListLabel = new System.Windows.Forms.Label();
-            this.ProjectDMLabel = new System.Windows.Forms.Label();
             this.ProjectLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.ProjectPatternList = new System.Windows.Forms.TableLayoutPanel();
@@ -66,10 +63,8 @@
             // 
             resources.ApplyResources(this.DMLayoutPanel, "DMLayoutPanel");
             this.DMLayoutPanel.Controls.Add(this.DMListBox, 1, 1);
-            this.DMLayoutPanel.Controls.Add(this.ProjectDMListBox, 3, 1);
             this.DMLayoutPanel.Controls.Add(this.DMSelectLayoutPanel, 2, 1);
             this.DMLayoutPanel.Controls.Add(this.DMListLabel, 1, 0);
-            this.DMLayoutPanel.Controls.Add(this.ProjectDMLabel, 3, 0);
             this.DMLayoutPanel.Name = "DMLayoutPanel";
             // 
             // DMListBox
@@ -77,29 +72,14 @@
             resources.ApplyResources(this.DMListBox, "DMListBox");
             this.DMListBox.FormattingEnabled = true;
             this.DMListBox.Name = "DMListBox";
-            this.DMListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            // 
-            // ProjectDMListBox
-            // 
-            resources.ApplyResources(this.ProjectDMListBox, "ProjectDMListBox");
-            this.ProjectDMListBox.FormattingEnabled = true;
-            this.ProjectDMListBox.Name = "ProjectDMListBox";
-            this.ProjectDMListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.DMListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             // 
             // DMSelectLayoutPanel
             // 
             resources.ApplyResources(this.DMSelectLayoutPanel, "DMSelectLayoutPanel");
-            this.DMSelectLayoutPanel.Controls.Add(this.DMAddAllButton, 0, 1);
-            this.DMSelectLayoutPanel.Controls.Add(this.DMAddButon, 0, 2);
-            this.DMSelectLayoutPanel.Controls.Add(this.DMRemoveButton, 0, 3);
+            this.DMSelectLayoutPanel.Controls.Add(this.DMAddButon, 0, 1);
+            this.DMSelectLayoutPanel.Controls.Add(this.DMRemoveButton, 0, 2);
             this.DMSelectLayoutPanel.Name = "DMSelectLayoutPanel";
-            // 
-            // DMAddAllButton
-            // 
-            resources.ApplyResources(this.DMAddAllButton, "DMAddAllButton");
-            this.DMAddAllButton.Name = "DMAddAllButton";
-            this.DMAddAllButton.UseVisualStyleBackColor = true;
-            this.DMAddAllButton.Click += new System.EventHandler(this.DMAddAll_Click);
             // 
             // DMAddButon
             // 
@@ -119,11 +99,6 @@
             // 
             resources.ApplyResources(this.DMListLabel, "DMListLabel");
             this.DMListLabel.Name = "DMListLabel";
-            // 
-            // ProjectDMLabel
-            // 
-            resources.ApplyResources(this.ProjectDMLabel, "ProjectDMLabel");
-            this.ProjectDMLabel.Name = "ProjectDMLabel";
             // 
             // ProjectLayoutPanel
             // 
@@ -263,13 +238,10 @@
         private System.Windows.Forms.TextBox ProjectIDTextBox;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ListBox DMListBox;
-        public System.Windows.Forms.ListBox ProjectDMListBox;
         private System.Windows.Forms.TableLayoutPanel DMSelectLayoutPanel;
-        private System.Windows.Forms.Button DMAddAllButton;
         private System.Windows.Forms.Button DMAddButon;
         private System.Windows.Forms.Button DMRemoveButton;
         private System.Windows.Forms.Label DMListLabel;
-        private System.Windows.Forms.Label ProjectDMLabel;
         private System.Windows.Forms.TableLayoutPanel ButtonLayoutPanel;
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.Button BackButton;

@@ -61,7 +61,28 @@ namespace EcellLib.MainWindow
             get { return m_project; }
             set { m_project = value; }
         }
-        
+
+        /// <summary>
+        /// Get the list of dm directory.
+        /// </summary>
+        /// <returns>the list of dm directory.</returns>
+        public List<string> DMList
+        {
+            get
+            {
+                List<string> list = new List<string>();
+                int len = DMListBox.Items.Count;
+                for (int i = 0; i < len; i++)
+                {
+                    string dir = DMListBox.Items[i] as string;
+                    if (dir == null) 
+                        continue;
+                    list.Add(dir);
+                }
+                return list;
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -79,13 +100,6 @@ namespace EcellLib.MainWindow
             MainLayoutPanel.Controls.Add(ProjectLayoutPanel, 0, 1);
 
             Dictionary<string,List<string>> dmDic = Util.GetDmDic(null);
-            foreach (List<string> list in dmDic.Values)
-            {
-                foreach (string dm in list)
-                {
-                    this.DMListBox.Items.Add(dm);
-                }
-            }
 
         }
         #endregion
@@ -181,29 +195,19 @@ namespace EcellLib.MainWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DMAddAll_Click(object sender, EventArgs e)
-        {
-            foreach (object lob in DMListBox.Items)
-            {
-                if (ProjectDMListBox.Items.Contains(lob))
-                    continue;
-                ProjectDMListBox.Items.Add(lob);
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void DMAdd_Click(object sender, EventArgs e)
         {
-            ListBox.SelectedObjectCollection lsc = DMListBox.SelectedItems;
-            foreach (object lob in lsc)
-            {
-                if(ProjectDMListBox.Items.Contains(lob))
-                    continue;
-                ProjectDMListBox.Items.Add(lob);
-            }
+            SelectDirectory win = new SelectDirectory();
+            String mes = MessageResMain.ExpModelMes;
+            win.Description = mes;
+            if (win.ShowDialog() != DialogResult.OK)
+                return;
+
+            string dir = win.DirectoryPath;
+            if (DMListBox.Items.Contains(dir))
+                return;
+            
+            DMListBox.Items.Add(dir);
         }
         /// <summary>
         /// 
@@ -212,9 +216,9 @@ namespace EcellLib.MainWindow
         /// <param name="e"></param>
         private void DMRemove_Click(object sender, EventArgs e)
         {
-            while (ProjectDMListBox.SelectedIndex > -1)
+            while (DMListBox.SelectedIndex > -1)
             {
-                ProjectDMListBox.Items.RemoveAt(ProjectDMListBox.SelectedIndex);
+                DMListBox.Items.RemoveAt(DMListBox.SelectedIndex);
             }
         }
 

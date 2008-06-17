@@ -184,7 +184,7 @@
     <value>Next</value>
   </data>
   <data name="ProjectWizardSelectDM" xml:space="preserve">
-    <value>Select DM.</value>
+    <value>Add extra DM directories.</value>
   </data>
   <data name="ProjectWizardSelectTemplete" xml:space="preserve">
     <value>Select templete project.</value>

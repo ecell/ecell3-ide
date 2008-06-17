@@ -133,7 +133,7 @@
     <value>23, 23</value>
   </data>
   <data name="DMListBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>239, 4</value>
+    <value>239, 400</value>
   </data>
   <data name="DMListBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -150,224 +150,14 @@
   <data name="&gt;&gt;DMListBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="ProjectDMListBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ProjectDMListBox.ItemHeight" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="ProjectDMListBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>348, 23</value>
-  </data>
-  <data name="ProjectDMListBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>239, 4</value>
-  </data>
-  <data name="ProjectDMListBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;ProjectDMListBox.Name" xml:space="preserve">
-    <value>ProjectDMListBox</value>
-  </data>
-  <data name="&gt;&gt;ProjectDMListBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ProjectDMListBox.Parent" xml:space="preserve">
-    <value>DMLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;ProjectDMListBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="DMSelectLayoutPanel.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
-  </data>
-  <data name="&gt;&gt;DMAddAllButton.Name" xml:space="preserve">
-    <value>DMAddAllButton</value>
-  </data>
-  <data name="&gt;&gt;DMAddAllButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DMAddAllButton.Parent" xml:space="preserve">
-    <value>DMSelectLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;DMAddAllButton.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;DMAddButon.Name" xml:space="preserve">
-    <value>DMAddButon</value>
-  </data>
-  <data name="&gt;&gt;DMAddButon.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DMAddButon.Parent" xml:space="preserve">
-    <value>DMSelectLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;DMAddButon.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;DMRemoveButton.Name" xml:space="preserve">
-    <value>DMRemoveButton</value>
-  </data>
-  <data name="&gt;&gt;DMRemoveButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DMRemoveButton.Parent" xml:space="preserve">
-    <value>DMSelectLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;DMRemoveButton.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="DMSelectLayoutPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="DMSelectLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>268, 23</value>
-  </data>
-  <data name="DMSelectLayoutPanel.RowCount" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="DMSelectLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 1</value>
-  </data>
-  <data name="DMSelectLayoutPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;DMSelectLayoutPanel.Name" xml:space="preserve">
-    <value>DMSelectLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;DMSelectLayoutPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DMSelectLayoutPanel.Parent" xml:space="preserve">
-    <value>DMLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;DMSelectLayoutPanel.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="DMSelectLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="DMAddAllButton" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="DMAddButon" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="DMRemoveButton" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Percent,50,Absolute,40,Absolute,40,Absolute,40,Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="DMListLabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="DMListLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 3</value>
-  </data>
-  <data name="DMListLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="DMListLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 12</value>
-  </data>
-  <data name="DMListLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="DMListLabel.Text" xml:space="preserve">
-    <value>DM List</value>
-  </data>
-  <data name="&gt;&gt;DMListLabel.Name" xml:space="preserve">
-    <value>DMListLabel</value>
-  </data>
-  <data name="&gt;&gt;DMListLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DMListLabel.Parent" xml:space="preserve">
-    <value>DMLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;DMListLabel.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="ProjectDMLabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="ProjectDMLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>348, 3</value>
-  </data>
-  <data name="ProjectDMLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="ProjectDMLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 12</value>
-  </data>
-  <data name="ProjectDMLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="ProjectDMLabel.Text" xml:space="preserve">
-    <value>DMs for this Project</value>
-  </data>
-  <data name="&gt;&gt;ProjectDMLabel.Name" xml:space="preserve">
-    <value>ProjectDMLabel</value>
-  </data>
-  <data name="&gt;&gt;ProjectDMLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ProjectDMLabel.Parent" xml:space="preserve">
-    <value>DMLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;ProjectDMLabel.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="DMLayoutPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="DMLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 43</value>
-  </data>
-  <data name="DMLayoutPanel.RowCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="DMLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>611, 1</value>
-  </data>
-  <data name="DMLayoutPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;DMLayoutPanel.Name" xml:space="preserve">
-    <value>DMLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;DMLayoutPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DMLayoutPanel.Parent" xml:space="preserve">
-    <value>MainLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;DMLayoutPanel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="DMLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="DMListBox" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="ProjectDMListBox" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="DMSelectLayoutPanel" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="DMListLabel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="ProjectDMLabel" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,20,Percent,50,Absolute,80,Percent,50,Absolute,21" /&gt;&lt;Rows Styles="Absolute,20,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="DMAddAllButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="DMAddAllButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, -56</value>
-  </data>
-  <data name="DMAddAllButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>68, 34</value>
-  </data>
-  <data name="DMAddAllButton.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="DMAddAllButton.Text" xml:space="preserve">
-    <value>AddAll</value>
-  </data>
-  <data name="&gt;&gt;DMAddAllButton.Name" xml:space="preserve">
-    <value>DMAddAllButton</value>
-  </data>
-  <data name="&gt;&gt;DMAddAllButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DMAddAllButton.Parent" xml:space="preserve">
-    <value>DMSelectLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;DMAddAllButton.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="DMAddButon.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="DMAddButon.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, -16</value>
+    <value>3, 99</value>
   </data>
   <data name="DMAddButon.Size" type="System.Drawing.Size, System.Drawing">
     <value>68, 34</value>
@@ -388,13 +178,13 @@
     <value>DMSelectLayoutPanel</value>
   </data>
   <data name="&gt;&gt;DMAddButon.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="DMRemoveButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="DMRemoveButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 24</value>
+    <value>3, 139</value>
   </data>
   <data name="DMRemoveButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>68, 34</value>
@@ -415,7 +205,97 @@
     <value>DMSelectLayoutPanel</value>
   </data>
   <data name="&gt;&gt;DMRemoveButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="DMSelectLayoutPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="DMSelectLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>268, 23</value>
+  </data>
+  <data name="DMSelectLayoutPanel.RowCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="DMSelectLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 400</value>
+  </data>
+  <data name="DMSelectLayoutPanel.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
+  </data>
+  <data name="&gt;&gt;DMSelectLayoutPanel.Name" xml:space="preserve">
+    <value>DMSelectLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;DMSelectLayoutPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DMSelectLayoutPanel.Parent" xml:space="preserve">
+    <value>DMLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;DMSelectLayoutPanel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="DMSelectLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="DMAddButon" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="DMRemoveButton" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Percent,30,Absolute,40,Absolute,40,Percent,70,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="DMListLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="DMListLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 3</value>
+  </data>
+  <data name="DMListLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="DMListLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 12</value>
+  </data>
+  <data name="DMListLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="DMListLabel.Text" xml:space="preserve">
+    <value>DM Dir List</value>
+  </data>
+  <data name="&gt;&gt;DMListLabel.Name" xml:space="preserve">
+    <value>DMListLabel</value>
+  </data>
+  <data name="&gt;&gt;DMListLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DMListLabel.Parent" xml:space="preserve">
+    <value>DMLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;DMListLabel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="DMLayoutPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="DMLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 43</value>
+  </data>
+  <data name="DMLayoutPanel.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="DMLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>611, 426</value>
+  </data>
+  <data name="DMLayoutPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;DMLayoutPanel.Name" xml:space="preserve">
+    <value>DMLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;DMLayoutPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DMLayoutPanel.Parent" xml:space="preserve">
+    <value>MainLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;DMLayoutPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="DMLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="DMListBox" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="DMSelectLayoutPanel" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="DMListLabel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,20,Percent,50,Absolute,80,Percent,50,Absolute,21" /&gt;&lt;Rows Styles="Absolute,20,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="ProjectLayoutPanel.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>None</value>
@@ -433,7 +313,7 @@
     <value>3, 3</value>
   </data>
   <data name="PictureBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>400, 420</value>
+    <value>400, 400</value>
   </data>
   <data name="PictureBox.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
@@ -459,6 +339,27 @@
   <data name="ProjectPatternList.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
+  <data name="ProjectCommentTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ProjectCommentTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 15</value>
+  </data>
+  <data name="ProjectCommentTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>10, 10, 10, 10</value>
+  </data>
+  <data name="ProjectCommentTextBox.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ProjectCommentTextBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Horizontal</value>
+  </data>
+  <data name="ProjectCommentTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 190</value>
+  </data>
+  <data name="ProjectCommentTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
   <data name="&gt;&gt;ProjectCommentTextBox.Name" xml:space="preserve">
     <value>ProjectCommentTextBox</value>
   </data>
@@ -478,7 +379,7 @@
     <value>5, 187</value>
   </data>
   <data name="CommentBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 228</value>
+    <value>189, 208</value>
   </data>
   <data name="CommentBox.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -571,7 +472,7 @@
     <value>7</value>
   </data>
   <data name="ProjectPatternList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 420</value>
+    <value>199, 400</value>
   </data>
   <data name="ProjectPatternList.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -595,13 +496,13 @@
     <value>Fill</value>
   </data>
   <data name="ProjectLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 43</value>
+    <value>3, 475</value>
   </data>
   <data name="ProjectLayoutPanel.RowCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="ProjectLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>611, 426</value>
+    <value>611, 1</value>
   </data>
   <data name="ProjectLayoutPanel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -621,39 +522,6 @@
   <data name="ProjectLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="PictureBox" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="ProjectPatternList" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,205" /&gt;&lt;Rows Styles="Absolute,406" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
-  <data name="ProjectCommentTextBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ProjectCommentTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 15</value>
-  </data>
-  <data name="ProjectCommentTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>10, 10, 10, 10</value>
-  </data>
-  <data name="ProjectCommentTextBox.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="ProjectCommentTextBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Horizontal</value>
-  </data>
-  <data name="ProjectCommentTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 210</value>
-  </data>
-  <data name="ProjectCommentTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;ProjectCommentTextBox.Name" xml:space="preserve">
-    <value>ProjectCommentTextBox</value>
-  </data>
-  <data name="&gt;&gt;ProjectCommentTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ProjectCommentTextBox.Parent" xml:space="preserve">
-    <value>CommentBox</value>
-  </data>
-  <data name="&gt;&gt;ProjectCommentTextBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="MainLayoutPanel.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -665,6 +533,24 @@
   </data>
   <data name="ButtonLayoutPanel.ColumnCount" type="System.Int32, mscorlib">
     <value>4</value>
+  </data>
+  <data name="CloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
+  <data name="CloseButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CloseButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>534, 3</value>
+  </data>
+  <data name="CloseButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 28</value>
+  </data>
+  <data name="CloseButton.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="CloseButton.Text" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="&gt;&gt;CloseButton.Name" xml:space="preserve">
     <value>CloseButton</value>
@@ -678,6 +564,27 @@
   <data name="&gt;&gt;CloseButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="BackButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
+  <data name="BackButton.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BackButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BackButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>374, 3</value>
+  </data>
+  <data name="BackButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 28</value>
+  </data>
+  <data name="BackButton.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="BackButton.Text" xml:space="preserve">
+    <value>Back</value>
+  </data>
   <data name="&gt;&gt;BackButton.Name" xml:space="preserve">
     <value>BackButton</value>
   </data>
@@ -689,6 +596,24 @@
   </data>
   <data name="&gt;&gt;BackButton.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="OKButton.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="OKButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="OKButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>454, 3</value>
+  </data>
+  <data name="OKButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 28</value>
+  </data>
+  <data name="OKButton.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="OKButton.Text" xml:space="preserve">
+    <value>Forward</value>
   </data>
   <data name="&gt;&gt;OKButton.Name" xml:space="preserve">
     <value>OKButton</value>
@@ -784,100 +709,7 @@
     <value>0</value>
   </data>
   <data name="MainLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="DMLayoutPanel" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="ProjectLayoutPanel" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="ButtonLayoutPanel" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="textBox1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,40,Percent,0,Percent,100,Absolute,40" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="CloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom</value>
-  </data>
-  <data name="CloseButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>534, 3</value>
-  </data>
-  <data name="CloseButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 28</value>
-  </data>
-  <data name="CloseButton.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="CloseButton.Text" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="&gt;&gt;CloseButton.Name" xml:space="preserve">
-    <value>CloseButton</value>
-  </data>
-  <data name="&gt;&gt;CloseButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CloseButton.Parent" xml:space="preserve">
-    <value>ButtonLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;CloseButton.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="BackButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom</value>
-  </data>
-  <data name="BackButton.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="BackButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="BackButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>374, 3</value>
-  </data>
-  <data name="BackButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 28</value>
-  </data>
-  <data name="BackButton.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="BackButton.Text" xml:space="preserve">
-    <value>Back</value>
-  </data>
-  <data name="&gt;&gt;BackButton.Name" xml:space="preserve">
-    <value>BackButton</value>
-  </data>
-  <data name="&gt;&gt;BackButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;BackButton.Parent" xml:space="preserve">
-    <value>ButtonLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;BackButton.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="OKButton.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="OKButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="OKButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>454, 3</value>
-  </data>
-  <data name="OKButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 28</value>
-  </data>
-  <data name="OKButton.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="OKButton.Text" xml:space="preserve">
-    <value>Forward</value>
-  </data>
-  <data name="&gt;&gt;OKButton.Name" xml:space="preserve">
-    <value>OKButton</value>
-  </data>
-  <data name="&gt;&gt;OKButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;OKButton.Parent" xml:space="preserve">
-    <value>ButtonLayoutPanel</value>
-  </data>
-  <data name="&gt;&gt;OKButton.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="DMLayoutPanel" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="ProjectLayoutPanel" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="ButtonLayoutPanel" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="textBox1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,40,Percent,100,Percent,0,Absolute,40" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

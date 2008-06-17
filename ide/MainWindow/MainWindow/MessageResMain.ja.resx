@@ -184,7 +184,7 @@
     <value>進む</value>
   </data>
   <data name="ProjectWizardSelectDM" xml:space="preserve">
-    <value>使用するDMを選択してください</value>
+    <value>使用するDMのディレクトリを追加してください</value>
   </data>
   <data name="ProjectWizardSelectTemplete" xml:space="preserve">
     <value>テンプレートとするプロジェクトを選択してください</value>

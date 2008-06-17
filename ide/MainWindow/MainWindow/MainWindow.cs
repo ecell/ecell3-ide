@@ -1986,16 +1986,7 @@ namespace EcellLib.MainWindow
                 Project prj = win.SelectedProject;
                 LoadProject(prj.Name, prj.FilePath);
                 Project project = m_env.DataManager.CurrentProject;
-
-                foreach (List<string> list in project.DmDic.Values)
-                {
-                    List<string> temp = new List<string>();
-                    foreach (string dm in list)
-                        if (!win.ProjectDMListBox.Items.Contains(dm))
-                            temp.Add(dm);
-                    foreach (string dm in temp)
-                        list.Remove(dm);
-                }
+                m_env.DataManager.CreateProjectDir(prj.Name, win.DMList);
             }
         }
 

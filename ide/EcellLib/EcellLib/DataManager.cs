@@ -4439,7 +4439,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="prjID">Project ID.</param>
         /// <param name="dmList">A list of DM.</param>
-        private void CreateProjectDir(string prjID, List<string> dmList)
+        public void CreateProjectDir(string prjID, List<string> dmList)
         {
             SetDefaultDir();
             string baseDir = this.m_defaultDir + Constants.delimiterPath + prjID;
