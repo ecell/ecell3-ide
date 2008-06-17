@@ -168,11 +168,23 @@
   <data name="MenuItemBifurcationAnalysis" xml:space="preserve">
     <value>分岐解析(&amp;B)</value>
   </data>
+  <data name="MenuItemLoadAnalysisCond" xml:space="preserve">
+    <value>解析パラメータの読み込み...</value>
+  </data>
+  <data name="MenuItemLoadAnalysisResult" xml:space="preserve">
+    <value>解析結果の読み込み...</value>
+  </data>
   <data name="MenuItemParameterEstimation" xml:space="preserve">
     <value>パラメータ推定(&amp;P)</value>
   </data>
   <data name="MenuItemRobustAnalysis" xml:space="preserve">
     <value>ロバスト解析(&amp;R)</value>
+  </data>
+  <data name="MenuItemSaveAnalysisCond" xml:space="preserve">
+    <value>解析パラメータの保存...</value>
+  </data>
+  <data name="MenuItemSaveAnalysisResult" xml:space="preserve">
+    <value>解析結果の保存...</value>
   </data>
   <data name="MenuItemSensitivityAnalysis" xml:space="preserve">
     <value>感度解析(&amp;S)</value>
