@@ -458,4 +458,7 @@
   <data name="scriptEditorToolStripMenuItem.Text" xml:space="preserve">
     <value>スクリプトの編集 ...</value>
   </data>
+  <data name="projectWizardMenuItem.Text" xml:space="preserve">
+    <value>プロジェクトウィザード(&amp;Z)...</value>
+  </data>
 </root>

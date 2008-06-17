@@ -284,5 +284,14 @@ namespace EcellLib.MainWindow {
                 return ResourceManager.GetString("StartUpWindow", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Please select the initial setting. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string TitleInitialSet {
+            get {
+                return ResourceManager.GetString("TitleInitialSet", resourceCulture);
+            }
+        }
     }
 }

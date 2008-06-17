@@ -109,7 +109,8 @@ namespace EcellLib.MainWindow
 
             Util.InitialLanguage();
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            //Vistaでエラーになる
+            //Application.SetCompatibleTextRenderingDefault(false);
 
             ComponentResourceManager resources = new ComponentResourceManager(typeof(MainWindow));
             ApplicationEnvironment env = ApplicationEnvironment.GetInstance();

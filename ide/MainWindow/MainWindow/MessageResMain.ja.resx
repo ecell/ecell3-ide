@@ -192,4 +192,7 @@
   <data name="StartUpWindow" xml:space="preserve">
     <value>ウェブブラウザ</value>
   </data>
+  <data name="TitleInitialSet" xml:space="preserve">
+    <value>初期設定を選択してください</value>
+  </data>
 </root>

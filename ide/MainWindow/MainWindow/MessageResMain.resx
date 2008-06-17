@@ -192,4 +192,7 @@
   <data name="StartUpWindow" xml:space="preserve">
     <value>Web Browzer</value>
   </data>
+  <data name="TitleInitialSet" xml:space="preserve">
+    <value>Please select the initial setting.</value>
+  </data>
 </root>

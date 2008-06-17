@@ -67,6 +67,8 @@ namespace EcellLib.MainWindow
         /// </summary>
         private void LoadSetting(bool isInitial)
         {
+            if (isInitial)
+                this.Text = MessageResMain.TitleInitialSet;
             string dirStr = Util.GetWindowSettingDir();
             if (dirStr == null)
             {
