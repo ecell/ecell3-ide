@@ -258,7 +258,51 @@ namespace EcellLib.EntityListWindow
         /// <param name="type">Type of object added to selected objects.</param>
         public override void AddSelect(string modelID, string key, string type)
         {
-            ChangeObject(modelID, key, type);
+            TreeNode current = GetTargetModel(modelID);
+            if (current == null) return;
+            if (key == "")
+            {
+                m_form.treeView1.SelectNode(current, true, true);
+                return;
+            }
+            TreeNode target = GetTargetTreeNode(current, key, type);
+            if (target != null)
+            {
+                m_form.treeView1.SelectNodes(target);
+                m_targetNode = target;
+                return;
+            }
+        }
+
+        /// <summary>
+        /// The event process when user remove object from the selected objects.
+        /// </summary>
+        /// <param name="modelID">ModelID of object removed from seleted objects.</param>
+        /// <param name="key">ID of object removed from selected objects.</param>
+        /// <param name="type">Type of object removed from selected objects.</param>
+        public override void RemoveSelect(string modelID, string key, string type)
+        {
+            TreeNode current = GetTargetModel(modelID);
+            if (current == null) return;
+            if (key == "")
+            {
+                m_form.treeView1.DeselectNode(current);
+                return;
+            }
+            TreeNode target = GetTargetTreeNode(current, key, type);
+            if (target != null)
+            {
+                m_form.treeView1.DeselectNode(target);
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Reset all selected objects.
+        /// </summary>
+        public override void ResetSelect()
+        {
+            m_form.treeView1.ClearSelNode();
         }
 
         /// <summary>
@@ -883,16 +927,16 @@ namespace EcellLib.EntityListWindow
             if (current == null) return;
             if (key == "")
             {
-                m_form.treeView1.SelectedNode = current;
+                m_form.treeView1.SelectNode(current, true, true);
                 return;
             }
             TreeNode target = GetTargetTreeNode(current, key, type);
-            if (target == null)
+            if (target != null)
             {
-                m_form.treeView1.SelectedNode = current;
+                m_form.treeView1.SelectNode(target, true, true);
+                m_targetNode = target;
                 return;
             }
-            m_form.treeView1.SelectedNode = target;
         }
 
         /// <summary>
@@ -901,7 +945,7 @@ namespace EcellLib.EntityListWindow
         /// <returns></returns>
         internal TreeNode GetSelectedNode()
         {
-            return m_form.treeView1.SelectedNode;
+            return m_targetNode;
         }
 
         /// <summary>
@@ -909,7 +953,7 @@ namespace EcellLib.EntityListWindow
         /// </summary>
         internal void SetSelectedNode()
         {
-            TreeNode node = m_form.treeView1.SelectedNode;
+            TreeNode node = m_targetNode;
             TagData tag = (TagData)node.Tag;
             m_pManager.SelectChanged(tag.m_modelID, tag.m_key, tag.m_type);
         }
@@ -950,7 +994,8 @@ namespace EcellLib.EntityListWindow
                 TagData tag = (TagData)t.Tag;
                 if (tag.m_key.Contains(text))
                 {
-                    m_form.treeView1.SelectedNode = t;
+                    m_targetNode = t;
+                    m_form.treeView1.SelectNode(t, false, true);
                     return true;
                 }
                 result = SearchNode(t, text);
@@ -961,7 +1006,8 @@ namespace EcellLib.EntityListWindow
                 TagData tag = (TagData)node.NextNode.Tag;
                 if (tag.m_key.Contains(text))
                 {
-                    m_form.treeView1.SelectedNode = node.NextNode;
+                    m_targetNode = node.NextNode;
+                    m_form.treeView1.SelectNode(node.NextNode, false, true);
                     return true;
                 }
                 result = SearchNode(node.NextNode, text);
@@ -992,7 +1038,8 @@ namespace EcellLib.EntityListWindow
                 TagData tag = (TagData)parentNode.Tag;
                 if (tag != null && tag.m_key.Contains(text))
                 {
-                    m_form.treeView1.SelectedNode = parentNode;
+                    m_targetNode = parentNode;
+                    m_form.treeView1.SelectNode(parentNode, false, true);
                     return true;
                 }
                 return SearchNode(parentNode, text);
@@ -1453,7 +1500,7 @@ namespace EcellLib.EntityListWindow
 
         private void TreeViewNewDm(object sender, EventArgs e)
         {
-            TreeNode node = m_form.treeView1.SelectedNode;
+            TreeNode node = m_targetNode;
             if (node == null) return;
             string dmDir = m_env.DataManager.GetDMDir();
             InputName ind = new InputName(dmDir, node);
@@ -1525,7 +1572,7 @@ namespace EcellLib.EntityListWindow
         private void NodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeView t = (TreeView)sender;
-            TreeNode node = t.SelectedNode;
+            TreeNode node = m_targetNode;
             if (node == null) return;
             TagData tag = (TagData)node.Tag;
             if (tag == null) return;
@@ -1587,12 +1634,12 @@ namespace EcellLib.EntityListWindow
                     return;
                 }
                 m_targetNode = node;
-                m_form.treeView1.SelectedNode = node;
                 m_form.treeView1.ContextMenu = m_dmsMenu;
 
                 return;
             }
             if (tag.m_type == Constants.xpathParameters) return;
+            
             if (e.Button == MouseButtons.Right)
             {
                 if (m_type != ProjectStatus.Loaded && m_type != ProjectStatus.Stepping)
@@ -1669,14 +1716,6 @@ namespace EcellLib.EntityListWindow
                 else
                 {
                     m_form.treeView1.ContextMenu = null;
-                }
-            }
-            else if (e.Button == MouseButtons.Left)
-            {
-                if (tag.m_type != Constants.xpathProject)
-                {
-                    m_pManager.SelectChanged(tag.m_modelID, tag.m_key, tag.m_type);
-                    m_form.treeView1.SelectedNode = node;
                 }
             }
         }

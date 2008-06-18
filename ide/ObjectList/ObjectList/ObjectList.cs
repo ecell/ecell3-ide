@@ -174,7 +174,7 @@ namespace EcellLib.ObjectList
 
             foreach (string id in m_TabDict.Keys)
             {
-                m_TabDict[id].AddSelection(modelID, key, type);
+                m_TabDict[id].RemoveSelection(modelID, key, type);
             }
         }
 

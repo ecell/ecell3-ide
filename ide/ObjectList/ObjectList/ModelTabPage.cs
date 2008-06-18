@@ -885,7 +885,17 @@ namespace EcellLib.ObjectList
             EcellObject obj = m_gridView.Rows[ind].Tag as EcellObject;
             if (obj == null) return;
             m_isSelected = true;
-            m_owner.PluginManager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
+            if (m_gridView.Rows[ind].Selected)
+            {
+                if (m_gridView.SelectedRows.Count <= 1)
+                    m_owner.PluginManager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
+                else
+                    m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+            }
+            else
+            {
+                m_owner.PluginManager.RemoveSelect(obj.ModelID, obj.Key, obj.Type);                                
+            }
             m_isSelected = false;
         }
 
