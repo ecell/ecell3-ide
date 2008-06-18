@@ -198,6 +198,7 @@ namespace EcellLib.ObjectList
             m_gridView.Dock = DockStyle.Fill;
             m_gridView.MultiSelect = true;
             m_gridView.AllowUserToAddRows = false;
+            m_gridView.AllowUserToResizeRows = false;
             m_gridView.RowHeadersVisible = false;
             m_gridView.ColumnHeadersVisible = false;
             m_gridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;

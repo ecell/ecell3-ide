@@ -108,6 +108,7 @@ namespace EcellLib.ObjectList2
             m_gridView = new DataGridView();
             m_gridView.Dock = DockStyle.Fill;
             m_gridView.MultiSelect = true;
+            m_gridView.AllowUserToResizeRows = false;
             m_gridView.AllowUserToAddRows = false;
             m_gridView.RowHeadersVisible = false;
             m_gridView.ColumnHeadersVisible = false;

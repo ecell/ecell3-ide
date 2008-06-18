@@ -298,7 +298,7 @@ namespace EcellLib.PathwayWindow
             m_animCon = new AnimationControl(this);
             // Preparing Interfaces
             m_pathwayView = new PathwayView(this);
-            m_overView = new OverView(this);
+            //m_overView = new OverView(this);
             m_layerView = new LayerView(this);
             m_toolBox = new ToolBox(this);
         }
@@ -412,6 +412,19 @@ namespace EcellLib.PathwayWindow
         {
             // Load Object Settings.
             EcellSerializer.LoadFromLEML(this, fileName);
+        }
+
+        /// <summary>
+        /// Get DockContents of PathwayWindow.
+        /// </summary>
+        /// <returns></returns>
+        internal IEnumerable<EcellDockContent> GetDockContents()
+        {
+            return new EcellDockContent[] {
+                m_pathwayView,
+                m_layerView,
+                m_toolBox,
+            };
         }
 
         /// <summary>

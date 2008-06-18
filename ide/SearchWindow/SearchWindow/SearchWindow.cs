@@ -164,7 +164,7 @@ namespace EcellLib.SearchWindow
             button1.Click += new System.EventHandler(this.Search);
             list.Items.Add(button1);
 
-            list.Location = new Point(300, 0);
+            list.Location = new Point(400, 0);
             return list;
         }
 

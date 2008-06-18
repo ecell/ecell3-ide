@@ -75,7 +75,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             m_area = new PDisplayedArea();
 
             m_transparentNode = PPath.CreateRectangle(-500, -500, 1300, 1300);
-            m_transparentNode.Brush = new SolidBrush(Color.FromArgb(0, Color.White));
+            m_transparentNode.Brush = new SolidBrush(Color.Transparent);
             m_transparentNode.Pickable = true;
 
             this.AnimatingRenderQuality = RenderQuality.HighQuality;

@@ -130,6 +130,7 @@ namespace EcellLib.PropertyWindow
             m_dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             m_dgv.AllowUserToAddRows = false;
             m_dgv.AllowUserToDeleteRows = false;
+            m_dgv.AllowUserToResizeRows = false;
             m_dgv.RowHeadersVisible = true;
             m_dgv.RowTemplate.Height = 21;
 
