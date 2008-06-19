@@ -314,12 +314,14 @@ namespace EcellLib.PathwayWindow
             // Load Model.
             try
             {
+                string mes = MessageResPathway.MessageLoadModel;
                 // Check New Model.
                 string modelId = CheckNewModel(data);
                 bool isFirst = (modelId != null);
                 int allcount = data.Count;
                 int count = 0;
-                Progress(100, 0);
+                if (isFirst)
+                    Progress(mes, 100, 0);
                 // Load each EcellObject onto the canvas.
                 foreach (EcellObject obj in data)
                 {
@@ -328,7 +330,7 @@ namespace EcellLib.PathwayWindow
                     {
                         if (isFirst)
                         {
-                            Progress(100, count * 50 / allcount);
+                            Progress(mes, 100, count * 50 / allcount);
                             count++;
                         }
                         continue;
@@ -337,15 +339,16 @@ namespace EcellLib.PathwayWindow
                         DataAdd(node, true, isFirst);
                     if (isFirst)
                     {
-                        Progress(100, count * 50 / allcount);
+                        Progress(mes, 100, count * 50 / allcount);
                         count++;
                     }
                 }
                 if (isFirst)
-                    Progress(100, 50);
+                    Progress(mes, 100, 50);
                 // Set layout.
                 SetLayout(data, modelId, isFirst);
-                Progress(100, 100);
+                if (isFirst)
+                    Progress(mes, 100, 100);
             }
             catch (Exception e)
             {
@@ -393,14 +396,12 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Set the percent of progress.
         /// </summary>
+        /// <param name="mes">the message of progress.</param>
         /// <param name="max">the max progress of process.</param>
         /// <param name="percent">the percent of progress.</param>
-        public void Progress(int max, int percent)
+        public void Progress(string mes, int max, int percent)
         {
-            if (percent == 100)
-                percent = 0;
-
-            m_window.NotifyProgressChange(max, percent);
+            m_window.NotifyProgressChange(mes, max, percent);
         }
 
         /// <summary>
@@ -1403,12 +1404,13 @@ namespace EcellLib.PathwayWindow
             int i = 0;
             int allcount = nodeList.Count;
             int count = 0;
-            Progress(100, 50);
+            string mes = MessageResPathway.MessageLayout;
+            Progress(mes, 100, 50);
             foreach (EcellObject node in nodeList)
             {
                 if (!node.isFixed)
                 {
-                    Progress(100, count * 50 / allcount + 50);
+                    Progress(mes, 100, count * 50 / allcount + 50);
                     count++;
                     continue;
                 }
@@ -1430,10 +1432,10 @@ namespace EcellLib.PathwayWindow
                     else
                         NotifySetPosition(node);
                 }
-                Progress(100, count * 50 / allcount + 50);
+                Progress(mes, 100, count * 50 / allcount + 50);
                 count++;
             }
-            Progress(100, 100);
+            Progress(mes, 100, 100);
         }
 
         #endregion

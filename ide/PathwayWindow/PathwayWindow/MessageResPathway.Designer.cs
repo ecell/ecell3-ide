@@ -700,6 +700,24 @@ namespace EcellLib.PathwayWindow {
         }
         
         /// <summary>
+        ///   Now layout ... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MessageLayout {
+            get {
+                return ResourceManager.GetString("MessageLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Now loading model ... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MessageLoadModel {
+            get {
+                return ResourceManager.GetString("MessageLoadModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Create constant references. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ToolButtonAddConstant {

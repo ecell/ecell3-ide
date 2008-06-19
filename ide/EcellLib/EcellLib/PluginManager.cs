@@ -87,6 +87,7 @@ namespace EcellLib
         /// The progress bar.
         /// </summary>
         private ToolStripProgressBar m_progress;
+        private ToolStripLabel m_label;
         /// <summary>
         /// m_printBase (set plugin for print)
         /// </summary>
@@ -167,6 +168,7 @@ namespace EcellLib
             m_imageList.Images.SetKeyName(6, Constants.xpathParameters);
 
             m_progress = new ToolStripProgressBar();
+            m_label = new ToolStripLabel();
         }
 
         /// <summary>
@@ -222,6 +224,14 @@ namespace EcellLib
         }
 
         /// <summary>
+        /// get the label of progress bar.
+        /// </summary>
+        public ToolStripLabel Label
+        {
+            get { return this.m_label; }
+        }
+
+        /// <summary>
         /// set data that the plugin focus on.
         /// </summary>
         /// <param name="modelID">the model ID of data that plugin focus on.</param>
@@ -252,14 +262,22 @@ namespace EcellLib
         /// <summary>
         /// Set the percent of process at ProgressBar.
         /// </summary>
+        /// <param name="mes">the progress message.</param>
         /// <param name="max">the max progress.</param>
         /// <param name="percent">the percent of process.</param>
-        public void Progress(int max, int percent)
+        public void Progress(string mes, int max, int percent)
         {
             m_progress.Maximum = max;
             if (percent == max)
-                percent = 0;
-            m_progress.Value = percent;
+            {
+                m_label.Text = "";
+                m_progress.Value = 0;
+            }
+            else
+            {
+                m_label.Text = mes;
+                m_progress.Value = percent;
+            }
             Application.DoEvents();
         }
 

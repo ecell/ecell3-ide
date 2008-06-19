@@ -428,7 +428,8 @@ namespace EcellLib.MainWindow
         /// <param name="e"></param>
         private void webBrowser_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
         {
-            this.m_window.NotifyProgressChanged((int)e.MaximumProgress,
+            string mes = MessageResMain.MessageWebBrowse;
+            this.m_window.NotifyProgressChanged(mes, (int)e.MaximumProgress,
                                             (int)e.CurrentProgress);
         }
         /// <summary>

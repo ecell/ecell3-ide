@@ -171,6 +171,9 @@
   <data name="MenuSaveZip" xml:space="preserve">
     <value>ZIP圧縮</value>
   </data>
+  <data name="MessageWebBrowse" xml:space="preserve">
+    <value>接続中...</value>
+  </data>
   <data name="NameConc" xml:space="preserve">
     <value>並列数</value>
   </data>

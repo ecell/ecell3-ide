@@ -375,4 +375,10 @@
   <data name="CanvasMenuAlias" xml:space="preserve">
     <value>Create alias</value>
   </data>
+  <data name="MessageLayout" xml:space="preserve">
+    <value>Now layout ...</value>
+  </data>
+  <data name="MessageLoadModel" xml:space="preserve">
+    <value>Now loading model ...</value>
+  </data>
 </root>

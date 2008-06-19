@@ -375,4 +375,10 @@
   <data name="CanvasMenuAlias" xml:space="preserve">
     <value>エイリアス作成</value>
   </data>
+  <data name="MessageLayout" xml:space="preserve">
+    <value>レイアウト中...</value>
+  </data>
+  <data name="MessageLoadModel" xml:space="preserve">
+    <value>モデルのロード中...</value>
+  </data>
 </root>

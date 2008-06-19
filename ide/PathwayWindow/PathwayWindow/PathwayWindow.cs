@@ -275,11 +275,12 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Inform the progress of process.
         /// </summary>
+        /// <param name="mes">the message of progress.</param>
         /// <param name="max">the max progress.</param>
         /// <param name="percent">the percent of progress.</param>
-        public void NotifyProgressChange(int max, int percent)
+        public void NotifyProgressChange(string mes, int max, int percent)
         {
-            m_env.PluginManager.Progress(max, percent);
+            m_env.PluginManager.Progress(mes, max, percent);
         }
         #endregion
 

@@ -171,6 +171,9 @@
   <data name="MenuSaveZip" xml:space="preserve">
     <value>Compress to ZIP.</value>
   </data>
+  <data name="MessageWebBrowse" xml:space="preserve">
+    <value>Now connect ...</value>
+  </data>
   <data name="NameConc" xml:space="preserve">
     <value>The concurrency</value>
   </data>
