@@ -424,6 +424,7 @@ namespace EcellLib.PathwayWindow
             return new EcellDockContent[] {
                 m_pathwayView,
                 m_layerView,
+                //m_overView,
                 m_toolBox,
             };
         }
@@ -627,6 +628,17 @@ namespace EcellLib.PathwayWindow
             if (!m_canvas.ModelID.Equals(modelID))
                 return;
             m_canvas.RemoveSelect(key, type);
+        }
+
+        /// <summary>
+        /// The event process when user reset select.
+        /// </summary>
+        public void ResetSelect()
+        {
+            if (m_canvas == null)
+                return;
+            m_canvas.ResetSelect();
+
         }
 
         /// <summary>

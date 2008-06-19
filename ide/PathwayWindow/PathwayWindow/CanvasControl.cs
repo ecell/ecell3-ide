@@ -1230,7 +1230,7 @@ namespace EcellLib.PathwayWindow
             if (obj == null)
                 return;
 
-            ResetSelectedObjects();
+            ResetSelect();
 
             if (obj is PPathwaySystem)
             {
@@ -1288,7 +1288,7 @@ namespace EcellLib.PathwayWindow
 
             if (type.Equals(EcellObject.SYSTEM))
             {
-                ResetSelectedObjects();
+                ResetSelect();
                 AddSelectedSystem((PPathwaySystem)obj);
             }
             if (type.Equals(EcellObject.PROCESS) || type.Equals(EcellObject.VARIABLE) || type.Equals(EcellObject.TEXT))
@@ -1314,7 +1314,7 @@ namespace EcellLib.PathwayWindow
                 m_focusNode = null;
             if (type.Equals(EcellObject.SYSTEM))
             {
-                ResetSelectedObjects();
+                ResetSelect();
             }
             if (type.Equals(EcellObject.PROCESS) || type.Equals(EcellObject.VARIABLE) || type.Equals(EcellObject.TEXT))
             {
@@ -1339,7 +1339,7 @@ namespace EcellLib.PathwayWindow
             if (obj == null)
                 return;
             // Set select change.
-            ResetSelectedObjects();
+            ResetSelect();
             RectangleF centerBounds = new RectangleF();
             switch (type)
             {
@@ -1468,7 +1468,15 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// reset the selected object(system and node).
         /// </summary>
-        public void ResetSelectedObjects()
+        public void NotifyResetSelect()
+        {
+            m_con.Window.NotifyResetSelect();
+        }
+
+        /// <summary>
+        /// reset the selected object(system and node).
+        /// </summary>
+        public void ResetSelect()
         {
             m_focusNode = null;
             ResetSelectedSystem();

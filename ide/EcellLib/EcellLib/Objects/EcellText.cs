@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 
 namespace EcellLib.Objects
 {
@@ -13,6 +14,10 @@ namespace EcellLib.Objects
         /// Comment. The reserved name.
         /// </summary>
         public const string COMMENT = "Comment";
+        /// <summary>
+        /// Comment. The reserved name.
+        /// </summary>
+        public const string ALIGN = "Align";
 
         /// <summary>
         /// Constructor with initial parameter.
@@ -49,7 +54,35 @@ namespace EcellLib.Objects
                     AddEcellValue(COMMENT, new EcellValue(value));
             }
         }
+        /// <summary>
+        /// get /set the activity.
+        /// </summary>
+        public StringAlignment Alignment
+        {
+            get
+            {
+                if (IsEcellValueExists(ALIGN))
+                    return (StringAlignment)GetEcellValue(ALIGN).CastToInt();
+                else
+                    return StringAlignment.Near;
+            }
+            set
+            {
+                if (IsEcellValueExists(ALIGN))
+                    GetEcellValue(ALIGN).Value = (int)value;
+                else
+                    AddEcellValue(ALIGN, new EcellValue((int)value));
+            }
+        }
         #endregion
 
     }
+    public enum TextAlign
+    {
+        Left = 0,
+        Center = 1,
+        Right = 2,
+
+    }
+
 }

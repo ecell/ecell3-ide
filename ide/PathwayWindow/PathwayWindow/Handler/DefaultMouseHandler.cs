@@ -91,7 +91,7 @@ namespace EcellLib.PathwayWindow.Handler
 
             m_isDragged = true;
             CanvasControl canvas = m_con.Canvas;
-            canvas.ResetSelectedObjects();
+            canvas.NotifyResetSelect();
             if (e.Button == MouseButtons.Left)
             {
                 m_selectedPath = new PPath();

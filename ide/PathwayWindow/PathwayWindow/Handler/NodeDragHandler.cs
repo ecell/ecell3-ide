@@ -346,7 +346,7 @@ namespace EcellLib.PathwayWindow.Handler
                     true,
                     (i == nodeList.Count));
             }
-            m_canvas.ResetSelectedObjects();
+            m_canvas.NotifyResetSelect();
         }
 
         /// <summary>
@@ -422,7 +422,7 @@ namespace EcellLib.PathwayWindow.Handler
                 system,
                 true,
                 true);
-            m_canvas.ResetSelectedObjects();
+            m_canvas.NotifyResetSelect();
         }
     }
 }

@@ -98,7 +98,7 @@ namespace EcellLib.PathwayWindow.Handler
             m_obj.ResetPosition();
             ValidateSystem();
             UpdateResizeHandle();
-            m_canvas.ResetSelectedObjects();
+            m_canvas.NotifyResetSelect();
             ClearSurroundState();
         }
 
@@ -253,7 +253,7 @@ namespace EcellLib.PathwayWindow.Handler
 
             // Fire DataChanged for child in system.!
             UpdateResizeHandle();
-            m_canvas.ResetSelectedObjects();
+            m_canvas.NotifyResetSelect();
             ClearSurroundState();
 
             base.ResizeHandle_MouseUp(sender, e);

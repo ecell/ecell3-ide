@@ -243,7 +243,7 @@ namespace EcellLib.PathwayWindow
 
         }
         /// <summary>
-        /// Inform the selected EcellObject in PathwayEditor to PluginManager.
+        /// Inform the unselected EcellObject in PathwayEditor to PluginManager.
         /// </summary>
         /// <param name="modelID">the modelID of selected object.</param>
         /// <param name="key">the key of selected object.</param>
@@ -261,6 +261,13 @@ namespace EcellLib.PathwayWindow
         public void NotifyRemoveSelect(string modelID, string key, string type)
         {
             m_pManager.RemoveSelect(modelID, key, type);
+        }
+        /// <summary>
+        /// Inform the ResetSelect() to PluginManager
+        /// </summary>
+        public void NotifyResetSelect()
+        {
+            m_pManager.ResetSelect();
         }
         /// <summary>
         /// Inform the plugin message.
@@ -463,6 +470,14 @@ namespace EcellLib.PathwayWindow
         public override void RemoveSelect(string modelID, string key, string type)
         {
             m_con.RemoveSelect(modelID, key, type);
+        }
+
+        /// <summary>
+        ///  The event process when user reset select.
+        /// </summary>
+        public override void ResetSelect()
+        {
+            m_con.ResetSelect();
         }
         #endregion
     }

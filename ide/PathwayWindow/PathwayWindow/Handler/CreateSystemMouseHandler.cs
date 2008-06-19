@@ -194,7 +194,7 @@ namespace EcellLib.PathwayWindow.Handler
             }
             
             PNodeList newlySelectedList = new PNodeList();
-            m_canvas.ResetSelectedObjects();
+            m_canvas.NotifyResetSelect();
             foreach (PLayer layer in m_canvas.Layers.Values)
             {
                 PNodeList list = new PNodeList();
@@ -260,7 +260,7 @@ namespace EcellLib.PathwayWindow.Handler
             }
             else
             {
-                m_canvas.ResetSelectedObjects();
+                m_canvas.NotifyResetSelect();
             }
             m_startPoint = PointF.Empty;
         }

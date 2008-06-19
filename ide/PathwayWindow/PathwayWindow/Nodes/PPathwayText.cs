@@ -71,19 +71,21 @@ namespace EcellLib.PathwayWindow.Nodes
             get { return m_ecellObj; }
             set
             {
-                this.m_name = value.Name;
-                base.m_pText.Text = ((EcellText)value).Comment;
-                if (value.Width != 0 && value.Height != 0)
+                EcellText text = (EcellText)value;
+                this.m_name = text.Name;
+                base.m_pText.Text = text.Comment;
+                if (text.Width != 0 && text.Height != 0)
                 {
-                    base.Width = value.Width;
-                    base.Height = value.Height;
+                    base.Width = text.Width;
+                    base.Height = text.Height;
                 }
                 else
                 {
                     base.Width = m_pText.Width;
                     base.Height = m_pText.Height;
                 }
-                base.EcellObject = value;
+                m_pText.TextAlignment = text.Alignment;
+                base.EcellObject = text;
                 RefreshView();
             }
         }
