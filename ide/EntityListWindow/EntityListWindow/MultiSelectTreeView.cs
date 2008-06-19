@@ -140,14 +140,18 @@ namespace EcellLib.EntityListWindow
         /// Set the selected node.
         /// </summary>
         /// <param name="tn">the selected node.</param>
-        /// <param name="isChanged">the flag whether DataChanged is executed.</param>
+        /// <param name="isChanged">the flag whether SelectChanged is executed.</param>
         /// <param name="isScroll">the flag whether EnsureVisible is executed.</param>
         public void SelectNode(TreeNode tn, bool isChanged, bool isScroll)
         {
             if (m_isUpdate) return;
             ClearSelNode();
-            //            this.SelectedNode = tn;
-            SelectNodes(tn);
+            if (!this.SelNodes.Contains(tn))
+                this.SelNodes.Add(tn);
+
+            this.SelectedNode = null;
+            HighLight(tn);
+
             if (isScroll) tn.EnsureVisible();
             if (isChanged) return;
             if (tn.Tag != null)
@@ -230,7 +234,17 @@ namespace EcellLib.EntityListWindow
         /// <param name="tn">the selected node.</param>
         private void BeforeSelectMethod(TreeNode tn)
         {
-            if ((Control.ModifierKeys & Keys.Control) != 0)
+            bool isSystem = false;
+            if (tn.Tag != null)
+            {
+                TagData td = tn.Tag as TagData;
+                if (td != null)
+                {
+                    if (td.m_type.Equals(Constants.xpathSystem))
+                        isSystem = true;
+                }
+            }
+            if ((Control.ModifierKeys & Keys.Control) != 0 && !isSystem)
             {
                 if (IsTreeNodeSelected(tn))
                 {

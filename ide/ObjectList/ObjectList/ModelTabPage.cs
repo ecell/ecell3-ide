@@ -671,7 +671,8 @@ namespace EcellLib.ObjectList
             if (!m_gridView.Rows[ind].Visible || m_gridView.Rows[ind].Frozen)
                 return;
             m_gridView.Rows[ind].Selected = true;
-            m_gridView.FirstDisplayedScrollingRowIndex = ind;
+            if (!m_isSelected)
+                m_gridView.FirstDisplayedScrollingRowIndex = ind;
         }
 
         /// <summary>
@@ -688,7 +689,8 @@ namespace EcellLib.ObjectList
             if (!m_gridView.Rows[ind].Visible || m_gridView.Rows[ind].Frozen) 
                 return;
             m_gridView.Rows[ind].Selected = false;
-            m_gridView.FirstDisplayedScrollingRowIndex = ind;
+            if (!m_isSelected)
+                m_gridView.FirstDisplayedScrollingRowIndex = ind;
         }
 
         /// <summary>
@@ -890,7 +892,18 @@ namespace EcellLib.ObjectList
                 if (m_gridView.SelectedRows.Count <= 1)
                     m_owner.PluginManager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
                 else
-                    m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                {
+                    if (obj.Type.Equals(Constants.xpathSystem))
+                    {
+                        m_gridView.ClearSelection();
+                        m_gridView.Rows[ind].Selected = true;
+                        m_owner.PluginManager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
+                    }
+                    else
+                    {
+                        m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                    }
+                }
             }
             else
             {
