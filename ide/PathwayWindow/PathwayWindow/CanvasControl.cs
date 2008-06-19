@@ -66,7 +66,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Least canvas size when a node is focused.
         /// </summary>
-        private const float LEAST_FOCUS_SIZE = 500f;
+        private const float LEAST_FOCUS_SIZE = 560f;
 
         /// <summary>
         /// Duration for camera centering animation when a node is selected.
@@ -1350,7 +1350,7 @@ namespace EcellLib.PathwayWindow
                 case EcellObject.VARIABLE:
                 case EcellObject.PROCESS:
                 case EcellObject.TEXT:
-                    centerBounds = PathUtil.GetFocusBound(obj.FullBounds, LEAST_FOCUS_SIZE);
+                    centerBounds = PathUtil.GetFocusBound(obj.CenterPointF, m_pCanvas.Camera.ViewBounds);
                     AddSelectedNode(obj);
                     break;
             }

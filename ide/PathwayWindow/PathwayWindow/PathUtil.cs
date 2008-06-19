@@ -60,13 +60,15 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Get bounds to focus on a object.
         /// </summary>
+        /// <param name="centerPos"></param>
+        /// <param name="focusRect"></param>
         /// <returns></returns>
-        public static RectangleF GetFocusBound(RectangleF focusObj, float size)
+        public static RectangleF GetFocusBound(PointF centerPos, RectangleF focusRect)
         {
-            float centerX = focusObj.X + focusObj.Width / 2f;
-            float centerY = focusObj.Y + focusObj.Height / 2f;
+            float x = centerPos.X - focusRect.Width / 2f;
+            float y = centerPos.Y - focusRect.Height / 2f;
 
-            return new RectangleF(centerX - size / 2f, centerY - size / 2f, size, size);
+            return new RectangleF(x, y, focusRect.Width, focusRect.Height);
         }
 
         /// <summary>
