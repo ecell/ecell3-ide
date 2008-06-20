@@ -495,7 +495,7 @@ namespace EcellLib.MainWindow
             {
                 string tempdir = Path.Combine(sourceDir, dir);
                 if (Directory.Exists(tempdir))
-                    Util.CopyDirectory(tempdir, Path.Combine(targetDir, dir));
+                    CopyDirectory(tempdir, Path.Combine(targetDir, dir));
             }
             string[] files = Directory.GetFiles(sourceDir, "project.*");
             foreach (string file in files)
@@ -550,7 +550,7 @@ namespace EcellLib.MainWindow
             {
                 case FileType.Project:
                 case FileType.Folder:
-                    Util.CopyDirectory(path, targetPath);
+                    CopyDirectory(path, targetPath);
                     break;
                 case FileType.Model:
                     File.Copy(path, targetPath, true);
@@ -589,7 +589,7 @@ namespace EcellLib.MainWindow
             {
                 case FileType.Project:
                 case FileType.Folder:
-                    Util.CopyDirectory(path, targetPath);
+                    CopyDirectory(path, targetPath);
                     break;
                 case FileType.Model:
                     File.Copy(path, targetPath, true);
@@ -630,6 +630,53 @@ namespace EcellLib.MainWindow
         public static void CopyFile(string filename, string targetDir)
         {
             File.Copy(filename, Path.Combine(targetDir, Path.GetFileName(filename)), true);
+        }
+
+        /// <summary>
+        /// Copy Directory.
+        /// </summary>
+        /// <param name="sourceDir"></param>
+        /// <param name="targetDir"></param>
+        public static void CopyDirectory(string sourceDir, string targetDir)
+        {
+            if (sourceDir.Equals(targetDir))
+                targetDir = GetNewDir(targetDir);
+            else if (Directory.Exists(targetDir))
+                targetDir = GetNewDir(targetDir);
+
+            // List up directories and files.
+            string[] dirs = System.IO.Directory.GetDirectories(sourceDir, "*.*", SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(sourceDir, "*.*", SearchOption.AllDirectories);
+
+            // Create directory if necessary.
+            if (!Directory.Exists(targetDir))
+            {
+                Directory.CreateDirectory(targetDir);
+                File.SetAttributes(targetDir, File.GetAttributes(sourceDir));
+            }
+            // Copy directories.
+            foreach (string dir in dirs)
+                Directory.CreateDirectory(dir.Replace(sourceDir, targetDir));
+            // Copy Files.
+            foreach (string file in files)
+                File.Copy(file, file.Replace(sourceDir, targetDir));
+        }
+
+        /// <summary>
+        /// Get New Directory name.
+        /// </summary>
+        /// <param name="targetDir"></param>
+        /// <returns></returns>
+        public static string GetNewDir(string targetDir)
+        {
+            int revNo = 0;
+            string newDir = "";
+            do
+            {
+                revNo++;
+                newDir = targetDir + revNo.ToString();
+            } while (Directory.Exists(newDir));
+            return newDir;
         }
 
         #endregion
