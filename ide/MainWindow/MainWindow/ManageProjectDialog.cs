@@ -543,7 +543,7 @@ namespace EcellLib.MainWindow
             // Set targetPath.
             string targetPath = Path.Combine(m_selectedNode.FilePath, Path.GetFileName(path));
             if (path.Equals(targetPath) || Directory.Exists(targetPath))
-                targetPath = Util.GetNewDir(targetPath);
+                targetPath = GetNewDir(targetPath);
 
             // Copy Directory / File.
             switch (type)
@@ -582,7 +582,7 @@ namespace EcellLib.MainWindow
             // Set targetPath.
             string targetPath = Path.Combine(m_selectedNode.FilePath, Path.GetFileName(path));
             if (path.Equals(targetPath) || Directory.Exists(targetPath))
-                targetPath = Util.GetNewDir(targetPath);
+                targetPath = GetNewDir(targetPath);
 
             // Copy Directory / File.
             switch (type)
