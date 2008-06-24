@@ -100,6 +100,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
+    <Reference Include="ZedGraph, Version=5.1.4.31904, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\ZedGraph.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DistributedEnvSetupWindow.cs">
