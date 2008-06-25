@@ -29,6 +29,7 @@
 //
 
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -51,9 +52,15 @@ namespace EcellLib.ScriptWindow
     {
         #region Fields
         private PythonEngine m_engine;
+        private MemoryStream m_consoleOutput;
+        private Font m_boldFont;
+        private Font m_defaultFont;
+        private Color m_defaultTextColor;
+        private StringBuilder m_statementBuffer;
+        private bool m_interactionContinued;
         #endregion
 
-        #region Construcotor
+        #region Constructor
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -61,20 +68,40 @@ namespace EcellLib.ScriptWindow
         {
             base.m_isSavable = true;
             InitializeComponent();
+            this.SWMessageText.Font = this.SWCommandText.Font = new Font(
+                FontFamily.GenericMonospace, 9.0f
+            );
             this.Name = "ScriptWindow";
             this.Text = MessageResScript.ScriptWindow;
             this.TabText = this.Text;
 
-            EngineOptions options = new EngineOptions();
-            options.ShowClrExceptions = true;
-            options.ClrDebuggingEnabled = true;
-            options.ExceptionDetail = false;            
-            m_engine = new PythonEngine(options);
-            m_engine.AddToPath(Directory.GetCurrentDirectory());
+            SWCommandText.KeyPress += delegate(object o, KeyPressEventArgs args) {
+                if (args.KeyChar == '\r')
+                {
+                    args.Handled = true;
+                }
+            };
 
-            ExecuteToConsole("from EcellIDE import *", false);
-            ExecuteToConsole("import time", false);
-            ExecuteToConsole("import System.Threading", false);
+            m_defaultFont = SWMessageText.SelectionFont;
+            m_defaultTextColor = SWMessageText.SelectionColor;
+            m_boldFont = new Font(m_defaultFont, FontStyle.Bold);
+            m_consoleOutput = new MemoryStream();
+            m_interactionContinued = false;
+            m_statementBuffer = new StringBuilder();
+
+            {
+                EngineOptions options = new EngineOptions();
+                options.ShowClrExceptions = true;
+                options.ClrDebuggingEnabled = true;
+                options.ExceptionDetail = false;
+                m_engine = new PythonEngine(options);
+            }
+            m_engine.Sys.DefaultEncoding = Encoding.UTF8;
+            m_engine.SetStandardOutput(m_consoleOutput);
+            m_engine.SetStandardError(m_consoleOutput);
+            m_engine.AddToPath(Util.GetBinDir());
+            m_engine.Execute("from EcellIDE import *;");
+            Flush();
         }
         #endregion
 
@@ -84,14 +111,22 @@ namespace EcellLib.ScriptWindow
         /// </summary>
         /// <param name="sender">TextBox</param>
         /// <param name="e"></param>
-        private void CommandTextKeyPress(object sender, KeyPressEventArgs e)
+        private void CommandTextKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
-                ExecuteToConsole(SWCommandText.Text, true);
-                SWCommandText.Text = "";
+                if (!e.Control)
+                {
+                    Interact(SWCommandText.Text);
+                    SWCommandText.Select(0, 0);
+                    SWCommandText.ResetText();
+                    e.Handled = true;
+                }
+                else
+                {
+                    SWCommandText.AppendText("\r\n");
+                }
             }
-            base.OnKeyPress(e);
         }
         #endregion
 
@@ -101,55 +136,72 @@ namespace EcellLib.ScriptWindow
         /// <param name="file">the loaded file.</param>
         public void ExecuteFile(string file)
         {
-            if (String.IsNullOrEmpty(file)) return;
-
-            string stdOut;
-            MemoryStream standardOutput = new MemoryStream();
-            try
-            {
-                m_engine.SetStandardOutput(standardOutput);
-                m_engine.ExecuteFile(file);
-                stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
-                SWMessageText.Text += stdOut;
-            }
-            catch (Exception ex)
-            {
-                SWMessageText.Text += ex.Message + "\r\n";
-            }
-            finally
-            {
-                standardOutput.Dispose();
-            }
+            m_engine.ExecuteFile(file);
+            Flush();
         }
+
+        public void WriteToConsole(string text)
+        {
+            SWMessageText.Select(SWMessageText.TextLength, 0);
+            SWMessageText.AppendText(text);
+        }
+
+        public void SetTextStyle(Font f, Color c)
+        {
+            SWMessageText.Select(SWMessageText.TextLength, 0);
+            SWMessageText.SelectionFont = f == null ? m_defaultFont : f;
+            SWMessageText.SelectionColor = c == Color.Empty ? m_defaultTextColor : c;
+        }
+
+        /// <summary>
+        /// Flush the memory stream into MessageText
+        /// </summary>
+        public void Flush()
+        {
+            WriteToConsole(
+                UTF8Encoding.UTF8.GetString(
+                    m_consoleOutput.GetBuffer(),
+                    0, (int)m_consoleOutput.Position)
+            );
+            m_consoleOutput.Seek(0, SeekOrigin.Begin);
+            SWMessageText.ScrollToCaret();
+        }
+
 
         /// <summary>
         /// Execute the script by using the command.
         /// </summary>
         /// <param name="cmd">the command string.</param>
         /// <param name="isOut">the flag whether this command is out.</param>
-        public void ExecuteToConsole(string cmd, bool isOut)
+        public void Interact(string cmd)
         {
-            if (String.IsNullOrEmpty(cmd)) return;
+            SetTextStyle(m_boldFont, Color.SkyBlue);
+            WriteToConsole(
+                (string)(m_interactionContinued ?
+                    m_engine.Sys.ps2 : m_engine.Sys.ps1) + " ");
+            SetTextStyle(m_boldFont, m_defaultTextColor);
+            WriteToConsole(cmd + "\r\n");
+            SetTextStyle(null, Color.Empty);
+            m_statementBuffer.Append(cmd);
 
-            string stdOut;
-            MemoryStream standardOutput = new MemoryStream();
             try
             {
-                m_engine.SetStandardOutput(standardOutput);
-                m_engine.ExecuteToConsole(cmd);
-                stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
-                if (isOut)
-                    SWMessageText.Text += ">>> " + cmd + "\r\n";
-                SWMessageText.Text += stdOut;
+                if (!m_engine.ParseInteractiveInput(cmd, false))
+                {
+                    m_interactionContinued = true;
+                    return;
+                }
+                m_engine.ExecuteToConsole(m_statementBuffer.ToString());
+                Flush();
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                SWMessageText.Text += ex.Message + "\r\n";
+                SetTextStyle(null, Color.DarkSalmon);
+                WriteToConsole(m_engine.FormatException(e));
+                SetTextStyle(null, Color.Empty);
             }
-            finally
-            {
-                standardOutput.Dispose();
-            }
+            m_interactionContinued = false;
+            m_statementBuffer.Length = 0;
         }
     }
 }

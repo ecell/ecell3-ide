@@ -29,47 +29,63 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScriptCommandWindow));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.SWMessageText = new System.Windows.Forms.TextBox();
+            this.SWMessageText = new System.Windows.Forms.RichTextBox();
             this.SWCommandText = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.SWMessageText, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.SWCommandText, 0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // SWMessageText
             // 
             resources.ApplyResources(this.SWMessageText, "SWMessageText");
+            this.SWMessageText.BackColor = System.Drawing.SystemColors.Window;
+            this.SWMessageText.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.SWMessageText.Name = "SWMessageText";
             this.SWMessageText.ReadOnly = true;
             // 
             // SWCommandText
             // 
             resources.ApplyResources(this.SWCommandText, "SWCommandText");
+            this.SWCommandText.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.SWCommandText.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.SWCommandText.Name = "SWCommandText";
-            this.SWCommandText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CommandTextKeyPress);
+            this.SWCommandText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CommandTextKeyDown);
+            // 
+            // splitContainer1
+            // 
+            resources.ApplyResources(this.splitContainer1, "splitContainer1");
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.SWMessageText);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.SWCommandText);
             // 
             // ScriptCommandWindow
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.splitContainer1);
             this.Name = "ScriptCommandWindow";
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TextBox SWMessageText;
+        private System.Windows.Forms.RichTextBox SWMessageText;
         private System.Windows.Forms.TextBox SWCommandText;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }
