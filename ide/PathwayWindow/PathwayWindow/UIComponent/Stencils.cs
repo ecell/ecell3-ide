@@ -43,7 +43,7 @@ namespace EcellLib.PathwayWindow.UIComponent
     /// <summary>
     /// UI class for PathwayWindow
     /// </summary>
-    public partial class Stencil : EcellDockContent
+    public partial class Stencils : EcellDockContent
     {
         private PathwayControl m_con;
         private FlowLayoutPanel flowLayoutPanel1;
@@ -52,7 +52,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// Constructor
         /// </summary>
         /// <param name="control"></param>
-        public Stencil(PathwayControl control)
+        public Stencils(PathwayControl control)
         {
             m_con = control;
             InitializeComponent();

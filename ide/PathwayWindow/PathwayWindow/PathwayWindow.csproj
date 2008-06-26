@@ -219,7 +219,7 @@
     <Compile Include="Dialog\SelectBoxDialog.Designer.cs">
       <DependentUpon>SelectBoxDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="UIComponent\Stencil.cs">
+    <Compile Include="UIComponent\Stencils.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
