@@ -679,6 +679,7 @@ namespace EcellLib.MainWindow
         private void SetDockContent(EcellDockContent content)
         {
             Trace.WriteLine("Create dock: " + content.Text);
+            content.SuspendLayout();
             //Create New DockContent
             content.Pane = null;
             content.PanelPane = null;
@@ -690,6 +691,7 @@ namespace EcellLib.MainWindow
             //Create DockWindow Menu
             SetDockContentMenu(content);
             m_dockWindowDic.Add(content.Name, content);
+            content.ResumeLayout();
             content.Show(this.dockPanel, DockState.Document);
         }
         /// <summary>
