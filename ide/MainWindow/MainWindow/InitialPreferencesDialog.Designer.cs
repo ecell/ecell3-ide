@@ -66,7 +66,6 @@
             this.SWSPatternListLayoutPanel.AccessibleName = null;
             resources.ApplyResources(this.SWSPatternListLayoutPanel, "SWSPatternListLayoutPanel");
             this.SWSPatternListLayoutPanel.BackgroundImage = null;
-            this.SWSPatternListLayoutPanel.Font = null;
             this.SWSPatternListLayoutPanel.Name = "SWSPatternListLayoutPanel";
             // 
             // SWSNoteTextBox
@@ -76,7 +75,6 @@
             resources.ApplyResources(this.SWSNoteTextBox, "SWSNoteTextBox");
             this.SWSNoteTextBox.BackColor = System.Drawing.SystemColors.Control;
             this.SWSNoteTextBox.BackgroundImage = null;
-            this.SWSNoteTextBox.Font = null;
             this.SWSNoteTextBox.Name = "SWSNoteTextBox";
             this.SWSNoteTextBox.ReadOnly = true;
             // 
@@ -177,7 +175,7 @@
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             // 
-            // SelectWinSettingWindow
+            // InitialPreferencesDialog
             // 
             this.AcceptButton = this.SWSSelectButton;
             this.AccessibleDescription = null;
@@ -197,7 +195,7 @@
             this.Icon = null;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "SelectWinSettingWindow";
+            this.Name = "InitialPreferencesDialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             ((System.ComponentModel.ISupportInitialize)(this.SWSPictureBox)).EndInit();
