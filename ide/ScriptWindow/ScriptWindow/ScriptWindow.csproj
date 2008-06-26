@@ -101,10 +101,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResScript.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="ScriptCommandWindow.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ScriptCommandWindow.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ScriptCommandWindow.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ScriptCommandWindow.cs</DependentUpon>

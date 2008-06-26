@@ -29,6 +29,7 @@
 //
 
 using System;
+using System.Threading;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -50,14 +51,85 @@ namespace EcellLib.ScriptWindow
     /// </summary>
     public partial class ScriptCommandWindow : EcellDockContent
     {
+        private class ScriptRunner
+        {
+            private AutoResetEvent m_event;
+            private PythonEngine m_engine;
+            private string m_command;
+
+            public event EventHandler ScriptExecutionStarted;
+            public event EventHandler ScriptExecutionStopped;
+
+            public ScriptRunner(PythonEngine engine)
+            {
+                m_event = new AutoResetEvent(false);
+                m_engine = engine;
+            }
+
+            public void Execute(string cmd)
+            {
+                Debug.Assert(cmd != null);
+                lock (this)
+                {
+                    m_command = cmd;
+                    m_event.Set();
+                }
+            }
+
+            public void Stop()
+            {
+                lock (this)
+                {
+                    m_command = null;
+                    m_event.Set();
+                }
+            }
+
+            public void Run()
+            {
+                for (;;)
+                {
+                    m_event.WaitOne();
+                    if (m_command == null)
+                        break;
+                    ScriptExecutionStarted(this, new EventArgs());
+                    m_engine.ExecuteToConsole(m_command);
+                    ScriptExecutionStopped(this, new EventArgs());
+                }
+            }
+        }
+
+        private class NotifyingMemoryStream: MemoryStream
+        {
+            public delegate void StreamFlushEventHandler(NotifyingMemoryStream obj, long prevPosisiton);
+            public event StreamFlushEventHandler StreamFlushed;
+            long m_previousPosition;
+
+            public NotifyingMemoryStream()
+            {
+                m_previousPosition = 0;
+            }
+
+            public override void Flush()
+            {
+                base.Flush();
+                StreamFlushed(this, m_previousPosition);
+                m_previousPosition = Position;
+            }
+        }
+
         #region Fields
         private PythonEngine m_engine;
-        private MemoryStream m_consoleOutput;
+        private NotifyingMemoryStream m_consoleOutput;
         private Font m_boldFont;
         private Font m_defaultFont;
         private Color m_defaultTextColor;
         private StringBuilder m_statementBuffer;
+        private Color m_promptColor = Color.SkyBlue;
+        private int m_currentPromptCharCount;
         private bool m_interactionContinued;
+        private ScriptRunner m_scriptRunner;
+        private Thread m_scriptRunnerThread;
         #endregion
 
         #region Constructor
@@ -75,20 +147,18 @@ namespace EcellLib.ScriptWindow
             this.Text = MessageResScript.ScriptWindow;
             this.TabText = this.Text;
 
-            SWCommandText.KeyPress += delegate(object o, KeyPressEventArgs args) {
-                if (args.KeyChar == '\r')
-                {
-                    args.Handled = true;
-                }
-            };
-
             m_defaultFont = SWMessageText.SelectionFont;
             m_defaultTextColor = SWMessageText.SelectionColor;
             m_boldFont = new Font(m_defaultFont, FontStyle.Bold);
-            m_consoleOutput = new MemoryStream();
-            m_interactionContinued = false;
+            m_consoleOutput = new NotifyingMemoryStream();
+            m_consoleOutput.StreamFlushed +=
+                delegate(NotifyingMemoryStream s, long prevPos)
+                {
+                    SWCommandText.Invoke(new MethodInvoker(Flush));
+                };
             m_statementBuffer = new StringBuilder();
-
+            m_interactionContinued = false;
+            m_currentPromptCharCount = 0;
             {
                 EngineOptions options = new EngineOptions();
                 options.ShowClrExceptions = true;
@@ -96,14 +166,46 @@ namespace EcellLib.ScriptWindow
                 options.ExceptionDetail = false;
                 m_engine = new PythonEngine(options);
             }
+            m_scriptRunner = new ScriptRunner(m_engine);
+            m_scriptRunner.ScriptExecutionStarted +=
+                delegate(object obj, EventArgs e)
+                {
+                    SWCommandText.Invoke(new MethodInvoker(
+                        delegate()
+                        {
+                            SWCommandText.Enabled = false;
+                        }
+                    ));
+                };
+            m_scriptRunner.ScriptExecutionStopped +=
+                delegate(object obj, EventArgs e)
+                {
+                    SWCommandText.Invoke(new MethodInvoker(
+                        delegate()
+                        {
+                            SWCommandText.Enabled = true;
+                            SWCommandText.Focus();
+                            Flush();
+                        }
+                     ));
+                };
             m_engine.Sys.DefaultEncoding = Encoding.UTF8;
             m_engine.SetStandardOutput(m_consoleOutput);
             m_engine.SetStandardError(m_consoleOutput);
             m_engine.AddToPath(Util.GetBinDir());
+            ResetCommandLineControl();
             m_engine.Execute("from EcellIDE import *;");
             Flush();
+            m_scriptRunnerThread = new Thread(new ThreadStart(m_scriptRunner.Run));
+            m_scriptRunnerThread.Start();
         }
         #endregion
+
+        ~ScriptCommandWindow()
+        {
+            m_scriptRunner.Stop();
+            m_scriptRunnerThread.Join();
+        }
 
         #region Events
         /// <summary>
@@ -111,24 +213,63 @@ namespace EcellLib.ScriptWindow
         /// </summary>
         /// <param name="sender">TextBox</param>
         /// <param name="e"></param>
-        private void CommandTextKeyDown(object sender, KeyEventArgs e)
+        private void CommandTextKeyDown(object _sender, KeyEventArgs e)
         {
+            RichTextBox sender = (RichTextBox)_sender;
             if (e.KeyCode == Keys.Enter)
             {
-                if (!e.Control)
+                if (!e.Control && !e.Shift)
                 {
-                    Interact(SWCommandText.Text);
-                    SWCommandText.Select(0, 0);
-                    SWCommandText.ResetText();
+                    Interact(SWCommandText.Text.Substring(m_currentPromptCharCount));
+                    ResetCommandLineControl();
                     e.Handled = true;
                 }
-                else
+                else if (!e.Shift)
                 {
-                    SWCommandText.AppendText("\r\n");
+                    e.SuppressKeyPress = true;
+                    sender.AppendText("\r\n");
+                    sender.SelectionIndent = sender.SelectionHangingIndent;
+                }
+            }
+            else if (e.KeyCode == Keys.Back)
+            {
+                if (sender.SelectionStart <= m_currentPromptCharCount)
+                {
+                    e.SuppressKeyPress = true;
+                    e.Handled = true;
                 }
             }
         }
+        private void CommandTextSelectionChanged(object _sender, EventArgs e)
+        {
+            RichTextBox sender = (RichTextBox)_sender;
+            if (sender.SelectionStart < m_currentPromptCharCount)
+            {
+                sender.Select(
+                    m_currentPromptCharCount,
+                    sender.SelectionLength - (m_currentPromptCharCount - sender.SelectionStart));
+                sender.SelectionColor = sender.ForeColor;
+            }
+        }
         #endregion
+
+        private void ResetCommandLineControl()
+        {
+            string prompt = GetCurrentPrompt();
+            SWCommandText.ResetText();
+            SWCommandText.Select(0, 0);
+            SWCommandText.SelectionColor = m_promptColor;
+            {
+                Graphics g = this.SWCommandText.CreateGraphics();
+                g.PageUnit = GraphicsUnit.Pixel;
+                this.SWCommandText.SelectionHangingIndent = (int)g.MeasureString(prompt, SWCommandText.Font).Width + 2;
+                g.Dispose();
+            }
+            SWCommandText.AppendText(prompt);
+            SWCommandText.Select(SWCommandText.TextLength, 0);
+            m_currentPromptCharCount = SWCommandText.TextLength;
+            SWCommandText.SelectionColor = m_defaultTextColor;
+        }
 
         /// <summary>
         /// Execute the script by using the file.
@@ -167,6 +308,11 @@ namespace EcellLib.ScriptWindow
             SWMessageText.ScrollToCaret();
         }
 
+        private string GetCurrentPrompt()
+        {
+            return (string)(m_interactionContinued ?
+                    m_engine.Sys.ps2 : m_engine.Sys.ps1);
+        }
 
         /// <summary>
         /// Execute the script by using the command.
@@ -175,10 +321,8 @@ namespace EcellLib.ScriptWindow
         /// <param name="isOut">the flag whether this command is out.</param>
         public void Interact(string cmd)
         {
-            SetTextStyle(m_boldFont, Color.SkyBlue);
-            WriteToConsole(
-                (string)(m_interactionContinued ?
-                    m_engine.Sys.ps2 : m_engine.Sys.ps1) + " ");
+            SetTextStyle(m_boldFont, m_promptColor);
+            WriteToConsole(GetCurrentPrompt());
             SetTextStyle(m_boldFont, m_defaultTextColor);
             WriteToConsole(cmd + "\r\n");
             SetTextStyle(null, Color.Empty);
@@ -191,14 +335,14 @@ namespace EcellLib.ScriptWindow
                     m_interactionContinued = true;
                     return;
                 }
-                m_engine.ExecuteToConsole(m_statementBuffer.ToString());
-                Flush();
+                m_scriptRunner.Execute(m_statementBuffer.ToString());
             }
             catch (Exception e)
             {
                 SetTextStyle(null, Color.DarkSalmon);
                 WriteToConsole(m_engine.FormatException(e));
                 SetTextStyle(null, Color.Empty);
+                SWMessageText.ScrollToCaret();
             }
             m_interactionContinued = false;
             m_statementBuffer.Length = 0;
