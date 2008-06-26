@@ -745,6 +745,7 @@ namespace EcellLib.PathwayWindow
         internal void SetNodeIcons()
         {
             ImageList list = m_window.PluginManager.NodeImageList;
+
             list.Images.RemoveByKey(Constants.xpathSystem);
             list.Images.RemoveByKey(Constants.xpathProcess);
             list.Images.RemoveByKey(Constants.xpathVariable);

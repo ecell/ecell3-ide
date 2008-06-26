@@ -26,7 +26,7 @@ namespace EcellLib.EntityListWindow
             InitializeComponent();
             this.Text = MessageResEntList.EntityList;
             this.TabText = this.Text;
-            this.treeView1.ImageList =m_owner.Environment.PluginManager.NodeImageList;
+            this.treeView1.ImageList = m_owner.Environment.PluginManager.NodeImageList;
         }
     }
 }

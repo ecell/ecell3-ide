@@ -77,6 +77,9 @@ namespace EcellLib.Objects
         #endregion
 
     }
+    /// <summary>
+    /// TextAlign
+    /// </summary>
     public enum TextAlign
     {
         Left = 0,

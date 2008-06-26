@@ -31,7 +31,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VariableSelectWindow));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.selectTree = new System.Windows.Forms.TreeView();
@@ -40,7 +39,6 @@
             this.VSCloseButton = new System.Windows.Forms.Button();
             this.VSSourceButton = new System.Windows.Forms.Button();
             this.VSConstantButton = new System.Windows.Forms.Button();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -55,7 +53,6 @@
             // selectTree
             // 
             resources.ApplyResources(this.selectTree, "selectTree");
-            this.selectTree.ImageList = this.imageList1;
             this.selectTree.Name = "selectTree";
             this.selectTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.SelectTreeDoubleClick);
             // 
@@ -93,18 +90,6 @@
             this.VSConstantButton.Name = "VSConstantButton";
             this.VSConstantButton.UseVisualStyleBackColor = true;
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Project");
-            this.imageList1.Images.SetKeyName(1, "Model");
-            this.imageList1.Images.SetKeyName(2, "System");
-            this.imageList1.Images.SetKeyName(3, "Process");
-            this.imageList1.Images.SetKeyName(4, "Variable");
-            this.imageList1.Images.SetKeyName(5, "dm");
-            this.imageList1.Images.SetKeyName(6, "Parameters");
-            // 
             // VariableSelectWindow
             // 
             resources.ApplyResources(this, "$this");
@@ -133,7 +118,6 @@
         /// Button to close this dialog.
         /// </summary>
         public System.Windows.Forms.Button VSCloseButton;
-        private System.Windows.Forms.ImageList imageList1;
         /// <summary>
         /// Button to add the source variable to VariableReferenceList.
         /// </summary>

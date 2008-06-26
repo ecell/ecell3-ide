@@ -98,7 +98,7 @@ namespace EcellLib
             resources.ApplyResources(this.DMEComileButton, "DMEComileButton");
             this.DMEComileButton.Name = "DMEComileButton";
             this.DMEComileButton.UseVisualStyleBackColor = true;
-            this.DMEComileButton.Click += new System.EventHandler(this.DMEComileButtonClick);
+            this.DMEComileButton.Click += new System.EventHandler(this.DMECompileButtonClick);
             // 
             // DMESaveButton
             // 

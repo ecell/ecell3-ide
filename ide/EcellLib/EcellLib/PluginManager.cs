@@ -154,18 +154,7 @@ namespace EcellLib
             this.m_status = ProjectStatus.Uninitialized;
 
             // default image type
-            m_imageList = new ImageList();
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(ImageResource));
-            m_imageList.ColorDepth = ColorDepth.Depth24Bit;
-            m_imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageStream")));
-            m_imageList.TransparentColor = System.Drawing.Color.Transparent;
-            m_imageList.Images.SetKeyName(0, Constants.xpathProject);
-            m_imageList.Images.SetKeyName(1, Constants.xpathModel);
-            m_imageList.Images.SetKeyName(2, Constants.xpathSystem);
-            m_imageList.Images.SetKeyName(3, Constants.xpathProcess);
-            m_imageList.Images.SetKeyName(4, Constants.xpathVariable);
-            m_imageList.Images.SetKeyName(5, Constants.xpathDM);
-            m_imageList.Images.SetKeyName(6, Constants.xpathParameters);
+            m_imageList = new NodeImageComponent().ImageList;
 
             m_progress = new ToolStripProgressBar();
             m_label = new ToolStripLabel();

@@ -164,7 +164,7 @@ namespace EcellLib
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected virtual void DMEComileButtonClick(object sender, EventArgs e)
+        protected virtual void DMECompileButtonClick(object sender, EventArgs e)
         {
             DMESaveButtonClick(DMESaveButton, e);
             DMCompiler.Compile(m_path, m_env);

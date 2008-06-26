@@ -108,7 +108,7 @@ namespace EcellLib.MainWindow
             string[] fileList = parseArguments(args);
 
             Util.InitialLanguage();
-            Application.EnableVisualStyles();
+            //Application.EnableVisualStyles();
             //Vistaでエラーになる
             //Application.SetCompatibleTextRenderingDefault(false);
 
