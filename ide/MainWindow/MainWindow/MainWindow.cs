@@ -1897,7 +1897,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void ShowPluginVersionClick(object sender, EventArgs e)
         {
-            PluginVersionListWindow w = new PluginVersionListWindow(m_env.PluginManager);
+            PluginListDialog w = new PluginListDialog(m_env.PluginManager);
             w.ShowDialog();
         }
 

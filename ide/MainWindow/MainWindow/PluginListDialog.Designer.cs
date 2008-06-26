@@ -1,6 +1,6 @@
 ﻿namespace EcellLib.MainWindow
 {
-    partial class PluginVersionListWindow
+    partial class PluginListDialog
     {
         /// <summary>
         /// 必要なデザイナ変数です。
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PluginVersionListWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PluginListDialog));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.PVOKButton = new System.Windows.Forms.Button();
             this.versionListView = new System.Windows.Forms.DataGridView();

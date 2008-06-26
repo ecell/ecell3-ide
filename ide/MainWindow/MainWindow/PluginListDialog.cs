@@ -40,14 +40,14 @@ namespace EcellLib.MainWindow
     /// <summary>
     /// Dialog to display the version list of plugin.
     /// </summary>
-    public partial class PluginVersionListWindow : Form
+    public partial class PluginListDialog : Form
     {
         private PluginManager m_pManager;
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PluginVersionListWindow(PluginManager pManager)
+        public PluginListDialog(PluginManager pManager)
         {
             m_pManager = pManager;
             InitializeComponent();

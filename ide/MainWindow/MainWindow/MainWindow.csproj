@@ -130,11 +130,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResMain.ja.resx</DependentUpon>
     </Compile>
-    <Compile Include="PluginVersionListWindow.cs">
+    <Compile Include="PluginListDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PluginVersionListWindow.Designer.cs">
-      <DependentUpon>PluginVersionListWindow.cs</DependentUpon>
+    <Compile Include="PluginListDialog.designer.cs">
+      <DependentUpon>PluginListDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="ProjectExplorerDialog.cs">
       <SubType>Form</SubType>
@@ -231,13 +231,13 @@
       <SubType>Designer</SubType>
       <DependentUpon>OpenProjectDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PluginVersionListWindow.ja.resx">
+    <EmbeddedResource Include="PluginListDialog.ja.resx">
+      <DependentUpon>PluginListDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
-      <DependentUpon>PluginVersionListWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PluginVersionListWindow.resx">
+    <EmbeddedResource Include="PluginListDialog.resx">
+      <DependentUpon>PluginListDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
-      <DependentUpon>PluginVersionListWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProjectExplorerDialog.ja.resx">
       <DependentUpon>ProjectExplorerDialog.cs</DependentUpon>
