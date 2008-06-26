@@ -1,6 +1,6 @@
 ﻿namespace EcellLib.MainWindow
 {
-    partial class DistributedEnvWindow
+    partial class GridJobStatusDialog
     {
         /// <summary>
         /// 必要なデザイナ変数です。
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DistributedEnvWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridJobStatusDialog));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.JobGridView = new System.Windows.Forms.DataGridView();
             this.JobIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();

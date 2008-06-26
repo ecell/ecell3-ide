@@ -2017,7 +2017,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void ClickDistributedEnvMenu(object sender, EventArgs e)
         {
-            DistributedEnvSetupWindow win = new DistributedEnvSetupWindow(m_env.JobManager);
+            GridConfigurationDialog win = new GridConfigurationDialog(m_env.JobManager);
             win.Shown += new EventHandler(win.WindowShown);
             win.ShowDialog();
         }
@@ -2029,7 +2029,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void ClickJobStatusMenu(object sender, EventArgs e)
         {
-            DistributedEnvWindow win = new DistributedEnvWindow(m_env.JobManager);
+            GridJobStatusDialog win = new GridJobStatusDialog(m_env.JobManager);
 
             win.Show();
         }

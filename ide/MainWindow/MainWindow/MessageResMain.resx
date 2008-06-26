@@ -117,50 +117,77 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmRestart" xml:space="preserve">
-    <value>The language setting will take effect after you restart this application.</value>
-  </data>
-  <data name="ErrIDNG" xml:space="preserve">
-    <value>There are any invalid characters in {0}.</value>
-  </data>
-  <data name="ErrLarger" xml:space="preserve">
-    <value>{0} should be larger than {1}.</value>
-  </data>
-  <data name="ErrLoadFile" xml:space="preserve">
-    <value>Can not load the file [ {0} ].</value>
-  </data>
   <data name="ErrLoadPlugin" xml:space="preserve">
     <value>Can not load the plugin {0} (location: {1}).</value>
   </data>
-  <data name="ErrLoadWindowSettings" xml:space="preserve">
-    <value>Can not load window settings.</value>
-  </data>
-  <data name="ErrNoSelect" xml:space="preserve">
-    <value>No select.</value>
-  </data>
-  <data name="ErrNoSet" xml:space="preserve">
-    <value>{0} is not set.</value>
-  </data>
-  <data name="ErrSaveWindowSettings" xml:space="preserve">
-    <value>Can not save the window settings.</value>
-  </data>
-  <data name="ExpModelMes" xml:space="preserve">
-    <value>Please set the working directory.</value>
-  </data>
-  <data name="ExportModelDialog" xml:space="preserve">
-    <value>Export Model</value>
+  <data name="SelectDMDir" xml:space="preserve">
+    <value>Please select the dm directory.</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
     <value>Can not find the file.</value>
   </data>
-  <data name="MenuCopy" xml:space="preserve">
-    <value>Create Copied Project.</value>
+  <data name="ProjectWizardGoForward" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="ErrLoadFile" xml:space="preserve">
+    <value>Can not load the file [ {0} ].</value>
+  </data>
+  <data name="NameWorkDir" xml:space="preserve">
+    <value>The working directory</value>
+  </data>
+  <data name="ProjectWizardSelectDM" xml:space="preserve">
+    <value>Add extra DM directories.</value>
+  </data>
+  <data name="NameConc" xml:space="preserve">
+    <value>The concurrency</value>
+  </data>
+  <data name="MenuCreateNewRevision" xml:space="preserve">
+    <value>Create new revision.</value>
+  </data>
+  <data name="StartUpWindow" xml:space="preserve">
+    <value>Web Browzer</value>
+  </data>
+  <data name="ErrNoSet" xml:space="preserve">
+    <value>{0} is not set.</value>
   </data>
   <data name="MenuCreateNewProject" xml:space="preserve">
     <value>Create new project.</value>
   </data>
-  <data name="MenuCreateNewRevision" xml:space="preserve">
-    <value>Create new revision.</value>
+  <data name="MessageWebBrowse" xml:space="preserve">
+    <value>Now connect ...</value>
+  </data>
+  <data name="ErrNoSelect" xml:space="preserve">
+    <value>No select.</value>
+  </data>
+  <data name="ExportModelDialog" xml:space="preserve">
+    <value>Export Model</value>
+  </data>
+  <data name="SaveConfirm" xml:space="preserve">
+    <value>Do you want to save the project before the project is closed?</value>
+  </data>
+  <data name="ErrIDNG" xml:space="preserve">
+    <value>There are any invalid characters in {0}.</value>
+  </data>
+  <data name="MenuCopy" xml:space="preserve">
+    <value>Create Copied Project.</value>
+  </data>
+  <data name="ProjectWizardSelectTemplete" xml:space="preserve">
+    <value>Select templete project.</value>
+  </data>
+  <data name="TitleInitialSet" xml:space="preserve">
+    <value>Please select the initial setting.</value>
+  </data>
+  <data name="ConfirmRestart" xml:space="preserve">
+    <value>The language setting will take effect after you restart this application.</value>
+  </data>
+  <data name="MenuSaveZip" xml:space="preserve">
+    <value>Compress to ZIP.</value>
+  </data>
+  <data name="ProjectWizardCreate" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="ErrSaveWindowSettings" xml:space="preserve">
+    <value>Can not save the window settings.</value>
   </data>
   <data name="MenuDelete" xml:space="preserve">
     <value>Delete.</value>
@@ -168,40 +195,13 @@
   <data name="MenuPaste" xml:space="preserve">
     <value>Paste.</value>
   </data>
-  <data name="MenuSaveZip" xml:space="preserve">
-    <value>Compress to ZIP.</value>
+  <data name="ErrLoadWindowSettings" xml:space="preserve">
+    <value>Can not load window settings.</value>
   </data>
-  <data name="MessageWebBrowse" xml:space="preserve">
-    <value>Now connect ...</value>
+  <data name="ExpModelMes" xml:space="preserve">
+    <value>Please set the working directory.</value>
   </data>
-  <data name="NameConc" xml:space="preserve">
-    <value>The concurrency</value>
-  </data>
-  <data name="NameWorkDir" xml:space="preserve">
-    <value>The working directory</value>
-  </data>
-  <data name="ProjectWizardCreate" xml:space="preserve">
-    <value>Create</value>
-  </data>
-  <data name="ProjectWizardGoForward" xml:space="preserve">
-    <value>Next</value>
-  </data>
-  <data name="ProjectWizardSelectDM" xml:space="preserve">
-    <value>Add extra DM directories.</value>
-  </data>
-  <data name="ProjectWizardSelectTemplete" xml:space="preserve">
-    <value>Select templete project.</value>
-  </data>
-  <data name="SaveConfirm" xml:space="preserve">
-    <value>Do you want to save the project before the project is closed?</value>
-  </data>
-  <data name="SelectDMDir" xml:space="preserve">
-    <value>Please select the dm directory.</value>
-  </data>
-  <data name="StartUpWindow" xml:space="preserve">
-    <value>Web Browzer</value>
-  </data>
-  <data name="TitleInitialSet" xml:space="preserve">
-    <value>Please select the initial setting.</value>
+  <data name="ErrLarger" xml:space="preserve">
+    <value>{0} should be larger than {1}.</value>
   </data>
 </root>

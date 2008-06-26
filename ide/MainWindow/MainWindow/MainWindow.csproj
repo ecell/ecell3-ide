@@ -106,19 +106,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DistributedEnvSetupWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DistributedEnvSetupWindow.Designer.cs">
-      <DependentUpon>DistributedEnvSetupWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DistributedEnvWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DistributedEnvWindow.Designer.cs">
-      <DependentUpon>DistributedEnvWindow.cs</DependentUpon>
-    </Compile>
     <Compile Include="DockWindowSerializer.cs">
+    </Compile>
+    <Compile Include="GridConfigurationDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GridConfigurationDialog.designer.cs">
+      <DependentUpon>GridConfigurationDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GridJobStatusDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GridJobStatusDialog.designer.cs">
+      <DependentUpon>GridJobStatusDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="MessageResMain.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -173,29 +173,23 @@
     <Compile Include="NewProjectDialog.Designer.cs">
       <DependentUpon>NewProjectDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="OpenProjectDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="OpenProjectDialog.Designer.cs">
-      <DependentUpon>OpenProjectDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="DistributedEnvSetupWindow.ja.resx">
+    <EmbeddedResource Include="GridConfigurationDialog.ja.resx">
+      <DependentUpon>GridConfigurationDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
-      <DependentUpon>DistributedEnvSetupWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DistributedEnvSetupWindow.resx">
+    <EmbeddedResource Include="GridConfigurationDialog.resx">
+      <DependentUpon>GridConfigurationDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
-      <DependentUpon>DistributedEnvSetupWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DistributedEnvWindow.ja.resx">
+    <EmbeddedResource Include="GridJobStatusDialog.ja.resx">
+      <DependentUpon>GridJobStatusDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
-      <DependentUpon>DistributedEnvWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DistributedEnvWindow.resx">
+    <EmbeddedResource Include="GridJobStatusDialog.resx">
+      <DependentUpon>GridJobStatusDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
-      <DependentUpon>DistributedEnvWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.ja.resx">
       <SubType>Designer</SubType>
@@ -222,14 +216,6 @@
     <EmbeddedResource Include="NewProjectDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>NewProjectDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OpenProjectDialog.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>OpenProjectDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OpenProjectDialog.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>OpenProjectDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PluginListDialog.ja.resx">
       <DependentUpon>PluginListDialog.cs</DependentUpon>
@@ -318,6 +304,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\banner.bmp" />
     <Content Include="Resources\ECellIDE.ico" />
     <Content Include="Resources\splash.bmp" />
     <Content Include="Resources\welcome.ico" />

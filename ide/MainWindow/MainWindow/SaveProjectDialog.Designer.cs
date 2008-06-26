@@ -58,68 +58,75 @@ namespace EcellLib.MainWindow
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SaveProjectDialog));
-            this.SPLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.SPButtonPanel = new System.Windows.Forms.TableLayoutPanel();
             this.SPSaveButton = new System.Windows.Forms.Button();
             this.SPCancelButton = new System.Windows.Forms.Button();
             this.CheckedListBox = new System.Windows.Forms.CheckedListBox();
-            this.SPLayoutPanel.SuspendLayout();
-            this.SPButtonPanel.SuspendLayout();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // SPLayoutPanel
-            // 
-            resources.ApplyResources(this.SPLayoutPanel, "SPLayoutPanel");
-            this.SPLayoutPanel.Controls.Add(this.SPButtonPanel, 0, 1);
-            this.SPLayoutPanel.Controls.Add(this.CheckedListBox, 0, 0);
-            this.SPLayoutPanel.Name = "SPLayoutPanel";
-            // 
-            // SPButtonPanel
-            // 
-            resources.ApplyResources(this.SPButtonPanel, "SPButtonPanel");
-            this.SPButtonPanel.Controls.Add(this.SPSaveButton, 1, 0);
-            this.SPButtonPanel.Controls.Add(this.SPCancelButton, 3, 0);
-            this.SPButtonPanel.Name = "SPButtonPanel";
             // 
             // SPSaveButton
             // 
-            this.SPSaveButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.SPSaveButton.AccessibleDescription = null;
+            this.SPSaveButton.AccessibleName = null;
             resources.ApplyResources(this.SPSaveButton, "SPSaveButton");
+            this.SPSaveButton.BackgroundImage = null;
+            this.SPSaveButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.SPSaveButton.Font = null;
             this.SPSaveButton.Name = "SPSaveButton";
             this.SPSaveButton.UseVisualStyleBackColor = true;
             // 
             // SPCancelButton
             // 
-            this.SPCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.SPCancelButton.AccessibleDescription = null;
+            this.SPCancelButton.AccessibleName = null;
             resources.ApplyResources(this.SPCancelButton, "SPCancelButton");
+            this.SPCancelButton.BackgroundImage = null;
+            this.SPCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.SPCancelButton.Font = null;
             this.SPCancelButton.Name = "SPCancelButton";
             this.SPCancelButton.UseVisualStyleBackColor = true;
             // 
             // CheckedListBox
             // 
+            this.CheckedListBox.AccessibleDescription = null;
+            this.CheckedListBox.AccessibleName = null;
             resources.ApplyResources(this.CheckedListBox, "CheckedListBox");
+            this.CheckedListBox.BackgroundImage = null;
+            this.CheckedListBox.Font = null;
             this.CheckedListBox.FormattingEnabled = true;
             this.CheckedListBox.Name = "CheckedListBox";
+            // 
+            // label1
+            // 
+            this.label1.AccessibleDescription = null;
+            this.label1.AccessibleName = null;
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Font = null;
+            this.label1.Name = "label1";
             // 
             // SaveProjectDialog
             // 
             this.AcceptButton = this.SPSaveButton;
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = null;
             this.CancelButton = this.SPCancelButton;
-            this.Controls.Add(this.SPLayoutPanel);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.SPSaveButton);
+            this.Controls.Add(this.SPCancelButton);
+            this.Controls.Add(this.CheckedListBox);
+            this.Font = null;
             this.Name = "SaveProjectDialog";
             this.Shown += new System.EventHandler(this.SaveProjectDialogShown);
-            this.SPLayoutPanel.ResumeLayout(false);
-            this.SPButtonPanel.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel SPLayoutPanel;
-        private System.Windows.Forms.TableLayoutPanel SPButtonPanel;
         /// <summary>
         /// Button to save the selected data.
         /// </summary>
@@ -132,5 +139,6 @@ namespace EcellLib.MainWindow
         /// CheckBox to select the saved data.
         /// </summary>
         public System.Windows.Forms.CheckedListBox CheckedListBox;
+        private System.Windows.Forms.Label label1;
     }
 }

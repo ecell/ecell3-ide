@@ -29,161 +29,200 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectWinSettingWindow));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.SWSPictureBox = new System.Windows.Forms.PictureBox();
             this.SWSPatternListLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.SWSNoteTextBox = new System.Windows.Forms.TextBox();
-            this.SWSSelectButton = new System.Windows.Forms.Button();
             this.SILangGroupBox = new System.Windows.Forms.GroupBox();
             this.SIEnglishRadioButton = new System.Windows.Forms.RadioButton();
             this.SIJapaneseRadioButton = new System.Windows.Forms.RadioButton();
             this.SIAutoRadioButton = new System.Windows.Forms.RadioButton();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.SWSSelectButton = new System.Windows.Forms.Button();
             this.SWSCloseButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.SWSPictureBox)).BeginInit();
-            this.SWSPatternListLayoutPanel.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.SILangGroupBox.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.SILangGroupBox, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 2);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.SWSPictureBox, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.SWSPatternListLayoutPanel, 2, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // SWSPictureBox
             // 
+            this.SWSPictureBox.AccessibleDescription = null;
+            this.SWSPictureBox.AccessibleName = null;
             resources.ApplyResources(this.SWSPictureBox, "SWSPictureBox");
+            this.SWSPictureBox.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.SWSPictureBox.BackgroundImage = null;
+            this.SWSPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.SWSPictureBox.Font = null;
+            this.SWSPictureBox.ImageLocation = null;
             this.SWSPictureBox.Name = "SWSPictureBox";
             this.SWSPictureBox.TabStop = false;
             // 
             // SWSPatternListLayoutPanel
             // 
+            this.SWSPatternListLayoutPanel.AccessibleDescription = null;
+            this.SWSPatternListLayoutPanel.AccessibleName = null;
             resources.ApplyResources(this.SWSPatternListLayoutPanel, "SWSPatternListLayoutPanel");
-            this.SWSPatternListLayoutPanel.Controls.Add(this.groupBox1, 0, 8);
+            this.SWSPatternListLayoutPanel.BackgroundImage = null;
+            this.SWSPatternListLayoutPanel.Font = null;
             this.SWSPatternListLayoutPanel.Name = "SWSPatternListLayoutPanel";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.SWSNoteTextBox);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
             // 
             // SWSNoteTextBox
             // 
-            this.SWSNoteTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.SWSNoteTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.SWSNoteTextBox.AccessibleDescription = null;
+            this.SWSNoteTextBox.AccessibleName = null;
             resources.ApplyResources(this.SWSNoteTextBox, "SWSNoteTextBox");
+            this.SWSNoteTextBox.BackColor = System.Drawing.SystemColors.Control;
+            this.SWSNoteTextBox.BackgroundImage = null;
+            this.SWSNoteTextBox.Font = null;
             this.SWSNoteTextBox.Name = "SWSNoteTextBox";
             this.SWSNoteTextBox.ReadOnly = true;
             // 
-            // SWSSelectButton
-            // 
-            resources.ApplyResources(this.SWSSelectButton, "SWSSelectButton");
-            this.SWSSelectButton.Name = "SWSSelectButton";
-            this.SWSSelectButton.UseVisualStyleBackColor = true;
-            this.SWSSelectButton.Click += new System.EventHandler(this.ClickSWSSelectButton);
-            // 
             // SILangGroupBox
             // 
+            this.SILangGroupBox.AccessibleDescription = null;
+            this.SILangGroupBox.AccessibleName = null;
+            resources.ApplyResources(this.SILangGroupBox, "SILangGroupBox");
+            this.SILangGroupBox.BackgroundImage = null;
             this.SILangGroupBox.Controls.Add(this.SIEnglishRadioButton);
             this.SILangGroupBox.Controls.Add(this.SIJapaneseRadioButton);
             this.SILangGroupBox.Controls.Add(this.SIAutoRadioButton);
-            resources.ApplyResources(this.SILangGroupBox, "SILangGroupBox");
             this.SILangGroupBox.Name = "SILangGroupBox";
             this.SILangGroupBox.TabStop = false;
             // 
             // SIEnglishRadioButton
             // 
+            this.SIEnglishRadioButton.AccessibleDescription = null;
+            this.SIEnglishRadioButton.AccessibleName = null;
             resources.ApplyResources(this.SIEnglishRadioButton, "SIEnglishRadioButton");
+            this.SIEnglishRadioButton.BackgroundImage = null;
             this.SIEnglishRadioButton.Name = "SIEnglishRadioButton";
             this.SIEnglishRadioButton.TabStop = true;
             this.SIEnglishRadioButton.UseVisualStyleBackColor = true;
             // 
             // SIJapaneseRadioButton
             // 
+            this.SIJapaneseRadioButton.AccessibleDescription = null;
+            this.SIJapaneseRadioButton.AccessibleName = null;
             resources.ApplyResources(this.SIJapaneseRadioButton, "SIJapaneseRadioButton");
+            this.SIJapaneseRadioButton.BackgroundImage = null;
             this.SIJapaneseRadioButton.Name = "SIJapaneseRadioButton";
             this.SIJapaneseRadioButton.TabStop = true;
             this.SIJapaneseRadioButton.UseVisualStyleBackColor = true;
             // 
             // SIAutoRadioButton
             // 
+            this.SIAutoRadioButton.AccessibleDescription = null;
+            this.SIAutoRadioButton.AccessibleName = null;
             resources.ApplyResources(this.SIAutoRadioButton, "SIAutoRadioButton");
+            this.SIAutoRadioButton.BackgroundImage = null;
             this.SIAutoRadioButton.Name = "SIAutoRadioButton";
             this.SIAutoRadioButton.TabStop = true;
             this.SIAutoRadioButton.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel3
+            // SWSSelectButton
             // 
-            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
-            this.tableLayoutPanel3.Controls.Add(this.SWSSelectButton, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.SWSCloseButton, 3, 0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.SWSSelectButton.AccessibleDescription = null;
+            this.SWSSelectButton.AccessibleName = null;
+            resources.ApplyResources(this.SWSSelectButton, "SWSSelectButton");
+            this.SWSSelectButton.BackgroundImage = null;
+            this.SWSSelectButton.Font = null;
+            this.SWSSelectButton.Name = "SWSSelectButton";
+            this.SWSSelectButton.UseVisualStyleBackColor = true;
+            this.SWSSelectButton.Click += new System.EventHandler(this.ClickSWSSelectButton);
             // 
             // SWSCloseButton
             // 
+            this.SWSCloseButton.AccessibleDescription = null;
+            this.SWSCloseButton.AccessibleName = null;
             resources.ApplyResources(this.SWSCloseButton, "SWSCloseButton");
+            this.SWSCloseButton.BackgroundImage = null;
             this.SWSCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.SWSCloseButton.Font = null;
             this.SWSCloseButton.Name = "SWSCloseButton";
             this.SWSCloseButton.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.AccessibleDescription = null;
+            this.groupBox2.AccessibleName = null;
+            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.BackgroundImage = null;
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.SWSNoteTextBox);
+            this.groupBox2.Controls.Add(this.SWSPictureBox);
+            this.groupBox2.Controls.Add(this.SWSPatternListLayoutPanel);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.TabStop = false;
+            // 
+            // label1
+            // 
+            this.label1.AccessibleDescription = null;
+            this.label1.AccessibleName = null;
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.AccessibleDescription = null;
+            this.pictureBox1.AccessibleName = null;
+            resources.ApplyResources(this.pictureBox1, "pictureBox1");
+            this.pictureBox1.BackColor = System.Drawing.Color.White;
+            this.pictureBox1.BackgroundImage = null;
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBox1.Font = null;
+            this.pictureBox1.ImageLocation = null;
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.TabStop = false;
             // 
             // SelectWinSettingWindow
             // 
             this.AcceptButton = this.SWSSelectButton;
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackgroundImage = null;
             this.CancelButton = this.SWSCloseButton;
             this.ControlBox = false;
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.SWSSelectButton);
+            this.Controls.Add(this.SWSCloseButton);
+            this.Controls.Add(this.SILangGroupBox);
+            this.Font = null;
+            this.Icon = null;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SelectWinSettingWindow";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SWSPictureBox)).EndInit();
-            this.SWSPatternListLayoutPanel.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.SILangGroupBox.ResumeLayout(false);
             this.SILangGroupBox.PerformLayout();
-            this.tableLayoutPanel3.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button SWSSelectButton;
         private System.Windows.Forms.PictureBox SWSPictureBox;
         private System.Windows.Forms.TableLayoutPanel SWSPatternListLayoutPanel;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox SWSNoteTextBox;
         private System.Windows.Forms.GroupBox SILangGroupBox;
         private System.Windows.Forms.RadioButton SIAutoRadioButton;
         private System.Windows.Forms.RadioButton SIEnglishRadioButton;
         private System.Windows.Forms.RadioButton SIJapaneseRadioButton;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Button SWSCloseButton;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

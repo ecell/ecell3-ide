@@ -29,40 +29,40 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PluginListDialog));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.PVOKButton = new System.Windows.Forms.Button();
             this.versionListView = new System.Windows.Forms.DataGridView();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.VersionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.versionListView)).BeginInit();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.PVOKButton, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.versionListView, 0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
             // PVOKButton
             // 
+            this.PVOKButton.AccessibleDescription = null;
+            this.PVOKButton.AccessibleName = null;
             resources.ApplyResources(this.PVOKButton, "PVOKButton");
+            this.PVOKButton.BackgroundImage = null;
             this.PVOKButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.PVOKButton.Font = null;
             this.PVOKButton.Name = "PVOKButton";
             this.PVOKButton.UseVisualStyleBackColor = true;
             this.PVOKButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
             // versionListView
             // 
+            this.versionListView.AccessibleDescription = null;
+            this.versionListView.AccessibleName = null;
             this.versionListView.AllowUserToAddRows = false;
             this.versionListView.AllowUserToDeleteRows = false;
+            resources.ApplyResources(this.versionListView, "versionListView");
             this.versionListView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.versionListView.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.versionListView.BackgroundImage = null;
             this.versionListView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.versionListView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.NameColumn,
             this.VersionColumn});
-            resources.ApplyResources(this.versionListView, "versionListView");
+            this.versionListView.Font = null;
             this.versionListView.MultiSelect = false;
             this.versionListView.Name = "versionListView";
             this.versionListView.ReadOnly = true;
@@ -83,16 +83,20 @@
             this.VersionColumn.Name = "VersionColumn";
             this.VersionColumn.ReadOnly = true;
             // 
-            // PluginVersionListWindow
+            // PluginListDialog
             // 
             this.AcceptButton = this.PVOKButton;
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = null;
             this.CancelButton = this.PVOKButton;
-            this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "PluginVersionListWindow";
+            this.Controls.Add(this.PVOKButton);
+            this.Controls.Add(this.versionListView);
+            this.Font = null;
+            this.Name = "PluginListDialog";
             this.Shown += new System.EventHandler(this.WindowShown);
-            this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.versionListView)).EndInit();
             this.ResumeLayout(false);
 
@@ -100,7 +104,6 @@
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button PVOKButton;
         /// <summary>
         /// DataGridView to display the version list of plugin.

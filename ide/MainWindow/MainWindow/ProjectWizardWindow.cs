@@ -112,7 +112,7 @@ namespace EcellLib.MainWindow
         {
             // Load Projects
             string path = Util.GetWindowSettingDir();
-            if (path == null)
+            if (path == null || !Directory.Exists(path))
                 return;
             string[] dirs = Directory.GetDirectories(path);
             int i = 0;

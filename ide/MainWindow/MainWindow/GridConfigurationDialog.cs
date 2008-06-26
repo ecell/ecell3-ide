@@ -43,7 +43,7 @@ namespace EcellLib.MainWindow
     /// <summary>
     /// Form to setup the distributed environment.
     /// </summary>
-    public partial class DistributedEnvSetupWindow : Form
+    public partial class GridConfigurationDialog : Form
     {
         #region Fields
         /// <summary>
@@ -60,7 +60,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Constructor.
         /// </summary>
-        public DistributedEnvSetupWindow(IJobManager manager)
+        public GridConfigurationDialog(IJobManager manager)
         {
             m_manager = manager;
             InitializeComponent();

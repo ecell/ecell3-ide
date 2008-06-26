@@ -44,7 +44,7 @@ namespace EcellLib.MainWindow
     /// <summary>
     /// Form to display the status of jobs.
     /// </summary>
-    public partial class DistributedEnvWindow : Form
+    public partial class GridJobStatusDialog : Form
     {
         #region
         /// <summary>
@@ -56,7 +56,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Constructor.
         /// </summary>
-        public DistributedEnvWindow(IJobManager manager)
+        public GridJobStatusDialog(IJobManager manager)
         {
             m_manager = manager;
             InitializeComponent();               
