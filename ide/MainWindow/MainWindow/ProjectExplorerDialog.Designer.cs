@@ -66,7 +66,6 @@ namespace EcellLib.MainWindow
             this.MPButtonPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MPOpenButton = new System.Windows.Forms.Button();
             this.MPCancelButton = new System.Windows.Forms.Button();
-            this.MPGUIPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MPPrjTreeView = new System.Windows.Forms.TreeView();
             this.MPImageList = new System.Windows.Forms.ImageList(this.components);
             this.MPMessagePanel = new System.Windows.Forms.TableLayoutPanel();
@@ -76,17 +75,20 @@ namespace EcellLib.MainWindow
             this.MPPrjIDText = new System.Windows.Forms.TextBox();
             this.MPPrjDateText = new System.Windows.Forms.TextBox();
             this.MPPrjCommentText = new System.Windows.Forms.TextBox();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.MPLayoutPanel.SuspendLayout();
             this.MPButtonPanel.SuspendLayout();
-            this.MPGUIPanel.SuspendLayout();
             this.MPMessagePanel.SuspendLayout();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // MPLayoutPanel
             // 
             resources.ApplyResources(this.MPLayoutPanel, "MPLayoutPanel");
             this.MPLayoutPanel.Controls.Add(this.MPButtonPanel, 0, 1);
-            this.MPLayoutPanel.Controls.Add(this.MPGUIPanel, 0, 0);
+            this.MPLayoutPanel.Controls.Add(this.splitContainer1, 0, 0);
             this.MPLayoutPanel.Name = "MPLayoutPanel";
             // 
             // MPButtonPanel
@@ -110,13 +112,6 @@ namespace EcellLib.MainWindow
             this.MPCancelButton.Name = "MPCancelButton";
             this.MPCancelButton.UseVisualStyleBackColor = true;
             // 
-            // MPGUIPanel
-            // 
-            resources.ApplyResources(this.MPGUIPanel, "MPGUIPanel");
-            this.MPGUIPanel.Controls.Add(this.MPPrjTreeView, 0, 0);
-            this.MPGUIPanel.Controls.Add(this.MPMessagePanel, 1, 0);
-            this.MPGUIPanel.Name = "MPGUIPanel";
-            // 
             // MPPrjTreeView
             // 
             resources.ApplyResources(this.MPPrjTreeView, "MPPrjTreeView");
@@ -136,12 +131,12 @@ namespace EcellLib.MainWindow
             // MPMessagePanel
             // 
             resources.ApplyResources(this.MPMessagePanel, "MPMessagePanel");
-            this.MPMessagePanel.Controls.Add(this.MPPrjIDLabel, 0, 0);
             this.MPMessagePanel.Controls.Add(this.MPPrjDateLabel, 0, 3);
             this.MPMessagePanel.Controls.Add(this.MPPrjCommentLabel, 0, 6);
             this.MPMessagePanel.Controls.Add(this.MPPrjIDText, 0, 1);
             this.MPMessagePanel.Controls.Add(this.MPPrjDateText, 0, 4);
             this.MPMessagePanel.Controls.Add(this.MPPrjCommentText, 0, 7);
+            this.MPMessagePanel.Controls.Add(this.MPPrjIDLabel, 0, 0);
             this.MPMessagePanel.Name = "MPMessagePanel";
             // 
             // MPPrjIDLabel
@@ -177,19 +172,34 @@ namespace EcellLib.MainWindow
             this.MPPrjCommentText.Name = "MPPrjCommentText";
             this.MPPrjCommentText.ReadOnly = true;
             // 
-            // ManageProjectDialog
+            // splitContainer1
+            // 
+            resources.ApplyResources(this.splitContainer1, "splitContainer1");
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.MPPrjTreeView);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.MPMessagePanel);
+            // 
+            // ProjectExplorerDialog
             // 
             this.AcceptButton = this.MPOpenButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.MPCancelButton;
             this.Controls.Add(this.MPLayoutPanel);
-            this.Name = "ManageProjectDialog";
+            this.Name = "ProjectExplorerDialog";
             this.MPLayoutPanel.ResumeLayout(false);
             this.MPButtonPanel.ResumeLayout(false);
-            this.MPGUIPanel.ResumeLayout(false);
             this.MPMessagePanel.ResumeLayout(false);
             this.MPMessagePanel.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -206,7 +216,6 @@ namespace EcellLib.MainWindow
         /// Button to close this window.
         /// </summary>
         public System.Windows.Forms.Button MPCancelButton;
-        private System.Windows.Forms.TableLayoutPanel MPGUIPanel;
         private System.Windows.Forms.TableLayoutPanel MPMessagePanel;
         private System.Windows.Forms.Label MPPrjIDLabel;
         private System.Windows.Forms.Label MPPrjDateLabel;
@@ -231,5 +240,6 @@ namespace EcellLib.MainWindow
         /// TextBox to input the project id.
         /// </summary>
         public System.Windows.Forms.TextBox MPPrjIDText;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }

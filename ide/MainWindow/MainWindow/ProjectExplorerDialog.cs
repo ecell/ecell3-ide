@@ -758,6 +758,5 @@ namespace EcellLib.MainWindow
             }
             #endregion
         }
-
     }
 }

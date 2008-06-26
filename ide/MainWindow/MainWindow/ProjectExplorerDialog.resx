@@ -133,7 +133,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="MPOpenButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>351, 3</value>
+    <value>343, 3</value>
   </data>
   <data name="MPOpenButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -160,7 +160,7 @@
     <value>Fill</value>
   </data>
   <data name="MPCancelButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>441, 3</value>
+    <value>433, 3</value>
   </data>
   <data name="MPCancelButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -190,7 +190,7 @@
     <value>1</value>
   </data>
   <data name="MPButtonPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 29</value>
+    <value>510, 29</value>
   </data>
   <data name="MPButtonPanel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -210,8 +210,11 @@
   <data name="MPButtonPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="MPOpenButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="MPCancelButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,80,Absolute,10,Absolute,80,Absolute,20" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
-  <data name="MPGUIPanel.ColumnCount" type="System.Int32, mscorlib">
-    <value>2</value>
+  <data name="splitContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="splitContainer1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
   </data>
   <data name="MPPrjTreeView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -274,13 +277,13 @@
 </value>
   </data>
   <data name="MPPrjTreeView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>0, 0</value>
   </data>
   <data name="MPPrjTreeView.SelectedImageIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="MPPrjTreeView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>340, 364</value>
+    <value>359, 370</value>
   </data>
   <data name="MPPrjTreeView.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -292,43 +295,25 @@
     <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;MPPrjTreeView.Parent" xml:space="preserve">
-    <value>MPGUIPanel</value>
+    <value>splitContainer1.Panel1</value>
   </data>
   <data name="&gt;&gt;MPPrjTreeView.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="&gt;&gt;splitContainer1.Panel1.Name" xml:space="preserve">
+    <value>splitContainer1.Panel1</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel1.Parent" xml:space="preserve">
+    <value>splitContainer1</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="MPMessagePanel.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
-  </data>
-  <data name="MPPrjIDLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="MPPrjIDLabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="MPPrjIDLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 4</value>
-  </data>
-  <data name="MPPrjIDLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 12</value>
-  </data>
-  <data name="MPPrjIDLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="MPPrjIDLabel.Text" xml:space="preserve">
-    <value>ProjectID</value>
-  </data>
-  <data name="&gt;&gt;MPPrjIDLabel.Name" xml:space="preserve">
-    <value>MPPrjIDLabel</value>
-  </data>
-  <data name="&gt;&gt;MPPrjIDLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MPPrjIDLabel.Parent" xml:space="preserve">
-    <value>MPMessagePanel</value>
-  </data>
-  <data name="&gt;&gt;MPPrjIDLabel.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="MPPrjDateLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
@@ -340,7 +325,7 @@
     <value>3, 59</value>
   </data>
   <data name="MPPrjDateLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 12</value>
+    <value>141, 12</value>
   </data>
   <data name="MPPrjDateLabel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -358,7 +343,7 @@
     <value>MPMessagePanel</value>
   </data>
   <data name="&gt;&gt;MPPrjDateLabel.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="MPPrjCommentLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
@@ -370,7 +355,7 @@
     <value>3, 114</value>
   </data>
   <data name="MPPrjCommentLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 12</value>
+    <value>141, 12</value>
   </data>
   <data name="MPPrjCommentLabel.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -388,7 +373,7 @@
     <value>MPMessagePanel</value>
   </data>
   <data name="&gt;&gt;MPPrjCommentLabel.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="MPPrjIDText.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
@@ -400,7 +385,7 @@
     <value>64</value>
   </data>
   <data name="MPPrjIDText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 19</value>
+    <value>141, 19</value>
   </data>
   <data name="MPPrjIDText.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -415,7 +400,7 @@
     <value>MPMessagePanel</value>
   </data>
   <data name="&gt;&gt;MPPrjIDText.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="MPPrjDateText.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
@@ -424,7 +409,7 @@
     <value>3, 78</value>
   </data>
   <data name="MPPrjDateText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 19</value>
+    <value>141, 19</value>
   </data>
   <data name="MPPrjDateText.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -439,7 +424,7 @@
     <value>MPMessagePanel</value>
   </data>
   <data name="&gt;&gt;MPPrjDateText.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="MPPrjCommentText.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -451,7 +436,7 @@
     <value>True</value>
   </data>
   <data name="MPPrjCommentText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 228</value>
+    <value>141, 234</value>
   </data>
   <data name="MPPrjCommentText.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -466,19 +451,49 @@
     <value>MPMessagePanel</value>
   </data>
   <data name="&gt;&gt;MPPrjCommentText.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="MPPrjIDLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="MPPrjIDLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="MPPrjIDLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 4</value>
+  </data>
+  <data name="MPPrjIDLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>141, 12</value>
+  </data>
+  <data name="MPPrjIDLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="MPPrjIDLabel.Text" xml:space="preserve">
+    <value>ProjectID</value>
+  </data>
+  <data name="&gt;&gt;MPPrjIDLabel.Name" xml:space="preserve">
+    <value>MPPrjIDLabel</value>
+  </data>
+  <data name="&gt;&gt;MPPrjIDLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MPPrjIDLabel.Parent" xml:space="preserve">
+    <value>MPMessagePanel</value>
+  </data>
+  <data name="&gt;&gt;MPPrjIDLabel.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
   <data name="MPMessagePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="MPMessagePanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>349, 3</value>
+    <value>0, 0</value>
   </data>
   <data name="MPMessagePanel.RowCount" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
   <data name="MPMessagePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 364</value>
+    <value>147, 370</value>
   </data>
   <data name="MPMessagePanel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -490,43 +505,46 @@
     <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;MPMessagePanel.Parent" xml:space="preserve">
-    <value>MPGUIPanel</value>
+    <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;MPMessagePanel.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="MPMessagePanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="MPPrjIDLabel" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="MPPrjDateLabel" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="MPPrjCommentLabel" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="MPPrjIDText" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="MPPrjDateText" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="MPPrjCommentText" Row="7" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,20,Absolute,25,Absolute,10,Absolute,20,Absolute,25,Absolute,10,Absolute,20,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="MPPrjDateLabel" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="MPPrjCommentLabel" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="MPPrjIDText" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="MPPrjDateText" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="MPPrjCommentText" Row="7" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="MPPrjIDLabel" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,20,Absolute,25,Absolute,10,Absolute,20,Absolute,25,Absolute,10,Absolute,20,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
-  <data name="MPGUIPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="&gt;&gt;splitContainer1.Panel2.Name" xml:space="preserve">
+    <value>splitContainer1.Panel2</value>
   </data>
-  <data name="MPGUIPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+  <data name="&gt;&gt;splitContainer1.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="MPGUIPanel.RowCount" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;splitContainer1.Panel2.Parent" xml:space="preserve">
+    <value>splitContainer1</value>
+  </data>
+  <data name="&gt;&gt;splitContainer1.Panel2.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="MPGUIPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>518, 370</value>
+  <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>510, 370</value>
   </data>
-  <data name="MPGUIPanel.TabIndex" type="System.Int32, mscorlib">
+  <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
+    <value>359</value>
+  </data>
+  <data name="splitContainer1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;MPGUIPanel.Name" xml:space="preserve">
-    <value>MPGUIPanel</value>
+  <data name="&gt;&gt;splitContainer1.Name" xml:space="preserve">
+    <value>splitContainer1</value>
   </data>
-  <data name="&gt;&gt;MPGUIPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;splitContainer1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;MPGUIPanel.Parent" xml:space="preserve">
+  <data name="&gt;&gt;splitContainer1.Parent" xml:space="preserve">
     <value>MPLayoutPanel</value>
   </data>
-  <data name="&gt;&gt;MPGUIPanel.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;splitContainer1.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="MPGUIPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="MPPrjTreeView" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="MPMessagePanel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100,Absolute,172" /&gt;&lt;Rows Styles="Percent,100,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="MPLayoutPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -538,7 +556,7 @@
     <value>2</value>
   </data>
   <data name="MPLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>524, 411</value>
+    <value>516, 411</value>
   </data>
   <data name="MPLayoutPanel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -556,7 +574,7 @@
     <value>0</value>
   </data>
   <data name="MPLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="MPButtonPanel" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="MPGUIPanel" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Percent,100,Absolute,35" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="MPButtonPanel" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="splitContainer1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Percent,100,Absolute,35" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -565,7 +583,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>524, 411</value>
+    <value>516, 411</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
