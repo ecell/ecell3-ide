@@ -47,7 +47,7 @@ namespace EcellLib.MainWindow
     /// <summary>
     /// Dialog to select the opened project.
     /// </summary>
-    public partial class ManageProjectDialog : Form
+    public partial class ProjectExplorerDialog : Form
     {
         #region Fields
         /// <summary>
@@ -96,7 +96,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ManageProjectDialog()
+        public ProjectExplorerDialog()
         {
             InitializeComponent();
             MPPrjTreeView.ContextMenuStrip = CreatePopupMenus();

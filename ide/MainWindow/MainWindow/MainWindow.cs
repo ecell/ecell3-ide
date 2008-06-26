@@ -87,7 +87,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// m_openPrjDialog (OpenProjectDialog)
         /// </summary>
-        private ManageProjectDialog m_managePrjDialog;
+        private ProjectExplorerDialog m_managePrjDialog;
         /// <summary>
         /// m_savePrjDialog (SaveProjectDialog)
         /// </summary>
@@ -1237,7 +1237,7 @@ namespace EcellLib.MainWindow
                 }
             }
 
-            m_managePrjDialog = new ManageProjectDialog();
+            m_managePrjDialog = new ProjectExplorerDialog();
             m_managePrjDialog.CreateProjectTreeView(null, m_currentDir);
             if (m_managePrjDialog.ShowDialog() == DialogResult.OK)
             {

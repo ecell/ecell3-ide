@@ -32,7 +32,7 @@
 //
 namespace EcellLib.MainWindow
 {
-    partial class ManageProjectDialog
+    partial class ProjectExplorerDialog
     {
         /// <summary>
         /// 必要なデザイナ変数です。
@@ -61,7 +61,7 @@ namespace EcellLib.MainWindow
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageProjectDialog));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectExplorerDialog));
             this.MPLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MPButtonPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MPOpenButton = new System.Windows.Forms.Button();
