@@ -197,15 +197,16 @@ namespace EcellLib.ScriptWindow
             m_engine.Execute("from EcellIDE import *;");
             Flush();
             m_scriptRunnerThread = new Thread(new ThreadStart(m_scriptRunner.Run));
+            Disposed +=
+                delegate(object o, EventArgs e)
+                {
+                    m_scriptRunner.Stop();
+                    m_scriptRunnerThread.Join();
+                };
             m_scriptRunnerThread.Start();
+
         }
         #endregion
-
-        ~ScriptCommandWindow()
-        {
-            m_scriptRunner.Stop();
-            m_scriptRunnerThread.Join();
-        }
 
         #region Events
         /// <summary>
