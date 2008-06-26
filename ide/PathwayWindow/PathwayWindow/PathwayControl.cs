@@ -98,7 +98,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// ToolBox interface.
         /// </summary>
-        private ToolBox m_toolBox;
+        private Stencil m_toolBox;
 
         /// <summary>
         /// ProjectStatus
@@ -172,7 +172,7 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Accessor for m_layerView.
         /// </summary>
-        public ToolBox ToolBox
+        public Stencil ToolBox
         {
             get { return m_toolBox; }
         }
@@ -300,7 +300,7 @@ namespace EcellLib.PathwayWindow
             m_pathwayView = new PathwayView(this);
             //m_overView = new OverView(this);
             m_layerView = new LayerView(this);
-            m_toolBox = new ToolBox(this);
+            m_toolBox = new Stencil(this);
         }
         #endregion
 

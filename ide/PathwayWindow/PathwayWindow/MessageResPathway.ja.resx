@@ -342,8 +342,8 @@
   <data name="WindowPathway" xml:space="preserve">
     <value>ネットワーク</value>
   </data>
-  <data name="WindowToolbox" xml:space="preserve">
-    <value>ツールボックス</value>
+  <data name="WindowStencil" xml:space="preserve">
+    <value>ステンシル</value>
   </data>
   <data name="DialogTextCenterBrush" xml:space="preserve">
     <value>中央色</value>

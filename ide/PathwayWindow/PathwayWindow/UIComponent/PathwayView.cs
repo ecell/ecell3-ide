@@ -54,12 +54,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         private StatusStrip StatusStrip;
         private ToolStripStatusLabel ObjectIDLabel;
         private ToolStripStatusLabel LocationLabel;
-        private Panel panel1;
-
-        /// <summary>
-        /// PScrollableControl
-        /// </summary>
-        protected PScrollableControl m_scrolCtrl;
+        private Panel OverviewContainer;
+        private PScrollableControl ScrollContainer;
         #endregion
 
         #region Constructor
@@ -72,13 +68,8 @@ namespace EcellLib.PathwayWindow.UIComponent
             base.m_isSavable = true;
             this.m_con = control;
             this.m_con.CanvasChange += new EventHandler(m_con_CanvasChange);
-            this.m_scrolCtrl = new PScrollableControl();
-            this.m_scrolCtrl.Dock = DockStyle.Fill;
 
             InitializeComponent();
-
-            this.Text = MessageResPathway.WindowPathway;
-            this.TabText = this.Text;
         }
         #endregion
 
@@ -88,27 +79,27 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void m_con_CanvasChange(object sender, EventArgs e)
+        private void m_con_CanvasChange(object _sender, EventArgs e)
         {
-            this.Controls.Clear();
-            panel1.Controls.Clear();
-            this.Text = MessageResPathway.WindowPathway;
-            this.TabText = this.Text;
-            if (m_con.Canvas == null)
+            PathwayControl sender = (PathwayControl)_sender;
+            if (sender.Canvas == null)
                 return;
-
-            PCanvas canvas = m_con.Canvas.PCanvas;
-            m_scrolCtrl.Canvas = canvas;
-            canvas.MouseMove += new MouseEventHandler(canvas_MouseMove);
-            panel1.Controls.Add(m_con.Canvas.OverviewCanvas);
-            this.Controls.Add(panel1);
-            this.Controls.Add(canvas);
-            this.Controls.Add(m_scrolCtrl);
-            this.Controls.Add(StatusStrip);
-            this.Text = m_con.Canvas.ModelID;
-            this.TabText = this.Text;
-            this.Activate();
-            this.Parent.Refresh();
+            SuspendLayout();
+            {
+                Controls.Clear();
+                OverviewContainer.Controls.Clear();
+                ScrollContainer.Canvas = sender.Canvas.PCanvas;
+                ScrollContainer.Canvas.MouseMove += new MouseEventHandler(canvas_MouseMove);
+                OverviewContainer.Controls.Add(sender.Canvas.OverviewCanvas);
+                Controls.Add(OverviewContainer);
+                Controls.Add(ScrollContainer);
+                Controls.Add(StatusStrip);
+                Text = sender.Canvas.ModelID;
+                TabText = this.Text;
+            }
+            ResumeLayout();
+            Activate();
+            Parent.Refresh();
         }
 
         /// <summary>
@@ -136,7 +127,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.ObjectIDLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.LocationLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.OverviewContainer = new System.Windows.Forms.Panel();
             this.StatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -176,26 +167,29 @@ namespace EcellLib.PathwayWindow.UIComponent
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Location = new System.Drawing.Point(476, 332);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(121, 112);
-            this.panel1.TabIndex = 1;
+            this.OverviewContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.OverviewContainer.Location = new System.Drawing.Point(476, 332);
+            this.OverviewContainer.Name = "panel1";
+            this.OverviewContainer.Size = new System.Drawing.Size(121, 112);
+            this.OverviewContainer.BackColor = Color.Transparent;
             // 
             // PathwayView
             // 
             this.ClientSize = new System.Drawing.Size(622, 491);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.OverviewContainer);
             this.Controls.Add(this.StatusStrip);
             this.Icon = global::EcellLib.PathwayWindow.PathwayResource.Icon_PathwayView;
             this.Name = "PathwayView";
-            this.TabText = this.Name;
-            this.Text = this.Name;
+            this.Text = MessageResPathway.WindowPathway;
+            this.TabText = this.Text;
+
+            this.ScrollContainer = new PScrollableControl();
+            this.ScrollContainer.Dock = DockStyle.Fill;
+           
             this.StatusStrip.ResumeLayout(false);
             this.StatusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         /// <summary>
