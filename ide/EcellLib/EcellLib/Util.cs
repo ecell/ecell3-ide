@@ -561,7 +561,7 @@ namespace EcellLib
         /// <returns></returns>
         public static string GetTmpDir()
         {
-            String topDir = Path.GetTempPath() + "\\E-Cell IDE";
+            String topDir = Path.GetTempPath() + Path.DirectorySeparatorChar + "E-Cell IDE";
             if (!Directory.Exists(topDir))
             {
                 Directory.CreateDirectory(topDir);
@@ -888,6 +888,14 @@ namespace EcellLib
         public static void AddPluginDir(string pluginDir)
         {
             s_extraPluginDirs.Add(pluginDir);
+        }
+
+        /// <summary>
+        /// Returns the "bin" directory
+        /// </summary>
+        public static string GetBinDir()
+        {
+            return Path.GetDirectoryName(typeof(Util).Assembly.Location);
         }
     }
 }
