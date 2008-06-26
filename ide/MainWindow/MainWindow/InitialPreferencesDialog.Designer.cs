@@ -1,6 +1,6 @@
 ﻿namespace EcellLib.MainWindow
 {
-    partial class SelectWinSettingWindow
+    partial class InitialPreferencesDialog
     {
         /// <summary>
         /// 必要なデザイナ変数です。
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectWinSettingWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InitialPreferencesDialog));
             this.SWSPictureBox = new System.Windows.Forms.PictureBox();
             this.SWSPatternListLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.SWSNoteTextBox = new System.Windows.Forms.TextBox();

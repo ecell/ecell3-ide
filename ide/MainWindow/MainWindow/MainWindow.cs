@@ -541,7 +541,7 @@ namespace EcellLib.MainWindow
             if (!loadWindowSetting(m_userWindowSettingPath))
             {
                 
-                SelectWinSettingWindow win = new SelectWinSettingWindow();
+                InitialPreferencesDialog win = new InitialPreferencesDialog();
                 try
                 {
                     string filePath = win.ShowWindow(true);
@@ -1969,7 +1969,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void SetupIDEMenuClick(object sender, EventArgs e)
         {
-            SelectWinSettingWindow win = new SelectWinSettingWindow();
+            InitialPreferencesDialog win = new InitialPreferencesDialog();
 
             string path = win.ShowWindow(false);
             if (path != null)

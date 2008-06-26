@@ -42,7 +42,7 @@ namespace EcellLib.MainWindow
     /// <summary>
     /// Form class to select the initial window setting.
     /// </summary>
-    public partial class SelectWinSettingWindow : Form
+    public partial class InitialPreferencesDialog : Form
     {
         /// <summary>
         /// The path of the initial window setting file.
@@ -57,7 +57,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Constructor/
         /// </summary>
-        public SelectWinSettingWindow()
+        public InitialPreferencesDialog()
         {
             InitializeComponent();
         }
