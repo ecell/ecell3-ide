@@ -109,6 +109,7 @@ namespace EcellLib.MainWindow
             // 
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
+            this.label4.UseCompatibleTextRendering = true;
             // 
             // CPAddButton
             // 

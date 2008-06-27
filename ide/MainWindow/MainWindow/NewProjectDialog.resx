@@ -169,7 +169,7 @@
     <value>55, 12</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>4</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>&amp;Comment:</value>
@@ -199,7 +199,7 @@
     <value>64</value>
   </data>
   <data name="textName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>195, 19</value>
+    <value>450, 19</value>
   </data>
   <data name="textName.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -226,10 +226,10 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="textComment.Size" type="System.Drawing.Size, System.Drawing">
-    <value>195, 19</value>
+    <value>450, 19</value>
   </data>
   <data name="textComment.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;textComment.Name" xml:space="preserve">
     <value>textComment</value>
@@ -259,7 +259,7 @@
     <value>70, 12</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>2</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>&amp;Model Name:</value>
@@ -292,10 +292,10 @@
     <value>True</value>
   </data>
   <data name="textModelName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>292, 123</value>
+    <value>547, 123</value>
   </data>
   <data name="textModelName.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;textModelName.Name" xml:space="preserve">
     <value>textModelName</value>
@@ -316,10 +316,10 @@
     <value>9, 218</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 12</value>
+    <value>92, 17</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>&amp;DM Search Path:</value>
@@ -340,7 +340,7 @@
     <value>Top, Right</value>
   </data>
   <data name="CPAddButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>198, 235</value>
+    <value>453, 235</value>
   </data>
   <data name="CPAddButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -349,7 +349,7 @@
     <value>105, 24</value>
   </data>
   <data name="CPAddButton.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>8</value>
   </data>
   <data name="CPAddButton.Text" xml:space="preserve">
     <value>&amp;Add Directory...</value>
@@ -370,7 +370,7 @@
     <value>Top, Right</value>
   </data>
   <data name="CPRemoveButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>198, 265</value>
+    <value>453, 265</value>
   </data>
   <data name="CPRemoveButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -379,7 +379,7 @@
     <value>105, 23</value>
   </data>
   <data name="CPRemoveButton.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>9</value>
   </data>
   <data name="CPRemoveButton.Text" xml:space="preserve">
     <value>&amp;Remove</value>
@@ -400,7 +400,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="CPCreateButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>145, 369</value>
+    <value>400, 370</value>
   </data>
   <data name="CPCreateButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -409,7 +409,7 @@
     <value>74, 23</value>
   </data>
   <data name="CPCreateButton.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>10</value>
   </data>
   <data name="CPCreateButton.Text" xml:space="preserve">
     <value>&amp;OK</value>
@@ -430,7 +430,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="CPCancelButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>229, 369</value>
+    <value>484, 370</value>
   </data>
   <data name="CPCancelButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -439,7 +439,7 @@
     <value>74, 23</value>
   </data>
   <data name="CPCancelButton.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>11</value>
   </data>
   <data name="CPCancelButton.Text" xml:space="preserve">
     <value>Cancel</value>
@@ -469,10 +469,10 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="CPListBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 124</value>
+    <value>431, 124</value>
   </data>
   <data name="CPListBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>7</value>
   </data>
   <data name="&gt;&gt;CPListBox.Name" xml:space="preserve">
     <value>CPListBox</value>
@@ -493,7 +493,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>312, 401</value>
+    <value>567, 402</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

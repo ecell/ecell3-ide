@@ -126,10 +126,10 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="SWSPictureBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>402, 18</value>
+    <value>255, 18</value>
   </data>
   <data name="SWSPictureBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>310, 260</value>
+    <value>310, 227</value>
   </data>
   <data name="SWSPictureBox.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
@@ -150,6 +150,9 @@
   <data name="&gt;&gt;SWSPictureBox.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="SWSPatternListLayoutPanel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
   <data name="SWSPatternListLayoutPanel.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
@@ -166,7 +169,7 @@
     <value>4</value>
   </data>
   <data name="SWSPatternListLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>380, 100</value>
+    <value>233, 100</value>
   </data>
   <data name="SWSPatternListLayoutPanel.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -187,7 +190,7 @@
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls /&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Absolute,25,Absolute,25,Absolute,25,Absolute,25,Absolute,20,Absolute,20,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="SWSNoteTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left</value>
+    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="SWSNoteTextBox.Font" type="System.Drawing.Font, System.Drawing">
     <value>MS UI Gothic, 9pt</value>
@@ -205,7 +208,7 @@
     <value>Horizontal</value>
   </data>
   <data name="SWSNoteTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>376, 141</value>
+    <value>229, 108</value>
   </data>
   <data name="SWSNoteTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -322,7 +325,7 @@
     <value>12, 93</value>
   </data>
   <data name="SILangGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>728, 45</value>
+    <value>581, 45</value>
   </data>
   <data name="SILangGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -346,7 +349,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="SWSSelectButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>586, 465</value>
+    <value>439, 432</value>
   </data>
   <data name="SWSSelectButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 28</value>
@@ -373,7 +376,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="SWSCloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>666, 465</value>
+    <value>519, 432</value>
   </data>
   <data name="SWSCloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 28</value>
@@ -439,7 +442,7 @@
     <value>12, 155</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>728, 293</value>
+    <value>581, 260</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -3751,7 +3754,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="pictureBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>755, 80</value>
+    <value>608, 80</value>
   </data>
   <data name="pictureBox1.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -3778,7 +3781,10 @@
     <value>None</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>752, 505</value>
+    <value>605, 472</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Preferences</value>
