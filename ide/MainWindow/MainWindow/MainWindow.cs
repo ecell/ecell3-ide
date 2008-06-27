@@ -136,6 +136,7 @@ namespace EcellLib.MainWindow
         /// RecentProjects
         /// </summary>
         private Dictionary<string, string> m_recentProjects = new Dictionary<string, string>();
+
         #endregion
 
         #region Accessor
@@ -184,10 +185,6 @@ namespace EcellLib.MainWindow
         public void Initialize()
         {
             InitializeComponent();
-            ToolStripProgressBar p = m_env.PluginManager.ProgressBar;
-            ToolStripLabel l = m_env.PluginManager.Label;
-            MWstatusStrip.Items.Add(p);
-            MWstatusStrip.Items.Add(l);
             dockPanel.ShowDocumentIcon = true;
             // Load plugins
             LoadPlugins();
@@ -1264,17 +1261,6 @@ namespace EcellLib.MainWindow
         }
 
         /// <summary>
-        /// Inform the progress of process.
-        /// </summary>
-        /// <param name="mes">the message of progress.</param>
-        /// <param name="max">the max progress.</param>
-        /// <param name="percent">the percent of progress.</param>
-        public void NotifyProgressChanged(string mes, int max, int percent)
-        {
-            m_env.PluginManager.Progress(mes, max, percent);
-        }
-
-        /// <summary>
         /// The action when you click OK or Cancel in OpenProjectDialog.
         /// If you don't select the project, system show warning message.
         /// </summary>
@@ -2051,5 +2037,22 @@ namespace EcellLib.MainWindow
             edit.ShowDialog();
         }
 
+        public virtual void SetStatusBarMessage(StatusBarMessageKind kind, string str)
+        {
+            switch (kind)
+            {
+                case StatusBarMessageKind.Generic:
+                    genericStatusText.Text = str;
+                    break;
+                case StatusBarMessageKind.QuickInspector:
+                    quickInspectorText.Text = str;
+                    break;
+            }
+        }
+
+        public virtual void SetProgressBarValue(int val)
+        {
+            genericProgressBar.Value = val;
+        }
     }
 }

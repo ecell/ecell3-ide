@@ -34,6 +34,10 @@ namespace EcellLib.MainWindow
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
+            this.MWstatusStrip = new System.Windows.Forms.StatusStrip();
+            this.genericStatusText = new System.Windows.Forms.ToolStripStatusLabel();
+            this.genericProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.quickInspectorText = new System.Windows.Forms.ToolStripStatusLabel();
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.menustrip = new System.Windows.Forms.MenuStrip();
             this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,10 +83,10 @@ namespace EcellLib.MainWindow
             this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
-            this.MWstatusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.SuspendLayout();
+            this.MWstatusStrip.SuspendLayout();
             this.menustrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -99,6 +103,37 @@ namespace EcellLib.MainWindow
             resources.ApplyResources(this.toolStripContainer.ContentPanel, "toolStripContainer.ContentPanel");
             resources.ApplyResources(this.toolStripContainer, "toolStripContainer");
             this.toolStripContainer.Name = "toolStripContainer";
+            // 
+            // MWstatusStrip
+            // 
+            resources.ApplyResources(this.MWstatusStrip, "MWstatusStrip");
+            this.MWstatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.genericStatusText,
+            this.quickInspectorText,
+            this.genericProgressBar});
+            this.MWstatusStrip.Name = "MWstatusStrip";
+            this.MWstatusStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            // 
+            // genericStatusText
+            // 
+            this.genericStatusText.Name = "genericStatusText";
+            resources.ApplyResources(this.genericStatusText, "genericStatusText");
+            this.genericStatusText.Spring = true;
+            // 
+            // genericProgressBar
+            // 
+            this.genericProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.genericProgressBar.Name = "genericProgressBar";
+            resources.ApplyResources(this.genericProgressBar, "genericProgressBar");
+            // 
+            // quickInspectorText
+            // 
+            this.quickInspectorText.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
+                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.quickInspectorText.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.quickInspectorText.Name = "quickInspectorText";
+            resources.ApplyResources(this.quickInspectorText, "quickInspectorText");
             // 
             // dockPanel
             // 
@@ -417,11 +452,6 @@ namespace EcellLib.MainWindow
             resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             this.openScriptDialog.RestoreDirectory = true;
             // 
-            // MWstatusStrip
-            // 
-            resources.ApplyResources(this.MWstatusStrip, "MWstatusStrip");
-            this.MWstatusStrip.Name = "MWstatusStrip";
-            // 
             // MainWindow
             // 
             resources.ApplyResources(this, "$this");
@@ -438,6 +468,8 @@ namespace EcellLib.MainWindow
             this.toolStripContainer.ContentPanel.PerformLayout();
             this.toolStripContainer.ResumeLayout(false);
             this.toolStripContainer.PerformLayout();
+            this.MWstatusStrip.ResumeLayout(false);
+            this.MWstatusStrip.PerformLayout();
             this.menustrip.ResumeLayout(false);
             this.menustrip.PerformLayout();
             this.ResumeLayout(false);
@@ -544,6 +576,9 @@ namespace EcellLib.MainWindow
         private System.Windows.Forms.ToolStripMenuItem projectWizardMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scriptEditorToolStripMenuItem;
         private System.Windows.Forms.StatusStrip MWstatusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel genericStatusText;
+        private System.Windows.Forms.ToolStripProgressBar genericProgressBar;
+        private System.Windows.Forms.ToolStripStatusLabel quickInspectorText;
     }
 }
 

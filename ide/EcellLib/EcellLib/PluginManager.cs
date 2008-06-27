@@ -84,11 +84,6 @@ namespace EcellLib
         /// </summary>
         private ApplicationEnvironment m_env;
         /// <summary>
-        /// The progress bar.
-        /// </summary>
-        private ToolStripProgressBar m_progress;
-        private ToolStripLabel m_label;
-        /// <summary>
         /// m_printBase (set plugin for print)
         /// </summary>
         private string m_printBase;
@@ -155,9 +150,6 @@ namespace EcellLib
 
             // default image type
             m_imageList = new NodeImageComponent().ImageList;
-
-            m_progress = new ToolStripProgressBar();
-            m_label = new ToolStripLabel();
         }
 
         /// <summary>
@@ -205,22 +197,6 @@ namespace EcellLib
         }
 
         /// <summary>
-        /// get the progress bar.
-        /// </summary>
-        public ToolStripProgressBar ProgressBar
-        {
-            get { return this.m_progress; }
-        }
-
-        /// <summary>
-        /// get the label of progress bar.
-        /// </summary>
-        public ToolStripLabel Label
-        {
-            get { return this.m_label; }
-        }
-
-        /// <summary>
         /// set data that the plugin focus on.
         /// </summary>
         /// <param name="modelID">the model ID of data that plugin focus on.</param>
@@ -246,28 +222,6 @@ namespace EcellLib
         public void FocusClear()
         {
             this.m_pluginDic.Clear();
-        }
-
-        /// <summary>
-        /// Set the percent of process at ProgressBar.
-        /// </summary>
-        /// <param name="mes">the progress message.</param>
-        /// <param name="max">the max progress.</param>
-        /// <param name="percent">the percent of process.</param>
-        public void Progress(string mes, int max, int percent)
-        {
-            m_progress.Maximum = max;
-            if (percent == max)
-            {
-                m_label.Text = "";
-                m_progress.Value = 0;
-            }
-            else
-            {
-                m_label.Text = mes;
-                m_progress.Value = percent;
-            }
-            Application.DoEvents();
         }
 
         /// <summary>
@@ -619,6 +573,22 @@ namespace EcellLib
             foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.Message2(message);
+            }
+        }
+
+        public void SetStatusBarMessage(StatusBarMessageKind kind, string str)
+        {
+            foreach (IEcellPlugin p in m_pluginList.Values)
+            {
+                p.SetStatusBarMessage(kind, str);
+            }
+        }
+
+        public void SetProgressBarValue(int val)
+        {
+            foreach (IEcellPlugin p in m_pluginList.Values)
+            {
+                p.SetProgressBarValue(val);
             }
         }
 

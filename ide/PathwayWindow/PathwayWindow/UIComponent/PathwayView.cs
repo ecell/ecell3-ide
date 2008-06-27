@@ -51,9 +51,6 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// sends messages to the E-cell core.
         /// </summary>
         protected PathwayControl m_con;
-        private StatusStrip StatusStrip;
-        private ToolStripStatusLabel ObjectIDLabel;
-        private ToolStripStatusLabel LocationLabel;
         private Panel OverviewContainer;
         private PScrollableControl ScrollContainer;
         #endregion
@@ -82,20 +79,27 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void m_con_CanvasChange(object _sender, EventArgs e)
         {
             PathwayControl sender = (PathwayControl)_sender;
-            if (sender.Canvas == null)
-                return;
             SuspendLayout();
             {
                 Controls.Clear();
                 OverviewContainer.Controls.Clear();
-                ScrollContainer.Canvas = sender.Canvas.PCanvas;
-                ScrollContainer.Canvas.MouseMove += new MouseEventHandler(canvas_MouseMove);
-                OverviewContainer.Controls.Add(sender.Canvas.OverviewCanvas);
+                if (sender.Canvas != null)
+                {
+                    ScrollContainer.Canvas = sender.Canvas.PCanvas;
+                    ScrollContainer.Canvas.MouseMove += new MouseEventHandler(canvas_MouseMove);
+                    OverviewContainer.Controls.Add(sender.Canvas.OverviewCanvas);
+                    Text = sender.Canvas.ModelID;
+                    TabText = this.Text;
+                }
+                else
+                {
+                    ScrollContainer.Canvas = new PCanvas();
+                    Text = "Network";
+                    TabText = Text;
+                }
+                Controls.Add(ScrollContainer.Canvas);
                 Controls.Add(OverviewContainer);
                 Controls.Add(ScrollContainer);
-                Controls.Add(StatusStrip);
-                Text = sender.Canvas.ModelID;
-                TabText = this.Text;
             }
             ResumeLayout();
             Activate();
@@ -110,13 +114,27 @@ namespace EcellLib.PathwayWindow.UIComponent
         private void canvas_MouseMove(object sender, MouseEventArgs e)
         {
             PNode node = m_con.Canvas.FocusNode;
+            PluginManager pman = m_con.Window.Environment.PluginManager;
             if (node is PPathwayObject)
-                this.ObjectIDLabel.Text = ((PPathwayObject)node).EcellObject.Key;
+            {
+                pman.SetStatusBarMessage(
+                    EcellLib.Plugin.StatusBarMessageKind.Generic,
+                    ((PPathwayObject)node).EcellObject.Key
+                );
+            }
             else
-                this.ObjectIDLabel.Text = null;
+            {
+                pman.SetStatusBarMessage(
+                    EcellLib.Plugin.StatusBarMessageKind.Generic,
+                    ""
+                );
+            }
             Point systemPos = GetDesktopLocation(m_con.Canvas.PCanvas);
             PointF pos = m_con.Canvas.SystemPosToCanvasPos(new Point(e.Location.X + systemPos.X,e.Location.Y + systemPos.Y));
-            this.LocationLabel.Text = "X:" + pos.X.ToString("###.##") + ", Y:" + pos.Y.ToString("###.##");
+            pman.SetStatusBarMessage(
+                EcellLib.Plugin.StatusBarMessageKind.QuickInspector,
+                string.Format("X:{0:###.##}, Y:{1:###.##}", pos.X, pos.Y)
+            );
         }
 
         /// <summary>
@@ -124,46 +142,8 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// </summary>
         void InitializeComponent()
         {
-            this.StatusStrip = new System.Windows.Forms.StatusStrip();
-            this.ObjectIDLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.LocationLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.OverviewContainer = new System.Windows.Forms.Panel();
-            this.StatusStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // StatusStrip
-            // 
-            this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ObjectIDLabel,
-            this.LocationLabel});
-            this.StatusStrip.Location = new System.Drawing.Point(0, 469);
-            this.StatusStrip.Name = "StatusStrip";
-            this.StatusStrip.Size = new System.Drawing.Size(622, 22);
-            this.StatusStrip.TabIndex = 0;
-            this.StatusStrip.Text = "statusStrip1";
-            // 
-            // ObjectIDLabel
-            // 
-            this.ObjectIDLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.ObjectIDLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            this.ObjectIDLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.ObjectIDLabel.Name = "ObjectIDLabel";
-            this.ObjectIDLabel.Size = new System.Drawing.Size(507, 17);
-            this.ObjectIDLabel.Spring = true;
-            this.ObjectIDLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // LocationLabel
-            // 
-            this.LocationLabel.AutoSize = false;
-            this.LocationLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
-                        | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-            this.LocationLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
-            this.LocationLabel.Name = "LocationLabel";
-            this.LocationLabel.Size = new System.Drawing.Size(100, 17);
-            this.LocationLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel1
             // 
@@ -177,7 +157,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             // 
             this.ClientSize = new System.Drawing.Size(622, 491);
             this.Controls.Add(this.OverviewContainer);
-            this.Controls.Add(this.StatusStrip);
+
             this.Icon = global::EcellLib.PathwayWindow.PathwayResource.Icon_PathwayView;
             this.Name = "PathwayView";
             this.Text = MessageResPathway.WindowPathway;
@@ -185,9 +165,9 @@ namespace EcellLib.PathwayWindow.UIComponent
 
             this.ScrollContainer = new PScrollableControl();
             this.ScrollContainer.Dock = DockStyle.Fill;
-           
-            this.StatusStrip.ResumeLayout(false);
-            this.StatusStrip.PerformLayout();
+            this.ScrollContainer.VsbPolicy = ScrollBarPolicy.Always;
+            this.ScrollContainer.HsbPolicy = ScrollBarPolicy.Always;
+
             this.ResumeLayout(false);
             this.PerformLayout();
         }

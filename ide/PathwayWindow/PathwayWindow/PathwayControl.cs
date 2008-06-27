@@ -398,10 +398,14 @@ namespace EcellLib.PathwayWindow
         /// </summary>
         /// <param name="mes">the message of progress.</param>
         /// <param name="max">the max progress of process.</param>
-        /// <param name="percent">the percent of progress.</param>
-        public void Progress(string mes, int max, int percent)
+        /// <param name="percent">the value of progress.</param>
+        public void Progress(string msg, int max, int val)
         {
-            m_window.NotifyProgressChange(mes, max, percent);
+            Window.Environment.PluginManager.SetStatusBarMessage(
+                EcellLib.Plugin.StatusBarMessageKind.Generic,
+                msg
+            );
+            Window.Environment.PluginManager.SetProgressBarValue(100 * val / max);
         }
 
         /// <summary>
@@ -461,8 +465,9 @@ namespace EcellLib.PathwayWindow
                 return;
             }
             // Error check.
-            Debug.Assert(string.IsNullOrEmpty(eo.Key));
-            Debug.Assert(string.IsNullOrEmpty(eo.ModelID) || !m_canvas.ModelID.Equals(eo.ModelID));
+            Debug.Assert(!string.IsNullOrEmpty(eo.Key));
+            Debug.Assert(!string.IsNullOrEmpty(eo.ModelID));
+            Debug.Assert(m_canvas.ModelID == eo.ModelID);
             if (eo.Key.EndsWith(":SIZE"))
                 return;
 

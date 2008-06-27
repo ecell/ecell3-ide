@@ -47,7 +47,6 @@ namespace EcellLib.MainWindow
         private PictureBox pictureBox;
         private GroupBox groupBox;
         private WebBrowser webBrowser;
-        private StatusStrip statusStrip;
         private ToolStripStatusLabel URLLabel;
         private ToolStrip toolStrip;
         private ToolStripButton ButtonBack;
@@ -87,7 +86,6 @@ namespace EcellLib.MainWindow
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.webBrowser = new System.Windows.Forms.WebBrowser();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.URLLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.ButtonBack = new System.Windows.Forms.ToolStripButton();
@@ -98,7 +96,6 @@ namespace EcellLib.MainWindow
             this.URLComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
-            this.statusStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -139,16 +136,6 @@ namespace EcellLib.MainWindow
             this.webBrowser.ProgressChanged += new System.Windows.Forms.WebBrowserProgressChangedEventHandler(this.webBrowser_ProgressChanged);
             this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
             this.webBrowser.StatusTextChanged += new System.EventHandler(this.webBrowser_StatusTextChanged);
-            // 
-            // statusStrip
-            // 
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.URLLabel});
-            this.statusStrip.Location = new System.Drawing.Point(0, 468);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(718, 22);
-            this.statusStrip.TabIndex = 4;
-            this.statusStrip.Text = "statusStrip1";
             // 
             // URLLabel
             // 
@@ -259,12 +246,9 @@ namespace EcellLib.MainWindow
             this.ClientSize = new System.Drawing.Size(718, 490);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.toolStrip);
-            this.Controls.Add(this.statusStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "StartUpWindow";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
-            this.statusStrip.ResumeLayout(false);
-            this.statusStrip.PerformLayout();
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -428,9 +412,12 @@ namespace EcellLib.MainWindow
         /// <param name="e"></param>
         private void webBrowser_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
         {
-            string mes = MessageResMain.MessageWebBrowse;
-            this.m_window.NotifyProgressChanged(mes, (int)e.MaximumProgress,
-                                            (int)e.CurrentProgress);
+            this.m_window.Environment.PluginManager.SetStatusBarMessage(
+                EcellLib.Plugin.StatusBarMessageKind.Generic,
+                MessageResMain.MessageWebBrowse
+            );
+            this.m_window.Environment.PluginManager.SetProgressBarValue(
+                (int)(100 * ((double)e.CurrentProgress / (double)e.MaximumProgress)));
         }
         /// <summary>
         /// Event on status changed

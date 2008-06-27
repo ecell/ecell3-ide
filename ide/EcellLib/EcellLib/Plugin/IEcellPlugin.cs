@@ -42,6 +42,12 @@ using EcellLib.Objects;
 
 namespace EcellLib.Plugin
 {
+    public enum StatusBarMessageKind
+    {
+        Generic,
+        QuickInspector
+    }
+
     /// <summary>
     /// Interface of plugin.
     /// </summary>
@@ -276,6 +282,18 @@ namespace EcellLib.Plugin
         /// The event sequence on closing project.
         /// </summary>        
         void Clear();
+
+        /// <summary>
+        /// Sets the message to the status bar
+        /// </summary>
+        /// <param name="kind">Type of the message</param>
+        /// <param name="str">Message to set to the status bar of the application's main window</param>
+        void SetStatusBarMessage(StatusBarMessageKind kind, string str);
+
+        /// <summary>
+        /// Sets the value of the progress bar in the status bar
+        /// </summary>
+        void SetProgressBarValue(int value);
         #endregion
     }
 }
