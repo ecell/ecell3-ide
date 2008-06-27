@@ -247,9 +247,9 @@ Source: "Win32\bin\ICSharpCode.SharpZipLib.dll"; DestDir: "{app}\bin"; Component
 
 ; 2008/05/07  for XP and 2000 machine.
 Source: "Win32\bin\gsl.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); Components: main; CopyMode: alwaysoverwrite;
-Source: "Win32\bin\gslcblas.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\bin\blas.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\gsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
-Source: "x64\bin\gslcblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\cblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
 
 ; ======================================================
 ; bin/ja/*
