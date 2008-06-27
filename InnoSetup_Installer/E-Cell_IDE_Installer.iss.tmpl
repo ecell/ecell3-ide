@@ -246,10 +246,10 @@ Source: "x64\bin\MathNet.Iridium.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check
 Source: "Win32\bin\ICSharpCode.SharpZipLib.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
 
 ; 2008/05/07  for XP and 2000 machine.
-Source: "Win32\bin\libgsl.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); Components: main; CopyMode: alwaysoverwrite;
-Source: "Win32\bin\libgslcblas.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); Components: main; CopyMode: alwaysoverwrite;
-Source: "x64\bin\libgsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
-Source: "x64\bin\libgslcblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\bin\gsl.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\bin\gslcblas.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\gsl.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\gslcblas.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
 
 ; ======================================================
 ; bin/ja/*
