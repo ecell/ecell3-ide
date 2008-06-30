@@ -157,7 +157,7 @@
     <value>74, 23</value>
   </data>
   <data name="VSProductButton.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="VSProductButton.Text" xml:space="preserve">
     <value>Product</value>
@@ -187,7 +187,7 @@
     <value>74, 23</value>
   </data>
   <data name="VSCloseButton.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>4</value>
   </data>
   <data name="VSCloseButton.Text" xml:space="preserve">
     <value>Close</value>
@@ -438,9 +438,6 @@
         AAB//wAA//AAAP//AAD//AAD//8AAP//gF///wAA////////AAD///////8AAP///////wAA////////
         AAA=
 </value>
-  </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Pick a Variable</value>

@@ -34,13 +34,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VariableRefWindow));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgv = new System.Windows.Forms.DataGridView();
+            this.ReferenceName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FullID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Coefficient = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DeleteVarButton = new System.Windows.Forms.Button();
             this.VRCloseButton = new System.Windows.Forms.Button();
             this.VRApplyButton = new System.Windows.Forms.Button();
             this.AddVarButton = new System.Windows.Forms.Button();
-            this.ReferenceName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FullID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Coefficient = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,6 +58,25 @@
             this.dgv.Name = "dgv";
             this.dgv.RowHeadersVisible = false;
             this.dgv.RowTemplate.Height = 21;
+            // 
+            // ReferenceName
+            // 
+            this.ReferenceName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            resources.ApplyResources(this.ReferenceName, "ReferenceName");
+            this.ReferenceName.Name = "ReferenceName";
+            // 
+            // FullID
+            // 
+            resources.ApplyResources(this.FullID, "FullID");
+            this.FullID.Name = "FullID";
+            // 
+            // Coefficient
+            // 
+            this.Coefficient.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.Coefficient.DefaultCellStyle = dataGridViewCellStyle1;
+            resources.ApplyResources(this.Coefficient, "Coefficient");
+            this.Coefficient.Name = "Coefficient";
             // 
             // DeleteVarButton
             // 
@@ -83,25 +102,6 @@
             resources.ApplyResources(this.AddVarButton, "AddVarButton");
             this.AddVarButton.Name = "AddVarButton";
             this.AddVarButton.UseVisualStyleBackColor = true;
-            // 
-            // ReferenceName
-            // 
-            this.ReferenceName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            resources.ApplyResources(this.ReferenceName, "ReferenceName");
-            this.ReferenceName.Name = "ReferenceName";
-            // 
-            // FullID
-            // 
-            resources.ApplyResources(this.FullID, "FullID");
-            this.FullID.Name = "FullID";
-            // 
-            // Coefficient
-            // 
-            this.Coefficient.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.Coefficient.DefaultCellStyle = dataGridViewCellStyle1;
-            resources.ApplyResources(this.Coefficient, "Coefficient");
-            this.Coefficient.Name = "Coefficient";
             // 
             // VariableRefWindow
             // 

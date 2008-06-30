@@ -151,7 +151,7 @@
     <value>12, 12</value>
   </data>
   <data name="dgv.Size" type="System.Drawing.Size, System.Drawing">
-    <value>614, 314</value>
+    <value>390, 314</value>
   </data>
   <data name="dgv.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -178,7 +178,7 @@
     <value>44, 23</value>
   </data>
   <data name="DeleteVarButton.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="DeleteVarButton.Text" xml:space="preserve">
     <value>-</value>
@@ -199,13 +199,13 @@
     <value>Bottom, Right</value>
   </data>
   <data name="VRCloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>552, 332</value>
+    <value>328, 332</value>
   </data>
   <data name="VRCloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
   </data>
   <data name="VRCloseButton.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="VRCloseButton.Text" xml:space="preserve">
     <value>Cancel</value>
@@ -226,13 +226,13 @@
     <value>Bottom, Right</value>
   </data>
   <data name="VRApplyButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>472, 332</value>
+    <value>248, 332</value>
   </data>
   <data name="VRApplyButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
   </data>
   <data name="VRApplyButton.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="VRApplyButton.Text" xml:space="preserve">
     <value>OK</value>
@@ -259,7 +259,7 @@
     <value>44, 23</value>
   </data>
   <data name="AddVarButton.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>1</value>
   </data>
   <data name="AddVarButton.Text" xml:space="preserve">
     <value>+</value>
@@ -283,7 +283,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>638, 367</value>
+    <value>414, 367</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
