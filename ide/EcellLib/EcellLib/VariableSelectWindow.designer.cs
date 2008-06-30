@@ -32,38 +32,18 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VariableSelectWindow));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.selectTree = new System.Windows.Forms.TreeView();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.VSProductButton = new System.Windows.Forms.Button();
             this.VSCloseButton = new System.Windows.Forms.Button();
             this.VSSourceButton = new System.Windows.Forms.Button();
             this.VSConstantButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.selectTree, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // selectTree
             // 
             resources.ApplyResources(this.selectTree, "selectTree");
             this.selectTree.Name = "selectTree";
             this.selectTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.SelectTreeDoubleClick);
-            // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.VSProductButton, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.VSCloseButton, 6, 0);
-            this.tableLayoutPanel2.Controls.Add(this.VSSourceButton, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.VSConstantButton, 4, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // VSProductButton
             // 
@@ -94,18 +74,18 @@
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.VSProductButton);
+            this.Controls.Add(this.selectTree);
+            this.Controls.Add(this.VSSourceButton);
+            this.Controls.Add(this.VSCloseButton);
+            this.Controls.Add(this.VSConstantButton);
             this.Name = "VariableSelectWindow";
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         /// <summary>
         /// Display the object list by TreeView.
         /// </summary>

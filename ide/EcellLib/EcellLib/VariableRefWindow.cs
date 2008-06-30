@@ -88,7 +88,7 @@ namespace EcellLib
             for (int i = 0; i < this.dgv.RowCount; i++)
             {
                 EcellReference v = new EcellReference();
-                string name = (string)this.dgv[0, i].Value;
+                string name = (string)this.dgv["ReferenceName", i].Value;
                 if (nameList.Contains(name))
                 {
                     Util.ShowErrorDialog(String.Format(MessageResLib.ErrExistVariableRef,
@@ -96,12 +96,11 @@ namespace EcellLib
                     return null;
                 }
                 nameList.Add(name);
-                v.Name = (string)this.dgv[0, i].Value;
-                v.FullID = (string)this.dgv[1, i].Value;
+                v.Name = (string)this.dgv["Name", i].Value;
+                v.FullID = (string)this.dgv["FullID", i].Value;
                 try
                 {
-                    v.Coefficient = Convert.ToInt32(this.dgv[2, i].Value);
-                    v.IsAccessor = Convert.ToInt32(this.dgv[3, i].Value);
+                    v.Coefficient = Convert.ToInt32(this.dgv["Coefficient", i].Value);
                 }
                 catch (Exception ex)
                 {
