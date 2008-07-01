@@ -38,7 +38,7 @@ using System.Windows.Forms;
 
 namespace EcellLib
 {
-    public partial class VariableSelectWindow : Form
+    public partial class VariableSelectDialog : Form
     {
         #region Fields
         /// <summary>
@@ -52,13 +52,13 @@ namespace EcellLib
         /// <summary>
         /// the parent windows form.
         /// </summary>
-        private VariableRefWindow m_win;
+        private VariableReferenceEditDialog m_win;
         #endregion
 
         /// <summary>
         /// Constructor for VariableSelectWindow.
         /// </summary>
-        public VariableSelectWindow(DataManager dManager, PluginManager pManager)
+        public VariableSelectDialog(DataManager dManager, PluginManager pManager)
         {
             InitializeComponent();
             this.m_dManager = dManager;
@@ -70,7 +70,7 @@ namespace EcellLib
         /// Set the windows form to the parent window.
         /// </summary>
         /// <param name="w">windows form</param>
-        public void SetParentWindow(VariableRefWindow w)
+        public void SetParentWindow(VariableReferenceEditDialog w)
         {
             m_win = w;
         }

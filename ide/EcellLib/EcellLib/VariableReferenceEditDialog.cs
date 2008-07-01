@@ -41,7 +41,7 @@ using EcellLib.Objects;
 
 namespace EcellLib
 {
-    public partial class VariableRefWindow : Form
+    public partial class VariableReferenceEditDialog : Form
     {
         #region Fields
         /// <summary>
@@ -51,7 +51,7 @@ namespace EcellLib
         /// <summary>
         /// variable select window for VariableReferenceList.
         /// </summary>
-        VariableSelectWindow m_selectWindow;
+        VariableSelectDialog m_selectWindow;
         /// <summary>
         /// DataManager.
         /// </summary>
@@ -69,7 +69,7 @@ namespace EcellLib
         /// <summary>
         /// Constructor for VariableRefWindow.
         /// </summary>
-        public VariableRefWindow(DataManager dManager, PluginManager pManager)
+        public VariableReferenceEditDialog(DataManager dManager, PluginManager pManager)
         {
             InitializeComponent();
 
@@ -387,7 +387,7 @@ namespace EcellLib
         /// <param name="e"></param>
         public void AddVarReference(object sender, EventArgs e)
         {
-            m_selectWindow = new VariableSelectWindow(m_dManager, m_pManager);
+            m_selectWindow = new VariableSelectDialog(m_dManager, m_pManager);
             m_selectWindow.VSProductButton.Click += new EventHandler(m_selectWindow.ProductButtonClick);
             m_selectWindow.VSSourceButton.Click += new EventHandler(m_selectWindow.SourceButtonClick);
             m_selectWindow.VSConstantButton.Click += new EventHandler(m_selectWindow.ConstantButtonClick);

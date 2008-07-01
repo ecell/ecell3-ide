@@ -80,7 +80,7 @@ namespace EcellLib.Analysis
         /// <summary>
         /// The form to set the estimation formulator.
         /// </summary>
-        private FormulatorWindow m_fwin;
+        private FormulatorDialog m_fwin;
         /// <summary>
         /// The user control to set the estimation formulator.
         /// </summary>
@@ -1099,7 +1099,7 @@ namespace EcellLib.Analysis
         private void PEFormulaButtonClicked(object sender, EventArgs e)
         {
             DataManager manager = m_owner.DataManager;
-            m_fwin = new FormulatorWindow();
+            m_fwin = new FormulatorDialog();
             m_fcnt = new FormulatorControl();
             m_fwin.tableLayoutPanel.Controls.Add(m_fcnt, 0, 0);
             m_fcnt.Dock = DockStyle.Fill;

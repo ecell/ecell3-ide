@@ -3,7 +3,7 @@
     /// <summary>
     /// Dialog to edit the formulator.
     /// </summary>
-    partial class FormulatorWindow
+    partial class FormulatorDialog
     {
         /// <summary>
         /// 必要なデザイナ変数です。
@@ -31,7 +31,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormulatorWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormulatorDialog));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.FApplyButton = new System.Windows.Forms.Button();

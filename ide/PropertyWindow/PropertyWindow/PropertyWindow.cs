@@ -63,11 +63,11 @@ namespace EcellLib.PropertyWindow
         /// <summary>
         /// Window to set the list of variable.
         /// </summary>
-        private VariableRefWindow m_win;
+        private VariableReferenceEditDialog m_win;
         /// <summary>
         /// Window to set the expression of process.
         /// </summary>
-        private FormulatorWindow m_fwin;
+        private FormulatorDialog m_fwin;
         /// <summary>
         /// Control to display the expression.
         /// </summary>
@@ -288,7 +288,7 @@ namespace EcellLib.PropertyWindow
         /// </summary>
         public void ShowFormulatorWindow()
         {
-            m_fwin = new FormulatorWindow();
+            m_fwin = new FormulatorDialog();
             m_cnt = new FormulatorControl();
             m_fwin.tableLayoutPanel.Controls.Add(m_cnt, 0, 0);
             m_cnt.Dock = DockStyle.Fill;
@@ -946,7 +946,7 @@ namespace EcellLib.PropertyWindow
             }
             else if (c.Value.Equals("Edit Variable Reference ..."))
             {
-                m_win = new VariableRefWindow(m_dManager, m_pManager);
+                m_win = new VariableReferenceEditDialog(m_dManager, m_pManager);
                 m_win.AddVarButton.Click += new EventHandler(m_win.AddVarReference);
                 m_win.DeleteVarButton.Click += new EventHandler(m_win.DeleteVarReference);
                 m_win.VRCloseButton.Click += new EventHandler(m_win.CloseVarReference);

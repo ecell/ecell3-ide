@@ -64,7 +64,7 @@ namespace EcellLib
         /// <summary>
         /// m_win (editable variable reference list window)
         /// </summary>
-        VariableRefWindow m_win;
+        VariableReferenceEditDialog m_win;
         /// <summary>
         /// current selected object.
         /// </summary>
@@ -92,7 +92,7 @@ namespace EcellLib
         /// <summary>
         /// window to edit formulator of expression at process.
         /// </summary>
-        private FormulatorWindow m_fwin = null;
+        private FormulatorDialog m_fwin = null;
         /// <summary>
         /// user control of formulator.
         /// </summary>
@@ -1518,7 +1518,7 @@ namespace EcellLib
         /// <param name="e">EventArgs</param>
         private void ShowFormulatorWindow(object sender, EventArgs e)
         {
-            m_fwin = new FormulatorWindow();
+            m_fwin = new FormulatorDialog();
             m_cnt = new FormulatorControl();
             m_fwin.tableLayoutPanel.Controls.Add(m_cnt, 0, 0);
             m_cnt.Dock = DockStyle.Fill;
@@ -1602,7 +1602,7 @@ namespace EcellLib
         /// <param name="e">EventArgs</param>
         private void ShowVarRefWindow(object sender, EventArgs e)
         {
-            m_win = new VariableRefWindow(m_dManager, m_pManager);
+            m_win = new VariableReferenceEditDialog(m_dManager, m_pManager);
             m_win.AddVarButton.Click += new EventHandler(m_win.AddVarReference);
             m_win.DeleteVarButton.Click += new EventHandler(m_win.DeleteVarReference);
             m_win.VRCloseButton.Click += new EventHandler(m_win.CloseVarReference);

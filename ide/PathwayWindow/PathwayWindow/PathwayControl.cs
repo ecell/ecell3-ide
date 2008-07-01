@@ -301,6 +301,7 @@ namespace EcellLib.PathwayWindow
             //m_overView = new OverView(this);
             m_layerView = new LayerView(this);
             m_toolBox = new Stencils(this);
+            m_overView = null;
         }
         #endregion
 

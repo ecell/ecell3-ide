@@ -3,7 +3,7 @@
     /// <summary>
     /// Window to select the variable to add to VariableReferenceList.
     /// </summary>
-    partial class VariableSelectWindow
+    partial class VariableSelectDialog
     {
         /// <summary>
         /// 必要なデザイナ変数です。
@@ -31,7 +31,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VariableSelectWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VariableSelectDialog));
             this.selectTree = new System.Windows.Forms.TreeView();
             this.VSProductButton = new System.Windows.Forms.Button();
             this.VSCloseButton = new System.Windows.Forms.Button();

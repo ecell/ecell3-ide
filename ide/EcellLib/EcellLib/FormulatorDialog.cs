@@ -38,12 +38,12 @@ using System.Windows.Forms;
 
 namespace EcellLib
 {
-    public partial class FormulatorWindow : Form
+    public partial class FormulatorDialog : Form
     {
         /// <summary>
         /// Constructor.
         /// </summary>
-        public FormulatorWindow()
+        public FormulatorDialog()
         {
             InitializeComponent();
         }

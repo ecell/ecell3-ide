@@ -3,7 +3,7 @@
     /// <summary>
     /// Object class to manage the VariableReferenceList of process.
     /// </summary>
-    partial class VariableRefWindow
+    partial class VariableReferenceEditDialog
     {
         /// <summary>
         /// 必要なデザイナ変数です。
@@ -31,7 +31,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VariableRefWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VariableReferenceEditDialog));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgv = new System.Windows.Forms.DataGridView();
             this.ReferenceName = new System.Windows.Forms.DataGridViewTextBoxColumn();
