@@ -131,7 +131,7 @@ namespace EcellLib.PathwayWindow.Figure
         {
             get
             {
-                string coordinates = m_x.ToString() + "," + m_y.ToString() + "," + m_width + "," + m_height.ToString();
+                string coordinates = m_x + "," + m_y + "," + m_width + "," + m_height;
                 return coordinates;
             }
         }

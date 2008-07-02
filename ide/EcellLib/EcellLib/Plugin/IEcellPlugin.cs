@@ -42,9 +42,18 @@ using EcellLib.Objects;
 
 namespace EcellLib.Plugin
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public enum StatusBarMessageKind
     {
+        /// <summary>
+        /// 
+        /// </summary>
         Generic,
+        /// <summary>
+        /// 
+        /// </summary>
         QuickInspector
     }
 

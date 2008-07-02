@@ -445,12 +445,19 @@ namespace EcellLib.Plugin
         {
             // do nothing
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kind"></param>
+        /// <param name="msg"></param>
         public virtual void SetStatusBarMessage(StatusBarMessageKind kind, string msg)
         {
             // do nothing
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="percent"></param>
         public virtual void SetProgressBarValue(int percent)
         {
             // do nothing

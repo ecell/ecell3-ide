@@ -230,6 +230,7 @@
     </Compile>
     <Compile Include="Objects\EcellData.cs" />
     <Compile Include="Objects\EcellDragObject.cs" />
+    <Compile Include="Objects\EcellLayout.cs" />
     <Compile Include="Objects\EcellModel.cs" />
     <Compile Include="Objects\EcellObservedData.cs" />
     <Compile Include="Objects\EcellParameterData.cs" />

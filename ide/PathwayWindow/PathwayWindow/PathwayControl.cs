@@ -136,6 +136,7 @@ namespace EcellLib.PathwayWindow
         /// Whether each node is showing it's ID or not;
         /// </summary>
         private bool m_isViewMode = false;
+        #endregion
 
         #region Accessors
         /// <summary>
@@ -204,7 +205,6 @@ namespace EcellLib.PathwayWindow
             get { return m_animCon; }
             set { m_animCon = value; }
         }
-        #endregion
 
         /// <summary>
         /// Accessor for currently active canvas.

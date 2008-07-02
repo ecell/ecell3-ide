@@ -575,7 +575,11 @@ namespace EcellLib
                 p.Message2(message);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kind"></param>
+        /// <param name="str"></param>
         public void SetStatusBarMessage(StatusBarMessageKind kind, string str)
         {
             foreach (IEcellPlugin p in m_pluginList.Values)
@@ -583,7 +587,10 @@ namespace EcellLib
                 p.SetStatusBarMessage(kind, str);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
         public void SetProgressBarValue(int val)
         {
             foreach (IEcellPlugin p in m_pluginList.Values)

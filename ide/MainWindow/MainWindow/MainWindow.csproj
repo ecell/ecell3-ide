@@ -131,11 +131,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResMain.resx</DependentUpon>
     </Compile>
-    <Compile Include="MessageResMain.ja.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MessageResMain.ja.resx</DependentUpon>
-    </Compile>
     <Compile Include="PluginListDialog.cs">
       <SubType>Form</SubType>
     </Compile>
