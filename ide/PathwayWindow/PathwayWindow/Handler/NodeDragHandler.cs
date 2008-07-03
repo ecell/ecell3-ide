@@ -357,8 +357,7 @@ namespace EcellLib.PathwayWindow.Handler
         /// <param name="system">transfered system</param>
         private void TransferSystemTo(string newKey, string oldKey, PPathwaySystem system)
         {
-            PointF offset = system.Offset;
-            if (Math.Abs(offset.X) <= 5 && Math.Abs( offset.Y) <= 5)
+            if (Math.Abs(system.OffsetX) <= 5 && Math.Abs(system.OffsetY) <= 5)
             {
                 system.RefreshView();
                 return;
@@ -368,9 +367,6 @@ namespace EcellLib.PathwayWindow.Handler
             // TODO: This process should be implemented in EcellLib.DataChanged().
             foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(oldKey))
             {
-                obj.X = obj.X + offset.X;
-                obj.Y = obj.Y + offset.Y;
-                obj.Offset = PointF.Empty;
                 m_canvas.Control.NotifyDataChanged(
                     obj.EcellObject.Key,
                     obj.EcellObject.Key,
@@ -389,14 +385,14 @@ namespace EcellLib.PathwayWindow.Handler
 
             // Import Systems and Nodes
             RectangleF rect = system.Rect;
-            rect.X = rect.X + offset.X;
-            rect.Y = rect.Y + offset.Y;
             string parentSystemName = system.EcellObject.ParentSystemID;
             foreach (PPathwayObject obj in m_canvas.GetAllObjects())
             {
                 if (obj == system)
                     continue;
                 if (obj.EcellObject.ParentSystemID.StartsWith(newKey))
+                    continue;
+                if (obj is PPathwayText)
                     continue;
                 if (obj is PPathwaySystem && !rect.Contains(obj.Rect))
                     continue;
@@ -412,10 +408,7 @@ namespace EcellLib.PathwayWindow.Handler
                     false);
             }
 
-            // Move system.
-            system.X = system.X + offset.X;
-            system.Y = system.Y + offset.Y;
-            system.Offset = PointF.Empty;
+            // Refresh system.
             m_canvas.Control.NotifyDataChanged(
                 newKey,
                 newKey,

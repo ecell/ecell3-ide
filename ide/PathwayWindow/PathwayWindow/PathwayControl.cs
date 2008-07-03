@@ -786,22 +786,6 @@ namespace EcellLib.PathwayWindow
         }
         
         /// <summary>
-        /// Notify DataChanged event to outside (PathwayControl -> PathwayWindow -> DataManager)
-        /// To notify position or size change.
-        /// </summary>
-        /// <param name="oldKey">the key before adding.</param>
-        /// <param name="eo">Changed EcellObject.</param>
-        /// <param name="isRecorded">Whether to record this change.</param>
-        /// <param name="isAnchor">Whether this action is an anchor or not.</param>
-        public void NotifyDataChanged(
-            string oldKey,
-            EcellObject eo,
-            bool isRecorded,
-            bool isAnchor)
-        {
-            m_window.NotifyDataChanged(oldKey, eo, isRecorded, isAnchor);
-        }
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="obj"></param>
@@ -849,12 +833,12 @@ namespace EcellLib.PathwayWindow
             {
                 eo.Key = newKey;
                 eo.LayerID = obj.Layer.Name;
-                eo.X = obj.X;
-                eo.Y = obj.Y;
+                eo.X = obj.X + obj.OffsetX;
+                eo.Y = obj.Y + obj.OffsetY;
                 eo.Width = obj.Width;
                 eo.Height = obj.Height;
-                eo.OffsetX = obj.OffsetX;
-                eo.OffsetY = obj.OffsetY;
+                eo.OffsetX = 0f;
+                eo.OffsetY = 0f;
 
                 obj.ViewMode = m_isViewMode;
                 NotifyDataChanged(oldKey, eo, isRecorded, isAnchor);
@@ -866,6 +850,23 @@ namespace EcellLib.PathwayWindow
                 if (m_isViewMode)
                     m_animCon.UpdatePropForSimulation();
             }
+        }
+
+        /// <summary>
+        /// Notify DataChanged event to outside (PathwayControl -> PathwayWindow -> DataManager)
+        /// To notify position or size change.
+        /// </summary>
+        /// <param name="oldKey">the key before adding.</param>
+        /// <param name="eo">Changed EcellObject.</param>
+        /// <param name="isRecorded">Whether to record this change.</param>
+        /// <param name="isAnchor">Whether this action is an anchor or not.</param>
+        public void NotifyDataChanged(
+            string oldKey,
+            EcellObject eo,
+            bool isRecorded,
+            bool isAnchor)
+        {
+            m_window.NotifyDataChanged(oldKey, eo, isRecorded, isAnchor);
         }
 
         /// <summary>
