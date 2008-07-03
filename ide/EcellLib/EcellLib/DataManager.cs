@@ -4145,6 +4145,10 @@ namespace EcellLib
                 {
                     d.Value = new EcellValue(stepperID);
                 }
+                if (d.Name.Equals(Constants.xpathK))
+                {
+                    d.Value = new EcellValue(1);
+                }
                 data.Add(d);
             }
             EcellObject obj = EcellObject.CreateObject(modelID, tmpID,

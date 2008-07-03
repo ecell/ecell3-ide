@@ -66,7 +66,7 @@ namespace EcellLib
         /// <summary>
         /// The default process name
         /// </summary>
-        public const string DefaultProcessName = "ConstantFluxProcess"; // "BisectionRapidEquilibriumProcess";
+        public const string DefaultProcessName = "MassActionFluxProcess"; // "BisectionRapidEquilibriumProcess";
         /// <summary>
         /// The default stepper name
         /// </summary>
@@ -326,6 +326,10 @@ namespace EcellLib
         /// Reserved XML path name for IsEpsilonChecked.
         /// </summary>
         public const string xpathIsEpsilonChecked = "IsEpsilonChecked";
+        /// <summary>
+        /// Reserved XML path name for K (in MassFluxActionProcess).
+        /// </summary>
+        public const string xpathK = "k";
         /// <summary>
         /// Reserved XML path name for key.
         /// </summary>

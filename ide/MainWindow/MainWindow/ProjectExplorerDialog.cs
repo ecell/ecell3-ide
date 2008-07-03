@@ -457,8 +457,8 @@ namespace EcellLib.MainWindow
                 return;
 
             string name = newPrjDialog.textName.Text;
-            string model = newPrjDialog.textModelName.Text;
-            string comment = newPrjDialog.textComment.Text;
+            string model = newPrjDialog.textComment.Text;
+            string comment = newPrjDialog.textModelName.Text;
             List<string> dmList = newPrjDialog.GetDmList();
 
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(model))

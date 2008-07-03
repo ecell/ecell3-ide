@@ -216,31 +216,31 @@
   <data name="&gt;&gt;textName.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
-  <data name="textComment.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="textModelName.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
-  <data name="textComment.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="textModelName.Location" type="System.Drawing.Point, System.Drawing">
     <value>108, 36</value>
   </data>
-  <data name="textComment.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="textModelName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="textComment.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="textModelName.Size" type="System.Drawing.Size, System.Drawing">
     <value>450, 19</value>
   </data>
-  <data name="textComment.TabIndex" type="System.Int32, mscorlib">
+  <data name="textModelName.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;textComment.Name" xml:space="preserve">
-    <value>textComment</value>
+  <data name="&gt;&gt;textModelName.Name" xml:space="preserve">
+    <value>textModelName</value>
   </data>
-  <data name="&gt;&gt;textComment.Type" xml:space="preserve">
+  <data name="&gt;&gt;textModelName.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;textComment.Parent" xml:space="preserve">
+  <data name="&gt;&gt;textModelName.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;textComment.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;textModelName.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
   <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -276,37 +276,37 @@
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
-  <data name="textModelName.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="textComment.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
-  <data name="textModelName.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="textComment.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 83</value>
   </data>
-  <data name="textModelName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="textComment.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="textModelName.MaxLength" type="System.Int32, mscorlib">
+  <data name="textComment.MaxLength" type="System.Int32, mscorlib">
     <value>64</value>
   </data>
-  <data name="textModelName.Multiline" type="System.Boolean, mscorlib">
+  <data name="textComment.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="textModelName.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="textComment.Size" type="System.Drawing.Size, System.Drawing">
     <value>547, 123</value>
   </data>
-  <data name="textModelName.TabIndex" type="System.Int32, mscorlib">
+  <data name="textComment.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;textModelName.Name" xml:space="preserve">
-    <value>textModelName</value>
+  <data name="&gt;&gt;textComment.Name" xml:space="preserve">
+    <value>textComment</value>
   </data>
-  <data name="&gt;&gt;textModelName.Type" xml:space="preserve">
+  <data name="&gt;&gt;textComment.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;textModelName.Parent" xml:space="preserve">
+  <data name="&gt;&gt;textComment.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;textModelName.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;textComment.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">

@@ -61,9 +61,9 @@ namespace EcellLib.MainWindow
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textName = new System.Windows.Forms.TextBox();
-            this.textComment = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.textModelName = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textComment = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.CPAddButton = new System.Windows.Forms.Button();
             this.CPRemoveButton = new System.Windows.Forms.Button();
@@ -88,22 +88,22 @@ namespace EcellLib.MainWindow
             this.textName.Name = "textName";
             this.textName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
             // 
-            // textComment
+            // textModelName
             // 
-            resources.ApplyResources(this.textComment, "textComment");
-            this.textComment.Name = "textComment";
-            this.textComment.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
+            resources.ApplyResources(this.textModelName, "textModelName");
+            this.textModelName.Name = "textModelName";
+            this.textModelName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
             // 
             // label3
             // 
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
             // 
-            // textModelName
+            // textComment
             // 
-            resources.ApplyResources(this.textModelName, "textModelName");
-            this.textModelName.Name = "textModelName";
-            this.textModelName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
+            resources.ApplyResources(this.textComment, "textComment");
+            this.textComment.Name = "textComment";
+            this.textComment.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
             // 
             // label4
             // 
@@ -158,8 +158,8 @@ namespace EcellLib.MainWindow
             this.Controls.Add(this.CPAddButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.textModelName);
             this.Controls.Add(this.textComment);
+            this.Controls.Add(this.textModelName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textName);
@@ -182,11 +182,11 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// TextBox to set default model of project.
         /// </summary>
-        public System.Windows.Forms.TextBox textModelName;
+        public System.Windows.Forms.TextBox textComment;
         /// <summary>
         /// TextBox to set the comment of project.
         /// </summary>
-        public System.Windows.Forms.TextBox textComment;
+        public System.Windows.Forms.TextBox textModelName;
         /// <summary>
         /// Button to create the project by using input properties.
         /// </summary>
