@@ -404,6 +404,10 @@ namespace EcellLib.MainWindow
                 webBrowser.Left = 0;
                 webBrowser.Width = panel1.Width;
             }
+            this.m_window.Environment.PluginManager.SetStatusBarMessage(
+                EcellLib.Plugin.StatusBarMessageKind.Generic,
+                ""
+                );
         }
         /// <summary>
         /// Event on progress changed
@@ -419,11 +423,6 @@ namespace EcellLib.MainWindow
             );
             int progress = (int)(100 * ((double)e.CurrentProgress / (double)e.MaximumProgress));
             this.m_window.Environment.PluginManager.SetProgressBarValue(progress);
-            if (progress == 100)
-                this.m_window.Environment.PluginManager.SetStatusBarMessage(
-                    EcellLib.Plugin.StatusBarMessageKind.Generic, 
-                    ""
-                    );
         }
         /// <summary>
         /// Event on status changed
@@ -432,7 +431,10 @@ namespace EcellLib.MainWindow
         /// <param name="e"></param>
         private void webBrowser_StatusTextChanged(object sender, EventArgs e)
         {
-            this.URLLabel.Text = webBrowser.StatusText;
+//            this.URLLabel.Text = webBrowser.StatusText;
+            this.m_window.Environment.PluginManager.SetStatusBarMessage(
+                        EcellLib.Plugin.StatusBarMessageKind.Generic,
+                        webBrowser.StatusText);
         }
         /// <summary>
         /// Event on GoForward changed
