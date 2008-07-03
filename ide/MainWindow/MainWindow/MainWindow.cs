@@ -2052,6 +2052,8 @@ namespace EcellLib.MainWindow
 
         public virtual void SetProgressBarValue(int val)
         {
+            if (val == 100)
+                val = 0;
             genericProgressBar.Value = val;
         }
     }
