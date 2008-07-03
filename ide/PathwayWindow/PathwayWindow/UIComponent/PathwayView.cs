@@ -94,11 +94,11 @@ namespace EcellLib.PathwayWindow.UIComponent
                 else
                 {
                     ScrollContainer.Canvas = new PCanvas();
-                    Text = "Network";
+                    Text = MessageResPathway.WindowPathway;
                     TabText = Text;
                 }
-                Controls.Add(ScrollContainer.Canvas);
                 Controls.Add(OverviewContainer);
+                Controls.Add(ScrollContainer.Canvas);
                 Controls.Add(ScrollContainer);
             }
             ResumeLayout();
