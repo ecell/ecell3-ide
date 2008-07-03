@@ -412,12 +412,18 @@ namespace EcellLib.MainWindow
         /// <param name="e"></param>
         private void webBrowser_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
         {
+            if (e.MaximumProgress == 0.0) return;
             this.m_window.Environment.PluginManager.SetStatusBarMessage(
                 EcellLib.Plugin.StatusBarMessageKind.Generic,
                 MessageResMain.MessageWebBrowse
             );
-            this.m_window.Environment.PluginManager.SetProgressBarValue(
-                (int)(100 * ((double)e.CurrentProgress / (double)e.MaximumProgress)));
+            int progress = (int)(100 * ((double)e.CurrentProgress / (double)e.MaximumProgress));
+            this.m_window.Environment.PluginManager.SetProgressBarValue(progress);
+            if (progress == 100)
+                this.m_window.Environment.PluginManager.SetStatusBarMessage(
+                    EcellLib.Plugin.StatusBarMessageKind.Generic, 
+                    ""
+                    );
         }
         /// <summary>
         /// Event on status changed
