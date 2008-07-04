@@ -74,7 +74,7 @@ namespace EcellLib.PathwayWindow.UIComponent
         /// <summary>
         /// Change canvas.
         /// </summary>
-        /// <param name="sender"></param>
+        /// <param name="_sender"></param>
         /// <param name="e"></param>
         private void m_con_CanvasChange(object _sender, EventArgs e)
         {

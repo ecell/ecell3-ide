@@ -397,9 +397,9 @@ namespace EcellLib.PathwayWindow
         /// <summary>
         /// Set the percent of progress.
         /// </summary>
-        /// <param name="mes">the message of progress.</param>
+        /// <param name="msg">the message of progress.</param>
         /// <param name="max">the max progress of process.</param>
-        /// <param name="percent">the value of progress.</param>
+        /// <param name="val">the value of progress.</param>
         public void Progress(string msg, int max, int val)
         {
             Window.Environment.PluginManager.SetStatusBarMessage(

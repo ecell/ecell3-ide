@@ -45,30 +45,42 @@ namespace EcellLib.PathwayWindow.Nodes
     /// </summary>
     public class PPathwayLine : PPath
     {
+        #region Constants
         /// <summary>
         ///  Arrow design settings
         /// </summary>
-        public const float ARROW_DEGREE = 18f;
+        private const float ARROW_DEGREE = 18f / 360f;
+        /// <summary>
+        /// pi
+        /// </summary>
+        private const float PI = (float)Math.PI;
         /// <summary>
         ///  Arrow design settings
-        /// radian = x / 360 * 2pi, x = 15, 2pi = 6.283
+        /// radian = x / 360 * 2pi, x = ARROW_DEGREE, 2pi = 6.283
         /// </summary>
-        public static readonly float ARROW_RADIAN_A = ARROW_DEGREE / 360 * 6.283f;
+        private const float ARROW_RADIAN_A = ARROW_DEGREE * PI * 2f;
 
         /// <summary>
         ///  Arrow design settings
         /// </summary>
-        public static readonly float ARROW_RADIAN_B = 6.283f - ARROW_DEGREE / 360 * 6.283f;
+        private const float ARROW_RADIAN_B = PI * 2f - ARROW_DEGREE * PI * 2f;
 
         /// <summary>
         ///  Arrow design settings
         /// </summary>        
-        public const float ARROW_LENGTH = 15;
+        private const float ARROW_LENGTH = 15;
 
+        /// <summary>
+        ///  Arrow design settings
+        /// </summary>        
+        private const float LINE_WIDTH = 2;
+        #endregion
+
+        #region Fields
         /// <summary>
         /// On this CanvasViewComponentSet this PPathwayObject is drawn.
         /// </summary>
-        protected CanvasControl m_canvas;
+        private CanvasControl m_canvas;
 
         /// <summary>
         /// this line stands for this EdgeInfo.
@@ -84,7 +96,9 @@ namespace EcellLib.PathwayWindow.Nodes
         /// Coordinate of the process side end point in global coordinate system.
         /// </summary>
         private PointF m_proPoint;
+        #endregion
 
+        #region Accessors
         /// <summary>
         /// Accessor for m_edgeInfo.
         /// </summary>
@@ -111,6 +125,7 @@ namespace EcellLib.PathwayWindow.Nodes
             get { return m_proPoint; }
             set { this.m_proPoint = value; }
         }
+        #endregion
 
         /// <summary>
         /// Constructor
@@ -132,34 +147,6 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// highlight this line.
-        /// </summary>
-        public void highlight()
-        {
-            this.Pen = new Pen(Brushes.Orange, Pen.Width);
-            this.Brush = Brushes.Orange;
-        }
-
-        /// <summary>
-        /// Turn off highlight status.
-        /// </summary>
-        public void unhighlight()
-        {
-            this.Pen = new Pen(Brushes.Black, Pen.Width);
-            this.Brush = Brushes.Black;
-        }
-
-        /// <summary>
-        /// Inherited method.
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        public override void SetOffset(float x, float y)
-        {
-            //base.SetOffset(x, y);
-        }
-
-        /// <summary>
         /// Draw Line.
         /// </summary>
         public void DrawLine()
@@ -173,7 +160,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public void SetLine()
         {
-            SetLine(Pen.Width);
+            SetLine(LINE_WIDTH);
         }
 
         /// <summary>
@@ -260,7 +247,7 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <param name="arrowApex">an apex of an arrow</param>
         /// <param name="guidePoint">an arrow line goes direction from arrowApex to guidePoint</param>
         /// <returns></returns>
-        private PointF[] GetArrowPoints(PointF arrowApex, PointF guidePoint)
+        private static PointF[] GetArrowPoints(PointF arrowApex, PointF guidePoint)
         {
             guidePoint.X = guidePoint.X - arrowApex.X;
             guidePoint.Y = guidePoint.Y - arrowApex.Y;
