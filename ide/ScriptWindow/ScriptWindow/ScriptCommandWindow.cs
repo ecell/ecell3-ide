@@ -57,8 +57,28 @@ namespace EcellLib.ScriptWindow
             private PythonEngine m_engine;
             private string m_command;
 
+            public class StopEventArgs: EventArgs
+            {
+                private Exception m_reason;
+
+                public Exception Reason
+                {
+                    get { return m_reason; }
+                }
+
+                public StopEventArgs()
+                {
+                    m_reason = null;
+                }
+
+                public StopEventArgs(Exception reason)
+                {
+                    m_reason = reason;
+                }
+            }
+
             public event EventHandler ScriptExecutionStarted;
-            public event EventHandler ScriptExecutionStopped;
+            public event EventHandler<StopEventArgs> ScriptExecutionStopped;
 
             public ScriptRunner(PythonEngine engine)
             {
@@ -89,12 +109,20 @@ namespace EcellLib.ScriptWindow
             {
                 for (;;)
                 {
+                    Exception stopReason = null;
                     m_event.WaitOne();
                     if (m_command == null)
                         break;
                     ScriptExecutionStarted(this, new EventArgs());
-                    m_engine.ExecuteToConsole(m_command);
-                    ScriptExecutionStopped(this, new EventArgs());
+                    try
+                    {
+                        m_engine.ExecuteToConsole(m_command);
+                    }
+                    catch (Exception e)
+                    {
+                        stopReason = e;
+                    }
+                    ScriptExecutionStopped(this, new StopEventArgs(stopReason));
                 }
             }
         }
@@ -161,8 +189,8 @@ namespace EcellLib.ScriptWindow
             m_currentPromptCharCount = 0;
             {
                 EngineOptions options = new EngineOptions();
-                options.ShowClrExceptions = true;
-                options.ClrDebuggingEnabled = true;
+                options.ShowClrExceptions = false;
+                options.ClrDebuggingEnabled = false;
                 options.ExceptionDetail = false;
                 m_engine = new PythonEngine(options);
             }
@@ -178,11 +206,15 @@ namespace EcellLib.ScriptWindow
                     ));
                 };
             m_scriptRunner.ScriptExecutionStopped +=
-                delegate(object obj, EventArgs e)
+                delegate(object obj, ScriptRunner.StopEventArgs e)
                 {
                     SWCommandText.Invoke(new MethodInvoker(
                         delegate()
                         {
+                            if (e.Reason != null)
+                            {
+                                ReportException(e.Reason);
+                            }
                             SWCommandText.Enabled = true;
                             SWCommandText.Focus();
                             Flush();
@@ -282,6 +314,14 @@ namespace EcellLib.ScriptWindow
             Flush();
         }
 
+        private void ReportException(Exception e)
+        {
+            SetTextStyle(null, Color.DarkSalmon);
+            WriteToConsole(m_engine.FormatException(e));
+            SetTextStyle(null, Color.Empty);
+            SWMessageText.ScrollToCaret();
+        }
+
         public void WriteToConsole(string text)
         {
             SWMessageText.Select(SWMessageText.TextLength, 0);
@@ -340,10 +380,7 @@ namespace EcellLib.ScriptWindow
             }
             catch (Exception e)
             {
-                SetTextStyle(null, Color.DarkSalmon);
-                WriteToConsole(m_engine.FormatException(e));
-                SetTextStyle(null, Color.Empty);
-                SWMessageText.ScrollToCaret();
+                ReportException(e);
             }
             m_interactionContinued = false;
             m_statementBuffer.Length = 0;
