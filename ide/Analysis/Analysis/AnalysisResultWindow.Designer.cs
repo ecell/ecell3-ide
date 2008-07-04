@@ -58,6 +58,10 @@
             this.SACCCGridView = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.SAFCCGridView = new System.Windows.Forms.DataGridView();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.ARTrackBar = new System.Windows.Forms.TrackBar();
+            this.RATrackLabel = new System.Windows.Forms.Label();
             this.RAAnalysisTableLayout.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -74,6 +78,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.SACCCGridView)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SAFCCGridView)).BeginInit();
+            this.tableLayoutPanel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ARTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // RAAnalysisTableLayout
@@ -225,8 +231,9 @@
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel6, 0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // groupBox1
@@ -265,6 +272,32 @@
             this.SAFCCGridView.RowHeadersVisible = false;
             this.SAFCCGridView.RowTemplate.Height = 21;
             // 
+            // tableLayoutPanel6
+            // 
+            resources.ApplyResources(this.tableLayoutPanel6, "tableLayoutPanel6");
+            this.tableLayoutPanel6.Controls.Add(this.label5, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.ARTrackBar, 1, 0);
+            this.tableLayoutPanel6.Controls.Add(this.RATrackLabel, 2, 0);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // ARTrackBar
+            // 
+            resources.ApplyResources(this.ARTrackBar, "ARTrackBar");
+            this.ARTrackBar.Maximum = 500;
+            this.ARTrackBar.Name = "ARTrackBar";
+            this.ARTrackBar.Value = 500;
+            this.ARTrackBar.ValueChanged += new System.EventHandler(this.ARTrackBarChanged);
+            // 
+            // RATrackLabel
+            // 
+            resources.ApplyResources(this.RATrackLabel, "RATrackLabel");
+            this.RATrackLabel.Name = "RATrackLabel";
+            // 
             // AnalysisResultWindow
             // 
             resources.ApplyResources(this, "$this");
@@ -289,6 +322,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.SACCCGridView)).EndInit();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SAFCCGridView)).EndInit();
+            this.tableLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ARTrackBar)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -305,11 +341,6 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.DataGridView SACCCGridView;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.DataGridView SAFCCGridView;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
@@ -321,5 +352,14 @@
         private System.Windows.Forms.TextBox PEEstimationValue;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox PEGenerateValue;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.DataGridView SACCCGridView;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.DataGridView SAFCCGridView;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TrackBar ARTrackBar;
+        private System.Windows.Forms.Label RATrackLabel;
     }
 }

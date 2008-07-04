@@ -735,9 +735,57 @@ namespace EcellLib.Analysis
             {
                 writer.Close();
             }
-
         }
 
+        /// <summary>
+        /// Update the color of result by using the result value.
+        /// </summary>
+        public void UpdateResultColor()
+        {
+            foreach (DataGridViewRow r in SACCCGridView.Rows)
+            {
+                foreach (DataGridViewCell c in r.Cells)
+                {
+                    try
+                    {
+                        Double d = Convert.ToDouble(c.Value);
+                        if (Math.Abs(d) > ARTrackBar.Value / 100.0)
+                        {
+                            c.Style.BackColor = Color.Red;
+                        }
+                        else
+                        {
+                            c.Style.BackColor = Color.White;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
+
+            foreach (DataGridViewRow r in SAFCCGridView.Rows)
+            {
+                foreach (DataGridViewCell c in r.Cells)
+                {
+                    try
+                    {
+                        Double d = Convert.ToDouble(c.Value);
+                        if (Math.Abs(d) > ARTrackBar.Value / 100.0)
+                        {
+                            c.Style.BackColor = Color.Red;
+                        }
+                        else
+                        {
+                            c.Style.BackColor = Color.White;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
+        }
 
 
         #region Events
@@ -802,6 +850,12 @@ namespace EcellLib.Analysis
                     }
                 }
             }
+        }
+
+        private void ARTrackBarChanged(object sender, EventArgs e)
+        {
+            RATrackLabel.Text = Convert.ToString(ARTrackBar.Value / 100.0);
+            UpdateResultColor();
         }
         #endregion
     }

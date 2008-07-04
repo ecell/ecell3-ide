@@ -748,6 +748,7 @@ namespace EcellLib.Analysis
                     }
                     m_owner.AddSensitivityDataOfFCC(m_activityList[i], res);
                 }
+                m_owner.UpdateResultColor();
 
                 Util.ShowNoticeDialog(String.Format(MessageResAnalysis.InfoFinishExecute,
                     new object[] { MessageResAnalysis.NameSensAnalysis }));

@@ -353,6 +353,15 @@ namespace EcellLib.Analysis
             if (m_rWin != null)
                 m_rWin.AddSensitivityDataOfFCC(name, result);
         }
+
+        /// <summary>
+        ///  Update the color of result by using the result value.
+        /// </summary>
+        public void UpdateResultColor()
+        {
+            if (m_rWin != null)
+                m_rWin.UpdateResultColor();
+        }
         
 
         /// <summary>
