@@ -39,7 +39,7 @@ using IronPython.Hosting;
 using Ecell;
 using Ecell.Plugin;
 
-namespace Ecell.ScriptWindow
+namespace Ecell.IDE.Plugins.ScriptWindow
 {
     /// <summary>
     /// Plugin class to display the script window and execute the script.

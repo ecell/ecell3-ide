@@ -1,4 +1,4 @@
-﻿namespace Ecell.ScriptWindow
+﻿namespace Ecell.IDE.Plugins.ScriptWindow
 {
     partial class ScriptCommandWindow
     {
