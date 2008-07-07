@@ -35,7 +35,7 @@ using System.Collections.Generic;
 using System.Text;
 using UMD.HCIL.Piccolo.Event;
 
-namespace EcellLib.PathwayWindow
+namespace Ecell.IDE.Plugins.PathwayWindow
 {
     /// <summary>
     /// Attached to tag of ToolStripMenuItem

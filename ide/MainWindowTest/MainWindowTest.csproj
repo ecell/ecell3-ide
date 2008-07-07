@@ -8,7 +8,7 @@
     <ProjectGuid>{DEAA2942-1A37-4E2F-97BA-87BD43EC5FAA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MainWindowTest</RootNamespace>
+    <RootNamespace>Ecell.IDE.MainWindow</RootNamespace>
     <AssemblyName>MainWindowTest</AssemblyName>
     <StartupObject>
     </StartupObject>

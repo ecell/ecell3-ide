@@ -33,9 +33,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using UMD.HCIL.Piccolo;
-using EcellLib.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 
-namespace EcellLib.PathwayWindow.UIComponent
+namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
     /// <summary>
     /// UI class for PathwayWindow.

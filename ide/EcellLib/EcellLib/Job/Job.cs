@@ -32,7 +32,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace EcellLib.Job
+namespace Ecell.Job
 {
     /// <summary>
     /// enumerable set of status for job.

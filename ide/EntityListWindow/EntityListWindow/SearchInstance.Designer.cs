@@ -1,4 +1,4 @@
-﻿namespace EcellLib.EntityListWindow
+﻿namespace Ecell.IDE.Plugins.EntityListWindow
 {
     partial class SearchInstance
     {

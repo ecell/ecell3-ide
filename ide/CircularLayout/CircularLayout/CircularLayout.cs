@@ -33,10 +33,10 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.ComponentModel;
-using EcellLib.Layout;
-using EcellLib.Objects;
+using Ecell.Layout;
+using Ecell.Objects;
 
-namespace EcellLib.CircularLayout
+namespace Ecell.IDE.Plugins.CircularLayout
 {
     /// <summary>
     /// Layout algorithm to layout nodes on a circle

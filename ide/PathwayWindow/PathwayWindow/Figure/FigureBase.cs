@@ -34,9 +34,9 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using EcellLib.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 
-namespace EcellLib.PathwayWindow.Figure
+namespace Ecell.IDE.Plugins.PathwayWindow.Figure
 {
     /// <summary>
     /// Concrete classe which extended FigureBase stands for 

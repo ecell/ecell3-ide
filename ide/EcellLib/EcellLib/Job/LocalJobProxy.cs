@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EcellLib.Job
+namespace Ecell.Job
 {
     /// <summary>
     /// SystemProxy to execute the simulation in Local Enviroment.

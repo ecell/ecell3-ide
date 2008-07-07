@@ -33,12 +33,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-using EcellLib.Objects;
-using EcellLib.Job;
+using Ecell.Objects;
+using Ecell.Job;
 using MathNet.Numerics;
 using MathNet.Numerics.Transformations;
 
-namespace EcellLib.Analysis
+namespace Ecell.Analysis
 {
     /// <summary>
     /// Class to manage the bifurcation analysis.

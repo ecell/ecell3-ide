@@ -8,7 +8,7 @@
     <ProjectGuid>{009F33C7-F664-495B-80EB-FCEA9664A3B1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLibTest</RootNamespace>
+    <RootNamespace>Ecell</RootNamespace>
     <AssemblyName>EcellLibTest</AssemblyName>
     <StartupObject>
     </StartupObject>

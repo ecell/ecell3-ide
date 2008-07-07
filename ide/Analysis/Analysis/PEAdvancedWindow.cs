@@ -36,7 +36,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib.Analysis
+namespace Ecell.Analysis
 {
     /// <summary>
     /// Form to display the parameter of Parameter Estimation.

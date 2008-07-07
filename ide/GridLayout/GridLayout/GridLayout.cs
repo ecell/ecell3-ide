@@ -38,10 +38,10 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.ComponentModel;
-using EcellLib.Layout;
-using EcellLib.Objects;
+using Ecell.Layout;
+using Ecell.Objects;
 
-namespace EcellLib.GridLayout
+namespace Ecell.IDE.Plugins.GridLayout
 {
     /// <summary>
     /// Layout algorithm to layout nodes on grid.

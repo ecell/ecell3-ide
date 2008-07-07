@@ -41,7 +41,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace EcellLib.MainWindow
+namespace Ecell.IDE.MainWindow
 {
 
     /// <summary>

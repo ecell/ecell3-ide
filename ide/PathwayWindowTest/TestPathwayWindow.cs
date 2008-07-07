@@ -1,9 +1,9 @@
-namespace EcellLib.PathwayWindow
+namespace Ecell.IDE.Plugins.PathwayWindow
 {
     using System;
     using NUnit.Framework;
     using System.Collections.Generic;
-    using EcellLib.Objects;
+    using Ecell.Objects;
     using System.Windows.Forms;
 
     /// <summary>
@@ -45,8 +45,8 @@ namespace EcellLib.PathwayWindow
         public void TestGetData()
         {
             string modelID = "project";
-            List<EcellLib.Objects.EcellObject> expectedList = null;
-            List<EcellLib.Objects.EcellObject> resultList = null;
+            List<Ecell.Objects.EcellObject> expectedList = null;
+            List<Ecell.Objects.EcellObject> resultList = null;
             resultList = _unitUnderTest.GetData(modelID);
             Assert.AreEqual(expectedList, resultList, "GetData method returned unexpected result.");
         }
@@ -70,7 +70,7 @@ namespace EcellLib.PathwayWindow
         [Test()]
         public void TestNotifyDataAdd()
         {
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> list = null;
+            System.Collections.Generic.List<Ecell.Objects.EcellObject> list = null;
             bool isAnchor = false;
             _unitUnderTest.NotifyDataAdd(list, isAnchor);
             Assert.Fail("Create or modify test(s).");
@@ -97,7 +97,7 @@ namespace EcellLib.PathwayWindow
         public void TestNotifyDataChanged()
         {
             string oldKey = null;
-            EcellLib.Objects.EcellObject eo = null;
+            Ecell.Objects.EcellObject eo = null;
             bool isRecorded = false;
             bool isAnchor = false;
             _unitUnderTest.NotifyDataChanged(oldKey, eo, isRecorded, isAnchor);
@@ -188,8 +188,8 @@ namespace EcellLib.PathwayWindow
         [Test()]
         public void TestGetWindowsForms()
         {
-            IEnumerable<EcellLib.EcellDockContent> expectedList = null;
-            IEnumerable<EcellLib.EcellDockContent> resultList = null;
+            IEnumerable<Ecell.EcellDockContent> expectedList = null;
+            IEnumerable<Ecell.EcellDockContent> resultList = null;
             resultList = _unitUnderTest.GetWindowsForms();
             Assert.AreEqual(expectedList, resultList, "GetWindowsForms method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -212,7 +212,7 @@ namespace EcellLib.PathwayWindow
         [Test()]
         public void TestChangeStatus()
         {
-            EcellLib.ProjectStatus type = ProjectStatus.Uninitialized;
+            Ecell.ProjectStatus type = ProjectStatus.Uninitialized;
             _unitUnderTest.ChangeStatus(type);
             Assert.Fail("Create or modify test(s).");
 
@@ -223,7 +223,7 @@ namespace EcellLib.PathwayWindow
         [Test()]
         public void TestChangeUndoStatus()
         {
-            EcellLib.UndoStatus status = UndoStatus.NOTHING;
+            Ecell.UndoStatus status = UndoStatus.NOTHING;
             _unitUnderTest.ChangeUndoStatus(status);
             Assert.Fail("Create or modify test(s).");
 
@@ -244,7 +244,7 @@ namespace EcellLib.PathwayWindow
         [Test()]
         public void TestDataAdd()
         {
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> data = null;
+            System.Collections.Generic.List<Ecell.Objects.EcellObject> data = null;
             _unitUnderTest.DataAdd(data);
             Assert.Fail("Create or modify test(s).");
 
@@ -488,7 +488,7 @@ namespace EcellLib.PathwayWindow
         [Test()]
         public void TestSetPosition()
         {
-            EcellLib.Objects.EcellObject data = null;
+            Ecell.Objects.EcellObject data = null;
             _unitUnderTest.SetPosition(data);
             Assert.Fail("Create or modify test(s).");
 
@@ -499,8 +499,8 @@ namespace EcellLib.PathwayWindow
         [Test()]
         public void TestGetLayoutAlgorithms()
         {
-            System.Collections.Generic.List<EcellLib.Layout.ILayoutAlgorithm> expectedList = null;
-            System.Collections.Generic.List<EcellLib.Layout.ILayoutAlgorithm> resultList = null;
+            System.Collections.Generic.List<Ecell.Layout.ILayoutAlgorithm> expectedList = null;
+            System.Collections.Generic.List<Ecell.Layout.ILayoutAlgorithm> resultList = null;
             resultList = _unitUnderTest.GetLayoutAlgorithms();
             Assert.AreEqual(expectedList, resultList, "GetLayoutAlgorithms method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");

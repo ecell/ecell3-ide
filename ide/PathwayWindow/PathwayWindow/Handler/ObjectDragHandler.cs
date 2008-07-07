@@ -32,7 +32,7 @@
 
 using UMD.HCIL.Piccolo.Event;
 
-namespace EcellLib.PathwayWindow
+namespace Ecell.IDE.Plugins.PathwayWindow
 {
     /// <summary>
     /// Drag handler for resize handles of system.

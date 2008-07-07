@@ -36,7 +36,7 @@ using System.Text;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace EcellLib.MainWindow
+namespace Ecell.IDE.MainWindow
 {
     /// <summary>
     /// SplashSheet window class.
@@ -50,7 +50,7 @@ namespace EcellLib.MainWindow
         {
             InitializeComponent();
             VersionNumber.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            CopyrightNotice.Text = global::EcellLib.MainWindow.Properties.Resources.CopyrightNotice;
+            CopyrightNotice.Text = global::Ecell.IDE.MainWindow.Properties.Resources.CopyrightNotice;
         }
     }
 }

@@ -7,7 +7,7 @@
     <ProjectGuid>{BF10EC05-D4CC-47C7-A4C1-94465ACDDAE2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLib.CircularLayout</RootNamespace>
+    <RootNamespace>Ecell.IDE.Plugins.CircularLayout</RootNamespace>
     <AssemblyName>CircularLayout</AssemblyName>
     <SccProjectName>
     </SccProjectName>

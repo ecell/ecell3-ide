@@ -33,9 +33,9 @@ using System.Text;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-using EcellLib;
+using Ecell;
 
-namespace EcellLib.Job
+namespace Ecell.Job
 {
     /// <summary>
     /// SessionProxy to execute the simulation in Local Environment.

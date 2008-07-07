@@ -43,12 +43,12 @@ using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
 using System.ComponentModel;
 
-using EcellLib.Layout;
-using EcellLib.Message;
-using EcellLib.Plugin;
-using EcellLib.Objects;
+using Ecell.Layout;
+using Ecell.Message;
+using Ecell.Plugin;
+using Ecell.Objects;
 
-namespace EcellLib
+namespace Ecell
 {
     /// <summary>
     /// Availability of Redo/Undo
@@ -677,7 +677,7 @@ namespace EcellLib
 
             // Read component settings from ComponentSettings.xml
             // string pathwayDir = PathUtil.GetEnvironmentVariable4DirPath("ecellide_plugin");
-            string[] pluginDirs = EcellLib.Util.GetPluginDirs();
+            string[] pluginDirs = Ecell.Util.GetPluginDirs();
             foreach (string pluginDir in pluginDirs)
             {
                 string pathwayPluginDir = pluginDir + "\\pathway";

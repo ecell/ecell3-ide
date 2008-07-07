@@ -37,13 +37,13 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
-using EcellLib.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Util;
 
-namespace EcellLib.PathwayWindow.Handler
+namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
     /// <summary>
     /// ResizeHandler

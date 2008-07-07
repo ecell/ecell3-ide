@@ -42,9 +42,9 @@ using System.Xml;
 using IronPython.Hosting;
 using IronPython.Runtime;
 using EcellCoreLib;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib
+namespace Ecell
 {
     /// <summary>
     /// Wraps the "DataManager" for the "IronPython".

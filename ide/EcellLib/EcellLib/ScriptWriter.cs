@@ -37,10 +37,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using EcellLib.Objects;
+using Ecell.Objects;
 using System.IO;
 
-namespace EcellLib
+namespace Ecell
 {
     /// <summary>
     /// ScriptWriter

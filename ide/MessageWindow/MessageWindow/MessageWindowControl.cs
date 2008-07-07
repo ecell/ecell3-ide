@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib.MessageWindow
+namespace Ecell.IDE.Plugins.MessageWindow
 {
     /// <summary>
     /// User Control for MessageWindow.

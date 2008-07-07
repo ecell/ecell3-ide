@@ -35,7 +35,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib.PathwayWindow.Dialog
+namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
 {
     /// <summary>
     /// A base object of pathway dialog. 

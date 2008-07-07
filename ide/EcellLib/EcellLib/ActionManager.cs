@@ -35,9 +35,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Windows.Forms;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib
+namespace Ecell
 {
     /// <summary>
     /// Class to manager actions.

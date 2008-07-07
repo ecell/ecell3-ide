@@ -1,4 +1,4 @@
-namespace EcellLib.AboutWindow
+namespace Ecell.IDE.Plugins.AboutWindow
 {
     /// <summary>
     /// About Form

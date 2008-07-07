@@ -37,11 +37,11 @@ using System.Windows.Forms;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 
-using EcellLib.Message;
-using EcellLib.Job;
-using EcellLib.Objects;
+using Ecell.Message;
+using Ecell.Job;
+using Ecell.Objects;
 
-namespace EcellLib.Analysis
+namespace Ecell.Analysis
 {
     /// <summary>
     /// Class to manage the sensitivity analysis.

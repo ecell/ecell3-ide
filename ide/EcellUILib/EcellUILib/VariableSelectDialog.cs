@@ -36,7 +36,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib
+namespace Ecell.IDE
 {
     public partial class VariableSelectDialog : Form
     {

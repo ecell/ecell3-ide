@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EcellLib.Message
+namespace Ecell.Message
 {
     /// <summary>
     /// Application message.

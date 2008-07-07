@@ -7,7 +7,7 @@
     <ProjectGuid>{E1014A1A-00B5-4C97-832E-86EE773F0403}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLib.DistributeLayout</RootNamespace>
+    <RootNamespace>Ecell.IDE.Plugins.DistributeLayout</RootNamespace>
     <AssemblyName>DistributeLayout</AssemblyName>
     <SccProjectName>
     </SccProjectName>

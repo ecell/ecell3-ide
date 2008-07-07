@@ -32,13 +32,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
-using EcellLib.PathwayWindow;
-using EcellLib.PathwayWindow.Nodes;
-using EcellLib.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Event;
 
-namespace EcellLib.PathwayWindow.Nodes
+namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
     /// <summary>
     /// Line

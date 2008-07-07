@@ -40,7 +40,7 @@ using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Util;
 
-namespace EcellLib.PathwayWindow.UIComponent
+namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
     /// <summary>
     /// PCanvas for overview.

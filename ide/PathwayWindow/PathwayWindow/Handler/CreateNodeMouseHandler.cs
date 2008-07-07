@@ -40,11 +40,11 @@ using System.Threading;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
-using EcellLib.PathwayWindow.Nodes;
-using EcellLib.PathwayWindow.UIComponent;
-using EcellLib.Objects;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
+using Ecell.Objects;
 
-namespace EcellLib.PathwayWindow.Handler
+namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
     /// <summary>
     /// Handler class for creating nodes (variables, process).

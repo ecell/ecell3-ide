@@ -32,9 +32,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib.Message
+namespace Ecell.Message
 {
     /// <summary>
     /// Message Entry Object for EcellData.

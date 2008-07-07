@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EcellLib.MainWindow {
+namespace Ecell.IDE.MainWindow {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace EcellLib.MainWindow {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EcellLib.MainWindow.MessageResMain", typeof(MessageResMain).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ecell.IDE.MainWindow.MessageResMain", typeof(MessageResMain).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

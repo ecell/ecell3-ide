@@ -42,11 +42,11 @@ using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.PiccoloX.Nodes;
 using UMD.HCIL.Piccolo.Util;
-using EcellLib.PathwayWindow.Nodes;
-using EcellLib.PathwayWindow.UIComponent;
-using EcellLib.Objects;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
+using Ecell.Objects;
 
-namespace EcellLib.PathwayWindow.Handler
+namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
     /// <summary>
     /// For creating a system.

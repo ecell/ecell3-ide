@@ -34,11 +34,11 @@ using System.Text;
 using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo;
-using EcellLib.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using System.IO;
-using EcellLib.PathwayWindow.Figure;
+using Ecell.IDE.Plugins.PathwayWindow.Figure;
 
-namespace EcellLib.PathwayWindow.UIComponent
+namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
     /// <summary>
     /// PDisplayedArea is used in overview window for indicating the area which 

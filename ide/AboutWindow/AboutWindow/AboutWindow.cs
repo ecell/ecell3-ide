@@ -35,11 +35,11 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Reflection;
-using EcellLib;
+using Ecell;
 using System.ComponentModel;
-using EcellLib.Plugin;
+using Ecell.Plugin;
 
-namespace EcellLib.AboutWindow
+namespace Ecell.IDE.Plugins.AboutWindow
 {
     /// <summary>
     /// About window plguin.

@@ -7,7 +7,7 @@
     <ProjectGuid>{659B501F-086F-4414-83D3-E018F05C380B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLib.ObjectList</RootNamespace>
+    <RootNamespace>Ecell.IDE.Plugins.ObjectList</RootNamespace>
     <AssemblyName>ObjectList</AssemblyName>
     <StartupObject>
     </StartupObject>

@@ -34,10 +34,10 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
 
-using EcellLib;
-using EcellLib.Plugin;
+using Ecell;
+using Ecell.Plugin;
 
-namespace EcellLib.MessageWindow
+namespace Ecell.IDE.Plugins.MessageWindow
 {
     /// <summary>
     /// The plugin to show message.

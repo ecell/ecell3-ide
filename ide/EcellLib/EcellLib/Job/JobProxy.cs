@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EcellLib.Job
+namespace Ecell.Job
 {
     /// <summary>
     /// SystemProxy class. This class is abstract class managed session.

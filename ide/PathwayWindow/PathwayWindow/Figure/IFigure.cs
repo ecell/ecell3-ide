@@ -35,7 +35,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace EcellLib.PathwayWindow.Figure
+namespace Ecell.IDE.Plugins.PathwayWindow.Figure
 {
     /// <summary>
     /// Interface class of Figure objects.

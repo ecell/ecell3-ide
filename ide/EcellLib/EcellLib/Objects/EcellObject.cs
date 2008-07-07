@@ -44,7 +44,7 @@ using System.Drawing;
 using EcellCoreLib;
 using System.Text.RegularExpressions;
 
-namespace EcellLib.Objects
+namespace Ecell.Objects
 {
     /// <summary>
     /// The base class of E-CELL model editor.

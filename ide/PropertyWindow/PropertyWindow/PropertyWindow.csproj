@@ -7,7 +7,7 @@
     <ProjectGuid>{25FDB8FE-243A-4666-8B81-C52E0949D566}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLib.PropertyWindow</RootNamespace>
+    <RootNamespace>Ecell.IDE.Plugins.PropertyWindow</RootNamespace>
     <AssemblyName>PropertyWindow</AssemblyName>
     <StartupObject>
     </StartupObject>

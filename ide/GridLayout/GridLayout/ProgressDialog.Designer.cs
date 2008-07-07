@@ -1,4 +1,4 @@
-﻿namespace EcellLib.GridLayout
+﻿namespace Ecell.IDE.Plugins.GridLayout
 {
     partial class ProgressDialog
     {

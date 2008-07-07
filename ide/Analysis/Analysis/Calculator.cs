@@ -33,7 +33,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace EcellLib.Analysis
+namespace Ecell.Analysis
 {
     /// <summary>
     /// Class to calculate the value from the formulator.

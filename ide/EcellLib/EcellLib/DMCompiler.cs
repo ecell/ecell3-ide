@@ -35,7 +35,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-namespace EcellLib
+namespace Ecell
 {
     /// <summary>
     /// Class to compile the source of DM.

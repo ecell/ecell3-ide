@@ -36,9 +36,9 @@ using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.PiccoloX.Components;
-using EcellLib.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 
-namespace EcellLib.PathwayWindow.UIComponent
+namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
     /// <summary>
     /// Control class to display pathway.
@@ -118,21 +118,21 @@ namespace EcellLib.PathwayWindow.UIComponent
             if (node is PPathwayObject)
             {
                 pman.SetStatusBarMessage(
-                    EcellLib.Plugin.StatusBarMessageKind.Generic,
+                    Ecell.Plugin.StatusBarMessageKind.Generic,
                     ((PPathwayObject)node).EcellObject.Key
                 );
             }
             else
             {
                 pman.SetStatusBarMessage(
-                    EcellLib.Plugin.StatusBarMessageKind.Generic,
+                    Ecell.Plugin.StatusBarMessageKind.Generic,
                     ""
                 );
             }
             Point systemPos = GetDesktopLocation(m_con.Canvas.PCanvas);
             PointF pos = m_con.Canvas.SystemPosToCanvasPos(new Point(e.Location.X + systemPos.X,e.Location.Y + systemPos.Y));
             pman.SetStatusBarMessage(
-                EcellLib.Plugin.StatusBarMessageKind.QuickInspector,
+                Ecell.Plugin.StatusBarMessageKind.QuickInspector,
                 string.Format("X:{0:###.##}, Y:{1:###.##}", pos.X, pos.Y)
             );
         }
@@ -158,7 +158,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             this.ClientSize = new System.Drawing.Size(622, 491);
             this.Controls.Add(this.OverviewContainer);
 
-            this.Icon = global::EcellLib.PathwayWindow.PathwayResource.Icon_PathwayView;
+            this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_PathwayView;
             this.Name = "PathwayView";
             this.Text = MessageResPathway.WindowPathway;
             this.TabText = this.Text;

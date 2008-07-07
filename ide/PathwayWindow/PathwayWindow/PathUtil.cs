@@ -39,10 +39,10 @@ using System.Runtime.Serialization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
-using EcellLib;
-using EcellLib.Objects;
+using Ecell;
+using Ecell.Objects;
 
-namespace EcellLib.PathwayWindow
+namespace Ecell.IDE.Plugins.PathwayWindow
 {
     /// <summary>
     /// Utilities for PathwayWindow.

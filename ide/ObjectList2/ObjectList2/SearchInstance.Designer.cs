@@ -1,4 +1,4 @@
-﻿namespace EcellLib.ObjectList2
+﻿namespace Ecell.IDE.Plugins.ObjectList2
 {
     /// <summary>
     /// Dialog to search object in ObjectList.

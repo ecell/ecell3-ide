@@ -1,4 +1,4 @@
-﻿namespace EcellLib.EntityListWindow
+﻿namespace Ecell.IDE.Plugins.EntityListWindow
 {
     /// <summary>
     /// EntityList UserControl.
@@ -32,7 +32,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityList));
-            this.treeView1 = new EcellLib.EntityListWindow.MultiSelectTreeView();
+            this.treeView1 = new Ecell.IDE.Plugins.EntityListWindow.MultiSelectTreeView();
             this.SuspendLayout();
             // 
             // treeView1
@@ -62,7 +62,7 @@
         /// <summary>
         /// treeView1
         /// </summary>
-        public EcellLib.EntityListWindow.MultiSelectTreeView treeView1;
+        public Ecell.IDE.Plugins.EntityListWindow.MultiSelectTreeView treeView1;
 
     }
 }

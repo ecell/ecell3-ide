@@ -32,7 +32,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace EcellLib.PathwayWindow.Graphic
+namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
 {
     class ImageComboBox : ComboBox
     {

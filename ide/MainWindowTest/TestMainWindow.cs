@@ -1,4 +1,4 @@
-namespace EcellLib.MainWindow
+namespace Ecell.IDE.MainWindow
 {
     using System;
     using NUnit.Framework;
@@ -113,8 +113,8 @@ namespace EcellLib.MainWindow
         [Test()]
         public void TestGetWindowsForms()
         {
-            IEnumerable<EcellLib.EcellDockContent> expectedList = null;
-            IEnumerable<EcellLib.EcellDockContent> resultList = null;
+            IEnumerable<Ecell.EcellDockContent> expectedList = null;
+            IEnumerable<Ecell.EcellDockContent> resultList = null;
             resultList = _unitUnderTest.GetWindowsForms();
             Assert.AreEqual(expectedList, resultList, "GetWindowsForms method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -175,7 +175,7 @@ namespace EcellLib.MainWindow
         [Test()]
         public void TestDataAdd()
         {
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> data = null;
+            System.Collections.Generic.List<Ecell.Objects.EcellObject> data = null;
             _unitUnderTest.DataAdd(data);
             Assert.Fail("Create or modify test(s).");
 
@@ -189,7 +189,7 @@ namespace EcellLib.MainWindow
             string modelID = null;
             string key = null;
             string type = null;
-            EcellLib.Objects.EcellObject data = null;
+            Ecell.Objects.EcellObject data = null;
             _unitUnderTest.DataChanged(modelID, key, type, data);
             Assert.Fail("Create or modify test(s).");
 
@@ -255,7 +255,7 @@ namespace EcellLib.MainWindow
             string key = null;
             string type = null;
             string propName = null;
-            System.Collections.Generic.List<EcellLib.LogData> data = null;
+            System.Collections.Generic.List<Ecell.LogData> data = null;
             _unitUnderTest.LogData(modelID, key, type, propName, data);
             Assert.Fail("Create or modify test(s).");
 
@@ -313,7 +313,7 @@ namespace EcellLib.MainWindow
         [Test()]
         public void TestChangeStatus()
         {
-            EcellLib.ProjectStatus type = ProjectStatus.Uninitialized;
+            Ecell.ProjectStatus type = ProjectStatus.Uninitialized;
             _unitUnderTest.ChangeStatus(type);
             Assert.Fail("Create or modify test(s).");
 
@@ -324,7 +324,7 @@ namespace EcellLib.MainWindow
         [Test()]
         public void TestChangeUndoStatus()
         {
-            EcellLib.UndoStatus status = UndoStatus.NOTHING;
+            Ecell.UndoStatus status = UndoStatus.NOTHING;
             _unitUnderTest.ChangeUndoStatus(status);
             Assert.Fail("Create or modify test(s).");
 
@@ -412,7 +412,7 @@ namespace EcellLib.MainWindow
         [Test()]
         public void TestSetPosition()
         {
-            EcellLib.Objects.EcellObject data = null;
+            Ecell.Objects.EcellObject data = null;
             _unitUnderTest.SetPosition(data);
             Assert.Fail("Create or modify test(s).");
 

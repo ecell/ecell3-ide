@@ -34,7 +34,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EcellLib.PathwayWindow.Hanlder
+namespace Ecell.IDE.Plugins.PathwayWindow.Hanlder
 {
     /// <summary>
     /// This namespace supports EventHandler

@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EcellLib.PathwayWindow
+namespace Ecell.IDE.Plugins.PathwayWindow
 {
     /// <summary>
     /// This exception will be thrown when an object with the key which has already existed

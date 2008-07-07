@@ -7,7 +7,7 @@
     <ProjectGuid>{517EBCF9-A5DA-4BF0-B4BF-1C4A7BB899CE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLib.AlignLayout</RootNamespace>
+    <RootNamespace>Ecell.IDE.Plugins.AlignLayout</RootNamespace>
     <AssemblyName>AlignLayout</AssemblyName>
     <SccProjectName>
     </SccProjectName>

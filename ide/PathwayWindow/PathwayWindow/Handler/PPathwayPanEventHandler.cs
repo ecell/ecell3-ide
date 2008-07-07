@@ -35,10 +35,10 @@ using UMD.HCIL.Piccolo.Event;
 using System.IO;
 using System.ComponentModel;
 using System.Windows.Forms;
-using EcellLib.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo;
 
-namespace EcellLib.PathwayWindow.Handler
+namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
     /// <summary>
     /// PPathwayPanEventHandler

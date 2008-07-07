@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Text;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib.ObjectList2
+namespace Ecell.IDE.Plugins.ObjectList2
 {
     /// <summary>
     /// 

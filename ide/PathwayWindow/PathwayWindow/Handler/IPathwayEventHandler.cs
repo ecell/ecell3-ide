@@ -30,7 +30,7 @@
 
 using System;
 
-namespace EcellLib.PathwayWindow.Handler
+namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
     /// <summary>
     /// Interface for PathwayEventHandler

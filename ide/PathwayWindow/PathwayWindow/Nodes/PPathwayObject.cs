@@ -41,14 +41,14 @@ using System.Runtime.Serialization;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.Piccolo.Nodes;
-using EcellLib;
+using Ecell;
 using System.ComponentModel;
 using UMD.HCIL.Piccolo.Event;
-using EcellLib.PathwayWindow.Graphic;
-using EcellLib.Objects;
-using EcellLib.PathwayWindow.Figure;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.Objects;
+using Ecell.IDE.Plugins.PathwayWindow.Figure;
 
-namespace EcellLib.PathwayWindow.Nodes
+namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
     /// <summary>
     /// PPathwayObject is a super class for all component of PCanvas.

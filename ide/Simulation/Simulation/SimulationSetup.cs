@@ -36,10 +36,10 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using EcellLib;
-using EcellLib.Objects;
+using Ecell;
+using Ecell.Objects;
 
-namespace EcellLib.Simulation
+namespace Ecell.IDE.Plugins.Simulation
 {
     /// <summary>
     /// Dialog to setup the properties of simulation.

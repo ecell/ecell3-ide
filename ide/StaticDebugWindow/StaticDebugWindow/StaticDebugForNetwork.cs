@@ -32,10 +32,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using EcellLib;
-using EcellLib.Objects;
+using Ecell;
+using Ecell.Objects;
 
-namespace EcellLib.StaticDebugWindow
+namespace Ecell.IDE.Plugins.StaticDebugWindow
 {
     /// <summary>
     /// Static debug for network compliance.

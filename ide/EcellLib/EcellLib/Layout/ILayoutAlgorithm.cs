@@ -30,9 +30,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib.Layout
+namespace Ecell.Layout
 {
     /// <summary>
     /// Type of layout.

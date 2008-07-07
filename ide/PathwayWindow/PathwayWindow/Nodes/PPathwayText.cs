@@ -34,12 +34,12 @@ using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Event;
 using System.Drawing;
-using EcellLib.Objects;
-using EcellLib.PathwayWindow.Handler;
+using Ecell.Objects;
+using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using UMD.HCIL.Piccolo;
-using EcellLib.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 
-namespace EcellLib.PathwayWindow.Nodes
+namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
     /// <summary>
     /// PPathwayText

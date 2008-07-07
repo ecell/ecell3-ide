@@ -30,7 +30,7 @@
 // modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
-namespace EcellLib.MainWindow
+namespace Ecell.IDE.MainWindow
 {
     partial class ProjectExplorerDialog
     {

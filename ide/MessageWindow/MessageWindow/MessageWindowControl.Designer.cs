@@ -1,4 +1,4 @@
-﻿namespace EcellLib.MessageWindow
+﻿namespace Ecell.IDE.Plugins.MessageWindow
 {
     partial class MessageWindowControl
     {

@@ -37,9 +37,9 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using EcellLib.Job;
+using Ecell.Job;
 
-namespace EcellLib.MainWindow
+namespace Ecell.IDE.MainWindow
 {
     /// <summary>
     /// Form to display the status of jobs.
@@ -87,7 +87,7 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs.</param>
         private void WinShown(object sender, EventArgs e)
         {
-            foreach (EcellLib.Job.Job s in m_manager.JobList.Values)
+            foreach (Ecell.Job.Job s in m_manager.JobList.Values)
             {
                 JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
             }
@@ -126,7 +126,7 @@ namespace EcellLib.MainWindow
                 }
             }
             JobGridView.Rows.Clear();
-            foreach (EcellLib.Job.Job s in m_manager.JobList.Values)
+            foreach (Ecell.Job.Job s in m_manager.JobList.Values)
             {
                 JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
             }
@@ -152,7 +152,7 @@ namespace EcellLib.MainWindow
         private void DEWUpdateButton_Click(object sender, EventArgs e)
         {
             JobGridView.Rows.Clear();
-            foreach (EcellLib.Job.Job s in m_manager.JobList.Values)
+            foreach (Ecell.Job.Job s in m_manager.JobList.Values)
             {
                 JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
             }

@@ -36,7 +36,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 
-namespace EcellLib.AboutWindow
+namespace Ecell.IDE.Plugins.AboutWindow
 {
     public partial class AboutForm : Form
     {

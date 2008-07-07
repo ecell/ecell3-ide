@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib.GridLayout
+namespace Ecell.IDE.Plugins.GridLayout
 {
     /// <summary>
     /// Form for progress bar

@@ -27,7 +27,7 @@
 // written by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
-namespace EcellLib
+namespace Ecell.IDE
 {
     partial class DMEditor
     {

@@ -7,10 +7,10 @@ using System.Drawing.Printing;
 using System.Text;
 using System.Windows.Forms;
 
-using EcellLib;
-using EcellLib.Plugin;
+using Ecell;
+using Ecell.Plugin;
 
-namespace EcellLib.ObjectList
+namespace Ecell.IDE.Plugins.ObjectList
 {
     /// <summary>
     /// Driver class to test this plugin.

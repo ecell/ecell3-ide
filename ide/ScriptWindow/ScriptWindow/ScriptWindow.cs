@@ -36,10 +36,10 @@ using System.Text;
 
 using IronPython.Hosting;
 
-using EcellLib;
-using EcellLib.Plugin;
+using Ecell;
+using Ecell.Plugin;
 
-namespace EcellLib.ScriptWindow
+namespace Ecell.IDE.Plugins.ScriptWindow
 {
     /// <summary>
     /// Plugin class to display the script window and execute the script.

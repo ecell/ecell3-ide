@@ -6,9 +6,9 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using EcellLib.Plugin;
+using Ecell.Plugin;
 
-namespace EcellLib.AboutWindow
+namespace Ecell.IDE.Plugins.AboutWindow
 {
     /// <summary>
     /// Test Driver Program.

@@ -37,7 +37,7 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace EcellLib.PathwayWindow.Graphic
+namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
 {
     /// <summary>
     /// BrushManager

@@ -1,4 +1,4 @@
-﻿namespace EcellLib.TracerWindow
+﻿namespace Ecell.IDE.Plugins.TracerWindow
 {
     partial class TraceWindow
     {

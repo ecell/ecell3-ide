@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace EcellLib.Plugin
+namespace Ecell.Plugin
 {
     /// <summary>
     /// 

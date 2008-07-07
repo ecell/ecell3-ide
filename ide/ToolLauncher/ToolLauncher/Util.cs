@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using EcellLib;
+using Ecell;
 
 namespace ToolLauncher
 {
@@ -25,7 +25,7 @@ namespace ToolLauncher
 
         private void Initialize()
         {
-            this.initEnvironment = EcellLib.Util.GetBaseDir() + EcellLib.Constants.delimiterPath + Constants.initEnvironment;
+            this.initEnvironment = Ecell.Util.GetBaseDir() + Ecell.Constants.delimiterPath + Constants.initEnvironment;
             if (File.Exists(this.initEnvironment))
             {
                 StreamReader sr = null;

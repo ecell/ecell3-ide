@@ -39,12 +39,12 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-using EcellLib;
-using EcellLib.Message;
+using Ecell;
+using Ecell.Message;
 
 using IronPython.Hosting;
 
-namespace EcellLib.ScriptWindow
+namespace Ecell.IDE.Plugins.ScriptWindow
 {
     /// <summary>
     /// Form to input the command and display the script result.

@@ -1,4 +1,4 @@
-﻿namespace EcellLib.TracerWindow
+﻿namespace Ecell.IDE.Plugins.TracerWindow
 {
     /// <summary>
     /// Form Class to setup the condition of tracer.

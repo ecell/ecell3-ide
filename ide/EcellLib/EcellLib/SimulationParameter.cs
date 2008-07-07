@@ -5,9 +5,9 @@ using System.Xml;
 using System.IO;
 
 using EcellCoreLib;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib
+namespace Ecell
 {
     /// <summary>
     /// Managed class for the simulation parameters.

@@ -36,7 +36,7 @@ using System.Text;
 
 using System.Windows.Forms;
 
-namespace EcellLib.TracerWindow
+namespace Ecell.IDE.Plugins.TracerWindow
 {
     /// <summary>
     /// Form class to set the line style.

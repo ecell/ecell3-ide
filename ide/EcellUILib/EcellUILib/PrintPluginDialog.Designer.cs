@@ -1,4 +1,4 @@
-﻿namespace EcellLib
+﻿namespace Ecell.IDE
 {
     partial class PrintPluginDialog
     {

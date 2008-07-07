@@ -35,9 +35,9 @@ using System.Text;
 using System.Security.AccessControl;
 using System.Threading;
 using System.Windows.Forms;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib
+namespace Ecell
 {
     public partial class Util
     {

@@ -1,4 +1,4 @@
-﻿namespace EcellLib
+﻿namespace Ecell.IDE
 {
     /// <summary>
     /// Window to select the variable to add to VariableReferenceList.

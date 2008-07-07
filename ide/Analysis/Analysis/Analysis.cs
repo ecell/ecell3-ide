@@ -36,12 +36,12 @@ using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
 
-using EcellLib.Job;
+using Ecell.Job;
 using WeifenLuo.WinFormsUI.Docking;
-using EcellLib.Plugin;
-using EcellLib.Objects;
+using Ecell.Plugin;
+using Ecell.Objects;
 
-namespace EcellLib.Analysis
+namespace Ecell.Analysis
 {
     /// <summary>
     /// Plugin class to manage the result and parameter of analysis.

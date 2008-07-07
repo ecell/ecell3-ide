@@ -40,11 +40,11 @@ using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
-using EcellLib.PathwayWindow.Figure;
-using EcellLib.Objects;
-using EcellLib.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Figure;
+using Ecell.Objects;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 
-namespace EcellLib.PathwayWindow.Nodes
+namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
     /// <summary>
     /// Super class for piccolo object of variable, process, etc.

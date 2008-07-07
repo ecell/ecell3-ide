@@ -36,7 +36,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib.EntityListWindow
+namespace Ecell.IDE.Plugins.EntityListWindow
 {
     /// <summary>
     /// Window set the condition to search object.

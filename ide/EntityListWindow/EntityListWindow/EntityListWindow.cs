@@ -39,11 +39,11 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
 
-using EcellLib;
-using EcellLib.Plugin;
-using EcellLib.Objects;
+using Ecell;
+using Ecell.Plugin;
+using Ecell.Objects;
 
-namespace EcellLib.EntityListWindow
+namespace Ecell.IDE.Plugins.EntityListWindow
 {
     /// <summary>
     /// Plugin of EntityListWindow.

@@ -37,7 +37,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib.MainWindow
+namespace Ecell.IDE.MainWindow
 {
     /// <summary>
     /// Form class to select the initial window setting.

@@ -1,4 +1,4 @@
-﻿namespace EcellLib.Simulation
+﻿namespace Ecell.IDE.Plugins.Simulation
 {
     /// <summary>
     /// Class of test driver.

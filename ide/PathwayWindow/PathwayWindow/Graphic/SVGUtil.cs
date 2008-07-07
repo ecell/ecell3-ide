@@ -32,7 +32,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-namespace EcellLib.PathwayWindow.Graphic
+namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
 {
     /// <summary>
     /// SVGUtil

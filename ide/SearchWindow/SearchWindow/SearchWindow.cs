@@ -34,9 +34,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Text;
 using System.Reflection;
-using EcellLib.Plugin;
+using Ecell.Plugin;
 
-namespace EcellLib.SearchWindow
+namespace Ecell.IDE.Plugins.SearchWindow
 {
     class SearchWindow : PluginBase
     {

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using EcellLib.Message;
-using EcellLib.Job;
+using Ecell.Message;
+using Ecell.Job;
 
-namespace EcellLib
+namespace Ecell
 {
     /// <summary>
     /// 

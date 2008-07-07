@@ -7,7 +7,7 @@
     <ProjectGuid>{E484AC73-2464-472C-B779-D6878E8B3FA3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLib.StaticDebugWindow</RootNamespace>
+    <RootNamespace>Ecell.IDE.Plugins.StaticDebugWindow</RootNamespace>
     <AssemblyName>StaticDebugWindow</AssemblyName>
     <SccProjectName>
     </SccProjectName>

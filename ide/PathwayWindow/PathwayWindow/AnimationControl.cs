@@ -32,18 +32,18 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using EcellLib.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using EcellLib.PathwayWindow.UIComponent;
+using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 using System.Diagnostics;
-using EcellLib.PathwayWindow.Graphic;
-using EcellLib.PathwayWindow.Dialog;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using System.IO;
 using System.Xml;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib.PathwayWindow
+namespace Ecell.IDE.Plugins.PathwayWindow
 {
     /// <summary>
     /// AnimationControl

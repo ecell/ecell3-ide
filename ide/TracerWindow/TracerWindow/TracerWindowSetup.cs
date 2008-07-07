@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib.TracerWindow
+namespace Ecell.IDE.Plugins.TracerWindow
 {
     public partial class TracerWindowSetup : Form
     {

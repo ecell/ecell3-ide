@@ -5,9 +5,9 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using EcellLib.Plugin;
+using Ecell.Plugin;
 
-namespace EcellLib
+namespace Ecell.IDE
 {
     /// <summary>
     /// dialog to select print plugin .
@@ -76,7 +76,7 @@ namespace EcellLib
         {
             if (this.listBox1.SelectedItem == null)
             {
-                EcellLib.Util.ShowNoticeDialog(MessageResUILib.ErrNoSelectTarget);
+                Ecell.Util.ShowNoticeDialog(MessageResUILib.ErrNoSelectTarget);
                 return;
             }
             this.DialogResult = DialogResult.OK;

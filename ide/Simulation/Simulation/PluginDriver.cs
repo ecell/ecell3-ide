@@ -5,9 +5,9 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using EcellLib.Plugin;
+using Ecell.Plugin;
 
-namespace EcellLib.Simulation
+namespace Ecell.IDE.Plugins.Simulation
 {
     /// <summary>
     /// Driver class to test plugin.

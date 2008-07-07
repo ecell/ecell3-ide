@@ -33,7 +33,7 @@ using System.Collections.Generic;
 using System.Text;
 using UMD.HCIL.Piccolo;
 
-namespace EcellLib.PathwayWindow.Nodes
+namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
     /// <summary>
     /// PPathwayLayer for CanvasControl

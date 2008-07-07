@@ -36,9 +36,9 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib.StaticDebugWindow
+namespace Ecell.IDE.Plugins.StaticDebugWindow
 {
     /// <summary>
     /// The form class to setup static debug.

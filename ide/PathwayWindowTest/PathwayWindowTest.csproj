@@ -8,7 +8,7 @@
     <ProjectGuid>{56C692EA-689C-46EC-8A78-B3F63CE46445}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PathwayWindowTest</RootNamespace>
+    <RootNamespace>Ecell.IDE.Plugins.PathwayWindow</RootNamespace>
     <AssemblyName>PathwayWindowTest</AssemblyName>
     <StartupObject>
     </StartupObject>

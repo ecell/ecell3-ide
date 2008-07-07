@@ -40,14 +40,14 @@ using System.Text;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.PiccoloX.Nodes;
 using System.Drawing;
-using EcellLib.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using System.ComponentModel;
 using System.Windows.Forms;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Util;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib.PathwayWindow.Handler
+namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
     /// <summary>
     /// EcventHandler when the node object is dragged.

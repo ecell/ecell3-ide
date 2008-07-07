@@ -7,7 +7,7 @@
     <ProjectGuid>{64F11BE9-D14C-4B80-B71B-0CF84B4B3897}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLib.SearchWindow</RootNamespace>
+    <RootNamespace>Ecell.IDE.Plugins.SearchWindow</RootNamespace>
     <AssemblyName>SearchWindow</AssemblyName>
     <SccProjectName>
     </SccProjectName>

@@ -36,7 +36,7 @@ using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using System.Windows.Forms;
 
-namespace EcellLib.PathwayWindow.UIComponent
+namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
     /// <summary>
     /// Control class to display the overview of pathway.
@@ -97,7 +97,7 @@ namespace EcellLib.PathwayWindow.UIComponent
             // 
             this.ClientSize = new System.Drawing.Size(292, 273);
             this.Controls.Add(this.panel);
-            this.Icon = global::EcellLib.PathwayWindow.PathwayResource.Icon_OverView;
+            this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_OverView;
             this.Name = "OverView";
             this.TabText = "OverView";
             this.Text = this.Name;

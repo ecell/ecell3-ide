@@ -33,11 +33,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-using EcellLib;
-using EcellLib.Objects;
-using EcellLib.Job;
+using Ecell;
+using Ecell.Objects;
+using Ecell.Job;
 
-namespace EcellLib.Analysis
+namespace Ecell.Analysis
 {
     /// <summary>
     /// Class to manage the parameter estimation.

@@ -32,9 +32,9 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Text;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib.ObjectList
+namespace Ecell.IDE.Plugins.ObjectList
 {
     /// <summary>
     /// TabPage to display the property of model.

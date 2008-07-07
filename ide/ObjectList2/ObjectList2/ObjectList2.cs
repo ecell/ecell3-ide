@@ -40,11 +40,11 @@ using System.Xml;
 using System.Reflection;
 using System.ComponentModel;
 
-using EcellLib;
-using EcellLib.Plugin;
-using EcellLib.Objects;
+using Ecell;
+using Ecell.Plugin;
+using Ecell.Objects;
 
-namespace EcellLib.ObjectList2
+namespace Ecell.IDE.Plugins.ObjectList2
 {
     /// <summary>
     /// Plugin class to display object by list.

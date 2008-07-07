@@ -33,7 +33,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib.PathwayWindow.Dialog
+namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
 {
     /// <summary>
     /// PropertyDialogTabPage for PropertyDialog

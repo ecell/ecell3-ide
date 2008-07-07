@@ -38,9 +38,9 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Ecell.UI.Components;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib
+namespace Ecell.IDE
 {
     public partial class PropertyEditor : Form
     {

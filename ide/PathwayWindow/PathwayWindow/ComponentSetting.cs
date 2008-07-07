@@ -38,17 +38,17 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Text;
-using EcellLib.PathwayWindow.Exceptions;
-using EcellLib.PathwayWindow.Figure;
-using EcellLib.PathwayWindow.Graphic;
-using EcellLib.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
+using Ecell.IDE.Plugins.PathwayWindow.Figure;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo.Util;
-using EcellLib.Objects;
+using Ecell.Objects;
 using System.Windows.Forms;
-using EcellLib.PathwayWindow.Dialog;
-using EcellLib.PathwayWindow.UIComponent;
+using Ecell.IDE.Plugins.PathwayWindow.Dialog;
+using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 
-namespace EcellLib.PathwayWindow
+namespace Ecell.IDE.Plugins.PathwayWindow
 {
     /// <summary>
     /// ComponentSetting contains all information for creating one kind of a component of pathway.

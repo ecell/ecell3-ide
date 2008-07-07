@@ -36,7 +36,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib.ObjectList2
+namespace Ecell.IDE.Plugins.ObjectList2
 {
     public partial class SearchInstance : Form
     {

@@ -44,15 +44,15 @@ using System.Drawing.Drawing2D;
 using System.Diagnostics;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo;
-using EcellLib.PathwayWindow.UIComponent;
-using EcellLib.PathwayWindow.Handler;
-using EcellLib.PathwayWindow.Nodes;
-using EcellLib.PathwayWindow.Graphic;
-using EcellLib.PathwayWindow.Dialog;
-using EcellLib.Layout;
-using EcellLib.Objects;
+using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
+using Ecell.IDE.Plugins.PathwayWindow.Handler;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Dialog;
+using Ecell.Layout;
+using Ecell.Objects;
 
-namespace EcellLib.PathwayWindow
+namespace Ecell.IDE.Plugins.PathwayWindow
 {
     /// <summary>
     /// MenuControl for PathwayWindow

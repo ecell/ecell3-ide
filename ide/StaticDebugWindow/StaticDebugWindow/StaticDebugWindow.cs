@@ -41,11 +41,11 @@ using System.Reflection;
 using System.IO;
 using System.ComponentModel;
 
-using EcellLib;
-using EcellLib.Plugin;
-using EcellLib.Objects;
+using Ecell;
+using Ecell.Plugin;
+using Ecell.Objects;
 
-namespace EcellLib.StaticDebugWindow
+namespace Ecell.IDE.Plugins.StaticDebugWindow
 {
     /// <summary>
     /// Controls the static debug.

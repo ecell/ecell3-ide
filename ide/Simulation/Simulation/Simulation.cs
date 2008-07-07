@@ -38,10 +38,10 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.ComponentModel;
 
-using EcellLib;
-using EcellLib.Plugin;
+using Ecell;
+using Ecell.Plugin;
 
-namespace EcellLib.Simulation
+namespace Ecell.IDE.Plugins.Simulation
 {
     /// <summary>
     /// Plugin class to manager simulation.

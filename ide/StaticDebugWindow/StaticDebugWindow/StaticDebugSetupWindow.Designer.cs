@@ -28,7 +28,7 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
-namespace EcellLib.StaticDebugWindow
+namespace Ecell.IDE.Plugins.StaticDebugWindow
 {
     partial class StaticDebugSetupWindow
     {

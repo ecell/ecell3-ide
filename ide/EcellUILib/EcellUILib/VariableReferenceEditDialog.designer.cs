@@ -1,4 +1,4 @@
-﻿namespace EcellLib
+﻿namespace Ecell.IDE
 {
     /// <summary>
     /// Object class to manage the VariableReferenceList of process.

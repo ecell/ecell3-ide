@@ -7,12 +7,12 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 
-using EcellLib;
-using EcellLib.Objects;
-using EcellLib.Job;
+using Ecell;
+using Ecell.Objects;
+using Ecell.Job;
 using ZedGraph;
 
-namespace EcellLib.Analysis
+namespace Ecell.Analysis
 {
     public partial class AnalysisResultWindow : EcellDockContent
     {

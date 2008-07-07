@@ -32,10 +32,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text;
-using EcellLib.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo;
 
-namespace EcellLib.PathwayWindow.Graphic
+namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
 {
     /// <summary>
     /// SVGExPorter

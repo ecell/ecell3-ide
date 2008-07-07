@@ -1,6 +1,6 @@
 ﻿using System.Security;
 using System.Security.Permissions;
-namespace EcellLib.MainWindow
+namespace Ecell.IDE.MainWindow
 {
     /// <summary>
     /// Application class for E-Cell IDE.

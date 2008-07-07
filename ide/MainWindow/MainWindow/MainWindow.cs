@@ -49,14 +49,14 @@ using System.Xml.Serialization;
 using IronPython.Hosting;
 using IronPython.Runtime;
 
-using EcellLib;
-using EcellLib.Message;
-using EcellLib.Plugin;
+using Ecell;
+using Ecell.Message;
+using Ecell.Plugin;
 using WeifenLuo.WinFormsUI.Docking;
-using EcellLib.Objects;
+using Ecell.Objects;
 using System.Xml;
 
-namespace EcellLib.MainWindow
+namespace Ecell.IDE.MainWindow
 {
     public partial class MainWindow : Form, IEcellPlugin, IDockOwner
     {
@@ -256,7 +256,7 @@ namespace EcellLib.MainWindow
         {
             IEcellPlugin pb = null;
             string pName = Path.GetFileNameWithoutExtension(path);
-            string className = "EcellLib." + pName + "." + pName;
+            string className = "Ecell.IDE.Plugins." + pName + "." + pName;
 
             if (m_pluginList.Contains(pName)) return;
             m_pluginList.Add(pName);

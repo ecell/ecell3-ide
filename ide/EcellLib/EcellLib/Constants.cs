@@ -35,7 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EcellLib
+namespace Ecell
 {
     /// <summary>
     /// Class to manage the constant value.

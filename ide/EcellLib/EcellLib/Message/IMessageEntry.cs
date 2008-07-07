@@ -32,7 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EcellLib.Message
+namespace Ecell.Message
 {
     /// <summary>
     /// Interface of the message entry.

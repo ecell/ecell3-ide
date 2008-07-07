@@ -33,10 +33,10 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
-using EcellLib;
-using EcellLib.Objects;
+using Ecell;
+using Ecell.Objects;
 
-namespace EcellLib.Job
+namespace Ecell.Job
 {
     /// <summary>
     /// Management class of session.

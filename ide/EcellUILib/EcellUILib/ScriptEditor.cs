@@ -34,7 +34,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace EcellLib
+namespace Ecell.IDE
 {
     /// <summary>
     /// Form to edit the script.

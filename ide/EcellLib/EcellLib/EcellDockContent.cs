@@ -34,7 +34,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace EcellLib
+namespace Ecell
 {
     /// <summary>
     /// Class managed the DockContent

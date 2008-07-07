@@ -37,7 +37,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib
+namespace Ecell.IDE
 {
     /// <summary>
     /// Form class to display the source of DM.

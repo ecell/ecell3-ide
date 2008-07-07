@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EcellLib.PathwayWindow.Figure
+namespace Ecell.IDE.Plugins.PathwayWindow.Figure
 {
     /// <summary>
     /// FigureManager

@@ -40,7 +40,7 @@ using EcellCoreLib;
 using System.Collections;
 using System.Text.RegularExpressions;
 
-namespace EcellLib.Objects
+namespace Ecell.Objects
 {
 
     /// <summary>

@@ -43,10 +43,10 @@ using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
-using EcellLib.Objects;
-using EcellLib.PathwayWindow.Handler;
+using Ecell.Objects;
+using Ecell.IDE.Plugins.PathwayWindow.Handler;
 
-namespace EcellLib.PathwayWindow.Nodes
+namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
     /// <summary>
     /// PPathwayNode for E-cell system.

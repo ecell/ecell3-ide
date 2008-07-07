@@ -5,9 +5,9 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
-using EcellLib.EntityListWindow;
+using Ecell.IDE.Plugins.EntityListWindow;
 
-namespace EcellLib.EntityListWindow
+namespace Ecell.IDE.Plugins.EntityListWindow
 {
     public partial class EntityList : EcellDockContent
     {

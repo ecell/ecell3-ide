@@ -34,7 +34,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace EcellLib
+namespace Ecell.IDE
 {
     /// <summary>
     /// Dialog class to add property for process.

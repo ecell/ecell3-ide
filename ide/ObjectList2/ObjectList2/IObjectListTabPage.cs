@@ -31,9 +31,9 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Text;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib.ObjectList2
+namespace Ecell.IDE.Plugins.ObjectList2
 {
     /// <summary>
     /// Interface class to manage the TabPage of ObjectList.

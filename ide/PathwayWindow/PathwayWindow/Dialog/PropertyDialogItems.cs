@@ -33,9 +33,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
-using EcellLib.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 
-namespace EcellLib.PathwayWindow.Dialog
+namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
 {
     /// <summary>
     /// UI class for PropertyDialog

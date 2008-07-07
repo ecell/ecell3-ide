@@ -35,9 +35,9 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib.Simulation
+namespace Ecell.IDE.Plugins.Simulation
 {
     public partial class NewParameterWindow : Form
     {

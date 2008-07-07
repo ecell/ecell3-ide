@@ -1,4 +1,4 @@
-namespace EcellLib
+namespace Ecell
 {
     using System;
     using NUnit.Framework;
@@ -57,7 +57,7 @@ namespace EcellLib
         [Test()]
         public void TestEquals()
         {
-            EcellLib.PluginData obj = null;
+            Ecell.PluginData obj = null;
             bool expectedBoolean = false;
             bool resultBoolean = false;
             resultBoolean = _unitUnderTest.Equals(obj);

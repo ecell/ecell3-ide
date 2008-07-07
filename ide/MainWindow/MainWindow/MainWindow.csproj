@@ -7,7 +7,7 @@
     <ProjectGuid>{3F802287-78C1-4EE6-9B06-8C1A9CB62226}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLib.MainWindow</RootNamespace>
+    <RootNamespace>Ecell.IDE.MainWindow</RootNamespace>
     <AssemblyName>MainWindow</AssemblyName>
     <SccProjectName>
     </SccProjectName>

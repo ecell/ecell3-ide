@@ -7,7 +7,7 @@
     <ProjectGuid>{878AA0FC-E743-4592-84C5-C1B8B82310C2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLib.TracerWindow</RootNamespace>
+    <RootNamespace>Ecell.IDE.Plugins.TracerWindow</RootNamespace>
     <AssemblyName>TracerWindow</AssemblyName>
     <SccProjectName>
     </SccProjectName>
@@ -183,7 +183,7 @@
     <None Include="Resources\dashdotdot.JPG" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ECellIDE.ico" />
+    <Content Include="Resources\ECellIDE.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

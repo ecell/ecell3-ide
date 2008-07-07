@@ -7,7 +7,7 @@
     <ProjectGuid>{A27D08FE-F274-464E-B361-E1DDE7203264}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLib.Simulation</RootNamespace>
+    <RootNamespace>Ecell.IDE.Plugins.Simulation</RootNamespace>
     <AssemblyName>Simulation</AssemblyName>
     <StartupObject>
     </StartupObject>

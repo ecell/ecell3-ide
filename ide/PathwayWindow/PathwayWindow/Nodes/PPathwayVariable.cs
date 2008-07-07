@@ -39,11 +39,11 @@ using System.Drawing;
 using System.Text;
 using System.Threading;
 using System.Drawing.Drawing2D;
-using EcellLib.Objects;
+using Ecell.Objects;
 using UMD.HCIL.Piccolo;
-using EcellLib.PathwayWindow;
+using Ecell.IDE.Plugins.PathwayWindow;
 
-namespace EcellLib.PathwayWindow.Nodes
+namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
     /// <summary>
     /// Subclass of PPathwayNode for variable of E-Cell.

@@ -1,4 +1,4 @@
-﻿namespace EcellLib.AboutWindow
+﻿namespace Ecell.IDE.Plugins.AboutWindow
 {
     partial class PluginDriver
     {

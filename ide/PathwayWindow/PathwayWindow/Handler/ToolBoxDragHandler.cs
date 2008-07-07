@@ -34,12 +34,12 @@ using System.Text;
 using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo;
-using EcellLib.PathwayWindow.UIComponent;
-using EcellLib.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using System.Drawing;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib.PathwayWindow.Handler
+namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
     /// <summary>
     /// ToolBoxDragHandler

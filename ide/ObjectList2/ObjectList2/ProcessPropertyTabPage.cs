@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using EcellLib.Objects;
+using Ecell.Objects;
 
 
-namespace EcellLib.ObjectList2
+namespace Ecell.IDE.Plugins.ObjectList2
 {
     class ProcessPropertyTabPage : VPropertyTabPage
     {

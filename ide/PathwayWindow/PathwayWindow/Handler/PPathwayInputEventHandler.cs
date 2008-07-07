@@ -34,7 +34,7 @@ using System.ComponentModel;
 using UMD.HCIL.Piccolo.Event;
 using System.Windows.Forms;
 
-namespace EcellLib.PathwayWindow.Handler
+namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
     /// <summary>
     /// PPathwayInputEventHandler

@@ -35,7 +35,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Drawing;
 
-namespace EcellLib.MainWindow
+namespace Ecell.IDE.MainWindow
 {
     /// <summary>
     /// StartUpWindow
@@ -405,7 +405,7 @@ namespace EcellLib.MainWindow
                 webBrowser.Width = panel1.Width;
             }
             this.m_window.Environment.PluginManager.SetStatusBarMessage(
-                EcellLib.Plugin.StatusBarMessageKind.Generic,
+                Ecell.Plugin.StatusBarMessageKind.Generic,
                 ""
                 );
         }
@@ -418,7 +418,7 @@ namespace EcellLib.MainWindow
         {
             if (e.MaximumProgress == 0.0) return;
             this.m_window.Environment.PluginManager.SetStatusBarMessage(
-                EcellLib.Plugin.StatusBarMessageKind.Generic,
+                Ecell.Plugin.StatusBarMessageKind.Generic,
                 MessageResMain.MessageWebBrowse
             );
             int progress = (int)(100 * ((double)e.CurrentProgress / (double)e.MaximumProgress));
@@ -433,7 +433,7 @@ namespace EcellLib.MainWindow
         {
 //            this.URLLabel.Text = webBrowser.StatusText;
             this.m_window.Environment.PluginManager.SetStatusBarMessage(
-                        EcellLib.Plugin.StatusBarMessageKind.Generic,
+                        Ecell.Plugin.StatusBarMessageKind.Generic,
                         webBrowser.StatusText);
         }
         /// <summary>

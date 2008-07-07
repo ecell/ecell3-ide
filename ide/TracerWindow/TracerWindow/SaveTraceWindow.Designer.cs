@@ -28,7 +28,7 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
-namespace EcellLib.TracerWindow
+namespace Ecell.IDE.Plugins.TracerWindow
 {
     partial class SaveTraceWindow
     {

@@ -48,14 +48,14 @@ using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.PiccoloX.Nodes;
 using UMD.HCIL.Piccolo.Util;
-using EcellLib.PathwayWindow.Nodes;
-using EcellLib.PathwayWindow.UIComponent;
-using EcellLib.PathwayWindow.Handler;
-using EcellLib.PathwayWindow.Exceptions;
-using EcellLib.Layout;
-using EcellLib.Objects;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
+using Ecell.IDE.Plugins.PathwayWindow.Handler;
+using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
+using Ecell.Layout;
+using Ecell.Objects;
 
-namespace EcellLib.PathwayWindow
+namespace Ecell.IDE.Plugins.PathwayWindow
 {
     /// <summary>
     /// PathwayView plays a role of View part of MVC-model.
@@ -403,7 +403,7 @@ namespace EcellLib.PathwayWindow
         public void Progress(string msg, int max, int val)
         {
             Window.Environment.PluginManager.SetStatusBarMessage(
-                EcellLib.Plugin.StatusBarMessageKind.Generic,
+                Ecell.Plugin.StatusBarMessageKind.Generic,
                 msg
             );
             Window.Environment.PluginManager.SetProgressBarValue(100 * val / max);

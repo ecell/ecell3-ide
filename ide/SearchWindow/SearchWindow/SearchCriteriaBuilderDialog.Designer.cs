@@ -1,4 +1,4 @@
-﻿namespace EcellLib.SearchWindow
+﻿namespace Ecell.IDE.Plugins.SearchWindow
 {
     partial class SearchCriteriaBuilderDialog
     {

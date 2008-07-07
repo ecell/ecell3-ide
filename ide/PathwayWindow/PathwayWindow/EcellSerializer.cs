@@ -43,10 +43,10 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-using EcellLib.Objects;
-using EcellLib.PathwayWindow.Nodes;
+using Ecell.Objects;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 
-namespace EcellLib.PathwayWindow {
+namespace Ecell.IDE.Plugins.PathwayWindow {
     /// <summary>
     /// Class to serialize the object.
     /// </summary>

@@ -5,7 +5,7 @@ using System.IO;
 
 using EcellCoreLib;
 
-namespace EcellLib
+namespace Ecell
 {
 
     /// <summary>

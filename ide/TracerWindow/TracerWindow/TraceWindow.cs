@@ -39,9 +39,9 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using ZedGraph;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib.TracerWindow
+namespace Ecell.IDE.Plugins.TracerWindow
 {
     /// <summary>
     /// Form to show trace of target object property.

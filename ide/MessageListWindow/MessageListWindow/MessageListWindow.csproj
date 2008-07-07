@@ -7,7 +7,7 @@
     <ProjectGuid>{41E0A195-CF50-43F6-80EB-654EA92BC333}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLib.MessageListWindow</RootNamespace>
+    <RootNamespace>Ecell.IDE.Plugins.MessageListWindow</RootNamespace>
     <AssemblyName>MessageListWindow</AssemblyName>
   </PropertyGroup>
   <PropertyGroup>

@@ -1,4 +1,4 @@
-﻿namespace EcellLib.MainWindow
+﻿namespace Ecell.IDE.MainWindow
 {
     partial class InitialPreferencesDialog
     {

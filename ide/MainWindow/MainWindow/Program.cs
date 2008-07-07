@@ -39,10 +39,10 @@ using System.Reflection;
 using System.IO;
 using System.Runtime.InteropServices;
 
-using EcellLib.Message;
-using EcellLib.Plugin;
+using Ecell.Message;
+using Ecell.Plugin;
 
-namespace EcellLib.MainWindow
+namespace Ecell.IDE.MainWindow
 {
     class Program
     {
@@ -124,7 +124,7 @@ namespace EcellLib.MainWindow
             {
                 Application.Idle -= onIdle;
                 IEcellPlugin mainWnd = env.PluginManager.RegisterPlugin(
-                    typeof(EcellLib.MainWindow.MainWindow));
+                    typeof(Ecell.IDE.MainWindow.MainWindow));
                 me.MainForm = (Form)mainWnd;
                 env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
                 ((Form)mainWnd).Show();

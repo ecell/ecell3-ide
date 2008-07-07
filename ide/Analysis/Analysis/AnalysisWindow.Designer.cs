@@ -1,4 +1,4 @@
-﻿namespace EcellLib.Analysis
+﻿namespace Ecell.Analysis
 {
     partial class AnalysisWindow
     {

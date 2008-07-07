@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EcellLib.Analysis {
+namespace Ecell.Analysis {
     using System;
     
     

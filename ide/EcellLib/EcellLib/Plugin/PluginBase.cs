@@ -38,10 +38,10 @@ using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
 
-using EcellLib.Message;
-using EcellLib.Objects;
+using Ecell.Message;
+using Ecell.Objects;
 
-namespace EcellLib.Plugin
+namespace Ecell.Plugin
 {
     /// <summary>
     /// Interface of plugins on ECell IDE.

@@ -36,9 +36,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using EcellLib.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 
-namespace EcellLib.PathwayWindow.Figure
+namespace Ecell.IDE.Plugins.PathwayWindow.Figure
 {
     /// <summary>
     /// FigureBase for an ellipse.

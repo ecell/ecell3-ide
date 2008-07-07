@@ -1,4 +1,4 @@
-﻿namespace EcellLib.Analysis
+﻿namespace Ecell.Analysis
 {
     /// <summary>
     /// Window to display the result of analysis.

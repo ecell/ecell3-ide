@@ -39,7 +39,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 
-namespace EcellLib.Objects
+namespace Ecell.Objects
 {
 
     /// <summary>

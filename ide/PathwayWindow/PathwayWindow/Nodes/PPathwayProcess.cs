@@ -40,13 +40,13 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Nodes;
-using EcellLib.PathwayWindow.UIComponent;
-using EcellLib.PathwayWindow.Figure;
+using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
+using Ecell.IDE.Plugins.PathwayWindow.Figure;
 using System.Drawing.Drawing2D;
-using EcellLib.PathwayWindow.Graphic;
-using EcellLib.Objects;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.Objects;
 
-namespace EcellLib.PathwayWindow.Nodes
+namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
     /// <summary>
     /// PPathwayObject for E-Cell variable.

@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EcellLib.PathwayWindow.Exceptions
+namespace Ecell.IDE.Plugins.PathwayWindow.Exceptions
 {
     class NoSuchComponentClassException : Exception
     {

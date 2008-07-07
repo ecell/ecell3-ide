@@ -1,12 +1,12 @@
 using System;
 using NUnit.Framework;
 using System.Collections.Generic;
-using EcellLib;
-using EcellLib.Plugin;
-using EcellLib.Objects;
-using EcellLib.Message;
+using Ecell;
+using Ecell.Plugin;
+using Ecell.Objects;
+using Ecell.Message;
 
-namespace EcellLib
+namespace Ecell
 {
     /// <summary>
     /// 
@@ -337,7 +337,7 @@ namespace EcellLib
         [Test()]
         public void TestChangeStatus()
         {
-            EcellLib.ProjectStatus type = ProjectStatus.Uninitialized;
+            Ecell.ProjectStatus type = ProjectStatus.Uninitialized;
             _unitUnderTest.ChangeStatus(type);
             Assert.Fail("Create or modify test(s).");
 
@@ -348,7 +348,7 @@ namespace EcellLib
         [Test()]
         public void TestChangeUndoStatus()
         {
-            EcellLib.UndoStatus status = UndoStatus.NOTHING;
+            Ecell.UndoStatus status = UndoStatus.NOTHING;
             _unitUnderTest.ChangeUndoStatus(status);
             Assert.Fail("Create or modify test(s).");
 
@@ -373,8 +373,8 @@ namespace EcellLib
         [Test()]
         public void TestGetLayoutPlugins()
         {
-            List<EcellLib.Layout.ILayoutAlgorithm> expectedList = null;
-            List<EcellLib.Layout.ILayoutAlgorithm> resultList = _unitUnderTest.GetLayoutPlugins();
+            List<Ecell.Layout.ILayoutAlgorithm> expectedList = null;
+            List<Ecell.Layout.ILayoutAlgorithm> resultList = _unitUnderTest.GetLayoutPlugins();
             Assert.AreEqual(expectedList, resultList, "GetLayoutPlugins method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 

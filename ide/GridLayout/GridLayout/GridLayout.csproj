@@ -7,7 +7,7 @@
     <ProjectGuid>{4FFE2BEB-049B-46E4-88C9-50F6BCA79CC0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLib.GridLayout</RootNamespace>
+    <RootNamespace>Ecell.IDE.Plugins.GridLayout</RootNamespace>
     <AssemblyName>GridLayout</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>

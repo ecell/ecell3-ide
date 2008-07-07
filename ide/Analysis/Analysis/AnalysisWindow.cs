@@ -37,15 +37,16 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-using EcellLib;
-using EcellLib.Job;
+using Ecell;
+using Ecell.Job;
 using ZedGraph;
+using Ecell.IDE;
 using Ecell.UI.Components;
 using MathNet.Numerics;
 using MathNet.Numerics.Transformations;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib.Analysis
+namespace Ecell.Analysis
 {
     /// <summary>
     /// Form to display the setting and result of analysis.
@@ -870,7 +871,7 @@ namespace EcellLib.Analysis
         /// <param name="e">DragEventArgs</param>
         private void DragDropParam(object sender, DragEventArgs e)
         {
-            object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
+            object obj = e.Data.GetData(typeof(Ecell.Objects.EcellDragObject));
             if (obj == null) return;
             EcellDragObject dobj = obj as EcellDragObject;
             if (!dobj.IsSettable) return;
@@ -906,7 +907,7 @@ namespace EcellLib.Analysis
         /// <param name="e">DragEventArgs</param>
         private void DragEnterParam(object sender, DragEventArgs e)
         {
-            object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
+            object obj = e.Data.GetData(typeof(Ecell.Objects.EcellDragObject));
             if (obj == null)
             {
                 e.Effect = DragDropEffects.None;
@@ -926,7 +927,7 @@ namespace EcellLib.Analysis
         /// <param name="e">DragEventArgs</param>
         private void DragEnterObservedData(object sender, DragEventArgs e)
         {
-            object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
+            object obj = e.Data.GetData(typeof(Ecell.Objects.EcellDragObject));
             if (obj == null)
             {
                 e.Effect = DragDropEffects.None;
@@ -946,7 +947,7 @@ namespace EcellLib.Analysis
         /// <param name="e">DragEventArgs</param>
         private void DragDropObservedData(object sender, DragEventArgs e)
         {
-            object obj = e.Data.GetData(typeof(EcellLib.Objects.EcellDragObject));
+            object obj = e.Data.GetData(typeof(Ecell.Objects.EcellDragObject));
             
             if (obj == null) return;
             EcellDragObject dobj = obj as EcellDragObject;

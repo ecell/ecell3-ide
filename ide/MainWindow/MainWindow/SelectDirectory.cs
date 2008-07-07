@@ -37,7 +37,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
-namespace EcellLib.MainWindow
+namespace Ecell.IDE.MainWindow
 {
 
     /// <summary>

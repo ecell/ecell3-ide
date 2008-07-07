@@ -38,10 +38,10 @@ using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
-using EcellLib.PathwayWindow.Dialog;
+using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using System.Diagnostics;
 
-namespace EcellLib.PathwayWindow.UIComponent
+namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
     /// <summary>
     /// UserControl class to display the list of layer.

@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Xml;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib
+namespace Ecell
 {
     internal class EcellXmlReaderException: ApplicationException
     {

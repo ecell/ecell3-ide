@@ -1,4 +1,4 @@
-namespace EcellLib
+namespace Ecell
 {
     using System;
     using System.Windows.Forms;
@@ -102,7 +102,7 @@ namespace EcellLib
         public void TestAddStepperIDL_parameterIDL_stepper()
         {
             string l_parameterID = "";
-            EcellLib.Objects.EcellObject l_stepper = null;
+            Ecell.Objects.EcellObject l_stepper = null;
             _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
             Assert.Fail("Create or modify test(s).");
 
@@ -114,7 +114,7 @@ namespace EcellLib
         public void TestAddStepperIDL_parameterIDL_stepperL_isRecorded()
         {
             string l_parameterID = null;
-            EcellLib.Objects.EcellObject l_stepper = null;
+            Ecell.Objects.EcellObject l_stepper = null;
             bool l_isRecorded = false;
             _unitUnderTest.AddStepperID(l_parameterID, l_stepper, l_isRecorded);
             Assert.Fail("Create or modify test(s).");
@@ -151,7 +151,7 @@ namespace EcellLib
         [Test()]
         public void TestDataAddL_ecellObjectList()
         {
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> l_ecellObjectList = null;
+            System.Collections.Generic.List<Ecell.Objects.EcellObject> l_ecellObjectList = null;
             _unitUnderTest.DataAdd(l_ecellObjectList);
             Assert.Fail("Create or modify test(s).");
 
@@ -162,7 +162,7 @@ namespace EcellLib
         [Test()]
         public void TestDataAddL_ecellObjectListL_isRecordedL_isAnchor()
         {
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> l_ecellObjectList = null;
+            System.Collections.Generic.List<Ecell.Objects.EcellObject> l_ecellObjectList = null;
             bool l_isRecorded = false;
             bool l_isAnchor = false;
             _unitUnderTest.DataAdd(l_ecellObjectList, l_isRecorded, l_isAnchor);
@@ -175,7 +175,7 @@ namespace EcellLib
         [Test()]
         public void TestDataChangedL_ecellObjectList()
         {
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> l_ecellObjectList = null;
+            System.Collections.Generic.List<Ecell.Objects.EcellObject> l_ecellObjectList = null;
             _unitUnderTest.DataChanged(l_ecellObjectList);
             Assert.Fail("Create or modify test(s).");
 
@@ -186,7 +186,7 @@ namespace EcellLib
         [Test()]
         public void TestDataChangedL_ecellObjectListL_isRecordedL_isAnchor()
         {
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> l_ecellObjectList = null;
+            System.Collections.Generic.List<Ecell.Objects.EcellObject> l_ecellObjectList = null;
             bool l_isRecorded = false;
             bool l_isAnchor = false;
             _unitUnderTest.DataChanged(l_ecellObjectList, l_isRecorded, l_isAnchor);
@@ -202,7 +202,7 @@ namespace EcellLib
             string l_modelID = null;
             string l_key = null;
             string l_type = null;
-            EcellLib.Objects.EcellObject l_ecellObject = null;
+            Ecell.Objects.EcellObject l_ecellObject = null;
             _unitUnderTest.DataChanged(l_modelID, l_key, l_type, l_ecellObject);
             Assert.Fail("Create or modify test(s).");
 
@@ -216,7 +216,7 @@ namespace EcellLib
             string l_modelID = null;
             string l_key = null;
             string l_type = null;
-            EcellLib.Objects.EcellObject l_ecellObject = null;
+            Ecell.Objects.EcellObject l_ecellObject = null;
             bool l_isRecorded = false;
             bool l_isAnchor = false;
             _unitUnderTest.DataChanged(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
@@ -300,9 +300,9 @@ namespace EcellLib
         public void TestSystemAddAndMove()
         {
             string l_modelID = null;
-            EcellLib.Objects.EcellObject l_obj = null;
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> l_sysList = null;
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> l_objList = null;
+            Ecell.Objects.EcellObject l_obj = null;
+            System.Collections.Generic.List<Ecell.Objects.EcellObject> l_sysList = null;
+            System.Collections.Generic.List<Ecell.Objects.EcellObject> l_objList = null;
             _unitUnderTest.SystemAddAndMove(l_modelID, l_obj, l_sysList, l_objList);
             Assert.Fail("Create or modify test(s).");
 
@@ -338,7 +338,7 @@ namespace EcellLib
         public void TestDeleteStepperIDL_parameterIDL_stepper()
         {
             string l_parameterID = null;
-            EcellLib.Objects.EcellObject l_stepper = null;
+            Ecell.Objects.EcellObject l_stepper = null;
             _unitUnderTest.DeleteStepperID(l_parameterID, l_stepper);
             Assert.Fail("Create or modify test(s).");
 
@@ -350,7 +350,7 @@ namespace EcellLib
         public void TestDeleteStepperIDL_parameterIDL_stepperL_isRecorded()
         {
             string l_parameterID = null;
-            EcellLib.Objects.EcellObject l_stepper = null;
+            Ecell.Objects.EcellObject l_stepper = null;
             bool l_isRecorded = false;
             _unitUnderTest.DeleteStepperID(l_parameterID, l_stepper, l_isRecorded);
             Assert.Fail("Create or modify test(s).");
@@ -417,8 +417,8 @@ namespace EcellLib
         {
             string l_modelID = null;
             string l_key = null;
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> expectedList = null;
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> resultList = null;
+            System.Collections.Generic.List<Ecell.Objects.EcellObject> expectedList = null;
+            System.Collections.Generic.List<Ecell.Objects.EcellObject> resultList = null;
             resultList = _unitUnderTest.GetData(l_modelID, l_key);
             Assert.AreEqual(expectedList, resultList, "GetData method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -433,8 +433,8 @@ namespace EcellLib
             string modelId = null;
             string key = null;
             string type = null;
-            EcellLib.Objects.EcellObject expectedEcellObject = null;
-            EcellLib.Objects.EcellObject resultEcellObject = null;
+            Ecell.Objects.EcellObject expectedEcellObject = null;
+            Ecell.Objects.EcellObject resultEcellObject = null;
             resultEcellObject = _unitUnderTest.GetEcellObject(modelId, key, type);
             Assert.AreEqual(expectedEcellObject, resultEcellObject, "GetEcellObject method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -467,8 +467,8 @@ namespace EcellLib
             double l_endTime = 0;
             double l_interval = 0;
             string l_fullID = null;
-            EcellLib.LogData expectedLogData = null;
-            EcellLib.LogData resultLogData = null;
+            Ecell.LogData expectedLogData = null;
+            Ecell.LogData resultLogData = null;
             resultLogData = _unitUnderTest.GetLogData(l_startTime, l_endTime, l_interval, l_fullID);
             Assert.AreEqual(expectedLogData, resultLogData, "GetLogData method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -514,8 +514,8 @@ namespace EcellLib
             double l_startTime = 0;
             double l_endTime = 0;
             double l_interval = 0;
-            System.Collections.Generic.List<EcellLib.LogData> expectedList = null;
-            System.Collections.Generic.List<EcellLib.LogData> resultList = null;
+            System.Collections.Generic.List<Ecell.LogData> expectedList = null;
+            System.Collections.Generic.List<Ecell.LogData> resultList = null;
             resultList = _unitUnderTest.GetLogData(l_startTime, l_endTime, l_interval);
             Assert.AreEqual(expectedList, resultList, "GetLogData method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -541,8 +541,8 @@ namespace EcellLib
         public void TestGetLoggerPolicy()
         {
             string l_parameterID = null;
-            EcellLib.LoggerPolicy expectedLoggerPolicy = new LoggerPolicy();
-            EcellLib.LoggerPolicy resultLoggerPolicy = new LoggerPolicy();
+            Ecell.LoggerPolicy expectedLoggerPolicy = new LoggerPolicy();
+            Ecell.LoggerPolicy resultLoggerPolicy = new LoggerPolicy();
             resultLoggerPolicy = _unitUnderTest.GetLoggerPolicy(l_parameterID);
             Assert.AreEqual(expectedLoggerPolicy, resultLoggerPolicy, "GetLoggerPolicy method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -583,8 +583,8 @@ namespace EcellLib
         public void TestGetEntityProperty()
         {
             string l_fullPN = null;
-            EcellLib.Objects.EcellValue expectedEcellValue = null;
-            EcellLib.Objects.EcellValue resultEcellValue = null;
+            Ecell.Objects.EcellValue expectedEcellValue = null;
+            Ecell.Objects.EcellValue resultEcellValue = null;
             resultEcellValue = _unitUnderTest.GetEntityProperty(l_fullPN);
             Assert.AreEqual(expectedEcellValue, resultEcellValue, "GetEntityProperty method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -637,8 +637,8 @@ namespace EcellLib
         public void TestGetProcessProperty()
         {
             string l_dmName = null;
-            System.Collections.Generic.Dictionary<System.String, EcellLib.Objects.EcellData> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.String, EcellLib.Objects.EcellData> resultDictionary = null;
+            System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> expectedDictionary = null;
+            System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> resultDictionary = null;
             resultDictionary = _unitUnderTest.GetProcessProperty(l_dmName);
             Assert.AreEqual(expectedDictionary, resultDictionary, "GetProcessProperty method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -651,8 +651,8 @@ namespace EcellLib
         public void TestGetProjects()
         {
             string l_dir = null;
-            System.Collections.Generic.List<EcellLib.Project> expectedList = null;
-            System.Collections.Generic.List<EcellLib.Project> resultList = null;
+            System.Collections.Generic.List<Ecell.Project> expectedList = null;
+            System.Collections.Generic.List<Ecell.Project> resultList = null;
             resultList = _unitUnderTest.GetProjects(l_dir);
             Assert.AreEqual(expectedList, resultList, "GetProjects method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -718,8 +718,8 @@ namespace EcellLib
         {
             string l_parameterID = null;
             string l_modelID = null;
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> expectedList = null;
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> resultList = null;
+            System.Collections.Generic.List<Ecell.Objects.EcellObject> expectedList = null;
+            System.Collections.Generic.List<Ecell.Objects.EcellObject> resultList = null;
             resultList = _unitUnderTest.GetStepper(l_parameterID, l_modelID);
             Assert.AreEqual(expectedList, resultList, "GetStepper method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -758,8 +758,8 @@ namespace EcellLib
         public void TestGetStepperProperty()
         {
             string l_dmName = null;
-            System.Collections.Generic.Dictionary<System.String, EcellLib.Objects.EcellData> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.String, EcellLib.Objects.EcellData> resultDictionary = null;
+            System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> expectedDictionary = null;
+            System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> resultDictionary = null;
             resultDictionary = _unitUnderTest.GetStepperProperty(l_dmName);
             Assert.AreEqual(expectedDictionary, resultDictionary, "GetStepperProperty method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -798,8 +798,8 @@ namespace EcellLib
         [Test()]
         public void TestGetSystemProperty()
         {
-            System.Collections.Generic.Dictionary<System.String, EcellLib.Objects.EcellData> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.String, EcellLib.Objects.EcellData> resultDictionary = null;
+            System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> expectedDictionary = null;
+            System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> resultDictionary = null;
             resultDictionary = _unitUnderTest.GetSystemProperty();
             Assert.AreEqual(expectedDictionary, resultDictionary, "GetSystemProperty method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -840,8 +840,8 @@ namespace EcellLib
         [Test()]
         public void TestGetVariableProperty()
         {
-            System.Collections.Generic.Dictionary<System.String, EcellLib.Objects.EcellData> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.String, EcellLib.Objects.EcellData> resultDictionary = null;
+            System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> expectedDictionary = null;
+            System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> resultDictionary = null;
             resultDictionary = _unitUnderTest.GetVariableProperty();
             Assert.AreEqual(expectedDictionary, resultDictionary, "GetVariableProperty method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -919,8 +919,8 @@ namespace EcellLib
             string key = null;
             string type = null;
             bool isProper = false;
-            EcellLib.Objects.EcellObject expectedEcellObject = null;
-            EcellLib.Objects.EcellObject resultEcellObject = null;
+            Ecell.Objects.EcellObject expectedEcellObject = null;
+            Ecell.Objects.EcellObject resultEcellObject = null;
             resultEcellObject = _unitUnderTest.CreateDefaultObject(modelID, key, type, isProper);
             Assert.AreEqual(expectedEcellObject, resultEcellObject, "CreateDefaultObject method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -1031,8 +1031,8 @@ namespace EcellLib
         public void TestSetLoggerPolicy()
         {
             string l_parameterID = null;
-            EcellLib.LoggerPolicy l_loggerPolicy = new LoggerPolicy();
-            EcellLib.LoggerPolicy expectedl_loggerPolicy = new LoggerPolicy();
+            Ecell.LoggerPolicy l_loggerPolicy = new LoggerPolicy();
+            Ecell.LoggerPolicy expectedl_loggerPolicy = new LoggerPolicy();
             _unitUnderTest.SetLoggerPolicy(l_parameterID, ref l_loggerPolicy);
             Assert.AreEqual(expectedl_loggerPolicy, l_loggerPolicy, "l_loggerPolicy ref parameter has unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -1160,7 +1160,7 @@ namespace EcellLib
         public void TestUpdateStepperIDL_parameterIDL_stepperList()
         {
             string l_parameterID = null;
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> l_stepperList = null;
+            System.Collections.Generic.List<Ecell.Objects.EcellObject> l_stepperList = null;
             _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList);
             Assert.Fail("Create or modify test(s).");
 
@@ -1172,7 +1172,7 @@ namespace EcellLib
         public void TestUpdateStepperIDL_parameterIDL_stepperListL_isRecorded()
         {
             string l_parameterID = null;
-            System.Collections.Generic.List<EcellLib.Objects.EcellObject> l_stepperList = null;
+            System.Collections.Generic.List<Ecell.Objects.EcellObject> l_stepperList = null;
             bool l_isRecorded = false;
             _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList, l_isRecorded);
             Assert.Fail("Create or modify test(s).");

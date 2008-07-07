@@ -49,9 +49,9 @@ using IronPython.Hosting;
 using IronPython.Runtime;
 
 using EcellCoreLib;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib
+namespace Ecell
 {
     /// <summary>
     /// Manages data of projects, models, and so on.

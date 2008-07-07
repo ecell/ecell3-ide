@@ -1,4 +1,4 @@
-﻿namespace EcellLib.Simulation
+﻿namespace Ecell.IDE.Plugins.Simulation
 {
     partial class SimulationSetup
     {

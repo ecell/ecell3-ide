@@ -7,7 +7,7 @@
     <ProjectGuid>{0116F522-F135-4F0D-B839-1E542B40FBD7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLib.ScriptWindow</RootNamespace>
+    <RootNamespace>Ecell.IDE.Plugins.ScriptWindow</RootNamespace>
     <AssemblyName>ScriptWindow</AssemblyName>
   </PropertyGroup>
   <PropertyGroup>

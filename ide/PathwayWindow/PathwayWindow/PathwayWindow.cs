@@ -57,12 +57,12 @@ using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.PiccoloX.Components;
 using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.PiccoloX.Nodes;
-using EcellLib;
-using EcellLib.Layout;
-using EcellLib.Plugin;
-using EcellLib.Objects;
+using Ecell;
+using Ecell.Layout;
+using Ecell.Plugin;
+using Ecell.Objects;
 
-namespace EcellLib.PathwayWindow
+namespace Ecell.IDE.Plugins.PathwayWindow
 {
     /// <summary>
     /// PathwayWindow plugin

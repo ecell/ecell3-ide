@@ -36,9 +36,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib.SearchWindow
+namespace Ecell.IDE.Plugins.SearchWindow
 {
     /// <summary>
     /// Form to input the condition to search the object.

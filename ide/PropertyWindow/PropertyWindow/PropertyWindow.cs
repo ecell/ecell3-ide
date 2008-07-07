@@ -41,10 +41,10 @@ using System.Text.RegularExpressions;
 using System.ComponentModel;
 
 using Ecell.UI.Components;
-using EcellLib.Plugin;
-using EcellLib.Objects;
+using Ecell.Plugin;
+using Ecell.Objects;
 
-namespace EcellLib.PropertyWindow
+namespace Ecell.IDE.Plugins.PropertyWindow
 {
     /// <summary>
     /// The Plugin Class to show property of object.

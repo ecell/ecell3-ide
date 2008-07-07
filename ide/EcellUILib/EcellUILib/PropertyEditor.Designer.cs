@@ -1,4 +1,4 @@
-﻿namespace EcellLib
+﻿namespace Ecell.IDE
 {
     /// <summary>
     /// The dialog class to edit and update the property of object.

@@ -7,7 +7,7 @@
     <ProjectGuid>{1311EAE3-BBF8-4B24-83B9-6D6C12DBA295}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLib</RootNamespace>
+    <RootNamespace>Ecell</RootNamespace>
     <AssemblyName>EcellLib</AssemblyName>
     <SccProjectName>
     </SccProjectName>

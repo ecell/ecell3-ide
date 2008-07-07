@@ -40,10 +40,10 @@ using System.Drawing.Drawing2D;
 using System.Reflection;
 using System.ComponentModel;
 using WeifenLuo.WinFormsUI.Docking;
-using EcellLib.Plugin;
-using EcellLib.Objects;
+using Ecell.Plugin;
+using Ecell.Objects;
 
-namespace EcellLib.TracerWindow
+namespace Ecell.IDE.Plugins.TracerWindow
 {
     /// <summary>
     /// Plugin Class of TracerWindow.

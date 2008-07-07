@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EcellLib.Objects
+namespace Ecell.Objects
 {
     /// <summary>
     /// Class to manager the observed data.

@@ -34,13 +34,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using EcellLib.PathwayWindow.Figure;
+using Ecell.IDE.Plugins.PathwayWindow.Figure;
 using System.Drawing;
-using EcellLib.PathwayWindow;
+using Ecell.IDE.Plugins.PathwayWindow;
 using System.Drawing.Drawing2D;
-using EcellLib.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 
-namespace EcellLib.PathwayWindow.Figure
+namespace Ecell.IDE.Plugins.PathwayWindow.Figure
 {
     /// <summary>
     /// FigureBase for a rectangle

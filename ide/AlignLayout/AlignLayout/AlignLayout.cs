@@ -32,10 +32,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
 using System.Drawing;
-using EcellLib.Layout;
-using EcellLib.Objects;
+using Ecell.Layout;
+using Ecell.Objects;
 
-namespace EcellLib.AlignLayout
+namespace Ecell.IDE.Plugins.AlignLayout
 {
     /// <summary>
     /// Layout algorithm to align nodes

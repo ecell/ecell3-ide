@@ -1,4 +1,4 @@
-﻿namespace EcellLib.Simulation
+﻿namespace Ecell.IDE.Plugins.Simulation
 {
     /// <summary>
     /// Dialog class to create parameter set.

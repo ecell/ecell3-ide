@@ -1,4 +1,4 @@
-﻿namespace EcellLib
+﻿namespace Ecell
 {
     partial class NodeImageComponent
     {

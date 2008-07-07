@@ -39,9 +39,9 @@ using System.IO;
 using System.Xml;
 using System.Windows.Forms;
 using EcellCoreLib;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib
+namespace Ecell
 {
     /// <summary>
     /// Stores the project information.

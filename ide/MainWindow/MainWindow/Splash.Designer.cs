@@ -1,4 +1,4 @@
-﻿namespace EcellLib.MainWindow
+﻿namespace Ecell.IDE.MainWindow
 {
     partial class Splash
     {
@@ -62,7 +62,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.BackgroundImage = global::EcellLib.MainWindow.Properties.Resources.splash;
+            this.BackgroundImage = global::Ecell.IDE.MainWindow.Properties.Resources.splash;
             this.ControlBox = false;
             this.Controls.Add(this.VersionNumber);
             this.Controls.Add(this.CopyrightNotice);

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EcellLib.Job
+namespace Ecell.Job
 {
     /// <summary>
     /// Interface of JobManager.
@@ -252,7 +252,7 @@ namespace EcellLib.Job
         /// If you use RunSimParameterMatrix, the number of list must be 2.
         /// </summary>
         /// <param name="pList">the list of range for initial parameters.</param>
-        void SetParameterRange(List<EcellLib.Objects.EcellParameterData> pList);
+        void SetParameterRange(List<Ecell.Objects.EcellParameterData> pList);
         /// <summary>
         /// Stop the job with input ID of job. if jobid = 0, all job are stopped.
         /// </summary>

@@ -31,9 +31,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-using EcellLib.Objects;
+using Ecell.Objects;
 
-namespace EcellLib.Layout
+namespace Ecell.Layout
 {
     /// <summary>
     /// Common algorithm of Layout algorithm.

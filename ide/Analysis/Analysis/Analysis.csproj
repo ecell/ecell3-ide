@@ -93,7 +93,6 @@
   <ItemGroup>
     <Compile Include="Analysis.cs" />
     <Compile Include="AnalysisResultWindow.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="AnalysisResultWindow.Designer.cs">
       <DependentUpon>AnalysisResultWindow.cs</DependentUpon>

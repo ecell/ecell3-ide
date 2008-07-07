@@ -7,7 +7,7 @@ using System.Drawing.Drawing2D;
 
 using ZedGraph;
 
-namespace EcellLib.TracerWindow
+namespace Ecell.IDE.Plugins.TracerWindow
 {
     class TraceEntry
     {

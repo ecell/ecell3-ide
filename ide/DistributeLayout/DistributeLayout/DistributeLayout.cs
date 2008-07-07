@@ -32,10 +32,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.ComponentModel;
-using EcellLib.Layout;
-using EcellLib.Objects;
+using Ecell.Layout;
+using Ecell.Objects;
 
-namespace EcellLib.DistributeLayout
+namespace Ecell.IDE.Plugins.DistributeLayout
 {
     /// <summary>
     /// Layout algorithm to distribute nodes evenly spaced

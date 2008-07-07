@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 
-namespace EcellLib.Message
+namespace Ecell.Message
 {
     /// <summary>
     /// Class to manage the error message.

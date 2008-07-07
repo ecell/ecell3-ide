@@ -38,17 +38,17 @@ using System.Drawing;
 using System.Xml;
 using System.Windows.Forms;
 using System.IO;
-using EcellLib.PathwayWindow.Nodes;
-using EcellLib.PathwayWindow.Exceptions;
-using EcellLib.PathwayWindow.Figure;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
+using Ecell.IDE.Plugins.PathwayWindow.Figure;
 using System.Diagnostics;
-using EcellLib.PathwayWindow.UIComponent;
+using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 using System.Drawing.Drawing2D;
-using EcellLib.PathwayWindow.Graphic;
-using EcellLib.PathwayWindow.Dialog;
-using EcellLib.Objects;
+using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using Ecell.IDE.Plugins.PathwayWindow.Dialog;
+using Ecell.Objects;
 
-namespace EcellLib.PathwayWindow
+namespace Ecell.IDE.Plugins.PathwayWindow
 {
     /// <summary>
     /// A manager for ComponentSettings.

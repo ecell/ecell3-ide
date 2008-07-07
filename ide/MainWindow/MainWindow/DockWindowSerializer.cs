@@ -46,7 +46,8 @@ using System.Xml.Serialization;
 
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace EcellLib.MainWindow {
+namespace Ecell.IDE.MainWindow
+{
     /// <summary>
     /// Class to serialize the object.
     /// </summary>

@@ -36,10 +36,10 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using EcellLib;
-using EcellLib.Message;
+using Ecell;
+using Ecell.Message;
 
-namespace EcellLib.MessageListWindow
+namespace Ecell.IDE.Plugins.MessageListWindow
 {
     /// <summary>
     /// User Control to display the list of error message.

@@ -33,11 +33,11 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-using EcellLib;
-using EcellLib.Message;
-using EcellLib.Plugin;
+using Ecell;
+using Ecell.Message;
+using Ecell.Plugin;
 
-namespace EcellLib.MessageListWindow
+namespace Ecell.IDE.Plugins.MessageListWindow
 {
     /// <summary>
     /// The plugin to display the list of error messages.

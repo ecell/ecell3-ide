@@ -1,4 +1,4 @@
-﻿namespace EcellLib
+﻿namespace Ecell.IDE
 {
     /// <summary>
     /// Dialog to edit the formulator.

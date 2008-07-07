@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EcellLib {
+namespace Ecell {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace EcellLib {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EcellLib.MessageResLib", typeof(MessageResLib).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ecell.MessageResLib", typeof(MessageResLib).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -313,15 +313,6 @@ namespace EcellLib {
         }
         
         /// <summary>
-        ///   {0} is the reserved name. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrReserved {
-            get {
-                return ResourceManager.GetString("ErrReserved", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Can not reset the simulation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrResetSim {
@@ -534,15 +525,6 @@ namespace EcellLib {
         internal static string InfoUpdateLogPol {
             get {
                 return ResourceManager.GetString("InfoUpdateLogPol", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Execute に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string NameExecute {
-            get {
-                return ResourceManager.GetString("NameExecute", resourceCulture);
             }
         }
         

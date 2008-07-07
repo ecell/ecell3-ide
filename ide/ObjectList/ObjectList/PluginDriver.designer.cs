@@ -1,4 +1,4 @@
-﻿namespace EcellLib.ObjectList
+﻿namespace Ecell.IDE.Plugins.ObjectList
 {
     partial class PluginDriver
     {
