@@ -23,9 +23,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Formulator
+namespace Ecell.UI.Components
 {
-    class FUtil
+    internal class FUtil
     {
         // The data type of FNode.
         static public int NONE = -1;

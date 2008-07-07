@@ -40,7 +40,7 @@ using System.Windows.Forms;
 using EcellLib;
 using EcellLib.Job;
 using ZedGraph;
-using Formulator;
+using Ecell.UI.Components;
 using MathNet.Numerics;
 using MathNet.Numerics.Transformations;
 using EcellLib.Objects;

@@ -27,7 +27,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Formulator
+namespace Ecell.UI.Components
 {
     public partial class FormulatorControl : UserControl
     {
@@ -1480,7 +1480,7 @@ namespace Formulator
         /// </summary>
         /// <param name="type">The function type.</param>
         /// <returns>FNode for function.</returns>
-        public FNode CreateFunctionNode(int type)
+        internal FNode CreateFunctionNode(int type)
         {
             FNode n = null;
             if (type == FUtil.LOG) n = new FNode(FUtil.LOG, FUtil.STRLOG);
@@ -1508,7 +1508,7 @@ namespace Formulator
         /// </summary>
         /// <param name="type">The function name.</param>
         /// <returns>FNode for function.</returns>
-        public FNode CreateFunctionNode(string type)
+        internal FNode CreateFunctionNode(string type)
         {
             FNode n = null;
             if (type.Equals(FUtil.STRLOG)) n = new FNode(FUtil.LOG, FUtil.STRLOG);

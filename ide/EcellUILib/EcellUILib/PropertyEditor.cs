@@ -37,7 +37,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using Formulator;
+using Ecell.UI.Components;
 using EcellLib.Objects;
 
 namespace EcellLib

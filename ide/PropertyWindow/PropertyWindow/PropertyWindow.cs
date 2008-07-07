@@ -40,7 +40,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.ComponentModel;
 
-using Formulator;
+using Ecell.UI.Components;
 using EcellLib.Plugin;
 using EcellLib.Objects;
 

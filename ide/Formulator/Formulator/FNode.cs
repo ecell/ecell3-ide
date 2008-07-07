@@ -23,12 +23,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Formulator
+namespace Ecell.UI.Components
 {
     /// <summary>
-    /// Node class corredpond with the component in formula.
+    /// Node class corredponds with the component in formula.
     /// </summary>
-    public class FNode
+    internal class FNode
     {
         #region Fields
         /// <summary>

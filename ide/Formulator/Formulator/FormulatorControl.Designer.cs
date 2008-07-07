@@ -1,4 +1,4 @@
-﻿namespace Formulator
+﻿namespace Ecell.UI.Components
 {
     /// <summary>
     /// UserConstrol to manager the formula.

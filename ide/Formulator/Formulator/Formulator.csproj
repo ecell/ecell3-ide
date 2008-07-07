@@ -7,7 +7,7 @@
     <ProjectGuid>{EB193AD3-99DC-477F-BDF9-C071812B93D0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Formulator</RootNamespace>
+    <RootNamespace>Ecell.UI.Components</RootNamespace>
     <AssemblyName>Formulator</AssemblyName>
     <SccProjectName>
     </SccProjectName>
