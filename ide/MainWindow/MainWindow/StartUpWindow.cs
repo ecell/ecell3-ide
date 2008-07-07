@@ -34,6 +34,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing;
+using System.Threading;
 
 namespace Ecell.IDE.MainWindow
 {
@@ -71,13 +72,37 @@ namespace Ecell.IDE.MainWindow
             InitializeComponent();
             this.Text = MessageResMain.StartUpWindow;
             this.TabText = this.Text;
-            string lang = Util.GetLang();
-            string filename = Path.Combine(Util.GetWindowSettingDir(), lang + "_" + Constants.fileStartupHTML);
-            if(!File.Exists(filename))
-                filename = Path.Combine(Util.GetWindowSettingDir(), "AUTO_" + Constants.fileStartupHTML);
-            STARTUP = new Uri(filename);
-            webBrowser.Navigate(STARTUP);
+            Uri startPage = FindStartPage();
+            if (startPage != null)
+            {
+                webBrowser.Navigate(startPage);
+            }
             SetRecentFiles();
+        }
+
+        private Uri FindStartPage()
+        {
+            List<string> candidates = new List<string>();
+            string langSuffix = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName.ToLower();
+
+            string documentDir = Util.GetWindowSettingDir();
+            if (documentDir != null)
+            {
+                candidates.Add(Path.Combine(documentDir,
+                    Constants.fileStartupHTML + "." + langSuffix));
+                candidates.Add(Path.Combine(documentDir,
+                    "AUTO_" + Constants.fileStartupHTML));
+            }
+            foreach (string candidate in candidates)
+            {
+                if (File.Exists(candidate))
+                {
+                    UriBuilder ub = new UriBuilder("file", null);
+                    ub.Path = candidate;
+                    return ub.Uri;
+                }
+            }
+            return null;
         }
 
         private void InitializeComponent()

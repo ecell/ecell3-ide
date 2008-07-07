@@ -49,27 +49,41 @@
             // 
             // SWSPictureBox
             // 
+            this.SWSPictureBox.AccessibleDescription = null;
+            this.SWSPictureBox.AccessibleName = null;
             resources.ApplyResources(this.SWSPictureBox, "SWSPictureBox");
             this.SWSPictureBox.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.SWSPictureBox.BackgroundImage = null;
             this.SWSPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.SWSPictureBox.Font = null;
+            this.SWSPictureBox.ImageLocation = null;
             this.SWSPictureBox.Name = "SWSPictureBox";
             this.SWSPictureBox.TabStop = false;
             // 
             // SWSPatternListLayoutPanel
             // 
+            this.SWSPatternListLayoutPanel.AccessibleDescription = null;
+            this.SWSPatternListLayoutPanel.AccessibleName = null;
             resources.ApplyResources(this.SWSPatternListLayoutPanel, "SWSPatternListLayoutPanel");
+            this.SWSPatternListLayoutPanel.BackgroundImage = null;
             this.SWSPatternListLayoutPanel.Name = "SWSPatternListLayoutPanel";
             // 
             // SWSNoteTextBox
             // 
+            this.SWSNoteTextBox.AccessibleDescription = null;
+            this.SWSNoteTextBox.AccessibleName = null;
             resources.ApplyResources(this.SWSNoteTextBox, "SWSNoteTextBox");
             this.SWSNoteTextBox.BackColor = System.Drawing.SystemColors.Control;
+            this.SWSNoteTextBox.BackgroundImage = null;
             this.SWSNoteTextBox.Name = "SWSNoteTextBox";
             this.SWSNoteTextBox.ReadOnly = true;
             // 
             // SILangGroupBox
             // 
+            this.SILangGroupBox.AccessibleDescription = null;
+            this.SILangGroupBox.AccessibleName = null;
             resources.ApplyResources(this.SILangGroupBox, "SILangGroupBox");
+            this.SILangGroupBox.BackgroundImage = null;
             this.SILangGroupBox.Controls.Add(this.SIEnglishRadioButton);
             this.SILangGroupBox.Controls.Add(this.SIJapaneseRadioButton);
             this.SILangGroupBox.Controls.Add(this.SIAutoRadioButton);
@@ -78,42 +92,62 @@
             // 
             // SIEnglishRadioButton
             // 
+            this.SIEnglishRadioButton.AccessibleDescription = null;
+            this.SIEnglishRadioButton.AccessibleName = null;
             resources.ApplyResources(this.SIEnglishRadioButton, "SIEnglishRadioButton");
+            this.SIEnglishRadioButton.BackgroundImage = null;
             this.SIEnglishRadioButton.Name = "SIEnglishRadioButton";
             this.SIEnglishRadioButton.TabStop = true;
             this.SIEnglishRadioButton.UseVisualStyleBackColor = true;
             // 
             // SIJapaneseRadioButton
             // 
+            this.SIJapaneseRadioButton.AccessibleDescription = null;
+            this.SIJapaneseRadioButton.AccessibleName = null;
             resources.ApplyResources(this.SIJapaneseRadioButton, "SIJapaneseRadioButton");
+            this.SIJapaneseRadioButton.BackgroundImage = null;
             this.SIJapaneseRadioButton.Name = "SIJapaneseRadioButton";
             this.SIJapaneseRadioButton.TabStop = true;
             this.SIJapaneseRadioButton.UseVisualStyleBackColor = true;
             // 
             // SIAutoRadioButton
             // 
+            this.SIAutoRadioButton.AccessibleDescription = null;
+            this.SIAutoRadioButton.AccessibleName = null;
             resources.ApplyResources(this.SIAutoRadioButton, "SIAutoRadioButton");
+            this.SIAutoRadioButton.BackgroundImage = null;
             this.SIAutoRadioButton.Name = "SIAutoRadioButton";
             this.SIAutoRadioButton.TabStop = true;
             this.SIAutoRadioButton.UseVisualStyleBackColor = true;
             // 
             // SWSSelectButton
             // 
+            this.SWSSelectButton.AccessibleDescription = null;
+            this.SWSSelectButton.AccessibleName = null;
             resources.ApplyResources(this.SWSSelectButton, "SWSSelectButton");
+            this.SWSSelectButton.BackgroundImage = null;
+            this.SWSSelectButton.Font = null;
             this.SWSSelectButton.Name = "SWSSelectButton";
             this.SWSSelectButton.UseVisualStyleBackColor = true;
             this.SWSSelectButton.Click += new System.EventHandler(this.ClickSWSSelectButton);
             // 
             // SWSCloseButton
             // 
+            this.SWSCloseButton.AccessibleDescription = null;
+            this.SWSCloseButton.AccessibleName = null;
             resources.ApplyResources(this.SWSCloseButton, "SWSCloseButton");
+            this.SWSCloseButton.BackgroundImage = null;
             this.SWSCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.SWSCloseButton.Font = null;
             this.SWSCloseButton.Name = "SWSCloseButton";
             this.SWSCloseButton.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
+            this.groupBox2.AccessibleDescription = null;
+            this.groupBox2.AccessibleName = null;
             resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.BackgroundImage = null;
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.SWSNoteTextBox);
             this.groupBox2.Controls.Add(this.SWSPictureBox);
@@ -123,30 +157,40 @@
             // 
             // label1
             // 
+            this.label1.AccessibleDescription = null;
+            this.label1.AccessibleName = null;
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
             // pictureBox1
             // 
+            this.pictureBox1.AccessibleDescription = null;
+            this.pictureBox1.AccessibleName = null;
             resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.BackColor = System.Drawing.Color.White;
+            this.pictureBox1.BackgroundImage = null;
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBox1.Font = null;
+            this.pictureBox1.ImageLocation = null;
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             // 
             // InitialPreferencesDialog
             // 
-            this.AcceptButton = this.SWSSelectButton;
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.CancelButton = this.SWSCloseButton;
+            this.BackgroundImage = null;
             this.ControlBox = false;
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.SWSSelectButton);
             this.Controls.Add(this.SWSCloseButton);
             this.Controls.Add(this.SILangGroupBox);
+            this.Font = null;
+            this.Icon = null;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "InitialPreferencesDialog";

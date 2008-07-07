@@ -187,8 +187,8 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="InitialPreferencesDialog.ja.resx">
-      <DependentUpon>InitialPreferencesDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>InitialPreferencesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InitialPreferencesDialog.resx">
       <DependentUpon>InitialPreferencesDialog.cs</DependentUpon>
@@ -202,11 +202,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResMain.ja.resx">
+    <None Include="MessageResMain.ja.resx">
       <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResMain.ja.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    </None>
     <EmbeddedResource Include="MessageResMain.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
@@ -288,6 +287,7 @@
       <DependentUpon>SaveProjectDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="StartUpWindow.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="ZipUtil.cs" />
     <Compile Include="ProjectWizardWindow.cs">
