@@ -118,66 +118,66 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="OpenButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="openButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="OpenButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>372, 377</value>
+  <data name="openButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>392, 377</value>
   </data>
-  <data name="OpenButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="openButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 3, 0</value>
   </data>
-  <data name="OpenButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="openButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 24</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="OpenButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="openButton.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="OpenButton.Text" xml:space="preserve">
+  <data name="openButton.Text" xml:space="preserve">
     <value>&amp;Open</value>
   </data>
-  <data name="&gt;&gt;OpenButton.Name" xml:space="preserve">
-    <value>OpenButton</value>
+  <data name="&gt;&gt;openButton.Name" xml:space="preserve">
+    <value>openButton</value>
   </data>
-  <data name="&gt;&gt;OpenButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;openButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;OpenButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;openButton.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;OpenButton.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;openButton.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="CancelButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="cancelButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
-  <data name="CancelButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>439, 377</value>
+  <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>459, 377</value>
   </data>
-  <data name="CancelButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="cancelButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 0, 0, 0</value>
   </data>
-  <data name="CancelButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="cancelButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>62, 24</value>
   </data>
-  <data name="CancelButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="cancelButton.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="CancelButton.Text" xml:space="preserve">
+  <data name="cancelButton.Text" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="&gt;&gt;CancelButton.Name" xml:space="preserve">
-    <value>CancelButton</value>
+  <data name="&gt;&gt;cancelButton.Name" xml:space="preserve">
+    <value>cancelButton</value>
   </data>
-  <data name="&gt;&gt;CancelButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;cancelButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;CancelButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;cancelButton.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;CancelButton.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;cancelButton.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <metadata name="ImageList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -234,202 +234,202 @@
         AgAB8AEAAeABAwHgAQMCAAH/AcAB8AEHAfABBwIAAf8B4AH8AR8B/AEfAgAG/wIACw==
 </value>
   </data>
-  <data name="PrjCommentLabel.AutoSize" type="System.Boolean, mscorlib">
+  <data name="commentLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="PrjCommentLabel.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="commentLabel.Font" type="System.Drawing.Font, System.Drawing">
     <value>MS UI Gothic, 9.75pt</value>
   </data>
-  <data name="PrjCommentLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="commentLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="PrjCommentLabel.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="commentLabel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 96</value>
   </data>
-  <data name="PrjCommentLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="commentLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="PrjCommentLabel.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="commentLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 13</value>
   </data>
-  <data name="PrjCommentLabel.TabIndex" type="System.Int32, mscorlib">
+  <data name="commentLabel.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="PrjCommentLabel.Text" xml:space="preserve">
+  <data name="commentLabel.Text" xml:space="preserve">
     <value>Comment:</value>
   </data>
-  <data name="&gt;&gt;PrjCommentLabel.Name" xml:space="preserve">
-    <value>PrjCommentLabel</value>
+  <data name="&gt;&gt;commentLabel.Name" xml:space="preserve">
+    <value>commentLabel</value>
   </data>
-  <data name="&gt;&gt;PrjCommentLabel.Type" xml:space="preserve">
+  <data name="&gt;&gt;commentLabel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;PrjCommentLabel.Parent" xml:space="preserve">
+  <data name="&gt;&gt;commentLabel.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
   </data>
-  <data name="&gt;&gt;PrjCommentLabel.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;commentLabel.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="PrjDateText.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="dateText.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="PrjDateText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 68</value>
+  <data name="dateText.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 66</value>
   </data>
-  <data name="PrjDateText.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="dateText.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="PrjDateText.MaxLength" type="System.Int32, mscorlib">
+  <data name="dateText.MaxLength" type="System.Int32, mscorlib">
     <value>128</value>
   </data>
-  <data name="PrjDateText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 19</value>
+  <data name="dateText.Size" type="System.Drawing.Size, System.Drawing">
+    <value>213, 19</value>
   </data>
-  <data name="PrjDateText.TabIndex" type="System.Int32, mscorlib">
+  <data name="dateText.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;PrjDateText.Name" xml:space="preserve">
-    <value>PrjDateText</value>
+  <data name="&gt;&gt;dateText.Name" xml:space="preserve">
+    <value>dateText</value>
   </data>
-  <data name="&gt;&gt;PrjDateText.Type" xml:space="preserve">
+  <data name="&gt;&gt;dateText.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;PrjDateText.Parent" xml:space="preserve">
+  <data name="&gt;&gt;dateText.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
   </data>
-  <data name="&gt;&gt;PrjDateText.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;dateText.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="PrjCommentText.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="commentText.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="PrjCommentText.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="commentText.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 115</value>
   </data>
-  <data name="PrjCommentText.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="commentText.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="PrjCommentText.Multiline" type="System.Boolean, mscorlib">
+  <data name="commentText.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="PrjCommentText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 241</value>
+  <data name="commentText.Size" type="System.Drawing.Size, System.Drawing">
+    <value>213, 245</value>
   </data>
-  <data name="PrjCommentText.TabIndex" type="System.Int32, mscorlib">
+  <data name="commentText.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;PrjCommentText.Name" xml:space="preserve">
-    <value>PrjCommentText</value>
+  <data name="&gt;&gt;commentText.Name" xml:space="preserve">
+    <value>commentText</value>
   </data>
-  <data name="&gt;&gt;PrjCommentText.Type" xml:space="preserve">
+  <data name="&gt;&gt;commentText.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;PrjCommentText.Parent" xml:space="preserve">
+  <data name="&gt;&gt;commentText.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
   </data>
-  <data name="&gt;&gt;PrjCommentText.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;commentText.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="PrjDateLabel.AutoSize" type="System.Boolean, mscorlib">
+  <data name="dateLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="PrjDateLabel.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="dateLabel.Font" type="System.Drawing.Font, System.Drawing">
     <value>MS UI Gothic, 9.75pt</value>
   </data>
-  <data name="PrjDateLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="dateLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="PrjDateLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 49</value>
+  <data name="dateLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 47</value>
   </data>
-  <data name="PrjDateLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="dateLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="PrjDateLabel.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="dateLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>36, 13</value>
   </data>
-  <data name="PrjDateLabel.TabIndex" type="System.Int32, mscorlib">
+  <data name="dateLabel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="PrjDateLabel.Text" xml:space="preserve">
+  <data name="dateLabel.Text" xml:space="preserve">
     <value>Date:</value>
   </data>
-  <data name="&gt;&gt;PrjDateLabel.Name" xml:space="preserve">
-    <value>PrjDateLabel</value>
+  <data name="&gt;&gt;dateLabel.Name" xml:space="preserve">
+    <value>dateLabel</value>
   </data>
-  <data name="&gt;&gt;PrjDateLabel.Type" xml:space="preserve">
+  <data name="&gt;&gt;dateLabel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;PrjDateLabel.Parent" xml:space="preserve">
+  <data name="&gt;&gt;dateLabel.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
   </data>
-  <data name="&gt;&gt;PrjDateLabel.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;dateLabel.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="PrjIDText.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="idText.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="PrjIDText.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="idText.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 18</value>
   </data>
-  <data name="PrjIDText.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="idText.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="PrjIDText.MaxLength" type="System.Int32, mscorlib">
+  <data name="idText.MaxLength" type="System.Int32, mscorlib">
     <value>64</value>
   </data>
-  <data name="PrjIDText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 19</value>
+  <data name="idText.Size" type="System.Drawing.Size, System.Drawing">
+    <value>213, 19</value>
   </data>
-  <data name="PrjIDText.TabIndex" type="System.Int32, mscorlib">
+  <data name="idText.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;PrjIDText.Name" xml:space="preserve">
-    <value>PrjIDText</value>
+  <data name="&gt;&gt;idText.Name" xml:space="preserve">
+    <value>idText</value>
   </data>
-  <data name="&gt;&gt;PrjIDText.Type" xml:space="preserve">
+  <data name="&gt;&gt;idText.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;PrjIDText.Parent" xml:space="preserve">
+  <data name="&gt;&gt;idText.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
   </data>
-  <data name="&gt;&gt;PrjIDText.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;idText.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="PrjIDLabel.AutoSize" type="System.Boolean, mscorlib">
+  <data name="projectNameLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="PrjIDLabel.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="projectNameLabel.Font" type="System.Drawing.Font, System.Drawing">
     <value>MS UI Gothic, 9.75pt</value>
   </data>
-  <data name="PrjIDLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="projectNameLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="PrjIDLabel.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="projectNameLabel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
-  <data name="PrjIDLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="projectNameLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="PrjIDLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 13</value>
+  <data name="projectNameLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 13</value>
   </data>
-  <data name="PrjIDLabel.TabIndex" type="System.Int32, mscorlib">
+  <data name="projectNameLabel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="PrjIDLabel.Text" xml:space="preserve">
-    <value>Project ID:</value>
+  <data name="projectNameLabel.Text" xml:space="preserve">
+    <value>Project Name:</value>
   </data>
-  <data name="&gt;&gt;PrjIDLabel.Name" xml:space="preserve">
-    <value>PrjIDLabel</value>
+  <data name="&gt;&gt;projectNameLabel.Name" xml:space="preserve">
+    <value>projectNameLabel</value>
   </data>
-  <data name="&gt;&gt;PrjIDLabel.Type" xml:space="preserve">
+  <data name="&gt;&gt;projectNameLabel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;PrjIDLabel.Parent" xml:space="preserve">
+  <data name="&gt;&gt;projectNameLabel.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
   </data>
-  <data name="&gt;&gt;PrjIDLabel.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;projectNameLabel.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="PrjTreeView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
@@ -448,7 +448,7 @@
     <value>0</value>
   </data>
   <data name="PrjTreeView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 356</value>
+    <value>296, 360</value>
   </data>
   <data name="PrjTreeView.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -469,7 +469,10 @@
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="splitContainer1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>8, 8</value>
+  </data>
+  <data name="splitContainer1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
   </data>
   <data name="&gt;&gt;splitContainer1.Panel1.Name" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
@@ -496,10 +499,10 @@
     <value>1</value>
   </data>
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>509, 356</value>
+    <value>513, 360</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>294</value>
+    <value>296</value>
   </data>
   <data name="splitContainer1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -526,7 +529,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>513, 410</value>
+    <value>530, 410</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

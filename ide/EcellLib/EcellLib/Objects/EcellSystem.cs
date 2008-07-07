@@ -89,7 +89,7 @@ namespace EcellLib.Objects
         /// <summary>
         /// get / set size;
         /// </summary>
-        public double Size
+        public double SizeInVolume
         {
             get
             {
@@ -125,20 +125,6 @@ namespace EcellLib.Objects
                     GetEcellValue("StepperID").Value = value;
                 else
                     AddEcellValue("StepperID", new EcellValue(value));
-            }
-        }
-
-        /// <summary>
-        /// get/set system name.
-        /// </summary>
-        public new string Text
-        {
-            get
-            {
-                string text = base.Text;
-                if (Size != 0.1d)
-                    text += " (SIZE:" + GetEcellValue(SIZE).ToString() + ")";
-                return text;
             }
         }
         #endregion

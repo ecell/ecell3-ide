@@ -98,6 +98,7 @@ namespace EcellLib.Objects
             string l_type, string l_class, List<EcellData> l_data)
             : base(l_modelID, l_key, l_type, l_class, l_data)
         {
+            
         }
         #endregion
 

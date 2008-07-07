@@ -237,21 +237,6 @@ namespace EcellLib.Objects
         }
 
         /// <summary>
-        /// get text.
-        /// </summary>
-        public virtual string Text
-        {
-            get
-            {
-                string text = this.Name;
-                if (Logged)
-                    text += " *";
-
-                return text;
-            }
-        }
-
-        /// <summary>
         /// get/set m_class.
         /// </summary>
         public virtual string Classname

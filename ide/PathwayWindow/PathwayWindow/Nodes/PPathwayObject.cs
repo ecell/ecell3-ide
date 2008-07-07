@@ -578,12 +578,34 @@ namespace EcellLib.PathwayWindow.Nodes
         }
 
         /// <summary>
+        /// Get a suitable label for the specified object.
+        /// </summary>
+        protected static string GetLabelFor(EcellObject obj)
+        {
+            StringBuilder retval = new StringBuilder();
+            if (obj is EcellSystem)
+            {
+                retval.Append(string.Format("{1} (size={2})",
+                    obj.Name, ((EcellSystem)obj).SizeInVolume));
+            }
+            else
+            {
+                retval.Append(string.Format("{1}", obj.Name));
+            }
+            if (obj.Logged)
+            {
+                retval.Append("*");
+            }
+            return retval.ToString();
+        } 
+
+        /// <summary>
         /// Refresh Text contents of this object.
         /// </summary>
         protected virtual void RefreshText()
         {
             if (this.m_ecellObj != null)
-                this.m_pText.Text = this.m_ecellObj.Text;
+                this.m_pText.Text = GetLabelFor(this.m_ecellObj);
             this.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height / 2);
             this.m_pText.MoveToFront();
         }
