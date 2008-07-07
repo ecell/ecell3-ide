@@ -41,12 +41,12 @@
             this.ProjectIDTextBox = new System.Windows.Forms.TextBox();
             this.MainLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.ButtonLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.DMRemoveButton = new System.Windows.Forms.Button();
+            this.DMAddButon = new System.Windows.Forms.Button();
             this.CloseButton = new System.Windows.Forms.Button();
             this.BackButton = new System.Windows.Forms.Button();
             this.OKButton = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.DMAddButon = new System.Windows.Forms.Button();
-            this.DMRemoveButton = new System.Windows.Forms.Button();
             this.DMLayoutPanel.SuspendLayout();
             this.ProjectLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
@@ -144,6 +144,20 @@
             this.ButtonLayoutPanel.Controls.Add(this.OKButton, 5, 0);
             this.ButtonLayoutPanel.Name = "ButtonLayoutPanel";
             // 
+            // DMRemoveButton
+            // 
+            resources.ApplyResources(this.DMRemoveButton, "DMRemoveButton");
+            this.DMRemoveButton.Name = "DMRemoveButton";
+            this.DMRemoveButton.UseVisualStyleBackColor = true;
+            this.DMRemoveButton.Click += new System.EventHandler(this.DMRemove_Click);
+            // 
+            // DMAddButon
+            // 
+            resources.ApplyResources(this.DMAddButon, "DMAddButon");
+            this.DMAddButon.Name = "DMAddButon";
+            this.DMAddButon.UseVisualStyleBackColor = true;
+            this.DMAddButon.Click += new System.EventHandler(this.DMAdd_Click);
+            // 
             // CloseButton
             // 
             resources.ApplyResources(this.CloseButton, "CloseButton");
@@ -171,20 +185,6 @@
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             resources.ApplyResources(this.textBox1, "textBox1");
             this.textBox1.Name = "textBox1";
-            // 
-            // DMAddButon
-            // 
-            resources.ApplyResources(this.DMAddButon, "DMAddButon");
-            this.DMAddButon.Name = "DMAddButon";
-            this.DMAddButon.UseVisualStyleBackColor = true;
-            this.DMAddButon.Click += new System.EventHandler(this.DMAdd_Click);
-            // 
-            // DMRemoveButton
-            // 
-            resources.ApplyResources(this.DMRemoveButton, "DMRemoveButton");
-            this.DMRemoveButton.Name = "DMRemoveButton";
-            this.DMRemoveButton.UseVisualStyleBackColor = true;
-            this.DMRemoveButton.Click += new System.EventHandler(this.DMRemove_Click);
             // 
             // ProjectWizardWindow
             // 

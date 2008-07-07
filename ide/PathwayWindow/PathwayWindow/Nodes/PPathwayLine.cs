@@ -30,13 +30,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using UMD.HCIL.Piccolo.Nodes;
 using System.Windows.Forms;
 using System.Drawing;
 using EcellLib.PathwayWindow;
 using EcellLib.PathwayWindow.Nodes;
-using UMD.HCIL.Piccolo.Event;
 using EcellLib.PathwayWindow.Graphic;
+using UMD.HCIL.Piccolo.Nodes;
+using UMD.HCIL.Piccolo.Event;
 
 namespace EcellLib.PathwayWindow.Nodes
 {
@@ -53,17 +53,17 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// pi
         /// </summary>
-        private const float PI = (float)Math.PI;
+        private const float PI2 = (float)Math.PI * 2;
         /// <summary>
         ///  Arrow design settings
         /// radian = x / 360 * 2pi, x = ARROW_DEGREE, 2pi = 6.283
         /// </summary>
-        private const float ARROW_RADIAN_A = ARROW_DEGREE * PI * 2f;
+        private const float ARROW_RADIAN_A = ARROW_DEGREE * PI2;
 
         /// <summary>
         ///  Arrow design settings
         /// </summary>
-        private const float ARROW_RADIAN_B = PI * 2f - ARROW_DEGREE * PI * 2f;
+        private const float ARROW_RADIAN_B = PI2 - ARROW_DEGREE * PI2;
 
         /// <summary>
         ///  Arrow design settings
@@ -168,19 +168,15 @@ namespace EcellLib.PathwayWindow.Nodes
         /// </summary>
         public void SetLine(float width)
         {
+            Pen = new Pen(Brush, width);
             switch (this.m_edgeInfo.TypeOfLine)
             {
                 case LineType.Solid:
-                    this.Pen = new Pen(this.Brush, width);
-                    this.AddLine(this.ProPoint.X, this.ProPoint.Y, this.VarPoint.X, this.VarPoint.Y);
+                case LineType.Unknown:
+                    AddLine(m_proPoint.X, m_proPoint.Y, m_varPoint.X, m_varPoint.Y);
                     break;
                 case LineType.Dashed:
-                    this.Pen = new Pen(this.Brush, width);
-                    AddDashedLine(this, this.ProPoint.X, this.ProPoint.Y, this.VarPoint.X, this.VarPoint.Y);
-                    break;
-                case LineType.Unknown:
-                    this.Pen = new Pen(this.Brush, width);
-                    this.AddLine(this.ProPoint.X, this.ProPoint.Y, this.VarPoint.X, this.VarPoint.Y);
+                    AddDashedLine(m_proPoint.X, m_proPoint.Y, m_varPoint.X, m_varPoint.Y);
                     break;
             }
         }
@@ -193,14 +189,14 @@ namespace EcellLib.PathwayWindow.Nodes
             switch (this.m_edgeInfo.Direction)
             {
                 case EdgeDirection.Bidirection:
-                    this.AddPolygon( GetArrowPoints(this.ProPoint, this.VarPoint));
-                    this.AddPolygon( GetArrowPoints(this.VarPoint, this.ProPoint));
+                    this.AddPolygon(GetArrowPoints(m_proPoint, m_varPoint));
+                    this.AddPolygon(GetArrowPoints(m_varPoint, m_proPoint));
                     break;
                 case EdgeDirection.Inward:
-                    this.AddPolygon( GetArrowPoints(this.ProPoint, this.VarPoint));
+                    this.AddPolygon(GetArrowPoints(m_proPoint, m_varPoint));
                     break;
                 case EdgeDirection.Outward:
-                    this.AddPolygon( GetArrowPoints(this.VarPoint, this.ProPoint));
+                    this.AddPolygon(GetArrowPoints(m_varPoint, m_proPoint));
                     break;
                 case EdgeDirection.None:
                     break;
@@ -210,17 +206,13 @@ namespace EcellLib.PathwayWindow.Nodes
         /// <summary>
         /// add the dash line to PPath.
         /// </summary>
-        /// <param name="path">PPath added the dash line.</param>
         /// <param name="startX">the position of start.</param>
         /// <param name="startY">the position of start.</param>
         /// <param name="endX">the position of end.</param>
         /// <param name="endY">the position of end.</param>
-        private void AddDashedLine(PPath path, float startX, float startY, float endX, float endY)
+        private void AddDashedLine(float startX, float startY, float endX, float endY)
         {
-            if (path == null)
-                return;
-
-            path.FillMode = System.Drawing.Drawing2D.FillMode.Winding;
+            this.FillMode = System.Drawing.Drawing2D.FillMode.Winding;
             float repeatNum = (float)Math.Sqrt((endX - startX) * (endX - startX) + (endY - startY) * (endY - startY)) / 6f;
             float xFragment = (endX - startX) / repeatNum;
             float yFragment = (endY - startY) / repeatNum;
@@ -236,8 +228,8 @@ namespace EcellLib.PathwayWindow.Nodes
                 {
                     continue;
                 }
-                path.AddLine(presentX, presentY, presentX + xFragment, presentY + yFragment);
-                path.CloseFigure();
+                this.AddLine(presentX, presentY, presentX + xFragment, presentY + yFragment);
+                this.CloseFigure();
             }
         }
 
@@ -258,7 +250,7 @@ namespace EcellLib.PathwayWindow.Nodes
             guidePoint.X = guidePoint.X / factor;
             float guideRadian = (float)Math.Acos(guidePoint.X);
             if (guidePoint.Y < 0)
-                guideRadian = 6.283f - guideRadian;
+                guideRadian = PI2 - guideRadian;
 
             PointF arrowPointA = new PointF((float)Math.Cos(ARROW_RADIAN_A + guideRadian), (float)Math.Sin(ARROW_RADIAN_A + guideRadian));
             PointF arrowPointB = new PointF((float)Math.Cos(ARROW_RADIAN_B + guideRadian), (float)Math.Sin(ARROW_RADIAN_B + guideRadian));
@@ -293,14 +285,14 @@ namespace EcellLib.PathwayWindow.Nodes
             switch (this.m_edgeInfo.Direction)
             {
                 case EdgeDirection.Bidirection:
-                    obj += SVGUtil.Polygon(GetArrowPoints(this.ProPoint, this.VarPoint), brush, width);
-                    obj += SVGUtil.Polygon(GetArrowPoints(this.VarPoint, this.ProPoint), brush, width);
+                    obj += SVGUtil.Polygon(GetArrowPoints(m_proPoint, m_varPoint), brush, width);
+                    obj += SVGUtil.Polygon(GetArrowPoints(m_varPoint, m_proPoint), brush, width);
                     break;
                 case EdgeDirection.Inward:
-                    obj += SVGUtil.Polygon(GetArrowPoints(this.ProPoint, this.VarPoint), brush, width);
+                    obj += SVGUtil.Polygon(GetArrowPoints(m_proPoint, m_varPoint), brush, width);
                     break;
                 case EdgeDirection.Outward:
-                    obj += SVGUtil.Polygon(GetArrowPoints(this.VarPoint, this.ProPoint), brush, width);
+                    obj += SVGUtil.Polygon(GetArrowPoints(m_proPoint, m_varPoint), brush, width);
                     break;
                 case EdgeDirection.None:
                     break;

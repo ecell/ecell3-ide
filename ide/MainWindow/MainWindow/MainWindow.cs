@@ -1268,8 +1268,8 @@ namespace EcellLib.MainWindow
         {
             try
             {
-                string prjID = m_managePrjDialog.MPPrjIDText.Text;
-                string comment = m_managePrjDialog.MPPrjCommentText.Text;
+                string prjID = m_managePrjDialog.PrjIDText.Text;
+                string comment = m_managePrjDialog.PrjCommentText.Text;
                 string fileName = m_managePrjDialog.FileName;
 
                 if (!CheckProjectID(prjID))

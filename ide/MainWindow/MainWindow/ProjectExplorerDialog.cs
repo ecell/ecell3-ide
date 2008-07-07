@@ -99,8 +99,8 @@ namespace EcellLib.MainWindow
         public ProjectExplorerDialog()
         {
             InitializeComponent();
-            MPPrjTreeView.ContextMenuStrip = CreatePopupMenus();
-            MPOpenButton.Enabled = false;
+            PrjTreeView.ContextMenuStrip = CreatePopupMenus();
+            OpenButton.Enabled = false;
         }
         
         #endregion
@@ -136,7 +136,7 @@ namespace EcellLib.MainWindow
             if (node == null)
             {
                 node = new ProjectTreeNode(path);
-                MPPrjTreeView.Nodes.Add(node);
+                PrjTreeView.Nodes.Add(node);
             }
 
             string prjFileName = Path.Combine(path, Constants.fileProject);
@@ -215,18 +215,18 @@ namespace EcellLib.MainWindow
             Project prj = m_selectedNode.Project;
             m_selectedProject = prj;
             m_fileName = m_selectedNode.FilePath;
-            MPPrjIDText.Text = prj.Name;
-            MPPrjDateText.Text = prj.UpdateTime;
-            MPPrjCommentText.Text = prj.Comment;
+            PrjIDText.Text = prj.Name;
+            PrjDateText.Text = prj.UpdateTime;
+            PrjCommentText.Text = prj.Comment;
 
 
-            MPPrjIDText.BackColor = Color.White;
-            MPPrjDateText.BackColor = Color.White;
-            MPPrjCommentText.BackColor = Color.White;
+            PrjIDText.BackColor = Color.White;
+            PrjDateText.BackColor = Color.White;
+            PrjCommentText.BackColor = Color.White;
 
-            MPOpenButton.Enabled = true;
-            MPPrjCommentText.ReadOnly = false;
-            MPPrjIDText.ReadOnly = false;
+            OpenButton.Enabled = true;
+            PrjCommentText.ReadOnly = false;
+            PrjIDText.ReadOnly = false;
         }
 
         /// <summary>
@@ -236,17 +236,17 @@ namespace EcellLib.MainWindow
         {
             m_selectedProject = null;
 
-            MPPrjIDText.Text = "";
-            MPPrjDateText.Text = "";
-            MPPrjCommentText.Text = "";
+            PrjIDText.Text = "";
+            PrjDateText.Text = "";
+            PrjCommentText.Text = "";
 
-            MPPrjIDText.BackColor = Color.Silver;
-            MPPrjDateText.BackColor = Color.Silver;
-            MPPrjCommentText.BackColor = Color.Silver;
+            PrjIDText.BackColor = Color.Silver;
+            PrjDateText.BackColor = Color.Silver;
+            PrjCommentText.BackColor = Color.Silver;
 
-            MPOpenButton.Enabled = false;
-            MPPrjCommentText.ReadOnly = true;
-            MPPrjIDText.ReadOnly = true;
+            OpenButton.Enabled = false;
+            PrjCommentText.ReadOnly = true;
+            PrjIDText.ReadOnly = true;
             m_fileName = "";
         }
 
@@ -384,7 +384,7 @@ namespace EcellLib.MainWindow
         private void ResetPopupMenus(ProjectTreeNode node)
         {
             // Set Visibility flags.
-            if (node == MPPrjTreeView.Nodes[0])
+            if (node == PrjTreeView.Nodes[0])
                 node = null;
 
             bool isVisible = (node != null);
@@ -532,7 +532,7 @@ namespace EcellLib.MainWindow
             m_copiedNode = m_selectedNode;
 
             // RootNode.
-            m_selectedNode = (ProjectTreeNode)MPPrjTreeView.Nodes[0];
+            m_selectedNode = (ProjectTreeNode)PrjTreeView.Nodes[0];
 
             // Set NodeType. 
             FileType type = m_copiedNode.Type;
