@@ -98,7 +98,6 @@
       <DependentUpon>AnalysisResultWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="AnalysisWindow.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="AnalysisWindow.Designer.cs">
       <DependentUpon>AnalysisWindow.cs</DependentUpon>

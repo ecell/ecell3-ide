@@ -69,7 +69,6 @@
   <ItemGroup>
     <Compile Include="MessageListWindow.cs" />
     <Compile Include="MessageListWindowControl.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="MessageListWindowControl.Designer.cs">
       <DependentUpon>MessageListWindowControl.cs</DependentUpon>

@@ -287,7 +287,6 @@
       <DependentUpon>SaveProjectDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="StartUpWindow.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="ZipUtil.cs" />
     <Compile Include="ProjectWizardWindow.cs">

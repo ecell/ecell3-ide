@@ -4,6 +4,7 @@ namespace Ecell.IDE.MainWindow
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.Windows.Forms;
+    using Ecell.IDE.MainWindow;
 
     /// <summary>
     /// Test code for MainWindow
