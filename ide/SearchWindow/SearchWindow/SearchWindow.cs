@@ -48,7 +48,7 @@ namespace EcellLib.SearchWindow
         /// <summary>
         /// the window for search objects.
         /// </summary>
-        private SearchCnd m_cnd;
+        private SearchCriteriaBuilderDialog m_cnd;
         /// <summary>
         /// ToolBox to search the objects.
         /// </summary>
@@ -63,7 +63,7 @@ namespace EcellLib.SearchWindow
         /// <param name="e">EventArgs</param>
         public void ShowSearchWindow(object sender, EventArgs e)
         {
-            m_cnd = new SearchCnd(this);
+            m_cnd = new SearchCriteriaBuilderDialog(this);
             m_cnd.ShowDialog();
         }
 
@@ -80,7 +80,7 @@ namespace EcellLib.SearchWindow
             {
                 if (m_text.Text == null || m_text.Text.Equals("")) return;
                 if (m_cnd == null || m_cnd.IsDisposed)
-                    m_cnd = new SearchCnd(this);
+                    m_cnd = new SearchCriteriaBuilderDialog(this);
                 m_cnd.Show();
                 m_cnd.Search(m_text.Text);
             }
@@ -100,7 +100,7 @@ namespace EcellLib.SearchWindow
             if (!m_searchMenu.Enabled) return;
             if (m_text.Text == null || m_text.Text.Equals("")) return;
             if (m_cnd == null || m_cnd.IsDisposed)
-                m_cnd = new SearchCnd(this);
+                m_cnd = new SearchCriteriaBuilderDialog(this);
             m_cnd.Show();
             m_cnd.Search(m_text.Text);
         }
