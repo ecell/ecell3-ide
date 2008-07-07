@@ -62,15 +62,15 @@ namespace EcellLib.MainWindow
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectExplorerDialog));
-            this.openButton = new System.Windows.Forms.Button();
+            this.OpenButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.ImageList = new System.Windows.Forms.ImageList(this.components);
-            this.commentLabel = new System.Windows.Forms.Label();
-            this.dateText = new System.Windows.Forms.TextBox();
-            this.commentText = new System.Windows.Forms.TextBox();
-            this.dateLabel = new System.Windows.Forms.Label();
-            this.idText = new System.Windows.Forms.TextBox();
-            this.projectNameLabel = new System.Windows.Forms.Label();
+            this.PrjCommentLabel = new System.Windows.Forms.Label();
+            this.PrjDateText = new System.Windows.Forms.TextBox();
+            this.PrjCommentText = new System.Windows.Forms.TextBox();
+            this.PrjDateLabel = new System.Windows.Forms.Label();
+            this.PrjIDText = new System.Windows.Forms.TextBox();
+            this.PrjIDLabel = new System.Windows.Forms.Label();
             this.PrjTreeView = new System.Windows.Forms.TreeView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -78,12 +78,12 @@ namespace EcellLib.MainWindow
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // openButton
+            // OpenButton
             // 
-            resources.ApplyResources(this.openButton, "openButton");
-            this.openButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.openButton.Name = "openButton";
-            this.openButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.OpenButton, "OpenButton");
+            this.OpenButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.OpenButton.Name = "OpenButton";
+            this.OpenButton.UseVisualStyleBackColor = true;
             // 
             // cancelButton
             // 
@@ -100,41 +100,41 @@ namespace EcellLib.MainWindow
             this.ImageList.Images.SetKeyName(1, "project.png");
             this.ImageList.Images.SetKeyName(2, "model.png");
             // 
-            // commentLabel
+            // PrjCommentLabel
             // 
-            resources.ApplyResources(this.commentLabel, "commentLabel");
-            this.commentLabel.Name = "commentLabel";
+            resources.ApplyResources(this.PrjCommentLabel, "PrjCommentLabel");
+            this.PrjCommentLabel.Name = "PrjCommentLabel";
             // 
-            // dateText
+            // PrjDateText
             // 
-            resources.ApplyResources(this.dateText, "dateText");
-            this.dateText.Name = "dateText";
-            this.dateText.ReadOnly = true;
-            this.dateText.TabStop = false;
+            resources.ApplyResources(this.PrjDateText, "PrjDateText");
+            this.PrjDateText.Name = "PrjDateText";
+            this.PrjDateText.ReadOnly = true;
+            this.PrjDateText.TabStop = false;
             // 
-            // commentText
+            // PrjCommentText
             // 
-            resources.ApplyResources(this.commentText, "commentText");
-            this.commentText.Name = "commentText";
-            this.commentText.ReadOnly = true;
-            this.commentText.TabStop = false;
+            resources.ApplyResources(this.PrjCommentText, "PrjCommentText");
+            this.PrjCommentText.Name = "PrjCommentText";
+            this.PrjCommentText.ReadOnly = true;
+            this.PrjCommentText.TabStop = false;
             // 
-            // dateLabel
+            // PrjDateLabel
             // 
-            resources.ApplyResources(this.dateLabel, "dateLabel");
-            this.dateLabel.Name = "dateLabel";
+            resources.ApplyResources(this.PrjDateLabel, "PrjDateLabel");
+            this.PrjDateLabel.Name = "PrjDateLabel";
             // 
-            // idText
+            // PrjIDText
             // 
-            resources.ApplyResources(this.idText, "idText");
-            this.idText.Name = "idText";
-            this.idText.ReadOnly = true;
-            this.idText.TabStop = false;
+            resources.ApplyResources(this.PrjIDText, "PrjIDText");
+            this.PrjIDText.Name = "PrjIDText";
+            this.PrjIDText.ReadOnly = true;
+            this.PrjIDText.TabStop = false;
             // 
-            // projectNameLabel
+            // PrjIDLabel
             // 
-            resources.ApplyResources(this.projectNameLabel, "projectNameLabel");
-            this.projectNameLabel.Name = "projectNameLabel";
+            resources.ApplyResources(this.PrjIDLabel, "PrjIDLabel");
+            this.PrjIDLabel.Name = "PrjIDLabel";
             // 
             // PrjTreeView
             // 
@@ -155,22 +155,21 @@ namespace EcellLib.MainWindow
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.commentText);
-            this.splitContainer1.Panel2.Controls.Add(this.projectNameLabel);
-            this.splitContainer1.Panel2.Controls.Add(this.commentLabel);
-            this.splitContainer1.Panel2.Controls.Add(this.idText);
-            this.splitContainer1.Panel2.Controls.Add(this.dateText);
-            this.splitContainer1.Panel2.Controls.Add(this.dateLabel);
+            this.splitContainer1.Panel2.Controls.Add(this.PrjCommentText);
+            this.splitContainer1.Panel2.Controls.Add(this.PrjIDLabel);
+            this.splitContainer1.Panel2.Controls.Add(this.PrjCommentLabel);
+            this.splitContainer1.Panel2.Controls.Add(this.PrjIDText);
+            this.splitContainer1.Panel2.Controls.Add(this.PrjDateText);
+            this.splitContainer1.Panel2.Controls.Add(this.PrjDateLabel);
             // 
             // ProjectExplorerDialog
             // 
-            this.AcceptButton = this.openButton;
+            this.AcceptButton = this.OpenButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.cancelButton;
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.cancelButton);
-            this.Controls.Add(this.openButton);
+            this.Controls.Add(this.OpenButton);
             this.Name = "ProjectExplorerDialog";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -185,7 +184,7 @@ namespace EcellLib.MainWindow
         /// <summary>
         /// Button to open the selected project.
         /// </summary>
-        public System.Windows.Forms.Button openButton;
+        public System.Windows.Forms.Button OpenButton;
         /// <summary>
         /// Button to close this window.
         /// </summary>
@@ -194,12 +193,12 @@ namespace EcellLib.MainWindow
         /// ImageList of OPPrjTreeView.
         /// </summary>
         public System.Windows.Forms.ImageList ImageList;
-        private System.Windows.Forms.Label commentLabel;
-        public System.Windows.Forms.TextBox dateText;
-        public System.Windows.Forms.TextBox commentText;
-        private System.Windows.Forms.Label dateLabel;
-        public System.Windows.Forms.TextBox idText;
-        private System.Windows.Forms.Label projectNameLabel;
+        private System.Windows.Forms.Label PrjCommentLabel;
+        public System.Windows.Forms.TextBox PrjDateText;
+        public System.Windows.Forms.TextBox PrjCommentText;
+        private System.Windows.Forms.Label PrjDateLabel;
+        public System.Windows.Forms.TextBox PrjIDText;
+        private System.Windows.Forms.Label PrjIDLabel;
         public System.Windows.Forms.TreeView PrjTreeView;
         private System.Windows.Forms.SplitContainer splitContainer1;
     }

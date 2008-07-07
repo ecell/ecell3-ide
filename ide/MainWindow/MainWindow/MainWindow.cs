@@ -211,7 +211,6 @@ namespace EcellLib.MainWindow
         void LoadPlugins()
         {
             m_env.PluginManager.AppVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            m_env.PluginManager.CopyRight = global::EcellLib.MainWindow.Properties.Resources.CopyrightNotice;
 
             m_pluginList = new List<string>();
             m_isLoadProject = false;
@@ -1268,8 +1267,8 @@ namespace EcellLib.MainWindow
         {
             try
             {
-                string prjID = m_managePrjDialog.idText.Text;
-                string comment = m_managePrjDialog.commentText.Text;
+                string prjID = m_managePrjDialog.PrjIDText.Text;
+                string comment = m_managePrjDialog.PrjCommentText.Text;
                 string fileName = m_managePrjDialog.FileName;
 
                 if (!CheckProjectID(prjID))
@@ -1670,7 +1669,9 @@ namespace EcellLib.MainWindow
         {
             if (m_env.PluginManager != null)
             {
-                m_env.PluginManager.ShowSelectPlugin();
+                // plugin base list show
+                PrintPluginDialog d = new PrintPluginDialog(m_env.PluginManager);
+                d.Show();
             }
         }
 

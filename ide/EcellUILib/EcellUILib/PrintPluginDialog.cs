@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using EcellLib.Plugin;
 
 namespace EcellLib
 {
@@ -24,6 +25,16 @@ namespace EcellLib
         public PrintPluginDialog(PluginManager pManager)
         {
             m_pManager = pManager;
+
+            foreach (IEcellPlugin plugin in m_pManager.Plugins)
+            {
+                List<string> names = plugin.GetEnablePrintNames();
+                foreach (string name in names)
+                {
+                    listBox1.Items.Add(name);
+                }
+            }
+
             InitializeComponent();
         }
 
@@ -36,7 +47,7 @@ namespace EcellLib
         {
             if (this.listBox1.SelectedItem != null)
             {
-                m_pManager.Print(this.listBox1.SelectedItem.ToString());
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
         }
@@ -48,6 +59,7 @@ namespace EcellLib
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 

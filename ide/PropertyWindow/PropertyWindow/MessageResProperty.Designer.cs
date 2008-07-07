@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EcellLib.PropertyWindow {
+namespace EcellLib {
     using System;
     
     

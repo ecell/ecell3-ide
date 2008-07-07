@@ -135,7 +135,7 @@ namespace EcellLib.Objects
         /// Creates a new "EcellValue" instance with a "WrappedPolymorph" argument.
         /// </summary>
         /// <param name="l_value">The "WrappedPolymorph" value</param>
-        public EcellValue(WrappedPolymorph l_value)
+        internal EcellValue(WrappedPolymorph l_value)
         {
             if (l_value == null)
             {
@@ -357,7 +357,7 @@ namespace EcellLib.Objects
         /// </summary>
         /// <param name="l_ecellValue">The "EcellValue" value</param>
         /// <returns>The "WrappedPolymorph" value</returns>
-        static public WrappedPolymorph CastToWrappedPolymorph4EcellValue(EcellValue l_ecellValue)
+        internal static WrappedPolymorph CastToWrappedPolymorph4EcellValue(EcellValue l_ecellValue)
         {
             if (l_ecellValue.IsDouble())
             {

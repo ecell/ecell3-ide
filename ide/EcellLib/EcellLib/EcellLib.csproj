@@ -85,12 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionManager.cs" />
-    <Compile Include="AddPropertyDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AddPropertyDialog.Designer.cs">
-      <DependentUpon>AddPropertyDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="CommandManager.cs" />
     <Compile Include="DataManager.cs" />
     <Compile Include="Objects\EcellObject.cs" />
@@ -105,49 +99,13 @@
     <Compile Include="Plugin\PluginBase.cs" />
     <Compile Include="PluginManager.cs">
     </Compile>
-    <Compile Include="PrintPluginDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PrintPluginDialog.Designer.cs">
-      <DependentUpon>PrintPluginDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PropertyEditor.Designer.cs">
-      <DependentUpon>PropertyEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AddPropertyDialog.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>AddPropertyDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AddPropertyDialog.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>AddPropertyDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DMEditor.ja.resx">
-      <DependentUpon>DMEditor.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DMEditor.resx">
-      <DependentUpon>DMEditor.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="EcellDockContent.resx">
       <SubType>Designer</SubType>
       <DependentUpon>EcellDockContent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormulatorDialog.ja.resx">
-      <DependentUpon>FormulatorDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormulatorDialog.resx">
-      <DependentUpon>FormulatorDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MessageResLib.ja.resx">
       <SubType>Designer</SubType>
@@ -161,58 +119,14 @@
       <SubType>Designer</SubType>
       <DependentUpon>NodeImageList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PrintPluginDialog.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>PrintPluginDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PrintPluginDialog.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>PrintPluginDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PropertyEditor.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>PropertyEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PropertyEditor.resx">
-      <DependentUpon>PropertyEditor.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VariableReferenceEditDialog.ja.resx">
-      <DependentUpon>VariableReferenceEditDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VariableReferenceEditDialog.resx">
-      <DependentUpon>VariableReferenceEditDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VariableSelectDialog.ja.resx">
-      <DependentUpon>VariableSelectDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VariableSelectDialog.resx">
-      <DependentUpon>VariableSelectDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="DMCompiler.cs" />
-    <Compile Include="DMEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DMEditor.Designer.cs">
-      <DependentUpon>DMEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="EcellDockContent.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ApplicationEnvironment.cs" />
-    <Compile Include="FormulatorDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormulatorDialog.designer.cs">
-      <DependentUpon>FormulatorDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Message\ApplicationMessageEntry.cs" />
     <Compile Include="Job\IJobManager.cs" />
     <Compile Include="Job\LocalJob.cs" />
@@ -244,9 +158,6 @@
     <Compile Include="Plugin\IDockOwner.cs" />
     <Compile Include="Plugin\IEcellPlugin.cs" />
     <Compile Include="Project.cs" />
-    <Compile Include="ScriptEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="ScriptWriter.cs" />
     <Compile Include="Job\JobManager.cs" />
     <Compile Include="Job\Job.cs" />
@@ -254,18 +165,6 @@
     <Compile Include="DataLogger.cs" />
     <Compile Include="Eml.cs" />
     <Compile Include="Job\JobProxy.cs" />
-    <Compile Include="VariableReferenceEditDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VariableReferenceEditDialog.designer.cs">
-      <DependentUpon>VariableReferenceEditDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="VariableSelectDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VariableSelectDialog.designer.cs">
-      <DependentUpon>VariableSelectDialog.cs</DependentUpon>
-    </Compile>
     <None Include="ecelllib.snk" />
   </ItemGroup>
   <ItemGroup>

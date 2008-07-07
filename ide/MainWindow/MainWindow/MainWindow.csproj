@@ -316,6 +316,12 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\EcellUILib\EcellUILib\EcellUILib.csproj">
+      <Project>{E5C2E8CC-7BF7-4D64-9AE4-8A83C3EEFDBA}</Project>
+      <Name>EcellUILib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -207,9 +207,6 @@
   <data name="ErrPrint" xml:space="preserve">
     <value>印刷できません。</value>
   </data>
-  <data name="ErrReserved" xml:space="preserve">
-    <value>{0} は予約名です。</value>
-  </data>
   <data name="ErrResetSim" xml:space="preserve">
     <value>シミュレーションをリセットできません。</value>
   </data>
@@ -281,9 +278,6 @@
   </data>
   <data name="InfoUpdateLogPol" xml:space="preserve">
     <value>{0} のロガーポリシーを設定しました。</value>
-  </data>
-  <data name="NameExecute" xml:space="preserve">
-    <value>実行</value>
   </data>
   <data name="NameSimParam" xml:space="preserve">
     <value>シミュレーションパラメータ</value>

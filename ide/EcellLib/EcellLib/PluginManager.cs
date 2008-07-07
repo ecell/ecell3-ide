@@ -84,10 +84,6 @@ namespace EcellLib
         /// </summary>
         private ApplicationEnvironment m_env;
         /// <summary>
-        /// m_printBase (set plugin for print)
-        /// </summary>
-        private string m_printBase;
-        /// <summary>
         /// m_pluginList (loaded plugin list)
         /// </summary>
         private Dictionary<string, IEcellPlugin> m_pluginList;
@@ -95,10 +91,6 @@ namespace EcellLib
         /// m_pluginDic (map between plugin and data)
         /// </summary>
         private Dictionary<PluginData, List<IEcellPlugin>> m_pluginDic;
-        /// <summary>
-        /// m_printDoc (Print Document with .NET framework)
-        /// </summary>
-        private PrintDocument m_printDoc;
         /// <summary>
         /// m_dialog (Printer Dialog with .NET framerowk)
         /// </summary>
@@ -112,21 +104,9 @@ namespace EcellLib
         /// </summary>
         private Version m_version;
         /// <summary>
-        /// CopyRights String.
-        /// </summary>
-        private String m_copyright;
-        /// <summary>
         /// The owner of the DockPanel (MainWindow)
         /// </summary>
         private IDockOwner m_dockOwner;
-        /// <summary>
-        /// Name of selected plugin to print.
-        /// </summary>
-        private string m_printName;
-        /// <summary>
-        /// Dictionary of plugin and pirnt target.
-        /// </summary>
-        private Dictionary<string, string> m_printDic = new Dictionary<string, string>();
         /// <summary>
         /// Status of the current project.
         /// </summary>
@@ -139,10 +119,6 @@ namespace EcellLib
         public PluginManager(ApplicationEnvironment env)
         {
             this.m_env = env;
-            this.m_printBase = null;
-            this.m_printDoc = new PrintDocument();
-            this.m_printDoc.PrintPage += 
-                    new PrintPageEventHandler(this.printDoc_PrintPage);
             this.m_pluginList = new Dictionary<string, IEcellPlugin>();
             this.m_pluginDic = new Dictionary<PluginData,List<IEcellPlugin>>();
             this.m_dialog = new System.Windows.Forms.PrintDialog();
@@ -169,13 +145,9 @@ namespace EcellLib
             set { this.m_version = value; }
         }
 
-        /// <summary>
-        /// get/set CopyRights.
-        /// </summary>
-        public String CopyRight
+        public IEnumerable<IEcellPlugin> Plugins
         {
-            get { return this.m_copyright; }
-            set { this.m_copyright = value; }
+            get { return m_pluginList.Values; }
         }
 
         /// <summary>
@@ -458,58 +430,6 @@ namespace EcellLib
                 m_pluginList.Add(p.GetPluginName(), p);
             }
         }
-
-        /// <summary>
-        /// display plugin list dialog to print plugin image.
-        /// </summary>
-        public void ShowSelectPlugin()
-        {
-            if (m_pluginList == null) return;
-            m_printDic.Clear();
-
-            // plugin base list show
-            PrintPluginDialog d = new PrintPluginDialog(this);
-
-            foreach (KeyValuePair<string, IEcellPlugin> kvp in m_pluginList)
-            {
-                List<string> names = kvp.Value.GetEnablePrintNames();
-                if (names == null)
-                    continue;
-                foreach (string name in names)
-                {
-                    d.listBox1.Items.Add(name);
-                    m_printDic.Add(name, kvp.Key);
-                }
-            }
-            d.Show();
-        }
-
-
-        /// <summary>
-        /// print the display image of plugin using PrintDoc.
-        /// </summary>
-        /// <param name="printName">the plugin to print</param>
-        public void Print(string printName)
-        {
-            this.m_printBase = m_printDic[printName];
-            this.m_printName = printName;
-
-            m_dialog.Document = m_printDoc;
-            System.Windows.Forms.DialogResult result = m_dialog.ShowDialog();
-
-            try
-            {
-                if (result == System.Windows.Forms.DialogResult.OK)
-                {
-                    m_printDoc.Print();
-                }
-            }
-            catch (Exception)
-            {
-                Util.ShowErrorDialog(MessageResLib.ErrPrint);
-            }
-        }
-
         /// <summary>
         /// event sequence on closing project.
         /// </summary>
@@ -818,24 +738,6 @@ namespace EcellLib
                 result.Add(p.GetPluginName(), p.GetVersionString());
             }
             return result;
-        }
-
-        /// <summary>
-        /// Request event of printing plugin
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void printDoc_PrintPage(object sender, PrintPageEventArgs e)
-        {
-            IEcellPlugin p = m_pluginList[m_printBase];
-            if (p != null)
-            {
-                Bitmap bitmap = p.Print(m_printName);
-                if (bitmap == null)
-                    return;
-                e.Graphics.DrawImage(bitmap, new Point(0, 0));
-                bitmap.Dispose();
-            }
         }
 
         /// <summary>

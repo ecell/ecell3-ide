@@ -212,27 +212,6 @@ namespace EcellLib
         /// 
         /// </summary>
         [Test()]
-        public void TestShowSelectPlugin()
-        {
-            _unitUnderTest.ShowSelectPlugin();
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestPrint()
-        {
-            string pluginName = null;
-            _unitUnderTest.Print(pluginName);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestClear()
         {
             _unitUnderTest.Clear();

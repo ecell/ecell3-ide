@@ -209,6 +209,7 @@ Source: "MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 64Bit; Check: Is
 ; ======================================================
 Source: "Win32\bin\EcellCoreLibCLR.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "Win32\bin\EcellLib.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\bin\EcellUILib.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "Win32\bin\ecs.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "Win32\bin\emc.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
 ;Source: "Win32\bin\fftpack_lite.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
@@ -227,6 +228,7 @@ Source: "Win32\bin\MathNet.Iridium.dll"; DestDir: "{app}\bin"; Flags: 32Bit; Che
 
 Source: "x64\bin\EcellCoreLibCLR.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\EcellLib.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\EcellUILib.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\ecs.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\bin\emc.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
 ;Source: "x64\bin\fftpack_lite.dll"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;

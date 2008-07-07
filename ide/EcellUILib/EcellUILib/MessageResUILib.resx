@@ -117,169 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmMerge" xml:space="preserve">
-    <value>Are you sure to merge the components to the upper system?</value>
-  </data>
-  <data name="ConfirmReset" xml:space="preserve">
-    <value>Simulation is running. Do you want to reset the simulation?</value>
-  </data>
-  <data name="ErrAdd" xml:space="preserve">
-    <value>Can not add the {0} ({1}).</value>
-  </data>
-  <data name="ErrClosePrj" xml:space="preserve">
-    <value>Can not close the project ({0}).</value>
-  </data>
-  <data name="ErrCombiStepProc" xml:space="preserve">
-    <value>The selected process cannot be used in combination with the system's stepper.</value>
-  </data>
-  <data name="ErrCopy" xml:space="preserve">
-    <value>Can not copy the object [{0}].</value>
-  </data>
-  <data name="ErrCreFile" xml:space="preserve">
-    <value>Can not create the file ({0}).</value>
-  </data>
-  <data name="ErrCrePrj" xml:space="preserve">
-    <value>Can not create the project({0}).</value>
-  </data>
-  <data name="ErrCreSimParam" xml:space="preserve">
-    <value>Can not create the simulation parameter({0}).</value>
-  </data>
-  <data name="ErrDelete" xml:space="preserve">
-    <value>Can not delete ({0}).</value>
-  </data>
-  <data name="ErrDelRoot" xml:space="preserve">
-    <value>Can not delete the root system.</value>
-  </data>
-  <data name="ErrExistObj" xml:space="preserve">
-    <value>{0} already exists in project.</value>
-  </data>
-  <data name="ErrExistSimParam" xml:space="preserve">
-    <value>{0} already exists in project.</value>
-  </data>
-  <data name="ErrExistStepper" xml:space="preserve">
-    <value>{0} already exists in project.</value>
-  </data>
-  <data name="ErrFindEnt" xml:space="preserve">
-    <value>Can not find the entity {0}.</value>
-  </data>
-  <data name="ErrFindFile" xml:space="preserve">
-    <value>Can not find the file {0}.</value>
-  </data>
-  <data name="ErrGetLogData" xml:space="preserve">
-    <value>Can not retrieve the log data.</value>
+  <data name="ErrExistVariableRef" xml:space="preserve">
+    <value>{0} already exists in this VariableReferenceList.</value>
   </data>
   <data name="ErrGetProp" xml:space="preserve">
     <value>Can not obtain the properties of entity {0}.</value>
   </data>
-  <data name="ErrInitSim" xml:space="preserve">
-    <value>Can not initialize the simulator.</value>
-  </data>
   <data name="ErrInvalidID" xml:space="preserve">
     <value>There are any invalid characters.</value>
-  </data>
-  <data name="ErrLoadFile" xml:space="preserve">
-    <value>Can not the file [ {0} ].</value>
-  </data>
-  <data name="ErrLoadModel" xml:space="preserve">
-    <value>Can not load the model {0}.</value>
-  </data>
-  <data name="ErrLoadPrj" xml:space="preserve">
-    <value>Can not load the project {0}.</value>
   </data>
   <data name="ErrNoNumber" xml:space="preserve">
     <value>Please input integer at coefficient and isAccessor.</value>
   </data>
+  <data name="ErrNoSelectVar" xml:space="preserve">
+    <value>Please select the variable.</value>
+  </data>
   <data name="ErrNoSet" xml:space="preserve">
     <value>The {0} is not set.</value>
   </data>
-  <data name="ErrNotCreStepper" xml:space="preserve">
-    <value>Can not create the stepper {0}.</value>
-  </data>
-  <data name="ErrNotInstall" xml:space="preserve">
-    <value>{0} is not installed.</value>
-  </data>
-  <data name="ErrPrint" xml:space="preserve">
-    <value>Can not print the image of plugin.</value>
-  </data>
-  <data name="ErrResetSim" xml:space="preserve">
-    <value>Can not reset the simulation.</value>
-  </data>
-  <data name="ErrRunning" xml:space="preserve">
-    <value>Simulation is already running.</value>
-  </data>
-  <data name="ErrRunSim" xml:space="preserve">
-    <value>Can not execute the simulation.</value>
-  </data>
-  <data name="ErrSaveAct" xml:space="preserve">
-    <value>Can not save the action file.</value>
-  </data>
-  <data name="ErrSaveLog" xml:space="preserve">
-    <value>Can not save the log.</value>
-  </data>
-  <data name="ErrSaveModel" xml:space="preserve">
-    <value>Can not save the model {0}.</value>
-  </data>
-  <data name="ErrSavePrj" xml:space="preserve">
-    <value>Can not save the project {0}.</value>
-  </data>
-  <data name="ErrSaveScript" xml:space="preserve">
-    <value>Can not save the script file.</value>
-  </data>
-  <data name="ErrSetInitParam" xml:space="preserve">
-    <value>Can not set the initial parameters.</value>
+  <data name="ErrReserved" xml:space="preserve">
+    <value>{0} is the reserved name.</value>
   </data>
   <data name="ErrSetProp" xml:space="preserve">
     <value>Can not set the property of entity {0}.</value>
   </data>
-  <data name="ErrSetPropCommand" xml:space="preserve">
-    <value>Can not set the property {0}.</value>
-  </data>
-  <data name="ErrSetSimParam" xml:space="preserve">
-    <value>Can not set the simulation parameter.</value>
-  </data>
-  <data name="ErrSimPropData" xml:space="preserve">
-    <value>Can not the value of property {0} under the simulation.</value>
-  </data>
-  <data name="ErrSuspendSim" xml:space="preserve">
-    <value>Can not suspend the simulation.</value>
-  </data>
-  <data name="ErrUpdateLogPol" xml:space="preserve">
-    <value>Can not set the policy of logger.</value>
-  </data>
-  <data name="InfoAdd" xml:space="preserve">
-    <value>Add the {0} ({1}).</value>
-  </data>
-  <data name="InfoClose" xml:space="preserve">
-    <value>Close the project ({0}).</value>
-  </data>
-  <data name="InfoCreSim" xml:space="preserve">
-    <value>Create the simulation parameter ({0}).</value>
-  </data>
-  <data name="InfoDel" xml:space="preserve">
-    <value>Delete the {0} ({1}).</value>
-  </data>
-  <data name="InfoResetSim" xml:space="preserve">
-    <value>Reset the simulation [{0}].</value>
-  </data>
-  <data name="InfoSaveModel" xml:space="preserve">
-    <value>Save the model {0}.</value>
-  </data>
-  <data name="InfoSavePrj" xml:space="preserve">
-    <value>Save the project {0}.</value>
-  </data>
-  <data name="InfoSuspend" xml:space="preserve">
-    <value>Suspend the simulation [{0}.</value>
-  </data>
-  <data name="InfoUpdateLogPol" xml:space="preserve">
-    <value>Update the policy of logging {0}.</value>
-  </data>
-  <data name="NameSimParam" xml:space="preserve">
-    <value>simulation parameter</value>
-  </data>
-  <data name="NameWorkDir" xml:space="preserve">
-    <value>working directory</value>
-  </data>
-  <data name="WarnLoadDM" xml:space="preserve">
-    <value>There are any process and any stepper that do not exist in DM directory.</value>
+  <data name="NameExecute" xml:space="preserve">
+    <value>Execute</value>
   </data>
 </root>

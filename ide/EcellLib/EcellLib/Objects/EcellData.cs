@@ -96,7 +96,7 @@ namespace EcellLib.Objects
         private double m_step;
         #endregion
 
-        #region Constractors
+        #region Constructors
         /// <summary>
         /// Creates the new "EcellData" instance with no argument.
         /// </summary>

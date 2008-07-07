@@ -100,7 +100,7 @@ namespace EcellLib.MainWindow
         {
             InitializeComponent();
             PrjTreeView.ContextMenuStrip = CreatePopupMenus();
-            openButton.Enabled = false;
+            OpenButton.Enabled = false;
         }
         
         #endregion
@@ -215,18 +215,18 @@ namespace EcellLib.MainWindow
             Project prj = m_selectedNode.Project;
             m_selectedProject = prj;
             m_fileName = m_selectedNode.FilePath;
-            idText.Text = prj.Name;
-            dateText.Text = prj.UpdateTime;
-            commentText.Text = prj.Comment;
+            PrjIDText.Text = prj.Name;
+            PrjDateText.Text = prj.UpdateTime;
+            PrjCommentText.Text = prj.Comment;
 
 
-            idText.BackColor = Color.White;
-            dateText.BackColor = Color.White;
-            commentText.BackColor = Color.White;
+            PrjIDText.BackColor = Color.White;
+            PrjDateText.BackColor = Color.White;
+            PrjCommentText.BackColor = Color.White;
 
-            openButton.Enabled = true;
-            commentText.ReadOnly = false;
-            idText.ReadOnly = false;
+            OpenButton.Enabled = true;
+            PrjCommentText.ReadOnly = false;
+            PrjIDText.ReadOnly = false;
         }
 
         /// <summary>
@@ -236,17 +236,17 @@ namespace EcellLib.MainWindow
         {
             m_selectedProject = null;
 
-            idText.Text = "";
-            dateText.Text = "";
-            commentText.Text = "";
+            PrjIDText.Text = "";
+            PrjDateText.Text = "";
+            PrjCommentText.Text = "";
 
-            idText.BackColor = Color.Silver;
-            dateText.BackColor = Color.Silver;
-            commentText.BackColor = Color.Silver;
+            PrjIDText.BackColor = Color.Silver;
+            PrjDateText.BackColor = Color.Silver;
+            PrjCommentText.BackColor = Color.Silver;
 
-            openButton.Enabled = false;
-            commentText.ReadOnly = true;
-            idText.ReadOnly = true;
+            OpenButton.Enabled = false;
+            PrjCommentText.ReadOnly = true;
+            PrjIDText.ReadOnly = true;
             m_fileName = "";
         }
 

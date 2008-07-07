@@ -108,7 +108,12 @@ namespace EcellLib.AboutWindow
             AboutForm aboutForm = new AboutForm();
             Version v = m_pManager.AppVersion;
             aboutForm.versionLabel.Text = "version: " + v.ToString();
-            aboutForm.copyLabel.Text = m_pManager.CopyRight;
+            StringBuilder copyrightText = new StringBuilder();
+            AssemblyCopyrightAttribute a = (AssemblyCopyrightAttribute)
+                Assembly.GetExecutingAssembly().GetCustomAttributes(
+                    typeof(AssemblyCopyrightAttribute), false)[0];
+            aboutForm.copyLabel.Text = a.Copyright;
+
             aboutForm.Show();
         }
 
