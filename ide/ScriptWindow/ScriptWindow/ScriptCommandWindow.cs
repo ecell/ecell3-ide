@@ -44,7 +44,7 @@ using Ecell.Message;
 
 using IronPython.Hosting;
 
-namespace Ecell.IDE.Plugins.ScriptWindow
+namespace Ecell.ScriptWindow
 {
     /// <summary>
     /// Form to input the command and display the script result.
