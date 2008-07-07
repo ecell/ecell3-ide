@@ -182,7 +182,7 @@ namespace EcellLib.Plugin
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>false.</returns>
-        public virtual List<String> GetEnablePrintNames()
+        public virtual IEnumerable<String> GetEnablePrintNames()
         {
             return null;
         }

@@ -144,7 +144,7 @@ namespace EcellLib.StaticDebugWindow
         /// Checks whether this plugin can print the display image.
         /// </summary>
         /// <returns>false(Fixed)</returns>
-        public override List<string> GetEnablePrintNames()
+        public override IEnumerable<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
             return names;

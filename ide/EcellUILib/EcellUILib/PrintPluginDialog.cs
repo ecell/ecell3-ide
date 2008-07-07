@@ -28,7 +28,9 @@ namespace EcellLib
 
             foreach (IEcellPlugin plugin in m_pManager.Plugins)
             {
-                List<string> names = plugin.GetEnablePrintNames();
+                IEnumerable<string> names = plugin.GetEnablePrintNames();
+                if (names == null)
+                    continue;
                 foreach (string name in names)
                 {
                     listBox1.Items.Add(name);

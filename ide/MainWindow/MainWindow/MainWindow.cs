@@ -1082,7 +1082,7 @@ namespace EcellLib.MainWindow
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>true.</returns>
-        public List<string> GetEnablePrintNames()
+        public IEnumerable<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
             return names;

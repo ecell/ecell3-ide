@@ -306,8 +306,8 @@ namespace EcellLib.PathwayWindow
         [Test()]
         public void TestIsEnablePrint()
         {
-            List<string> expectedList = null;
-            List<string> resultList = null;
+            IEnumerable<string> expectedList = null;
+            IEnumerable<string> resultList = null;
             resultList = _unitUnderTest.GetEnablePrintNames();
             Assert.AreEqual(expectedList, resultList, "IsEnablePrint method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");

@@ -585,12 +585,12 @@ namespace EcellLib.PathwayWindow.Nodes
             StringBuilder retval = new StringBuilder();
             if (obj is EcellSystem)
             {
-                retval.Append(string.Format("{1} (size={2})",
+                retval.Append(string.Format("{0} (size={1})",
                     obj.Name, ((EcellSystem)obj).SizeInVolume));
             }
             else
             {
-                retval.Append(string.Format("{1}", obj.Name));
+                retval.Append(string.Format("{0}", obj.Name));
             }
             if (obj.Logged)
             {

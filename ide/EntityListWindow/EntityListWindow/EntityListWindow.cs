@@ -641,7 +641,7 @@ namespace EcellLib.EntityListWindow
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>true</returns>
-        public override List<string> GetEnablePrintNames()
+        public override IEnumerable<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
             names.Add("TreeView of entity.");
