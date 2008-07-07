@@ -40,6 +40,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.IO;
+using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Threading;
@@ -1667,11 +1668,20 @@ namespace EcellLib.MainWindow
         /// <param name="e">EventArgs</param>
         private void PrintMenuClick(object sender, EventArgs e)
         {
-            if (m_env.PluginManager != null)
+            PrintPluginDialog d = new PrintPluginDialog(m_env.PluginManager);
+            DialogResult result = d.ShowDialog();
+            d.Dispose();
+            if (result == DialogResult.OK)
             {
-                // plugin base list show
-                PrintPluginDialog d = new PrintPluginDialog(m_env.PluginManager);
-                d.Show();
+                PrintDocument pd = new PrintDocument();
+                pd.PrintPage += delegate(object o, PrintPageEventArgs pe)
+                {
+                    Bitmap bmp = d.SelectedItem.Plugin.Print(d.SelectedItem.Portion);
+                    pe.Graphics.DrawImage(bmp, new Point(0, 0));
+                    bmp.Dispose();
+                };
+                pd.Print();
+                pd.Dispose();
             }
         }
 

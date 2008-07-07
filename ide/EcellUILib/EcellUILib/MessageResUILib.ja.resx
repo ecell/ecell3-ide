@@ -129,6 +129,9 @@
   <data name="ErrNoNumber" xml:space="preserve">
     <value>coefficientとisAccessorは整数を入力してください。</value>
   </data>
+  <data name="ErrNoSelectTarget" xml:space="preserve">
+    <value>対象が選択されていません。</value>
+  </data>
   <data name="ErrNoSelectVar" xml:space="preserve">
     <value>Variableを選択してください。</value>
   </data>

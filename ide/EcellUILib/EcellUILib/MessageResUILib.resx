@@ -129,6 +129,9 @@
   <data name="ErrNoNumber" xml:space="preserve">
     <value>Please input integer at coefficient and isAccessor.</value>
   </data>
+  <data name="ErrNoSelectTarget" xml:space="preserve">
+    <value>No target is selected.</value>
+  </data>
   <data name="ErrNoSelectVar" xml:space="preserve">
     <value>Please select the variable.</value>
   </data>

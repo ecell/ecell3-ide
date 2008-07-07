@@ -14,10 +14,37 @@ namespace EcellLib
     /// </summary>
     public partial class PrintPluginDialog : Form
     {
-        /// <summary>
-        /// DataManager
-        /// </summary>
-        private PluginManager m_pManager;
+        public class Entry
+        {
+            public IEcellPlugin Plugin
+            {
+                get { return m_plugin; }
+            }
+
+            public string Portion
+            {
+                get { return m_portion; }
+            }
+
+            internal Entry(IEcellPlugin plugin, string portion)
+            {
+                m_plugin = plugin;
+                m_portion = portion;
+            }
+
+            public override string ToString()
+            {
+                return string.Format("{0} ({1})", m_portion, m_plugin.GetPluginName());
+            }
+
+            private IEcellPlugin m_plugin;
+            private string m_portion;
+        }
+
+        public Entry SelectedItem
+        {
+            get { return m_selectedItem; }
+        }
 
         /// <summary>
         /// constructor of PrintPluginDialog.
@@ -25,6 +52,8 @@ namespace EcellLib
         public PrintPluginDialog(PluginManager pManager)
         {
             m_pManager = pManager;
+            m_selectedItem = null;
+            InitializeComponent();
 
             foreach (IEcellPlugin plugin in m_pManager.Plugins)
             {
@@ -33,11 +62,9 @@ namespace EcellLib
                     continue;
                 foreach (string name in names)
                 {
-                    listBox1.Items.Add(name);
+                    listBox1.Items.Add(new Entry(plugin, name));
                 }
             }
-
-            InitializeComponent();
         }
 
         /// <summary>
@@ -47,11 +74,13 @@ namespace EcellLib
         /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-            if (this.listBox1.SelectedItem != null)
+            if (this.listBox1.SelectedItem == null)
             {
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                EcellLib.Util.ShowNoticeDialog(MessageResUILib.ErrNoSelectTarget);
+                return;
             }
+            this.DialogResult = DialogResult.OK;
+            m_selectedItem = (Entry)this.listBox1.SelectedItem;
         }
 
         /// <summary>
@@ -62,8 +91,14 @@ namespace EcellLib
         private void button2_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
-            this.Close();
         }
 
+
+        /// <summary>
+        /// DataManager
+        /// </summary>
+        private PluginManager m_pManager;
+
+        private Entry m_selectedItem;
     }
 }
