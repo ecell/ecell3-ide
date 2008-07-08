@@ -87,53 +87,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
         #endregion
 
-        #region Methods to get EcellObject data.
-        /// <summary>
-        /// Method to get current EcellObject Datas.
-        /// </summary>
-        public override List<EcellObject> GetData(string modelID)
-        {
-            return m_dManager.GetData(modelID, "/");
-        }
-        /// <summary>
-        /// Method to get a EcellObject.
-        /// </summary>
-        /// <param name="modelID">the model of object.</param>
-        /// <param name="key">the key of object.</param>
-        /// <param name="type">the type of object.</param>
-        /// <returns>the list of EcellObject.</returns>
-        public override EcellObject GetEcellObject(string modelID, string key, string type)
-        {
-            return m_dManager.GetEcellObject(modelID, key, type);
-        }
-        /// <summary>
-        /// Method to get a EcellObject.
-        /// </summary>
-        /// <param name="eo">the EcellObject.</param>
-        public EcellObject GetEcellObject(EcellObject eo)
-        {
-            return m_dManager.GetEcellObject(eo.ModelID, eo.Key, eo.Type);
-        }
-        /// <summary>
-        /// Check layout algorithm's dlls in a plugin\pathway directory and register them
-        /// to m_layoutList
-        /// </summary>
-        /// <returns></returns>
-        public override List<ILayoutAlgorithm> GetLayoutAlgorithms()
-        {
-            return m_pManager.GetLayoutPlugins();
-        }
-        /// <summary>
-        /// Get a temporary key of EcellObject.
-        /// </summary>
-        /// <param name="modelID">The model ID of EcellObject.</param>
-        /// <param name="type">The ID of parent system.</param>
-        /// <param name="systemID">The system ID include this object.</param>
-        /// <returns>"TemporaryID"</returns> 
-        public override string GetTemporaryID(string modelID, string type, string systemID)
-        {
-            return m_dManager.GetTemporaryID(modelID, type, systemID);
-        }
         /// <summary>
         /// Get LEML file name.
         /// </summary>
@@ -146,7 +99,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return null;
             return filepath.Replace(Constants.FileExtEML, Constants.FileExtLEML);
         }
-        #endregion
 
         #region Inherited from IEcellPlugin
         /// <summary>
