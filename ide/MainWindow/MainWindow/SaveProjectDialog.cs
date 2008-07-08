@@ -57,7 +57,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs.</param>
         private void SaveProjectDialogShown(object sender, EventArgs e)
         {
-            this.SPSaveButton.Focus();
+            this.saveButton.Focus();
         }
 
     }

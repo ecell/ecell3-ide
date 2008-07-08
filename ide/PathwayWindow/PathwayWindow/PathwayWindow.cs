@@ -91,7 +91,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Method to get current EcellObject Datas.
         /// </summary>
-        public List<EcellObject> GetData(string modelID)
+        public override List<EcellObject> GetData(string modelID)
         {
             return m_dManager.GetData(modelID, "/");
         }
@@ -102,7 +102,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="key">the key of object.</param>
         /// <param name="type">the type of object.</param>
         /// <returns>the list of EcellObject.</returns>
-        public EcellObject GetEcellObject(string modelID, string key, string type)
+        public override EcellObject GetEcellObject(string modelID, string key, string type)
         {
             return m_dManager.GetEcellObject(modelID, key, type);
         }
@@ -119,7 +119,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// to m_layoutList
         /// </summary>
         /// <returns></returns>
-        public List<ILayoutAlgorithm> GetLayoutAlgorithms()
+        public override List<ILayoutAlgorithm> GetLayoutAlgorithms()
         {
             return m_pManager.GetLayoutPlugins();
         }
@@ -130,7 +130,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="type">The ID of parent system.</param>
         /// <param name="systemID">The system ID include this object.</param>
         /// <returns>"TemporaryID"</returns> 
-        public string GetTemporaryID(string modelID, string type, string systemID)
+        public override string GetTemporaryID(string modelID, string type, string systemID)
         {
             return m_dManager.GetTemporaryID(modelID, type, systemID);
         }

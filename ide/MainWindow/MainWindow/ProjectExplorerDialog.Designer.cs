@@ -62,88 +62,21 @@ namespace Ecell.IDE.MainWindow
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectExplorerDialog));
-            this.OpenButton = new System.Windows.Forms.Button();
-            this.cancelButton = new System.Windows.Forms.Button();
-            this.ImageList = new System.Windows.Forms.ImageList(this.components);
-            this.PrjCommentLabel = new System.Windows.Forms.Label();
-            this.PrjDateText = new System.Windows.Forms.TextBox();
-            this.PrjCommentText = new System.Windows.Forms.TextBox();
-            this.PrjDateLabel = new System.Windows.Forms.Label();
-            this.PrjIDText = new System.Windows.Forms.TextBox();
-            this.PrjIDLabel = new System.Windows.Forms.Label();
-            this.PrjTreeView = new System.Windows.Forms.TreeView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.PrjTreeView = new System.Windows.Forms.TreeView();
+            this.ImageList = new System.Windows.Forms.ImageList(this.components);
+            this.commentText = new System.Windows.Forms.TextBox();
+            this.projectNameLabel = new System.Windows.Forms.Label();
+            this.commentLabel = new System.Windows.Forms.Label();
+            this.projectNameText = new System.Windows.Forms.TextBox();
+            this.dateText = new System.Windows.Forms.TextBox();
+            this.dateLabel = new System.Windows.Forms.Label();
+            this.openButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // OpenButton
-            // 
-            resources.ApplyResources(this.OpenButton, "OpenButton");
-            this.OpenButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OpenButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.OpenButton.Name = "OpenButton";
-            this.OpenButton.UseVisualStyleBackColor = false;
-            // 
-            // cancelButton
-            // 
-            resources.ApplyResources(this.cancelButton, "cancelButton");
-            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.UseVisualStyleBackColor = false;
-            // 
-            // ImageList
-            // 
-            this.ImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageList.ImageStream")));
-            this.ImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.ImageList.Images.SetKeyName(0, "folder.png");
-            this.ImageList.Images.SetKeyName(1, "project.png");
-            this.ImageList.Images.SetKeyName(2, "model.png");
-            // 
-            // PrjCommentLabel
-            // 
-            resources.ApplyResources(this.PrjCommentLabel, "PrjCommentLabel");
-            this.PrjCommentLabel.Name = "PrjCommentLabel";
-            // 
-            // PrjDateText
-            // 
-            resources.ApplyResources(this.PrjDateText, "PrjDateText");
-            this.PrjDateText.Name = "PrjDateText";
-            this.PrjDateText.ReadOnly = true;
-            this.PrjDateText.TabStop = false;
-            // 
-            // PrjCommentText
-            // 
-            resources.ApplyResources(this.PrjCommentText, "PrjCommentText");
-            this.PrjCommentText.Name = "PrjCommentText";
-            this.PrjCommentText.ReadOnly = true;
-            this.PrjCommentText.TabStop = false;
-            // 
-            // PrjDateLabel
-            // 
-            resources.ApplyResources(this.PrjDateLabel, "PrjDateLabel");
-            this.PrjDateLabel.Name = "PrjDateLabel";
-            // 
-            // PrjIDText
-            // 
-            resources.ApplyResources(this.PrjIDText, "PrjIDText");
-            this.PrjIDText.Name = "PrjIDText";
-            this.PrjIDText.ReadOnly = true;
-            this.PrjIDText.TabStop = false;
-            // 
-            // PrjIDLabel
-            // 
-            resources.ApplyResources(this.PrjIDLabel, "PrjIDLabel");
-            this.PrjIDLabel.Name = "PrjIDLabel";
-            // 
-            // PrjTreeView
-            // 
-            resources.ApplyResources(this.PrjTreeView, "PrjTreeView");
-            this.PrjTreeView.ImageList = this.ImageList;
-            this.PrjTreeView.Name = "PrjTreeView";
-            this.PrjTreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MPPrjTreeView_MouseDown);
-            this.PrjTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeMouseClick);
             // 
             // splitContainer1
             // 
@@ -156,21 +89,88 @@ namespace Ecell.IDE.MainWindow
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.PrjCommentText);
-            this.splitContainer1.Panel2.Controls.Add(this.PrjIDLabel);
-            this.splitContainer1.Panel2.Controls.Add(this.PrjCommentLabel);
-            this.splitContainer1.Panel2.Controls.Add(this.PrjIDText);
-            this.splitContainer1.Panel2.Controls.Add(this.PrjDateText);
-            this.splitContainer1.Panel2.Controls.Add(this.PrjDateLabel);
+            this.splitContainer1.Panel2.Controls.Add(this.commentText);
+            this.splitContainer1.Panel2.Controls.Add(this.projectNameLabel);
+            this.splitContainer1.Panel2.Controls.Add(this.commentLabel);
+            this.splitContainer1.Panel2.Controls.Add(this.projectNameText);
+            this.splitContainer1.Panel2.Controls.Add(this.dateText);
+            this.splitContainer1.Panel2.Controls.Add(this.dateLabel);
+            // 
+            // PrjTreeView
+            // 
+            resources.ApplyResources(this.PrjTreeView, "PrjTreeView");
+            this.PrjTreeView.ImageList = this.ImageList;
+            this.PrjTreeView.Name = "PrjTreeView";
+            this.PrjTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeMouseClick);
+            this.PrjTreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MPPrjTreeView_MouseDown);
+            // 
+            // ImageList
+            // 
+            this.ImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageList.ImageStream")));
+            this.ImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.ImageList.Images.SetKeyName(0, "folder.png");
+            this.ImageList.Images.SetKeyName(1, "project.png");
+            this.ImageList.Images.SetKeyName(2, "model.png");
+            // 
+            // commentText
+            // 
+            resources.ApplyResources(this.commentText, "commentText");
+            this.commentText.Name = "commentText";
+            this.commentText.ReadOnly = true;
+            this.commentText.TabStop = false;
+            // 
+            // projectNameLabel
+            // 
+            resources.ApplyResources(this.projectNameLabel, "projectNameLabel");
+            this.projectNameLabel.Name = "projectNameLabel";
+            // 
+            // commentLabel
+            // 
+            resources.ApplyResources(this.commentLabel, "commentLabel");
+            this.commentLabel.Name = "commentLabel";
+            // 
+            // projectNameText
+            // 
+            resources.ApplyResources(this.projectNameText, "projectNameText");
+            this.projectNameText.Name = "projectNameText";
+            this.projectNameText.ReadOnly = true;
+            this.projectNameText.TabStop = false;
+            // 
+            // dateText
+            // 
+            resources.ApplyResources(this.dateText, "dateText");
+            this.dateText.Name = "dateText";
+            this.dateText.ReadOnly = true;
+            this.dateText.TabStop = false;
+            // 
+            // dateLabel
+            // 
+            resources.ApplyResources(this.dateLabel, "dateLabel");
+            this.dateLabel.Name = "dateLabel";
+            // 
+            // openButton
+            // 
+            resources.ApplyResources(this.openButton, "openButton");
+            this.openButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.openButton.Name = "openButton";
+            this.openButton.UseVisualStyleBackColor = true;
+            // 
+            // cancelButton
+            // 
+            resources.ApplyResources(this.cancelButton, "cancelButton");
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.UseVisualStyleBackColor = true;
             // 
             // ProjectExplorerDialog
             // 
-            this.AcceptButton = this.OpenButton;
+            this.AcceptButton = this.openButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.cancelButton;
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.cancelButton);
-            this.Controls.Add(this.OpenButton);
+            this.Controls.Add(this.openButton);
             this.Name = "ProjectExplorerDialog";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -185,7 +185,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Button to open the selected project.
         /// </summary>
-        public System.Windows.Forms.Button OpenButton;
+        public System.Windows.Forms.Button openButton;
         /// <summary>
         /// Button to close this window.
         /// </summary>
@@ -194,12 +194,12 @@ namespace Ecell.IDE.MainWindow
         /// ImageList of OPPrjTreeView.
         /// </summary>
         public System.Windows.Forms.ImageList ImageList;
-        private System.Windows.Forms.Label PrjCommentLabel;
-        public System.Windows.Forms.TextBox PrjDateText;
-        public System.Windows.Forms.TextBox PrjCommentText;
-        private System.Windows.Forms.Label PrjDateLabel;
-        public System.Windows.Forms.TextBox PrjIDText;
-        private System.Windows.Forms.Label PrjIDLabel;
+        private System.Windows.Forms.Label commentLabel;
+        public System.Windows.Forms.TextBox dateText;
+        public System.Windows.Forms.TextBox commentText;
+        private System.Windows.Forms.Label dateLabel;
+        public System.Windows.Forms.TextBox projectNameText;
+        private System.Windows.Forms.Label projectNameLabel;
         public System.Windows.Forms.TreeView PrjTreeView;
         private System.Windows.Forms.SplitContainer splitContainer1;
     }

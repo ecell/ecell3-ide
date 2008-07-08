@@ -51,15 +51,6 @@ namespace Ecell.IDE.MainWindow
         {
             m_pManager = pManager;
             InitializeComponent();
-        }
-
-        /// <summary>
-        /// Event process when this dialog is shown.
-        /// </summary>
-        /// <param name="sender">this dialog.</param>
-        /// <param name="e">EventArgs.</param>
-        private void WindowShown(object sender, EventArgs e)
-        {
             Dictionary<String, String> list = m_pManager.GetPluginVersionList();
             List<String> tmpList = new List<string>();
             foreach (String n in list.Keys)
@@ -79,7 +70,7 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         /// <param name="sender">close button.</param>
         /// <param name="e">EventArgs.</param>
-        private void CloseButton_Click(object sender, EventArgs e)
+        private void OKButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }

@@ -40,6 +40,7 @@ using System.Reflection;
 
 using Ecell.Message;
 using Ecell.Objects;
+using Ecell.Layout;
 
 namespace Ecell.Plugin
 {

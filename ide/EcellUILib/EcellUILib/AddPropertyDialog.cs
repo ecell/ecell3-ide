@@ -68,7 +68,7 @@ namespace Ecell.IDE
         /// <param name="e">EventArgs.</param>
         private void AddPropertyApplyButton_Click(object sender, EventArgs e)
         {
-            m_resultName = PropertyTextBox.Text;
+            m_resultName = this.propertyTextBox.Text;
             this.Close();
         }
 
@@ -89,18 +89,18 @@ namespace Ecell.IDE
         /// <param name="e">EventArgs/</param>
         private void AddPropertyDialogShown(object sender, EventArgs e)
         {
-            this.PropertyTextBox.Focus();
+            this.propertyTextBox.Focus();
         }
 
         private void PropertyKeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                APAddButton.PerformClick();
+                okButton.PerformClick();
             }
             else if (e.KeyChar == (char)Keys.Escape)
             {
-                APCancelButton.PerformClick();
+                cancelButton.PerformClick();
             }
         }
     }

@@ -118,100 +118,61 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="tableLayoutPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="PPSelectButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom</value>
+  <data name="printButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="PPSelectButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 3</value>
+  <data name="printButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>115, 318</value>
   </data>
-  <data name="PPSelectButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="printButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
   </data>
-  <data name="PPSelectButton.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="PPSelectButton.Text" xml:space="preserve">
-    <value>Select</value>
-  </data>
-  <data name="&gt;&gt;PPSelectButton.Name" xml:space="preserve">
-    <value>PPSelectButton</value>
-  </data>
-  <data name="&gt;&gt;PPSelectButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;PPSelectButton.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;PPSelectButton.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="PPCancelButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom</value>
-  </data>
-  <data name="PPCancelButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>107, 3</value>
-  </data>
-  <data name="PPCancelButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 23</value>
-  </data>
-  <data name="PPCancelButton.TabIndex" type="System.Int32, mscorlib">
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="printButton.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="PPCancelButton.Text" xml:space="preserve">
+  <data name="printButton.Text" xml:space="preserve">
+    <value>&amp;Print</value>
+  </data>
+  <data name="&gt;&gt;printButton.Name" xml:space="preserve">
+    <value>printButton</value>
+  </data>
+  <data name="&gt;&gt;printButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;printButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;printButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="cancelButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>195, 318</value>
+  </data>
+  <data name="cancelButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 23</value>
+  </data>
+  <data name="cancelButton.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="cancelButton.Text" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="&gt;&gt;PPCancelButton.Name" xml:space="preserve">
-    <value>PPCancelButton</value>
+  <data name="&gt;&gt;cancelButton.Name" xml:space="preserve">
+    <value>cancelButton</value>
   </data>
-  <data name="&gt;&gt;PPCancelButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;cancelButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;PPCancelButton.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
+  <data name="&gt;&gt;cancelButton.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="&gt;&gt;PPCancelButton.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 247</value>
-  </data>
-  <data name="tableLayoutPanel2.RowCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 29</value>
-  </data>
-  <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Name" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="PPSelectButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="PPCancelButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,80,Absolute,10,Absolute,80,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  <data name="&gt;&gt;cancelButton.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="listBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -220,13 +181,13 @@
     <value>12</value>
   </data>
   <data name="listBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>12, 30</value>
   </data>
   <data name="listBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>198, 232</value>
+    <value>257, 280</value>
   </data>
   <data name="listBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;listBox1.Name" xml:space="preserve">
     <value>listBox1</value>
@@ -235,37 +196,37 @@
     <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;listBox1.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;listBox1.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>204, 279</value>
-  </data>
-  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;listBox1.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
-  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="tableLayoutPanel2" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="listBox1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Percent,100,Absolute,35" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  <data name="printTargetSelectLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="printTargetSelectLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 13</value>
+  </data>
+  <data name="printTargetSelectLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>129, 12</value>
+  </data>
+  <data name="printTargetSelectLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="printTargetSelectLabel.Text" xml:space="preserve">
+    <value>Select a portion to print:</value>
+  </data>
+  <data name="&gt;&gt;printTargetSelectLabel.Name" xml:space="preserve">
+    <value>printTargetSelectLabel</value>
+  </data>
+  <data name="&gt;&gt;printTargetSelectLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;printTargetSelectLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;printTargetSelectLabel.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -274,7 +235,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>228, 303</value>
+    <value>281, 353</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -443,7 +404,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Print Dialog</value>
+    <value>Print</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>PrintPluginDialog</value>

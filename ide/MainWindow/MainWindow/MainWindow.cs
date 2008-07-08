@@ -1268,8 +1268,8 @@ namespace Ecell.IDE.MainWindow
         {
             try
             {
-                string prjID = m_managePrjDialog.PrjIDText.Text;
-                string comment = m_managePrjDialog.PrjCommentText.Text;
+                string prjID = m_managePrjDialog.projectNameText.Text;
+                string comment = m_managePrjDialog.commentText.Text;
                 string fileName = m_managePrjDialog.FileName;
 
                 if (!CheckProjectID(prjID))
@@ -1357,7 +1357,7 @@ namespace Ecell.IDE.MainWindow
         private void SetUpSaveProjectDialog()
         {
             m_savePrjDialog = new SaveProjectDialog();
-            CheckedListBox box = m_savePrjDialog.CheckedListBox;
+            CheckedListBox box = m_savePrjDialog.savedItemListBox;
             List<string> list = m_env.DataManager.GetSavableModel();
             if (list != null)
             {
@@ -1414,7 +1414,7 @@ namespace Ecell.IDE.MainWindow
         {
             try
             {
-                CheckedListBox box = m_savePrjDialog.CheckedListBox;
+                CheckedListBox box = m_savePrjDialog.savedItemListBox;
                 if (box.CheckedItems.Count <= 0)
                 {
                     Util.ShowWarningDialog(MessageResMain.ErrNoSelect);
@@ -1573,11 +1573,11 @@ namespace Ecell.IDE.MainWindow
         {
             m_savePrjDialog = new SaveProjectDialog();
             m_savePrjDialog.Text = MessageResMain.ExportModelDialog;
-            m_savePrjDialog.SPSaveButton.Click += new EventHandler(ExportModel);
-            m_savePrjDialog.SPCancelButton.Click += new EventHandler(ExportModelCancel);
+            m_savePrjDialog.saveButton.Click += new EventHandler(ExportModel);
+            m_savePrjDialog.cancelButton.Click += new EventHandler(ExportModelCancel);
 
             List<string> list = m_env.DataManager.GetModelList();
-            CheckedListBox box = m_savePrjDialog.CheckedListBox;
+            CheckedListBox box = m_savePrjDialog.savedItemListBox;
             foreach (string s in list)
             {
                 box.Items.Add(s);
@@ -1605,7 +1605,7 @@ namespace Ecell.IDE.MainWindow
         public void ExportModel(object sender, EventArgs e)
         {
             List<string> list = new List<string>();
-            CheckedListBox box = m_savePrjDialog.CheckedListBox;
+            CheckedListBox box = m_savePrjDialog.savedItemListBox;
             foreach (string s in box.CheckedItems)
                 list.Add(s);
 

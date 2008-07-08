@@ -29,24 +29,24 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PluginListDialog));
-            this.PVOKButton = new System.Windows.Forms.Button();
+            this.okButton = new System.Windows.Forms.Button();
             this.versionListView = new System.Windows.Forms.DataGridView();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.VersionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.versionListView)).BeginInit();
             this.SuspendLayout();
             // 
-            // PVOKButton
+            // okButton
             // 
-            this.PVOKButton.AccessibleDescription = null;
-            this.PVOKButton.AccessibleName = null;
-            resources.ApplyResources(this.PVOKButton, "PVOKButton");
-            this.PVOKButton.BackgroundImage = null;
-            this.PVOKButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.PVOKButton.Font = null;
-            this.PVOKButton.Name = "PVOKButton";
-            this.PVOKButton.UseVisualStyleBackColor = true;
-            this.PVOKButton.Click += new System.EventHandler(this.CloseButton_Click);
+            this.okButton.AccessibleDescription = null;
+            this.okButton.AccessibleName = null;
+            resources.ApplyResources(this.okButton, "okButton");
+            this.okButton.BackgroundImage = null;
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.okButton.Font = null;
+            this.okButton.Name = "okButton";
+            this.okButton.UseVisualStyleBackColor = true;
+            this.okButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
             // versionListView
             // 
@@ -73,6 +73,7 @@
             // NameColumn
             // 
             this.NameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.NameColumn.FillWeight = 200F;
             resources.ApplyResources(this.NameColumn, "NameColumn");
             this.NameColumn.Name = "NameColumn";
             this.NameColumn.ReadOnly = true;
@@ -85,18 +86,15 @@
             // 
             // PluginListDialog
             // 
-            this.AcceptButton = this.PVOKButton;
             this.AccessibleDescription = null;
             this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = null;
-            this.CancelButton = this.PVOKButton;
-            this.Controls.Add(this.PVOKButton);
+            this.Controls.Add(this.okButton);
             this.Controls.Add(this.versionListView);
             this.Font = null;
             this.Name = "PluginListDialog";
-            this.Shown += new System.EventHandler(this.WindowShown);
             ((System.ComponentModel.ISupportInitialize)(this.versionListView)).EndInit();
             this.ResumeLayout(false);
 
@@ -104,7 +102,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button PVOKButton;
+        private System.Windows.Forms.Button okButton;
         /// <summary>
         /// DataGridView to display the version list of plugin.
         /// </summary>

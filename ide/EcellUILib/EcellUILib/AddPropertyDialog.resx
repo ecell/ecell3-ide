@@ -117,122 +117,47 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="propertyNameLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="APAddButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
+  <data name="propertyNameLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="okButton.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="APAddButton.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="okButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>142, 31</value>
   </data>
-  <data name="APAddButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 23</value>
+  <data name="&gt;&gt;propertyTextBox.Name" xml:space="preserve">
+    <value>propertyTextBox</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="APAddButton.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="&gt;&gt;propertyNameLabel.Name" xml:space="preserve">
+    <value>propertyNameLabel</value>
   </data>
-  <data name="APAddButton.Text" xml:space="preserve">
-    <value>OK</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>New Property</value>
   </data>
-  <data name="&gt;&gt;APAddButton.Name" xml:space="preserve">
-    <value>APAddButton</value>
-  </data>
-  <data name="&gt;&gt;APAddButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;APAddButton.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;APAddButton.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="APCancelButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="cancelButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
-  <data name="APCancelButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 31</value>
-  </data>
-  <data name="APCancelButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="cancelButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
   </data>
-  <data name="APCancelButton.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="APCancelButton.Text" xml:space="preserve">
+  <data name="cancelButton.Text" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="&gt;&gt;APCancelButton.Name" xml:space="preserve">
-    <value>APCancelButton</value>
-  </data>
-  <data name="&gt;&gt;APCancelButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;APCancelButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;propertyTextBox.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;APCancelButton.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+  <data name="propertyNameLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 9</value>
-  </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 12</value>
-  </data>
-  <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Property Name:</value>
-  </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
-  </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="PropertyTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="PropertyTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 6</value>
-  </data>
-  <data name="PropertyTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 19</value>
-  </data>
-  <data name="PropertyTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;PropertyTextBox.Name" xml:space="preserve">
-    <value>PropertyTextBox</value>
-  </data>
-  <data name="&gt;&gt;PropertyTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;PropertyTextBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;PropertyTextBox.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 12</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>308, 62</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -400,16 +325,94 @@
         AAA=
 </value>
   </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;propertyTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>New Property</value>
+  <data name="okButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 23</value>
+  </data>
+  <data name="&gt;&gt;propertyNameLabel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;okButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;cancelButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="propertyNameLabel.Text" xml:space="preserve">
+    <value>Property Name:</value>
+  </data>
+  <data name="propertyTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>102, 6</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>308, 62</value>
+  </data>
+  <data name="&gt;&gt;cancelButton.Name" xml:space="preserve">
+    <value>cancelButton</value>
+  </data>
+  <data name="&gt;&gt;okButton.Name" xml:space="preserve">
+    <value>okButton</value>
+  </data>
+  <data name="&gt;&gt;propertyTextBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="propertyTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="propertyTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>194, 19</value>
+  </data>
+  <data name="&gt;&gt;okButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="okButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="&gt;&gt;okButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cancelButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>222, 31</value>
+  </data>
+  <data name="&gt;&gt;cancelButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="propertyNameLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 9</value>
+  </data>
+  <data name="propertyTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;propertyNameLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 12</value>
+  </data>
+  <data name="okButton.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="&gt;&gt;propertyNameLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="propertyNameLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 12</value>
+  </data>
+  <data name="cancelButton.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>AddPropertyDialog</value>
   </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="propertyTextBox.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
 </root>

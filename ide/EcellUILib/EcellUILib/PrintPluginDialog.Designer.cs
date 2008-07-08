@@ -29,43 +29,26 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PrintPluginDialog));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.PPSelectButton = new System.Windows.Forms.Button();
-            this.PPCancelButton = new System.Windows.Forms.Button();
+            this.printButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
+            this.printTargetSelectLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // printButton
             // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.listBox1, 0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            resources.ApplyResources(this.printButton, "printButton");
+            this.printButton.Name = "printButton";
+            this.printButton.UseVisualStyleBackColor = true;
+            this.printButton.Click += new System.EventHandler(this.button1_Click);
             // 
-            // tableLayoutPanel2
+            // cancelButton
             // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.PPSelectButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.PPCancelButton, 3, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            // 
-            // PPSelectButton
-            // 
-            resources.ApplyResources(this.PPSelectButton, "PPSelectButton");
-            this.PPSelectButton.Name = "PPSelectButton";
-            this.PPSelectButton.UseVisualStyleBackColor = true;
-            this.PPSelectButton.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // PPCancelButton
-            // 
-            resources.ApplyResources(this.PPCancelButton, "PPCancelButton");
-            this.PPCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.PPCancelButton.Name = "PPCancelButton";
-            this.PPCancelButton.UseVisualStyleBackColor = true;
-            this.PPCancelButton.Click += new System.EventHandler(this.button2_Click);
+            resources.ApplyResources(this.cancelButton, "cancelButton");
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.button2_Click);
             // 
             // listBox1
             // 
@@ -73,29 +56,35 @@
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Name = "listBox1";
             // 
+            // printTargetSelectLabel
+            // 
+            resources.ApplyResources(this.printTargetSelectLabel, "printTargetSelectLabel");
+            this.printTargetSelectLabel.Name = "printTargetSelectLabel";
+            // 
             // PrintPluginDialog
             // 
-            this.AcceptButton = this.PPSelectButton;
+            this.AcceptButton = this.printButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.PPCancelButton;
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.CancelButton = this.cancelButton;
+            this.Controls.Add(this.printTargetSelectLabel);
+            this.Controls.Add(this.printButton);
+            this.Controls.Add(this.cancelButton);
+            this.Controls.Add(this.listBox1);
             this.Name = "PrintPluginDialog";
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Button PPSelectButton;
-        private System.Windows.Forms.Button PPCancelButton;
+        private System.Windows.Forms.Button printButton;
+        private System.Windows.Forms.Button cancelButton;
         /// <summary>
         /// ListBox to select the plugin to print.
         /// </summary>
         public System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Label printTargetSelectLabel;
     }
 }
