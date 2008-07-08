@@ -144,7 +144,9 @@ namespace Ecell
             get { return this.m_version; }
             set { this.m_version = value; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public IEnumerable<IEcellPlugin> Plugins
         {
             get { return m_pluginList.Values; }

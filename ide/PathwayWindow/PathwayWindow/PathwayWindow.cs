@@ -148,138 +148,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
         #endregion
 
-        #region Methods to notify change from inside (pathway) to outside(ECell Core)
-        /// <summary>
-        /// Inform the adding of EcellOBject in PathwayEditor to DataManager.
-        /// </summary>
-        /// <param name="list">the list of added object.</param>
-        /// <param name="isAnchor">Whether this action is anchor or not.</param>
-        public void NotifyDataAdd(List<EcellObject> list, bool isAnchor)
-        {
-            m_dManager.DataAdd(list, true, isAnchor);
-        }
-
-        /// <summary>
-        /// Inform the adding of logger in PathwayEditor to PluginManager.
-        /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        /// <param name="entityPath"></param>
-        public void NotifyLoggerAdd(string modelID, string key, string type, string entityPath)
-        {
-            m_pManager.LoggerAdd(
-                modelID,
-                key,
-                type,
-                entityPath);
-        }
-
-        /// <summary>
-        /// Inform the changing of EcellObject in PathwayEditor to DataManager.
-        /// </summary>
-        /// <param name="oldKey">the key of object before edit.</param>
-        /// <param name="eo">The EcellObject changed the property.</param>
-        /// <param name="isRecorded">Whether to record this change.</param>
-        /// <param name="isAnchor">Whether this action is an anchor or not.</param>
-        public void NotifyDataChanged(
-            string oldKey,
-            EcellObject eo,
-            bool isRecorded,
-            bool isAnchor)
-        {
-            if(oldKey == null || eo.Type == null)
-                return;
-            m_dManager.DataChanged(eo.ModelID, oldKey, eo.Type, eo, isRecorded, isAnchor);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="eo"></param>
-        public void NotifySetPosition(EcellObject eo)
-        {
-            m_dManager.SetPosition(eo);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="eo"></param>
-        public override void SetPosition(EcellObject eo)
-        {
-            m_con.SetPosition(eo);
-        }
-
-        /// <summary>
-        /// Inform the deleting of EcellObject in PathwayEditor to DataManager.
-        /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        /// <param name="isAnchor"></param>
-        public void NotifyDataDelete(string modelID, string key, string type, bool isAnchor)
-        {
-            m_dManager.DataDelete(modelID, key, type, true, isAnchor);
-        }
-
-        /// <summary>
-        /// Inform the deleting of EcellObject in PathwayEditor to DataManager.
-        /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        public void NotifyDataMerge(string modelID, string key)
-        {
-            m_dManager.SystemDeleteAndMove(modelID, key);
-        }
-
-        /// <summary>
-        /// Inform the selected EcellObject in PathwayEditor to PluginManager.
-        /// </summary>
-        /// <param name="modelID">the modelID of selected object.</param>
-        /// <param name="key">the key of selected object.</param>
-        /// <param name="type">the type of selected object.</param>
-        public void NotifySelectChanged(string modelID, string key, string type)
-        {
-            m_pManager.SelectChanged(modelID, key, type);
-
-        }
-        /// <summary>
-        /// Inform the unselected EcellObject in PathwayEditor to PluginManager.
-        /// </summary>
-        /// <param name="modelID">the modelID of selected object.</param>
-        /// <param name="key">the key of selected object.</param>
-        /// <param name="type">the type of selected object.</param>
-        public void NotifyAddSelect(string modelID, string key, string type)
-        {
-            m_pManager.AddSelect(modelID, key, type);
-        }
-        /// <summary>
-        /// Inform the selected EcellObject in PathwayEditor to PluginManager.
-        /// </summary>
-        /// <param name="modelID">the modelID of selected object.</param>
-        /// <param name="key">the key of selected object.</param>
-        /// <param name="type">the type of selected object.</param>
-        public void NotifyRemoveSelect(string modelID, string key, string type)
-        {
-            m_pManager.RemoveSelect(modelID, key, type);
-        }
-        /// <summary>
-        /// Inform the ResetSelect() to PluginManager
-        /// </summary>
-        public void NotifyResetSelect()
-        {
-            m_pManager.ResetSelect();
-        }
-        /// <summary>
-        /// Inform the plugin message.
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="message"></param>
-        public void NotifyMessage(string type, string message)
-        {
-            m_pManager.Message(type, message);
-        }
-        #endregion
-
         #region Inherited from IEcellPlugin
         /// <summary>
         /// Get the name of this plugin.
@@ -398,6 +266,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 Console.WriteLine(e.StackTrace);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eo"></param>
+        public override void SetPosition(EcellObject eo)
+        {
+            m_con.SetPosition(eo);
         }
 
         /// <summary>

@@ -244,7 +244,7 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         /// <summary>
         /// The event sequence when key is pressed.
         /// </summary>
-        /// <param name="sender">TextBox</param>
+        /// <param name="_sender">TextBox</param>
         /// <param name="e"></param>
         private void CommandTextKeyDown(object _sender, KeyEventArgs e)
         {
@@ -321,13 +321,20 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             SetTextStyle(null, Color.Empty);
             SWMessageText.ScrollToCaret();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
         public void WriteToConsole(string text)
         {
             SWMessageText.Select(SWMessageText.TextLength, 0);
             SWMessageText.AppendText(text);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="f"></param>
+        /// <param name="c"></param>
         public void SetTextStyle(Font f, Color c)
         {
             SWMessageText.Select(SWMessageText.TextLength, 0);
@@ -348,7 +355,10 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             m_consoleOutput.Seek(0, SeekOrigin.Begin);
             SWMessageText.ScrollToCaret();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private string GetCurrentPrompt()
         {
             return (string)(m_interactionContinued ?
@@ -359,7 +369,6 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         /// Execute the script by using the command.
         /// </summary>
         /// <param name="cmd">the command string.</param>
-        /// <param name="isOut">the flag whether this command is out.</param>
         public void Interact(string cmd)
         {
             SetTextStyle(m_boldFont, m_promptColor);
