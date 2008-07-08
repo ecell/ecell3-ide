@@ -4,15 +4,7 @@ import time
 import clr
 import System.IO
 clr.AddReferenceToFile("EcellLib.dll")
-import EcellLib
-
-
-print ""
-print "# Imports following modules by default."
-print "import sys"
-print "import clr"
-print "import EcellLib"
-print ""
+import Ecell
 
 
 class Session:

@@ -6,8 +6,8 @@ InternalCompressLevel=max
 Compression=lzma/ultra
 VersionInfoTextVersion=E-Cell IDE 1.1.$WCREV$
 EnableDirDoesntExistWarning=Yes
-WizardSmallImageFile=ecell-logo1.bmp
-WizardImageFile=test.bmp
+WizardSmallImageFile=img\ecell-logo1.bmp
+WizardImageFile=img\test.bmp
 WizardImageStretch=no
 ChangesEnvironment=Yes
 AppPublisherURL=http://sourceforge.net/project/showfiles.php?group_id=72485
@@ -19,7 +19,7 @@ OutputDir=.
 VersionInfoCopyright=Copyright (C) 2005-2007 Keio University\r\nCopyright (C) 2005-2007 Mitsubishi Space Software Co., LTD.
 ;AppVerName=E-Cell IDE 1.1.$WCREV$
 AppVerName=E-Cell IDE 1.0 beta 3
-SetupIconFile=ECellIDE.ico
+SetupIconFile=img\ECellIDE.ico
 BackColor2=$004080FF
 BackColor=$0086ADFF
 DisableProgramGroupPage=Yes
@@ -188,21 +188,22 @@ Source: "conf\Simple\*"; DestDir: "{app}\conf\Simple"; Components: extension; Co
 Source: "conf\Simple\Model\*"; DestDir: "{app}\conf\Simple\Model"; Components: extension; CopyMode: alwaysoverwrite;
 Source: "conf\Simple\Parameters\*"; DestDir: "{app}\conf\Simple\Parameters"; Components: extension; CopyMode: alwaysoverwrite;
 Source: "lib\ironpython\*"; DestDir: "{app}\lib\ironpython"; Components: main; CopyMode: alwaysoverwrite;
-Source: "Win32\bin\startup.html"; DestDir:"{app}\bin"; Components:main; CopyMode: alwaysoverwrite;
+Source: "common\startup.html"; DestDir:"{app}\bin"; Components:main; CopyMode: alwaysoverwrite;
 
 
 ; ======================================================
 ; bin/*.exe
 ; ======================================================
 Source: "Win32\bin\MainWindow.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); Components: main; CopyMode: alwaysoverwrite;
-Source: "Win32\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64(); Components: main; CopyMode: alwaysoverwrite;
-Source: "Win32\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
 
 Source: "x64\bin\MainWindow.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
-Source: "x64\bin\ipy.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
-Source: "x64\bin\ipyw.exe"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "MainWindow.exe.manifest"; DestDir: "{app}\bin"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
+
+Source: "common\ipy.exe"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "common\ipyw.exe"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "common\EcellIDE.py"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+
 
 ; ======================================================
 ; bin/*.dll
@@ -313,7 +314,7 @@ Source: "x64\plugins\TracerWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; 
 ; ======================================================
 ; plugins/pathway/*
 ; ======================================================
-Source: "ComponentSettings.xml"; DestDir: "{app}\plugins\pathway";Components: extension; CopyMode: alwaysoverwrite;
+Source: "conf\ComponentSettings.xml"; DestDir: "{app}\plugins\pathway";Components: extension; CopyMode: alwaysoverwrite;
 
 Source: "Win32\plugins\pathway\AlignLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "Win32\plugins\pathway\CircularLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
@@ -447,7 +448,6 @@ Name: "{group}\samples\Toy_Hybrid"; Filename: "{app}\bin\MainWindow.exe"; Parame
 Name: "{userappdata}\$Inst$"; Attribs: hidden; Flags: uninsalwaysuninstall
 
 [Run]
-Filename: "{app}\bin\test.bat"; Flags: runhidden; WorkingDir: "{app}\bin";
 Filename: "{app}\UninsHs.exe"; Parameters: "/r0=ECell_IDE,{language},{srcexe},{userappdata}\$Inst$\i.exe"; WorkingDir: "{app}"; Flags: runhidden runminimized skipifdoesntexist
 
 [InstallDelete]
