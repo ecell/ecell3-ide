@@ -1318,6 +1318,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e"></param>
         private void ZoomButton_Click(object sender, EventArgs e)
         {
+            if (m_con.Canvas == null)
+                return;
             float current = m_con.Canvas.PCanvas.Camera.ViewScale * 100f;
             bool extend = (bool)((ToolStripButton)sender).Tag;
             float zoomRate = GetZoomRate(current, extend);

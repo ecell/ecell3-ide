@@ -101,11 +101,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             CanvasControl canvas = m_con.Canvas;
             string system = canvas.GetSurroundingSystemKey(e.Position);
 
-            if (string.IsNullOrEmpty(system))
+            if(m_cs.ComponentType == ComponentType.Text)
+            {
+                system = "/";
+            }
+            else if (string.IsNullOrEmpty(system))
             {
                 Util.ShowErrorDialog(MessageResPathway.ErrOutRoot);
                 return;
             }
+
             // Create EcellObject.
             string type = ComponentManager.ParseComponentTypeToString(m_template.Setting.ComponentType);
             EcellObject eo = m_con.CreateDefaultObject(canvas.ModelID, system, type, false);

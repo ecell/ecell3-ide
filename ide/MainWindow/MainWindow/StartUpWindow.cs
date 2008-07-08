@@ -73,6 +73,7 @@ namespace Ecell.IDE.MainWindow
             this.Text = MessageResMain.StartUpWindow;
             this.TabText = this.Text;
             Uri startPage = FindStartPage();
+            STARTUP = startPage;
             if (startPage != null)
             {
                 webBrowser.Navigate(startPage);
@@ -83,15 +84,15 @@ namespace Ecell.IDE.MainWindow
         private Uri FindStartPage()
         {
             List<string> candidates = new List<string>();
-            string langSuffix = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName.ToLower();
 
             string documentDir = Util.GetWindowSettingDir();
+            string lang = Util.GetLang();
             if (documentDir != null)
             {
                 candidates.Add(Path.Combine(documentDir,
-                    Constants.fileStartupHTML + "." + langSuffix));
+                    Constants.fileStartupHTML));
                 candidates.Add(Path.Combine(documentDir,
-                    "AUTO_" + Constants.fileStartupHTML));
+                    lang + "_" + Constants.fileStartupHTML));
             }
             foreach (string candidate in candidates)
             {

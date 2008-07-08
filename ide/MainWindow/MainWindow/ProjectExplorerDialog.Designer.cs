@@ -82,15 +82,16 @@ namespace Ecell.IDE.MainWindow
             // 
             resources.ApplyResources(this.OpenButton, "OpenButton");
             this.OpenButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.OpenButton.ForeColor = System.Drawing.SystemColors.ControlText;
             this.OpenButton.Name = "OpenButton";
-            this.OpenButton.UseVisualStyleBackColor = true;
+            this.OpenButton.UseVisualStyleBackColor = false;
             // 
             // cancelButton
             // 
             resources.ApplyResources(this.cancelButton, "cancelButton");
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.UseVisualStyleBackColor = false;
             // 
             // ImageList
             // 

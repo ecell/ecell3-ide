@@ -894,7 +894,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="isLogger">The flag whether the entity is logged.</param>
         public void NotifyLoggerChanged(PPathwayObject obj, string logger, bool isLogger)
         {
-            EcellObject eo = obj.EcellObject;
+            EcellObject eo = m_window.GetEcellObject(this.Canvas.ModelID, obj.EcellObject.Key, obj.EcellObject.Type);
 
             // set logger
             foreach (EcellData d in eo.Value)
@@ -915,7 +915,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             try
             {
-                NotifyDataChanged(eo.Key, eo.Key, obj, true, true);
+                NotifyDataChanged(eo.Key, eo, true, true);
             }
             catch (Exception e)
             {

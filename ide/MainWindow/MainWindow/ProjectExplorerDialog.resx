@@ -123,14 +123,17 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="OpenButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>378, 378</value>
+    <value>346, 360</value>
+  </data>
+  <data name="OpenButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 0, 0, 0</value>
   </data>
   <data name="OpenButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>62, 32</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="OpenButton.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>1</value>
   </data>
   <data name="OpenButton.Text" xml:space="preserve">
     <value>Open</value>
@@ -151,13 +154,13 @@
     <value>Bottom, Right</value>
   </data>
   <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>459, 377</value>
+    <value>416, 359</value>
   </data>
   <data name="cancelButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 0, 0, 0</value>
   </data>
   <data name="cancelButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 24</value>
+    <value>62, 32</value>
   </data>
   <data name="cancelButton.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -262,7 +265,7 @@
     <value>3, 74</value>
   </data>
   <data name="PrjDateText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 19</value>
+    <value>191, 19</value>
   </data>
   <data name="PrjDateText.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -289,10 +292,10 @@
     <value>True</value>
   </data>
   <data name="PrjCommentText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 233</value>
+    <value>191, 204</value>
   </data>
   <data name="PrjCommentText.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;PrjCommentText.Name" xml:space="preserve">
     <value>PrjCommentText</value>
@@ -337,7 +340,7 @@
     <value>3, 26</value>
   </data>
   <data name="PrjIDText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>207, 19</value>
+    <value>191, 19</value>
   </data>
   <data name="PrjIDText.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -394,7 +397,7 @@
     <value>0</value>
   </data>
   <data name="PrjTreeView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>296, 360</value>
+    <value>272, 331</value>
   </data>
   <data name="PrjTreeView.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -445,10 +448,10 @@
     <value>1</value>
   </data>
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>513, 360</value>
+    <value>473, 331</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>296</value>
+    <value>272</value>
   </data>
   <data name="splitContainer1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -475,7 +478,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>530, 410</value>
+    <value>490, 400</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
