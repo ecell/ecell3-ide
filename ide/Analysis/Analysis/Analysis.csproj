@@ -7,7 +7,7 @@
     <ProjectGuid>{DA6AB870-F791-478E-AE09-7A670F4AFBDE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EcellLib.Analysis</RootNamespace>
+    <RootNamespace>Ecell.IDE.Plugins.Analysis</RootNamespace>
     <AssemblyName>Analysis</AssemblyName>
     <SccProjectName>
     </SccProjectName>
@@ -93,11 +93,13 @@
   <ItemGroup>
     <Compile Include="Analysis.cs" />
     <Compile Include="AnalysisResultWindow.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="AnalysisResultWindow.Designer.cs">
       <DependentUpon>AnalysisResultWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="AnalysisWindow.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="AnalysisWindow.Designer.cs">
       <DependentUpon>AnalysisWindow.cs</DependentUpon>

@@ -46,7 +46,7 @@ using MathNet.Numerics;
 using MathNet.Numerics.Transformations;
 using Ecell.Objects;
 
-namespace Ecell.Analysis
+namespace Ecell.IDE.Plugins.Analysis
 {
     /// <summary>
     /// Form to display the setting and result of analysis.

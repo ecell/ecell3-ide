@@ -1,4 +1,4 @@
-﻿namespace Ecell.Analysis
+﻿namespace Ecell.IDE.Plugins.Analysis
 {
     partial class AnalysisWindow
     {

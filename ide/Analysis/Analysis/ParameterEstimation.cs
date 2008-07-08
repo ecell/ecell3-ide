@@ -37,7 +37,7 @@ using Ecell;
 using Ecell.Objects;
 using Ecell.Job;
 
-namespace Ecell.Analysis
+namespace Ecell.IDE.Plugins.Analysis
 {
     /// <summary>
     /// Class to manage the parameter estimation.

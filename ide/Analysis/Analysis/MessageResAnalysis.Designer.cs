@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ecell.Analysis {
+namespace Ecell.IDE.Plugins.Analysis {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Ecell.Analysis {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EcellLib.Analysis.MessageResAnalysis", typeof(MessageResAnalysis).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ecell.IDE.Plugins.Analysis.MessageResAnalysis", typeof(MessageResAnalysis).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

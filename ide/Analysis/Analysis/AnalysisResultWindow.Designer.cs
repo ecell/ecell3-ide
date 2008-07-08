@@ -1,4 +1,4 @@
-﻿namespace Ecell.Analysis
+﻿namespace Ecell.IDE.Plugins.Analysis
 {
     /// <summary>
     /// Window to display the result of analysis.

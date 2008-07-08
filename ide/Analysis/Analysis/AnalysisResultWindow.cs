@@ -12,7 +12,7 @@ using Ecell.Objects;
 using Ecell.Job;
 using ZedGraph;
 
-namespace Ecell.Analysis
+namespace Ecell.IDE.Plugins.Analysis
 {
     public partial class AnalysisResultWindow : EcellDockContent
     {

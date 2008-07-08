@@ -38,7 +38,7 @@ using Ecell.Job;
 using MathNet.Numerics;
 using MathNet.Numerics.Transformations;
 
-namespace Ecell.Analysis
+namespace Ecell.IDE.Plugins.Analysis
 {
     /// <summary>
     /// Class to manage the bifurcation analysis.

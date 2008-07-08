@@ -41,7 +41,7 @@ using Ecell.Message;
 using Ecell.Job;
 using Ecell.Objects;
 
-namespace Ecell.Analysis
+namespace Ecell.IDE.Plugins.Analysis
 {
     /// <summary>
     /// Class to manage the sensitivity analysis.

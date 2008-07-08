@@ -41,7 +41,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using Ecell.Plugin;
 using Ecell.Objects;
 
-namespace Ecell.Analysis
+namespace Ecell.IDE.Plugins.Analysis
 {
     /// <summary>
     /// Plugin class to manage the result and parameter of analysis.
