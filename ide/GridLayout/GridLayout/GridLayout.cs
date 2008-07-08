@@ -117,14 +117,6 @@ namespace Ecell.IDE.Plugins.GridLayout
                              List<EcellObject> systemList,
                              List<EcellObject> nodeList)
         {
-            // Prepare the progress bar
-            ProgressDialog form = new ProgressDialog();
-            form.Bar.Minimum = 1;
-            form.Bar.Maximum = m_kmax;
-            form.Bar.Step = 1;
-            form.Bar.Value = 1;
-            form.Show();
-
             // At first, all systems layout will be settled
             if (layoutSystem)
                 DoSystemLayout(systemList, nodeList);
@@ -153,9 +145,8 @@ namespace Ecell.IDE.Plugins.GridLayout
                 }
 
                 if (nodesOfTheSystem.Count > 1)
-                    DoNodeLayout(sys, childSystems, nodesOfTheSystem, form, isFromScratch);
+                    DoNodeLayout(sys, childSystems, nodesOfTheSystem, isFromScratch);
             }
-            form.Dispose();
 
             return true;
         }
@@ -414,7 +405,6 @@ namespace Ecell.IDE.Plugins.GridLayout
             EcellObject sys,
             List<EcellObject> childSystems,
             List<EcellObject> nodeList,
-            ProgressDialog dialog,
             bool isFromScratch)
         {
             int[,] relationMatrix = CreateRelationMatrix(nodeList);
@@ -505,7 +495,6 @@ namespace Ecell.IDE.Plugins.GridLayout
 
                     nodeIndex++;
                 }
-                dialog.Bar.PerformStep();
                 k++;
             }
 
