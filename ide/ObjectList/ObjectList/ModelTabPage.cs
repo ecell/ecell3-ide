@@ -639,6 +639,9 @@ namespace Ecell.IDE.Plugins.ObjectList
                         continue;
                     m_gridView.Rows[i].Selected = true;
                     m_gridView.FirstDisplayedScrollingRowIndex = i;
+                    EcellObject obj = m_gridView.Rows[i].Tag as EcellObject;
+                    if (obj == null) return;
+                    m_owner.PluginManager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
                     return;
                 }
             }
