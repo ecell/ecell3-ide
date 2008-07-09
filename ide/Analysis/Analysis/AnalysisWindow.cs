@@ -102,7 +102,7 @@ namespace Ecell.IDE.Plugins.Analysis
             this.FormClosed += new FormClosedEventHandler(CloseRobustAnalysisForm);
 
             InitializeData();
-            this.Text = MessageResAnalysis.AnalysisWindow;
+            this.Text = MessageResources.AnalysisWindow;
             this.TabText = this.Text;
         }
 
@@ -1052,7 +1052,7 @@ namespace Ecell.IDE.Plugins.Analysis
             if (m.Msg == WM_SYSCOMMAND && m.WParam.ToInt32() == SC_CLOSE)
             {
 
-                if (Util.ShowOKCancelDialog(MessageResAnalysis.ConfirmClose))
+                if (Util.ShowOKCancelDialog(MessageResources.ConfirmClose))
 
 
                 {

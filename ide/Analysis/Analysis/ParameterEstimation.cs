@@ -140,28 +140,28 @@ namespace Ecell.IDE.Plugins.Analysis
 
             if (m_param.Population <= 0)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                    new object[] { MessageResAnalysis.NamePopulation, 0 }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
+                    new object[] { MessageResources.NamePopulation, 0 }));
                 return;
             }
             if (m_param.Generation <= 0)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                    new object[] { MessageResAnalysis.NameGenerationNum, 0 }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
+                    new object[] { MessageResources.NameGenerationNum, 0 }));
 
                 return;
             }
             if (m_param.SimulationTime <= 0.0)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                    new object[] { MessageResAnalysis.NameSimulationTime, 0.0 }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
+                    new object[] { MessageResources.NameSimulationTime, 0.0 }));
                 return;
             }
             if (m_param.EstimationFormulator == null ||
                 m_param.EstimationFormulator.Equals(""))
             {
-                Util.ShowErrorDialog(string.Format(MessageResAnalysis.ErrNoSet,
-                    new object[] { MessageResAnalysis.NameEstimationForm }));
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrNoSet,
+                    new object[] { MessageResources.NameEstimationForm }));
 
                 return;
             }
@@ -174,8 +174,8 @@ namespace Ecell.IDE.Plugins.Analysis
             if (m_paramList == null) return;
             if (m_paramList.Count < 1)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrNoSet,
-                    new object[] { MessageResAnalysis.NameParameterData }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet,
+                    new object[] { MessageResources.NameParameterData }));
                 return;
             }
 
@@ -288,8 +288,8 @@ namespace Ecell.IDE.Plugins.Analysis
 
                 FindElite();
 
-                Util.ShowNoticeDialog(String.Format(MessageResAnalysis.InfoFinishExecute,
-                    new object[] { MessageResAnalysis.NameParameterEstimate }));                
+                Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
+                    new object[] { MessageResources.NameParameterEstimate }));                
                 return;
             }
 

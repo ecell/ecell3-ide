@@ -188,20 +188,20 @@ namespace Ecell.IDE.Plugins.Analysis
 
             if (m_param.Step <= 0)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                    new object[] { MessageResAnalysis.NameStepNum, 0 }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
+                    new object[] { MessageResources.NameStepNum, 0 }));
                 return;
             }
             if (m_param.AbsolutePerturbation <= 0.0)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                    new object[] { MessageResAnalysis.NameAbsolutePert, 0.0 }));                
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
+                    new object[] { MessageResources.NameAbsolutePert, 0.0 }));                
                 return;
             }
             if (m_param.RelativePerturbation <= 0.0)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                   new object[] { MessageResAnalysis.NameRelativePert, 0.0 }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
+                   new object[] { MessageResources.NameRelativePert, 0.0 }));
                 return;
             }
 
@@ -528,8 +528,8 @@ namespace Ecell.IDE.Plugins.Analysis
             Matrix jocobianMatrix = epsilonMatrix * m_linkMatrix;
             if (jocobianMatrix.Determinant() == 0.0)
             {
-                String errmes = String.Format(MessageResAnalysis.ErrExecute,
-                    new object[] { MessageResAnalysis.NameSensAnalysis });
+                String errmes = String.Format(MessageResources.ErrExecute,
+                    new object[] { MessageResources.NameSensAnalysis });
                 Util.ShowErrorDialog(errmes);
                 throw new IgnoreException(errmes);
             }
@@ -750,8 +750,8 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
                 m_owner.UpdateResultColor();
 
-                Util.ShowNoticeDialog(String.Format(MessageResAnalysis.InfoFinishExecute,
-                    new object[] { MessageResAnalysis.NameSensAnalysis }));
+                Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
+                    new object[] { MessageResources.NameSensAnalysis }));
             }
             catch (IgnoreException ex)
             {
@@ -759,8 +759,8 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             catch (Exception ex)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrExecute,
-                    new object[] { MessageResAnalysis.NameSensAnalysis }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute,
+                    new object[] { MessageResources.NameSensAnalysis }));
 
                 m_owner.MessageManager.Append(
                         new ApplicationMessageEntry(MessageType.Error, ex.ToString(), this));

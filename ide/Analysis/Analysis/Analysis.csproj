@@ -106,10 +106,10 @@
     </Compile>
     <Compile Include="BifurcationAnalysis.cs" />
     <Compile Include="Calculator.cs" />
-    <Compile Include="MessageResAnalysis.Designer.cs">
+    <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MessageResAnalysis.resx</DependentUpon>
+      <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="ParameterEstimation.cs" />
     <Compile Include="PEAdvancedWindow.cs">
@@ -132,13 +132,13 @@
       <SubType>Designer</SubType>
       <DependentUpon>AnalysisResultWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResAnalysis.ja.resx">
+    <EmbeddedResource Include="MessageResources.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResAnalysis.resx">
+    <EmbeddedResource Include="MessageResources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MessageResAnalysis.Designer.cs</LastGenOutput>
+      <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="AnalysisWindow.ja.resx">
       <SubType>Designer</SubType>

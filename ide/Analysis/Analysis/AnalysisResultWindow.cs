@@ -61,13 +61,13 @@ namespace Ecell.IDE.Plugins.Analysis
 
             ContextMenuStrip peCntMenu = new ContextMenuStrip();
             ToolStripMenuItem peit = new ToolStripMenuItem();
-            peit.Text = MessageResAnalysis.ReflectMenuText;
+            peit.Text = MessageResources.ReflectMenuText;
             peit.Click += new EventHandler(ClickReflectMenu);
             peCntMenu.Items.AddRange(new ToolStripItem[] {peit});
             PEEstimateView.ContextMenuStrip = peCntMenu;
 
             m_headerColor = Color.LightCyan;
-            this.Text = MessageResAnalysis.AnalysisResultWindow;
+            this.Text = MessageResources.AnalysisResultWindow;
             this.TabText = this.Text;
 
         }
@@ -595,7 +595,7 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             catch (Exception)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSaveFile,
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrSaveFile,
                     new object[] { fileName }));
             }
             finally
@@ -636,7 +636,7 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             catch (Exception)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSaveFile,
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrSaveFile,
                     new object[] { fileName }));
             }
             finally
@@ -679,7 +679,7 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             catch (Exception)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSaveFile,
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrSaveFile,
                     new object[] { fileName }));
             }
             finally
@@ -728,7 +728,7 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             catch (Exception)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSaveFile,
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrSaveFile,
                     new object[] { fileName }));
             }
             finally

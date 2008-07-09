@@ -80,7 +80,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// ResourceManager for AnalysisTemplate.
         /// </summary>
-        static public ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResAnalysis));
+        static public ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResources));
         /// <summary>
         /// Robust Analysis Class.
         /// </summary>
@@ -448,8 +448,8 @@ namespace Ecell.IDE.Plugins.Analysis
 
             if (resList.Count < 1)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrNoSet,
-                    new object[] { MessageResAnalysis.NameObservedData }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet,
+                    new object[] { MessageResources.NameObservedData }));
                 return null;
             }
 
@@ -479,8 +479,8 @@ namespace Ecell.IDE.Plugins.Analysis
 
             if (resList.Count < 1)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrNoSet,
-                    new object[] { MessageResAnalysis.NameObservedData }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet,
+                    new object[] { MessageResources.NameObservedData }));
                 return null;
             }
 
@@ -538,7 +538,7 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             if (m_robustAnalysis != null && m_robustAnalysis.IsRunning)
             {
-                if (Util.ShowYesNoDialog(MessageResAnalysis.ConfirmStopAnalysis))
+                if (Util.ShowYesNoDialog(MessageResources.ConfirmStopAnalysis))
 
 
                 {
@@ -561,7 +561,7 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             if (m_parameterEstimation != null && m_parameterEstimation.IsRunning)
             {
-                if (Util.ShowYesNoDialog(MessageResAnalysis.ConfirmStopAnalysis))
+                if (Util.ShowYesNoDialog(MessageResources.ConfirmStopAnalysis))
 
 
                 {
@@ -584,7 +584,7 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             if (m_sensitivityAnalysis != null && m_sensitivityAnalysis.IsRunning)
             {
-                if (Util.ShowYesNoDialog(MessageResAnalysis.ConfirmStopAnalysis))
+                if (Util.ShowYesNoDialog(MessageResources.ConfirmStopAnalysis))
 
 
                 {
@@ -607,7 +607,7 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             if (m_bifurcationAnalysis != null && m_bifurcationAnalysis.IsRunning)
             {
-                if (Util.ShowYesNoDialog(MessageResAnalysis.ConfirmStopAnalysis))
+                if (Util.ShowYesNoDialog(MessageResources.ConfirmStopAnalysis))
 
 
                 {
@@ -645,67 +645,60 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <returns>the list of menu.</returns>
         public override List<ToolStripMenuItem> GetMenuStripItems()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResAnalysis));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResources));
             List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
 
             m_showAnalysisSetupItem = new ToolStripMenuItem();
-            m_showAnalysisSetupItem.Text = MessageResAnalysis.MenuItemAnalysisWindow;
-            m_showAnalysisSetupItem.ToolTipText = MessageResAnalysis.MenuItemAnalysisWindow;
+            m_showAnalysisSetupItem.Text = MessageResources.MenuItemAnalysisWindow;
+            m_showAnalysisSetupItem.ToolTipText = MessageResources.MenuItemAnalysisWindow;
             m_showAnalysisSetupItem.Tag = 50;
             m_showAnalysisSetupItem.Click += new EventHandler(ShowAnalysisWindow);
 
-            ToolStripMenuItem setupMenu = new ToolStripMenuItem();
-            setupMenu.DropDownItems.AddRange(new ToolStripItem[] { m_showAnalysisSetupItem });
-            setupMenu.Text = "Setup";
-            setupMenu.Name = "MenuItemSetup";
-
-            list.Add(setupMenu);
-
             m_robustAnalysisItem = new ToolStripMenuItem();
-            m_robustAnalysisItem.Text = MessageResAnalysis.MenuItemRobustAnalysis;
-            m_robustAnalysisItem.ToolTipText = MessageResAnalysis.MenuItemRobustAnalysis;
+            m_robustAnalysisItem.Text = MessageResources.MenuItemRobustAnalysis;
+            m_robustAnalysisItem.ToolTipText = MessageResources.MenuItemRobustAnalysis;
             m_robustAnalysisItem.Tag = 50;
             m_robustAnalysisItem.Enabled = false;
             m_robustAnalysisItem.Click += new EventHandler(ExecuteRobustAnalysis);
 
             m_parameterEstimationItem = new ToolStripMenuItem();
-            m_parameterEstimationItem.Text = MessageResAnalysis.MenuItemParameterEstimation;
-            m_parameterEstimationItem.ToolTipText = MessageResAnalysis.MenuItemParameterEstimation;
+            m_parameterEstimationItem.Text = MessageResources.MenuItemParameterEstimation;
+            m_parameterEstimationItem.ToolTipText = MessageResources.MenuItemParameterEstimation;
             m_parameterEstimationItem.Tag = 60;
             m_parameterEstimationItem.Enabled = false;
             m_parameterEstimationItem.Click += new EventHandler(ExecuteParameterEstimation);
 
             m_sensitivityAnalysisItem = new ToolStripMenuItem();
-            m_sensitivityAnalysisItem.Text = MessageResAnalysis.MenuItemSensitivityAnalysis;
-            m_sensitivityAnalysisItem.ToolTipText = MessageResAnalysis.MenuItemSensitivityAnalysis;
+            m_sensitivityAnalysisItem.Text = MessageResources.MenuItemSensitivityAnalysis;
+            m_sensitivityAnalysisItem.ToolTipText = MessageResources.MenuItemSensitivityAnalysis;
             m_sensitivityAnalysisItem.Tag = 70;
             m_sensitivityAnalysisItem.Enabled = false;
             m_sensitivityAnalysisItem.Click += new EventHandler(ExecuteSensitivityAnalysis);
 
             m_bifurcationAnalysisItem = new ToolStripMenuItem();
-            m_bifurcationAnalysisItem.Text = MessageResAnalysis.MenuItemBifurcationAnalysis;
-            m_bifurcationAnalysisItem.ToolTipText = MessageResAnalysis.MenuItemBifurcationAnalysis;
+            m_bifurcationAnalysisItem.Text = MessageResources.MenuItemBifurcationAnalysis;
+            m_bifurcationAnalysisItem.ToolTipText = MessageResources.MenuItemBifurcationAnalysis;
             m_bifurcationAnalysisItem.Tag = 80;
             m_bifurcationAnalysisItem.Enabled = false;
             m_bifurcationAnalysisItem.Click += new EventHandler(ExecuteBifurcationAnalysis);
 
             ToolStripMenuItem stopAnalysisItem = new ToolStripMenuItem();
-            stopAnalysisItem.Text = MessageResAnalysis.MenuItemStopAnalysis;
-            stopAnalysisItem.ToolTipText = MessageResAnalysis.MenuItemStopAnalysis;
+            stopAnalysisItem.Text = MessageResources.MenuItemStopAnalysis;
+            stopAnalysisItem.ToolTipText = MessageResources.MenuItemStopAnalysis;
             stopAnalysisItem.Tag = 90;
             stopAnalysisItem.Enabled = true;
             stopAnalysisItem.Click += new EventHandler(StopAnalysis);
 
             ToolStripMenuItem saveAnalysisResultItem = new ToolStripMenuItem();
-            saveAnalysisResultItem.Text = MessageResAnalysis.MenuItemSaveAnalysisResult;
-            saveAnalysisResultItem.ToolTipText = MessageResAnalysis.MenuItemSaveAnalysisResult;
+            saveAnalysisResultItem.Text = MessageResources.MenuItemSaveAnalysisResult;
+            saveAnalysisResultItem.ToolTipText = MessageResources.MenuItemSaveAnalysisResult;
             saveAnalysisResultItem.Tag = 100;
             saveAnalysisResultItem.Enabled = true;
             saveAnalysisResultItem.Click += new EventHandler(SaveAnalysisResult);
 
             ToolStripMenuItem loadAnalysisResultItem = new ToolStripMenuItem();
-            loadAnalysisResultItem.Text = MessageResAnalysis.MenuItemLoadAnalysisResult;
-            loadAnalysisResultItem.ToolTipText = MessageResAnalysis.MenuItemLoadAnalysisResult;
+            loadAnalysisResultItem.Text = MessageResources.MenuItemLoadAnalysisResult;
+            loadAnalysisResultItem.ToolTipText = MessageResources.MenuItemLoadAnalysisResult;
             loadAnalysisResultItem.Tag = 100;
             loadAnalysisResultItem.Enabled = true;
             loadAnalysisResultItem.Click += new EventHandler(LoadAnalysisResult);

@@ -114,21 +114,21 @@ namespace Ecell.IDE.Plugins.Analysis
 
             if (m_owner.JobManager.GetFinishedJobList().Count <= 0)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrExecute,
-                    new object[] { MessageResAnalysis.NameRobustAnalysis }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute,
+                    new object[] { MessageResources.NameRobustAnalysis }));
                 return;
             }
             if (m_owner.JobManager.IsError())
             {
-                if (!Util.ShowYesNoDialog(MessageResAnalysis.ConfirmFindErrorJob))
+                if (!Util.ShowYesNoDialog(MessageResources.ConfirmFindErrorJob))
                 {
                     return;
                 }
                 
             }
             JudgeRobustAnalysis();
-            Util.ShowNoticeDialog(String.Format(MessageResAnalysis.InfoFinishExecute,
-                new object[] { MessageResAnalysis.NameRobustAnalysis }));
+            Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
+                new object[] { MessageResources.NameRobustAnalysis }));
 
         }
         #endregion
@@ -145,20 +145,20 @@ namespace Ecell.IDE.Plugins.Analysis
             int maxSize = Convert.ToInt32(m_param.MaxData);
             if (num <= 0)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                    new object[] { MessageResAnalysis.NameMaxSample, 0 }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
+                    new object[] { MessageResources.NameMaxSample, 0 }));
                 return;
             }
             if (simTime <= 0.0)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                    new object[] { MessageResAnalysis.NameSimulationTime, 0.0 }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
+                    new object[] { MessageResources.NameSimulationTime, 0.0 }));
                 return;
             }
             if (maxSize > AnalysisWindow.MaxSize)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSmaller,
-                    new object[] { MessageResAnalysis.NameMaxSample, AnalysisWindow.MaxSize }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrSmaller,
+                    new object[] { MessageResources.NameMaxSample, AnalysisWindow.MaxSize }));
                 return;
             }
 
@@ -170,8 +170,8 @@ namespace Ecell.IDE.Plugins.Analysis
             if (paramList == null) return;
             if (paramList.Count < 2)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSetNumberMore,
-                    new object[] { MessageResAnalysis.NameParameterData, 2 }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumberMore,
+                    new object[] { MessageResources.NameParameterData, 2 }));
                 return;
             }
             List<SaveLoggerProperty> saveList = m_owner.GetRAObservedDataList();
@@ -218,8 +218,8 @@ namespace Ecell.IDE.Plugins.Analysis
             if (pList == null) return;
             if (pList.Count < 2)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSetNumberMore,
-                    new object[] { MessageResAnalysis.NameParameterData, 2 }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumberMore,
+                    new object[] { MessageResources.NameParameterData, 2 }));
                 return;
             }
             int count = 0;

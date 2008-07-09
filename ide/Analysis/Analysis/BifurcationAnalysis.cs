@@ -159,8 +159,8 @@ namespace Ecell.IDE.Plugins.Analysis
 
             if (simTime <= 0.0)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrLarger,
-                    new object[] { MessageResAnalysis.NameSimulationTime, 0.0 }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
+                    new object[] { MessageResources.NameSimulationTime, 0.0 }));
                 return;
             }
 
@@ -172,8 +172,8 @@ namespace Ecell.IDE.Plugins.Analysis
             if (paramList == null) return;
             if (paramList.Count != 2)
             {
-                Util.ShowErrorDialog(String.Format(MessageResAnalysis.ErrSetNumber,
-                    new object[] { MessageResAnalysis.NameParameterData, 2 }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
+                    new object[] { MessageResources.NameParameterData, 2 }));
                 return;
             }
             List<SaveLoggerProperty> saveList = m_owner.GetBAObservedDataList();
@@ -605,7 +605,7 @@ namespace Ecell.IDE.Plugins.Analysis
 
             if (m_owner.JobManager.IsError())
             {
-                if (!Util.ShowYesNoDialog(MessageResAnalysis.ConfirmFindErrorJob))
+                if (!Util.ShowYesNoDialog(MessageResources.ConfirmFindErrorJob))
 
 
                 {
@@ -620,8 +620,8 @@ namespace Ecell.IDE.Plugins.Analysis
                 PrintResultData();
                 m_isRunning = false;
                 m_owner.StopBifurcationAnalysis();
-                Util.ShowNoticeDialog(String.Format(MessageResAnalysis.InfoFinishExecute,
-                    new object[] { MessageResAnalysis.NameBifurcation }));
+                Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
+                    new object[] { MessageResources.NameBifurcation }));
 
                 return;
             }
