@@ -94,7 +94,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 else
                 {
                     ScrollContainer.Canvas = new PCanvas();
-                    Text = MessageResPathway.WindowPathway;
+                    Text = MessageResources.WindowPathway;
                     TabText = Text;
                 }
                 Controls.Add(OverviewContainer);
@@ -160,7 +160,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
             this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_PathwayView;
             this.Name = "PathwayView";
-            this.Text = MessageResPathway.WindowPathway;
+            this.Text = MessageResources.WindowPathway;
             this.TabText = this.Text;
 
             this.ScrollContainer = new PScrollableControl();

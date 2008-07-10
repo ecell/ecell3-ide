@@ -241,7 +241,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 else if (!oldSysKey.Equals(newSysKey) && m_canvas.Systems.ContainsKey(newSysKey))
                 {
                     Util.ShowErrorDialog(string.Format(
-                        MessageResPathway.ErrAlrExist,
+                        MessageResources.ErrAlrExist,
                         new object[] { newSysKey }));
                     system.ResetPosition();
                     system.IsInvalid = false;
@@ -293,7 +293,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 // When node is out of root.
                 if (newSystem == null)
                 {
-                    Util.ShowErrorDialog(node.EcellObject.Name + ":" + MessageResPathway.ErrOutRoot);
+                    Util.ShowErrorDialog(node.EcellObject.Name + ":" + MessageResources.ErrOutRoot);
                     isError = true;
                     continue;
                 }
@@ -302,7 +302,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                     && m_canvas.GetSelectedObject(newKey, node.EcellObject.Type) != null)
                 {
                     Util.ShowErrorDialog(string.Format(
-                        MessageResPathway.ErrAlrExist,
+                        MessageResources.ErrAlrExist,
                         new object[] { node.EcellObject.Name }));
                     isError = true;
                     continue;

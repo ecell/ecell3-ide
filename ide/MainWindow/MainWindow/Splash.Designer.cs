@@ -28,26 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.Label label1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Splash));
+            this.label1 = new System.Windows.Forms.Label();
             this.CopyrightNotice = new System.Windows.Forms.Label();
             this.VersionNumber = new System.Windows.Forms.Label();
-            label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
-            resources.ApplyResources(label1, "label1");
-            label1.BackColor = System.Drawing.Color.Transparent;
-            label1.CausesValidation = false;
-            label1.Name = "label1";
-            label1.UseMnemonic = false;
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Name = "label1";
+            this.label1.UseMnemonic = false;
             // 
             // CopyrightNotice
             // 
             resources.ApplyResources(this.CopyrightNotice, "CopyrightNotice");
             this.CopyrightNotice.BackColor = System.Drawing.Color.Transparent;
-            this.CopyrightNotice.CausesValidation = false;
             this.CopyrightNotice.Name = "CopyrightNotice";
             this.CopyrightNotice.UseMnemonic = false;
             // 
@@ -66,7 +63,7 @@
             this.ControlBox = false;
             this.Controls.Add(this.VersionNumber);
             this.Controls.Add(this.CopyrightNotice);
-            this.Controls.Add(label1);
+            this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -82,5 +79,6 @@
 
         private System.Windows.Forms.Label VersionNumber;
         private System.Windows.Forms.Label CopyrightNotice;
+        private System.Windows.Forms.Label label1;
     }
 }

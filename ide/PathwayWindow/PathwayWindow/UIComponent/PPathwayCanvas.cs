@@ -62,7 +62,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <summary>
         /// ResourceManager
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResources));
 
         /// <summary>
         /// Constructor

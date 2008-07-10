@@ -492,13 +492,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             public ComponentItem(ComponentSetting cs)
             {
                 // Create UI Object
-                this.m_figureBox = new PropertyComboboxItem(MessageResPathway.DialogTextFigure, cs.Figure.Type, new List<string>());
-                this.m_textBrush = new PropertyBrushItem(MessageResPathway.DialogTextTextBrush, cs.TextBrush);
-                this.m_lineBrush = new PropertyBrushItem(MessageResPathway.DialogTextLineBrush, cs.LineBrush);
-                this.m_fillBrush = new PropertyBrushItem(MessageResPathway.DialogTextFillBrush, cs.FillBrush);
-                this.m_centerBrush = new PropertyBrushItem(MessageResPathway.DialogTextCenterBrush, cs.CenterBrush);
-                this.m_isGradation = new PropertyCheckBoxItem(MessageResPathway.DialogTextIsGradation, cs.IsGradation);
-                this.m_iconFile = new PropertyFileItem(MessageResPathway.DialogTextIconFile, cs.IconFileName);
+                this.m_figureBox = new PropertyComboboxItem(MessageResources.DialogTextFigure, cs.Figure.Type, new List<string>());
+                this.m_textBrush = new PropertyBrushItem(MessageResources.DialogTextTextBrush, cs.TextBrush);
+                this.m_lineBrush = new PropertyBrushItem(MessageResources.DialogTextLineBrush, cs.LineBrush);
+                this.m_fillBrush = new PropertyBrushItem(MessageResources.DialogTextFillBrush, cs.FillBrush);
+                this.m_centerBrush = new PropertyBrushItem(MessageResources.DialogTextCenterBrush, cs.CenterBrush);
+                this.m_isGradation = new PropertyCheckBoxItem(MessageResources.DialogTextIsGradation, cs.IsGradation);
+                this.m_iconFile = new PropertyFileItem(MessageResources.DialogTextIconFile, cs.IconFileName);
                 this.pCanvas = new PToolBoxCanvas();
                 this.SuspendLayout();
                 // Set Gradation

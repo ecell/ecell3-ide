@@ -87,6 +87,7 @@
       <HintPath>$(IRONPYTHONHOME)\IronPython.dll</HintPath>
     </Reference>
     <Reference Include="EcellLib" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="nunit.framework, Version=2.4.6.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -126,10 +127,10 @@
     <Compile Include="InitialPreferencesDialog.designer.cs">
       <DependentUpon>InitialPreferencesDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="MessageResMain.Designer.cs">
+    <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MessageResMain.resx</DependentUpon>
+      <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="PluginListDialog.cs">
       <SubType>Form</SubType>
@@ -202,14 +203,14 @@
       <SubType>Designer</SubType>
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="MessageResMain.ja.resx">
+    <None Include="MessageResources.ja.resx">
       <SubType>Designer</SubType>
       <LastGenOutput>MessageResMain.ja.Designer.cs</LastGenOutput>
     </None>
-    <EmbeddedResource Include="MessageResMain.resx">
+    <EmbeddedResource Include="MessageResources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MessageResMain.Designer.cs</LastGenOutput>
+      <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="NewProjectDialog.ja.resx">
       <SubType>Designer</SubType>

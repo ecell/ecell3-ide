@@ -107,7 +107,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             }
             else if (string.IsNullOrEmpty(system))
             {
-                Util.ShowErrorDialog(MessageResPathway.ErrOutRoot);
+                Util.ShowErrorDialog(MessageResources.ErrOutRoot);
                 return;
             }
 

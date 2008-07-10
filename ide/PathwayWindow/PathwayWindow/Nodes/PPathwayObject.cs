@@ -270,7 +270,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// ResourceManager for PathwayWindow.
         /// </summary>
-        protected ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+        protected ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResources));
 
         #endregion
 

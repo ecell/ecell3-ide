@@ -70,7 +70,7 @@ namespace Ecell.IDE.MainWindow
         {
             m_window = window;
             InitializeComponent();
-            this.Text = MessageResMain.StartUpWindow;
+            this.Text = MessageResources.StartUpWindow;
             this.TabText = this.Text;
             Uri startPage = FindStartPage();
             STARTUP = startPage;
@@ -445,7 +445,7 @@ namespace Ecell.IDE.MainWindow
             if (e.MaximumProgress == 0.0) return;
             this.m_window.Environment.PluginManager.SetStatusBarMessage(
                 Ecell.Plugin.StatusBarMessageKind.Generic,
-                MessageResMain.MessageWebBrowse
+                MessageResources.MessageWebBrowse
             );
             int progress = (int)(100 * ((double)e.CurrentProgress / (double)e.MaximumProgress));
             this.m_window.Environment.PluginManager.SetProgressBarValue(progress);

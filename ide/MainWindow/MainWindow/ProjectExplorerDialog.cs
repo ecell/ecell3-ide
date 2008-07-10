@@ -53,7 +53,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// ResourceManager for MainWindow.
         /// </summary>
-        private static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResMain));
+        private static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResources));
 
         /// <summary>
         /// Selected Node.

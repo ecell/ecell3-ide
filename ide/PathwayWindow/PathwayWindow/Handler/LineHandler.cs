@@ -101,7 +101,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// ResourceManager for PathwayWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
 
         #region Accessor

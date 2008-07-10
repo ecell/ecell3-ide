@@ -87,7 +87,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1, 0);
             this.Name = "Stencils";
-            this.Text = MessageResPathway.WindowStencil;
+            this.Text = MessageResources.WindowStencil;
             this.TabText = this.Text;
 
             this.flowLayoutPanel1.ResumeLayout(false);

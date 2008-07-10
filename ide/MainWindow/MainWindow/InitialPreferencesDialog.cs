@@ -68,7 +68,7 @@ namespace Ecell.IDE.MainWindow
         private void LoadSetting(bool isInitial)
         {
             if (isInitial)
-                this.Text = MessageResMain.TitleInitialSet;
+                this.Text = MessageResources.TitleInitialSet;
             string dirStr = Util.GetWindowSettingDir();
             if (dirStr == null)
             {
@@ -189,7 +189,7 @@ namespace Ecell.IDE.MainWindow
             {
                 Util.SetLanguage(tmpLang);
                 if (tmpLang == "AUTO")
-                    Util.ShowNoticeDialog(MessageResMain.ConfirmRestart);
+                    Util.ShowNoticeDialog(MessageResources.ConfirmRestart);
                 else if (tmpLang == "EN_US")
                     Util.ShowNoticeDialog("The language setting will take effect after you restart this application.");
                 else

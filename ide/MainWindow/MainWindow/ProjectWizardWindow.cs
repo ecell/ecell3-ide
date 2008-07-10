@@ -93,7 +93,7 @@ namespace Ecell.IDE.MainWindow
         public ProjectWizardWindow()
         {
             InitializeComponent();
-            textBox1.Text = MessageResMain.ProjectWizardSelectTemplete;
+            textBox1.Text = MessageResources.ProjectWizardSelectTemplete;
             LoadProjectTemplete();
 
             MainLayoutPanel.Controls.Remove(DMLayoutPanel);
@@ -168,8 +168,8 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private void SetNextPage()
         {
-            textBox1.Text = MessageResMain.ProjectWizardSelectDM;
-            OKButton.Text = MessageResMain.ProjectWizardCreate;
+            textBox1.Text = MessageResources.ProjectWizardSelectDM;
+            OKButton.Text = MessageResources.ProjectWizardCreate;
             OKButton.DialogResult = DialogResult.OK;
             DMRemoveButton.Visible = true;
             DMAddButon.Visible = true;
@@ -185,8 +185,8 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         private void BackButton_Click(object sender, EventArgs e)
         {
-            textBox1.Text = MessageResMain.ProjectWizardSelectTemplete;
-            OKButton.Text = MessageResMain.ProjectWizardGoForward;
+            textBox1.Text = MessageResources.ProjectWizardSelectTemplete;
+            OKButton.Text = MessageResources.ProjectWizardGoForward;
             OKButton.DialogResult = DialogResult.None;
             DMAddButon.Visible = false;
             DMRemoveButton.Visible = false;
@@ -202,7 +202,7 @@ namespace Ecell.IDE.MainWindow
         private void DMAdd_Click(object sender, EventArgs e)
         {
             SelectDirectory win = new SelectDirectory();
-            String mes = MessageResMain.ExpModelMes;
+            String mes = MessageResources.ExpModelMes;
             win.Description = mes;
             if (win.ShowDialog() != DialogResult.OK)
                 return;

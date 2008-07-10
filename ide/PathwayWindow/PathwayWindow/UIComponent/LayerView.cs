@@ -154,7 +154,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             // Preparing context menus.
             m_dgv.ContextMenuStrip = CreatePopUpMenus();
             m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(m_dgv_EditingControlShowing);
-            this.Text = MessageResPathway.WindowLayer;
+            this.Text = MessageResources.WindowLayer;
             this.TabText = this.Text;
         }
 
@@ -252,19 +252,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             ContextMenuStrip nodeMenu = new ContextMenuStrip();
 
             ToolStripItem menuSelectNodes = new ToolStripMenuItem(MenuSelectNode);
-            menuSelectNodes.Text = MessageResPathway.LayerMenuSelectNodes;
+            menuSelectNodes.Text = MessageResources.LayerMenuSelectNodes;
             menuSelectNodes.Click += new EventHandler(SelectNodesClick);
             nodeMenu.Items.Add(menuSelectNodes);
             m_cMenuDict.Add(MenuSelectNode, menuSelectNodes);
 
             ToolStripItem menuMoveFront = new ToolStripMenuItem(MenuMoveFront);
-            menuMoveFront.Text = MessageResPathway.LayerMenuMoveFront;
+            menuMoveFront.Text = MessageResources.LayerMenuMoveFront;
             menuMoveFront.Click += new EventHandler(MoveFrontClick);
             nodeMenu.Items.Add(menuMoveFront);
             m_cMenuDict.Add(MenuMoveFront, menuMoveFront);
 
             ToolStripItem menuMoveBack = new ToolStripMenuItem(MenuMoveBack);
-            menuMoveBack.Text = MessageResPathway.LayerMenuMoveBack;
+            menuMoveBack.Text = MessageResources.LayerMenuMoveBack;
             menuMoveBack.Click += new EventHandler(MoveBackClick);
             nodeMenu.Items.Add(menuMoveBack);
             m_cMenuDict.Add(MenuMoveBack, menuMoveBack);
@@ -274,25 +274,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             nodeMenu.Items.Add(separator);
 
             ToolStripItem menuCreateLayer = new ToolStripMenuItem(MenuCreate);
-            menuCreateLayer.Text = MessageResPathway.LayerMenuCreate;
+            menuCreateLayer.Text = MessageResources.LayerMenuCreate;
             menuCreateLayer.Click += new EventHandler(CreateLayerClick);
             nodeMenu.Items.Add(menuCreateLayer);
             m_cMenuDict.Add(MenuCreate, menuCreateLayer);
 
             ToolStripItem menuRenameLayer = new ToolStripMenuItem(MenuRename);
-            menuRenameLayer.Text = MessageResPathway.LayerMenuRename;
+            menuRenameLayer.Text = MessageResources.LayerMenuRename;
             menuRenameLayer.Click += new EventHandler(RenameLayerClick);
             nodeMenu.Items.Add(menuRenameLayer);
             m_cMenuDict.Add(MenuRename, menuRenameLayer);
 
             ToolStripItem menuMergeLayer = new ToolStripMenuItem(MenuMerge);
-            menuMergeLayer.Text = MessageResPathway.LayerMenuMerge;
+            menuMergeLayer.Text = MessageResources.LayerMenuMerge;
             menuMergeLayer.Click += new EventHandler(MergeLayerClick);
             nodeMenu.Items.Add(menuMergeLayer);
             m_cMenuDict.Add(MenuMerge, menuMergeLayer);
 
             ToolStripItem menuDeleteLayer = new ToolStripMenuItem(MenuDelete);
-            menuDeleteLayer.Text = MessageResPathway.LayerMenuDelete;
+            menuDeleteLayer.Text = MessageResources.LayerMenuDelete;
             menuDeleteLayer.Click += new EventHandler(DeleteLayerClick);
             nodeMenu.Items.Add(menuDeleteLayer);
             m_cMenuDict.Add(MenuDelete, menuDeleteLayer);
@@ -444,12 +444,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             CanvasControl canvas = m_con.Canvas;
             string oldName = m_selectedLayer;
-            string newName = InputBoxDialog.Show(MessageResPathway.LayerDialogMessage, MessageResPathway.LayerDialogTitle, oldName);
+            string newName = InputBoxDialog.Show(MessageResources.LayerDialogMessage, MessageResources.LayerDialogTitle, oldName);
             if (newName == null || newName.Equals(""))
                 return;
             if (canvas.Layers.ContainsKey(newName))
             {
-                Util.ShowNoticeDialog(newName + MessageResPathway.ErrAlrExist);
+                Util.ShowNoticeDialog(newName + MessageResources.ErrAlrExist);
                 return;
             }
 
@@ -465,7 +465,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             CanvasControl canvas = m_con.Canvas;
             List<string> list = canvas.GetLayerNameList();
-            string newName = SelectBoxDialog.Show(MessageResPathway.LayerDialogMessage, MessageResPathway.LayerDialogTitle, list);
+            string newName = SelectBoxDialog.Show(MessageResources.LayerDialogMessage, MessageResources.LayerDialogTitle, list);
             if (newName == null || newName.Equals(""))
                 return;
             Debug.Assert(!canvas.Layers.ContainsKey(newName));

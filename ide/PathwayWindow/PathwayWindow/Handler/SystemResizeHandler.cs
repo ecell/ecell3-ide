@@ -207,7 +207,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 // If duplicated object exists.
                 ResetSystemResize();
                 Util.ShowErrorDialog(string.Format(
-                        MessageResPathway.ErrAlrExist,
+                        MessageResources.ErrAlrExist,
                         new object[] { obj.EcellObject.Name }));
                 return;
             }
@@ -226,7 +226,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 // If duplicated object exists.
                 ResetSystemResize();
                 Util.ShowErrorDialog(string.Format(
-                        MessageResPathway.ErrAlrExist,
+                        MessageResources.ErrAlrExist,
                         new object[] { obj.EcellObject.Name }));
                 return;
             }

@@ -305,7 +305,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             catch (Exception ex)
             {
-                Util.ShowErrorDialog(MessageResPathway.ErrCompInvalid + Environment.NewLine + filepath + Environment.NewLine + ex.Message);
+                Util.ShowErrorDialog(MessageResources.ErrCompInvalid + Environment.NewLine + filepath + Environment.NewLine + ex.Message);
 
             }
             finally
@@ -630,7 +630,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             catch (Exception e)
             {
-                throw new PathwayException(MessageResPathway.ErrCreateComponent, e);
+                throw new PathwayException(MessageResources.ErrCreateComponent, e);
             }
 
             return cs;
@@ -737,7 +737,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 else
                 {
                     string name = (cs.Name == null) ? cs.Name : "ComponentSetting No." + csCount.ToString();
-                    warnMessage += MessageResPathway.ErrCompInvalid + "\n";
+                    warnMessage += MessageResources.ErrCompInvalid + "\n";
                     foreach (string lackInfo in lackInfos)
                         warnMessage += "    " + name + " lacks " + lackInfo + "\n";
                 }

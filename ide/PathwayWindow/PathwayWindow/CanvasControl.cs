@@ -647,7 +647,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 PPathwaySystem system = (PPathwaySystem)obj;
                 if (m_systems.ContainsKey(system.EcellObject.Key))
                     throw new PathwayException(string.Format(
-                        MessageResPathway.ErrAlrExist,
+                        MessageResources.ErrAlrExist,
                         new object[] { system.EcellObject.Key }));
                 m_systems.Add(system.EcellObject.Key, system);
             }
@@ -656,7 +656,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 PPathwayVariable node = (PPathwayVariable)obj;
                 if (m_variables.ContainsKey(node.EcellObject.Key))
                     throw new PathwayException(string.Format(
-                        MessageResPathway.ErrAlrExist,
+                        MessageResources.ErrAlrExist,
                         new object[] { node.EcellObject.Key }));
                 m_variables.Add(node.EcellObject.Key, node);
             }
@@ -665,7 +665,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 PPathwayProcess node = (PPathwayProcess)obj;
                 if (m_processes.ContainsKey(node.EcellObject.Key))
                     throw new PathwayException(string.Format(
-                        MessageResPathway.ErrAlrExist,
+                        MessageResources.ErrAlrExist,
                         new object[] { node.EcellObject.Key }));
                 m_processes.Add(node.EcellObject.Key, node);
             }
@@ -674,7 +674,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 PPathwayText node = (PPathwayText)obj;
                 if (m_processes.ContainsKey(node.EcellObject.Key))
                     throw new PathwayException(string.Format(
-                        MessageResPathway.ErrAlrExist,
+                        MessageResources.ErrAlrExist,
                         new object[] { node.EcellObject.Key }));
                 m_texts.Add(node.EcellObject.Key, node);
             }
@@ -694,7 +694,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
             if (m_layers.ContainsKey(name))
             {
-                Util.ShowNoticeDialog(name + MessageResPathway.ErrAlrExist);
+                Util.ShowNoticeDialog(name + MessageResources.ErrAlrExist);
                 return;
             }
             PPathwayLayer layer = new PPathwayLayer(name);

@@ -268,7 +268,7 @@ namespace Ecell.IDE.MainWindow
             catch (Exception e)
             {
                 Trace.WriteLine(e);
-                String errmes = MessageResMain.ErrLoadPlugin;
+                String errmes = MessageResources.ErrLoadPlugin;
                 m_env.MessageManager.Append(
                     new ApplicationMessageEntry(
                         MessageType.Error,
@@ -500,7 +500,7 @@ namespace Ecell.IDE.MainWindow
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResMain.ErrSaveWindowSettings);
+                Util.ShowErrorDialog(MessageResources.ErrSaveWindowSettings);
             }
         }
 
@@ -521,7 +521,7 @@ namespace Ecell.IDE.MainWindow
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResMain.ErrLoadWindowSettings);
+                Util.ShowErrorDialog(MessageResources.ErrLoadWindowSettings);
 
                 return false;
             }
@@ -616,13 +616,13 @@ namespace Ecell.IDE.MainWindow
         {
             if (String.IsNullOrEmpty(l_prjID))
             {
-                Util.ShowWarningDialog(String.Format(MessageResMain.ErrNoSet,
+                Util.ShowWarningDialog(String.Format(MessageResources.ErrNoSet,
                     new object[] { "Project ID" }));
                 return false;
             }
             if (Util.IsNGforIDonWindows(l_prjID) || l_prjID.Length > 64)
             {
-                Util.ShowWarningDialog(String.Format(MessageResMain.ErrIDNG,
+                Util.ShowWarningDialog(String.Format(MessageResources.ErrIDNG,
                     new object[] { "Project ID" }));
                 return false;
             }
@@ -637,13 +637,13 @@ namespace Ecell.IDE.MainWindow
         {
             if (String.IsNullOrEmpty(l_modelID))
             {
-                Util.ShowWarningDialog(String.Format(MessageResMain.ErrNoSet,
+                Util.ShowWarningDialog(String.Format(MessageResources.ErrNoSet,
                     new object[] { "Model ID" }));
                 return false;
             }
             if (l_modelID.Length > 64 || Util.IsNGforIDonWindows(l_modelID))
             {
-                Util.ShowWarningDialog(String.Format(MessageResMain.ErrIDNG,
+                Util.ShowWarningDialog(String.Format(MessageResources.ErrIDNG,
                     new object[] { "Model ID" }));
                 return false;
             }
@@ -1147,7 +1147,7 @@ namespace Ecell.IDE.MainWindow
             {
                 try
                 {
-                    if (Util.ShowYesNoCancelDialog(MessageResMain.SaveConfirm))
+                    if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
                     {
                         m_isClose = true;
                         SaveProjectMenuClick(sender, e);
@@ -1226,7 +1226,7 @@ namespace Ecell.IDE.MainWindow
             // Check the modification and confirm save.
             if (m_editCount > 0)
             {
-                if (Util.ShowYesNoDialog(MessageResMain.SaveConfirm))
+                if (Util.ShowYesNoDialog(MessageResources.SaveConfirm))
                 {
                     m_isClose = true;
                     SaveProjectMenuClick(sender, e);
@@ -1417,7 +1417,7 @@ namespace Ecell.IDE.MainWindow
                 CheckedListBox box = m_savePrjDialog.savedItemListBox;
                 if (box.CheckedItems.Count <= 0)
                 {
-                    Util.ShowWarningDialog(MessageResMain.ErrNoSelect);
+                    Util.ShowWarningDialog(MessageResources.ErrNoSelect);
                     return;
                 }
                 foreach (string s in box.CheckedItems)
@@ -1460,7 +1460,7 @@ namespace Ecell.IDE.MainWindow
             {
                 try
                 {
-                    if (Util.ShowYesNoCancelDialog(MessageResMain.SaveConfirm))
+                    if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
                     {
                         m_isClose = true;
                         SaveProjectMenuClick(sender, e);
@@ -1493,7 +1493,7 @@ namespace Ecell.IDE.MainWindow
         {
             if (m_editCount > 0)
             {
-                if (Util.ShowYesNoDialog(MessageResMain.SaveConfirm))
+                if (Util.ShowYesNoDialog(MessageResources.SaveConfirm))
                 {
                     m_isClose = true;
                     SaveProjectMenuClick(sender, e);
@@ -1572,7 +1572,7 @@ namespace Ecell.IDE.MainWindow
         private void ExportModelMenuClick(object sender, EventArgs e)
         {
             m_savePrjDialog = new SaveProjectDialog();
-            m_savePrjDialog.Text = MessageResMain.ExportModelDialog;
+            m_savePrjDialog.Text = MessageResources.ExportModelDialog;
             m_savePrjDialog.saveButton.Click += new EventHandler(ExportModel);
             m_savePrjDialog.cancelButton.Click += new EventHandler(ExportModelCancel);
 
@@ -1611,7 +1611,7 @@ namespace Ecell.IDE.MainWindow
 
             if (list.Count <= 0)
             {
-                Util.ShowWarningDialog(MessageResMain.ErrNoSelect);
+                Util.ShowWarningDialog(MessageResources.ErrNoSelect);
                 return;
             }
             else
@@ -1699,7 +1699,7 @@ namespace Ecell.IDE.MainWindow
                 {
                     try
                     {
-                        if (Util.ShowYesNoCancelDialog(MessageResMain.SaveConfirm))
+                        if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
                         {
                             m_env.DataManager.SimulationStop();
                             Thread.Sleep(1000);
@@ -1740,7 +1740,7 @@ namespace Ecell.IDE.MainWindow
             m_currentDir = Util.GetBaseDir();
 
             SelectDirectory dialog = new SelectDirectory();
-            String mes = MessageResMain.ExpModelMes;
+            String mes = MessageResources.ExpModelMes;
             dialog.Description = mes;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
@@ -1790,7 +1790,7 @@ namespace Ecell.IDE.MainWindow
                 //}
                 //catch (Exception)
                 //{
-                //    Util.ShowErrorDialog(String.Format(MessageResMain.ErrLoadFile,
+                //    Util.ShowErrorDialog(String.Format(MessageResources.ErrLoadFile,
                 //        new object[] { scriptFile }));
                 //}
 
@@ -1830,7 +1830,7 @@ namespace Ecell.IDE.MainWindow
                     }
                     else
                     {
-                        Util.ShowWarningDialog(MessageResMain.FileNotFound);
+                        Util.ShowWarningDialog(MessageResources.FileNotFound);
                     }
                 }
             }

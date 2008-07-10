@@ -139,15 +139,15 @@ namespace Ecell.IDE.MainWindow
             int conc = Convert.ToInt32(DEConcTextBox.Text);
             if (conc <= 0)
             {
-                Util.ShowErrorDialog(String.Format(MessageResMain.ErrLarger,
-                    new object[] { MessageResMain.NameConc, 0 }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
+                    new object[] { MessageResources.NameConc, 0 }));
                 return;
             }
             if (DEWorkDirTextBox.Text == null ||
                 DEWorkDirTextBox.Text == "")
             {
-                Util.ShowErrorDialog(String.Format(MessageResMain.ErrNoSet,
-                    MessageResMain.NameWorkDir));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet,
+                    MessageResources.NameWorkDir));
                 return;
             }
             string envName = DEEnvComboBox.Text;

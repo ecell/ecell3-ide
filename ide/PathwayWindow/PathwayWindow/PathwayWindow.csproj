@@ -131,10 +131,10 @@
     <Compile Include="Nodes\PPathwayAlias.cs" />
     <Compile Include="Nodes\PPathwayText.cs" />
     <Compile Include="PathwayConstants.cs" />
-    <Compile Include="MessageResPathway.Designer.cs">
+    <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MessageResPathway.resx</DependentUpon>
+      <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Nodes\NamespaceDoc.cs" />
     <Compile Include="Nodes\PPathwayLayer.cs" />
@@ -224,13 +224,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MessageResPathway.ja.resx">
+    <EmbeddedResource Include="MessageResources.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResPathway.resx">
+    <EmbeddedResource Include="MessageResources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MessageResPathway.Designer.cs</LastGenOutput>
+      <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="PathwayResource.resx">
       <SubType>Designer</SubType>

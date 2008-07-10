@@ -488,7 +488,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             catch (Exception ex)
             {
-                Util.ShowErrorDialog(MessageResPathway.ErrCompInvalid + Environment.NewLine + filename + Environment.NewLine + ex.Message);
+                Util.ShowErrorDialog(MessageResources.ErrCompInvalid + Environment.NewLine + filename + Environment.NewLine + ex.Message);
 
             }
             finally
@@ -838,9 +838,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 m_control = control;
 
                 // set Brushes
-                this.m_bgBrushItem = new PropertyBrushItem(MessageResPathway.DialogTextBackgroundBrush, control.EditBGBrush);
-                this.m_edgeWidth = new PropertyTextItem(MessageResPathway.DialogTextEdgeWidth, control.EdgeWidth.ToString());
-                this.m_edgeBrushItem = new PropertyBrushItem(MessageResPathway.DialogTextEdgeBrush, control.EditEdgeBrush);
+                this.m_bgBrushItem = new PropertyBrushItem(MessageResources.DialogTextBackgroundBrush, control.EditBGBrush);
+                this.m_edgeWidth = new PropertyTextItem(MessageResources.DialogTextEdgeWidth, control.EdgeWidth.ToString());
+                this.m_edgeBrushItem = new PropertyBrushItem(MessageResources.DialogTextEdgeBrush, control.EditEdgeBrush);
                 this.SuspendLayout();
                 // 
                 // Initialize
@@ -850,7 +850,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 this.Controls.Add(this.m_bgBrushItem);
                 this.Controls.Add(this.m_edgeBrushItem);
                 this.Controls.Add(this.m_edgeWidth);
-                this.Text = MessageResPathway.DialogTextEditMode;
+                this.Text = MessageResources.DialogTextEditMode;
                 this.TabStop = false;
 
                 // Set Position
@@ -887,9 +887,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 m_control = control;
                 // set Brushes
-                m_bgBrush = new PropertyBrushItem(MessageResPathway.DialogTextBackgroundBrush, control.ViewBGBrush);
-                m_edgeBrush = new PropertyBrushItem(MessageResPathway.DialogTextEdgeBrush, control.ViewEdgeBrush);
-                m_edgeWidth = new PropertyTextItem(MessageResPathway.DialogTextMaxEdgeWidth, control.MaxEdgeWidth.ToString());
+                m_bgBrush = new PropertyBrushItem(MessageResources.DialogTextBackgroundBrush, control.ViewBGBrush);
+                m_edgeBrush = new PropertyBrushItem(MessageResources.DialogTextEdgeBrush, control.ViewEdgeBrush);
+                m_edgeWidth = new PropertyTextItem(MessageResources.DialogTextMaxEdgeWidth, control.MaxEdgeWidth.ToString());
 
                 this.SuspendLayout();
                 // 
@@ -900,7 +900,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 this.Controls.Add(m_bgBrush);
                 this.Controls.Add(m_edgeBrush);
                 this.Controls.Add(m_edgeWidth);
-                this.Text = MessageResPathway.DialogTextViewMode;
+                this.Text = MessageResources.DialogTextViewMode;
                 this.TabStop = false;
 
                 // SetPosition 
@@ -941,13 +941,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 m_control = control;
                 // set Brushes
-                m_thresholdHigh = new PropertyTextItem(MessageResPathway.DialogTextThresholdHigh, control.ThresholdHigh.ToString());
-                m_edgeHighBrush = new PropertyBrushItem("　　　" + MessageResPathway.DialogTextEdgeBrush, control.HighEdgeBrush);
-                m_thresholdLow = new PropertyTextItem(MessageResPathway.DialogTextThresholdLow, control.ThresholdLow.ToString());
-                m_edgeLowBrush = new PropertyBrushItem("　　　" + MessageResPathway.DialogTextEdgeBrush, control.LowEdgeBrush);
-                m_edgeNGBrush = new PropertyBrushItem(MessageResPathway.DialogTextNGBrush, control.NgEdgeBrush);
-                m_propBrush = new PropertyBrushItem(MessageResPathway.DialogTextPropertyBrush, control.PropertyBrush);
-                m_lineCheckBox = new PropertyCheckBoxItem(MessageResPathway.DialogTextLogarithmic, control.IsLogarithmic);
+                m_thresholdHigh = new PropertyTextItem(MessageResources.DialogTextThresholdHigh, control.ThresholdHigh.ToString());
+                m_edgeHighBrush = new PropertyBrushItem("　　　" + MessageResources.DialogTextEdgeBrush, control.HighEdgeBrush);
+                m_thresholdLow = new PropertyTextItem(MessageResources.DialogTextThresholdLow, control.ThresholdLow.ToString());
+                m_edgeLowBrush = new PropertyBrushItem("　　　" + MessageResources.DialogTextEdgeBrush, control.LowEdgeBrush);
+                m_edgeNGBrush = new PropertyBrushItem(MessageResources.DialogTextNGBrush, control.NgEdgeBrush);
+                m_propBrush = new PropertyBrushItem(MessageResources.DialogTextPropertyBrush, control.PropertyBrush);
+                m_lineCheckBox = new PropertyCheckBoxItem(MessageResources.DialogTextLogarithmic, control.IsLogarithmic);
 
                 this.SuspendLayout();
                 // 
@@ -962,7 +962,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 this.Controls.Add(m_edgeNGBrush);
                 this.Controls.Add(m_propBrush);
                 this.Controls.Add(m_lineCheckBox);
-                this.Text = MessageResPathway.DialogTextAnimationSetting;
+                this.Text = MessageResources.DialogTextAnimationSetting;
                 this.TabStop = false;
 
                 // SetPosition 

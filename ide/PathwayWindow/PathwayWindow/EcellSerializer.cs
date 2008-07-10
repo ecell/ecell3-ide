@@ -60,7 +60,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         /// <summary>
         /// ResourceManager for PathwayWindow.
         /// </summary>
-        private static ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResPathway));
+        private static ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResources));
 
         /// <summary>
         /// Save EcellObjects in LEML format.
@@ -132,7 +132,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResPathway.ErrLoadWindowSettings + Environment.NewLine + filename + Environment.NewLine + ex.Message);
+                Util.ShowErrorDialog(MessageResources.ErrLoadWindowSettings + Environment.NewLine + filename + Environment.NewLine + ex.Message);
             }
             finally
             {
@@ -178,7 +178,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResPathway.ErrLoadWindowSettings + Environment.NewLine + filename + Environment.NewLine + ex.Message);
+                Util.ShowErrorDialog(MessageResources.ErrLoadWindowSettings + Environment.NewLine + filename + Environment.NewLine + ex.Message);
             }
         }
 
@@ -234,7 +234,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
             if (ecellObjects == null || ecellObjects.ChildNodes.Count <= 0)
                 return;
 
-            string mes = MessageResPathway.MessageLoadModel;
+            string mes = MessageResources.MessageLoadModel;
             canvas.Control.Progress(mes, 100, 50);
             int allcount = ecellObjects.ChildNodes.Count;
             int count = 0;

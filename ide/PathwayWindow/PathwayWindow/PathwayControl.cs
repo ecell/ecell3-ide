@@ -315,7 +315,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Load Model.
             try
             {
-                string mes = MessageResPathway.MessageLoadModel;
+                string mes = MessageResources.MessageLoadModel;
                 // Check New Model.
                 string modelId = CheckNewModel(data);
                 bool isFirst = (modelId != null);
@@ -354,7 +354,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             catch (Exception e)
             {
                 Debug.WriteLine(e.StackTrace);
-                throw new PathwayException(MessageResPathway.ErrUnknowType, e);
+                throw new PathwayException(MessageResources.ErrUnknowType, e);
             }
         }
         /// <summary>
@@ -1316,7 +1316,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 // Check system overlap
                 if (canvas.DoesSystemOverlaps(system.Rect))
                 {
-                    Util.ShowNoticeDialog(MessageResPathway.ErrSystemOverlap);
+                    Util.ShowNoticeDialog(MessageResources.ErrSystemOverlap);
                     break;
                 }
 
@@ -1409,7 +1409,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowNoticeDialog(MessageResPathway.ErrLayout);
+                Util.ShowNoticeDialog(MessageResources.ErrLayout);
                 return;
             }
 
@@ -1424,7 +1424,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             int i = 0;
             int allcount = nodeList.Count;
             int count = 0;
-            string mes = MessageResPathway.MessageLayout;
+            string mes = MessageResources.MessageLayout;
             Progress(mes, 100, 50);
             foreach (EcellObject node in nodeList)
             {
