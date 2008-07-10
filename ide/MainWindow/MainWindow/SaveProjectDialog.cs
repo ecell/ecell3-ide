@@ -85,6 +85,11 @@ namespace Ecell.IDE.MainWindow
                 }
             }
 
+            public override string ToString()
+            {
+                return LocalizedLabel;
+            }
+
             public ProjectItem(ProjectItemKind kind, string name)
             {
                 m_kind = kind;
@@ -96,7 +101,13 @@ namespace Ecell.IDE.MainWindow
 
         public IEnumerable<ProjectItem> CheckedItems
         {
-            get { return m_savedItems; }
+            get
+            {
+                List<ProjectItem> retval = new List<ProjectItem>();
+                foreach (ProjectItem i in savedItemListBox.CheckedItems)
+                    retval.Add(i);
+                return retval;
+            }
         }
 
         /// <summary>
@@ -105,8 +116,8 @@ namespace Ecell.IDE.MainWindow
         public SaveProjectDialog(IEnumerable<ProjectItem> items)
         {
             InitializeComponent();
-            savedItemListBox.DataSource = m_savedItems;
-            m_savedItems.AddRange(items);
+            foreach (ProjectItem item in items)
+                savedItemListBox.Items.Add(item, true);
             this.FormClosing += new FormClosingEventHandler(SaveProjectDialog_FormClosing);
         }
 

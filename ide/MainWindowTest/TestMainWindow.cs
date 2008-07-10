@@ -422,30 +422,6 @@ namespace Ecell.IDE.MainWindow
         /// 
         /// </summary>
         [Test()]
-        public void TestExportModelCancel()
-        {
-            object sender = null;
-            System.EventArgs e = null;
-            _unitUnderTest.ExportModelCancel(sender, e);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestExportModel()
-        {
-            object sender = null;
-            System.EventArgs e = null;
-            _unitUnderTest.ExportModel(sender, e);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestSetProcessWorkingSetSize()
         {
             System.IntPtr hwnd = IntPtr.Zero;
