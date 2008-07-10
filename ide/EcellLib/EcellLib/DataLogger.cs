@@ -99,6 +99,10 @@ namespace Ecell
         /// </summary>
         private string m_propName = null;
         /// <summary>
+        /// The flag whether this log is loaded.
+        /// </summary>
+        private bool m_isLoaded = false;
+        /// <summary>
         /// The list of the "LogValue" of the property name
         /// </summary>
         private List<LogValue> m_logValueList = null;
@@ -134,48 +138,52 @@ namespace Ecell
         }
 
         /// <summary>
-        /// get/set m_model
+        /// get m_model
         /// </summary>
         public string model
         {
             get { return this.m_modelID; }
-            // set { this.m_modelID = value; }
         }
 
         /// <summary>
-        /// get/set m_key
+        /// get m_key
         /// </summary>
         public string key
         {
             get { return this.m_key; }
-            // set { this.m_key = value; }
         }
 
         /// <summary>
-        /// get/set m_type
+        /// get m_type
         /// </summary>
         public string type
         {
             get { return this.m_type; }
-            // set { this.m_type = value; }
         }
 
         /// <summary>
-        /// get/set m_propName
+        /// get m_propName
         /// </summary>
         public string propName
         {
             get { return this.m_propName; }
-            // set { this.m_propName = value; }
         }
 
         /// <summary>
-        /// get/set m_logValueList
+        /// get m_logValueList
         /// </summary>
         public List<LogValue> logValueList
         {
             get { return this.m_logValueList; }
-            // set { this.m_logValueList = value; }
+        }
+
+        /// <summary>
+        /// get / set the flag.
+        /// </summary>
+        public bool IsLoaded
+        {
+            get { return this.m_isLoaded; }
+            set { this.m_isLoaded = value; }
         }
     }
 
@@ -538,6 +546,45 @@ namespace Ecell
                 throw new Exception(String.Format(MessageResLib.ErrCreFile,
                     new object[] { l_fileName }), l_ex);
             }
+        }
+
+        static public LogData LoadSavedLogData(string fileName)
+        {
+            string type  = "";
+            string key = "";
+            string prop = "";
+            string line = "";
+            List<LogValue> valueList = new List<LogValue>();
+            StreamReader strread = new StreamReader(fileName);
+
+            while ((line = strread.ReadLine()) != null)
+            {
+                if (line.StartsWith(Constants.delimiterSharp))
+                {
+                    if (line.StartsWith(Constants.delimiterSharp + Constants.headerData))
+                    {
+                        string[] ele = line.Split(new char[] { ':' });
+                        type = ele[1].Replace(" ", "");
+                        key = ele[2].Replace(" ", "") + Constants.delimiterColon + ele[3].Replace(" ", "");
+                        prop = line.Replace(ele[0], "").Replace(" ", "");
+                    }
+                    continue;
+                }
+
+                string[] points = line.Split(new char[] { '\t' });
+                double time = Convert.ToDouble(points[0]);
+                double value = Convert.ToDouble(points[1]);
+                double ave = Convert.ToDouble(points[2]);
+                double min = Convert.ToDouble(points[3]);
+                double max = Convert.ToDouble(points[4]);
+                valueList.Add(new LogValue(time, value, ave, min, max));
+            }
+
+            strread.Close();
+            LogData d = new LogData("", key, type, prop, valueList);
+            d.IsLoaded = true;
+
+            return d;
         }
     }
 }
