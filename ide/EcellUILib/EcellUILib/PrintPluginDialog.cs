@@ -76,7 +76,7 @@ namespace Ecell.IDE
         {
             if (this.listBox1.SelectedItem == null)
             {
-                Ecell.Util.ShowNoticeDialog(MessageResUILib.ErrNoSelectTarget);
+                Ecell.Util.ShowNoticeDialog(MessageResources.ErrNoSelectTarget);
                 return;
             }
             this.DialogResult = DialogResult.OK;

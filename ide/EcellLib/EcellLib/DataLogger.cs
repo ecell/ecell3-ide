@@ -385,7 +385,7 @@ namespace Ecell
         /// <summary>
         /// ResourceManager for PropertyEditor.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResLib));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResources));
 
         /// <summary>
         /// Creates a new "Ecd" instance with no argument.
@@ -543,7 +543,7 @@ namespace Ecell
             }
             catch (Exception l_ex)
             {
-                throw new Exception(String.Format(MessageResLib.ErrCreFile,
+                throw new Exception(String.Format(MessageResources.ErrCreFile,
                     new object[] { l_fileName }), l_ex);
             }
         }

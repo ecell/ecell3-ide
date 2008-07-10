@@ -97,13 +97,13 @@ namespace Ecell.IDE
             TreeNode t = this.selectTree.SelectedNode;
             if (t == null)
             {
-                Util.ShowWarningDialog(MessageResUILib.ErrNoSelectVar);
+                Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
                 return;
             }
             string tag = (string)t.Tag;
             if (tag == null || tag.Equals(""))
             {
-                Util.ShowWarningDialog(MessageResUILib.ErrNoSelectVar);
+                Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
 
                 return;
             }
@@ -143,13 +143,13 @@ namespace Ecell.IDE
             TreeNode t = this.selectTree.SelectedNode;
             if (t == null)
             {
-                Util.ShowWarningDialog(MessageResUILib.ErrNoSelectVar);
+                Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
                 return;
             }
             string tag = (string)t.Tag;
             if (tag == null || tag.Equals(""))
             {
-                Util.ShowWarningDialog(MessageResUILib.ErrNoSelectVar);
+                Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
                 return;
             }
 
@@ -188,13 +188,13 @@ namespace Ecell.IDE
             TreeNode t = this.selectTree.SelectedNode;
             if (t == null)
             {
-                Util.ShowWarningDialog(MessageResUILib.ErrNoSelectVar);
+                Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
                 return;
             }
             string tag = (string)t.Tag;
             if (tag == null || tag.Equals(""))
             {
-                Util.ShowWarningDialog(MessageResUILib.ErrNoSelectVar);
+                Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
 
                 return;
             }
@@ -232,13 +232,13 @@ namespace Ecell.IDE
             TreeNode t = this.selectTree.SelectedNode;
             if (t == null)
             {
-                Util.ShowWarningDialog(MessageResUILib.ErrNoSelectVar);
+                Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
                 return;
             }
             string tag = (string)t.Tag;
             if (tag == null || tag.Equals(""))
             {
-                Util.ShowWarningDialog(MessageResUILib.ErrNoSelectVar);
+                Util.ShowWarningDialog(MessageResources.ErrNoSelectVar);
                 return;
             }
 

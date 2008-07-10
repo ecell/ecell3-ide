@@ -97,14 +97,14 @@ namespace Ecell
             string stageHome = System.Environment.GetEnvironmentVariable("ECELL_STAGING_HOME");
             if (String.IsNullOrEmpty(stageHome))
             {
-                Util.ShowErrorDialog(string.Format(MessageResLib.ErrNotInstall,
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrNotInstall,
                     new object[] { "E-Cell SDK" }));
                 return;
             }
             string VS80 = System.Environment.GetEnvironmentVariable("VS80COMNTOOLS");
             if (string.IsNullOrEmpty(VS80))
             {
-                Util.ShowErrorDialog(string.Format(MessageResLib.ErrNotInstall,
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrNotInstall,
                     new object[] { "Visual Studio" }));
                 return;
             }

@@ -117,14 +117,14 @@ namespace Ecell
             string[] l_fullIDs = l_fullPN.Split(Constants.delimiterColon.ToCharArray());
             if (l_fullIDs.Length != 4)
             {
-                throw new Exception(MessageResLib.ErrInvalidID);
+                throw new Exception(MessageResources.ErrInvalidID);
             }
             List<EcellObject> l_systemObjectList
                     = m_env.DataManager.GetData(s_modelID, l_fullIDs[1]);
 
             if (l_systemObjectList == null || l_systemObjectList.Count <= 0)
             {
-                throw new Exception(String.Format(MessageResLib.ErrFindEnt,
+                throw new Exception(String.Format(MessageResources.ErrFindEnt,
                     new object[] { l_fullPN }));
             }
             //
@@ -208,7 +208,7 @@ namespace Ecell
             }
             else
             {
-                throw new Exception(String.Format(MessageResLib.ErrFindEnt,
+                throw new Exception(String.Format(MessageResources.ErrFindEnt,
                     new object[] { l_fullPN }));
             }
         }
@@ -316,13 +316,13 @@ namespace Ecell
             string[] l_fullPNDivs = l_fullPN.Split(Constants.delimiterColon.ToCharArray());
             if (l_fullPNDivs.Length != 4)
             {
-                throw new Exception(MessageResLib.ErrInvalidID);
+                throw new Exception(MessageResources.ErrInvalidID);
             }
             List<EcellObject> l_systemObjectList
                     = m_env.DataManager.GetData(s_modelID, l_fullPNDivs[1]);
             if (l_systemObjectList == null || l_systemObjectList.Count <= 0)
             {
-                throw new Exception(String.Format(MessageResLib.ErrFindEnt,
+                throw new Exception(String.Format(MessageResources.ErrFindEnt,
                     new object[] { l_fullPN }));
             }
             //
@@ -405,7 +405,7 @@ namespace Ecell
             }
             else
             {
-                throw new Exception(String.Format(MessageResLib.ErrFindEnt,
+                throw new Exception(String.Format(MessageResources.ErrFindEnt,
                     new object[] { l_fullPN }));
             }
 
@@ -430,7 +430,7 @@ namespace Ecell
             }
             catch (Exception l_ex)
             {
-                throw new Exception(String.Format(MessageResLib.ErrLoadFile,
+                throw new Exception(String.Format(MessageResources.ErrLoadFile,
                     new object[] { l_execFileName }), l_ex);
             }
         }
@@ -1300,7 +1300,7 @@ namespace Ecell
                             {
                                 if (!l_data.Settable)
                                 {
-                                    throw new Exception(String.Format(MessageResLib.ErrSetProp,
+                                    throw new Exception(String.Format(MessageResources.ErrSetProp,
                                         new object[] { l_propertyName }));
                                 }
                                 else if (l_propertyName.Equals(Constants.xpathVRL))
@@ -2023,7 +2023,7 @@ namespace Ecell
                             {
                                 if (!l_data.Settable)
                                 {
-                                    throw new Exception(String.Format(MessageResLib.ErrSetProp,
+                                    throw new Exception(String.Format(MessageResources.ErrSetProp,
                                         new object[] { l_propertyName }));
                                 }
                                 else if (l_data.Value.IsDouble())

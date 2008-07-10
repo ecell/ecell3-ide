@@ -101,7 +101,7 @@ namespace Ecell.IDE
         /// <summary>
         /// ResourceManager for PropertyEditor.
         /// </summary>
-        private static ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResUILib));
+        private static ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
 
         #region Constructor
@@ -144,7 +144,7 @@ namespace Ecell.IDE
             }
             catch (Exception)
             {
-                Util.ShowErrorDialog(String.Format(MessageResUILib.ErrSetProp,
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrSetProp,
                     new object[] { obj.Key }));
             }
             finally
@@ -958,20 +958,20 @@ namespace Ecell.IDE
         //                id = c.Text;
         //                if (c.Text == "")
         //                {
-        //                    String errmes = MessageResUILib.ErrNoInput;
+        //                    String errmes = MessageResources.ErrNoInput;
         //                    Util.ShowWarningDialog(errmes + "(ID)");
         //                    return null;
         //                }
         //                else if (Util.IsNGforID(c.Text))
         //                //                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
         //                {
-        //                    Util.ShowWarningDialog(MessageResUILib.ErrInvalidID);
+        //                    Util.ShowWarningDialog(MessageResources.ErrInvalidID);
 
         //                    return null;
         //                }
         //                else if (c.Text.ToUpper() == "SIZE")
         //                {
-        //                    Util.ShowWarningDialog(MessageResUILib.ErrReserveSize);
+        //                    Util.ShowWarningDialog(MessageResources.ErrReserveSize);
 
         //                    return null;
         //                }
@@ -979,13 +979,13 @@ namespace Ecell.IDE
         //                {
         //                    if (m_currentObj.Type == EcellObject.SYSTEM && Util.IsNGforSystemFullID(c.Text))
         //                    {
-        //                        Util.ShowWarningDialog(MessageResUILib.ErrInvalidID);
+        //                        Util.ShowWarningDialog(MessageResources.ErrInvalidID);
 
         //                        return null;
         //                    }
         //                    if (m_currentObj.Type != "System" && Util.IsNGforComponentFullID(c.Text))
         //                    {
-        //                        Util.ShowWarningDialog(MessageResUILib.ErrInvalidID);
+        //                        Util.ShowWarningDialog(MessageResources.ErrInvalidID);
 
         //                        return null;
         //                    }
@@ -1128,26 +1128,26 @@ namespace Ecell.IDE
                         key = c.Text;
                         if (c.Text == "")
                         {
-                            Util.ShowWarningDialog(String.Format(MessageResUILib.ErrNoSet,
+                            Util.ShowWarningDialog(String.Format(MessageResources.ErrNoSet,
                                 new object[] { "ID" }));
                             return;
                         }
                         else if (c.Text.ToUpper() == "SIZE")
                         {
-                            Util.ShowWarningDialog(String.Format(MessageResUILib.ErrReserved,
+                            Util.ShowWarningDialog(String.Format(MessageResources.ErrReserved,
                                 new object[] { "SIZE" }));
                             return;
                         }
                         else if (m_currentObj.Type.Equals(EcellObject.SYSTEM) &&
                             Util.IsNGforSystemFullID(c.Text))
                         {
-                            Util.ShowWarningDialog(MessageResUILib.ErrInvalidID);
+                            Util.ShowWarningDialog(MessageResources.ErrInvalidID);
                             return;
                         }
                         else if (!m_currentObj.Type.Equals(EcellObject.SYSTEM) &&
                             Util.IsNGforComponentFullID(c.Text))
                         {
-                            Util.ShowWarningDialog(MessageResUILib.ErrInvalidID);
+                            Util.ShowWarningDialog(MessageResources.ErrInvalidID);
                             return;
                         }
                         else if (m_currentObj.Type.Equals(EcellObject.PROCESS) ||
@@ -1156,7 +1156,7 @@ namespace Ecell.IDE
                             int kpos = c.Text.IndexOf(':');
                             if (kpos < 0 || kpos == c.Text.Length - 1)
                             {
-                                Util.ShowWarningDialog(MessageResUILib.ErrInvalidID);
+                                Util.ShowWarningDialog(MessageResources.ErrInvalidID);
                                 return;
                             }
                         }

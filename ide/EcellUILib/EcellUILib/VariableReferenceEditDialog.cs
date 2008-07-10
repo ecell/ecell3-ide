@@ -63,7 +63,7 @@ namespace Ecell.IDE
         /// <summary>
         /// ResourceManager for VariableRefWindow.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResUILib));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Ecell.IDE
                 string name = (string)this.dgv["ReferenceName", i].Value;
                 if (nameList.Contains(name))
                 {
-                    Util.ShowErrorDialog(String.Format(MessageResUILib.ErrExistVariableRef,
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrExistVariableRef,
                         new object[] { name }));
                     return null;
                 }
@@ -105,17 +105,17 @@ namespace Ecell.IDE
                 catch (Exception ex)
                 {
                     Trace.WriteLine(ex);
-                    Util.ShowWarningDialog(MessageResUILib.ErrNoNumber);
+                    Util.ShowWarningDialog(MessageResources.ErrNoNumber);
                     return null;
                 }
                 if (v.Name == "")
                 {
-                    Util.ShowWarningDialog(MessageResUILib.ErrInvalidID);
+                    Util.ShowWarningDialog(MessageResources.ErrInvalidID);
                     return null;
                 }
                 if (v.FullID == "" || !v.FullID.StartsWith(":"))
                 {
-                    Util.ShowWarningDialog(MessageResUILib.ErrInvalidID);
+                    Util.ShowWarningDialog(MessageResources.ErrInvalidID);
                     return null;
                 }
 
@@ -288,7 +288,7 @@ namespace Ecell.IDE
                 string name = (string)this.dgv[0, i].Value;
                 if (nameList.Contains(name))
                 {
-                    Util.ShowErrorDialog(String.Format(MessageResUILib.ErrExistVariableRef,
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrExistVariableRef,
                         new object[] { name }));
                     return;
                 }
@@ -303,17 +303,17 @@ namespace Ecell.IDE
                 catch (Exception ex)
                 {
                     Trace.WriteLine(ex);
-                    Util.ShowWarningDialog(MessageResUILib.ErrNoNumber);
+                    Util.ShowWarningDialog(MessageResources.ErrNoNumber);
                     return;
                 }
                 if (v.Name == "")
                 {
-                    Util.ShowWarningDialog(MessageResUILib.ErrInvalidID);
+                    Util.ShowWarningDialog(MessageResources.ErrInvalidID);
                     return;
                 }
                 if (v.FullID == "" || !v.FullID.StartsWith(":"))
                 {
-                    Util.ShowWarningDialog(MessageResUILib.ErrInvalidID);
+                    Util.ShowWarningDialog(MessageResources.ErrInvalidID);
                     return;
                 }
 
@@ -342,7 +342,7 @@ namespace Ecell.IDE
                 string name = (string)this.dgv[0, i].Value;
                 if (nameList.Contains(name))
                 {
-                    Util.ShowErrorDialog(String.Format(MessageResUILib.ErrExistVariableRef,
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrExistVariableRef,
                         new object[] { name }));
                     return;
                 }
@@ -357,18 +357,18 @@ namespace Ecell.IDE
                 catch (Exception ex)
                 {
                     Trace.WriteLine(ex);
-                    Util.ShowWarningDialog(MessageResUILib.ErrNoNumber);
+                    Util.ShowWarningDialog(MessageResources.ErrNoNumber);
                     return;
                 }
                 if (v.Name == "")
                 {
-                    Util.ShowWarningDialog(String.Format(MessageResUILib.ErrNoSet,
+                    Util.ShowWarningDialog(String.Format(MessageResources.ErrNoSet,
                         new object[] { "Name" }));
                     return;
                 }
                 if (v.FullID == "")
                 {
-                    Util.ShowWarningDialog(String.Format(MessageResUILib.ErrNoSet,
+                    Util.ShowWarningDialog(String.Format(MessageResources.ErrNoSet,
                         new object[] { "ID" }));
                     return;
                 }

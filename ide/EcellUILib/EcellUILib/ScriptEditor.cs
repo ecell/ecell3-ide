@@ -57,7 +57,7 @@ namespace Ecell.IDE
         /// <param name="e"></param>
         protected override void DMEditorShown(object sender, EventArgs e)
         {
-            DMEComileButton.Text = MessageResUILib.NameExecute;
+            DMEComileButton.Text = MessageResources.NameExecute;
             DMEComileButton.Enabled = false;
 
             if (m_path == null) return;

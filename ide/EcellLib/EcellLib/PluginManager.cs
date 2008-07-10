@@ -419,7 +419,7 @@ namespace Ecell
             {
                 if (m_dockOwner != null)
                 {
-                    throw new Exception(String.Format(MessageResLib.ErrAdd,
+                    throw new Exception(String.Format(MessageResources.ErrAdd,
                         new object[] { p.GetPluginName(), "Plugin" }));
                 }
                 m_dockOwner = (IDockOwner)p;
@@ -573,7 +573,7 @@ namespace Ecell
             Type aType = handle.GetType(className);
             if (aType == null)
             {
-                throw new Exception(String.Format(MessageResLib.ErrLoadFile,
+                throw new Exception(String.Format(MessageResources.ErrLoadFile,
                     new object[] { path }));
             }
             return RegisterPlugin(aType);

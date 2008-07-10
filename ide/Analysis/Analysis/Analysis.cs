@@ -140,7 +140,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_bifurcateParameter = new BifurcationAnalysisParameter();
             m_estimationParameter = new ParameterEstimationParameter();
             m_robustParameter = new RobustAnalysisParameter();
-            m_sensitivityParameter = new SensitivityAnalysisParameter();
+            m_sensitivityParameter = new SensitivityAnalysisParameter();            
         }
 
         /// <summary>

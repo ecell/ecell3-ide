@@ -689,7 +689,7 @@ namespace Ecell
             }
             if (m_isWarn == true)
             {
-                String errmes = MessageResLib.WarnLoadDM;
+                String errmes = MessageResources.WarnLoadDM;
                 Util.ShowWarningDialog(errmes + "\n");
             }
 

@@ -455,7 +455,7 @@ namespace Ecell.Objects
             }
             catch (Exception l_ex)
             {
-                throw new Exception(String.Format(MessageResLib.ErrCopy,
+                throw new Exception(String.Format(MessageResources.ErrCopy,
                     new object[] { this.Key }), l_ex);
             }
         }

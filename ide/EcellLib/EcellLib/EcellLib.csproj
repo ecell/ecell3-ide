@@ -91,10 +91,10 @@
     <Compile Include="IgnoreException.cs" />
     <Compile Include="Layout\ILayoutAlgorithm.cs" />
     <Compile Include="Layout\LayoutBase.cs" />
-    <Compile Include="MessageResLib.Designer.cs">
+    <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MessageResLib.resx</DependentUpon>
+      <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Plugin\PluginBase.cs" />
     <Compile Include="PluginManager.cs">
@@ -107,13 +107,13 @@
       <SubType>Designer</SubType>
       <DependentUpon>EcellDockContent.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResLib.ja.resx">
+    <EmbeddedResource Include="MessageResources.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResLib.resx">
+    <EmbeddedResource Include="MessageResources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MessageResLib.Designer.cs</LastGenOutput>
+      <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="NodeImageList.resx">
       <SubType>Designer</SubType>
