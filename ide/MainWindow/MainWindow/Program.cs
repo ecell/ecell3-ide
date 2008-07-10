@@ -72,13 +72,13 @@ namespace Ecell.IDE
                 Assembly currentExecutable = Assembly.GetExecutingAssembly();
                 Guid myGuid = COMUtils.GetGuidOf(currentExecutable);
                 COMUtils.RegisterProgID(
-                    "ECellIDE.AutomationServer",
+                    "Ecell.IDE.Application",
                     myGuid);
                 COMUtils.RegisterLocalServer(myGuid,
                     currentExecutable.Location,
-                    "ECellIDE.AutomationServer",
+                    "Ecell.IDE.Appliaction",
                     null);
-                Console.Write("アプリケーション [" + currentExecutable.FullName + "] をLocal Serverとしてレジストリに登録しました。");
+                Console.WriteLine("アプリケーション [{0}] をLocal Serverとしてレジストリに登録しました。", currentExecutable.FullName);
                 return;
             }
 
