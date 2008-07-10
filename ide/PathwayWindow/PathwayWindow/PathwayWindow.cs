@@ -155,7 +155,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public override IEnumerable<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
-            names.Add("Network of model.");
+            names.Add(m_con.PathwayView.Text);
             return names;
         }
 
