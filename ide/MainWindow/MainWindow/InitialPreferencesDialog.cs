@@ -36,6 +36,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace Ecell.IDE.MainWindow
 {
@@ -48,70 +49,87 @@ namespace Ecell.IDE.MainWindow
         /// The path of the initial window setting file.
         /// </summary>
         private string m_selectPath = null;
+
+        /// <summary>
+        /// The language code
+        /// </summary>
+        private CultureInfo m_lang = null;
+
         /// <summary>
         /// Dictionary of the initial window setting.
         /// </summary>
         private List<WindowSetting> m_dicPath = new List<WindowSetting>();
         private List<RadioButton> m_patternList = new List<RadioButton>();
-        
+
+        public CultureInfo Language
+        {
+            get { return m_lang; }
+        }
+
+        public string FilePath
+        {
+            get { return m_selectPath; }
+        }
+
         /// <summary>
         /// Constructor/
         /// </summary>
-        public InitialPreferencesDialog()
+        public InitialPreferencesDialog(bool isInitial)
         {
             InitializeComponent();
-        }
 
-        /// <summary>
-        /// Load the list of window setting.
-        /// </summary>
-        private void LoadSetting(bool isInitial)
-        {
+            switch (Util.GetLanguage().TwoLetterISOLanguageName)
+            {
+                case "en-US":
+                    SIEnglishRadioButton.Checked = true;
+                    break;
+                case "ja":
+                    SIJapaneseRadioButton.Checked = true;
+                    break;
+                default:
+                    SIAutoRadioButton.Checked = true;
+                    break;
+            }
+
             if (isInitial)
                 this.Text = MessageResources.TitleInitialSet;
             string dirStr = Util.GetWindowSettingDir();
-            if (dirStr == null)
+            if (dirStr != null)
             {
-                return;
-            }
-            int i = 1;
-            try
-            {
-                StreamReader reader = new StreamReader(
-                    (System.IO.Stream)File.OpenRead(
-                        Path.Combine(
-                            dirStr, Constants.fileWinSettingList)));
-                while (i <= 5)
+                int i = 1;
+                try
                 {
-                    string line = reader.ReadLine();
-                    if (line == null) break;
-                    if (line.StartsWith("#")) continue;
-                    string[] ele = line.Split(new char[] { '\t' });
+                    StreamReader reader = new StreamReader(
+                        (System.IO.Stream)File.OpenRead(
+                            Path.Combine(
+                                dirStr, Constants.fileWinSettingList)));
+                    while (i <= 5)
+                    {
+                        string line = reader.ReadLine();
+                        if (line == null) break;
+                        if (line.StartsWith("#")) continue;
+                        string[] ele = line.Split(new char[] { '\t' });
+                        m_dicPath.Add(new WindowSetting(
+                            ele[0],
+                            Path.Combine(dirStr, ele[0] + Constants.FileExtXML),
+                            Path.Combine(dirStr, ele[0] + Constants.FileExtPNG),
+                            ele[1]));
+                        i++;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine(ex);
+                }
+                if (!isInitial)
+                {
                     m_dicPath.Add(new WindowSetting(
-                        ele[0],
-                        Path.Combine(dirStr, ele[0] + Constants.FileExtXML),
-                        Path.Combine(dirStr, ele[0] + Constants.FileExtPNG),
-                        ele[1]));
-                    i++;
+                        "Current",
+                        null, null, "not change."));
                 }
             }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-            }
-            if (!isInitial)
-            {
-                m_dicPath.Add(new WindowSetting(
-                    "Current",
-                    null, null, "not change."));
-            }
-        }
 
-        /// <summary>
-        /// Layout the information of window setting.
-        /// </summary>
-        private void LayoutSetting(bool isInitial)
-        {
+
             int id = 0;
             int curId = 0;
             if (!isInitial)
@@ -143,61 +161,7 @@ namespace Ecell.IDE.MainWindow
             }
         }
 
-        string m_lang;
-        private void LoadLanguage()
-        {
-            m_lang = Util.GetLang();
-            if (m_lang == null || m_lang.ToUpper() == "AUTO")
-            {
-                SIAutoRadioButton.Checked = true;
-                m_lang = "AUTO";
-            }
-            else if (m_lang.ToUpper() == "EN_US")
-            {
-                SIEnglishRadioButton.Checked = true;
-                m_lang = "EN_US";
-            }
-            else if (m_lang.ToUpper() == "JA")
-            {
-                SIJapaneseRadioButton.Checked = true;
-                m_lang = "JA";
-            }
-            else
-            {
-                SIAutoRadioButton.Checked = true;
-                m_lang = "AUTO";
-            }
-        }
-
         /// <summary>
-        /// Display this form.
-        /// </summary>
-        /// <returns>path of the selected window setting.</returns>
-        public string ShowWindow(bool isInitial)
-        {
-            LoadLanguage();
-            LoadSetting(isInitial);
-            LayoutSetting(isInitial);
-            this.ShowDialog();
-
-            String tmpLang = "";
-            if (SIAutoRadioButton.Checked) tmpLang = "AUTO";
-            else if (SIEnglishRadioButton.Checked) tmpLang = "EN_US";
-            else tmpLang = "JA";
-
-            if (tmpLang != m_lang)
-            {
-                Util.SetLanguage(tmpLang);
-                if (tmpLang == "AUTO")
-                    Util.ShowNoticeDialog(MessageResources.ConfirmRestart);
-                else if (tmpLang == "EN_US")
-                    Util.ShowNoticeDialog("The language setting will take effect after you restart this application.");
-                else
-                    Util.ShowNoticeDialog("åæåÍê›íËÇÕéüâÒãNìÆéûÇ©ÇÁóLå¯Ç…Ç»ÇËÇ‹Ç∑ÅB");
-            }
-
-            return m_selectPath;
-        }
 
         /// <summary>
         /// Event when SelectButton is clicked.
@@ -233,6 +197,21 @@ namespace Ecell.IDE.MainWindow
                 SWSPictureBox.Image = Image.FromFile(m_dicPath[id].Image);
             else
                 SWSPictureBox.Image = null;
+        }
+
+        private void SIAutoRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            m_lang = CultureInfo.InvariantCulture;
+        }
+
+        private void SIJapaneseRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            m_lang = CultureInfo.GetCultureInfo("ja");
+        }
+
+        private void SIEnglishRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            m_lang = CultureInfo.GetCultureInfo("en-us");
         }
     }
 

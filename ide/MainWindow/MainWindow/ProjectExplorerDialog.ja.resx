@@ -168,10 +168,6 @@
         AgAB8AEAAeABAwHgAQMCAAH/AcAB8AEHAfABBwIAAf8B4AH8AR8B/AEfAgAG/wIACw==
 </value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="projectNameLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
   <data name="projectNameLabel.Text" xml:space="preserve">
     <value>プロジェクト名:</value>
   </data>

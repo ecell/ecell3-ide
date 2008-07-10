@@ -43,11 +43,32 @@ namespace Ecell.IDE.MainWindow
     public partial class NewProjectDialog : Form
     {
         /// <summary>
+        /// Get the list of dm directory.
+        /// </summary>
+        /// <returns>the list of dm directory.</returns>
+        public IEnumerable<string> DMList
+        {
+            get
+            {
+                List<string> result = new List<string>();
+                int len = CPListBox.Items.Count;
+                for (int i = 0; i < len; i++)
+                {
+                    string dir = CPListBox.Items[i] as string;
+                    if (dir == null) continue;
+                    result.Add(dir);
+                }
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Constructor.
         /// </summary>
         public NewProjectDialog()
         {
             InitializeComponent();
+            FormClosing += new FormClosingEventHandler(NewProjectDialog_FormClosing);
         }
 
         /// <summary>
@@ -78,23 +99,6 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// Get the list of dm directory.
-        /// </summary>
-        /// <returns>the list of dm directory.</returns>
-        public List<string> GetDmList()
-        {
-            List<string> result = new List<string>();
-            int len = CPListBox.Items.Count;
-            for (int i = 0; i < len; i++)
-            {
-                string dir = CPListBox.Items[i] as string;
-                if (dir == null) continue;
-                result.Add(dir);
-            }
-            return result;
-        }
-
-        /// <summary>
         /// Event when Remove Button is clicked to remove the selected dm directory.
         /// </summary>
         /// <param name="sender">Button.</param>
@@ -121,6 +125,56 @@ namespace Ecell.IDE.MainWindow
                 string dir = win.DirectoryPath;
                 CPListBox.Items.Add(dir);
             }
+        }
+
+        private void NewProjectDialog_FormClosing(object obj, FormClosingEventArgs args)
+        {
+            if (!ValidateForm())
+            {
+                args.Cancel = true;
+                return;
+            }
+        }
+
+        private bool ValidateForm()
+        {
+            return ValidateProjectName() && ValidateModelName();
+        }
+
+        private bool ValidateProjectName()
+        {
+            string projectName = textName.Text;
+            if (String.IsNullOrEmpty(projectName))
+            {
+                Util.ShowWarningDialog(String.Format(MessageResources.ErrNoSet,
+                    new object[] { "Project ID" }));
+                return false;
+            }
+            if (Util.IsNGforIDonWindows(projectName) || projectName.Length > 64)
+            {
+                Util.ShowWarningDialog(String.Format(MessageResources.ErrIDNG,
+                    new object[] { "Project ID" }));
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidateModelName()
+        {
+            string modelName = textModelName.Text;
+            if (String.IsNullOrEmpty(modelName))
+            {
+                Util.ShowWarningDialog(String.Format(MessageResources.ErrNoSet,
+                    new object[] { "Model ID" }));
+                return false;
+            }
+            if (modelName.Length > 64 || Util.IsNGforIDonWindows(modelName))
+            {
+                Util.ShowWarningDialog(String.Format(MessageResources.ErrIDNG,
+                    new object[] { "Model ID" }));
+                return false;
+            }
+            return true;
         }
     }
 }

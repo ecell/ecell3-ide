@@ -96,24 +96,17 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ProjectExplorerDialog()
+        public ProjectExplorerDialog(string dir)
         {
             InitializeComponent();
             PrjTreeView.ContextMenuStrip = CreatePopupMenus();
             openButton.Enabled = false;
+            CreateProjectTreeView(null, dir);
         }
         
         #endregion
 
         #region Accessors
-        /// <summary>
-        /// get the project file name.
-        /// </summary>
-        public string FileName
-        {
-            get { return this.m_fileName; }
-        }
-
         /// <summary>
         /// get the project.
         /// </summary>
@@ -251,8 +244,6 @@ namespace Ecell.IDE.MainWindow
         }
 
         #endregion
-
-
 
         #region Menu Event
         /// <summary>
@@ -459,13 +450,8 @@ namespace Ecell.IDE.MainWindow
             string name = newPrjDialog.textName.Text;
             string model = newPrjDialog.textComment.Text;
             string comment = newPrjDialog.textModelName.Text;
-            List<string> dmList = newPrjDialog.GetDmList();
-
-            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(model))
-                return;
 
             Project project = new Project(name, comment, DateTime.Now.ToString());
-
         }
 
         /// <summary>

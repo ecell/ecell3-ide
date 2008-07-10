@@ -177,6 +177,15 @@
   <data name="NameConc" xml:space="preserve">
     <value>並列数</value>
   </data>
+  <data name="NameModel" xml:space="preserve">
+    <value>モデル</value>
+  </data>
+  <data name="NameSimParam" xml:space="preserve">
+    <value>シミュレーション パラメータ</value>
+  </data>
+  <data name="NameSimResult" xml:space="preserve">
+    <value>シミュレーション結果</value>
+  </data>
   <data name="NameWorkDir" xml:space="preserve">
     <value>作業用ディレクトリ</value>
   </data>

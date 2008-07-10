@@ -36,8 +36,8 @@
             this.SIEnglishRadioButton = new System.Windows.Forms.RadioButton();
             this.SIJapaneseRadioButton = new System.Windows.Forms.RadioButton();
             this.SIAutoRadioButton = new System.Windows.Forms.RadioButton();
-            this.SWSSelectButton = new System.Windows.Forms.Button();
-            this.SWSCloseButton = new System.Windows.Forms.Button();
+            this.okButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -82,6 +82,7 @@
             this.SIEnglishRadioButton.Name = "SIEnglishRadioButton";
             this.SIEnglishRadioButton.TabStop = true;
             this.SIEnglishRadioButton.UseVisualStyleBackColor = true;
+            this.SIEnglishRadioButton.CheckedChanged += new System.EventHandler(this.SIEnglishRadioButton_CheckedChanged);
             // 
             // SIJapaneseRadioButton
             // 
@@ -89,6 +90,7 @@
             this.SIJapaneseRadioButton.Name = "SIJapaneseRadioButton";
             this.SIJapaneseRadioButton.TabStop = true;
             this.SIJapaneseRadioButton.UseVisualStyleBackColor = true;
+            this.SIJapaneseRadioButton.CheckedChanged += new System.EventHandler(this.SIJapaneseRadioButton_CheckedChanged);
             // 
             // SIAutoRadioButton
             // 
@@ -96,20 +98,22 @@
             this.SIAutoRadioButton.Name = "SIAutoRadioButton";
             this.SIAutoRadioButton.TabStop = true;
             this.SIAutoRadioButton.UseVisualStyleBackColor = true;
+            this.SIAutoRadioButton.CheckedChanged += new System.EventHandler(this.SIAutoRadioButton_CheckedChanged);
             // 
-            // SWSSelectButton
+            // okButton
             // 
-            resources.ApplyResources(this.SWSSelectButton, "SWSSelectButton");
-            this.SWSSelectButton.Name = "SWSSelectButton";
-            this.SWSSelectButton.UseVisualStyleBackColor = true;
-            this.SWSSelectButton.Click += new System.EventHandler(this.ClickSWSSelectButton);
+            resources.ApplyResources(this.okButton, "okButton");
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.okButton.Name = "okButton";
+            this.okButton.UseVisualStyleBackColor = true;
+            this.okButton.Click += new System.EventHandler(this.ClickSWSSelectButton);
             // 
-            // SWSCloseButton
+            // cancelButton
             // 
-            resources.ApplyResources(this.SWSCloseButton, "SWSCloseButton");
-            this.SWSCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.SWSCloseButton.Name = "SWSCloseButton";
-            this.SWSCloseButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.cancelButton, "cancelButton");
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -136,14 +140,16 @@
             // 
             // InitialPreferencesDialog
             // 
+            this.AcceptButton = this.okButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.CancelButton = this.cancelButton;
             this.ControlBox = false;
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.SWSSelectButton);
-            this.Controls.Add(this.SWSCloseButton);
+            this.Controls.Add(this.okButton);
+            this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.SILangGroupBox);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -162,7 +168,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button SWSSelectButton;
+        private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.PictureBox SWSPictureBox;
         private System.Windows.Forms.TableLayoutPanel SWSPatternListLayoutPanel;
         private System.Windows.Forms.TextBox SWSNoteTextBox;
@@ -170,7 +176,7 @@
         private System.Windows.Forms.RadioButton SIAutoRadioButton;
         private System.Windows.Forms.RadioButton SIEnglishRadioButton;
         private System.Windows.Forms.RadioButton SIJapaneseRadioButton;
-        private System.Windows.Forms.Button SWSCloseButton;
+        private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox1;

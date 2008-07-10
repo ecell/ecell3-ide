@@ -4251,7 +4251,7 @@ namespace Ecell
         /// <param name="l_projectPath">The project directory path to load the dm of this project.</param>
         /// <param name="l_setDirList">The list of dm directory.</param>
         public void CreateProject(string l_prjID, string l_comment, string l_projectPath,
-            List<String> l_setDirList)
+            IEnumerable<String> l_setDirList)
         {
             Project l_prj = null;
             try
@@ -4447,7 +4447,7 @@ namespace Ecell
         /// </summary>
         /// <param name="prjID">Project ID.</param>
         /// <param name="dmList">A list of DM.</param>
-        public void CreateProjectDir(string prjID, List<string> dmList)
+        public void CreateProjectDir(string prjID, IEnumerable<string> dmList)
         {
             SetDefaultDir();
             string baseDir = this.m_defaultDir + Constants.delimiterPath + prjID;

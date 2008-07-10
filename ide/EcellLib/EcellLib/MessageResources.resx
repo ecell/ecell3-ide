@@ -273,8 +273,14 @@
   <data name="InfoUpdateLogPol" xml:space="preserve">
     <value>Update the policy of logging {0}.</value>
   </data>
+  <data name="NameModel" xml:space="preserve">
+    <value>model</value>
+  </data>
   <data name="NameSimParam" xml:space="preserve">
     <value>simulation parameter</value>
+  </data>
+  <data name="NameSimResult" xml:space="preserve">
+    <value>simulation result</value>
   </data>
   <data name="NameWorkDir" xml:space="preserve">
     <value>working directory</value>

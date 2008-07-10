@@ -185,22 +185,22 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Button to open the selected project.
         /// </summary>
-        public System.Windows.Forms.Button openButton;
+        private System.Windows.Forms.Button openButton;
         /// <summary>
         /// Button to close this window.
         /// </summary>
-        public System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.Button cancelButton;
         /// <summary>
         /// ImageList of OPPrjTreeView.
         /// </summary>
-        public System.Windows.Forms.ImageList ImageList;
+        private System.Windows.Forms.ImageList ImageList;
         private System.Windows.Forms.Label commentLabel;
-        public System.Windows.Forms.TextBox dateText;
-        public System.Windows.Forms.TextBox commentText;
+        private System.Windows.Forms.TextBox dateText;
+        private System.Windows.Forms.TextBox commentText;
         private System.Windows.Forms.Label dateLabel;
-        public System.Windows.Forms.TextBox projectNameText;
+        private System.Windows.Forms.TextBox projectNameText;
         private System.Windows.Forms.Label projectNameLabel;
-        public System.Windows.Forms.TreeView PrjTreeView;
+        private System.Windows.Forms.TreeView PrjTreeView;
         private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }

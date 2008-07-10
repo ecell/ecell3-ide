@@ -35,6 +35,8 @@ using System.Text;
 using System.Security.AccessControl;
 using System.Threading;
 using System.Windows.Forms;
+using System.Globalization;
+using Microsoft.Win32;
 using Ecell.Objects;
 
 namespace Ecell
@@ -49,8 +51,8 @@ namespace Ecell
         static private string GetRegistryValue(string l_intendedKey)
         {
             string l_currentDir = null;
-            Microsoft.Win32.RegistryKey l_key = Microsoft.Win32.Registry.CurrentUser;
-            Microsoft.Win32.RegistryKey l_subkey = null;
+            RegistryKey l_key = Registry.CurrentUser;
+            RegistryKey l_subkey = null;
             try
             {
                 // Get Environment parameter.
@@ -69,7 +71,7 @@ namespace Ecell
                 }
 
                 // Get Local parameter.
-                l_key = Microsoft.Win32.Registry.LocalMachine;
+                l_key = Registry.LocalMachine;
                 l_subkey = l_key.OpenSubKey(Constants.registrySWKey);
                 if (l_subkey != null)
                 {
@@ -398,18 +400,10 @@ namespace Ecell
         /// </summary>
         static public void InitialLanguage()
         {
-            String lang = Util.GetLang();
-            if (lang == null)
+            CultureInfo lang = Util.GetLanguage();
+            if (lang != null && lang != CultureInfo.InvariantCulture)
             {
-                // nothing
-            }
-            else if (lang.ToUpper() == "EN_US")
-            {
-                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-us", true);
-            }
-            else if (lang.ToUpper() == "JA")
-            {
-                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("ja", true);
+                Thread.CurrentThread.CurrentUICulture = lang;
             }
         }
 
@@ -417,43 +411,30 @@ namespace Ecell
         /// Get the language from register.
         /// </summary>
         /// <returns></returns>
-        static public string GetLang()
+        static public CultureInfo GetLanguage()
         {
-            return GetRegistryValue(Constants.registryLang);
+            string isoTwoLetterLangCode = GetRegistryValue(Constants.registryLang);
+            if (isoTwoLetterLangCode != null)
+            {
+                isoTwoLetterLangCode = isoTwoLetterLangCode.Replace('_', '-');
+                try
+                {
+                    return CultureInfo.GetCultureInfo(isoTwoLetterLangCode);
+                }
+                catch (Exception) {}
+            }
+            return CultureInfo.InvariantCulture;
         }
 
         /// <summary>
         /// Set language for E-Cell IDE.
         /// </summary>
         /// <param name="l_lang">language.</param>
-        static public void SetLanguage(string l_lang)
+        static public void SetLanguage(CultureInfo l_lang)
         {
-            Microsoft.Win32.RegistryKey l_key = Microsoft.Win32.Registry.CurrentUser;
-            Microsoft.Win32.RegistryKey l_subkey = null;
-            try
-            {
-                l_subkey = l_key.OpenSubKey(Constants.registrySWKey, true);
-                /*
-                l_currentDir = (string)l_subkey.GetValue(Constants.registryBaseDirKey);
-                if (l_currentDir == null)
-                {
-                    RegistrySecurity s = l_subkey.GetAccessControl();
-                    
-                    l_subkey.CreateSubKey(Constants.registryBaseDirKey);
-                }*/
-                l_subkey.SetValue(Constants.registryLang, l_lang);
-            }
-            finally
-            {
-                if (l_key != null)
-                {
-                    l_key.Close();
-                }
-                if (l_subkey != null)
-                {
-                    l_subkey.Close();
-                }
-            }
+            RegistryKey l_key = Registry.CurrentUser;
+            RegistryKey l_subkey = l_key.CreateSubKey(Constants.registrySWKey);
+            using (l_subkey) l_subkey.SetValue(Constants.registryLang, l_lang.TwoLetterISOLanguageName);
         }
     }
     /// <summary>
@@ -584,8 +565,8 @@ namespace Ecell
         /// <param name="l_basedir">set directory.</param>
         public static void SetBaseDir(string l_basedir)
         {
-            Microsoft.Win32.RegistryKey l_key = Microsoft.Win32.Registry.CurrentUser;
-            Microsoft.Win32.RegistryKey l_subkey = null;
+            RegistryKey l_key = Registry.CurrentUser;
+            RegistryKey l_subkey = null;
             try
             {
                 l_subkey = l_key.OpenSubKey(Constants.registryEnvKey, true);
@@ -762,11 +743,11 @@ namespace Ecell
         static public string GetCommonDocumentDir()
         {
             string l_currentDir = null;
-            Microsoft.Win32.RegistryKey l_key = Microsoft.Win32.Registry.CurrentUser;
-            Microsoft.Win32.RegistryKey l_subkey = null;
+            RegistryKey l_key = Registry.CurrentUser;
+            RegistryKey l_subkey = null;
             try
             {
-                l_key = Microsoft.Win32.Registry.LocalMachine;
+                l_key = Registry.LocalMachine;
                 l_subkey = l_key.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders");
                 if (l_subkey != null)
                 {
@@ -840,9 +821,9 @@ namespace Ecell
             {
 
                 {
-                    Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser;
+                    RegistryKey key = Registry.CurrentUser;
                     {
-                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Constants.registryEnvKey);
+                        RegistryKey subkey = key.OpenSubKey(Constants.registryEnvKey);
                         if (subkey != null)
                         {
                             string pluginDir = (string)subkey.GetValue(Constants.registryPluginDirKey);
@@ -852,7 +833,7 @@ namespace Ecell
                         }
                     }
                     {
-                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Constants.registrySWKey);
+                        RegistryKey subkey = key.OpenSubKey(Constants.registrySWKey);
                         if (subkey != null)
                         {
                             string pluginDir = (string)subkey.GetValue(Constants.registryPluginDirKey);
@@ -864,9 +845,9 @@ namespace Ecell
                 }
 
                 {
-                    Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.LocalMachine;
+                    RegistryKey key = Registry.LocalMachine;
                     {
-                        Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(Constants.registrySWKey);
+                        RegistryKey subkey = key.OpenSubKey(Constants.registrySWKey);
                         if (subkey != null)
                         {
                             string pluginDir = (string)subkey.GetValue(Constants.registryPluginDirKey);

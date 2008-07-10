@@ -45,6 +45,8 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Threading;
 using System.Reflection;
+using System.Globalization;
+using System.Resources;
 using System.Xml.Serialization;
 using IronPython.Hosting;
 using IronPython.Runtime;
@@ -81,18 +83,6 @@ namespace Ecell.IDE.MainWindow
         /// The application environment associated to this object.
         /// </summary>
         private ApplicationEnvironment m_env;
-        /// <summary>
-        /// m_newPrjDialog (NewProjectDialog)
-        /// </summary>
-        private NewProjectDialog m_newPrjDialog;
-        /// <summary>
-        /// m_openPrjDialog (OpenProjectDialog)
-        /// </summary>
-        private ProjectExplorerDialog m_managePrjDialog;
-        /// <summary>
-        /// m_savePrjDialog (SaveProjectDialog)
-        /// </summary>
-        private SaveProjectDialog m_savePrjDialog;
         /// <summary>
         /// flag which load model already.
         /// </summary>
@@ -510,7 +500,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Load window settings.
         /// </summary>
-        private bool loadWindowSetting(string filename)
+        private bool LoadWindowSetting(string filename)
         {
             try
             {
@@ -538,26 +528,15 @@ namespace Ecell.IDE.MainWindow
         {
             //Load user window settings.
             // Load default window settings when failed.
-            if (!loadWindowSetting(m_userWindowSettingPath))
+            if (!LoadWindowSetting(m_userWindowSettingPath))
             {
-                
-                InitialPreferencesDialog win = new InitialPreferencesDialog();
-                try
+                InitialPreferencesDialog win = new InitialPreferencesDialog(true);
+                using (win)
                 {
-                    string filePath = win.ShowWindow(true);
-                    if (filePath != null)
-                    {
-                        loadWindowSetting(filePath);
+                    if (win.ShowDialog() != DialogResult.OK)
                         return;
-                    }
-                }
-                catch (IgnoreException ex)
-                {
-                    ex.ToString();
-                }
-                finally
-                {
-                    loadWindowSetting(m_defaultWindowSettingPath);
+                    LoadWindowSetting(win.FilePath);
+                    LoadWindowSetting(m_defaultWindowSettingPath);
                 }
             }
         }
@@ -593,7 +572,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="l_modelDir">Directory of model.</param>
         /// <param name="l_comment">Comment</param>
         /// <param name="l_dmList">The list of dm directory.</param>
-        private void CreateProject(string l_prjID, string l_modelDir, string l_comment, List<string> l_dmList)
+        private void CreateProject(string l_prjID, string l_modelDir, string l_comment, IEnumerable<string> l_dmList)
         {
             m_env.DataManager.CreateProject(l_prjID, l_comment, l_modelDir, l_dmList);
             m_project = l_prjID;
@@ -613,44 +592,6 @@ namespace Ecell.IDE.MainWindow
             m_env.DataManager.CloseProject(l_prjID);
             m_project = null;
             m_editCount = 0;
-        }
-
-        private bool CheckProjectID(string l_prjID)
-        {
-            if (String.IsNullOrEmpty(l_prjID))
-            {
-                Util.ShowWarningDialog(String.Format(MessageResources.ErrNoSet,
-                    new object[] { "Project ID" }));
-                return false;
-            }
-            if (Util.IsNGforIDonWindows(l_prjID) || l_prjID.Length > 64)
-            {
-                Util.ShowWarningDialog(String.Format(MessageResources.ErrIDNG,
-                    new object[] { "Project ID" }));
-                return false;
-            }
-            return true;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="l_modelID"></param>
-        /// <returns></returns>
-        private bool CheckModelID(string l_modelID)
-        {
-            if (String.IsNullOrEmpty(l_modelID))
-            {
-                Util.ShowWarningDialog(String.Format(MessageResources.ErrNoSet,
-                    new object[] { "Model ID" }));
-                return false;
-            }
-            if (l_modelID.Length > 64 || Util.IsNGforIDonWindows(l_modelID))
-            {
-                Util.ShowWarningDialog(String.Format(MessageResources.ErrIDNG,
-                    new object[] { "Model ID" }));
-                return false;
-            }
-            return true;
         }
 
         /// <summary>
@@ -1166,56 +1107,32 @@ namespace Ecell.IDE.MainWindow
                     return;
                 }
             }
-            m_newPrjDialog = new NewProjectDialog();
-            if (m_newPrjDialog.ShowDialog() == DialogResult.OK)
-                CreateNewProject();
-            else
-                CancelNewProject();
-
-        }
-
-        /// <summary>
-        /// The action when you click OK or Cancel in NewProjectDialog.
-        /// If you don't set name or model name, system show warning message.
-        /// </summary>
-        private void CreateNewProject()
-        {
-            if (!CheckProjectID(m_newPrjDialog.textName.Text))
-                return;
-            if (!CheckModelID(m_newPrjDialog.textModelName.Text))
-                return;
-
-            try
+            NewProjectDialog npd = new NewProjectDialog();
+            using (npd)
             {
-                CreateProject(m_newPrjDialog.textName.Text,
-                    null, m_newPrjDialog.textComment.Text,
-                    m_newPrjDialog.GetDmList());
-                List<EcellObject> list = new List<EcellObject>();
-                list.Add(EcellObject.CreateObject(m_newPrjDialog.textModelName.Text, null, Constants.xpathModel, null, null));
-                m_env.DataManager.DataAdd(list);
-                foreach (string paramID in m_env.DataManager.GetSimulationParameterIDs())
+                if (npd.ShowDialog() != DialogResult.OK)
+                    return;
+                try
                 {
-                    m_env.PluginManager.ParameterAdd(m_newPrjDialog.textName.Text, paramID);
+                    CreateProject(npd.textName.Text,
+                        null, npd.textComment.Text,
+                        npd.DMList);
+                    List<EcellObject> list = new List<EcellObject>();
+                    list.Add(EcellObject.CreateObject(npd.textModelName.Text, null, Constants.xpathModel, null, null));
+                    m_env.DataManager.DataAdd(list);
+                    foreach (string paramID in m_env.DataManager.GetSimulationParameterIDs())
+                    {
+                        m_env.PluginManager.ParameterAdd(npd.textName.Text, paramID);
+                    }
+                    m_env.PluginManager.ParameterSet(m_env.DataManager.CurrentProjectID, m_env.DataManager.GetCurrentSimulationParameterID());
                 }
-                m_env.PluginManager.ParameterSet(m_env.DataManager.CurrentProjectID, m_env.DataManager.GetCurrentSimulationParameterID());
+                catch (Exception ex)
+                {
+                    Trace.WriteLine(ex);
+                    Util.ShowErrorDialog(ex.Message);
+                    CloseProject(npd.textName.Text);
+                }
             }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                Util.ShowErrorDialog(ex.Message);
-                CloseProject(m_newPrjDialog.textName.Text);
-            }
-            CancelNewProject();
-        }
-
-        /// <summary>
-        /// Cancel to create project.
-        /// </summary>
-        private void CancelNewProject()
-        {
-            m_newPrjDialog.Close();
-            m_newPrjDialog.Dispose();
-            m_newPrjDialog = null;
         }
 
         /// <summary>
@@ -1237,75 +1154,36 @@ namespace Ecell.IDE.MainWindow
                 }
             }
 
-            m_managePrjDialog = new ProjectExplorerDialog();
-            m_managePrjDialog.CreateProjectTreeView(null, m_currentDir);
-            if (m_managePrjDialog.ShowDialog() == DialogResult.OK)
+            ProjectExplorerDialog ped = new ProjectExplorerDialog(m_currentDir);
+            using (ped)
             {
-                // Close current project.
-                if (m_project != null)
-                    CloseProject(m_project);
-                // Load new project.
-                OpenProject();
-            }
-            else
-            {
-                CloseOpenProjectDialog();
-            }
-        }
-
-        /// <summary>
-        /// Cancel to open project.
-        /// </summary>
-        private void CloseOpenProjectDialog()
-        {
-            m_managePrjDialog.Close();
-            m_managePrjDialog.Dispose();
-            m_managePrjDialog = null;
-        }
-
-        /// <summary>
-        /// The action when you click OK or Cancel in OpenProjectDialog.
-        /// If you don't select the project, system show warning message.
-        /// </summary>
-        private void OpenProject()
-        {
-            try
-            {
-                string prjID = m_managePrjDialog.projectNameText.Text;
-                string comment = m_managePrjDialog.commentText.Text;
-                string fileName = m_managePrjDialog.FileName;
-
-                if (!CheckProjectID(prjID))
-                    return;
-
-                if (fileName.EndsWith("eml"))
+                if (ped.ShowDialog() == DialogResult.OK)
                 {
-                    string modelDir = Path.GetDirectoryName(fileName);
-                    if (modelDir.EndsWith(Constants.xpathModel))
+                    // Close current project.
+                    if (m_project != null)
+                        CloseProject(m_project);
+                    try
                     {
-                        modelDir = modelDir.Substring(0, modelDir.Length - 5);
+                        if (ped.Project.FilePath.EndsWith("eml"))
+                        {
+                            string modelDir = Path.GetDirectoryName(ped.Project.FilePath);
+                            if (modelDir.EndsWith(Constants.xpathModel))
+                            {
+                                modelDir = modelDir.Substring(0, modelDir.Length - 5);
+                            }
+                            CreateProject(ped.Project.Name, modelDir, ped.Project.Comment, new List<string>());
+                            LoadModel(ped.Project.FilePath);
+                            return;
+                        }
+                        LoadProject(ped.Project.Name, ped.Project.FilePath);
                     }
-                    CreateProject(prjID, modelDir, comment, new List<string>());
-                    LoadModel(fileName);
-
-                    CloseOpenProjectDialog();
-                    return;
+                    catch (Exception ex)
+                    {
+                        Trace.WriteLine(ex);
+                        Util.ShowErrorDialog(ex.Message);
+                    }            
                 }
-                Project project = m_managePrjDialog.Project;
-                if (!project.Name.Equals(prjID) || !project.Comment.Equals(comment))
-                {
-                    project.Name = prjID;
-                    project.Comment = comment;
-                    project.Save(m_managePrjDialog.FileName);
-                }
-                CloseOpenProjectDialog();
-                LoadProject(prjID, fileName);
             }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                Util.ShowErrorDialog(ex.Message);
-            }            
         }
 
         /// <summary>
@@ -1317,7 +1195,6 @@ namespace Ecell.IDE.MainWindow
         {
             if (m_project != null)
                 CloseProject(m_project);
-
             
             string prjDir = Path.GetDirectoryName(fileName);
             string dmDir = Path.Combine(prjDir, Constants.DMDirName);
@@ -1347,107 +1224,75 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         /// <param name="sender">object(ToolStripMenuItem)</param>
         /// <param name="e">EventArgs</param>
-        private void SaveProjectMenuClick(object sender, EventArgs e)
+        private void SaveProjectMenuClick(object sender, EventArgs args)
         {
-            SetUpSaveProjectDialog();
-            if (m_savePrjDialog.ShowDialog() == DialogResult.OK)
+            List<SaveProjectDialog.ProjectItem> items = new List<SaveProjectDialog.ProjectItem>();
             {
-                SaveProject();
-            }
-            CloseSaveProjectDialog();
-        }
-
-        private void SetUpSaveProjectDialog()
-        {
-            m_savePrjDialog = new SaveProjectDialog();
-            CheckedListBox box = m_savePrjDialog.savedItemListBox;
-            List<string> list = m_env.DataManager.GetSavableModel();
-            if (list != null)
-            {
-                foreach (string s in list)
+                IEnumerable<string> list = m_env.DataManager.GetSavableModel();
+                if (list != null)
                 {
-                    box.Items.Add(s + " : [Model]");
+                    foreach (string s in list)
+                    {
+                        items.Add(new SaveProjectDialog.ProjectItem(
+                            SaveProjectDialog.ProjectItemKind.Model, s));
+                    }
+                }
+            }
+            {
+                IEnumerable list = m_env.DataManager.GetSavableSimulationParameter();
+                if (list != null)
+                {
+                    foreach (string s in list)
+                    {
+                        items.Add(new SaveProjectDialog.ProjectItem(
+                            SaveProjectDialog.ProjectItemKind.SimulationParameter, s));
+                    }
+                }
+            }
+            {
+                String res = m_env.DataManager.GetSavableSimulationResult();
+                if (res != null)
+                {
+                   items.Add(new SaveProjectDialog.ProjectItem(
+                        SaveProjectDialog.ProjectItemKind.SimulationResult, res));
                 }
             }
 
-            list = m_env.DataManager.GetSavableSimulationParameter();
-            if (list != null)
+            SaveProjectDialog svd = new SaveProjectDialog(items);
+            using (svd)
             {
-                foreach (string s in list)
+                if (svd.ShowDialog() != DialogResult.OK)
+                    return;
+                m_editCount = 0;
+                try
                 {
-                    box.Items.Add(s + " : [SimulationParameter]");
+                    foreach (SaveProjectDialog.ProjectItem pi in svd.CheckedItems)
+                    {
+                        switch (pi.Kind)
+                        {
+                            case SaveProjectDialog.ProjectItemKind.Model:
+                                m_env.DataManager.SaveModel(pi.Name);
+                                break;
+                            case SaveProjectDialog.ProjectItemKind.SimulationParameter:
+                                m_env.DataManager.SaveSimulationParameter(pi.Name);
+                                break;
+                            case SaveProjectDialog.ProjectItemKind.SimulationResult:
+                                m_env.DataManager.SaveSimulationResult();
+                                break;
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Trace.WriteLine(e);
+                    Util.ShowErrorDialog(e.Message);
                 }
             }
 
-            String res = m_env.DataManager.GetSavableSimulationResult();
-            if (res != null)
-            {
-                box.Items.Add(res + " : [SimulationResult]");
-            }
-
-            int i = 0, count = box.Items.Count;
-            box.CheckOnClick = true;
-
-            for (i = 0; i < count; i++)
-            {
-                box.SetItemChecked(i, true);
-            }
-        }
-
-        /// <summary>
-        /// Event when to save the project is canceled.
-        /// </summary>
-        private void CloseSaveProjectDialog()
-        {
-            m_savePrjDialog.Close();
-            m_savePrjDialog.Dispose();
-            m_savePrjDialog = null;
             if (m_isClose)
             {
                 CloseProject(m_project);
                 m_isClose = false;
-            }
-        }
-
-        /// <summary>
-        /// The action when you click OK or Cancel in SaveProjectDialog.
-        /// If you don't select one instance, system do nothing.
-        /// </summary>
-        private void SaveProject()
-        {
-            try
-            {
-                CheckedListBox box = m_savePrjDialog.savedItemListBox;
-                if (box.CheckedItems.Count <= 0)
-                {
-                    Util.ShowWarningDialog(MessageResources.ErrNoSelect);
-                    return;
-                }
-                foreach (string s in box.CheckedItems)
-                {
-                    if (s.EndsWith(" : [Model]"))
-                    {
-                        int end = s.LastIndexOf(" : [Model]");
-                        string p = s.Substring(0, end);
-                        m_env.DataManager.SaveModel(p);
-                    }
-                    else if (s.EndsWith(" : [SimulationParameter]"))
-                    {
-                        int end = s.LastIndexOf(" : [SimulationParameter]");
-                        string p = s.Substring(0, end);
-                        m_env.DataManager.SaveSimulationParameter(p);
-                    }
-                    else if (s.EndsWith(" : [SimulationResult]"))
-                    {
-                        m_env.DataManager.SaveSimulationResult();
-                    }
-                }
-                m_editCount = 0;
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                Util.ShowErrorDialog(ex.Message);
             }
         }
 
@@ -1574,55 +1419,27 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void ExportModelMenuClick(object sender, EventArgs e)
         {
-            m_savePrjDialog = new SaveProjectDialog();
-            m_savePrjDialog.Text = MessageResources.ExportModelDialog;
-            m_savePrjDialog.saveButton.Click += new EventHandler(ExportModel);
-            m_savePrjDialog.cancelButton.Click += new EventHandler(ExportModelCancel);
-
-            List<string> list = m_env.DataManager.GetModelList();
-            CheckedListBox box = m_savePrjDialog.savedItemListBox;
-            foreach (string s in list)
+            List<SaveProjectDialog.ProjectItem> items = new List<SaveProjectDialog.ProjectItem>();
             {
-                box.Items.Add(s);
+                foreach (string s in m_env.DataManager.GetModelList())
+                    items.Add(new SaveProjectDialog.ProjectItem(
+                        SaveProjectDialog.ProjectItemKind.Model,
+                        s));
             }
-
-            m_savePrjDialog.ShowDialog();
-        }
-
-        /// <summary>
-        /// Cancel to export the selected model.
-        /// </summary>
-        /// <param name="sender">Cancel Button.</param>
-        /// <param name="e">EventArgs.</param>
-        public void ExportModelCancel(object sender, EventArgs e)
-        {
-            m_savePrjDialog.Close();
-            m_savePrjDialog.Dispose();
-        }
-
-        /// <summary>
-        /// Export the selected models.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void ExportModel(object sender, EventArgs e)
-        {
-            List<string> list = new List<string>();
-            CheckedListBox box = m_savePrjDialog.savedItemListBox;
-            foreach (string s in box.CheckedItems)
-                list.Add(s);
-
-            if (list.Count <= 0)
+            SaveProjectDialog spd = new SaveProjectDialog(items);
+            spd.Text = MessageResources.ExportModelDialog;
+            using (spd)
             {
-                Util.ShowWarningDialog(MessageResources.ErrNoSelect);
-                return;
-            }
-            else
-            {
+                if (spd.ShowDialog() != DialogResult.OK)
+                    return;
+                List<string> list = new List<string>();
+                foreach (SaveProjectDialog.ProjectItem i in spd.CheckedItems)
+                {
+                    list.Add(i.Name);
+                }
                 try
                 {
                     saveFileDialog.RestoreDirectory = true;
-                    //                    saveFileDialog.Filter = "model file(*.eml,*.sbml)|*.eml;*.sbml|model file(*.sbml)|*.sbml|model file(*.eml)|*.eml|all(*.*)|*.*";
                     saveFileDialog.Filter = Constants.FilterEmlFile;
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     {
@@ -1635,8 +1452,6 @@ namespace Ecell.IDE.MainWindow
                     Util.ShowErrorDialog(ex.Message);
                 }
             }
-            m_savePrjDialog.Close();
-            m_savePrjDialog.Dispose();
         }
 
         /// <summary>
@@ -1934,7 +1749,7 @@ namespace Ecell.IDE.MainWindow
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 // Load window settings.
-                loadWindowSetting(ofd.FileName);
+                LoadWindowSetting(ofd.FileName);
             }
         }
 
@@ -1968,12 +1783,14 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void SetupIDEMenuClick(object sender, EventArgs e)
         {
-            InitialPreferencesDialog win = new InitialPreferencesDialog();
-
-            string path = win.ShowWindow(false);
-            if (path != null)
+            InitialPreferencesDialog ipd = new InitialPreferencesDialog(false);
+            using (ipd)
             {
-                loadWindowSetting(path);
+                if (ipd.ShowDialog() != DialogResult.OK)
+                    return;
+                Util.SetLanguage(ipd.Language);
+                LoadWindowSetting(ipd.FilePath);
+                Util.ShowNoticeDialog(MessageResources.ResourceManager.GetString("ConfirmRestart", ipd.Language));
             }
         }
 

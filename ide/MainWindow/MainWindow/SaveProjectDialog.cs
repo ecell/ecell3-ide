@@ -42,12 +42,82 @@ namespace Ecell.IDE.MainWindow
     /// </summary>
     public partial class SaveProjectDialog : Form
     {
+        public enum ProjectItemKind
+        {
+            Model,
+            SimulationParameter,
+            SimulationResult
+        }
+
+        public class ProjectItem
+        {
+            private ProjectItemKind m_kind;
+            private string m_name;
+
+            public ProjectItemKind Kind
+            {
+                get { return m_kind; }
+            }
+
+            public string Name
+            {
+                get { return m_name; }
+            }
+
+            public string LocalizedLabel
+            {
+                get
+                {
+                    string kindLabel = null;
+                    switch (Kind)
+                    {
+                        case ProjectItemKind.Model:
+                            kindLabel = MessageResources.NameModel;
+                            break;
+                        case ProjectItemKind.SimulationParameter:
+                            kindLabel = MessageResources.NameSimParam;
+                            break;
+                        case ProjectItemKind.SimulationResult:
+                            kindLabel = MessageResources.NameSimResult;
+                            break;
+                    }
+                    return Name + " [" + kindLabel + "]";
+                }
+            }
+
+            public ProjectItem(ProjectItemKind kind, string name)
+            {
+                m_kind = kind;
+                m_name = name;
+            }
+        }
+
+        private List<ProjectItem> m_savedItems = new List<ProjectItem>();
+
+        public IEnumerable<ProjectItem> CheckedItems
+        {
+            get { return m_savedItems; }
+        }
+
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SaveProjectDialog()
+        public SaveProjectDialog(IEnumerable<ProjectItem> items)
         {
             InitializeComponent();
+            savedItemListBox.DataSource = m_savedItems;
+            m_savedItems.AddRange(items);
+            this.FormClosing += new FormClosingEventHandler(SaveProjectDialog_FormClosing);
+        }
+
+        private void SaveProjectDialog_FormClosing(object obj, FormClosingEventArgs args)
+        {
+            if (DialogResult == DialogResult.OK && savedItemListBox.CheckedItems.Count <= 0)
+            {
+                Util.ShowWarningDialog(MessageResources.ErrNoSelect);
+                args.Cancel = true;
+                return;
+            }
         }
 
         /// <summary>

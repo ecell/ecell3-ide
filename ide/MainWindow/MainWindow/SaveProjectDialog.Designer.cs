@@ -66,58 +66,39 @@ namespace Ecell.IDE.MainWindow
             // 
             // saveButton
             // 
-            this.saveButton.AccessibleDescription = null;
-            this.saveButton.AccessibleName = null;
             resources.ApplyResources(this.saveButton, "saveButton");
-            this.saveButton.BackgroundImage = null;
             this.saveButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.saveButton.Font = null;
             this.saveButton.Name = "saveButton";
             this.saveButton.UseVisualStyleBackColor = true;
             // 
             // cancelButton
             // 
-            this.cancelButton.AccessibleDescription = null;
-            this.cancelButton.AccessibleName = null;
             resources.ApplyResources(this.cancelButton, "cancelButton");
-            this.cancelButton.BackgroundImage = null;
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Font = null;
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
             // savedItemListBox
             // 
-            this.savedItemListBox.AccessibleDescription = null;
-            this.savedItemListBox.AccessibleName = null;
             resources.ApplyResources(this.savedItemListBox, "savedItemListBox");
-            this.savedItemListBox.BackgroundImage = null;
-            this.savedItemListBox.Font = null;
             this.savedItemListBox.FormattingEnabled = true;
             this.savedItemListBox.Name = "savedItemListBox";
             // 
             // savedItemsLabel
             // 
-            this.savedItemsLabel.AccessibleDescription = null;
-            this.savedItemsLabel.AccessibleName = null;
             resources.ApplyResources(this.savedItemsLabel, "savedItemsLabel");
-            this.savedItemsLabel.Font = null;
             this.savedItemsLabel.Name = "savedItemsLabel";
             // 
             // SaveProjectDialog
             // 
             this.AcceptButton = this.saveButton;
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = null;
             this.CancelButton = this.cancelButton;
             this.Controls.Add(this.savedItemsLabel);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.savedItemListBox);
-            this.Font = null;
             this.Name = "SaveProjectDialog";
             this.Shown += new System.EventHandler(this.SaveProjectDialogShown);
             this.ResumeLayout(false);
