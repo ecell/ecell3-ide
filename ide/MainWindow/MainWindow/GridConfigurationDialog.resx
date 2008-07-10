@@ -126,7 +126,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="DEApplyButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>296, 457</value>
+    <value>244, 355</value>
   </data>
   <data name="DEApplyButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 24</value>
@@ -154,7 +154,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="DECloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>376, 457</value>
+    <value>324, 355</value>
   </data>
   <data name="DECloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 24</value>
@@ -238,13 +238,13 @@
     <value>10, 9</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 12</value>
+    <value>51, 12</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Environment:</value>
+    <value>Backend:</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
@@ -262,10 +262,10 @@
     <value>Top, Right</value>
   </data>
   <data name="DEEnvComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>137, 6</value>
+    <value>138, 6</value>
   </data>
   <data name="DEEnvComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>312, 20</value>
+    <value>108, 20</value>
   </data>
   <data name="DEEnvComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -286,10 +286,10 @@
     <value>Top, Right</value>
   </data>
   <data name="DEConcTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>137, 35</value>
+    <value>138, 35</value>
   </data>
   <data name="DEConcTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>312, 19</value>
+    <value>108, 19</value>
   </data>
   <data name="DEConcTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -316,7 +316,7 @@
     <value>NoControl</value>
   </data>
   <data name="DESearchDir.Location" type="System.Drawing.Point, System.Drawing">
-    <value>424, 65</value>
+    <value>372, 65</value>
   </data>
   <data name="DESearchDir.Size" type="System.Drawing.Size, System.Drawing">
     <value>26, 19</value>
@@ -343,10 +343,10 @@
     <value>Top, Right</value>
   </data>
   <data name="DEWorkDirTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>137, 65</value>
+    <value>138, 65</value>
   </data>
   <data name="DEWorkDirTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>289, 19</value>
+    <value>236, 19</value>
   </data>
   <data name="DEWorkDirTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -409,7 +409,7 @@
     <value>12, 122</value>
   </data>
   <data name="DEOptionGridView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>437, 319</value>
+    <value>385, 217</value>
   </data>
   <data name="DEOptionGridView.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -436,7 +436,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>465, 493</value>
+    <value>413, 391</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -604,11 +604,14 @@
         AAA=
 </value>
   </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Setup Distributed Environment</value>
+  </data>
+  <data name="&gt;&gt;m_folderSelectDialog.Name" xml:space="preserve">
+    <value>m_folderSelectDialog</value>
+  </data>
+  <data name="&gt;&gt;m_folderSelectDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;DistributeParamNameColumn.Name" xml:space="preserve">
     <value>DistributeParamNameColumn</value>
@@ -621,12 +624,6 @@
   </data>
   <data name="&gt;&gt;DistributeValueColumn.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;m_folderSelectDialog.Name" xml:space="preserve">
-    <value>m_folderSelectDialog</value>
-  </data>
-  <data name="&gt;&gt;m_folderSelectDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>GridConfigurationDialog</value>

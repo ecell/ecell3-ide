@@ -185,8 +185,8 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GridJobStatusDialog.ja.resx">
-      <DependentUpon>GridJobStatusDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>GridJobStatusDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GridJobStatusDialog.resx">
       <DependentUpon>GridJobStatusDialog.cs</DependentUpon>

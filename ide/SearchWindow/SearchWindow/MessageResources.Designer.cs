@@ -70,6 +70,15 @@ namespace Ecell.IDE.Plugins.SearchWindow {
         }
         
         /// <summary>
+        ///   Search Result に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SearchWindow {
+            get {
+                return ResourceManager.GetString("SearchWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Search に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ToolTipSearch {

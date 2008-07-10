@@ -187,6 +187,9 @@ namespace Ecell.IDE.MainWindow
         {
             InitializeComponent();
             dockPanel.ShowDocumentIcon = true;
+
+            GridJobStatusDialog win = new GridJobStatusDialog(m_env.JobManager);
+            SetDockContent(win);
             // Load plugins
             LoadPlugins();
             //Load default window settings.
@@ -2016,18 +2019,6 @@ namespace Ecell.IDE.MainWindow
             GridConfigurationDialog win = new GridConfigurationDialog(m_env.JobManager);
             win.Shown += new EventHandler(win.WindowShown);
             win.ShowDialog();
-        }
-
-        /// <summary>
-        /// Event when Job status Button is clicked.
-        /// </summary>
-        /// <param name="sender">MenuItem</param>
-        /// <param name="e">EventArgs</param>
-        private void ClickJobStatusMenu(object sender, EventArgs e)
-        {
-            GridJobStatusDialog win = new GridJobStatusDialog(m_env.JobManager);
-
-            win.Show();
         }
         #endregion
 

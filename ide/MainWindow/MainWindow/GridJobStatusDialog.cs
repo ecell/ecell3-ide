@@ -44,7 +44,7 @@ namespace Ecell.IDE.MainWindow
     /// <summary>
     /// Form to display the status of jobs.
     /// </summary>
-    public partial class GridJobStatusDialog : Form
+    public partial class GridJobStatusDialog : EcellDockContent
     {
         #region
         /// <summary>

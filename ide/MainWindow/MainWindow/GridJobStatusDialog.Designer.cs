@@ -29,34 +29,23 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridJobStatusDialog));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.JobGridView = new System.Windows.Forms.DataGridView();
             this.JobIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MachineColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ScriptColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ArgumentColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.DEWStartButton = new System.Windows.Forms.Button();
             this.DEWStopButton = new System.Windows.Forms.Button();
-            this.DEWCloseButton = new System.Windows.Forms.Button();
             this.DEWDeleteButton = new System.Windows.Forms.Button();
             this.DEWUpdateButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.JobGridView)).BeginInit();
-            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.JobGridView, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // JobGridView
             // 
             this.JobGridView.AllowUserToAddRows = false;
+            resources.ApplyResources(this.JobGridView, "JobGridView");
             this.JobGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.JobGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.JobGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -65,7 +54,6 @@
             this.MachineColumn,
             this.ScriptColumn,
             this.ArgumentColumn});
-            resources.ApplyResources(this.JobGridView, "JobGridView");
             this.JobGridView.Name = "JobGridView";
             this.JobGridView.RowHeadersVisible = false;
             this.JobGridView.RowTemplate.Height = 21;
@@ -105,16 +93,6 @@
             this.ArgumentColumn.Name = "ArgumentColumn";
             this.ArgumentColumn.ReadOnly = true;
             // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.DEWStartButton, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.DEWStopButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.DEWCloseButton, 7, 0);
-            this.tableLayoutPanel2.Controls.Add(this.DEWDeleteButton, 4, 0);
-            this.tableLayoutPanel2.Controls.Add(this.DEWUpdateButton, 3, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            // 
             // DEWStartButton
             // 
             resources.ApplyResources(this.DEWStartButton, "DEWStartButton");
@@ -128,14 +106,6 @@
             this.DEWStopButton.Name = "DEWStopButton";
             this.DEWStopButton.UseVisualStyleBackColor = true;
             this.DEWStopButton.Click += new System.EventHandler(this.DEWStopButton_Click);
-            // 
-            // DEWCloseButton
-            // 
-            resources.ApplyResources(this.DEWCloseButton, "DEWCloseButton");
-            this.DEWCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.DEWCloseButton.Name = "DEWCloseButton";
-            this.DEWCloseButton.UseVisualStyleBackColor = true;
-            this.DEWCloseButton.Click += new System.EventHandler(this.CloseButtonClick);
             // 
             // DEWDeleteButton
             // 
@@ -153,25 +123,24 @@
             this.DEWUpdateButton.UseVisualStyleBackColor = true;
             this.DEWUpdateButton.Click += new System.EventHandler(this.DEWUpdateButton_Click);
             // 
-            // DistributedEnvWindow
+            // GridJobStatusDialog
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.DEWCloseButton;
-            this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "DistributedEnvWindow";
+            this.Controls.Add(this.DEWStartButton);
+            this.Controls.Add(this.JobGridView);
+            this.Controls.Add(this.DEWStopButton);
+            this.Controls.Add(this.DEWDeleteButton);
+            this.Controls.Add(this.DEWUpdateButton);
+            this.Name = "GridJobStatusDialog";
             this.Shown += new System.EventHandler(this.WinShown);
-            this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.JobGridView)).EndInit();
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button DEWCloseButton;
         /// <summary>
         /// DataGridView to display the list of jobs.
         /// </summary>
@@ -181,7 +150,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn MachineColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ScriptColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ArgumentColumn;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button DEWDeleteButton;
         private System.Windows.Forms.Button DEWStartButton;
         private System.Windows.Forms.Button DEWStopButton;

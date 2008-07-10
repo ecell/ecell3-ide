@@ -126,4 +126,16 @@
   <data name="DECloseButton.Text" xml:space="preserve">
     <value>キャンセル</value>
   </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>オプション:</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>作業ディレクトリ:</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>並列数:</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>バックエンド:</value>
+  </data>
 </root>

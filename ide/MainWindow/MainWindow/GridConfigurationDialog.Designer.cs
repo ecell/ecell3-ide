@@ -40,9 +40,9 @@
             this.DEWorkDirTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.DEOptionGridView = new System.Windows.Forms.DataGridView();
+            this.m_folderSelectDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.DistributeParamNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DistributeValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.m_folderSelectDialog = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.DEOptionGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -120,6 +120,7 @@
             // 
             // DistributeParamNameColumn
             // 
+            this.DistributeParamNameColumn.FillWeight = 50F;
             resources.ApplyResources(this.DistributeParamNameColumn, "DistributeParamNameColumn");
             this.DistributeParamNameColumn.Name = "DistributeParamNameColumn";
             // 
@@ -158,8 +159,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DistributeParamNameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DistributeValueColumn;
         /// <summary>
         /// Button to apply the editing informations.
         /// </summary>
@@ -192,5 +191,7 @@
         /// Dialog to set the working directory.
         /// </summary>
         public System.Windows.Forms.FolderBrowserDialog m_folderSelectDialog;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DistributeParamNameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DistributeValueColumn;
     }
 }

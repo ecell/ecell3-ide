@@ -36,8 +36,8 @@ namespace Ecell.IDE.MainWindow
             this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.MWstatusStrip = new System.Windows.Forms.StatusStrip();
             this.genericStatusText = new System.Windows.Forms.ToolStripStatusLabel();
-            this.genericProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.quickInspectorText = new System.Windows.Forms.ToolStripStatusLabel();
+            this.genericProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.menustrip = new System.Windows.Forms.MenuStrip();
             this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,7 +73,6 @@ namespace Ecell.IDE.MainWindow
             this.MenuItemLayout = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.jobStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scriptEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemRun = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemAnalysis = new System.Windows.Forms.ToolStripMenuItem();
@@ -120,12 +119,6 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this.genericStatusText, "genericStatusText");
             this.genericStatusText.Spring = true;
             // 
-            // genericProgressBar
-            // 
-            this.genericProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.genericProgressBar.Name = "genericProgressBar";
-            resources.ApplyResources(this.genericProgressBar, "genericProgressBar");
-            // 
             // quickInspectorText
             // 
             this.quickInspectorText.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
@@ -134,6 +127,12 @@ namespace Ecell.IDE.MainWindow
             this.quickInspectorText.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.quickInspectorText.Name = "quickInspectorText";
             resources.ApplyResources(this.quickInspectorText, "quickInspectorText");
+            // 
+            // genericProgressBar
+            // 
+            this.genericProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.genericProgressBar.Name = "genericProgressBar";
+            resources.ApplyResources(this.genericProgressBar, "genericProgressBar");
             // 
             // dockPanel
             // 
@@ -396,7 +395,6 @@ namespace Ecell.IDE.MainWindow
             // 
             this.MenuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showWindowToolStripMenuItem,
-            this.jobStatusToolStripMenuItem,
             this.scriptEditorToolStripMenuItem});
             this.MenuItemView.Name = "MenuItemView";
             resources.ApplyResources(this.MenuItemView, "MenuItemView");
@@ -405,12 +403,6 @@ namespace Ecell.IDE.MainWindow
             // 
             this.showWindowToolStripMenuItem.Name = "showWindowToolStripMenuItem";
             resources.ApplyResources(this.showWindowToolStripMenuItem, "showWindowToolStripMenuItem");
-            // 
-            // jobStatusToolStripMenuItem
-            // 
-            this.jobStatusToolStripMenuItem.Name = "jobStatusToolStripMenuItem";
-            resources.ApplyResources(this.jobStatusToolStripMenuItem, "jobStatusToolStripMenuItem");
-            this.jobStatusToolStripMenuItem.Click += new System.EventHandler(this.ClickJobStatusMenu);
             // 
             // scriptEditorToolStripMenuItem
             // 
@@ -569,10 +561,6 @@ namespace Ecell.IDE.MainWindow
         /// MenuItem to display the setup dialog to set distributed environment.
         /// </summary>
         public System.Windows.Forms.ToolStripMenuItem distributedEnvToolStripMenuItem;
-        /// <summary>
-        /// MenuItem to display the list of jobs.
-        /// </summary>
-        public System.Windows.Forms.ToolStripMenuItem jobStatusToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem projectWizardMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scriptEditorToolStripMenuItem;
         private System.Windows.Forms.StatusStrip MWstatusStrip;

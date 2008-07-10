@@ -215,7 +215,7 @@ namespace Ecell.IDE.Plugins.SearchWindow
         {
             List<string> names = new List<string>();
             if (m_cnd != null && m_cnd.Visible)                
-                names.Add("Search result.");
+                names.Add(m_cnd.Text);
             return names;
         }
         #endregion
