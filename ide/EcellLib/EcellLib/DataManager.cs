@@ -4145,6 +4145,10 @@ namespace Ecell
                 {
                     d.Value = new EcellValue(stepperID);
                 }
+                if (d.Name.Equals(Constants.xpathVRL))
+                {
+                    d.Value = new EcellValue(new List<EcellValue>());
+                }
                 if (d.Name.Equals(Constants.xpathK))
                 {
                     d.Value = new EcellValue(1);
@@ -4724,6 +4728,11 @@ namespace Ecell
                 throw new Exception(String.Format(MessageResLib.ErrSavePrj,
                     new object[] { m_currentProject.Name }), ex);
             }
+        }
+
+        public LogData LoadSimulationResult(string fileName)
+        {
+            return Ecd.LoadSavedLogData(fileName);
         }
 
         /// <summary>

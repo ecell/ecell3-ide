@@ -651,8 +651,11 @@ namespace Ecell.IDE.Plugins.Analysis
             m_showAnalysisSetupItem = new ToolStripMenuItem();
             m_showAnalysisSetupItem.Text = MessageResources.MenuItemAnalysisWindow;
             m_showAnalysisSetupItem.ToolTipText = MessageResources.MenuItemAnalysisWindow;
-            m_showAnalysisSetupItem.Tag = 50;
+            m_showAnalysisSetupItem.Tag = 10;
             m_showAnalysisSetupItem.Click += new EventHandler(ShowAnalysisWindow);
+
+            ToolStripSeparator sep1 = new ToolStripSeparator();
+            sep1.Tag = 20;
 
             m_robustAnalysisItem = new ToolStripMenuItem();
             m_robustAnalysisItem.Text = MessageResources.MenuItemRobustAnalysis;
@@ -689,23 +692,27 @@ namespace Ecell.IDE.Plugins.Analysis
             stopAnalysisItem.Enabled = true;
             stopAnalysisItem.Click += new EventHandler(StopAnalysis);
 
+            ToolStripSeparator sep2 = new ToolStripSeparator();
+            sep2.Tag = 120;
+
             ToolStripMenuItem saveAnalysisResultItem = new ToolStripMenuItem();
             saveAnalysisResultItem.Text = MessageResources.MenuItemSaveAnalysisResult;
             saveAnalysisResultItem.ToolTipText = MessageResources.MenuItemSaveAnalysisResult;
-            saveAnalysisResultItem.Tag = 100;
+            saveAnalysisResultItem.Tag = 150;
             saveAnalysisResultItem.Enabled = true;
             saveAnalysisResultItem.Click += new EventHandler(SaveAnalysisResult);
 
             ToolStripMenuItem loadAnalysisResultItem = new ToolStripMenuItem();
             loadAnalysisResultItem.Text = MessageResources.MenuItemLoadAnalysisResult;
             loadAnalysisResultItem.ToolTipText = MessageResources.MenuItemLoadAnalysisResult;
-            loadAnalysisResultItem.Tag = 100;
+            loadAnalysisResultItem.Tag = 160;
             loadAnalysisResultItem.Enabled = true;
             loadAnalysisResultItem.Click += new EventHandler(LoadAnalysisResult);
 
             ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
-            analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { m_robustAnalysisItem, m_parameterEstimationItem, 
-                m_sensitivityAnalysisItem, m_bifurcationAnalysisItem, stopAnalysisItem,
+            analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { 
+                m_showAnalysisSetupItem, sep1, m_robustAnalysisItem, m_parameterEstimationItem, 
+                m_sensitivityAnalysisItem, m_bifurcationAnalysisItem, stopAnalysisItem, sep2,
                 saveAnalysisResultItem, loadAnalysisResultItem
             });
             analysisMenu.Text = "Analysis";
