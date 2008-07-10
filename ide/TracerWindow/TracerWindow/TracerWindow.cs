@@ -601,6 +601,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             list = null;
         }
 
+        public void ShowSetupWindow()
+        {
+            ShowSetupTracerWindow(new object(), new EventArgs());
+        }
+
         /// <summary>
         /// Invoke method to add the data to DataGridView.
         /// </summary>

@@ -121,10 +121,15 @@ namespace Ecell.IDE.Plugins.TracerWindow
             dgv.DragDrop += new DragEventHandler(dgv_DragDrop);
 
             ContextMenuStrip cStrip = new ContextMenuStrip();
-            ToolStripMenuItem it = new ToolStripMenuItem();
-            it.Text = MessageResources.MenuItemImportData;
-            it.Click += new EventHandler(ImportDataItem);
-            cStrip.Items.AddRange(new ToolStripItem[] { it });
+            ToolStripMenuItem it1 = new ToolStripMenuItem();
+            it1.Text = MessageResources.MenuItemImportData;
+            it1.Click += new EventHandler(ImportDataItem);
+
+            ToolStripMenuItem it2 = new ToolStripMenuItem();
+            it2.Text = MessageResources.MenuItemShowTraceSetupText;
+            it2.Click += new EventHandler(ShowSetupWindow);
+
+            cStrip.Items.AddRange(new ToolStripItem[] { it1, it2 });
             dgv.ContextMenuStrip = cStrip;
 
         }
@@ -765,7 +770,17 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// The event sequence when the log data os loaded.
+        /// The event sequence when the setup windos is shown.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ShowSetupWindow(object sender, EventArgs e)
+        {
+            m_owner.ShowSetupWindow();
+        }
+
+        /// <summary>
+        /// The event sequence when the log data is imported.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
