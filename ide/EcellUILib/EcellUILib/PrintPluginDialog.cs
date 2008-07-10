@@ -34,7 +34,7 @@ namespace Ecell.IDE
 
             public override string ToString()
             {
-                return string.Format("{0} ({1})", m_portion, m_plugin.GetPluginName());
+                return string.Format("{0}", m_portion);
             }
 
             private IEcellPlugin m_plugin;

@@ -718,7 +718,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         public override IEnumerable<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
-            names.Add("Property of entiry.");
+            names.Add(MessageResources.PropertyWindow);
             return names;
         }
         #endregion

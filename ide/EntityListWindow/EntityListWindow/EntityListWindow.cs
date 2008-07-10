@@ -644,7 +644,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
         public override IEnumerable<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
-            names.Add("TreeView of entity.");
+            names.Add(MessageResources.EntityList);
             return names;
         }
         #endregion

@@ -214,7 +214,7 @@ namespace Ecell.IDE.Plugins.SearchWindow
         public override IEnumerable<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
-            if (m_cnd != null && m_cnd.Visible)
+            if (m_cnd != null && m_cnd.Visible)                
                 names.Add("Search result.");
             return names;
         }

@@ -316,7 +316,7 @@ namespace Ecell.IDE.Plugins.ObjectList
         public override IEnumerable<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
-            names.Add("List of entity.");
+            names.Add(MessageResources.ObjectList);
             return names;
         }
         #endregion
