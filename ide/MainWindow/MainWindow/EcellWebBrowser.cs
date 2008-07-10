@@ -35,6 +35,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Drawing;
 using System.Threading;
+using System.Globalization;
 
 namespace Ecell.IDE.MainWindow
 {
@@ -86,13 +87,13 @@ namespace Ecell.IDE.MainWindow
             List<string> candidates = new List<string>();
 
             string documentDir = Util.GetWindowSettingDir();
-            string lang = Util.GetLang();
+            CultureInfo lang = Util.GetLanguage();
             if (documentDir != null)
             {
                 candidates.Add(Path.Combine(documentDir,
                     Constants.fileStartupHTML));
                 candidates.Add(Path.Combine(documentDir,
-                    lang + "_" + Constants.fileStartupHTML));
+                    lang.TwoLetterISOLanguageName + "_" + Constants.fileStartupHTML));
             }
             foreach (string candidate in candidates)
             {
