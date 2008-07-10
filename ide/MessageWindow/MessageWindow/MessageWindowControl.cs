@@ -22,7 +22,7 @@ namespace Ecell.IDE.Plugins.MessageWindow
             base.m_isSavable = true;
             InitializeComponent();
             this.Name = "MessageWindow";
-            this.Text = MessageResMessage.MessageWindow;
+            this.Text = MessageResources.MessageWindow;
             this.TabText = this.Text;
         }
     }

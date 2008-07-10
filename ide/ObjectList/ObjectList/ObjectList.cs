@@ -63,7 +63,7 @@ namespace Ecell.IDE.Plugins.ObjectList
         /// <summary>
         /// ComponentResourceManager for ObjectList.
         /// </summary>
-        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResObjList));
+        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResources));
         /// <summary>
         /// Dictionary of name and TabPage.
         /// </summary>
@@ -110,8 +110,8 @@ namespace Ecell.IDE.Plugins.ObjectList
             m_tabControl.Dock = DockStyle.Fill;
             win.Controls.Add(m_tabControl);
             win.Name = "ObjectList";
-            win.Text = MessageResObjList.ObjectList;
-            win.Icon = MessageResObjList.objlist;
+            win.Text = MessageResources.ObjectList;
+            win.Icon = MessageResources.objlist;
             win.TabText = win.Text;
             win.IsSavable = true;
             return new EcellDockContent[] { win };

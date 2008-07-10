@@ -71,7 +71,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <returns>"Network Compliance."</returns>
         public string GetDebugName()
         {
-            return MessageResStDebug.NetworkComplianceName;
+            return MessageResources.NetworkComplianceName;
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                         {
                             ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
                                 d.EntityPath,
-                                MessageResStDebug.ErrNoVariable);
+                                MessageResources.ErrNoVariable);
                             m_errorList.Add(mes);
                             break;
                         }
@@ -173,7 +173,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                     ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
                         Constants.xpathProcess + Constants.delimiterColon + 
                         obj.Key + Constants.delimiterColon + Constants.xpathVRL,
-                        MessageResStDebug.ErrNoConnect);
+                        MessageResources.ErrNoConnect);
                     m_errorList.Add(mes);
                     continue;
                 }
@@ -186,7 +186,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                     {
                         ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
                             d.EntityPath,
-                            MessageResStDebug.ErrNoConnect);
+                            MessageResources.ErrNoConnect);
                         m_errorList.Add(mes);
                         break;
                     }
@@ -218,7 +218,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                 ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
                     Constants.xpathVariable + Constants.delimiterColon + obj.Key + 
                     Constants.delimiterColon + Constants.xpathID,
-                    MessageResStDebug.ErrNoConnect);
+                    MessageResources.ErrNoConnect);
                 m_errorList.Add(mes);
             }
         }

@@ -75,8 +75,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessageResMessage.Designer.cs">
-      <DependentUpon>MessageResMessage.resx</DependentUpon>
+    <Compile Include="MessageResources.Designer.cs">
+      <DependentUpon>MessageResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -90,12 +90,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MessageResMessage.ja.resx">
+    <EmbeddedResource Include="MessageResources.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResMessage.resx">
+    <EmbeddedResource Include="MessageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MessageResMessage.Designer.cs</LastGenOutput>
+      <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MessageWindowControl.resx">

@@ -96,7 +96,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <summary>
         /// ResourceManager for NewParameterWindow.
         /// </summary>
-        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResSimulation));
+        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
 
         #region Inherited from PluginBase
@@ -117,14 +117,14 @@ namespace Ecell.IDE.Plugins.Simulation
             m_runSim.Name = "MenuItemRunSimulation";
             m_runSim.Size = new Size(96, 22);
             m_runSim.Image = (Image)resources.GetObject("media_play_green");
-            m_runSim.Text = MessageResSimulation.MenuItemRun;
+            m_runSim.Text = MessageResources.MenuItemRun;
             m_runSim.Enabled = false;
             m_runSim.Click += new EventHandler(this.RunSimulation);
 
             m_suspendSim = new ToolStripMenuItem();
             m_suspendSim.Name = "MenuItemSuspendSimulation";
             m_suspendSim.Size = new Size(96, 22);
-            m_suspendSim.Text = MessageResSimulation.MenuItemSuspend;
+            m_suspendSim.Text = MessageResources.MenuItemSuspend;
             m_suspendSim.Image = (Image)resources.GetObject("media_pause"); 
             m_suspendSim.Enabled = false;
             m_suspendSim.Click += new EventHandler(this.SuspendSimulation);
@@ -133,7 +133,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_stopSim.Name = "MenuItemStopSimulation";
             m_stopSim.Size = new Size(96, 22);
             m_stopSim.Image = (Image)resources.GetObject("media_stop_red");
-            m_stopSim.Text = MessageResSimulation.MenuItemStop;
+            m_stopSim.Text = MessageResources.MenuItemStop;
             m_stopSim.Enabled = false;
             m_stopSim.Click += new EventHandler(this.ResetSimulation);
 
@@ -151,7 +151,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_setupSim = new ToolStripMenuItem();
             m_setupSim.Name = "MenuItemSetupSimulation";
             m_setupSim.Size = new Size(96, 22);
-            m_setupSim.Text = MessageResSimulation.MenuItemSetupSim;
+            m_setupSim.Text = MessageResources.MenuItemSetupSim;
             m_setupSim.Tag = 10;
             m_setupSim.Enabled = false;
             m_setupSim.Click += new EventHandler(this.SetupSimulation);
@@ -192,7 +192,7 @@ namespace Ecell.IDE.Plugins.Simulation
             button1.Name = "RunSimulation";
             button1.Size = new System.Drawing.Size(23, 22);
             button1.Text = "";
-            button1.ToolTipText = MessageResSimulation.ToolTipRun;
+            button1.ToolTipText = MessageResources.ToolTipRun;
             button1.Click += new System.EventHandler(this.RunSimulation);
             list.Items.Add(button1);
 
@@ -203,7 +203,7 @@ namespace Ecell.IDE.Plugins.Simulation
             button3.Size = new System.Drawing.Size(23, 22);
             button3.Tag = 3;
             button3.Text = "";
-            button3.ToolTipText = MessageResSimulation.ToolTipSuspend;
+            button3.ToolTipText = MessageResources.ToolTipSuspend;
             button3.Click += new System.EventHandler(this.SuspendSimulation);
             list.Items.Add(button3);
 
@@ -214,7 +214,7 @@ namespace Ecell.IDE.Plugins.Simulation
             button2.Size = new System.Drawing.Size(23, 22);
             button2.Text = "";
             button2.Tag = 4;
-            button2.ToolTipText = MessageResSimulation.ToolTipStop;
+            button2.ToolTipText = MessageResources.ToolTipStop;
             button2.Click += new System.EventHandler(this.ResetSimulation);
             list.Items.Add(button2);
 
@@ -252,7 +252,7 @@ namespace Ecell.IDE.Plugins.Simulation
             button4.Size = new System.Drawing.Size(23, 22);
             button4.Text = "";
             button4.Tag = 9;
-            button4.ToolTipText = MessageResSimulation.ToolTipStep;
+            button4.ToolTipText = MessageResources.ToolTipStep;
             button4.Click += new System.EventHandler(this.Step);
             list.Items.Add(button4);
 
@@ -442,7 +442,7 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             if (m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Running)
             {
-                if (!Util.ShowOKCancelDialog(MessageResSimulation.ConfirmSetup))
+                if (!Util.ShowOKCancelDialog(MessageResources.ConfirmSetup))
                 {
                     return;
                 }

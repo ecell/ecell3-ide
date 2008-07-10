@@ -169,7 +169,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
 
             if (m_staticDebug.ErrorMessageList.Count <= 0)
             {
-                Util.ShowNoticeDialog(MessageResStDebug.NoError);
+                Util.ShowNoticeDialog(MessageResources.NoError);
                 return;
             }
 

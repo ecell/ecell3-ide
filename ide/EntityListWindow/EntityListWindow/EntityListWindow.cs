@@ -176,7 +176,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
         /// <summary>
         /// ComponentResourceManager for EntityListWindow.
         /// </summary>
-        static public ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResEntList));
+        static public ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
 
         #region Constructors
@@ -684,35 +684,35 @@ namespace Ecell.IDE.Plugins.EntityListWindow
             MenuItem sortTypeMenu = new MenuItem();
             MenuItem newDmMenu = new MenuItem();
 
-            m_creSysLogger.Text = MessageResEntList.PopCreLoggerText;
-            m_delSysLogger.Text = MessageResEntList.PopDelLoggerText;
-            m_creTopSysLogger.Text = MessageResEntList.PopCreLoggerText;
-            m_delTopSysLogger.Text = MessageResEntList.PopDelLoggerText;
-            m_creProcLogger.Text = MessageResEntList.PopCreLoggerText;
-            m_delProcLogger.Text = MessageResEntList.PopDelLoggerText;
-            m_creVarLogger.Text = MessageResEntList.PopCreLoggerText;
-            m_delVarLogger.Text = MessageResEntList.PopDelLoggerText;
-            m_merge.Text = MessageResEntList.PopMergeText;
-            m_compileDM.Text = MessageResEntList.PopCompileText;
-            m_editorDM.Text = MessageResEntList.PopDMEditorText;
-            m_appDM.Text = MessageResEntList.PopDMAppText;
-            m_creVarParameterData.Text = MessageResEntList.PopCreParamText;
-            m_creProParameterData.Text = MessageResEntList.PopCreParamText;
-            m_delVarParameterData.Text = MessageResEntList.PopDelParamText;
-            m_delProParameterData.Text = MessageResEntList.PopDelParamText;
-            m_creVarObservedData.Text = MessageResEntList.PopCreObservText;
-            m_creProObservedData.Text = MessageResEntList.PopCreObservText;
-            m_delVarObservedData.Text = MessageResEntList.PopDelObservText;
-            m_delProObservedData.Text = MessageResEntList.PopDelObservText;
-            addModel.Text = MessageResEntList.PopAddModelText;
-            addSystem.Text = MessageResEntList.PopAddSystemText;
-            addVar.Text = MessageResEntList.PopAddVariableText;
-            addProc.Text = MessageResEntList.PopAddProcessText;
-            del.Text = MessageResEntList.PopDeleteText;
-            searchMenu.Text = MessageResEntList.PopSearchText;
-            sortNameMenu.Text = MessageResEntList.SortNameText;
-            sortTypeMenu.Text = MessageResEntList.SortTypeText;
-            newDmMenu.Text = MessageResEntList.PopNewDMText;
+            m_creSysLogger.Text = MessageResources.PopCreLoggerText;
+            m_delSysLogger.Text = MessageResources.PopDelLoggerText;
+            m_creTopSysLogger.Text = MessageResources.PopCreLoggerText;
+            m_delTopSysLogger.Text = MessageResources.PopDelLoggerText;
+            m_creProcLogger.Text = MessageResources.PopCreLoggerText;
+            m_delProcLogger.Text = MessageResources.PopDelLoggerText;
+            m_creVarLogger.Text = MessageResources.PopCreLoggerText;
+            m_delVarLogger.Text = MessageResources.PopDelLoggerText;
+            m_merge.Text = MessageResources.PopMergeText;
+            m_compileDM.Text = MessageResources.PopCompileText;
+            m_editorDM.Text = MessageResources.PopDMEditorText;
+            m_appDM.Text = MessageResources.PopDMAppText;
+            m_creVarParameterData.Text = MessageResources.PopCreParamText;
+            m_creProParameterData.Text = MessageResources.PopCreParamText;
+            m_delVarParameterData.Text = MessageResources.PopDelParamText;
+            m_delProParameterData.Text = MessageResources.PopDelParamText;
+            m_creVarObservedData.Text = MessageResources.PopCreObservText;
+            m_creProObservedData.Text = MessageResources.PopCreObservText;
+            m_delVarObservedData.Text = MessageResources.PopDelObservText;
+            m_delProObservedData.Text = MessageResources.PopDelObservText;
+            addModel.Text = MessageResources.PopAddModelText;
+            addSystem.Text = MessageResources.PopAddSystemText;
+            addVar.Text = MessageResources.PopAddVariableText;
+            addProc.Text = MessageResources.PopAddProcessText;
+            del.Text = MessageResources.PopDeleteText;
+            searchMenu.Text = MessageResources.PopSearchText;
+            sortNameMenu.Text = MessageResources.SortNameText;
+            sortTypeMenu.Text = MessageResources.SortTypeText;
+            newDmMenu.Text = MessageResources.PopNewDMText;
 
             addModel.Click += new EventHandler(TreeviewAddModel);
             addSystem.Click += new EventHandler(TreeviewAddSystem);
@@ -1209,7 +1209,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
             }
             catch (Exception)
             {
-                Util.ShowErrorDialog(MessageResEntList.ErrStartupApp);
+                Util.ShowErrorDialog(MessageResources.ErrStartupApp);
             }
         }
         #endregion
@@ -1688,7 +1688,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
                         CrateLoggerPopupMenu(m_creSysLogger, m_delSysLogger, obj);
                         String superSys = tag.m_key.Substring(0, tag.m_key.LastIndexOf("/"));
                         if (superSys == "") superSys = "/";
-                        m_merge.Text = MessageResEntList.PopMergeText + "(" + superSys + ")";
+                        m_merge.Text = MessageResources.PopMergeText + "(" + superSys + ")";
                         m_form.treeView1.ContextMenu = m_systemMenu;
                     }
                     m_currentObj = obj;

@@ -77,10 +77,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessageResStDebug.Designer.cs">
+    <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MessageResStDebug.resx</DependentUpon>
+      <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="StaticDebugForModel.cs" />
     <Compile Include="StaticDebugForNetwork.cs" />
@@ -95,13 +95,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MessageResStDebug.ja.resx">
+    <EmbeddedResource Include="MessageResources.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResStDebug.resx">
+    <EmbeddedResource Include="MessageResources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MessageResStDebug.Designer.cs</LastGenOutput>
+      <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="StaticDebugSetupWindow.ja.resx">
       <SubType>Designer</SubType>

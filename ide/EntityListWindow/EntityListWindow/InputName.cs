@@ -91,7 +91,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
             if (String.IsNullOrEmpty(name)) return;
             if (!name.EndsWith(Constants.xpathProcess) && !name.EndsWith(Constants.xpathStepper))
             {
-                Util.ShowWarningDialog(MessageResEntList.WarnDMName);
+                Util.ShowWarningDialog(MessageResources.WarnDMName);
                 return;
             }
 
@@ -112,7 +112,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
             }
             catch (Exception)
             {
-                Util.ShowErrorDialog(string.Format(MessageResEntList.ErrCreateFile,
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrCreateFile,
                     new object[] { name }));                
             }
         }

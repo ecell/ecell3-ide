@@ -117,28 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmClose" xml:space="preserve">
-    <value>このウインドウを閉じてもよろしいですか？</value>
+  <data name="CreLoggerMenuText" xml:space="preserve">
+    <value>ロガー設定</value>
   </data>
-  <data name="ErrInputData" xml:space="preserve">
-    <value>数値以外のデータが格納されています。</value>
+  <data name="ObjectList" xml:space="preserve">
+    <value>スプレッドシート</value>
   </data>
-  <data name="FinishSave" xml:space="preserve">
-    <value>シミュレーションログを保存しました</value>
-  </data>
-  <data name="MenuItemDeleteText" xml:space="preserve">
-    <value>削除</value>
-  </data>
-  <data name="MenuItemShowSaveTraceText" xml:space="preserve">
-    <value>グラフ保存...</value>
-  </data>
-  <data name="MenuItemShowTraceSetupText" xml:space="preserve">
-    <value>グラフ設定(&amp;T)...</value>
-  </data>
-  <data name="MenuItemShowTraceText" xml:space="preserve">
-    <value>グラフ表示(&amp;T)...</value>
-  </data>
-  <data name="TracerWindow" xml:space="preserve">
-    <value>グラフ</value>
+  <data name="SearchMenuText" xml:space="preserve">
+    <value>検索...</value>
   </data>
 </root>

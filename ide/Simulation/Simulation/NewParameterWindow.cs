@@ -81,7 +81,7 @@ namespace Ecell.IDE.Plugins.Simulation
             string data = paramTextBox.Text;
             if (String.IsNullOrEmpty(data))
             {
-                Util.ShowWarningDialog(String.Format(MessageResSimulation.ErrNoInput,
+                Util.ShowWarningDialog(String.Format(MessageResources.ErrNoInput,
                     new object[] { "Name" }));
 
                 return;
@@ -89,7 +89,7 @@ namespace Ecell.IDE.Plugins.Simulation
 
             if (Util.IsNGforID(data))
             {
-                Util.ShowWarningDialog(MessageResSimulation.ErrIDNG);
+                Util.ShowWarningDialog(MessageResources.ErrIDNG);
                 return;
             }
             try
@@ -160,13 +160,13 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             if (String.IsNullOrEmpty(paramTextBox.Text))
             {
-                Util.ShowWarningDialog(String.Format(MessageResSimulation.ErrNoInput,
+                Util.ShowWarningDialog(String.Format(MessageResources.ErrNoInput,
                     new object[] { "Name" }));
                 return;
             }
             if (Util.IsNGforID(paramTextBox.Text))
             {
-                Util.ShowWarningDialog(MessageResSimulation.ErrIDNG);
+                Util.ShowWarningDialog(MessageResources.ErrIDNG);
                 return;
             }
             string newParamName = paramTextBox.Text;

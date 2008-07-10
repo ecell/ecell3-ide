@@ -172,7 +172,7 @@ namespace Ecell.IDE.Plugins.ScriptWindow
                 FontFamily.GenericMonospace, 9.0f
             );
             this.Name = "ScriptWindow";
-            this.Text = MessageResScript.ScriptWindow;
+            this.Text = MessageResources.ScriptWindow;
             this.TabText = this.Text;
 
             m_defaultFont = SWMessageText.SelectionFont;

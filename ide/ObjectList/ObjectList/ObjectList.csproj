@@ -79,10 +79,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IObjectListTabPage.cs" />
-    <Compile Include="MessageResObjList.Designer.cs">
+    <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MessageResObjList.resx</DependentUpon>
+      <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="ModelTabPage.cs" />
     <Compile Include="ObjectList.cs">
@@ -130,13 +130,13 @@
   <ItemGroup>
     <EmbeddedResource Include="column.xml">
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResObjList.ja.resx">
+    <EmbeddedResource Include="MessageResourcesja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResObjList.resx">
+    <EmbeddedResource Include="MessageResources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MessageResObjList.Designer.cs</LastGenOutput>
+      <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="SearchInstance.ja.resx">
       <SubType>Designer</SubType>

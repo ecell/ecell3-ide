@@ -119,7 +119,7 @@ namespace Ecell.IDE.Plugins.SearchWindow
             m_searchMenu.Name = "MenuItemSearch";
             m_searchMenu.Size = new Size(96, 22);
             m_searchMenu.Image = (Image)Resource1.find;
-            m_searchMenu.Text = MessageResSearch.MenuItemSearchText;
+            m_searchMenu.Text = MessageResources.MenuItemSearchText;
             m_searchMenu.Enabled = false;
             m_searchMenu.Click += new EventHandler(this.ShowSearchWindow);
 
@@ -160,7 +160,7 @@ namespace Ecell.IDE.Plugins.SearchWindow
 
             button1.Size = new System.Drawing.Size(23, 22);
             button1.Text = "";
-            button1.ToolTipText = MessageResSearch.ToolTipSearch;
+            button1.ToolTipText = MessageResources.ToolTipSearch;
             button1.Click += new System.EventHandler(this.Search);
             list.Items.Add(button1);
 

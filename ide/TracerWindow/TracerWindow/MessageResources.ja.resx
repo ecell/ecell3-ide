@@ -117,17 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CreLoggerMenuText" xml:space="preserve">
-    <value>Create Logger</value>
+  <data name="ConfirmClose" xml:space="preserve">
+    <value>このウインドウを閉じてもよろしいですか？</value>
   </data>
-  <data name="ObjectList" xml:space="preserve">
-    <value>ObjectList</value>
+  <data name="ErrInputData" xml:space="preserve">
+    <value>数値以外のデータが格納されています。</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="objlist" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\objlist.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="FinishSave" xml:space="preserve">
+    <value>シミュレーションログを保存しました</value>
   </data>
-  <data name="SearchMenuText" xml:space="preserve">
-    <value>Search ...</value>
+  <data name="MenuItemDeleteText" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="MenuItemImportData" xml:space="preserve">
+    <value>インポート ...</value>
+  </data>
+  <data name="MenuItemShowSaveTraceText" xml:space="preserve">
+    <value>グラフ保存...</value>
+  </data>
+  <data name="MenuItemShowTraceSetupText" xml:space="preserve">
+    <value>グラフ設定(&amp;T)...</value>
+  </data>
+  <data name="MenuItemShowTraceText" xml:space="preserve">
+    <value>グラフ表示(&amp;T)...</value>
+  </data>
+  <data name="TracerWindow" xml:space="preserve">
+    <value>グラフ</value>
   </data>
 </root>

@@ -165,14 +165,14 @@ namespace Ecell.IDE.Plugins.TracerWindow
             List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();
 
             m_showWin = new ToolStripMenuItem();
-            m_showWin.Text = MessageResTrace.MenuItemShowTraceText;
+            m_showWin.Text = MessageResources.MenuItemShowTraceText;
             m_showWin.Name = "MenuItemShowTrace";
             m_showWin.Size = new Size(96, 22);
             m_showWin.Enabled = false;
             m_showWin.Click += new EventHandler(this.ShowTracerWindow);
 
             m_showSaveWin = new ToolStripMenuItem();
-            m_showSaveWin.Text = MessageResTrace.MenuItemShowSaveTraceText;
+            m_showSaveWin.Text = MessageResources.MenuItemShowSaveTraceText;
             m_showSaveWin.Name = "MenuItemShowSaveTrace";
             m_showSaveWin.Size = new Size(96, 22);
             m_showSaveWin.Enabled = false;
@@ -191,7 +191,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_setupWin = new ToolStripMenuItem();
             m_setupWin.Name = "MenuItemShowTraceSetup";
             m_setupWin.Size = new Size(96, 22);
-            m_setupWin.Text = MessageResTrace.MenuItemShowTraceSetupText;
+            m_setupWin.Text = MessageResources.MenuItemShowTraceSetupText;
             //            m_setupWin.Text = "TracerWindow";
             m_setupWin.Enabled = true;
             m_setupWin.Click += new EventHandler(this.ShowSetupTracerWindow);
@@ -766,7 +766,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResTrace.ErrInputData);
+                Util.ShowErrorDialog(MessageResources.ErrInputData);
             }
             finally
             {
@@ -799,7 +799,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_win.Disposed += new EventHandler(FormDisposed);
             m_win.Shown += new EventHandler(m_win.ShownEvent);
             m_win.m_entry = new List<TagData>();
-            m_win.Text = MessageResTrace.TracerWindow + m_winCount;
+            m_win.Text = MessageResources.TracerWindow + m_winCount;
             m_win.TabText = m_win.Text;
             m_winCount++;
 
@@ -864,6 +864,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private string m_key;
         private string m_type;
         private string m_path;
+        private bool m_isLoaded = false;
         private bool m_isContinue = false;
 
         /// <summary>
@@ -910,6 +911,15 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             get { return this.m_isContinue; }
             set { this.m_isContinue = value; }
+        }
+
+        /// <summary>
+        /// get / set whether this log is loaded.
+        /// </summary>
+        public bool isLoaded
+        {
+            get { return this.m_isLoaded; }
+            set { this.m_isLoaded = value; }
         }
 
         /// <summary>

@@ -24,7 +24,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
             m_owner = owner;
             base.m_isSavable = true;
             InitializeComponent();
-            this.Text = MessageResEntList.EntityList;
+            this.Text = MessageResources.EntityList;
             this.TabText = this.Text;
             this.treeView1.ImageList = m_owner.Environment.PluginManager.NodeImageList;
         }

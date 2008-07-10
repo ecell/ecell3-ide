@@ -37,6 +37,7 @@
             this.full = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.m_folderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.m_colorDialog = new System.Windows.Forms.ColorDialog();
+            this.m_openDialog = new System.Windows.Forms.OpenFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
@@ -119,5 +120,6 @@
         private System.Windows.Forms.DataGridViewImageColumn color;
         private System.Windows.Forms.DataGridViewImageColumn LineStyle;
         private System.Windows.Forms.DataGridViewTextBoxColumn full;
+        private System.Windows.Forms.OpenFileDialog m_openDialog;
     }
 }

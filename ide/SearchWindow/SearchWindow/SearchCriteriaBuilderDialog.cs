@@ -53,7 +53,7 @@ namespace Ecell.IDE.Plugins.SearchWindow
         /// <summary>
         /// ResourceManager for SearchCriteriaBuilderDialog.
         /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResSearch));
+        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
 
         /// <summary>

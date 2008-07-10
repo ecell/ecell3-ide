@@ -15,6 +15,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private LineItem m_currentLineItem;
         private LineItem m_tmpLineItem;
         private bool m_isContinuous;
+        private bool m_isLoaded;
         private PointD m_prevPoints;
 
 
@@ -42,17 +43,24 @@ namespace Ecell.IDE.Plugins.TracerWindow
             set { m_isContinuous = value; }
         }
 
+        public bool IsLoaded
+        {
+            get { return m_isLoaded; }
+            set { m_isLoaded = value; }
+        }
+
         public TraceEntry()
         {
             m_prevPoints = new PointD(0.0, 0.0);
         }
 
-        public TraceEntry(string path, LineItem cItem, LineItem tItem, bool isCont)
+        public TraceEntry(string path, LineItem cItem, LineItem tItem, bool isCont, bool isLoad)
         {
             m_path = path;
             m_currentLineItem = cItem;
             m_tmpLineItem = tItem;
             m_isContinuous = isCont;
+            m_isLoaded = isLoad;
             m_prevPoints = new PointD(0.0, 0.0);
         }
 

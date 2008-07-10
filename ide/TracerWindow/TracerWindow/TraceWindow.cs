@@ -119,6 +119,14 @@ namespace Ecell.IDE.Plugins.TracerWindow
             InitializeComponent();
             dgv.DragEnter += new DragEventHandler(dgv_DragEnter);
             dgv.DragDrop += new DragEventHandler(dgv_DragDrop);
+
+            ContextMenuStrip cStrip = new ContextMenuStrip();
+            ToolStripMenuItem it = new ToolStripMenuItem();
+            it.Text = MessageResources.MenuItemImportData;
+            it.Click += new EventHandler(ImportDataItem);
+            cStrip.Items.AddRange(new ToolStripItem[] { it });
+            dgv.ContextMenuStrip = cStrip;
+
         }
 
         void dgv_DragEnter(object sender, DragEventArgs e)
@@ -243,7 +251,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
             ContextMenuStrip contextStrip = new ContextMenuStrip();
             ToolStripMenuItem it = new ToolStripMenuItem();
-            it.Text = MessageResTrace.MenuItemDeleteText;
+            it.Text = MessageResources.MenuItemDeleteText;
             it.ShortcutKeys = Keys.Control | Keys.D;
             it.Click += new EventHandler(DeleteTraceItem);
             it.Tag = r;
@@ -259,7 +267,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             LineItem i1 = m_zCnt.GraphPane.AddCurve(tag.M_path,
                     new PointPairList(), ColorCreator.GetColor(ind), SymbolType.None);
             i1.Line.Width = 2;
-            m_entryDic.Add(tag.M_path, new TraceEntry(tag.M_path, i, i1, tag.IsContinue));
+            m_entryDic.Add(tag.M_path, new TraceEntry(tag.M_path, i, i1, tag.IsContinue, tag.isLoaded));
             m_tagDic.Add(tag.M_path, tag.IsContinue);
         }
 
@@ -284,7 +292,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 if (!entPath.Equals(org.M_path)) continue;
                 TraceEntry p = m_entryDic[entPath];
-                m_entryDic.Add(path, new TraceEntry(path, p.CurrentLineItem, p.TmpLineItem, p.IsContinuous));
+                m_entryDic.Add(path, new TraceEntry(path, p.CurrentLineItem, p.TmpLineItem, p.IsContinuous, p.IsLoaded));
                 m_entryDic.Remove(entPath);
                 break;
             }
@@ -347,6 +355,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         public void StartSimulation()
         {
+            Console.WriteLine(isSuspend);
             if (!isSuspend)
             {
                 foreach (string key in m_entryDic.Keys)
@@ -431,6 +440,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_zCnt.AxisChange();
                 m_zCnt.Refresh();
             }
+            else if (m_zCnt.GraphPane.IsZoomed)
+            {
+            }
             else
             {
                 Graphics g = m_zCnt.CreateGraphics();
@@ -460,9 +472,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 if (m_current > m_zCnt.GraphPane.XAxis.Scale.Max ||
                     nextTime < m_zCnt.GraphPane.XAxis.Scale.Min)
                 {
+                    Console.WriteLine("IN");
                     m_current = nextTime;
                     return;
                 }
+                Console.WriteLine("OUT");
             }
             else
             {
@@ -482,27 +496,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
                         foreach (string key in m_entryDic.Keys)
                         {
                             m_entryDic[key].ThinPoints();
-                            //for (int j = 0; j < m_entryDic[key].TmpLineItem.Points.Count; j++)
-                            //{
-                            //    m_entryDic[key].CurrentLineItem.AddPoint(m_entryDic[key].TmpLineItem.Points[j]);
-                            //}
-                            //m_entryDic[key].TmpLineItem.Clear();
-
-                            //if (m_entryDic[key].CurrentLineItem.Points.Count > TracerWindow.s_count)
-                            //{
-                            //    int i = 1;
-                            //    while (i < m_entryDic[key].CurrentLineItem.Points.Count)
-                            //    {
-                            //        m_entryDic[key].CurrentLineItem.RemovePoint(i);
-                            //        i = i + 5;
-                            //    }
-                            //}
-
-                            //int l = m_entryDic[key].CurrentLineItem.Points.Count;
-                            //if (l > 0)
-                            //{
-                            //    m_entryDic[key].TmpLineItem.AddPoint(m_entryDic[key].CurrentLineItem.Points[l - 1]);
-                            //}
                         }
                     }
                     isAxis = true;
@@ -515,24 +508,18 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 string p = d.type + ":" + d.key + ":" + d.propName;
                 if (!m_entryDic.ContainsKey(p)) continue;
+                if (m_entryDic[p].IsLoaded != d.IsLoaded) continue;
+                if (m_zCnt.GraphPane.IsZoomed) continue;
 
                 bool isRet = m_entryDic[p].AddPoint(d.logValueList, m_zCnt.GraphPane.YAxis.Scale.Max, m_zCnt.GraphPane.YAxis.Scale.Min);
                 if (isAxis == false)
                 {
                     isAxis = isRet;
                 }
-                //foreach (LogValue v in d.logValueList)
-                //{
-                //    if (isAxis == false)
-                //    {
-                //        if (m_zCnt.GraphPane.YAxis.Scale.Max < v.value) isAxis = true;
-                //        if (m_zCnt.GraphPane.YAxis.Scale.Min > v.value) isAxis = true;
-                //    }
-                //    m_entryDic[p].TmpLineItem.AddPoint(v.time, v.value);
-                //}
             }
             if (m_zCnt.GraphPane.IsZoomed) isAxis = false;
-            
+
+            Console.WriteLine(m_current + " -> " + nextTime + " : " + isAxis);
             UpdateGraphCallBack dlg = new UpdateGraphCallBack(UpdateGraph);
             this.Invoke(dlg, new object[] { isAxis });
         }
@@ -740,7 +727,13 @@ namespace Ecell.IDE.Plugins.TracerWindow
         public void DeleteTraceEntry(TagData tag)
         {
             EcellObject m_currentObj = m_owner.DataManager.GetEcellObject(tag.M_modelID, tag.M_key, tag.Type);
-            Debug.Assert(m_currentObj != null);
+            // for load data.
+            if (m_currentObj == null)
+            {
+                RemoveLoggerEntry(tag);
+                m_tagDic.Remove(tag.M_key);
+                return;
+            }
 
             foreach (EcellData d in m_currentObj.Value)
             {
@@ -756,7 +749,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_currentObj);
         }
 
-
+        /// <summary>
+        /// The event sequence when the delete menu is clicked. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void DeleteTraceItem(object sender, EventArgs e)
         {
             DataGridViewRow r = ((ToolStripMenuItem)sender).Tag as DataGridViewRow;
@@ -765,6 +762,25 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (tag == null) return;
 
             DeleteTraceEntry(tag);
+        }
+
+        /// <summary>
+        /// The event sequence when the log data os loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ImportDataItem(object sender, EventArgs e)
+        {
+            DialogResult r = m_openDialog.ShowDialog();
+            if (r != DialogResult.OK) return;
+
+            LogData log = m_owner.DataManager.LoadSimulationResult(m_openDialog.FileName);
+            TagData tag = new TagData(log.model, log.key, log.type, log.propName, false);
+            List<LogData> logList = new List<LogData>();
+            tag.isLoaded = true;
+            AddLoggerEntry(tag);
+            logList.Add(log);
+            AddPoints(m_current, m_current, logList);                        
         }
 
         /// <summary>
@@ -828,7 +844,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
             if (m.Msg == WM_SYSCOMMAND && m.WParam.ToInt32() == SC_CLOSE)
             {
-                if (Util.ShowOKCancelDialog(MessageResTrace.ConfirmClose))
+                if (Util.ShowOKCancelDialog(MessageResources.ConfirmClose))
 
 
                 {

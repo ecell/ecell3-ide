@@ -66,7 +66,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <returns>"Model Compliance."</returns>
         public string GetDebugName()
         {
-            return MessageResStDebug.ModelComplianceName;
+            return MessageResources.ModelComplianceName;
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                 {
                     ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
                         obj.Key + ":" + Constants.xpathID,
-                        MessageResStDebug.ErrInvalidID);
+                        MessageResources.ErrInvalidID);
                     m_errorList.Add(mes);
                 }
             }
@@ -231,7 +231,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                 {
                     ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
                         obj.Key + ":" + Constants.xpathID,
-                        MessageResStDebug.ErrInvalidID);
+                        MessageResources.ErrInvalidID);
                     m_errorList.Add(mes);
                 }
             }
@@ -261,7 +261,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             if (isHit == false)
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_entPath,
-                                        MessageResStDebug.ErrNotExistStepper + "[" + l_stepperID + "]");
+                                        MessageResources.ErrNotExistStepper + "[" + l_stepperID + "]");
                 m_errorList.Add(mes);
             }
         }
@@ -278,7 +278,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             if (val == null)
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        MessageResStDebug.ErrNoSet);
+                        MessageResources.ErrNoSet);
                 m_errorList.Add(mes);
                 return;
             }
@@ -296,7 +296,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             if (val == null)
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        MessageResStDebug.ErrNoSet);
+                        MessageResources.ErrNoSet);
                 m_errorList.Add(mes);
                 return;
             }
@@ -304,7 +304,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             if (d <= 0.0)
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        MessageResStDebug.ErrPositive);
+                        MessageResources.ErrPositive);
                 m_errorList.Add(mes);
                 return;
             }
@@ -322,7 +322,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             if (val == null)
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        MessageResStDebug.ErrNoSet);
+                        MessageResources.ErrNoSet);
                 m_errorList.Add(mes);
                 return;
             }
@@ -330,7 +330,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             if (d < 0.0)
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath,
-                        MessageResStDebug.ErrPositiveZero);
+                        MessageResources.ErrPositiveZero);
                 m_errorList.Add(mes);
                 return;
             }
@@ -351,7 +351,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             if (minValue > maxValue)
             {
                 ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_max.EntityPath,
-                        MessageResStDebug.ErrMaxMin);
+                        MessageResources.ErrMaxMin);
                 m_errorList.Add(mes);
                 return;
             }
@@ -383,7 +383,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             }
             if (leftBracketsCount != rightBracketsCount)
             {
-                ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath, MessageResStDebug.ErrBrackets);
+                ErrorMessage mes = new ErrorMessage(l_modelID, l_type, l_data.EntityPath, MessageResources.ErrBrackets);
                 m_errorList.Add(mes);
                 return;            
             }

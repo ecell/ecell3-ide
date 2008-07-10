@@ -67,7 +67,7 @@ namespace Ecell.IDE.Plugins.MessageListWindow
             this.m_messages = new List<IMessageEntry>();
             InitializeComponent();
             this.Name = "MessageListWindow";
-            this.Text = MessageResMessageList.MessageListWindow;
+            this.Text = MessageResources.MessageListWindow;
             this.TabText = this.Text;
 
             this.Shown += new EventHandler(ShownMessageListWindowControl);

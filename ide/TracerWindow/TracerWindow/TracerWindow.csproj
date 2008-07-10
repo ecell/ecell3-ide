@@ -87,10 +87,10 @@
     <Compile Include="LineStyleDialog.Designer.cs">
       <DependentUpon>LineStyleDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="MessageResTrace.Designer.cs">
+    <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MessageResTrace.resx</DependentUpon>
+      <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -128,13 +128,13 @@
       <SubType>Designer</SubType>
       <DependentUpon>LineStyleDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResTrace.ja.resx">
+    <EmbeddedResource Include="MessageResources.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResTrace.resx">
+    <EmbeddedResource Include="MessageResources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MessageResTrace.Designer.cs</LastGenOutput>
+      <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>

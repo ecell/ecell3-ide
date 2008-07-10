@@ -219,7 +219,7 @@ namespace Ecell.IDE.Plugins.ObjectList
 
             m_contextMenu = new ContextMenuStrip();
             ToolStripMenuItem it = new ToolStripMenuItem();
-            it.Text = MessageResObjList.SearchMenuText;
+            it.Text = MessageResources.SearchMenuText;
             it.ShortcutKeys = Keys.Control | Keys.F;
             it.Click += new EventHandler(ClickSearchMenu);
 

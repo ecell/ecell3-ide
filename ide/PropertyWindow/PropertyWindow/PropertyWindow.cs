@@ -476,8 +476,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         {
             EcellDockContent dock = new EcellDockContent();
             dock.Name = "PropertyWindow";
-            dock.Text = MessageResProperty.PropertyWindow;
-            dock.Icon = MessageResProperty.proper;         
+            dock.Text = MessageResources.PropertyWindow;
+            dock.Icon = MessageResources.proper;         
             dock.TabText = dock.Text;
             dock.Controls.Add(m_dgv);
             dock.IsSavable = true;
@@ -1006,7 +1006,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                             continue;
                         if (name.Equals(m_dgv[0, i].Value.ToString()))
                         {
-                            Util.ShowErrorDialog(MessageResProperty.ErrSameProp);
+                            Util.ShowErrorDialog(MessageResources.ErrSameProp);
                             try
                             {
                                 m_dgv.Rows.RemoveAt(e.RowIndex);
@@ -1043,7 +1043,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 }
                 else
                 {
-                    Util.ShowErrorDialog(MessageResProperty.ErrNoProp);
+                    Util.ShowErrorDialog(MessageResources.ErrNoProp);
 
                     try
                     {
@@ -1064,7 +1064,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     (m_current.Type != Constants.xpathSystem && Util.IsNGforComponentFullID(tmpID)))
                 {
                     editCell.Value = m_current.Key;
-                    Util.ShowErrorDialog(MessageResProperty.ErrID);
+                    Util.ShowErrorDialog(MessageResources.ErrID);
 
                     return;
                 }
@@ -1142,7 +1142,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         catch (Exception ex)
                         {
                             Trace.WriteLine(ex);
-                            Util.ShowErrorDialog(MessageResProperty.ErrFormat);
+                            Util.ShowErrorDialog(MessageResources.ErrFormat);
                             return;
                         }
                     }

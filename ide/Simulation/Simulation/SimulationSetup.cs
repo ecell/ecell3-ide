@@ -324,7 +324,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 }
                 catch (Exception)
                 {
-                    Util.ShowErrorDialog(MessageResSimulation.ErrInvalidValue);
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                     return;
                 }
             }
@@ -436,8 +436,8 @@ namespace Ecell.IDE.Plugins.Simulation
                 if (freqByStepRadio.Checked)
                 {
                     if (String.IsNullOrEmpty( freqByStepTextBox.Text))
-                    {                        
-                        Util.ShowErrorDialog(String.Format(MessageResSimulation.ErrNoInput,
+                    {
+                        Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput,
                             new object[] { "Step" }));
 
                         return;
@@ -448,7 +448,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 {
                     if (freqBySecTextBox.Text == "")
                     {
-                        Util.ShowErrorDialog(String.Format(MessageResSimulation.ErrNoInput,
+                        Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput,
                             new object[] { "Sec" }));
 
                         return;
@@ -469,7 +469,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 {
                     if (maxKbTextBox.Text == "")
                     {
-                        Util.ShowErrorDialog(String.Format(MessageResSimulation.ErrNoInput,
+                        Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput,
                             new object[] { "Disk Size" }));
 
                         return;
@@ -483,7 +483,7 @@ namespace Ecell.IDE.Plugins.Simulation
             }
             catch (Exception ex)
             {
-                String errmes = MessageResSimulation.ErrUpdateLog;
+                String errmes = MessageResources.ErrUpdateLog;
                 Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
                 return;
             }
@@ -663,7 +663,7 @@ namespace Ecell.IDE.Plugins.Simulation
             string param = paramCombo.SelectedItem.ToString();
             if (param == "DefaultParameter" || paramCombo.Items.Count == 1)
             {
-                Util.ShowWarningDialog(String.Format(MessageResSimulation.ErrDelParam,
+                Util.ShowWarningDialog(String.Format(MessageResources.ErrDelParam,
                     new object[] { param }));
                 return;
             }
@@ -728,7 +728,7 @@ namespace Ecell.IDE.Plugins.Simulation
 
             if (stepperListBox.Items.Count <= 1)
             {
-                Util.ShowWarningDialog(MessageResSimulation.ErrDelStep);
+                Util.ShowWarningDialog(MessageResources.ErrDelStep);
 
                 return;
             }
@@ -749,7 +749,7 @@ namespace Ecell.IDE.Plugins.Simulation
         public void AddStepperClick(object sender, EventArgs e)
         {
             NewParameterWindow m_newwin = new NewParameterWindow(this);
-            m_newwin.Text = MessageResSimulation.NewStepperText;
+            m_newwin.Text = MessageResources.NewStepperText;
             m_newwin.CPCreateButton.Click += new EventHandler(m_newwin.AddStepperClick);
             m_newwin.SetParentWindow(this);
 

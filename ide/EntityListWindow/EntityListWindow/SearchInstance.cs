@@ -81,7 +81,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
             string text = this.searchText.Text;
             if (!m_plugin.SearchNode(node, text))
             {
-                Util.ShowNoticeDialog(MessageResEntList.NoticeNotFind);
+                Util.ShowNoticeDialog(MessageResources.NoticeNotFind);
             }
             else
             {

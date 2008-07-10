@@ -69,7 +69,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <summary>
         /// ResourceManager for StaticDebugWindow.
         /// </summary>
-        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResStDebug));
+        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
 
         #region Property
@@ -105,7 +105,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             m_staticDebug = new ToolStripMenuItem();
             m_staticDebug.Name = "MenuItemStaticDebug";
             m_staticDebug.Size = new Size(96, 22);
-            m_staticDebug.Text = MessageResStDebug.MenuItemStaticDebugText;
+            m_staticDebug.Text = MessageResources.MenuItemStaticDebugText;
             m_staticDebug.Tag = 10;
             m_staticDebug.Enabled = false;
             m_staticDebug.Click += new EventHandler(this.ShowStaticDebugSetupWindow);

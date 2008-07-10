@@ -117,28 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmClose" xml:space="preserve">
-    <value>Do you really want to close this window?</value>
+  <data name="CreLoggerMenuText" xml:space="preserve">
+    <value>Create Logger</value>
   </data>
-  <data name="ErrInputData" xml:space="preserve">
-    <value>There are no numerical data.</value>
+  <data name="ObjectList" xml:space="preserve">
+    <value>SpreadSheet</value>
   </data>
-  <data name="FinishSave" xml:space="preserve">
-    <value>Finish to save the simulation log successfully.</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="objlist" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\objlist.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MenuItemDeleteText" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="MenuItemShowSaveTraceText" xml:space="preserve">
-    <value>Save Graph...</value>
-  </data>
-  <data name="MenuItemShowTraceSetupText" xml:space="preserve">
-    <value>&amp;Graph Setup...</value>
-  </data>
-  <data name="MenuItemShowTraceText" xml:space="preserve">
-    <value>Show &amp;Graph...</value>
-  </data>
-  <data name="TracerWindow" xml:space="preserve">
-    <value>Graph</value>
+  <data name="SearchMenuText" xml:space="preserve">
+    <value>Search ...</value>
   </data>
 </root>

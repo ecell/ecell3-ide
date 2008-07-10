@@ -125,7 +125,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
             m_owner.DataManager.SaveSimulationResult(dirName, start, end, fileType, fullID);
 
-            Util.ShowNoticeDialog(MessageResTrace.FinishSave);
+            Util.ShowNoticeDialog(MessageResources.FinishSave);
 
         }
     }

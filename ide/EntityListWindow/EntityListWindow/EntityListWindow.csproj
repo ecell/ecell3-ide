@@ -102,10 +102,10 @@
     <Compile Include="InputName.Designer.cs">
       <DependentUpon>InputName.cs</DependentUpon>
     </Compile>
-    <Compile Include="MessageResEntList.Designer.cs">
+    <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MessageResEntList.resx</DependentUpon>
+      <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="MultiSelectTreeView.cs">
       <SubType>Component</SubType>
@@ -123,13 +123,13 @@
       <SubType>Designer</SubType>
       <DependentUpon>InputName.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResEntList.ja.resx">
+    <EmbeddedResource Include="MessageResources.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResEntList.resx">
+    <EmbeddedResource Include="MessageResources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MessageResEntList.Designer.cs</LastGenOutput>
+      <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
