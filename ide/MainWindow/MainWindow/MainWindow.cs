@@ -57,10 +57,15 @@ using Ecell.Plugin;
 using WeifenLuo.WinFormsUI.Docking;
 using Ecell.Objects;
 using System.Xml;
+using System.Runtime.InteropServices;
+using Ecell.IDE.MainWindow.COM;
 
 namespace Ecell.IDE.MainWindow
 {
-    public partial class MainWindow : Form, IEcellPlugin, IDockOwner
+    [ComVisible(true)]
+    [Guid("758E6028-5769-4048-B3CB-AC633B9CABAF")]
+    [ClassInterface(ClassInterfaceType.AutoDispatch)]
+    public partial class MainWindow : Form, IEcellPlugin, IDockOwner, IAutomationServerObject
     {
         #region Fields
         /// <summary>
@@ -607,7 +612,7 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         internal void SetStartUpWindow()
         {
-            EcellDockContent content = new StartUpWindow(this);
+            EcellDockContent content = new EcellWebBrowser(this);
             content.Name = "StartUpWindow";
             content.Text = "StartUpWindow";
             content.DockHandler.DockPanel = this.dockPanel;
@@ -1185,6 +1190,20 @@ namespace Ecell.IDE.MainWindow
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="prjID"></param>
+        /// <param name="fileName"></param>
+        public void LoadProjectIE(string prjID, string fileName)
+        {
+            Invoke(new MethodInvoker(delegate() { MessageBox.Show(prjID + "\n" + fileName); }));
+        }
+
+        public void Test(string str)
+        {
+            Invoke(new MethodInvoker(delegate() { MessageBox.Show(str); }));
+        }
 
         /// <summary>
         /// Load Project.
@@ -1644,7 +1663,7 @@ namespace Ecell.IDE.MainWindow
                 {
                     if (File.Exists(m_openFileDialog.FileName))
                     {
-                        m_env.DataManager.LoadUserActionFile(m_openFileDialog.FileName);
+                        LoadUserActionFile(m_openFileDialog.FileName);
                     }
                     else
                     {
@@ -1658,7 +1677,14 @@ namespace Ecell.IDE.MainWindow
                 Util.ShowErrorDialog(ex.Message);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filename"></param>
+        public void LoadUserActionFile(string filename)
+        {
+            m_env.DataManager.LoadUserActionFile(filename);
+        }
         /// <summary>
         /// The action of clicking the save action menu.
         /// Save the action to the file.

@@ -35,14 +35,13 @@ using System.Windows.Forms;
 using System.IO;
 using System.Drawing;
 using System.Threading;
-using System.Globalization;
 
 namespace Ecell.IDE.MainWindow
 {
     /// <summary>
     /// StartUpWindow
     /// </summary>
-    public class StartUpWindow : EcellDockContent
+    public class EcellWebBrowser : EcellDockContent
     {
         #region Fields
         private const string URL = "http://chaperone.e-cell.org/trac/ecell-ide";
@@ -67,7 +66,7 @@ namespace Ecell.IDE.MainWindow
         /// Constructor
         /// </summary>
         /// <param name="window"></param>
-        public StartUpWindow(MainWindow window)
+        public EcellWebBrowser(MainWindow window)
         {
             m_window = window;
             InitializeComponent();
@@ -87,13 +86,13 @@ namespace Ecell.IDE.MainWindow
             List<string> candidates = new List<string>();
 
             string documentDir = Util.GetWindowSettingDir();
-            CultureInfo lang = Util.GetLanguage();
+            string lang = Util.GetLang();
             if (documentDir != null)
             {
                 candidates.Add(Path.Combine(documentDir,
                     Constants.fileStartupHTML));
                 candidates.Add(Path.Combine(documentDir,
-                    lang.TwoLetterISOLanguageName + "_" + Constants.fileStartupHTML));
+                    lang + "_" + Constants.fileStartupHTML));
             }
             foreach (string candidate in candidates)
             {
@@ -109,7 +108,7 @@ namespace Ecell.IDE.MainWindow
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartUpWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EcellWebBrowser));
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.webBrowser = new System.Windows.Forms.WebBrowser();

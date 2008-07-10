@@ -10,7 +10,7 @@ namespace Ecell.IDE.MainWindow.COM
     [InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     interface IAutomationServerObject
     {
-        void LoadProject(string filepath);
-        void CreateNewProject();
+        void LoadProjectIE(string projectID, string filepath);
+        void Test(string test);
     }
 }

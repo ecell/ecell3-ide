@@ -48,7 +48,7 @@ namespace Ecell.IDE.MainWindow
     class Program
     {
         static bool s_noSplash = false;
-
+        static bool s_register = false;
         enum OptionKind
         {
             PluginDirectory
@@ -65,51 +65,67 @@ namespace Ecell.IDE.MainWindow
         {
             string[] fileList = parseArguments(args);
 
+            if (s_register)
+            {
+                // Local Server をレジストリに登録
+                // この操作は本来であればインストーラが行う
+                Assembly currentExecutable = Assembly.GetExecutingAssembly();
+                Guid myGuid = COMUtils.GetGuidOf(currentExecutable);
+                COMUtils.RegisterProgID(
+                    "ECellIDE.AutomationServer",
+                    myGuid);
+                COMUtils.RegisterLocalServer(myGuid,
+                    currentExecutable.Location,
+                    "ECellIDE.AutomationServer",
+                    null);
+                Console.Write("アプリケーション [" + currentExecutable.FullName + "] をLocal Serverとしてレジストリに登録しました。");
+                return;
+            }
+
             Util.InitialLanguage();
+            //XPでツリービューがおかしくなる
             //Application.EnableVisualStyles();
             //Vistaでエラーになる
             //Application.SetCompatibleTextRenderingDefault(false);
 
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(MainWindow));
             ApplicationEnvironment env = ApplicationEnvironment.GetInstance();
+            AutomationServerClassFactory ascf = RegisterClassFactory();
 
-            Splash frmSplash = !s_noSplash ? new Splash(): null;
-            ApplicationContext me = new ApplicationContext();
+            Splash frmSplash = new Splash();
+            //ApplicationContext me = new ApplicationContext();
 
-
+            if (!s_noSplash)
+                frmSplash.Show();
+            MainWindow window = null;
             EventHandler onIdle = null;
             onIdle = delegate(object sender, EventArgs ev)
             {
                 Application.Idle -= onIdle;
                 IEcellPlugin mainWnd = env.PluginManager.RegisterPlugin(
                     typeof(Ecell.IDE.MainWindow.MainWindow));
-                me.MainForm = (Form)mainWnd;
+                window = (MainWindow)mainWnd;
+                //me.MainForm = window;
+                ascf.AutomationServerObject = window;
                 env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
                 ((Form)mainWnd).Show();
-                if (frmSplash != null)
-                {
+
+                if (!s_noSplash)
                     frmSplash.Close();
-                }
 
                 foreach (string fPath in fileList)
                 {
                     if (fPath.EndsWith(Constants.FileExtEML))
                     {
-                        ((MainWindow)mainWnd).LoadModel(fPath);
+                        window.LoadModel(fPath);
                     }
                     else
                     {
-                        env.DataManager.LoadUserActionFile(fPath);
+                        window.LoadUserActionFile(fPath);
                     }
                 }
             };
-
-            if (frmSplash != null)
-            {
-                frmSplash.Show();
-            }
             Application.Idle += onIdle;
-            Application.Run(me);
+            Application.Run(window);
         }
 
         /// <summary>
@@ -166,6 +182,10 @@ namespace Ecell.IDE.MainWindow
                     {
                         AllocConsole();
                         Trace.Listeners.Add(new ConsoleTraceListener());
+                    }
+                    else if (arg == "/REGISTER")
+                    {
+                        s_register = true;
                     }
                 }
                 else
