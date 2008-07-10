@@ -36,7 +36,7 @@ using System.Text;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Ecell.IDE.MainWindow
+namespace Ecell.IDE
 {
     /// <summary>
     /// SplashSheet window class.

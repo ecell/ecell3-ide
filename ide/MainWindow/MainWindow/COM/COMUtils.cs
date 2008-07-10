@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
 
-namespace Ecell.IDE.MainWindow.COM
+namespace Ecell.IDE.COM
 {
     static class COMUtils
     {

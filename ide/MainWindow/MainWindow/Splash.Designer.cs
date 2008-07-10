@@ -1,4 +1,4 @@
-﻿namespace Ecell.IDE.MainWindow
+﻿namespace Ecell.IDE
 {
     partial class Splash
     {

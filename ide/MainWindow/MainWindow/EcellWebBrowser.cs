@@ -36,6 +36,7 @@ using System.IO;
 using System.Drawing;
 using System.Threading;
 using System.Globalization;
+using System.Diagnostics;
 
 namespace Ecell.IDE.MainWindow
 {
@@ -97,6 +98,7 @@ namespace Ecell.IDE.MainWindow
             }
             foreach (string candidate in candidates)
             {
+                Trace.WriteLine("Checking if " + candidate + " exists");
                 if (File.Exists(candidate))
                 {
                     UriBuilder ub = new UriBuilder("file", null);

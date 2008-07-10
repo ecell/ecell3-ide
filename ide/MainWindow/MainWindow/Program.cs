@@ -41,9 +41,9 @@ using System.Runtime.InteropServices;
 
 using Ecell.Message;
 using Ecell.Plugin;
-using Ecell.IDE.MainWindow.COM;
+using Ecell.IDE.COM;
 
-namespace Ecell.IDE.MainWindow
+namespace Ecell.IDE
 {
     class Program
     {
@@ -89,23 +89,23 @@ namespace Ecell.IDE.MainWindow
             //Application.SetCompatibleTextRenderingDefault(false);
 
             ApplicationEnvironment env = ApplicationEnvironment.GetInstance();
-            AutomationServerClassFactory ascf = RegisterClassFactory();
+            ApplicationClassFactory ascf = RegisterClassFactory();
 
             Splash frmSplash = new Splash();
             //ApplicationContext me = new ApplicationContext();
 
             if (!s_noSplash)
                 frmSplash.Show();
-            MainWindow window = null;
+            MainWindow.MainWindow window = null;
             EventHandler onIdle = null;
             onIdle = delegate(object sender, EventArgs ev)
             {
                 Application.Idle -= onIdle;
                 IEcellPlugin mainWnd = env.PluginManager.RegisterPlugin(
                     typeof(Ecell.IDE.MainWindow.MainWindow));
-                window = (MainWindow)mainWnd;
+                window = (MainWindow.MainWindow)mainWnd;
                 //me.MainForm = window;
-                ascf.AutomationServerObject = window;
+                ascf.ApplicationObject = window;
                 env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
                 ((Form)mainWnd).Show();
 
@@ -132,10 +132,10 @@ namespace Ecell.IDE.MainWindow
         /// AutopmationServer
         /// </summary>
         /// <returns></returns>
-        static AutomationServerClassFactory RegisterClassFactory()
+        static ApplicationClassFactory RegisterClassFactory()
         {
-            AutomationServerClassFactory ascf = new AutomationServerClassFactory();
-            Guid ascfGuid = COMUtils.GetGuidOf(typeof(AutomationServerClassFactory));
+            ApplicationClassFactory ascf = new ApplicationClassFactory();
+            Guid ascfGuid = COMUtils.GetGuidOf(typeof(ApplicationClassFactory));
             uint classObjectID = 0;
             int err = COMCalls.CoRegisterClassObject(
                 ref ascfGuid, Marshal.GetIUnknownForObject(ascf),

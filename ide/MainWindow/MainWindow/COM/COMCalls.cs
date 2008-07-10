@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Ecell.IDE.MainWindow.COM
+namespace Ecell.IDE.COM
 {
     static class COMCalls
     {

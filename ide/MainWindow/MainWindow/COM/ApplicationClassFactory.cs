@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Ecell.IDE.MainWindow.COM
+namespace Ecell.IDE.COM
 {
     [Guid("E03C55ED-65CB-4c8b-BA04-B535BB559F44")]
-    class AutomationServerClassFactory : IClassFactory
+    class ApplicationClassFactory : IClassFactory
     {
-        private IAutomationServerObject m_aso;
+        private IApplication m_aso;
         private uint m_classObjectID = 0;
 
         [DllImport("ole32.dll")]
@@ -18,17 +18,17 @@ namespace Ecell.IDE.MainWindow.COM
             internal set { m_classObjectID = value; }
         }
 
-        public IAutomationServerObject AutomationServerObject
+        public IApplication ApplicationObject
         {
             get { return m_aso; }
             set { m_aso = value; }
         }
 
-        public AutomationServerClassFactory()
+        public ApplicationClassFactory()
         {
         }
 
-        ~AutomationServerClassFactory()
+        ~ApplicationClassFactory()
         {
             CoRevokeClassObject(ClassObjectID);
         }
@@ -38,10 +38,10 @@ namespace Ecell.IDE.MainWindow.COM
             [In] ref Guid iid,
             out IntPtr instance)
         {
-            if (COMUtils.GetGuidOf(typeof(IAutomationServerObject)) == iid)
+            if (COMUtils.GetGuidOf(typeof(IApplication)) == iid)
             {
                 instance = Marshal.GetComInterfaceForObject(
-                    m_aso, typeof(IAutomationServerObject));
+                    m_aso, typeof(IApplication));
             }
             else if (COMUtils.GetGuidOf(typeof(IUnknown)) == iid)
             {
