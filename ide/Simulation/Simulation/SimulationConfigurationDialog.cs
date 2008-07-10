@@ -44,7 +44,7 @@ namespace Ecell.IDE.Plugins.Simulation
     /// <summary>
     /// Dialog to setup the properties of simulation.
     /// </summary>
-    public partial class SimulationSetup : Form
+    public partial class SimulationConfigurationDialog : Form
     {
         #region Fields
         /// <summary>
@@ -74,7 +74,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <summary>
         /// Constructor for SimulationSetup.
         /// </summary>
-        public SimulationSetup(Simulation owner)
+        public SimulationConfigurationDialog(Simulation owner)
         {
             m_owner = owner;
             InitializeComponent();
@@ -87,7 +87,7 @@ namespace Ecell.IDE.Plugins.Simulation
             SSDeleteButton.Click += new EventHandler(DeleteButtonClick);
             SSCloseButton.Click += new EventHandler(CloseButtonClick);
             SSApplyButton.Click += new EventHandler(UpdateButtonClick);
-            iModelCombo.SelectedIndexChanged += new EventHandler(InitModelComboSelectedIndexChanged);
+            modelCombo.SelectedIndexChanged += new EventHandler(InitModelComboSelectedIndexChanged);
 
             SSSetButton.Click += new EventHandler(SetButtonClick);
             SSAddStepperButton.Click += new EventHandler(AddStepperClick);
@@ -369,19 +369,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 }
                 i++;
             }
-
-            iModelCombo.Items.Clear();
-            List<string> modelList = m_owner.DataManager.GetModelList();
-            foreach (String modelName in modelList)
-            {
-                iModelCombo.Items.Add(modelName);
-                if (j == 0)
-                {
-                    iModelCombo.SelectedIndex = 0;
-                    SetInitialParameter();
-                }
-                j++;
-            }
+            SetInitialParameter();
         }
 
         /// <summary>
@@ -495,7 +483,7 @@ namespace Ecell.IDE.Plugins.Simulation
         private void UpdateInitialCondition()
         {
             string paramName = paramCombo.Text;
-            string modelName = iModelCombo.Text;
+            string modelName = modelCombo.Text;
             Dictionary<string, double> updateList = new Dictionary<string, double>();
 
             // ======================================== 
@@ -643,7 +631,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="e">EventArgs</param>
         public void NewButtonClick(object sender, EventArgs e)
         {
-            NewParameterWindow m_newwin = new NewParameterWindow(this);
+            InputParameterNameDialog m_newwin = new InputParameterNameDialog(this);
 
             m_newwin.CPCreateButton.Click += new EventHandler(m_newwin.NewParameterClick);
             m_newwin.CPCancelButton.Click += new EventHandler(m_newwin.CancelParameterClick);
@@ -748,7 +736,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="e">EventArgs</param>
         public void AddStepperClick(object sender, EventArgs e)
         {
-            NewParameterWindow m_newwin = new NewParameterWindow(this);
+            InputParameterNameDialog m_newwin = new InputParameterNameDialog(this);
             m_newwin.Text = MessageResources.NewStepperText;
             m_newwin.CPCreateButton.Click += new EventHandler(m_newwin.AddStepperClick);
             m_newwin.SetParentWindow(this);
@@ -838,6 +826,7 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
         #endregion
+
 
     }
 }

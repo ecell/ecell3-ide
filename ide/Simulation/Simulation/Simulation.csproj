@@ -86,11 +86,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="NewParameterWindow.cs">
+    <Compile Include="InputParameterNameDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="NewParameterWindow.Designer.cs">
-      <DependentUpon>NewParameterWindow.cs</DependentUpon>
+    <Compile Include="InputParameterNameDialog.Designer.cs">
+      <DependentUpon>InputParameterNameDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="PluginDriver.cs">
       <SubType>Form</SubType>
@@ -108,11 +108,11 @@
     <Compile Include="Simulation.Designer.cs">
       <DependentUpon>Simulation.cs</DependentUpon>
     </Compile>
-    <Compile Include="SimulationSetup.cs">
+    <Compile Include="SimulationConfigurationDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SimulationSetup.Designer.cs">
-      <DependentUpon>SimulationSetup.cs</DependentUpon>
+    <Compile Include="SimulationConfigurationDialog.Designer.cs">
+      <DependentUpon>SimulationConfigurationDialog.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -124,12 +124,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewParameterWindow.ja.resx">
+    <EmbeddedResource Include="InputParameterNameDialog.ja.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>NewParameterWindow.cs</DependentUpon>
+      <DependentUpon>InputParameterNameDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="NewParameterWindow.resx">
-      <DependentUpon>NewParameterWindow.cs</DependentUpon>
+    <EmbeddedResource Include="InputParameterNameDialog.resx">
+      <DependentUpon>InputParameterNameDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PluginDriver.resx">
@@ -145,13 +145,13 @@
       <DependentUpon>Simulation.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="SimulationSetup.ja.resx">
+    <EmbeddedResource Include="SimulationConfigurationDialog.ja.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>SimulationSetup.cs</DependentUpon>
+      <DependentUpon>SimulationConfigurationDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SimulationSetup.resx">
+    <EmbeddedResource Include="SimulationConfigurationDialog.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>SimulationSetup.cs</DependentUpon>
+      <DependentUpon>SimulationConfigurationDialog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -72,7 +72,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <summary>
         /// Window for set the the parameter of simulation
         /// </summary>
-        private SimulationSetup m_win;
+        private SimulationConfigurationDialog m_win;
         /// <summary>
         /// the menu strip for [Run ...]
         /// </summary>
@@ -449,7 +449,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 ResetSimulation(sender, e);
             }
 
-            m_win = new SimulationSetup(this);
+            m_win = new SimulationConfigurationDialog(this);
             m_win.ShowDialog();
         }
 

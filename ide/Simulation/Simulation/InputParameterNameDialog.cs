@@ -39,23 +39,23 @@ using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.Simulation
 {
-    public partial class NewParameterWindow : Form
+    public partial class InputParameterNameDialog : Form
     {
         #region Fields
         /// <summary>
         /// DataManager.
         /// </summary>
-        SimulationSetup m_owner;
+        SimulationConfigurationDialog m_owner;
         /// <summary>
         /// the parent window with SimulationSetupWindow.
         /// </summary>
-        SimulationSetup m_win;
+        SimulationConfigurationDialog m_win;
         #endregion
 
         /// <summary>
         /// Constructor for NewParameterWindow.
         /// </summary>
-        public NewParameterWindow(SimulationSetup owner)
+        public InputParameterNameDialog(SimulationConfigurationDialog owner)
         {
             m_owner = owner;
             InitializeComponent();
@@ -65,7 +65,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// Set SimulationSetup to the parent window.
         /// </summary>
         /// <param name="s"></param>
-        public void SetParentWindow(SimulationSetup s)
+        public void SetParentWindow(SimulationConfigurationDialog s)
         {
             m_win = s;
         }

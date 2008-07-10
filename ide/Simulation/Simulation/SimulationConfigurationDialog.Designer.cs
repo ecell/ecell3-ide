@@ -1,6 +1,6 @@
 ﻿namespace Ecell.IDE.Plugins.Simulation
 {
-    partial class SimulationSetup
+    partial class SimulationConfigurationDialog
     {
         /// <summary>
         /// 必要なデザイナ変数です。
@@ -28,29 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationSetup));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimulationConfigurationDialog));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.stepperPage = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.stepperListBox = new System.Windows.Forms.ListBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
-            this.SSAddStepperButton = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
             this.SSDeleteStepperButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.stepCombo = new System.Windows.Forms.ComboBox();
+            this.SSAddStepperButton = new System.Windows.Forms.Button();
+            this.stepperListBox = new System.Windows.Forms.ListBox();
             this.dgv = new System.Windows.Forms.DataGridView();
             this.Property = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Get = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Set = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label6 = new System.Windows.Forms.Label();
-            this.modelCombo = new System.Windows.Forms.ComboBox();
+            this.stepCombo = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.loggingPage = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -72,10 +64,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.maxKbTextBox = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.iModelCombo = new System.Windows.Forms.ComboBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.InitVarDGV = new System.Windows.Forms.DataGridView();
@@ -85,24 +73,17 @@
             this.InitProDGV = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.initialvalue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.modelCombo = new System.Windows.Forms.ComboBox();
             this.SSCreateButton = new System.Windows.Forms.Button();
             this.paramCombo = new System.Windows.Forms.ComboBox();
             this.SSDeleteButton = new System.Windows.Forms.Button();
             this.SSSetButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
             this.SSApplyButton = new System.Windows.Forms.Button();
             this.SSCloseButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
+            this.configurationLabel = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.stepperPage.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
-            this.tableLayoutPanel4.SuspendLayout();
-            this.tableLayoutPanel15.SuspendLayout();
-            this.tableLayoutPanel5.SuspendLayout();
-            this.tableLayoutPanel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.loggingPage.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
@@ -113,89 +94,40 @@
             this.groupBox3.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tableLayoutPanel13.SuspendLayout();
-            this.tableLayoutPanel14.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.InitVarDGV)).BeginInit();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.InitProDGV)).BeginInit();
-            this.groupBox4.SuspendLayout();
-            this.tableLayoutPanel11.SuspendLayout();
-            this.tableLayoutPanel12.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel12, 0, 1);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.tabControl1, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.groupBox4, 0, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // tabControl1
             // 
+            resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Controls.Add(this.stepperPage);
             this.tabControl1.Controls.Add(this.loggingPage);
             this.tabControl1.Controls.Add(this.tabPage1);
-            resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             // 
             // stepperPage
             // 
-            this.stepperPage.Controls.Add(this.tableLayoutPanel3);
+            this.stepperPage.Controls.Add(this.label7);
+            this.stepperPage.Controls.Add(this.SSDeleteStepperButton);
+            this.stepperPage.Controls.Add(this.SSAddStepperButton);
+            this.stepperPage.Controls.Add(this.stepperListBox);
+            this.stepperPage.Controls.Add(this.dgv);
+            this.stepperPage.Controls.Add(this.stepCombo);
+            this.stepperPage.Controls.Add(this.label1);
+            this.stepperPage.Controls.Add(this.label2);
             resources.ApplyResources(this.stepperPage, "stepperPage");
             this.stepperPage.Name = "stepperPage";
             this.stepperPage.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel3
+            // label7
             // 
-            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
-            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel5, 1, 1);
-            this.tableLayoutPanel3.Controls.Add(this.label6, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.modelCombo, 1, 0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            // 
-            // tableLayoutPanel4
-            // 
-            resources.ApplyResources(this.tableLayoutPanel4, "tableLayoutPanel4");
-            this.tableLayoutPanel4.Controls.Add(this.stepperListBox, 0, 1);
-            this.tableLayoutPanel4.Controls.Add(this.label2, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel15, 0, 2);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            // 
-            // stepperListBox
-            // 
-            resources.ApplyResources(this.stepperListBox, "stepperListBox");
-            this.stepperListBox.FormattingEnabled = true;
-            this.stepperListBox.Name = "stepperListBox";
-            this.stepperListBox.Sorted = true;
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            // 
-            // tableLayoutPanel15
-            // 
-            resources.ApplyResources(this.tableLayoutPanel15, "tableLayoutPanel15");
-            this.tableLayoutPanel15.Controls.Add(this.SSAddStepperButton, 0, 0);
-            this.tableLayoutPanel15.Controls.Add(this.SSDeleteStepperButton, 1, 0);
-            this.tableLayoutPanel15.Name = "tableLayoutPanel15";
-            // 
-            // SSAddStepperButton
-            // 
-            resources.ApplyResources(this.SSAddStepperButton, "SSAddStepperButton");
-            this.SSAddStepperButton.Name = "SSAddStepperButton";
-            this.SSAddStepperButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
             // 
             // SSDeleteStepperButton
             // 
@@ -203,34 +135,23 @@
             this.SSDeleteStepperButton.Name = "SSDeleteStepperButton";
             this.SSDeleteStepperButton.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel5
+            // SSAddStepperButton
             // 
-            resources.ApplyResources(this.tableLayoutPanel5, "tableLayoutPanel5");
-            this.tableLayoutPanel5.Controls.Add(this.tableLayoutPanel6, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.dgv, 0, 1);
-            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            resources.ApplyResources(this.SSAddStepperButton, "SSAddStepperButton");
+            this.SSAddStepperButton.Name = "SSAddStepperButton";
+            this.SSAddStepperButton.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel6
+            // stepperListBox
             // 
-            resources.ApplyResources(this.tableLayoutPanel6, "tableLayoutPanel6");
-            this.tableLayoutPanel6.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel6.Controls.Add(this.stepCombo, 1, 0);
-            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // stepCombo
-            // 
-            resources.ApplyResources(this.stepCombo, "stepCombo");
-            this.stepCombo.FormattingEnabled = true;
-            this.stepCombo.Name = "stepCombo";
+            this.stepperListBox.FormattingEnabled = true;
+            resources.ApplyResources(this.stepperListBox, "stepperListBox");
+            this.stepperListBox.Name = "stepperListBox";
+            this.stepperListBox.Sorted = true;
             // 
             // dgv
             // 
             this.dgv.AllowUserToAddRows = false;
+            resources.ApplyResources(this.dgv, "dgv");
             this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -238,7 +159,6 @@
             this.Value,
             this.Get,
             this.Set});
-            resources.ApplyResources(this.dgv, "dgv");
             this.dgv.Name = "dgv";
             this.dgv.RowHeadersVisible = false;
             this.dgv.RowTemplate.Height = 21;
@@ -246,21 +166,20 @@
             // Property
             // 
             this.Property.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Property.FillWeight = 98.82014F;
             resources.ApplyResources(this.Property, "Property");
             this.Property.Name = "Property";
             this.Property.ReadOnly = true;
             // 
             // Value
             // 
-            this.Value.FillWeight = 98.82014F;
+            this.Value.FillWeight = 120F;
             resources.ApplyResources(this.Value, "Value");
             this.Value.Name = "Value";
             // 
             // Get
             // 
             this.Get.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Get.FillWeight = 100.8369F;
+            this.Get.FillWeight = 10F;
             resources.ApplyResources(this.Get, "Get");
             this.Get.Name = "Get";
             this.Get.ReadOnly = true;
@@ -268,21 +187,26 @@
             // Set
             // 
             this.Set.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Set.FillWeight = 101.5228F;
+            this.Set.FillWeight = 10F;
             resources.ApplyResources(this.Set, "Set");
             this.Set.Name = "Set";
             this.Set.ReadOnly = true;
             // 
-            // label6
+            // stepCombo
             // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
+            this.stepCombo.FormattingEnabled = true;
+            resources.ApplyResources(this.stepCombo, "stepCombo");
+            this.stepCombo.Name = "stepCombo";
             // 
-            // modelCombo
+            // label1
             // 
-            resources.ApplyResources(this.modelCombo, "modelCombo");
-            this.modelCombo.FormattingEnabled = true;
-            this.modelCombo.Name = "modelCombo";
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
             // 
             // loggingPage
             // 
@@ -426,41 +350,16 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.tableLayoutPanel13);
+            this.tabPage1.Controls.Add(this.tabControl2);
             resources.ApplyResources(this.tabPage1, "tabPage1");
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel13
-            // 
-            resources.ApplyResources(this.tableLayoutPanel13, "tableLayoutPanel13");
-            this.tableLayoutPanel13.Controls.Add(this.tableLayoutPanel14, 0, 0);
-            this.tableLayoutPanel13.Controls.Add(this.tabControl2, 0, 1);
-            this.tableLayoutPanel13.Name = "tableLayoutPanel13";
-            // 
-            // tableLayoutPanel14
-            // 
-            resources.ApplyResources(this.tableLayoutPanel14, "tableLayoutPanel14");
-            this.tableLayoutPanel14.Controls.Add(this.label7, 0, 0);
-            this.tableLayoutPanel14.Controls.Add(this.iModelCombo, 1, 0);
-            this.tableLayoutPanel14.Name = "tableLayoutPanel14";
-            // 
-            // label7
-            // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
-            // 
-            // iModelCombo
-            // 
-            resources.ApplyResources(this.iModelCombo, "iModelCombo");
-            this.iModelCombo.FormattingEnabled = true;
-            this.iModelCombo.Name = "iModelCombo";
-            // 
             // tabControl2
             // 
+            resources.ApplyResources(this.tabControl2, "tabControl2");
             this.tabControl2.Controls.Add(this.tabPage3);
             this.tabControl2.Controls.Add(this.tabPage4);
-            resources.ApplyResources(this.tabControl2, "tabControl2");
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
             // 
@@ -474,12 +373,12 @@
             // InitVarDGV
             // 
             this.InitVarDGV.AllowUserToAddRows = false;
+            resources.ApplyResources(this.InitVarDGV, "InitVarDGV");
             this.InitVarDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.InitVarDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.InitVarDGV.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2});
-            resources.ApplyResources(this.InitVarDGV, "InitVarDGV");
             this.InitVarDGV.Name = "InitVarDGV";
             this.InitVarDGV.RowHeadersVisible = false;
             this.InitVarDGV.RowTemplate.Height = 21;
@@ -506,12 +405,12 @@
             // InitProDGV
             // 
             this.InitProDGV.AllowUserToAddRows = false;
+            resources.ApplyResources(this.InitProDGV, "InitProDGV");
             this.InitProDGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.InitProDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.InitProDGV.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
             this.initialvalue});
-            resources.ApplyResources(this.InitProDGV, "InitProDGV");
             this.InitProDGV.Name = "InitProDGV";
             this.InitProDGV.RowHeadersVisible = false;
             this.InitProDGV.RowTemplate.Height = 21;
@@ -528,22 +427,16 @@
             resources.ApplyResources(this.initialvalue, "initialvalue");
             this.initialvalue.Name = "initialvalue";
             // 
-            // groupBox4
+            // label6
             // 
-            this.groupBox4.Controls.Add(this.tableLayoutPanel11);
-            this.groupBox4.Cursor = System.Windows.Forms.Cursors.Default;
-            resources.ApplyResources(this.groupBox4, "groupBox4");
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.TabStop = false;
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
             // 
-            // tableLayoutPanel11
+            // modelCombo
             // 
-            resources.ApplyResources(this.tableLayoutPanel11, "tableLayoutPanel11");
-            this.tableLayoutPanel11.Controls.Add(this.SSCreateButton, 1, 0);
-            this.tableLayoutPanel11.Controls.Add(this.paramCombo, 0, 0);
-            this.tableLayoutPanel11.Controls.Add(this.SSDeleteButton, 2, 0);
-            this.tableLayoutPanel11.Controls.Add(this.SSSetButton, 3, 0);
-            this.tableLayoutPanel11.Name = "tableLayoutPanel11";
+            this.modelCombo.FormattingEnabled = true;
+            resources.ApplyResources(this.modelCombo, "modelCombo");
+            this.modelCombo.Name = "modelCombo";
             // 
             // SSCreateButton
             // 
@@ -553,8 +446,8 @@
             // 
             // paramCombo
             // 
-            resources.ApplyResources(this.paramCombo, "paramCombo");
             this.paramCombo.FormattingEnabled = true;
+            resources.ApplyResources(this.paramCombo, "paramCombo");
             this.paramCombo.Name = "paramCombo";
             // 
             // SSDeleteButton
@@ -569,13 +462,6 @@
             this.SSSetButton.Name = "SSSetButton";
             this.SSSetButton.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel12
-            // 
-            resources.ApplyResources(this.tableLayoutPanel12, "tableLayoutPanel12");
-            this.tableLayoutPanel12.Controls.Add(this.SSApplyButton, 1, 0);
-            this.tableLayoutPanel12.Controls.Add(this.SSCloseButton, 3, 0);
-            this.tableLayoutPanel12.Name = "tableLayoutPanel12";
-            // 
             // SSApplyButton
             // 
             resources.ApplyResources(this.SSApplyButton, "SSApplyButton");
@@ -584,10 +470,15 @@
             // 
             // SSCloseButton
             // 
-            this.SSCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.SSCloseButton, "SSCloseButton");
+            this.SSCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.SSCloseButton.Name = "SSCloseButton";
             this.SSCloseButton.UseVisualStyleBackColor = true;
+            // 
+            // configurationLabel
+            // 
+            resources.ApplyResources(this.configurationLabel, "configurationLabel");
+            this.configurationLabel.Name = "configurationLabel";
             // 
             // SimulationSetup
             // 
@@ -595,22 +486,22 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.SSCloseButton;
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.SSApplyButton);
+            this.Controls.Add(this.SSSetButton);
+            this.Controls.Add(this.SSCloseButton);
+            this.Controls.Add(this.SSDeleteButton);
+            this.Controls.Add(this.SSCreateButton);
+            this.Controls.Add(this.configurationLabel);
+            this.Controls.Add(this.paramCombo);
+            this.Controls.Add(this.modelCombo);
+            this.Controls.Add(this.label6);
             this.Name = "SimulationSetup";
             this.Shown += new System.EventHandler(this.ShowSimulationSetupWin);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SetupKeyPress);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.stepperPage.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel3.PerformLayout();
-            this.tableLayoutPanel4.ResumeLayout(false);
-            this.tableLayoutPanel4.PerformLayout();
-            this.tableLayoutPanel15.ResumeLayout(false);
-            this.tableLayoutPanel5.ResumeLayout(false);
-            this.tableLayoutPanel6.ResumeLayout(false);
-            this.tableLayoutPanel6.PerformLayout();
+            this.stepperPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.loggingPage.ResumeLayout(false);
             this.tableLayoutPanel7.ResumeLayout(false);
@@ -624,25 +515,18 @@
             this.tableLayoutPanel10.ResumeLayout(false);
             this.tableLayoutPanel10.PerformLayout();
             this.tabPage1.ResumeLayout(false);
-            this.tableLayoutPanel13.ResumeLayout(false);
-            this.tableLayoutPanel14.ResumeLayout(false);
-            this.tableLayoutPanel14.PerformLayout();
             this.tabControl2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.InitVarDGV)).EndInit();
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.InitProDGV)).EndInit();
-            this.groupBox4.ResumeLayout(false);
-            this.tableLayoutPanel11.ResumeLayout(false);
-            this.tableLayoutPanel12.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         /// <summary>
         /// TabPage to set the properties of stepper.
         /// </summary>
@@ -655,11 +539,7 @@
         /// TabPage to set logging properties.
         /// </summary>
         public System.Windows.Forms.TabPage loggingPage;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -671,17 +551,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel11;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Property;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Value;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Get;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Set;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel12;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel13;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel14;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage4;
@@ -689,7 +560,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn initialvalue;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel15;
         private System.Windows.Forms.Button SSCreateButton;
         private System.Windows.Forms.Button SSDeleteButton;
         private System.Windows.Forms.Button SSSetButton;
@@ -710,10 +580,14 @@
         private System.Windows.Forms.TextBox freqByStepTextBox;
         private System.Windows.Forms.TextBox freqBySecTextBox;
         private System.Windows.Forms.TextBox maxKbTextBox;
-        private System.Windows.Forms.ComboBox iModelCombo;
         private System.Windows.Forms.DataGridView InitProDGV;
         private System.Windows.Forms.DataGridView InitVarDGV;
         private System.Windows.Forms.ComboBox paramCombo;
-        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label configurationLabel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Property;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Value;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Get;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Set;
+        private System.Windows.Forms.Label label7;
     }
 }
