@@ -145,7 +145,7 @@
     <value>Create new revision.</value>
   </data>
   <data name="StartUpWindow" xml:space="preserve">
-    <value>Web Browzer</value>
+    <value>Web Browser</value>
   </data>
   <data name="ErrNoSet" xml:space="preserve">
     <value>{0} is not set.</value>

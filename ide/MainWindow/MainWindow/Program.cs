@@ -41,6 +41,7 @@ using System.Runtime.InteropServices;
 
 using Ecell.Message;
 using Ecell.Plugin;
+using Ecell.IDE.MainWindow.COM;
 
 namespace Ecell.IDE.MainWindow
 {
@@ -55,49 +56,6 @@ namespace Ecell.IDE.MainWindow
 
         [DllImport("kernel32")]
         static extern bool AllocConsole();
-
-        /// <summary>
-        /// Parses the argument list, configures the application and
-        /// returns the non-parameter portion of it.
-        /// </summary>
-        /// <param name="args">list of arguments passed to Main() function.</param>
-        /// <returns></returns>
-        private static string[] parseArguments(string[] args)
-        {
-            List<string> nonParamArgs = new List<string>();
-            foreach (string arg in args)
-            {
-                if (arg[0] == '/')
-                {
-                    if (arg.StartsWith("/PLUGINDIR:"))
-                    {
-                        Util.AddPluginDir(Path.GetFullPath(arg.Substring("/PLUGINDIR:".Length)));
-                    }
-                    else if (arg.StartsWith("/DMDIR:"))
-                    {
-                        Util.AddDMDir(Path.GetFullPath(arg.Substring("/DMDIR:".Length)));
-                    }
-                    else if (arg == "/NODEFAULTS")
-                    {
-                        Util.OmitDefaultPaths();
-                    }
-                    else if (arg == "/NOSPLASH")
-                    {
-                        s_noSplash = true;
-                    }
-                    else if (arg == "/TRACE")
-                    {
-                        AllocConsole();
-                        Trace.Listeners.Add(new ConsoleTraceListener());
-                    }
-                }
-                else
-                {
-                    nonParamArgs.Add(arg);
-                }
-            }
-            return nonParamArgs.ToArray();
-        }
 
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
@@ -153,5 +111,70 @@ namespace Ecell.IDE.MainWindow
             Application.Idle += onIdle;
             Application.Run(me);
         }
+
+        /// <summary>
+        /// AutopmationServer
+        /// </summary>
+        /// <returns></returns>
+        static AutomationServerClassFactory RegisterClassFactory()
+        {
+            AutomationServerClassFactory ascf = new AutomationServerClassFactory();
+            Guid ascfGuid = COMUtils.GetGuidOf(typeof(AutomationServerClassFactory));
+            uint classObjectID = 0;
+            int err = COMCalls.CoRegisterClassObject(
+                ref ascfGuid, Marshal.GetIUnknownForObject(ascf),
+                COMCalls.CLSCTX_LOCAL_SERVER,
+                COMCalls.REGCLS_MULTIPLEUSE, out classObjectID);
+            if (0 != err)
+            {
+                throw Marshal.GetExceptionForHR(err);
+            }
+            ascf.ClassObjectID = classObjectID;
+            return ascf;
+        }
+
+        /// <summary>
+        /// Parses the argument list, configures the application and
+        /// returns the non-parameter portion of it.
+        /// </summary>
+        /// <param name="args">list of arguments passed to Main() function.</param>
+        /// <returns></returns>
+        private static string[] parseArguments(string[] args)
+        {
+            List<string> nonParamArgs = new List<string>();
+            foreach (string arg in args)
+            {
+                if (arg[0] == '/')
+                {
+                    if (arg.StartsWith("/PLUGINDIR:"))
+                    {
+                        Util.AddPluginDir(Path.GetFullPath(arg.Substring("/PLUGINDIR:".Length)));
+                    }
+                    else if (arg.StartsWith("/DMDIR:"))
+                    {
+                        Util.AddDMDir(Path.GetFullPath(arg.Substring("/DMDIR:".Length)));
+                    }
+                    else if (arg == "/NODEFAULTS")
+                    {
+                        Util.OmitDefaultPaths();
+                    }
+                    else if (arg == "/NOSPLASH")
+                    {
+                        s_noSplash = true;
+                    }
+                    else if (arg == "/TRACE")
+                    {
+                        AllocConsole();
+                        Trace.Listeners.Add(new ConsoleTraceListener());
+                    }
+                }
+                else
+                {
+                    nonParamArgs.Add(arg);
+                }
+            }
+            return nonParamArgs.ToArray();
+        }
+
     }
 }

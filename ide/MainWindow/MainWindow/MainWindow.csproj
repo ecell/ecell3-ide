@@ -107,6 +107,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="COM\AutomationServerClassFactory.cs" />
+    <Compile Include="COM\COMCalls.cs" />
+    <Compile Include="COM\COMTypes.cs" />
+    <Compile Include="COM\COMUtils.cs" />
+    <Compile Include="COM\IAutomationServerObject.cs" />
     <Compile Include="DockWindowSerializer.cs">
     </Compile>
     <Compile Include="GridConfigurationDialog.cs">

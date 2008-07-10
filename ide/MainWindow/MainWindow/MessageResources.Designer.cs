@@ -304,7 +304,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Web Browzer に類似しているローカライズされた文字列を検索します。
+        ///   Web Browser に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string StartUpWindow {
             get {

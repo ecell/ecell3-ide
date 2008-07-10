@@ -1908,7 +1908,6 @@ namespace Ecell.IDE.MainWindow
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = Constants.FilterWinSetFile;
             sfd.CheckPathExists = true;
-            sfd.CreatePrompt = true;
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 // Save window settings.
