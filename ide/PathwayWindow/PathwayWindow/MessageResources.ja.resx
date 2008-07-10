@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>本当に削除してよろしいですか？</value>
+  </data>
+  <data name="ConfirmMerge" xml:space="preserve">
+    <value>システムの内容を上位システムにマージしてもよろしいですか？</value>
+  </data>
+  <data name="ErrAlrExist" xml:space="preserve">
+    <value>{0}という名前のエンティティが重複します。</value>
+  </data>
+  <data name="ErrCompInvalid" xml:space="preserve">
+    <value>エンティティ形状設定ファイル、ComponentSetting.xmlが不正です。</value>
+  </data>
+  <data name="ErrCreateComponent" xml:space="preserve">
+    <value>コンポーネントを作成することができませんでした。</value>
+  </data>
+  <data name="ErrLayout" xml:space="preserve">
+    <value>レイアウト中にエラーが発生しました。</value>
+  </data>
+  <data name="ErrOutRoot" xml:space="preserve">
+    <value>ルートシステム外にオブジェクトを作成することはできません。</value>
+  </data>
+  <data name="ErrOverSystem" xml:space="preserve">
+    <value>他のSystemと重なっています。</value>
+  </data>
+  <data name="ErrUnknowType" xml:space="preserve">
+    <value>追加されたオブジェクトは不明のタイプを持っています。</value>
+  </data>
+  <data name="MenuItemShowID" xml:space="preserve">
+    <value>ID表示/非表示(&amp;I)</value>
+  </data>
+  <data name="ErrLoadLEML" xml:space="preserve">
+    <value>オブジェクト位置情報の読み込みに失敗しました。</value>
+  </data>
+  <data name="ErrSaveLEML" xml:space="preserve">
+    <value>オブジェクト位置情報の保存に失敗しました。</value>
+  </data>
+  <data name="LayerMenuCreate" xml:space="preserve">
+    <value>新規レイヤー作成</value>
+  </data>
+  <data name="LayerMenuDelete" xml:space="preserve">
+    <value>レイヤー削除</value>
+  </data>
+  <data name="LayerDialogMessage" xml:space="preserve">
+    <value>レイヤー名入力ダイアログ</value>
+  </data>
+  <data name="LayerDialogTitle" xml:space="preserve">
+    <value>新規レイヤー名を入力してください。</value>
+  </data>
+  <data name="LayerMenuRename" xml:space="preserve">
+    <value>レイヤー名変更</value>
+  </data>
+  <data name="LayerMenuMerge" xml:space="preserve">
+    <value>レイヤー結合</value>
+  </data>
+  <data name="LayerMenuChange" xml:space="preserve">
+    <value>レイヤー変更</value>
+  </data>
+  <data name="MenuItemViewMode" xml:space="preserve">
+    <value>ビューモード</value>
+  </data>
+  <data name="LayerMenuSelectNodes" xml:space="preserve">
+    <value>レイヤー下のノードを選択する。</value>
+  </data>
+  <data name="CanvasMenuChangeLayer" xml:space="preserve">
+    <value>レイヤー変更</value>
+  </data>
+  <data name="CanvasMenuConstantLine" xml:space="preserve">
+    <value>定数</value>
+  </data>
+  <data name="CanvasMenuCopy" xml:space="preserve">
+    <value>コピー(&amp;C)</value>
+  </data>
+  <data name="CanvasMenuCreateLogger" xml:space="preserve">
+    <value>ロガー設定</value>
+  </data>
+  <data name="CanvasMenuCut" xml:space="preserve">
+    <value>切り取り(&amp;T)</value>
+  </data>
+  <data name="CanvasMenuDelete" xml:space="preserve">
+    <value>削除(&amp;D)</value>
+  </data>
+  <data name="CanvasMenuDeleteLogger" xml:space="preserve">
+    <value>ロガー解除</value>
+  </data>
+  <data name="CanvasMenuMerge" xml:space="preserve">
+    <value>上のシステムにマージ</value>
+  </data>
+  <data name="CanvasMenuLayout" xml:space="preserve">
+    <value>レイアウト</value>
+  </data>
+  <data name="CanvasMenuLeftArrow" xml:space="preserve">
+    <value>プロセス &lt;- バリアブル</value>
+  </data>
+  <data name="CanvasMenuPaste" xml:space="preserve">
+    <value>貼り付け(&amp;P)</value>
+  </data>
+  <data name="CanvasMenuRightArrow" xml:space="preserve">
+    <value>プロセス -&gt; バリアブル</value>
+  </data>
+  <data name="MenuToolTipShowID" xml:space="preserve">
+    <value>オブジェクトのID表示を変更する。</value>
+  </data>
+  <data name="MenuToolTipViewMode" xml:space="preserve">
+    <value>キャンバスのビューモードを変更する。</value>
+  </data>
+  <data name="MenuItemEdit" xml:space="preserve">
+    <value>編集(&amp;E)</value>
+  </data>
+  <data name="MenuItemLayout" xml:space="preserve">
+    <value>配置(&amp;L)</value>
+  </data>
+  <data name="MenuItemView" xml:space="preserve">
+    <value>表示(&amp;V)</value>
+  </data>
+  <data name="MenuItemSetup" xml:space="preserve">
+    <value>Pathway設定ダイアログ...</value>
+  </data>
+  <data name="MenuToolTipSetup" xml:space="preserve">
+    <value>PathwayWindowの設定ダイアログを開きます。</value>
+  </data>
+  <data name="ErrSystemOverlap" xml:space="preserve">
+    <value>システムを作成するスペースがないため、指定した位置にペーストできません。</value>
+  </data>
+  <data name="ToolButtonAddConstant" xml:space="preserve">
+    <value>定数の参照を加えます。</value>
+  </data>
+  <data name="ToolButtonAddMutualReaction" xml:space="preserve">
+    <value>可逆反応を作成します。</value>
+  </data>
+  <data name="ToolButtonAddOnewayReaction" xml:space="preserve">
+    <value>不可逆反応を作成します。</value>
+  </data>
+  <data name="ToolButtonCreateProcess" xml:space="preserve">
+    <value>プロセスを作成します。</value>
+  </data>
+  <data name="ToolButtonCreateSystem" xml:space="preserve">
+    <value>システムを作成します。</value>
+  </data>
+  <data name="ToolButtonCreateVariable" xml:space="preserve">
+    <value>バリアブルを作成します。</value>
+  </data>
+  <data name="ToolButtonMoveCanvas" xml:space="preserve">
+    <value>キャンバスを動かします。</value>
+  </data>
+  <data name="ToolButtonSelectMode" xml:space="preserve">
+    <value>オブジェクトを選択します。</value>
+  </data>
+  <data name="ToolButtonZoomIn" xml:space="preserve">
+    <value>ズームイン</value>
+  </data>
+  <data name="ToolButtonZoomOut" xml:space="preserve">
+    <value>ズームアウト</value>
+  </data>
+  <data name="LayerMenuMoveBack" xml:space="preserve">
+    <value>背面移動</value>
+  </data>
+  <data name="LayerMenuMoveFront" xml:space="preserve">
+    <value>前面移動</value>
+  </data>
+  <data name="MenuItemExport" xml:space="preserve">
+    <value>画像出力</value>
+  </data>
+  <data name="MenuItemExportSVG" xml:space="preserve">
+    <value>SVG出力...</value>
+  </data>
+  <data name="MenuToolTipExport" xml:space="preserve">
+    <value>画像を保存します。</value>
+  </data>
+  <data name="MenuToolTipExportSVG" xml:space="preserve">
+    <value>SVGフォーマットで画像を保存します。</value>
+  </data>
+  <data name="MenuItemFile" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
+  <data name="DialogTextAnimationSetting" xml:space="preserve">
+    <value>アニメーション設定</value>
+  </data>
+  <data name="DialogTextBackgroundBrush" xml:space="preserve">
+    <value>背景色</value>
+  </data>
+  <data name="DialogTextEdgeBrush" xml:space="preserve">
+    <value>線の色</value>
+  </data>
+  <data name="DialogTextEdgeWidth" xml:space="preserve">
+    <value>線の太さ</value>
+  </data>
+  <data name="DialogTextEditMode" xml:space="preserve">
+    <value>編集モード</value>
+  </data>
+  <data name="DialogTextLogarithmic" xml:space="preserve">
+    <value>対数表示</value>
+  </data>
+  <data name="DialogTextMaxEdgeWidth" xml:space="preserve">
+    <value>線の最大の太さ</value>
+  </data>
+  <data name="DialogTextNGBrush" xml:space="preserve">
+    <value>NG色</value>
+  </data>
+  <data name="DialogTextNormalEdge" xml:space="preserve">
+    <value>通常線</value>
+  </data>
+  <data name="DialogTextThresholdHigh" xml:space="preserve">
+    <value>しきい値最大</value>
+  </data>
+  <data name="DialogTextThresholdLow" xml:space="preserve">
+    <value>しきい値最小</value>
+  </data>
+  <data name="DialogTextViewMode" xml:space="preserve">
+    <value>ビューモード</value>
+  </data>
+  <data name="DialogTextPropertyBrush" xml:space="preserve">
+    <value>プロパティ色</value>
+  </data>
+  <data name="ToolButtonCreateText" xml:space="preserve">
+    <value>テキストを作成します。</value>
+  </data>
+  <data name="WindowLayer" xml:space="preserve">
+    <value>レイヤー</value>
+  </data>
+  <data name="WindowOverview" xml:space="preserve">
+    <value>オーバービュー</value>
+  </data>
+  <data name="WindowPathway" xml:space="preserve">
+    <value>ネットワーク</value>
+  </data>
+  <data name="WindowStencil" xml:space="preserve">
+    <value>ステンシル</value>
+  </data>
+  <data name="DialogTextCenterBrush" xml:space="preserve">
+    <value>中央色</value>
+  </data>
+  <data name="DialogTextFigure" xml:space="preserve">
+    <value>オブジェクト形状</value>
+  </data>
+  <data name="DialogTextFillBrush" xml:space="preserve">
+    <value>塗りつぶし色</value>
+  </data>
+  <data name="DialogTextIconFile" xml:space="preserve">
+    <value>アイコンファイル</value>
+  </data>
+  <data name="DialogTextIsGradation" xml:space="preserve">
+    <value>グラデーション</value>
+  </data>
+  <data name="DialogTextLineBrush" xml:space="preserve">
+    <value>線の色</value>
+  </data>
+  <data name="DialogTextTextBrush" xml:space="preserve">
+    <value>文字色</value>
+  </data>
+  <data name="ErrLoadWindowSettings" xml:space="preserve">
+    <value>ウィンドウ設定を読み込めませんでした。</value>
+  </data>
+  <data name="CanvasMenuBidirArrow" xml:space="preserve">
+    <value>プロセス &lt;-&gt; バリアブル</value>
+  </data>
+  <data name="CanvasMenuAlias" xml:space="preserve">
+    <value>エイリアス作成</value>
+  </data>
+  <data name="MessageLayout" xml:space="preserve">
+    <value>レイアウト中...</value>
+  </data>
+  <data name="MessageLoadModel" xml:space="preserve">
+    <value>モデルのロード中...</value>
+  </data>
+</root>
