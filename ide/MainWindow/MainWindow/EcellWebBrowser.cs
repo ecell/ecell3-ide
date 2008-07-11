@@ -82,7 +82,7 @@ namespace Ecell.IDE.MainWindow
             {
                 webBrowser.Navigate(startPage);
             }
-            SetRecentFiles();
+            //SetRecentFiles();
         }
 
         private void InitializeComponent()
@@ -290,12 +290,12 @@ namespace Ecell.IDE.MainWindow
 
         private void SetRecentFiles()
         {
-            string recentFiles = "<h2>最近使ったファイル</h2>\n";
+            string recentFiles = "<div id =\"recentProject\">\n<h2>最近使ったファイル</h2>\n";
             string temp;
             int i = 0;
             foreach (KeyValuePair<string, string> project in m_window.RecentProjects)
             {
-                temp = "<li><a onclick=\"window.external.LoadProject('" + project.Key + "','" + project.Value + "');\">" + project.Key + "</a></li>\n";
+                temp = "<li><a onclick=\"window.external.LoadProject('" + project.Key + "','" + project.Value.Replace("\\","/") + "');\">" + project.Key + "</a></li>\n";
                 recentFiles += temp;
                 i++;
                 ProjectLabel label = new ProjectLabel(project.Key, project.Value);
@@ -306,9 +306,8 @@ namespace Ecell.IDE.MainWindow
                 label.MouseClick += new MouseEventHandler(label_MouseClick);
                 groupBox.Controls.Add(label);
             }
-            Console.Write(webBrowser.DocumentText);
-            HtmlElement element = webBrowser.Document.GetElementById("recent");
-            //element.InnerHtml = recentFiles;
+            recentFiles += "</div>";
+            //webBrowser.DocumentText = webBrowser.DocumentText.Replace("<div id =\"recentProject\"></div>",recentFiles);
         }
         #endregion
 
