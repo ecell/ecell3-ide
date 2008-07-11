@@ -41,14 +41,12 @@ using System.Runtime.InteropServices;
 
 using Ecell.Message;
 using Ecell.Plugin;
-using Ecell.IDE.COM;
 
 namespace Ecell.IDE
 {
     class Program
     {
         static bool s_noSplash = false;
-        static bool s_register = false;
         enum OptionKind
         {
             PluginDirectory
@@ -65,23 +63,6 @@ namespace Ecell.IDE
         {
             string[] fileList = parseArguments(args);
 
-            if (s_register)
-            {
-                // Local Server をレジストリに登録
-                // この操作は本来であればインストーラが行う
-                Assembly currentExecutable = Assembly.GetExecutingAssembly();
-                Guid myGuid = COMUtils.GetGuidOf(currentExecutable);
-                COMUtils.RegisterProgID(
-                    "Ecell.IDE.Application",
-                    myGuid);
-                COMUtils.RegisterLocalServer(myGuid,
-                    currentExecutable.Location,
-                    "Ecell.IDE.Appliaction",
-                    null);
-                Console.WriteLine("アプリケーション [{0}] をLocal Serverとしてレジストリに登録しました。", currentExecutable.FullName);
-                return;
-            }
-
             Util.InitialLanguage();
             //XPでツリービューがおかしくなる
             //Application.EnableVisualStyles();
@@ -89,10 +70,8 @@ namespace Ecell.IDE
             //Application.SetCompatibleTextRenderingDefault(false);
 
             ApplicationEnvironment env = ApplicationEnvironment.GetInstance();
-            ApplicationClassFactory ascf = RegisterClassFactory();
 
             Splash frmSplash = new Splash();
-            //ApplicationContext me = new ApplicationContext();
 
             if (!s_noSplash)
                 frmSplash.Show();
@@ -104,8 +83,6 @@ namespace Ecell.IDE
                 IEcellPlugin mainWnd = env.PluginManager.RegisterPlugin(
                     typeof(Ecell.IDE.MainWindow.MainWindow));
                 window = (MainWindow.MainWindow)mainWnd;
-                //me.MainForm = window;
-                ascf.ApplicationObject = window;
                 env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
                 ((Form)mainWnd).Show();
 
@@ -126,27 +103,6 @@ namespace Ecell.IDE
             };
             Application.Idle += onIdle;
             Application.Run(window);
-        }
-
-        /// <summary>
-        /// AutopmationServer
-        /// </summary>
-        /// <returns></returns>
-        static ApplicationClassFactory RegisterClassFactory()
-        {
-            ApplicationClassFactory ascf = new ApplicationClassFactory();
-            Guid ascfGuid = COMUtils.GetGuidOf(typeof(ApplicationClassFactory));
-            uint classObjectID = 0;
-            int err = COMCalls.CoRegisterClassObject(
-                ref ascfGuid, Marshal.GetIUnknownForObject(ascf),
-                COMCalls.CLSCTX_LOCAL_SERVER,
-                COMCalls.REGCLS_MULTIPLEUSE, out classObjectID);
-            if (0 != err)
-            {
-                throw Marshal.GetExceptionForHR(err);
-            }
-            ascf.ClassObjectID = classObjectID;
-            return ascf;
         }
 
         /// <summary>
@@ -182,10 +138,6 @@ namespace Ecell.IDE
                     {
                         AllocConsole();
                         Trace.Listeners.Add(new ConsoleTraceListener());
-                    }
-                    else if (arg == "/REGISTER")
-                    {
-                        s_register = true;
                     }
                 }
                 else

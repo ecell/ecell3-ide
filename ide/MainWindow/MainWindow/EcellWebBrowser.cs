@@ -37,6 +37,7 @@ using System.Drawing;
 using System.Threading;
 using System.Globalization;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace Ecell.IDE.MainWindow
 {
@@ -74,6 +75,7 @@ namespace Ecell.IDE.MainWindow
             InitializeComponent();
             this.Text = MessageResources.StartUpWindow;
             this.TabText = this.Text;
+            this.webBrowser.ObjectForScripting = new AutomationStub(window);
             Uri startPage = FindStartPage();
             STARTUP = startPage;
             if (startPage != null)
@@ -81,32 +83,6 @@ namespace Ecell.IDE.MainWindow
                 webBrowser.Navigate(startPage);
             }
             SetRecentFiles();
-        }
-
-        private Uri FindStartPage()
-        {
-            List<string> candidates = new List<string>();
-
-            string documentDir = Util.GetWindowSettingDir();
-            CultureInfo lang = Util.GetLanguage();
-            if (documentDir != null)
-            {
-                candidates.Add(Path.Combine(documentDir,
-                    Constants.fileStartupHTML));
-                candidates.Add(Path.Combine(documentDir,
-                    lang.TwoLetterISOLanguageName + "_" + Constants.fileStartupHTML));
-            }
-            foreach (string candidate in candidates)
-            {
-                Trace.WriteLine("Checking if " + candidate + " exists");
-                if (File.Exists(candidate))
-                {
-                    UriBuilder ub = new UriBuilder("file", null);
-                    ub.Path = candidate;
-                    return ub.Uri;
-                }
-            }
-            return null;
         }
 
         private void InitializeComponent()
@@ -286,11 +262,41 @@ namespace Ecell.IDE.MainWindow
 
         }
 
+        private Uri FindStartPage()
+        {
+            List<string> candidates = new List<string>();
+
+            string documentDir = Util.GetWindowSettingDir();
+            CultureInfo lang = Util.GetLanguage();
+            if (documentDir != null)
+            {
+                candidates.Add(Path.Combine(documentDir,
+                    Constants.fileStartupHTML));
+                candidates.Add(Path.Combine(documentDir,
+                    lang.TwoLetterISOLanguageName + "_" + Constants.fileStartupHTML));
+            }
+            foreach (string candidate in candidates)
+            {
+                Trace.WriteLine("Checking if " + candidate + " exists");
+                if (File.Exists(candidate))
+                {
+                    UriBuilder ub = new UriBuilder("file", null);
+                    ub.Path = candidate;
+                    return ub.Uri;
+                }
+            }
+            return null;
+        }
+
         private void SetRecentFiles()
         {
+            string recentFiles = "<h2>最近使ったファイル</h2>\n";
+            string temp;
             int i = 0;
             foreach (KeyValuePair<string, string> project in m_window.RecentProjects)
             {
+                temp = "<li><a onclick=\"window.external.LoadProject('" + project.Key + "','" + project.Value + "');\">" + project.Key + "</a></li>\n";
+                recentFiles += temp;
                 i++;
                 ProjectLabel label = new ProjectLabel(project.Key, project.Value);
                 label.Text = i.ToString() + ". " + project.Key;
@@ -300,6 +306,9 @@ namespace Ecell.IDE.MainWindow
                 label.MouseClick += new MouseEventHandler(label_MouseClick);
                 groupBox.Controls.Add(label);
             }
+            Console.Write(webBrowser.DocumentText);
+            HtmlElement element = webBrowser.Document.GetElementById("recent");
+            //element.InnerHtml = recentFiles;
         }
         #endregion
 
@@ -528,6 +537,33 @@ namespace Ecell.IDE.MainWindow
             {
                 Label label = (Label)sender;
                 label.Font = new Font(label.Font, FontStyle.Underline);
+            }
+
+        }
+
+        /// <summary>
+        /// AutomationClass
+        /// </summary>
+        [ComVisible(true)]
+        public class AutomationStub
+        {
+            private MainWindow m_app;
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="app"></param>
+            public AutomationStub(MainWindow app)
+            {
+                m_app = app;
+            }
+            /// <summary>
+            /// LoadProject
+            /// </summary>
+            /// <param name="projectID"></param>
+            /// <param name="filename"></param>
+            public void LoadProject(string projectID, string filename)
+            {
+                m_app.LoadProject(projectID, filename);
             }
 
         }

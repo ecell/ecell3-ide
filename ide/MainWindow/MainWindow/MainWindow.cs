@@ -58,14 +58,13 @@ using WeifenLuo.WinFormsUI.Docking;
 using Ecell.Objects;
 using System.Xml;
 using System.Runtime.InteropServices;
-using Ecell.IDE.COM;
 
 namespace Ecell.IDE.MainWindow
 {
     [ComVisible(true)]
     [Guid("758E6028-5769-4048-B3CB-AC633B9CABAF")]
     [ClassInterface(ClassInterfaceType.AutoDispatch)]
-    public partial class MainWindow : Form, IEcellPlugin, IDockOwner, IApplication
+    public partial class MainWindow : Form, IEcellPlugin, IDockOwner
     {
         #region Fields
         /// <summary>
@@ -1610,26 +1609,6 @@ namespace Ecell.IDE.MainWindow
                 // IronPython
                 //
                 m_env.DataManager.ExecuteScript(openScriptDialog.FileName);
-
-                //PythonEngine engine = new PythonEngine();
-
-                //string crDir = Directory.GetCurrentDirectory();
-                //Console.WriteLine(crDir);
-                //engine.AddToPath(Directory.GetCurrentDirectory());
-                //string scriptFile = openScriptDialog.FileName;
-
-                //try
-                //{
-                //    MemoryStream standardOutput = new MemoryStream();
-                //    engine.SetStandardOutput(standardOutput);
-                //    engine.ExecuteFile(scriptFile);
-                //    string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
-                //}
-                //catch (Exception)
-                //{
-                //    Util.ShowErrorDialog(String.Format(MessageResources.ErrLoadFile,
-                //        new object[] { scriptFile }));
-                //}
 
                 //
                 // Executes continuously.

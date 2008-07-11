@@ -4243,6 +4243,10 @@ namespace Ecell
             return obj;
         }
 
+        public void CreateNewProject(string projectID, string modelID)
+        {
+
+        }
         /// <summary>
         /// Creates the new "Project" object.
         /// </summary>
