@@ -104,17 +104,20 @@ namespace Ecell.IDE.Plugins.AboutWindow
         /// <param name="e">EventArgs</param>
         private void AboutMenuClick(object sender, EventArgs e)
         {
-
-            AboutForm aboutForm = new AboutForm();
             Version v = m_pManager.AppVersion;
-            aboutForm.versionLabel.Text = "version: " + v.ToString();
-            StringBuilder copyrightText = new StringBuilder();
+            string versionText = "version: " + v.ToString();
+
             AssemblyCopyrightAttribute a = (AssemblyCopyrightAttribute)
                 Assembly.GetExecutingAssembly().GetCustomAttributes(
                     typeof(AssemblyCopyrightAttribute), false)[0];
-            aboutForm.copyLabel.Text = a.Copyright;
+            string copyrightText = a.Copyright;
 
-            aboutForm.Show();
+            AboutForm aboutForm = new AboutForm(versionText, copyrightText);
+
+            using (aboutForm)
+            {
+                aboutForm.ShowDialog();
+            }
         }
 
     }

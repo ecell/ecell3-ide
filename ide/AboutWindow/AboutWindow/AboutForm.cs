@@ -59,6 +59,28 @@ namespace Ecell.IDE.Plugins.AboutWindow
             
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="versionText"></param>
+        /// <param name="copyrightText"></param>
+        public AboutForm(string versionText, string copyrightText)
+        {
+            InitializeComponent();
+
+            this.gnuLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
+            this.gnuLink.Links[0].LinkData = "www.gnu.org/copyleft/gpl.html";
+
+            this.ecellLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
+            this.ecellLink.Links[0].LinkData = "www.e-cell.org";
+
+            this.manualLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
+            this.manualLink.Links[0].LinkData = "http://chaperone.e-cell.org/downloads/usermanual_j.pdf";
+
+            this.versionLabel.Text = versionText;
+            this.copyLabel.Text = copyrightText;
+        }
+
         private void About_Load(object sender, EventArgs e)
         {
 
@@ -77,12 +99,5 @@ namespace Ecell.IDE.Plugins.AboutWindow
             System.Diagnostics.Process.Start(target);
 
         }
-
-        private void closeButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-            this.Dispose();
-        }
-
     }
 }
