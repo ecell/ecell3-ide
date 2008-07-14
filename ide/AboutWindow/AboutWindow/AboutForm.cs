@@ -81,16 +81,6 @@ namespace Ecell.IDE.Plugins.AboutWindow
             this.copyLabel.Text = copyrightText;
         }
 
-        private void About_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void linkLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
         {
             // Display the appropriate link based on the value of the 

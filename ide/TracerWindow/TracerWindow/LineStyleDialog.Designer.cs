@@ -65,23 +65,19 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.dashDotRadioButton = new System.Windows.Forms.RadioButton();
             this.dashRadioButton = new System.Windows.Forms.RadioButton();
             this.solidRadioButton = new System.Windows.Forms.RadioButton();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.LSApplyButton = new System.Windows.Forms.Button();
             this.LSCloseButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.dashDotDotRadioButton);
             this.groupBox1.Controls.Add(this.dotRadioButton);
             this.groupBox1.Controls.Add(this.dashDotRadioButton);
             this.groupBox1.Controls.Add(this.dashRadioButton);
             this.groupBox1.Controls.Add(this.solidRadioButton);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -125,20 +121,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.solidRadioButton.TabStop = true;
             this.solidRadioButton.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.LSApplyButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.LSCloseButton, 3, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            // 
             // LSApplyButton
             // 
             resources.ApplyResources(this.LSApplyButton, "LSApplyButton");
@@ -159,13 +141,13 @@ namespace Ecell.IDE.Plugins.TracerWindow
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.LSCloseButton;
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.LSApplyButton);
+            this.Controls.Add(this.LSCloseButton);
             this.Name = "LineStyleDialog";
             this.Shown += new System.EventHandler(this.LineStyleShown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -173,8 +155,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         /// <summary>
         /// Radio button to set line style with Solid.
         /// </summary>

@@ -34,23 +34,23 @@ namespace Ecell.IDE.Plugins.AboutWindow
             System.Windows.Forms.Label label3;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
             System.Windows.Forms.Label label2;
+            System.Windows.Forms.PictureBox pictureBox1;
             this.copyLabel = new System.Windows.Forms.Label();
             this.ecellLink = new System.Windows.Forms.LinkLabel();
             this.manualLink = new System.Windows.Forms.LinkLabel();
             this.CloseButton = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.versionLabel = new System.Windows.Forms.Label();
             this.gnuLink = new System.Windows.Forms.LinkLabel();
             label3 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label3
             // 
             resources.ApplyResources(label3, "label3");
             label3.Name = "label3";
-            label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label2
             // 
@@ -83,9 +83,9 @@ namespace Ecell.IDE.Plugins.AboutWindow
             // 
             // pictureBox1
             // 
-            resources.ApplyResources(this.pictureBox1, "pictureBox1");
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.TabStop = false;
+            resources.ApplyResources(pictureBox1, "pictureBox1");
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.TabStop = false;
             // 
             // versionLabel
             // 
@@ -111,15 +111,14 @@ namespace Ecell.IDE.Plugins.AboutWindow
             this.Controls.Add(this.manualLink);
             this.Controls.Add(this.ecellLink);
             this.Controls.Add(this.versionLabel);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(pictureBox1);
             this.Controls.Add(label2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AboutForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Load += new System.EventHandler(this.About_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -129,7 +128,6 @@ namespace Ecell.IDE.Plugins.AboutWindow
 
         private System.Windows.Forms.LinkLabel ecellLink;
         private System.Windows.Forms.LinkLabel manualLink;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.LinkLabel gnuLink;
         private System.Windows.Forms.Label versionLabel;
