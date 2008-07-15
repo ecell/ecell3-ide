@@ -63,6 +63,10 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         private bool m_isRunning = false;
         private Dictionary<int, ExecuteParameter> m_paramDic;
+        /// <summary>
+        /// The max number of input data to be executed FFT.
+        /// </summary>
+        public const int MaxSize = 2097152;
         #endregion
 
         /// <summary>
@@ -155,10 +159,10 @@ namespace Ecell.IDE.Plugins.Analysis
                     new object[] { MessageResources.NameSimulationTime, 0.0 }));
                 return;
             }
-            if (maxSize > AnalysisWindow.MaxSize)
+            if (maxSize > MaxSize)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrSmaller,
-                    new object[] { MessageResources.NameMaxSample, AnalysisWindow.MaxSize }));
+                    new object[] { MessageResources.NameMaxSample, MaxSize }));
                 return;
             }
 

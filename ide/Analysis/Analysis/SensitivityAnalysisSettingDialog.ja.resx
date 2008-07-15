@@ -117,136 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AnalysisResultWindow" xml:space="preserve">
-    <value>解析結果</value>
-  </data>
-  <data name="AnalysisWindow" xml:space="preserve">
-    <value>解析設定</value>
-  </data>
-  <data name="ConfirmClose" xml:space="preserve">
-    <value>このウインドウを閉じてもよろしいですか？</value>
-  </data>
-  <data name="ConfirmFindErrorJob" xml:space="preserve">
-    <value>エラーの発生したパラメータがあります。結果を表示してよろしいですか？</value>
-  </data>
-  <data name="ConfirmStopAnalysis" xml:space="preserve">
-    <value>この解析を終了してよろしいですか？</value>
-  </data>
-  <data name="ErrExecute" xml:space="preserve">
-    <value>{0} の実行に失敗しました。</value>
-  </data>
-  <data name="ErrLarger" xml:space="preserve">
-    <value>{0} は {1} より大きい値に設定してください。</value>
-  </data>
-  <data name="ErrNoSet" xml:space="preserve">
-    <value>{0} が設定されていません。少なくとも{1}つ以上設定してください。</value>
-  </data>
-  <data name="ErrSameAxis" xml:space="preserve">
-    <value>X軸とＹ軸に設定したパラメータが同じです。</value>
-  </data>
-  <data name="ErrSaveFile" xml:space="preserve">
-    <value>{0} が保存できません。</value>
-  </data>
-  <data name="ErrSetNumber" xml:space="preserve">
-    <value>{0} は {1} 個設定してください。</value>
-  </data>
-  <data name="ErrSetNumberMore" xml:space="preserve">
-    <value>{0} は {1} 個以上設定してください。</value>
-  </data>
-  <data name="ErrSmaller" xml:space="preserve">
-    <value>{0} は {1} より小さい値に設定してください。</value>
-  </data>
-  <data name="InfoFinishExecute" xml:space="preserve">
-    <value>{0} の実行が終了しました。</value>
-  </data>
-  <data name="MenuItemAnalysis" xml:space="preserve">
-    <value>解析(&amp;A)...</value>
-  </data>
-  <data name="MenuItemAnalysisWindow" xml:space="preserve">
-    <value>解析(&amp;A)...</value>
-  </data>
-  <data name="MenuItemBifurcationAnalysis" xml:space="preserve">
-    <value>分岐解析(&amp;B)</value>
-  </data>
-  <data name="MenuItemBifurcationAnalysisSetting" xml:space="preserve">
-    <value>分岐解析設定</value>
-  </data>
-  <data name="MenuItemLoadAnalysisCond" xml:space="preserve">
-    <value>解析パラメータの読み込み...</value>
-  </data>
-  <data name="MenuItemLoadAnalysisResult" xml:space="preserve">
-    <value>解析結果の読み込み...</value>
-  </data>
-  <data name="MenuItemParameterEstimation" xml:space="preserve">
-    <value>パラメータ推定(&amp;P)</value>
-  </data>
-  <data name="MenuItemParameterEstimationSetting" xml:space="preserve">
-    <value>パラメータ推定設定</value>
-  </data>
-  <data name="MenuItemRobustAnalysis" xml:space="preserve">
-    <value>ロバスト解析(&amp;R)</value>
-  </data>
-  <data name="MenuItemRobustAnalysisSetting" xml:space="preserve">
-    <value>ロバスト解析設定</value>
-  </data>
-  <data name="MenuItemSaveAnalysisCond" xml:space="preserve">
-    <value>解析パラメータの保存...</value>
-  </data>
-  <data name="MenuItemSaveAnalysisResult" xml:space="preserve">
-    <value>解析結果の保存...</value>
-  </data>
-  <data name="MenuItemSensitivityAnalysis" xml:space="preserve">
-    <value>感度解析(&amp;S)</value>
-  </data>
-  <data name="MenuItemSensitivityAnalysisSetting" xml:space="preserve">
+  <data name="$this.Text" xml:space="preserve">
     <value>感度解析設定</value>
   </data>
-  <data name="MenuItemStopAnalysis" xml:space="preserve">
-    <value>解析停止</value>
+  <data name="cancelButton.Text" xml:space="preserve">
+    <value>キャンセル</value>
   </data>
-  <data name="NameAbsolutePert" xml:space="preserve">
-    <value>Absolute perturbation</value>
+  <data name="executeButton.Text" xml:space="preserve">
+    <value>実行</value>
   </data>
-  <data name="NameBifurcation" xml:space="preserve">
-    <value>分岐解析</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>ステップ幅</value>
   </data>
-  <data name="NameEstimationForm" xml:space="preserve">
-    <value>評価式</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>相対的摂動</value>
   </data>
-  <data name="NameGenerationNum" xml:space="preserve">
-    <value>世代数</value>
-  </data>
-  <data name="NameMaxSample" xml:space="preserve">
-    <value>FFTのサンプル数</value>
-  </data>
-  <data name="NameObservedData" xml:space="preserve">
-    <value>監視データ</value>
-  </data>
-  <data name="NameParameterData" xml:space="preserve">
-    <value>パラメータデータ</value>
-  </data>
-  <data name="NameParameterEstimate" xml:space="preserve">
-    <value>パラメータ推定</value>
-  </data>
-  <data name="NamePopulation" xml:space="preserve">
-    <value>個体数</value>
-  </data>
-  <data name="NameRelativePert" xml:space="preserve">
-    <value>Relative perturbation</value>
-  </data>
-  <data name="NameRobustAnalysis" xml:space="preserve">
-    <value>ロバスト解析</value>
-  </data>
-  <data name="NameSensAnalysis" xml:space="preserve">
-    <value>感度解析</value>
-  </data>
-  <data name="NameSimulationTime" xml:space="preserve">
-    <value>シミュレーション時間</value>
-  </data>
-  <data name="NameStepNum" xml:space="preserve">
-    <value>ステップ数</value>
-  </data>
-  <data name="ReflectMenuText" xml:space="preserve">
-    <value>反映</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>絶対的摂動</value>
   </data>
 </root>

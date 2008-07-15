@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PEAdvancedWindow));
             System.Windows.Forms.Label label4;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PEAdvancedWindow));
             System.Windows.Forms.Label label5;
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label3;
@@ -40,9 +40,9 @@
             this.PEUpsilonTextBox = new System.Windows.Forms.TextBox();
             this.PEMTextBox = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.PEM0TextBox = new System.Windows.Forms.TextBox();
-            this.PEKTextBox = new System.Windows.Forms.TextBox();
             this.PEMaxRateTextBox = new System.Windows.Forms.TextBox();
+            this.PEKTextBox = new System.Windows.Forms.TextBox();
+            this.PEM0TextBox = new System.Windows.Forms.TextBox();
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
@@ -51,6 +51,31 @@
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // label4
+            // 
+            resources.ApplyResources(label4, "label4");
+            label4.Name = "label4";
+            // 
+            // label5
+            // 
+            resources.ApplyResources(label5, "label5");
+            label5.Name = "label5";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
             // 
             // PEAApplyButton
             // 
@@ -76,11 +101,6 @@
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
-            // label4
-            // 
-            resources.ApplyResources(label4, "label4");
-            label4.Name = "label4";
-            // 
             // PEUpsilonTextBox
             // 
             resources.ApplyResources(this.PEUpsilonTextBox, "PEUpsilonTextBox");
@@ -90,11 +110,6 @@
             // 
             resources.ApplyResources(this.PEMTextBox, "PEMTextBox");
             this.PEMTextBox.Name = "PEMTextBox";
-            // 
-            // label5
-            // 
-            resources.ApplyResources(label5, "label5");
-            label5.Name = "label5";
             // 
             // groupBox2
             // 
@@ -108,35 +123,20 @@
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
-            // label2
+            // PEMaxRateTextBox
             // 
-            resources.ApplyResources(label2, "label2");
-            label2.Name = "label2";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(label3, "label3");
-            label3.Name = "label3";
-            // 
-            // PEM0TextBox
-            // 
-            resources.ApplyResources(this.PEM0TextBox, "PEM0TextBox");
-            this.PEM0TextBox.Name = "PEM0TextBox";
+            resources.ApplyResources(this.PEMaxRateTextBox, "PEMaxRateTextBox");
+            this.PEMaxRateTextBox.Name = "PEMaxRateTextBox";
             // 
             // PEKTextBox
             // 
             resources.ApplyResources(this.PEKTextBox, "PEKTextBox");
             this.PEKTextBox.Name = "PEKTextBox";
             // 
-            // PEMaxRateTextBox
+            // PEM0TextBox
             // 
-            resources.ApplyResources(this.PEMaxRateTextBox, "PEMaxRateTextBox");
-            this.PEMaxRateTextBox.Name = "PEMaxRateTextBox";
-            // 
-            // label1
-            // 
-            resources.ApplyResources(label1, "label1");
-            label1.Name = "label1";
+            resources.ApplyResources(this.PEM0TextBox, "PEM0TextBox");
+            this.PEM0TextBox.Name = "PEM0TextBox";
             // 
             // PEAdvancedWindow
             // 

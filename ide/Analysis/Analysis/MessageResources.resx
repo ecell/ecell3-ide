@@ -168,6 +168,9 @@
   <data name="MenuItemBifurcationAnalysis" xml:space="preserve">
     <value>&amp;Bifurcation Analysis</value>
   </data>
+  <data name="MenuItemBifurcationAnalysisSetting" xml:space="preserve">
+    <value>Bifurcation Analysis Setting</value>
+  </data>
   <data name="MenuItemLoadAnalysisCond" xml:space="preserve">
     <value>Load Analysis Parameter ...</value>
   </data>
@@ -177,8 +180,14 @@
   <data name="MenuItemParameterEstimation" xml:space="preserve">
     <value>&amp;Parameter Estimation</value>
   </data>
+  <data name="MenuItemParameterEstimationSetting" xml:space="preserve">
+    <value>Parameter Estimation Setting</value>
+  </data>
   <data name="MenuItemRobustAnalysis" xml:space="preserve">
     <value>&amp;Robust Analysis</value>
+  </data>
+  <data name="MenuItemRobustAnalysisSetting" xml:space="preserve">
+    <value>Robust Analysis Setting</value>
   </data>
   <data name="MenuItemSaveAnalysisCond" xml:space="preserve">
     <value>Save Analysis Parameter ...</value>
@@ -188,6 +197,9 @@
   </data>
   <data name="MenuItemSensitivityAnalysis" xml:space="preserve">
     <value>&amp;Sensitivity Analysis</value>
+  </data>
+  <data name="MenuItemSensitivityAnalysisSetting" xml:space="preserve">
+    <value>Sensitivity Analysis Setting</value>
   </data>
   <data name="MenuItemStopAnalysis" xml:space="preserve">
     <value>Stop Analysis</value>

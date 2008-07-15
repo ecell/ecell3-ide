@@ -214,6 +214,15 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
+        ///   Bifurcation Analysis Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemBifurcationAnalysisSetting {
+            get {
+                return ResourceManager.GetString("MenuItemBifurcationAnalysisSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Load Analysis Parameter ... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemLoadAnalysisCond {
@@ -241,11 +250,29 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
+        ///   Parameter Estimation Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemParameterEstimationSetting {
+            get {
+                return ResourceManager.GetString("MenuItemParameterEstimationSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   &amp;Robust Analysis に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemRobustAnalysis {
             get {
                 return ResourceManager.GetString("MenuItemRobustAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Robust Analysis Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemRobustAnalysisSetting {
+            get {
+                return ResourceManager.GetString("MenuItemRobustAnalysisSetting", resourceCulture);
             }
         }
         
@@ -273,6 +300,15 @@ namespace Ecell.IDE.Plugins.Analysis {
         internal static string MenuItemSensitivityAnalysis {
             get {
                 return ResourceManager.GetString("MenuItemSensitivityAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sensitivity Analysis Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemSensitivityAnalysisSetting {
+            get {
+                return ResourceManager.GetString("MenuItemSensitivityAnalysisSetting", resourceCulture);
             }
         }
         

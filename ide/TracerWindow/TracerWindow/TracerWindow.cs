@@ -601,6 +601,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
             list = null;
         }
 
+        /// <summary>
+        /// Show the setting dialog.
+        /// </summary>
         public void ShowSetupWindow()
         {
             ShowSetupTracerWindow(new object(), new EventArgs());

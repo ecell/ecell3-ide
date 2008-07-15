@@ -52,7 +52,19 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// MenuItem to display the window for robust analysis.
         /// </summary>
-        private ToolStripMenuItem m_showAnalysisSetupItem;
+        private ToolStripMenuItem m_showRobustAnalysisSetupItem;
+        /// <summary>
+        /// MenuItem to display the window for robust analysis.
+        /// </summary>
+        private ToolStripMenuItem m_showParameterEstimationSetupItem;
+        /// <summary>
+        /// MenuItem to display the window for robust analysis.
+        /// </summary>
+        private ToolStripMenuItem m_showBifurcationSetupItem;
+        /// <summary>
+        /// MenuItem to display the window for robust analysis.
+        /// </summary>
+        private ToolStripMenuItem m_showSensitiveAnalysisSetupItem;
         /// <summary>
         /// MenuItem to execute robust analysis.
         /// </summary>
@@ -69,10 +81,6 @@ namespace Ecell.IDE.Plugins.Analysis
         /// MenuItem to execute bifurcation analysis.
         /// </summary>
         private ToolStripMenuItem m_bifurcationAnalysisItem;
-        /// <summary>
-        /// Window to analysis the robustness of model.
-        /// </summary>
-        private AnalysisWindow m_win = null;
         /// <summary>
         /// For to display the result of analysis.
         /// </summary>
@@ -117,6 +125,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The dictionary of the data to be set by random.
         /// </summary>
         private Dictionary<string, EcellData> m_paramList = new Dictionary<string, EcellData>();
+        private Dictionary<string, EcellData> m_observedList = new Dictionary<string, EcellData>();
         private List<string> m_headerList = new List<string>();
         private Dictionary<string, List<double>> m_cccResult = new Dictionary<string, List<double>>();
         private Dictionary<string, List<double>> m_fccResult = new Dictionary<string, List<double>>();
@@ -136,7 +145,6 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public Analysis()
         {
-            m_win = null;
             m_bifurcateParameter = new BifurcationAnalysisParameter();
             m_estimationParameter = new ParameterEstimationParameter();
             m_robustParameter = new RobustAnalysisParameter();
@@ -158,9 +166,6 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <returns>the parameter set of bifurcation analysis.</returns>
         public BifurcationAnalysisParameter GetBifurcationAnalysisPrameter()
         {
-            if (m_win != null)
-                m_bifurcateParameter = m_win.GetBifurcationAnalysisPrameter();
-
             return m_bifurcateParameter;
         }
 
@@ -179,9 +184,6 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <returns>the parameter of parameter estimation.</returns>
         public ParameterEstimationParameter GetParameterEstimationParameter()
         {
-            if (m_win != null)
-                m_estimationParameter = m_win.GetParameterEstimationParameter();
-
             return m_estimationParameter;
         }
 
@@ -200,9 +202,6 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <returns>the parameter of robust analysis.</returns>
         public RobustAnalysisParameter GetRobustAnalysisParameter()
         {
-            if (m_win != null)
-                m_robustParameter = m_win.GetRobustAnalysisParameter();
-
             return m_robustParameter;
         }
 
@@ -221,23 +220,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <returns>the parameter of sensitivity analysis.</returns>
         public SensitivityAnalysisParameter GetSensitivityAnalysisParameter()
         {
-            if (m_win != null)
-                m_sensitivityParameter = m_win.GetSensitivityAnalysisParameter();
-
             return m_sensitivityParameter;
-        }
-
-        /// <summary>
-        /// Window is null when window is closed.
-        /// </summary>
-        public void CloseAnalysisWindow()
-        {
-            m_win = null;
-            m_currentAnalysus = null;
-            StopBifurcationAnalysis();
-            StopParameterEstimation();
-            StopRobustAnalysis();
-            StopSensitivityAnalysis();
         }
 
         /// <summary>
@@ -502,29 +485,84 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         #region Events
-        /// <summary>
-        /// Event when this form of robust analysis is shown.
-        /// </summary>
-        /// <param name="sender">RobustAnalysis.</param>
-        /// <param name="e">EventArgs.</param>
-        private void ShowAnalysisWindow(object sender, EventArgs e)
+        private void ShowParameterEstimationSetting(object sender, EventArgs e)
         {
-            if (m_win == null)
+            ParameterEstimationSettingDialog dlg = new ParameterEstimationSettingDialog(this);
+            dlg.SetParameter(m_estimationParameter);
+            dlg.SetParameterDataList(m_paramList);
+            using (dlg)
             {
-                m_win = new AnalysisWindow(this);
-                DockPanel panel = m_env.PluginManager.DockPanel;
-                m_win.DockHandler.DockPanel = panel;
-                m_win.DockHandler.FloatPane = panel.DockPaneFactory.CreateDockPane(m_win, DockState.Float, true);
-                FloatWindow fw = panel.FloatWindowFactory.CreateFloatWindow(
-                                    panel,
-                                    m_win.FloatPane,
-                                    new Rectangle(m_win.Left, m_win.Top, m_win.Width, m_win.Height));
-                m_win.Pane.DockTo(fw);
-                m_win.Show();
+                DialogResult res = dlg.ShowDialog();
+                if (res == DialogResult.OK)
+                {
+                    m_estimationParameter = dlg.GetParameter();
+                }
+                else if (res == DialogResult.Ignore)
+                {
+                    m_estimationParameter = dlg.GetParameter();
+                    ExecuteParameterEstimation(sender, e);
+                }
             }
-            else
+        }
+
+        private void ShowBifurcationSetting(object sender, EventArgs e)
+        {
+            BifurcationSettingDialog dlg = new BifurcationSettingDialog(this);
+            dlg.SetParameter(m_bifurcateParameter);
+            dlg.SetParameterDataList(m_paramList);
+            dlg.SetObservedDataList(m_observedList);
+            using (dlg)
             {
-                m_win.Activate();
+                DialogResult res = dlg.ShowDialog();
+                if (res == DialogResult.OK)
+                {
+                    m_bifurcateParameter = dlg.GetParameter();
+                }
+                else if (res == DialogResult.Ignore)
+                {
+                    m_bifurcateParameter = dlg.GetParameter();
+                    ExecuteBifurcationAnalysis(sender, e);
+                }
+            }
+        }
+
+        private void ShowRobustAnalysisSetting(object sender, EventArgs e)
+        {
+            RobustAnalysisSettingDialog dlg = new RobustAnalysisSettingDialog(this);
+            dlg.SetParameter(m_robustParameter);
+            dlg.SetParameterDataList(m_paramList);
+            dlg.SetObservedDataList(m_observedList);
+            using (dlg)
+            {
+                DialogResult res = dlg.ShowDialog();
+                if (res == DialogResult.OK)
+                {
+                    m_robustParameter = dlg.GetParameter();
+                }
+                else if (res == DialogResult.Ignore)
+                {
+                    m_robustParameter = dlg.GetParameter();
+                    ExecuteRobustAnalysis(sender, e);
+                }
+            }
+        }
+
+        private void ShowSensitivityAnalysisSetting(object sender, EventArgs e)
+        {
+            SensitivityAnalysisSettingDialog dlg = new SensitivityAnalysisSettingDialog(this);
+            dlg.SetParameter(m_sensitivityParameter);
+            using (dlg)
+            {
+                DialogResult res = dlg.ShowDialog();
+                if (res == DialogResult.OK)
+                {
+                    m_sensitivityParameter = dlg.GetParameter();
+                }
+                else if (res == DialogResult.Ignore)
+                {
+                    m_sensitivityParameter = dlg.GetParameter();
+                    ExecuteSensitivityAnalysis(sender, e);
+                }
             }
         }
 
@@ -648,11 +686,29 @@ namespace Ecell.IDE.Plugins.Analysis
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResources));
             List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
 
-            m_showAnalysisSetupItem = new ToolStripMenuItem();
-            m_showAnalysisSetupItem.Text = MessageResources.MenuItemAnalysisWindow;
-            m_showAnalysisSetupItem.ToolTipText = MessageResources.MenuItemAnalysisWindow;
-            m_showAnalysisSetupItem.Tag = 10;
-            m_showAnalysisSetupItem.Click += new EventHandler(ShowAnalysisWindow);
+            m_showBifurcationSetupItem = new ToolStripMenuItem();
+            m_showBifurcationSetupItem.Text = MessageResources.MenuItemBifurcationAnalysisSetting;
+            m_showBifurcationSetupItem.ToolTipText = MessageResources.MenuItemBifurcationAnalysisSetting;
+            m_showBifurcationSetupItem.Tag = 10;
+            m_showBifurcationSetupItem.Click += new EventHandler(ShowBifurcationSetting);
+
+            m_showParameterEstimationSetupItem = new ToolStripMenuItem();
+            m_showParameterEstimationSetupItem.Text = MessageResources.MenuItemParameterEstimationSetting;
+            m_showParameterEstimationSetupItem.ToolTipText = MessageResources.MenuItemParameterEstimationSetting;
+            m_showParameterEstimationSetupItem.Tag = 10;
+            m_showParameterEstimationSetupItem.Click += new EventHandler(ShowParameterEstimationSetting);
+
+            m_showRobustAnalysisSetupItem = new ToolStripMenuItem();
+            m_showRobustAnalysisSetupItem.Text = MessageResources.MenuItemRobustAnalysisSetting;
+            m_showRobustAnalysisSetupItem.ToolTipText = MessageResources.MenuItemRobustAnalysisSetting;
+            m_showRobustAnalysisSetupItem.Tag = 10;
+            m_showRobustAnalysisSetupItem.Click += new EventHandler(ShowRobustAnalysisSetting);
+
+            m_showSensitiveAnalysisSetupItem = new ToolStripMenuItem();
+            m_showSensitiveAnalysisSetupItem.Text = MessageResources.MenuItemSensitivityAnalysisSetting;
+            m_showSensitiveAnalysisSetupItem.ToolTipText = MessageResources.MenuItemSensitivityAnalysisSetting;
+            m_showSensitiveAnalysisSetupItem.Tag = 10;
+            m_showSensitiveAnalysisSetupItem.Click += new EventHandler(ShowSensitivityAnalysisSetting);
 
             ToolStripSeparator sep1 = new ToolStripSeparator();
             sep1.Tag = 20;
@@ -711,7 +767,9 @@ namespace Ecell.IDE.Plugins.Analysis
 
             ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
             analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { 
-                m_showAnalysisSetupItem, sep1, m_robustAnalysisItem, m_parameterEstimationItem, 
+                m_showRobustAnalysisSetupItem, m_showParameterEstimationSetupItem,
+                m_showSensitiveAnalysisSetupItem, m_showBifurcationSetupItem, sep1, 
+                m_robustAnalysisItem, m_parameterEstimationItem, 
                 m_sensitivityAnalysisItem, m_bifurcationAnalysisItem, stopAnalysisItem, sep2,
                 saveAnalysisResultItem, loadAnalysisResultItem
             });
@@ -770,7 +828,10 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             if (ProjectStatus.Loaded == type)
             {
-                m_showAnalysisSetupItem.Enabled = true;
+                m_showBifurcationSetupItem.Enabled = true;
+                m_showParameterEstimationSetupItem.Enabled = true;
+                m_showRobustAnalysisSetupItem.Enabled = true;
+                m_showSensitiveAnalysisSetupItem.Enabled = true;
                 m_robustAnalysisItem.Enabled = true;
                 m_parameterEstimationItem.Enabled = true;
                 m_sensitivityAnalysisItem.Enabled = true;
@@ -778,7 +839,10 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             else
             {
-                m_showAnalysisSetupItem.Enabled = false;
+                m_showBifurcationSetupItem.Enabled = false;
+                m_showParameterEstimationSetupItem.Enabled = false;
+                m_showRobustAnalysisSetupItem.Enabled = false;
+                m_showSensitiveAnalysisSetupItem.Enabled = false;
                 m_robustAnalysisItem.Enabled = false;
                 m_parameterEstimationItem.Enabled = false;
                 m_sensitivityAnalysisItem.Enabled = false;
@@ -792,8 +856,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public override void Clear()
         {
             m_paramList.Clear();
-            if (m_win != null)
-                m_win.Clear();
+            m_observedList.Clear();
             ClearResult();
         }
 
@@ -814,10 +877,14 @@ namespace Ecell.IDE.Plugins.Analysis
                         foreach (EcellData d in child.Value)
                         {
                             if (d.EntityPath == null) continue;
-                            if (!m_env.DataManager.IsContainsParameterData(d.EntityPath)) continue;
-                            m_paramList.Add(d.EntityPath, d);
-                            if (m_win != null)
-                                m_win.AddParameterEntry(child, d);
+                            if (m_env.DataManager.IsContainsParameterData(d.EntityPath))
+                            {
+                                m_paramList.Add(d.EntityPath, d);
+                            }
+                            if (m_env.DataManager.IsContainsObservedData(d.EntityPath))
+                            {
+                                m_observedList.Add(d.EntityPath, d);
+                            }
                         }
                         
                     }
@@ -827,10 +894,14 @@ namespace Ecell.IDE.Plugins.Analysis
                 foreach (EcellData d in obj.Value)
                 {
                     if (d.EntityPath == null) continue;
-                    if (!m_env.DataManager.IsContainsParameterData(d.EntityPath)) continue;
-                    m_paramList.Add(d.EntityPath, d);
-                    if (m_win != null)
-                        m_win.AddParameterEntry(obj, d);
+                    if (m_env.DataManager.IsContainsParameterData(d.EntityPath))
+                    {
+                        m_paramList.Add(d.EntityPath, d);
+                    }
+                    if (m_env.DataManager.IsContainsObservedData(d.EntityPath))
+                    {
+                        m_observedList.Add(d.EntityPath, d);
+                    }
                 }
             }
         }
@@ -853,8 +924,6 @@ namespace Ecell.IDE.Plugins.Analysis
                     if (m_paramList.ContainsKey(d.EntityPath))
                     {
                         m_paramList.Remove(d.EntityPath);
-                        if (m_win != null)
-                            m_win.RemoveParameterEntry(d.EntityPath);
                     }
                 }
                 else
@@ -862,8 +931,6 @@ namespace Ecell.IDE.Plugins.Analysis
                     if (!m_paramList.ContainsKey(d.EntityPath))
                     {
                         m_paramList.Add(d.EntityPath, d);
-                        if (m_win != null)
-                            m_win.AddParameterEntry(obj, d);
                     }
                 }
             }
@@ -888,8 +955,6 @@ namespace Ecell.IDE.Plugins.Analysis
             foreach (string data in delList)
             {
                 m_paramList.Remove(data);
-                if (m_win != null)
-                    m_win.RemoveParameterEntry(data);
             }
         }
 
@@ -899,8 +964,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="data">The parameter data.</param>
         public override void SetParameterData(EcellParameterData data)
         {
-            if (m_win != null)
-                m_win.SetParameterData(data);
+            m_paramList.Add(data.Key, null);
         }
 
         /// <summary>
@@ -909,8 +973,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="data">The removed parameter data.</param>
         public override void RemoveParameterData(EcellParameterData data)
         {
-            if (m_win != null)
-                m_win.RemoveParameterData(data);
+            m_paramList.Remove(data.Key);
         }
 
         /// <summary>
@@ -919,8 +982,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="data">The observed data.</param>
         public override void SetObservedData(EcellObservedData data)
         {
-            if (m_win != null)
-                m_win.SetObservedData(data);
+            m_observedList.Add(data.Key, null);
         }
 
         /// <summary>
@@ -929,8 +991,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="data">The removed observed data.</param>
         public override void RemoveObservedData(EcellObservedData data)
         {
-            if (m_win != null)
-                m_win.RemoveObservedData(data);
+            m_observedList.Remove(data.Key);
         }
 
         /// <summary>

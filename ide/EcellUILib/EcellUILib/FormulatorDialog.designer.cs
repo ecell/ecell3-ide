@@ -56,6 +56,7 @@
             // FApplyButton
             // 
             resources.ApplyResources(this.FApplyButton, "FApplyButton");
+            this.FApplyButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.FApplyButton.Name = "FApplyButton";
             this.FApplyButton.UseVisualStyleBackColor = true;
             // 
@@ -66,14 +67,14 @@
             this.FCloseButton.Name = "FCloseButton";
             this.FCloseButton.UseVisualStyleBackColor = true;
             // 
-            // FormulatorWindow
+            // FormulatorDialog
             // 
             this.AcceptButton = this.FApplyButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.FCloseButton;
             this.Controls.Add(this.tableLayoutPanel);
-            this.Name = "FormulatorWindow";
+            this.Name = "FormulatorDialog";
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
