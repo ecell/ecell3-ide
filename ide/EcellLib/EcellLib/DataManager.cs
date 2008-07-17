@@ -3483,51 +3483,51 @@ namespace Ecell
         /// <summary>
         /// Loads the eml formatted file and returns the model ID.
         /// </summary>
-        /// <param name="l_filename">The eml formatted file name</param>
+        /// <param name="filename">The eml formatted file name</param>
         /// <param name="isLogging">The flag whether this function is in logging.</param>
         /// <returns>The model ID</returns>
-        public string LoadModel(string l_filename, bool isLogging)
+        public string LoadModel(string filename, bool isLogging)
         {
-            string l_message = null;
+            string message = null;
             try
             {
-                l_message = "[" + l_filename + "]";
+                message = "[" + filename + "]";
                 //
                 // To load
                 //
-                string l_modelID = null;
+                string modelID = null;
                 if (m_currentProject.FilePath == null)
                 {
-                    m_currentProject.FilePath = l_filename;
+                    m_currentProject.FilePath = filename;
                 }
                 if (m_currentProject.Simulator == null)
                 {
                     m_currentProject.SetDMList();
                     m_currentProject.Simulator = CreateSimulatorInstance();
                 }
-                EcellObject l_modelObj = EmlReader.Parse(l_filename,
+                EcellObject modelObj = EmlReader.Parse(filename,
                         m_currentProject.Simulator);
-                l_modelID = l_modelObj.ModelID;
+                modelID = modelObj.ModelID;
 
                 //
                 // Checks the old model ID
                 //
-                foreach (EcellObject l_model in m_currentProject.ModelList)
+                foreach (EcellObject model in m_currentProject.ModelList)
                 {
-                    Debug.Assert(!l_model.ModelID.Equals(l_modelID));
+                    Debug.Assert(!model.ModelID.Equals(modelID));
                 }
                 //
                 // Initialize
                 //
                 m_currentProject.Simulator.Initialize();
                 // Sets initial conditions.
-                m_currentProject.Initialize(l_modelID);
-                string l_simParam = m_currentProject.SimulationParam;
-                InitializeModel(l_modelObj);
+                m_currentProject.Initialize(modelID);
+                string simParam = m_currentProject.SimulationParam;
+                InitializeModel(modelObj);
                 // Stores the "LoggerPolicy"
-                if (!m_currentProject.LoggerPolicyDic.ContainsKey(l_simParam))
+                if (!m_currentProject.LoggerPolicyDic.ContainsKey(simParam))
                 {
-                    m_currentProject.LoggerPolicyDic[l_simParam]
+                    m_currentProject.LoggerPolicyDic[simParam]
                         = new LoggerPolicy(
                             LoggerPolicy.s_reloadStepCount,
                             LoggerPolicy.s_reloadInterval,
@@ -3535,153 +3535,173 @@ namespace Ecell
                             LoggerPolicy.s_maxDiskSpace
                             );
                 }
-                Trace.WriteLine("Load Model: " + l_message);
+                Trace.WriteLine("Load Model: " + message);
                 if (isLogging)
-                    m_env.ActionManager.AddAction(new ImportModelAction(l_filename));
-                if (m_currentProject.ModelFileDic.ContainsKey(l_modelID))
-                    m_currentProject.ModelFileDic.Remove(l_modelID);
-                m_currentProject.ModelFileDic.Add(l_modelID, l_filename);
+                    m_env.ActionManager.AddAction(new ImportModelAction(filename));
+                if (m_currentProject.ModelFileDic.ContainsKey(modelID))
+                    m_currentProject.ModelFileDic.Remove(modelID);
+                m_currentProject.ModelFileDic.Add(modelID, filename);
 
-                return l_modelID;
+                return modelID;
             }
-            catch (Exception l_ex)
+            catch (Exception ex)
             {
                 throw new Exception(String.Format(MessageResources.ErrLoadModel,
-                    new object[] { l_filename }), l_ex);
+                    new object[] { filename }), ex);
             }
         }
 
         /// <summary>
         /// Loads the project.
         /// </summary>
-        /// <param name="l_prjID">The load project ID</param>
-        /// <param name="l_prjFile">The load project file.</param>
-        public void LoadProject(string l_prjID, string l_prjFile)
+        /// <param name="prjID">The load project ID</param>
+        /// <param name="prjFile">The load project file.</param>
+        public void LoadProject(string prjID, string prjFile)
         {
-            List<EcellObject> l_passList = new List<EcellObject>();
-            string[] l_parameters = new string[0];
-            Project l_prj = null;
-            string l_message = null;
+            Project project = null;
             try
             {
-                // Check ProjectID Error.
-                Debug.Assert(!string.IsNullOrEmpty(l_prjID));
-                l_message = "[" + l_prjID + "]";
-
                 // Initializes.
-                l_prj = new Project(l_prjFile);
-                if (l_prj == null)
+                project = new Project(prjFile);
+                if (project == null)
                     throw new Exception(MessageResources.ErrFindFile + " [" + Constants.fileProject + "]");
 
-                l_prj.Name = l_prjID;
-                m_currentProject = l_prj;
-                m_currentProject.SetDMList();
-                m_currentProject.Simulator = CreateSimulatorInstance();
-                m_currentProject.LoggerPolicyDic = new Dictionary<string, LoggerPolicy>();
-                m_currentProject.StepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
-                m_currentProject.ModelList = new List<EcellObject>();
-                m_currentProject.SystemDic = new Dictionary<string, List<EcellObject>>();
-                m_projectList.Add(l_prj);
-                m_env.PluginManager.ParameterSet(l_prjID, m_currentProject.SimulationParam);
+                project.Name = prjID;
+                LoadProject(project);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(String.Format(MessageResources.ErrLoadPrj,
+                    new object[] { prjID }), ex);
+            }
+        }
 
-                List<EcellData> l_ecellDataList = new List<EcellData>();
-                l_ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(l_prj.Comment), null));
-                l_passList.Add(EcellObject.CreateObject(l_prjID, "", Constants.xpathProject, "", l_ecellDataList));
+        /// <summary>
+        /// LoadProject
+        /// </summary>
+        /// <param name="project"></param>
+        public void LoadProject(Project project)
+        {
+            List<EcellObject> passList = new List<EcellObject>();
+            string[] parameters = new string[0];
+            string message = null;
+            string prjID = null;
+            try
+            {
+                if (project == null)
+                    throw new Exception(MessageResources.ErrLoadPrj);
+
+                // Initializes.
+                message = "[" + project.Name + "]";
+                m_currentProject = project;
+                prjID = project.Name;
+
+                project.SetDMList();
+                project.Simulator = CreateSimulatorInstance();
+                project.LoggerPolicyDic = new Dictionary<string, LoggerPolicy>();
+                project.StepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
+                project.ModelList = new List<EcellObject>();
+                project.SystemDic = new Dictionary<string, List<EcellObject>>();
+
+                m_projectList.Add(project);
+
+                m_env.PluginManager.ParameterSet(prjID, project.SimulationParam);
+
+                List<EcellData> ecellDataList = new List<EcellData>();
+                ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(project.Comment), null));
+                passList.Add(EcellObject.CreateObject(prjID, "", Constants.xpathProject, "", ecellDataList));
 
                 // Loads the model.
-                string l_modelDirName = Path.Combine(l_prj.ProjectPath, Constants.xpathModel);
-                Debug.Assert(Directory.Exists(l_modelDirName));
+                string modelDirName = Path.Combine(project.ProjectPath, Constants.xpathModel);
+                Debug.Assert(Directory.Exists(modelDirName));
 
-                string[] l_models = Directory.GetFileSystemEntries(
-                    l_modelDirName,
+                string[] models = Directory.GetFileSystemEntries(
+                    modelDirName,
                     Constants.delimiterWildcard + Constants.FileExtEML
                     );
-                Debug.Assert(l_models != null && l_models.Length > 0);
+                Debug.Assert(models != null && models.Length > 0);
 
-                foreach (string l_model in l_models)
+                foreach (string model in models)
                 {
-                    string l_fileName = Path.GetFileName(l_model);
-                    if (l_fileName.IndexOf(Constants.delimiterUnderbar) > 0 ||
-                        l_fileName.EndsWith(Constants.FileExtBackUp))
+                    string fileName = Path.GetFileName(model);
+                    if (fileName.IndexOf(Constants.delimiterUnderbar) > 0 ||
+                        fileName.EndsWith(Constants.FileExtBackUp))
                         continue;
-                    this.LoadModel(l_model, false);
+                    this.LoadModel(model, false);
                 }
-                l_passList.AddRange(m_currentProject.ModelList);
-                foreach (string l_storedModelID in m_currentProject.SystemDic.Keys)
+                passList.AddRange(m_currentProject.ModelList);
+                foreach (string storedModelID in m_currentProject.SystemDic.Keys)
                 {
-                    l_passList.AddRange(m_currentProject.SystemDic[l_storedModelID]);
+                    passList.AddRange(m_currentProject.SystemDic[storedModelID]);
                 }
-                //
-                // Loads the simulation parameter.
-                //
-                string l_simulationDirName = Path.Combine(l_prj.ProjectPath, Constants.xpathParameters);
 
-                if (Directory.Exists(l_simulationDirName))
+                // Loads the simulation parameter.
+                string simulationDirName = Path.Combine(project.ProjectPath, Constants.xpathParameters);
+
+                if (Directory.Exists(simulationDirName))
                 {
-                    l_parameters = Directory.GetFileSystemEntries(
-                        l_simulationDirName,
+                    parameters = Directory.GetFileSystemEntries(
+                        simulationDirName,
                         Constants.delimiterWildcard + Constants.FileExtXML);
-                    if (l_parameters != null && l_parameters.Length > 0)
+                    if (parameters != null && parameters.Length > 0)
                     {
-                        foreach (string l_parameter in l_parameters)
+                        foreach (string parameter in parameters)
                         {
-                            string l_fileName = Path.GetFileName(l_parameter);
-                            if (l_fileName.IndexOf(Constants.delimiterUnderbar) != 0)
+                            string fileName = Path.GetFileName(parameter);
+                            if (fileName.IndexOf(Constants.delimiterUnderbar) != 0)
                             {
-                                LoadSimulationParameter(l_parameter);
+                                LoadSimulationParameter(parameter);
                             }
                         }
                     }
                 }
-                m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
-                Trace.WriteLine("Load project: " + l_message);
+                Trace.WriteLine("Load project: " + message);
             }
-            catch (Exception l_ex)
+            catch (Exception ex)
             {
-                l_passList = null;
-                if (l_prj != null)
+                passList = null;
+                if (project != null)
                 {
-                    if (this.m_projectList.Contains(l_prj))
+                    if (this.m_projectList.Contains(project))
                     {
-                        this.m_projectList.Remove(l_prj);
-                        l_prj = null;
+                        this.m_projectList.Remove(project);
+                        project = null;
                     }
                 }
                 throw new Exception(String.Format(MessageResources.ErrLoadPrj,
-                    new object[] { l_prjID }), l_ex);
+                    new object[] { prjID }), ex);
             }
             finally
             {
-                if (l_passList != null && l_passList.Count > 0)
+                if (passList != null && passList.Count > 0)
                 {
-                    this.m_env.PluginManager.DataAdd(l_passList);
+                    this.m_env.PluginManager.DataAdd(passList);
                 }
                 foreach (string paramID in this.GetSimulationParameterIDs())
                 {
-                    this.m_env.PluginManager.ParameterAdd(l_prjID, paramID);
+                    this.m_env.PluginManager.ParameterAdd(prjID, paramID);
                 }
-                m_env.ActionManager.AddAction(new LoadProjectAction(l_prjID, l_prjFile));
+                m_env.ActionManager.AddAction(new LoadProjectAction(prjID, project.FilePath));
+                m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
             }
         }
-
-
 
         /// <summary>
         /// Loads the simulation parameter.
         /// </summary>
-        /// <param name="l_fileName">The simulation parameter file name</param>
-        public void LoadSimulationParameter(string l_fileName)
+        /// <param name="fileName">The simulation parameter file name</param>
+        public void LoadSimulationParameter(string fileName)
         {
-            string l_message = null;
-            string l_prjID = m_currentProject.Name;
+            string message = null;
+            string prjID = m_currentProject.Name;
             try
             {
-                l_message = "[" + l_fileName + "]";
+                message = "[" + fileName + "]";
                 // Initializes
-                Debug.Assert(!string.IsNullOrEmpty(l_fileName));
+                Debug.Assert(!string.IsNullOrEmpty(fileName));
                 // Parses the simulation parameter.
                 SimulationParameter simParam = SimulationParameterReader.Parse(
-                        l_fileName, m_currentProject.Simulator);
+                        fileName, m_currentProject.Simulator);
                 string simParamID = simParam.ID;
                 // Stores the simulation parameter.
                 if (!m_currentProject.SimulationParam.Equals(simParamID))
@@ -3691,64 +3711,64 @@ namespace Ecell
                         m_currentProject.StepperDic[simParamID]
                             = new Dictionary<string, List<EcellObject>>();
                     }
-                    foreach (EcellObject l_stepper in simParam.Steppers)
+                    foreach (EcellObject stepper in simParam.Steppers)
                     {
                         if (!m_currentProject.StepperDic[simParamID]
-                            .ContainsKey(l_stepper.ModelID))
+                            .ContainsKey(stepper.ModelID))
                         {
-                            m_currentProject.StepperDic[simParamID][l_stepper.ModelID]
+                            m_currentProject.StepperDic[simParamID][stepper.ModelID]
                                 = new List<EcellObject>();
                         }
-                        foreach (EcellData l_data in l_stepper.Value)
+                        foreach (EcellData data in stepper.Value)
                         {
-                            l_data.Value = GetEcellValue(l_data);
+                            data.Value = GetEcellValue(data);
                         }
-                        m_currentProject.StepperDic[simParamID][l_stepper.ModelID].Add(l_stepper);
+                        m_currentProject.StepperDic[simParamID][stepper.ModelID].Add(stepper);
                     }
                 }
                 else
                 {
-                    foreach (EcellObject l_stepper in simParam.Steppers)
+                    foreach (EcellObject stepper in simParam.Steppers)
                     {
-                        bool l_matchFlag = false;
-                        if (!m_currentProject.StepperDic[simParamID].ContainsKey(l_stepper.ModelID))
+                        bool matchFlag = false;
+                        if (!m_currentProject.StepperDic[simParamID].ContainsKey(stepper.ModelID))
                         {
-                            m_currentProject.StepperDic[simParamID][l_stepper.ModelID]
+                            m_currentProject.StepperDic[simParamID][stepper.ModelID]
                                 = new List<EcellObject>();
                         }
                         for (int j = 0;
-                            j < m_currentProject.StepperDic[simParamID][l_stepper.ModelID].Count;
+                            j < m_currentProject.StepperDic[simParamID][stepper.ModelID].Count;
                             j++)
                         {
-                            EcellObject l_storedStepper
-                                = m_currentProject.StepperDic[simParamID][l_stepper.ModelID][j];
-                            if (!l_storedStepper.Classname.Equals(l_stepper.Classname)
-                                || !l_storedStepper.Key.Equals(l_stepper.Key)
-                                || !l_storedStepper.ModelID.Equals(l_stepper.ModelID)
-                                || !l_storedStepper.Type.Equals(l_stepper.Type))
+                            EcellObject storedStepper
+                                = m_currentProject.StepperDic[simParamID][stepper.ModelID][j];
+                            if (!storedStepper.Classname.Equals(stepper.Classname)
+                                || !storedStepper.Key.Equals(stepper.Key)
+                                || !storedStepper.ModelID.Equals(stepper.ModelID)
+                                || !storedStepper.Type.Equals(stepper.Type))
                                 continue;
 
-                            List<EcellData> l_newDataList = new List<EcellData>();
-                            foreach (EcellData l_storedData in l_storedStepper.Value)
+                            List<EcellData> newDataList = new List<EcellData>();
+                            foreach (EcellData storedData in storedStepper.Value)
                             {
-                                bool l_existFlag = false;
-                                foreach (EcellData l_newData in l_stepper.Value)
+                                bool existFlag = false;
+                                foreach (EcellData newData in stepper.Value)
                                 {
-                                    if (!l_storedData.Name.Equals(l_newData.Name)
-                                        || !l_storedData.EntityPath.Equals(l_newData.EntityPath))
+                                    if (!storedData.Name.Equals(newData.Name)
+                                        || !storedData.EntityPath.Equals(newData.EntityPath))
                                         continue;
 
-                                    if (l_storedData.Value.IsDouble())
+                                    if (storedData.Value.IsDouble())
                                     {
-                                        l_newData.Value = GetEcellValue(l_newData);
+                                        newData.Value = GetEcellValue(newData);
                                     }
                                     else
                                     {
                                         try
                                         {
-                                            l_newData.Value = new EcellValue(
+                                            newData.Value = new EcellValue(
                                                 Convert.ToInt32(
-                                                    l_newData.Value.CastToList()[0].ToString()
+                                                    newData.Value.CastToList()[0].ToString()
                                                 )
                                             );
                                         }
@@ -3758,44 +3778,44 @@ namespace Ecell
                                             // do nothing
                                         }
                                     }
-                                    l_newData.Gettable = l_storedData.Gettable;
-                                    l_newData.Loadable = l_storedData.Loadable;
-                                    l_newData.Saveable = l_storedData.Saveable;
-                                    l_newData.Settable = l_storedData.Settable;
-                                    l_newDataList.Add(l_newData);
-                                    l_existFlag = true;
+                                    newData.Gettable = storedData.Gettable;
+                                    newData.Loadable = storedData.Loadable;
+                                    newData.Saveable = storedData.Saveable;
+                                    newData.Settable = storedData.Settable;
+                                    newDataList.Add(newData);
+                                    existFlag = true;
                                     break;
                                 }
-                                if (!l_existFlag)
+                                if (!existFlag)
                                 {
-                                    l_newDataList.Add(l_storedData);
+                                    newDataList.Add(storedData);
                                 }
                             }
-                            m_currentProject.StepperDic[simParamID][l_stepper.ModelID][j]
+                            m_currentProject.StepperDic[simParamID][stepper.ModelID][j]
                                 = EcellObject.CreateObject(
-                                    l_stepper.ModelID,
-                                    l_stepper.Key,
-                                    l_stepper.Type,
-                                    l_stepper.Classname,
-                                    l_newDataList);
-                            l_matchFlag = true;
+                                    stepper.ModelID,
+                                    stepper.Key,
+                                    stepper.Type,
+                                    stepper.Classname,
+                                    newDataList);
+                            matchFlag = true;
                             break;
                         }
-                        if (!l_matchFlag)
+                        if (!matchFlag)
                         {
-                            m_currentProject.StepperDic[simParamID][l_stepper.ModelID]
-                                .Add(l_stepper);
+                            m_currentProject.StepperDic[simParamID][stepper.ModelID]
+                                .Add(stepper);
                         }
                     }
                 }
                 m_currentProject.LoggerPolicyDic[simParamID] = simParam.LoggerPolicy;
                 m_currentProject.InitialCondition[simParamID] = simParam.InitialConditions;
-                Trace.WriteLine("Load Simulation Parameter: " + l_message);
+                Trace.WriteLine("Load Simulation Parameter: " + message);
             }
-            catch (Exception l_ex)
+            catch (Exception ex)
             {
                 throw new Exception(String.Format(MessageResources.ErrLoadPrj,
-                    new object[] { l_prjID }), l_ex);
+                    new object[] { prjID }), ex);
             }
         }
         /// <summary>

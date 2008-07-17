@@ -92,10 +92,6 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private string m_currentDir;
         /// <summary>
-        /// loading project.
-        /// </summary>
-        private string m_project = null;
-        /// <summary>
         /// delegate function of loading model.
         /// </summary>
         public delegate void LoadModelDelegate(string modelID);
@@ -180,7 +176,7 @@ namespace Ecell.IDE.MainWindow
             LoadPlugins();
             //Load default window settings.
             setFilePath();
-            LoadRecentProject();
+            SetRecentProject();
             LoadDefaultWindowSetting();
             SetStartUpWindow();
         }
@@ -320,7 +316,7 @@ namespace Ecell.IDE.MainWindow
 
         #endregion
 
-        private void LoadRecentProject()
+        private void SetRecentProject()
         {
             // load xml file
             string filename = Path.Combine(Util.GetUserDir(), "RecentFile.xml");
@@ -554,31 +550,35 @@ namespace Ecell.IDE.MainWindow
             {
                 Util.ShowErrorDialog(ex.Message);
                 CloseProjectDelegate dlg = new CloseProjectDelegate(CloseProject);
-                this.Invoke(dlg, new object[] { m_project });
+                this.Invoke(dlg, new object[] { m_env.DataManager.CurrentProjectID });
             }
         }
 
         /// <summary>
         /// Create the project.
         /// </summary>
-        /// <param name="l_prjID">Project ID</param>
-        /// <param name="l_modelDir">Directory of model.</param>
-        /// <param name="l_comment">Comment</param>
-        /// <param name="l_dmList">The list of dm directory.</param>
-        private void CreateProject(string l_prjID, string l_modelDir, string l_comment, IEnumerable<string> l_dmList)
+        /// <param name="prjID">Project ID</param>
+        /// <param name="modelDir">Directory of model.</param>
+        /// <param name="comment">Comment</param>
+        /// <param name="dmList">The list of dm directory.</param>
+        private void CreateProject(string prjID, string modelDir, string comment, IEnumerable<string> dmList)
         {
-            m_env.DataManager.CreateProject(l_prjID, l_comment, l_modelDir, l_dmList);
-            m_project = l_prjID;
+            m_env.DataManager.CreateProject(prjID, comment, modelDir, dmList);
         }
-
         /// <summary>
         /// Close the project.
         /// </summary>
-        /// <param name="l_prjID"></param>
-        private void CloseProject(String l_prjID)
+        private void CloseProject()
         {
-            m_env.DataManager.CloseProject(l_prjID);
-            m_project = null;
+            CloseProject(m_env.DataManager.CurrentProjectID);
+        }
+        /// <summary>
+        /// Close the project.
+        /// </summary>
+        /// <param name="prjID"></param>
+        private void CloseProject(String prjID)
+        {
+            m_env.DataManager.CloseProject(prjID);
         }
 
         /// <summary>
@@ -891,7 +891,6 @@ namespace Ecell.IDE.MainWindow
         {
             if (type == ProjectStatus.Uninitialized)
             {
-                m_editCount = 0;
                 newProjectToolStripMenuItem.Enabled = true;
                 openProjectToolStripMenuItem.Enabled = true;
                 saveProjectToolStripMenuItem.Enabled = false;
@@ -933,6 +932,8 @@ namespace Ecell.IDE.MainWindow
                 saveActionMenuItem.Enabled = false;
                 exitToolStripMenuItem.Enabled = true;
             }
+            if (type == ProjectStatus.Uninitialized || type == ProjectStatus.Loaded)
+                m_editCount = 0;
             m_type = type;
         }
 
@@ -1082,7 +1083,7 @@ namespace Ecell.IDE.MainWindow
                     {
                         SaveProjectMenuClick(sender, e);
                     }
-                    CloseProject(m_project);
+                    CloseProject();
                 }
                 catch (Util.CancelException)
                 {
@@ -1123,7 +1124,7 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         /// <param name="sender">object(ToolStripMenuItem)</param>
         /// <param name="e">EventArgs</param>
-        private void OpenProjectMenuClick(object sender, EventArgs e)
+        private void LoadProjectMenuClick(object sender, EventArgs e)
         {
             // Check the modification and confirm save.
             if (m_editCount > 0)
@@ -1131,54 +1132,39 @@ namespace Ecell.IDE.MainWindow
                 if (Util.ShowYesNoDialog(MessageResources.SaveConfirm))
                 {
                     SaveProjectMenuClick(sender, e);
-                    CloseProject(m_project);
+                    CloseProject();
                 }
             }
 
             ProjectExplorerDialog ped = new ProjectExplorerDialog(m_currentDir);
             using (ped)
             {
-                if (ped.ShowDialog() == DialogResult.OK)
+                if (ped.ShowDialog() != DialogResult.OK)
+                    return;
+                // Close current project.
+                if (!string.IsNullOrEmpty(m_env.DataManager.CurrentProjectID))
+                    CloseProject();
+                try
                 {
-                    // Close current project.
-                    if (m_project != null)
-                        CloseProject(m_project);
-                    try
+                    if (ped.Project.FilePath.EndsWith("eml"))
                     {
-                        if (ped.Project.FilePath.EndsWith("eml"))
+                        string modelDir = Path.GetDirectoryName(ped.Project.FilePath);
+                        if (modelDir.EndsWith(Constants.xpathModel))
                         {
-                            string modelDir = Path.GetDirectoryName(ped.Project.FilePath);
-                            if (modelDir.EndsWith(Constants.xpathModel))
-                            {
-                                modelDir = modelDir.Substring(0, modelDir.Length - 5);
-                            }
-                            CreateProject(ped.Project.Name, modelDir, ped.Project.Comment, new List<string>());
-                            LoadModel(ped.Project.FilePath);
-                            return;
+                            modelDir = modelDir.Substring(0, modelDir.Length - 5);
                         }
-                        LoadProject(ped.Project.Name, ped.Project.FilePath);
+                        CreateProject(ped.Project.Name, modelDir, ped.Project.Comment, new List<string>());
+                        LoadModel(ped.Project.FilePath);
+                        return;
                     }
-                    catch (Exception ex)
-                    {
-                        Trace.WriteLine(ex);
-                        Util.ShowErrorDialog(ex.Message);
-                    }            
+                    LoadProject(ped.Project.Name, ped.Project.FilePath);
                 }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine(ex);
+                    Util.ShowErrorDialog(ex.Message);
+                }            
             }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="prjID"></param>
-        /// <param name="fileName"></param>
-        public void LoadProjectIE(string prjID, string fileName)
-        {
-            Invoke(new MethodInvoker(delegate() { MessageBox.Show(prjID + "\n" + fileName); }));
-        }
-
-        public void Test(string str)
-        {
-            Invoke(new MethodInvoker(delegate() { MessageBox.Show(str); }));
         }
 
         /// <summary>
@@ -1188,8 +1174,8 @@ namespace Ecell.IDE.MainWindow
         /// <param name="fileName"></param>
         public void LoadProject(string prjID, string fileName)
         {
-            if (m_project != null)
-                CloseProject(m_project);
+            if (!string.IsNullOrEmpty(m_env.DataManager.CurrentProjectID))
+                CloseProject();
             
             string prjDir = Path.GetDirectoryName(fileName);
             string dmDir = Path.Combine(prjDir, Constants.DMDirName);
@@ -1202,7 +1188,6 @@ namespace Ecell.IDE.MainWindow
             }
 
             m_env.DataManager.LoadProject(prjID, fileName);
-            m_project = prjID;
             // Set recent Project.
             if (m_recentProjects.ContainsKey(prjID))
                 m_recentProjects.Remove(prjID);
@@ -1293,11 +1278,10 @@ namespace Ecell.IDE.MainWindow
             {
                 try
                 {
-                    if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
-                    {
+                    if (m_editCount > 0 && Util.ShowYesNoDialog(MessageResources.SaveConfirm))
                         SaveProjectMenuClick(sender, e);
-                    }
-                    CloseProject(m_project);
+
+                    CloseProject();
                 }
                 catch (Util.CancelException)
                 {
@@ -1306,7 +1290,7 @@ namespace Ecell.IDE.MainWindow
             }
             else
             {
-                CloseProject(m_project);
+                CloseProject();
             }
         }
 
@@ -1318,44 +1302,39 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void ImportModelMenuClick(object sender, EventArgs e)
         {
-            if (m_editCount > 0)
-            {
-                if (Util.ShowYesNoDialog(MessageResources.SaveConfirm))
-                {
-                    SaveProjectMenuClick(sender, e);
-                }
-                CloseProject(m_project);
-            }
+            // Check current project and save it.
+            if (m_editCount > 0 && Util.ShowYesNoDialog(MessageResources.SaveConfirm))
+                SaveProjectMenuClick(sender, e);
+
             // Show OpenFileDialog.
             try
             {
                 m_openFileDialog.RestoreDirectory = true;
                 m_openFileDialog.Filter = Constants.FilterEmlFile;
-                if (m_openFileDialog.ShowDialog() == DialogResult.OK)
+                if (m_openFileDialog.ShowDialog() != DialogResult.OK)
+                    return;
+                // Close project
+                if (!string.IsNullOrEmpty(m_env.DataManager.CurrentProjectID))
+                    CloseProject();
+                // Load new project.
+                string filepath = m_openFileDialog.FileName;
+                string modelDir = Path.GetDirectoryName(filepath);
+                string modelName = Path.GetFileNameWithoutExtension(filepath);
+                if (modelDir.EndsWith(Constants.xpathModel))
                 {
-                    // Close old project.
-                    if (m_project != null)
-                        CloseProject(m_project);
-                    // Load new project.
-                    string filepath = m_openFileDialog.FileName;
-                    string modelDir = Path.GetDirectoryName(filepath);
-                    string modelName = Path.GetFileNameWithoutExtension(filepath);
-                    if (modelDir.EndsWith(Constants.xpathModel))
-                    {
-                        modelDir = modelDir.Substring(0, modelDir.Length - 6);
-                    }
-                    string dmDir = modelDir + Constants.delimiterPath + Constants.DMDirName;
-                    List<string> dirList = new List<string>();
-                    if (Directory.Exists(dmDir))
-                    {
-                        dirList.Add(dmDir);
-                    }
-                    string prjDir = m_env.DataManager.DefaultDir + Constants.delimiterPath + modelName;
-                    CreateProject(modelName, prjDir, Constants.defaultComment, dirList);
-
-                    Thread t = new Thread(new ThreadStart(LoadModelData));
-                    t.Start();
+                    modelDir = modelDir.Substring(0, modelDir.Length - 6);
                 }
+                string dmDir = modelDir + Constants.delimiterPath + Constants.DMDirName;
+                List<string> dirList = new List<string>();
+                if (Directory.Exists(dmDir))
+                {
+                    dirList.Add(dmDir);
+                }
+                string prjDir = m_env.DataManager.DefaultDir + Constants.delimiterPath + modelName;
+                CreateProject(modelName, prjDir, Constants.defaultComment, dirList);
+
+                Thread t = new Thread(new ThreadStart(LoadModelData));
+                t.Start();
             }
             catch (Exception ex)
             {
@@ -1501,7 +1480,7 @@ namespace Ecell.IDE.MainWindow
                             m_env.DataManager.SimulationStop();
                             Thread.Sleep(1000);
                         }
-                        CloseProject(m_project);
+                        CloseProject();
                     }
                     catch (Util.CancelException)
                     {
@@ -1513,7 +1492,7 @@ namespace Ecell.IDE.MainWindow
                     m_env.DataManager.SimulationStop();
                     Thread.Sleep(1000);
 
-                    CloseProject(m_project);
+                    CloseProject();
                 }
             }
             this.Close();
@@ -1569,7 +1548,6 @@ namespace Ecell.IDE.MainWindow
                 //
                 if (m_env.DataManager.CurrentProjectID != null)
                 {
-                    m_project = this.m_env.DataManager.CurrentProjectID;
                     if (m_env.DataManager.GetCurrentSimulationTime() > 0.0)
                     {
                         m_env.DataManager.SimulationSuspend();
@@ -1775,9 +1753,9 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">FormClosingEventArgs</param>
         private void MainWindowFormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!string.IsNullOrEmpty(m_project))
+            if (!string.IsNullOrEmpty(m_env.DataManager.CurrentProjectID))
             {
-                CloseProject(m_project);
+                CloseProject();
             }
             SaveRecentProject();
             SaveWindowSetting(m_userWindowSettingPath);

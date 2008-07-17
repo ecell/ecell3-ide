@@ -205,7 +205,7 @@ namespace Ecell.IDE.MainWindow
             this.openProjectToolStripMenuItem.Name = "openProjectToolStripMenuItem";
             resources.ApplyResources(this.openProjectToolStripMenuItem, "openProjectToolStripMenuItem");
             this.openProjectToolStripMenuItem.Tag = "2";
-            this.openProjectToolStripMenuItem.Click += new System.EventHandler(this.OpenProjectMenuClick);
+            this.openProjectToolStripMenuItem.Click += new System.EventHandler(this.LoadProjectMenuClick);
             // 
             // saveProjectToolStripMenuItem
             // 
