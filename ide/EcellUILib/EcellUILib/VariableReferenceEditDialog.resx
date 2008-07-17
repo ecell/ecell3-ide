@@ -154,7 +154,7 @@
     <value>390, 314</value>
   </data>
   <data name="dgv.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;dgv.Name" xml:space="preserve">
     <value>dgv</value>
@@ -178,7 +178,7 @@
     <value>44, 23</value>
   </data>
   <data name="DeleteVarButton.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="DeleteVarButton.Text" xml:space="preserve">
     <value>-</value>
@@ -205,7 +205,7 @@
     <value>74, 23</value>
   </data>
   <data name="VRCloseButton.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="VRCloseButton.Text" xml:space="preserve">
     <value>Cancel</value>
@@ -232,7 +232,7 @@
     <value>74, 23</value>
   </data>
   <data name="VRApplyButton.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="VRApplyButton.Text" xml:space="preserve">
     <value>OK</value>
@@ -259,7 +259,7 @@
     <value>44, 23</value>
   </data>
   <data name="AddVarButton.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="AddVarButton.Text" xml:space="preserve">
     <value>+</value>
@@ -473,7 +473,7 @@
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>VariableRefWindow</value>
+    <value>VariableReferenceEditDialog</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

@@ -77,17 +77,6 @@ namespace Ecell.IDE
 
         #region Event
         /// <summary>
-        /// The action of clicking the select button in VariableSelectWindow.
-        /// </summary>
-        /// <param name="sender">Object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void SelectCancelButtonClick(object sender, EventArgs e)
-        {
-            this.Close();
-            this.Dispose();
-        }
-
-        /// <summary>
         /// The action of clicking cancel button in VariableSelectWindow.
         /// </summary>
         /// <param name="sender">object(Button)</param>
@@ -111,26 +100,7 @@ namespace Ecell.IDE
             int j = 0;
             string id;
             string key = ":" + tag;
-            while (true)
-            {
-                id = "P" + j;
-                bool isHit = false;
-                for (int i = 0; i < m_win.dgv.RowCount; i++)
-                {
-                    if (id == (string)m_win.dgv[0, i].Value)
-                    {
-                        isHit = true;
-                        break;
-                    }
-                }
-                if (isHit == false)
-                {
-                    break;
-                }
-                j++;
-            }
-
-            m_win.dgv.Rows.Add(new object[] { id, key, 1, true });
+            m_win.AddReference(key, "P");
         }
 
         /// <summary>
@@ -156,26 +126,7 @@ namespace Ecell.IDE
             int j = 0;
             string id;
             string key = ":" + tag;
-            while (true)
-            {
-                id = "S" + j;
-                bool isHit = false;
-                for (int i = 0; i < m_win.dgv.RowCount; i++)
-                {
-                    if (id == (string)m_win.dgv[0, i].Value)
-                    {
-                        isHit = true;
-                        break;
-                    }
-                }
-                if (isHit == false)
-                {
-                    break;
-                }
-                j++;
-            }
-
-            m_win.dgv.Rows.Add(new object[] { id, key, -1, true });
+            m_win.AddReference(key, "S");
         }
 
         /// <summary>
@@ -202,26 +153,7 @@ namespace Ecell.IDE
             int j = 0;
             string id;
             string key = ":" + tag;
-            while (true)
-            {
-                id = "C" + j;
-                bool isHit = false;
-                for (int i = 0; i < m_win.dgv.RowCount; i++)
-                {
-                    if (id == (string)m_win.dgv[0, i].Value)
-                    {
-                        isHit = true;
-                        break;
-                    }
-                }
-                if (isHit == false)
-                {
-                    break;
-                }
-                j++;
-            }
-
-            m_win.dgv.Rows.Add(new object[] { id, key, 0, true });
+            m_win.AddReference(key, "C");
         }
 
 
@@ -245,27 +177,7 @@ namespace Ecell.IDE
             int j = 0;
             string id;
             string key = ":" + tag;
-            while (true)
-            {
-                id = "P" + j;
-                bool isHit = false;
-                for (int i = 0; i < m_win.dgv.RowCount; i++)
-                {
-                    if (id == (string)m_win.dgv[0, i].Value)
-                    {
-                        isHit = true;
-                        break;
-                    }
-                }
-                if (isHit == false)
-                {
-                    break;
-                }
-                j++;
-            }
-
-            m_win.dgv.Rows.Add(new object[] { id, key, 1, true });
-
+            m_win.AddReference(key, "P");
         }
     }
 }

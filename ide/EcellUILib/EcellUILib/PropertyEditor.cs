@@ -1605,10 +1605,6 @@ namespace Ecell.IDE
         private void ShowVarRefWindow(object sender, EventArgs e)
         {
             m_win = new VariableReferenceEditDialog(m_dManager, m_pManager);
-            m_win.AddVarButton.Click += new EventHandler(m_win.AddVarReference);
-            m_win.DeleteVarButton.Click += new EventHandler(m_win.DeleteVarReference);
-            m_win.VRCloseButton.Click += new EventHandler(m_win.CloseVarReference);
-            m_win.VRApplyButton.Click += new EventHandler(m_win.OKVarReference);
 
             List<EcellReference> list = EcellReference.ConvertString(m_refStr);
             foreach (EcellReference v in list)
@@ -1617,11 +1613,18 @@ namespace Ecell.IDE
 
                 bool isAccessor = false;
                 if (v.IsAccessor == 1) isAccessor = true;
-                m_win.dgv.Rows.Add(new object[] { v.Name, v.FullID, v.Coefficient, isAccessor });
+                m_win.AddReference(v.Name, v.Key, v.Coefficient, isAccessor);
             }
 
-            m_win.m_editor = this;
-            m_win.ShowDialog();
+            using (m_win)
+            {
+                DialogResult res = m_win.ShowDialog();
+                if (res == DialogResult.OK)
+                {
+                    m_refStr = m_win.ReferenceString;
+
+                }
+            }
         }
 
         private void PropertyEditorShown(object sender, EventArgs e)

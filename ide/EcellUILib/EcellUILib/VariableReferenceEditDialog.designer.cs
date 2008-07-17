@@ -83,6 +83,7 @@
             resources.ApplyResources(this.DeleteVarButton, "DeleteVarButton");
             this.DeleteVarButton.Name = "DeleteVarButton";
             this.DeleteVarButton.UseVisualStyleBackColor = true;
+            this.DeleteVarButton.Click += new System.EventHandler(this.DeleteVarReference);
             // 
             // VRCloseButton
             // 
@@ -94,16 +95,19 @@
             // VRApplyButton
             // 
             resources.ApplyResources(this.VRApplyButton, "VRApplyButton");
+            this.VRApplyButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.VRApplyButton.Name = "VRApplyButton";
             this.VRApplyButton.UseVisualStyleBackColor = true;
+            this.VRApplyButton.Click += new System.EventHandler(this.OkButtonClick);
             // 
             // AddVarButton
             // 
             resources.ApplyResources(this.AddVarButton, "AddVarButton");
             this.AddVarButton.Name = "AddVarButton";
             this.AddVarButton.UseVisualStyleBackColor = true;
+            this.AddVarButton.Click += new System.EventHandler(this.AddVarReference);
             // 
-            // VariableRefWindow
+            // VariableReferenceEditDialog
             // 
             this.AcceptButton = this.VRApplyButton;
             resources.ApplyResources(this, "$this");
@@ -114,7 +118,8 @@
             this.Controls.Add(this.dgv);
             this.Controls.Add(this.VRApplyButton);
             this.Controls.Add(this.VRCloseButton);
-            this.Name = "VariableRefWindow";
+            this.Name = "VariableReferenceEditDialog";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.VariableReferenceEditDialogClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.ResumeLayout(false);
 
@@ -122,28 +127,13 @@
 
         #endregion
 
-        /// <summary>
-        /// DataGridView to display the VariableReferenceList.
-        /// </summary>
-        public System.Windows.Forms.DataGridView dgv;
-        /// <summary>
-        /// Button to delete the variable from VaribleReferenceList.
-        /// </summary>
-        public System.Windows.Forms.Button DeleteVarButton;
-        /// <summary>
-        /// Button to close this window.
-        /// </summary>
-        public System.Windows.Forms.Button VRCloseButton;
-        /// <summary>
-        /// Button to update the list of VariableReferenceList.
-        /// </summary>
-        public System.Windows.Forms.Button VRApplyButton;
-        /// <summary>
-        /// Button to add the variable to VariableReferenceList.
-        /// </summary>
-        public System.Windows.Forms.Button AddVarButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn ReferenceName;
         private System.Windows.Forms.DataGridViewTextBoxColumn FullID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Coefficient;
+        private System.Windows.Forms.DataGridView dgv;
+        private System.Windows.Forms.Button DeleteVarButton;
+        private System.Windows.Forms.Button VRCloseButton;
+        private System.Windows.Forms.Button VRApplyButton;
+        private System.Windows.Forms.Button AddVarButton;
     }
 }

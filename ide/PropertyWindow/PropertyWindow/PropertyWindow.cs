@@ -857,36 +857,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         }
 
         /// <summary>
-        /// Event when the button in VariableReferenceList is clicked.
-        /// Set the list of Variable Reference.
-        /// </summary>
-        /// <param name="sender">Button.</param>
-        /// <param name="e">EventArgs.</param>
-        void ApplyVarRefButton(object sender, EventArgs e)
-        {
-            String refStr = m_win.GetVarReference();
-            if (refStr == null || m_refStr.Equals(refStr))
-                return;
-
-            EcellObject obj = m_current.Copy();
-            obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).Value =
-                EcellValue.ToVariableReferenceList(refStr);
-
-            m_win.Close();
-            try
-            {
-                NotifyDataChanged(m_current.ModelID, m_current.Key, obj);
-                m_refStr = refStr;
-            }
-            catch (Exception ex)
-            {
-                Util.ShowErrorDialog(ex.Message);
-                m_isChanging = false;
-                return;
-            }
-        }
-
-        /// <summary>
         /// Event of clicking the OK button in formulator window.
         /// </summary>
         /// <param name="sender">object(Button)</param>
@@ -951,10 +921,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             else if (c.Value.Equals("Edit Variable Reference ..."))
             {
                 m_win = new VariableReferenceEditDialog(m_dManager, m_pManager);
-                m_win.AddVarButton.Click += new EventHandler(m_win.AddVarReference);
-                m_win.DeleteVarButton.Click += new EventHandler(m_win.DeleteVarReference);
-                m_win.VRCloseButton.Click += new EventHandler(m_win.CloseVarReference);
-                m_win.VRApplyButton.Click += new EventHandler(ApplyVarRefButton);
 
                 List<EcellReference> list = EcellReference.ConvertString(m_refStr);
                 foreach (EcellReference v in list)
@@ -964,9 +930,31 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     bool isAccessor = false;
                     if (v.IsAccessor == 1)
                         isAccessor = true;
-                    m_win.dgv.Rows.Add(new object[] { v.Name, v.FullID, v.Coefficient, isAccessor });
+                    m_win.AddReference(v.Name, v.FullID, v.Coefficient, isAccessor);
                 }
-                m_win.ShowDialog();
+                using (m_win)
+                {
+                    DialogResult res = m_win.ShowDialog();
+                    if (res == DialogResult.OK)
+                    {
+                        string refStr = m_win.ReferenceString;
+                        EcellObject obj = m_current.Copy();
+                        obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).Value =
+                            EcellValue.ToVariableReferenceList(refStr);
+
+                        try
+                        {
+                            NotifyDataChanged(m_current.ModelID, m_current.Key, obj);
+                            m_refStr = refStr;
+                        }
+                        catch (Exception ex)
+                        {
+                            Util.ShowErrorDialog(ex.Message);
+                            m_isChanging = false;
+                            return;
+                        }
+                    }
+                }
             }
             else
             {

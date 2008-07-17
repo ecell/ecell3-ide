@@ -44,10 +44,8 @@ namespace Ecell.IDE
     public partial class VariableReferenceEditDialog : Form
     {
         #region Fields
-        /// <summary>
-        /// the parent windows form.
-        /// </summary>
-        public PropertyEditor m_editor;
+        private string m_refStr = "";
+        private string m_errMsg = "";
         /// <summary>
         /// variable select window for VariableReferenceList.
         /// </summary>
@@ -66,6 +64,12 @@ namespace Ecell.IDE
         ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
 
+        public string ReferenceString
+        {
+            get { return m_refStr; }
+            set { this.m_refStr = value; }
+        }
+
         /// <summary>
         /// Constructor for VariableRefWindow.
         /// </summary>
@@ -76,56 +80,6 @@ namespace Ecell.IDE
             m_dManager = dManager;
             m_pManager = pManager;
         }
-
-        /// <summary>
-        /// Update variable reference list property.
-        /// </summary>
-        public String GetVarReference()
-        {
-            List<String> nameList = new List<string>();
-            string refStr = "(";
-
-            for (int i = 0; i < this.dgv.RowCount; i++)
-            {
-                EcellReference v = new EcellReference();
-                string name = (string)this.dgv["ReferenceName", i].Value;
-                if (nameList.Contains(name))
-                {
-                    Util.ShowErrorDialog(String.Format(MessageResources.ErrExistVariableRef,
-                        new object[] { name }));
-                    return null;
-                }
-                nameList.Add(name);
-                v.Name = (string)this.dgv["Name", i].Value;
-                v.FullID = (string)this.dgv["FullID", i].Value;
-                try
-                {
-                    v.Coefficient = Convert.ToInt32(this.dgv["Coefficient", i].Value);
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine(ex);
-                    Util.ShowWarningDialog(MessageResources.ErrNoNumber);
-                    return null;
-                }
-                if (v.Name == "")
-                {
-                    Util.ShowWarningDialog(MessageResources.ErrInvalidID);
-                    return null;
-                }
-                if (v.FullID == "" || !v.FullID.StartsWith(":"))
-                {
-                    Util.ShowWarningDialog(MessageResources.ErrInvalidID);
-                    return null;
-                }
-
-                if (i == 0) refStr = refStr + v.ToString();
-                else refStr = refStr + ", " + v.ToString();
-            }
-            refStr = refStr + ")";
-            return refStr;
-        }
-
 
         /// <summary>
         /// Create the TreeView from data.
@@ -249,17 +203,46 @@ namespace Ecell.IDE
             return null;
         }
 
-        #region Event
-        /// <summary>
-        /// Close variable reference list window.
-        /// </summary>
-        /// <param name="sender">Button(Cancel)</param>
-        /// <param name="e">EventArgs</param>
-        public void CloseVarReference(object sender, EventArgs e)
+        public void AddReference(string key, string prefix)
         {
-            this.Dispose();
+            int j = 0;
+            int p = 0;
+            if (prefix.Equals("P"))
+                p = 1;
+            else if (prefix.Equals("S"))
+                p = -1;
+
+            string id;
+            while (true)
+            {
+                id = prefix + j;
+                bool isHit = false;
+                for (int i = 0; i < dgv.RowCount; i++)
+                {
+                    if (id == (string)dgv[0, i].Value)
+                    {
+                        isHit = true;
+                        break;
+                    }
+                }
+                if (isHit == false)
+                {
+                    break;
+                }
+                j++;
+            }
+
+            dgv.Rows.Add(new object[] { id, key, p , true });
         }
 
+        public void AddReference(string name, string key, int coeff, bool isAccessor)
+        {
+            string id = key;
+            if (!key.StartsWith(":")) id = ":" + key;
+            dgv.Rows.Add(new object[] { name, id, coeff, isAccessor });
+        }
+
+        #region Event
         /// <summary>
         /// Delete the selected variable reference.
         /// </summary>
@@ -273,114 +256,6 @@ namespace Ecell.IDE
         }
 
         /// <summary>
-        /// Update variable reference list property and close this window.
-        /// </summary>
-        /// <param name="sender">Button(Update)</param>
-        /// <param name="e">EventArgs</param>
-        public void OKVarReference(object sender, EventArgs e)
-        {
-            List<String> nameList = new List<string>();
-            string refStr = "(";
-
-            for (int i = 0; i < this.dgv.RowCount; i++)
-            {
-                EcellReference v = new EcellReference();
-                string name = (string)this.dgv[0, i].Value;
-                if (nameList.Contains(name))
-                {
-                    Util.ShowErrorDialog(String.Format(MessageResources.ErrExistVariableRef,
-                        new object[] { name }));
-                    return;
-                }
-                nameList.Add(name);
-                v.Name = (string)this.dgv[0, i].Value;
-                v.FullID = (string)this.dgv[1, i].Value;
-                try
-                {
-                    v.Coefficient = Convert.ToInt32(this.dgv[2, i].Value);
-                    v.IsAccessor = Convert.ToInt32(this.dgv[3, i].Value);
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine(ex);
-                    Util.ShowWarningDialog(MessageResources.ErrNoNumber);
-                    return;
-                }
-                if (v.Name == "")
-                {
-                    Util.ShowWarningDialog(MessageResources.ErrInvalidID);
-                    return;
-                }
-                if (v.FullID == "" || !v.FullID.StartsWith(":"))
-                {
-                    Util.ShowWarningDialog(MessageResources.ErrInvalidID);
-                    return;
-                }
-
-                if (i == 0) refStr = refStr + v.ToString();
-                else refStr = refStr + ", " + v.ToString();
-            }
-            refStr = refStr + ")";
-            m_editor.m_refStr = refStr;
-
-            this.Dispose();
-        }
-
-        /// <summary>
-        /// Update variable reference list property.
-        /// </summary>
-        /// <param name="sender">Button(Update)</param>
-        /// <param name="e">EventArgs</param>
-        public void ApplyVarReference(object sender, EventArgs e)
-        {
-            List<String> nameList = new List<string>();
-            string refStr = "(";
-
-            for (int i = 0; i < this.dgv.RowCount; i++)
-            {
-                EcellReference v = new EcellReference();
-                string name = (string)this.dgv[0, i].Value;
-                if (nameList.Contains(name))
-                {
-                    Util.ShowErrorDialog(String.Format(MessageResources.ErrExistVariableRef,
-                        new object[] { name }));
-                    return;
-                }
-                nameList.Add(name);
-                v.Name = (string)this.dgv[0, i].Value;
-                v.FullID = (string)this.dgv[1, i].Value;
-                try
-                {
-                    v.Coefficient = Convert.ToInt32(this.dgv[2, i].Value);
-                    v.IsAccessor = Convert.ToInt32(this.dgv[3, i].Value);
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine(ex);
-                    Util.ShowWarningDialog(MessageResources.ErrNoNumber);
-                    return;
-                }
-                if (v.Name == "")
-                {
-                    Util.ShowWarningDialog(String.Format(MessageResources.ErrNoSet,
-                        new object[] { "Name" }));
-                    return;
-                }
-                if (v.FullID == "")
-                {
-                    Util.ShowWarningDialog(String.Format(MessageResources.ErrNoSet,
-                        new object[] { "ID" }));
-                    return;
-                }
-
-                if (i == 0) refStr = refStr + v.ToString();
-                else refStr = refStr + ", " + v.ToString();
-            }
-            refStr = refStr + ")";
-            m_editor.m_refStr = refStr;
-        }
-
-        /// <summary>
         /// Add new variable reference.
         /// </summary>
         /// <param name="sender"></param>
@@ -388,15 +263,70 @@ namespace Ecell.IDE
         public void AddVarReference(object sender, EventArgs e)
         {
             m_selectWindow = new VariableSelectDialog(m_dManager, m_pManager);
-            m_selectWindow.VSProductButton.Click += new EventHandler(m_selectWindow.ProductButtonClick);
-            m_selectWindow.VSSourceButton.Click += new EventHandler(m_selectWindow.SourceButtonClick);
-            m_selectWindow.VSConstantButton.Click += new EventHandler(m_selectWindow.ConstantButtonClick);
-            m_selectWindow.VSCloseButton.Click += new EventHandler(m_selectWindow.SelectCancelButtonClick);
-
             CopyTreeView();
             m_selectWindow.SetParentWindow(this);
 
-            m_selectWindow.ShowDialog();
+            using (m_selectWindow)
+            {
+                m_selectWindow.ShowDialog();
+            }
+        }
+
+        private void VariableReferenceEditDialogClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(m_errMsg))
+            {
+                Util.ShowWarningDialog(m_errMsg);
+                e.Cancel = false;
+                m_errMsg = "";
+            }
+        }
+
+        private void OkButtonClick(object sender, EventArgs e)
+        {
+            List<String> nameList = new List<string>();
+            string refStr = "(";
+
+            for (int i = 0; i < this.dgv.RowCount; i++)
+            {
+                EcellReference v = new EcellReference();
+                string name = (string)this.dgv[0, i].Value;
+                if (nameList.Contains(name))
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrExistVariableRef,
+                        new object[] { name }));
+                    return;
+                }
+                nameList.Add(name);
+                v.Name = (string)this.dgv[0, i].Value;
+                v.FullID = (string)this.dgv[1, i].Value;
+                try
+                {
+                    v.Coefficient = Convert.ToInt32(this.dgv[2, i].Value);
+                    v.IsAccessor = 1;
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine(ex);
+                    m_errMsg = MessageResources.ErrNoNumber;
+                    return;
+                }
+                if (v.Name == "")
+                {
+                    m_errMsg = MessageResources.ErrInvalidID;
+                    return;
+                }
+                if (v.FullID == "" || !v.FullID.StartsWith(":"))
+                {
+                    m_errMsg = MessageResources.ErrInvalidID;
+                    return;
+                }
+
+                if (i == 0) refStr = refStr + v.ToString();
+                else refStr = refStr + ", " + v.ToString();
+            }
+            refStr = refStr + ")";
+            m_refStr = refStr;
         }
         #endregion
     }

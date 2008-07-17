@@ -50,6 +50,7 @@
             resources.ApplyResources(this.VSProductButton, "VSProductButton");
             this.VSProductButton.Name = "VSProductButton";
             this.VSProductButton.UseVisualStyleBackColor = true;
+            this.VSProductButton.Click += new System.EventHandler(this.ProductButtonClick);
             // 
             // VSCloseButton
             // 
@@ -63,14 +64,16 @@
             resources.ApplyResources(this.VSSourceButton, "VSSourceButton");
             this.VSSourceButton.Name = "VSSourceButton";
             this.VSSourceButton.UseVisualStyleBackColor = true;
+            this.VSSourceButton.Click += new System.EventHandler(this.SourceButtonClick);
             // 
             // VSConstantButton
             // 
             resources.ApplyResources(this.VSConstantButton, "VSConstantButton");
             this.VSConstantButton.Name = "VSConstantButton";
             this.VSConstantButton.UseVisualStyleBackColor = true;
+            this.VSConstantButton.Click += new System.EventHandler(this.ConstantButtonClick);
             // 
-            // VariableSelectWindow
+            // VariableSelectDialog
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -79,7 +82,7 @@
             this.Controls.Add(this.VSSourceButton);
             this.Controls.Add(this.VSCloseButton);
             this.Controls.Add(this.VSConstantButton);
-            this.Name = "VariableSelectWindow";
+            this.Name = "VariableSelectDialog";
             this.ResumeLayout(false);
 
         }
@@ -95,10 +98,6 @@
         /// </summary>
         public System.Windows.Forms.Button VSProductButton;
         /// <summary>
-        /// Button to close this dialog.
-        /// </summary>
-        public System.Windows.Forms.Button VSCloseButton;
-        /// <summary>
         /// Button to add the source variable to VariableReferenceList.
         /// </summary>
         public System.Windows.Forms.Button VSSourceButton;
@@ -106,5 +105,6 @@
         /// Button to add the constant variable to VariableReferenceList.
         /// </summary>
         public System.Windows.Forms.Button VSConstantButton;
+        private System.Windows.Forms.Button VSCloseButton;
     }
 }
