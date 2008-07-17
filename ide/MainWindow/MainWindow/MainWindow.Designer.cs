@@ -33,6 +33,7 @@ namespace Ecell.IDE.MainWindow
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
+            System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
             this.toolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.MWstatusStrip = new System.Windows.Forms.StatusStrip();
             this.genericStatusText = new System.Windows.Forms.ToolStripStatusLabel();
@@ -73,7 +74,6 @@ namespace Ecell.IDE.MainWindow
             this.MenuItemLayout = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scriptEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemRun = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemAnalysis = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemDebug = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,6 +82,8 @@ namespace Ecell.IDE.MainWindow
             this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
+            this.scriptEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
             this.toolStripContainer.SuspendLayout();
@@ -394,8 +396,7 @@ namespace Ecell.IDE.MainWindow
             // MenuItemView
             // 
             this.MenuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showWindowToolStripMenuItem,
-            this.scriptEditorToolStripMenuItem});
+            this.showWindowToolStripMenuItem});
             this.MenuItemView.Name = "MenuItemView";
             resources.ApplyResources(this.MenuItemView, "MenuItemView");
             // 
@@ -404,12 +405,6 @@ namespace Ecell.IDE.MainWindow
             this.showWindowToolStripMenuItem.Name = "showWindowToolStripMenuItem";
             resources.ApplyResources(this.showWindowToolStripMenuItem, "showWindowToolStripMenuItem");
             // 
-            // scriptEditorToolStripMenuItem
-            // 
-            this.scriptEditorToolStripMenuItem.Name = "scriptEditorToolStripMenuItem";
-            resources.ApplyResources(this.scriptEditorToolStripMenuItem, "scriptEditorToolStripMenuItem");
-            this.scriptEditorToolStripMenuItem.Click += new System.EventHandler(this.ClickScriptEditorMenu);
-            // 
             // MenuItemRun
             // 
             this.MenuItemRun.Name = "MenuItemRun";
@@ -417,6 +412,9 @@ namespace Ecell.IDE.MainWindow
             // 
             // MenuItemAnalysis
             // 
+            this.MenuItemAnalysis.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.scriptEditorToolStripMenuItem,
+            toolStripSeparator8});
             this.MenuItemAnalysis.Name = "MenuItemAnalysis";
             resources.ApplyResources(this.MenuItemAnalysis, "MenuItemAnalysis");
             // 
@@ -443,6 +441,18 @@ namespace Ecell.IDE.MainWindow
             // 
             resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             this.openScriptDialog.RestoreDirectory = true;
+            // 
+            // scriptEditorToolStripMenuItem
+            // 
+            this.scriptEditorToolStripMenuItem.Name = "scriptEditorToolStripMenuItem";
+            resources.ApplyResources(this.scriptEditorToolStripMenuItem, "scriptEditorToolStripMenuItem");
+            this.scriptEditorToolStripMenuItem.Tag = "0";
+            // 
+            // toolStripSeparator8
+            // 
+            toolStripSeparator8.Name = "toolStripSeparator8";
+            resources.ApplyResources(toolStripSeparator8, "toolStripSeparator8");
+            toolStripSeparator8.Tag = "1";
             // 
             // MainWindow
             // 
@@ -562,11 +572,11 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         public System.Windows.Forms.ToolStripMenuItem distributedEnvToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem projectWizardMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem scriptEditorToolStripMenuItem;
         private System.Windows.Forms.StatusStrip MWstatusStrip;
         private System.Windows.Forms.ToolStripStatusLabel genericStatusText;
         private System.Windows.Forms.ToolStripProgressBar genericProgressBar;
         private System.Windows.Forms.ToolStripStatusLabel quickInspectorText;
+        private System.Windows.Forms.ToolStripMenuItem scriptEditorToolStripMenuItem;
     }
 }
 

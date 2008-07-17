@@ -622,6 +622,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_owner.StopBifurcationAnalysis();
                 Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
                     new object[] { MessageResources.NameBifurcation }));
+                m_owner.ActivateResultWindow();
 
                 return;
             }

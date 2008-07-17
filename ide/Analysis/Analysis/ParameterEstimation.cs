@@ -289,7 +289,8 @@ namespace Ecell.IDE.Plugins.Analysis
                 FindElite();
 
                 Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
-                    new object[] { MessageResources.NameParameterEstimate }));                
+                    new object[] { MessageResources.NameParameterEstimate }));
+                m_owner.ActivateResultWindow();
                 return;
             }
 

@@ -349,7 +349,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         private void SetSimulationCondition()
         {
-            int i = 0, j = 0;
+            int i = 0;
             List<string> stepList = m_owner.DataManager.GetStepperList();
             foreach (string step in stepList)
             {

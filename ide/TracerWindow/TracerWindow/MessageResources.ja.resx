@@ -139,7 +139,7 @@
     <value>グラフ設定(&amp;T)...</value>
   </data>
   <data name="MenuItemShowTraceText" xml:space="preserve">
-    <value>グラフ表示(&amp;T)...</value>
+    <value>グラフの表示(&amp;T)...</value>
   </data>
   <data name="TracerWindow" xml:space="preserve">
     <value>グラフ</value>

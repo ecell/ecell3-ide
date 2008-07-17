@@ -659,6 +659,14 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         /// <summary>
+        /// Activate the result window.
+        /// </summary>
+        public void ActivateResultWindow()
+        {
+            m_rWin.Activate();
+        }
+
+        /// <summary>
         /// Stop the all process of analysis.
         /// </summary>
         /// <param name="sender">MenuItem.</param>

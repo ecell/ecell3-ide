@@ -124,7 +124,7 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
-        ///   Show &amp;Graph... に類似しているローカライズされた文字列を検索します。
+        ///   Create New &amp;Graph... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemShowTraceText {
             get {

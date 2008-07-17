@@ -139,7 +139,7 @@
     <value>&amp;Graph Setup...</value>
   </data>
   <data name="MenuItemShowTraceText" xml:space="preserve">
-    <value>Show &amp;Graph...</value>
+    <value>Create New &amp;Graph...</value>
   </data>
   <data name="TracerWindow" xml:space="preserve">
     <value>Graph</value>
