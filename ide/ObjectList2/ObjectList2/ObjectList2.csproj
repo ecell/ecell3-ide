@@ -134,6 +134,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="ObjectListUserControl.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ObjectListUserControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ObjectListUserControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ObjectListUserControl.cs</DependentUpon>

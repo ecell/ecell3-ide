@@ -188,10 +188,6 @@ namespace Ecell.IDE.Plugins.ObjectList2
         /// <param name="data">Changed value of object.</param>        
         public override void DataChanged(string modelID, string key, string type, EcellObject data)
         {
-            if (modelID == null || key == null || m_currentModelID == null ||
-               !m_currentModelID.Equals(modelID))
-                return;
-
             m_control.DataChanged(modelID, key, type, data);
 
             return;
@@ -205,8 +201,6 @@ namespace Ecell.IDE.Plugins.ObjectList2
         /// <param name="type">The object type of deleted object.</param>
         public override void DataDelete(string modelID, string key, string type)
         {
-            if (this.m_currentModelID == null ||
-                this.m_currentModelID != modelID) return;
             if (type.Equals(Constants.xpathStepper)) return;
 
             m_control.DataDelete(modelID, key, type);
