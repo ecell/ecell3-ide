@@ -1548,10 +1548,15 @@ namespace Ecell.IDE
 
             m_cnt.ImportFormulate(m_text.Text);
 
-            m_fwin.FApplyButton.Click += new EventHandler(UpdateFormulator);
-            m_fwin.FCloseButton.Click += new EventHandler(m_fwin.CancelButtonClick);
 
-            m_fwin.ShowDialog();
+            using (m_fwin)
+            {
+                DialogResult res = m_fwin.ShowDialog();
+                if (res == DialogResult.OK)
+                {
+                    UpdateFormulator(null, null);
+                }
+            }
         }
 
         /// <summary>
@@ -1562,9 +1567,6 @@ namespace Ecell.IDE
         private void UpdateFormulator(object sender, EventArgs e)
         {
             m_text.Text = m_cnt.ExportFormulate();
-
-            m_fwin.Close();
-            m_fwin.Dispose();
         }
 
         /// <summary>

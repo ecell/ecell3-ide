@@ -317,10 +317,14 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
 
             m_cnt.ImportFormulate(m_expression);
-            m_fwin.FApplyButton.Click += new EventHandler(UpdateFormulator);
-            m_fwin.FCloseButton.Click += new EventHandler(m_fwin.CancelButtonClick);
-
-            m_fwin.ShowDialog();
+            using (m_fwin)
+            {
+                DialogResult res = m_fwin.ShowDialog();
+                if (res == DialogResult.OK)
+                {
+                    UpdateFormulator(null, null);
+                }
+            }
         }
 
         /// <summary>

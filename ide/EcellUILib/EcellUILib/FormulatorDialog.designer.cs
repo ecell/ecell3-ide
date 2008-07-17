@@ -85,16 +85,10 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         /// <summary>
-        /// OK button to apply the edht formulator.
-        /// </summary>
-        public System.Windows.Forms.Button FApplyButton;
-        /// <summary>
-        /// Close this window.
-        /// </summary>
-        public System.Windows.Forms.Button FCloseButton;
-        /// <summary>
         /// Layouter for FormulatorWindow.
         /// </summary>
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
+        private System.Windows.Forms.Button FApplyButton;
+        private System.Windows.Forms.Button FCloseButton;
     }
 }
