@@ -115,6 +115,7 @@ namespace Ecell.IDE.Plugins.MessageListWindow
             DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
             c3.Value = mes.Message;
             r.Cells.Add(c3);
+            r.Tag = mes;
 
             c0.ReadOnly = true;
             c1.ReadOnly = true;
@@ -123,6 +124,22 @@ namespace Ecell.IDE.Plugins.MessageListWindow
 
             MLWMessageDridView.Rows.Add(r);
             m_messages.Add(mes);
+        }
+
+        public void RemoveMessageEntry(IMessageEntry mes)
+        {
+            foreach (DataGridViewRow r in MLWMessageDridView.Rows)
+            {
+                MessageEntry ent = r.Tag as MessageEntry;
+                if (ent == null) continue;
+                if (ent.Equals(mes))
+                {
+                    m_messages.Remove(mes);
+                    MLWMessageDridView.Rows.RemoveAt(r.Index);
+                    return;
+                }
+            }
+
         }
     }
 }

@@ -263,6 +263,12 @@ namespace Ecell.Plugin
         void Message2(IMessageEntry message);
 
         /// <summary>
+        /// The event sequence to display the message.
+        /// </summary>
+        /// <param name="message">the message entry object.</param>
+        void RemoveMessage(IMessageEntry message);
+
+        /// <summary>
         /// The event sequence on advancing time.
         /// </summary>
         /// <param name="time">The current simulation time.</param>

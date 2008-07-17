@@ -497,6 +497,15 @@ namespace Ecell
                 p.Message2(message);
             }
         }
+
+        public void RemoveMessage(IMessageEntry mes)
+        {
+            foreach (IEcellPlugin p in m_pluginList.Values)
+            {
+                p.RemoveMessage(mes);
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>

@@ -38,6 +38,8 @@ using System.Text;
 using System.Windows.Forms;
 using Ecell.Objects;
 
+using Ecell.Message;
+
 namespace Ecell.IDE.Plugins.StaticDebugWindow
 {
     /// <summary>
@@ -180,7 +182,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                 debugResultView.Rows.Add(new object[] { 
                     em.Message, em.EntityPath, em.ModelID, em.Type });
             }
-        }
+        }        
 
         /// <summary>
         /// The action of double clicking the cell in this DataGridView.

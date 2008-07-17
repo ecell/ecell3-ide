@@ -32,6 +32,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
@@ -44,6 +45,7 @@ using System.ComponentModel;
 using Ecell;
 using Ecell.Plugin;
 using Ecell.Objects;
+using Ecell.Message;
 
 namespace Ecell.IDE.Plugins.StaticDebugWindow
 {
@@ -53,10 +55,13 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
     public class StaticDebugWindow : PluginBase
     {
         #region Fields
+        private Timer m_timer;
         /// <summary>
         /// The list of the error message
         /// </summary>
         List<ErrorMessage> m_errorMessageList;
+        List<ErrorMessage> m_currentMessageList;
+        Dictionary<ErrorMessage, IMessageEntry> m_messages;
         /// <summary>
         /// MenuItem of [Debug]->[Static Debug].
         /// </summary>
@@ -82,6 +87,16 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         }
         #endregion
 
+        public StaticDebugWindow()
+        {
+            m_currentMessageList = new List<ErrorMessage>();
+            m_messages = new Dictionary<ErrorMessage, IMessageEntry>();
+            m_timer = new System.Windows.Forms.Timer();
+            m_timer.Enabled = false;
+            m_timer.Interval = 5000;
+            m_timer.Tick += new EventHandler(FireTimer);
+        }
+
         #region PluginBase
         /// <summary>
         ///  When the system status is changed, the menu is changed to enable/disable.
@@ -89,8 +104,18 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <param name="type">the status type</param>
         public override void ChangeStatus(ProjectStatus type)
         {
-            if (type == ProjectStatus.Loaded) m_staticDebug.Enabled = true;
-            else m_staticDebug.Enabled = false;
+            if (type == ProjectStatus.Loaded)
+            {
+                m_staticDebug.Enabled = true;
+                m_timer.Enabled = true;
+                m_timer.Start();
+            }
+            else
+            {
+                m_staticDebug.Enabled = false;
+                m_timer.Enabled = false;
+                m_timer.Stop();
+            }
         }
 
         /// <summary>
@@ -156,6 +181,8 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         public override void Clear()
         {
             this.m_errorMessageList.Clear();
+            m_currentMessageList.Clear();
+            m_messages.Clear();
         }
         #endregion
 
@@ -172,6 +199,83 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
 
             m_pluginDict.Add(p1.GetDebugName(), p1);
             m_pluginDict.Add(p2.GetDebugName(), p2);
+        }
+
+
+        /// <summary>
+        /// Get key from entity path.
+        /// </summary>
+        /// <param name="entityPath">input entity path.</param>
+        /// <returns>key.</returns>
+        public String GetKeyFromPath(String entityPath)
+        {
+            String[] list = entityPath.Split(new char[] { ':' });
+            if (list.Length == 2) return entityPath;
+            bool isSystem = false;
+            if (list[0] == Constants.xpathSystem) isSystem = true;
+            String result = list[1];
+            for (int i = 2; i < list.Length - 1; i++)
+            {
+                if (isSystem)
+                {
+                    if (result == "") result = list[i];
+                    else result = result + "/" + list[i];
+                }
+                else
+                    result = result + ":" + list[i];
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// execute the static debug in existing the list.
+        /// </summary>
+        /// <param name="list">the list of static debug.</param>
+        public void Debug(List<string> list)
+        {            
+            m_errorMessageList.Clear();
+            List<string> mList = m_dManager.GetModelList();
+            foreach (string modelID in mList)
+            {
+                List<EcellObject> olist = m_dManager.GetData(modelID, null);
+                foreach (string key in m_pluginDict.Keys)
+                {
+                    if (!list.Contains(key)) continue;
+                    List<ErrorMessage> tmp = m_pluginDict[key].Debug(olist);
+                    foreach (ErrorMessage mes in tmp)
+                    {
+                        m_errorMessageList.Add(mes);
+                    }
+                }
+            }
+
+            List<ErrorMessage> tmpList = new List<ErrorMessage>();
+            foreach (ErrorMessage e in m_currentMessageList)
+            {
+                tmpList.Add(e);
+            }
+            IEnumerator iter = m_errorMessageList.GetEnumerator();
+            while (iter.MoveNext())
+            {
+                ErrorMessage em = (ErrorMessage)iter.Current;
+                if (m_currentMessageList.Contains(em))
+                {
+                    tmpList.Remove(em);
+                    continue;
+                }
+                m_currentMessageList.Add(em);
+                String key = GetKeyFromPath(em.EntityPath);
+                EcellObject obj = DataManager.GetEcellObject(em.ModelID, key, em.Type);
+                ObjectMessageEntry oMes = new ObjectMessageEntry(MessageType.Debug, em.Message, obj);
+                m_messages.Add(em, oMes);
+                PluginManager.Message2(oMes);
+            }
+
+            foreach (ErrorMessage em in tmpList)
+            {
+                PluginManager.RemoveMessage(m_messages[em]);
+            }
+
         }
         
         /// <summary>
@@ -222,28 +326,23 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         }
 
         /// <summary>
-        /// execute the static debug in existing the list.
+        /// Execute redraw process on simulation running at every 1sec.
         /// </summary>
-        /// <param name="list">the list of static debug.</param>
-        public void Debug(List<string> list)
+        /// <param name="sender">object(Timer)</param>
+        /// <param name="e">EventArgs</param>
+        void FireTimer(object sender, EventArgs e)
         {
-            m_errorMessageList.Clear();
-            List<string> mList = m_dManager.GetModelList();
-            foreach (string modelID in mList)
-            {
-                List<EcellObject> olist = m_dManager.GetData(modelID, null);
-                foreach (string key in m_pluginDict.Keys)
-                {
-                    if (!list.Contains(key)) continue;
-                    List<ErrorMessage> tmp = m_pluginDict[key].Debug(olist);
-                    foreach (ErrorMessage mes in tmp)
-                    {
-                        m_errorMessageList.Add(mes);
-                    }
-                }
-            }
+            m_timer.Enabled = false;
+            List<String> debugList = new List<string>();
 
+            foreach (string key in m_pluginDict.Keys)
+            {
+                debugList.Add(key);
+            }
+            Debug(debugList);
+            m_timer.Enabled = true;
         }
+
         #endregion
     }
 }
@@ -323,5 +422,16 @@ public class ErrorMessage
         this.m_type = type;
         this.m_entityPath = entityPath;
         this.m_message = message;
+    }
+
+    public override bool Equals(object obj)
+    {
+        ErrorMessage mes = obj as ErrorMessage;
+        if (this.ModelID == mes.ModelID &&
+            this.Type == mes.Type &&
+            this.EntityPath == mes.EntityPath &&
+            this.Message == mes.Message)
+            return true;
+        return false;
     }
 }

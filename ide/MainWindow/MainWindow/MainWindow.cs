@@ -875,6 +875,15 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
+        /// The event sequence to delete the message.
+        /// </summary>
+        /// <param name="message">the message entry object.</param>
+        public virtual void RemoveMessage(IMessageEntry message)
+        {
+            // nothing.
+        }
+
+        /// <summary>
         /// The event sequence on advancing time.
         /// </summary>
         /// <param name="time">The current simulation time.</param>

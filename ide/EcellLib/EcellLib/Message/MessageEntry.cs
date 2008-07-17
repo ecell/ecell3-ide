@@ -118,5 +118,15 @@ namespace Ecell.Message
         {
             return "[" + Timestamp + "] " + MessageType + ": " + Message + "(location: " + Location + ")";
         }
+
+        public override bool Equals(object obj)
+        {
+            MessageEntry ent = obj as MessageEntry;
+            if (ent.m_type == this.m_type &&
+                ent.m_time == this.m_time &&
+                ent.m_message == this.m_message)
+                return true;
+            return false;
+        }
     }
 }

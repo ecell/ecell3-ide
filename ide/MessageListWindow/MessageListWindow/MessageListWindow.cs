@@ -88,7 +88,13 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         public override void Message2(IMessageEntry message)
         {
             m_control.AddMessageEntry(message);
-        }       
+        }
+
+
+        public override void RemoveMessage(IMessageEntry message)
+        {
+            m_control.RemoveMessageEntry(message);
+        }
 
         /// <summary>
         /// Get the name of this plugin.
