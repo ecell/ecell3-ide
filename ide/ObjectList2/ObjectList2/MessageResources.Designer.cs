@@ -70,7 +70,7 @@ namespace Ecell.IDE.Plugins.ObjectList2 {
         }
         
         /// <summary>
-        ///   SpreadSheet に類似しているローカライズされた文字列を検索します。
+        ///   ObjectList に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ObjectList {
             get {

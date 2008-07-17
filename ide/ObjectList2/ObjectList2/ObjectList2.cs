@@ -52,22 +52,11 @@ namespace Ecell.IDE.Plugins.ObjectList2
     public class ObjectList2 : PluginBase
     {
         #region Fields
-        /// <summary>
-        /// modelID of a model, which is currently displayed on the ObjectList.
-        /// </summary>
-        private string m_currentModelID;
-        /// <summary>
-        ///  tab control of ObjectList.
-        /// </summary>
-        private TabControl m_tabControl;
+        private ObjectListUserControl m_control;
         /// <summary>
         /// ComponentResourceManager for ObjectList.
         /// </summary>
         public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResources));
-        /// <summary>
-        /// Dictionary of name and TabPage.
-        /// </summary>
-        private Dictionary<string, IObjectListTabPage> m_TabDict;
         #endregion
 
         #region Constructor
@@ -76,7 +65,6 @@ namespace Ecell.IDE.Plugins.ObjectList2
         /// </summary>
         public ObjectList2()
         {
-            m_TabDict = new Dictionary<string, IObjectListTabPage>();
         }
         #endregion
 
@@ -86,11 +74,8 @@ namespace Ecell.IDE.Plugins.ObjectList2
         /// </summary>
         public override void Initialize()
         {
-            m_tabControl = new TabControl();
-            m_tabControl.Dock = DockStyle.Fill;
-            PropertyTabPage tab = new PropertyTabPage(m_dManager, m_pManager);
-            m_tabControl.Controls.Add(tab.GetTabPage());
-            m_TabDict.Add(tab.GetTabPageName(), tab);
+            m_control = new ObjectListUserControl(this);
+            m_control.Dock = DockStyle.Fill;
         }
 
         /// <summary>
@@ -98,12 +83,6 @@ namespace Ecell.IDE.Plugins.ObjectList2
         /// </summary>
         ~ObjectList2()
         {
-            if (m_tabControl != null)
-            {
-                foreach (TabPage page in m_tabControl.Controls)
-                    page.Dispose();
-                m_tabControl.Dispose();
-            }
         }
         #endregion
 
@@ -115,8 +94,8 @@ namespace Ecell.IDE.Plugins.ObjectList2
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
             EcellDockContent win = new EcellDockContent();
-            m_tabControl.Dock = DockStyle.Fill;
-            win.Controls.Add(m_tabControl);
+            m_control.Dock = DockStyle.Fill;
+            win.Controls.Add(m_control);
             win.Name = "ObjectList2";
             win.Text = MessageResources.ObjectList;
             win.Icon = MessageResources.objlist;
@@ -136,20 +115,7 @@ namespace Ecell.IDE.Plugins.ObjectList2
             if (modelID == null)
                 return;
 
-            if (m_currentModelID == null || !m_currentModelID.Equals(modelID))
-            {
-                this.Clear();
-                List<EcellObject> list = m_dManager.GetData(modelID, null);
-                foreach (string id in m_TabDict.Keys)
-                {
-                    m_TabDict[id].DataAdd(list);
-                }
-                m_currentModelID = modelID;
-            }
-            foreach (string id in m_TabDict.Keys)
-            {
-                m_TabDict[id].SelectChanged(modelID, key, type);
-            }
+            m_control.SelectChanged(modelID, key, type);
         }
 
         /// <summary>
@@ -163,10 +129,7 @@ namespace Ecell.IDE.Plugins.ObjectList2
             if (modelID == null)
                 return;
 
-            foreach (string id in m_TabDict.Keys)
-            {
-                m_TabDict[id].AddSelection(modelID, key, type);
-            }
+            m_control.AddSelection(modelID, key, type);
         }
 
         /// <summary>
@@ -180,10 +143,8 @@ namespace Ecell.IDE.Plugins.ObjectList2
             if (modelID == null)
                 return;
 
-            foreach (string id in m_TabDict.Keys)
-            {
-                m_TabDict[id].AddSelection(modelID, key, type);
-            }
+            m_control.RemoveSelection(modelID, key, type);
+
         }
 
         /// <summary>
@@ -191,10 +152,7 @@ namespace Ecell.IDE.Plugins.ObjectList2
         /// </summary>
         public override void ResetSelect()
         {
-            foreach (string key in m_TabDict.Keys)
-            {
-                m_TabDict[key].ClearSelection();
-            }
+            m_control.ClearSelection();
         }
 
         /// <summary>
@@ -204,15 +162,19 @@ namespace Ecell.IDE.Plugins.ObjectList2
         public override void DataAdd(List<EcellObject> data)
         {
             if (data == null) return;
-            foreach (string key in m_TabDict.Keys)
-            {
-                m_TabDict[key].DataAdd(data);
-            }
+            
             foreach (EcellObject obj in data)
             {
-                if (obj.ModelID.Equals("")) continue;
-                m_currentModelID = obj.ModelID;
-                break;
+                if (obj.Type != EcellObject.VARIABLE &&
+                    obj.Type != EcellObject.PROCESS &&
+                    obj.Type != EcellObject.SYSTEM)
+                    continue;
+                m_control.DataAdd(obj);
+                if (obj.Children == null) continue;
+                foreach (EcellObject cobj in obj.Children)
+                {
+                    m_control.DataAdd(cobj);
+                }
             }
             return;
         }
@@ -230,10 +192,7 @@ namespace Ecell.IDE.Plugins.ObjectList2
                !m_currentModelID.Equals(modelID))
                 return;
 
-            foreach (string id in m_TabDict.Keys)
-            {
-                m_TabDict[id].DataChanged(modelID, key, type, data);
-            }
+            m_control.DataChanged(modelID, key, type, data);
 
             return;
         }
@@ -250,11 +209,7 @@ namespace Ecell.IDE.Plugins.ObjectList2
                 this.m_currentModelID != modelID) return;
             if (type.Equals(Constants.xpathStepper)) return;
 
-            foreach (string id in m_TabDict.Keys)
-            {
-                m_TabDict[id].DataDelete(modelID, key, type, true);
-            }
-            return;
+            m_control.DataDelete(modelID, key, type);
         }
 
         /// <summary>
@@ -262,26 +217,7 @@ namespace Ecell.IDE.Plugins.ObjectList2
         /// </summary>
         public override void Clear()
         {
-            if (m_tabControl == null)
-                return;
-
-
-            foreach (string key in m_TabDict.Keys)
-            {
-                m_TabDict[key].Clear();
-            }
-        }
-
-        /// <summary>
-        ///  When change system status, change menu enable/disable.
-        /// </summary>
-        /// <param name="type">System status.</param>
-        public override void ChangeStatus(ProjectStatus type)
-        {
-            foreach (string key in m_TabDict.Keys)
-            {
-                m_TabDict[key].ChangeStatus(type);
-            }
+            m_control.Clear();
         }
 
         /// <summary>
@@ -290,11 +226,8 @@ namespace Ecell.IDE.Plugins.ObjectList2
         /// <returns>bitmap data</returns>
         public override Bitmap Print(string names)
         {
-            TabPage tab = m_tabControl.SelectedTab;
-            if (tab == null) return null;
-
-            Bitmap b = new Bitmap(tab.Width, tab.Height);
-            tab.DrawToBitmap(b, tab.ClientRectangle);
+            Bitmap b = new Bitmap(m_control.Width, m_control.Height);
+            m_control.DrawToBitmap(b, m_control.ClientRectangle);
 
             return b;
         }

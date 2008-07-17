@@ -121,7 +121,7 @@
     <value>ロガー設定</value>
   </data>
   <data name="ObjectList" xml:space="preserve">
-    <value>オブジェクト一覧</value>
+    <value>スプレッドシート</value>
   </data>
   <data name="SearchMenuText" xml:space="preserve">
     <value>検索...</value>

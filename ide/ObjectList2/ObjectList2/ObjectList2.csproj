@@ -78,15 +78,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IObjectListTabPage.cs" />
-    <Compile Include="VPropertyTabPage.cs" />
+    <Compile Include="ObjectListUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ObjectListUserControl.Designer.cs">
+      <DependentUpon>ObjectListUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ProcessPropertyTabPage.cs" />
-    <Compile Include="PropertyTabPage.cs" />
     <Compile Include="ObjectList2.cs">
     </Compile>
     <Compile Include="PluginDriver.cs">
@@ -122,14 +124,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SearchInstance.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SearchInstance.Designer.cs">
-      <DependentUpon>SearchInstance.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SystemPropertyTabPage.cs" />
-    <Compile Include="VariablePropertyTabPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MessageResources.ja.resx">
@@ -140,13 +134,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="SearchInstance.ja.resx">
+    <EmbeddedResource Include="ObjectListUserControl.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>SearchInstance.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SearchInstance.resx">
-      <DependentUpon>SearchInstance.cs</DependentUpon>
-      <SubType>Designer</SubType>
+      <DependentUpon>ObjectListUserControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
