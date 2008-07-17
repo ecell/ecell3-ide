@@ -217,6 +217,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 // Check duplicated object.
                 if (obj is PPathwayText)
                     continue;
+                // Check Outroot
+                if(string.IsNullOrEmpty(parentKey))
+                {
+                    ResetSystemResize();
+                    Util.ShowErrorDialog(string.Format(
+                            MessageResources.ErrOutRoot,
+                            new object[] { obj.EcellObject.Name }));
+                    return;
+
+                }
+                // Check duplilcated key
                 if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(parentKey + "/" + obj.EcellObject.Name))
                     continue;
                 else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(parentKey + ":" + obj.EcellObject.Name))
