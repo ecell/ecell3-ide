@@ -661,6 +661,7 @@ namespace Ecell
                     new object[] { l_prj }));
                 m_env.ActionManager.Clear();
                 m_env.MessageManager.Clear();
+                m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
             }
             catch (Exception l_ex)
             {
@@ -3632,6 +3633,7 @@ namespace Ecell
                         }
                     }
                 }
+                m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
                 Trace.WriteLine("Load project: " + l_message);
             }
             catch (Exception l_ex)
@@ -4294,6 +4296,8 @@ namespace Ecell
                 l_ecellObjectList.Add(l_ecellObject);
                 m_env.PluginManager.DataAdd(l_ecellObjectList);
                 m_env.ActionManager.AddAction(new NewProjectAction(l_prjID, l_comment, l_projectPath));
+                m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
+
                 Trace.WriteLine("Create Project: [" + l_prjID + "]");
             }
             catch (Exception l_ex)
@@ -5303,6 +5307,7 @@ namespace Ecell
                 m_currentProject.SimulationStatus = SimulationStatus.Suspended;
                 Trace.WriteLine(String.Format(MessageResources.InfoSuspend,
                     new object[] { m_currentProject.Simulator.GetCurrentTime() }));
+                m_env.PluginManager.ChangeStatus(ProjectStatus.Suspended);
             }
             catch (Exception l_ex)
             {

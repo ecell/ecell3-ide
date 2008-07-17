@@ -63,7 +63,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         ///  Arrow design settings
         /// </summary>
-        private const float ARROW_RADIAN_B = PI2 - ARROW_DEGREE * PI2;
+        private const float ARROW_RADIAN_B = PI2 * (1 - ARROW_DEGREE);
 
         /// <summary>
         ///  Arrow design settings
@@ -168,7 +168,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public void SetLine(float width)
         {
-            Pen = new Pen(Brush, width);
+            base.Pen = new Pen(Brush, width);
             switch (this.m_edgeInfo.TypeOfLine)
             {
                 case LineType.Solid:

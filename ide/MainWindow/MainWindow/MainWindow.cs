@@ -88,10 +88,6 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private ApplicationEnvironment m_env;
         /// <summary>
-        /// flag which load model already.
-        /// </summary>
-        private bool m_isLoadProject;
-        /// <summary>
         /// base directory of loading project.
         /// </summary>
         private string m_currentDir;
@@ -107,10 +103,6 @@ namespace Ecell.IDE.MainWindow
         /// delegate function of close project.
         /// </summary>
         public delegate void CloseProjectDelegate(string projectID);
-        /// <summary>
-        /// The flag whether close the project.
-        /// </summary>
-        private bool m_isClose = false;
         /// <summary>
         /// System status.
         /// </summary>
@@ -209,11 +201,9 @@ namespace Ecell.IDE.MainWindow
         void LoadPlugins()
         {
             m_env.PluginManager.AppVersion = Assembly.GetExecutingAssembly().GetName().Version;
-
             m_pluginList = new List<string>();
-            m_isLoadProject = false;
-
             m_currentDir = Util.GetBaseDir();
+
             if (m_currentDir == null)
             {
                 m_currentDir =
@@ -231,7 +221,6 @@ namespace Ecell.IDE.MainWindow
                     LoadPlugin(fileName);
                 }
             }
-            m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
 
             // Set menu availability.
             foreach (ToolStripItem tool in menustrip.Items)
@@ -580,9 +569,6 @@ namespace Ecell.IDE.MainWindow
         {
             m_env.DataManager.CreateProject(l_prjID, l_comment, l_modelDir, l_dmList);
             m_project = l_prjID;
-            m_isLoadProject = true;
-            m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
-            m_editCount = 0;
         }
 
         /// <summary>
@@ -591,11 +577,8 @@ namespace Ecell.IDE.MainWindow
         /// <param name="l_prjID"></param>
         private void CloseProject(String l_prjID)
         {
-            m_isLoadProject = false;
-            m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
             m_env.DataManager.CloseProject(l_prjID);
             m_project = null;
-            m_editCount = 0;
         }
 
         /// <summary>
@@ -604,7 +587,6 @@ namespace Ecell.IDE.MainWindow
         public void LoadModelThread(string modelID)
         {
             m_env.PluginManager.LoadData(modelID);
-            m_editCount = 0;
         }
         /// <summary>
         /// 
@@ -909,6 +891,7 @@ namespace Ecell.IDE.MainWindow
         {
             if (type == ProjectStatus.Uninitialized)
             {
+                m_editCount = 0;
                 newProjectToolStripMenuItem.Enabled = true;
                 openProjectToolStripMenuItem.Enabled = true;
                 saveProjectToolStripMenuItem.Enabled = false;
@@ -1097,14 +1080,9 @@ namespace Ecell.IDE.MainWindow
                 {
                     if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
                     {
-                        m_isClose = true;
                         SaveProjectMenuClick(sender, e);
-                        m_editCount = 0;
                     }
-                    else
-                    {
-                        CloseProject(m_project);
-                    }
+                    CloseProject(m_project);
                 }
                 catch (Util.CancelException)
                 {
@@ -1152,9 +1130,8 @@ namespace Ecell.IDE.MainWindow
             {
                 if (Util.ShowYesNoDialog(MessageResources.SaveConfirm))
                 {
-                    m_isClose = true;
                     SaveProjectMenuClick(sender, e);
-                    m_editCount = 0;
+                    CloseProject(m_project);
                 }
             }
 
@@ -1225,10 +1202,7 @@ namespace Ecell.IDE.MainWindow
             }
 
             m_env.DataManager.LoadProject(prjID, fileName);
-            m_isLoadProject = true;
             m_project = prjID;
-            m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
-            m_editCount = 0;
             // Set recent Project.
             if (m_recentProjects.ContainsKey(prjID))
                 m_recentProjects.Remove(prjID);
@@ -1242,7 +1216,7 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         /// <param name="sender">object(ToolStripMenuItem)</param>
         /// <param name="e">EventArgs</param>
-        private void SaveProjectMenuClick(object sender, EventArgs args)
+        private void SaveProjectMenuClick(object sender, EventArgs e)
         {
             List<SaveProjectDialog.ProjectItem> items = new List<SaveProjectDialog.ProjectItem>();
             {
@@ -1281,7 +1255,6 @@ namespace Ecell.IDE.MainWindow
             {
                 if (svd.ShowDialog() != DialogResult.OK)
                     return;
-                m_editCount = 0;
                 try
                 {
                     foreach (SaveProjectDialog.ProjectItem pi in svd.CheckedItems)
@@ -1300,17 +1273,11 @@ namespace Ecell.IDE.MainWindow
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
                     Trace.WriteLine(e);
-                    Util.ShowErrorDialog(e.Message);
+                    Util.ShowErrorDialog(ex.Message);
                 }
-            }
-
-            if (m_isClose)
-            {
-                CloseProject(m_project);
-                m_isClose = false;
             }
         }
 
@@ -1328,15 +1295,9 @@ namespace Ecell.IDE.MainWindow
                 {
                     if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
                     {
-                        m_isClose = true;
                         SaveProjectMenuClick(sender, e);
-                        m_editCount = 0;
-                        CloseProject(m_project);
                     }
-                    else
-                    {
-                        CloseProject(m_project);
-                    }
+                    CloseProject(m_project);
                 }
                 catch (Util.CancelException)
                 {
@@ -1361,10 +1322,9 @@ namespace Ecell.IDE.MainWindow
             {
                 if (Util.ShowYesNoDialog(MessageResources.SaveConfirm))
                 {
-                    m_isClose = true;
                     SaveProjectMenuClick(sender, e);
-                    m_editCount = 0;
                 }
+                CloseProject(m_project);
             }
             // Show OpenFileDialog.
             try
@@ -1377,24 +1337,21 @@ namespace Ecell.IDE.MainWindow
                     if (m_project != null)
                         CloseProject(m_project);
                     // Load new project.
-                    if (m_isLoadProject == false)
+                    string filepath = m_openFileDialog.FileName;
+                    string modelDir = Path.GetDirectoryName(filepath);
+                    string modelName = Path.GetFileNameWithoutExtension(filepath);
+                    if (modelDir.EndsWith(Constants.xpathModel))
                     {
-                        string filepath = m_openFileDialog.FileName;
-                        string modelDir = Path.GetDirectoryName(filepath);
-                        string modelName = Path.GetFileNameWithoutExtension(filepath);
-                        if (modelDir.EndsWith(Constants.xpathModel))
-                        {
-                            modelDir = modelDir.Substring(0, modelDir.Length - 6);
-                        }
-                        string dmDir = modelDir + Constants.delimiterPath + Constants.DMDirName;
-                        List<string> dirList = new List<string>();
-                        if (Directory.Exists(dmDir))
-                        {
-                            dirList.Add(dmDir);
-                        }
-                        string prjDir = m_env.DataManager.DefaultDir + Constants.delimiterPath + modelName;
-                        CreateProject(modelName, prjDir, Constants.defaultComment, dirList);
+                        modelDir = modelDir.Substring(0, modelDir.Length - 6);
                     }
+                    string dmDir = modelDir + Constants.delimiterPath + Constants.DMDirName;
+                    List<string> dirList = new List<string>();
+                    if (Directory.Exists(dmDir))
+                    {
+                        dirList.Add(dmDir);
+                    }
+                    string prjDir = m_env.DataManager.DefaultDir + Constants.delimiterPath + modelName;
+                    CreateProject(modelName, prjDir, Constants.defaultComment, dirList);
 
                     Thread t = new Thread(new ThreadStart(LoadModelData));
                     t.Start();
@@ -1414,15 +1371,13 @@ namespace Ecell.IDE.MainWindow
         /// <param name="path">file nane.</param>
         internal void LoadModel(string path)
         {
-            if (m_isLoadProject == false)
+            string modelDir = Path.GetDirectoryName(path);
+            if (modelDir.EndsWith(Constants.xpathModel))
             {
-                string modelDir = Path.GetDirectoryName(path);
-                if (modelDir.EndsWith(Constants.xpathModel))
-                {
-                    modelDir = modelDir.Substring(0, modelDir.Length - 5);
-                }
-                CreateProject(Constants.defaultPrjID, modelDir, Constants.defaultComment, new List<string>());
+                modelDir = modelDir.Substring(0, modelDir.Length - 5);
             }
+            CreateProject(Constants.defaultPrjID, modelDir, Constants.defaultComment, new List<string>());
+
             m_openFileDialog.FileName = path;
             Thread t = new Thread(new ThreadStart(LoadModelData));
             t.Start();
@@ -1539,15 +1494,14 @@ namespace Ecell.IDE.MainWindow
                         {
                             m_env.DataManager.SimulationStop();
                             Thread.Sleep(1000);
-                            m_isClose = true;
                             SaveProjectMenuClick(sender, e);
                         }
                         else
                         {
                             m_env.DataManager.SimulationStop();
                             Thread.Sleep(1000);
-                            CloseProject(m_project);
                         }
+                        CloseProject(m_project);
                     }
                     catch (Util.CancelException)
                     {
@@ -1613,14 +1567,12 @@ namespace Ecell.IDE.MainWindow
                 //
                 // Executes continuously.
                 //
-                if (this.m_env.DataManager.CurrentProjectID != null)
+                if (m_env.DataManager.CurrentProjectID != null)
                 {
-                    this.m_isLoadProject = true;
-                    this.m_project = this.m_env.DataManager.CurrentProjectID;
-                    if (this.m_env.DataManager.GetCurrentSimulationTime() > 0.0)
+                    m_project = this.m_env.DataManager.CurrentProjectID;
+                    if (m_env.DataManager.GetCurrentSimulationTime() > 0.0)
                     {
-                        this.m_env.DataManager.SimulationSuspend();
-                        this.m_env.PluginManager.ChangeStatus(ProjectStatus.Suspended);
+                        m_env.DataManager.SimulationSuspend();
                     }
                 }
             }
