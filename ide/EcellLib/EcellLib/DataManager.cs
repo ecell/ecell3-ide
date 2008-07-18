@@ -3443,6 +3443,24 @@ namespace Ecell
         /// <summary>
         /// Loads the project.
         /// </summary>
+        /// <param name="filename">Project file or EML file.</param>
+        public void LoadProject(string filename)
+        {
+            try
+            {
+                Project project = new Project(filename);
+                LoadProject(project);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(String.Format(MessageResources.ErrLoadPrj,
+                    new object[] { filename }), ex);
+            }
+
+        }
+        /// <summary>
+        /// Loads the project.
+        /// </summary>
         /// <param name="projectID">The load project ID</param>
         /// <param name="prjFile">The load project file.</param>
         public void LoadProject(string projectID, string prjFile)
@@ -3501,15 +3519,22 @@ namespace Ecell
                 passList.Add(EcellObject.CreateObject(projectID, "", Constants.xpathProject, "", ecellDataList));
 
                 // Loads the model.
-                string modelDirName = Path.Combine(project.ProjectPath, Constants.xpathModel);
-                Debug.Assert(Directory.Exists(modelDirName));
+                string[] models;
+                if (project.FilePath.EndsWith(Constants.FileExtEML))
+                {
+                    models = new string[] { project.FilePath };
+                }
+                else
+                {
+                    string modelDirName = Path.Combine(project.ProjectPath, Constants.xpathModel);
+                    Debug.Assert(Directory.Exists(modelDirName));
 
-                string[] models = Directory.GetFileSystemEntries(
-                    modelDirName,
-                    Constants.delimiterWildcard + Constants.FileExtEML
-                    );
-                Debug.Assert(models != null && models.Length > 0);
-
+                    models = Directory.GetFileSystemEntries(
+                        modelDirName,
+                        Constants.delimiterWildcard + Constants.FileExtEML
+                        );
+                    Debug.Assert(models != null && models.Length > 0);
+                }
                 foreach (string model in models)
                 {
                     string fileName = Path.GetFileName(model);

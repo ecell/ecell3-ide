@@ -378,6 +378,11 @@ namespace Ecell
             ProjectSaver.SaveProject(this, filePath);
         }
 
+        public void LoadModel()
+        {
+
+        }
+
         /// <summary>
         /// Initialize objects.
         /// </summary>

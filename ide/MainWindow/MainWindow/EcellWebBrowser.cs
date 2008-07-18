@@ -61,9 +61,16 @@ namespace Ecell.IDE.MainWindow
         private Panel panel1;
         private ToolStripButton ButtonRefresh;
         private ApplicationEnvironment m_env;
-        private MainWindow m_window = null;
         private static Uri STARTUP;
         #endregion
+
+        /// <summary>
+        /// get / set ApplicationEnvironment object.
+        /// </summary>
+        public virtual ApplicationEnvironment Environment
+        {
+            get { return m_env; }
+        }
 
         #region Constructor
         /// <summary>
@@ -73,11 +80,10 @@ namespace Ecell.IDE.MainWindow
         public EcellWebBrowser(MainWindow window)
         {
             m_env = ApplicationEnvironment.GetInstance();
-            m_window = window;
             InitializeComponent();
             this.Text = MessageResources.StartUpWindow;
             this.TabText = this.Text;
-            this.webBrowser.ObjectForScripting = new AutomationStub(window);
+            this.webBrowser.ObjectForScripting = new AutomationStub(this);
             Uri startPage = FindStartPage();
             STARTUP = startPage;
             if (startPage != null)
@@ -290,27 +296,27 @@ namespace Ecell.IDE.MainWindow
             return null;
         }
 
-        private void SetRecentFiles()
-        {
-            string recentFiles = "<div id =\"recentProject\">\n<h2>最近使ったファイル</h2>\n";
-            string temp;
-            int i = 0;
-            foreach (KeyValuePair<string, string> project in m_window.RecentProjects)
-            {
-                temp = "<li><a onclick=\"window.external.LoadProject('" + project.Key + "','" + project.Value.Replace("\\","/") + "');\">" + project.Key + "</a></li>\n";
-                recentFiles += temp;
-                i++;
-                ProjectLabel label = new ProjectLabel(project.Key, project.Value);
-                label.Text = i.ToString() + ". " + project.Key;
-                label.Width = 220;
-                label.Left = 20;
-                label.Top = i * 25;
-                label.MouseClick += new MouseEventHandler(label_MouseClick);
-                groupBox.Controls.Add(label);
-            }
-            recentFiles += "</div>";
-            //webBrowser.DocumentText = webBrowser.DocumentText.Replace("<div id =\"recentProject\"></div>",recentFiles);
-        }
+        //private void SetRecentFiles()
+        //{
+        //    string recentFiles = "<div id =\"recentProject\">\n<h2>最近使ったファイル</h2>\n";
+        //    string temp;
+        //    int i = 0;
+        //    foreach (KeyValuePair<string, string> project in m_window.RecentProjects)
+        //    {
+        //        temp = "<li><a onclick=\"window.external.LoadProject('" + project.Key + "','" + project.Value.Replace("\\","/") + "');\">" + project.Key + "</a></li>\n";
+        //        recentFiles += temp;
+        //        i++;
+        //        ProjectLabel label = new ProjectLabel(project.Key, project.Value);
+        //        label.Text = i.ToString() + ". " + project.Key;
+        //        label.Width = 220;
+        //        label.Left = 20;
+        //        label.Top = i * 25;
+        //        label.MouseClick += new MouseEventHandler(label_MouseClick);
+        //        groupBox.Controls.Add(label);
+        //    }
+        //    recentFiles += "</div>";
+        //    //webBrowser.DocumentText = webBrowser.DocumentText.Replace("<div id =\"recentProject\"></div>",recentFiles);
+        //}
         #endregion
 
         #region private methods
@@ -356,7 +362,7 @@ namespace Ecell.IDE.MainWindow
         private void label_MouseClick(object sender, MouseEventArgs e)
         {
             ProjectLabel label = (ProjectLabel)sender;
-            m_window.LoadProject(label.Project, label.FilePath);
+            m_env.DataManager.LoadProject(label.FilePath);
         }
 
         /// <summary>
@@ -443,7 +449,7 @@ namespace Ecell.IDE.MainWindow
                 webBrowser.Left = 0;
                 webBrowser.Width = panel1.Width;
             }
-            this.m_window.Environment.PluginManager.SetStatusBarMessage(
+            m_env.PluginManager.SetStatusBarMessage(
                 Ecell.Plugin.StatusBarMessageKind.Generic,
                 ""
                 );
@@ -456,12 +462,12 @@ namespace Ecell.IDE.MainWindow
         private void webBrowser_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
         {
             if (e.MaximumProgress == 0.0) return;
-            this.m_window.Environment.PluginManager.SetStatusBarMessage(
+            m_env.PluginManager.SetStatusBarMessage(
                 Ecell.Plugin.StatusBarMessageKind.Generic,
                 MessageResources.MessageWebBrowse
             );
             int progress = (int)(100 * ((double)e.CurrentProgress / (double)e.MaximumProgress));
-            this.m_window.Environment.PluginManager.SetProgressBarValue(progress);
+            m_env.PluginManager.SetProgressBarValue(progress);
         }
         /// <summary>
         /// Event on status changed
@@ -471,7 +477,7 @@ namespace Ecell.IDE.MainWindow
         private void webBrowser_StatusTextChanged(object sender, EventArgs e)
         {
 //            this.URLLabel.Text = webBrowser.StatusText;
-            this.m_window.Environment.PluginManager.SetStatusBarMessage(
+            m_env.PluginManager.SetStatusBarMessage(
                         Ecell.Plugin.StatusBarMessageKind.Generic,
                         webBrowser.StatusText);
         }
@@ -548,14 +554,14 @@ namespace Ecell.IDE.MainWindow
         [ComVisible(true)]
         public class AutomationStub
         {
-            private MainWindow m_app;
+            private EcellWebBrowser m_browser;
             /// <summary>
             /// Constructor
             /// </summary>
-            /// <param name="app"></param>
-            public AutomationStub(MainWindow app)
+            /// <param name="browser"></param>
+            public AutomationStub(EcellWebBrowser browser)
             {
-                m_app = app;
+                this.m_browser = browser;
             }
             /// <summary>
             /// LoadProject
@@ -564,7 +570,7 @@ namespace Ecell.IDE.MainWindow
             /// <param name="filename"></param>
             public void LoadProject(string projectID, string filename)
             {
-                m_app.LoadProject(projectID, filename);
+                m_browser.Environment.DataManager.LoadProject(filename);
             }
 
         }

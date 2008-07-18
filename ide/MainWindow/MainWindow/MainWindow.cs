@@ -1155,17 +1155,6 @@ namespace Ecell.IDE.MainWindow
                     CloseProject();
                 try
                 {
-                    //if (ped.Project.FilePath.EndsWith("eml"))
-                    //{
-                    //    string modelDir = Path.GetDirectoryName(ped.Project.FilePath);
-                    //    if (modelDir.EndsWith(Constants.xpathModel))
-                    //    {
-                    //        modelDir = modelDir.Substring(0, modelDir.Length - 5);
-                    //    }
-                    //    CreateProject(ped.Project.Name, modelDir, ped.Project.Comment, new List<string>());
-                    //    LoadModel(ped.Project.FilePath);
-                    //    return;
-                    //}
                     m_env.DataManager.LoadProject(ped.Project);
                 }
                 catch (Exception ex)
