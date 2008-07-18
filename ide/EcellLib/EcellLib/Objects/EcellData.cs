@@ -119,14 +119,14 @@ namespace Ecell.Objects
         /// <summary>
         /// Creates the new "EcellData" instance with some arguments.
         /// </summary>
-        /// <param name="l_name">The property name</param>
-        /// <param name="l_data">The property value</param>
-        /// <param name="l_entityPath">The entity path</param>
-        public EcellData(string l_name, EcellValue l_data, string l_entityPath)
+        /// <param name="name">The property name</param>
+        /// <param name="data">The property value</param>
+        /// <param name="entityPath">The entity path</param>
+        public EcellData(string name, EcellValue data, string entityPath)
         {
-            this.m_name = l_name;
-            this.Value = l_data;
-            this.m_entityPath = l_entityPath;
+            this.m_name = name;
+            this.Value = data;
+            this.m_entityPath = entityPath;
             this.m_isGettable = true;
             this.m_isSettable = true;
             this.m_isLoadable = true;
@@ -266,32 +266,32 @@ namespace Ecell.Objects
         {
             try
             {
-                EcellData l_newData = new EcellData(this.m_name, this.Value.Copy(), this.m_entityPath);
-                l_newData.Gettable = this.m_isGettable;
-                l_newData.Loadable = this.m_isLoadable;
-                l_newData.Logable = this.m_isLogable;
-                l_newData.Logged = this.m_isLogger;
-                l_newData.Saveable = this.m_isSavable;
-                l_newData.Settable = this.m_isSettable;
-                l_newData.Max = this.m_max;
-                l_newData.Min = this.m_min;
-                l_newData.Step = this.m_step;
-                return l_newData;
+                EcellData newData = new EcellData(this.m_name, this.Value.Copy(), this.m_entityPath);
+                newData.Gettable = this.m_isGettable;
+                newData.Loadable = this.m_isLoadable;
+                newData.Logable = this.m_isLogable;
+                newData.Logged = this.m_isLogger;
+                newData.Saveable = this.m_isSavable;
+                newData.Settable = this.m_isSettable;
+                newData.Max = this.m_max;
+                newData.Min = this.m_min;
+                newData.Step = this.m_step;
+                return newData;
             }
-            catch (Exception l_ex)
+            catch (Exception ex)
             {
-                throw new Exception("Can't copy the \"EcellData\". {" + l_ex.ToString() + "}");
+                throw new Exception("Can't copy the \"EcellData\". {" + ex.ToString() + "}");
             }
         }
 
         /// <summary>
         /// override equal method on EcellData.
         /// </summary>
-        /// <param name="l_obj">the comparing object</param>
+        /// <param name="obj">the comparing object</param>
         /// <returns>if equal, return true</returns>
-        public bool Equals(EcellData l_obj)
+        public bool Equals(EcellData obj)
         {
-            if (this.m_name == l_obj.m_name && this.Value == l_obj.Value)
+            if (this.m_name == obj.m_name && this.Value == obj.Value)
             {
                 return true;
             }

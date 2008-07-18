@@ -1155,18 +1155,18 @@ namespace Ecell.IDE.MainWindow
                     CloseProject();
                 try
                 {
-                    if (ped.Project.FilePath.EndsWith("eml"))
-                    {
-                        string modelDir = Path.GetDirectoryName(ped.Project.FilePath);
-                        if (modelDir.EndsWith(Constants.xpathModel))
-                        {
-                            modelDir = modelDir.Substring(0, modelDir.Length - 5);
-                        }
-                        CreateProject(ped.Project.Name, modelDir, ped.Project.Comment, new List<string>());
-                        LoadModel(ped.Project.FilePath);
-                        return;
-                    }
-                    LoadProject(ped.Project.Name, ped.Project.FilePath);
+                    //if (ped.Project.FilePath.EndsWith("eml"))
+                    //{
+                    //    string modelDir = Path.GetDirectoryName(ped.Project.FilePath);
+                    //    if (modelDir.EndsWith(Constants.xpathModel))
+                    //    {
+                    //        modelDir = modelDir.Substring(0, modelDir.Length - 5);
+                    //    }
+                    //    CreateProject(ped.Project.Name, modelDir, ped.Project.Comment, new List<string>());
+                    //    LoadModel(ped.Project.FilePath);
+                    //    return;
+                    //}
+                    m_env.DataManager.LoadProject(ped.Project);
                 }
                 catch (Exception ex)
                 {
@@ -1798,7 +1798,11 @@ namespace Ecell.IDE.MainWindow
             ScriptEditor edit = new ScriptEditor(m_env);
             edit.ShowDialog();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kind"></param>
+        /// <param name="str"></param>
         public virtual void SetStatusBarMessage(StatusBarMessageKind kind, string str)
         {
             switch (kind)

@@ -126,10 +126,10 @@ namespace Ecell
         public void LoadActionFile(string fileName)
         {
             isLoadAction = true;
-            XmlDocument l_doc = new XmlDocument();
-            l_doc.Load(fileName);
+            XmlDocument doc = new XmlDocument();
+            doc.Load(fileName);
 
-            XmlNodeList topList = l_doc.SelectNodes("ActionList");
+            XmlNodeList topList = doc.SelectNodes("ActionList");
             foreach (XmlNode top in topList)
             {
                 XmlNodeList commandList = top.SelectNodes("Action");
@@ -164,7 +164,7 @@ namespace Ecell
                     m_list.Add(act);
                 }
             }
-            l_doc = null;
+            doc = null;
 
             foreach (UserAction u in m_list)
                 u.Execute();
@@ -232,19 +232,19 @@ namespace Ecell
         /// </summary>
         private void NotifyStatus()
         {
-            bool l_undoable = false;
+            bool undoable = false;
             if (0 < m_listIndex && m_list[m_listIndex - 1].IsUndoable)
-                l_undoable = true;
+                undoable = true;
 
-            bool l_redoable = false;
+            bool redoable = false;
             if (m_listIndex < m_list.Count)
-                l_redoable = true;
+                redoable = true;
 
-            if (l_undoable && l_redoable)
+            if (undoable && redoable)
                 m_env.PluginManager.ChangeUndoStatus(UndoStatus.UNDO_REDO);
-            else if (l_undoable)
+            else if (undoable)
                 m_env.PluginManager.ChangeUndoStatus(UndoStatus.UNDO_ONLY);
-            else if (l_redoable)
+            else if (redoable)
                 m_env.PluginManager.ChangeUndoStatus(UndoStatus.REDO_ONLY);
             else
                 m_env.PluginManager.ChangeUndoStatus(UndoStatus.NOTHING);

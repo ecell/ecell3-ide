@@ -99,31 +99,31 @@ namespace Ecell
         /// <summary>
         /// Saves the script.
         /// </summary>
-        /// <param name="l_fileName"></param>
-        public void SaveScript(string l_fileName)
+        /// <param name="fileName"></param>
+        public void SaveScript(string fileName)
         {
             ClearScriptInfo();
             Encoding enc = Encoding.GetEncoding(932);
-            File.WriteAllText(l_fileName, "", enc);
-            WritePrefix(l_fileName, enc);
+            File.WriteAllText(fileName, "", enc);
+            WritePrefix(fileName, enc);
             foreach (EcellObject modelObj in m_currentProject.ModelList)
             {
                 String modelName = modelObj.ModelID;
-                WriteModelEntry(l_fileName, enc, modelName);
-                WriteModelProperty(l_fileName, enc, modelName);
-                File.AppendAllText(l_fileName, "\n# System\n", enc);
+                WriteModelEntry(fileName, enc, modelName);
+                WriteModelProperty(fileName, enc, modelName);
+                File.AppendAllText(fileName, "\n# System\n", enc);
                 foreach (EcellObject sysObj in m_currentProject.SystemDic[modelName])
                 {
-                    WriteSystemEntry(l_fileName, enc, modelName, sysObj);
-                    WriteSystemProperty(l_fileName, enc, modelName, sysObj);
+                    WriteSystemEntry(fileName, enc, modelName, sysObj);
+                    WriteSystemProperty(fileName, enc, modelName, sysObj);
                 }
                 foreach (EcellObject sysObj in m_currentProject.SystemDic[modelName])
                 {
-                    WriteComponentEntry(l_fileName, enc, sysObj);
-                    WriteComponentProperty(l_fileName, enc, sysObj);
+                    WriteComponentEntry(fileName, enc, sysObj);
+                    WriteComponentProperty(fileName, enc, sysObj);
                 }
             }
-            WriteSimulationForStep(l_fileName, 100, enc);
+            WriteSimulationForStep(fileName, 100, enc);
         }
 
         /// <summary>

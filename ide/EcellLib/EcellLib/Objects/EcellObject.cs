@@ -149,19 +149,19 @@ namespace Ecell.Objects
         /// <summary>
         /// Creates the new "EcellObject" instance with initialized arguments.
         /// </summary>
-        /// <param name="l_modelID">The model ID</param>
-        /// <param name="l_key">The key</param>
-        /// <param name="l_type">The type</param>
-        /// <param name="l_class">The class</param>
-        /// <param name="l_data">The data</param>
-        protected EcellObject(string l_modelID, string l_key,
-            string l_type, string l_class, List<EcellData> l_data): this()
+        /// <param name="modelID">The model ID</param>
+        /// <param name="key">The key</param>
+        /// <param name="type">The type</param>
+        /// <param name="classname">The class</param>
+        /// <param name="data">The data</param>
+        protected EcellObject(string modelID, string key,
+            string type, string classname, List<EcellData> data): this()
         {
-            this.m_modelID = l_modelID;
-            this.m_key = l_key;
-            this.m_type = l_type;
-            this.m_class = l_class;
-            this.m_ecellDatas = l_data;
+            this.m_modelID = modelID;
+            this.m_key = key;
+            this.m_type = type;
+            this.m_class = classname;
+            this.m_ecellDatas = data;
         }
         #endregion
 
@@ -441,49 +441,49 @@ namespace Ecell.Objects
         {
             try
             {
-                EcellObject l_newEcellObject =
+                EcellObject newEcellObject =
                     CreateObject(this.m_modelID, this.m_key, this.m_type, this.m_class, this.CopyValueList());
-                l_newEcellObject.X = this.m_x;
-                l_newEcellObject.Y = this.m_y;
-                l_newEcellObject.OffsetX = this.m_offsetX;
-                l_newEcellObject.OffsetY = this.m_offsetY;
-                l_newEcellObject.Width = this.m_width;
-                l_newEcellObject.Height = this.m_height;
-                l_newEcellObject.LayerID = this.LayerID;
-                l_newEcellObject.Children = this.CopyChildren();
-                return l_newEcellObject;
+                newEcellObject.X = this.m_x;
+                newEcellObject.Y = this.m_y;
+                newEcellObject.OffsetX = this.m_offsetX;
+                newEcellObject.OffsetY = this.m_offsetY;
+                newEcellObject.Width = this.m_width;
+                newEcellObject.Height = this.m_height;
+                newEcellObject.LayerID = this.LayerID;
+                newEcellObject.Children = this.CopyChildren();
+                return newEcellObject;
             }
-            catch (Exception l_ex)
+            catch (Exception ex)
             {
                 throw new Exception(String.Format(MessageResources.ErrCopy,
-                    new object[] { this.Key }), l_ex);
+                    new object[] { this.Key }), ex);
             }
         }
 
         private List<EcellData> CopyValueList()
         {
-            List<EcellData> l_copyValueList = null;
+            List<EcellData> copyValueList = null;
             if (this.m_ecellDatas != null)
             {
-                l_copyValueList = new List<EcellData>();
+                copyValueList = new List<EcellData>();
                 if (this.m_ecellDatas.Count > 0)
                 {
-                    foreach (EcellData l_value in this.m_ecellDatas)
+                    foreach (EcellData value in this.m_ecellDatas)
                     {
-                        l_copyValueList.Add(l_value.Copy());
+                        copyValueList.Add(value.Copy());
                     }
                 }
             }
-            return l_copyValueList;
+            return copyValueList;
         }
         private List<EcellObject> CopyChildren()
         {
-            List<EcellObject> l_list = new List<EcellObject>();
-            foreach (EcellObject l_ecellObject in this.m_children)
+            List<EcellObject> list = new List<EcellObject>();
+            foreach (EcellObject ecellObject in this.m_children)
             {
-                l_list.Add(l_ecellObject.Copy());
+                list.Add(ecellObject.Copy());
             }
-            return l_list;
+            return list;
         }
         /// <summary>
         /// Set object coordinates.
@@ -547,25 +547,25 @@ namespace Ecell.Objects
         /// <summary>
         /// Returns the new "EcellObject" instance with initialized arguments.
         /// </summary>
-        /// <param name="l_modelID">The model ID</param>
-        /// <param name="l_key">The key</param>
-        /// <param name="l_type">The type</param>
-        /// <param name="l_class">The class</param>
-        /// <param name="l_data">The data</param>
+        /// <param name="modelID">The model ID</param>
+        /// <param name="key">The key</param>
+        /// <param name="type">The type</param>
+        /// <param name="classname">The class</param>
+        /// <param name="data">The data</param>
         /// <returns>The new "EcellObject" instance</returns>
-        public static EcellObject CreateObject(string l_modelID, string l_key,
-            string l_type, string l_class, List<EcellData> l_data)
+        public static EcellObject CreateObject(string modelID, string key,
+            string type, string classname, List<EcellData> data)
         {
-            if (PROCESS.Equals(l_type) )
-                return new EcellProcess(l_modelID, l_key, l_type, l_class, l_data);
-            else if (VARIABLE.Equals(l_type))
-                return new EcellVariable(l_modelID, l_key, l_type, l_class, l_data);
-            else if (SYSTEM.Equals(l_type))
-                return new EcellSystem(l_modelID, l_key, l_type, l_class, l_data);
-            else if (TEXT.Equals(l_type))
-                return new EcellText(l_modelID, l_key, l_type, l_class, l_data);
+            if (PROCESS.Equals(type) )
+                return new EcellProcess(modelID, key, type, classname, data);
+            else if (VARIABLE.Equals(type))
+                return new EcellVariable(modelID, key, type, classname, data);
+            else if (SYSTEM.Equals(type))
+                return new EcellSystem(modelID, key, type, classname, data);
+            else if (TEXT.Equals(type))
+                return new EcellText(modelID, key, type, classname, data);
             else
-                return new EcellObject(l_modelID, l_key, l_type, l_class, l_data);
+                return new EcellObject(modelID, key, type, classname, data);
         }
 
         /// <summary>

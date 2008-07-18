@@ -101,199 +101,199 @@ namespace Ecell
         /// <summary>
         /// Creates the entity of the full ID.
         /// </summary>
-        /// <param name="l_fullID">the created full ID</param>
+        /// <param name="fullID">the created full ID</param>
         /// <returns>the created entity</returns>
-        public EntityStub CreateEntityStub(string l_fullID)
+        public EntityStub CreateEntityStub(string fullID)
         {
-            return new EntityStub(this, l_fullID);
+            return new EntityStub(this, fullID);
         }
 
         /// <summary>
         /// Creates the logger of the full PN.
         /// </summary>
-        /// <param name="l_fullPN">The logged full PN</param>
-        public void CreateLogger(string l_fullPN)
+        /// <param name="fullPN">The logged full PN</param>
+        public void CreateLogger(string fullPN)
         {
-            string[] l_fullIDs = l_fullPN.Split(Constants.delimiterColon.ToCharArray());
-            if (l_fullIDs.Length != 4)
+            string[] fullIDs = fullPN.Split(Constants.delimiterColon.ToCharArray());
+            if (fullIDs.Length != 4)
             {
                 throw new Exception(MessageResources.ErrInvalidID);
             }
-            List<EcellObject> l_systemObjectList
-                    = m_env.DataManager.GetData(s_modelID, l_fullIDs[1]);
+            List<EcellObject> systemObjectList
+                    = m_env.DataManager.GetData(s_modelID, fullIDs[1]);
 
-            if (l_systemObjectList == null || l_systemObjectList.Count <= 0)
+            if (systemObjectList == null || systemObjectList.Count <= 0)
             {
                 throw new Exception(String.Format(MessageResources.ErrFindEnt,
-                    new object[] { l_fullPN }));
+                    new object[] { fullPN }));
             }
             //
             // Searchs the fullID
             //
-            string l_changedKey = null;
-            string l_changedType = null;
-            EcellObject l_changedObject = null;
-            foreach (EcellObject l_systemObject in l_systemObjectList)
+            string changedKey = null;
+            string changedType = null;
+            EcellObject changedObject = null;
+            foreach (EcellObject systemObject in systemObjectList)
             {
-                if (!l_systemObject.Type.Equals(Constants.xpathSystem))
+                if (!systemObject.Type.Equals(Constants.xpathSystem))
                 {
                     continue;
                 }
-                if (l_fullIDs[0].Equals(Constants.xpathSystem))
+                if (fullIDs[0].Equals(Constants.xpathSystem))
                 {
-                    if (l_systemObject.Key.Equals(l_fullIDs[2]))
+                    if (systemObject.Key.Equals(fullIDs[2]))
                     {
-                        if (l_systemObject.Value == null || l_systemObject.Value.Count <= 0)
+                        if (systemObject.Value == null || systemObject.Value.Count <= 0)
                         {
                             continue;
                         }
-                        foreach (EcellData l_systemData in l_systemObject.Value)
+                        foreach (EcellData systemData in systemObject.Value)
                         {
-                            if (l_systemData.Logable && l_systemData.Name.Equals(l_fullIDs[3]))
+                            if (systemData.Logable && systemData.Name.Equals(fullIDs[3]))
                             {
-                                l_systemData.Logged = true;
-                                l_changedKey = l_fullIDs[2];
-                                l_changedType = l_fullIDs[0];
-                                l_changedObject = l_systemObject;
+                                systemData.Logged = true;
+                                changedKey = fullIDs[2];
+                                changedType = fullIDs[0];
+                                changedObject = systemObject;
                                 break;
                             }
                         }
                     }
                 }
-                else if (l_fullIDs[0].Equals(Constants.xpathProcess) || l_fullIDs[0].Equals(Constants.xpathVariable))
+                else if (fullIDs[0].Equals(Constants.xpathProcess) || fullIDs[0].Equals(Constants.xpathVariable))
                 {
-                    if (l_systemObject.Children == null || l_systemObject.Children.Count <= 0)
+                    if (systemObject.Children == null || systemObject.Children.Count <= 0)
                     {
                         continue;
                     }
-                    foreach (EcellObject l_childObject in l_systemObject.Children)
+                    foreach (EcellObject childObject in systemObject.Children)
                     {
-                        if (l_childObject.Type.Equals(l_fullIDs[0])
-                                && l_childObject.Key.Equals(l_fullIDs[1] + Constants.delimiterColon + l_fullIDs[2]))
+                        if (childObject.Type.Equals(fullIDs[0])
+                                && childObject.Key.Equals(fullIDs[1] + Constants.delimiterColon + fullIDs[2]))
                         {
-                            if (l_childObject.Value == null || l_childObject.Value.Count <= 0)
+                            if (childObject.Value == null || childObject.Value.Count <= 0)
                             {
                                 continue;
                             }
-                            foreach (EcellData l_childData in l_childObject.Value)
+                            foreach (EcellData childData in childObject.Value)
                             {
-                                if (l_childData.Logable && l_childData.Name.Equals(l_fullIDs[3]))
+                                if (childData.Logable && childData.Name.Equals(fullIDs[3]))
                                 {
-                                    l_childData.Logged = true;
-                                    l_changedKey = l_fullIDs[1]
-                                            + Constants.delimiterColon + l_fullIDs[2];
-                                    l_changedType = l_fullIDs[0];
-                                    l_changedObject = l_childObject;
+                                    childData.Logged = true;
+                                    changedKey = fullIDs[1]
+                                            + Constants.delimiterColon + fullIDs[2];
+                                    changedType = fullIDs[0];
+                                    changedObject = childObject;
                                     break;
                                 }
                             }
                         }
-                        if (l_changedKey != null && l_changedType != null && l_changedObject != null)
+                        if (changedKey != null && changedType != null && changedObject != null)
                         {
                             break;
                         }
                     }
                 }
-                if (l_changedKey != null && l_changedType != null && l_changedObject != null)
+                if (changedKey != null && changedType != null && changedObject != null)
                 {
                     break;
                 }
             }
-            if (l_changedKey != null && l_changedType != null && l_changedObject != null)
+            if (changedKey != null && changedType != null && changedObject != null)
             {
                 m_env.DataManager.DataChanged(
-                        s_modelID, l_changedKey, l_changedType, l_changedObject);
+                        s_modelID, changedKey, changedType, changedObject);
                 m_env.PluginManager.LoggerAdd(
-                        s_modelID, l_changedType, l_changedKey, l_fullPN);
+                        s_modelID, changedType, changedKey, fullPN);
             }
             else
             {
                 throw new Exception(String.Format(MessageResources.ErrFindEnt,
-                    new object[] { l_fullPN }));
+                    new object[] { fullPN }));
             }
         }
 
         /// <summary>
         /// Creates the logger policy with some parameters.
         /// </summary>
-        /// <param name="l_savedStepCount">The saved step count</param>
-        /// <param name="l_savedInterval">The saved interval</param>
-        /// <param name="l_diskFullAction">The action if the HDD is full</param>
-        /// <param name="l_maxDiskSpace">The limit of the usable HDD</param>
+        /// <param name="savedStepCount">The saved step count</param>
+        /// <param name="savedInterval">The saved interval</param>
+        /// <param name="diskFullAction">The action if the HDD is full</param>
+        /// <param name="maxDiskSpace">The limit of the usable HDD</param>
         public void CreateLoggerPolicy(
-                int l_savedStepCount,
-                double l_savedInterval,
-                int l_diskFullAction,
-                int l_maxDiskSpace)
+                int savedStepCount,
+                double savedInterval,
+                int diskFullAction,
+                int maxDiskSpace)
         {
-            LoggerPolicy l_loggerPolicy
-                    = new LoggerPolicy(l_savedStepCount, l_savedInterval, l_diskFullAction, l_maxDiskSpace);
+            LoggerPolicy loggerPolicy
+                    = new LoggerPolicy(savedStepCount, savedInterval, diskFullAction, maxDiskSpace);
             m_env.DataManager.SetLoggerPolicy(m_env.DataManager.GetCurrentSimulationParameterID(),
-                    ref l_loggerPolicy);
+                    ref loggerPolicy);
         }
 
         /// <summary>
         /// Creates the logger stub of the full PN.
         /// </summary>
-        /// <param name="l_fullPN">The logged full PN</param>
+        /// <param name="fullPN">The logged full PN</param>
         /// <returns>the created logger stub</returns>
-        public LoggerStub CreateLoggerStub(string l_fullPN)
+        public LoggerStub CreateLoggerStub(string fullPN)
         {
-            return new LoggerStub(this, l_fullPN);
+            return new LoggerStub(this, fullPN);
         }
 
         /// <summary>
         /// Creates the model of the model ID.
         /// </summary>
-        /// <param name="l_modelID">the model ID</param>
-        public void CreateModel(string l_modelID)
+        /// <param name="modelID">the model ID</param>
+        public void CreateModel(string modelID)
         {
-            List<EcellObject> l_list = new List<EcellObject>();
-            l_list.Add(EcellObject.CreateObject(l_modelID, null, Constants.xpathModel, null, null));
-            m_env.DataManager.DataAdd(l_list);
+            List<EcellObject> list = new List<EcellObject>();
+            list.Add(EcellObject.CreateObject(modelID, null, Constants.xpathModel, null, null));
+            m_env.DataManager.DataAdd(list);
             m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
-            s_modelID = l_modelID;
+            s_modelID = modelID;
         }
 
         /// <summary>
         /// Creates the project.
         /// </summary>
-        /// <param name="l_projectID">The project name</param>
-        /// <param name="l_comment">The comment of the project</param>
-        public void CreateProject(string l_projectID, string l_comment)
+        /// <param name="projectID">The project name</param>
+        /// <param name="comment">The comment of the project</param>
+        public void CreateProject(string projectID, string comment)
         {
-            m_env.DataManager.CreateProject(l_projectID, l_comment, null, new List<string>());
+            m_env.DataManager.CreateProject(projectID, comment, null, new List<string>());
         }
 
         /// <summary>
         /// Creates the simulation parameter stub.
         /// </summary>
-        /// <param name="l_parameterID">the simulation parameter ID</param>
+        /// <param name="parameterID">the simulation parameter ID</param>
         /// <returns>the simulation parameter stub</returns>
-        public SimulationParameterStub CreateSimulationParameterStub(string l_parameterID)
+        public SimulationParameterStub CreateSimulationParameterStub(string parameterID)
         {
-            return new SimulationParameterStub(this, l_parameterID);
+            return new SimulationParameterStub(this, parameterID);
         }
 
         /// <summary>
         /// Creates the stepper stub.
         /// </summary>
-        /// <param name="l_ID">the created stepper ID</param>
+        /// <param name="ID">the created stepper ID</param>
         /// <returns>the created stepper stub</returns>
-        public StepperStub CreateStepperStub(string l_ID)
+        public StepperStub CreateStepperStub(string ID)
         {
-            return new StepperStub(this, l_ID);
+            return new StepperStub(this, ID);
         }
 
         /// <summary>
         /// Creates the stepper stub.
         /// </summary>
-        /// <param name="l_parameterID">the simulation parameter ID</param>
-        /// <param name="l_ID">the created stepper ID</param>
+        /// <param name="parameterID">the simulation parameter ID</param>
+        /// <param name="ID">the created stepper ID</param>
         /// <returns>the created stepper stub</returns>
-        public StepperStub CreateStepperStub(string l_parameterID, string l_ID)
+        public StepperStub CreateStepperStub(string parameterID, string ID)
         {
-            return new StepperStub(l_parameterID, l_ID);
+            return new StepperStub(parameterID, ID);
         }
 
         /// <summary>
@@ -301,112 +301,112 @@ namespace Ecell
         /// </summary>
         public void DeleteDefaultStepperStub()
         {
-            CommandManager.StepperStub l_defaultStepper
+            CommandManager.StepperStub defaultStepper
                 = this.CreateStepperStub("DefaultParameter", "DefaultStepper");
-            l_defaultStepper.Create("FixedODE1Stepper");
-            l_defaultStepper.Delete();
+            defaultStepper.Create("FixedODE1Stepper");
+            defaultStepper.Delete();
         }
 
         /// <summary>
         /// Deletes the logger of the full PN.
         /// </summary>
-        /// <param name="l_fullPN">the full PN</param>
-        public void DeleteLogger(string l_fullPN)
+        /// <param name="fullPN">the full PN</param>
+        public void DeleteLogger(string fullPN)
         {
-            string[] l_fullPNDivs = l_fullPN.Split(Constants.delimiterColon.ToCharArray());
-            if (l_fullPNDivs.Length != 4)
+            string[] fullPNDivs = fullPN.Split(Constants.delimiterColon.ToCharArray());
+            if (fullPNDivs.Length != 4)
             {
                 throw new Exception(MessageResources.ErrInvalidID);
             }
-            List<EcellObject> l_systemObjectList
-                    = m_env.DataManager.GetData(s_modelID, l_fullPNDivs[1]);
-            if (l_systemObjectList == null || l_systemObjectList.Count <= 0)
+            List<EcellObject> systemObjectList
+                    = m_env.DataManager.GetData(s_modelID, fullPNDivs[1]);
+            if (systemObjectList == null || systemObjectList.Count <= 0)
             {
                 throw new Exception(String.Format(MessageResources.ErrFindEnt,
-                    new object[] { l_fullPN }));
+                    new object[] { fullPN }));
             }
             //
             // Searchs the fullID
             //
-            string l_changedKey = null;
-            string l_changedType = null;
-            EcellObject l_changedObject = null;
-            foreach (EcellObject l_systemObject in l_systemObjectList)
+            string changedKey = null;
+            string changedType = null;
+            EcellObject changedObject = null;
+            foreach (EcellObject systemObject in systemObjectList)
             {
-                if (!l_systemObject.Type.Equals(Constants.xpathSystem))
+                if (!systemObject.Type.Equals(Constants.xpathSystem))
                 {
                     continue;
                 }
-                if (l_fullPNDivs[0].Equals(Constants.xpathSystem))
+                if (fullPNDivs[0].Equals(Constants.xpathSystem))
                 {
-                    if (l_systemObject.Key.Equals(l_fullPNDivs[2]))
+                    if (systemObject.Key.Equals(fullPNDivs[2]))
                     {
-                        if (l_systemObject.Value == null || l_systemObject.Value.Count <= 0)
+                        if (systemObject.Value == null || systemObject.Value.Count <= 0)
                         {
                             continue;
                         }
-                        foreach (EcellData l_systemValue in l_systemObject.Value)
+                        foreach (EcellData systemValue in systemObject.Value)
                         {
-                            if (l_systemValue.Logable && l_systemValue.Name.Equals(l_fullPNDivs[3]))
+                            if (systemValue.Logable && systemValue.Name.Equals(fullPNDivs[3]))
                             {
-                                l_systemValue.Logged = false;
-                                l_changedKey = l_fullPNDivs[2];
-                                l_changedType = l_fullPNDivs[0];
-                                l_changedObject = l_systemObject;
+                                systemValue.Logged = false;
+                                changedKey = fullPNDivs[2];
+                                changedType = fullPNDivs[0];
+                                changedObject = systemObject;
                                 break;
                             }
                         }
                     }
                 }
-                else if (l_fullPNDivs[0].Equals(Constants.xpathProcess)
-                        || l_fullPNDivs[0].Equals(Constants.xpathVariable))
+                else if (fullPNDivs[0].Equals(Constants.xpathProcess)
+                        || fullPNDivs[0].Equals(Constants.xpathVariable))
                 {
-                    if (l_systemObject.Children == null || l_systemObject.Children.Count <= 0)
+                    if (systemObject.Children == null || systemObject.Children.Count <= 0)
                     {
                         continue;
                     }
-                    foreach (EcellObject l_childObject in l_systemObject.Children)
+                    foreach (EcellObject childObject in systemObject.Children)
                     {
-                        if (l_childObject.Type.Equals(l_fullPNDivs[0])
-                                && l_childObject.Key.Equals(l_fullPNDivs[1]
-                                + Constants.delimiterColon + l_fullPNDivs[2]))
+                        if (childObject.Type.Equals(fullPNDivs[0])
+                                && childObject.Key.Equals(fullPNDivs[1]
+                                + Constants.delimiterColon + fullPNDivs[2]))
                         {
-                            if (l_childObject.Value == null || l_childObject.Value.Count <= 0)
+                            if (childObject.Value == null || childObject.Value.Count <= 0)
                             {
                                 continue;
                             }
-                            foreach (EcellData l_childValue in l_childObject.Value)
+                            foreach (EcellData childValue in childObject.Value)
                             {
-                                if (l_childValue.Logable && l_childValue.Name.Equals(l_fullPNDivs[3]))
+                                if (childValue.Logable && childValue.Name.Equals(fullPNDivs[3]))
                                 {
-                                    l_childValue.Logged = false;
-                                    l_changedKey = l_fullPNDivs[1]
-                                            + Constants.delimiterColon + l_fullPNDivs[2];
-                                    l_changedType = l_fullPNDivs[0];
-                                    l_changedObject = l_childObject;
+                                    childValue.Logged = false;
+                                    changedKey = fullPNDivs[1]
+                                            + Constants.delimiterColon + fullPNDivs[2];
+                                    changedType = fullPNDivs[0];
+                                    changedObject = childObject;
                                     break;
                                 }
                             }
                         }
-                        if (l_changedKey != null && l_changedType != null && l_changedObject != null)
+                        if (changedKey != null && changedType != null && changedObject != null)
                         {
                             break;
                         }
                     }
                 }
-                if (l_changedKey != null && l_changedType != null && l_changedObject != null)
+                if (changedKey != null && changedType != null && changedObject != null)
                 {
                     break;
                 }
             }
-            if (l_changedKey != null && l_changedType != null && l_changedObject != null)
+            if (changedKey != null && changedType != null && changedObject != null)
             {
-                m_env.DataManager.DataChanged(s_modelID, l_changedKey, l_changedType, l_changedObject);
+                m_env.DataManager.DataChanged(s_modelID, changedKey, changedType, changedObject);
             }
             else
             {
                 throw new Exception(String.Format(MessageResources.ErrFindEnt,
-                    new object[] { l_fullPN }));
+                    new object[] { fullPN }));
             }
 
         }
@@ -414,24 +414,24 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="l_execFileName"></param>
-        /// <param name="l_argument"></param>
-        public void Exec(string l_execFileName, string l_argument)
+        /// <param name="execFileName"></param>
+        /// <param name="argument"></param>
+        public void Exec(string execFileName, string argument)
         {
             try
             {
                 Process execProcess = new Process();
-                execProcess.StartInfo.Arguments = l_argument;
+                execProcess.StartInfo.Arguments = argument;
                 execProcess.StartInfo.CreateNoWindow = true;
-                execProcess.StartInfo.FileName = l_execFileName;
+                execProcess.StartInfo.FileName = execFileName;
                 execProcess.StartInfo.UseShellExecute = false;
                 execProcess.Start();
                 execProcess.WaitForExit();
             }
-            catch (Exception l_ex)
+            catch (Exception ex)
             {
                 throw new Exception(String.Format(MessageResources.ErrLoadFile,
-                    new object[] { l_execFileName }), l_ex);
+                    new object[] { execFileName }), ex);
             }
         }
 
@@ -465,68 +465,68 @@ namespace Ecell
         /// <summary>
         /// Returns the entity list.
         /// </summary>
-        /// <param name="l_entityName">The entity name</param>
-        /// <param name="l_systemPath">The system path</param>
+        /// <param name="entityName">The entity name</param>
+        /// <param name="systemPath">The system path</param>
         /// <returns>The entity list</returns>
-        public List<string> GetEntityList(string l_entityName, string l_systemPath)
+        public List<string> GetEntityList(string entityName, string systemPath)
         {
-            if (l_entityName == null || l_entityName.Length <= 0
-                    || l_systemPath == null || l_systemPath.Length <= 0)
+            if (entityName == null || entityName.Length <= 0
+                    || systemPath == null || systemPath.Length <= 0)
             {
                 return null;
             }
-            if (l_entityName.Equals(Constants.xpathSystem))
+            if (entityName.Equals(Constants.xpathSystem))
             {
-                List<string> l_list = new List<string>();
-                int depth = l_systemPath.Split(Constants.delimiterPath.ToCharArray()).Length;
-                if (l_systemPath.Equals(Constants.delimiterPath))
+                List<string> list = new List<string>();
+                int depth = systemPath.Split(Constants.delimiterPath.ToCharArray()).Length;
+                if (systemPath.Equals(Constants.delimiterPath))
                 {
-                    foreach (string l_system in m_env.DataManager.GetSystemList(s_modelID))
+                    foreach (string system in m_env.DataManager.GetSystemList(s_modelID))
                     {
-                        if (l_systemPath.Equals(l_system))
+                        if (systemPath.Equals(system))
                         {
                             continue;
                         }
-                        else if (depth == l_system.Split(Constants.delimiterPath.ToCharArray()).Length)
+                        else if (depth == system.Split(Constants.delimiterPath.ToCharArray()).Length)
                         {
-                            l_list.Add(l_system.Replace(Constants.delimiterPath, ""));
+                            list.Add(system.Replace(Constants.delimiterPath, ""));
                         }
                     }
                 }
                 else
                 {
-                    foreach (string l_system in m_env.DataManager.GetSystemList(s_modelID))
+                    foreach (string system in m_env.DataManager.GetSystemList(s_modelID))
                     {
-                        if (l_systemPath.Equals(l_system))
+                        if (systemPath.Equals(system))
                         {
                             continue;
                         }
-                        else if ((depth + 1) == l_system.Split(Constants.delimiterPath.ToCharArray()).Length)
+                        else if ((depth + 1) == system.Split(Constants.delimiterPath.ToCharArray()).Length)
                         {
-                            l_list.Add(l_system.Replace(l_systemPath, "").Replace(Constants.delimiterPath, ""));
+                            list.Add(system.Replace(systemPath, "").Replace(Constants.delimiterPath, ""));
                         }
                     }
                 }
-                return l_list;
+                return list;
             }
-            else if (l_entityName.Equals(Constants.xpathProcess) || l_entityName.Equals(Constants.xpathVariable))
+            else if (entityName.Equals(Constants.xpathProcess) || entityName.Equals(Constants.xpathVariable))
             {
-                List<string> l_list = new List<string>();
-                foreach (EcellObject l_parent in m_env.DataManager.GetData(s_modelID, l_systemPath))
+                List<string> list = new List<string>();
+                foreach (EcellObject parent in m_env.DataManager.GetData(s_modelID, systemPath))
                 {
-                    if (l_parent.Children == null || l_parent.Children.Count <= 0)
+                    if (parent.Children == null || parent.Children.Count <= 0)
                     {
                         continue;
                     }
-                    foreach (EcellObject l_child in l_parent.Children)
+                    foreach (EcellObject child in parent.Children)
                     {
-                        if (l_child.Type.Equals(l_entityName))
+                        if (child.Type.Equals(entityName))
                         {
-                            l_list.Add(l_child.Key.Split(Constants.delimiterColon.ToCharArray())[1]);
+                            list.Add(child.Key.Split(Constants.delimiterColon.ToCharArray())[1]);
                         }
                     }
                 }
-                return l_list;
+                return list;
             }
             else
             {
@@ -537,61 +537,61 @@ namespace Ecell
         /// <summary>
         /// Returns the entity property.
         /// </summary>
-        /// <param name="l_fullPN">The full PN</param>
+        /// <param name="fullPN">The full PN</param>
         /// <returns>The entity property of the full PN</returns>
-        public EcellValue GetEntityProperty(string l_fullPN)
+        public EcellValue GetEntityProperty(string fullPN)
         {
             if (this.GetCurrentSimulationTime() <= 0.0)
             {
-                return this.GetEntityPropertyFromDic(l_fullPN);
+                return this.GetEntityPropertyFromDic(fullPN);
             }
             else
             {
-                EcellValue v = this.GetEntityPropertyFromSimulator(l_fullPN);
-                return this.GetEntityPropertyFromSimulator(l_fullPN);
+                EcellValue v = this.GetEntityPropertyFromSimulator(fullPN);
+                return this.GetEntityPropertyFromSimulator(fullPN);
             }
         }
 
         /// <summary>
         /// Returns the entity property of the dic.
         /// </summary>
-        /// <param name="l_fullPN">The full PN</param>
+        /// <param name="fullPN">The full PN</param>
         /// <returns>The entity property of the full PN</returns>
-        private EcellValue GetEntityPropertyFromDic(string l_fullPN)
+        private EcellValue GetEntityPropertyFromDic(string fullPN)
         {
-            if (l_fullPN.IndexOf(Constants.delimiterColon) < 0)
+            if (fullPN.IndexOf(Constants.delimiterColon) < 0)
             {
                 return null;
             }
-            string[] pathElements = l_fullPN.Split(Constants.delimiterColon.ToCharArray());
+            string[] pathElements = fullPN.Split(Constants.delimiterColon.ToCharArray());
             if (pathElements[0].Equals(Constants.xpathSystem))
             {
-                EcellObject l_system
+                EcellObject system
                     = (m_env.DataManager.GetData(
                         s_modelID, pathElements[1] + Constants.delimiterColon + pathElements[2]))[0];
-                foreach (EcellData l_systemProperty in l_system.Value)
+                foreach (EcellData systemProperty in system.Value)
                 {
-                    if (l_systemProperty.Name.Equals(pathElements[3]))
+                    if (systemProperty.Name.Equals(pathElements[3]))
                     {
-                        return l_systemProperty.Value;
+                        return systemProperty.Value;
                     }
                 }
             }
             else
             {
-                EcellObject l_system
+                EcellObject system
                     = (m_env.DataManager.GetData(
                         s_modelID, pathElements[1]))[0];
-                foreach (EcellObject l_entity in l_system.Children)
+                foreach (EcellObject entity in system.Children)
                 {
-                    if (l_entity.Type.Equals(pathElements[0])
-                        && l_entity.Key.Equals(pathElements[1] + Constants.delimiterColon + pathElements[2]))
+                    if (entity.Type.Equals(pathElements[0])
+                        && entity.Key.Equals(pathElements[1] + Constants.delimiterColon + pathElements[2]))
                     {
-                        foreach (EcellData l_entityProperty in l_entity.Value)
+                        foreach (EcellData entityProperty in entity.Value)
                         {
-                            if (l_entityProperty.Name.Equals(pathElements[3]))
+                            if (entityProperty.Name.Equals(pathElements[3]))
                             {
-                                return l_entityProperty.Value;
+                                return entityProperty.Value;
                             }
                         }
                     }
@@ -603,11 +603,11 @@ namespace Ecell
         /// <summary>
         /// Returns the entity property of the simulator.
         /// </summary>
-        /// <param name="l_fullPN">The full PN</param>
+        /// <param name="fullPN">The full PN</param>
         /// <returns>The entity property of the full PN</returns>
-        private EcellValue GetEntityPropertyFromSimulator(string l_fullPN)
+        private EcellValue GetEntityPropertyFromSimulator(string fullPN)
         {
-            return m_env.DataManager.GetEntityProperty(l_fullPN);
+            return m_env.DataManager.GetEntityProperty(fullPN);
         }
 
         /// <summary>
@@ -616,32 +616,32 @@ namespace Ecell
         /// <returns>The logger list</returns>
         public List<string> GetLoggerList()
         {
-            List<string> l_list = new List<string>();
-            foreach (string l_systemPath in m_env.DataManager.GetSystemList(s_modelID))
+            List<string> list = new List<string>();
+            foreach (string systemPath in m_env.DataManager.GetSystemList(s_modelID))
             {
-                foreach (EcellObject l_system in m_env.DataManager.GetData(s_modelID, l_systemPath))
+                foreach (EcellObject system in m_env.DataManager.GetData(s_modelID, systemPath))
                 {
-                    if (l_system.Value != null && l_system.Value.Count > 0)
+                    if (system.Value != null && system.Value.Count > 0)
                     {
-                        foreach (EcellData l_data in l_system.Value)
+                        foreach (EcellData data in system.Value)
                         {
-                            if (l_data.Logged)
+                            if (data.Logged)
                             {
-                                l_list.Add(l_data.EntityPath);
+                                list.Add(data.EntityPath);
                             }
                         }
                     }
-                    if (l_system.Children != null && l_system.Children.Count > 0)
+                    if (system.Children != null && system.Children.Count > 0)
                     {
-                        foreach (EcellObject l_entity in l_system.Children)
+                        foreach (EcellObject entity in system.Children)
                         {
-                            if (l_entity.Value != null && l_entity.Value.Count > 0)
+                            if (entity.Value != null && entity.Value.Count > 0)
                             {
-                                foreach (EcellData l_data in l_entity.Value)
+                                foreach (EcellData data in entity.Value)
                                 {
-                                    if (l_data.Logged)
+                                    if (data.Logged)
                                     {
-                                        l_list.Add(l_data.EntityPath);
+                                        list.Add(data.EntityPath);
                                     }
                                 }
                             }
@@ -649,7 +649,7 @@ namespace Ecell
                     }
                 }
             }
-            return l_list;
+            return list;
         }
 
         /// <summary>
@@ -682,33 +682,33 @@ namespace Ecell
         /// <summary>
         /// Returns the stepper list.
         /// </summary>
-        /// <param name="l_parameterID">The parameter ID</param>
+        /// <param name="parameterID">The parameter ID</param>
         /// <returns>The stepper list</returns>
-        public List<string> GetStepperList(string l_parameterID)
+        public List<string> GetStepperList(string parameterID)
         {
-            List<string> l_list = new List<string>();
-            foreach (EcellObject l_stepper in m_env.DataManager.GetStepper(l_parameterID, s_modelID))
+            List<string> list = new List<string>();
+            foreach (EcellObject stepper in m_env.DataManager.GetStepper(parameterID, s_modelID))
             {
-                l_list.Add(l_stepper.Key);
+                list.Add(stepper.Key);
             }
-            return l_list;
+            return list;
         }
 
         /// <summary>
         /// Returns the selected log data.
         /// </summary>
-        /// <param name="l_startTime">The start time of the logger</param>
-        /// <param name="l_endTime">The end time of the logger</param>
-        /// <param name="l_fullPN">The logged full PN</param>
+        /// <param name="startTime">The start time of the logger</param>
+        /// <param name="endTime">The end time of the logger</param>
+        /// <param name="fullPN">The logged full PN</param>
         /// <returns></returns>
-        public List<LogValue> GetLogData(string l_fullPN, double l_startTime, double l_endTime)
+        public List<LogValue> GetLogData(string fullPN, double startTime, double endTime)
         {
-            double l_interval
+            double interval
                     = m_env.DataManager
                             .GetLoggerPolicy(m_env.DataManager.GetCurrentSimulationParameterID())
                             .m_reloadInterval;
             return m_env.DataManager
-                    .GetLogData(l_startTime, l_endTime, l_interval, l_fullPN).logValueList;
+                    .GetLogData(startTime, endTime, interval, fullPN).logValueList;
         }
 
         /// <summary>
@@ -761,27 +761,27 @@ namespace Ecell
         /// </summary>
         public void Interact()
         {
-            Process l_process = new Process();
-            l_process.StartInfo.FileName = Directory.GetCurrentDirectory() + "\\" + s_consoleExe;
-            l_process.Start();
+            Process process = new Process();
+            process.StartInfo.FileName = Directory.GetCurrentDirectory() + "\\" + s_consoleExe;
+            process.Start();
         }
 
         /// <summary>
         /// Loads the model.
         /// </summary>
-        /// <param name="l_fileName">The "EML" file name</param>
-        public void LoadModel(string l_fileName)
+        /// <param name="fileName">The "EML" file name</param>
+        public void LoadModel(string fileName)
         {
             if (m_env.DataManager.CurrentProjectID == null)
             {
-                String modelDir = Path.GetDirectoryName(l_fileName);
+                String modelDir = Path.GetDirectoryName(fileName);
                 if (modelDir.EndsWith(Constants.xpathModel))
                 {
                     modelDir = modelDir.Substring(0, modelDir.Length - 5);
                 }
                 m_env.DataManager.CreateProject(Constants.defaultPrjID, DateTime.Now.ToString(), modelDir, new List<string>());
             }
-            s_modelID = m_env.DataManager.LoadModel(l_fileName, false);
+            s_modelID = m_env.DataManager.LoadModel(fileName, false);
             m_env.PluginManager.LoadData(s_modelID);
             m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
         }
@@ -789,10 +789,10 @@ namespace Ecell
         /// <summary>
         /// Sends to the "Message" window the message.
         /// </summary>
-        /// <param name="l_message">The message</param>
-        public void Message(string l_message)
+        /// <param name="message">The message</param>
+        public void Message(string message)
         {
-            m_env.PluginManager.Message(Constants.messageSimulation, l_message);
+            m_env.PluginManager.Message(Constants.messageSimulation, message);
         }
 
         /// <summary>
@@ -806,75 +806,75 @@ namespace Ecell
         /// <summary>
         /// Runs the simulator.
         /// </summary>
-        /// <param name="l_interval">The time limit of the simulator</param>
-        public void Run(double l_interval)
+        /// <param name="interval">The time limit of the simulator</param>
+        public void Run(double interval)
         {
             m_env.PluginManager.ChangeStatus(ProjectStatus.Running);
-            m_env.DataManager.SimulationStartKeepSetting(l_interval);
+            m_env.DataManager.SimulationStartKeepSetting(interval);
         }
 
         /// <summary>
         /// Runs the simulator.
         /// </summary>
-        /// <param name="l_interval">The time limit of the simulator</param>
-        public void RunNotSuspend(double l_interval)
+        /// <param name="interval">The time limit of the simulator</param>
+        public void RunNotSuspend(double interval)
         {
             m_env.PluginManager.ChangeStatus(ProjectStatus.Running);
-            m_env.DataManager.SimulationStart(l_interval, 0);
+            m_env.DataManager.SimulationStart(interval, 0);
         }
 
         /// <summary>
         /// Saves the selected log data.
         /// </summary>
-        /// <param name="l_savedDirName">The saved directory name</param>
-        /// <param name="l_startTime">The start time</param>
-        /// <param name="l_endTime">The end time</param>
-        /// <param name="l_fullID">The logged full ID</param>
-        public void SaveLoggerData(string l_fullID, string l_savedDirName, double l_startTime, double l_endTime)
+        /// <param name="savedDirName">The saved directory name</param>
+        /// <param name="startTime">The start time</param>
+        /// <param name="endTime">The end time</param>
+        /// <param name="fullID">The logged full ID</param>
+        public void SaveLoggerData(string fullID, string savedDirName, double startTime, double endTime)
         {
-            List<string> l_fullIDList = new List<string>();
-            l_fullIDList.Add(l_fullID);
+            List<string> fullIDList = new List<string>();
+            fullIDList.Add(fullID);
             m_env.DataManager
-                    .SaveSimulationResult(l_savedDirName, l_startTime, l_endTime, Constants.xpathCsv, l_fullIDList);
+                    .SaveSimulationResult(savedDirName, startTime, endTime, Constants.xpathCsv, fullIDList);
         }
 
         /// <summary>
         /// Saves the model.
         /// </summary>
-        /// <param name="l_modelID">The saved model ID</param>
-        public void SaveModel(string l_modelID)
+        /// <param name="modelID">The saved model ID</param>
+        public void SaveModel(string modelID)
         {
-            m_env.DataManager.SaveModel(l_modelID);
+            m_env.DataManager.SaveModel(modelID);
         }
 
         /// <summary>
         /// Sets the entity property.
         /// </summary>
-        /// <param name="l_fullPN">The full PN</param>
-        /// <param name="l_value">The property value</param>
-        public void SetEntityProperty(string l_fullPN, string l_value)
+        /// <param name="fullPN">The full PN</param>
+        /// <param name="value">The property value</param>
+        public void SetEntityProperty(string fullPN, string value)
         {
-            m_env.DataManager.SetEntityProperty(l_fullPN, l_value);
+            m_env.DataManager.SetEntityProperty(fullPN, value);
         }
 
         /// <summary>
         /// Steps the simulator.
         /// </summary>
-        /// <param name="l_count">The step limit of the simulator</param>
-        public void Step(int l_count)
+        /// <param name="count">The step limit of the simulator</param>
+        public void Step(int count)
         {
             m_env.PluginManager.ChangeStatus(ProjectStatus.Running);
-            m_env.DataManager.SimulationStartKeepSetting(l_count);
+            m_env.DataManager.SimulationStartKeepSetting(count);
         }
 
         /// <summary>
         /// Steps the simulator.
         /// </summary>
-        /// <param name="l_count">The step limit of the simulator</param>
-        public void StepNotSuspend(int l_count)
+        /// <param name="count">The step limit of the simulator</param>
+        public void StepNotSuspend(int count)
         {
             m_env.PluginManager.ChangeStatus(ProjectStatus.Running);
-            m_env.DataManager.SimulationStart(l_count, 0);
+            m_env.DataManager.SimulationStart(count, 0);
         }
 
         /// <summary>
@@ -898,16 +898,16 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="l_type">data type to set initial parameter.</param>
-        /// <param name="l_initialDic">the dictionary of initial parameter.</param>
-        public void UpdateInitialCondition(string l_type, Dictionary<string, double> l_initialDic)
+        /// <param name="type">data type to set initial parameter.</param>
+        /// <param name="initialDic">the dictionary of initial parameter.</param>
+        public void UpdateInitialCondition(string type, Dictionary<string, double> initialDic)
         {
-            if (l_type == null || l_type.Length <= 0
-                || l_initialDic == null || l_initialDic.Count <= 0)
+            if (type == null || type.Length <= 0
+                || initialDic == null || initialDic.Count <= 0)
             {
                 return;
             }
-            m_env.DataManager.UpdateInitialCondition(null, s_modelID, l_type, l_initialDic);
+            m_env.DataManager.UpdateInitialCondition(null, s_modelID, type, initialDic);
         }
 
 
@@ -934,18 +934,18 @@ namespace Ecell
             /// Creates the new "EntityStub" instance with the full ID.
             /// </summary>
             /// <param name="cManager">CommandManager instance to associate</param>
-            /// <param name="l_fullID">the full ID</param>
-            public EntityStub(CommandManager cManager, string l_fullID)
+            /// <param name="fullID">the full ID</param>
+            public EntityStub(CommandManager cManager, string fullID)
             {
                 this.m_cManager = cManager;
-                this.m_fullID = l_fullID;
+                this.m_fullID = fullID;
             }
 
             /// <summary>
             /// Creates the entity stub.
             /// </summary>
-            /// <param name="l_className">the class name</param>
-            public void Create(string l_className)
+            /// <param name="className">the class name</param>
+            public void Create(string className)
             {
                 Debug.Assert(!String.IsNullOrEmpty(s_modelID));
 
@@ -959,31 +959,31 @@ namespace Ecell
                 //
                 // Refines the full ID
                 //
-                string l_key = null;
-                string l_type = null;
-                string l_systemKey = null;
-                this.RefinedFullID(ref l_key, ref l_type, ref l_systemKey);
+                string key = null;
+                string type = null;
+                string systemKey = null;
+                this.RefinedFullID(ref key, ref type, ref systemKey);
                 //
                 // Searches the loaded "EcellObject".
                 //
-                foreach (EcellObject l_system
+                foreach (EcellObject system
                         in m_cManager.DataManager.GetData(
-                            CommandManager.s_modelID, l_systemKey))
+                            CommandManager.s_modelID, systemKey))
                 {
-                    if (l_type.Equals(Constants.xpathSystem))
+                    if (type.Equals(Constants.xpathSystem))
                     {
-                        this.m_ecellObject = l_system;
+                        this.m_ecellObject = system;
                         return;
                     }
                     else
                     {
-                        if (l_system.Children != null && l_system.Children.Count > 0)
+                        if (system.Children != null && system.Children.Count > 0)
                         {
-                            foreach (EcellObject l_entity in l_system.Children)
+                            foreach (EcellObject entity in system.Children)
                             {
-                                if (l_entity.Type.Equals(l_type) && l_entity.Key.Equals(l_key))
+                                if (entity.Type.Equals(type) && entity.Key.Equals(key))
                                 {
-                                    this.m_ecellObject = l_entity;
+                                    this.m_ecellObject = entity;
                                     return;
                                 }
                             }
@@ -996,85 +996,85 @@ namespace Ecell
                 //
                 // Checks whether the class exists.
                 //
-                this.Create(l_key, l_type, l_className);
+                this.Create(key, type, className);
                 //
                 // Adds the "EcellObject" to the "DataManager". 
                 //
-                List<EcellObject> l_list = new List<EcellObject>();
-                l_list.Add(this.m_ecellObject);
-                m_cManager.DataManager.DataAdd(l_list);
+                List<EcellObject> list = new List<EcellObject>();
+                list.Add(this.m_ecellObject);
+                m_cManager.DataManager.DataAdd(list);
             }
 
             /// <summary>
             /// Creates the entity stub with some parameters.
             /// </summary>
-            /// <param name="l_key">the "System" path of the entity.</param>
-            /// <param name="l_type">the type of entity</param>
-            /// <param name="l_className">the class name</param>
-            private void Create(string l_key, string l_type, string l_className)
+            /// <param name="key">the "System" path of the entity.</param>
+            /// <param name="type">the type of entity</param>
+            /// <param name="className">the class name</param>
+            private void Create(string key, string type, string className)
             {
-                List<string> l_entityList = null;
-                if (l_type.Equals(Constants.xpathSystem))
+                List<string> entityList = null;
+                if (type.Equals(Constants.xpathSystem))
                 {
-                    l_entityList = m_cManager.DataManager.GetSystemList();
+                    entityList = m_cManager.DataManager.GetSystemList();
                 }
-                else if (l_type.Equals(Constants.xpathProcess))
+                else if (type.Equals(Constants.xpathProcess))
                 {
-                    l_entityList = m_cManager.DataManager.GetProcessList();
+                    entityList = m_cManager.DataManager.GetProcessList();
                 }
-                else if (l_type.Equals(Constants.xpathVariable))
+                else if (type.Equals(Constants.xpathVariable))
                 {
-                    l_entityList = m_cManager.DataManager.GetVariableList();
+                    entityList = m_cManager.DataManager.GetVariableList();
                 }
 
-                if (l_entityList != null && l_entityList.Count > 0)
+                if (entityList != null && entityList.Count > 0)
                 {
-                    foreach (string l_entity in l_entityList)
+                    foreach (string entity in entityList)
                     {
-                        if (l_className.Equals(l_entity))
+                        if (className.Equals(entity))
                         {
-                            List<EcellData> l_propertyList = new List<EcellData>();
-                            if (l_type.Equals(Constants.xpathSystem))
+                            List<EcellData> propertyList = new List<EcellData>();
+                            if (type.Equals(Constants.xpathSystem))
                             {
-                                Dictionary<string, EcellData> l_propertyDic
+                                Dictionary<string, EcellData> propertyDic
                                         = m_cManager.DataManager.GetSystemProperty();
-                                foreach (string l_property in m_cManager.DataManager.GetSystemProperty().Keys)
+                                foreach (string property in m_cManager.DataManager.GetSystemProperty().Keys)
                                 {
-                                    EcellData l_ecellData = l_propertyDic[l_property];
-                                    l_ecellData.EntityPath
-                                            = l_type + Constants.delimiterColon
-                                            + l_key + Constants.delimiterColon + l_property;
-                                    l_propertyList.Add(l_ecellData);
+                                    EcellData ecellData = propertyDic[property];
+                                    ecellData.EntityPath
+                                            = type + Constants.delimiterColon
+                                            + key + Constants.delimiterColon + property;
+                                    propertyList.Add(ecellData);
                                 }
                             }
-                            else if (l_type.Equals(Constants.xpathProcess))
+                            else if (type.Equals(Constants.xpathProcess))
                             {
-                                Dictionary<string, EcellData> l_propertyDic
-                                        = m_cManager.DataManager.GetProcessProperty(l_className);
-                                foreach (string l_property in l_propertyDic.Keys)
+                                Dictionary<string, EcellData> propertyDic
+                                        = m_cManager.DataManager.GetProcessProperty(className);
+                                foreach (string property in propertyDic.Keys)
                                 {
-                                    EcellData l_ecellData = l_propertyDic[l_property];
-                                    l_ecellData.EntityPath
-                                            = l_type + Constants.delimiterColon
-                                            + l_key + Constants.delimiterColon + l_property;
-                                    l_propertyList.Add(l_ecellData);
+                                    EcellData ecellData = propertyDic[property];
+                                    ecellData.EntityPath
+                                            = type + Constants.delimiterColon
+                                            + key + Constants.delimiterColon + property;
+                                    propertyList.Add(ecellData);
                                 }
                             }
                             else
                             {
-                                Dictionary<string, EcellData> l_propertyDic
+                                Dictionary<string, EcellData> propertyDic
                                         = m_cManager.DataManager.GetVariableProperty();
-                                foreach (string l_property in m_cManager.DataManager.GetVariableProperty().Keys)
+                                foreach (string property in m_cManager.DataManager.GetVariableProperty().Keys)
                                 {
-                                    EcellData l_ecellData = l_propertyDic[l_property];
-                                    l_ecellData.EntityPath
-                                            = l_type + Constants.delimiterColon
-                                            + l_key + Constants.delimiterColon + l_property;
-                                    l_propertyList.Add(l_ecellData);
+                                    EcellData ecellData = propertyDic[property];
+                                    ecellData.EntityPath
+                                            = type + Constants.delimiterColon
+                                            + key + Constants.delimiterColon + property;
+                                    propertyList.Add(ecellData);
                                 }
                             }
                             this.m_ecellObject = EcellObject.CreateObject(
-                                    CommandManager.s_modelID, l_key, l_type, l_className, l_propertyList);
+                                    CommandManager.s_modelID, key, type, className, propertyList);
                             return;
                         }
                     }
@@ -1086,11 +1086,11 @@ namespace Ecell
             /// </summary>
             public void Delete()
             {
-                string l_key = null;
-                string l_type = null;
-                string l_systemKey = null;
-                this.RefinedFullID(ref l_key, ref l_type, ref l_systemKey);
-                m_cManager.DataManager.DataDelete(CommandManager.s_modelID, l_key, l_type);
+                string key = null;
+                string type = null;
+                string systemKey = null;
+                this.RefinedFullID(ref key, ref type, ref systemKey);
+                m_cManager.DataManager.DataDelete(CommandManager.s_modelID, key, type);
                 this.m_ecellObject = null;
                 this.m_fullID = null;
             }
@@ -1129,19 +1129,19 @@ namespace Ecell
             /// <summary>
             /// Returns the value of the property.
             /// </summary>
-            /// <param name="l_propertyName">the property name</param>
+            /// <param name="propertyName">the property name</param>
             /// <returns>the value of the property</returns>
-            public string GetProperty(string l_propertyName)
+            public string GetProperty(string propertyName)
             {
                 if (this.m_ecellObject != null)
                 {
                     if (this.m_ecellObject.Value != null && this.m_ecellObject.Value.Count > 0)
                     {
-                        foreach (EcellData l_data in this.m_ecellObject.Value)
+                        foreach (EcellData data in this.m_ecellObject.Value)
                         {
-                            if (l_data.Name.Equals(l_propertyName))
+                            if (data.Name.Equals(propertyName))
                             {
-                                return l_data.Value.ToString();
+                                return data.Value.ToString();
                             }
                         }
                     }
@@ -1152,24 +1152,24 @@ namespace Ecell
             /// <summary>
             /// Returns the attributes of the property.
             /// </summary>
-            /// <param name="l_propertyName">the property name</param>
+            /// <param name="propertyName">the property name</param>
             /// <returns>the attributes of the property(Settable, Gettable, Loadable, Savable)</returns>
-            public List<bool> GetPropertyAttributes(string l_propertyName)
+            public List<bool> GetPropertyAttributes(string propertyName)
             {
                 if (this.m_ecellObject != null)
                 {
                     if (this.m_ecellObject.Value != null && this.m_ecellObject.Value.Count > 0)
                     {
-                        foreach (EcellData l_data in this.m_ecellObject.Value)
+                        foreach (EcellData data in this.m_ecellObject.Value)
                         {
-                            if (l_data.Name.Equals(l_propertyName))
+                            if (data.Name.Equals(propertyName))
                             {
-                                List<bool> l_list = new List<bool>();
-                                l_list.Add(l_data.Settable);
-                                l_list.Add(l_data.Gettable);
-                                l_list.Add(l_data.Loadable);
-                                l_list.Add(l_data.Saveable);
-                                return l_list;
+                                List<bool> list = new List<bool>();
+                                list.Add(data.Settable);
+                                list.Add(data.Gettable);
+                                list.Add(data.Loadable);
+                                list.Add(data.Saveable);
+                                return list;
                             }
                         }
                     }
@@ -1187,13 +1187,13 @@ namespace Ecell
                 {
                     if (this.m_ecellObject.Value != null && this.m_ecellObject.Value.Count > 0)
                     {
-                        List<string> l_list = new List<string>();
-                        foreach (EcellData l_data in this.m_ecellObject.Value)
+                        List<string> list = new List<string>();
+                        foreach (EcellData data in this.m_ecellObject.Value)
                         {
-                            l_list.Add(l_data.Name);
+                            list.Add(data.Name);
                         }
-                        l_list.Sort();
-                        return l_list;
+                        list.Sort();
+                        return list;
                     }
                 }
                 return null;
@@ -1207,30 +1207,30 @@ namespace Ecell
                 //
                 // Refines the full ID
                 //
-                string l_key = null;
-                string l_type = null;
-                string l_systemKey = null;
-                this.RefinedFullID(ref l_key, ref l_type, ref l_systemKey);
+                string key = null;
+                string type = null;
+                string systemKey = null;
+                this.RefinedFullID(ref key, ref type, ref systemKey);
                 //
                 // Searches the loaded "EcellObject".
                 //
-                foreach (EcellObject l_system
-                        in m_cManager.DataManager.GetData(CommandManager.s_modelID, l_systemKey))
+                foreach (EcellObject system
+                        in m_cManager.DataManager.GetData(CommandManager.s_modelID, systemKey))
                 {
-                    if (l_type.Equals(Constants.xpathSystem))
+                    if (type.Equals(Constants.xpathSystem))
                     {
-                        this.m_ecellObject = l_system;
+                        this.m_ecellObject = system;
                         return;
                     }
                     else
                     {
-                        if (l_system.Children != null && l_system.Children.Count > 0)
+                        if (system.Children != null && system.Children.Count > 0)
                         {
-                            foreach (EcellObject l_entity in l_system.Children)
+                            foreach (EcellObject entity in system.Children)
                             {
-                                if (l_entity.Type.Equals(l_type) && l_entity.Key.Equals(l_key))
+                                if (entity.Type.Equals(type) && entity.Key.Equals(key))
                                 {
-                                    this.m_ecellObject = l_entity;
+                                    this.m_ecellObject = entity;
                                     return;
                                 }
                             }
@@ -1242,44 +1242,44 @@ namespace Ecell
             /// <summary>
             /// Refines the information of the full ID.
             /// </summary>
-            /// <param name="l_key">the system path of the entity</param>
-            /// <param name="l_type">the type of the entity</param>
-            /// <param name="l_systemKey">the system path of the entity</param>
-            private void RefinedFullID(ref string l_key, ref string l_type, ref string l_systemKey)
+            /// <param name="key">the system path of the entity</param>
+            /// <param name="type">the type of the entity</param>
+            /// <param name="systemKey">the system path of the entity</param>
+            private void RefinedFullID(ref string key, ref string type, ref string systemKey)
             {
-                string[] l_infos = this.m_fullID.Split(Constants.delimiterColon.ToCharArray());
+                string[] infos = this.m_fullID.Split(Constants.delimiterColon.ToCharArray());
 
-                l_key = null;
-                l_type = l_infos[0];
-                l_systemKey = null;
-                if (l_infos[1].Equals("") && l_infos[2].Equals(Constants.delimiterPath))
+                key = null;
+                type = infos[0];
+                systemKey = null;
+                if (infos[1].Equals("") && infos[2].Equals(Constants.delimiterPath))
                 {
-                    l_key = Constants.delimiterPath;
-                    l_systemKey = Constants.delimiterPath;
+                    key = Constants.delimiterPath;
+                    systemKey = Constants.delimiterPath;
                 }
                 else
                 {
-                    if (l_infos[0].Equals(Constants.xpathSystem))
+                    if (infos[0].Equals(Constants.xpathSystem))
                     {
-                        l_key = l_infos[1] + Constants.delimiterPath + l_infos[2];
-                        l_systemKey = l_infos[1] + Constants.delimiterPath + l_infos[2];
+                        key = infos[1] + Constants.delimiterPath + infos[2];
+                        systemKey = infos[1] + Constants.delimiterPath + infos[2];
                     }
                     else
                     {
-                        l_key = l_infos[1] + Constants.delimiterColon + l_infos[2];
-                        l_systemKey = l_infos[1];
+                        key = infos[1] + Constants.delimiterColon + infos[2];
+                        systemKey = infos[1];
                     }
-                    l_key = l_key.Replace(Constants.delimiterPath + Constants.delimiterPath, Constants.delimiterPath);
-                    l_systemKey = l_systemKey.Replace(Constants.delimiterPath + Constants.delimiterPath, Constants.delimiterPath);
+                    key = key.Replace(Constants.delimiterPath + Constants.delimiterPath, Constants.delimiterPath);
+                    systemKey = systemKey.Replace(Constants.delimiterPath + Constants.delimiterPath, Constants.delimiterPath);
                 }
             }
 
             /// <summary>
             /// Sets the value of the property.
             /// </summary>
-            /// <param name="l_propertyName">the property</param>
-            /// <param name="l_value">the value</param>
-            public void SetProperty(string l_propertyName, string l_value)
+            /// <param name="propertyName">the property</param>
+            /// <param name="value">the value</param>
+            public void SetProperty(string propertyName, string value)
             {
                 //
                 // Get a current EcellObject.
@@ -1292,70 +1292,70 @@ namespace Ecell
                 {
                     if (this.m_ecellObject.Value != null && this.m_ecellObject.Value.Count > 0)
                     {
-                        bool l_findFlag = false;
+                        bool findFlag = false;
                         for (int i = 0; i < this.m_ecellObject.Value.Count; i++)
                         {
-                            EcellData l_data = this.m_ecellObject.Value[i];
-                            if (l_data.Name.Equals(l_propertyName))
+                            EcellData data = this.m_ecellObject.Value[i];
+                            if (data.Name.Equals(propertyName))
                             {
-                                if (!l_data.Settable)
+                                if (!data.Settable)
                                 {
                                     throw new Exception(String.Format(MessageResources.ErrSetProp,
-                                        new object[] { l_propertyName }));
+                                        new object[] { propertyName }));
                                 }
-                                else if (l_propertyName.Equals(Constants.xpathVRL))
+                                else if (propertyName.Equals(Constants.xpathVRL))
                                 {
-                                    l_data.Value = EcellValue.ToVariableReferenceList(l_value);
+                                    data.Value = EcellValue.ToVariableReferenceList(value);
                                     //
                                     // Exchange ":.:" for ":[path]:".
                                     //
-                                    string l_path = this.m_fullID.Split(Constants.delimiterColon.ToCharArray())[1];
-                                    for (int j = 0; j < l_data.Value.CastToList().Count; j++)
+                                    string path = this.m_fullID.Split(Constants.delimiterColon.ToCharArray())[1];
+                                    for (int j = 0; j < data.Value.CastToList().Count; j++)
                                     {
-                                        string[] l_IDs
-                                            = l_data.Value.CastToList()[j].CastToList()[1].CastToString()
+                                        string[] IDs
+                                            = data.Value.CastToList()[j].CastToList()[1].CastToString()
                                                 .Split(Constants.delimiterColon.ToCharArray());
-                                        if (l_IDs[1].Equals(Constants.delimiterPeriod))
+                                        if (IDs[1].Equals(Constants.delimiterPeriod))
                                         {
-                                            l_IDs[1] = l_path;
+                                            IDs[1] = path;
                                         }
-                                        string l_ID = null;
-                                        foreach (string l_IDElement in l_IDs)
+                                        string ID = null;
+                                        foreach (string IDElement in IDs)
                                         {
-                                            l_ID = l_ID + Constants.delimiterColon + l_IDElement;
+                                            ID = ID + Constants.delimiterColon + IDElement;
                                         }
-                                        l_data.Value.CastToList()[j].CastToList()[1]
-                                            = new EcellValue(l_ID.Substring(1));
+                                        data.Value.CastToList()[j].CastToList()[1]
+                                            = new EcellValue(ID.Substring(1));
                                     }
-                                    l_findFlag = true;
+                                    findFlag = true;
                                 }
-                                else if (l_data.Value.IsDouble())
+                                else if (data.Value.IsDouble())
                                 {
-                                    l_data.Value = new EcellValue(XmlConvert.ToDouble(l_value));
-                                    l_findFlag = true;
+                                    data.Value = new EcellValue(XmlConvert.ToDouble(value));
+                                    findFlag = true;
                                 }
-                                else if (l_data.Value.IsInt())
+                                else if (data.Value.IsInt())
                                 {
-                                    l_data.Value = new EcellValue(Convert.ToInt32(l_value));
-                                    l_findFlag = true;
+                                    data.Value = new EcellValue(Convert.ToInt32(value));
+                                    findFlag = true;
                                 }
-                                else if (l_data.Value.IsString())
+                                else if (data.Value.IsString())
                                 {
-                                    l_data.Value = new EcellValue(l_value);
-                                    l_findFlag = true;
+                                    data.Value = new EcellValue(value);
+                                    findFlag = true;
                                 }
                             }
                         }
-                        if (!l_findFlag)
+                        if (!findFlag)
                         {
-                            EcellData l_new
+                            EcellData newData
                                 = new EcellData(
-                                    l_propertyName,
-                                    new EcellValue(Convert.ToDouble(l_value)),
-                                    this.m_fullID + Constants.delimiterColon + l_propertyName);
-                            l_new.Logable = true;
-                            this.m_ecellObject.Value.Add(l_new);
-                            // throw new Exception("The property named [" + l_propertyName + "]" + "isn't found.");
+                                    propertyName,
+                                    new EcellValue(Convert.ToDouble(value)),
+                                    this.m_fullID + Constants.delimiterColon + propertyName);
+                            newData.Logable = true;
+                            this.m_ecellObject.Value.Add(newData);
+                            // throw new Exception("The property named [" + propertyName + "]" + "isn't found.");
                         }
                         m_cManager.DataManager.DataChanged(
                                 this.m_ecellObject.ModelID,
@@ -1392,11 +1392,11 @@ namespace Ecell
             /// Creates the new "LoggerStub" instance with the full PN.
             /// </summary>
             /// <param name="cManager">the CommandManager assciated this object.</param>
-            /// <param name="l_fullPN">the full PN</param>
-            public LoggerStub(CommandManager cManager, string l_fullPN)
+            /// <param name="fullPN">the full PN</param>
+            public LoggerStub(CommandManager cManager, string fullPN)
             {
                 this.m_cManager = cManager;
-                this.m_fullPN = l_fullPN;
+                this.m_fullPN = fullPN;
             }
 
             /// <summary>
@@ -1433,9 +1433,9 @@ namespace Ecell
             /// Returns the log data from the start time to the end time.
             /// </summary>
             /// <returns>the log data from the start time to the end time</returns>
-            public List<LogValue> GetData(double l_startTime, double l_endTime)
+            public List<LogValue> GetData(double startTime, double endTime)
             {
-                return m_cManager.GetLogData(this.m_fullPN, l_startTime, l_endTime);
+                return m_cManager.GetLogData(this.m_fullPN, startTime, endTime);
             }
 
             /// <summary>
@@ -1444,12 +1444,12 @@ namespace Ecell
             /// <returns>the end time of the logger</returns>
             public double GetEndTime()
             {
-                List<LogValue> l_logDataList =
+                List<LogValue> logDataList =
                         m_cManager.GetLogData(
                                 this.m_fullPN,
                                 0.0,
                                 m_cManager.GetCurrentSimulationTime());
-                return l_logDataList[l_logDataList.Count - 1].time;
+                return logDataList[logDataList.Count - 1].time;
             }
 
             /// <summary>
@@ -1476,12 +1476,12 @@ namespace Ecell
             /// <returns>the size of the logger</returns>
             public int GetSize()
             {
-                List<LogValue> l_logDataList =
+                List<LogValue> logDataList =
                         m_cManager.GetLogData(
                             this.m_fullPN,
                             0.0,
                             m_cManager.GetCurrentSimulationTime());
-                return l_logDataList.Count;
+                return logDataList.Count;
             }
 
             /// <summary>
@@ -1490,28 +1490,28 @@ namespace Ecell
             /// <returns>the start time of the logger</returns>
             public double GetStartTime()
             {
-                List<LogValue> l_logDataList =
+                List<LogValue> logDataList =
                     m_cManager.GetLogData(
                         this.m_fullPN, 0.0,
                         m_cManager.GetCurrentSimulationTime());
-                return l_logDataList[0].time;
+                return logDataList[0].time;
             }
 
             /// <summary>
             /// Sets the logger policy of the logger.
             /// </summary>
-            /// <param name="l_savedStepCount">the saved step count</param>
-            /// <param name="l_savedInterval">the saved interval</param>
-            /// <param name="l_diskFullAction">the HDD full action</param>
-            /// <param name="l_maxDiskSpace">the max HDD space</param>
+            /// <param name="savedStepCount">the saved step count</param>
+            /// <param name="savedInterval">the saved interval</param>
+            /// <param name="diskFullAction">the HDD full action</param>
+            /// <param name="maxDiskSpace">the max HDD space</param>
             public void SetLoggerPolicy(
-                    int l_savedStepCount,
-                    double l_savedInterval,
-                    int l_diskFullAction,
-                    int l_maxDiskSpace)
+                    int savedStepCount,
+                    double savedInterval,
+                    int diskFullAction,
+                    int maxDiskSpace)
             {
                 m_cManager.CreateLoggerPolicy(
-                        l_savedStepCount, l_savedInterval, l_diskFullAction, l_maxDiskSpace);
+                        savedStepCount, savedInterval, diskFullAction, maxDiskSpace);
             }
         }
 
@@ -1546,11 +1546,11 @@ namespace Ecell
             /// Creates the simulation parameter stub with the simulation parameter ID.
             /// </summary>
             /// <param name="cManager">the CommandManager associated this object.</param>
-            /// <param name="l_parameterID">the simulation parameter ID</param>
-            public SimulationParameterStub(CommandManager cManager, string l_parameterID)
+            /// <param name="parameterID">the simulation parameter ID</param>
+            public SimulationParameterStub(CommandManager cManager, string parameterID)
             {
                 this.m_cManager = cManager;
-                this.m_parameterID = l_parameterID;
+                this.m_parameterID = parameterID;
             }
 
             /// <summary>
@@ -1569,16 +1569,16 @@ namespace Ecell
                 //
                 // Searches the simulation parameter.
                 // 
-                bool l_existFlag = false;
-                foreach (string l_parameterID in m_cManager.GetSimulationParameterIDList())
+                bool existFlag = false;
+                foreach (string parameterID in m_cManager.GetSimulationParameterIDList())
                 {
-                    if (this.m_parameterID.Equals(l_parameterID))
+                    if (this.m_parameterID.Equals(parameterID))
                     {
-                        l_existFlag = true;
+                        existFlag = true;
                         break;
                     }
                 }
-                if (!l_existFlag)
+                if (!existFlag)
                 {
                     m_cManager.DataManager.CreateSimulationParameter(this.m_parameterID);
                 }
@@ -1602,11 +1602,11 @@ namespace Ecell
             /// <summary>
             /// Creates the stepper stub.
             /// </summary>
-            /// <param name="l_stepperID">the stepper ID</param>
+            /// <param name="stepperID">the stepper ID</param>
             /// <returns>the created stepper stub</returns>
-            public StepperStub CreateStepperStub(string l_stepperID)
+            public StepperStub CreateStepperStub(string stepperID)
             {
-                return new StepperStub(this.m_parameterID, l_stepperID);
+                return new StepperStub(this.m_parameterID, stepperID);
             }
 
             /// <summary>
@@ -1627,9 +1627,9 @@ namespace Ecell
             /// <returns>true if the simulation parameter is loaded; false otherwise</returns>
             public bool Exists()
             {
-                foreach (string l_parameterID in m_cManager.DataManager.GetSimulationParameterIDs())
+                foreach (string parameterID in m_cManager.DataManager.GetSimulationParameterIDs())
                 {
-                    if (l_parameterID.Equals(this.m_parameterID))
+                    if (parameterID.Equals(this.m_parameterID))
                     {
                         return true;
                     }
@@ -1649,19 +1649,19 @@ namespace Ecell
             /// <summary>
             /// Returns the initial condition of the type.
             /// </summary>
-            /// <param name="l_type">the type of the entity</param>
+            /// <param name="type">the type of the entity</param>
             /// <returns>the initial condition</returns>
-            public Dictionary<string, double> GetInitialCondition(string l_type)
+            public Dictionary<string, double> GetInitialCondition(string type)
             {
-                if (l_type.Equals(Constants.xpathSystem))
+                if (type.Equals(Constants.xpathSystem))
                 {
                     return this.m_initialCondition[Constants.xpathSystem];
                 }
-                else if (l_type.Equals(Constants.xpathProcess))
+                else if (type.Equals(Constants.xpathProcess))
                 {
                     return this.m_initialCondition[Constants.xpathProcess];
                 }
-                else if (l_type.Equals(Constants.xpathVariable))
+                else if (type.Equals(Constants.xpathVariable))
                 {
                     return this.m_initialCondition[Constants.xpathVariable];
                 }
@@ -1683,31 +1683,31 @@ namespace Ecell
             /// <returns>the list of the stepper ID</returns>
             public List<string> GetStepperIDList()
             {
-                List<string> l_stepperIDList = new List<string>();
-                foreach (EcellObject l_ecellObject in this.m_stepperList)
+                List<string> stepperIDList = new List<string>();
+                foreach (EcellObject ecellObject in this.m_stepperList)
                 {
-                    l_stepperIDList.Add(l_ecellObject.Key);
+                    stepperIDList.Add(ecellObject.Key);
                 }
 
-                return l_stepperIDList;
+                return stepperIDList;
             }
 
             /// <summary>
             /// Sets the logger policy of the logger.
             /// </summary>
-            /// <param name="l_savedStepCount">the saved step count</param>
-            /// <param name="l_savedInterval">the saved interval</param>
-            /// <param name="l_diskFullAction">the HDD full action</param>
-            /// <param name="l_maxDiskSpace">the max HDD space</param>
+            /// <param name="savedStepCount">the saved step count</param>
+            /// <param name="savedInterval">the saved interval</param>
+            /// <param name="diskFullAction">the HDD full action</param>
+            /// <param name="maxDiskSpace">the max HDD space</param>
             public void SetLoggerPolicy(
-                    int l_savedStepCount,
-                    double l_savedInterval,
-                    int l_diskFullAction,
-                    int l_maxDiskSpace)
+                    int savedStepCount,
+                    double savedInterval,
+                    int diskFullAction,
+                    int maxDiskSpace)
             {
-                LoggerPolicy l_loggerPolicy
-                        = new LoggerPolicy(l_savedStepCount, l_savedInterval, l_diskFullAction, l_maxDiskSpace);
-                m_cManager.DataManager.SetLoggerPolicy(this.m_parameterID, ref l_loggerPolicy);
+                LoggerPolicy loggerPolicy
+                        = new LoggerPolicy(savedStepCount, savedInterval, diskFullAction, maxDiskSpace);
+                m_cManager.DataManager.SetLoggerPolicy(this.m_parameterID, ref loggerPolicy);
             }
         }
 
@@ -1745,28 +1745,28 @@ namespace Ecell
             /// <summary>
             /// Creates the stepper stub with the current simulation parameter and the stepper ID.
             /// </summary>
-            public StepperStub(CommandManager cManager, string l_ID)
+            public StepperStub(CommandManager cManager, string ID)
             {
                 this.m_cManager = cManager;
-                this.m_ID = l_ID;
+                this.m_ID = ID;
             }
 
             /// <summary>
             /// Creates the stepper stub with the simulation parameter ID and the stepper ID.
             /// </summary>
-            /// <param name="l_parameterID">the simulation parameter</param>
-            /// <param name="l_ID">the stepper ID</param>
-            public StepperStub(string l_parameterID, string l_ID)
+            /// <param name="parameterID">the simulation parameter</param>
+            /// <param name="ID">the stepper ID</param>
+            public StepperStub(string parameterID, string ID)
             {
-                this.m_ID = l_ID;
-                this.m_parameterID = l_parameterID;
+                this.m_ID = ID;
+                this.m_parameterID = parameterID;
             }
 
             /// <summary>
             /// Creates the stepper stub.
             /// </summary>
-            /// <param name="l_className">the class name</param>
-            public void Create(string l_className)
+            /// <param name="className">the class name</param>
+            public void Create(string className)
             {
                 Debug.Assert(!String.IsNullOrEmpty(CommandManager.s_modelID));
                 //
@@ -1786,28 +1786,28 @@ namespace Ecell
                 //
                 // Searches the simulation parameter.
                 // 
-                bool l_existFlag = false;
-                foreach (string l_parameterID in m_cManager.GetSimulationParameterIDList())
+                bool existFlag = false;
+                foreach (string parameterID in m_cManager.GetSimulationParameterIDList())
                 {
-                    if (this.m_parameterID.Equals(l_parameterID))
+                    if (this.m_parameterID.Equals(parameterID))
                     {
-                        l_existFlag = true;
+                        existFlag = true;
                         break;
                     }
                 }
-                if (!l_existFlag)
+                if (!existFlag)
                 {
                     m_cManager.DataManager.CreateSimulationParameter(this.m_parameterID);
                 }
                 //
                 // Searches the loaded "Stepper".
                 //
-                foreach (EcellObject l_stepper
+                foreach (EcellObject stepper
                         in m_cManager.DataManager.GetStepper(this.m_parameterID, CommandManager.s_modelID))
                 {
-                    if (l_stepper.Key.Equals(this.m_ID) && l_stepper.Classname.Equals(l_className))
+                    if (stepper.Key.Equals(this.m_ID) && stepper.Classname.Equals(className))
                     {
-                        this.m_stepper = l_stepper;
+                        this.m_stepper = stepper;
                         return;
                     }
                 }
@@ -1817,7 +1817,7 @@ namespace Ecell
                 //
                 // Checks whether the class exists.
                 //
-                this.Create(this.m_ID, l_className);
+                this.Create(this.m_ID, className);
                 //
                 // Adds the "EcellObject" to the "DataManager". 
                 //
@@ -1827,28 +1827,28 @@ namespace Ecell
             /// <summary>
             /// Creates the stepper stub with the key and the class name.
             /// </summary>
-            /// <param name="l_key">the key</param>
-            /// <param name="l_className">the class name</param>
-            private void Create(string l_key, string l_className)
+            /// <param name="key">the key</param>
+            /// <param name="className">the class name</param>
+            private void Create(string key, string className)
             {
-                List<string> l_entityList = m_cManager.DataManager.GetStepperList();
-                if (l_entityList != null && l_entityList.Count > 0)
+                List<string> entityList = m_cManager.DataManager.GetStepperList();
+                if (entityList != null && entityList.Count > 0)
                 {
-                    foreach (string l_entity in l_entityList)
+                    foreach (string entity in entityList)
                     {
-                        if (l_className.Equals(l_entity))
+                        if (className.Equals(entity))
                         {
-                            List<EcellData> l_propertyList = new List<EcellData>();
-                            foreach (string l_property in m_cManager.DataManager.GetStepperProperty(l_className).Keys)
+                            List<EcellData> propertyList = new List<EcellData>();
+                            foreach (string property in m_cManager.DataManager.GetStepperProperty(className).Keys)
                             {
-                                l_propertyList.Add(m_cManager.DataManager.GetStepperProperty(l_className)[l_property]);
+                                propertyList.Add(m_cManager.DataManager.GetStepperProperty(className)[property]);
                             }
                             this.m_stepper = EcellObject.CreateObject(
                                     CommandManager.s_modelID,
-                                    l_key,
+                                    key,
                                     Constants.xpathStepper,
-                                    l_className,
-                                    l_propertyList);
+                                    className,
+                                    propertyList);
                             return;
                         }
                     }
@@ -1872,10 +1872,10 @@ namespace Ecell
             /// <returns>true if the stepper is loaded; false otherwise</returns>
             public bool Exists()
             {
-                foreach (EcellObject l_stepper
+                foreach (EcellObject stepper
                         in m_cManager.DataManager.GetStepper(this.m_parameterID, CommandManager.s_modelID))
                 {
-                    if (l_stepper.Key.Equals(this.m_ID))
+                    if (stepper.Key.Equals(this.m_ID))
                     {
                         return true;
                     }
@@ -1934,19 +1934,19 @@ namespace Ecell
             /// <summary>
             /// Returns the value of the property.
             /// </summary>
-            /// <param name="l_propertyName">the property</param>
+            /// <param name="propertyName">the property</param>
             /// <returns>the value of the property</returns>
-            public string GetProperty(string l_propertyName)
+            public string GetProperty(string propertyName)
             {
                 if (this.m_stepper != null)
                 {
                     if (this.m_stepper.Value != null && this.m_stepper.Value.Count > 0)
                     {
-                        foreach (EcellData l_data in this.m_stepper.Value)
+                        foreach (EcellData data in this.m_stepper.Value)
                         {
-                            if (l_data.Name.Equals(l_propertyName))
+                            if (data.Name.Equals(propertyName))
                             {
-                                return l_data.Value.ToString();
+                                return data.Value.ToString();
                             }
                         }
                     }
@@ -1957,24 +1957,24 @@ namespace Ecell
             /// <summary>
             /// Returns the attributes of the property.
             /// </summary>
-            /// <param name="l_propertyName">the property</param>
+            /// <param name="propertyName">the property</param>
             /// <returns>the attributes of the property(Settable, Gettable, Loadable, Savable)</returns>
-            public List<bool> GetPropertyAttributes(string l_propertyName)
+            public List<bool> GetPropertyAttributes(string propertyName)
             {
                 if (this.m_stepper != null)
                 {
                     if (this.m_stepper.Value != null && this.m_stepper.Value.Count > 0)
                     {
-                        foreach (EcellData l_data in this.m_stepper.Value)
+                        foreach (EcellData data in this.m_stepper.Value)
                         {
-                            if (l_data.Name.Equals(l_propertyName))
+                            if (data.Name.Equals(propertyName))
                             {
-                                List<bool> l_list = new List<bool>();
-                                l_list.Add(l_data.Settable);
-                                l_list.Add(l_data.Gettable);
-                                l_list.Add(l_data.Loadable);
-                                l_list.Add(l_data.Saveable);
-                                return l_list;
+                                List<bool> list = new List<bool>();
+                                list.Add(data.Settable);
+                                list.Add(data.Gettable);
+                                list.Add(data.Loadable);
+                                list.Add(data.Saveable);
+                                return list;
                             }
                         }
                     }
@@ -1992,13 +1992,13 @@ namespace Ecell
                 {
                     if (this.m_stepper.Value != null && this.m_stepper.Value.Count > 0)
                     {
-                        List<string> l_list = new List<string>();
-                        foreach (EcellData l_data in this.m_stepper.Value)
+                        List<string> list = new List<string>();
+                        foreach (EcellData data in this.m_stepper.Value)
                         {
-                            l_list.Add(l_data.Name);
+                            list.Add(data.Name);
                         }
-                        l_list.Sort();
-                        return l_list;
+                        list.Sort();
+                        return list;
                     }
                 }
                 return null;
@@ -2007,43 +2007,43 @@ namespace Ecell
             /// <summary>
             /// Sets the value of the property.
             /// </summary>
-            /// <param name="l_propertyName">the property</param>
-            /// <param name="l_value">the value</param>
-            public void SetProperty(string l_propertyName, string l_value)
+            /// <param name="propertyName">the property</param>
+            /// <param name="value">the value</param>
+            public void SetProperty(string propertyName, string value)
             {
                 if (this.m_stepper != null)
                 {
                     if (this.m_stepper.Value != null && this.m_stepper.Value.Count > 0)
                     {
-                        bool l_findFlag = false;
+                        bool findFlag = false;
                         for (int i = 0; i < this.m_stepper.Value.Count; i++)
                         {
-                            EcellData l_data = this.m_stepper.Value[i];
-                            if (l_data.Name.Equals(l_propertyName))
+                            EcellData data = this.m_stepper.Value[i];
+                            if (data.Name.Equals(propertyName))
                             {
-                                if (!l_data.Settable)
+                                if (!data.Settable)
                                 {
                                     throw new Exception(String.Format(MessageResources.ErrSetProp,
-                                        new object[] { l_propertyName }));
+                                        new object[] { propertyName }));
                                 }
-                                else if (l_data.Value.IsDouble())
+                                else if (data.Value.IsDouble())
                                 {
-                                    l_data.Value = new EcellValue(XmlConvert.ToDouble(l_value));
-                                    l_findFlag = true;
+                                    data.Value = new EcellValue(XmlConvert.ToDouble(value));
+                                    findFlag = true;
                                 }
-                                else if (l_data.Value.IsInt())
+                                else if (data.Value.IsInt())
                                 {
-                                    l_data.Value = new EcellValue(Convert.ToInt32(l_value));
-                                    l_findFlag = true;
+                                    data.Value = new EcellValue(Convert.ToInt32(value));
+                                    findFlag = true;
                                 }
-                                else if (l_data.Value.IsString())
+                                else if (data.Value.IsString())
                                 {
-                                    l_data.Value = new EcellValue(l_value);
-                                    l_findFlag = true;
+                                    data.Value = new EcellValue(value);
+                                    findFlag = true;
                                 }
                             }
                         }
-                        Debug.Assert(l_findFlag);
+                        Debug.Assert(findFlag);
                         m_cManager.DataManager.DataChanged(
                                 this.m_stepper.ModelID,
                                 this.m_stepper.Key,

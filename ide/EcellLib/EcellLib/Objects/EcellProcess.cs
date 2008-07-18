@@ -89,14 +89,14 @@ namespace Ecell.Objects
         /// <summary>
         /// Constructor with initial parameter.
         /// </summary>
-        /// <param name="l_modelID">model ID.</param>
-        /// <param name="l_key">key.</param>
-        /// <param name="l_type">type(="Variable").</param>
-        /// <param name="l_class">class name.</param>
-        /// <param name="l_data">properties.</param>
-        public EcellProcess(string l_modelID, string l_key,
-            string l_type, string l_class, List<EcellData> l_data)
-            : base(l_modelID, l_key, l_type, l_class, l_data)
+        /// <param name="modelID">model ID.</param>
+        /// <param name="key">key.</param>
+        /// <param name="type">type(="Variable").</param>
+        /// <param name="classname">class name.</param>
+        /// <param name="data">properties.</param>
+        public EcellProcess(string modelID, string key,
+            string type, string classname, List<EcellData> data)
+            : base(modelID, key, type, classname, data)
         {
             
         }

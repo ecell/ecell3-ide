@@ -46,48 +46,48 @@ namespace Ecell
         /// <summary>
         /// Get the set value from register
         /// </summary>
-        /// <param name="l_intendedKey">registry key.</param>
+        /// <param name="intendedKey">registry key.</param>
         /// <returns>the value.</returns>
-        static private string GetRegistryValue(string l_intendedKey)
+        static private string GetRegistryValue(string intendedKey)
         {
-            string l_currentDir = null;
-            RegistryKey l_key = Registry.CurrentUser;
-            RegistryKey l_subkey = null;
+            string currentDir = null;
+            RegistryKey key = Registry.CurrentUser;
+            RegistryKey subkey = null;
             try
             {
                 // Get Environment parameter.
-                l_subkey = l_key.OpenSubKey(Constants.registryEnvKey);
-                l_currentDir = (string)l_subkey.GetValue(l_intendedKey);
-                if (l_currentDir != null)
-                    return l_currentDir;
+                subkey = key.OpenSubKey(Constants.registryEnvKey);
+                currentDir = (string)subkey.GetValue(intendedKey);
+                if (currentDir != null)
+                    return currentDir;
 
                 // Get Software parameter.
-                l_subkey = l_key.OpenSubKey(Constants.registrySWKey);
-                if (l_subkey != null)
+                subkey = key.OpenSubKey(Constants.registrySWKey);
+                if (subkey != null)
                 {
-                    l_currentDir = (string)l_subkey.GetValue(l_intendedKey);
-                    if (l_currentDir != null)
-                        return l_currentDir;
+                    currentDir = (string)subkey.GetValue(intendedKey);
+                    if (currentDir != null)
+                        return currentDir;
                 }
 
                 // Get Local parameter.
-                l_key = Registry.LocalMachine;
-                l_subkey = l_key.OpenSubKey(Constants.registrySWKey);
-                if (l_subkey != null)
+                key = Registry.LocalMachine;
+                subkey = key.OpenSubKey(Constants.registrySWKey);
+                if (subkey != null)
                 {
-                    l_currentDir = (string)l_subkey.GetValue(l_intendedKey);
+                    currentDir = (string)subkey.GetValue(intendedKey);
                 }
-                return l_currentDir;
+                return currentDir;
             }
             finally
             {
-                if (l_key != null)
+                if (key != null)
                 {
-                    l_key.Close();
+                    key.Close();
                 }
-                if (l_subkey != null)
+                if (subkey != null)
                 {
-                    l_subkey.Close();
+                    subkey.Close();
                 }
             }
         }
@@ -101,14 +101,14 @@ namespace Ecell
         /// <summary>
         /// Check whether id contains the string except for letter, digit or '_'.
         /// </summary>
-        /// <param name="l_key">id</param>
+        /// <param name="key">id</param>
         /// <returns>if contain, return true.</returns>
-        static public bool IsNGforID(string l_key)
+        static public bool IsNGforID(string key)
         {
-            for (int i = 0; i < l_key.Length; i++)
+            for (int i = 0; i < key.Length; i++)
             {
-                if (Char.IsLetterOrDigit(l_key[i]) ||
-                    l_key[i] == '_') continue;
+                if (Char.IsLetterOrDigit(key[i]) ||
+                    key[i] == '_') continue;
                 return true;
             }
             return false;
@@ -117,18 +117,18 @@ namespace Ecell
         /// <summary>
         /// Check whether id contains the string except for '\', '/', '$', '~' or '%'.
         /// </summary>
-        /// <param name="l_key">id</param>
+        /// <param name="key">id</param>
         /// <returns>if contain, return true.</returns>
-        static public bool IsNGforIDonWindows(string l_key)
+        static public bool IsNGforIDonWindows(string key)
         {
-            for (int i = 0; i < l_key.Length; i++)
+            for (int i = 0; i < key.Length; i++)
             {
-                if (l_key[i] == '\\' || l_key[i] == '/'
-                    || l_key[i] == ':' || l_key[i] == ';'
-                    || l_key[i] == '*' || l_key[i] == '?'
-                    || l_key[i] == '|' || l_key[i] == '\"'
-                    || l_key[i] == '<' || l_key[i] == '>'
-                    || l_key[i] == '~')
+                if (key[i] == '\\' || key[i] == '/'
+                    || key[i] == ':' || key[i] == ';'
+                    || key[i] == '*' || key[i] == '?'
+                    || key[i] == '|' || key[i] == '\"'
+                    || key[i] == '<' || key[i] == '>'
+                    || key[i] == '~')
                 return true;
             }
             return false;
@@ -156,19 +156,19 @@ namespace Ecell
         /// <summary>
         /// Check whether this id of system is NG.
         /// </summary>
-        /// <param name="l_key">the system id.</param>
+        /// <param name="key">the system id.</param>
         /// <returns>correct is false.</returns>
-        static public bool IsNGforSystemFullID(string l_key)
+        static public bool IsNGforSystemFullID(string key)
         {
             int delCount = 0;
             bool isDel = false;
-            for (int i = 0; i < l_key.Length; i++)
+            for (int i = 0; i < key.Length; i++)
             {
-                if (!Char.IsLetterOrDigit(l_key[i]) &&
-                    l_key[i] != '_' &&
-                    l_key[i] != '/' &&
-                    l_key[i] != ':') return true;
-                if (l_key[i] == '/')
+                if (!Char.IsLetterOrDigit(key[i]) &&
+                    key[i] != '_' &&
+                    key[i] != '/' &&
+                    key[i] != ':') return true;
+                if (key[i] == '/')
                 {
                     if (isDel == true) return true;
                     isDel = true;
@@ -177,7 +177,7 @@ namespace Ecell
                 {
                     isDel = false;
                 }
-                if (l_key[i] == ':') delCount++;
+                if (key[i] == ':') delCount++;
             }
             if (delCount > 0) return true;
             return false;
@@ -186,19 +186,19 @@ namespace Ecell
         /// <summary>
         /// Check whether this id of component object(process or variable) is NG.
         /// </summary>
-        /// <param name="l_key">the component id.</param>
+        /// <param name="key">the component id.</param>
         /// <returns>correct is false.</returns>
-        static public bool IsNGforComponentFullID(string l_key)
+        static public bool IsNGforComponentFullID(string key)
         {
             int delCount = 0;
             bool isDel = false;
-            for (int i = 0; i < l_key.Length; i++)
+            for (int i = 0; i < key.Length; i++)
             {
-                if (!Char.IsLetterOrDigit(l_key[i]) &&
-                    l_key[i] != '_' &&
-                    l_key[i] != '/' &&
-                    l_key[i] != ':') return true;
-                if (l_key[i] == '/')
+                if (!Char.IsLetterOrDigit(key[i]) &&
+                    key[i] != '_' &&
+                    key[i] != '/' &&
+                    key[i] != ':') return true;
+                if (key[i] == '/')
                 {
                     if (isDel == true) return true;
                     isDel = true;
@@ -207,7 +207,7 @@ namespace Ecell
                 {
                     isDel = false;
                 }
-                if (l_key[i] == ':') delCount++;
+                if (key[i] == ':') delCount++;
             }
             if (delCount > 1) return true;
             if (delCount <= 0) return true;
@@ -429,12 +429,12 @@ namespace Ecell
         /// <summary>
         /// Set language for E-Cell IDE.
         /// </summary>
-        /// <param name="l_lang">language.</param>
-        static public void SetLanguage(CultureInfo l_lang)
+        /// <param name="lang">language.</param>
+        static public void SetLanguage(CultureInfo lang)
         {
-            RegistryKey l_key = Registry.CurrentUser;
-            RegistryKey l_subkey = l_key.CreateSubKey(Constants.registrySWKey);
-            using (l_subkey) l_subkey.SetValue(Constants.registryLang, l_lang.TwoLetterISOLanguageName);
+            RegistryKey key = Registry.CurrentUser;
+            RegistryKey subkey = key.CreateSubKey(Constants.registrySWKey);
+            using (subkey) subkey.SetValue(Constants.registryLang, lang.TwoLetterISOLanguageName);
         }
     }
     /// <summary>
@@ -562,25 +562,25 @@ namespace Ecell
         /// <summary>
         /// Set the working directory to set directiroy.
         /// </summary>
-        /// <param name="l_basedir">set directory.</param>
-        public static void SetBaseDir(string l_basedir)
+        /// <param name="basedir">set directory.</param>
+        public static void SetBaseDir(string basedir)
         {
-            RegistryKey l_key = Registry.CurrentUser;
-            RegistryKey l_subkey = null;
+            RegistryKey key = Registry.CurrentUser;
+            RegistryKey subkey = null;
             try
             {
-                l_subkey = l_key.OpenSubKey(Constants.registryEnvKey, true);
-                l_subkey.SetValue(Constants.registryBaseDirKey, l_basedir);
+                subkey = key.OpenSubKey(Constants.registryEnvKey, true);
+                subkey.SetValue(Constants.registryBaseDirKey, basedir);
             }
             finally
             {
-                if (l_key != null)
+                if (key != null)
                 {
-                    l_key.Close();
+                    key.Close();
                 }
-                if (l_subkey != null)
+                if (subkey != null)
                 {
-                    l_subkey.Close();
+                    subkey.Close();
                 }
             }
         }
@@ -665,62 +665,62 @@ namespace Ecell
             // 4 Stepper
             dmDic.Add(Constants.xpathStepper, new List<string>());
             // 4 System
-            List<string> l_systemList = new List<string>();
-            l_systemList.Add(Constants.xpathSystem);
-            dmDic.Add(Constants.xpathSystem, l_systemList);
+            List<string> systemList = new List<string>();
+            systemList.Add(Constants.xpathSystem);
+            dmDic.Add(Constants.xpathSystem, systemList);
             // 4 Variable
-            List<string> l_variableList = new List<string>();
-            l_variableList.Add(Constants.xpathVariable);
-            dmDic.Add(Constants.xpathVariable, l_variableList);
+            List<string> variableList = new List<string>();
+            variableList.Add(Constants.xpathVariable);
+            dmDic.Add(Constants.xpathVariable, variableList);
             //
             // Searches the DM paths
             //
-            string[] l_dmPathArray = GetDMDirs(dmDir);
-            if (l_dmPathArray == null)
+            string[] dmPathArray = GetDMDirs(dmDir);
+            if (dmPathArray == null)
             {
                 throw new Exception("ErrFindDmDir");
             }
-            foreach (string dmPath in l_dmPathArray)
+            foreach (string dmPath in dmPathArray)
             {
                 if (!Directory.Exists(dmPath))
                 {
                     continue;
                 }
                 // 4 Process
-                string[] l_processDMArray = Directory.GetFiles(
+                string[] processDMArray = Directory.GetFiles(
                     dmPath,
                     Constants.delimiterWildcard + Constants.xpathProcess + Constants.FileExtDM
                     );
-                foreach (string l_processDM in l_processDMArray)
+                foreach (string processDM in processDMArray)
                 {
-                    dmDic[Constants.xpathProcess].Add(Path.GetFileNameWithoutExtension(l_processDM));
+                    dmDic[Constants.xpathProcess].Add(Path.GetFileNameWithoutExtension(processDM));
                 }
                 // 4 Stepper
-                string[] l_stepperDMArray = Directory.GetFiles(
+                string[] stepperDMArray = Directory.GetFiles(
                     dmPath,
                     Constants.delimiterWildcard + Constants.xpathStepper + Constants.FileExtDM
                     );
-                foreach (string l_stepperDM in l_stepperDMArray)
+                foreach (string stepperDM in stepperDMArray)
                 {
-                    dmDic[Constants.xpathStepper].Add(Path.GetFileNameWithoutExtension(l_stepperDM));
+                    dmDic[Constants.xpathStepper].Add(Path.GetFileNameWithoutExtension(stepperDM));
                 }
                 // 4 System
-                string[] l_systemDMArray = Directory.GetFiles(
+                string[] systemDMArray = Directory.GetFiles(
                     dmPath,
                     Constants.delimiterWildcard + Constants.xpathSystem + Constants.FileExtDM
                     );
-                foreach (string l_systemDM in l_systemDMArray)
+                foreach (string systemDM in systemDMArray)
                 {
-                    dmDic[Constants.xpathSystem].Add(Path.GetFileNameWithoutExtension(l_systemDM));
+                    dmDic[Constants.xpathSystem].Add(Path.GetFileNameWithoutExtension(systemDM));
                 }
                 // 4 Variable
-                string[] l_variableDMArray = Directory.GetFiles(
+                string[] variableDMArray = Directory.GetFiles(
                     dmPath,
                     Constants.delimiterWildcard + Constants.xpathVariable + Constants.FileExtDM
                     );
-                foreach (string l_variableDM in l_variableDMArray)
+                foreach (string variableDM in variableDMArray)
                 {
-                    dmDic[Constants.xpathVariable].Add(Path.GetFileNameWithoutExtension(l_variableDM));
+                    dmDic[Constants.xpathVariable].Add(Path.GetFileNameWithoutExtension(variableDM));
                 }
             }
             return dmDic;
@@ -742,28 +742,28 @@ namespace Ecell
         /// <returns>directory path.</returns>
         static public string GetCommonDocumentDir()
         {
-            string l_currentDir = null;
-            RegistryKey l_key = Registry.CurrentUser;
-            RegistryKey l_subkey = null;
+            string currentDir = null;
+            RegistryKey key = Registry.CurrentUser;
+            RegistryKey subkey = null;
             try
             {
-                l_key = Registry.LocalMachine;
-                l_subkey = l_key.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders");
-                if (l_subkey != null)
+                key = Registry.LocalMachine;
+                subkey = key.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders");
+                if (subkey != null)
                 {
-                    l_currentDir = (string)l_subkey.GetValue("Common Documents");
+                    currentDir = (string)subkey.GetValue("Common Documents");
                 }
-                return l_currentDir;
+                return currentDir;
             }
             finally
             {
-                if (l_key != null)
+                if (key != null)
                 {
-                    l_key.Close();
+                    key.Close();
                 }
-                if (l_subkey != null)
+                if (subkey != null)
                 {
-                    l_subkey.Close();
+                    subkey.Close();
                 }
             }
         }

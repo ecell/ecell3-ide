@@ -49,19 +49,19 @@ namespace Ecell.Objects
         /// <summary>
         /// constructor with initial parameter.
         /// </summary>
-        /// <param name="l_modelID">modelID.</param>
-        /// <param name="l_key">key.</param>
-        /// <param name="l_type">type(="Model")</param>
-        /// <param name="l_class">class name</param>
-        /// <param name="l_data">properties of object.</param>
-        public EcellModel(string l_modelID, string l_key,
-             string l_type, string l_class, List<EcellData> l_data)
+        /// <param name="modelID">modelID.</param>
+        /// <param name="key">key.</param>
+        /// <param name="type">type(="Model")</param>
+        /// <param name="classname">class name</param>
+        /// <param name="data">properties of object.</param>
+        public EcellModel(string modelID, string key,
+             string type, string classname, List<EcellData> data)
         {
-            this.ModelID = l_modelID;
-            this.Key = l_key;
-            this.Type = l_type;
-            this.Classname = l_class;
-            this.m_ecellDatas = l_data;
+            this.ModelID = modelID;
+            this.Key = key;
+            this.Type = type;
+            this.Classname = classname;
+            this.m_ecellDatas = data;
         }
         #endregion
     }

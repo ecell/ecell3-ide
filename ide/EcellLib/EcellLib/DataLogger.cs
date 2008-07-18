@@ -117,24 +117,24 @@ namespace Ecell
         /// <summary>
         /// Creates the new "LogValue" instance with some parameters.
         /// </summary>
-        /// <param name="l_modelID">The model ID</param>
-        /// <param name="l_key">The key of the "EcellObject"</param>
-        /// <param name="l_type">The type of the "EcellObject"</param>
-        /// <param name="l_propName">The property name of the "EcellObject"</param>
-        /// <param name="l_logValueList">The list of the "LogValue" of the property name</param>
+        /// <param name="modelID">The model ID</param>
+        /// <param name="key">The key of the "EcellObject"</param>
+        /// <param name="type">The type of the "EcellObject"</param>
+        /// <param name="propName">The property name of the "EcellObject"</param>
+        /// <param name="logValueList">The list of the "LogValue" of the property name</param>
         public LogData(
-            string l_modelID,
-            string l_key,
-            string l_type,
-            string l_propName,
-            List<LogValue> l_logValueList
+            string modelID,
+            string key,
+            string type,
+            string propName,
+            List<LogValue> logValueList
             )
         {
-            this.m_modelID = l_modelID;
-            this.m_key = l_key;
-            this.m_type = l_type;
-            this.m_propName = l_propName;
-            this.m_logValueList = l_logValueList;
+            this.m_modelID = modelID;
+            this.m_key = key;
+            this.m_type = type;
+            this.m_propName = propName;
+            this.m_logValueList = logValueList;
         }
 
         /// <summary>
@@ -228,50 +228,50 @@ namespace Ecell
         /// <summary>
         /// Creates the new "LoggerPolicy" instance with some parameters.
         /// </summary>
-        /// <param name="l_reloadStepCount">The reload step count</param>
-        /// <param name="l_reloadInterval">The reload interval</param>
-        /// <param name="l_diskFullAction">The action when the HDD is full</param>
-        /// <param name="l_maxDiskSpace">The maximum HDD space</param>
+        /// <param name="reloadStepCount">The reload step count</param>
+        /// <param name="reloadInterval">The reload interval</param>
+        /// <param name="diskFullAction">The action when the HDD is full</param>
+        /// <param name="maxDiskSpace">The maximum HDD space</param>
         public LoggerPolicy(
-            int l_reloadStepCount,
-            double l_reloadInterval,
-            int l_diskFullAction,
-            int l_maxDiskSpace
+            int reloadStepCount,
+            double reloadInterval,
+            int diskFullAction,
+            int maxDiskSpace
             )
         {
-            if (l_reloadStepCount < 0)
+            if (reloadStepCount < 0)
             {
-                l_reloadStepCount = s_reloadStepCount;
+                reloadStepCount = s_reloadStepCount;
             }
-            this.m_reloadStepCount = l_reloadStepCount;
-            if (l_reloadInterval < 0.0)
+            this.m_reloadStepCount = reloadStepCount;
+            if (reloadInterval < 0.0)
             {
-                l_reloadInterval = s_reloadInterval;
+                reloadInterval = s_reloadInterval;
             }
-            this.m_reloadInterval = l_reloadInterval;
+            this.m_reloadInterval = reloadInterval;
             //
             // Puts the reload step count ahead of the reload interval.
             //
-            if (l_reloadStepCount == 0 && l_reloadInterval == 0.0)
+            if (reloadStepCount == 0 && reloadInterval == 0.0)
             {
-                l_reloadStepCount = s_reloadStepCount;
+                reloadStepCount = s_reloadStepCount;
             }
-            switch (l_diskFullAction)
+            switch (diskFullAction)
             {
                 case 0:
                     break;
                 case 1:
                     break;
                 default:
-                    l_diskFullAction = s_diskFullAction;
+                    diskFullAction = s_diskFullAction;
                     break;
             }
-            this.m_diskFullAction = l_diskFullAction;
-            if (l_maxDiskSpace < 0)
+            this.m_diskFullAction = diskFullAction;
+            if (maxDiskSpace < 0)
             {
-                l_maxDiskSpace = s_maxDiskSpace;
+                maxDiskSpace = s_maxDiskSpace;
             }
-            this.m_maxDiskSpace = l_maxDiskSpace;
+            this.m_maxDiskSpace = maxDiskSpace;
         }
     }
 
@@ -311,24 +311,24 @@ namespace Ecell
         /// <summary>
         /// Creates the new "LogValue" instance with some parameters.
         /// </summary>
-        /// <param name="l_time">The simulation time</param>
-        /// <param name="l_value">The value of the data</param>
-        /// <param name="l_avg">The average value</param>
-        /// <param name="l_min">The minimum value</param>
-        /// <param name="l_max">The maximun value</param>
+        /// <param name="time">The simulation time</param>
+        /// <param name="value">The value of the data</param>
+        /// <param name="avg">The average value</param>
+        /// <param name="min">The minimum value</param>
+        /// <param name="max">The maximun value</param>
         public LogValue(
-            double l_time,
-            double l_value,
-            double l_avg,
-            double l_min,
-            double l_max
+            double time,
+            double value,
+            double avg,
+            double min,
+            double max
             )
         {
-            this.m_time = l_time;
-            this.Value = l_value;
-            this.m_avg = l_avg;
-            this.m_min = l_min;
-            this.m_max = l_max;
+            this.m_time = time;
+            this.Value = value;
+            this.m_avg = avg;
+            this.m_min = min;
+            this.m_max = max;
         }
 
         /// <summary>
@@ -397,22 +397,22 @@ namespace Ecell
         /// <summary>
         /// Creates the "ecd" formatted file.
         /// </summary>
-        /// <param name="l_savedDirName">The saved directory name.</param>
-        /// <param name="l_logData">The list of the "LogData"</param>
-        /// <param name="l_saveType">The type of saved file.</param>
-        public void Create(string l_savedDirName, LogData l_logData, String l_saveType)
+        /// <param name="savedDirName">The saved directory name.</param>
+        /// <param name="logData">The list of the "LogData"</param>
+        /// <param name="saveType">The type of saved file.</param>
+        public void Create(string savedDirName, LogData logData, String saveType)
         {
-            string l_fileName = null;
+            string fileName = null;
             try
             {
                 //
                 // Initializes.
                 //
-                if (l_savedDirName == null || l_savedDirName.Length <= 0)
+                if (savedDirName == null || savedDirName.Length <= 0)
                 {
                     return;
                 }
-                else if (l_logData == null)
+                else if (logData == null)
                 {
                     return;
                 }
@@ -420,64 +420,64 @@ namespace Ecell
                 //
                 // Sets the file name.
                 //
-                l_fileName =
-                    l_logData.type + Constants.delimiterUnderbar +
-                    l_logData.key + Constants.delimiterUnderbar +
-                    l_logData.propName;
-                l_fileName = l_fileName.Replace(Constants.delimiterPath, Constants.delimiterUnderbar);
-                l_fileName = l_fileName.Replace(Constants.delimiterColon, Constants.delimiterUnderbar);
-                l_fileName = l_savedDirName + Constants.delimiterPath +
-                    l_fileName + Constants.delimiterPeriod + l_saveType;
+                fileName =
+                    logData.type + Constants.delimiterUnderbar +
+                    logData.key + Constants.delimiterUnderbar +
+                    logData.propName;
+                fileName = fileName.Replace(Constants.delimiterPath, Constants.delimiterUnderbar);
+                fileName = fileName.Replace(Constants.delimiterColon, Constants.delimiterUnderbar);
+                fileName = savedDirName + Constants.delimiterPath +
+                    fileName + Constants.delimiterPeriod + saveType;
                 //
                 // Checks the old model file.
                 //
-                if (File.Exists(l_fileName))
+                if (File.Exists(fileName))
                 {
-                    string l_date
-                        = File.GetLastAccessTime(l_fileName).ToString().Replace(
+                    string date
+                        = File.GetLastAccessTime(fileName).ToString().Replace(
                             Constants.delimiterColon, Constants.delimiterUnderbar);
-                    l_date = l_date.Replace(Constants.delimiterPath, Constants.delimiterUnderbar);
-                    l_date = l_date.Replace(Constants.delimiterSpace, Constants.delimiterUnderbar);
-                    string l_destFileName
-                        = Path.GetDirectoryName(l_fileName) + Constants.delimiterPath
-                        + Constants.delimiterUnderbar + l_date + Constants.delimiterUnderbar + Path.GetFileName(l_fileName);
-                    File.Move(l_fileName, l_destFileName);
+                    date = date.Replace(Constants.delimiterPath, Constants.delimiterUnderbar);
+                    date = date.Replace(Constants.delimiterSpace, Constants.delimiterUnderbar);
+                    string destFileName
+                        = Path.GetDirectoryName(fileName) + Constants.delimiterPath
+                        + Constants.delimiterUnderbar + date + Constants.delimiterUnderbar + Path.GetFileName(fileName);
+                    File.Move(fileName, destFileName);
                 }
                 //
                 // Saves the "LogData".
                 //
-                StreamWriter l_writer = null;
+                StreamWriter writer = null;
                 try
                 {
-                    l_writer = new StreamWriter(
-                            new FileStream(l_fileName, FileMode.CreateNew), System.Text.Encoding.UTF8);
+                    writer = new StreamWriter(
+                            new FileStream(fileName, FileMode.CreateNew), System.Text.Encoding.UTF8);
                     //
                     // Writes the header.
                     //
-                    l_writer.WriteLine(
+                    writer.WriteLine(
                         Constants.delimiterSharp + Constants.headerData + Constants.delimiterColon + Constants.delimiterSpace +
-                        l_logData.type + Constants.delimiterColon +
-                        l_logData.key + Constants.delimiterColon +
-                        l_logData.propName
+                        logData.type + Constants.delimiterColon +
+                        logData.key + Constants.delimiterColon +
+                        logData.propName
                         );
-                    int l_headerColumn = 0;
-                    if (Double.IsNaN(l_logData.logValueList[0].avg) &&
-                        Double.IsNaN(l_logData.logValueList[0].min) &&
-                        Double.IsNaN(l_logData.logValueList[0].max)
+                    int headerColumn = 0;
+                    if (Double.IsNaN(logData.logValueList[0].avg) &&
+                        Double.IsNaN(logData.logValueList[0].min) &&
+                        Double.IsNaN(logData.logValueList[0].max)
                         )
                     {
-                        l_headerColumn = 2;
+                        headerColumn = 2;
                     }
                     else
                     {
-                        l_headerColumn = 5;
+                        headerColumn = 5;
                     }
-                    l_writer.WriteLine(
+                    writer.WriteLine(
                         Constants.delimiterSharp + Constants.headerSize + Constants.delimiterColon + Constants.delimiterSpace +
-                        l_headerColumn + Constants.delimiterSpace +
-                        l_logData.logValueList.Count
+                        headerColumn + Constants.delimiterSpace +
+                        logData.logValueList.Count
                         );
-                    l_writer.WriteLine(
+                    writer.WriteLine(
                         Constants.delimiterSharp + Constants.headerLabel + Constants.delimiterColon + Constants.delimiterSpace +
                         Constants.headerTime + Constants.delimiterTab +
                         Constants.headerValue + Constants.delimiterTab +
@@ -485,66 +485,66 @@ namespace Ecell
                         Constants.headerMinimum.ToLower() + Constants.delimiterTab +
                         Constants.headerMaximum.ToLower()
                         );
-                    l_writer.WriteLine(
+                    writer.WriteLine(
                         Constants.delimiterSharp + Constants.headerNote + Constants.delimiterColon + Constants.delimiterSpace
                         );
-                    l_writer.WriteLine(
+                    writer.WriteLine(
                         Constants.delimiterSharp
                         );
-                    string l_separator = "";
+                    string separator = "";
                     for (int i = 0; i < 22; i++)
                     {
-                        l_separator += Constants.delimiterHyphen;
+                        separator += Constants.delimiterHyphen;
                     }
-                    l_writer.WriteLine(
-                        Constants.delimiterSharp + l_separator
+                    writer.WriteLine(
+                        Constants.delimiterSharp + separator
                         );
-                    l_writer.Flush();
+                    writer.Flush();
                     //
                     // Writes the "LogData".
                     //
-                    double l_oldTime = -1.0;
-                    foreach (LogValue l_logValue in l_logData.logValueList)
+                    double oldTime = -1.0;
+                    foreach (LogValue logValue in logData.logValueList)
                     {
-                        if (l_oldTime == l_logValue.time)
+                        if (oldTime == logValue.time)
                         {
                             continue;
                         }
-                        if (Double.IsNaN(l_logValue.avg) &&
-                            Double.IsNaN(l_logValue.min) &&
-                            Double.IsNaN(l_logValue.max)
+                        if (Double.IsNaN(logValue.avg) &&
+                            Double.IsNaN(logValue.min) &&
+                            Double.IsNaN(logValue.max)
                             )
                         {
-                            l_writer.WriteLine(
-                                l_logValue.time + Constants.delimiterTab +
-                                l_logValue.value
+                            writer.WriteLine(
+                                logValue.time + Constants.delimiterTab +
+                                logValue.value
                                 );
                         }
                         else
                         {
-                            l_writer.WriteLine(
-                                l_logValue.time + Constants.delimiterTab +
-                                l_logValue.value + Constants.delimiterTab +
-                                l_logValue.avg + Constants.delimiterTab +
-                                l_logValue.min + Constants.delimiterTab +
-                                l_logValue.max
+                            writer.WriteLine(
+                                logValue.time + Constants.delimiterTab +
+                                logValue.value + Constants.delimiterTab +
+                                logValue.avg + Constants.delimiterTab +
+                                logValue.min + Constants.delimiterTab +
+                                logValue.max
                                 );
                         }
-                        l_oldTime = l_logValue.time;
+                        oldTime = logValue.time;
                     }
                 }
                 finally
                 {
-                    if (l_writer != null)
+                    if (writer != null)
                     {
-                        l_writer.Close();
+                        writer.Close();
                     }
                 }
             }
-            catch (Exception l_ex)
+            catch (Exception ex)
             {
                 throw new Exception(String.Format(MessageResources.ErrCreFile,
-                    new object[] { l_fileName }), l_ex);
+                    new object[] { fileName }), ex);
             }
         }
 

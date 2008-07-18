@@ -58,19 +58,19 @@ namespace Ecell.Objects
         /// <summary>
         /// Constructor with initial parameter.
         /// </summary>
-        /// <param name="l_modelID">model ID.</param>
-        /// <param name="l_key">key.</param>
-        /// <param name="l_type">type(="Variable").</param>
-        /// <param name="l_class">class name.</param>
-        /// <param name="l_data">properties.</param>
-        public EcellVariable(string l_modelID, string l_key,
-            string l_type, string l_class, List<EcellData> l_data)
+        /// <param name="modelID">model ID.</param>
+        /// <param name="key">key.</param>
+        /// <param name="type">type(="Variable").</param>
+        /// <param name="classname">class name.</param>
+        /// <param name="data">properties.</param>
+        public EcellVariable(string modelID, string key,
+            string type, string classname, List<EcellData> data)
         {
-            this.ModelID = l_modelID;
-            this.Key = l_key;
-            this.Type = l_type;
-            this.Classname = l_class;
-            this.SetEcellDatas(l_data);
+            this.ModelID = modelID;
+            this.Key = key;
+            this.Type = type;
+            this.Classname = classname;
+            this.SetEcellDatas(data);
         }
         #endregion
 

@@ -71,10 +71,10 @@ namespace Ecell.Objects
         /// <summary>
         /// Creates a new "EcellValue" instance with a "int" argument.
         /// </summary>
-        /// <param name="l_value">The "int" value</param>
-        public EcellValue(int l_value)
+        /// <param name="value">The "int" value</param>
+        public EcellValue(int value)
         {
-            Value = l_value;
+            Value = value;
             m_type = typeof(int);
         }
 
@@ -82,86 +82,86 @@ namespace Ecell.Objects
         /// <summary>
         /// Creates a new "EcellValue" instance with a "double" argument.
         /// </summary>
-        /// <param name="l_value">The "double" value</param>
-        public EcellValue(double l_value)
+        /// <param name="value">The "double" value</param>
+        public EcellValue(double value)
         {
-            Value = l_value;
+            Value = value;
             m_type = typeof(double);
         }
 
         /// <summary>
         /// Creates a new "EcellValue" instance with a "string" argument.
         /// </summary>
-        /// <param name="l_value">The "string" value</param>
-        public EcellValue(string l_value)
+        /// <param name="value">The "string" value</param>
+        public EcellValue(string value)
         {
-            Value = l_value;
+            Value = value;
             m_type = typeof(string);
         }
 
         /// <summary>
         /// Creates a new "EcellValue" instance with a "List&lt;EcellValue&gt;" argument.
         /// </summary>
-        /// <param name="l_value">The "List&lt;EcellValue&gt;" value</param>
-        public EcellValue(List<EcellValue> l_value)
+        /// <param name="value">The "List&lt;EcellValue&gt;" value</param>
+        public EcellValue(List<EcellValue> value)
         {
-            List<EcellValue> l_list = new List<EcellValue>();
-            l_list.AddRange(l_value);
-            Value = l_list;
+            List<EcellValue> list = new List<EcellValue>();
+            list.AddRange(value);
+            Value = list;
             m_type = typeof(List<EcellValue>);
         }
 
         /// <summary>
         /// Creates a new "EcellValue" instance with a "List&lt;EcellValue&gt;" argument.
         /// </summary>
-        /// <param name="l_ref">The "List&lt;EcellValue&gt;" value</param>
-        public EcellValue(EcellReference l_ref)
+        /// <param name="er">The "List&lt;EcellValue&gt;" value</param>
+        public EcellValue(EcellReference er)
         {
-            List<EcellValue> l_list = new List<EcellValue>();
-            EcellValue value1 = new EcellValue(l_ref.Name);
-            EcellValue value2 = new EcellValue(l_ref.FullID);
-            EcellValue value3 = new EcellValue(l_ref.Coefficient);
-            EcellValue value4 = new EcellValue(l_ref.IsAccessor);
-            l_list.Add(value1);
-            l_list.Add(value2);
-            l_list.Add(value3);
-            l_list.Add(value4);
+            List<EcellValue> list = new List<EcellValue>();
+            EcellValue value1 = new EcellValue(er.Name);
+            EcellValue value2 = new EcellValue(er.FullID);
+            EcellValue value3 = new EcellValue(er.Coefficient);
+            EcellValue value4 = new EcellValue(er.IsAccessor);
+            list.Add(value1);
+            list.Add(value2);
+            list.Add(value3);
+            list.Add(value4);
 
-            Value = l_list;
+            Value = list;
             m_type = typeof(List<EcellValue>);
         }
 
         /// <summary>
         /// Creates a new "EcellValue" instance with a "WrappedPolymorph" argument.
         /// </summary>
-        /// <param name="l_value">The "WrappedPolymorph" value</param>
-        internal EcellValue(WrappedPolymorph l_value)
+        /// <param name="value">The "WrappedPolymorph" value</param>
+        internal EcellValue(WrappedPolymorph value)
         {
-            if (l_value == null)
+            if (value == null)
             {
                 Value = "";
                 m_type = typeof(string);
             }
             else
             {
-                if (l_value.IsDouble())
+                if (value.IsDouble())
                 {
-                    Value = l_value.CastToDouble();
+                    Value = value.CastToDouble();
                     m_type = typeof(double);
                 }
-                else if (l_value.IsInt())
+                else if (value.IsInt())
                 {
-                    Value = l_value.CastToInt();
+                    Value = value.CastToInt();
                     m_type = typeof(int);
                 }
-                else if (l_value.IsList())
+                else if (value.IsList())
                 {
-                    Value = this.CastToEcellValue4WrappedPolymorph(l_value.CastToList());
+                    Value = this.CastToEcellValue4WrappedPolymorph(value.CastToList());
                     m_type = typeof(List<EcellValue>);
                 }
                 else
                 {
-                    Value = l_value.CastToString();
+                    Value = value.CastToString();
                     m_type = typeof(string);
                 }
             }
@@ -195,14 +195,14 @@ namespace Ecell.Objects
         /// <summary>
         /// Convert to EcellValue from string.
         /// </summary>
-        /// <param name="l_str">string.</param>
+        /// <param name="str">string.</param>
         /// <returns>EcellValue.</returns>
-        public static EcellValue ToList(string l_str)
+        public static EcellValue ToList(string str)
         {
             List<EcellValue> list = new List<EcellValue>();
-            if (l_str == null || l_str == "") return new EcellValue(list);
+            if (str == null || str == "") return new EcellValue(list);
 
-            string text = l_str.Substring(1);
+            string text = str.Substring(1);
             text = text.Substring(0, text.Length - 1);
             Regex reg = new Regex("\"(?<refer>.+?)\"");
 
@@ -220,41 +220,41 @@ namespace Ecell.Objects
         /// <summary>
         /// Returns the "ArrayList" casting value.
         /// </summary>
-        /// <param name="l_ecellValue">The "EcellValue" value</param>
+        /// <param name="ecellValue">The "EcellValue" value</param>
         /// <returns>The "ArrayList" value</returns>
-        static public ArrayList CastToArrayList4EcellValue(EcellValue l_ecellValue)
+        static public ArrayList CastToArrayList4EcellValue(EcellValue ecellValue)
         {
-            if (l_ecellValue == null)
+            if (ecellValue == null)
             {
                 return null;
             }
-            if (l_ecellValue.IsDouble())
+            if (ecellValue.IsDouble())
             {
-                ArrayList l_arrayList = new ArrayList();
-                l_arrayList.Add(l_ecellValue.CastToDouble().ToString());
-                return l_arrayList;
+                ArrayList arrayList = new ArrayList();
+                arrayList.Add(ecellValue.CastToDouble().ToString());
+                return arrayList;
             }
-            else if (l_ecellValue.IsInt())
+            else if (ecellValue.IsInt())
             {
-                ArrayList l_arrayList = new ArrayList();
-                l_arrayList.Add(l_ecellValue.CastToInt().ToString());
-                return l_arrayList;
+                ArrayList arrayList = new ArrayList();
+                arrayList.Add(ecellValue.CastToInt().ToString());
+                return arrayList;
             }
-            else if (l_ecellValue.IsList())
+            else if (ecellValue.IsList())
             {
-                ArrayList l_arrayList = new ArrayList();
-                foreach (EcellValue l_childEcellValue in l_ecellValue.CastToList())
+                ArrayList arrayList = new ArrayList();
+                foreach (EcellValue childEcellValue in ecellValue.CastToList())
                 {
-                    ArrayList l_childList = CastToArrayList4EcellValue(l_childEcellValue);
-                    l_arrayList.AddRange(l_childList);
+                    ArrayList childList = CastToArrayList4EcellValue(childEcellValue);
+                    arrayList.AddRange(childList);
                 }
-                return l_arrayList;
+                return arrayList;
             }
             else
             {
-                ArrayList l_arrayList = new ArrayList();
-                l_arrayList.Add(l_ecellValue.CastToString());
-                return l_arrayList;
+                ArrayList arrayList = new ArrayList();
+                arrayList.Add(ecellValue.CastToString());
+                return arrayList;
             }
         }
 
@@ -277,31 +277,31 @@ namespace Ecell.Objects
         /// <summary>
         /// Returns the "EcellValue" casting value 4 "WrappedPolymorph".
         /// </summary>
-        /// <param name="l_polymorphList">The list of a "WrappedPolymorph" value</param>
+        /// <param name="polymorphList">The list of a "WrappedPolymorph" value</param>
         /// <returns>The list of a "EcellValue"</returns>
-        private List<EcellValue> CastToEcellValue4WrappedPolymorph(List<WrappedPolymorph> l_polymorphList)
+        private List<EcellValue> CastToEcellValue4WrappedPolymorph(List<WrappedPolymorph> polymorphList)
         {
-            List<EcellValue> l_ecellValueList = new List<EcellValue>();
-            foreach (WrappedPolymorph l_polymorph in l_polymorphList)
+            List<EcellValue> ecellValueList = new List<EcellValue>();
+            foreach (WrappedPolymorph polymorph in polymorphList)
             {
-                if (l_polymorph.IsDouble())
+                if (polymorph.IsDouble())
                 {
-                    l_ecellValueList.Add(new EcellValue(l_polymorph.CastToDouble()));
+                    ecellValueList.Add(new EcellValue(polymorph.CastToDouble()));
                 }
-                else if (l_polymorph.IsInt())
+                else if (polymorph.IsInt())
                 {
-                    l_ecellValueList.Add(new EcellValue(l_polymorph.CastToInt()));
+                    ecellValueList.Add(new EcellValue(polymorph.CastToInt()));
                 }
-                else if (l_polymorph.IsList())
+                else if (polymorph.IsList())
                 {
-                    l_ecellValueList.Add(new EcellValue(this.CastToEcellValue4WrappedPolymorph(l_polymorph.CastToList())));
+                    ecellValueList.Add(new EcellValue(this.CastToEcellValue4WrappedPolymorph(polymorph.CastToList())));
                 }
                 else
                 {
-                    l_ecellValueList.Add(new EcellValue(l_polymorph.CastToString()));
+                    ecellValueList.Add(new EcellValue(polymorph.CastToString()));
                 }
             }
-            return l_ecellValueList;
+            return ecellValueList;
         }
 
         /// <summary>
@@ -355,30 +355,30 @@ namespace Ecell.Objects
         /// <summary>
         /// Returns the "WrappedPolymorph" casting value.
         /// </summary>
-        /// <param name="l_ecellValue">The "EcellValue" value</param>
+        /// <param name="ecellValue">The "EcellValue" value</param>
         /// <returns>The "WrappedPolymorph" value</returns>
-        internal static WrappedPolymorph CastToWrappedPolymorph4EcellValue(EcellValue l_ecellValue)
+        internal static WrappedPolymorph CastToWrappedPolymorph4EcellValue(EcellValue ecellValue)
         {
-            if (l_ecellValue.IsDouble())
+            if (ecellValue.IsDouble())
             {
-                return new WrappedPolymorph(l_ecellValue.CastToDouble());
+                return new WrappedPolymorph(ecellValue.CastToDouble());
             }
-            else if (l_ecellValue.IsInt())
+            else if (ecellValue.IsInt())
             {
-                return new WrappedPolymorph(l_ecellValue.CastToInt());
+                return new WrappedPolymorph(ecellValue.CastToInt());
             }
-            else if (l_ecellValue.IsList())
+            else if (ecellValue.IsList())
             {
-                List<WrappedPolymorph> l_wrappedPolymorphList = new List<WrappedPolymorph>();
-                foreach (EcellValue l_childEcellValue in l_ecellValue.CastToList())
+                List<WrappedPolymorph> wrappedPolymorphList = new List<WrappedPolymorph>();
+                foreach (EcellValue childEcellValue in ecellValue.CastToList())
                 {
-                    l_wrappedPolymorphList.Add(CastToWrappedPolymorph4EcellValue(l_childEcellValue));
+                    wrappedPolymorphList.Add(CastToWrappedPolymorph4EcellValue(childEcellValue));
                 }
-                return new WrappedPolymorph(l_wrappedPolymorphList);
+                return new WrappedPolymorph(wrappedPolymorphList);
             }
             else
             {
-                return new WrappedPolymorph(l_ecellValue.CastToString());
+                return new WrappedPolymorph(ecellValue.CastToString());
             }
         }
 
@@ -405,14 +405,14 @@ namespace Ecell.Objects
         /// <summary>
         /// Convert to EcellValue from string.
         /// </summary>
-        /// <param name="l_str">string.</param>
+        /// <param name="str">string.</param>
         /// <returns>EcellValue.</returns>
-        public static EcellValue ToVariableReferenceList(string l_str)
+        public static EcellValue ToVariableReferenceList(string str)
         {
             List<EcellValue> list = new List<EcellValue>();
-            if (l_str == null || l_str == "") return new EcellValue(list);
+            if (str == null || str == "") return new EcellValue(list);
 
-            string text = l_str.Substring(1);
+            string text = str.Substring(1);
             text = text.Substring(0, text.Length - 1);
             Regex reg = new Regex("\\((?<refer>.+?)\\)");
 
@@ -445,39 +445,39 @@ namespace Ecell.Objects
         /// <summary>
         /// Casts the list of "EcellObject" to "string"
         /// </summary>
-        /// <param name="l_ecellValueList">The list of "EcellValue"</param>
+        /// <param name="ecellValueList">The list of "EcellValue"</param>
         /// <returns>The "string" value</returns>
-        private string ToString4List(List<EcellValue> l_ecellValueList)
+        private string ToString4List(List<EcellValue> ecellValueList)
         {
-            String l_value = "";
-            foreach (EcellValue l_ecellValue in l_ecellValueList)
+            String value = "";
+            foreach (EcellValue ecellValue in ecellValueList)
             {
-                if (l_ecellValue.IsList())
+                if (ecellValue.IsList())
                 {
-                    l_value += ", " + this.ToString4List(l_ecellValue.CastToList());
+                    value += ", " + this.ToString4List(ecellValue.CastToList());
                 }
-                else if (l_ecellValue.IsInt())
+                else if (ecellValue.IsInt())
                 {
-                    l_value += ", " + l_ecellValue.CastToInt();
+                    value += ", " + ecellValue.CastToInt();
                 }
-                else if (l_ecellValue.IsDouble())
+                else if (ecellValue.IsDouble())
                 {
-                    l_value += ", " + l_ecellValue.CastToDouble();
+                    value += ", " + ecellValue.CastToDouble();
                 }
                 else
                 {
-                    l_value += ", " + "\"" + l_ecellValue.ToString() + "\"";
+                    value += ", " + "\"" + ecellValue.ToString() + "\"";
                 }
             }
-            if (l_value.Length >= 2)
+            if (value.Length >= 2)
             {
-                l_value = "(" + l_value.Substring(2) + ")";
+                value = "(" + value.Substring(2) + ")";
             }
             else
             {
-                l_value = "(" + l_value + ")";
+                value = "(" + value + ")";
             }
-            return l_value;
+            return value;
         }
 
         /// <summary>

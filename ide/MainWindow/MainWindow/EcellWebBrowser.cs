@@ -60,6 +60,7 @@ namespace Ecell.IDE.MainWindow
         private ToolStripButton ButtonNavigate;
         private Panel panel1;
         private ToolStripButton ButtonRefresh;
+        private ApplicationEnvironment m_env;
         private MainWindow m_window = null;
         private static Uri STARTUP;
         #endregion
@@ -71,6 +72,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="window"></param>
         public EcellWebBrowser(MainWindow window)
         {
+            m_env = ApplicationEnvironment.GetInstance();
             m_window = window;
             InitializeComponent();
             this.Text = MessageResources.StartUpWindow;
