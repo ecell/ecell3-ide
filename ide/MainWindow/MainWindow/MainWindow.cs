@@ -361,7 +361,7 @@ namespace Ecell.IDE.MainWindow
         void RecentProject_Click(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            LoadProject(item.Text, item.ToolTipText);
+            m_env.DataManager.LoadProject(item.ToolTipText);
         }
         /// <summary>
         /// GetNodeByKey
@@ -593,7 +593,7 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         internal void SetStartUpWindow()
         {
-            EcellDockContent content = new EcellWebBrowser(this);
+            EcellDockContent content = new EcellWebBrowser();
             content.Name = "StartUpWindow";
             content.Text = "StartUpWindow";
             content.DockHandler.DockPanel = this.dockPanel;
@@ -941,8 +941,19 @@ namespace Ecell.IDE.MainWindow
                 saveActionMenuItem.Enabled = false;
                 exitToolStripMenuItem.Enabled = true;
             }
+            // Reset edit count.
             if (type == ProjectStatus.Uninitialized || type == ProjectStatus.Loaded)
                 m_editCount = 0;
+            // Set recent Project.
+            if (type == ProjectStatus.Loaded)
+            {
+                string projectID = m_env.DataManager.CurrentProjectID;
+                string filename = m_env.DataManager.CurrentProject.FilePath;
+                if (m_recentProjects.ContainsKey(projectID))
+                    m_recentProjects.Remove(projectID);
+                m_recentProjects.Add(projectID, filename);
+                ResetRecentProject();
+            }
             m_type = type;
         }
 
@@ -1163,34 +1174,6 @@ namespace Ecell.IDE.MainWindow
                     Util.ShowErrorDialog(ex.Message);
                 }            
             }
-        }
-
-        /// <summary>
-        /// Load Project.
-        /// </summary>
-        /// <param name="prjID"></param>
-        /// <param name="fileName"></param>
-        public void LoadProject(string prjID, string fileName)
-        {
-            if (!string.IsNullOrEmpty(m_env.DataManager.CurrentProjectID))
-                CloseProject();
-            
-            string prjDir = Path.GetDirectoryName(fileName);
-            string dmDir = Path.Combine(prjDir, Constants.DMDirName);
-            string tmpDir = Path.Combine(dmDir, Constants.TmpDirName);
-            Dictionary<string, string> fileDic = new Dictionary<string, string>();
-            if (Directory.Exists(tmpDir))
-            {
-                Util.CopyDirectory(tmpDir, dmDir);
-                Directory.Delete(tmpDir, true);
-            }
-
-            m_env.DataManager.LoadProject(prjID, fileName);
-            // Set recent Project.
-            if (m_recentProjects.ContainsKey(prjID))
-                m_recentProjects.Remove(prjID);
-            m_recentProjects.Add(prjID, fileName);
-            ResetRecentProject();
         }
 
         /// <summary>
@@ -1738,9 +1721,7 @@ namespace Ecell.IDE.MainWindow
             if (win.ShowDialog() == DialogResult.OK && win.SelectedProject != null)
             {
                 Project prj = win.SelectedProject;
-                LoadProject(prj.Name, prj.FilePath);
-                Project project = m_env.DataManager.CurrentProject;
-                m_env.DataManager.CreateProjectDir(prj.Name, win.DMList);
+                m_env.DataManager.LoadProject(prj);
             }
         }
 

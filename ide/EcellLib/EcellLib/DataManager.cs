@@ -3448,6 +3448,7 @@ namespace Ecell
         {
             try
             {
+
                 Project project = new Project(filename);
                 LoadProject(project);
             }
@@ -3495,6 +3496,8 @@ namespace Ecell
             string projectID = null;
             try
             {
+                if (m_currentProject != null)
+                    CloseProject(m_currentProject.Name);
                 if (project == null)
                     throw new Exception(MessageResources.ErrLoadPrj);
 

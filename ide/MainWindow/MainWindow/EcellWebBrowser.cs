@@ -77,7 +77,7 @@ namespace Ecell.IDE.MainWindow
         /// Constructor
         /// </summary>
         /// <param name="window"></param>
-        public EcellWebBrowser(MainWindow window)
+        public EcellWebBrowser()
         {
             m_env = ApplicationEnvironment.GetInstance();
             InitializeComponent();
