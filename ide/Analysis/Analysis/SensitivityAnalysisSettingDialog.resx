@@ -130,7 +130,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
+    <value>12, 67</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>28, 12</value>
@@ -151,7 +151,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <metadata name="label2.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -163,7 +163,7 @@
     <value>True</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 62</value>
+    <value>12, 117</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 12</value>
@@ -184,7 +184,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <metadata name="label3.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -196,7 +196,7 @@
     <value>True</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 37</value>
+    <value>12, 92</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>116, 12</value>
@@ -217,13 +217,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <metadata name="cancelButton.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
   <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>253, 91</value>
+    <value>253, 142</value>
   </data>
   <data name="cancelButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -244,13 +244,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;cancelButton.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <metadata name="okButton.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
   <data name="okButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>172, 91</value>
+    <value>172, 142</value>
   </data>
   <data name="okButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -271,13 +271,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;okButton.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <metadata name="executeButton.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
   <data name="executeButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 91</value>
+    <value>12, 142</value>
   </data>
   <data name="executeButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -298,13 +298,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;executeButton.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="sensitivityStepTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
   <data name="sensitivityStepTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>172, 12</value>
+    <value>172, 67</value>
   </data>
   <data name="sensitivityStepTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>156, 19</value>
@@ -328,13 +328,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;sensitivityStepTextBox.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="sensitivityAbsolutePerturbationTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
   <data name="sensitivityAbsolutePerturbationTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>172, 37</value>
+    <value>172, 92</value>
   </data>
   <data name="sensitivityAbsolutePerturbationTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>156, 19</value>
@@ -358,13 +358,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;sensitivityAbsolutePerturbationTextBox.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="sensitivityRelativePerturbationTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
   <data name="sensitivityRelativePerturbationTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>172, 62</value>
+    <value>172, 117</value>
   </data>
   <data name="sensitivityRelativePerturbationTextBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>156, 19</value>
@@ -388,7 +388,37 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;sensitivityRelativePerturbationTextBox.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
+  </data>
+  <metadata name="sensitivityToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="abstractTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="abstractTextBox.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="abstractTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>316, 49</value>
+  </data>
+  <data name="abstractTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="abstractTextBox.Text" xml:space="preserve">
+    <value>This analysis measure the change of value from the initial value on the step. This analysis support FFC and CCC.</value>
+  </data>
+  <data name="&gt;&gt;abstractTextBox.Name" xml:space="preserve">
+    <value>abstractTextBox</value>
+  </data>
+  <data name="&gt;&gt;abstractTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;abstractTextBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;abstractTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -397,10 +427,16 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>340, 126</value>
+    <value>340, 177</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Sensitivity Analysis Setting</value>
+  </data>
+  <data name="&gt;&gt;sensitivityToolTip.Name" xml:space="preserve">
+    <value>sensitivityToolTip</value>
+  </data>
+  <data name="&gt;&gt;sensitivityToolTip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SensitivityAnalysisSettingDialog</value>

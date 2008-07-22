@@ -120,6 +120,9 @@
   <data name="$this.Text" xml:space="preserve">
     <value>分岐解析設定</value>
   </data>
+  <data name="abstractTextBox.Text" xml:space="preserve">
+    <value>分岐解析はパラメータ領域においてパラメータの変化によるシステムの安定性を調べる。変化させるパラメータとして2つパラメータを設定する必要がある。</value>
+  </data>
   <data name="cancelButton.Text" xml:space="preserve">
     <value>キャンセル</value>
   </data>

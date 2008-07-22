@@ -26,7 +26,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         /// <param name="p">the parameter set of bifurcation analysis.</param>
         public void SetParameter(BifurcationAnalysisParameter p)
-        {
+        {            
             bifurcationSimulationTimeTextBox.Text = Convert.ToString(p.SimulationTime);
             bifurcationWindowSizeTextBox.Text = Convert.ToString(p.WindowSize);
             bifurcationMaxInputTextBox.Text = Convert.ToString(p.MaxInput);
@@ -120,6 +120,17 @@ namespace Ecell.IDE.Plugins.Analysis
 
             r.Tag = data;
             bifurcationObservedDataGrid.Rows.Add(r);
+        }
+
+        private void FormLoad(object sender, EventArgs e)
+        {
+            bifurcationToolTip.SetToolTip(bifurcationSimulationTimeTextBox, MessageResources.ToolTipSimulationTime);
+            bifurcationToolTip.SetToolTip(bifurcationWindowSizeTextBox, MessageResources.ToolTipWindowSize);
+            bifurcationToolTip.SetToolTip(bifurcationMaxFrequencyTextBox, MessageResources.ToolTipMaxFFT);
+            bifurcationToolTip.SetToolTip(bifurcationMinFrequencyTextBox, MessageResources.ToolTipMinFFT);
+            bifurcationToolTip.SetToolTip(groupBox3, MessageResources.ToolTipParameterGrid);
+            bifurcationToolTip.SetToolTip(groupBox4, MessageResources.ToolTipObservedGrid);
+            bifurcationToolTip.SetToolTip(bifurcationMaxInputTextBox, MessageResources.ToolTipMaxInputSize);            
         }
     }
 }

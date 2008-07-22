@@ -204,5 +204,14 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
             }
         }
+
+        private void FormLoad(object sender, EventArgs e)
+        {
+            parameterEstimationToolTip.SetToolTip(parameterEstimationSimulationTimeTextBox, MessageResources.ToolTipSimulationTime);
+            parameterEstimationToolTip.SetToolTip(parameterEstimationGenerationTextBox, MessageResources.ToolTipGeneration);
+            parameterEstimationToolTip.SetToolTip(parameterEstimationPopulationTextBox, MessageResources.ToolTipPopulation);
+            parameterEstimationToolTip.SetToolTip(estimationFormulatorTextBox, MessageResources.ToopTipEstimation);
+            parameterEstimationToolTip.SetToolTip(groupBox3, MessageResources.ToolTipUnknownParameterGrid);
+        }
     }
 }

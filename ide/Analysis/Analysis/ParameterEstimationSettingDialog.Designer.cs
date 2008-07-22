@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.GroupBox groupBox1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParameterEstimationSettingDialog));
             System.Windows.Forms.Label label1;
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label3;
             System.Windows.Forms.GroupBox groupBox2;
-            System.Windows.Forms.GroupBox groupBox3;
             this.formulatorButton = new System.Windows.Forms.Button();
             this.estimationFormulatorTextBox = new System.Windows.Forms.TextBox();
             this.estimationTypeComboBox = new System.Windows.Forms.ComboBox();
@@ -42,6 +42,7 @@
             this.parameterEstimationPopulationTextBox = new System.Windows.Forms.TextBox();
             this.parameterEstimationSimulationTimeTextBox = new System.Windows.Forms.TextBox();
             this.parameterEstimationGenerationTextBox = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.parameterEstimationParameterDataGrid = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,15 +50,16 @@
             this.closeButton = new System.Windows.Forms.Button();
             this.okButton = new System.Windows.Forms.Button();
             this.executeButton = new System.Windows.Forms.Button();
+            this.parameterEstimationToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.abstractTextBox = new System.Windows.Forms.TextBox();
             groupBox1 = new System.Windows.Forms.GroupBox();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             groupBox2 = new System.Windows.Forms.GroupBox();
-            groupBox3 = new System.Windows.Forms.GroupBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
-            groupBox3.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.parameterEstimationParameterDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -146,10 +148,10 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(this.parameterEstimationParameterDataGrid);
-            resources.ApplyResources(groupBox3, "groupBox3");
-            groupBox3.Name = "groupBox3";
-            groupBox3.TabStop = false;
+            this.groupBox3.Controls.Add(this.parameterEstimationParameterDataGrid);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
             // 
             // parameterEstimationParameterDataGrid
             // 
@@ -206,26 +208,37 @@
             this.executeButton.Name = "executeButton";
             this.executeButton.UseVisualStyleBackColor = true;
             // 
+            // abstractTextBox
+            // 
+            this.abstractTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            resources.ApplyResources(this.abstractTextBox, "abstractTextBox");
+            this.abstractTextBox.Name = "abstractTextBox";
+            this.abstractTextBox.ReadOnly = true;
+            this.abstractTextBox.TabStop = false;
+            // 
             // ParameterEstimationSettingDialog
             // 
             this.AcceptButton = this.okButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.closeButton;
+            this.Controls.Add(this.abstractTextBox);
             this.Controls.Add(this.executeButton);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.closeButton);
-            this.Controls.Add(groupBox3);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(groupBox2);
             this.Controls.Add(groupBox1);
             this.Name = "ParameterEstimationSettingDialog";
+            this.Load += new System.EventHandler(this.FormLoad);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
-            groupBox3.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.parameterEstimationParameterDataGrid)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -245,5 +258,8 @@
         private System.Windows.Forms.Button closeButton;
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button executeButton;
+        private System.Windows.Forms.ToolTip parameterEstimationToolTip;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox abstractTextBox;
     }
 }

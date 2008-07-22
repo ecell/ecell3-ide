@@ -220,7 +220,7 @@
     <value>2</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 140</value>
+    <value>12, 181</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
     <value>355, 74</value>
@@ -241,7 +241,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <metadata name="label1.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -376,10 +376,10 @@
     <value>Left, Right</value>
   </data>
   <data name="parameterEstimationPopulationTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>99, 43</value>
+    <value>124, 43</value>
   </data>
   <data name="parameterEstimationPopulationTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>250, 19</value>
+    <value>225, 19</value>
   </data>
   <data name="parameterEstimationPopulationTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -406,10 +406,10 @@
     <value>Left, Right</value>
   </data>
   <data name="parameterEstimationSimulationTimeTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>99, 18</value>
+    <value>124, 18</value>
   </data>
   <data name="parameterEstimationSimulationTimeTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>250, 19</value>
+    <value>225, 19</value>
   </data>
   <data name="parameterEstimationSimulationTimeTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -436,10 +436,10 @@
     <value>Left, Right</value>
   </data>
   <data name="parameterEstimationGenerationTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>99, 68</value>
+    <value>124, 68</value>
   </data>
   <data name="parameterEstimationGenerationTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>250, 19</value>
+    <value>225, 19</value>
   </data>
   <data name="parameterEstimationGenerationTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -463,7 +463,7 @@
     <value>6</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
+    <value>12, 53</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
     <value>355, 122</value>
@@ -484,11 +484,8 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
-  <metadata name="groupBox3.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
   <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
     <value>ID</value>
   </data>
@@ -502,7 +499,7 @@
     <value>8, 18</value>
   </data>
   <data name="parameterEstimationParameterDataGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>341, 142</value>
+    <value>341, 116</value>
   </data>
   <data name="parameterEstimationParameterDataGrid.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -520,10 +517,10 @@
     <value>0</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 220</value>
+    <value>12, 261</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>355, 166</value>
+    <value>355, 140</value>
   </data>
   <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -541,10 +538,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="closeButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>292, 392</value>
+    <value>292, 407</value>
   </data>
   <data name="closeButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -553,7 +550,7 @@
     <value>6</value>
   </data>
   <data name="closeButton.Text" xml:space="preserve">
-    <value>Close</value>
+    <value>Cancel</value>
   </data>
   <data name="&gt;&gt;closeButton.Name" xml:space="preserve">
     <value>closeButton</value>
@@ -565,10 +562,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;closeButton.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="okButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>211, 392</value>
+    <value>211, 407</value>
   </data>
   <data name="okButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -589,10 +586,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;okButton.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="executeButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 392</value>
+    <value>12, 407</value>
   </data>
   <data name="executeButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -613,6 +610,36 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;executeButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <metadata name="parameterEstimationToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="abstractTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="abstractTextBox.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="abstractTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>355, 35</value>
+  </data>
+  <data name="abstractTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="abstractTextBox.Text" xml:space="preserve">
+    <value>This analysis decide the value of unknown parameter used by the estimation. This analysis use Simple-GA to search the optimal parameter.</value>
+  </data>
+  <data name="&gt;&gt;abstractTextBox.Name" xml:space="preserve">
+    <value>abstractTextBox</value>
+  </data>
+  <data name="&gt;&gt;abstractTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;abstractTextBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;abstractTextBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -622,7 +649,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>379, 426</value>
+    <value>379, 442</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>ParameterEstimationSettingDialog</value>
@@ -644,6 +671,12 @@
   </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn3.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationToolTip.Name" xml:space="preserve">
+    <value>parameterEstimationToolTip</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationToolTip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ParameterEstimationSettingDialog</value>

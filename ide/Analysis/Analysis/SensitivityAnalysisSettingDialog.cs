@@ -42,6 +42,14 @@ namespace Ecell.IDE.Plugins.Analysis
             sensitivityAbsolutePerturbationTextBox.Text = Convert.ToString(p.AbsolutePerturbation);
         }
 
+        private void FormLoad(object sender, EventArgs e)
+        {
+            sensitivityToolTip.SetToolTip(sensitivityStepTextBox, MessageResources.ToolTipStep);
+            sensitivityToolTip.SetToolTip(sensitivityAbsolutePerturbationTextBox, MessageResources.ToolTipAbsolutePert);
+            sensitivityToolTip.SetToolTip(sensitivityRelativePerturbationTextBox, MessageResources.ToolTipRelativePert);
+        }
+
+
 
     }
 }

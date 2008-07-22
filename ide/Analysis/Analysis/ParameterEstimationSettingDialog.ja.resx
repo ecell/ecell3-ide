@@ -120,11 +120,14 @@
   <data name="$this.Text" xml:space="preserve">
     <value>パラメータ推定設定</value>
   </data>
+  <data name="abstractTextBox.Text" xml:space="preserve">
+    <value>パラメータ推定は未知のパラメータをある評価式に従って最適なパラメータを検索し、設定する。パラメータ推定ではSimple GAを利用している。</value>
+  </data>
   <data name="advancedButton.Text" xml:space="preserve">
     <value>詳細設定...</value>
   </data>
   <data name="closeButton.Text" xml:space="preserve">
-    <value>閉じる</value>
+    <value>キャンセル</value>
   </data>
   <data name="executeButton.Text" xml:space="preserve">
     <value>実行</value>

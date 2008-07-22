@@ -120,6 +120,9 @@
   <data name="$this.Text" xml:space="preserve">
     <value>感度解析設定</value>
   </data>
+  <data name="abstractTextBox.Text" xml:space="preserve">
+    <value>感度解析は、特定のステップを実行したときに初期値からの変化を計測することで、パラメータの感度を計測する。感度解析としてFFCとCCCをサポートしている。</value>
+  </data>
   <data name="cancelButton.Text" xml:space="preserve">
     <value>キャンセル</value>
   </data>

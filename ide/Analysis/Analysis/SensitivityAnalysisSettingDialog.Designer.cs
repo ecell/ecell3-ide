@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Label label1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SensitivityAnalysisSettingDialog));
             System.Windows.Forms.Label label2;
@@ -38,6 +39,8 @@
             this.sensitivityStepTextBox = new System.Windows.Forms.TextBox();
             this.sensitivityAbsolutePerturbationTextBox = new System.Windows.Forms.TextBox();
             this.sensitivityRelativePerturbationTextBox = new System.Windows.Forms.TextBox();
+            this.sensitivityToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.abstractTextBox = new System.Windows.Forms.TextBox();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
@@ -97,12 +100,21 @@
             resources.ApplyResources(this.sensitivityRelativePerturbationTextBox, "sensitivityRelativePerturbationTextBox");
             this.sensitivityRelativePerturbationTextBox.Name = "sensitivityRelativePerturbationTextBox";
             // 
+            // abstractTextBox
+            // 
+            this.abstractTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            resources.ApplyResources(this.abstractTextBox, "abstractTextBox");
+            this.abstractTextBox.Name = "abstractTextBox";
+            this.abstractTextBox.ReadOnly = true;
+            this.abstractTextBox.TabStop = false;
+            // 
             // SensitivityAnalysisSettingDialog
             // 
             this.AcceptButton = okButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = cancelButton;
+            this.Controls.Add(this.abstractTextBox);
             this.Controls.Add(executeButton);
             this.Controls.Add(okButton);
             this.Controls.Add(cancelButton);
@@ -113,6 +125,7 @@
             this.Controls.Add(this.sensitivityAbsolutePerturbationTextBox);
             this.Controls.Add(label1);
             this.Name = "SensitivityAnalysisSettingDialog";
+            this.Load += new System.EventHandler(this.FormLoad);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -123,5 +136,7 @@
         private System.Windows.Forms.TextBox sensitivityStepTextBox;
         private System.Windows.Forms.TextBox sensitivityAbsolutePerturbationTextBox;
         private System.Windows.Forms.TextBox sensitivityRelativePerturbationTextBox;
+        private System.Windows.Forms.ToolTip sensitivityToolTip;
+        private System.Windows.Forms.TextBox abstractTextBox;
     }
 }
