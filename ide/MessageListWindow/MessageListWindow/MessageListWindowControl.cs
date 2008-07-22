@@ -96,7 +96,6 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         /// <param name="mes">the message entry object.</param>
         public void AddMessageEntry(IMessageEntry mes)
         {
-            if (m_messages.Contains(mes)) return;
 
             DataGridViewRow r = new DataGridViewRow();
 

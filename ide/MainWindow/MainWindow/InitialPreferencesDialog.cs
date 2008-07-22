@@ -162,8 +162,6 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-
-        /// <summary>
         /// Event when SelectButton is clicked.
         /// </summary>
         /// <param name="sender">Button</param>

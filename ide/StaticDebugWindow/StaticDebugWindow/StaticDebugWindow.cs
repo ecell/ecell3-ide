@@ -274,8 +274,9 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             foreach (ErrorMessage em in tmpList)
             {
                 PluginManager.RemoveMessage(m_messages[em]);
+                m_currentMessageList.Remove(em);
+                m_messages.Remove(em);
             }
-
         }
         
         /// <summary>
