@@ -335,6 +335,10 @@ namespace Ecell
         /// </summary>
         public const string xpathKey = "Key";
         /// <summary>
+        /// Reserved XML path name for Variable.
+        /// </summary>
+        public const string xpathLog = "Log";
+        /// <summary>
         /// Reserved XML path name for LoggerPolicy.
         /// </summary>
         public const string xpathLoggerPolicy = "LoggerPolicy";
@@ -449,6 +453,10 @@ namespace Ecell
         /// DM directory name
         /// </summary>
         public const string DMDirName = "DMs";
+        /// <summary>
+        /// Parameter directory name
+        /// </summary>
+        public const string ParameterDirName = "Parameters";
         /// <summary>
         /// tmp directory name
         /// </summary>

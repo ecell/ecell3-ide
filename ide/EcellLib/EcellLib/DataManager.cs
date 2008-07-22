@@ -3049,6 +3049,39 @@ namespace Ecell
             return Path.Combine(m_currentProject.ProjectPath, Constants.DMDirName);
         }
 
+        private string GetParameterDir()
+        {
+            return Path.Combine(m_currentProject.ProjectPath, Constants.ParameterDirName);
+        }
+
+        public List<string> GetLogDataList()
+        {
+            List<string> result = new List<string>();
+            string topDir = GetParameterDir();
+            if (!Directory.Exists(topDir)) return result;
+
+            string[] pdirs = Directory.GetDirectories(topDir);
+            for (int i = 0; i < pdirs.Length; i++)
+            {
+                string paramdir = pdirs[i];
+                string paramName = Path.GetFileName(paramdir);
+                string[] pfiles = Directory.GetFiles(paramdir, Constants.xpathProcess + "*");
+                string[] vfiles = Directory.GetFiles(paramdir, Constants.xpathVariable + "*");
+                for (int j = 0; j < pfiles.Length; j++)
+                {
+                    string logdata = paramName + Path.PathSeparator + Path.GetFileName(pfiles[j]);
+                    result.Add(logdata);
+                }
+
+                for (int j = 0; j < vfiles.Length; j++)
+                {
+                    string logdata = paramName + Path.PathSeparator + Path.GetFileName(vfiles[j]);
+                    result.Add(logdata);
+                }
+            }
+            return result;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -4836,7 +4869,8 @@ namespace Ecell
                     }
                     simulationDirName =
                         this.m_defaultDir + Constants.delimiterPath +
-                        m_currentProject.Name + Constants.delimiterPath + Constants.xpathParameters;
+                        m_currentProject.Name + Constants.delimiterPath + Constants.xpathParameters +
+                        Constants.delimiterPath + m_currentProject.SimulationParam;
                 }
                 if (!Directory.Exists(simulationDirName))
                 {

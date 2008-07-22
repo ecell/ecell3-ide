@@ -32,6 +32,7 @@ using System;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -305,6 +306,31 @@ namespace Ecell.IDE.Plugins.EntityListWindow
             m_form.treeView1.ClearSelNode();
         }
 
+        private void SetLogEntry(TreeNode node)
+        {
+            List<string> logList = m_env.DataManager.GetLogDataList();
+            Dictionary<string, TreeNode> nodeDic = new Dictionary<string, TreeNode>();
+            foreach (string name in logList)
+            {
+                string[] sep = name.Split(new char[] { Path.PathSeparator });
+                TreeNode n = new TreeNode(sep[1]);
+                n.Tag = new  TagData("", "", Constants.xpathLog);
+
+                if (nodeDic.ContainsKey(sep[0]))
+                {
+                    nodeDic[sep[0]].Nodes.Add(n);
+                }
+                else
+                {
+                    TreeNode logNode = new TreeNode(sep[0]);
+                    logNode.Tag = null;
+                    node.Nodes.Add(logNode);
+                    nodeDic.Add(sep[0], logNode);
+                    logNode.Nodes.Add(n);
+                }
+            }
+        }
+
         /// <summary>
         /// The event sequence to add the object at other plugin.
         /// </summary>
@@ -325,8 +351,11 @@ namespace Ecell.IDE.Plugins.EntityListWindow
                     paramNode.Tag = null;
                     TreeNode dmNode = new TreeNode("DMs");
                     dmNode.Tag = null;
+                    TreeNode logNode = new TreeNode("Logs");
+                    logNode.Tag = null;
                     m_prjNode.Nodes.Add(modelNode);
                     m_prjNode.Nodes.Add(paramNode);
+                    m_prjNode.Nodes.Add(logNode);
                     m_prjNode.Nodes.Add(dmNode);
                     m_modelNodeDic.Add(obj.ModelID, modelNode);
                     m_paramNodeDic.Add(obj.ModelID, paramNode);
@@ -341,6 +370,8 @@ namespace Ecell.IDE.Plugins.EntityListWindow
                         dNode.Tag = new TagData("", "", Constants.xpathDM);
                         dmNode.Nodes.Add(dNode);
                     }
+
+                    SetLogEntry(logNode);
 
                     continue;
                 }
