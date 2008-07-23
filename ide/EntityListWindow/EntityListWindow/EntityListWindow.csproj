@@ -96,11 +96,11 @@
       <DependentUpon>EntityList.cs</DependentUpon>
     </Compile>
     <Compile Include="EntityListWindow.cs" />
-    <Compile Include="InputName.cs">
+    <Compile Include="CreateDMDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InputName.Designer.cs">
-      <DependentUpon>InputName.cs</DependentUpon>
+    <Compile Include="CreateDMDialog.Designer.cs">
+      <DependentUpon>CreateDMDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -115,13 +115,13 @@
       <SubType>Designer</SubType>
       <DependentUpon>EntityList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InputName.ja.resx">
+    <EmbeddedResource Include="CreateDMDialog.ja.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>InputName.cs</DependentUpon>
+      <DependentUpon>CreateDMDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="InputName.resx">
+    <EmbeddedResource Include="CreateDMDialog.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>InputName.cs</DependentUpon>
+      <DependentUpon>CreateDMDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MessageResources.ja.resx">
       <SubType>Designer</SubType>
@@ -136,12 +136,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="SearchInstance.ja.resx">
+    <EmbeddedResource Include="SearchInstanceDialog.ja.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>SearchInstance.cs</DependentUpon>
+      <DependentUpon>SearchInstanceDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SearchInstance.resx">
-      <DependentUpon>SearchInstance.cs</DependentUpon>
+    <EmbeddedResource Include="SearchInstanceDialog.resx">
+      <DependentUpon>SearchInstanceDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -159,11 +159,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SearchInstance.cs">
+    <Compile Include="SearchInstanceDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SearchInstance.Designer.cs">
-      <DependentUpon>SearchInstance.cs</DependentUpon>
+    <Compile Include="SearchInstanceDialog.Designer.cs">
+      <DependentUpon>SearchInstanceDialog.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -192,7 +192,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_setupWin.Name = "MenuItemShowTraceSetup";
             m_setupWin.Size = new Size(96, 22);
             m_setupWin.Text = MessageResources.MenuItemShowTraceSetupText;
-            //            m_setupWin.Text = "TracerWindow";
             m_setupWin.Enabled = true;
             m_setupWin.Click += new EventHandler(this.ShowSetupTracerWindow);
 
@@ -808,6 +807,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_win.Shown += new EventHandler(m_win.ShownEvent);
             m_win.m_entry = new List<TagData>();
             m_win.Text = MessageResources.TracerWindow + m_winCount;
+            m_win.Name = MessageResources.TracerWindow + m_winCount;
             m_win.TabText = m_win.Text;
             m_winCount++;
 
@@ -820,6 +820,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
                                 m_win.FloatPane,
                                 new Rectangle(m_win.Left, m_win.Top, m_win.Width, m_win.Height));
             m_win.Pane.DockTo(fw);
+            SetDockContentDelegate dlg = m_env.PluginManager.GetDelegate("SetDockContent");
+            dlg(m_win);
 
             if (m_winList.Count == 0)
             {

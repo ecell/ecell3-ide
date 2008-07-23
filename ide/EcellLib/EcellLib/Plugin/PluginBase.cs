@@ -472,6 +472,11 @@ namespace Ecell.Plugin
         {
             // do nothing
         }
+
+        public virtual Dictionary<string, SetDockContentDelegate> GetDockContent()
+        {
+            return null;
+        }
         #endregion
         #endregion
 

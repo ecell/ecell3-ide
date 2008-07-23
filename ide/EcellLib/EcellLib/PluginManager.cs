@@ -50,6 +50,8 @@ using Ecell.Objects;
 
 namespace Ecell
 {
+    public delegate void SetDockContentDelegate(EcellDockContent s);
+
     /// <summary>
     /// Availability of Redo/Undo
     /// </summary>
@@ -111,6 +113,8 @@ namespace Ecell
         /// Status of the current project.
         /// </summary>
         private ProjectStatus m_status;
+        private Dictionary<string, SetDockContentDelegate> m_delegateDic = new Dictionary<string,SetDockContentDelegate>();
+
         #endregion
 
         /// <summary>
@@ -430,8 +434,23 @@ namespace Ecell
                 p.Environment = m_env;
                 p.Initialize();
                 m_pluginList.Add(p.GetPluginName(), p);
+                Dictionary<string, SetDockContentDelegate> plist = p.GetDockContent();
+                if (plist == null) return;
+
+                foreach (string key in plist.Keys)
+                {
+                    m_delegateDic.Add(key, plist[key]);
+                }
             }
         }
+
+        public SetDockContentDelegate GetDelegate(string name)
+        {
+            if (m_delegateDic.ContainsKey(name))
+                return m_delegateDic[name];
+            return null;
+        }
+
         /// <summary>
         /// event sequence on closing project.
         /// </summary>

@@ -309,6 +309,8 @@ namespace Ecell.Plugin
         /// Sets the value of the progress bar in the status bar
         /// </summary>
         void SetProgressBarValue(int value);
+
+        Dictionary<string, SetDockContentDelegate> GetDockContent();
         #endregion
     }
 }

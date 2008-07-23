@@ -1040,7 +1040,13 @@ namespace Ecell.IDE.MainWindow
         public void RemoveParameterData(EcellParameterData data)
         {
         }
-        
+
+        public Dictionary<string, SetDockContentDelegate> GetDockContent()
+        {
+            Dictionary<string, SetDockContentDelegate> list = new Dictionary<string, SetDockContentDelegate>();
+            list.Add("SetDockContent", new SetDockContentDelegate( this.SetDockContent));
+            return list;
+        }
         #endregion
 
         #region Event
