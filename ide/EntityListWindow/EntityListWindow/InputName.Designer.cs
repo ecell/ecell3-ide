@@ -29,15 +29,20 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InputName));
+            System.Windows.Forms.Label label2;
             this.INNewButton = new System.Windows.Forms.Button();
             this.INCancelButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.INTextBox = new System.Windows.Forms.TextBox();
+            this.templateComboBox = new System.Windows.Forms.ComboBox();
+            this.templateRichText = new System.Windows.Forms.RichTextBox();
+            label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // INNewButton
             // 
             resources.ApplyResources(this.INNewButton, "INNewButton");
+            this.INNewButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.INNewButton.Name = "INNewButton";
             this.INNewButton.UseVisualStyleBackColor = true;
             this.INNewButton.Click += new System.EventHandler(this.INNewButton_Click);
@@ -60,12 +65,35 @@
             resources.ApplyResources(this.INTextBox, "INTextBox");
             this.INTextBox.Name = "INTextBox";
             // 
+            // templateComboBox
+            // 
+            resources.ApplyResources(this.templateComboBox, "templateComboBox");
+            this.templateComboBox.FormattingEnabled = true;
+            this.templateComboBox.Name = "templateComboBox";
+            this.templateComboBox.SelectedIndexChanged += new System.EventHandler(this.TemplateComboBoxSelectedChanged);
+            // 
+            // label2
+            // 
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
+            // 
+            // templateRichText
+            // 
+            resources.ApplyResources(this.templateRichText, "templateRichText");
+            this.templateRichText.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.templateRichText.Name = "templateRichText";
+            this.templateRichText.ReadOnly = true;
+            this.templateRichText.TabStop = false;
+            // 
             // InputName
             // 
             this.AcceptButton = this.INNewButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.INCancelButton;
+            this.Controls.Add(this.templateRichText);
+            this.Controls.Add(label2);
+            this.Controls.Add(this.templateComboBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.INNewButton);
             this.Controls.Add(this.INTextBox);
@@ -83,5 +111,7 @@
         private System.Windows.Forms.Button INCancelButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox INTextBox;
+        private System.Windows.Forms.ComboBox templateComboBox;
+        private System.Windows.Forms.RichTextBox templateRichText;
     }
 }

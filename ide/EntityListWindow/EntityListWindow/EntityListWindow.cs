@@ -1535,7 +1535,15 @@ namespace Ecell.IDE.Plugins.EntityListWindow
             if (node == null) return;
             string dmDir = m_env.DataManager.GetDMDir();
             InputName ind = new InputName(dmDir, node);
-            ind.ShowDialog();
+            using (ind)
+            {
+                DialogResult res = ind.ShowDialog();
+                if (res == DialogResult.OK)
+                {
+                    string path = ind.FilePath;
+                    DisplayDMEditor(path);
+                }
+            }
         }
 
         private void TreeViewDMDisplay(object sender, EventArgs e)
@@ -1603,7 +1611,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
         private void NodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeView t = (TreeView)sender;
-            TreeNode node = m_targetNode;
+            TreeNode node = t.GetNodeAt(e.X, e.Y);
             if (node == null) return;
             TagData tag = (TagData)node.Tag;
             if (tag == null) return;

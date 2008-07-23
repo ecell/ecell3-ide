@@ -801,6 +801,42 @@ namespace Ecell
             return false;
         }
 
+        static public List<string> GetProcessTemplateList()
+        {
+            List<string> result = new List<string>();
+
+            string confDir = Util.GetWindowSettingDir();
+            string processDir = confDir + Constants.delimiterPath + Constants.xpathProcess;
+
+            if (!Directory.Exists(processDir)) return result;
+            string[] files = Directory.GetFiles(processDir);
+            for (int i = 0; i < files.Length; i++)
+            {
+                string name = Path.GetFileName(files[i]);
+                result.Add(name);
+            }
+            return result;
+        }
+
+        static public string GetProcessTemplate(string name)
+        {
+            string result = "";
+            string line = "";
+            string confDir = Util.GetWindowSettingDir();
+            string processFile = confDir + Constants.delimiterPath + Constants.xpathProcess +
+                Constants.delimiterPath + name;
+            if (!File.Exists(processFile)) return result;
+
+            TextReader l_reader = new StreamReader(processFile);
+            while ((line = l_reader.ReadLine()) != null)
+            {
+                result += line + "\n";
+            }
+            l_reader.Close();
+
+            return result;
+        }
+
         /// <summary>
         /// Get the plugin directory from register.
         /// </summary>

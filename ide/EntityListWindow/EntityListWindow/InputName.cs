@@ -53,6 +53,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
         /// The current selected node.
         /// </summary>
         private TreeNode m_node;
+        private string m_path;
         #endregion
 
         #region Constructor
@@ -68,6 +69,11 @@ namespace Ecell.IDE.Plugins.EntityListWindow
             m_node = node;
         }
         #endregion
+
+        public string FilePath
+        {
+            get { return this.m_path; }
+        }
 
         #region Events
         /// <summary>
@@ -99,7 +105,20 @@ namespace Ecell.IDE.Plugins.EntityListWindow
             {
                 string filename = Path.Combine(m_dir, name);
                 filename = filename + Constants.FileExtSource;
-                File.Create(filename);
+//                File.Create(filename);
+                StreamWriter writer = null;
+                try
+                {
+                    writer = new StreamWriter(filename, false, Encoding.UTF8);
+                    writer.Write(templateRichText.Text);
+                }
+                finally
+                {
+                    if (writer != null)
+                    {
+                        writer.Close();
+                    }
+                }
 
                 TreeNode dNode = new TreeNode(name);
                 ApplicationEnvironment env = ApplicationEnvironment.GetInstance();
@@ -107,8 +126,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
                 dNode.SelectedImageIndex = dNode.ImageIndex;
                 dNode.Tag = new TagData("", "", Constants.xpathDM);
                 m_node.Nodes.Add(dNode);
-
-                this.Close();
+                m_path = filename;
             }
             catch (Exception)
             {
@@ -123,9 +141,24 @@ namespace Ecell.IDE.Plugins.EntityListWindow
         /// <param name="sender">This form.</param>
         /// <param name="e">EventArgs.</param>
         private void InputNameShown(object sender, EventArgs e)
-        {
+        {            
             INTextBox.Focus();
+            List<string> proList = Util.GetProcessTemplateList();
+            templateComboBox.Items.Add("None");
+            foreach (string procName in proList)
+            {
+                templateComboBox.Items.Add(procName);
+            }
+            templateComboBox.SelectedText = "None";
         }
         #endregion
+
+        private void TemplateComboBoxSelectedChanged(object sender, EventArgs e)
+        {
+            string name = templateComboBox.SelectedItem.ToString();
+
+            string temp = Util.GetProcessTemplate(name);
+            templateRichText.Text = temp;
+        }
     }
 }
