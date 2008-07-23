@@ -132,6 +132,9 @@
   <data name="ErrCombiStepProc" xml:space="preserve">
     <value>このステッパーとプロセスの組み合わせは選択できません。</value>
   </data>
+  <data name="ErrCompile" xml:space="preserve">
+    <value>DM[ {0} ]のコンパイルに失敗しました。</value>
+  </data>
   <data name="ErrCopy" xml:space="preserve">
     <value>{0} をコピーできません。</value>
   </data>
