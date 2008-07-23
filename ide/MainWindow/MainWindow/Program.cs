@@ -91,9 +91,9 @@ namespace Ecell.IDE
 
                 foreach (string fPath in fileList)
                 {
-                    if (fPath.EndsWith(Constants.FileExtEML))
+                    if (fPath.EndsWith(Constants.FileExtEML) || fPath.EndsWith(Constants.fileProjectXML))
                     {
-                        window.LoadModel(fPath);
+                        env.DataManager.LoadProject(fPath);
                     }
                     else
                     {

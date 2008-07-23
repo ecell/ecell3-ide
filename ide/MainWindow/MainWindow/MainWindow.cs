@@ -532,40 +532,6 @@ namespace Ecell.IDE.MainWindow
         #endregion
 
         /// <summary>
-        /// Load model in the thread, if this thread is sub thread.
-        /// </summary>
-        private void LoadModelData()
-        {
-            Util.InitialLanguage();
-            try
-            {
-                string modelID = m_env.DataManager.LoadModel(m_openFileDialog.FileName, true);
-                if (this.InvokeRequired)
-                {
-                    LoadModelDelegate dlg = new LoadModelDelegate(LoadModelThread);
-                    this.Invoke(dlg, new object[] { modelID });
-                }
-            }
-            catch (Exception ex)
-            {
-                Util.ShowErrorDialog(ex.Message);
-                CloseProjectDelegate dlg = new CloseProjectDelegate(CloseProject);
-                this.Invoke(dlg, new object[] { m_env.DataManager.CurrentProjectID });
-            }
-        }
-
-        /// <summary>
-        /// Create the project.
-        /// </summary>
-        /// <param name="prjID">Project ID</param>
-        /// <param name="modelDir">Directory of model.</param>
-        /// <param name="comment">Comment</param>
-        /// <param name="dmList">The list of dm directory.</param>
-        private void CreateProject(string prjID, string modelDir, string comment, IEnumerable<string> dmList)
-        {
-            m_env.DataManager.CreateProject(prjID, comment, modelDir, dmList);
-        }
-        /// <summary>
         /// Close the project.
         /// </summary>
         private void CloseProject()
@@ -581,13 +547,6 @@ namespace Ecell.IDE.MainWindow
             m_env.DataManager.CloseProject(prjID);
         }
 
-        /// <summary>
-        /// Load model by DataManager.
-        /// </summary>
-        public void LoadModelThread(string modelID)
-        {
-            m_env.PluginManager.LoadData(modelID);
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -1081,9 +1040,7 @@ namespace Ecell.IDE.MainWindow
         public void RemoveParameterData(EcellParameterData data)
         {
         }
-
-
-
+        
         #endregion
 
         #region Event
@@ -1117,9 +1074,7 @@ namespace Ecell.IDE.MainWindow
                     return;
                 try
                 {
-                    CreateProject(npd.textName.Text,
-                        null, npd.textComment.Text,
-                        npd.DMList);
+                    m_env.DataManager.CreateProject(npd.textName.Text, npd.textComment.Text, null, npd.DMList);
                     List<EcellObject> list = new List<EcellObject>();
                     list.Add(EcellObject.CreateObject(npd.textModelName.Text, null, Constants.xpathModel, null, null));
                     m_env.DataManager.DataAdd(list);
@@ -1299,23 +1254,7 @@ namespace Ecell.IDE.MainWindow
                     CloseProject();
                 // Load new project.
                 string filepath = m_openFileDialog.FileName;
-                string modelDir = Path.GetDirectoryName(filepath);
-                string modelName = Path.GetFileNameWithoutExtension(filepath);
-                if (modelDir.EndsWith(Constants.xpathModel))
-                {
-                    modelDir = modelDir.Substring(0, modelDir.Length - 6);
-                }
-                string dmDir = modelDir + Constants.delimiterPath + Constants.DMDirName;
-                List<string> dirList = new List<string>();
-                if (Directory.Exists(dmDir))
-                {
-                    dirList.Add(dmDir);
-                }
-                string prjDir = m_env.DataManager.DefaultDir + Constants.delimiterPath + modelName;
-                CreateProject(modelName, prjDir, Constants.defaultComment, dirList);
-
-                Thread t = new Thread(new ThreadStart(LoadModelData));
-                t.Start();
+                m_env.DataManager.LoadProject(filepath);
             }
             catch (Exception ex)
             {
@@ -1324,25 +1263,6 @@ namespace Ecell.IDE.MainWindow
             }
 
         }
-
-        /// <summary>
-        /// Load model from input file.
-        /// </summary>
-        /// <param name="path">file nane.</param>
-        internal void LoadModel(string path)
-        {
-            string modelDir = Path.GetDirectoryName(path);
-            if (modelDir.EndsWith(Constants.xpathModel))
-            {
-                modelDir = modelDir.Substring(0, modelDir.Length - 5);
-            }
-            CreateProject(Constants.defaultPrjID, modelDir, Constants.defaultComment, new List<string>());
-
-            m_openFileDialog.FileName = path;
-            Thread t = new Thread(new ThreadStart(LoadModelData));
-            t.Start();
-        }
-
 
         /// <summary>
         /// The action of [export model] menu click.

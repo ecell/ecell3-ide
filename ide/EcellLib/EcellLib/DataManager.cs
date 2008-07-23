@@ -3530,7 +3530,7 @@ namespace Ecell
             try
             {
                 if (m_currentProject != null)
-                    CloseProject(m_currentProject.Name);
+                    CloseProject(null);
                 if (project == null)
                     throw new Exception(MessageResources.ErrLoadPrj);
 
@@ -3610,12 +3610,7 @@ namespace Ecell
             catch (Exception ex)
             {
                 passList = null;
-                m_currentProject = null;
-                if (this.m_projectList.Contains(project))
-                {
-                    this.m_projectList.Remove(project);
-                    project = null;
-                }
+                CloseProject(null);
                 throw new Exception(String.Format(MessageResources.ErrLoadPrj,
                     new object[] { projectID }), ex);
             }
@@ -4346,7 +4341,7 @@ namespace Ecell
                 //
                 if (m_currentProject != null)
                 {
-                    this.CloseProject(m_currentProject.Name);
+                    this.CloseProject(null);
                 }
                 //
                 // Initialize

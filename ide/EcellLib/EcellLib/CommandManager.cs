@@ -772,18 +772,8 @@ namespace Ecell
         /// <param name="fileName">The "EML" file name</param>
         public void LoadModel(string fileName)
         {
-            if (m_env.DataManager.CurrentProjectID == null)
-            {
-                String modelDir = Path.GetDirectoryName(fileName);
-                if (modelDir.EndsWith(Constants.xpathModel))
-                {
-                    modelDir = modelDir.Substring(0, modelDir.Length - 5);
-                }
-                m_env.DataManager.CreateProject(Constants.defaultPrjID, DateTime.Now.ToString(), modelDir, new List<string>());
-            }
-            s_modelID = m_env.DataManager.LoadModel(fileName, false);
-            m_env.PluginManager.LoadData(s_modelID);
-            m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
+            m_env.DataManager.LoadProject(fileName);
+            s_modelID = m_env.DataManager.CurrentProjectID;
         }
 
         /// <summary>
