@@ -119,7 +119,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
         /// <summary>
         /// simple search.
         /// </summary>
-        private SearchInstance m_searchWin;
+        private SearchInstanceDialog m_searchWin;
         /// <summary>
         /// System status.
         /// </summary>
@@ -1534,7 +1534,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
             TreeNode node = m_targetNode;
             if (node == null) return;
             string dmDir = m_env.DataManager.GetDMDir();
-            InputName ind = new InputName(dmDir, node);
+            CreateDMDialog ind = new CreateDMDialog(dmDir, node);
             using (ind)
             {
                 DialogResult res = ind.ShowDialog();
@@ -1595,7 +1595,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
         {
             if (m_form.treeView1.Nodes.Count <= 0) return;
 
-            m_searchWin = new SearchInstance();
+            m_searchWin = new SearchInstanceDialog();
             m_searchWin.SetPlugin(this);
             m_searchWin.SISearchButton.Click += new EventHandler(m_searchWin.SearchButtonClick);
             m_searchWin.searchText.KeyPress += new KeyPressEventHandler(m_searchWin.SearchTextKeyPress);

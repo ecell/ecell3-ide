@@ -42,7 +42,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
     /// <summary>
     /// Form to input the new DM name.
     /// </summary>
-    public partial class InputName : Form
+    public partial class CreateDMDialog : Form
     {
         #region Fields
         /// <summary>
@@ -62,7 +62,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
         /// </summary>
         /// <param name="dmDir">The path of dm directory.</param>
         /// <param name="node">The current selected node.</param>
-        public InputName(string dmDir, TreeNode node)
+        public CreateDMDialog(string dmDir, TreeNode node)
         {
             InitializeComponent();
             m_dir = dmDir;

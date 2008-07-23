@@ -1,6 +1,6 @@
 ﻿namespace Ecell.IDE.Plugins.EntityListWindow
 {
-    partial class InputName
+    partial class CreateDMDialog
     {
         /// <summary>
         /// 必要なデザイナ変数です。
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InputName));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateDMDialog));
             System.Windows.Forms.Label label2;
             this.INNewButton = new System.Windows.Forms.Button();
             this.INCancelButton = new System.Windows.Forms.Button();

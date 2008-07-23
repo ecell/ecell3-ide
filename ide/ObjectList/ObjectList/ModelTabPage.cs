@@ -874,7 +874,7 @@ namespace Ecell.IDE.Plugins.ObjectList
         /// <param name="e">EventArgs.</param>
         private void ClickSearchMenu(object sender, EventArgs e)
         {
-            SearchInstance win = new SearchInstance();
+            SearchInstanceDialog win = new SearchInstanceDialog();
             win.SetPlugin(this);
             win.ShowDialog();
         }

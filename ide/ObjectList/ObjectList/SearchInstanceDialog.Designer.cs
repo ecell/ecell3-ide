@@ -3,7 +3,7 @@
     /// <summary>
     /// Dialog to search object in ObjectList.
     /// </summary>
-    partial class SearchInstance
+    partial class SearchInstanceDialog
     {
         /// <summary>
         /// 必要なデザイナ変数です。
@@ -31,7 +31,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchInstance));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchInstanceDialog));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.SISearchButton = new System.Windows.Forms.Button();

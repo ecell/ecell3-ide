@@ -38,7 +38,7 @@ using System.Windows.Forms;
 
 namespace Ecell.IDE.Plugins.ObjectList
 {
-    public partial class SearchInstance : Form
+    public partial class SearchInstanceDialog : Form
     {
         #region Fields
         /// <summary>
@@ -50,7 +50,7 @@ namespace Ecell.IDE.Plugins.ObjectList
         /// <summary>
         /// Constructor for SearchInstance.
         /// </summary>
-        public SearchInstance()
+        public SearchInstanceDialog()
         {
             InitializeComponent();
         }

@@ -41,7 +41,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
     /// <summary>
     /// Window set the condition to search object.
     /// </summary>
-    public partial class SearchInstance : Form
+    public partial class SearchInstanceDialog : Form
     {
         #region Fields
         /// <summary>
@@ -53,7 +53,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
         /// <summary>
         /// Constructor for SearchInstance.
         /// </summary>
-        public SearchInstance()
+        public SearchInstanceDialog()
         {
             InitializeComponent();
         }
