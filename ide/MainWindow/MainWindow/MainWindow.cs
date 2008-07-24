@@ -1078,24 +1078,7 @@ namespace Ecell.IDE.MainWindow
             {
                 if (npd.ShowDialog() != DialogResult.OK)
                     return;
-                try
-                {
-                    m_env.DataManager.CreateProject(npd.textName.Text, npd.textComment.Text, null, npd.DMList);
-                    List<EcellObject> list = new List<EcellObject>();
-                    list.Add(EcellObject.CreateObject(npd.textModelName.Text, null, Constants.xpathModel, null, null));
-                    m_env.DataManager.DataAdd(list);
-                    foreach (string paramID in m_env.DataManager.GetSimulationParameterIDs())
-                    {
-                        m_env.PluginManager.ParameterAdd(npd.textName.Text, paramID);
-                    }
-                    m_env.PluginManager.ParameterSet(m_env.DataManager.CurrentProjectID, m_env.DataManager.GetCurrentSimulationParameterID());
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine(ex);
-                    Util.ShowErrorDialog(ex.Message);
-                    CloseProject(npd.textName.Text);
-                }
+                m_env.DataManager.CreateNewProject(npd.textName.Text, npd.textModelName.Text, npd.textComment.Text, npd.DMList);
             }
         }
 

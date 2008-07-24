@@ -4319,8 +4319,33 @@ namespace Ecell
             return obj;
         }
 
-        public void CreateNewProject(string projectID, string modelID)
+        /// <summary>
+        /// Creates the new "Project" object.
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="modelID"></param>
+        /// <param name="comment"></param>
+        /// <param name="setDirList"></param>
+        public void CreateNewProject(string projectID, string modelID, string comment, IEnumerable<String> setDirList)
         {
+            try
+            {
+                CreateProject(projectID, modelID, comment, setDirList);
+                List<EcellObject> list = new List<EcellObject>();
+                list.Add(EcellObject.CreateObject(modelID, null, Constants.xpathModel, null, null));
+                DataAdd(list);
+                foreach (string paramID in GetSimulationParameterIDs())
+                {
+                    m_env.PluginManager.ParameterAdd(projectID, paramID);
+                }
+                m_env.PluginManager.ParameterSet(CurrentProjectID, GetCurrentSimulationParameterID());
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                Util.ShowErrorDialog(ex.Message);
+                CloseProject(projectID);
+            }
 
         }
         /// <summary>

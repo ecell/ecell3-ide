@@ -712,6 +712,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private void AddLayer(PLayer layer)
         {
             m_pCanvas.Root.AddChild(layer);
+            if (m_pCanvas.Camera.LayersReference.Contains(layer))
+                m_pCanvas.Camera.RemoveLayer(layer);
             m_pCanvas.Camera.AddLayer(layer);
             m_overviewCanvas.AddObservedLayer(layer);
         }
@@ -737,6 +739,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             AddLayer(layer);
             AddLayer(m_ctrlLayer);
             RefreshLayerTable();
+            m_con.Canvas.OverviewCanvas.Refresh();
         }
 
         /// <summary>
@@ -814,7 +817,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Delete selected layer.
         /// </summary>
         /// <param name="name"></param>
-        public void DeleteLayer(string name)
+        public void RemoveLayer(string name)
         {
             PPathwayLayer layer = m_layers[name];
             m_layers.Remove(name);

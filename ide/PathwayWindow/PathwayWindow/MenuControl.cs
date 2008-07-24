@@ -1186,6 +1186,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             CanvasControl canvas = m_con.Canvas;
             PPathwayObject obj = (PPathwayObject)canvas.FocusNode;
             canvas.LayerMoveToFront(obj.Layer);
+            canvas.OverviewCanvas.Refresh();
         }
 
         /// <summary>
@@ -1198,6 +1199,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             CanvasControl canvas = m_con.Canvas;
             PPathwayObject obj = (PPathwayObject)canvas.FocusNode;
             canvas.LayerMoveToBack(obj.Layer);
+            canvas.OverviewCanvas.Refresh();
         }
 
         /// <summary>

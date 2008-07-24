@@ -100,7 +100,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             base.OnMouseLeave(e);
             e.Canvas.Cursor = Cursors.Default;
         }
-                
+
+        /// <summary>
+        /// Refresh
+        /// </summary>
+        public override void Refresh()
+        {
+            Brush = m_brush;
+            base.Refresh();
+        }
         #endregion
     }
 }

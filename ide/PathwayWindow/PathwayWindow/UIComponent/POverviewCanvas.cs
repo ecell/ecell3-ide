@@ -63,6 +63,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         private PPath m_transparentNode;
 
+        private PLayer m_ctrlLayer;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -81,6 +82,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.AnimatingRenderQuality = RenderQuality.HighQuality;
             this.DefaultRenderQuality = RenderQuality.HighQuality;
             this.InteractingRenderQuality = RenderQuality.HighQuality;
+            this.Interacting = true;
 
             this.Camera.AddLayer(observedLayer);
             this.RemoveInputEventListener(this.PanEventHandler);
@@ -90,6 +92,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.Camera.TranslateViewBy(500, 500);
             this.Layer.AddChild(m_transparentNode);
             this.Layer.AddChild(m_area);
+            m_ctrlLayer = this.Layer;
             this.Camera.AddLayer(this.Layer);
             this.Camera.ChildrenPickable = false;
             this.Camera.BoundsChanged += new PPropertyEventHandler(Camera_BoundsChanged);
@@ -106,8 +109,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="layer"></param>
         public void AddObservedLayer(PLayer layer)
         {
+            if (this.Camera.LayersReference.Contains(layer))
+                this.Camera.RemoveLayer(layer);
             this.Camera.AddLayer(layer);
-            this.Camera.AddLayer(this.Layer);
+            if (this.Camera.LayersReference.Contains(m_ctrlLayer))
+                this.Camera.RemoveLayer(m_ctrlLayer);
+            this.Camera.AddLayer(m_ctrlLayer);
+            this.Camera.ChildrenPickable = false;
         }
 
         /// <summary>
@@ -134,10 +142,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="rect">The overviewing area of pathway view.</param>
         public void UpdateOverview(RectangleF rect)
         {
-            this.m_area.Offset = PointF.Empty;
-            this.m_area.Rect = rect;
-            this.UpdateTransparent();
-            this.Refresh();
+            m_area.Offset = PointF.Empty;
+            m_area.Rect = rect;
+            m_area.Refresh();
+            UpdateTransparent();
+            Refresh();
+        }
+
+        /// <summary>
+        /// Refresh
+        /// </summary>
+        public override void Refresh()
+        {
+            base.Refresh();
+            m_area.Refresh();
         }
 
         /// <summary>
@@ -152,8 +170,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             /// camera by this object (PDisplayedArea instance).
             /// </summary>
             private PCamera m_mainCamera;
-
-            private PointF startPoint;
             private PointF prevPoint;
 
             /// <summary>
@@ -191,7 +207,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             public override void OnMouseDown(object sender, PInputEventArgs e)
             {
                 base.OnMouseDown(sender, e);
-                startPoint = prevPoint = e.PickedNode.Offset;
+                prevPoint = e.PickedNode.Offset;
             }
         }
     }

@@ -50,16 +50,6 @@ namespace Ecell.IDE.MainWindow
         /// 
         /// </summary>
         [Test()]
-        public void TestLoadModelThread()
-        {
-            string modelID = null;
-            _unitUnderTest.LoadModelThread(modelID);
-            Assert.Fail("Create or modify test(s).");
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestGetDockContent()
         {
             string name = null;

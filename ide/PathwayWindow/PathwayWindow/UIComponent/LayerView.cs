@@ -291,11 +291,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             nodeMenu.Items.Add(menuMergeLayer);
             m_cMenuDict.Add(MenuMerge, menuMergeLayer);
 
-            ToolStripItem menuDeleteLayer = new ToolStripMenuItem(MenuDelete);
-            menuDeleteLayer.Text = MessageResources.LayerMenuDelete;
-            menuDeleteLayer.Click += new EventHandler(DeleteLayerClick);
-            nodeMenu.Items.Add(menuDeleteLayer);
-            m_cMenuDict.Add(MenuDelete, menuDeleteLayer);
+            ToolStripItem menuRemoveLayer = new ToolStripMenuItem(MenuDelete);
+            menuRemoveLayer.Text = MessageResources.LayerMenuDelete;
+            menuRemoveLayer.Click += new EventHandler(RemoveLayerClick);
+            nodeMenu.Items.Add(menuRemoveLayer);
+            m_cMenuDict.Add(MenuDelete, menuRemoveLayer);
 
             return nodeMenu;
         }
@@ -429,10 +429,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DeleteLayerClick(object sender, EventArgs e)
+        private void RemoveLayerClick(object sender, EventArgs e)
         {
             CanvasControl canvas = m_con.Canvas;
-            canvas.DeleteLayer(m_selectedLayer);
+            canvas.RemoveLayer(m_selectedLayer);
         }
 
         /// <summary>
