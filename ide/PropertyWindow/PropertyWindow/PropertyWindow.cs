@@ -61,18 +61,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// </summary>
         private DataGridView m_dgv = null;
         /// <summary>
-        /// Window to set the list of variable.
-        /// </summary>
-        private VariableReferenceEditDialog m_win;
-        /// <summary>
-        /// Window to set the expression of process.
-        /// </summary>
-        private FormulatorDialog m_fwin;
-        /// <summary>
-        /// Control to display the expression.
-        /// </summary>
-        private FormulatorControl m_cnt;
-        /// <summary>
         /// Controller to edit ComboBox in DataGridView.
         /// </summary>
         private DataGridViewComboBoxEditingControl m_ComboControl = null;
@@ -288,41 +276,56 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// </summary>
         public void ShowFormulatorWindow()
         {
-            m_fwin = new FormulatorDialog();
-            m_cnt = new FormulatorControl();
-            m_fwin.tableLayoutPanel.Controls.Add(m_cnt, 0, 0);
-            m_cnt.Dock = DockStyle.Fill;
+            FormulatorDialog fwin = new FormulatorDialog();
+            using (fwin)
+            {
+                FormulatorControl cnt = new FormulatorControl();
+                cnt.Dock = DockStyle.Fill;
+                fwin.tableLayoutPanel.Controls.Add(cnt, 0, 0);
 
-            List<string> list = new List<string>();
-            list.Add("self.getSuperSystem().SizeN_A");
-            foreach (EcellData d in m_current.Value)
-            {
-                String str = d.Name;
-                if (str != EcellProcess.ACTIVITY &&
-                    str != EcellProcess.EXPRESSION && str != EcellProcess.NAME &&
-                    str != EcellProcess.PRIORITY && str != EcellProcess.STEPPERID &&
-                    str != EcellProcess.VARIABLEREFERENCELIST && str != EcellProcess.ISCONTINUOUS)
-                    list.Add(str);
-            }
-            List<EcellReference> tmpList = EcellReference.ConvertString(m_refStr);
-            foreach (EcellReference r in tmpList)
-            {
-                list.Add(r.Name + ".MolarConc");
-            }
-            foreach (EcellReference r in tmpList)
-            {
-                list.Add(r.Name + ".Value");
-            }
-            m_cnt.AddReserveString(list);
-
-
-            m_cnt.ImportFormulate(m_expression);
-            using (m_fwin)
-            {
-                DialogResult res = m_fwin.ShowDialog();
-                if (res == DialogResult.OK)
+                List<string> list = new List<string>();
+                list.Add("self.getSuperSystem().SizeN_A");
+                foreach (EcellData d in m_current.Value)
                 {
-                    UpdateFormulator(null, null);
+                    String str = d.Name;
+                    if (str != EcellProcess.ACTIVITY &&
+                        str != EcellProcess.EXPRESSION && str != EcellProcess.NAME &&
+                        str != EcellProcess.PRIORITY && str != EcellProcess.STEPPERID &&
+                        str != EcellProcess.VARIABLEREFERENCELIST && str != EcellProcess.ISCONTINUOUS)
+                        list.Add(str);
+                }
+                List<EcellReference> tmpList = EcellReference.ConvertString(m_refStr);
+                foreach (EcellReference r in tmpList)
+                {
+                    list.Add(r.Name + ".MolarConc");
+                }
+                foreach (EcellReference r in tmpList)
+                {
+                    list.Add(r.Name + ".Value");
+                }
+                cnt.AddReserveString(list);
+
+                cnt.ImportFormulate(m_expression);
+                if (fwin.ShowDialog() != DialogResult.OK)
+                    return;
+                string tmp = cnt.ExportFormulate();
+                EcellObject p = m_current.Copy();
+                foreach (EcellData d in p.Value)
+                {
+                    if (d.Name.Equals(Constants.xpathExpression))
+                    {
+                        d.Value = new EcellValue(tmp);
+                    }
+                }
+                try
+                {
+                    NotifyDataChanged(m_current.ModelID, m_current.Key, p);
+                    m_expression = tmp;
+                }
+                catch (Exception ex)
+                {
+                    Util.ShowErrorDialog(ex.Message);
+                    m_isChanging = false;
                 }
             }
         }
@@ -857,37 +860,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         }
 
         /// <summary>
-        /// Event of clicking the OK button in formulator window.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void UpdateFormulator(object sender, EventArgs e)
-        {
-            string tmp = m_cnt.ExportFormulate();
-            EcellObject p = m_current.Copy();
-            foreach (EcellData d in p.Value)
-            {
-                if (d.Name.Equals(Constants.xpathExpression))
-                {
-                    d.Value = new EcellValue(tmp);
-                }
-            }
-            try
-            {
-                NotifyDataChanged(m_current.ModelID, m_current.Key, p);
-                m_expression = tmp;
-            }
-            catch (Exception ex)
-            {
-                Util.ShowErrorDialog(ex.Message);
-                m_isChanging = false;
-            }
-
-            m_fwin.Close();
-            m_fwin.Dispose();
-        }
-
-        /// <summary>
         /// Event when mouse is leave on DataDridView.
         /// </summary>
         /// <param name="sender">DataGridView.</param>
@@ -920,39 +892,30 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
             else if (c.Value.Equals("Edit Variable Reference ..."))
             {
-                m_win = new VariableReferenceEditDialog(m_dManager, m_pManager);
-
                 List<EcellReference> list = EcellReference.ConvertString(m_refStr);
-                foreach (EcellReference v in list)
+                VariableReferenceEditDialog win = new VariableReferenceEditDialog(m_dManager, m_pManager, list);
+                using (win)
                 {
-                    DataGridViewRow row = new DataGridViewRow();
+                    if (win.ShowDialog() != DialogResult.OK)
+                        return;
+                    String refStr = win.ReferenceString;
+                    if (refStr == null || m_refStr.Equals(refStr))
+                        return;
 
-                    bool isAccessor = false;
-                    if (v.IsAccessor == 1)
-                        isAccessor = true;
-                    m_win.AddReference(v.Name, v.FullID, v.Coefficient, isAccessor);
-                }
-                using (m_win)
-                {
-                    DialogResult res = m_win.ShowDialog();
-                    if (res == DialogResult.OK)
+                    EcellObject obj = m_current.Copy();
+                    obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).Value =
+                        EcellValue.ToVariableReferenceList(refStr);
+
+                    try
                     {
-                        string refStr = m_win.ReferenceString;
-                        EcellObject obj = m_current.Copy();
-                        obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).Value =
-                            EcellValue.ToVariableReferenceList(refStr);
-
-                        try
-                        {
-                            NotifyDataChanged(m_current.ModelID, m_current.Key, obj);
-                            m_refStr = refStr;
-                        }
-                        catch (Exception ex)
-                        {
-                            Util.ShowErrorDialog(ex.Message);
-                            m_isChanging = false;
-                            return;
-                        }
+                        NotifyDataChanged(m_current.ModelID, m_current.Key, obj);
+                        m_refStr = refStr;
+                    }
+                    catch (Exception ex)
+                    {
+                        Util.ShowErrorDialog(ex.Message);
+                        m_isChanging = false;
+                        return;
                     }
                 }
             }

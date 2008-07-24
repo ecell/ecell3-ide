@@ -65,7 +65,6 @@
   <ItemGroup>
     <Compile Include="TestDockWindowSerializer.cs" />
     <Compile Include="TestMainWindow.cs" />
-    <Compile Include="TestSelectDirectory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EcellLib" />

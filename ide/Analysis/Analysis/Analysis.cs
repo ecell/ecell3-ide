@@ -794,9 +794,12 @@ namespace Ecell.IDE.Plugins.Analysis
             if (m_currentAnalysus == null) return;
 
             SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = Constants.FileExtCSV;
-            if (dialog.ShowDialog() != DialogResult.OK)
-                return;
+            using (dialog)
+            {
+                dialog.Filter = Constants.FileExtCSV;
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return;
+            }
 
             if (m_currentAnalysus.Equals("RobustAnalysis"))
                 m_rWin.SaveRobustAnalysisResult(dialog.FileName);
@@ -811,9 +814,12 @@ namespace Ecell.IDE.Plugins.Analysis
         private void LoadAnalysisResult(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = Constants.FileExtCSV;
-            if (dialog.ShowDialog() == DialogResult.OK)
+            using (dialog)
             {
+                dialog.Filter = Constants.FileExtCSV;
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return;
+
                 m_rWin.LoadResultFile(dialog.FileName);
             }
         }

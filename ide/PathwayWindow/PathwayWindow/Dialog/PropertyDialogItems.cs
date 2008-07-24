@@ -396,7 +396,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
     {
         private TextBox m_textBox;
         private Button m_button;
-        private FileDialog m_fileDialog;
+        private string m_filter;
+        private int m_filterIndex;
+
+
         /// <summary>
         /// Get/Set m_textBox.Text
         /// </summary>
@@ -406,13 +409,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
             set { m_textBox.Text = value; }
         }
 
-        /// <summary>
-        /// Get m_fileDialog
-        /// </summary>
-        public FileDialog Dialog
+        public string Filter
         {
-            get { return m_fileDialog; }
+            get { return m_filter; }
+            set { m_filter = value; }
         }
+
+        public int FilterIndex
+        {
+            get { return m_filterIndex; }
+            set { m_filterIndex = value; }
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -425,7 +433,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
             // Create New Object.
             this.m_textBox = new TextBox();
             this.m_button = new Button();
-            this.m_fileDialog = new OpenFileDialog();
 
             this.SuspendLayout();
             this.Controls.Add(this.m_button);
@@ -449,11 +456,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
 
         void m_button_Click(object sender, EventArgs e)
         {
-            m_fileDialog.FileName = m_textBox.Text;
-            DialogResult result = m_fileDialog.ShowDialog();
-            if (result == DialogResult.OK)
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            using (fileDialog)
             {
-                m_textBox.Text = m_fileDialog.FileName;
+                fileDialog.Filter = m_filter;
+                fileDialog.FilterIndex = m_filterIndex;
+                fileDialog.FileName = m_textBox.Text;
+                DialogResult result = fileDialog.ShowDialog();
+                if (result != DialogResult.OK)
+                    return;
+                m_textBox.Text = fileDialog.FileName;
             }
         }
     }

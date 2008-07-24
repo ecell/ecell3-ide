@@ -191,6 +191,18 @@ namespace Ecell.IDE.MainWindow
             m_userWindowSettingPath = Path.Combine(m_userWindowSettingPath, Constants.fileWinSetting);
         }
 
+        private void ResetCurrentDirectory()
+        {
+            string currentDir = Util.GetBaseDir();
+
+            if (currentDir == null)
+            {
+                currentDir = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)
+                    + "\\e-cell\\project";
+            }
+            m_currentDir = currentDir;
+        }
+
         /// <summary>
         /// Load plugins.
         /// </summary>
@@ -198,14 +210,8 @@ namespace Ecell.IDE.MainWindow
         {
             m_env.PluginManager.AppVersion = Assembly.GetExecutingAssembly().GetName().Version;
             m_pluginList = new List<string>();
-            m_currentDir = Util.GetBaseDir();
+            ResetCurrentDirectory();
 
-            if (m_currentDir == null)
-            {
-                m_currentDir =
-                    System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-                m_currentDir = m_currentDir + "\\e-cell\\project";
-            }
             // Load plugins
             foreach (string pluginDir in Util.GetPluginDirs())
             {
@@ -1396,15 +1402,16 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void ModelEditorMenuClick(object sender, EventArgs e)
         {
-            m_currentDir = Util.GetBaseDir();
+            string currentDir = Util.GetBaseDir();
 
-            SelectDirectory dialog = new SelectDirectory();
-            String mes = MessageResources.ExpModelMes;
-            dialog.Description = mes;
-            if (dialog.ShowDialog() == DialogResult.OK)
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            using (dialog)
             {
-                m_currentDir = dialog.DirectoryPath;
-                Util.SetBaseDir(m_currentDir);
+                dialog.Description = MessageResources.ExpModelMes;
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return;
+                Util.SetBaseDir(dialog.SelectedPath);
+                ResetCurrentDirectory();
             }
         }
 
@@ -1657,8 +1664,10 @@ namespace Ecell.IDE.MainWindow
         private void ClickDistributedEnvMenu(object sender, EventArgs e)
         {
             GridConfigurationDialog win = new GridConfigurationDialog(m_env.JobManager);
-            win.Shown += new EventHandler(win.WindowShown);
-            win.ShowDialog();
+            using (win)
+            {
+                win.ShowDialog();
+            }
         }
         #endregion
 

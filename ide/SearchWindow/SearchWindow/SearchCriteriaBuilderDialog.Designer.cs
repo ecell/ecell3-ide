@@ -144,7 +144,6 @@
             this.SCCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.SCCloseButton.Name = "SCCloseButton";
             this.SCCloseButton.UseVisualStyleBackColor = true;
-            this.SCCloseButton.Click += new System.EventHandler(this.CloseButtonClick);
             // 
             // SearchCriteriaBuilderDialog
             // 

@@ -201,17 +201,18 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         private void DMAdd_Click(object sender, EventArgs e)
         {
-            SelectDirectory win = new SelectDirectory();
-            String mes = MessageResources.ExpModelMes;
-            win.Description = mes;
-            if (win.ShowDialog() != DialogResult.OK)
-                return;
+            FolderBrowserDialog win = new FolderBrowserDialog();
+            win.Description = MessageResources.ExpModelMes;
+            using (win)
+            {
+                if (win.ShowDialog() != DialogResult.OK)
+                    return;
 
-            string dir = win.DirectoryPath;
-            if (DMListBox.Items.Contains(dir))
-                return;
-            
-            DMListBox.Items.Add(dir);
+                if (DMListBox.Items.Contains(win.SelectedPath))
+                    return;
+
+                DMListBox.Items.Add(win.SelectedPath);
+            }
         }
         /// <summary>
         /// 

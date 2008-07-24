@@ -117,19 +117,20 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs.</param>
         private void ClickAddButton(object sender, EventArgs e)
         {
-            SelectDirectory win = new SelectDirectory();
-            String mes = MessageResources.ExpModelMes;
-            win.Description = mes;
-            if (win.ShowDialog() == DialogResult.OK)
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.Description = MessageResources.SelectDMDir;
+            using (fbd)
             {
-                string dir = win.DirectoryPath;
-                CPListBox.Items.Add(dir);
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    CPListBox.Items.Add(fbd.SelectedPath);
+                }
             }
         }
 
         private void NewProjectDialog_FormClosing(object obj, FormClosingEventArgs args)
         {
-            if (!ValidateForm())
+            if (DialogResult == DialogResult.OK && !ValidateForm())
             {
                 args.Cancel = true;
                 return;

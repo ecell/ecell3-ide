@@ -47,16 +47,5 @@ namespace Ecell.IDE
         {
             InitializeComponent();
         }
-
-        /// <summary>
-        /// event of clicking the cancel button in formulator window.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void CancelButtonClick(object sender, EventArgs e)
-        {
-            this.Close();
-            this.Dispose();
-        }
     }
 }

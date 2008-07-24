@@ -70,10 +70,6 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         private ToolStripComboBox m_stepUnitCombo = null;
         /// <summary>
-        /// Window for set the the parameter of simulation
-        /// </summary>
-        private SimulationConfigurationDialog m_win;
-        /// <summary>
         /// the menu strip for [Run ...]
         /// </summary>
         private ToolStripMenuItem m_runSim;
@@ -449,8 +445,11 @@ namespace Ecell.IDE.Plugins.Simulation
                 ResetSimulation(sender, e);
             }
 
-            m_win = new SimulationConfigurationDialog(this);
-            m_win.ShowDialog();
+            SimulationConfigurationDialog win = new SimulationConfigurationDialog(this);
+            using (win)
+            {
+                win.ShowDialog();
+            }
         }
 
         /// <summary>

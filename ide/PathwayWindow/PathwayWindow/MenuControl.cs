@@ -1250,18 +1250,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private void ShowDialogClick(object sender, EventArgs e)
         {
             PropertyDialog dialog = new PropertyDialog();
-            dialog.Text = "PathwaySettings";
-            PropertyDialogTabPage componentPage = m_con.ComponentManager.CreateTabPage();
-            PropertyDialogTabPage animationPage = m_con.Animation.CreateTabPage();
-            dialog.TabControl.Controls.Add(animationPage);
-            dialog.TabControl.Controls.Add(componentPage);
-            if (dialog.ShowDialog() == DialogResult.OK)
+            using (dialog)
             {
+                dialog.Text = "PathwaySettings";
+                PropertyDialogTabPage componentPage = m_con.ComponentManager.CreateTabPage();
+                PropertyDialogTabPage animationPage = m_con.Animation.CreateTabPage();
+                dialog.TabControl.Controls.Add(animationPage);
+                dialog.TabControl.Controls.Add(componentPage);
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return;
+
                 componentPage.ApplyChange();
                 animationPage.ApplyChange();
                 m_con.ResetObjectSettings();
             }
-            dialog.Close();
         }
         /// <summary>
         /// 
@@ -1417,11 +1419,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (m_con.Canvas == null)
                 return;
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "SVG File|*.svg";
-            sfd.CheckPathExists = true;
-            sfd.CreatePrompt = true;
-            if (sfd.ShowDialog() == DialogResult.OK)
+            using (sfd)
             {
+                sfd.Filter = "SVG File|*.svg";
+                sfd.CheckPathExists = true;
+                sfd.CreatePrompt = true;
+                if (sfd.ShowDialog() != DialogResult.OK)
+                    return;
+
                 // Save window settings.
                 GraphicsExporter.ExportSVG(m_con.Canvas, sfd.FileName);
             }

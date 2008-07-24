@@ -425,11 +425,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             PropertyDialog dialog = new PropertyDialog();
             dialog.Text = "ComponentManagerDialog";
-            PropertyDialogTabPage page = CreateTabPage();
-            dialog.TabControl.Controls.Add(page);
-            if (dialog.ShowDialog() == DialogResult.OK)
-                page.ApplyChange();
-            dialog.Dispose();
+            using (dialog)
+            {
+                PropertyDialogTabPage page = CreateTabPage();
+                using (page)
+                {
+                    dialog.TabControl.Controls.Add(page);
+                    if (dialog.ShowDialog() != DialogResult.OK)
+                        return;
+
+                    page.ApplyChange();
+                }
+            }
         }
 
         /// <summary>

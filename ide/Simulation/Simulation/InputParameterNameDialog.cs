@@ -46,11 +46,13 @@ namespace Ecell.IDE.Plugins.Simulation
         /// DataManager.
         /// </summary>
         SimulationConfigurationDialog m_owner;
-        /// <summary>
-        /// the parent window with SimulationSetupWindow.
-        /// </summary>
-        SimulationConfigurationDialog m_win;
         #endregion
+
+
+        public string InputText
+        {
+            get { return paramTextBox.Text; }
+        }
 
         /// <summary>
         /// Constructor for NewParameterWindow.
@@ -61,120 +63,7 @@ namespace Ecell.IDE.Plugins.Simulation
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Set SimulationSetup to the parent window.
-        /// </summary>
-        /// <param name="s"></param>
-        public void SetParentWindow(SimulationConfigurationDialog s)
-        {
-            m_win = s;
-        }
-
         #region Event
-        /// <summary>
-        /// The action of clicking Add button in SimulationSetupWindow.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void AddStepperClick(object sender, EventArgs e)
-        {
-            string data = paramTextBox.Text;
-            if (String.IsNullOrEmpty(data))
-            {
-                Util.ShowWarningDialog(String.Format(MessageResources.ErrNoInput,
-                    new object[] { "Name" }));
-
-                return;
-            }
-
-            if (Util.IsNGforID(data))
-            {
-                Util.ShowWarningDialog(MessageResources.ErrIDNG);
-                return;
-            }
-            try
-            {
-                string paramID = m_win.GetCurrentParameter();
-                string modelID = m_win.GetCurrentModel();
-                string stepperID = m_win.GetCurrentStepper();
-                Dictionary<string, EcellData> propDict =
-                    m_owner.DataManager.GetStepperProperty(stepperID);
-                List<EcellData> list = new List<EcellData>();
-                foreach (string key in propDict.Keys)
-                {
-                    if (propDict[key].Name == Constants.propProcessList ||
-                        propDict[key].Name == Constants.propSystemList ||
-                        propDict[key].Name == Constants.propReadVariableList ||
-                        propDict[key].Name == Constants.propWriteVariableList)
-                    {
-                        EcellData d = propDict[key];
-                        List<EcellValue> nulllist = new List<EcellValue>();
-                        d.Value = new EcellValue(nulllist);
-                        list.Add(d);
-                    }
-                    else
-                    {
-                        list.Add(propDict[key]);
-                    }
-                }
-                EcellObject obj = EcellObject.CreateObject(modelID, data, Constants.xpathStepper, stepperID, list);
-                m_owner.DataManager.AddStepperID(paramID, obj);
-                m_win.AddStepper(data);
-                m_win.SetStepperList(m_owner.DataManager.GetStepper(paramID, modelID));
-                Close();
-                Dispose();
-            }
-            catch (Exception ex)
-            {                
-                Util.ShowErrorDialog(ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// The action of clicking cancel button in new stepper window.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void CancelStepperClick(object sender, EventArgs e)
-        {
-            Close();
-            Dispose();
-        }
-
-        /// <summary>
-        /// The action of clicking cancel button in NewParameterWindow.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void CancelParameterClick(object sender, EventArgs e)
-        {
-            Dispose();
-        }
-
-        /// <summary>
-        /// The action of clicking ok button in NewParameterWindow.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void NewParameterClick(object sender, EventArgs e)
-        {
-            if (String.IsNullOrEmpty(paramTextBox.Text))
-            {
-                Util.ShowWarningDialog(String.Format(MessageResources.ErrNoInput,
-                    new object[] { "Name" }));
-                return;
-            }
-            if (Util.IsNGforID(paramTextBox.Text))
-            {
-                Util.ShowWarningDialog(MessageResources.ErrIDNG);
-                return;
-            }
-            string newParamName = paramTextBox.Text;
-            m_owner.DataManager.CreateSimulationParameter(newParamName);
-            m_win.SetNewParameter(newParamName);
-            Dispose();
-        }
-
         /// <summary>
         /// Event when this form is shown.
         /// </summary>
@@ -185,5 +74,23 @@ namespace Ecell.IDE.Plugins.Simulation
             this.paramTextBox.Focus();
         }
         #endregion
+
+        void InputParameterNameDialog_FormClosing(object o, FormClosingEventArgs args)
+        {
+            if (String.IsNullOrEmpty(paramTextBox.Text))
+            {
+                Util.ShowWarningDialog(
+                    String.Format(MessageResources.ErrNoInput,
+                        new object[] { "Name" }));
+                args.Cancel = true;
+                return;
+            }
+            if (Util.IsNGforID(paramTextBox.Text))
+            {
+                Util.ShowWarningDialog(MessageResources.ErrIDNG);
+                args.Cancel = true;
+                return;
+            }
+        }
     }
 }

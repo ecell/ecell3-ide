@@ -62,10 +62,6 @@ namespace Ecell.IDE
         /// </summary>
         private Dictionary<string, EcellData> m_propDict = new Dictionary<string, EcellData>();
         /// <summary>
-        /// m_win (editable variable reference list window)
-        /// </summary>
-        VariableReferenceEditDialog m_win;
-        /// <summary>
         /// current selected object.
         /// </summary>
         private EcellObject m_currentObj;
@@ -1604,24 +1600,13 @@ namespace Ecell.IDE
         /// <param name="e">EventArgs</param>
         private void ShowVarRefWindow(object sender, EventArgs e)
         {
-            m_win = new VariableReferenceEditDialog(m_dManager, m_pManager);
-
-            List<EcellReference> list = EcellReference.ConvertString(m_refStr);
-            foreach (EcellReference v in list)
+            VariableReferenceEditDialog win = new VariableReferenceEditDialog(m_dManager, m_pManager, EcellReference.ConvertString(m_refStr));
+            using (win)
             {
-                DataGridViewRow row = new DataGridViewRow();
-
-                bool isAccessor = false;
-                if (v.IsAccessor == 1) isAccessor = true;
-                m_win.AddReference(v.Name, v.Key, v.Coefficient, isAccessor);
-            }
-
-            using (m_win)
-            {
-                DialogResult res = m_win.ShowDialog();
+                DialogResult res = win.ShowDialog();
                 if (res == DialogResult.OK)
                 {
-                    m_refStr = m_win.ReferenceString;
+                    m_refStr = win.ReferenceString;
 
                 }
             }

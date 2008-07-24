@@ -63,8 +63,11 @@ namespace Ecell.IDE.Plugins.SearchWindow
         /// <param name="e">EventArgs</param>
         public void ShowSearchWindow(object sender, EventArgs e)
         {
-            m_cnd = new SearchCriteriaBuilderDialog(this);
-            m_cnd.ShowDialog();
+            SearchCriteriaBuilderDialog cnd = new SearchCriteriaBuilderDialog(this);
+            using (cnd)
+            {
+                cnd.ShowDialog();
+            }
         }
 
         /// <summary>
@@ -78,8 +81,9 @@ namespace Ecell.IDE.Plugins.SearchWindow
             if (!m_searchMenu.Enabled) return;
             if (e.KeyChar == (char)Keys.Enter)
             {
-                if (m_text.Text == null || m_text.Text.Equals("")) return;
-                if (m_cnd == null || m_cnd.IsDisposed)
+                if (string.IsNullOrEmpty(m_text.Text))
+                    return;
+                if (m_cnd == null)
                     m_cnd = new SearchCriteriaBuilderDialog(this);
                 m_cnd.Show();
                 m_cnd.Search(m_text.Text);
@@ -98,8 +102,9 @@ namespace Ecell.IDE.Plugins.SearchWindow
         private void Search(object sender, EventArgs e)
         {
             if (!m_searchMenu.Enabled) return;
-            if (m_text.Text == null || m_text.Text.Equals("")) return;
-            if (m_cnd == null || m_cnd.IsDisposed)
+            if (string.IsNullOrEmpty(m_text.Text))
+                return;
+            if (m_cnd == null)
                 m_cnd = new SearchCriteriaBuilderDialog(this);
             m_cnd.Show();
             m_cnd.Search(m_text.Text);

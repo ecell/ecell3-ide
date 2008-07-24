@@ -43,6 +43,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
     /// </summary>
     public partial class InputBoxDialog : PathwayDialog
     {
+        public string InputText
+        {
+            get { return answer.Text; }
+        }
+
         #region Constructor
         /// <summary>
         /// Constructor
@@ -95,11 +100,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         public static string Show(string message, string title, string defaultAns)
         {
             InputBoxDialog dialog = new InputBoxDialog(message, title, defaultAns);
-            string ans = null;
-            if (dialog.ShowDialog() == DialogResult.OK)
-                ans = dialog.answer.Text;
-            dialog.Dispose();
-            return ans;
+            using (dialog)
+            {
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return null;
+
+                return dialog.InputText;
+            }
         }
         #endregion
 

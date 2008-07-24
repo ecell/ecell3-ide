@@ -875,8 +875,7 @@ namespace Ecell.IDE.Plugins.ObjectList
         private void ClickSearchMenu(object sender, EventArgs e)
         {
             SearchInstanceDialog win = new SearchInstanceDialog();
-            win.SetPlugin(this);
-            win.ShowDialog();
+            using (win) win.ShowDialog();
         }
 
         /// <summary>

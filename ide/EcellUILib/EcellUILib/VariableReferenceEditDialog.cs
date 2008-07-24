@@ -73,12 +73,16 @@ namespace Ecell.IDE
         /// <summary>
         /// Constructor for VariableRefWindow.
         /// </summary>
-        public VariableReferenceEditDialog(DataManager dManager, PluginManager pManager)
+        public VariableReferenceEditDialog(DataManager dManager, PluginManager pManager, IEnumerable<EcellReference> list)
         {
-            InitializeComponent();
-
             m_dManager = dManager;
             m_pManager = pManager;
+            InitializeComponent();
+            foreach (EcellReference v in list)
+            {
+                DataGridViewRow row = new DataGridViewRow();
+                AddReference(v.Name, v.FullID, v.Coefficient);
+            }
         }
 
         /// <summary>
@@ -235,11 +239,11 @@ namespace Ecell.IDE
             dgv.Rows.Add(new object[] { id, key, p , true });
         }
 
-        public void AddReference(string name, string key, int coeff, bool isAccessor)
+        public void AddReference(string name, string key, int coeff)
         {
             string id = key;
             if (!key.StartsWith(":")) id = ":" + key;
-            dgv.Rows.Add(new object[] { name, id, coeff, isAccessor });
+            dgv.Rows.Add(new object[] { name, id, coeff });
         }
 
         #region Event
@@ -303,7 +307,6 @@ namespace Ecell.IDE
                 try
                 {
                     v.Coefficient = Convert.ToInt32(this.dgv[2, i].Value);
-                    v.IsAccessor = 1;
                 }
                 catch (Exception ex)
                 {

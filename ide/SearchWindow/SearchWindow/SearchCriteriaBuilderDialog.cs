@@ -145,17 +145,6 @@ namespace Ecell.IDE.Plugins.SearchWindow
         }
 
         /// <summary>
-        /// the action of clicking the close button.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        private void CloseButtonClick(object sender, EventArgs e)
-        {
-            this.Close();
-            this.Dispose();
-        }
-
-        /// <summary>
         /// the action of double clicking in DataGridView.
         /// </summary>
         /// <param name="sender">object(DataGridView)</param>
@@ -189,14 +178,18 @@ namespace Ecell.IDE.Plugins.SearchWindow
         /// <param name="e">KeyPressEventArgs</param>
         private void idTextKeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Enter)
+            switch (e.KeyChar)
             {
-                SCSearchButton.PerformClick();
+                case (char)Keys.Enter:
+                    DialogResult = DialogResult.OK;
+                    break;
+                case (char)Keys.Escape:
+                    DialogResult = DialogResult.Cancel;
+                    break;
+                default:
+                    return;
             }
-            else if (e.KeyChar == (char)Keys.Escape)
-            {
-                SCCloseButton.PerformClick();
-            }
+            Close();
         }
 
         /// <summary>

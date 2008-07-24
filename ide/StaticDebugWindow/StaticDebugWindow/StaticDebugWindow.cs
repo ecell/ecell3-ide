@@ -312,18 +312,20 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         public void ShowStaticDebugSetupWindow(object sender, EventArgs e)
         {
             StaticDebugSetupWindow win = new StaticDebugSetupWindow();
-            win.SetPlugin(this);
-            List<String> list = new List<string>();
-
-            foreach (string key in m_pluginDict.Keys)
+            using (win)
             {
-                list.Add(key);
+                win.SetPlugin(this);
+                List<String> list = new List<string>();
+
+                foreach (string key in m_pluginDict.Keys)
+                {
+                    list.Add(key);
+                }
+
+                win.LayoutCheckList(list);
+                win.SSDebugButton.Select();
+                win.ShowDialog();
             }
-
-            win.LayoutCheckList(list);
-            win.SSDebugButton.Select();
-
-            win.ShowDialog();
         }
 
         /// <summary>
@@ -427,12 +429,21 @@ public class ErrorMessage
 
     public override bool Equals(object obj)
     {
+        if (obj == null || !(obj is ErrorMessage))
+            return false;
+
         ErrorMessage mes = obj as ErrorMessage;
-        if (this.ModelID == mes.ModelID &&
+        return this.ModelID == mes.ModelID &&
             this.Type == mes.Type &&
             this.EntityPath == mes.EntityPath &&
-            this.Message == mes.Message)
-            return true;
-        return false;
+            this.Message == mes.Message;
+    }
+
+    public override int GetHashCode()
+    {
+        return ModelID.GetHashCode()
+            ^ Type.GetHashCode()
+            ^ EntityPath.GetHashCode()
+            ^ Message.GetHashCode();
     }
 }

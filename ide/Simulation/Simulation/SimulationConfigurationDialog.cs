@@ -35,6 +35,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 using Ecell;
 using Ecell.Objects;
@@ -631,12 +632,15 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="e">EventArgs</param>
         public void NewButtonClick(object sender, EventArgs e)
         {
-            InputParameterNameDialog m_newwin = new InputParameterNameDialog(this);
-
-            m_newwin.CPCreateButton.Click += new EventHandler(m_newwin.NewParameterClick);
-            m_newwin.CPCancelButton.Click += new EventHandler(m_newwin.CancelParameterClick);
-            m_newwin.SetParentWindow(this);
-            m_newwin.ShowDialog();
+            InputParameterNameDialog newwin = new InputParameterNameDialog(this);
+            using (newwin) 
+            {
+                if (newwin.ShowDialog() != DialogResult.OK)
+                    return;
+                string newParamName = newwin.InputText;
+                DataManager.CreateSimulationParameter(newParamName);
+                SetNewParameter(newParamName);
+            }
         }
 
         /// <summary>
@@ -736,12 +740,48 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="e">EventArgs</param>
         public void AddStepperClick(object sender, EventArgs e)
         {
-            InputParameterNameDialog m_newwin = new InputParameterNameDialog(this);
-            m_newwin.Text = MessageResources.NewStepperText;
-            m_newwin.CPCreateButton.Click += new EventHandler(m_newwin.AddStepperClick);
-            m_newwin.SetParentWindow(this);
-
-            m_newwin.ShowDialog();
+            InputParameterNameDialog newwin = new InputParameterNameDialog(this);
+            using (newwin)
+            {
+                newwin.Text = MessageResources.NewStepperText;
+                if (newwin.ShowDialog() != DialogResult.OK)
+                    return;
+                try
+                {
+                    string paramID = GetCurrentParameter();
+                    string modelID = GetCurrentModel();
+                    string stepperID = GetCurrentStepper();
+                    Dictionary<string, EcellData> propDict =
+                        m_owner.DataManager.GetStepperProperty(stepperID);
+                    List<EcellData> list = new List<EcellData>();
+                    foreach (string key in propDict.Keys)
+                    {
+                        if (propDict[key].Name == Constants.propProcessList ||
+                            propDict[key].Name == Constants.propSystemList ||
+                            propDict[key].Name == Constants.propReadVariableList ||
+                            propDict[key].Name == Constants.propWriteVariableList)
+                        {
+                            EcellData d = propDict[key];
+                            List<EcellValue> nulllist = new List<EcellValue>();
+                            d.Value = new EcellValue(nulllist);
+                            list.Add(d);
+                        }
+                        else
+                        {
+                            list.Add(propDict[key]);
+                        }
+                    }
+                    EcellObject obj = EcellObject.CreateObject(modelID, newwin.InputText, Constants.xpathStepper, stepperID, list);
+                    DataManager.AddStepperID(paramID, obj);
+                    AddStepper(newwin.InputText);
+                    SetStepperList(m_owner.DataManager.GetStepper(paramID, modelID));
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine(ex);
+                    Util.ShowErrorDialog(ex.Message);
+                }
+            }
         }
 
         /// <summary>

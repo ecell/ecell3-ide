@@ -64,16 +64,7 @@ namespace Ecell.IDE.MainWindow
         {
             m_manager = manager;
             InitializeComponent();
-        }
 
-        /// <summary>
-        /// The event when this form is shown.
-        /// Display the property of default distributed environment.
-        /// </summary>
-        /// <param name="sender">this form.</param>
-        /// <param name="e">EventArgs.</param>
-        public void WindowShown(object sender, EventArgs e)
-        {
             List<string> list = m_manager.GetEnvironmentList();
             string envName = m_manager.GetCurrentEnvironment();
             foreach (string env in list)
@@ -175,13 +166,13 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs.</param>
         private void DESearchDir_Click(object sender, EventArgs e)
         {
-            if (m_folderSelectDialog.ShowDialog() == DialogResult.OK)
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            using (fbd)
             {
+                if (fbd.ShowDialog() != DialogResult.OK)
+                    return;
+
                 DEWorkDirTextBox.Text = m_folderSelectDialog.SelectedPath;
-            }
-            else
-            {
-                // nothing.
             }
         }
         #endregion

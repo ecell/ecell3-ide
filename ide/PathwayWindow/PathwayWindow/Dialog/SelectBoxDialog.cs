@@ -71,11 +71,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         public static string Show(string message, string title, List<string> options)
         {
             SelectBoxDialog dialog = new SelectBoxDialog(message, title, options);
-            string ans = null;
-            if (dialog.ShowDialog() == DialogResult.OK)
-                ans = dialog.comboBox.Text;
-            dialog.Dispose();
-            return ans;
+            using (dialog)
+            {
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return null;
+                return dialog.comboBox.Text;
+            }
         }
         #endregion
 
