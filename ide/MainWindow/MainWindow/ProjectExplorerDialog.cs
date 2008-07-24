@@ -212,6 +212,11 @@ namespace Ecell.IDE.MainWindow
             dateText.Text = prj.UpdateTime;
             commentText.Text = prj.Comment;
 
+            string filepath = Path.Combine(prj.ProjectPath, "model.png");
+            if (File.Exists(filepath))
+                pictureBox1.Image = Image.FromFile(filepath);
+            else
+                pictureBox1.Image = null;
 
             projectNameText.BackColor = Color.White;
             dateText.BackColor = Color.White;

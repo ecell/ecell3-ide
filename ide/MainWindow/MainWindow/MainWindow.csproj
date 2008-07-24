@@ -127,6 +127,11 @@
     <Compile Include="InitialPreferencesDialog.designer.cs">
       <DependentUpon>InitialPreferencesDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="MessageResMain.ja.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessageResources.ja.resx</DependentUpon>
+    </Compile>
     <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -205,6 +210,7 @@
     <None Include="MessageResources.ja.resx">
       <SubType>Designer</SubType>
       <LastGenOutput>MessageResMain.ja.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
     </None>
     <EmbeddedResource Include="MessageResources.resx">
       <SubType>Designer</SubType>
@@ -226,6 +232,10 @@
     <EmbeddedResource Include="PluginListDialog.resx">
       <DependentUpon>PluginListDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectExplorerDialog.ja-JP.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ProjectExplorerDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProjectExplorerDialog.ja.resx">
       <SubType>Designer</SubType>

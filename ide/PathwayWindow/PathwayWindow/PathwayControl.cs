@@ -560,6 +560,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             string fileName = Path.Combine(directory, modelID + Constants.FileExtLEML);
             EcellSerializer.SaveAsLEML(this, fileName);
+            Bitmap file = m_canvas.ToImage();
+            fileName = directory + Constants.FileExtPNG;
+            if (File.Exists(fileName))
+                File.Delete(fileName);
+            file.Save(fileName);
         }
 
         /// <summary>

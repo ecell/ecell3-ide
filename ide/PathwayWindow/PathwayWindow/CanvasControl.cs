@@ -387,8 +387,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Preparing PathwayViewCanvas
             m_pCanvas = new PPathwayCanvas(this);
             // Preparing OverviewCanvas
-            m_overviewCanvas = new POverviewCanvas(m_pCanvas.Layer,
-                                                  m_pCanvas.Camera);
+            m_overviewCanvas = new POverviewCanvas(this);
             m_pCanvas.Camera.RemoveLayer(m_pCanvas.Layer);
 
             // Preparing DataTable
@@ -1142,11 +1141,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <returns></returns>
         public Bitmap ToImage()
         {
-            //return new Bitmap(m_pCanvas.Layer[0].ToImage());
-            Rectangle rect = new Rectangle(0, 0, (int)m_systems["/"].Rect.Width, (int)m_systems["/"].Rect.Height);
-            Bitmap bitmap = new Bitmap(m_pCanvas.ClientRectangle.Width, m_pCanvas.ClientRectangle.Height);
-            m_pCanvas.DrawToBitmap(bitmap, m_pCanvas.ClientRectangle);
-            return bitmap;
+            return m_overviewCanvas.ToImage();
         }
 
         /// <summary>

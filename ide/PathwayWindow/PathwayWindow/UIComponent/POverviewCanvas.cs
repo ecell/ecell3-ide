@@ -39,6 +39,7 @@ using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Util;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
@@ -51,6 +52,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// Graphical content of m_canvas is scaled by m_reductionScale in overview canvas (m_overCanvas)
         /// </summary>
         private const float REDUCTION_SCALE = 0.05f;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private CanvasControl m_canvas;
 
         /// <summary>
         /// Display rectangles using overview.
@@ -69,9 +75,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         /// <param name="observedLayer"></param>
         /// <param name="mainCamera"></param>
-        public POverviewCanvas(PLayer observedLayer,
-                              PCamera mainCamera)
+        public POverviewCanvas(CanvasControl canvas)
         {
+            m_canvas = canvas;
             this.Dock = DockStyle.Fill;
             m_area = new PDisplayedArea();
 
@@ -84,10 +90,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.InteractingRenderQuality = RenderQuality.HighQuality;
             this.Interacting = true;
 
-            this.Camera.AddLayer(observedLayer);
+            this.Camera.AddLayer(canvas.PCanvas.Layer);
             this.RemoveInputEventListener(this.PanEventHandler);
             this.RemoveInputEventListener(this.ZoomEventHandler);
-            this.Camera.AddInputEventListener(new AreaDragHandler(mainCamera));
+            this.Camera.AddInputEventListener(new AreaDragHandler(canvas.PCanvas.Camera));
             this.Camera.ScaleViewBy(REDUCTION_SCALE);
             this.Camera.TranslateViewBy(500, 500);
             this.Layer.AddChild(m_transparentNode);
@@ -142,6 +148,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="rect">The overviewing area of pathway view.</param>
         public void UpdateOverview(RectangleF rect)
         {
+
+            if (m_canvas.Systems.Count > 0)
+            {
+                PPathwaySystem sys = m_canvas.Systems["/"];
+
+                if (!Camera.ViewBounds.Contains(sys.Rect))
+                {
+                    Camera.ViewBounds = sys.Rect;
+                }
+            }
+
             m_area.Offset = PointF.Empty;
             m_area.Rect = rect;
             m_area.Refresh();
@@ -150,12 +167,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         }
 
         /// <summary>
-        /// Refresh
+        /// ToImage
         /// </summary>
-        public override void Refresh()
+        /// <returns></returns>
+        public Bitmap ToImage()
         {
-            base.Refresh();
-            m_area.Refresh();
+            //return new Bitmap(m_pCanvas.Layer[0].ToImage());
+            Rectangle rect = this.ClientRectangle;
+            m_area.Visible = false;
+            Bitmap bitmap = new Bitmap(rect.Width, rect.Height);
+            this.DrawToBitmap(bitmap, rect);
+            m_area.Visible = true;
+            return bitmap;
         }
 
         /// <summary>

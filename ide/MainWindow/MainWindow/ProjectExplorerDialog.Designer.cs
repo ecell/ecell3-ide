@@ -65,6 +65,7 @@ namespace Ecell.IDE.MainWindow
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.PrjTreeView = new System.Windows.Forms.TreeView();
             this.ImageList = new System.Windows.Forms.ImageList(this.components);
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.commentText = new System.Windows.Forms.TextBox();
             this.projectNameLabel = new System.Windows.Forms.Label();
             this.commentLabel = new System.Windows.Forms.Label();
@@ -76,6 +77,7 @@ namespace Ecell.IDE.MainWindow
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -89,6 +91,7 @@ namespace Ecell.IDE.MainWindow
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.pictureBox1);
             this.splitContainer1.Panel2.Controls.Add(this.commentText);
             this.splitContainer1.Panel2.Controls.Add(this.projectNameLabel);
             this.splitContainer1.Panel2.Controls.Add(this.commentLabel);
@@ -101,8 +104,8 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this.PrjTreeView, "PrjTreeView");
             this.PrjTreeView.ImageList = this.ImageList;
             this.PrjTreeView.Name = "PrjTreeView";
-            this.PrjTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeMouseClick);
             this.PrjTreeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MPPrjTreeView_MouseDown);
+            this.PrjTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeMouseClick);
             // 
             // ImageList
             // 
@@ -111,6 +114,12 @@ namespace Ecell.IDE.MainWindow
             this.ImageList.Images.SetKeyName(0, "folder.png");
             this.ImageList.Images.SetKeyName(1, "project.png");
             this.ImageList.Images.SetKeyName(2, "model.png");
+            // 
+            // pictureBox1
+            // 
+            resources.ApplyResources(this.pictureBox1, "pictureBox1");
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.TabStop = false;
             // 
             // commentText
             // 
@@ -176,6 +185,7 @@ namespace Ecell.IDE.MainWindow
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -202,5 +212,6 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.Label projectNameLabel;
         private System.Windows.Forms.TreeView PrjTreeView;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

@@ -148,9 +148,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             // panel1
             // 
             this.OverviewContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.OverviewContainer.Location = new System.Drawing.Point(476, 332);
+            this.OverviewContainer.Location = new System.Drawing.Point(456, 312);
             this.OverviewContainer.Name = "panel1";
-            this.OverviewContainer.Size = new System.Drawing.Size(121, 112);
+            this.OverviewContainer.Size = new System.Drawing.Size(140, 140);
             this.OverviewContainer.BackColor = Color.Transparent;
             // 
             // PathwayView

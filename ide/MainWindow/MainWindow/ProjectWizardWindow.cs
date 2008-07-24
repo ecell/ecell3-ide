@@ -142,7 +142,7 @@ namespace Ecell.IDE.MainWindow
         {
             ProjectLabel label = (ProjectLabel)sender;
             m_project = label.Project;
-            string filepath = Path.Combine(m_project.ProjectPath, m_project.Name + Constants.FileExtPNG);
+            string filepath = Path.Combine(m_project.ProjectPath, "model.png");
             PictureBox.Image = Image.FromFile(filepath);
             ProjectIDTextBox.Text = m_project.Name;
             ProjectCommentTextBox.Text = m_project.Comment;
