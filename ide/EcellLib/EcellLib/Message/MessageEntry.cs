@@ -121,12 +121,17 @@ namespace Ecell.Message
 
         public override bool Equals(object obj)
         {
+            if (obj == null || !(obj is MessageEntry))
+                return false;
             MessageEntry ent = obj as MessageEntry;
-            if (ent.m_type == this.m_type &&
+            return ent.m_type == this.m_type &&
                 ent.m_time == this.m_time &&
-                ent.m_message == this.m_message)
-                return true;
-            return false;
+                ent.m_message == this.m_message;
+        }
+
+        public override int GetHashCode()
+        {
+            return m_type.GetHashCode() ^ m_time.GetHashCode() ^ m_message.GetHashCode()
         }
     }
 }
