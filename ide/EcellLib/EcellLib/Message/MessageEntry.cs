@@ -131,7 +131,7 @@ namespace Ecell.Message
 
         public override int GetHashCode()
         {
-            return m_type.GetHashCode() ^ m_time.GetHashCode() ^ m_message.GetHashCode()
+            return m_type.GetHashCode() ^ m_time.GetHashCode() ^ m_message.GetHashCode();
         }
     }
 }
