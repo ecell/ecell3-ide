@@ -83,6 +83,7 @@ namespace Ecell.IDE.MainWindow
             this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
+            this.aboutIDEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
@@ -438,7 +439,8 @@ namespace Ecell.IDE.MainWindow
             // MenuItemHelp
             // 
             this.MenuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ShowVersionMenuItem});
+            this.ShowVersionMenuItem,
+            this.aboutIDEToolStripMenuItem});
             this.MenuItemHelp.Name = "MenuItemHelp";
             resources.ApplyResources(this.MenuItemHelp, "MenuItemHelp");
             // 
@@ -453,6 +455,12 @@ namespace Ecell.IDE.MainWindow
             // 
             resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             this.openScriptDialog.RestoreDirectory = true;
+            // 
+            // aboutIDEToolStripMenuItem
+            // 
+            this.aboutIDEToolStripMenuItem.Name = "aboutIDEToolStripMenuItem";
+            resources.ApplyResources(this.aboutIDEToolStripMenuItem, "aboutIDEToolStripMenuItem");
+            this.aboutIDEToolStripMenuItem.Click += new System.EventHandler(this.ShowAboutDialog);
             // 
             // MainWindow
             // 
@@ -577,6 +585,7 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.ToolStripProgressBar genericProgressBar;
         private System.Windows.Forms.ToolStripStatusLabel quickInspectorText;
         private System.Windows.Forms.ToolStripMenuItem scriptEditorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutIDEToolStripMenuItem;
     }
 }
 

@@ -41,12 +41,12 @@ namespace Ecell.IDE.Plugins.Analysis
     /// <summary>
     /// Form to display the parameter of Parameter Estimation.
     /// </summary>
-    public partial class PEAdvancedWindow : Form
+    public partial class ParameterEstimationAdvancedSettingDialog : Form
     {
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PEAdvancedWindow()
+        public ParameterEstimationAdvancedSettingDialog()
         {
             InitializeComponent();
         }

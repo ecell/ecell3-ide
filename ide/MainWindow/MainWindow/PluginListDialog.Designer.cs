@@ -46,7 +46,6 @@
             this.okButton.Font = null;
             this.okButton.Name = "okButton";
             this.okButton.UseVisualStyleBackColor = true;
-            this.okButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
             // versionListView
             // 

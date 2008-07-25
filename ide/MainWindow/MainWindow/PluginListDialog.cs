@@ -64,15 +64,5 @@ namespace Ecell.IDE.MainWindow
                 versionListView.Rows.Add(new object[] { n, list[n] });
             }
         }
-
-        /// <summary>
-        /// Event process when user click close button.
-        /// </summary>
-        /// <param name="sender">close button.</param>
-        /// <param name="e">EventArgs.</param>
-        private void OKButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Ecell.IDE.Plugins.Analysis
 {
-    partial class PEAdvancedWindow
+    partial class ParameterEstimationAdvancedSettingDialog
     {
         /// <summary>
         /// 必要なデザイナ変数です。
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.Label label4;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PEAdvancedWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParameterEstimationAdvancedSettingDialog));
             System.Windows.Forms.Label label5;
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label3;

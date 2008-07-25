@@ -1545,7 +1545,22 @@ namespace Ecell.IDE.MainWindow
         private void ShowPluginVersionClick(object sender, EventArgs e)
         {
             PluginListDialog w = new PluginListDialog(m_env.PluginManager);
-            w.ShowDialog();
+            using (w)
+            {
+                w.ShowDialog();
+            }
+        }
+
+        private void ShowAboutDialog(object sender, EventArgs e)
+        {
+            string versionText = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            string copyrightText = global::Ecell.IDE.MainWindow.Properties.Resources.CopyrightNotice;
+
+            AboutDialog dlg = new AboutDialog(versionText, copyrightText);
+            using (dlg)
+            {
+                dlg.ShowDialog();
+            }
         }
 
         /// <summary>
