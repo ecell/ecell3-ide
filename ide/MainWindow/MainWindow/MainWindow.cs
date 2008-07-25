@@ -119,6 +119,7 @@ namespace Ecell.IDE.MainWindow
         /// RecentProjects
         /// </summary>
         private Dictionary<string, string> m_recentProjects = new Dictionary<string, string>();
+        private GridJobStatusDialog m_statusDialog;
 
         #endregion
 
@@ -170,8 +171,8 @@ namespace Ecell.IDE.MainWindow
             InitializeComponent();
             dockPanel.ShowDocumentIcon = true;
 
-            GridJobStatusDialog win = new GridJobStatusDialog(m_env.JobManager);
-            SetDockContent(win);
+            m_statusDialog = new GridJobStatusDialog(m_env.JobManager);
+            SetDockContent(m_statusDialog);
             // Load plugins
             LoadPlugins();
             //Load default window settings.
@@ -1047,10 +1048,11 @@ namespace Ecell.IDE.MainWindow
         {
         }
 
-        public Dictionary<string, SetDockContentDelegate> GetDockContent()
+        public Dictionary<string, Delegate> GetPublicDelegate()
         {
-            Dictionary<string, SetDockContentDelegate> list = new Dictionary<string, SetDockContentDelegate>();
+            Dictionary<string, Delegate> list = new Dictionary<string, Delegate>();
             list.Add("SetDockContent", new SetDockContentDelegate( this.SetDockContent));
+            list.Add("ShowGridStatus", new ShowDialogDelegate(this.ShowGridStatusDialog));
             return list;
         }
         #endregion
@@ -1563,6 +1565,36 @@ namespace Ecell.IDE.MainWindow
             }
         }
 
+        private void ShowGridConfigurationDialog()
+        {
+            GridConfigurationDialog win = new GridConfigurationDialog(m_env.JobManager);
+            using (win)
+            {
+                win.ShowDialog();
+            }
+        }
+
+        private void ShowGridStatusDialog()
+        {
+            if (m_dockMenuDic.ContainsKey(m_statusDialog.Name))
+            {
+                if (!m_dockMenuDic[m_statusDialog.Name].Checked)
+                {
+                    m_statusDialog.Show();
+                    m_dockMenuDic[m_statusDialog.Name].Checked = true;
+                }
+            }
+        }
+
+        private void ShowScriptEditor()
+        {
+            ScriptEditor edit = new ScriptEditor(m_env);
+            using (edit)
+            {
+                edit.ShowDialog();
+            }
+        }
+
         /// <summary>
         /// Event when Save Window setting menu is clicked.
         /// </summary>
@@ -1678,11 +1710,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void ClickDistributedEnvMenu(object sender, EventArgs e)
         {
-            GridConfigurationDialog win = new GridConfigurationDialog(m_env.JobManager);
-            using (win)
-            {
-                win.ShowDialog();
-            }
+            ShowGridConfigurationDialog();
         }
         #endregion
 
@@ -1698,8 +1726,7 @@ namespace Ecell.IDE.MainWindow
 
         private void ClickScriptEditorMenu(object sender, EventArgs e)
         {
-            ScriptEditor edit = new ScriptEditor(m_env);
-            edit.ShowDialog();
+            ShowScriptEditor();
         }
         /// <summary>
         /// 
@@ -1725,5 +1752,7 @@ namespace Ecell.IDE.MainWindow
                 val = 0;
             genericProgressBar.Value = val;
         }
+
+
     }
 }

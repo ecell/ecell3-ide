@@ -80,10 +80,10 @@ namespace Ecell.IDE.MainWindow
             this.MenuItemDebug = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowVersionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutIDEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
-            this.aboutIDEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
@@ -430,6 +430,7 @@ namespace Ecell.IDE.MainWindow
             this.scriptEditorToolStripMenuItem.Name = "scriptEditorToolStripMenuItem";
             resources.ApplyResources(this.scriptEditorToolStripMenuItem, "scriptEditorToolStripMenuItem");
             this.scriptEditorToolStripMenuItem.Tag = "0";
+            this.scriptEditorToolStripMenuItem.Click += new System.EventHandler(this.ClickScriptEditorMenu);
             // 
             // MenuItemDebug
             // 
@@ -451,16 +452,16 @@ namespace Ecell.IDE.MainWindow
             this.ShowVersionMenuItem.Tag = "100";
             this.ShowVersionMenuItem.Click += new System.EventHandler(this.ShowPluginVersionClick);
             // 
-            // openScriptDialog
-            // 
-            resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
-            this.openScriptDialog.RestoreDirectory = true;
-            // 
             // aboutIDEToolStripMenuItem
             // 
             this.aboutIDEToolStripMenuItem.Name = "aboutIDEToolStripMenuItem";
             resources.ApplyResources(this.aboutIDEToolStripMenuItem, "aboutIDEToolStripMenuItem");
             this.aboutIDEToolStripMenuItem.Click += new System.EventHandler(this.ShowAboutDialog);
+            // 
+            // openScriptDialog
+            // 
+            resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
+            this.openScriptDialog.RestoreDirectory = true;
             // 
             // MainWindow
             // 

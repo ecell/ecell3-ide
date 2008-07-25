@@ -50,6 +50,7 @@ using Ecell.Objects;
 
 namespace Ecell
 {
+    public delegate void ShowDialogDelegate();
     public delegate void SetDockContentDelegate(EcellDockContent s);
 
     /// <summary>
@@ -113,7 +114,7 @@ namespace Ecell
         /// Status of the current project.
         /// </summary>
         private ProjectStatus m_status;
-        private Dictionary<string, SetDockContentDelegate> m_delegateDic = new Dictionary<string,SetDockContentDelegate>();
+        private Dictionary<string, Delegate> m_delegateDic = new Dictionary<string, Delegate>();
 
         #endregion
 
@@ -434,7 +435,7 @@ namespace Ecell
                 p.Environment = m_env;
                 p.Initialize();
                 m_pluginList.Add(p.GetPluginName(), p);
-                Dictionary<string, SetDockContentDelegate> plist = p.GetDockContent();
+                Dictionary<string, Delegate> plist = p.GetPublicDelegate();
                 if (plist == null) return;
 
                 foreach (string key in plist.Keys)
@@ -444,7 +445,7 @@ namespace Ecell
             }
         }
 
-        public SetDockContentDelegate GetDelegate(string name)
+        public Delegate GetDelegate(string name)
         {
             if (m_delegateDic.ContainsKey(name))
                 return m_delegateDic[name];

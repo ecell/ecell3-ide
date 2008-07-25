@@ -566,6 +566,13 @@ namespace Ecell.IDE.Plugins.Analysis
             }
         }
 
+        private void ShowGridStatusDialog()
+        {
+            ShowDialogDelegate dlg = m_env.PluginManager.GetDelegate("ShowGridStatus") as ShowDialogDelegate;
+            if (dlg != null)
+                dlg();
+        }
+
         /// <summary>
         /// Event when the menu to execute robust analysis is clicked.
         /// This program execute the program of robust analysis.
@@ -584,6 +591,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
                 return;
             }
+            ShowGridStatusDialog();
             m_currentAnalysus = "RobustAnalysis";
             m_robustAnalysis = new RobustAnalysis(this);
             m_robustAnalysis.ExecuteAnalysis();
@@ -607,6 +615,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
                 return;
             }
+            ShowGridStatusDialog();
             m_currentAnalysus = "ParameterEstimation";
             m_parameterEstimation = new ParameterEstimation(this);
             m_parameterEstimation.ExecuteAnalysis();
@@ -630,6 +639,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
                 return;
             }
+            ShowGridStatusDialog();
             m_currentAnalysus = "SensitivityAnalysis";
             m_sensitivityAnalysis = new SensitivityAnalysis(this);
             m_sensitivityAnalysis.ExecuteAnalysis();
@@ -653,6 +663,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
                 return;
             }
+            ShowGridStatusDialog();
             m_currentAnalysus = "BifurcationAnalysis";
             m_bifurcationAnalysis = new BifurcationAnalysis(this);
             m_bifurcationAnalysis.ExecuteAnalysis();

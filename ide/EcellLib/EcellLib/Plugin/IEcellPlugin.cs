@@ -310,7 +310,7 @@ namespace Ecell.Plugin
         /// </summary>
         void SetProgressBarValue(int value);
 
-        Dictionary<string, SetDockContentDelegate> GetDockContent();
+        Dictionary<string, Delegate> GetPublicDelegate();
         #endregion
     }
 }

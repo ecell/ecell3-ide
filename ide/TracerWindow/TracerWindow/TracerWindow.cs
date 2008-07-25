@@ -820,8 +820,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
                                 m_win.FloatPane,
                                 new Rectangle(m_win.Left, m_win.Top, m_win.Width, m_win.Height));
             m_win.Pane.DockTo(fw);
-            SetDockContentDelegate dlg = m_env.PluginManager.GetDelegate("SetDockContent");
-            dlg(m_win);
+            SetDockContentDelegate dlg = m_env.PluginManager.GetDelegate("SetDockContent") as SetDockContentDelegate;
+            if (dlg != null)
+                dlg(m_win);
 
             if (m_winList.Count == 0)
             {

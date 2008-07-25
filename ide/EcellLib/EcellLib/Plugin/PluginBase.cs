@@ -473,7 +473,7 @@ namespace Ecell.Plugin
             // do nothing
         }
 
-        public virtual Dictionary<string, SetDockContentDelegate> GetDockContent()
+        public virtual Dictionary<string, Delegate> GetPublicDelegate()
         {
             return null;
         }
