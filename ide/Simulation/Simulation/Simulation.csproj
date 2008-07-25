@@ -92,17 +92,6 @@
     <Compile Include="InputParameterNameDialog.Designer.cs">
       <DependentUpon>InputParameterNameDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="PluginDriver.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PluginDriver.Designer.cs">
-      <DependentUpon>PluginDriver.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Simulation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Simulation.Designer.cs">
@@ -131,15 +120,6 @@
     <EmbeddedResource Include="InputParameterNameDialog.resx">
       <DependentUpon>InputParameterNameDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PluginDriver.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>PluginDriver.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Simulation.resx">
       <DependentUpon>Simulation.cs</DependentUpon>

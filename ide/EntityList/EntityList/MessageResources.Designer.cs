@@ -69,19 +69,12 @@ namespace Ecell.IDE.Plugins.EntityList {
             }
         }
         
-        internal static System.Drawing.Icon EntityList {
-            get {
-                object obj = ResourceManager.GetObject("EntityList", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
         /// <summary>
-        ///   ObjectList に類似しているローカライズされた文字列を検索します。
+        ///   Entities に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ObjectList {
+        internal static string EntityList {
             get {
-                return ResourceManager.GetString("ObjectList", resourceCulture);
+                return ResourceManager.GetString("EntityList", resourceCulture);
             }
         }
         

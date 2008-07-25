@@ -120,8 +120,8 @@
   <data name="CreLoggerMenuText" xml:space="preserve">
     <value>ロガー設定</value>
   </data>
-  <data name="ObjectList" xml:space="preserve">
-    <value>オブジェクト一覧</value>
+  <data name="EntityList" xml:space="preserve">
+    <value>エンティティ</value>
   </data>
   <data name="SearchMenuText" xml:space="preserve">
     <value>検索...</value>

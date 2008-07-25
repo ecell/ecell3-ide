@@ -97,8 +97,8 @@ namespace Ecell.IDE.Plugins.EntityList
             m_control.Dock = DockStyle.Fill;
             win.Controls.Add(m_control);
             win.Name = "EntityList";
-            win.Text = MessageResources.ObjectList;
-            win.Icon = MessageResources.objlist;
+            win.Text = MessageResources.EntityList;
+            //win.Icon = MessageResources.EntityList;
             win.TabText = win.Text;
             win.IsSavable = true;
             return new EcellDockContent[] { win };
@@ -251,7 +251,7 @@ namespace Ecell.IDE.Plugins.EntityList
         public override IEnumerable<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
-            names.Add(MessageResources.ObjectList);
+            names.Add(MessageResources.EntityList);
             return names;
         }
         #endregion
