@@ -19,7 +19,7 @@ class Session:
 	Return None :
 	'''
         if aCommandManager is None:
-            self.theCommandManager = EcellLib.CommandManager.GetInstance()
+            self.theCommandManager = Ecell.CommandManager.GetInstance()
         else:
             self.theCommandManager = aCommandManager
         self.execNumpyFileName = "ExecNumpy.bat"
