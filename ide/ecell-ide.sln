@@ -37,7 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcellLib", "EcellLib\EcellL
 		{EB193AD3-99DC-477F-BDF9-C071812B93D0} = {EB193AD3-99DC-477F-BDF9-C071812B93D0}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityListWindow", "EntityListWindow\EntityListWindow\EntityListWindow.csproj", "{9F1830B0-28F0-40C6-9B26-0307FA52268C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectExplorer", "ProjectExplorer\ProjectExplorer\ProjectExplorer.csproj", "{9F1830B0-28F0-40C6-9B26-0307FA52268C}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
@@ -83,7 +83,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageWindow", "MessageWin
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectList", "ObjectList\ObjectList\ObjectList.csproj", "{659B501F-086F-4414-83D3-E018F05C380B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpreadSheet", "SpreadSheet\SpreadSheet\SpreadSheet.csproj", "{659B501F-086F-4414-83D3-E018F05C380B}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
@@ -153,7 +153,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TracerWindow", "TracerWindo
 		{1311EAE3-BBF8-4B24-83B9-6D6C12DBA295} = {1311EAE3-BBF8-4B24-83B9-6D6C12DBA295}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectList2", "ObjectList2\ObjectList2\ObjectList2.csproj", "{2FB3385F-89E2-40FE-8157-5A2993C6D258}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityList", "EntityList\EntityList\EntityList.csproj", "{2FB3385F-89E2-40FE-8157-5A2993C6D258}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
