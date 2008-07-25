@@ -151,11 +151,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
             if (m_canvas.Systems.Count > 0)
             {
-                PPathwaySystem sys = m_canvas.Systems["/"];
+                RectangleF root = m_canvas.Systems["/"].Rect;
 
-                if (!Camera.ViewBounds.Contains(sys.Rect))
+                if (!Camera.ViewBounds.Contains(root))
                 {
-                    Camera.ViewBounds = sys.Rect;
+                    root.X -= 500;
+                    root.Y -= 50;
+                    root.Width += 1000;
+                    root.Height += 1000;
+                    Camera.ViewBounds = root;
                 }
             }
 

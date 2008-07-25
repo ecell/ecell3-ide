@@ -664,6 +664,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 foreach (ToolStripMenuItem item in m_menu.LayoutMenus)
                     item.Enabled = true;
+                m_canvas.UpdateOverview();
             }
             else if (status == ProjectStatus.Uninitialized)
             {
