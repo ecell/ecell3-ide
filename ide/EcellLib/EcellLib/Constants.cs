@@ -104,9 +104,21 @@ namespace Ecell
         /// </summary>
         public const string FileExtINFO = ".info";
         /// <summary>
-        /// The extention of png file.
+        /// The extention of BMP file.
+        /// </summary>
+        public const string FileExtBMP = ".bmp";
+        /// <summary>
+        /// The extention of Png file.
         /// </summary>
         public const string FileExtPNG = ".png";
+        /// <summary>
+        /// The extention of JPG file.
+        /// </summary>
+        public const string FileExtJPG = ".jpg";
+        /// <summary>
+        /// The extention of gif file.
+        /// </summary>
+        public const string FileExtGIF = ".gif";
         /// <summary>
         /// The extention of png file.
         /// </summary>
@@ -150,6 +162,14 @@ namespace Ecell
         /// File Filter for the zip file.
         /// </summary>
         public const string FilterZipFile = "Zip File(*.zip)|*.zip";
+        /// <summary>
+        /// File Filter for the zip file.
+        /// </summary>
+        public const string FilterSVGFile = "SVG File|*.svg";
+        /// <summary>
+        /// File Filter for the zip file.
+        /// </summary>
+        public const string FilterImageFile = "Bitmap File(*.bmp)|*.bmp|JPEG File(*.jpg)|*.jpg|GIF File(*.gif)|*.gif|PNG File(*.png)|*.png";
 
         #endregion
 

@@ -232,10 +232,10 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 0</value>
+    <value>5, 0</value>
   </data>
   <data name="pictureBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 162</value>
+    <value>204, 162</value>
   </data>
   <data name="pictureBox1.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
@@ -265,7 +265,7 @@
     <value>True</value>
   </data>
   <data name="commentText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 108</value>
+    <value>203, 105</value>
   </data>
   <data name="commentText.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -678,6 +678,9 @@
         AAB//wAA//AAAP//AAD//AAD//8AAP//gF///wAA////////AAD///////8AAP///////wAA////////
         AAA=
 </value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Manage Project</value>

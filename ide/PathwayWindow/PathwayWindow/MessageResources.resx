@@ -381,4 +381,10 @@
   <data name="MessageLoadModel" xml:space="preserve">
     <value>Now loading model ...</value>
   </data>
+  <data name="MenuItemExportImage" xml:space="preserve">
+    <value>Export Image...</value>
+  </data>
+  <data name="MenuToolTipExportImage" xml:space="preserve">
+    <value>Export Image file.</value>
+  </data>
 </root>

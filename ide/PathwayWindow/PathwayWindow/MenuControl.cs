@@ -51,6 +51,8 @@ using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using Ecell.Layout;
 using Ecell.Objects;
+using System.Drawing.Imaging;
+using System.IO;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {
@@ -434,8 +436,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             exportSVGItem.Text = MessageResources.MenuItemExportSVG;
             exportSVGItem.Click += new EventHandler(ExportSVG);
 
+            ToolStripMenuItem exportImageItem = new ToolStripMenuItem();
+            exportImageItem.ToolTipText = MessageResources.MenuToolTipExportImage;
+            exportImageItem.Text = MessageResources.MenuItemExportImage;
+            exportImageItem.Click += new EventHandler(ExportImage);
+
             ToolStripMenuItem exportMenu = new ToolStripMenuItem();
-            exportMenu.DropDownItems.AddRange(new ToolStripItem[] { exportSVGItem });
+            exportMenu.DropDownItems.AddRange(new ToolStripItem[] { exportSVGItem, exportImageItem });
             exportMenu.ToolTipText = MessageResources.MenuToolTipExport;
             exportMenu.Text = MessageResources.MenuItemExport;
             exportMenu.Name = MenuConstants.MenuItemExport;
@@ -1423,13 +1430,52 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 sfd.Filter = "SVG File|*.svg";
                 sfd.CheckPathExists = true;
-                sfd.CreatePrompt = true;
                 if (sfd.ShowDialog() != DialogResult.OK)
                     return;
 
                 // Save window settings.
                 GraphicsExporter.ExportSVG(m_con.Canvas, sfd.FileName);
             }
+        }
+
+        /// <summary>
+        /// ExportImage
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExportImage(object sender, EventArgs e)
+        {
+            if (m_con.Canvas == null)
+                return;
+            SaveFileDialog sfd = new SaveFileDialog();
+            using (sfd)
+            {
+                sfd.Filter = Constants.FilterImageFile;
+                sfd.CheckPathExists = true;
+                if (sfd.ShowDialog() != DialogResult.OK)
+                    return;
+                if (string.IsNullOrEmpty(sfd.FileName))
+                    return;
+                Image image = m_con.Canvas.ToImage();
+                ImageFormat format = GetImageFormat(sfd.FileName);
+                // Save window settings.
+                image.Save(sfd.FileName, format);
+            }
+        }
+
+        private static ImageFormat GetImageFormat(string filename)
+        {
+            string ext = Path.GetExtension(filename);
+            if (ext == Constants.FileExtBMP)
+                return ImageFormat.Bmp;
+            else if (ext == Constants.FileExtPNG)
+                return ImageFormat.Png;
+            else if (ext == Constants.FileExtJPG)
+                return ImageFormat.Jpeg;
+            else if (ext == Constants.FileExtGIF)
+                return ImageFormat.Gif;
+            else
+                return ImageFormat.Bmp;
         }
         #endregion
 

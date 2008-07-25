@@ -233,7 +233,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Accessor for m_overviewCanvas.
         /// </summary>
-        public PCanvas OverviewCanvas
+        public POverviewCanvas OverviewCanvas
         {
             get { return m_overviewCanvas; }
         }
@@ -1141,7 +1141,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <returns></returns>
         public Bitmap ToImage()
         {
-            return m_overviewCanvas.ToImage();
+            //PPathwaySystem root = m_systems["/"];
+            Bitmap image = new Bitmap(m_pCanvas.Bounds.Width, m_pCanvas.Bounds.Height);
+            m_pCanvas.DrawToBitmap(image, m_pCanvas.Bounds);
+            return image;
         }
 
         /// <summary>

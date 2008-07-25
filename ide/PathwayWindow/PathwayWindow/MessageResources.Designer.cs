@@ -592,6 +592,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Export Image... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemExportImage {
+            get {
+                return ResourceManager.GetString("MenuItemExportImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Export SVG format... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemExportSVG {
@@ -660,6 +669,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string MenuToolTipExport {
             get {
                 return ResourceManager.GetString("MenuToolTipExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Export Image file. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipExportImage {
+            get {
+                return ResourceManager.GetString("MenuToolTipExportImage", resourceCulture);
             }
         }
         
