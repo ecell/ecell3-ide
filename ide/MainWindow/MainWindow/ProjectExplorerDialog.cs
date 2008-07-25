@@ -246,6 +246,9 @@ namespace Ecell.IDE.MainWindow
             commentText.ReadOnly = true;
             projectNameText.ReadOnly = true;
             m_fileName = "";
+
+            if(pictureBox1.Image != null)
+                pictureBox1.Image.Dispose();
         }
 
         #endregion

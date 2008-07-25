@@ -121,7 +121,7 @@
     <value>プロジェクトウィザード画面</value>
   </data>
   <data name="BackButton.Text" xml:space="preserve">
-    <value>戻る</value>
+    <value>&lt; 戻る(&amp;B)</value>
   </data>
   <data name="CloseButton.Text" xml:space="preserve">
     <value>キャンセル</value>
@@ -142,6 +142,6 @@
     <value>プロジェクトID</value>
   </data>
   <data name="OKButton.Text" xml:space="preserve">
-    <value>進む</value>
+    <value>次へ(&amp;N) &gt;</value>
   </data>
 </root>
