@@ -386,7 +386,7 @@ namespace Ecell.IDE.Plugins.ObjectList
             {
                 if (m_gridView.Rows[i].Tag == null) 
                     return m_gridView.Rows[i].Index;
-                if (m_gridView[1, i].Value.ToString().CompareTo(id) > 0) 
+                if (m_gridView[s_indexID, i].Value.ToString().CompareTo(id) > 0) 
                     return m_gridView.Rows[i].Index;
                 preIndex = m_gridView.Rows[i].Index;
             }
@@ -404,9 +404,9 @@ namespace Ecell.IDE.Plugins.ObjectList
             int len = m_gridView.Rows.Count;
             for (int i = 0; i < len; i++)
             {
-                if (!type.Equals(m_gridView[0, i].Value)) 
+                if (!type.Equals(m_gridView[s_indexType, i].Value)) 
                     continue;
-                if (!key.Equals(m_gridView[1, i].Value)) 
+                if (!key.Equals(m_gridView[s_indexID, i].Value)) 
                     continue;
                 return i;
             }

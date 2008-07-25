@@ -22,32 +22,27 @@ namespace Ecell.IDE.Plugins.ObjectList2
         /// <summary>
         /// The reserved name for the type of object.
         /// </summary>
-        protected static string s_indexType = "Type";
+        protected const string s_indexType = "Type";
         /// <summary>
         /// The reserved name for ID of object.
         /// </summary>
-        protected static string s_indexID = "ID";
-        /// <summary>
-        /// The reserved name for the Model ID of object.
-        /// </summary>
-        protected static string s_indexModel = "Model";
+        protected const string s_indexID = "ID";
         /// <summary>
         /// The reserved name for the class name of object.
         /// </summary>
-        protected static string s_indexClass = "ClassName";
+        protected const string s_indexClass = "ClassName";
         /// <summary>
         /// The reserved name for the name of object.
         /// </summary>
-        protected static string s_indexName = "Name";
+        protected const string s_indexName = "ObjectName";
 
                 /// <summary>
         /// The property array of System.
         /// </summary>
-        private String[] m_propArray = new string[] {
+        private static String[] m_propArray = new string[] {
             ObjectListUserControl.s_indexType,
-            ObjectListUserControl.s_indexID,
-            ObjectListUserControl.s_indexModel,
             ObjectListUserControl.s_indexClass,
+            ObjectListUserControl.s_indexID,
             ObjectListUserControl.s_indexName
         };
 
@@ -55,16 +50,6 @@ namespace Ecell.IDE.Plugins.ObjectList2
         {
             m_owner = owner;
             InitializeComponent();
-
-            for (int i = 0; i < m_propArray.Length; i++)
-            {
-                DataGridViewColumn c = new DataGridViewTextBoxColumn();
-                c.HeaderText = Convert.ToString(i);
-                c.Name = Convert.ToString(i);
-                objectListDataGrid.Columns.Add(c);
-            }
-
-            CreateHeader();
         }
 
         public void SelectChanged(string modelID, string key, string type)
@@ -78,9 +63,8 @@ namespace Ecell.IDE.Plugins.ObjectList2
         {
             for (int i = 0; i < objectListDataGrid.Rows.Count; i++)
             {
-                if (objectListDataGrid[2, i].Value.ToString().Equals(modelID) &&
-                    objectListDataGrid[1, i].Value.ToString().Equals(key) &&
-                    objectListDataGrid[0, i].Value.ToString().Equals(type))
+                if (objectListDataGrid[s_indexID, i].Value.ToString().Equals(key) &&
+                    objectListDataGrid[s_indexType, i].Value.ToString().Equals(type))
                 {
                     objectListDataGrid.Rows[i].Selected = true;
                     objectListDataGrid.FirstDisplayedScrollingRowIndex = i;
@@ -93,9 +77,8 @@ namespace Ecell.IDE.Plugins.ObjectList2
         {
             for (int i = 0; i < objectListDataGrid.Rows.Count; i++)
             {
-                if (objectListDataGrid[2, i].Value.ToString().Equals(modelID) &&
-                    objectListDataGrid[1, i].Value.ToString().Equals(key) &&
-                    objectListDataGrid[0, i].Value.ToString().Equals(type))
+                if (objectListDataGrid[s_indexID, i].Value.ToString().Equals(key) &&
+                    objectListDataGrid[s_indexType, i].Value.ToString().Equals(type))
                 {
                     objectListDataGrid.Rows[i].Selected = false;
                     return;
@@ -129,12 +112,11 @@ namespace Ecell.IDE.Plugins.ObjectList2
                 DataDelete(modelID, key, type);
                 DataAdd(data);
                 AddSelection(data.ModelID, data.Key, data.Type);
-                
                 return;
             }
             int ind = SearchIndex(key, type);
-            objectListDataGrid[3, ind].Value = data.Classname;
-            objectListDataGrid[4, ind].Value = data.Name;
+            objectListDataGrid[s_indexClass, ind].Value = data.Classname;
+            objectListDataGrid[s_indexName, ind].Value = data.Name;
         }
 
         public void DataDelete(string modelID, string key, string type)
@@ -167,7 +149,6 @@ namespace Ecell.IDE.Plugins.ObjectList2
         public void Clear()
         {
             objectListDataGrid.Rows.Clear();
-            CreateHeader();
         }
 
         private void DeleteRow(int ind)
@@ -184,10 +165,6 @@ namespace Ecell.IDE.Plugins.ObjectList2
             else if (name.Equals(ObjectListUserControl.s_indexID))
             {
                 return obj.Key;
-            }
-            else if (name.Equals(ObjectListUserControl.s_indexModel))
-            {
-                return obj.ModelID;
             }
             else if (name.Equals(ObjectListUserControl.s_indexClass))
             {
@@ -220,15 +197,15 @@ namespace Ecell.IDE.Plugins.ObjectList2
 
         private int SearchInsertPosition(string key, string type)
         {
-            int i = 1;
-            for ( i = 1 ; i < objectListDataGrid.Rows.Count ; i++ )
+            int i = 0;
+            for ( i = 0 ; i < objectListDataGrid.Rows.Count ; i++ )
             {
-                if (TypeConverter(type, objectListDataGrid[0, i].Value.ToString()) == 0)
+                if (TypeConverter(type, objectListDataGrid[s_indexType, i].Value.ToString()) == 0)
                 {
-                    if (String.Compare(key, objectListDataGrid[1, i].Value.ToString()) < 0)
+                    if (String.Compare(key, objectListDataGrid[s_indexClass, i].Value.ToString()) < 0)
                         return i;
                 }
-                else if (TypeConverter(type, objectListDataGrid[0, i].Value.ToString()) == 1)
+                else if (TypeConverter(type, objectListDataGrid[s_indexType, i].Value.ToString()) == 1)
                 {
                     return i;
                 }
@@ -238,10 +215,10 @@ namespace Ecell.IDE.Plugins.ObjectList2
 
         private int SearchIndex(string key, string type)
         {
-            for (int i = 1; i < objectListDataGrid.Rows.Count; i++)
+            for (int i = 0; i < objectListDataGrid.Rows.Count; i++)
             {
-                if (objectListDataGrid[1, i].Value.ToString().Equals(key) &&
-                    objectListDataGrid[0, i].Value.ToString().Equals(type))
+                if (objectListDataGrid[s_indexID, i].Value.ToString().Equals(key) &&
+                    objectListDataGrid[s_indexType, i].Value.ToString().Equals(type))
                 {
                     return i;
                 }
@@ -253,27 +230,12 @@ namespace Ecell.IDE.Plugins.ObjectList2
         {
             for (int i = 1; i < objectListDataGrid.Rows.Count; i++)
             {
-                if (objectListDataGrid[1, i].Value.ToString().StartsWith(key))
+                if (objectListDataGrid[s_indexID, i].Value.ToString().StartsWith(key))
                 {
                     return i;
                 }
             }
             return -1;
-        }
-
-        private void CreateHeader()
-        {
-            int len = m_propArray.Length;
-            DataGridViewRow rs = new DataGridViewRow();
-            for (int i = 0; i < len; i++)
-            {
-                DataGridViewCell cs1 = new DataGridViewTextBoxCell();
-                cs1.Style.BackColor = m_headerColor;
-                cs1.Value = m_propArray[i];
-                rs.Cells.Add(cs1);
-                cs1.ReadOnly = true;
-            }
-            objectListDataGrid.Rows.Add(rs);
         }
 
         private void ClickSearchButton(object sender, EventArgs e)
@@ -287,24 +249,24 @@ namespace Ecell.IDE.Plugins.ObjectList2
 
             for (int i = ind + 1 ; i < objectListDataGrid.Rows.Count ; i++)
             {
-                if (objectListDataGrid[1, i].Value.ToString().Contains(searchCnd))
+                if (objectListDataGrid[s_indexID, i].Value.ToString().Contains(searchCnd))
                 {
                     m_owner.PluginManager.SelectChanged(
-                        objectListDataGrid[2, i].Value.ToString(),
-                        objectListDataGrid[1, i].Value.ToString(),
-                        objectListDataGrid[0, i].Value.ToString());
+                        m_owner.DataManager.CurrentProject.ModelList[0].Name,
+                        objectListDataGrid[s_indexID, i].Value.ToString(),
+                        objectListDataGrid[s_indexType, i].Value.ToString());
                     return;
                 }
             }
 
             for ( int i = 0 ; i < ind ; i++ )
             {
-                if (objectListDataGrid[1, i].Value.ToString().Contains(searchCnd))
+                if (objectListDataGrid[s_indexID, i].Value.ToString().Contains(searchCnd))
                 {
                     m_owner.PluginManager.SelectChanged(
-                        objectListDataGrid[2, i].Value.ToString(),
-                        objectListDataGrid[1, i].Value.ToString(),
-                        objectListDataGrid[0, i].Value.ToString());
+                        m_owner.DataManager.CurrentProject.ModelList[0].Name,
+                        objectListDataGrid[s_indexID, i].Value.ToString(),
+                        objectListDataGrid[s_indexType, i].Value.ToString());
                     return;
                 }
             }        

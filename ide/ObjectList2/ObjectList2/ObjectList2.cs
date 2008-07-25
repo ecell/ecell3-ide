@@ -86,7 +86,7 @@ namespace Ecell.IDE.Plugins.ObjectList2
         }
         #endregion
 
-        #region Inherited from PuginBase
+        #region Inherited from PluginBase
         /// <summary>
         /// Get the window form for ObjectList.
         /// </summary>
