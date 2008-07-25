@@ -215,8 +215,8 @@ namespace Ecell.IDE.MainWindow
             string filepath = Path.Combine(prj.ProjectPath, "model.png");
             if (File.Exists(filepath))
                 pictureBox1.Image = Image.FromFile(filepath);
-            else
-                pictureBox1.Image = null;
+            else if(pictureBox1.Image != null)
+                pictureBox1.Image.Dispose();
 
             projectNameText.BackColor = Color.White;
             dateText.BackColor = Color.White;
@@ -755,7 +755,8 @@ namespace Ecell.IDE.MainWindow
 
         private void ProjectExplorerDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
-            pictureBox1.Image.Dispose();
+            if(pictureBox1.Image != null)
+                pictureBox1.Image.Dispose();
         }
     }
 }
