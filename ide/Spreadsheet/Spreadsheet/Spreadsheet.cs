@@ -44,12 +44,12 @@ using Ecell;
 using Ecell.Plugin;
 using Ecell.Objects;
 
-namespace Ecell.IDE.Plugins.ObjectList
+namespace Ecell.IDE.Plugins.Spreadsheet
 {
     /// <summary>
     /// Plugin class to display object by list.
     /// </summary>
-    public class ObjectList : PluginBase
+    public class Spreadsheet : PluginBase
     {
         #region Fields
         /// <summary>
@@ -147,7 +147,7 @@ namespace Ecell.IDE.Plugins.ObjectList
         };
 
         /// <summary>
-        /// ComponentResourceManager for ObjectList.
+        /// ComponentResourceManager for Spreadsheet.
         /// </summary>
         public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
@@ -203,7 +203,7 @@ namespace Ecell.IDE.Plugins.ObjectList
         /// <summary>
         /// Construcotor.
         /// </summary>
-        public ObjectList()
+        public Spreadsheet()
         {
             m_time = new System.Windows.Forms.Timer();
             m_time.Enabled = false;
@@ -225,15 +225,15 @@ namespace Ecell.IDE.Plugins.ObjectList
         #endregion
 
         /// <summary>
-        /// Deconstructor for ObjectList.
+        /// Deconstructor for Spreadsheet.
         /// </summary>
-        ~ObjectList()
+        ~Spreadsheet()
         {
             m_gridView.Dispose();
         }
 
         /// <summary>
-        /// Get the window form for ObjectList.
+        /// Get the window form for Spreadsheet.
         /// </summary>
         /// <returns>UserControl</returns>        
         public override IEnumerable<EcellDockContent> GetWindowsForms()
@@ -241,8 +241,8 @@ namespace Ecell.IDE.Plugins.ObjectList
             EcellDockContent win = new EcellDockContent();
             m_gridView.Dock = DockStyle.Fill;
             win.Controls.Add(m_gridView);
-            win.Name = "ObjectList";
-            win.Text = MessageResources.ObjectList;
+            win.Name = "Spreadsheet";
+            win.Text = MessageResources.Spreadsheet;
             win.Icon = MessageResources.objlist;
             win.TabText = win.Text;
             win.IsSavable = true;
@@ -297,10 +297,10 @@ namespace Ecell.IDE.Plugins.ObjectList
         /// <summary>
         /// Get the name of this plugin.
         /// </summary>
-        /// <returns>"ObjectList"</returns>
+        /// <returns>"Spreadsheet"</returns>
         public override string GetPluginName()
         {
-            return "ObjectList";
+            return "Spreadsheet";
         }
 
         /// <summary>
@@ -319,7 +319,7 @@ namespace Ecell.IDE.Plugins.ObjectList
         public override IEnumerable<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
-            names.Add(MessageResources.ObjectList);
+            names.Add(MessageResources.Spreadsheet);
             return names;
         }
 

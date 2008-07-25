@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ecell.IDE.Plugins.ObjectList {
+namespace Ecell.IDE.Plugins.Spreadsheet {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Ecell.IDE.Plugins.ObjectList {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ecell.IDE.Plugins.ObjectList.MessageResources", typeof(MessageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ecell.IDE.Plugins.Spreadsheet.MessageResources", typeof(MessageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -72,9 +72,9 @@ namespace Ecell.IDE.Plugins.ObjectList {
         /// <summary>
         ///   SpreadSheet に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string ObjectList {
+        internal static string Spreadsheet {
             get {
-                return ResourceManager.GetString("ObjectList", resourceCulture);
+                return ResourceManager.GetString("Spreadsheet", resourceCulture);
             }
         }
         

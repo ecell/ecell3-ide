@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ecell.IDE.Plugins.ObjectList.Properties {
+namespace Ecell.IDE.Plugins.Spreadsheet.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Ecell.IDE.Plugins.ObjectList.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ecell.IDE.Plugins.ObjectList.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ecell.IDE.Plugins.Spreadsheet.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

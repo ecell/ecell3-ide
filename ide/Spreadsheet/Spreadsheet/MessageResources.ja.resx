@@ -120,7 +120,7 @@
   <data name="CreLoggerMenuText" xml:space="preserve">
     <value>ロガー設定</value>
   </data>
-  <data name="ObjectList" xml:space="preserve">
+  <data name="Spreadsheet" xml:space="preserve">
     <value>スプレッドシート</value>
   </data>
   <data name="SearchMenuText" xml:space="preserve">

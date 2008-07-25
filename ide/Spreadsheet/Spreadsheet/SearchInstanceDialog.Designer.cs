@@ -1,7 +1,7 @@
-﻿namespace Ecell.IDE.Plugins.ObjectList
+﻿namespace Ecell.IDE.Plugins.Spreadsheet
 {
     /// <summary>
-    /// Dialog to search object in ObjectList.
+    /// Dialog to search object in Spreadsheet.
     /// </summary>
     partial class SearchInstanceDialog
     {

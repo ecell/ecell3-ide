@@ -36,7 +36,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Ecell.IDE.Plugins.ObjectList
+namespace Ecell.IDE.Plugins.Spreadsheet
 {
     public partial class SearchInstanceDialog : Form
     {
@@ -44,7 +44,7 @@ namespace Ecell.IDE.Plugins.ObjectList
         /// <summary>
         /// the plugin control this windows form.
         /// </summary>
-        private IObjectListTabPage m_plugin;
+        private ISpreadsheetTabPage m_plugin;
         #endregion
 
         /// <summary>
@@ -58,8 +58,8 @@ namespace Ecell.IDE.Plugins.ObjectList
         /// <summary>
         /// Set plugin that control this window.
         /// </summary>
-        /// <param name="p">IObjectListTabPage</param>
-        public void SetPlugin(IObjectListTabPage p)
+        /// <param name="p">ISpreadsheetTabPage</param>
+        public void SetPlugin(ISpreadsheetTabPage p)
         {
             this.m_plugin = p;
             SICloseButton.Click += new EventHandler(SearchCloseButtonClick);

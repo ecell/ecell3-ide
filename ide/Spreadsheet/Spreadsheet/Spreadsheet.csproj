@@ -7,8 +7,8 @@
     <ProjectGuid>{659B501F-086F-4414-83D3-E018F05C380B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ecell.IDE.Plugins.ObjectList</RootNamespace>
-    <AssemblyName>ObjectList</AssemblyName>
+    <RootNamespace>Ecell.IDE.Plugins.Spreadsheet</RootNamespace>
+    <AssemblyName>Spreadsheet</AssemblyName>
     <StartupObject>
     </StartupObject>
     <SccProjectName>
@@ -78,13 +78,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IObjectListTabPage.cs" />
+    <Compile Include="ISpreadsheetTabPage.cs" />
     <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ObjectList.cs">
+    <Compile Include="Spreadsheet.cs">
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -119,7 +119,7 @@
   <ItemGroup>
     <EmbeddedResource Include="column.xml">
     </EmbeddedResource>
-    <EmbeddedResource Include="MessageResourcesja.resx">
+    <EmbeddedResource Include="MessageResources.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MessageResources.resx">
