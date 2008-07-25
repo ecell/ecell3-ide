@@ -125,59 +125,59 @@
     <value>5</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="SISearchButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="searchButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="SISearchButton.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="searchButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>50, 3</value>
   </data>
-  <data name="SISearchButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="searchButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
   </data>
-  <data name="SISearchButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="searchButton.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="SISearchButton.Text" xml:space="preserve">
+  <data name="searchButton.Text" xml:space="preserve">
     <value>Search</value>
   </data>
-  <data name="&gt;&gt;SISearchButton.Name" xml:space="preserve">
-    <value>SISearchButton</value>
+  <data name="&gt;&gt;searchButton.Name" xml:space="preserve">
+    <value>searchButton</value>
   </data>
-  <data name="&gt;&gt;SISearchButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;searchButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;SISearchButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;searchButton.Parent" xml:space="preserve">
     <value>tableLayoutPanel2</value>
   </data>
-  <data name="&gt;&gt;SISearchButton.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;searchButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="SICloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="closeButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
-  <data name="SICloseButton.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="closeButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>140, 3</value>
   </data>
-  <data name="SICloseButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="closeButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
   </data>
-  <data name="SICloseButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="closeButton.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="SICloseButton.Text" xml:space="preserve">
+  <data name="closeButton.Text" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="&gt;&gt;SICloseButton.Name" xml:space="preserve">
-    <value>SICloseButton</value>
+  <data name="&gt;&gt;closeButton.Name" xml:space="preserve">
+    <value>closeButton</value>
   </data>
-  <data name="&gt;&gt;SICloseButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;closeButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;SICloseButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;closeButton.Parent" xml:space="preserve">
     <value>tableLayoutPanel2</value>
   </data>
-  <data name="&gt;&gt;SICloseButton.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;closeButton.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="tableLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
@@ -208,7 +208,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="SISearchButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="SICloseButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,80,Absolute,10,Absolute,80,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="searchButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="closeButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,80,Absolute,10,Absolute,80,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="tableLayoutPanel3.ColumnCount" type="System.Int32, mscorlib">
     <value>2</value>
@@ -506,7 +506,7 @@
     <value>Search</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>SearchInstance</value>
+    <value>SearchInstanceDialog</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

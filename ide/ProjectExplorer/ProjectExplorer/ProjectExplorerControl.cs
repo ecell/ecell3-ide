@@ -24,7 +24,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_owner = owner;
             base.m_isSavable = true;
             InitializeComponent();
-            this.Text = MessageResources.ProjectExplorerControl;
+            this.Text = MessageResources.ProjectExplorer;
             this.TabText = this.Text;
             this.treeView1.ImageList = m_owner.Environment.PluginManager.NodeImageList;
         }

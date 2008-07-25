@@ -929,7 +929,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <param name="e">EventArgs.</param>
         private void ClickSearchMenu(object sender, EventArgs e)
         {
-            SearchInstanceDialog win = new SearchInstanceDialog();
+            SearchInstanceDialog win = new SearchInstanceDialog(this);
             using (win) win.ShowDialog();
         }
 

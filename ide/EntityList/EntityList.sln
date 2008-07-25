@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectList2", "ObjectList2\ObjectList2.csproj", "{659B501F-086F-4414-83D3-E018F05C380B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityList", "EntityList\EntityList.csproj", "{659B501F-086F-4414-83D3-E018F05C380B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

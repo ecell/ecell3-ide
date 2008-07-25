@@ -34,8 +34,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchInstanceDialog));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.SISearchButton = new System.Windows.Forms.Button();
-            this.SICloseButton = new System.Windows.Forms.Button();
+            this.searchButton = new System.Windows.Forms.Button();
+            this.closeButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.searchText = new System.Windows.Forms.TextBox();
@@ -54,22 +54,25 @@
             // tableLayoutPanel2
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.SISearchButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.SICloseButton, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.searchButton, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.closeButton, 3, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
-            // SISearchButton
+            // searchButton
             // 
-            resources.ApplyResources(this.SISearchButton, "SISearchButton");
-            this.SISearchButton.Name = "SISearchButton";
-            this.SISearchButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.searchButton, "searchButton");
+            this.searchButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.searchButton.Name = "searchButton";
+            this.searchButton.UseVisualStyleBackColor = true;
+            this.searchButton.Click += new System.EventHandler(this.SearchButtonClick);
             // 
-            // SICloseButton
+            // closeButton
             // 
-            resources.ApplyResources(this.SICloseButton, "SICloseButton");
-            this.SICloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.SICloseButton.Name = "SICloseButton";
-            this.SICloseButton.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.closeButton, "closeButton");
+            this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.closeButton.Name = "closeButton";
+            this.closeButton.UseVisualStyleBackColor = true;
+            this.closeButton.Click += new System.EventHandler(this.SearchCloseButtonClick);
             // 
             // tableLayoutPanel3
             // 
@@ -87,15 +90,16 @@
             // 
             resources.ApplyResources(this.searchText, "searchText");
             this.searchText.Name = "searchText";
+            this.searchText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SearchTextKeyPress);
             // 
-            // SearchInstance
+            // SearchInstanceDialog
             // 
-            this.AcceptButton = this.SISearchButton;
+            this.AcceptButton = this.searchButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.SICloseButton;
+            this.CancelButton = this.closeButton;
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "SearchInstance";
+            this.Name = "SearchInstanceDialog";
             this.Shown += new System.EventHandler(this.SearchInstanceShown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -112,7 +116,7 @@
         /// <summary>
         /// Button to search object by input condition.
         /// </summary>
-        public System.Windows.Forms.Button SISearchButton;
+        public System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label label1;
         /// <summary>
@@ -122,6 +126,6 @@
         /// <summary>
         /// Button to close this window.
         /// </summary>
-        public System.Windows.Forms.Button SICloseButton;
+        public System.Windows.Forms.Button closeButton;
     }
 }

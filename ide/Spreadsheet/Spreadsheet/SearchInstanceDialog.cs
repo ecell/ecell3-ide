@@ -44,27 +44,16 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <summary>
         /// the plugin control this windows form.
         /// </summary>
-        private ISpreadsheetTabPage m_plugin;
+        private Spreadsheet m_owner;
         #endregion
 
         /// <summary>
         /// Constructor for SearchInstance.
         /// </summary>
-        public SearchInstanceDialog()
+        public SearchInstanceDialog(Spreadsheet owner)
         {
+            m_owner = owner;
             InitializeComponent();
-        }
-
-        /// <summary>
-        /// Set plugin that control this window.
-        /// </summary>
-        /// <param name="p">ISpreadsheetTabPage</param>
-        public void SetPlugin(ISpreadsheetTabPage p)
-        {
-            this.m_plugin = p;
-            SICloseButton.Click += new EventHandler(SearchCloseButtonClick);
-            SISearchButton.Click += new EventHandler(SearchButtonClick);
-            searchText.KeyPress += new KeyPressEventHandler(SearchTextKeyPress);
         }
 
         #region Event
@@ -76,7 +65,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         private void SearchButtonClick(object sender, EventArgs e)
         {
             string text = this.searchText.Text;
-            m_plugin.SearchInstance(text);
+            m_owner.SearchInstance(text);
         }
 
         /// <summary>
@@ -98,11 +87,11 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                SISearchButton.PerformClick();
+                searchButton.PerformClick();
             }
             else if (e.KeyChar == (char)Keys.Escape)
             {
-                SICloseButton.PerformClick();
+                closeButton.PerformClick();
             }
         }
         #endregion

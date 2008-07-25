@@ -53,9 +53,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
     {
         #region Fields
         /// <summary>
-        /// m_form (EntityList form) 
+        /// m_form (ProjectExplorerControl form) 
         /// </summary>
-        private EntityList m_form = null;
+        private ProjectExplorerControl m_form = null;
         /// <summary>
         /// Dictionary of tree node for Models.
         /// </summary>
@@ -228,7 +228,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <returns>UserControl.</returns>
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
-            m_form = new EntityList(this);
+            m_form = new ProjectExplorerControl(this);
             m_form.treeView1.NodeMouseClick +=
                 new TreeNodeMouseClickEventHandler(this.NodeMouseClick);
             m_form.treeView1.NodeMouseDoubleClick +=
@@ -675,17 +675,17 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         public override IEnumerable<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
-            names.Add(MessageResources.EntityList);
+            names.Add(MessageResources.ProjectExplorer);
             return names;
         }
         #endregion
 
         #region internal methods
         /// <summary>
-        /// Get EntityList usercontrol.
+        /// Get ProjectExplorerControl usercontrol.
         /// </summary>
-        /// <returns>EntityList.</returns>
-        internal EntityList GetForm()
+        /// <returns>ProjectExplorerControl.</returns>
+        internal ProjectExplorerControl GetForm()
         {
             return m_form;
         }

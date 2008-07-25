@@ -52,7 +52,7 @@ namespace Ecell.IDE.Plugins.EntityList
     public class EntityList : PluginBase
     {
         #region Fields
-        private ObjectListUserControl m_control;
+        private EntityListControl m_control;
         /// <summary>
         /// ComponentResourceManager for ObjectList.
         /// </summary>
@@ -74,7 +74,7 @@ namespace Ecell.IDE.Plugins.EntityList
         /// </summary>
         public override void Initialize()
         {
-            m_control = new ObjectListUserControl(this);
+            m_control = new EntityListControl(this);
             m_control.Dock = DockStyle.Fill;
         }
 

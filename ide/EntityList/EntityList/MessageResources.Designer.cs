@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ecell.IDE.Plugins.ObjectList2 {
+namespace Ecell.IDE.Plugins.EntityList {
     using System;
     
     
