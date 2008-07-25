@@ -918,8 +918,9 @@ namespace Ecell.IDE.MainWindow
                 if (m_recentProjects.ContainsKey(projectID))
                     m_recentProjects.Remove(projectID);
                 m_recentProjects.Add(projectID, filename);
-                ResetRecentProject();
+                ResetRecentProject();                
             }
+            m_statusDialog.ChangeStatus(type);
             m_type = type;
         }
 

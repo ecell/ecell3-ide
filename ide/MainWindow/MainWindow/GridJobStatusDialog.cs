@@ -51,6 +51,7 @@ namespace Ecell.IDE.MainWindow
         /// SessionManager
         /// </summary>
         IJobManager m_manager;
+        Timer m_timer;
         #endregion
 
         /// <summary>
@@ -61,6 +62,36 @@ namespace Ecell.IDE.MainWindow
             m_manager = manager;
             InitializeComponent();               
             JobGridView.CellDoubleClick += new DataGridViewCellEventHandler(JobGridViewDoubleClick);
+            m_timer = new System.Windows.Forms.Timer();
+            m_timer.Enabled = false;
+            m_timer.Interval = 3000;
+            m_timer.Tick += new EventHandler(FireTimer);
+        }
+
+        public void ChangeStatus(ProjectStatus status)
+        {
+            if (status == ProjectStatus.Loaded)
+            {
+                m_timer.Enabled = true;
+                m_timer.Start();
+            }
+            else
+            {
+                m_timer.Enabled = false;
+                m_timer.Stop();
+            }
+        }
+
+        /// <summary>
+        /// Execute redraw process on simulation running at every 1sec.
+        /// </summary>
+        /// <param name="sender">object(Timer)</param>
+        /// <param name="e">EventArgs</param>
+        void FireTimer(object sender, EventArgs e)
+        {
+            m_timer.Enabled = false;
+            DEWUpdateButton.PerformClick();
+            m_timer.Enabled = true;
         }
 
         /// <summary>
@@ -76,7 +107,6 @@ namespace Ecell.IDE.MainWindow
             if (!m_manager.JobList.ContainsKey(jobid)) return;
 
             Util.ShowNoticeDialog(m_manager.JobList[jobid].StdErr);
-
         }
 
         /// <summary>
