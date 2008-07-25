@@ -117,59 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 12</value>
-  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>プロジェクト名(&amp;P):</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 12</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>コメント(&amp;C):</value>
   </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 12</value>
-  </data>
   <data name="label3.Text" xml:space="preserve">
     <value>モデル名(&amp;M):</value>
-  </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 12</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>DM検索パス(D):</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="CPAddButton.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
   <data name="CPAddButton.Text" xml:space="preserve">
     <value>パス追加(&amp;A)...</value>
-  </data>
-  <data name="CPRemoveButton.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
   </data>
   <data name="CPRemoveButton.Text" xml:space="preserve">
     <value>削除(&amp;R)</value>
   </data>
-  <data name="CPCreateButton.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
   <data name="CPCreateButton.Text" xml:space="preserve">
     <value>OK</value>
-  </data>
-  <data name="CPCancelButton.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
   </data>
   <data name="CPCancelButton.Text" xml:space="preserve">
     <value>キャンセル</value>
   </data>
-  <data name="CPListBox.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAMDAAAAEAIACoJQAAFgAAACgAAAAwAAAAYAAAAAEAIAAAAAAAgCUAAAAAAAAAAAAAAAAAAAAA
