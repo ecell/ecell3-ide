@@ -181,6 +181,7 @@ namespace Ecell.IDE.MainWindow
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.openButton);
             this.Name = "ProjectExplorerDialog";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ProjectExplorerDialog_FormClosing);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();

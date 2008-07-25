@@ -752,5 +752,10 @@ namespace Ecell.IDE.MainWindow
             }
             #endregion
         }
+
+        private void ProjectExplorerDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            pictureBox1.Image.Dispose();
+        }
     }
 }
