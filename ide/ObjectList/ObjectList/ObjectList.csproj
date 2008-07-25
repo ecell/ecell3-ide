@@ -84,7 +84,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ModelTabPage.cs" />
     <Compile Include="ObjectList.cs">
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
