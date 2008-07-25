@@ -1,6 +1,6 @@
-﻿namespace Ecell.IDE.Plugins.ObjectList2
+﻿namespace Ecell.IDE.Plugins.EntityList
 {
-    partial class ObjectListUserControl
+    partial class EntityListControl
     {
         /// <summary> 
         /// 必要なデザイナ変数です。
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ObjectListUserControl));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityListControl));
             this.searchTextBox = new System.Windows.Forms.TextBox();
             this.searchButton = new System.Windows.Forms.Button();
             this.objectListDataGrid = new System.Windows.Forms.DataGridView();
@@ -107,7 +107,7 @@
             this.ObjectName.Name = "ObjectName";
             this.ObjectName.ReadOnly = true;
             // 
-            // ObjectListUserControl
+            // EntityListControl
             // 
             this.AccessibleDescription = null;
             this.AccessibleName = null;
@@ -118,7 +118,7 @@
             this.Controls.Add(this.searchButton);
             this.Controls.Add(this.searchTextBox);
             this.Font = null;
-            this.Name = "ObjectListUserControl";
+            this.Name = "EntityListControl";
             ((System.ComponentModel.ISupportInitialize)(this.objectListDataGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

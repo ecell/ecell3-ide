@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ecell.IDE.Plugins.ObjectList2.Properties {
+namespace Ecell.IDE.Plugins.EntityList.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

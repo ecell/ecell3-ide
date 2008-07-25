@@ -44,12 +44,12 @@ using Ecell;
 using Ecell.Plugin;
 using Ecell.Objects;
 
-namespace Ecell.IDE.Plugins.ObjectList2
+namespace Ecell.IDE.Plugins.EntityList
 {
     /// <summary>
     /// Plugin class to display object by list.
     /// </summary>
-    public class ObjectList2 : PluginBase
+    public class EntityList : PluginBase
     {
         #region Fields
         private ObjectListUserControl m_control;
@@ -63,7 +63,7 @@ namespace Ecell.IDE.Plugins.ObjectList2
         /// <summary>
         /// Construcotor.
         /// </summary>
-        public ObjectList2()
+        public EntityList()
         {
         }
         #endregion
@@ -81,7 +81,7 @@ namespace Ecell.IDE.Plugins.ObjectList2
         /// <summary>
         /// Deconstructor for ObjectList.
         /// </summary>
-        ~ObjectList2()
+        ~EntityList()
         {
         }
         #endregion
@@ -96,7 +96,7 @@ namespace Ecell.IDE.Plugins.ObjectList2
             EcellDockContent win = new EcellDockContent();
             m_control.Dock = DockStyle.Fill;
             win.Controls.Add(m_control);
-            win.Name = "ObjectList2";
+            win.Name = "EntityList";
             win.Text = MessageResources.ObjectList;
             win.Icon = MessageResources.objlist;
             win.TabText = win.Text;
@@ -232,7 +232,7 @@ namespace Ecell.IDE.Plugins.ObjectList2
         /// <returns>"ObjectList"</returns>
         public override string GetPluginName()
         {
-            return "ObjectList2";
+            return "EntityList";
         }
 
         /// <summary>

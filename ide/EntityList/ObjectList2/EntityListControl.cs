@@ -8,11 +8,11 @@ using System.Windows.Forms;
 
 using Ecell.Objects;
 
-namespace Ecell.IDE.Plugins.ObjectList2
+namespace Ecell.IDE.Plugins.EntityList
 {
-    public partial class ObjectListUserControl : UserControl
+    public partial class EntityListControl : UserControl
     {
-        private ObjectList2 m_owner;
+        private EntityList m_owner;
         private bool m_isSelected = false;
         /// <summary>
         /// Color of header.
@@ -40,13 +40,13 @@ namespace Ecell.IDE.Plugins.ObjectList2
         /// The property array of System.
         /// </summary>
         private static String[] m_propArray = new string[] {
-            ObjectListUserControl.s_indexType,
-            ObjectListUserControl.s_indexClass,
-            ObjectListUserControl.s_indexID,
-            ObjectListUserControl.s_indexName
+            EntityListControl.s_indexType,
+            EntityListControl.s_indexClass,
+            EntityListControl.s_indexID,
+            EntityListControl.s_indexName
         };
 
-        public ObjectListUserControl(ObjectList2 owner)
+        public EntityListControl(EntityList owner)
         {
             m_owner = owner;
             InitializeComponent();
@@ -158,19 +158,19 @@ namespace Ecell.IDE.Plugins.ObjectList2
 
         private string GetData(string name, EcellObject obj)
         {
-            if (name.Equals(ObjectListUserControl.s_indexType))
+            if (name.Equals(EntityListControl.s_indexType))
             {
                 return obj.Type;
             }
-            else if (name.Equals(ObjectListUserControl.s_indexID))
+            else if (name.Equals(EntityListControl.s_indexID))
             {
                 return obj.Key;
             }
-            else if (name.Equals(ObjectListUserControl.s_indexClass))
+            else if (name.Equals(EntityListControl.s_indexClass))
             {
                 return obj.Classname;
             }
-            else if (name.Equals(ObjectListUserControl.s_indexName))
+            else if (name.Equals(EntityListControl.s_indexName))
             {
                 return obj.Name;
             }

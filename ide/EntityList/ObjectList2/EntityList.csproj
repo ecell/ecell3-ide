@@ -7,8 +7,8 @@
     <ProjectGuid>{2FB3385F-89E2-40FE-8157-5A2993C6D258}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ecell.IDE.Plugins.ObjectList2</RootNamespace>
-    <AssemblyName>ObjectList2</AssemblyName>
+    <RootNamespace>Ecell.IDE.Plugins.EntityList</RootNamespace>
+    <AssemblyName>EntityList</AssemblyName>
     <StartupObject>
     </StartupObject>
     <SccProjectName>
@@ -78,18 +78,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ObjectListUserControl.cs">
+    <Compile Include="EntityListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ObjectListUserControl.Designer.cs">
-      <DependentUpon>ObjectListUserControl.cs</DependentUpon>
+    <Compile Include="EntityListControl.Designer.cs">
+      <DependentUpon>EntityListControl.cs</DependentUpon>
     </Compile>
     <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ObjectList2.cs">
+    <Compile Include="EntityList.cs">
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -124,13 +124,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="ObjectListUserControl.ja.resx">
+    <EmbeddedResource Include="EntityListControl.ja.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>ObjectListUserControl.cs</DependentUpon>
+      <DependentUpon>EntityListControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ObjectListUserControl.resx">
+    <EmbeddedResource Include="EntityListControl.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>ObjectListUserControl.cs</DependentUpon>
+      <DependentUpon>EntityListControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
