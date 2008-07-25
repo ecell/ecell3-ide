@@ -36,7 +36,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Ecell.IDE.Plugins.EntityListWindow
+namespace Ecell.IDE.Plugins.ProjectExplorer
 {
     /// <summary>
     /// Window set the condition to search object.
@@ -47,7 +47,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
         /// <summary>
         /// the plugin control this windows form.
         /// </summary>
-        private EntityListWindow m_plugin;
+        private ProjectExplorer m_plugin;
         #endregion
 
         /// <summary>
@@ -61,8 +61,8 @@ namespace Ecell.IDE.Plugins.EntityListWindow
         /// <summary>
         /// set plugin that control this window.
         /// </summary>
-        /// <param name="p">EntityListWindow</param>
-        public void SetPlugin(EntityListWindow p)
+        /// <param name="p">ProjectExplorer</param>
+        public void SetPlugin(ProjectExplorer p)
         {
             this.m_plugin = p;
         }

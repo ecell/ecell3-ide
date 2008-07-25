@@ -37,7 +37,7 @@ using System.Text;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Ecell.IDE.Plugins.EntityListWindow
+namespace Ecell.IDE.Plugins.ProjectExplorer
 {
     /// <summary>
     /// Form to input the new DM name.

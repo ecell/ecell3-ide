@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ecell.IDE.Plugins.EntityListWindow {
+namespace Ecell.IDE.Plugins.ProjectExplorer {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ecell.IDE.Plugins.EntityListWindow.MessageResources", typeof(MessageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ecell.IDE.Plugins.ProjectExplorer.MessageResources", typeof(MessageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

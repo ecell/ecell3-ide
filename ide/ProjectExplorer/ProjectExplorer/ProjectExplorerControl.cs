@@ -5,26 +5,26 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
-using Ecell.IDE.Plugins.EntityListWindow;
+using Ecell.IDE.Plugins.ProjectExplorer;
 
-namespace Ecell.IDE.Plugins.EntityListWindow
+namespace Ecell.IDE.Plugins.ProjectExplorer
 {
-    public partial class EntityList : EcellDockContent
+    public partial class ProjectExplorerControl : EcellDockContent
     {
         /// <summary>
         /// DataManager
         /// </summary>
-        EntityListWindow m_owner;
+        ProjectExplorer m_owner;
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public EntityList(EntityListWindow owner)
+        public ProjectExplorerControl(ProjectExplorer owner)
         {
             m_owner = owner;
             base.m_isSavable = true;
             InitializeComponent();
-            this.Text = MessageResources.EntityList;
+            this.Text = MessageResources.ProjectExplorerControl;
             this.TabText = this.Text;
             this.treeView1.ImageList = m_owner.Environment.PluginManager.NodeImageList;
         }

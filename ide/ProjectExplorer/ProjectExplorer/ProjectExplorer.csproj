@@ -7,8 +7,8 @@
     <ProjectGuid>{9F1830B0-28F0-40C6-9B26-0307FA52268C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ecell.IDE.Plugins.EntityListWindow</RootNamespace>
-    <AssemblyName>EntityListWindow</AssemblyName>
+    <RootNamespace>Ecell.IDE.Plugins.ProjectExplorer</RootNamespace>
+    <AssemblyName>ProjectExplorer</AssemblyName>
     <StartupObject>
     </StartupObject>
     <SccProjectName>
@@ -21,7 +21,7 @@
     </SccProvider>
     <Win32Resource>
     </Win32Resource>
-    <ApplicationIcon>Resources\EntityListWindow.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\ProjectExplorer.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ReferencePath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin;$(REFPATH)</ReferencePath>
@@ -89,13 +89,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntityList.cs">
+    <Compile Include="ProjectExplorerControl.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EntityList.Designer.cs">
-      <DependentUpon>EntityList.cs</DependentUpon>
+    <Compile Include="ProjectExplorerControl.Designer.cs">
+      <DependentUpon>ProjectExplorerControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="EntityListWindow.cs" />
+    <Compile Include="ProjectExplorer.cs" />
     <Compile Include="CreateDMDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,9 +111,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="EntityList.resx">
+    <EmbeddedResource Include="ProjectExplorerControl.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>EntityList.cs</DependentUpon>
+      <DependentUpon>ProjectExplorerControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CreateDMDialog.ja.resx">
       <SubType>Designer</SubType>
@@ -167,7 +167,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\EntityListWindow.ico" />
+    <Content Include="Resources\ProjectExplorer.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\EcellUILib\EcellUILib\EcellUILib.csproj">

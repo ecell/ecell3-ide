@@ -44,12 +44,12 @@ using Ecell;
 using Ecell.Plugin;
 using Ecell.Objects;
 
-namespace Ecell.IDE.Plugins.EntityListWindow
+namespace Ecell.IDE.Plugins.ProjectExplorer
 {
     /// <summary>
-    /// Plugin of EntityListWindow.
+    /// Plugin of ProjectExplorer.
     /// </summary>
-    public class EntityListWindow : PluginBase
+    public class ProjectExplorer : PluginBase
     {
         #region Fields
         /// <summary>
@@ -175,16 +175,16 @@ namespace Ecell.IDE.Plugins.EntityListWindow
         private MenuItem m_editorDM;
         private MenuItem m_appDM;
         /// <summary>
-        /// ComponentResourceManager for EntityListWindow.
+        /// ComponentResourceManager for ProjectExplorer.
         /// </summary>
         static public ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
 
         #region Constructors
         /// <summary>
-        /// Constructor for EntityListWindow.
+        /// Constructor for ProjectExplorer.
         /// </summary>
-        public EntityListWindow()
+        public ProjectExplorer()
         {
             m_propDict = new Dictionary<string, EcellData>();
             
@@ -222,7 +222,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
 
         #region Inherited from PluginBase
         /// <summary>
-        /// Get the window form for EntityListWindow.
+        /// Get the window form for ProjectExplorer.
         /// This user control add the NodeMouseClick event action.
         /// </summary>
         /// <returns>UserControl.</returns>
@@ -653,10 +653,10 @@ namespace Ecell.IDE.Plugins.EntityListWindow
         /// <summary>
         /// Get the name of this plugin.
         /// </summary>
-        /// <returns>"EntityListWindow"</returns>
+        /// <returns>"ProjectExplorer"</returns>
         public override string GetPluginName()
         {
-            return "EntityListWindow";
+            return "ProjectExplorer";
         }
 
         /// <summary>
@@ -1604,7 +1604,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
         }
 
         /// <summary>
-        /// The action of double clicking TreeNode on EntityListWindow.
+        /// The action of double clicking TreeNode on ProjectExplorer.
         /// </summary>
         /// <param name="sender">TreeView</param>
         /// <param name="e">TreeNodeMouseClickEventArgs</param>
@@ -1762,7 +1762,7 @@ namespace Ecell.IDE.Plugins.EntityListWindow
     }
 
     /// <summary>
-    /// Tag Object with the node in EntityListWindow.
+    /// Tag Object with the node in ProjectExplorer.
     /// </summary>
     public class TagData
     {

@@ -34,7 +34,7 @@ using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
 
-namespace Ecell.IDE.Plugins.EntityListWindow
+namespace Ecell.IDE.Plugins.ProjectExplorer
 {
     /// <summary>
     /// TreeView to be able to select the multi objects.

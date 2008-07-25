@@ -1,4 +1,4 @@
-﻿namespace Ecell.IDE.Plugins.EntityListWindow
+﻿namespace Ecell.IDE.Plugins.ProjectExplorer
 {
     partial class SearchInstanceDialog
     {

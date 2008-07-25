@@ -1,9 +1,9 @@
-﻿namespace Ecell.IDE.Plugins.EntityListWindow
+﻿namespace Ecell.IDE.Plugins.ProjectExplorer
 {
     /// <summary>
-    /// EntityList UserControl.
+    /// ProjectExplorerControl UserControl.
     /// </summary>
-    partial class EntityList
+    partial class ProjectExplorerControl
     {
         /// <summary> 
         /// 必要なデザイナ変数です。
@@ -31,8 +31,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityList));
-            this.treeView1 = new Ecell.IDE.Plugins.EntityListWindow.MultiSelectTreeView();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectExplorerControl));
+            this.treeView1 = new Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView();
             this.SuspendLayout();
             // 
             // treeView1
@@ -44,16 +44,16 @@
             this.treeView1.Size = new System.Drawing.Size(203, 184);
             this.treeView1.TabIndex = 5;
             // 
-            // EntityList
+            // ProjectExplorerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(203, 184);
             this.Controls.Add(this.treeView1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "EntityList";
-            this.TabText = "EntityList";
-            this.Text = "EntityList";
+            this.Name = "ProjectExplorerControl";
+            this.TabText = "ProjectExplorerControl";
+            this.Text = "ProjectExplorerControl";
             this.ResumeLayout(false);
 
         }
@@ -62,7 +62,7 @@
         /// <summary>
         /// treeView1
         /// </summary>
-        public Ecell.IDE.Plugins.EntityListWindow.MultiSelectTreeView treeView1;
+        public Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView treeView1;
 
     }
 }
