@@ -801,12 +801,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public void NotifySetPosition(PPathwayObject obj)
         {
             EcellObject eo = obj.EcellObject;
-            eo.X = obj.X;
-            eo.Y = obj.Y;
+            eo.X = obj.X + obj.OffsetX;
+            eo.Y = obj.Y + obj.OffsetY;
             eo.Width = obj.Width;
             eo.Height = obj.Height;
-            eo.OffsetX = obj.OffsetX;
-            eo.OffsetY = obj.OffsetY;
+            eo.OffsetX = 0f;
+            eo.OffsetY = 0f;
 
             NotifySetPosition(eo);
         }

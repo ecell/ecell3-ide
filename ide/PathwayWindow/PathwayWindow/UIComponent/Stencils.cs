@@ -56,43 +56,42 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             m_con = control;
             InitializeComponent();
+            SetToolBoxItems();
         }
 
         private void InitializeComponent()
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel1.BackColor = SystemColors.Window;
+            this.flowLayoutPanel1.BackColor = System.Drawing.SystemColors.Window;
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(322, 273);
             this.flowLayoutPanel1.TabIndex = 1;
-            SetToolBoxItems();
             // 
-            // Stencil
+            // Stencils
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.AutoSize = false;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.ClientSize = new System.Drawing.Size(322, 273);
             this.Controls.Add(this.flowLayoutPanel1);
             this.IsSavable = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1, 0);
             this.Name = "Stencils";
-            this.Text = MessageResources.WindowStencil;
             this.TabText = this.Text;
-
-            this.flowLayoutPanel1.ResumeLayout(false);
+            this.Text = "Stencil";
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         private void SetToolBoxItems()

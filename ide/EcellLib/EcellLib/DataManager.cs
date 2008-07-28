@@ -1953,38 +1953,36 @@ namespace Ecell
             Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
 
             string message = "[" + model + "][" + key + "]";
+            // Select systems for delete.
             List<EcellObject> delList = new List<EcellObject>();
             if (!sysDic.ContainsKey(model))
                 return;
             foreach (EcellObject obj in sysDic[model])
             {
-                if (obj.ModelID != model || !obj.Key.StartsWith(key))
-                    continue;
-                if (obj.Key.Length == key.Length || obj.Key[key.Length] == '/')
+                if (obj.Key.Equals(key) || obj.Key.StartsWith(key + "/"))
                     delList.Add(obj);
             }
+
+            //
             foreach (EcellObject obj in delList)
             {
                 sysDic[model].Remove(obj);
-                if (obj.Type == "System")
+                foreach (string keyParamID in initialCondition.Keys)
                 {
-                    foreach (string keyParamID in initialCondition.Keys)
+                    foreach (string delModel in initialCondition[keyParamID].Keys)
                     {
-                        foreach (string delModel in initialCondition[keyParamID].Keys)
+                        foreach (string cType in initialCondition[keyParamID][delModel].Keys)
                         {
-                            foreach (string cType in initialCondition[keyParamID][delModel].Keys)
+                            String delKey = cType + ":" + key;
+                            List<String> delKeyList = new List<string>();
+                            foreach (String entKey in initialCondition[keyParamID][delModel][cType].Keys)
                             {
-                                String delKey = cType + ":" + key;
-                                List<String> delKeyList = new List<string>();
-                                foreach (String entKey in initialCondition[keyParamID][delModel][cType].Keys)
-                                {
-                                    if (entKey.StartsWith(delKey))
-                                        delKeyList.Add(entKey);
-                                }
-                                foreach (String entKey in delKeyList)
-                                {
-                                    initialCondition[keyParamID][delModel][cType].Remove(entKey);
-                                }
+                                if (entKey.StartsWith(delKey))
+                                    delKeyList.Add(entKey);
+                            }
+                            foreach (String entKey in delKeyList)
+                            {
+                                initialCondition[keyParamID][delModel][cType].Remove(entKey);
                             }
                         }
                     }
