@@ -128,7 +128,7 @@ namespace Ecell.IDE.Plugins.EntityList
                 while (ind != -1)
                 {
                     DeleteRow(ind);
-                    SearchIndexInclude(key);
+                    ind = SearchIndexInclude(key);
                 }
                 return;
             }
@@ -137,7 +137,7 @@ namespace Ecell.IDE.Plugins.EntityList
             while (ind == -1)
             {
                 DeleteRow(ind);
-                SearchIndex(key, type);
+                ind =SearchIndex(key, type);
             }            
         }
 
