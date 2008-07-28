@@ -38,8 +38,8 @@
             this.FullID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Coefficient = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DeleteVarButton = new System.Windows.Forms.Button();
-            this.VRCloseButton = new System.Windows.Forms.Button();
-            this.VRApplyButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
+            this.okButton = new System.Windows.Forms.Button();
             this.AddVarButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
@@ -47,13 +47,13 @@
             // dgv
             // 
             this.dgv.AllowUserToAddRows = false;
-            resources.ApplyResources(this.dgv, "dgv");
             this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ReferenceName,
             this.FullID,
             this.Coefficient});
+            resources.ApplyResources(this.dgv, "dgv");
             this.dgv.MultiSelect = false;
             this.dgv.Name = "dgv";
             this.dgv.RowHeadersVisible = false;
@@ -85,20 +85,20 @@
             this.DeleteVarButton.UseVisualStyleBackColor = true;
             this.DeleteVarButton.Click += new System.EventHandler(this.DeleteVarReference);
             // 
-            // VRCloseButton
+            // cancelButton
             // 
-            resources.ApplyResources(this.VRCloseButton, "VRCloseButton");
-            this.VRCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.VRCloseButton.Name = "VRCloseButton";
-            this.VRCloseButton.UseVisualStyleBackColor = true;
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            resources.ApplyResources(this.cancelButton, "cancelButton");
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.UseVisualStyleBackColor = true;
             // 
-            // VRApplyButton
+            // okButton
             // 
-            resources.ApplyResources(this.VRApplyButton, "VRApplyButton");
-            this.VRApplyButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.VRApplyButton.Name = "VRApplyButton";
-            this.VRApplyButton.UseVisualStyleBackColor = true;
-            this.VRApplyButton.Click += new System.EventHandler(this.OkButtonClick);
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            resources.ApplyResources(this.okButton, "okButton");
+            this.okButton.Name = "okButton";
+            this.okButton.UseVisualStyleBackColor = true;
+            this.okButton.Click += new System.EventHandler(this.OkButtonClick);
             // 
             // AddVarButton
             // 
@@ -109,15 +109,15 @@
             // 
             // VariableReferenceEditDialog
             // 
-            this.AcceptButton = this.VRApplyButton;
+            this.AcceptButton = this.okButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.VRCloseButton;
+            this.CancelButton = this.cancelButton;
             this.Controls.Add(this.AddVarButton);
             this.Controls.Add(this.DeleteVarButton);
             this.Controls.Add(this.dgv);
-            this.Controls.Add(this.VRApplyButton);
-            this.Controls.Add(this.VRCloseButton);
+            this.Controls.Add(this.okButton);
+            this.Controls.Add(this.cancelButton);
             this.Name = "VariableReferenceEditDialog";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.VariableReferenceEditDialogClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
@@ -132,8 +132,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Coefficient;
         private System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.Button DeleteVarButton;
-        private System.Windows.Forms.Button VRCloseButton;
-        private System.Windows.Forms.Button VRApplyButton;
+        private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button AddVarButton;
     }
 }
