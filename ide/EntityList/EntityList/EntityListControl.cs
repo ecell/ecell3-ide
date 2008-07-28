@@ -67,7 +67,8 @@ namespace Ecell.IDE.Plugins.EntityList
                     objectListDataGrid[s_indexType, i].Value.ToString().Equals(type))
                 {
                     objectListDataGrid.Rows[i].Selected = true;
-                    objectListDataGrid.FirstDisplayedScrollingRowIndex = i;
+                    if (objectListDataGrid.Rows[i].Visible)
+                        objectListDataGrid.FirstDisplayedScrollingRowIndex = i;
                     return;
                 }
             }
