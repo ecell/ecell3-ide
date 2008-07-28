@@ -160,4 +160,7 @@
   <data name="Icon_OverView" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\OverView.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Icon_Stencil" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Stencil.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

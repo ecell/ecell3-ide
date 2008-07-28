@@ -271,10 +271,6 @@
       <DependentUpon>SelectBoxDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UIComponent\Stencils.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Stencils.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\arrow_long_bidir_w.gif" />
@@ -285,8 +281,10 @@
     <Content Include="Resources\move.gif" />
     <None Include="Resources\PathwayView.ico" />
     <Content Include="Resources\OverView.ico" />
+    <None Include="Resources\Stencil.ico" />
     <Content Include="Resources\ten.GIF" />
     <Content Include="Resources\Text.png" />
+    <None Include="Resources\text_rich_colored.png" />
     <Content Include="Resources\ZoomIn.ico" />
     <Content Include="Resources\ZoomOut.ico" />
   </ItemGroup>

@@ -56,6 +56,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             m_con = control;
             InitializeComponent();
+            base.Text = MessageResources.WindowStencil;
+            base.TabText = base.Text;
+
             SetToolBoxItems();
         }
 
@@ -87,8 +90,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1, 0);
             this.Name = "Stencils";
-            this.TabText = this.Text;
-            this.Text = "Stencil";
+            this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_Stencil;
             this.ResumeLayout(false);
             this.PerformLayout();
 
