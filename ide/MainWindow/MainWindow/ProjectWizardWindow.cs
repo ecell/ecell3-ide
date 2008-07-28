@@ -111,7 +111,7 @@ namespace Ecell.IDE.MainWindow
         private void LoadProjectTemplete()
         {
             // Load Projects
-            string path = Util.GetWindowSettingDir();
+            string path = Path.Combine(Util.GetWindowSettingDir(), "Templete");
             if (path == null || !Directory.Exists(path))
                 return;
             string[] dirs = Directory.GetDirectories(path);
