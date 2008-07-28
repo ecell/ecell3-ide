@@ -277,11 +277,11 @@ Source: "x64\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{app}\bin\Microsoft.
 ; plugins/*.dll
 ; ======================================================
 Source: "Win32\plugins\Analysis.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
-Source: "Win32\plugins\EntityListWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\plugins\EntityList.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\plugins\MessageListWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "Win32\plugins\MessageWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
-Source: "Win32\plugins\ObjectList.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
-Source: "Win32\plugins\ObjectList2.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "Win32\plugins\PathwayWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\plugins\ProjectExplorer.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "Win32\plugins\PropertyWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "Win32\plugins\ScriptWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "Win32\plugins\Simulation.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
@@ -289,11 +289,11 @@ Source: "Win32\plugins\StaticDebugWindow.dll"; DestDir: "{app}\plugins"; Flags: 
 Source: "Win32\plugins\TracerWindow.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
 
 Source: "x64\plugins\Analysis.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
-Source: "x64\plugins\EntityListWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\EntityList.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\MessageListWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\plugins\MessageWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
-Source: "x64\plugins\ObjectList.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
-Source: "x64\plugins\ObjectList2.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\plugins\PathwayWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\ProjectExplorer.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\plugins\PropertyWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\plugins\ScriptWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\plugins\Simulation.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
