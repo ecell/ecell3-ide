@@ -68,5 +68,12 @@ namespace Ecell.IDE.Plugins.EntityList {
                 return ResourceManager.GetString("columns", resourceCulture);
             }
         }
+        
+        internal static System.Drawing.Icon EntityList {
+            get {
+                object obj = ResourceManager.GetObject("EntityList", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }
