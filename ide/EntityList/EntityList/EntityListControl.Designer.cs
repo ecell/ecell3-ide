@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityListControl));
             this.searchTextBox = new System.Windows.Forms.TextBox();
-            this.searchButton = new System.Windows.Forms.Button();
+            this.clearButton = new System.Windows.Forms.Button();
             this.objectListDataGrid = new System.Windows.Forms.DataGridView();
             this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ClassName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,41 +41,29 @@
             // 
             // searchTextBox
             // 
-            this.searchTextBox.AccessibleDescription = null;
-            this.searchTextBox.AccessibleName = null;
             resources.ApplyResources(this.searchTextBox, "searchTextBox");
-            this.searchTextBox.BackgroundImage = null;
-            this.searchTextBox.Font = null;
             this.searchTextBox.Name = "searchTextBox";
-            this.searchTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SearchTextBoxKeyPress);
+            this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
             // 
-            // searchButton
+            // clearButton
             // 
-            this.searchButton.AccessibleDescription = null;
-            this.searchButton.AccessibleName = null;
-            resources.ApplyResources(this.searchButton, "searchButton");
-            this.searchButton.BackgroundImage = null;
-            this.searchButton.Font = null;
-            this.searchButton.Name = "searchButton";
-            this.searchButton.UseVisualStyleBackColor = true;
-            this.searchButton.Click += new System.EventHandler(this.ClickSearchButton);
+            resources.ApplyResources(this.clearButton, "clearButton");
+            this.clearButton.Name = "clearButton";
+            this.clearButton.UseVisualStyleBackColor = true;
+            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
             // 
             // objectListDataGrid
             // 
-            this.objectListDataGrid.AccessibleDescription = null;
-            this.objectListDataGrid.AccessibleName = null;
             this.objectListDataGrid.AllowUserToAddRows = false;
             this.objectListDataGrid.AllowUserToDeleteRows = false;
             this.objectListDataGrid.AllowUserToOrderColumns = true;
             resources.ApplyResources(this.objectListDataGrid, "objectListDataGrid");
-            this.objectListDataGrid.BackgroundImage = null;
             this.objectListDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.objectListDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Type,
             this.ClassName,
             this.ID,
             this.ObjectName});
-            this.objectListDataGrid.Font = null;
             this.objectListDataGrid.Name = "objectListDataGrid";
             this.objectListDataGrid.ReadOnly = true;
             this.objectListDataGrid.RowHeadersVisible = false;
@@ -109,15 +97,11 @@
             // 
             // EntityListControl
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = null;
             this.Controls.Add(this.objectListDataGrid);
-            this.Controls.Add(this.searchButton);
+            this.Controls.Add(this.clearButton);
             this.Controls.Add(this.searchTextBox);
-            this.Font = null;
             this.Name = "EntityListControl";
             ((System.ComponentModel.ISupportInitialize)(this.objectListDataGrid)).EndInit();
             this.ResumeLayout(false);
@@ -128,7 +112,7 @@
         #endregion
 
         private System.Windows.Forms.TextBox searchTextBox;
-        private System.Windows.Forms.Button searchButton;
+        private System.Windows.Forms.Button clearButton;
         private System.Windows.Forms.DataGridView objectListDataGrid;
         private System.Windows.Forms.DataGridViewTextBoxColumn Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn ClassName;

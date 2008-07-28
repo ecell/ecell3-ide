@@ -238,40 +238,6 @@ namespace Ecell.IDE.Plugins.EntityList
             return -1;
         }
 
-        private void ClickSearchButton(object sender, EventArgs e)
-        {
-            string searchCnd = searchTextBox.Text;
-            if (String.IsNullOrEmpty(searchCnd))
-                return;
-            int ind = 1;
-            if (objectListDataGrid.SelectedRows.Count > 0)
-                ind = objectListDataGrid.SelectedRows[0].Index;
-
-            for (int i = ind + 1 ; i < objectListDataGrid.Rows.Count ; i++)
-            {
-                if (objectListDataGrid[s_indexID, i].Value.ToString().Contains(searchCnd))
-                {
-                    m_owner.PluginManager.SelectChanged(
-                        m_owner.DataManager.CurrentProject.ModelList[0].Name,
-                        objectListDataGrid[s_indexID, i].Value.ToString(),
-                        objectListDataGrid[s_indexType, i].Value.ToString());
-                    return;
-                }
-            }
-
-            for ( int i = 0 ; i < ind ; i++ )
-            {
-                if (objectListDataGrid[s_indexID, i].Value.ToString().Contains(searchCnd))
-                {
-                    m_owner.PluginManager.SelectChanged(
-                        m_owner.DataManager.CurrentProject.ModelList[0].Name,
-                        objectListDataGrid[s_indexID, i].Value.ToString(),
-                        objectListDataGrid[s_indexType, i].Value.ToString());
-                    return;
-                }
-            }        
-        }
-
         /// <summary>
         /// Event when the cell is clicked.
         /// </summary>
@@ -309,12 +275,19 @@ namespace Ecell.IDE.Plugins.EntityList
             m_isSelected = false;
         }
 
-        private void SearchTextBoxKeyPress(object sender, KeyPressEventArgs e)
+        private void searchTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Enter)
+            string searchCnd = searchTextBox.Text;
+            foreach (DataGridViewRow r in objectListDataGrid.Rows)
             {
-                searchButton.PerformClick();
+                r.Visible = r.Cells[s_indexID].Value.ToString().Contains(searchCnd)
+                    || r.Cells[s_indexName].Value.ToString().Contains(searchCnd);
             }
+        }
+
+        private void clearButton_Click(object sender, EventArgs e)
+        {
+            searchTextBox.Clear();
         }
     }
 }

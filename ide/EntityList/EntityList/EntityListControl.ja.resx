@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="searchButton.Text" xml:space="preserve">
-    <value>検索</value>
+  <data name="clearButton.Text" xml:space="preserve">
+    <value>クリア</value>
   </data>
   <data name="Type.HeaderText" xml:space="preserve">
     <value>種別</value>
