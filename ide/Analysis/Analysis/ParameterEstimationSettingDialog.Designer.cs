@@ -77,6 +77,7 @@
             resources.ApplyResources(this.formulatorButton, "formulatorButton");
             this.formulatorButton.Name = "formulatorButton";
             this.formulatorButton.UseVisualStyleBackColor = true;
+            this.formulatorButton.Click += new System.EventHandler(this.formulatorButtonClicked);
             // 
             // estimationFormulatorTextBox
             // 

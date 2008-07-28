@@ -534,7 +534,7 @@ namespace Ecell.IDE.Plugins.Analysis
             dlg.SetObservedDataList(m_observedList);
             using (dlg)
             {
-                DialogResult res = dlg.ShowDialog();
+                DialogResult res = dlg.ShowDialog();               
                 if (res == DialogResult.OK)
                 {
                     m_robustParameter = dlg.GetParameter();

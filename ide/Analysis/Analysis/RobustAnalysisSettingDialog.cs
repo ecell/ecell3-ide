@@ -27,7 +27,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public RobustAnalysisParameter GetParameter()
         {
             RobustAnalysisParameter p = new RobustAnalysisParameter();
-            p.SampleNum = Convert.ToInt32(robustAnalysisMaxSampleTextBox.Text);
+            p.SampleNum = Convert.ToInt32(robustAnalysisSampleNumberTextBox.Text);
             p.SimulationTime = Convert.ToDouble(robustAnalysisSimulationTimeTextBox.Text);
             p.IsRandomCheck = robustAnalysisRandomCheckBox.Checked;
             p.MaxData = Convert.ToInt32(robustAnalysisMaxSampleTextBox.Text);
@@ -187,7 +187,6 @@ namespace Ecell.IDE.Plugins.Analysis
             robustToolTip.SetToolTip(robustAnalysisMinFrequencyTextBox, MessageResources.ToolTipMinFFT);
             robustToolTip.SetToolTip(robustAnalysisSampleNumberTextBox, MessageResources.ToolTipSampleNumber);
             robustToolTip.SetToolTip(groupBox4, MessageResources.ToolTipParameterGrid);
-        }
-
+        }        
     }
 }

@@ -51,7 +51,7 @@
             // CPCreateButton
             // 
             resources.ApplyResources(this.CPCreateButton, "CPCreateButton");
-            this.CPCreateButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CPCreateButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.CPCreateButton.Name = "CPCreateButton";
             this.CPCreateButton.UseVisualStyleBackColor = true;
             // 
