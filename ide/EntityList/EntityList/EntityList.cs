@@ -98,7 +98,7 @@ namespace Ecell.IDE.Plugins.EntityList
             win.Controls.Add(m_control);
             win.Name = "EntityList";
             win.Text = MessageResources.EntityList;
-            //win.Icon = MessageResources.EntityList;
+            win.Icon = Resources.EntityList;
             win.TabText = win.Text;
             win.IsSavable = true;
             return new EcellDockContent[] { win };
