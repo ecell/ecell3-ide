@@ -840,6 +840,17 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         }
 
         /// <summary>
+        /// The event sequence on deleting the object at other plugin.
+        /// </summary>
+        /// <param name="modelID">The model ID of deleted object.</param>
+        /// <param name="key">The ID of deleted object.</param>
+        /// <param name="type">The object type of deleted object.</param>
+        public override void DataDelete(string modelID, string key, string type)
+        {
+            DataDelete(modelID, key, type, false);
+        }
+
+        /// <summary>
         /// Event when object is deleted.
         /// </summary>
         /// <param name="modelID">ModelID of the deleted object.</param>
