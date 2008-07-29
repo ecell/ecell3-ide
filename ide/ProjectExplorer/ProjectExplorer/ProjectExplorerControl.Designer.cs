@@ -40,6 +40,9 @@
             System.Windows.Forms.ToolStripMenuItem processToolStripMenuItem;
             System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
             System.Windows.Forms.ToolStripMenuItem addADMToolStripMenuItem;
+            System.Windows.Forms.ToolStrip toolStrip1;
+            this.toolStripButtonSortByType = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonSortByName = new System.Windows.Forms.ToolStripButton();
             this.toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemLogging = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,6 +60,8 @@
             processToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             addADMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStrip1 = new System.Windows.Forms.ToolStrip();
+            toolStrip1.SuspendLayout();
             this.contextMenuStripStdEntity.SuspendLayout();
             this.contextMenuStripDM.SuspendLayout();
             this.contextMenuStripDMCollection.SuspendLayout();
@@ -102,6 +107,32 @@
             addADMToolStripMenuItem.Name = "addADMToolStripMenuItem";
             resources.ApplyResources(addADMToolStripMenuItem, "addADMToolStripMenuItem");
             addADMToolStripMenuItem.Click += new System.EventHandler(this.TreeViewNewDm);
+            // 
+            // toolStrip1
+            // 
+            resources.ApplyResources(toolStrip1, "toolStrip1");
+            toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonSortByType,
+            this.toolStripButtonSortByName});
+            toolStrip1.Name = "toolStrip1";
+            toolStrip1.Stretch = true;
+            // 
+            // toolStripButtonSortByType
+            // 
+            this.toolStripButtonSortByType.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonSortByType.Image = global::Ecell.IDE.Plugins.ProjectExplorer.Resources.SortByType;
+            resources.ApplyResources(this.toolStripButtonSortByType, "toolStripButtonSortByType");
+            this.toolStripButtonSortByType.Name = "toolStripButtonSortByType";
+            this.toolStripButtonSortByType.Click += new System.EventHandler(this.TreeViewSortByType);
+            // 
+            // toolStripButtonSortByName
+            // 
+            this.toolStripButtonSortByName.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonSortByName.Image = global::Ecell.IDE.Plugins.ProjectExplorer.Resources.SortByName;
+            resources.ApplyResources(this.toolStripButtonSortByName, "toolStripButtonSortByName");
+            this.toolStripButtonSortByName.Name = "toolStripButtonSortByName";
+            this.toolStripButtonSortByName.Click += new System.EventHandler(this.TreeViewSortByName);
             // 
             // toolStripMenuItemAdd
             // 
@@ -157,6 +188,7 @@
             resources.ApplyResources(this.treeView1, "treeView1");
             this.treeView1.HideSelection = false;
             this.treeView1.Name = "treeView1";
+            this.treeView1.TabStop = false;
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeDoubleClick);
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeMouseClick);
             // 
@@ -179,8 +211,11 @@
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(toolStrip1);
             this.Controls.Add(this.treeView1);
             this.Name = "ProjectExplorerControl";
+            toolStrip1.ResumeLayout(false);
+            toolStrip1.PerformLayout();
             this.contextMenuStripStdEntity.ResumeLayout(false);
             this.contextMenuStripDM.ResumeLayout(false);
             this.contextMenuStripDMCollection.ResumeLayout(false);
@@ -202,6 +237,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemParameter;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAdd;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripDMCollection;
+        private System.Windows.Forms.ToolStripButton toolStripButtonSortByType;
+        private System.Windows.Forms.ToolStripButton toolStripButtonSortByName;
 
     }
 }

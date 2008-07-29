@@ -41,6 +41,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// </summary>
         ProjectExplorer m_owner;
 
+        System.Collections.IComparer m_nameSorter;
+
+        System.Collections.IComparer m_typeSorter;
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -49,7 +53,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_owner = owner;
             base.m_isSavable = true;
             InitializeComponent();
-            treeView1.TreeViewNodeSorter = new TypeSorter();
+            m_nameSorter = new NameSorter();
+            m_typeSorter = new TypeSorter();
+            treeView1.TreeViewNodeSorter = m_typeSorter;
+            toolStripButtonSortByName.Checked = false;
+            toolStripButtonSortByType.Checked = true;
             this.Text = MessageResources.ProjectExplorer;
             this.TabText = this.Text;
             this.treeView1.ImageList = m_owner.Environment.PluginManager.NodeImageList;
@@ -1052,6 +1060,22 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             m_modelNodeDic.Clear();
             m_paramNodeDic.Clear();
+        }
+
+        private void TreeViewSortByName(object sender, EventArgs e)
+        {
+            treeView1.TreeViewNodeSorter = m_nameSorter;
+            treeView1.Sort();
+            toolStripButtonSortByName.Checked = true;
+            toolStripButtonSortByType.Checked = false;
+        }
+
+        private void TreeViewSortByType(object sender, EventArgs e)
+        {
+            treeView1.TreeViewNodeSorter = m_typeSorter;
+            treeView1.Sort();
+            toolStripButtonSortByName.Checked = false;
+            toolStripButtonSortByType.Checked = true;
         }
     }
 

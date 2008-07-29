@@ -66,5 +66,19 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
                 return ((System.Drawing.Icon)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap SortByName {
+            get {
+                object obj = ResourceManager.GetObject("SortByName", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SortByType {
+            get {
+                object obj = ResourceManager.GetObject("SortByType", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
