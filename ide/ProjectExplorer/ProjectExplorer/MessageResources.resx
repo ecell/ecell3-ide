@@ -172,7 +172,7 @@
     <value>Open DM ...</value>
   </data>
   <data name="PopMergeText" xml:space="preserve">
-    <value>Merge to supersystem</value>
+    <value>Merge to supersystem ({0})</value>
   </data>
   <data name="PopNewDMText" xml:space="preserve">
     <value>New ...</value>

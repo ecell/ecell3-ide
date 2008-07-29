@@ -522,7 +522,7 @@ namespace Ecell
         /// <returns></returns>
         public EcellObject GetEntity(string model, string key, string type)
         {
-            EcellObject system = GetSystem(model, EcellObject.GetParentSystemId(key));
+            EcellObject system = GetSystem(model, Util.GetSuperSystemPath(key));
             if (system == null || system.Children == null || system.Children.Count <= 0)
                 return null;
 
@@ -983,7 +983,7 @@ namespace Ecell
                     }
                     catch (Exception ex)
                     {
-                        ex.ToString();
+                        Trace.WriteLine(ex);
                         if (storedEcellDataDic.ContainsKey(name))
                         {
                             if (storedEcellDataDic[name].Value.CastToList()[0].IsList())

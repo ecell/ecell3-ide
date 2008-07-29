@@ -32,7 +32,7 @@
             this.searchTextBox = new System.Windows.Forms.TextBox();
             this.clearButton = new System.Windows.Forms.Button();
             this.objectListDataGrid = new System.Windows.Forms.DataGridView();
-            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewImageColumn();
             this.ClassName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ObjectName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -73,24 +73,31 @@
             // 
             // Type
             // 
+            this.Type.FillWeight = 10F;
+            this.Type.Frozen = true;
             resources.ApplyResources(this.Type, "Type");
             this.Type.Name = "Type";
             this.Type.ReadOnly = true;
+            this.Type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // ClassName
             // 
+            this.ClassName.FillWeight = 30F;
             resources.ApplyResources(this.ClassName, "ClassName");
             this.ClassName.Name = "ClassName";
             this.ClassName.ReadOnly = true;
             // 
             // ID
             // 
+            this.ID.FillWeight = 30F;
             resources.ApplyResources(this.ID, "ID");
             this.ID.Name = "ID";
             this.ID.ReadOnly = true;
             // 
             // ObjectName
             // 
+            this.ObjectName.FillWeight = 30F;
             resources.ApplyResources(this.ObjectName, "ObjectName");
             this.ObjectName.Name = "ObjectName";
             this.ObjectName.ReadOnly = true;
@@ -114,7 +121,7 @@
         private System.Windows.Forms.TextBox searchTextBox;
         private System.Windows.Forms.Button clearButton;
         private System.Windows.Forms.DataGridView objectListDataGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Type;
+        private System.Windows.Forms.DataGridViewImageColumn Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn ClassName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn ObjectName;

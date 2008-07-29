@@ -189,11 +189,17 @@
   <data name="Type.HeaderText" xml:space="preserve">
     <value>Type</value>
   </data>
+  <data name="Type.MinimumWidth" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="Type.Width" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
   <metadata name="ClassName.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="ClassName.HeaderText" xml:space="preserve">
-    <value>Class Name</value>
+    <value>Class</value>
   </data>
   <metadata name="ID.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -244,7 +250,7 @@
     <value>Type</value>
   </data>
   <data name="&gt;&gt;Type.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.DataGridViewImageColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ClassName.Name" xml:space="preserve">
     <value>ClassName</value>

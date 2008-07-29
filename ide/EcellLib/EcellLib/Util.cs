@@ -32,6 +32,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Security.AccessControl;
 using System.Threading;
 using System.Windows.Forms;
@@ -135,25 +136,6 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Check whether this object have the logging data.
-        /// </summary>
-        /// <param name="obj">the checked object.</param>
-        /// <returns>if the object have the logging data, return true.</returns>
-        static public bool IsLogged(EcellObject obj)
-        {
-            bool isLog = false;
-            foreach (EcellData d in obj.Value)
-            {
-                if (d.Logged)
-                {
-                    isLog = true;
-                    break;
-                }
-            }
-            return isLog;
-        }
-
-        /// <summary>
         /// Check whether this id of system is NG.
         /// </summary>
         /// <param name="key">the system id.</param>
@@ -245,17 +227,6 @@ namespace Ecell
                 }
             }
             return "System:" + dir + ":" + id + ":" + prop;
-        }
-
-        /// <summary>
-        /// Convert the file name that decide in E-Cell Core from entity key.
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public static String GetOutputFileName(string key)
-        {
-            string fileName = key.Replace(":", "_"); ;
-            return fileName.Replace("/", "_") + ".csv";
         }
 
         /// <summary>
@@ -391,6 +362,98 @@ namespace Ecell
             return newKey.Replace("//", "/");
         }
 
+        public static void ParseEntityKey(string str, out string systemPath, out string localID)
+        {
+            int idx = str.LastIndexOf(Constants.delimiterColon);
+            if (idx < 0)
+                throw new ApplicationException("Malformed entity key: " + str);
+            systemPath = str.Substring(0, idx);
+            localID = str.Substring(idx + 1);
+        }
+
+        public static void SplitSystemPath(string str, out string parentSystemPath, out string localID)
+        {
+            int idx = str.LastIndexOf(Constants.delimiterPath);
+            if (idx < 0)
+            {
+                parentSystemPath = null;
+                localID = Constants.delimiterPath.ToString();
+                return;
+            }
+            if (idx == 0)
+            {
+                if (str.Length == 1)
+                {
+                    parentSystemPath = "";
+                    localID = "/";
+                    return;
+                }
+                parentSystemPath = "/";
+            }
+            else
+            {
+                parentSystemPath = str.Substring(0, idx);
+            }
+            localID = str.Substring(idx + 1);
+        }
+
+        public static void ParseFullID(string str, out string type, out string systemPath, out string localID)
+        {
+            string[] parts = str.Split(Constants.delimiterColon.ToCharArray(), 3);
+            if (parts.Length != 3)
+                throw new ApplicationException("Malformed FullID: " + str);
+            type = parts[0];
+            systemPath = parts[1];
+            localID = parts[2];
+        }
+
+        public static void ParseFullPN(string str, out string type, out string systemPath, out string localID, out string propName)
+        {
+            string[] parts = str.Split(Constants.delimiterColon.ToCharArray(), 4);
+            if (parts.Length != 4)
+                throw new ApplicationException("Malformed FullID: " + str);
+            type = parts[0];
+            systemPath = parts[1];
+            localID = parts[2];
+            propName = parts[3];
+        }
+
+
+        /// <summary>
+        /// get parent system ID.
+        /// </summary>
+        /// <param name="key">The key</param>
+        public static string GetSuperSystemPath(string systemPath)
+        {
+            Regex postColonRegex = new Regex(":\\w*$");
+            Regex postSlashRegex = new Regex("/\\w*$");
+            if (systemPath == null || systemPath.Equals("") || systemPath.Equals("/"))
+                return "";
+            else if (systemPath.Contains(":"))
+            {
+                return postColonRegex.Replace(systemPath, "");
+            }
+            else
+            {
+                string retval = postSlashRegex.Replace(systemPath, "");
+                if (retval.Equals(""))
+                    return "/";
+                else
+                    return retval;
+            }
+        }
+
+        public static string GenerateRandomID(int len)
+        {
+            StringBuilder sb = new StringBuilder();
+            string usableCharacters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            Random r = new Random();
+            for (int i = 0; i < len; ++i)
+            {
+                sb.Append(usableCharacters[r.Next(0, usableCharacters.Length)]);
+            }
+            return sb.ToString();
+        }
     }
 
     public partial class Util
@@ -914,5 +977,17 @@ namespace Ecell
         {
             return Path.GetDirectoryName(typeof(Util).Assembly.Location);
         }
+
+        /// <summary>
+        /// Convert the file name that decide in E-Cell Core from entity key.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static String GetOutputFileName(string key)
+        {
+            string fileName = key.Replace(":", "_"); ;
+            return fileName.Replace("/", "_") + ".csv";
+        }
+
     }
 }

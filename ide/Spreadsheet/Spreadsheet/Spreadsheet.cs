@@ -551,7 +551,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     string entPath = Constants.xpathVariable +
                         Constants.delimiterColon + obj.Key +
                         Constants.delimiterColon + name;
-                    m_propDic.Add(entPath, c);
+                    m_propDic[entPath] = c;
                     break;
                 }
             }
@@ -633,14 +633,19 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     return;
                 int ind = SearchInsertIndex(pos, obj.Key);
                 if (obj.Type.Equals(Constants.xpathSystem))
+                {
                     AddSystem(ind, obj);
+                    DataAdd(obj.Children);
+                }
                 else if (obj.Type.Equals(Constants.xpathProcess))
+                {
                     AddProcess(ind, obj);
+                }
                 else if (obj.Type.Equals(Constants.xpathVariable))
+                {
                     AddVariable(ind, obj);
+                }
                 m_currentModelID = obj.ModelID;
-
-                DataAdd(obj.Children);
             }
         }
 

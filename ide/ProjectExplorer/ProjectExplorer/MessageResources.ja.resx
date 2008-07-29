@@ -172,7 +172,7 @@
     <value>開く...</value>
   </data>
   <data name="PopMergeText" xml:space="preserve">
-    <value>マージ</value>
+    <value>マージ ({0})</value>
   </data>
   <data name="PopNewDMText" xml:space="preserve">
     <value>新規作成</value>

@@ -123,8 +123,12 @@
   <data name="Type.HeaderText" xml:space="preserve">
     <value>種別</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Type.Width" type="System.Int32, mscorlib">
+    <value>56</value>
+  </data>
   <data name="ClassName.HeaderText" xml:space="preserve">
-    <value>クラス名</value>
+    <value>クラス</value>
   </data>
   <data name="ObjectName.HeaderText" xml:space="preserve">
     <value>エンティティ名</value>

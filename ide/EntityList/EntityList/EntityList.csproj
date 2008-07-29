@@ -92,7 +92,6 @@
       <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <BaseApplicationManifest Include="Properties\app.manifest" />
     <None Include="Properties\AssemblyInfo.cs.tmpl" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>

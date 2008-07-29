@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ecell.IDE.Plugins.ProjectExplorer.Properties {
+namespace Ecell.IDE.Plugins.ProjectExplorer {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ecell.IDE.Plugins.ProjectExplorer.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Ecell.IDE.Plugins.ProjectExplorer.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        internal static System.Drawing.Icon ProjectExplorer {
+            get {
+                object obj = ResourceManager.GetObject("ProjectExplorer", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

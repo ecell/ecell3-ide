@@ -215,7 +215,7 @@ namespace Ecell.Objects
         /// </summary>
         public virtual string ParentSystemID
         {
-            get { return GetParentSystemId(m_key); }
+            get { return Util.GetSuperSystemPath(m_key); }
             set
             {
                 if (this.m_type == EcellObject.PROCESS || this.m_type == EcellObject.VARIABLE)
@@ -518,30 +518,6 @@ namespace Ecell.Objects
         {
             this.X = this.X + delta.X;
             this.Y = this.Y + delta.Y;
-        }
-
-        /// <summary>
-        /// get parent system ID.
-        /// </summary>
-        /// <param name="key">The key</param>
-        public static string GetParentSystemId(string key)
-        {
-            Regex postColonRegex = new Regex(":\\w*$");
-            Regex postSlashRegex = new Regex("/\\w*$");
-            if (string.IsNullOrEmpty(key) || key.Equals("/"))
-                return "";
-            else if (key.Contains(":"))
-            {
-                return postColonRegex.Replace(key, "");
-            }
-            else
-            {
-                string returnStr = postSlashRegex.Replace(key, "");
-                if (returnStr.Equals(""))
-                    return "/";
-                else
-                    return returnStr;
-            }
         }
 
         /// <summary>

@@ -111,6 +111,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ProjectExplorerControl.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ProjectExplorerControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ProjectExplorerControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ProjectExplorerControl.cs</DependentUpon>
@@ -131,39 +135,16 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="Resources.resx">
+      <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="SearchInstanceDialog.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>SearchInstanceDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SearchInstanceDialog.resx">
-      <DependentUpon>SearchInstanceDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="Properties\AssemblyInfo.cs.tmpl" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
+    <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="SearchInstanceDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SearchInstanceDialog.Designer.cs">
-      <DependentUpon>SearchInstanceDialog.cs</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

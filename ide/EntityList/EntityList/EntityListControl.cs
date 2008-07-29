@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -14,10 +15,8 @@ namespace Ecell.IDE.Plugins.EntityList
     {
         private EntityList m_owner;
         private bool m_isSelected = false;
-        /// <summary>
-        /// Color of header.
-        /// </summary>
-        private Color m_headerColor = Color.Lavender;
+
+        protected ImageList m_icons;
 
         /// <summary>
         /// The reserved name for the type of object.
@@ -46,9 +45,10 @@ namespace Ecell.IDE.Plugins.EntityList
             EntityListControl.s_indexName
         };
 
-        public EntityListControl(EntityList owner)
+        public EntityListControl(EntityList owner, ImageList icons)
         {
             m_owner = owner;
+            m_icons = icons;
             InitializeComponent();
         }
 
@@ -94,11 +94,27 @@ namespace Ecell.IDE.Plugins.EntityList
             int len = m_propArray.Length;
 
             DataGridViewRow rs = new DataGridViewRow();
-            for (int i = 0; i < len; i++)
             {
-                string data = GetData(m_propArray[i], obj);
+                DataGridViewImageCell c = new DataGridViewImageCell();
+                c.Value = m_icons.Images[obj.Type];
+                rs.Cells.Add(c);
+                c.ReadOnly = true;
+            }
+            {
                 DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-                c.Value = data;
+                c.Value = obj.Classname;
+                rs.Cells.Add(c);
+                c.ReadOnly = true;
+            }
+            {
+                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
+                c.Value = obj.Key;
+                rs.Cells.Add(c);
+                c.ReadOnly = true;
+            }
+            {
+                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
+                c.Value = obj.GetEcellData("Name");
                 rs.Cells.Add(c);
                 c.ReadOnly = true;
             }
@@ -115,31 +131,19 @@ namespace Ecell.IDE.Plugins.EntityList
                 AddSelection(data.ModelID, data.Key, data.Type);
                 return;
             }
-            int ind = SearchIndex(key, type);
-            objectListDataGrid[s_indexClass, ind].Value = data.Classname;
-            objectListDataGrid[s_indexName, ind].Value = data.Name;
+            DataGridViewRow r = SearchIndex(key, type);
+            if (r != null)
+            {
+                r.Cells[s_indexClass].Value = data.Classname;
+                r.Cells[s_indexName].Value = data.Name;
+            }
         }
 
         public void DataDelete(string modelID, string key, string type)
         {
-            int ind;
-            if (type == EcellObject.SYSTEM)
-            {
-                ind = SearchIndexInclude(key);
-                while (ind != -1)
-                {
-                    DeleteRow(ind);
-                    ind = SearchIndexInclude(key);
-                }
-                return;
-            }
-
-            ind = SearchIndex(key, type);
-            while (ind == -1)
-            {
-                DeleteRow(ind);
-                ind =SearchIndex(key, type);
-            }            
+            DataGridViewRow r = SearchIndex(type, key);
+            if (r != null)
+                objectListDataGrid.Rows.Remove(r);
         }
 
         public void ClearSelection()
@@ -150,41 +154,6 @@ namespace Ecell.IDE.Plugins.EntityList
         public void Clear()
         {
             objectListDataGrid.Rows.Clear();
-        }
-
-        private void DeleteRow(int ind)
-        {
-            objectListDataGrid.Rows.RemoveAt(ind);
-        }
-
-        private string GetData(string name, EcellObject obj)
-        {
-            if (name.Equals(EntityListControl.s_indexType))
-            {
-                return obj.Type;
-            }
-            else if (name.Equals(EntityListControl.s_indexID))
-            {
-                return obj.Key;
-            }
-            else if (name.Equals(EntityListControl.s_indexClass))
-            {
-                return obj.Classname;
-            }
-            else if (name.Equals(EntityListControl.s_indexName))
-            {
-                return obj.Name;
-            }
-            else
-            {
-                foreach (EcellData d in obj.Value)
-                {
-                    if (name.Equals(d.Name))
-                        return d.Value.ToString();
-                }
-            }
-
-            return "";
         }
 
         private int TypeConverter(string type1, string type2)
@@ -199,7 +168,7 @@ namespace Ecell.IDE.Plugins.EntityList
         private int SearchInsertPosition(string key, string type)
         {
             int i = 0;
-            for ( i = 0 ; i < objectListDataGrid.Rows.Count ; i++ )
+            for (; i < objectListDataGrid.Rows.Count ; i++)
             {
                 if (TypeConverter(type, objectListDataGrid[s_indexType, i].Value.ToString()) == 0)
                 {
@@ -214,29 +183,15 @@ namespace Ecell.IDE.Plugins.EntityList
             return i;
         }
 
-        private int SearchIndex(string key, string type)
+        private DataGridViewRow SearchIndex(string type, string id)
         {
-            for (int i = 0; i < objectListDataGrid.Rows.Count; i++)
+            foreach (DataGridViewRow r in objectListDataGrid.Rows)
             {
-                if (objectListDataGrid[s_indexID, i].Value.ToString().Equals(key) &&
-                    objectListDataGrid[s_indexType, i].Value.ToString().Equals(type))
-                {
-                    return i;
-                }
+                EcellObject obj = r.Tag as EcellObject;
+                if (obj.Type == type && obj.Key == id)
+                    return r;
             }
-            return -1;
-        }
-
-        private int SearchIndexInclude(string key)
-        {
-            for (int i = 1; i < objectListDataGrid.Rows.Count; i++)
-            {
-                if (objectListDataGrid[s_indexID, i].Value.ToString().StartsWith(key))
-                {
-                    return i;
-                }
-            }
-            return -1;
+            return null;
         }
 
         /// <summary>
@@ -281,8 +236,9 @@ namespace Ecell.IDE.Plugins.EntityList
             string searchCnd = searchTextBox.Text;
             foreach (DataGridViewRow r in objectListDataGrid.Rows)
             {
-                r.Visible = r.Cells[s_indexID].Value.ToString().Contains(searchCnd)
-                    || r.Cells[s_indexName].Value.ToString().Contains(searchCnd);
+                r.Visible =
+                    ((EcellObject)r.Tag).Key.Contains(searchCnd)
+                    || ((EcellObject)r.Tag).Name.Contains(searchCnd);
             }
         }
 

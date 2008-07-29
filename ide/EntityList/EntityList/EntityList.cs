@@ -74,7 +74,7 @@ namespace Ecell.IDE.Plugins.EntityList
         /// </summary>
         public override void Initialize()
         {
-            m_control = new EntityListControl(this);
+            m_control = new EntityListControl(this, m_env.PluginManager.NodeImageList);
             m_control.Dock = DockStyle.Fill;
         }
 
@@ -201,7 +201,8 @@ namespace Ecell.IDE.Plugins.EntityList
         /// <param name="type">The object type of deleted object.</param>
         public override void DataDelete(string modelID, string key, string type)
         {
-            if (type.Equals(Constants.xpathStepper)) return;
+            if (type.Equals(Constants.xpathStepper))
+                return;
 
             m_control.DataDelete(modelID, key, type);
         }

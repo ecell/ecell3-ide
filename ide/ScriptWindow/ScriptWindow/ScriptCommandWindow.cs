@@ -226,7 +226,7 @@ namespace Ecell.IDE.Plugins.ScriptWindow
             m_engine.SetStandardError(m_consoleOutput);
             m_engine.AddToPath(Util.GetBinDir());
             ResetCommandLineControl();
-            m_engine.Execute("from EcellIDE import *;");
+            //m_engine.Execute("from EcellIDE import *;");
             Flush();
             m_scriptRunnerThread = new Thread(new ThreadStart(m_scriptRunner.Run));
             Disposed +=

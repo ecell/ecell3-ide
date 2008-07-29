@@ -1260,7 +1260,7 @@ namespace Ecell
             List<EcellObject> changedProcessList = new List<EcellObject>();
 
             // Get parent system.
-            EcellObject oldSystem = m_currentProject.GetSystem(modelID, EcellObject.GetParentSystemId(key));
+            EcellObject oldSystem = m_currentProject.GetSystem(modelID, Util.GetSuperSystemPath(key));
             EcellObject newSystem = m_currentProject.GetSystem(ecellObject.ModelID, ecellObject.ParentSystemID);
             Debug.Assert(oldSystem != null && newSystem != null);
 
@@ -1554,7 +1554,7 @@ namespace Ecell
             List<EcellObject> sysList = m_currentProject.SystemDic[model];
             foreach (EcellObject system in sysList)
             {
-                if (system.ModelID != model || system.Key != EcellObject.GetParentSystemId(key))
+                if (system.ModelID != model || system.Key != Util.GetSuperSystemPath(key))
                     continue;
                 if (system.Children == null)
                     continue;
