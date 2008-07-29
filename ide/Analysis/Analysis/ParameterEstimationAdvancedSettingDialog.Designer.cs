@@ -138,7 +138,7 @@
             resources.ApplyResources(this.PEM0TextBox, "PEM0TextBox");
             this.PEM0TextBox.Name = "PEM0TextBox";
             // 
-            // PEAdvancedWindow
+            // ParameterEstimationAdvancedSettingDialog
             // 
             this.AcceptButton = this.PEAApplyButton;
             resources.ApplyResources(this, "$this");
@@ -148,7 +148,7 @@
             this.Controls.Add(this.PEAApplyButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Name = "PEAdvancedWindow";
+            this.Name = "ParameterEstimationAdvancedSettingDialog";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

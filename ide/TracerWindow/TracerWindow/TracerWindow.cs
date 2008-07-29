@@ -171,17 +171,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_showWin.Enabled = false;
             m_showWin.Click += new EventHandler(this.ShowTracerWindow);
 
-            m_showSaveWin = new ToolStripMenuItem();
-            m_showSaveWin.Text = MessageResources.MenuItemShowSaveTraceText;
-            m_showSaveWin.Name = "MenuItemShowSaveTrace";
-            m_showSaveWin.Size = new Size(96, 22);
-            m_showSaveWin.Enabled = false;
-            m_showSaveWin.Click += new EventHandler(this.ShowSaveTracerWindow);
-
             ToolStripMenuItem view = new ToolStripMenuItem();
             view.DropDownItems.AddRange(new ToolStripItem[] {
-                m_showWin,
-                m_showSaveWin
+                m_showWin
             });
             view.Name = "MenuItemView";
             view.Size = new Size(36, 20);
@@ -203,6 +195,22 @@ namespace Ecell.IDE.Plugins.TracerWindow
             setup.Size = new Size(36, 20);
             setup.Text = "Setup";
             tmp.Add(setup);
+
+            m_showSaveWin = new ToolStripMenuItem();
+            m_showSaveWin.Text = MessageResources.MenuItemShowSaveTraceText;
+            m_showSaveWin.Name = "MenuItemShowSaveTrace";
+            m_showSaveWin.Size = new Size(96, 22);
+            m_showSaveWin.Enabled = false;
+            m_showSaveWin.Tag = 36;
+            m_showSaveWin.Click += new EventHandler(this.ShowSaveTracerWindow);
+            ToolStripMenuItem filem = new ToolStripMenuItem();
+            filem.DropDownItems.AddRange(new ToolStripItem[] {
+                m_showSaveWin
+            });
+            filem.Name = "MenuItemFile";
+            filem.Size = new Size(36, 20);
+            filem.Text = "File";
+            tmp.Add(filem);
 
             return tmp;
         }

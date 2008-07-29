@@ -41,9 +41,9 @@
             System.Windows.Forms.Label label7;
             System.Windows.Forms.GroupBox groupBox3;
             System.Windows.Forms.GroupBox groupBox5;
-            System.Windows.Forms.Button button1;
-            System.Windows.Forms.Button button2;
-            System.Windows.Forms.Button button3;
+            System.Windows.Forms.Button cancelButton;
+            System.Windows.Forms.Button okButton;
+            System.Windows.Forms.Button executeButton;
             this.robustAnalysisWindowSizeTextBox = new System.Windows.Forms.TextBox();
             this.robustAnalysisSimulationTimeTextBox = new System.Windows.Forms.TextBox();
             this.robustAnalysisSampleNumberTextBox = new System.Windows.Forms.TextBox();
@@ -77,9 +77,9 @@
             label7 = new System.Windows.Forms.Label();
             groupBox3 = new System.Windows.Forms.GroupBox();
             groupBox5 = new System.Windows.Forms.GroupBox();
-            button1 = new System.Windows.Forms.Button();
-            button2 = new System.Windows.Forms.Button();
-            button3 = new System.Windows.Forms.Button();
+            cancelButton = new System.Windows.Forms.Button();
+            okButton = new System.Windows.Forms.Button();
+            executeButton = new System.Windows.Forms.Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -254,26 +254,26 @@
             resources.ApplyResources(this.dataGridViewTextBoxColumn9, "dataGridViewTextBoxColumn9");
             this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
             // 
-            // button1
+            // cancelButton
             // 
-            button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            resources.ApplyResources(button1, "button1");
-            button1.Name = "button1";
-            button1.UseVisualStyleBackColor = true;
+            cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            resources.ApplyResources(cancelButton, "cancelButton");
+            cancelButton.Name = "cancelButton";
+            cancelButton.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // okButton
             // 
-            button2.DialogResult = System.Windows.Forms.DialogResult.OK;
-            resources.ApplyResources(button2, "button2");
-            button2.Name = "button2";
-            button2.UseVisualStyleBackColor = true;
+            okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            resources.ApplyResources(okButton, "okButton");
+            okButton.Name = "okButton";
+            okButton.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // executeButton
             // 
-            button3.DialogResult = System.Windows.Forms.DialogResult.Ignore;
-            resources.ApplyResources(button3, "button3");
-            button3.Name = "button3";
-            button3.UseVisualStyleBackColor = true;
+            executeButton.DialogResult = System.Windows.Forms.DialogResult.Ignore;
+            resources.ApplyResources(executeButton, "executeButton");
+            executeButton.Name = "executeButton";
+            executeButton.UseVisualStyleBackColor = true;
             // 
             // groupBox4
             // 
@@ -331,14 +331,14 @@
             // 
             // RobustAnalysisSettingDialog
             // 
-            this.AcceptButton = button2;
+            this.AcceptButton = okButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = button1;
+            this.CancelButton = cancelButton;
             this.Controls.Add(this.abstractTextBox);
-            this.Controls.Add(button3);
-            this.Controls.Add(button2);
-            this.Controls.Add(button1);
+            this.Controls.Add(executeButton);
+            this.Controls.Add(okButton);
+            this.Controls.Add(cancelButton);
             this.Controls.Add(groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(groupBox1);

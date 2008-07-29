@@ -785,7 +785,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Tracer Setting</value>
+    <value>Graph Setting</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>TracerWindowSetup</value>

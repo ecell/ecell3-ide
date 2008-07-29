@@ -3415,4 +3415,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>初期設定</value>
   </data>
+  <data name="cancelButton.Text" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
 </root>
