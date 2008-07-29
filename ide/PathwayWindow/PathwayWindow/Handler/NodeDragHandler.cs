@@ -364,13 +364,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             }
 
             // Move system position.
-            m_canvas.Control.NotifySetPosition(system);
+            m_canvas.Control.NotifyDataChanged(
+                system.EcellObject.Key,
+                system.EcellObject.Key,
+                system,
+                true,
+                false);
 
             // Move objects under this system.
             // TODO: This process should be implemented in EcellLib.DataChanged().
             foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(oldKey))
             {
-                m_canvas.Control.NotifySetPosition(obj);
+                m_canvas.Control.NotifyDataChanged(
+                    obj.EcellObject.Key,
+                    obj.EcellObject.Key,
+                    obj,
+                    true,
+                    false);
             }
 
             // Move system path.
