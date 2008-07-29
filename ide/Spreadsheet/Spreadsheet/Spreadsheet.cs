@@ -827,8 +827,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <param name="obj">The changed object.</param>
         public override void DataChanged(string modelID, string id, string type, EcellObject obj)
         {
-            bool isIDChanged = !(id == obj.Key);
-            DataDelete(modelID, id, type, isIDChanged);
+            DataDelete(modelID, id, type, true);
             DataAdd(new List<EcellObject>(new EcellObject[] { obj }));
             int ind = SearchObjectIndex(obj.Key, obj.Type);
             if (ind < 0 || ind > m_gridView.RowCount - 1)
@@ -847,7 +846,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <param name="type">The object type of deleted object.</param>
         public override void DataDelete(string modelID, string key, string type)
         {
-            DataDelete(modelID, key, type, false);
+            DataDelete(modelID, key, type, true);
         }
 
         /// <summary>
