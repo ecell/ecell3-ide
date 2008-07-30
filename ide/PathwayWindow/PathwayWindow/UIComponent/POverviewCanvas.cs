@@ -73,8 +73,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="observedLayer"></param>
-        /// <param name="mainCamera"></param>
+        /// <param name="canvas"></param>
         public POverviewCanvas(CanvasControl canvas)
         {
             m_canvas = canvas;

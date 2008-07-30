@@ -764,10 +764,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             list.Images.RemoveByKey(Constants.xpathSystem);
             list.Images.RemoveByKey(Constants.xpathProcess);
             list.Images.RemoveByKey(Constants.xpathVariable);
+            list.Images.RemoveByKey(Constants.xpathText);
 
             list.Images.Add(Constants.xpathSystem, m_csManager.DefaultSystemSetting.IconImage);
             list.Images.Add(Constants.xpathProcess, m_csManager.DefaultProcessSetting.IconImage);
             list.Images.Add(Constants.xpathVariable, m_csManager.DefaultVariableSetting.IconImage);
+            list.Images.Add(Constants.xpathText, m_csManager.DefaultTextSetting.IconImage);
         }
 
         #endregion

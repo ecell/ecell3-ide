@@ -43,6 +43,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
     /// </summary>
     public partial class InputBoxDialog : PathwayDialog
     {
+        /// <summary>
+        /// InputText
+        /// </summary>
         public string InputText
         {
             get { return answer.Text; }

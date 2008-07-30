@@ -408,13 +408,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
             get { return m_textBox.Text; }
             set { m_textBox.Text = value; }
         }
-
+        /// <summary>
+        /// Filter
+        /// </summary>
         public string Filter
         {
             get { return m_filter; }
             set { m_filter = value; }
         }
-
+        /// <summary>
+        /// FilterIndex
+        /// </summary>
         public int FilterIndex
         {
             get { return m_filterIndex; }

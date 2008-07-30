@@ -294,7 +294,7 @@ namespace Ecell
             foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.DataDelete(modelID, key, type);
-            }            
+            }
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace Ecell
             foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.ParameterAdd(projectID, paramID);
-            }  
+            }
         }
 
         /// <summary>
