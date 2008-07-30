@@ -866,7 +866,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 return;
             if (!m_gridView.Rows[ind].Visible || m_gridView.Rows[ind].Frozen)
                 return;
-            m_gridView[0, ind].Selected = true;
+            m_gridView[s_Type, ind].Selected = true;
             m_gridView.FirstDisplayedScrollingRowIndex = ind;
         }
 
