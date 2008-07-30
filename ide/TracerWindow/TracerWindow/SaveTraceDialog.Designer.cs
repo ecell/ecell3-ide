@@ -58,16 +58,16 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SaveTraceDialog));
             System.Windows.Forms.Label label1;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SaveTraceDialog));
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label4;
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.STSearchDirButton = new System.Windows.Forms.Button();
+            this.dirTextBox = new System.Windows.Forms.TextBox();
             this.startTextBox = new System.Windows.Forms.TextBox();
             this.endTextBox = new System.Windows.Forms.TextBox();
-            this.dirTextBox = new System.Windows.Forms.TextBox();
-            this.STSearchDirButton = new System.Windows.Forms.Button();
             this.typeComboBox = new System.Windows.Forms.ComboBox();
             this.SaveEntrySelectView = new System.Windows.Forms.DataGridView();
             this.SaveEntryColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -82,21 +82,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SaveEntrySelectView)).BeginInit();
             this.SuspendLayout();
-            // 
-            // groupBox1
-            // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Controls.Add(this.STSearchDirButton);
-            this.groupBox1.Controls.Add(label1);
-            this.groupBox1.Controls.Add(label4);
-            this.groupBox1.Controls.Add(this.dirTextBox);
-            this.groupBox1.Controls.Add(this.startTextBox);
-            this.groupBox1.Controls.Add(label3);
-            this.groupBox1.Controls.Add(label2);
-            this.groupBox1.Controls.Add(this.endTextBox);
-            this.groupBox1.Controls.Add(this.typeComboBox);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
             // 
             // label1
             // 
@@ -118,6 +103,33 @@ namespace Ecell.IDE.Plugins.TracerWindow
             resources.ApplyResources(label4, "label4");
             label4.Name = "label4";
             // 
+            // groupBox1
+            // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(this.STSearchDirButton);
+            this.groupBox1.Controls.Add(label1);
+            this.groupBox1.Controls.Add(label4);
+            this.groupBox1.Controls.Add(this.dirTextBox);
+            this.groupBox1.Controls.Add(this.startTextBox);
+            this.groupBox1.Controls.Add(label3);
+            this.groupBox1.Controls.Add(label2);
+            this.groupBox1.Controls.Add(this.endTextBox);
+            this.groupBox1.Controls.Add(this.typeComboBox);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // STSearchDirButton
+            // 
+            resources.ApplyResources(this.STSearchDirButton, "STSearchDirButton");
+            this.STSearchDirButton.Name = "STSearchDirButton";
+            this.STSearchDirButton.UseVisualStyleBackColor = true;
+            this.STSearchDirButton.Click += new System.EventHandler(this.STSearchDirButtonClick);
+            // 
+            // dirTextBox
+            // 
+            resources.ApplyResources(this.dirTextBox, "dirTextBox");
+            this.dirTextBox.Name = "dirTextBox";
+            // 
             // startTextBox
             // 
             resources.ApplyResources(this.startTextBox, "startTextBox");
@@ -127,18 +139,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             // 
             resources.ApplyResources(this.endTextBox, "endTextBox");
             this.endTextBox.Name = "endTextBox";
-            // 
-            // dirTextBox
-            // 
-            resources.ApplyResources(this.dirTextBox, "dirTextBox");
-            this.dirTextBox.Name = "dirTextBox";
-            // 
-            // STSearchDirButton
-            // 
-            resources.ApplyResources(this.STSearchDirButton, "STSearchDirButton");
-            this.STSearchDirButton.Name = "STSearchDirButton";
-            this.STSearchDirButton.UseVisualStyleBackColor = true;
-            this.STSearchDirButton.Click += new System.EventHandler(this.STSearchDirButtonClick);
             // 
             // typeComboBox
             // 

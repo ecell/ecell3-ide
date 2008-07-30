@@ -146,6 +146,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.Controls.Add(this.LSCloseButton);
             this.Name = "LineStyleDialog";
             this.Shown += new System.EventHandler(this.LineStyleShown);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LineStyleDialogClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -155,29 +156,13 @@ namespace Ecell.IDE.Plugins.TracerWindow
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        /// <summary>
-        /// Radio button to set line style with Solid.
-        /// </summary>
-        public System.Windows.Forms.RadioButton solidRadioButton;
-        /// <summary>
-        /// Radio button to set line style with Dash.
-        /// </summary>
-        public System.Windows.Forms.RadioButton dashRadioButton;
-        /// <summary>
-        /// Radio button to set line style with DashDot.
-        /// </summary>
-
-        public System.Windows.Forms.RadioButton dashDotRadioButton;
-        /// <summary>
-        /// Radio button to set line style with Dot.
-        /// </summary>
-        public System.Windows.Forms.RadioButton dotRadioButton;
-        /// <summary>
-        /// Radio button to set line style with DashDotDot.
-        /// </summary>
-        public System.Windows.Forms.RadioButton dashDotDotRadioButton;
         private System.Windows.Forms.Button LSApplyButton;
         private System.Windows.Forms.Button LSCloseButton;
+        private System.Windows.Forms.RadioButton solidRadioButton;
+        private System.Windows.Forms.RadioButton dashRadioButton;
+        private System.Windows.Forms.RadioButton dashDotRadioButton;
+        private System.Windows.Forms.RadioButton dotRadioButton;
+        private System.Windows.Forms.RadioButton dashDotDotRadioButton;
 
 
     }

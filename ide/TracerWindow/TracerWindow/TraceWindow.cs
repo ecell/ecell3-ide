@@ -586,41 +586,30 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="columnIndex">column index of selected cell.</param>
         void ShowLineStyleDialog(TagData t, int rowIndex, int columnIndex)
         {
-            LineStyleDialog dialog = new LineStyleDialog();
-            switch (m_entryDic[t.M_path].CurrentLineItem.Line.Style)
+            LineStyleDialog dialog = 
+                new LineStyleDialog(m_entryDic[t.M_path].CurrentLineItem.Line.Style);
+
+            using (dialog)
             {
-                case System.Drawing.Drawing2D.DashStyle.Solid:
-                    dialog.solidRadioButton.Checked = true;
-                    break;
-                case System.Drawing.Drawing2D.DashStyle.Dash:
-                    dialog.dashRadioButton.Checked = true;
-                    break;
-                case System.Drawing.Drawing2D.DashStyle.DashDot:
-                    dialog.dashDotRadioButton.Checked = true;
-                    break;
-                case System.Drawing.Drawing2D.DashStyle.Dot:
-                    dialog.dotRadioButton.Checked = true;
-                    break;
-                case System.Drawing.Drawing2D.DashStyle.DashDotDot:
-                    dialog.dashDotDotRadioButton.Checked = true;
-                    break;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    System.Drawing.Drawing2D.DashStyle style = dialog.GetLineStyle();
+                    if (style == System.Drawing.Drawing2D.DashStyle.Custom) return;
+                    DataGridViewImageCell cell = dgv.Rows[rowIndex].Cells[columnIndex] as DataGridViewImageCell;
+
+                    Bitmap b1 = new Bitmap(20, 20);
+                    Graphics g1 = Graphics.FromImage(b1);
+                    Pen p1 = new Pen(m_entryDic[t.M_path].CurrentLineItem.Color);
+                    p1.DashStyle = style;
+                    p1.Width = 2;
+                    g1.DrawLine(p1, 0, 10, 20, 10);
+                    g1.ReleaseHdc(g1.GetHdc());
+                    cell.Value = b1;
+
+                    m_entryDic[t.M_path].SetStyle(style);
+                    m_zCnt.Refresh();
+                }
             }
-
-            System.Drawing.Drawing2D.DashStyle style = dialog.ShowLineStyleDialog();
-            if (style ==System.Drawing.Drawing2D.DashStyle.Custom) return;
-            DataGridViewImageCell cell = dgv.Rows[rowIndex].Cells[columnIndex] as DataGridViewImageCell;
-
-            Bitmap b1 = new Bitmap(20, 20);
-            Graphics g1 = Graphics.FromImage(b1);
-            Pen p1 = new Pen(m_entryDic[t.M_path].CurrentLineItem.Color);            
-            p1.DashStyle = style;
-            p1.Width = 2;
-            g1.DrawLine(p1, 0, 10, 20, 10);
-            g1.ReleaseHdc(g1.GetHdc());
-            cell.Value = b1;
-
-            m_entryDic[t.M_path].SetStyle(style);
-            m_zCnt.Refresh();
         }
 
         /// <summary>

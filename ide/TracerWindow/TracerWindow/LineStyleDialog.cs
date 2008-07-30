@@ -51,9 +51,28 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <summary>
         /// Constructor.
         /// </summary>
-        public LineStyleDialog()
+        public LineStyleDialog(System.Drawing.Drawing2D.DashStyle style)
         {
             InitializeComponent();
+
+            switch (style)
+            {
+                case System.Drawing.Drawing2D.DashStyle.Solid:
+                    solidRadioButton.Checked = true;
+                    break;
+                case System.Drawing.Drawing2D.DashStyle.Dash:
+                    dashRadioButton.Checked = true;
+                    break;
+                case System.Drawing.Drawing2D.DashStyle.DashDot:
+                    dashDotRadioButton.Checked = true;
+                    break;
+                case System.Drawing.Drawing2D.DashStyle.Dot:
+                    dotRadioButton.Checked = true;
+                    break;
+                case System.Drawing.Drawing2D.DashStyle.DashDotDot:
+                    dashDotDotRadioButton.Checked = true;
+                    break;
+            }
         }
 
         /// <summary>
@@ -70,19 +89,22 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// Check the set style of line.
         /// </summary>
         /// <returns>the set style of line.</returns>
-        public System.Drawing.Drawing2D.DashStyle ShowLineStyleDialog()
+        public System.Drawing.Drawing2D.DashStyle GetLineStyle()
         {
-            LSApplyButton.Click += new EventHandler(ApplyButton_Click);
-            this.ShowDialog();
             return m_style;
         }
 
         /// <summary>
-        /// Check the set style and close this window when user click apply button.
+        /// The event when this window is shown.
         /// </summary>
-        /// <param name="sender">Button(Apply).</param>
+        /// <param name="sender">this window.</param>
         /// <param name="e">EventArgs.</param>
-        void ApplyButton_Click(object sender, EventArgs e)
+        private void LineStyleShown(object sender, EventArgs e)
+        {
+            this.LSApplyButton.Focus();
+        }
+
+        private void LineStyleDialogClosing(object sender, FormClosingEventArgs e)
         {
             if (solidRadioButton.Checked == true)
                 m_style = System.Drawing.Drawing2D.DashStyle.Solid;
@@ -94,17 +116,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_style = System.Drawing.Drawing2D.DashStyle.Dot;
             else if (dashDotDotRadioButton.Checked == true)
                 m_style = System.Drawing.Drawing2D.DashStyle.DashDotDot;
-            this.Close();
-        }
-
-        /// <summary>
-        /// The event when this window is shown.
-        /// </summary>
-        /// <param name="sender">this window.</param>
-        /// <param name="e">EventArgs.</param>
-        private void LineStyleShown(object sender, EventArgs e)
-        {
-            this.LSApplyButton.Focus();
         }
     }
 }
