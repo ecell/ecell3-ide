@@ -167,7 +167,8 @@ namespace Ecell.IDE.Plugins.EntityList
             {
                 if (obj.Type != EcellObject.VARIABLE &&
                     obj.Type != EcellObject.PROCESS &&
-                    obj.Type != EcellObject.SYSTEM)
+                    obj.Type != EcellObject.SYSTEM &&
+                    obj.Type != EcellObject.TEXT)
                     continue;
                 m_control.DataAdd(obj);
                 if (obj.Children == null) continue;
