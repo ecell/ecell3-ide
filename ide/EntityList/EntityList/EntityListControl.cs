@@ -63,8 +63,8 @@ namespace Ecell.IDE.Plugins.EntityList
         {
             for (int i = 0; i < objectListDataGrid.Rows.Count; i++)
             {
-                if (objectListDataGrid[s_indexID, i].Value.ToString().Equals(key) &&
-                    objectListDataGrid[s_indexType, i].Value.ToString().Equals(type))
+                EcellObject obj = objectListDataGrid.Rows[i].Tag as EcellObject;
+                if (obj.Key.Equals(key) && obj.Type.Equals(type))
                 {
                     objectListDataGrid.Rows[i].Selected = true;
                     if (objectListDataGrid.Rows[i].Visible)
@@ -78,8 +78,8 @@ namespace Ecell.IDE.Plugins.EntityList
         {
             for (int i = 0; i < objectListDataGrid.Rows.Count; i++)
             {
-                if (objectListDataGrid[s_indexID, i].Value.ToString().Equals(key) &&
-                    objectListDataGrid[s_indexType, i].Value.ToString().Equals(type))
+                EcellObject obj = objectListDataGrid.Rows[i].Tag as EcellObject;
+                if (obj.Key.Equals(key) && obj.Type.Equals(type))
                 {
                     objectListDataGrid.Rows[i].Selected = false;
                     return;

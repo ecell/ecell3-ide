@@ -85,6 +85,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// Dictionary of entity path and DataGridViewCell displayed the property of entity path.
         /// </summary>
         private Dictionary<string, DataGridViewCell> m_propDic = new Dictionary<string, DataGridViewCell>();
+        private static int s_Type = 0;
+        private static int s_ID = 1;
         #endregion
 
         #region Statics
@@ -389,7 +391,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             {
                 if (m_gridView.Rows[i].Tag == null) 
                     return m_gridView.Rows[i].Index;
-                if (m_gridView[1, i].Value.ToString().CompareTo(id) > 0) 
+                if (m_gridView[s_ID, i].Value.ToString().CompareTo(id) > 0) 
                     return m_gridView.Rows[i].Index;
                 preIndex = m_gridView.Rows[i].Index;
             }
@@ -407,9 +409,12 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             int len = m_gridView.Rows.Count;
             for (int i = 0; i < len; i++)
             {
-                if (!type.Equals(m_gridView[0, i].Value)) 
+                if (m_gridView.Rows[i].Tag == null) continue;
+                EcellObject obj = m_gridView.Rows[i].Tag as EcellObject;
+                
+                if (!type.Equals(obj.Type)) 
                     continue;
-                if (!key.Equals(m_gridView[1, i].Value)) 
+                if (!key.Equals(obj.Key)) 
                     continue;
                 return i;
             }
@@ -560,6 +565,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     c = new DataGridViewTextBoxCell();
                     c.Value = data;
                 }
+                //DataGridViewCell c = new DataGridViewTextBoxCell();
+                //c.Value = data;
                 rs.Cells.Add(c);
                 c.ReadOnly = true;
                 foreach (string name in m_notEditProp)
@@ -615,7 +622,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     c = new DataGridViewTextBoxCell();
                     c.Value = data;
                 }
-
+                //DataGridViewCell c = new DataGridViewTextBoxCell();
+                //c.Value = data;
                 rs.Cells.Add(c);
                 c.ReadOnly = true;
                 foreach (string name in m_notEditProp)
@@ -908,14 +916,14 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 int len = m_gridView.Rows.Count;
                 for (int i = len - 1; i >= 0; i--)
                 {
-                    if (m_gridView[1, i].Value.ToString().Equals(id))
+                    if (m_gridView[s_ID, i].Value.ToString().Equals(id))
                     {
                         DeleteDictionary(i);
                         m_gridView.Rows.RemoveAt(i);
                     }
                     if (isChanged)
                     {
-                        if (m_gridView[1, i].Value.ToString().StartsWith(id))
+                        if (m_gridView[s_ID, i].Value.ToString().StartsWith(id))
                         {
                             DeleteDictionary(i);
                             m_gridView.Rows.RemoveAt(i);
