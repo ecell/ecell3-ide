@@ -162,10 +162,7 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             DataManager manager = m_owner.DataManager;
             m_fwin = new FormulatorDialog();
-            m_fcnt = new FormulatorControl();
-            m_fwin.tableLayoutPanel.Controls.Add(m_fcnt, 0, 0);
-            m_fcnt.Dock = DockStyle.Fill;
-            m_fcnt.IsExpression = false;
+            m_fwin.SetExpression(false);
 
             List<string> list = new List<string>();
             List<string> mlist = manager.GetModelList();
@@ -191,15 +188,15 @@ namespace Ecell.IDE.Plugins.Analysis
                     }
                 }
             }
-            m_fcnt.AddReserveString(list);
-            m_fcnt.ImportFormulate(estimationFormulatorTextBox.Text);
+            m_fwin.AddReserveString(list);
+            m_fwin.ImportFormulate(estimationFormulatorTextBox.Text);
 
             using (m_fwin)
             {
                 DialogResult res = m_fwin.ShowDialog();
                 if (res == DialogResult.OK)
                 {
-                    string ext = m_fcnt.ExportFormulate();
+                    string ext = m_fwin.ExportFormulate();
                     estimationFormulatorTextBox.Text = ext;
                 }
             }

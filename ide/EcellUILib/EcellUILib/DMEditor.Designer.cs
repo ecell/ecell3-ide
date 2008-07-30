@@ -58,33 +58,13 @@ namespace Ecell.IDE
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DMEditor));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.DMECloseButton = new System.Windows.Forms.Button();
             this.DMEComileButton = new System.Windows.Forms.Button();
             this.DMESaveButton = new System.Windows.Forms.Button();
             this.DMELoadButton = new System.Windows.Forms.Button();
             this.DMETextBox = new System.Windows.Forms.RichTextBox();
             this.DMEOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.DMETextBox, 0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.DMECloseButton, 6, 0);
-            this.tableLayoutPanel2.Controls.Add(this.DMEComileButton, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.DMESaveButton, 4, 0);
-            this.tableLayoutPanel2.Controls.Add(this.DMELoadButton, 2, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // DMECloseButton
             // 
@@ -127,19 +107,19 @@ namespace Ecell.IDE
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.DMEComileButton);
+            this.Controls.Add(this.DMETextBox);
+            this.Controls.Add(this.DMECloseButton);
+            this.Controls.Add(this.DMELoadButton);
+            this.Controls.Add(this.DMESaveButton);
             this.Name = "DMEditor";
             this.Shown += new System.EventHandler(this.DMEditorShown);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         /// <summary>
         /// Button to close this window.
         /// </summary>

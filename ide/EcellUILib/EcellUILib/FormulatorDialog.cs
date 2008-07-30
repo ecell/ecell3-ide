@@ -36,16 +36,45 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
+using Ecell.UI.Components;
+
 namespace Ecell.IDE
 {
     public partial class FormulatorDialog : Form
     {
+        private FormulatorControl m_cnt;
+
         /// <summary>
         /// Constructor.
         /// </summary>
         public FormulatorDialog()
         {
             InitializeComponent();
+
+            m_cnt = new FormulatorControl();
+            tableLayoutPanel.Controls.Add(m_cnt, 0, 0);
+            m_cnt.Dock = DockStyle.Fill;
         }
+
+        public void AddReserveString(List<string> list)
+        {
+            m_cnt.AddReserveString(list);
+        }
+
+        public void ImportFormulate(string formu)
+        {
+            m_cnt.ImportFormulate(formu);
+        }
+
+        public string ExportFormulate()
+        {
+            return m_cnt.ExportFormulate();
+        }
+
+        public void SetExpression(bool isExpression)
+        {
+            m_cnt.IsExpression = isExpression;
+        }
+
     }
 }

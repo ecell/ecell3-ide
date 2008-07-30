@@ -33,25 +33,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormulatorDialog));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.FApplyButton = new System.Windows.Forms.Button();
             this.FCloseButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel
             // 
             resources.ApplyResources(this.tableLayoutPanel, "tableLayoutPanel");
-            this.tableLayoutPanel.Controls.Add(this.tableLayoutPanel2, 0, 1);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
-            // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.FApplyButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.FCloseButton, 3, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // FApplyButton
             // 
@@ -73,22 +62,18 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.FCloseButton;
+            this.Controls.Add(this.FApplyButton);
             this.Controls.Add(this.tableLayoutPanel);
+            this.Controls.Add(this.FCloseButton);
             this.Name = "FormulatorDialog";
-            this.tableLayoutPanel.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        /// <summary>
-        /// Layouter for FormulatorWindow.
-        /// </summary>
-        public System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.Button FApplyButton;
         private System.Windows.Forms.Button FCloseButton;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
     }
 }

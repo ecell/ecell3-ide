@@ -89,10 +89,6 @@ namespace Ecell.IDE
         /// window to edit formulator of expression at process.
         /// </summary>
         private FormulatorDialog m_fwin = null;
-        /// <summary>
-        /// user control of formulator.
-        /// </summary>
-        private FormulatorControl m_cnt = null;
         private String m_title = null;
         /// <summary>
         /// ResourceManager for PropertyEditor.
@@ -1515,9 +1511,6 @@ namespace Ecell.IDE
         private void ShowFormulatorWindow(object sender, EventArgs e)
         {
             m_fwin = new FormulatorDialog();
-            m_cnt = new FormulatorControl();
-            m_fwin.tableLayoutPanel.Controls.Add(m_cnt, 0, 0);
-            m_cnt.Dock = DockStyle.Fill;
 
             List<string> list = new List<string>();
             list.Add("self.getSuperSystem().SizeN_A");
@@ -1539,10 +1532,8 @@ namespace Ecell.IDE
             {
                 list.Add(r.Name + ".Value");
             }
-            m_cnt.AddReserveString(list);
-
-
-            m_cnt.ImportFormulate(m_text.Text);
+            m_fwin.AddReserveString(list);
+            m_fwin.ImportFormulate(m_text.Text);
 
 
             using (m_fwin)
@@ -1550,19 +1541,9 @@ namespace Ecell.IDE
                 DialogResult res = m_fwin.ShowDialog();
                 if (res == DialogResult.OK)
                 {
-                    UpdateFormulator(null, null);
+                    m_text.Text = m_fwin.ExportFormulate();
                 }
             }
-        }
-
-        /// <summary>
-        /// event of clicking the OK button in formulator window.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        private void UpdateFormulator(object sender, EventArgs e)
-        {
-            m_text.Text = m_cnt.ExportFormulate();
         }
 
         /// <summary>

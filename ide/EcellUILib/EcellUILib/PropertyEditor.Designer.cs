@@ -32,8 +32,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyEditor));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.PEApplyButton = new System.Windows.Forms.Button();
             this.PECloseButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -43,8 +41,6 @@
             this.PECommitTabPage = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
             this.commitLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.PEPropTabPage.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -52,39 +48,25 @@
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.tabControl1, 0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.PEApplyButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.PECloseButton, 3, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            // 
             // PEApplyButton
             // 
-            this.PEApplyButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.PEApplyButton, "PEApplyButton");
+            this.PEApplyButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.PEApplyButton.Name = "PEApplyButton";
             this.PEApplyButton.UseVisualStyleBackColor = true;
             // 
             // PECloseButton
             // 
-            this.PECloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.PECloseButton, "PECloseButton");
+            this.PECloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.PECloseButton.Name = "PECloseButton";
             this.PECloseButton.UseVisualStyleBackColor = true;
             // 
             // tabControl1
             // 
+            resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Controls.Add(this.PEPropTabPage);
             this.tabControl1.Controls.Add(this.PECommitTabPage);
-            resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             // 
@@ -131,11 +113,11 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.PECloseButton;
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.PEApplyButton);
+            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.PECloseButton);
             this.Name = "PropertyEditor";
             this.Shown += new System.EventHandler(this.PropertyEditorShown);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.PEPropTabPage.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
@@ -147,14 +129,6 @@
 
         #endregion
 
-        /// <summary>
-        /// Layouter.
-        /// </summary>
-        public System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        /// <summary>
-        /// Layouter.
-        /// </summary>
-        public System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         /// <summary>
         /// Button to update the property of object.
         /// </summary>

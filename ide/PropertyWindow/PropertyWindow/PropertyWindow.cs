@@ -279,10 +279,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             FormulatorDialog fwin = new FormulatorDialog();
             using (fwin)
             {
-                FormulatorControl cnt = new FormulatorControl();
-                cnt.Dock = DockStyle.Fill;
-                fwin.tableLayoutPanel.Controls.Add(cnt, 0, 0);
-
                 List<string> list = new List<string>();
                 list.Add("self.getSuperSystem().SizeN_A");
                 foreach (EcellData d in m_current.Value)
@@ -303,12 +299,12 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 {
                     list.Add(r.Name + ".Value");
                 }
-                cnt.AddReserveString(list);
+                fwin.AddReserveString(list);
 
-                cnt.ImportFormulate(m_expression);
+                fwin.ImportFormulate(m_expression);
                 if (fwin.ShowDialog() != DialogResult.OK)
                     return;
-                string tmp = cnt.ExportFormulate();
+                string tmp = fwin.ExportFormulate();
                 EcellObject p = m_current.Copy();
                 foreach (EcellData d in p.Value)
                 {
