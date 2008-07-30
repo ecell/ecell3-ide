@@ -75,7 +75,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <summary>
         /// The setup window for TracerWindow.
         /// </summary>
-        private TracerWindowSetup m_setup = null;
+        private TracerConfigurationDialog m_setup = null;
         /// <summary>
         /// The list of TracerWindow.
         /// </summary>
@@ -757,35 +757,15 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="e">EventArgs</param>
         void ShowSetupTracerWindow(Object sender, EventArgs e)
         {
-            m_setup = new TracerWindowSetup();
-            m_setup.numberTextBox.Text = Convert.ToString(TracerWindow.s_count);
-            m_setup.intervalTextBox.Text = Convert.ToString(m_timespan / 1000.0);
-            m_setup.stepCountTextBox.Text = Convert.ToString(m_dManager.StepCount);
-            m_setup.TSApplyButton.Click += new EventHandler(this.SetupTraceWindowClick);
-            m_setup.ShowDialog();
-        }
-
-        /// <summary>
-        /// The action on clicking OK Button in TracerWindowSetup.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        private void SetupTraceWindowClick(object sender, EventArgs e)
-        {
-            try
+            m_setup = new TracerConfigurationDialog(TracerWindow.s_count, (double)(m_timespan / 1000.0), m_dManager.StepCount);
+            using (m_setup)
             {
-                TracerWindow.s_count = Convert.ToInt32(m_setup.numberTextBox.Text);
-                m_timespan = Convert.ToInt32(Convert.ToDouble(m_setup.intervalTextBox.Text) * 1000.0);
-                m_dManager.StepCount = Convert.ToInt32(m_setup.stepCountTextBox.Text);
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResources.ErrInputData);
-            }
-            finally
-            {
-                m_setup.Dispose();
+                if (m_setup.ShowDialog() == DialogResult.OK)
+                {
+                    TracerWindow.s_count = m_setup.PlotNumber;
+                    m_timespan = (int)(m_setup.IntervalSecond * 1000.0);
+                    m_dManager.StepCount = m_setup.StepNumber;
+                }
             }
         }
 
@@ -796,9 +776,17 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="e"></param>
         void ShowSaveTracerWindow(Object sender, EventArgs e)
         {
-            SaveTraceWindow win = new SaveTraceWindow(this);
+            SaveTraceDialog win = new SaveTraceDialog(this);
             win.AddEntry(m_entry);
-            win.ShowDialog();
+            using (win)
+            {
+                if (win.ShowDialog() == DialogResult.OK)
+                {
+                    m_env.DataManager.SaveSimulationResult(win.DirectoryName,
+                        win.Start, win.End, win.FileType, win.SaveList);
+                    Util.ShowNoticeDialog(MessageResources.FinishSave);
+                }
+            }
         }
 
         /// <summary>

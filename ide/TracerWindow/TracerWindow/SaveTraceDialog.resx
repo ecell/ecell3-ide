@@ -117,32 +117,59 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="groupBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="STSearchDirButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="STSearchDirButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>405, 45</value>
+  </data>
+  <data name="STSearchDirButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 23</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="STSearchDirButton.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="STSearchDirButton.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="&gt;&gt;STSearchDirButton.Name" xml:space="preserve">
+    <value>STSearchDirButton</value>
+  </data>
+  <data name="&gt;&gt;STSearchDirButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;STSearchDirButton.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;STSearchDirButton.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="label1.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
   <data name="label1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 10</value>
+    <value>6, 18</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 12</value>
+    <value>30, 12</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Start</value>
+    <value>&amp;Start</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -151,71 +178,14 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 43</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 12</value>
-  </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Type</value>
-  </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
-  </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 10</value>
-  </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 12</value>
-  </data>
-  <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>End</value>
-  </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
-  </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
+  <metadata name="label4.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
   <data name="label4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
@@ -223,16 +193,16 @@
     <value>True</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 43</value>
+    <value>214, 50</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 12</value>
+    <value>52, 12</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>7</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Directory</value>
+    <value>&amp;Directory</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
@@ -241,22 +211,46 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="dirTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="dirTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>314, 47</value>
+  </data>
+  <data name="dirTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 19</value>
+  </data>
+  <data name="dirTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;dirTextBox.Name" xml:space="preserve">
+    <value>dirTextBox</value>
+  </data>
+  <data name="&gt;&gt;dirTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dirTextBox.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;dirTextBox.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="startTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
   <data name="startTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>83, 7</value>
+    <value>98, 18</value>
   </data>
   <data name="startTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 19</value>
+    <value>90, 19</value>
   </data>
   <data name="startTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>2</value>
   </data>
   <data name="startTextBox.Text" xml:space="preserve">
     <value>0</value>
@@ -271,22 +265,88 @@
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;startTextBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;startTextBox.ZOrder" xml:space="preserve">
     <value>4</value>
+  </data>
+  <metadata name="label3.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>214, 21</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>24, 12</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>&amp;End</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <metadata name="label2.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 50</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>30, 12</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>&amp;Type</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="endTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
   <data name="endTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>294, 7</value>
+    <value>314, 18</value>
   </data>
   <data name="endTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 19</value>
+    <value>84, 19</value>
   </data>
   <data name="endTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="endTextBox.Text" xml:space="preserve">
     <value>0</value>
@@ -301,60 +361,9 @@
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;endTextBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;endTextBox.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="dirTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="dirTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>294, 40</value>
-  </data>
-  <data name="dirTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 19</value>
-  </data>
-  <data name="dirTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;dirTextBox.Name" xml:space="preserve">
-    <value>dirTextBox</value>
-  </data>
-  <data name="&gt;&gt;dirTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;dirTextBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;dirTextBox.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="STSearchDirButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="STSearchDirButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>420, 38</value>
-  </data>
-  <data name="STSearchDirButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 23</value>
-  </data>
-  <data name="STSearchDirButton.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="STSearchDirButton.Text" xml:space="preserve">
-    <value>...</value>
-  </data>
-  <data name="&gt;&gt;STSearchDirButton.Name" xml:space="preserve">
-    <value>STSearchDirButton</value>
-  </data>
-  <data name="&gt;&gt;STSearchDirButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STSearchDirButton.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;STSearchDirButton.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
   <data name="typeComboBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -367,13 +376,13 @@
     <value>ecd</value>
   </data>
   <data name="typeComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>83, 39</value>
+    <value>98, 50</value>
   </data>
   <data name="typeComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 20</value>
+    <value>88, 20</value>
   </data>
   <data name="typeComboBox.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>6</value>
   </data>
   <data name="typeComboBox.Text" xml:space="preserve">
     <value>csv</value>
@@ -385,49 +394,16 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;typeComboBox.Parent" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;typeComboBox.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="tableLayoutPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 15</value>
-  </data>
-  <data name="tableLayoutPanel2.RowCount" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>468, 66</value>
-  </data>
-  <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Name" xml:space="preserve">
-    <value>tableLayoutPanel2</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel2.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label3" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="label4" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="startTextBox" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="endTextBox" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="dirTextBox" Row="1" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="STSearchDirButton" Row="1" RowSpan="1" Column="5" ColumnSpan="1" /&gt;&lt;Control Name="typeComboBox" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,80,Percent,50,Absolute,5,Absolute,80,Percent,50,Absolute,51" /&gt;&lt;Rows Styles="Percent,50,Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="groupBox1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 150</value>
+    <value>12, 151</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>474, 84</value>
+    <value>456, 80</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -442,10 +418,40 @@
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
+  </data>
+  <metadata name="SaveEntryColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="IDColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="SaveEntrySelectView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="SaveEntrySelectView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="SaveEntrySelectView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>456, 133</value>
+  </data>
+  <data name="SaveEntrySelectView.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;SaveEntrySelectView.Name" xml:space="preserve">
+    <value>SaveEntrySelectView</value>
+  </data>
+  <data name="&gt;&gt;SaveEntrySelectView.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SaveEntrySelectView.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;SaveEntrySelectView.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <metadata name="SaveEntryColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -462,44 +468,17 @@
   <data name="IDColumn.HeaderText" xml:space="preserve">
     <value>ID</value>
   </data>
-  <data name="SaveEntrySelectView.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="SaveEntrySelectView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="SaveEntrySelectView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>474, 141</value>
-  </data>
-  <data name="SaveEntrySelectView.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;SaveEntrySelectView.Name" xml:space="preserve">
-    <value>SaveEntrySelectView</value>
-  </data>
-  <data name="&gt;&gt;SaveEntrySelectView.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SaveEntrySelectView.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;SaveEntrySelectView.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel3.ColumnCount" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="STSaveButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="STSaveButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
   </data>
   <data name="STSaveButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 3</value>
+    <value>314, 237</value>
   </data>
   <data name="STSaveButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
   </data>
   <data name="STSaveButton.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>10</value>
   </data>
   <data name="STSaveButton.Text" xml:space="preserve">
     <value>Save</value>
@@ -511,22 +490,22 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;STSaveButton.Parent" xml:space="preserve">
-    <value>tableLayoutPanel3</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;STSaveButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="STCloseButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="STCloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
   </data>
   <data name="STCloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>260, 3</value>
+    <value>394, 237</value>
   </data>
   <data name="STCloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
   </data>
   <data name="STCloseButton.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>11</value>
   </data>
   <data name="STCloseButton.Text" xml:space="preserve">
     <value>Close</value>
@@ -538,70 +517,10 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;STCloseButton.Parent" xml:space="preserve">
-    <value>tableLayoutPanel3</value>
-  </data>
-  <data name="&gt;&gt;STCloseButton.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="tableLayoutPanel3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 240</value>
-  </data>
-  <data name="tableLayoutPanel3.RowCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tableLayoutPanel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>474, 29</value>
-  </data>
-  <data name="tableLayoutPanel3.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel3.Name" xml:space="preserve">
-    <value>tableLayoutPanel3</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel3.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel3.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="tableLayoutPanel3.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="STSaveButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="STCloseButton" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Absolute,80,Absolute,40,Absolute,80,Percent,50" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="tableLayoutPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>480, 272</value>
-  </data>
-  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="groupBox1" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="SaveEntrySelectView" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tableLayoutPanel3" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Percent,100,Absolute,90,Absolute,35" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  <data name="&gt;&gt;STCloseButton.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <metadata name="m_folderDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -637,7 +556,7 @@
     <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>SaveTraceWindow</value>
+    <value>SaveTraceDialog</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

@@ -42,14 +42,45 @@ namespace Ecell.IDE.Plugins.TracerWindow
     /// <summary>
     /// Form class to save the trace.
     /// </summary>
-    public partial class SaveTraceWindow : Form
+    public partial class SaveTraceDialog : Form
     {
         private TracerWindow m_owner;
+        private bool m_isCancel = false;
+        private string m_directoryName;
+        private double m_start;
+        private double m_end;
+        private string m_fileType;
+        private List<string> m_saveList;
+
+        public string DirectoryName
+        {
+            get { return this.m_directoryName; }
+        }
+
+        public double Start
+        {
+            get { return this.m_start; }
+        }
+
+        public double End
+        {
+            get { return this.m_end; }
+        }
+
+        public string FileType
+        {
+            get { return this.m_fileType; }
+        }
+
+        public List<string> SaveList
+        {
+            get { return m_saveList; }
+        }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SaveTraceWindow(TracerWindow owner)
+        public SaveTraceDialog(TracerWindow owner)
         {
             m_owner = owner;
             InitializeComponent();
@@ -62,6 +93,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="e">EventArgs.</param>
         private void STCloseButtonClick(object sender, EventArgs e)
         {
+            m_isCancel = true;
             this.Close();
         }
 
@@ -94,39 +126,37 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
         }
 
-        /// <summary>
-        /// Save the trace which is check on.
-        /// </summary>
-        /// <param name="sender">Button.</param>
-        /// <param name="e">EventArgs.</param>
-        private void STSaveButtonClick(object sender, EventArgs e)
+        private void SaveTraceDialogClosing(object sender, FormClosingEventArgs e)
         {
-            double start, end;
-            string dirName = "";
-            string fileType = "";
-            List<string> fullID = new List<string>();
-            fileType = typeComboBox.Text;
-            if (dirTextBox.Text == "") dirName = "";
-            else dirName = dirTextBox.Text;
-
-            for (int i = 0; i < SaveEntrySelectView.Rows.Count; i++)
+            try
             {
-                if ((bool)SaveEntrySelectView[0, i].Value == true)
+                if (m_isCancel == false)
                 {
-                    fullID.Add(SaveEntrySelectView[1, i].Value.ToString());
+                    m_fileType = typeComboBox.Text;
+                    if (dirTextBox.Text == "") m_directoryName = "";
+                    else m_directoryName = dirTextBox.Text;
+
+                    if (startTextBox.Text == "" || startTextBox.Text == null) m_start = 0.0;
+                    else m_start = Convert.ToDouble(startTextBox.Text);
+
+                    if (endTextBox.Text == "" || endTextBox.Text == null) m_end = 0.0;
+                    else m_end = Convert.ToDouble(endTextBox.Text);
+
+                    m_saveList = new List<string>();
+                    for (int i = 0; i < SaveEntrySelectView.Rows.Count; i++)
+                    {
+                        if ((bool)SaveEntrySelectView[0, i].Value == true)
+                        {
+                            m_saveList.Add(SaveEntrySelectView[1, i].Value.ToString());
+                        }
+                    }
                 }
             }
-
-            if (startTextBox.Text == "" || startTextBox.Text == null) start = 0.0;
-            else start = Convert.ToDouble(startTextBox.Text);
-
-            if (endTextBox.Text == "" || endTextBox.Text == null) end = 0.0;
-            else end = Convert.ToDouble(endTextBox.Text);
-
-            m_owner.DataManager.SaveSimulationResult(dirName, start, end, fileType, fullID);
-
-            Util.ShowNoticeDialog(MessageResources.FinishSave);
-
+            catch (Exception)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInputData);
+                e.Cancel = true;
+            }
         }
     }
 }

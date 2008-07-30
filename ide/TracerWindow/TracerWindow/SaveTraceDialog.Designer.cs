@@ -30,7 +30,7 @@
 
 namespace Ecell.IDE.Plugins.TracerWindow
 {
-    partial class SaveTraceWindow
+    partial class SaveTraceDialog
     {
         /// <summary>
         /// 必要なデザイナ変数です。
@@ -58,14 +58,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SaveTraceWindow));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SaveTraceDialog));
+            System.Windows.Forms.Label label1;
+            System.Windows.Forms.Label label2;
+            System.Windows.Forms.Label label3;
+            System.Windows.Forms.Label label4;
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.startTextBox = new System.Windows.Forms.TextBox();
             this.endTextBox = new System.Windows.Forms.TextBox();
             this.dirTextBox = new System.Windows.Forms.TextBox();
@@ -74,65 +72,51 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.SaveEntrySelectView = new System.Windows.Forms.DataGridView();
             this.SaveEntryColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.STSaveButton = new System.Windows.Forms.Button();
             this.STCloseButton = new System.Windows.Forms.Button();
             this.m_folderDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.tableLayoutPanel1.SuspendLayout();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SaveEntrySelectView)).BeginInit();
-            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.SaveEntrySelectView, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 2);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.tableLayoutPanel2);
             resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(this.STSearchDirButton);
+            this.groupBox1.Controls.Add(label1);
+            this.groupBox1.Controls.Add(label4);
+            this.groupBox1.Controls.Add(this.dirTextBox);
+            this.groupBox1.Controls.Add(this.startTextBox);
+            this.groupBox1.Controls.Add(label3);
+            this.groupBox1.Controls.Add(label2);
+            this.groupBox1.Controls.Add(this.endTextBox);
+            this.groupBox1.Controls.Add(this.typeComboBox);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label2, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.label3, 3, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label4, 3, 1);
-            this.tableLayoutPanel2.Controls.Add(this.startTextBox, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.endTextBox, 4, 0);
-            this.tableLayoutPanel2.Controls.Add(this.dirTextBox, 4, 1);
-            this.tableLayoutPanel2.Controls.Add(this.STSearchDirButton, 5, 1);
-            this.tableLayoutPanel2.Controls.Add(this.typeComboBox, 1, 1);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            // 
             // label1
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
             // 
             // label2
             // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
             // 
             // label3
             // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
             // 
             // label4
             // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
+            resources.ApplyResources(label4, "label4");
+            label4.Name = "label4";
             // 
             // startTextBox
             // 
@@ -170,12 +154,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.SaveEntrySelectView.AllowUserToAddRows = false;
             this.SaveEntrySelectView.AllowUserToDeleteRows = false;
             this.SaveEntrySelectView.AllowUserToResizeRows = false;
+            resources.ApplyResources(this.SaveEntrySelectView, "SaveEntrySelectView");
             this.SaveEntrySelectView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.SaveEntrySelectView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.SaveEntrySelectView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.SaveEntryColumn,
             this.IDColumn});
-            resources.ApplyResources(this.SaveEntrySelectView, "SaveEntrySelectView");
             this.SaveEntrySelectView.MultiSelect = false;
             this.SaveEntrySelectView.Name = "SaveEntrySelectView";
             this.SaveEntrySelectView.RowHeadersVisible = false;
@@ -194,65 +178,43 @@ namespace Ecell.IDE.Plugins.TracerWindow
             resources.ApplyResources(this.IDColumn, "IDColumn");
             this.IDColumn.Name = "IDColumn";
             // 
-            // tableLayoutPanel3
-            // 
-            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
-            this.tableLayoutPanel3.Controls.Add(this.STSaveButton, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.STCloseButton, 3, 0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            // 
             // STSaveButton
             // 
             resources.ApplyResources(this.STSaveButton, "STSaveButton");
+            this.STSaveButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.STSaveButton.Name = "STSaveButton";
             this.STSaveButton.UseVisualStyleBackColor = true;
-            this.STSaveButton.Click += new System.EventHandler(this.STSaveButtonClick);
             // 
             // STCloseButton
             // 
             resources.ApplyResources(this.STCloseButton, "STCloseButton");
+            this.STCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.STCloseButton.Name = "STCloseButton";
             this.STCloseButton.UseVisualStyleBackColor = true;
             this.STCloseButton.Click += new System.EventHandler(this.STCloseButtonClick);
             // 
-            // SaveTraceWindow
+            // SaveTraceDialog
             // 
+            this.AcceptButton = this.STSaveButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "SaveTraceWindow";
-            this.tableLayoutPanel1.ResumeLayout(false);
+            this.CancelButton = this.STCloseButton;
+            this.Controls.Add(this.STSaveButton);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.STCloseButton);
+            this.Controls.Add(this.SaveEntrySelectView);
+            this.Name = "SaveTraceDialog";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SaveTraceDialogClosing);
             this.groupBox1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SaveEntrySelectView)).EndInit();
-            this.tableLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        /// <summary>
-        /// Button to save the trace.
-        /// </summary>
-        public System.Windows.Forms.Button STSaveButton;
-        /// <summary>
-        /// Button to close this window.
-        /// </summary>
-        public System.Windows.Forms.Button STCloseButton;
-        /// <summary>
-        /// Button to set the save directory.
-        /// </summary>
-        public System.Windows.Forms.Button STSearchDirButton;
         /// <summary>
         /// DataGridView to show the save logger entry.
         /// </summary>
@@ -263,21 +225,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// FolderBrowserDialog to set the save directory.
         /// </summary>
         public System.Windows.Forms.FolderBrowserDialog m_folderDialog;
-        /// <summary>
-        /// TextBox to set the save directory.
-        /// </summary>
-        public System.Windows.Forms.TextBox dirTextBox;
-        /// <summary>
-        /// ComboBox to set the file type of save file.
-        /// </summary>
-        public System.Windows.Forms.ComboBox typeComboBox;
-        /// <summary>
-        /// TextBox to set the saving start time.
-        /// </summary>
-        public System.Windows.Forms.TextBox startTextBox;
-        /// <summary>
-        /// TextBox to set the saving end time.
-        /// </summary>
-        public System.Windows.Forms.TextBox endTextBox;
+        private System.Windows.Forms.Button STSaveButton;
+        private System.Windows.Forms.Button STCloseButton;
+        private System.Windows.Forms.Button STSearchDirButton;
+        private System.Windows.Forms.TextBox dirTextBox;
+        private System.Windows.Forms.ComboBox typeComboBox;
+        private System.Windows.Forms.TextBox startTextBox;
+        private System.Windows.Forms.TextBox endTextBox;
     }
 }

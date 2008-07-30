@@ -8,14 +8,37 @@ using System.Windows.Forms;
 
 namespace Ecell.IDE.Plugins.TracerWindow
 {
-    public partial class TracerWindowSetup : Form
+    public partial class TracerConfigurationDialog : Form
     {
+        private bool m_isCancel = false;
+        private double m_plotNumber;
+        private double m_intervalSecond;
+        private int m_stepNumber;
+
+        public double PlotNumber
+        {
+            get { return m_plotNumber; }
+        }
+
+        public double IntervalSecond
+        {
+            get { return m_intervalSecond; }
+        }
+
+        public int StepNumber
+        {
+            get { return m_stepNumber; }
+        }
+
         /// <summary>
         /// Constructor.
         /// </summary>
-        public TracerWindowSetup()
+        public TracerConfigurationDialog(double number, double interval, int step)
         {
             InitializeComponent();
+            numberTextBox.Text = Convert.ToString(number);
+            intervalTextBox.Text = Convert.ToString(interval);
+            stepCountTextBox.Text = Convert.ToString(step);
         }
 
         /// <summary>
@@ -25,6 +48,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="e">EventArgs.</param>
         private void cancelButton_Click(object sender, EventArgs e)
         {
+            m_isCancel = true;
             this.Dispose();
         }
 
@@ -53,6 +77,24 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private void TracerWinSetupShown(object sender, EventArgs e)
         {
             this.numberTextBox.Focus();
+        }
+
+        private void TracerWindowSetup_FormClosing(object sender, FormClosingEventArgs e)
+        {            
+            try
+            {
+                if (m_isCancel == false)
+                {
+                    m_plotNumber = Convert.ToDouble(numberTextBox.Text);
+                    m_intervalSecond = Convert.ToDouble(intervalTextBox.Text);
+                    m_stepNumber = Convert.ToInt32(stepCountTextBox.Text);
+                }
+            }
+            catch (Exception)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInputData);
+                e.Cancel = true;
+            }
         }
     }
 }

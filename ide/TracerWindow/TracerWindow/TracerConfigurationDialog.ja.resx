@@ -120,6 +120,15 @@
   <data name="$this.Text" xml:space="preserve">
     <value>グラフ設定</value>
   </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>プロット数(&amp;P)</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>再描画間隔(&amp;R)</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>ステップ間隔(&amp;S)</value>
+  </data>
   <data name="TSApplyButton.Text" xml:space="preserve">
     <value>OK</value>
   </data>

@@ -117,6 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="$this.Text" xml:space="preserve">
+    <value>保存するログを選択してください</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>開始時間(&amp;S)</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>保存形式(&amp;T)</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>終了時間(&amp;E)</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>ディレクトリ(&amp;D)</value>
+  </data>
+  <data name="SaveEntryColumn.HeaderText" xml:space="preserve">
+    <value>保存チェック</value>
+  </data>
   <data name="STCloseButton.Text" xml:space="preserve">
     <value>閉じる</value>
   </data>
