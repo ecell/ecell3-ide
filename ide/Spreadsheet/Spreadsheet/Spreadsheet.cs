@@ -524,7 +524,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     if (!name.Equals(m_systemProp[i]))
                         continue;
                     string entPath = Util.ConvertSystemEntityPath(obj.Key, name);
-                    m_propDic.Add(entPath, c);
+                    if (!m_propDic.ContainsKey(entPath))
+                        m_propDic.Add(entPath, c);
                     break;
                 }
             }
@@ -583,7 +584,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     string entPath = Constants.xpathVariable +
                         Constants.delimiterColon + obj.Key +
                         Constants.delimiterColon + name;
-                    m_propDic[entPath] = c;
+                    if (!m_propDic.ContainsKey(entPath))
+                        m_propDic.Add(entPath, c);
                     break;
                 }
             }
@@ -640,7 +642,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     string entPath = Constants.xpathProcess +
                         Constants.delimiterColon + obj.Key +
                         Constants.delimiterColon + name;
-                    m_propDic.Add(entPath, c);
+                    if (!m_propDic.ContainsKey(entPath))
+                        m_propDic.Add(entPath, c);
                     break;
                 }
 
