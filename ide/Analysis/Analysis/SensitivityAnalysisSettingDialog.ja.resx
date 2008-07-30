@@ -127,15 +127,15 @@
     <value>キャンセル</value>
   </data>
   <data name="executeButton.Text" xml:space="preserve">
-    <value>実行</value>
+    <value>実行(&amp;E)</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>ステップ幅</value>
+    <value>ステップ幅(&amp;S)</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>相対的摂動</value>
+    <value>相対的摂動(&amp;A)</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>絶対的摂動</value>
+    <value>絶対的摂動(&amp;R)</value>
   </data>
 </root>

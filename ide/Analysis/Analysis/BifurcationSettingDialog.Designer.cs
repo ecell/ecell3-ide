@@ -103,22 +103,22 @@
             // 
             // cancelButton
             // 
-            cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(cancelButton, "cancelButton");
+            cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             cancelButton.Name = "cancelButton";
             cancelButton.UseVisualStyleBackColor = true;
             // 
             // okButton
             // 
-            okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(okButton, "okButton");
+            okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             okButton.Name = "okButton";
             okButton.UseVisualStyleBackColor = true;
             // 
             // executeButton
             // 
-            executeButton.DialogResult = System.Windows.Forms.DialogResult.Ignore;
             resources.ApplyResources(executeButton, "executeButton");
+            executeButton.DialogResult = System.Windows.Forms.DialogResult.Ignore;
             executeButton.Name = "executeButton";
             executeButton.UseVisualStyleBackColor = true;
             // 
@@ -134,11 +134,11 @@
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(label2);
             this.groupBox1.Controls.Add(this.bifurcationWindowSizeTextBox);
             this.groupBox1.Controls.Add(label1);
             this.groupBox1.Controls.Add(this.bifurcationSimulationTimeTextBox);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -159,13 +159,13 @@
             // 
             // groupBox2
             // 
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(label5);
             this.groupBox2.Controls.Add(this.bifurcationMaxInputTextBox);
             this.groupBox2.Controls.Add(label4);
             this.groupBox2.Controls.Add(this.bifurcationMaxFrequencyTextBox);
             this.groupBox2.Controls.Add(this.bifurcationMinFrequencyTextBox);
             this.groupBox2.Controls.Add(label3);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -173,6 +173,7 @@
             // 
             this.bifurcationParameterDataGrid.AllowUserToAddRows = false;
             this.bifurcationParameterDataGrid.AllowUserToDeleteRows = false;
+            resources.ApplyResources(this.bifurcationParameterDataGrid, "bifurcationParameterDataGrid");
             this.bifurcationParameterDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.bifurcationParameterDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.bifurcationParameterDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -180,7 +181,6 @@
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3,
             this.dataGridViewTextBoxColumn4});
-            resources.ApplyResources(this.bifurcationParameterDataGrid, "bifurcationParameterDataGrid");
             this.bifurcationParameterDataGrid.Name = "bifurcationParameterDataGrid";
             this.bifurcationParameterDataGrid.RowHeadersVisible = false;
             this.bifurcationParameterDataGrid.RowTemplate.Height = 21;
@@ -210,8 +210,8 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.bifurcationParameterDataGrid);
             resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Controls.Add(this.bifurcationParameterDataGrid);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -219,6 +219,7 @@
             // 
             this.bifurcationObservedDataGrid.AllowUserToAddRows = false;
             this.bifurcationObservedDataGrid.AllowUserToDeleteRows = false;
+            resources.ApplyResources(this.bifurcationObservedDataGrid, "bifurcationObservedDataGrid");
             this.bifurcationObservedDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.bifurcationObservedDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.bifurcationObservedDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -227,7 +228,6 @@
             this.dataGridViewTextBoxColumn7,
             this.dataGridViewTextBoxColumn8,
             this.dataGridViewTextBoxColumn9});
-            resources.ApplyResources(this.bifurcationObservedDataGrid, "bifurcationObservedDataGrid");
             this.bifurcationObservedDataGrid.Name = "bifurcationObservedDataGrid";
             this.bifurcationObservedDataGrid.RowHeadersVisible = false;
             this.bifurcationObservedDataGrid.RowTemplate.Height = 21;
@@ -264,8 +264,8 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.bifurcationObservedDataGrid);
             resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Controls.Add(this.bifurcationObservedDataGrid);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 

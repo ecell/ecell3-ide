@@ -65,10 +65,10 @@
             // 
             // groupBox1
             // 
+            resources.ApplyResources(groupBox1, "groupBox1");
             groupBox1.Controls.Add(this.formulatorButton);
             groupBox1.Controls.Add(this.estimationFormulatorTextBox);
             groupBox1.Controls.Add(this.estimationTypeComboBox);
-            resources.ApplyResources(groupBox1, "groupBox1");
             groupBox1.Name = "groupBox1";
             groupBox1.TabStop = false;
             // 
@@ -115,6 +115,7 @@
             // 
             // groupBox2
             // 
+            resources.ApplyResources(groupBox2, "groupBox2");
             groupBox2.Controls.Add(label1);
             groupBox2.Controls.Add(label2);
             groupBox2.Controls.Add(this.advancedButton);
@@ -122,7 +123,6 @@
             groupBox2.Controls.Add(this.parameterEstimationPopulationTextBox);
             groupBox2.Controls.Add(this.parameterEstimationSimulationTimeTextBox);
             groupBox2.Controls.Add(this.parameterEstimationGenerationTextBox);
-            resources.ApplyResources(groupBox2, "groupBox2");
             groupBox2.Name = "groupBox2";
             groupBox2.TabStop = false;
             // 
@@ -149,8 +149,8 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.parameterEstimationParameterDataGrid);
             resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Controls.Add(this.parameterEstimationParameterDataGrid);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -160,13 +160,13 @@
             this.parameterEstimationParameterDataGrid.AllowUserToDeleteRows = false;
             this.parameterEstimationParameterDataGrid.AllowUserToResizeColumns = false;
             this.parameterEstimationParameterDataGrid.AllowUserToResizeRows = false;
+            resources.ApplyResources(this.parameterEstimationParameterDataGrid, "parameterEstimationParameterDataGrid");
             this.parameterEstimationParameterDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.parameterEstimationParameterDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.parameterEstimationParameterDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3});
-            resources.ApplyResources(this.parameterEstimationParameterDataGrid, "parameterEstimationParameterDataGrid");
             this.parameterEstimationParameterDataGrid.Name = "parameterEstimationParameterDataGrid";
             this.parameterEstimationParameterDataGrid.RowHeadersVisible = false;
             this.parameterEstimationParameterDataGrid.RowTemplate.Height = 21;
@@ -190,22 +190,22 @@
             // 
             // closeButton
             // 
-            this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.closeButton, "closeButton");
+            this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.closeButton.Name = "closeButton";
             this.closeButton.UseVisualStyleBackColor = true;
             // 
             // okButton
             // 
-            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.okButton, "okButton");
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.okButton.Name = "okButton";
             this.okButton.UseVisualStyleBackColor = true;
             // 
             // executeButton
             // 
-            this.executeButton.DialogResult = System.Windows.Forms.DialogResult.Ignore;
             resources.ApplyResources(this.executeButton, "executeButton");
+            this.executeButton.DialogResult = System.Windows.Forms.DialogResult.Ignore;
             this.executeButton.Name = "executeButton";
             this.executeButton.UseVisualStyleBackColor = true;
             // 

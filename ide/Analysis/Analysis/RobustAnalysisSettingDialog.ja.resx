@@ -129,27 +129,48 @@
     <value>キャンセル</value>
   </data>
   <data name="button3.Text" xml:space="preserve">
-    <value>実行</value>
+    <value>実行(&amp;E)</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
+    <value>最大値</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn3.HeaderText" xml:space="preserve">
+    <value>最小値</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn4.HeaderText" xml:space="preserve">
+    <value>ステップ</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn6.HeaderText" xml:space="preserve">
+    <value>最大値</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn7.HeaderText" xml:space="preserve">
+    <value>最小値</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn8.HeaderText" xml:space="preserve">
+    <value>最大振幅</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn9.HeaderText" xml:space="preserve">
+    <value>振幅率</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>ウインドウサイズ</value>
+    <value>ウインドウサイズ(&amp;W)</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>シミュレーション時間</value>
+    <value>シミュレーション時間(&amp;S)</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>最大サンプル数</value>
+    <value>最大サンプル数(&amp;U)</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>サンプル生成方法</value>
+    <value>サンプル生成方法(&amp;R)</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>最小頻度</value>
+    <value>最小頻度(&amp;N)</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>最大頻度</value>
+    <value>最大頻度(&amp;X)</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>最大入力数</value>
+    <value>最大入力数(&amp;I)</value>
   </data>
 </root>

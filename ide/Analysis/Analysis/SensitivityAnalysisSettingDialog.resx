@@ -136,10 +136,10 @@
     <value>28, 12</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Step</value>
+    <value>S&amp;tep</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -169,10 +169,10 @@
     <value>113, 12</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>5</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Relative Perturbation</value>
+    <value>&amp;Relative Perturbation</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -202,10 +202,10 @@
     <value>116, 12</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>3</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Absolute Perturbation</value>
+    <value>&amp;Absolute Perturbation</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -222,6 +222,9 @@
   <metadata name="cancelButton.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
+  <data name="cancelButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
   <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>253, 142</value>
   </data>
@@ -229,7 +232,7 @@
     <value>75, 23</value>
   </data>
   <data name="cancelButton.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>9</value>
   </data>
   <data name="cancelButton.Text" xml:space="preserve">
     <value>Cancel</value>
@@ -249,6 +252,9 @@
   <metadata name="okButton.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
+  <data name="okButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
   <data name="okButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>172, 142</value>
   </data>
@@ -256,7 +262,7 @@
     <value>75, 23</value>
   </data>
   <data name="okButton.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>8</value>
   </data>
   <data name="okButton.Text" xml:space="preserve">
     <value>OK</value>
@@ -276,6 +282,9 @@
   <metadata name="executeButton.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
+  <data name="executeButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
   <data name="executeButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 142</value>
   </data>
@@ -283,10 +292,10 @@
     <value>75, 23</value>
   </data>
   <data name="executeButton.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>7</value>
   </data>
   <data name="executeButton.Text" xml:space="preserve">
-    <value>Execute</value>
+    <value>&amp;Execute</value>
   </data>
   <data name="&gt;&gt;executeButton.Name" xml:space="preserve">
     <value>executeButton</value>
@@ -310,7 +319,7 @@
     <value>156, 19</value>
   </data>
   <data name="sensitivityStepTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="sensitivityStepTextBox.Text" xml:space="preserve">
     <value>1</value>
@@ -340,7 +349,7 @@
     <value>156, 19</value>
   </data>
   <data name="sensitivityAbsolutePerturbationTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="sensitivityAbsolutePerturbationTextBox.Text" xml:space="preserve">
     <value>1E-6</value>
@@ -370,7 +379,7 @@
     <value>156, 19</value>
   </data>
   <data name="sensitivityRelativePerturbationTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>6</value>
   </data>
   <data name="sensitivityRelativePerturbationTextBox.Text" xml:space="preserve">
     <value>1E-6</value>

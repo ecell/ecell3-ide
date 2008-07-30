@@ -66,22 +66,22 @@
             // 
             // cancelButton
             // 
-            cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(cancelButton, "cancelButton");
+            cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             cancelButton.Name = "cancelButton";
             cancelButton.UseVisualStyleBackColor = true;
             // 
             // okButton
             // 
-            okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(okButton, "okButton");
+            okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             okButton.Name = "okButton";
             okButton.UseVisualStyleBackColor = true;
             // 
             // executeButton
             // 
-            executeButton.DialogResult = System.Windows.Forms.DialogResult.Ignore;
             resources.ApplyResources(executeButton, "executeButton");
+            executeButton.DialogResult = System.Windows.Forms.DialogResult.Ignore;
             executeButton.Name = "executeButton";
             executeButton.UseVisualStyleBackColor = true;
             // 

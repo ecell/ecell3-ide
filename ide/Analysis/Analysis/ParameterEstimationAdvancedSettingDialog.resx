@@ -136,10 +136,10 @@
     <value>14, 12</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>M</value>
+    <value>&amp;M</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
@@ -172,7 +172,7 @@
     <value>3</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Upsilon</value>
+    <value>&amp;Upsilon</value>
   </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
@@ -202,10 +202,10 @@
     <value>12, 12</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>7</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>K</value>
+    <value>&amp;K</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -235,10 +235,10 @@
     <value>50, 12</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>9</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Max rate</value>
+    <value>Ma&amp;x rate</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -268,10 +268,10 @@
     <value>57, 12</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>5</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Initial rate</value>
+    <value>&amp;Initial rate</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -339,24 +339,6 @@
   <data name="&gt;&gt;PEACloseButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="PEUpsilonTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="PEUpsilonTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>69, 23</value>
-  </data>
-  <data name="PEUpsilonTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 19</value>
-  </data>
-  <data name="PEUpsilonTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="PEUpsilonTextBox.Text" xml:space="preserve">
-    <value>1.2</value>
-  </data>
-  <data name="PEUpsilonTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;PEUpsilonTextBox.Name" xml:space="preserve">
     <value>PEUpsilonTextBox</value>
   </data>
@@ -368,24 +350,6 @@
   </data>
   <data name="&gt;&gt;PEUpsilonTextBox.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="PEMTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="PEMTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>69, 51</value>
-  </data>
-  <data name="PEMTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 19</value>
-  </data>
-  <data name="PEMTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="PEMTextBox.Text" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="PEMTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
   </data>
   <data name="&gt;&gt;PEMTextBox.Name" xml:space="preserve">
     <value>PEMTextBox</value>
@@ -423,6 +387,66 @@
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="PEUpsilonTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="PEUpsilonTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>69, 23</value>
+  </data>
+  <data name="PEUpsilonTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 19</value>
+  </data>
+  <data name="PEUpsilonTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="PEUpsilonTextBox.Text" xml:space="preserve">
+    <value>1.2</value>
+  </data>
+  <data name="PEUpsilonTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;PEUpsilonTextBox.Name" xml:space="preserve">
+    <value>PEUpsilonTextBox</value>
+  </data>
+  <data name="&gt;&gt;PEUpsilonTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PEUpsilonTextBox.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;PEUpsilonTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="PEMTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="PEMTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>69, 51</value>
+  </data>
+  <data name="PEMTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 19</value>
+  </data>
+  <data name="PEMTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="PEMTextBox.Text" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="PEMTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;PEMTextBox.Name" xml:space="preserve">
+    <value>PEMTextBox</value>
+  </data>
+  <data name="&gt;&gt;PEMTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PEMTextBox.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;PEMTextBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="PEMaxRateTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
@@ -433,7 +457,7 @@
     <value>103, 19</value>
   </data>
   <data name="PEMaxRateTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>10</value>
   </data>
   <data name="PEMaxRateTextBox.Text" xml:space="preserve">
     <value>50.0</value>
@@ -463,7 +487,7 @@
     <value>103, 19</value>
   </data>
   <data name="PEKTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>8</value>
   </data>
   <data name="PEKTextBox.Text" xml:space="preserve">
     <value>1.8</value>
@@ -493,7 +517,7 @@
     <value>103, 19</value>
   </data>
   <data name="PEM0TextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>6</value>
   </data>
   <data name="PEM0TextBox.Text" xml:space="preserve">
     <value>1.05</value>

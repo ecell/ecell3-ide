@@ -121,8 +121,11 @@
     <value>False</value>
   </metadata>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="groupBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
   <data name="formulatorButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom</value>
+    <value>Bottom, Right</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="formulatorButton.Location" type="System.Drawing.Point, System.Drawing">
@@ -133,7 +136,7 @@
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="formulatorButton.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>9</value>
   </data>
   <data name="formulatorButton.Text" xml:space="preserve">
     <value>...</value>
@@ -199,10 +202,10 @@
     <value>6, 18</value>
   </data>
   <data name="estimationTypeComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 20</value>
+    <value>160, 20</value>
   </data>
   <data name="estimationTypeComboBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>8</value>
   </data>
   <data name="estimationTypeComboBox.Text" xml:space="preserve">
     <value>Max</value>
@@ -229,7 +232,7 @@
     <value>2</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>Estimation</value>
+    <value>&amp;Estimation</value>
   </data>
   <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
     <value>groupBox1</value>
@@ -259,10 +262,10 @@
     <value>60, 12</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>5</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Generation</value>
+    <value>&amp;Generation</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -292,10 +295,10 @@
     <value>58, 12</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Population</value>
+    <value>P&amp;opulation</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -325,10 +328,10 @@
     <value>87, 12</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>1</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Simulation Time</value>
+    <value>&amp;Simulation Time</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -345,20 +348,8 @@
   <metadata name="groupBox2.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
-  <data name="advancedButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Right</value>
-  </data>
-  <data name="advancedButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>274, 93</value>
-  </data>
-  <data name="advancedButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="advancedButton.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="advancedButton.Text" xml:space="preserve">
-    <value>Advanced ...</value>
+  <data name="groupBox2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
   <data name="&gt;&gt;advancedButton.Name" xml:space="preserve">
     <value>advancedButton</value>
@@ -372,24 +363,6 @@
   <data name="&gt;&gt;advancedButton.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="parameterEstimationPopulationTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="parameterEstimationPopulationTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 43</value>
-  </data>
-  <data name="parameterEstimationPopulationTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 19</value>
-  </data>
-  <data name="parameterEstimationPopulationTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="parameterEstimationPopulationTextBox.Text" xml:space="preserve">
-    <value>20</value>
-  </data>
-  <data name="parameterEstimationPopulationTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;parameterEstimationPopulationTextBox.Name" xml:space="preserve">
     <value>parameterEstimationPopulationTextBox</value>
   </data>
@@ -402,24 +375,6 @@
   <data name="&gt;&gt;parameterEstimationPopulationTextBox.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="parameterEstimationSimulationTimeTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="parameterEstimationSimulationTimeTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 18</value>
-  </data>
-  <data name="parameterEstimationSimulationTimeTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 19</value>
-  </data>
-  <data name="parameterEstimationSimulationTimeTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="parameterEstimationSimulationTimeTextBox.Text" xml:space="preserve">
-    <value>10.0</value>
-  </data>
-  <data name="parameterEstimationSimulationTimeTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;parameterEstimationSimulationTimeTextBox.Name" xml:space="preserve">
     <value>parameterEstimationSimulationTimeTextBox</value>
   </data>
@@ -431,24 +386,6 @@
   </data>
   <data name="&gt;&gt;parameterEstimationSimulationTimeTextBox.ZOrder" xml:space="preserve">
     <value>5</value>
-  </data>
-  <data name="parameterEstimationGenerationTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="parameterEstimationGenerationTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 68</value>
-  </data>
-  <data name="parameterEstimationGenerationTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 19</value>
-  </data>
-  <data name="parameterEstimationGenerationTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="parameterEstimationGenerationTextBox.Text" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="parameterEstimationGenerationTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
   </data>
   <data name="&gt;&gt;parameterEstimationGenerationTextBox.Name" xml:space="preserve">
     <value>parameterEstimationGenerationTextBox</value>
@@ -486,14 +423,164 @@
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
-    <value>ID</value>
+  <data name="advancedButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Right</value>
   </data>
-  <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
-    <value>Max</value>
+  <data name="advancedButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>248, 93</value>
   </data>
-  <data name="dataGridViewTextBoxColumn3.HeaderText" xml:space="preserve">
-    <value>Min</value>
+  <data name="advancedButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 23</value>
+  </data>
+  <data name="advancedButton.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="advancedButton.Text" xml:space="preserve">
+    <value>&amp;Advanced ...</value>
+  </data>
+  <data name="&gt;&gt;advancedButton.Name" xml:space="preserve">
+    <value>advancedButton</value>
+  </data>
+  <data name="&gt;&gt;advancedButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;advancedButton.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;advancedButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="parameterEstimationPopulationTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="parameterEstimationPopulationTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>124, 43</value>
+  </data>
+  <data name="parameterEstimationPopulationTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 19</value>
+  </data>
+  <data name="parameterEstimationPopulationTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="parameterEstimationPopulationTextBox.Text" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="parameterEstimationPopulationTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationPopulationTextBox.Name" xml:space="preserve">
+    <value>parameterEstimationPopulationTextBox</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationPopulationTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationPopulationTextBox.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationPopulationTextBox.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="parameterEstimationSimulationTimeTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="parameterEstimationSimulationTimeTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>124, 18</value>
+  </data>
+  <data name="parameterEstimationSimulationTimeTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 19</value>
+  </data>
+  <data name="parameterEstimationSimulationTimeTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="parameterEstimationSimulationTimeTextBox.Text" xml:space="preserve">
+    <value>10.0</value>
+  </data>
+  <data name="parameterEstimationSimulationTimeTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationSimulationTimeTextBox.Name" xml:space="preserve">
+    <value>parameterEstimationSimulationTimeTextBox</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationSimulationTimeTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationSimulationTimeTextBox.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationSimulationTimeTextBox.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="parameterEstimationGenerationTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="parameterEstimationGenerationTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>124, 68</value>
+  </data>
+  <data name="parameterEstimationGenerationTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 19</value>
+  </data>
+  <data name="parameterEstimationGenerationTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="parameterEstimationGenerationTextBox.Text" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="parameterEstimationGenerationTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationGenerationTextBox.Name" xml:space="preserve">
+    <value>parameterEstimationGenerationTextBox</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationGenerationTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationGenerationTextBox.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationGenerationTextBox.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="groupBox3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationParameterDataGrid.Name" xml:space="preserve">
+    <value>parameterEstimationParameterDataGrid</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationParameterDataGrid.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationParameterDataGrid.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationParameterDataGrid.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 261</value>
+  </data>
+  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>355, 140</value>
+  </data>
+  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>&amp;Parameters</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="parameterEstimationParameterDataGrid.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="parameterEstimationParameterDataGrid.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 18</value>
@@ -516,29 +603,17 @@
   <data name="&gt;&gt;parameterEstimationParameterDataGrid.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 261</value>
+  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
+    <value>ID</value>
   </data>
-  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>355, 140</value>
+  <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
+    <value>Max</value>
   </data>
-  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="dataGridViewTextBoxColumn3.HeaderText" xml:space="preserve">
+    <value>Min</value>
   </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Parameters</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="closeButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
   </data>
   <data name="closeButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>292, 407</value>
@@ -547,7 +622,7 @@
     <value>75, 23</value>
   </data>
   <data name="closeButton.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>13</value>
   </data>
   <data name="closeButton.Text" xml:space="preserve">
     <value>Cancel</value>
@@ -564,6 +639,9 @@
   <data name="&gt;&gt;closeButton.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="okButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
   <data name="okButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>211, 407</value>
   </data>
@@ -571,7 +649,7 @@
     <value>75, 23</value>
   </data>
   <data name="okButton.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>12</value>
   </data>
   <data name="okButton.Text" xml:space="preserve">
     <value>OK</value>
@@ -588,6 +666,9 @@
   <data name="&gt;&gt;okButton.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="executeButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
   <data name="executeButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 407</value>
   </data>
@@ -595,10 +676,10 @@
     <value>75, 23</value>
   </data>
   <data name="executeButton.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>11</value>
   </data>
   <data name="executeButton.Text" xml:space="preserve">
-    <value>Execute</value>
+    <value>&amp;Execute</value>
   </data>
   <data name="&gt;&gt;executeButton.Name" xml:space="preserve">
     <value>executeButton</value>

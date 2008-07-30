@@ -124,21 +124,45 @@
     <value>パラメータ推定は未知のパラメータをある評価式に従って最適なパラメータを検索し、設定する。パラメータ推定ではSimple GAを利用している。</value>
   </data>
   <data name="advancedButton.Text" xml:space="preserve">
-    <value>詳細設定...</value>
+    <value>詳細設定...(&amp;A)</value>
   </data>
   <data name="closeButton.Text" xml:space="preserve">
     <value>キャンセル</value>
   </data>
+  <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
+    <value>最大値</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn3.HeaderText" xml:space="preserve">
+    <value>最小値</value>
+  </data>
+  <data name="estimationTypeComboBox.Items" xml:space="preserve">
+    <value>最大</value>
+  </data>
+  <data name="estimationTypeComboBox.Items1" xml:space="preserve">
+    <value>最大和</value>
+  </data>
+  <data name="estimationTypeComboBox.Items2" xml:space="preserve">
+    <value>最小</value>
+  </data>
+  <data name="estimationTypeComboBox.Items3" xml:space="preserve">
+    <value>最小和</value>
+  </data>
+  <data name="estimationTypeComboBox.Items4" xml:space="preserve">
+    <value>0に近い</value>
+  </data>
+  <data name="estimationTypeComboBox.Items5" xml:space="preserve">
+    <value>和が0に近い</value>
+  </data>
   <data name="executeButton.Text" xml:space="preserve">
-    <value>実行</value>
+    <value>実行(&amp;E)</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>世代数</value>
+    <value>世代数(&amp;G)</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>個体数</value>
+    <value>個体数(&amp;O)</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>シミュレーション時間</value>
+    <value>シミュレーション時間(&amp;S)</value>
   </data>
 </root>

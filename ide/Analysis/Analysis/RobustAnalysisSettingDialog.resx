@@ -136,10 +136,10 @@
     <value>67, 12</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>3</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Window size</value>
+    <value>&amp;Window size</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -169,10 +169,10 @@
     <value>87, 12</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Simulation Time</value>
+    <value>&amp;Simulation Time</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -189,23 +189,8 @@
   <metadata name="groupBox1.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
-  <data name="robustAnalysisWindowSizeTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="robustAnalysisWindowSizeTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 47</value>
-  </data>
-  <data name="robustAnalysisWindowSizeTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 19</value>
-  </data>
-  <data name="robustAnalysisWindowSizeTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="robustAnalysisWindowSizeTextBox.Text" xml:space="preserve">
-    <value>10.0</value>
-  </data>
-  <data name="robustAnalysisWindowSizeTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
+  <data name="groupBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
   <data name="&gt;&gt;robustAnalysisWindowSizeTextBox.Name" xml:space="preserve">
     <value>robustAnalysisWindowSizeTextBox</value>
@@ -218,24 +203,6 @@
   </data>
   <data name="&gt;&gt;robustAnalysisWindowSizeTextBox.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="robustAnalysisSimulationTimeTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="robustAnalysisSimulationTimeTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 21</value>
-  </data>
-  <data name="robustAnalysisSimulationTimeTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 19</value>
-  </data>
-  <data name="robustAnalysisSimulationTimeTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="robustAnalysisSimulationTimeTextBox.Text" xml:space="preserve">
-    <value>100.0</value>
-  </data>
-  <data name="robustAnalysisSimulationTimeTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
   </data>
   <data name="&gt;&gt;robustAnalysisSimulationTimeTextBox.Name" xml:space="preserve">
     <value>robustAnalysisSimulationTimeTextBox</value>
@@ -273,6 +240,66 @@
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
+  <data name="robustAnalysisWindowSizeTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="robustAnalysisWindowSizeTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>194, 47</value>
+  </data>
+  <data name="robustAnalysisWindowSizeTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 19</value>
+  </data>
+  <data name="robustAnalysisWindowSizeTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="robustAnalysisWindowSizeTextBox.Text" xml:space="preserve">
+    <value>10.0</value>
+  </data>
+  <data name="robustAnalysisWindowSizeTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisWindowSizeTextBox.Name" xml:space="preserve">
+    <value>robustAnalysisWindowSizeTextBox</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisWindowSizeTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisWindowSizeTextBox.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisWindowSizeTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="robustAnalysisSimulationTimeTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="robustAnalysisSimulationTimeTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>194, 21</value>
+  </data>
+  <data name="robustAnalysisSimulationTimeTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 19</value>
+  </data>
+  <data name="robustAnalysisSimulationTimeTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="robustAnalysisSimulationTimeTextBox.Text" xml:space="preserve">
+    <value>100.0</value>
+  </data>
+  <data name="robustAnalysisSimulationTimeTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisSimulationTimeTextBox.Name" xml:space="preserve">
+    <value>robustAnalysisSimulationTimeTextBox</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisSimulationTimeTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisSimulationTimeTextBox.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisSimulationTimeTextBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <metadata name="label3.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
@@ -289,10 +316,10 @@
     <value>125, 12</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>8</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>The number of samples</value>
+    <value>The n&amp;umber of samples</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -322,10 +349,10 @@
     <value>96, 12</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>5</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Random or Matrix</value>
+    <value>&amp;Random or Matrix</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
@@ -342,23 +369,8 @@
   <metadata name="groupBox2.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
-  <data name="robustAnalysisSampleNumberTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="robustAnalysisSampleNumberTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 43</value>
-  </data>
-  <data name="robustAnalysisSampleNumberTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 19</value>
-  </data>
-  <data name="robustAnalysisSampleNumberTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="robustAnalysisSampleNumberTextBox.Text" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="robustAnalysisSampleNumberTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
+  <data name="groupBox2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
   <data name="&gt;&gt;robustAnalysisSampleNumberTextBox.Name" xml:space="preserve">
     <value>robustAnalysisSampleNumberTextBox</value>
@@ -372,24 +384,6 @@
   <data name="&gt;&gt;robustAnalysisSampleNumberTextBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="robustAnalysisRandomCheckBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="robustAnalysisRandomCheckBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="robustAnalysisRandomCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>272, 21</value>
-  </data>
-  <data name="robustAnalysisRandomCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 16</value>
-  </data>
-  <data name="robustAnalysisRandomCheckBox.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="robustAnalysisRandomCheckBox.Text" xml:space="preserve">
-    <value>Random</value>
-  </data>
   <data name="&gt;&gt;robustAnalysisRandomCheckBox.Name" xml:space="preserve">
     <value>robustAnalysisRandomCheckBox</value>
   </data>
@@ -401,24 +395,6 @@
   </data>
   <data name="&gt;&gt;robustAnalysisRandomCheckBox.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="robustAnalysisMatrixCheckBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="robustAnalysisMatrixCheckBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="robustAnalysisMatrixCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 21</value>
-  </data>
-  <data name="robustAnalysisMatrixCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 16</value>
-  </data>
-  <data name="robustAnalysisMatrixCheckBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="robustAnalysisMatrixCheckBox.Text" xml:space="preserve">
-    <value>Matrix</value>
   </data>
   <data name="&gt;&gt;robustAnalysisMatrixCheckBox.Name" xml:space="preserve">
     <value>robustAnalysisMatrixCheckBox</value>
@@ -456,6 +432,96 @@
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
+  <data name="robustAnalysisSampleNumberTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="robustAnalysisSampleNumberTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>194, 43</value>
+  </data>
+  <data name="robustAnalysisSampleNumberTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 19</value>
+  </data>
+  <data name="robustAnalysisSampleNumberTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="robustAnalysisSampleNumberTextBox.Text" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="robustAnalysisSampleNumberTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisSampleNumberTextBox.Name" xml:space="preserve">
+    <value>robustAnalysisSampleNumberTextBox</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisSampleNumberTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisSampleNumberTextBox.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisSampleNumberTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="robustAnalysisRandomCheckBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="robustAnalysisRandomCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="robustAnalysisRandomCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>272, 21</value>
+  </data>
+  <data name="robustAnalysisRandomCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 16</value>
+  </data>
+  <data name="robustAnalysisRandomCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="robustAnalysisRandomCheckBox.Text" xml:space="preserve">
+    <value>Random</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisRandomCheckBox.Name" xml:space="preserve">
+    <value>robustAnalysisRandomCheckBox</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisRandomCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisRandomCheckBox.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisRandomCheckBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="robustAnalysisMatrixCheckBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="robustAnalysisMatrixCheckBox.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="robustAnalysisMatrixCheckBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>194, 21</value>
+  </data>
+  <data name="robustAnalysisMatrixCheckBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 16</value>
+  </data>
+  <data name="robustAnalysisMatrixCheckBox.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="robustAnalysisMatrixCheckBox.Text" xml:space="preserve">
+    <value>Matrix</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisMatrixCheckBox.Name" xml:space="preserve">
+    <value>robustAnalysisMatrixCheckBox</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisMatrixCheckBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisMatrixCheckBox.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisMatrixCheckBox.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <metadata name="label5.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
@@ -472,10 +538,10 @@
     <value>80, 12</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>14</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Min Frequency</value>
+    <value>Mi&amp;n Frequency</value>
   </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
@@ -505,10 +571,10 @@
     <value>83, 12</value>
   </data>
   <data name="label6.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>12</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>Max Frequency</value>
+    <value>Ma&amp;x Frequency</value>
   </data>
   <data name="&gt;&gt;label6.Name" xml:space="preserve">
     <value>label6</value>
@@ -538,10 +604,10 @@
     <value>133, 12</value>
   </data>
   <data name="label7.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>10</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>The max number of input</value>
+    <value>The max number of &amp;input</value>
   </data>
   <data name="&gt;&gt;label7.Name" xml:space="preserve">
     <value>label7</value>
@@ -558,23 +624,8 @@
   <metadata name="groupBox3.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
-  <data name="robustAnalysisMinFrequencyTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="robustAnalysisMinFrequencyTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 68</value>
-  </data>
-  <data name="robustAnalysisMinFrequencyTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 19</value>
-  </data>
-  <data name="robustAnalysisMinFrequencyTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="robustAnalysisMinFrequencyTextBox.Text" xml:space="preserve">
-    <value>30</value>
-  </data>
-  <data name="robustAnalysisMinFrequencyTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
+  <data name="groupBox3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
   <data name="&gt;&gt;robustAnalysisMinFrequencyTextBox.Name" xml:space="preserve">
     <value>robustAnalysisMinFrequencyTextBox</value>
@@ -588,24 +639,6 @@
   <data name="&gt;&gt;robustAnalysisMinFrequencyTextBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="robustAnalysisMaxSampleTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="robustAnalysisMaxSampleTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 18</value>
-  </data>
-  <data name="robustAnalysisMaxSampleTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 19</value>
-  </data>
-  <data name="robustAnalysisMaxSampleTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="robustAnalysisMaxSampleTextBox.Text" xml:space="preserve">
-    <value>65536</value>
-  </data>
-  <data name="robustAnalysisMaxSampleTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="&gt;&gt;robustAnalysisMaxSampleTextBox.Name" xml:space="preserve">
     <value>robustAnalysisMaxSampleTextBox</value>
   </data>
@@ -617,24 +650,6 @@
   </data>
   <data name="&gt;&gt;robustAnalysisMaxSampleTextBox.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="robustAnalysisMaxFrequencyTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="robustAnalysisMaxFrequencyTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>194, 43</value>
-  </data>
-  <data name="robustAnalysisMaxFrequencyTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 19</value>
-  </data>
-  <data name="robustAnalysisMaxFrequencyTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="robustAnalysisMaxFrequencyTextBox.Text" xml:space="preserve">
-    <value>50</value>
-  </data>
-  <data name="robustAnalysisMaxFrequencyTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
   </data>
   <data name="&gt;&gt;robustAnalysisMaxFrequencyTextBox.Name" xml:space="preserve">
     <value>robustAnalysisMaxFrequencyTextBox</value>
@@ -672,23 +687,140 @@
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
+  <data name="robustAnalysisMinFrequencyTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="robustAnalysisMinFrequencyTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>194, 68</value>
+  </data>
+  <data name="robustAnalysisMinFrequencyTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 19</value>
+  </data>
+  <data name="robustAnalysisMinFrequencyTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="robustAnalysisMinFrequencyTextBox.Text" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="robustAnalysisMinFrequencyTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisMinFrequencyTextBox.Name" xml:space="preserve">
+    <value>robustAnalysisMinFrequencyTextBox</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisMinFrequencyTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisMinFrequencyTextBox.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisMinFrequencyTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="robustAnalysisMaxSampleTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="robustAnalysisMaxSampleTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>194, 18</value>
+  </data>
+  <data name="robustAnalysisMaxSampleTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 19</value>
+  </data>
+  <data name="robustAnalysisMaxSampleTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="robustAnalysisMaxSampleTextBox.Text" xml:space="preserve">
+    <value>65536</value>
+  </data>
+  <data name="robustAnalysisMaxSampleTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisMaxSampleTextBox.Name" xml:space="preserve">
+    <value>robustAnalysisMaxSampleTextBox</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisMaxSampleTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisMaxSampleTextBox.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisMaxSampleTextBox.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="robustAnalysisMaxFrequencyTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="robustAnalysisMaxFrequencyTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>194, 43</value>
+  </data>
+  <data name="robustAnalysisMaxFrequencyTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 19</value>
+  </data>
+  <data name="robustAnalysisMaxFrequencyTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="robustAnalysisMaxFrequencyTextBox.Text" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="robustAnalysisMaxFrequencyTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisMaxFrequencyTextBox.Name" xml:space="preserve">
+    <value>robustAnalysisMaxFrequencyTextBox</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisMaxFrequencyTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisMaxFrequencyTextBox.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisMaxFrequencyTextBox.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <metadata name="groupBox5.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
-  <data name="dataGridViewTextBoxColumn5.HeaderText" xml:space="preserve">
-    <value>ID</value>
+  <data name="groupBox5.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="dataGridViewTextBoxColumn6.HeaderText" xml:space="preserve">
-    <value>Max</value>
+  <data name="&gt;&gt;robustAnalysisObservedDataGrid.Name" xml:space="preserve">
+    <value>robustAnalysisObservedDataGrid</value>
   </data>
-  <data name="dataGridViewTextBoxColumn7.HeaderText" xml:space="preserve">
-    <value>Min</value>
+  <data name="&gt;&gt;robustAnalysisObservedDataGrid.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="dataGridViewTextBoxColumn8.HeaderText" xml:space="preserve">
-    <value>Differ</value>
+  <data name="&gt;&gt;robustAnalysisObservedDataGrid.Parent" xml:space="preserve">
+    <value>groupBox5</value>
   </data>
-  <data name="dataGridViewTextBoxColumn9.HeaderText" xml:space="preserve">
-    <value>Rate</value>
+  <data name="&gt;&gt;robustAnalysisObservedDataGrid.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 457</value>
+  </data>
+  <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>370, 100</value>
+  </data>
+  <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>&amp;Observed</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.Name" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="robustAnalysisObservedDataGrid.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="robustAnalysisObservedDataGrid.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 18</value>
@@ -711,33 +843,27 @@
   <data name="&gt;&gt;robustAnalysisObservedDataGrid.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 457</value>
+  <data name="dataGridViewTextBoxColumn5.HeaderText" xml:space="preserve">
+    <value>ID</value>
   </data>
-  <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>370, 100</value>
+  <data name="dataGridViewTextBoxColumn6.HeaderText" xml:space="preserve">
+    <value>Max</value>
   </data>
-  <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+  <data name="dataGridViewTextBoxColumn7.HeaderText" xml:space="preserve">
+    <value>Min</value>
   </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>Observed</value>
+  <data name="dataGridViewTextBoxColumn8.HeaderText" xml:space="preserve">
+    <value>Differ</value>
   </data>
-  <data name="&gt;&gt;groupBox5.Name" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="dataGridViewTextBoxColumn9.HeaderText" xml:space="preserve">
+    <value>Rate</value>
   </data>
   <metadata name="cancelButton.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
+  <data name="cancelButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
   <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>307, 563</value>
   </data>
@@ -745,7 +871,7 @@
     <value>75, 23</value>
   </data>
   <data name="cancelButton.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>20</value>
   </data>
   <data name="cancelButton.Text" xml:space="preserve">
     <value>Cancel</value>
@@ -765,6 +891,9 @@
   <metadata name="okButton.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
+  <data name="okButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
   <data name="okButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>226, 563</value>
   </data>
@@ -772,7 +901,7 @@
     <value>75, 23</value>
   </data>
   <data name="okButton.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>19</value>
   </data>
   <data name="okButton.Text" xml:space="preserve">
     <value>OK</value>
@@ -792,6 +921,9 @@
   <metadata name="executeButton.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
+  <data name="executeButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
   <data name="executeButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 563</value>
   </data>
@@ -799,10 +931,10 @@
     <value>75, 23</value>
   </data>
   <data name="executeButton.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>18</value>
   </data>
   <data name="executeButton.Text" xml:space="preserve">
-    <value>Execute</value>
+    <value>&amp;Execute</value>
   </data>
   <data name="&gt;&gt;executeButton.Name" xml:space="preserve">
     <value>executeButton</value>
@@ -816,17 +948,47 @@
   <data name="&gt;&gt;executeButton.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
-    <value>ID</value>
+  <data name="groupBox4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
-  <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
-    <value>Max</value>
+  <data name="&gt;&gt;robustAnalysisParameterDataGrid.Name" xml:space="preserve">
+    <value>robustAnalysisParameterDataGrid</value>
   </data>
-  <data name="dataGridViewTextBoxColumn3.HeaderText" xml:space="preserve">
-    <value>Min</value>
+  <data name="&gt;&gt;robustAnalysisParameterDataGrid.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="dataGridViewTextBoxColumn4.HeaderText" xml:space="preserve">
-    <value>Step</value>
+  <data name="&gt;&gt;robustAnalysisParameterDataGrid.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;robustAnalysisParameterDataGrid.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 352</value>
+  </data>
+  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>370, 99</value>
+  </data>
+  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>&amp;Parameter</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="robustAnalysisParameterDataGrid.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="robustAnalysisParameterDataGrid.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 18</value>
@@ -849,29 +1011,17 @@
   <data name="&gt;&gt;robustAnalysisParameterDataGrid.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 352</value>
+  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
+    <value>ID</value>
   </data>
-  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>370, 99</value>
+  <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
+    <value>Max</value>
   </data>
-  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="dataGridViewTextBoxColumn3.HeaderText" xml:space="preserve">
+    <value>Min</value>
   </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>Parameter</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="dataGridViewTextBoxColumn4.HeaderText" xml:space="preserve">
+    <value>Step</value>
   </data>
   <data name="abstractTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 12</value>

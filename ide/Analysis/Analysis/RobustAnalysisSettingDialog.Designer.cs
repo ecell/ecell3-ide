@@ -101,11 +101,11 @@
             // 
             // groupBox1
             // 
+            resources.ApplyResources(groupBox1, "groupBox1");
             groupBox1.Controls.Add(this.robustAnalysisWindowSizeTextBox);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(this.robustAnalysisSimulationTimeTextBox);
             groupBox1.Controls.Add(label2);
-            resources.ApplyResources(groupBox1, "groupBox1");
             groupBox1.Name = "groupBox1";
             groupBox1.TabStop = false;
             // 
@@ -131,12 +131,12 @@
             // 
             // groupBox2
             // 
+            resources.ApplyResources(groupBox2, "groupBox2");
             groupBox2.Controls.Add(this.robustAnalysisSampleNumberTextBox);
             groupBox2.Controls.Add(this.robustAnalysisRandomCheckBox);
             groupBox2.Controls.Add(this.robustAnalysisMatrixCheckBox);
             groupBox2.Controls.Add(label4);
             groupBox2.Controls.Add(label3);
-            resources.ApplyResources(groupBox2, "groupBox2");
             groupBox2.Name = "groupBox2";
             groupBox2.TabStop = false;
             // 
@@ -176,13 +176,13 @@
             // 
             // groupBox3
             // 
+            resources.ApplyResources(groupBox3, "groupBox3");
             groupBox3.Controls.Add(this.robustAnalysisMinFrequencyTextBox);
             groupBox3.Controls.Add(this.robustAnalysisMaxSampleTextBox);
             groupBox3.Controls.Add(label5);
             groupBox3.Controls.Add(this.robustAnalysisMaxFrequencyTextBox);
             groupBox3.Controls.Add(label7);
             groupBox3.Controls.Add(label6);
-            resources.ApplyResources(groupBox3, "groupBox3");
             groupBox3.Name = "groupBox3";
             groupBox3.TabStop = false;
             // 
@@ -203,8 +203,8 @@
             // 
             // groupBox5
             // 
-            groupBox5.Controls.Add(this.robustAnalysisObservedDataGrid);
             resources.ApplyResources(groupBox5, "groupBox5");
+            groupBox5.Controls.Add(this.robustAnalysisObservedDataGrid);
             groupBox5.Name = "groupBox5";
             groupBox5.TabStop = false;
             // 
@@ -212,6 +212,7 @@
             // 
             this.robustAnalysisObservedDataGrid.AllowUserToAddRows = false;
             this.robustAnalysisObservedDataGrid.AllowUserToDeleteRows = false;
+            resources.ApplyResources(this.robustAnalysisObservedDataGrid, "robustAnalysisObservedDataGrid");
             this.robustAnalysisObservedDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.robustAnalysisObservedDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.robustAnalysisObservedDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -220,7 +221,6 @@
             this.dataGridViewTextBoxColumn7,
             this.dataGridViewTextBoxColumn8,
             this.dataGridViewTextBoxColumn9});
-            resources.ApplyResources(this.robustAnalysisObservedDataGrid, "robustAnalysisObservedDataGrid");
             this.robustAnalysisObservedDataGrid.Name = "robustAnalysisObservedDataGrid";
             this.robustAnalysisObservedDataGrid.RowHeadersVisible = false;
             this.robustAnalysisObservedDataGrid.RowTemplate.Height = 21;
@@ -256,29 +256,29 @@
             // 
             // cancelButton
             // 
-            cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(cancelButton, "cancelButton");
+            cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             cancelButton.Name = "cancelButton";
             cancelButton.UseVisualStyleBackColor = true;
             // 
             // okButton
             // 
-            okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(okButton, "okButton");
+            okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             okButton.Name = "okButton";
             okButton.UseVisualStyleBackColor = true;
             // 
             // executeButton
             // 
-            executeButton.DialogResult = System.Windows.Forms.DialogResult.Ignore;
             resources.ApplyResources(executeButton, "executeButton");
+            executeButton.DialogResult = System.Windows.Forms.DialogResult.Ignore;
             executeButton.Name = "executeButton";
             executeButton.UseVisualStyleBackColor = true;
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.robustAnalysisParameterDataGrid);
             resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Controls.Add(this.robustAnalysisParameterDataGrid);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
@@ -286,6 +286,7 @@
             // 
             this.robustAnalysisParameterDataGrid.AllowUserToAddRows = false;
             this.robustAnalysisParameterDataGrid.AllowUserToDeleteRows = false;
+            resources.ApplyResources(this.robustAnalysisParameterDataGrid, "robustAnalysisParameterDataGrid");
             this.robustAnalysisParameterDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.robustAnalysisParameterDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.robustAnalysisParameterDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -293,7 +294,6 @@
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewTextBoxColumn3,
             this.dataGridViewTextBoxColumn4});
-            resources.ApplyResources(this.robustAnalysisParameterDataGrid, "robustAnalysisParameterDataGrid");
             this.robustAnalysisParameterDataGrid.Name = "robustAnalysisParameterDataGrid";
             this.robustAnalysisParameterDataGrid.RowHeadersVisible = false;
             this.robustAnalysisParameterDataGrid.RowTemplate.Height = 21;

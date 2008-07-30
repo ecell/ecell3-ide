@@ -161,7 +161,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_param.EstimationFormulator.Equals(""))
             {
                 Util.ShowErrorDialog(string.Format(MessageResources.ErrNoSet,
-                    new object[] { MessageResources.NameEstimationForm }));
+                    new object[] { MessageResources.NameEstimationForm, 1 }));
 
                 return;
             }

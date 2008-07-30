@@ -76,6 +76,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// The ID of the selected Model now.
         /// </summary>
         private string m_currentModelID = null;
+        protected ImageList m_icons;
         /// <summary>
         /// The status of selected Model now.
         /// </summary>
@@ -221,6 +222,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         public override void Initialize()
         {
             InitializeComponents();
+            m_icons = m_env.PluginManager.NodeImageList;
+
         }
         #endregion
 
@@ -488,8 +491,20 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             for (int i = 0; i < len; i++)
             {
                 string data = GetData(m_systemProp[i], obj);
-                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-                c.Value = data;
+                DataGridViewCell c;
+                if (m_variableProp[i].Equals(s_indexType))
+                {
+                    c = new DataGridViewImageCell();
+                    c.Value = m_icons.Images[obj.Type];
+                    c.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+                else
+                {
+                    c = new DataGridViewTextBoxCell();
+                    c.Value = data;
+                }
+                //DataGridViewCell c = new DataGridViewTextBoxCell();
+                //c.Value = data;
                 rs.Cells.Add(c);
                 c.ReadOnly = true;
                 foreach (string name in m_notEditProp)
@@ -533,8 +548,18 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             for (int i = 0; i < len; i++)
             {
                 string data = GetData(m_variableProp[i], obj);
-                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-                c.Value = data;
+                DataGridViewCell c;
+                if (m_variableProp[i].Equals(s_indexType))
+                {
+                    c = new DataGridViewImageCell();
+                    c.Value = m_icons.Images[obj.Type];
+                    c.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+                else
+                {
+                    c = new DataGridViewTextBoxCell();
+                    c.Value = data;
+                }
                 rs.Cells.Add(c);
                 c.ReadOnly = true;
                 foreach (string name in m_notEditProp)
@@ -578,8 +603,19 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             for (int i = 0; i < len; i++)
             {
                 string data = GetData(m_processProp[i], obj);
-                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-                c.Value = data;
+                DataGridViewCell c;
+                if (m_processProp[i].Equals(s_indexType))
+                {
+                    c = new DataGridViewImageCell();
+                    c.Value = m_icons.Images[obj.Type];
+                    c.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+                else
+                {
+                    c = new DataGridViewTextBoxCell();
+                    c.Value = data;
+                }
+
                 rs.Cells.Add(c);
                 c.ReadOnly = true;
                 foreach (string name in m_notEditProp)

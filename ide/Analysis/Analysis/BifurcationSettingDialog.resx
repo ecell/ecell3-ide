@@ -136,10 +136,10 @@
     <value>87, 12</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Simulation Time</value>
+    <value>&amp;Simulation Time</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -169,10 +169,10 @@
     <value>68, 12</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Window Size</value>
+    <value>&amp;Window Size</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -202,10 +202,10 @@
     <value>133, 12</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>5</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>The max number of input</value>
+    <value>The max number of &amp;input</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -235,10 +235,10 @@
     <value>80, 12</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>7</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Max frequency</value>
+    <value>Ma&amp;x frequency</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
@@ -268,10 +268,10 @@
     <value>77, 12</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>9</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Min frequency</value>
+    <value>Mi&amp;n frequency</value>
   </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
@@ -288,6 +288,9 @@
   <metadata name="cancelButton.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
+  <data name="cancelButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
   <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>305, 494</value>
   </data>
@@ -295,7 +298,7 @@
     <value>75, 23</value>
   </data>
   <data name="cancelButton.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>17</value>
   </data>
   <data name="cancelButton.Text" xml:space="preserve">
     <value>Cancel</value>
@@ -315,6 +318,9 @@
   <metadata name="okButton.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
+  <data name="okButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
   <data name="okButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>224, 494</value>
   </data>
@@ -322,7 +328,7 @@
     <value>75, 23</value>
   </data>
   <data name="okButton.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>16</value>
   </data>
   <data name="okButton.Text" xml:space="preserve">
     <value>OK</value>
@@ -342,6 +348,9 @@
   <metadata name="executeButton.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
+  <data name="executeButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
   <data name="executeButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 494</value>
   </data>
@@ -349,10 +358,10 @@
     <value>75, 23</value>
   </data>
   <data name="executeButton.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>15</value>
   </data>
   <data name="executeButton.Text" xml:space="preserve">
-    <value>Execute</value>
+    <value>&amp;Execute</value>
   </data>
   <data name="&gt;&gt;executeButton.Name" xml:space="preserve">
     <value>executeButton</value>
@@ -376,7 +385,7 @@
     <value>194, 19</value>
   </data>
   <data name="bifurcationSimulationTimeTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="bifurcationSimulationTimeTextBox.Text" xml:space="preserve">
     <value>100.0</value>
@@ -406,7 +415,7 @@
     <value>194, 19</value>
   </data>
   <data name="bifurcationWindowSizeTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="bifurcationWindowSizeTextBox.Text" xml:space="preserve">
     <value>10.0</value>
@@ -425,6 +434,9 @@
   </data>
   <data name="&gt;&gt;bifurcationWindowSizeTextBox.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="groupBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 78</value>
@@ -460,7 +472,7 @@
     <value>194, 19</value>
   </data>
   <data name="bifurcationMaxInputTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>6</value>
   </data>
   <data name="bifurcationMaxInputTextBox.Text" xml:space="preserve">
     <value>65535</value>
@@ -490,7 +502,7 @@
     <value>194, 19</value>
   </data>
   <data name="bifurcationMaxFrequencyTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>8</value>
   </data>
   <data name="bifurcationMaxFrequencyTextBox.Text" xml:space="preserve">
     <value>50.0</value>
@@ -520,7 +532,7 @@
     <value>194, 19</value>
   </data>
   <data name="bifurcationMinFrequencyTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>10</value>
   </data>
   <data name="bifurcationMinFrequencyTextBox.Text" xml:space="preserve">
     <value>30.0</value>
@@ -539,6 +551,9 @@
   </data>
   <data name="&gt;&gt;bifurcationMinFrequencyTextBox.ZOrder" xml:space="preserve">
     <value>4</value>
+  </data>
+  <data name="groupBox2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 154</value>
@@ -564,6 +579,9 @@
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
+  <data name="bifurcationParameterDataGrid.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
   <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
     <value>ID</value>
   </data>
@@ -583,7 +601,7 @@
     <value>354, 90</value>
   </data>
   <data name="bifurcationParameterDataGrid.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>12</value>
   </data>
   <data name="&gt;&gt;bifurcationParameterDataGrid.Name" xml:space="preserve">
     <value>bifurcationParameterDataGrid</value>
@@ -597,6 +615,9 @@
   <data name="&gt;&gt;bifurcationParameterDataGrid.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="groupBox3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 254</value>
   </data>
@@ -604,10 +625,10 @@
     <value>374, 114</value>
   </data>
   <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>11</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
-    <value>Parameters</value>
+    <value>&amp;Parameters</value>
   </data>
   <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
     <value>groupBox3</value>
@@ -620,6 +641,9 @@
   </data>
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
     <value>5</value>
+  </data>
+  <data name="bifurcationObservedDataGrid.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="dataGridViewTextBoxColumn5.HeaderText" xml:space="preserve">
     <value>ID</value>
@@ -643,7 +667,7 @@
     <value>354, 90</value>
   </data>
   <data name="bifurcationObservedDataGrid.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>14</value>
   </data>
   <data name="&gt;&gt;bifurcationObservedDataGrid.Name" xml:space="preserve">
     <value>bifurcationObservedDataGrid</value>
@@ -657,6 +681,9 @@
   <data name="&gt;&gt;bifurcationObservedDataGrid.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="groupBox4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
   <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 374</value>
   </data>
@@ -664,10 +691,10 @@
     <value>368, 114</value>
   </data>
   <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>13</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
-    <value>Observed data</value>
+    <value>&amp;Observed data</value>
   </data>
   <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
     <value>groupBox4</value>
