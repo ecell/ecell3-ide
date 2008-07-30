@@ -133,10 +133,10 @@
     <value>48, 12</value>
   </data>
   <data name="label7.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>14</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>Property</value>
+    <value>&amp;Property</value>
   </data>
   <data name="&gt;&gt;label7.Name" xml:space="preserve">
     <value>label7</value>
@@ -157,7 +157,7 @@
     <value>35, 23</value>
   </data>
   <data name="SSDeleteStepperButton.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>11</value>
   </data>
   <data name="SSDeleteStepperButton.Text" xml:space="preserve">
     <value>-</value>
@@ -181,7 +181,7 @@
     <value>35, 23</value>
   </data>
   <data name="SSAddStepperButton.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>10</value>
   </data>
   <data name="SSAddStepperButton.Text" xml:space="preserve">
     <value>+</value>
@@ -208,7 +208,7 @@
     <value>311, 52</value>
   </data>
   <data name="stepperListBox.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>9</value>
   </data>
   <data name="&gt;&gt;stepperListBox.Name" xml:space="preserve">
     <value>stepperListBox</value>
@@ -271,7 +271,7 @@
     <value>352, 178</value>
   </data>
   <data name="dgv.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+    <value>15</value>
   </data>
   <data name="&gt;&gt;dgv.Name" xml:space="preserve">
     <value>dgv</value>
@@ -292,7 +292,7 @@
     <value>311, 20</value>
   </data>
   <data name="stepCombo.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>13</value>
   </data>
   <data name="&gt;&gt;stepCombo.Name" xml:space="preserve">
     <value>stepCombo</value>
@@ -313,13 +313,13 @@
     <value>13, 76</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 12</value>
+    <value>61, 12</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>12</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>classname</value>
+    <value>C&amp;lassname</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -340,13 +340,13 @@
     <value>13, 18</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 12</value>
+    <value>59, 12</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>8</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>stepperID</value>
+    <value>&amp;Stepper ID</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -406,10 +406,10 @@
     <value>114, 16</value>
   </data>
   <data name="freqByStepRadio.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>8</value>
   </data>
   <data name="freqByStepRadio.Text" xml:space="preserve">
-    <value>log after every</value>
+    <value>&amp;Steps</value>
   </data>
   <data name="&gt;&gt;freqByStepRadio.Name" xml:space="preserve">
     <value>freqByStepRadio</value>
@@ -436,10 +436,10 @@
     <value>114, 16</value>
   </data>
   <data name="freqBySecRadio.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>10</value>
   </data>
   <data name="freqBySecRadio.Text" xml:space="preserve">
-    <value>log after every</value>
+    <value>S&amp;econds</value>
   </data>
   <data name="&gt;&gt;freqBySecRadio.Name" xml:space="preserve">
     <value>freqBySecRadio</value>
@@ -526,7 +526,7 @@
     <value>249, 19</value>
   </data>
   <data name="freqByStepTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>9</value>
   </data>
   <data name="&gt;&gt;freqByStepTextBox.Name" xml:space="preserve">
     <value>freqByStepTextBox</value>
@@ -550,7 +550,7 @@
     <value>249, 19</value>
   </data>
   <data name="freqBySecTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>11</value>
   </data>
   <data name="&gt;&gt;freqBySecTextBox.Name" xml:space="preserve">
     <value>freqBySecTextBox</value>
@@ -637,10 +637,10 @@
     <value>114, 16</value>
   </data>
   <data name="exceptionRadio.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>12</value>
   </data>
   <data name="exceptionRadio.Text" xml:space="preserve">
-    <value>ThrowException</value>
+    <value>&amp;ThrowException</value>
   </data>
   <data name="&gt;&gt;exceptionRadio.Name" xml:space="preserve">
     <value>exceptionRadio</value>
@@ -667,10 +667,10 @@
     <value>114, 16</value>
   </data>
   <data name="overrideRadio.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>13</value>
   </data>
   <data name="overrideRadio.Text" xml:space="preserve">
-    <value>Override earlist data</value>
+    <value>&amp;Override earlist data</value>
   </data>
   <data name="&gt;&gt;overrideRadio.Name" xml:space="preserve">
     <value>overrideRadio</value>
@@ -757,10 +757,10 @@
     <value>114, 16</value>
   </data>
   <data name="noLimitRadio.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>14</value>
   </data>
   <data name="noLimitRadio.Text" xml:space="preserve">
-    <value>No limit</value>
+    <value>&amp;No limit</value>
   </data>
   <data name="&gt;&gt;noLimitRadio.Name" xml:space="preserve">
     <value>noLimitRadio</value>
@@ -787,10 +787,10 @@
     <value>114, 16</value>
   </data>
   <data name="maxSizeRadio.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>15</value>
   </data>
   <data name="maxSizeRadio.Text" xml:space="preserve">
-    <value>Maximum</value>
+    <value>Ma&amp;ximum</value>
   </data>
   <data name="&gt;&gt;maxSizeRadio.Name" xml:space="preserve">
     <value>maxSizeRadio</value>
@@ -844,7 +844,7 @@
     <value>249, 19</value>
   </data>
   <data name="maxKbTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>16</value>
   </data>
   <data name="&gt;&gt;maxKbTextBox.Name" xml:space="preserve">
     <value>maxKbTextBox</value>
@@ -982,13 +982,13 @@
     <value>True</value>
   </metadata>
   <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
-    <value>id</value>
+    <value>Id</value>
   </data>
   <metadata name="dataGridViewTextBoxColumn2.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
-    <value>initial value</value>
+    <value>Initial value</value>
   </data>
   <data name="InitVarDGV.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 6</value>
@@ -1177,13 +1177,13 @@
     <value>12, 44</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 12</value>
+    <value>68, 12</value>
   </data>
   <data name="label6.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>6</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>modelID</value>
+    <value>&amp;Model Name</value>
   </data>
   <data name="&gt;&gt;label6.Name" xml:space="preserve">
     <value>label6</value>
@@ -1204,7 +1204,7 @@
     <value>169, 20</value>
   </data>
   <data name="modelCombo.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>7</value>
   </data>
   <data name="&gt;&gt;modelCombo.Name" xml:space="preserve">
     <value>modelCombo</value>
@@ -1225,7 +1225,7 @@
     <value>39, 23</value>
   </data>
   <data name="SSCreateButton.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="SSCreateButton.Text" xml:space="preserve">
     <value>+</value>
@@ -1249,7 +1249,7 @@
     <value>169, 20</value>
   </data>
   <data name="paramCombo.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;paramCombo.Name" xml:space="preserve">
     <value>paramCombo</value>
@@ -1270,7 +1270,7 @@
     <value>39, 23</value>
   </data>
   <data name="SSDeleteButton.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="SSDeleteButton.Text" xml:space="preserve">
     <value>-</value>
@@ -1294,7 +1294,7 @@
     <value>67, 23</value>
   </data>
   <data name="SSSetButton.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="SSSetButton.Text" xml:space="preserve">
     <value>&amp;Set</value>
@@ -1321,7 +1321,7 @@
     <value>74, 23</value>
   </data>
   <data name="SSApplyButton.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+    <value>17</value>
   </data>
   <data name="SSApplyButton.Text" xml:space="preserve">
     <value>OK</value>
@@ -1348,7 +1348,7 @@
     <value>74, 23</value>
   </data>
   <data name="SSCloseButton.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+    <value>18</value>
   </data>
   <data name="SSCloseButton.Text" xml:space="preserve">
     <value>Cancel</value>
@@ -1378,7 +1378,7 @@
     <value>1</value>
   </data>
   <data name="configurationLabel.Text" xml:space="preserve">
-    <value>Configuration</value>
+    <value>&amp;Configuration</value>
   </data>
   <data name="&gt;&gt;configurationLabel.Name" xml:space="preserve">
     <value>configurationLabel</value>
@@ -1594,18 +1594,6 @@
   <data name="&gt;&gt;Set.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn1.Name" xml:space="preserve">
-    <value>dataGridViewTextBoxColumn1</value>
-  </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn2.Name" xml:space="preserve">
-    <value>dataGridViewTextBoxColumn2</value>
-  </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;id.Name" xml:space="preserve">
     <value>id</value>
   </data>
@@ -1618,8 +1606,20 @@
   <data name="&gt;&gt;initialvalue.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;dataGridViewTextBoxColumn1.Name" xml:space="preserve">
+    <value>dataGridViewTextBoxColumn1</value>
+  </data>
+  <data name="&gt;&gt;dataGridViewTextBoxColumn1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dataGridViewTextBoxColumn2.Name" xml:space="preserve">
+    <value>dataGridViewTextBoxColumn2</value>
+  </data>
+  <data name="&gt;&gt;dataGridViewTextBoxColumn2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>SimulationSetup</value>
+    <value>SimulationConfigurationDialog</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

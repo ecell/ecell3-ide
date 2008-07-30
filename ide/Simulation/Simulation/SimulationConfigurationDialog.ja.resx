@@ -120,6 +120,63 @@
   <data name="$this.Text" xml:space="preserve">
     <value>シミュレーション設定</value>
   </data>
+  <data name="configurationLabel.Text" xml:space="preserve">
+    <value>設定(&amp;S)</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
+    <value>初期値</value>
+  </data>
+  <data name="exceptionRadio.Text" xml:space="preserve">
+    <value>例外を発生(&amp;T)</value>
+  </data>
+  <data name="freqBySecRadio.Text" xml:space="preserve">
+    <value>秒単位(&amp;E)</value>
+  </data>
+  <data name="freqByStepRadio.Text" xml:space="preserve">
+    <value>ステップ単位(&amp;P)</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>保存頻度</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>ディスクがフルのときの処理</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>ディスクの使用方法</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>クラス名(&amp;L)</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>ステップ</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>モデル名(&amp;M)</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>プロパティ(&amp;P)</value>
+  </data>
+  <data name="loggingPage.Text" xml:space="preserve">
+    <value>ロギング</value>
+  </data>
+  <data name="maxSizeRadio.Text" xml:space="preserve">
+    <value>最大サイズ(&amp;X)</value>
+  </data>
+  <data name="noLimitRadio.Text" xml:space="preserve">
+    <value>無制限(&amp;N)</value>
+  </data>
+  <data name="overrideRadio.Text" xml:space="preserve">
+    <value>上書き(&amp;O)</value>
+  </data>
+  <data name="Property.HeaderText" xml:space="preserve">
+    <value>プロパティ名</value>
+  </data>
   <data name="SSApplyButton.Text" xml:space="preserve">
     <value>OK</value>
   </data>
@@ -133,6 +190,12 @@
     <value>-</value>
   </data>
   <data name="SSSetButton.Text" xml:space="preserve">
-    <value>設定(&amp;S)</value>
+    <value>設定(&amp;C)</value>
+  </data>
+  <data name="tabPage1.Text" xml:space="preserve">
+    <value>初期値</value>
+  </data>
+  <data name="Value.HeaderText" xml:space="preserve">
+    <value>値</value>
   </data>
 </root>

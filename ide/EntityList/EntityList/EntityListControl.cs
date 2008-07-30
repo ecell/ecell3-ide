@@ -170,12 +170,13 @@ namespace Ecell.IDE.Plugins.EntityList
             int i = 0;
             for (; i < objectListDataGrid.Rows.Count ; i++)
             {
-                if (TypeConverter(type, objectListDataGrid[s_indexType, i].Value.ToString()) == 0)
+                EcellObject obj = objectListDataGrid.Rows[i].Tag as EcellObject;
+                if (TypeConverter(type, obj.Type) == 0)
                 {
-                    if (String.Compare(key, objectListDataGrid[s_indexClass, i].Value.ToString()) < 0)
+                    if (String.Compare(key, obj.Type) < 0)
                         return i;
                 }
-                else if (TypeConverter(type, objectListDataGrid[s_indexType, i].Value.ToString()) == 1)
+                else if (TypeConverter(type, obj.Type) == 1)
                 {
                     return i;
                 }

@@ -67,8 +67,6 @@
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.InitVarDGV = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.InitProDGV = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -82,6 +80,8 @@
             this.SSApplyButton = new System.Windows.Forms.Button();
             this.SSCloseButton = new System.Windows.Forms.Button();
             this.configurationLabel = new System.Windows.Forms.Label();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.stepperPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
@@ -383,18 +383,6 @@
             this.InitVarDGV.RowHeadersVisible = false;
             this.InitVarDGV.RowTemplate.Height = 21;
             // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.FillWeight = 200F;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.FillWeight = 101.5228F;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn2, "dataGridViewTextBoxColumn2");
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.InitProDGV);
@@ -480,7 +468,19 @@
             resources.ApplyResources(this.configurationLabel, "configurationLabel");
             this.configurationLabel.Name = "configurationLabel";
             // 
-            // SimulationSetup
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.FillWeight = 200F;
+            resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.FillWeight = 101.5228F;
+            resources.ApplyResources(this.dataGridViewTextBoxColumn2, "dataGridViewTextBoxColumn2");
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // SimulationConfigurationDialog
             // 
             this.AcceptButton = this.SSApplyButton;
             resources.ApplyResources(this, "$this");
@@ -496,7 +496,7 @@
             this.Controls.Add(this.paramCombo);
             this.Controls.Add(this.modelCombo);
             this.Controls.Add(this.label6);
-            this.Name = "SimulationSetup";
+            this.Name = "SimulationConfigurationDialog";
             this.Shown += new System.EventHandler(this.ShowSimulationSetupWin);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SetupKeyPress);
             this.tabControl1.ResumeLayout(false);
@@ -558,8 +558,6 @@
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn initialvalue;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.Button SSCreateButton;
         private System.Windows.Forms.Button SSDeleteButton;
         private System.Windows.Forms.Button SSSetButton;
@@ -589,5 +587,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Get;
         private System.Windows.Forms.DataGridViewTextBoxColumn Set;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
     }
 }
