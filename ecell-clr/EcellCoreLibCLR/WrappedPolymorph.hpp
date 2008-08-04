@@ -1,10 +1,18 @@
 #pragma once
 
-#include "libecs/Polymorph.hpp"
+#include <libecs/Polymorph.hpp>
 
 namespace EcellCoreLib {
 	using namespace System;
 	using namespace System::Collections::Generic;
+
+    public enum class PolymorphType {
+        None = libecs::Polymorph::NONE,
+        Real = libecs::Polymorph::REAL,
+        Integer = libecs::Polymorph::INTEGER,
+        String = libecs::Polymorph::STRING,
+        PolymorphVector = libecs::Polymorph::POLYMORPH_VECTOR
+    };
 
     public ref class WrappedPolymorph {
     private:
