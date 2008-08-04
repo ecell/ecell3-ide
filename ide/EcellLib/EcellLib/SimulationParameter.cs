@@ -174,7 +174,7 @@ namespace Ecell
                         || !ecellData.Settable
                         || !ecellData.Loadable
                         || ecellData.Value == null
-                        || (ecellData.Value.IsString() &&
+                        || (ecellData.Value.IsString &&
                             ecellData.Value.CastToString().Length <= 0))
                         continue;
                     m_tx.WriteStartElement(Constants.xpathProperty.ToLower());

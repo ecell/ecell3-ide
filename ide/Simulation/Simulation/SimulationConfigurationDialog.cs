@@ -307,16 +307,16 @@ namespace Ecell.IDE.Plugins.Simulation
                     foreach (EcellData tmp in m_selectValue)
                     {
                         if (tmp.Name != name) continue;
-                        if (tmp.Value.IsInt())
+                        if (tmp.Value.IsInt)
                             tmp.Value = new EcellValue(Convert.ToInt32(value));
-                        else if (tmp.Value.IsDouble())
+                        else if (tmp.Value.IsDouble)
                         {
                             if (value == "1.79769313486232E+308")
                                 tmp.Value = new EcellValue(Double.MaxValue);
                             else
                                 tmp.Value = new EcellValue(System.Double.Parse(value));
                         }
-                        else if (tmp.Value.IsList())
+                        else if (tmp.Value.IsList)
                             tmp.Value = EcellValue.ToList(value);
                         else
                             tmp.Value = new EcellValue(value);

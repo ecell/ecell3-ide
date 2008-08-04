@@ -356,9 +356,9 @@ namespace Ecell
                     // GetValue
                     EcellValue value = destEcellData.Value;
                     double temp = 0;
-                    if (value.IsDouble())
+                    if (value.IsDouble)
                         temp = value.CastToDouble();
-                    else if (value.IsInt())
+                    else if (value.IsInt)
                         temp = value.CastToInt();
                     else
                         continue;
@@ -419,9 +419,9 @@ namespace Ecell
 
                         // GetValue
                         double temp = 0;
-                        if (value.IsDouble())
+                        if (value.IsDouble)
                             temp = value.CastToDouble();
-                        else if (value.IsInt())
+                        else if (value.IsInt)
                             temp = value.CastToInt();
                         else
                             continue;
@@ -530,7 +530,7 @@ namespace Ecell
                 List<EcellValue> changedElements = new List<EcellValue>();
                 foreach (EcellValue element in ecellValue.CastToList())
                 {
-                    if (element.IsString()
+                    if (element.IsString
                         && element.CastToString().StartsWith(Constants.delimiterColon))
                     {
                         string oldKey = element.CastToString().Substring(1);
@@ -594,7 +594,7 @@ namespace Ecell
                             List<EcellValue> changedElements = new List<EcellValue>();
                             foreach (EcellValue element in ecellValue.CastToList())
                             {
-                                if (element.IsString()
+                                if (element.IsString
                                     && element.CastToString().Equals(Constants.delimiterColon + oldKey))
                                 {
                                     changedElements.Add(
@@ -1097,9 +1097,9 @@ namespace Ecell
                         continue;
 
                     double value = 0;
-                    if (data.Value.IsDouble())
+                    if (data.Value.IsDouble)
                         value = data.Value.CastToDouble();
-                    else if (data.Value.IsInt())
+                    else if (data.Value.IsInt)
                         value = data.Value.CastToInt();
 
                     initialCondition[data.EntityPath] = value;
@@ -3382,7 +3382,7 @@ namespace Ecell
                             EcellValue storedValue = new EcellValue(simulator.GetEntityProperty(fullPN));
                             double initialValue = initialCondition[modelID][type][fullPN];
                             WrappedPolymorph newValue = null;
-                            if (storedValue.IsInt())
+                            if (storedValue.IsInt)
                             {
                                 int initialValueInt = Convert.ToInt32(initialValue);
                                 if (storedValue.CastToInt().Equals(initialValueInt))
@@ -3810,7 +3810,7 @@ namespace Ecell
                                         || !storedData.EntityPath.Equals(newData.EntityPath))
                                         continue;
 
-                                    if (storedData.Value.IsDouble())
+                                    if (storedData.Value.IsDouble)
                                     {
                                         newData.Value = GetEcellValue(newData);
                                     }
@@ -3925,7 +3925,7 @@ namespace Ecell
                 {
                     if (ecellData.Name == null || ecellData.Name.Length <= 0 || ecellData.Value == null)
                         continue;
-                    else if (!ecellData.Value.IsDouble() && !ecellData.Value.IsInt())
+                    else if (!ecellData.Value.IsDouble && !ecellData.Value.IsInt)
                         continue;
 
                     // 4 MaxStepInterval == Double.MaxValue
@@ -3946,7 +3946,7 @@ namespace Ecell
                         continue;
                     }
 
-                    if (velue.IsDouble()
+                    if (velue.IsDouble
                         && (Double.IsInfinity(velue.CastToDouble()) || Double.IsNaN(velue.CastToDouble())))
                         continue;
 
@@ -4105,7 +4105,7 @@ namespace Ecell
                         EcellValue value = ecellData.Value;
                         if (string.IsNullOrEmpty(ecellData.Name)
                                 || value == null
-                                || (value.IsString() && value.CastToString().Length == 0))
+                                || (value.IsString && value.CastToString().Length == 0))
                         {
                             continue;
                         }
@@ -4115,7 +4115,7 @@ namespace Ecell
                             loggerList.Add(ecellData.EntityPath);
                         }
 
-                        if (value.IsDouble()
+                        if (value.IsDouble
                             && (Double.IsInfinity(value.CastToDouble()) || Double.IsNaN(value.CastToDouble())))
                         {
                             continue;
@@ -4971,15 +4971,15 @@ namespace Ecell
             EcellValue storedValue
                 = new EcellValue(m_currentProject.Simulator.GetEntityProperty(fullPN));
             EcellValue newValue = null;
-            if (storedValue.IsDouble())
+            if (storedValue.IsDouble)
             {
                 newValue = new EcellValue(XmlConvert.ToDouble(value));
             }
-            else if (storedValue.IsInt())
+            else if (storedValue.IsInt)
             {
                 newValue = new EcellValue(XmlConvert.ToInt32(value));
             }
-            else if (storedValue.IsList())
+            else if (storedValue.IsList)
             {
                 // newValue = new EcellValue(value);
                 return;

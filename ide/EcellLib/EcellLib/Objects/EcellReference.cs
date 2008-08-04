@@ -254,7 +254,7 @@ namespace Ecell.Objects
         /// <returns>The tag of VariableReferenceList.</returns>
         public static EcellValue ConvertReferenceInEml(String systemPath, EcellValue org)
         {
-            if (!org.IsList()) return org;
+            if (!org.IsList) return org;
             List<EcellValue> list = new List<EcellValue>();
             foreach (EcellValue v in org.CastToList())
             {

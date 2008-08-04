@@ -176,8 +176,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             if (m_current == null) return;
             foreach (EcellData d in m_current.Value)
             {
-                if (!d.Value.IsDouble() &&
-                    !d.Value.IsInt())
+                if (!d.Value.IsDouble &&
+                    !d.Value.IsInt)
                     continue;
                 for (int i = 0; i < m_dgv.Rows.Count; i++)
                 {
@@ -336,7 +336,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             if (m_current == null || m_current.Value == null) return;
             foreach (EcellData d in m_current.Value)
             {
-                if (d.Gettable && (d.Value.IsDouble()))
+                if (d.Gettable && (d.Value.IsDouble))
                 {
                     EcellValue e = m_dManager.GetEntityProperty(d.EntityPath);
                     foreach (DataGridViewRow r in m_dgv.Rows)
@@ -788,7 +788,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     continue;
                 if (!d.Logable && !d.Settable)
                     break;
-                if (!d.Value.IsDouble())
+                if (!d.Value.IsDouble)
                     break;
                 EcellDragObject dobj = new EcellDragObject(m_current.ModelID,
                     m_current.Key,
@@ -1083,9 +1083,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     {
                         try
                         {
-                            if (d.Value.IsInt())
+                            if (d.Value.IsInt)
                                 d.Value = new EcellValue(Convert.ToInt32(data));
-                            else if (d.Value.IsDouble())
+                            else if (d.Value.IsDouble)
                                 d.Value = new EcellValue(Convert.ToDouble(data));
                             else
                                 d.Value = new EcellValue(data);

@@ -308,7 +308,7 @@ namespace Ecell.Objects
             {
                 return false;
             }
-            if (this.Value == null || (!this.Value.IsInt() && !this.Value.IsDouble()))
+            if (this.Value == null || (!this.Value.IsInt && !this.Value.IsDouble))
             {
                 return false;
             }

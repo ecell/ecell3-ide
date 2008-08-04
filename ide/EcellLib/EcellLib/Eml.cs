@@ -154,7 +154,7 @@ namespace Ecell
                 if (ecellData == null || !ecellData.Saveable)
                     continue;
                 if (ecellData.Value == null
-                    || (ecellData.Value.IsString() && ecellData.Value.CastToString().Length <= 0))
+                    || (ecellData.Value.IsString && ecellData.Value.CastToString().Length <= 0))
                     continue;
 
                 m_tx.WriteStartElement(Constants.xpathProperty.ToLower());

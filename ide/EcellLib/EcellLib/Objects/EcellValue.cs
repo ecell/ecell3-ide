@@ -189,6 +189,69 @@ namespace Ecell.Objects
                 m_type = this.Value.GetType();
             }
         }
+
+        /// <summary>
+        /// Tests whether the type is a "int" type.
+        /// </summary>
+        /// <returns>true if the type is "int"; false otherwise</returns>
+        public bool IsInt
+        {
+            get
+            {
+                Type type = typeof(int);
+                return CheckValueType(type);
+            }
+        }
+
+        /// <summary>
+        /// Tests whether the type is a "double" type.
+        /// </summary>
+        /// <returns>true if the type is "double"; false otherwise</returns>
+        public bool IsDouble
+        {
+            get
+            {
+                Type type = typeof(double);
+                return CheckValueType(type);
+            }
+        }
+        /// <summary>
+        /// Tests whether the type is a "string" type.
+        /// </summary>
+        /// <returns>true if the type is "string"; false otherwise</returns>
+        public bool IsString
+        {
+            get
+            {
+                Type type = typeof(string);
+                return CheckValueType(type);
+            }
+        }
+        /// <summary>
+        /// Tests whether the type is the list of EcellValue type.
+        /// </summary>
+        /// <returns>true if the type is the list of EcellValue; false otherwise</returns>
+        public bool IsList
+        {
+            get
+            {
+                Type type = typeof(List<EcellValue>);
+                return CheckValueType(type);
+            }
+        }
+
+        private bool CheckValueType(Type type)
+        {
+            if (this.m_type == type)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -228,19 +291,19 @@ namespace Ecell.Objects
             {
                 return null;
             }
-            if (ecellValue.IsDouble())
+            if (ecellValue.IsDouble)
             {
                 ArrayList arrayList = new ArrayList();
                 arrayList.Add(ecellValue.CastToDouble().ToString());
                 return arrayList;
             }
-            else if (ecellValue.IsInt())
+            else if (ecellValue.IsInt)
             {
                 ArrayList arrayList = new ArrayList();
                 arrayList.Add(ecellValue.CastToInt().ToString());
                 return arrayList;
             }
-            else if (ecellValue.IsList())
+            else if (ecellValue.IsList)
             {
                 ArrayList arrayList = new ArrayList();
                 foreach (EcellValue childEcellValue in ecellValue.CastToList())
@@ -264,7 +327,7 @@ namespace Ecell.Objects
         /// <returns>The "double" value</returns>
         public double CastToDouble()
         {
-            if (this.IsDouble())
+            if (this.IsDouble)
             {
                 return Convert.ToDouble(this.Value);
             }
@@ -310,7 +373,7 @@ namespace Ecell.Objects
         /// <returns>The "int" value</returns>
         public int CastToInt()
         {
-            if (this.IsInt())
+            if (this.IsInt)
             {
                 return (int)this.Value;
             }
@@ -326,7 +389,7 @@ namespace Ecell.Objects
         /// <returns>The list of EcellValue</returns>
         public List<EcellValue> CastToList()
         {
-            if (this.IsList())
+            if (this.IsList)
             {
                 return this.Value as List<EcellValue>;
             }
@@ -342,9 +405,9 @@ namespace Ecell.Objects
         /// <returns>The "string" value</returns>
         public string CastToString()
         {
-            if (this.IsString())
+            if (this.IsString)
             {
-                return this.Value as string;
+                return this.Value.ToString();
             }
             else
             {
@@ -359,15 +422,15 @@ namespace Ecell.Objects
         /// <returns>The "WrappedPolymorph" value</returns>
         internal static WrappedPolymorph CastToWrappedPolymorph4EcellValue(EcellValue ecellValue)
         {
-            if (ecellValue.IsDouble())
+            if (ecellValue.IsDouble)
             {
                 return new WrappedPolymorph(ecellValue.CastToDouble());
             }
-            else if (ecellValue.IsInt())
+            else if (ecellValue.IsInt)
             {
                 return new WrappedPolymorph(ecellValue.CastToInt());
             }
-            else if (ecellValue.IsList())
+            else if (ecellValue.IsList)
             {
                 List<WrappedPolymorph> wrappedPolymorphList = new List<WrappedPolymorph>();
                 foreach (EcellValue childEcellValue in ecellValue.CastToList())
@@ -392,7 +455,7 @@ namespace Ecell.Objects
             {
                 return null;
             }
-            if (this.IsList())
+            if (this.IsList)
             {
                 return this.ToString4List((List<EcellValue>)this.Value);
             }
@@ -452,15 +515,15 @@ namespace Ecell.Objects
             String value = "";
             foreach (EcellValue ecellValue in ecellValueList)
             {
-                if (ecellValue.IsList())
+                if (ecellValue.IsList)
                 {
                     value += ", " + this.ToString4List(ecellValue.CastToList());
                 }
-                else if (ecellValue.IsInt())
+                else if (ecellValue.IsInt)
                 {
                     value += ", " + ecellValue.CastToInt();
                 }
-                else if (ecellValue.IsDouble())
+                else if (ecellValue.IsDouble)
                 {
                     value += ", " + ecellValue.CastToDouble();
                 }
@@ -481,91 +544,27 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// Tests whether the type is a "double" type.
-        /// </summary>
-        /// <returns>true if the type is "double"; false otherwise</returns>
-        public bool IsDouble()
-        {
-            if (this.m_type == typeof(double))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Tests whether the type is a "int" type.
-        /// </summary>
-        /// <returns>true if the type is "int"; false otherwise</returns>
-        public bool IsInt()
-        {
-            if (this.m_type == typeof(int))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Tests whether the type is the list of EcellValue type.
-        /// </summary>
-        /// <returns>true if the type is the list of EcellValue; false otherwise</returns>
-        public bool IsList()
-        {
-            if (this.m_type == typeof(List<EcellValue>))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Tests whether the type is a "string" type.
-        /// </summary>
-        /// <returns>true if the type is "string"; false otherwise</returns>
-        public bool IsString()
-        {
-            if (this.m_type == typeof(string))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Copy EcellValue.
         /// </summary>
         /// <returns>EcellValue</returns>
         public EcellValue Copy()
         {
-            if (IsList())
+            if (IsList)
             {
                 List<EcellValue> list = new List<EcellValue>();
                 foreach (EcellValue value in this.CastToList())
                     list.Add(value.Copy());
                 return new EcellValue(list);
             }
-            else if (IsInt())
+            else if (IsInt)
             {
                 return new EcellValue(this.CastToInt());
             }
-            else if (IsDouble())
+            else if (IsDouble)
             {
                 return new EcellValue(this.CastToDouble());
             }
-            else if (IsString())
+            else if (IsString)
             {
                 return new EcellValue(this.CastToString());
             }

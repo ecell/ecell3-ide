@@ -938,7 +938,7 @@ namespace Ecell
                     processEcellDataList.Add(storedEcellData);
                     if (initialCondition != null && storedEcellData.Settable)
                     {
-                        if (storedEcellData.Value.IsDouble() &&
+                        if (storedEcellData.Value.IsDouble &&
                             (storedEcellData.Settable == false ||
                             storedEcellData.Saveable == false))
                         {
@@ -947,7 +947,7 @@ namespace Ecell
                                     = storedEcellData.Value.CastToDouble();
                         }
                         // else if (storedEcellData.Value.IsInt() && !storedEcellData.Name.StartsWith("Is"))
-                        else if (storedEcellData.Value.IsInt())
+                        else if (storedEcellData.Value.IsInt)
                         {
                             initialCondition[storedEcellData.EntityPath]
                                 = storedEcellData.Value.CastToInt();
@@ -986,7 +986,7 @@ namespace Ecell
                         Trace.WriteLine(ex);
                         if (storedEcellDataDic.ContainsKey(name))
                         {
-                            if (storedEcellDataDic[name].Value.CastToList()[0].IsList())
+                            if (storedEcellDataDic[name].Value.CastToList()[0].IsList)
                             {
                                 value = storedEcellDataDic[name].Value;
                                 if (name.Equals(Constants.xpathVRL))
@@ -1022,7 +1022,7 @@ namespace Ecell
                     ecellData.Saveable = flag[WrappedSimulator.s_flagSavable];
                     if (ecellData.Value != null)
                     {
-                        if (ecellData.Value.IsDouble() &&
+                        if (ecellData.Value.IsDouble &&
                             (ecellData.Settable == false ||
                             ecellData.Saveable == false))
                         {
@@ -1032,7 +1032,7 @@ namespace Ecell
                                 initialCondition[ecellData.EntityPath] = ecellData.Value.CastToDouble();
                             }
                         }
-                        else if (ecellData.Value.IsInt())
+                        else if (ecellData.Value.IsInt)
                         {
                             if (initialCondition != null && ecellData.Settable)
                             {
@@ -1160,7 +1160,7 @@ namespace Ecell
                 ecellData.Saveable = flag[WrappedSimulator.s_flagSavable];
                 if (storedEcellDataDic.ContainsKey(name))
                 {
-                    if (value.IsString() && value.CastToString().Equals(""))
+                    if (value.IsString && value.CastToString().Equals(""))
                     {
                         continue;
                     }
@@ -1232,14 +1232,14 @@ namespace Ecell
                     systemEcellDataList.Add(storedEcellData);
                     if (initialCondition != null && storedEcellData.Settable)
                     {
-                        if (storedEcellData.Value.IsDouble())
+                        if (storedEcellData.Value.IsDouble)
                         {
                             storedEcellData.Logable = true;
                             initialCondition[storedEcellData.EntityPath]
                                 = storedEcellData.Value.CastToDouble();
                         }
                         // else if (storedEcellData.Value.IsInt() && !storedEcellData.Name.StartsWith("Is"))
-                        else if (storedEcellData.Value.IsInt())
+                        else if (storedEcellData.Value.IsInt)
                         {
                             initialCondition[storedEcellData.EntityPath]
                                 = storedEcellData.Value.CastToInt();
@@ -1282,7 +1282,7 @@ namespace Ecell
                     Trace.WriteLine(ex);
                     if (storedEcellDataDic.ContainsKey(name))
                     {
-                        if (storedEcellDataDic[name].Value.CastToList()[0].IsList())
+                        if (storedEcellDataDic[name].Value.CastToList()[0].IsList)
                         {
                             value = storedEcellDataDic[name].Value;
                         }
@@ -1308,7 +1308,7 @@ namespace Ecell
                 ecellData.Saveable = flag[WrappedSimulator.s_flagSavable];
                 if (ecellData.Value != null)
                 {
-                    if (ecellData.Value.IsDouble())
+                    if (ecellData.Value.IsDouble)
                     {
                         ecellData.Logable = true;
                         if (initialCondition != null && ecellData.Settable)
@@ -1316,7 +1316,7 @@ namespace Ecell
                             initialCondition[ecellData.EntityPath] = ecellData.Value.CastToDouble();
                         }
                     }
-                    else if (ecellData.Value.IsInt())
+                    else if (ecellData.Value.IsInt)
                     {
                         if (initialCondition != null && ecellData.Settable)
                         {
@@ -1380,14 +1380,14 @@ namespace Ecell
                     variableEcellDataList.Add(storedEcellData);
                     if (initialCondition != null && storedEcellData.Settable)
                     {
-                        if (storedEcellData.Value.IsDouble())
+                        if (storedEcellData.Value.IsDouble)
                         {
                             storedEcellData.Logable = true;
                             initialCondition[storedEcellData.EntityPath]
                                 = storedEcellData.Value.CastToDouble();
                         }
                         // else if (storedEcellData.Value.IsInt() && !storedEcellData.Name.StartsWith("Is"))
-                        else if (storedEcellData.Value.IsInt())
+                        else if (storedEcellData.Value.IsInt)
                         {
                             initialCondition[storedEcellData.EntityPath]
                                 = storedEcellData.Value.CastToInt();
@@ -1421,7 +1421,7 @@ namespace Ecell
                     Trace.WriteLine(ex);
                     if (storedEcellDataDic.ContainsKey(name))
                     {
-                        if (storedEcellDataDic[name].Value.CastToList()[0].IsList())
+                        if (storedEcellDataDic[name].Value.CastToList()[0].IsList)
                         {
                             value = storedEcellDataDic[name].Value;
                         }
@@ -1447,7 +1447,7 @@ namespace Ecell
                 ecellData.Saveable = flag[WrappedSimulator.s_flagSavable];
                 if (ecellData.Value != null)
                 {
-                    if (ecellData.Value.IsDouble())
+                    if (ecellData.Value.IsDouble)
                     {
                         ecellData.Logable = true;
                         if (initialCondition != null && ecellData.Settable)
@@ -1455,7 +1455,7 @@ namespace Ecell
                             initialCondition[ecellData.EntityPath] = ecellData.Value.CastToDouble();
                         }
                     }
-                    else if (ecellData.Value.IsInt())
+                    else if (ecellData.Value.IsInt)
                     {
                         if (initialCondition != null && ecellData.Settable)
                         {

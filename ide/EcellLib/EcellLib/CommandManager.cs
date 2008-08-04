@@ -1319,17 +1319,17 @@ namespace Ecell
                                     }
                                     findFlag = true;
                                 }
-                                else if (data.Value.IsDouble())
+                                else if (data.Value.IsDouble)
                                 {
                                     data.Value = new EcellValue(XmlConvert.ToDouble(value));
                                     findFlag = true;
                                 }
-                                else if (data.Value.IsInt())
+                                else if (data.Value.IsInt)
                                 {
                                     data.Value = new EcellValue(Convert.ToInt32(value));
                                     findFlag = true;
                                 }
-                                else if (data.Value.IsString())
+                                else if (data.Value.IsString)
                                 {
                                     data.Value = new EcellValue(value);
                                     findFlag = true;
@@ -2016,17 +2016,17 @@ namespace Ecell
                                     throw new Exception(String.Format(MessageResources.ErrSetProp,
                                         new object[] { propertyName }));
                                 }
-                                else if (data.Value.IsDouble())
+                                else if (data.Value.IsDouble)
                                 {
                                     data.Value = new EcellValue(XmlConvert.ToDouble(value));
                                     findFlag = true;
                                 }
-                                else if (data.Value.IsInt())
+                                else if (data.Value.IsInt)
                                 {
                                     data.Value = new EcellValue(Convert.ToInt32(value));
                                     findFlag = true;
                                 }
-                                else if (data.Value.IsString())
+                                else if (data.Value.IsString)
                                 {
                                     data.Value = new EcellValue(value);
                                     findFlag = true;

@@ -32,7 +32,7 @@ namespace Ecell
         {
             Debug.Assert(ecellValue != null);
 
-            if (ecellValue.IsDouble())
+            if (ecellValue.IsDouble)
             {
                 if (Double.IsInfinity(ecellValue.CastToDouble()))
                 {
@@ -56,14 +56,14 @@ namespace Ecell
                         ecellValue.CastToDouble().ToString());
                 }
             }
-            else if (ecellValue.IsInt())
+            else if (ecellValue.IsInt)
             {
                 m_tx.WriteElementString(
                     Constants.xpathValue.ToLower(),
                     null,
                     ecellValue.CastToInt().ToString());
             }
-            else if (ecellValue.IsList())
+            else if (ecellValue.IsList)
             {
                 if (ecellValue.CastToList() == null || ecellValue.CastToList().Count <= 0)
                 {
