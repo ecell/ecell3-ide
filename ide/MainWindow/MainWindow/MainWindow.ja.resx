@@ -163,7 +163,7 @@
     <value>設定(&amp;S)</value>
   </data>
   <data name="MenuItemLayout.Text" xml:space="preserve">
-    <value>配置(&amp;L)</value>
+    <value>レイアウト(&amp;L)</value>
   </data>
   <data name="MenuItemView.Text" xml:space="preserve">
     <value>表示(&amp;V)</value>
@@ -348,7 +348,7 @@
 </value>
   </data>
   <data name="ShowVersionMenuItem.Text" xml:space="preserve">
-    <value>アドオン(&amp;A)...</value>
+    <value>プラグイン(&amp;P)...</value>
   </data>
   <data name="modelEditorToolStripMenuItem.Text" xml:space="preserve">
     <value>作業ディレクトリ(&amp;W)...</value>

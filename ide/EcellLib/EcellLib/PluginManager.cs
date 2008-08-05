@@ -52,6 +52,7 @@ namespace Ecell
 {
     public delegate void ShowDialogDelegate();
     public delegate void SetDockContentDelegate(EcellDockContent s);
+    public delegate void ShowSplashMessage(string mes);
 
     /// <summary>
     /// Availability of Redo/Undo
@@ -114,8 +115,7 @@ namespace Ecell
         /// Status of the current project.
         /// </summary>
         private ProjectStatus m_status;
-        private Dictionary<string, Delegate> m_delegateDic = new Dictionary<string, Delegate>();
-
+        private Dictionary<string, Delegate> m_delegateDic = new Dictionary<string, Delegate>();        
         #endregion
 
         /// <summary>
@@ -131,6 +131,18 @@ namespace Ecell
 
             // default image type
             m_imageList = new NodeImageComponent().ImageList;
+        }
+
+        private ShowSplashMessage m_splashDelegate = null;
+        public void SetSplashDelegate(ShowSplashMessage dlg)
+        {            
+            m_splashDelegate = dlg;
+        }
+
+        public void SendSplashDelegate(string mes)
+        {
+            if (m_splashDelegate != null)
+                m_splashDelegate(mes);
         }
 
         /// <summary>

@@ -487,7 +487,6 @@ Global
 		{DEAA2942-1A37-4E2F-97BA-87BD43EC5FAA}.Release|Mixed Platforms.ActiveCfg = Release|x64
 		{DEAA2942-1A37-4E2F-97BA-87BD43EC5FAA}.Release|Mixed Platforms.Build.0 = Release|x64
 		{DEAA2942-1A37-4E2F-97BA-87BD43EC5FAA}.Release|Win32.ActiveCfg = Release|Win32
-		{DEAA2942-1A37-4E2F-97BA-87BD43EC5FAA}.Release|Win32.Build.0 = Release|Win32
 		{DEAA2942-1A37-4E2F-97BA-87BD43EC5FAA}.Release|x64.ActiveCfg = Release|x64
 		{DEAA2942-1A37-4E2F-97BA-87BD43EC5FAA}.Release|x64.Build.0 = Release|x64
 		{56C692EA-689C-46EC-8A78-B3F63CE46445}.Debug|Any CPU.ActiveCfg = Debug|x64

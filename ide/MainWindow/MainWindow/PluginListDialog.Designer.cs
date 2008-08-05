@@ -38,30 +38,22 @@
             // 
             // okButton
             // 
-            this.okButton.AccessibleDescription = null;
-            this.okButton.AccessibleName = null;
             resources.ApplyResources(this.okButton, "okButton");
-            this.okButton.BackgroundImage = null;
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.okButton.Font = null;
             this.okButton.Name = "okButton";
             this.okButton.UseVisualStyleBackColor = true;
             // 
             // versionListView
             // 
-            this.versionListView.AccessibleDescription = null;
-            this.versionListView.AccessibleName = null;
             this.versionListView.AllowUserToAddRows = false;
             this.versionListView.AllowUserToDeleteRows = false;
             resources.ApplyResources(this.versionListView, "versionListView");
             this.versionListView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.versionListView.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.versionListView.BackgroundImage = null;
             this.versionListView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.versionListView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.NameColumn,
             this.VersionColumn});
-            this.versionListView.Font = null;
             this.versionListView.MultiSelect = false;
             this.versionListView.Name = "versionListView";
             this.versionListView.ReadOnly = true;
@@ -85,14 +77,10 @@
             // 
             // PluginListDialog
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = null;
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.versionListView);
-            this.Font = null;
             this.Name = "PluginListDialog";
             ((System.ComponentModel.ISupportInitialize)(this.versionListView)).EndInit();
             this.ResumeLayout(false);

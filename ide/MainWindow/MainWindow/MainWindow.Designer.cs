@@ -56,6 +56,7 @@ namespace Ecell.IDE.MainWindow
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.importActionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveActionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.saveWindowSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadWindowSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,7 +85,6 @@ namespace Ecell.IDE.MainWindow
             this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
@@ -296,6 +296,12 @@ namespace Ecell.IDE.MainWindow
             this.saveActionMenuItem.Tag = "32";
             this.saveActionMenuItem.Click += new System.EventHandler(this.SaveActionMenuClick);
             // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            resources.ApplyResources(this.toolStripSeparator9, "toolStripSeparator9");
+            this.toolStripSeparator9.Tag = "35";
+            // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
@@ -465,12 +471,6 @@ namespace Ecell.IDE.MainWindow
             // 
             resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             this.openScriptDialog.RestoreDirectory = true;
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            resources.ApplyResources(this.toolStripSeparator9, "toolStripSeparator9");
-            this.toolStripSeparator9.Tag = "35";
             // 
             // MainWindow
             // 

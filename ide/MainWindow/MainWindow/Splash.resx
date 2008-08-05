@@ -126,7 +126,7 @@
     <value>MS UI Gothic, 8.25pt, style=Bold</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 232</value>
+    <value>10, 209</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
@@ -148,10 +148,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>panel1</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>0</value>
   </data>
   <data name="CopyrightNotice.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -160,16 +160,19 @@
     <value>Arial, 8.25pt, style=Bold</value>
   </data>
   <data name="CopyrightNotice.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 250</value>
+    <value>9, 231</value>
   </data>
   <data name="CopyrightNotice.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="CopyrightNotice.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 14</value>
+    <value>33, 14</value>
   </data>
   <data name="CopyrightNotice.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
+  </data>
+  <data name="CopyrightNotice.Text" xml:space="preserve">
+    <value>copy</value>
   </data>
   <data name="&gt;&gt;CopyrightNotice.Name" xml:space="preserve">
     <value>CopyrightNotice</value>
@@ -178,10 +181,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CopyrightNotice.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>panel1</value>
   </data>
   <data name="&gt;&gt;CopyrightNotice.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="VersionNumber.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -190,16 +193,19 @@
     <value>Arial, 8.25pt, style=Bold</value>
   </data>
   <data name="VersionNumber.Location" type="System.Drawing.Point, System.Drawing">
-    <value>64, 232</value>
+    <value>67, 207</value>
   </data>
   <data name="VersionNumber.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="VersionNumber.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 14</value>
+    <value>13, 14</value>
   </data>
   <data name="VersionNumber.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
+  </data>
+  <data name="VersionNumber.Text" xml:space="preserve">
+    <value>v</value>
   </data>
   <data name="&gt;&gt;VersionNumber.Name" xml:space="preserve">
     <value>VersionNumber</value>
@@ -208,9 +214,72 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;VersionNumber.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>panel1</value>
   </data>
   <data name="&gt;&gt;VersionNumber.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="progressInfo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="progressInfo.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="progressInfo.Font" type="System.Drawing.Font, System.Drawing">
+    <value>MS UI Gothic, 8.25pt</value>
+  </data>
+  <data name="progressInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 274</value>
+  </data>
+  <data name="progressInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>10, 11</value>
+  </data>
+  <data name="progressInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="progressInfo.Text" xml:space="preserve">
+    <value>p</value>
+  </data>
+  <data name="progressInfo.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;progressInfo.Name" xml:space="preserve">
+    <value>progressInfo</value>
+  </data>
+  <data name="&gt;&gt;progressInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;progressInfo.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;progressInfo.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left</value>
+  </data>
+  <data name="panel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>-2, -2</value>
+  </data>
+  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>479, 273</value>
+  </data>
+  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -226,7 +295,7 @@
     <value>None</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>458, 278</value>
+    <value>474, 294</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>

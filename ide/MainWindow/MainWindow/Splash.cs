@@ -46,11 +46,18 @@ namespace Ecell.IDE
         /// <summary>
         /// Constructor.
         /// </summary>
-        public Splash()
+        public Splash(ApplicationEnvironment env)
         {
             InitializeComponent();
             VersionNumber.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             CopyrightNotice.Text = global::Ecell.IDE.MainWindow.Properties.Resources.CopyrightNotice;
+            env.PluginManager.SetSplashDelegate(this.SetProgressMessage);
+        }
+
+        private void SetProgressMessage(string mes)
+        {
+            progressInfo.Text = mes;
+            this.Refresh();
         }
     }
 }

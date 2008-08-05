@@ -153,6 +153,9 @@
   <data name="FileNotFound" xml:space="preserve">
     <value>指定したファイルが存在しません。確認してください。</value>
   </data>
+  <data name="InfoLoadPlugin" xml:space="preserve">
+    <value>{0}を読み込んでいます</value>
+  </data>
   <data name="MenuCopy" xml:space="preserve">
     <value>コピープロジェクトの作成</value>
   </data>

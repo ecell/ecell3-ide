@@ -213,4 +213,7 @@
   <data name="NameSimResult" xml:space="preserve">
     <value>simulation result</value>
   </data>
+  <data name="InfoLoadPlugin" xml:space="preserve">
+    <value>Load the plugin({0})</value>
+  </data>
 </root>

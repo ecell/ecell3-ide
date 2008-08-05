@@ -71,7 +71,7 @@ namespace Ecell.IDE
 
             ApplicationEnvironment env = ApplicationEnvironment.GetInstance();
 
-            Splash frmSplash = new Splash();
+            Splash frmSplash = new Splash(env);
 
             if (!s_noSplash)
                 frmSplash.Show();

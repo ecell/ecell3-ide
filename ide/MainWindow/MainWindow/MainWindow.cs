@@ -247,8 +247,11 @@ namespace Ecell.IDE.MainWindow
             string pName = Path.GetFileNameWithoutExtension(path);
             string className = "Ecell.IDE.Plugins." + pName + "." + pName;
 
+            
             if (m_pluginList.Contains(pName)) return;
             m_pluginList.Add(pName);
+            m_env.PluginManager.SendSplashDelegate(
+                string.Format(MessageResources.InfoLoadPlugin, pName));
 
             try
             {
