@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrExistVariableRef" xml:space="preserve">
-    <value>{0} はVariableReferenceListに存在します。</value>
+    <value>{0} はすでにVariableReferenceListに存在します。</value>
   </data>
   <data name="ErrGetProp" xml:space="preserve">
     <value>エンティティ {0} のプロパティを取得できません。</value>

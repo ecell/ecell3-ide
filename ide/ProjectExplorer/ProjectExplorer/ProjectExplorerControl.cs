@@ -92,7 +92,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             List<ToolStripItem> retval = new List<ToolStripItem>();
             foreach (EcellData d in obj.Value)
             {
-                if (!d.Settable || !d.Logable)
+                if (!d.Settable || !d.Value.IsDouble)
                     continue;
                 ToolStripMenuItem item = new ToolStripMenuItem(d.Name);
                 item.Tag = d.Name;

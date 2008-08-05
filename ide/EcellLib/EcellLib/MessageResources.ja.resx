@@ -118,22 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfirmMerge" xml:space="preserve">
-    <value>システムの内容を上位システムにマージしてもよろしいですか？</value>
+    <value>Systemの内容を上位Systemにマージしますか？</value>
   </data>
   <data name="ConfirmReset" xml:space="preserve">
-    <value>シミュレーション実行中です。シミュレーションをリセットしてもよろしいですか？</value>
+    <value>シミュレーション実行中です。シミュレーションをリセットしますか？</value>
   </data>
   <data name="ErrAdd" xml:space="preserve">
     <value>{0} を追加できません({1})。</value>
   </data>
   <data name="ErrClosePrj" xml:space="preserve">
-    <value>プロジェクト {0} を閉じることができません。</value>
+    <value>プロジェクト {0} を閉じれません、</value>
   </data>
   <data name="ErrCombiStepProc" xml:space="preserve">
-    <value>このステッパーとプロセスの組み合わせは選択できません。</value>
+    <value>このProcessはStepperと適合しないため選択できません。。</value>
   </data>
   <data name="ErrCompile" xml:space="preserve">
-    <value>DM[ {0} ]のコンパイルに失敗しました。</value>
+    <value>DM({0})のコンパイルができません。</value>
   </data>
   <data name="ErrCopy" xml:space="preserve">
     <value>{0} をコピーできません。</value>
@@ -151,22 +151,19 @@
     <value>{0} を削除できません。</value>
   </data>
   <data name="ErrDelRoot" xml:space="preserve">
-    <value>ルートシステムは削除できません。</value>
+    <value>ルートSystemは削除できません。</value>
   </data>
   <data name="ErrExistObj" xml:space="preserve">
-    <value>エンティティ {0} はすでに存在します。</value>
+    <value>Entity {0} はすでに存在します。</value>
   </data>
   <data name="ErrExistSimParam" xml:space="preserve">
     <value>シミュレーションパラメータ {0} はすでに存在します。</value>
   </data>
   <data name="ErrExistStepper" xml:space="preserve">
-    <value>ステッパー {0} はすでに存在します。</value>
-  </data>
-  <data name="ErrExistVariableRef" xml:space="preserve">
-    <value>{0} はVariableReferenceListに存在します。</value>
+    <value>Stepper {0} はすでに存在します。</value>
   </data>
   <data name="ErrFindEnt" xml:space="preserve">
-    <value>エンティティ {0} が見つかりません。</value>
+    <value>Entity {0} が見つかりません。</value>
   </data>
   <data name="ErrFindFile" xml:space="preserve">
     <value>ファイル {0} が見つかりません。</value>
@@ -175,7 +172,7 @@
     <value>ログデータを取得できません。</value>
   </data>
   <data name="ErrGetProp" xml:space="preserve">
-    <value>エンティティ {0} のプロパティを取得できません。</value>
+    <value>Entity {0} のプロパティを取得できません。</value>
   </data>
   <data name="ErrInitSim" xml:space="preserve">
     <value>シミュレーターを初期化できません。</value>
@@ -184,7 +181,7 @@
     <value>ID文字列が不正です。</value>
   </data>
   <data name="ErrLoadFile" xml:space="preserve">
-    <value>ファイル {0} を読み込むことができません。</value>
+    <value>ファイル {0} を読み込めません。</value>
   </data>
   <data name="ErrLoadModel" xml:space="preserve">
     <value>モデル {0} を開けません。</value>
@@ -192,23 +189,14 @@
   <data name="ErrLoadPrj" xml:space="preserve">
     <value>プロジェクト {0} を開けません。</value>
   </data>
-  <data name="ErrNoNumber" xml:space="preserve">
-    <value>coefficientとisAccessorは整数を入力してください。</value>
-  </data>
-  <data name="ErrNoSelectVar" xml:space="preserve">
-    <value>Variableを選択してください。</value>
-  </data>
   <data name="ErrNoSet" xml:space="preserve">
     <value>{0} が設定されていません。</value>
   </data>
   <data name="ErrNotCreStepper" xml:space="preserve">
-    <value>ステッパー {0} を作成できません。</value>
+    <value>Stepper {0} を作成できません。</value>
   </data>
   <data name="ErrNotInstall" xml:space="preserve">
     <value>{0} がインストールされていません。</value>
-  </data>
-  <data name="ErrPrint" xml:space="preserve">
-    <value>印刷できません。</value>
   </data>
   <data name="ErrResetSim" xml:space="preserve">
     <value>シミュレーションをリセットできません。</value>
@@ -240,9 +228,6 @@
   <data name="ErrSetProp" xml:space="preserve">
     <value>エンティティ {0} のプロパティを設定できません。</value>
   </data>
-  <data name="ErrSetPropPython" xml:space="preserve">
-    <value>プロパティ {1} を設定できません。</value>
-  </data>
   <data name="ErrSetSimParam" xml:space="preserve">
     <value>シミュレーションパラメータを設定できません。</value>
   </data>
@@ -256,7 +241,7 @@
     <value>ロガーポリシーを設定できません。</value>
   </data>
   <data name="InfoAdd" xml:space="preserve">
-    <value>{0} を作成しました({1}).</value>
+    <value>{0} を追加しました({1}).</value>
   </data>
   <data name="InfoClose" xml:space="preserve">
     <value>プロジェクト {0} を閉じました。</value>
@@ -265,10 +250,10 @@
     <value>シミュレーションパラメータ {0} を作成しました。</value>
   </data>
   <data name="InfoDel" xml:space="preserve">
-    <value>{0} {1} を削除しました。</value>
+    <value>{0} を削除しました({1})。</value>
   </data>
   <data name="InfoResetSim" xml:space="preserve">
-    <value>シミュレーションリセット [ {0} ].</value>
+    <value>シミュレーションをリセットしました [ {0} ].</value>
   </data>
   <data name="InfoSaveModel" xml:space="preserve">
     <value>モデル {0} を保存しました。</value>
@@ -277,7 +262,7 @@
     <value>プロジェクト {0} を保存しました。</value>
   </data>
   <data name="InfoSuspend" xml:space="preserve">
-    <value>シミュレーション一時停止 [ {0} ].</value>
+    <value>シミュレーションを一時停止しました [ {0} ].</value>
   </data>
   <data name="InfoUpdateLogPol" xml:space="preserve">
     <value>{0} のロガー ポリシーを設定しました。</value>
@@ -295,6 +280,6 @@
     <value>作業用ディレクトリ</value>
   </data>
   <data name="WarnLoadDM" xml:space="preserve">
-    <value>ロードできないProcessまたはStepperが存在します。</value>
+    <value>ロードできないダイナミックモジュール(DM)が存在します。</value>
   </data>
 </root>

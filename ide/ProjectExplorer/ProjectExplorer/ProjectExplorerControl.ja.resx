@@ -146,7 +146,7 @@
     <value>120, 22</value>
   </data>
   <data name="compileToolStripMenuItem.Text" xml:space="preserve">
-    <value>コンパイル</value>
+    <value>DMのコンパイル</value>
   </data>
   <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>120, 22</value>
@@ -197,19 +197,19 @@
     <value>174, 22</value>
   </data>
   <data name="toolStripMenuItemObservation.Text" xml:space="preserve">
-    <value>観測</value>
+    <value>評価パラメータとして設定</value>
   </data>
   <data name="toolStripMenuItemParameter.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 22</value>
   </data>
   <data name="toolStripMenuItemParameter.Text" xml:space="preserve">
-    <value>パラメータ化</value>
+    <value>未知パラメータとして設定</value>
   </data>
   <data name="toolStripMenuItemMerge.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 22</value>
   </data>
   <data name="toolStripMenuItemMerge.Text" xml:space="preserve">
-    <value>上位システムにマージ</value>
+    <value>上位システムへマージ</value>
   </data>
   <data name="contextMenuStripStdEntity.Size" type="System.Drawing.Size, System.Drawing">
     <value>175, 142</value>
@@ -232,5 +232,11 @@
         EAAAAAAAAAAAAAAAAACPhwAAjwMAAIwDAACIAwAAiAMAAIgHAACAPwAAgD8AAIA/AACAPwAAgH8AAAP/
         AAAD/wAAA/8AAAP/AACH/wAA
 </value>
+  </data>
+  <data name="toolStripButtonSortByName.Text" xml:space="preserve">
+    <value>名前でソート</value>
+  </data>
+  <data name="toolStripButtonSortByType.Text" xml:space="preserve">
+    <value>エンティティタイプでソート</value>
   </data>
 </root>

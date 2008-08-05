@@ -121,75 +121,21 @@
     <value>{0} が作成できません。</value>
   </data>
   <data name="ErrStartupApp" xml:space="preserve">
-    <value>このファイルに関連付けられたアプリケーションが起動できませんでした。ファイルタイプへの関連付けを行ってください。</value>
+    <value>このファイルに関連付けられたアプリケーションが見つかりません。</value>
   </data>
   <data name="NoticeNotFind" xml:space="preserve">
     <value>検索条件に一致するオブジェクトが見つかりませんでした。</value>
   </data>
   <data name="NoticeNotInstallSDK" xml:space="preserve">
-    <value>E-Cell SDKがインストールされていません。インストールしてください。</value>
-  </data>
-  <data name="PopAddModelText" xml:space="preserve">
-    <value>モデル追加</value>
-  </data>
-  <data name="PopAddProcessText" xml:space="preserve">
-    <value>Process追加</value>
-  </data>
-  <data name="PopAddSystemText" xml:space="preserve">
-    <value>System追加</value>
-  </data>
-  <data name="PopAddVariableText" xml:space="preserve">
-    <value>Variable追加</value>
-  </data>
-  <data name="PopCompileText" xml:space="preserve">
-    <value>コンパイル</value>
-  </data>
-  <data name="PopCreLoggerText" xml:space="preserve">
-    <value>ロガー設定</value>
-  </data>
-  <data name="PopCreObservText" xml:space="preserve">
-    <value>解析評価データ設定</value>
-  </data>
-  <data name="PopCreParamText" xml:space="preserve">
-    <value>パラメータ未定設定</value>
-  </data>
-  <data name="PopDeleteText" xml:space="preserve">
-    <value>削除</value>
-  </data>
-  <data name="PopDelLoggerText" xml:space="preserve">
-    <value>ロガー解除</value>
-  </data>
-  <data name="PopDelObservText" xml:space="preserve">
-    <value>解析評価データ解除</value>
-  </data>
-  <data name="PopDelParamText" xml:space="preserve">
-    <value>パラメータ未定解除</value>
-  </data>
-  <data name="PopDMAppText" xml:space="preserve">
-    <value>関連アプリケーションで開く...</value>
-  </data>
-  <data name="PopDMEditorText" xml:space="preserve">
-    <value>開く...</value>
+    <value>E-Cell SDKがインストールされていません。</value>
   </data>
   <data name="PopMergeText" xml:space="preserve">
-    <value>マージ ({0})</value>
-  </data>
-  <data name="PopNewDMText" xml:space="preserve">
-    <value>新規作成</value>
-  </data>
-  <data name="PopSearchText" xml:space="preserve">
-    <value>検索...</value>
+    <value>上位システムへマージ ({0})</value>
   </data>
   <data name="ProjectExplorer" xml:space="preserve">
     <value>プロジェクトエクスプローラ</value>
   </data>
-  <data name="SortNameText" xml:space="preserve">
-    <value>名前でソート</value>
-  </data>
-  <data name="SortTypeText" xml:space="preserve">
-    <value>タイプでソート</value>
-  </data>
   <data name="WarnDMName" xml:space="preserve">
-    <value>ProcessもしくはStepperで終わる名前を入力してください。</value>
+    <value>DMの名前は、ProcessもしくはStepperで終わる必要があります。</value>
   </data>
 </root>

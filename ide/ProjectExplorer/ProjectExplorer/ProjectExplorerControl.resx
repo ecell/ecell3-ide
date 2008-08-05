@@ -117,78 +117,78 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="compileToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="compileToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="compileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 22</value>
   </data>
   <data name="compileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Compile</value>
+    <value>Compile DM</value>
   </data>
-  <metadata name="editToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="editToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
+  </data>
   <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 22</value>
   </data>
   <data name="editToolStripMenuItem.Text" xml:space="preserve">
     <value>Edit...</value>
   </data>
-  <metadata name="systemToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="systemToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
+  </data>
   <data name="systemToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>112, 22</value>
   </data>
   <data name="systemToolStripMenuItem.Text" xml:space="preserve">
     <value>System</value>
   </data>
-  <metadata name="variableToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="variableToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
+  </data>
   <data name="variableToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>112, 22</value>
   </data>
   <data name="variableToolStripMenuItem.Text" xml:space="preserve">
     <value>Variable</value>
   </data>
-  <metadata name="processToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="processToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
+  </data>
   <data name="processToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>112, 22</value>
   </data>
   <data name="processToolStripMenuItem.Text" xml:space="preserve">
     <value>Process</value>
   </data>
-  <metadata name="toolStripSeparator4.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="toolStripSeparator4.GenerateMember" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
+  </data>
   <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
     <value>179, 6</value>
   </data>
-  <metadata name="addADMToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="addADMToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
+  </data>
   <data name="addADMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>132, 22</value>
   </data>
   <data name="addADMToolStripMenuItem.Text" xml:space="preserve">
     <value>Add a DM...</value>
   </data>
-  <metadata name="toolStrip1.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="toolStrip1.GenerateMember" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
-  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  </data>
+  <data name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
-  </metadata>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="toolStrip1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="toolStrip1.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -202,7 +202,7 @@
     <value>23, 21</value>
   </data>
   <data name="toolStripButtonSortByType.Text" xml:space="preserve">
-    <value>Sort by Type</value>
+    <value>Sort by Entity type</value>
   </data>
   <data name="toolStripButtonSortByName.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
@@ -211,7 +211,7 @@
     <value>23, 21</value>
   </data>
   <data name="toolStripButtonSortByName.Text" xml:space="preserve">
-    <value>Sort by Name</value>
+    <value>Sort by name</value>
   </data>
   <data name="toolStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -262,17 +262,17 @@
     <value>182, 22</value>
   </data>
   <data name="toolStripMenuItemObservation.Text" xml:space="preserve">
-    <value>Observe</value>
+    <value>Set parameter observed</value>
   </data>
   <data name="toolStripMenuItemParameter.Size" type="System.Drawing.Size, System.Drawing">
     <value>182, 22</value>
   </data>
   <data name="toolStripMenuItemParameter.Text" xml:space="preserve">
-    <value>Parameterize</value>
+    <value>Set parameter unknown</value>
   </data>
-  <metadata name="contextMenuStripStdEntity.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="contextMenuStripStdEntity.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>393, 17</value>
-  </metadata>
+  </data>
   <data name="toolStripMenuItemMerge.Size" type="System.Drawing.Size, System.Drawing">
     <value>182, 22</value>
   </data>
@@ -315,9 +315,9 @@
   <data name="&gt;&gt;treeView1.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <metadata name="contextMenuStripDM.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="contextMenuStripDM.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>576, 17</value>
-  </metadata>
+  </data>
   <data name="contextMenuStripDM.Size" type="System.Drawing.Size, System.Drawing">
     <value>112, 48</value>
   </data>
@@ -327,9 +327,9 @@
   <data name="&gt;&gt;contextMenuStripDM.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <metadata name="contextMenuStripDMCollection.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="contextMenuStripDMCollection.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
-  </metadata>
+  </data>
   <data name="contextMenuStripDMCollection.Size" type="System.Drawing.Size, System.Drawing">
     <value>133, 26</value>
   </data>
@@ -339,9 +339,9 @@
   <data name="&gt;&gt;contextMenuStripDMCollection.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>

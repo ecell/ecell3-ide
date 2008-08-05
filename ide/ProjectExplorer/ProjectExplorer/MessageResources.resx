@@ -118,76 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrCreateFile" xml:space="preserve">
-    <value>Can not create {0}.</value>
+    <value>Cannot create the file {0}.</value>
   </data>
   <data name="ErrStartupApp" xml:space="preserve">
-    <value>Can't start up the application assciated with this file.</value>
+    <value>Cannot find any applications associated with this file type.</value>
   </data>
   <data name="NoticeNotFind" xml:space="preserve">
-    <value>Can not find the object by input search condition.</value>
+    <value>Any objects is not matched by the search condition.</value>
   </data>
   <data name="NoticeNotInstallSDK" xml:space="preserve">
-    <value>Can not find the installed E-Cell SDK.</value>
-  </data>
-  <data name="PopAddModelText" xml:space="preserve">
-    <value>Add model</value>
-  </data>
-  <data name="PopAddProcessText" xml:space="preserve">
-    <value>Add process</value>
-  </data>
-  <data name="PopAddSystemText" xml:space="preserve">
-    <value>Add system</value>
-  </data>
-  <data name="PopAddVariableText" xml:space="preserve">
-    <value>Add variable</value>
-  </data>
-  <data name="PopCompileText" xml:space="preserve">
-    <value>Compile DM</value>
-  </data>
-  <data name="PopCreLoggerText" xml:space="preserve">
-    <value>Create logger</value>
-  </data>
-  <data name="PopCreObservText" xml:space="preserve">
-    <value>Create Observed</value>
-  </data>
-  <data name="PopCreParamText" xml:space="preserve">
-    <value>Create Parameter</value>
-  </data>
-  <data name="PopDeleteText" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="PopDelLoggerText" xml:space="preserve">
-    <value>Delete logger</value>
-  </data>
-  <data name="PopDelObservText" xml:space="preserve">
-    <value>Delete Observed</value>
-  </data>
-  <data name="PopDelParamText" xml:space="preserve">
-    <value>Delete Parameter</value>
-  </data>
-  <data name="PopDMAppText" xml:space="preserve">
-    <value>Open DM with the associated application.</value>
-  </data>
-  <data name="PopDMEditorText" xml:space="preserve">
-    <value>Open DM ...</value>
+    <value>Cannot find the installed E-Cell SDK.</value>
   </data>
   <data name="PopMergeText" xml:space="preserve">
     <value>Merge to supersystem ({0})</value>
   </data>
-  <data name="PopNewDMText" xml:space="preserve">
-    <value>New ...</value>
-  </data>
-  <data name="PopSearchText" xml:space="preserve">
-    <value>Search...</value>
-  </data>
   <data name="ProjectExplorer" xml:space="preserve">
     <value>Project Explorer</value>
-  </data>
-  <data name="SortNameText" xml:space="preserve">
-    <value>Sort by Name</value>
-  </data>
-  <data name="SortTypeText" xml:space="preserve">
-    <value>Sort by Type</value>
   </data>
   <data name="WarnDMName" xml:space="preserve">
     <value>Please input name that the last string is "Process" or "Stepper".</value>

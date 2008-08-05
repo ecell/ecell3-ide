@@ -121,19 +121,19 @@
     <value>{0} already exists in this VariableReferenceList.</value>
   </data>
   <data name="ErrGetProp" xml:space="preserve">
-    <value>Can not obtain the properties of entity {0}.</value>
+    <value>Cannot obtain the properties of Entity {0}.</value>
   </data>
   <data name="ErrInvalidID" xml:space="preserve">
-    <value>There are any invalid characters.</value>
+    <value>ID string is not valid.</value>
   </data>
   <data name="ErrNoNumber" xml:space="preserve">
-    <value>Please input integer at coefficient and isAccessor.</value>
+    <value>Coefficient and Accessor should be integer.</value>
   </data>
   <data name="ErrNoSelectTarget" xml:space="preserve">
     <value>No target is selected.</value>
   </data>
   <data name="ErrNoSelectVar" xml:space="preserve">
-    <value>Please select the variable.</value>
+    <value>Please select the Variable.</value>
   </data>
   <data name="ErrNoSet" xml:space="preserve">
     <value>The {0} is not set.</value>
@@ -142,7 +142,7 @@
     <value>{0} is the reserved name.</value>
   </data>
   <data name="ErrSetProp" xml:space="preserve">
-    <value>Can not set the property of entity {0}.</value>
+    <value>Cannot set the property of Entity {0}.</value>
   </data>
   <data name="NameExecute" xml:space="preserve">
     <value>Execute</value>
