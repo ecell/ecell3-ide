@@ -226,13 +226,10 @@
     <value>12, 269</value>
   </data>
   <data name="progressInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>10, 11</value>
+    <value>0, 11</value>
   </data>
   <data name="progressInfo.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
-  </data>
-  <data name="progressInfo.Text" xml:space="preserve">
-    <value>p</value>
   </data>
   <data name="progressInfo.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
