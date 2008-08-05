@@ -61,7 +61,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   The language setting will take effect after you restart this application. に類似しているローカライズされた文字列を検索します。
+        ///   The language setting will apply after you restart this application. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmRestart {
             get {
@@ -70,7 +70,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   There are any invalid characters in {0}. に類似しているローカライズされた文字列を検索します。
+        ///   {0} has some invalid characters. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrIDNG {
             get {
@@ -79,7 +79,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   {0} should be larger than {1}. に類似しているローカライズされた文字列を検索します。
+        ///   {0} should be greater than {1}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLarger {
             get {
@@ -88,7 +88,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Can not load the file [ {0} ]. に類似しているローカライズされた文字列を検索します。
+        ///   Cannot load the file [ {0} ]. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadFile {
             get {
@@ -97,7 +97,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Can not load the plugin {0} (location: {1}). に類似しているローカライズされた文字列を検索します。
+        ///   Cannot load the plugin {0} (location: {1}). に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadPlugin {
             get {
@@ -106,7 +106,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Can not load window settings. に類似しているローカライズされた文字列を検索します。
+        ///   Cannot load window settings. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadWindowSettings {
             get {
@@ -115,7 +115,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   No select. に類似しているローカライズされた文字列を検索します。
+        ///   Nothing selected. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNoSelect {
             get {
@@ -133,7 +133,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Can not save the window settings. に類似しているローカライズされた文字列を検索します。
+        ///   Cannot save the window settings. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSaveWindowSettings {
             get {
@@ -142,7 +142,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Please set the working directory. に類似しているローカライズされた文字列を検索します。
+        ///   Please set the project root directory. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ExpModelMes {
             get {
@@ -151,7 +151,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Export Model に類似しているローカライズされた文字列を検索します。
+        ///   Export model に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ExportModelDialog {
             get {
@@ -160,7 +160,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Can not find the file. に類似しているローカライズされた文字列を検索します。
+        ///   Cannot find the file specified. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string FileNotFound {
             get {
@@ -169,7 +169,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Load the plugin({0}) に類似しているローカライズされた文字列を検索します。
+        ///   Now the plugin {0} is loading... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoLoadPlugin {
             get {
@@ -178,7 +178,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Create Copied Project. に類似しているローカライズされた文字列を検索します。
+        ///   Create a copy of this projct に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuCopy {
             get {
@@ -187,7 +187,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Create new project. に類似しているローカライズされた文字列を検索します。
+        ///   Create new project に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuCreateNewProject {
             get {
@@ -196,7 +196,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Create new revision. に類似しているローカライズされた文字列を検索します。
+        ///   Create new revision に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuCreateNewRevision {
             get {
@@ -205,7 +205,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Delete. に類似しているローカライズされた文字列を検索します。
+        ///   Delete に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuDelete {
             get {
@@ -214,7 +214,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Paste. に類似しているローカライズされた文字列を検索します。
+        ///   Paste に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuPaste {
             get {
@@ -223,7 +223,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Compress to ZIP. に類似しているローカライズされた文字列を検索します。
+        ///   Compress to Zip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuSaveZip {
             get {
@@ -232,7 +232,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Now connect ... に類似しているローカライズされた文字列を検索します。
+        ///   Now connecting ... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MessageWebBrowse {
             get {
@@ -250,7 +250,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   model に類似しているローカライズされた文字列を検索します。
+        ///   Model に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameModel {
             get {
@@ -259,7 +259,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   simulation parameter に類似しているローカライズされた文字列を検索します。
+        ///   Simulation parameter に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameSimParam {
             get {
@@ -268,7 +268,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   simulation result に類似しているローカライズされた文字列を検索します。
+        ///   Simulation result に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameSimResult {
             get {
@@ -277,7 +277,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   The working directory に類似しているローカライズされた文字列を検索します。
+        ///   The project root directory に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameWorkDir {
             get {
@@ -313,7 +313,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Select templete project. に類似しているローカライズされた文字列を検索します。
+        ///   Please select a templete for new project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ProjectWizardSelectTemplete {
             get {
@@ -322,7 +322,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Do you want to save the project before the project is closed? に類似しているローカライズされた文字列を検索します。
+        ///   Do you want to save the project before the project close? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string SaveConfirm {
             get {
@@ -331,7 +331,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Please select the dm directory. に類似しているローカライズされた文字列を検索します。
+        ///   Please select the DM directory. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string SelectDMDir {
             get {

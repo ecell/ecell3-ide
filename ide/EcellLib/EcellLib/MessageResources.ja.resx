@@ -277,7 +277,7 @@
     <value>シミュレーション結果</value>
   </data>
   <data name="NameWorkDir" xml:space="preserve">
-    <value>作業用ディレクトリ</value>
+    <value>プロジェクトルートディレクトリ</value>
   </data>
   <data name="WarnLoadDM" xml:space="preserve">
     <value>ロードできないダイナミックモジュール(DM)が存在します。</value>

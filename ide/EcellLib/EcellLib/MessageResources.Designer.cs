@@ -538,7 +538,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   working directory に類似しているローカライズされた文字列を検索します。
+        ///   Project root directory に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameWorkDir {
             get {

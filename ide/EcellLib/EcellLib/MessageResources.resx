@@ -277,7 +277,7 @@
     <value>Simulation result</value>
   </data>
   <data name="NameWorkDir" xml:space="preserve">
-    <value>working directory</value>
+    <value>Project root directory</value>
   </data>
   <data name="WarnLoadDM" xml:space="preserve">
     <value>Some Dynamic Modules(DM) cannot be loaded.</value>

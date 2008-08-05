@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfirmRestart" xml:space="preserve">
-    <value>言語設定は次回起動時から有効になります。</value>
+    <value>言語設定の変更は次回起動時から有効になります。</value>
   </data>
   <data name="ErrIDNG" xml:space="preserve">
-    <value>{0} に使用できない文字列が含まれています。</value>
+    <value>{0} に不正な文字列が含まれています。</value>
   </data>
   <data name="ErrLarger" xml:space="preserve">
     <value>{0} は {1} より大きい値に設定してください。</value>
@@ -145,19 +145,19 @@
     <value>ウィンドウ設定を保存できません。</value>
   </data>
   <data name="ExpModelMes" xml:space="preserve">
-    <value>作業用ディレクトリを設定してください。</value>
+    <value>プロジェクトルートディレクトリを設定してください。</value>
   </data>
   <data name="ExportModelDialog" xml:space="preserve">
     <value>モデルのエクスポート</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>指定したファイルが存在しません。確認してください。</value>
+    <value>指定したファイルが存在しません。</value>
   </data>
   <data name="InfoLoadPlugin" xml:space="preserve">
     <value>{0}を読み込んでいます</value>
   </data>
   <data name="MenuCopy" xml:space="preserve">
-    <value>コピープロジェクトの作成</value>
+    <value>プロジェクトの複製</value>
   </data>
   <data name="MenuCreateNewProject" xml:space="preserve">
     <value>新規プロジェクトの作成</value>
@@ -172,7 +172,7 @@
     <value>ペースト</value>
   </data>
   <data name="MenuSaveZip" xml:space="preserve">
-    <value>ZIP圧縮</value>
+    <value>Zip圧縮</value>
   </data>
   <data name="MessageWebBrowse" xml:space="preserve">
     <value>接続中...</value>
@@ -184,13 +184,13 @@
     <value>モデル</value>
   </data>
   <data name="NameSimParam" xml:space="preserve">
-    <value>シミュレーション パラメータ</value>
+    <value>シミュレーションパラメータ</value>
   </data>
   <data name="NameSimResult" xml:space="preserve">
     <value>シミュレーション結果</value>
   </data>
   <data name="NameWorkDir" xml:space="preserve">
-    <value>作業用ディレクトリ</value>
+    <value>プロジェクトルートディレクトリ</value>
   </data>
   <data name="ProjectWizardCreate" xml:space="preserve">
     <value>作成</value>
@@ -199,21 +199,21 @@
     <value>進む</value>
   </data>
   <data name="ProjectWizardSelectDM" xml:space="preserve">
-    <value>使用するDMのディレクトリを追加してください</value>
+    <value>追加のDMディレクトリ</value>
   </data>
   <data name="ProjectWizardSelectTemplete" xml:space="preserve">
-    <value>テンプレートとするプロジェクトを選択してください</value>
+    <value>テンプレートとするプロジェクトを選択してください。</value>
   </data>
   <data name="SaveConfirm" xml:space="preserve">
     <value>プロジェクトを閉じる前に、プロジェクトを保存しますか？</value>
   </data>
   <data name="SelectDMDir" xml:space="preserve">
-    <value>DMディレクトリを選択してください</value>
+    <value>DMディレクトリを選択してください。</value>
   </data>
   <data name="StartUpWindow" xml:space="preserve">
     <value>ウェブブラウザ</value>
   </data>
   <data name="TitleInitialSet" xml:space="preserve">
-    <value>初期設定を選択してください</value>
+    <value>E-Cell IDEの初期設定を選択してください。</value>
   </data>
 </root>
