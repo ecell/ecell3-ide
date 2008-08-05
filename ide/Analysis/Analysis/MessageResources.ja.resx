@@ -124,13 +124,13 @@
     <value>解析設定</value>
   </data>
   <data name="ConfirmClose" xml:space="preserve">
-    <value>このウインドウを閉じてもよろしいですか？</value>
+    <value>このウインドウを閉じますか？</value>
   </data>
   <data name="ConfirmFindErrorJob" xml:space="preserve">
-    <value>エラーの発生したパラメータがあります。結果を表示してよろしいですか？</value>
+    <value>エラーの発生したパラメータがあります。結果を表示しますか？</value>
   </data>
   <data name="ConfirmStopAnalysis" xml:space="preserve">
-    <value>この解析を終了してよろしいですか？</value>
+    <value>この解析を中断しますか？</value>
   </data>
   <data name="ErrExecute" xml:space="preserve">
     <value>{0} の実行に失敗しました。</value>
@@ -138,11 +138,8 @@
   <data name="ErrLarger" xml:space="preserve">
     <value>{0} は {1} より大きい値に設定してください。</value>
   </data>
-  <data name="ErrNoSet" xml:space="preserve">
-    <value>{0} が設定されていません。少なくとも{1}つ以上設定してください。</value>
-  </data>
   <data name="ErrSameAxis" xml:space="preserve">
-    <value>X軸とＹ軸に設定したパラメータが同じです。</value>
+    <value>同じパラメータをX軸とＹ軸に設定しています。</value>
   </data>
   <data name="ErrSaveFile" xml:space="preserve">
     <value>{0} が保存できません。</value>
@@ -169,7 +166,7 @@
     <value>分岐解析(&amp;B)</value>
   </data>
   <data name="MenuItemBifurcationAnalysisSetting" xml:space="preserve">
-    <value>分岐解析設定</value>
+    <value>分岐解析の設定</value>
   </data>
   <data name="MenuItemLoadAnalysisCond" xml:space="preserve">
     <value>解析パラメータの読み込み...</value>
@@ -181,13 +178,13 @@
     <value>パラメータ推定(&amp;P)</value>
   </data>
   <data name="MenuItemParameterEstimationSetting" xml:space="preserve">
-    <value>パラメータ推定設定</value>
+    <value>パラメータ推定の設定</value>
   </data>
   <data name="MenuItemRobustAnalysis" xml:space="preserve">
     <value>ロバスト解析(&amp;R)</value>
   </data>
   <data name="MenuItemRobustAnalysisSetting" xml:space="preserve">
-    <value>ロバスト解析設定</value>
+    <value>ロバスト解析の設定</value>
   </data>
   <data name="MenuItemSaveAnalysisCond" xml:space="preserve">
     <value>解析パラメータの保存...</value>
@@ -199,10 +196,10 @@
     <value>感度解析(&amp;S)</value>
   </data>
   <data name="MenuItemSensitivityAnalysisSetting" xml:space="preserve">
-    <value>感度解析設定</value>
+    <value>感度解析の設定</value>
   </data>
   <data name="MenuItemStopAnalysis" xml:space="preserve">
-    <value>解析停止</value>
+    <value>解析中断</value>
   </data>
   <data name="NameAbsolutePert" xml:space="preserve">
     <value>Absolute perturbation</value>
@@ -211,7 +208,7 @@
     <value>分岐解析</value>
   </data>
   <data name="NameEstimationForm" xml:space="preserve">
-    <value>評価式</value>
+    <value>評価関数</value>
   </data>
   <data name="NameGenerationNum" xml:space="preserve">
     <value>世代数</value>
@@ -220,10 +217,10 @@
     <value>FFTのサンプル数</value>
   </data>
   <data name="NameObservedData" xml:space="preserve">
-    <value>監視データ</value>
+    <value>観察されたデータセット</value>
   </data>
   <data name="NameParameterData" xml:space="preserve">
-    <value>パラメータデータ</value>
+    <value>パラメータセット</value>
   </data>
   <data name="NameParameterEstimate" xml:space="preserve">
     <value>パラメータ推定</value>

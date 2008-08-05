@@ -517,16 +517,16 @@
     <value>&amp;Debug</value>
   </data>
   <data name="ShowVersionMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>169, 22</value>
   </data>
   <data name="ShowVersionMenuItem.Text" xml:space="preserve">
     <value>&amp;Plugin...</value>
   </data>
   <data name="aboutIDEToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>169, 22</value>
   </data>
   <data name="aboutIDEToolStripMenuItem.Text" xml:space="preserve">
-    <value>About &amp;IDE ...</value>
+    <value>About E-Cell &amp;IDE ...</value>
   </data>
   <data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 20</value>

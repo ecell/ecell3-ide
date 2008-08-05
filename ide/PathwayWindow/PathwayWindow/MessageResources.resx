@@ -208,7 +208,7 @@
     <value>Layout</value>
   </data>
   <data name="CanvasMenuAnotherArrow" xml:space="preserve">
-    <value>Another direction</value>
+    <value>Opposite direction</value>
   </data>
   <data name="CanvasMenuPaste" xml:space="preserve">
     <value>&amp;Paste</value>

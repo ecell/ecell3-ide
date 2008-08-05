@@ -160,7 +160,7 @@ namespace Ecell.IDE.Plugins.Analysis
             if (m_param.EstimationFormulator == null ||
                 m_param.EstimationFormulator.Equals(""))
             {
-                Util.ShowErrorDialog(string.Format(MessageResources.ErrNoSet,
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrSetNumber,
                     new object[] { MessageResources.NameEstimationForm, 1 }));
 
                 return;
@@ -174,8 +174,8 @@ namespace Ecell.IDE.Plugins.Analysis
             if (m_paramList == null) return;
             if (m_paramList.Count < 1)
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet,
-                    new object[] { MessageResources.NameParameterData }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
+                    new object[] { MessageResources.NameParameterData, 1 }));
                 return;
             }
 

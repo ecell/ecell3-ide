@@ -70,7 +70,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Another direction に類似しているローカライズされた文字列を検索します。
+        ///   Opposite direction に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuAnotherArrow {
             get {

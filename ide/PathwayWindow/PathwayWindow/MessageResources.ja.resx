@@ -223,7 +223,7 @@
     <value>編集(&amp;E)</value>
   </data>
   <data name="MenuItemLayout" xml:space="preserve">
-    <value>配置(&amp;L)</value>
+    <value>レイアウト(&amp;L)</value>
   </data>
   <data name="MenuItemView" xml:space="preserve">
     <value>表示(&amp;V)</value>

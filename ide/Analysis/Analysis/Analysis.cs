@@ -431,8 +431,8 @@ namespace Ecell.IDE.Plugins.Analysis
 
             if (resList.Count < 1)
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet,
-                    new object[] { MessageResources.NameObservedData }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
+                    new object[] { MessageResources.NameObservedData, 2 }));
                 return null;
             }
 
@@ -462,8 +462,8 @@ namespace Ecell.IDE.Plugins.Analysis
 
             if (resList.Count < 1)
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet,
-                    new object[] { MessageResources.NameObservedData }));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
+                    new object[] { MessageResources.NameObservedData, 2 }));
                 return null;
             }
 

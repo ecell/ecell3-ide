@@ -384,6 +384,6 @@
     <value>プロジェクトウィザード(&amp;Z)...</value>
   </data>
   <data name="aboutIDEToolStripMenuItem.Text" xml:space="preserve">
-    <value>IDEについて(&amp;I)</value>
+    <value>E-Cell IDEの情報(&amp;I)</value>
   </data>
 </root>
