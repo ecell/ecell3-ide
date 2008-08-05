@@ -207,14 +207,11 @@
   <data name="CanvasMenuLayout" xml:space="preserve">
     <value>Layout</value>
   </data>
-  <data name="CanvasMenuLeftArrow" xml:space="preserve">
-    <value>Process &lt;- Variable</value>
+  <data name="CanvasMenuAnotherArrow" xml:space="preserve">
+    <value>Another direction</value>
   </data>
   <data name="CanvasMenuPaste" xml:space="preserve">
     <value>&amp;Paste</value>
-  </data>
-  <data name="CanvasMenuRightArrow" xml:space="preserve">
-    <value>Process -&gt; Variable</value>
   </data>
   <data name="MenuToolTipShowID" xml:space="preserve">
     <value>Visibility of Node's name of each pathway object.</value>
@@ -370,7 +367,7 @@
     <value>Failed to load window settings</value>
   </data>
   <data name="CanvasMenuBidirArrow" xml:space="preserve">
-    <value>Process &lt;-&gt; Variable</value>
+    <value>Both directions</value>
   </data>
   <data name="CanvasMenuAlias" xml:space="preserve">
     <value>Create alias</value>

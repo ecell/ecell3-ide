@@ -207,14 +207,11 @@
   <data name="CanvasMenuLayout" xml:space="preserve">
     <value>レイアウト</value>
   </data>
-  <data name="CanvasMenuLeftArrow" xml:space="preserve">
-    <value>プロセス &lt;- バリアブル</value>
+  <data name="CanvasMenuAnotherArrow" xml:space="preserve">
+    <value>反対向き</value>
   </data>
   <data name="CanvasMenuPaste" xml:space="preserve">
     <value>貼り付け(&amp;P)</value>
-  </data>
-  <data name="CanvasMenuRightArrow" xml:space="preserve">
-    <value>プロセス -&gt; バリアブル</value>
   </data>
   <data name="MenuToolTipShowID" xml:space="preserve">
     <value>オブジェクトのID表示を変更する。</value>
@@ -370,7 +367,7 @@
     <value>ウィンドウ設定を読み込めませんでした。</value>
   </data>
   <data name="CanvasMenuBidirArrow" xml:space="preserve">
-    <value>プロセス &lt;-&gt; バリアブル</value>
+    <value>両方向</value>
   </data>
   <data name="CanvasMenuAlias" xml:space="preserve">
     <value>エイリアス作成</value>

@@ -318,14 +318,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Key definition of m_cMenuDict and MessageResources for Layer Move To Front
         /// </summary>
         internal const string CanvasMenuMoveBack = "LayerMenuMoveBack";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResources for rightArrow
-        /// </summary>
-        internal const string CanvasMenuRightArrow = "CanvasMenuRightArrow";
-        /// <summary>
-        /// Key definition of m_cMenuDict and MessageResources for leftArrow
-        /// </summary>
-        internal const string CanvasMenuLeftArrow = "CanvasMenuLeftArrow";
+        ///// <summary>
+        ///// Key definition of m_cMenuDict and MessageResources for rightArrow
+        ///// </summary>
+        //internal const string CanvasMenuRightArrow = "CanvasMenuRightArrow";
+        ///// <summary>
+        ///// Key definition of m_cMenuDict and MessageResources for leftArrow
+        ///// </summary>
+        //internal const string CanvasMenuLeftArrow = "CanvasMenuLeftArrow";
+        internal const string CanvasMenuAnotherArrow = "CanvasMenuAnotherArrow";
         /// <summary>
         /// Key definition of m_cMenuDict and MessageResources for bidirArrow
         /// </summary>

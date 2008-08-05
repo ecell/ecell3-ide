@@ -205,8 +205,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                     if (!base.m_canvas.Variables.ContainsKey(er.Key))
                         continue;
 
+                    bool bidi = false;
+                    foreach (EcellReference er1 in list)
+                    {
+                        if (er.FullID == er1.FullID &&
+                            er.Coefficient != 0 &&
+                            er.Coefficient == -1 * er1.Coefficient)
+                        {
+                            bidi = true;
+                            break;
+                        }
+                    }
                     PPathwayVariable var = base.m_canvas.Variables[er.Key];
-                    EdgeInfo edge = new EdgeInfo(this.EcellObject.Key, er);
+                    EdgeInfo edge;
+                    if (bidi)
+                        edge = new EdgeInfo(this.EcellObject.Key, er.Key, EdgeDirection.Bidirection);
+                    else                    
+                        edge = new EdgeInfo(this.EcellObject.Key, er);
+
                     PPathwayLine path = new PPathwayLine(m_canvas, edge);
                     
                     path.Brush = m_edgeBrush;
@@ -465,6 +481,33 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 m_type = LineType.Solid;
             }
             m_varKey = er.Key;
+        }
+
+        public EdgeInfo(string processKey, string varKey, EdgeDirection dir)
+        {
+            m_proKey = processKey;
+            // Set Relation
+            if (dir == EdgeDirection.Inward)
+            {
+                m_direction = EdgeDirection.Inward;
+                m_type = LineType.Solid;
+            }
+            else if (dir == EdgeDirection.None)
+            {
+                m_direction = EdgeDirection.None;
+                m_type = LineType.Dashed;
+            }
+            else if (dir == EdgeDirection.Outward)
+            {
+                m_direction = EdgeDirection.Outward;
+                m_type = LineType.Solid;
+            }
+            else
+            {
+                m_direction = EdgeDirection.Bidirection;
+                m_type = LineType.Solid;
+            }
+            m_varKey = varKey;
         }
         #endregion
 

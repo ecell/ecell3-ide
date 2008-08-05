@@ -308,25 +308,31 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_popMenuDict.Add(MenuConstants.CanvasMenuSeparator1, separator1);
 
             // Add Line Changer
-            ToolStripItem rightArrow = new ToolStripMenuItem(MessageResources.CanvasMenuRightArrow, PathwayResource.arrow_long_right_w);
-            rightArrow.Name = MenuConstants.CanvasMenuRightArrow;
-            rightArrow.Click += new EventHandler(ChangeLineClick);
-            nodeMenu.Items.Add(rightArrow);
-            m_popMenuDict.Add(MenuConstants.CanvasMenuRightArrow, rightArrow);
+            //ToolStripItem rightArrow = new ToolStripMenuItem(MessageResources.CanvasMenuRightArrow, PathwayResource.arrow_long_right_w);
+            //rightArrow.Name = MenuConstants.CanvasMenuRightArrow;
+            //rightArrow.Click += new EventHandler(ChangeLineClick);
+            //nodeMenu.Items.Add(rightArrow);
+            //m_popMenuDict.Add(MenuConstants.CanvasMenuRightArrow, rightArrow);
 
-            ToolStripItem leftArrow = new ToolStripMenuItem(MessageResources.CanvasMenuLeftArrow, PathwayResource.arrow_long_left_w);
-            leftArrow.Name = MenuConstants.CanvasMenuLeftArrow;
-            leftArrow.Click += new EventHandler(ChangeLineClick);
-            nodeMenu.Items.Add(leftArrow);
-            m_popMenuDict.Add(MenuConstants.CanvasMenuLeftArrow, leftArrow);
+            //ToolStripItem leftArrow = new ToolStripMenuItem(MessageResources.CanvasMenuLeftArrow, PathwayResource.arrow_long_left_w);
+            //leftArrow.Name = MenuConstants.CanvasMenuLeftArrow;
+            //leftArrow.Click += new EventHandler(ChangeLineClick);
+            //nodeMenu.Items.Add(leftArrow);
+            //m_popMenuDict.Add(MenuConstants.CanvasMenuLeftArrow, leftArrow);
+            ToolStripItem anotherArrow = new ToolStripMenuItem(MessageResources.CanvasMenuAnotherArrow);
+            anotherArrow.Name = MenuConstants.CanvasMenuAnotherArrow;
+            anotherArrow.Click += new EventHandler(ChangeLineClick);
+            nodeMenu.Items.Add(anotherArrow);
+            m_popMenuDict.Add(MenuConstants.CanvasMenuAnotherArrow, anotherArrow);
 
-            ToolStripItem bidirArrow = new ToolStripMenuItem(MessageResources.CanvasMenuBidirArrow, PathwayResource.arrow_long_bidir_w);
+
+            ToolStripItem bidirArrow = new ToolStripMenuItem(MessageResources.CanvasMenuBidirArrow);
             bidirArrow.Name = MenuConstants.CanvasMenuBidirArrow;
             bidirArrow.Click += new EventHandler(ChangeLineClick);
             nodeMenu.Items.Add(bidirArrow);
             m_popMenuDict.Add(MenuConstants.CanvasMenuBidirArrow, bidirArrow);
 
-            ToolStripItem constant = new ToolStripMenuItem(MessageResources.CanvasMenuConstantLine, PathwayResource.ten);
+            ToolStripItem constant = new ToolStripMenuItem(MessageResources.CanvasMenuConstantLine);
             constant.Name = MenuConstants.CanvasMenuConstantLine;
             constant.Click += new EventHandler(ChangeLineClick);
             nodeMenu.Items.Add(constant);
@@ -736,8 +742,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_popMenuDict[MenuConstants.CanvasMenuID].Visible = isPPathwayObject;
             m_popMenuDict[MenuConstants.CanvasMenuSeparator1].Visible = isPPathwayObject;
             // Show Line menus.
-            m_popMenuDict[MenuConstants.CanvasMenuRightArrow].Visible = isLine;
-            m_popMenuDict[MenuConstants.CanvasMenuLeftArrow].Visible = isLine;
+            //m_popMenuDict[MenuConstants.CanvasMenuRightArrow].Visible = isLine;
+            //m_popMenuDict[MenuConstants.CanvasMenuLeftArrow].Visible = isLine;
+            m_popMenuDict[MenuConstants.CanvasMenuAnotherArrow].Visible = isLine;
             m_popMenuDict[MenuConstants.CanvasMenuBidirArrow].Visible = isLine;
             m_popMenuDict[MenuConstants.CanvasMenuConstantLine].Visible = isLine;
             m_popMenuDict[MenuConstants.CanvasMenuDeleteArrow].Visible = isLine;
@@ -828,10 +835,30 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="line"></param>
         private void SetLineMenu(PPathwayLine line)
         {
-            m_popMenuDict[MenuConstants.CanvasMenuRightArrow].Enabled = !(line.Info.Direction == EdgeDirection.Outward);
-            m_popMenuDict[MenuConstants.CanvasMenuLeftArrow].Enabled = !(line.Info.Direction == EdgeDirection.Inward);
-            m_popMenuDict[MenuConstants.CanvasMenuBidirArrow].Enabled = !(line.Info.Direction == EdgeDirection.Bidirection);
-            m_popMenuDict[MenuConstants.CanvasMenuConstantLine].Enabled = !(line.Info.Direction == EdgeDirection.None);
+            if (line.Info.Direction == EdgeDirection.Bidirection)
+            {
+                //m_popMenuDict[MenuConstants.CanvasMenuRightArrow].Enabled = false;
+                //m_popMenuDict[MenuConstants.CanvasMenuLeftArrow].Enabled = false;
+                m_popMenuDict[MenuConstants.CanvasMenuAnotherArrow].Enabled = false;
+                m_popMenuDict[MenuConstants.CanvasMenuBidirArrow].Enabled = false;
+                m_popMenuDict[MenuConstants.CanvasMenuConstantLine].Enabled = true;
+            }
+            else if (line.Info.Direction == EdgeDirection.None)
+            {
+                //m_popMenuDict[MenuConstants.CanvasMenuRightArrow].Enabled = false;
+                //m_popMenuDict[MenuConstants.CanvasMenuLeftArrow].Enabled = false;
+                m_popMenuDict[MenuConstants.CanvasMenuAnotherArrow].Enabled = false;
+                m_popMenuDict[MenuConstants.CanvasMenuBidirArrow].Enabled = true;
+                m_popMenuDict[MenuConstants.CanvasMenuConstantLine].Enabled = false;
+            }
+            else
+            {
+                //m_popMenuDict[MenuConstants.CanvasMenuRightArrow].Enabled = !(line.Info.Direction == EdgeDirection.Outward);
+                //m_popMenuDict[MenuConstants.CanvasMenuLeftArrow].Enabled = !(line.Info.Direction == EdgeDirection.Inward);
+                m_popMenuDict[MenuConstants.CanvasMenuAnotherArrow].Enabled = true;
+                m_popMenuDict[MenuConstants.CanvasMenuBidirArrow].Enabled = true;
+                m_popMenuDict[MenuConstants.CanvasMenuConstantLine].Enabled = true;
+            }
         }
 
         /// <summary>
@@ -1113,16 +1140,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Create new edgeInfo.
             RefChangeType changeType = RefChangeType.SingleDir;
             int coefficient = 0;
-            if (item.Name == MenuConstants.CanvasMenuRightArrow)
+            if (item.Name == MenuConstants.CanvasMenuAnotherArrow)
             {
                 changeType = RefChangeType.SingleDir;
-                coefficient = 1;
+                if (line.Info.Direction == EdgeDirection.Inward)
+                    coefficient = 1;
+                else
+                    coefficient = -1;
             }
-            else if (item.Name == MenuConstants.CanvasMenuLeftArrow)
-            {
-                changeType = RefChangeType.SingleDir;
-                coefficient = -1;
-            }
+            //if (item.Name == MenuConstants.CanvasMenuRightArrow)
+            //{
+            //    changeType = RefChangeType.SingleDir;
+            //    coefficient = 1;
+            //}
+            //else if (item.Name == MenuConstants.CanvasMenuLeftArrow)
+            //{
+            //    changeType = RefChangeType.SingleDir;
+            //    coefficient = -1;
+            //}
             else if (item.Name == MenuConstants.CanvasMenuBidirArrow)
             {
                 changeType = RefChangeType.BiDir;

@@ -126,7 +126,7 @@
     <value>MS UI Gothic, 8.25pt, style=Bold</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 209</value>
+    <value>10, 220</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
@@ -160,19 +160,16 @@
     <value>Arial, 8.25pt, style=Bold</value>
   </data>
   <data name="CopyrightNotice.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 231</value>
+    <value>9, 240</value>
   </data>
   <data name="CopyrightNotice.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="CopyrightNotice.Size" type="System.Drawing.Size, System.Drawing">
-    <value>33, 14</value>
+    <value>0, 14</value>
   </data>
   <data name="CopyrightNotice.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
-  </data>
-  <data name="CopyrightNotice.Text" xml:space="preserve">
-    <value>copy</value>
   </data>
   <data name="&gt;&gt;CopyrightNotice.Name" xml:space="preserve">
     <value>CopyrightNotice</value>
@@ -193,19 +190,16 @@
     <value>Arial, 8.25pt, style=Bold</value>
   </data>
   <data name="VersionNumber.Location" type="System.Drawing.Point, System.Drawing">
-    <value>67, 207</value>
+    <value>67, 217</value>
   </data>
   <data name="VersionNumber.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="VersionNumber.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 14</value>
+    <value>0, 14</value>
   </data>
   <data name="VersionNumber.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
-  </data>
-  <data name="VersionNumber.Text" xml:space="preserve">
-    <value>v</value>
   </data>
   <data name="&gt;&gt;VersionNumber.Name" xml:space="preserve">
     <value>VersionNumber</value>
@@ -229,7 +223,7 @@
     <value>MS UI Gothic, 8.25pt</value>
   </data>
   <data name="progressInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 274</value>
+    <value>12, 269</value>
   </data>
   <data name="progressInfo.Size" type="System.Drawing.Size, System.Drawing">
     <value>10, 11</value>
@@ -265,7 +259,7 @@
     <value>-2, -2</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>479, 273</value>
+    <value>479, 268</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -295,7 +289,7 @@
     <value>None</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>474, 294</value>
+    <value>462, 289</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>

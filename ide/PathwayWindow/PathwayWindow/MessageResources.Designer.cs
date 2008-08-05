@@ -70,7 +70,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Process &lt;-&gt; Variable に類似しているローカライズされた文字列を検索します。
+        ///   Another direction に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuAnotherArrow {
+            get {
+                return ResourceManager.GetString("CanvasMenuAnotherArrow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Both directions に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuBidirArrow {
             get {
@@ -151,15 +160,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Process &lt;- Variable に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string CanvasMenuLeftArrow {
-            get {
-                return ResourceManager.GetString("CanvasMenuLeftArrow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Merge to supersystem に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuMerge {
@@ -174,15 +174,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string CanvasMenuPaste {
             get {
                 return ResourceManager.GetString("CanvasMenuPaste", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Process -&gt; Variable に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string CanvasMenuRightArrow {
-            get {
-                return ResourceManager.GetString("CanvasMenuRightArrow", resourceCulture);
             }
         }
         
