@@ -32,31 +32,12 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchInstanceDialog));
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            System.Windows.Forms.Label label1;
             this.searchButton = new System.Windows.Forms.Button();
             this.closeButton = new System.Windows.Forms.Button();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
             this.searchText = new System.Windows.Forms.TextBox();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
+            label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // tableLayoutPanel2
-            // 
-            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.searchButton, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.closeButton, 3, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // searchButton
             // 
@@ -64,7 +45,6 @@
             this.searchButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.searchButton.Name = "searchButton";
             this.searchButton.UseVisualStyleBackColor = true;
-            this.searchButton.Click += new System.EventHandler(this.SearchButtonClick);
             // 
             // closeButton
             // 
@@ -72,19 +52,11 @@
             this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.closeButton.Name = "closeButton";
             this.closeButton.UseVisualStyleBackColor = true;
-            this.closeButton.Click += new System.EventHandler(this.SearchCloseButtonClick);
-            // 
-            // tableLayoutPanel3
-            // 
-            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
-            this.tableLayoutPanel3.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.searchText, 1, 0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             // 
             // label1
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
             // 
             // searchText
             // 
@@ -98,34 +70,22 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.closeButton;
-            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(label1);
+            this.Controls.Add(this.searchButton);
+            this.Controls.Add(this.searchText);
+            this.Controls.Add(this.closeButton);
             this.Name = "SearchInstanceDialog";
             this.Shown += new System.EventHandler(this.SearchInstanceShown);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        /// <summary>
-        /// Button to search object by input condition.
-        /// </summary>
-        public System.Windows.Forms.Button searchButton;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.Label label1;
-        /// <summary>
-        /// TextBox to set search condition.
-        /// </summary>
-        public System.Windows.Forms.TextBox searchText;
-        /// <summary>
-        /// Button to close this window.
-        /// </summary>
-        public System.Windows.Forms.Button closeButton;
+        private System.Windows.Forms.Button searchButton;
+        private System.Windows.Forms.TextBox searchText;
+        private System.Windows.Forms.Button closeButton;
+
     }
 }

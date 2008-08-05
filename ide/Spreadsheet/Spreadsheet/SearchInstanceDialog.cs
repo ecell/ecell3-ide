@@ -40,44 +40,20 @@ namespace Ecell.IDE.Plugins.Spreadsheet
 {
     public partial class SearchInstanceDialog : Form
     {
-        #region Fields
-        /// <summary>
-        /// the plugin control this windows form.
-        /// </summary>
-        private Spreadsheet m_owner;
-        #endregion
+        public String SearchText
+        {
+            get { return searchText.Text; }
+        }
 
         /// <summary>
         /// Constructor for SearchInstance.
         /// </summary>
-        public SearchInstanceDialog(Spreadsheet owner)
+        public SearchInstanceDialog()
         {
-            m_owner = owner;
             InitializeComponent();
         }
 
         #region Event
-        /// <summary>
-        /// The action of clicking search button on Search Window.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        private void SearchButtonClick(object sender, EventArgs e)
-        {
-            string text = this.searchText.Text;
-            m_owner.SearchInstance(text);
-        }
-
-        /// <summary>
-        /// The action of clicking close button on Search Window.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        private void SearchCloseButtonClick(object sender, EventArgs e)
-        {
-            this.Dispose();
-        }
-
         /// <summary>
         /// The action of pressing the key of return on Search Window.
         /// </summary>
