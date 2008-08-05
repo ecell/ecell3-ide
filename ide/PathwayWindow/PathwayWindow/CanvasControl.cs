@@ -201,6 +201,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// BackGroundBrush
         /// </summary>
         private Brush m_bgBrush = null;
+
+        /// <summary>
+        /// Focus Mode
+        /// </summary>
+        private bool m_focusMode = true;
         #endregion
 
         #region Accessors
@@ -336,6 +341,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 foreach (PPathwaySystem system in m_systems.Values)
                     system.ShowingID = m_showingId;
             }
+        }
+
+        /// <summary>
+        /// Accessor for m_focusMode.
+        /// </summary>
+        public bool FocusMode
+        {
+            get { return m_focusMode; }
+            set { m_focusMode = value; }
         }
 
         /// <summary>
@@ -1363,10 +1377,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
             }
             // Move camera view.
-            m_pCanvas.Camera.AnimateViewToCenterBounds(centerBounds,
-                                             true,
-                                             CAMERA_ANIM_DURATION);
-            UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
+            if (m_focusMode)
+            {
+                m_pCanvas.Camera.AnimateViewToCenterBounds(centerBounds,
+                                                 true,
+                                                 CAMERA_ANIM_DURATION);
+                UpdateOverviewAfterTime(CAMERA_ANIM_DURATION + 150);
+            }
         }
         #endregion
 

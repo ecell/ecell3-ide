@@ -469,6 +469,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             menuList.Add(setup);
 
             // View menu
+            ToolStripMenuItem focusModeItem = new ToolStripMenuItem();
+            focusModeItem.CheckOnClick = true;
+            focusModeItem.CheckState = CheckState.Checked;
+            focusModeItem.ToolTipText = MessageResources.MenuToolTipFocus;
+            focusModeItem.Text = MessageResources.MenuItemFocus;
+            focusModeItem.Click += new EventHandler(ChangeFocusMode);
+
             ToolStripMenuItem showIdItem = new ToolStripMenuItem();
             showIdItem.CheckOnClick = true;
             showIdItem.CheckState = CheckState.Checked;
@@ -484,7 +491,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             viewModeItem.Click += new EventHandler(ViewModeClick);
 
             ToolStripMenuItem viewMenu = new ToolStripMenuItem();
-            viewMenu.DropDownItems.AddRange(new ToolStripItem[] { showIdItem, viewModeItem });
+            viewMenu.DropDownItems.AddRange(new ToolStripItem[] { focusModeItem, showIdItem, viewModeItem });
             viewMenu.Text = MessageResources.MenuItemView;
             viewMenu.Name = MenuConstants.MenuItemView;
 
@@ -1296,6 +1303,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 m_con.ShowingID = true;
             else
                 m_con.ShowingID = false;
+        }
+
+        private void ChangeFocusMode(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            if (item.CheckState == CheckState.Checked)
+                m_con.Canvas.FocusMode = true;
+            else
+                m_con.Canvas.FocusMode = false;
         }
 
         /// <summary>

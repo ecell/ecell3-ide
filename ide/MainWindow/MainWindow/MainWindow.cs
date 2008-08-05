@@ -120,6 +120,7 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private Dictionary<string, string> m_recentProjects = new Dictionary<string, string>();
         private GridJobStatusDialog m_statusDialog;
+        private string m_title;
 
         #endregion
 
@@ -180,6 +181,7 @@ namespace Ecell.IDE.MainWindow
             SetRecentProject();
             LoadDefaultWindowSetting();
             SetStartUpWindow();
+            m_title = this.Text;
         }
 
         /// <summary>
@@ -809,7 +811,7 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         public void Clear()
         {
-            // nothing
+            this.Text = m_title;
         }
 
         /// <summary>
@@ -917,6 +919,7 @@ namespace Ecell.IDE.MainWindow
             if (type == ProjectStatus.Loaded)
             {
                 string projectID = m_env.DataManager.CurrentProjectID;
+                this.Text = m_title + " (" + projectID + ")";
                 string filename = m_env.DataManager.CurrentProject.FilePath;
                 if (m_recentProjects.ContainsKey(projectID))
                     m_recentProjects.Remove(projectID);

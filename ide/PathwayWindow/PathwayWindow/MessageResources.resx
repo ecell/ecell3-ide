@@ -387,4 +387,10 @@
   <data name="MenuToolTipExportImage" xml:space="preserve">
     <value>Export Image file.</value>
   </data>
+  <data name="MenuItemFocus" xml:space="preserve">
+    <value>Focus the selected object,</value>
+  </data>
+  <data name="MenuToolTipFocus" xml:space="preserve">
+    <value>Focus the selected object.</value>
+  </data>
 </root>

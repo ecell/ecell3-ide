@@ -387,4 +387,10 @@
   <data name="MenuToolTipExportImage" xml:space="preserve">
     <value>画像ファイルを出力します。</value>
   </data>
+  <data name="MenuItemFocus" xml:space="preserve">
+    <value>フォーカス</value>
+  </data>
+  <data name="MenuToolTipFocus" xml:space="preserve">
+    <value>選択してエンティティをフォーカスする。</value>
+  </data>
 </root>
