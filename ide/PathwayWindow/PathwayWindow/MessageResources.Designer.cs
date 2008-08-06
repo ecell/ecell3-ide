@@ -223,6 +223,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Shape settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextComponentSetting {
+            get {
+                return ResourceManager.GetString("DialogTextComponentSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Edge color に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextEdgeBrush {
@@ -327,6 +336,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string DialogTextNormalEdge {
             get {
                 return ResourceManager.GetString("DialogTextNormalEdge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Pathway settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextPathwaySetting {
+            get {
+                return ResourceManager.GetString("DialogTextPathwaySetting", resourceCulture);
             }
         }
         

@@ -770,7 +770,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 m_manager = manager;
 
-                this.Text = "ComponentSettings";
+                this.Text = MessageResources.DialogTextComponentSetting;
                 this.SuspendLayout();
                 int top = 0;
                 foreach (ComponentSetting cs in m_manager.ComponentSettings)

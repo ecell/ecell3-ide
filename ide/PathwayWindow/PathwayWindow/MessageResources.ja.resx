@@ -390,4 +390,10 @@
   <data name="MenuToolTipFocus" xml:space="preserve">
     <value>選択してエンティティをフォーカスする。</value>
   </data>
+  <data name="DialogTextComponentSetting" xml:space="preserve">
+    <value>形状の設定</value>
+  </data>
+  <data name="DialogTextPathwaySetting" xml:space="preserve">
+    <value>パスウエイの設定</value>
+  </data>
 </root>

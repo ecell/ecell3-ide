@@ -224,6 +224,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Dialog\InputBoxDialog.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>InputBoxDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\PropertyDialog.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PropertyDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\SelectBoxDialog.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SelectBoxDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MessageResources.ja.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

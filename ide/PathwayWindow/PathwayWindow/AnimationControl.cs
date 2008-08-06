@@ -800,7 +800,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 m_viewModeItems = new ViewModeItems(control);
                 m_animationItems = new AnimationItems(control);
 
-                this.Text = "Pathway Setting";
+                this.Text = MessageResources.DialogTextPathwaySetting;
                 this.SuspendLayout();
                 this.Controls.Add(m_editModeItems);
                 this.Controls.Add(m_viewModeItems);

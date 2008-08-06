@@ -126,6 +126,12 @@
   <data name="DECloseButton.Text" xml:space="preserve">
     <value>キャンセル</value>
   </data>
+  <data name="DistributeParamNameColumn.HeaderText" xml:space="preserve">
+    <value>プロパティ名</value>
+  </data>
+  <data name="DistributeValueColumn.HeaderText" xml:space="preserve">
+    <value>プロパティ値</value>
+  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>オプション:</value>
   </data>

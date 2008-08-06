@@ -1301,7 +1301,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             PropertyDialog dialog = new PropertyDialog();
             using (dialog)
             {
-                dialog.Text = "PathwaySettings";
+                dialog.Text = MessageResources.DialogTextPathwaySetting;
                 PropertyDialogTabPage componentPage = m_con.ComponentManager.CreateTabPage();
                 PropertyDialogTabPage animationPage = m_con.Animation.CreateTabPage();
                 dialog.TabControl.Controls.Add(animationPage);

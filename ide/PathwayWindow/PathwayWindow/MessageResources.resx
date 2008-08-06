@@ -390,4 +390,10 @@
   <data name="MenuToolTipFocus" xml:space="preserve">
     <value>Focus the selected object.</value>
   </data>
+  <data name="DialogTextComponentSetting" xml:space="preserve">
+    <value>Shape settings</value>
+  </data>
+  <data name="DialogTextPathwaySetting" xml:space="preserve">
+    <value>Pathway settings</value>
+  </data>
 </root>
