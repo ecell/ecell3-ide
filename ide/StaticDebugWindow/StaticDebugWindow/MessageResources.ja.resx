@@ -118,19 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrBrackets" xml:space="preserve">
-    <value>括弧の数が一致していません。</value>
-  </data>
-  <data name="ErrCheckVar" xml:space="preserve">
-    <value>Variableのチェックしてください。</value>
+    <value>括弧が適切に閉じられていません。</value>
   </data>
   <data name="ErrInvalidID" xml:space="preserve">
-    <value>このコンポーネントには不正なIDが付けられています</value>
+    <value>ID文字列が不正です。</value>
   </data>
   <data name="ErrMaxMin" xml:space="preserve">
     <value>最小値が最大値を超えています。</value>
   </data>
   <data name="ErrNoConnect" xml:space="preserve">
-    <value>このオブジェクトはどのオブジェクトとも接続していません。</value>
+    <value>このエンティティはどのエンティティとも接続していません。</value>
   </data>
   <data name="ErrNoSet" xml:space="preserve">
     <value>このプロパティの値が設定されていません。</value>
@@ -157,6 +154,6 @@
     <value>ネットワークの整合性</value>
   </data>
   <data name="NoError" xml:space="preserve">
-    <value>異常なオブジェクトを見つかりませんでした。</value>
+    <value>不正なエンティティは見つかりませんでした。</value>
   </data>
 </root>

@@ -121,7 +121,7 @@
     <value>Do you really want to close this window?</value>
   </data>
   <data name="ErrInputData" xml:space="preserve">
-    <value>There are no numerical data.</value>
+    <value>Other than numeric value is set.</value>
   </data>
   <data name="FinishSave" xml:space="preserve">
     <value>Finish to save the simulation log successfully.</value>
@@ -133,15 +133,15 @@
     <value>Import ...</value>
   </data>
   <data name="MenuItemShowSaveTraceText" xml:space="preserve">
-    <value>Save Graph...</value>
+    <value>Save graph...</value>
   </data>
   <data name="MenuItemShowTraceSetupText" xml:space="preserve">
-    <value>&amp;Graph Setup...</value>
+    <value>&amp;Graph setting...</value>
   </data>
   <data name="MenuItemShowTraceText" xml:space="preserve">
-    <value>Create New &amp;Graph...</value>
+    <value>Create new &amp;graph...</value>
   </data>
   <data name="TracerWindow" xml:space="preserve">
-    <value>Graph</value>
+    <value>Graph plotter</value>
   </data>
 </root>

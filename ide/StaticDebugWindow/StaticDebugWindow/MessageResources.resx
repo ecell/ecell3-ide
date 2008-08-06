@@ -118,45 +118,42 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrBrackets" xml:space="preserve">
-    <value>The number of brackets is not correct.</value>
-  </data>
-  <data name="ErrCheckVar" xml:space="preserve">
-    <value>Get exception while system check the property of variable.</value>
+    <value>Unmatched right bracket.</value>
   </data>
   <data name="ErrInvalidID" xml:space="preserve">
-    <value>This Id include any invalid characters</value>
+    <value>ID string is not valid.</value>
   </data>
   <data name="ErrMaxMin" xml:space="preserve">
-    <value>This min value is largger than max value.</value>
+    <value>This minimum value is greater than the maximum value.</value>
   </data>
   <data name="ErrNoConnect" xml:space="preserve">
-    <value>This object do not connect any object.</value>
+    <value>This Entity has not connection to any Entity.</value>
   </data>
   <data name="ErrNoSet" xml:space="preserve">
     <value>This property is not set the value.</value>
   </data>
   <data name="ErrNotExistStepper" xml:space="preserve">
-    <value>Can't find this stepper.</value>
+    <value>This Stepper does not exist.</value>
   </data>
   <data name="ErrNoVariable" xml:space="preserve">
-    <value>This process have the reference for variable that is not exist.</value>
+    <value>Some Variables are lost referred by this Process.</value>
   </data>
   <data name="ErrPositive" xml:space="preserve">
-    <value>The value of this property should be the positive number.</value>
+    <value>The property value should be a positive number excluding zero.</value>
   </data>
   <data name="ErrPositiveZero" xml:space="preserve">
-    <value>The value of this property should be 0 or the positive number.</value>
+    <value>The property value should be a positive number including zero.</value>
   </data>
   <data name="MenuItemStaticDebugText" xml:space="preserve">
     <value>Static &amp;Debugger...</value>
   </data>
   <data name="ModelComplianceName" xml:space="preserve">
-    <value>Model Compliance</value>
+    <value>Model consistency</value>
   </data>
   <data name="NetworkComplianceName" xml:space="preserve">
-    <value>Network Compliance</value>
+    <value>Network consistency</value>
   </data>
   <data name="NoError" xml:space="preserve">
-    <value>Can't find error obejcts in this model.</value>
+    <value>There are no violate Entities in this model.</value>
   </data>
 </root>
