@@ -1033,7 +1033,7 @@ namespace Ecell
             string l_parameterID = null;
             Ecell.LoggerPolicy l_loggerPolicy = new LoggerPolicy();
             Ecell.LoggerPolicy expectedl_loggerPolicy = new LoggerPolicy();
-            _unitUnderTest.SetLoggerPolicy(l_parameterID, ref l_loggerPolicy);
+            _unitUnderTest.SetLoggerPolicy(l_parameterID, l_loggerPolicy);
             Assert.AreEqual(expectedl_loggerPolicy, l_loggerPolicy, "l_loggerPolicy ref parameter has unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
