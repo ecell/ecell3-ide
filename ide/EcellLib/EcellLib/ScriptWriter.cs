@@ -323,10 +323,10 @@ namespace Ecell
                     enc);
                 File.AppendAllText(fileName,
                     "logger" + m_logCount + ".setLoggerPolicy(" +
-                    l.m_reloadStepCount + "," +
-                    l.m_reloadInterval + "," +
-                    l.m_diskFullAction + "," +
-                    l.m_maxDiskSpace + ")\n", enc);
+                    l.ReloadStepCount + "," +
+                    l.ReloadInterval + "," +
+                    l.DiskFullAction + "," +
+                    l.MaxDiskSpace + ")\n", enc);
                 m_logCount++;
             }
 

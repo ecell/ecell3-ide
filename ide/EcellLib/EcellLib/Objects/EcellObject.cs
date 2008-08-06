@@ -381,7 +381,6 @@ namespace Ecell.Objects
         /// <summary>
         /// get/set Value.
         /// </summary>
-        [Browsable(false)]
         public virtual List<EcellData> Value
         {
             get { return m_ecellDatas; }

@@ -956,13 +956,7 @@ namespace Ecell
                 m_currentProject.StepperDic[simParam][modelID] = new List<EcellObject>();
                 m_currentProject.StepperDic[simParam][modelID].Add(dic[Constants.xpathStepper]);
                 m_currentProject.LoggerPolicyDic = new Dictionary<string, LoggerPolicy>();
-                m_currentProject.LoggerPolicyDic[simParam]
-                    = new LoggerPolicy(
-                        LoggerPolicy.s_reloadStepCount,
-                        LoggerPolicy.s_reloadInterval,
-                        LoggerPolicy.s_diskFullAction,
-                        LoggerPolicy.s_maxDiskSpace
-                        );
+                m_currentProject.LoggerPolicyDic[simParam] = new LoggerPolicy();
             }
             //
             // Messages
@@ -2242,10 +2236,10 @@ namespace Ecell
         {
             List<WrappedPolymorph> policyList = new List<WrappedPolymorph>();
             string simParam = m_currentProject.SimulationParam;
-            policyList.Add(new WrappedPolymorph(m_currentProject.LoggerPolicyDic[simParam].m_reloadStepCount));
-            policyList.Add(new WrappedPolymorph(m_currentProject.LoggerPolicyDic[simParam].m_reloadInterval));
-            policyList.Add(new WrappedPolymorph(m_currentProject.LoggerPolicyDic[simParam].m_diskFullAction));
-            policyList.Add(new WrappedPolymorph(m_currentProject.LoggerPolicyDic[simParam].m_maxDiskSpace));
+            policyList.Add(new WrappedPolymorph(m_currentProject.LoggerPolicyDic[simParam].ReloadStepCount));
+            policyList.Add(new WrappedPolymorph(m_currentProject.LoggerPolicyDic[simParam].ReloadInterval));
+            policyList.Add(new WrappedPolymorph((int)m_currentProject.LoggerPolicyDic[simParam].DiskFullAction));
+            policyList.Add(new WrappedPolymorph(m_currentProject.LoggerPolicyDic[simParam].MaxDiskSpace));
             return new WrappedPolymorph(policyList);
         }
 
@@ -3674,13 +3668,7 @@ namespace Ecell
                 // Stores the "LoggerPolicy"
                 if (!m_currentProject.LoggerPolicyDic.ContainsKey(simParam))
                 {
-                    m_currentProject.LoggerPolicyDic[simParam]
-                        = new LoggerPolicy(
-                            LoggerPolicy.s_reloadStepCount,
-                            LoggerPolicy.s_reloadInterval,
-                            LoggerPolicy.s_diskFullAction,
-                            LoggerPolicy.s_maxDiskSpace
-                            );
+                    m_currentProject.LoggerPolicyDic[simParam] = new LoggerPolicy();
                 }
                 Trace.WriteLine("Load Model: " + message);
                 if (isLogging)
@@ -4492,10 +4480,10 @@ namespace Ecell
 
                 m_currentProject.LoggerPolicyDic[parameterID]
                     = new LoggerPolicy(
-                        loggerPolicy.m_reloadStepCount,
-                        loggerPolicy.m_reloadInterval,
-                        loggerPolicy.m_diskFullAction,
-                        loggerPolicy.m_maxDiskSpace);
+                        loggerPolicy.ReloadStepCount,
+                        loggerPolicy.ReloadInterval,
+                        loggerPolicy.DiskFullAction,
+                        loggerPolicy.MaxDiskSpace);
                 //
                 // 4 Initial Condition
                 //
@@ -4897,7 +4885,7 @@ namespace Ecell
                 List<LogData> logDataList = this.GetLogData(
                     startTime,
                     endTime,
-                    m_currentProject.LoggerPolicyDic[m_currentProject.SimulationParam].m_reloadInterval
+                    m_currentProject.LoggerPolicyDic[m_currentProject.SimulationParam].ReloadInterval
                     );
                 if (logDataList == null || logDataList.Count <= 0)
                 {
@@ -5002,11 +4990,11 @@ namespace Ecell
         /// </summary>
         /// <param name="parameterID">The parameter ID</param>
         /// <param name="loggerPolicy">The "LoggerPolicy"</param>
-        public void SetLoggerPolicy(string parameterID, ref LoggerPolicy loggerPolicy)
+        public void SetLoggerPolicy(string parameterID, LoggerPolicy loggerPolicy)
         {
-                m_currentProject.LoggerPolicyDic[parameterID] = loggerPolicy;
-                Trace.WriteLine(String.Format(MessageResources.InfoUpdateLogPol,
-                    new object[] { parameterID }));
+            m_currentProject.LoggerPolicyDic[parameterID] = loggerPolicy;
+            Trace.WriteLine(String.Format(MessageResources.InfoUpdateLogPol,
+                new object[] { parameterID }));
         }
 
         /// <summary>
@@ -5486,33 +5474,53 @@ namespace Ecell
         /// <param name="isRecorded">Whether this action is recorded or not</param>
         public void UpdateStepperID(string parameterID, List<EcellObject> stepperList, bool isRecorded)
         {
+            if (stepperList.Count == 0)
+                return;
+
             string message = null;
             bool updateFlag = false;
+
             try
             {
                 List<EcellObject> oldStepperList = new List<EcellObject>();
+                Dictionary<string, List<EcellObject>> perParameterStepperListDic = m_currentProject.StepperDic[parameterID];
+                foreach (EcellObject model in m_currentProject.ModelList)
+                {
+                    List<EcellObject> remainingStepperList = new List<EcellObject>();
+                    foreach (EcellObject stepper in perParameterStepperListDic[model.ModelID])
+                    {
+                        oldStepperList.Add(stepper.Copy());
+                        bool deleted = true;
+                        foreach (EcellObject newStepper in stepperList)
+                        {
+                            if (stepper.Name == newStepper.Name)
+                            {
+                                remainingStepperList.Add(stepper);
+                                break;
+                            }
+                        }
+                    }
+                    perParameterStepperListDic[model.ModelID] = remainingStepperList;
+                }
                 foreach (EcellObject stepper in stepperList)
                 {
                     message = stepper.Key;
-                    Debug.Assert(m_currentProject.StepperDic[parameterID].ContainsKey(stepper.ModelID));
 
-                    updateFlag = false;
-                    List<EcellObject> storedStepperList
-                        = m_currentProject.StepperDic[parameterID][stepper.ModelID];
-                    for (int i = 0; i < storedStepperList.Count; i++)
+                    List<EcellObject> perModelStepperList = perParameterStepperListDic[stepper.ModelID];
+                    bool added = true;
+                    foreach (EcellObject oldStepper in perModelStepperList)
                     {
-                        if (storedStepperList[i].Key.Equals(stepper.Key))
+                        if (oldStepper.Key.Equals(stepper.Key))
                         {
-                            oldStepperList.Add(storedStepperList[i]);
-                            this.CheckDifferences(storedStepperList[i], stepper, parameterID);
-                            storedStepperList[i] = stepper.Copy();
+                            this.CheckDifferences(oldStepper, stepper, parameterID);
                             updateFlag = true;
+                            added = false;
                             break;
                         }
                     }
-                    if (!updateFlag)
+                    if (added)
                     {
-                        break;
+                        perModelStepperList.Add(stepper);
                     }
                 }
                 if (updateFlag && isRecorded)
@@ -5522,8 +5530,6 @@ namespace Ecell
             {
                 throw new Exception(MessageResources.ErrSetSimParam, ex);
             }
-            if (!updateFlag)
-                throw new Exception(MessageResources.ErrSetSimParam);
         }
         /// <summary>
         /// 

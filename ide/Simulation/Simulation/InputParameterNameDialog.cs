@@ -57,7 +57,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <summary>
         /// Constructor for NewParameterWindow.
         /// </summary>
-        public InputParameterNameDialog(SimulationConfigurationDialog owner)
+        internal InputParameterNameDialog(SimulationConfigurationDialog owner)
         {
             m_owner = owner;
             InitializeComponent();
@@ -75,20 +75,21 @@ namespace Ecell.IDE.Plugins.Simulation
         }
         #endregion
 
-        void InputParameterNameDialog_FormClosing(object o, FormClosingEventArgs args)
+        private void InputParameterNameDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (this.DialogResult == DialogResult.Cancel)
+                return;
+
             if (String.IsNullOrEmpty(paramTextBox.Text))
             {
-                Util.ShowWarningDialog(
-                    String.Format(MessageResources.ErrNoInput,
-                        new object[] { "Name" }));
-                args.Cancel = true;
+                Util.ShowWarningDialog(MessageResources.ErrNoInput);
+                e.Cancel = true;
                 return;
             }
             if (Util.IsNGforID(paramTextBox.Text))
             {
                 Util.ShowWarningDialog(MessageResources.ErrIDNG);
-                args.Cancel = true;
+                e.Cancel = true;
                 return;
             }
         }

@@ -133,7 +133,7 @@
     <value>Value is not valid.</value>
   </data>
   <data name="ErrNoInput" xml:space="preserve">
-    <value>Nothing input {0}.</value>
+    <value>No value is entered</value>
   </data>
   <data name="ErrUpdateLog" xml:space="preserve">
     <value>Can not update the simulation parameters.</value>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-
+using System.Diagnostics;
 using EcellCoreLib;
 
 namespace Ecell
@@ -187,43 +187,62 @@ namespace Ecell
         }
     }
 
+    public enum DiskFullAction
+    {
+        Terminate = 0,
+        Overwrite = 1
+    }
+
     /// <summary>
     /// Stores the logger policy.
     /// </summary>
-    public struct LoggerPolicy
+    public class LoggerPolicy: ICloneable
     {
         /// <summary>
         /// The action when the HDD is full
         /// </summary>
-        public int m_diskFullAction;
+        private DiskFullAction m_diskFullAction = DiskFullAction.Terminate;
         /// <summary>
         /// The maximum HDD space
         /// </summary>
-        public int m_maxDiskSpace;
+        private int m_maxDiskSpace = 0;
         /// <summary>
         /// The reload interval
         /// </summary>
-        public double m_reloadInterval;
+        private double m_reloadInterval = 0;
         /// <summary>
         /// The reload step count
         /// </summary>
-        public int m_reloadStepCount;
-        /// <summary>
-        /// The default action when the HDD is full
-        /// </summary>
-        public const int s_diskFullAction = 0;
-        /// <summary>
-        /// The default maximum HDD space
-        /// </summary>
-        public const int s_maxDiskSpace = 0;
-        /// <summary>
-        /// The default reload interval
-        /// </summary>
-        public const double s_reloadInterval = 0.0;
-        /// <summary>
-        /// The default reload step count
-        /// </summary>
-        public const int s_reloadStepCount = 1;
+        private int m_reloadStepCount = 1;
+
+        public DiskFullAction DiskFullAction
+        {
+            get { return m_diskFullAction; }
+            set { m_diskFullAction = value; }
+        }
+
+        public int MaxDiskSpace
+        {
+            get { return m_maxDiskSpace; }
+            set { m_maxDiskSpace = value; }
+        }
+
+        public double ReloadInterval
+        {
+            get { return m_reloadInterval; }
+            set { m_reloadInterval = value; }
+        }
+
+        public int ReloadStepCount
+        {
+            get { return m_reloadStepCount; }
+            set { m_reloadStepCount = value; }
+        }
+
+        public object Clone()
+        {
+            return new LoggerPolicy(this);
+        }
 
         /// <summary>
         /// Creates the new "LoggerPolicy" instance with some parameters.
@@ -235,44 +254,30 @@ namespace Ecell
         public LoggerPolicy(
             int reloadStepCount,
             double reloadInterval,
-            int diskFullAction,
+            DiskFullAction diskFullAction,
             int maxDiskSpace
             )
         {
-            if (reloadStepCount < 0)
-            {
-                reloadStepCount = s_reloadStepCount;
-            }
+            Debug.Assert(reloadStepCount >= 0);
+            Debug.Assert(reloadInterval >= 0.0);
+            Debug.Assert(reloadStepCount != 0 || reloadInterval != 0.0);
+            Debug.Assert(maxDiskSpace >= 0);
+
             this.m_reloadStepCount = reloadStepCount;
-            if (reloadInterval < 0.0)
-            {
-                reloadInterval = s_reloadInterval;
-            }
             this.m_reloadInterval = reloadInterval;
-            //
-            // Puts the reload step count ahead of the reload interval.
-            //
-            if (reloadStepCount == 0 && reloadInterval == 0.0)
-            {
-                reloadStepCount = s_reloadStepCount;
-            }
-            switch (diskFullAction)
-            {
-                case 0:
-                    break;
-                case 1:
-                    break;
-                default:
-                    diskFullAction = s_diskFullAction;
-                    break;
-            }
             this.m_diskFullAction = diskFullAction;
-            if (maxDiskSpace < 0)
-            {
-                maxDiskSpace = s_maxDiskSpace;
-            }
             this.m_maxDiskSpace = maxDiskSpace;
         }
+
+        public LoggerPolicy(LoggerPolicy rhs)
+        {
+            this.m_reloadStepCount = rhs.m_reloadStepCount;
+            this.m_reloadInterval = rhs.m_reloadInterval;
+            this.m_diskFullAction = rhs.m_diskFullAction;
+            this.m_maxDiskSpace = rhs.m_maxDiskSpace;
+        }
+
+        public LoggerPolicy() { }
     }
 
     /// <summary>

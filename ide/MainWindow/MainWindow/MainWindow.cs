@@ -344,6 +344,8 @@ namespace Ecell.IDE.MainWindow
                 {
                     string name = GetStringChild(node, "Name");
                     string file = GetStringChild(node, "File");
+                    if (name == null || file == null)
+                        continue;
                     m_recentProjects.Add(name, file);
                 }
                 ResetRecentProject();
@@ -360,6 +362,7 @@ namespace Ecell.IDE.MainWindow
             {
                 ToolStripMenuItem item = new ToolStripMenuItem(project.Key);
                 item.ToolTipText = project.Value;
+                item.ToolTipText = project.Value;
                 item.Click += new EventHandler(RecentProject_Click);
                 openProjectToolStripMenuItem.DropDownItems.Add(item);
             }
@@ -373,7 +376,7 @@ namespace Ecell.IDE.MainWindow
         void RecentProject_Click(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            m_env.DataManager.LoadProject(item.ToolTipText);
+            m_env.DataManager.LoadProject((string)item.Tag);
         }
         /// <summary>
         /// GetNodeByKey

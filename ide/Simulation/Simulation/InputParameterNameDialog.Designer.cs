@@ -32,16 +32,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InputParameterNameDialog));
-            this.label1 = new System.Windows.Forms.Label();
             this.paramTextBox = new System.Windows.Forms.TextBox();
             this.CPCreateButton = new System.Windows.Forms.Button();
             this.CPCancelButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
             // 
             // paramTextBox
             // 
@@ -71,10 +65,8 @@
             this.Controls.Add(this.CPCreateButton);
             this.Controls.Add(this.paramTextBox);
             this.Controls.Add(this.CPCancelButton);
-            this.Controls.Add(this.label1);
             this.Name = "InputParameterNameDialog";
             this.Shown += new System.EventHandler(this.ShowCreateParameterWin);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.InputParameterNameDialog_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -82,7 +74,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
         /// <summary>
         /// TextBox of parameter name on dialog to create parameter set.
         /// </summary>

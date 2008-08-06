@@ -223,13 +223,12 @@ namespace Ecell
         public void CreateLoggerPolicy(
                 int savedStepCount,
                 double savedInterval,
-                int diskFullAction,
+                DiskFullAction diskFullAction,
                 int maxDiskSpace)
         {
             LoggerPolicy loggerPolicy
                     = new LoggerPolicy(savedStepCount, savedInterval, diskFullAction, maxDiskSpace);
-            m_env.DataManager.SetLoggerPolicy(m_env.DataManager.GetCurrentSimulationParameterID(),
-                    ref loggerPolicy);
+            m_env.DataManager.SetLoggerPolicy(m_env.DataManager.GetCurrentSimulationParameterID(), loggerPolicy);
         }
 
         /// <summary>
@@ -706,7 +705,7 @@ namespace Ecell
             double interval
                     = m_env.DataManager
                             .GetLoggerPolicy(m_env.DataManager.GetCurrentSimulationParameterID())
-                            .m_reloadInterval;
+                            .ReloadInterval;
             return m_env.DataManager
                     .GetLogData(startTime, endTime, interval, fullPN).logValueList;
         }
@@ -1497,7 +1496,7 @@ namespace Ecell
             public void SetLoggerPolicy(
                     int savedStepCount,
                     double savedInterval,
-                    int diskFullAction,
+                    DiskFullAction diskFullAction,
                     int maxDiskSpace)
             {
                 m_cManager.CreateLoggerPolicy(
@@ -1692,12 +1691,12 @@ namespace Ecell
             public void SetLoggerPolicy(
                     int savedStepCount,
                     double savedInterval,
-                    int diskFullAction,
+                    DiskFullAction diskFullAction,
                     int maxDiskSpace)
             {
                 LoggerPolicy loggerPolicy
                         = new LoggerPolicy(savedStepCount, savedInterval, diskFullAction, maxDiskSpace);
-                m_cManager.DataManager.SetLoggerPolicy(this.m_parameterID, ref loggerPolicy);
+                m_cManager.DataManager.SetLoggerPolicy(this.m_parameterID, loggerPolicy);
             }
         }
 

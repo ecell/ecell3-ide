@@ -196,22 +196,22 @@ namespace Ecell
             m_tx.WriteElementString(
                 Constants.xpathStep.ToLower(),
                 null,
-                System.Environment.NewLine + loggerPolicy.m_reloadStepCount + System.Environment.NewLine
+                System.Environment.NewLine + loggerPolicy.ReloadStepCount + System.Environment.NewLine
                 );
             m_tx.WriteElementString(
                 Constants.xpathInterval.ToLower(),
                 null,
-                System.Environment.NewLine + loggerPolicy.m_reloadInterval + System.Environment.NewLine
+                System.Environment.NewLine + loggerPolicy.ReloadInterval + System.Environment.NewLine
                 );
             m_tx.WriteElementString(
                 Constants.xpathAction.ToLower(),
                 null,
-                System.Environment.NewLine + loggerPolicy.m_diskFullAction + System.Environment.NewLine
+                System.Environment.NewLine + loggerPolicy.DiskFullAction + System.Environment.NewLine
                 );
             m_tx.WriteElementString(
                 Constants.xpathSpace.ToLower(),
                 null,
-                System.Environment.NewLine + loggerPolicy.m_maxDiskSpace + System.Environment.NewLine
+                System.Environment.NewLine + loggerPolicy.MaxDiskSpace + System.Environment.NewLine
                 );
             m_tx.WriteEndElement();
         }
@@ -471,7 +471,11 @@ namespace Ecell
                 throw new InvalidDataException("maximum disk usage should be greater than 0");
             }
 
-            return new LoggerPolicy(step, interval, action, diskSpace);
+            return new LoggerPolicy(step, interval,
+                action == 0 ?
+                    DiskFullAction.Terminate:
+                    DiskFullAction.Overwrite,
+                diskSpace);
         }
 
         /// <summary>

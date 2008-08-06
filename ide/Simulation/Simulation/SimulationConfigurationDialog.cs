@@ -45,7 +45,7 @@ namespace Ecell.IDE.Plugins.Simulation
     /// <summary>
     /// Dialog to setup the properties of simulation.
     /// </summary>
-    public partial class SimulationConfigurationDialog : Form
+    internal partial class SimulationConfigurationDialog : Form
     {
         #region Fields
         /// <summary>
@@ -60,104 +60,63 @@ namespace Ecell.IDE.Plugins.Simulation
         /// List of value for selected stepper.
         /// </summary>
         private List<EcellData> m_selectValue;
+
+        private List<string> m_stepperClasses;
+
+        private Dictionary<string, Dictionary<string, Dictionary<string, StepperConfiguration>>> m_originalStepperConfigurations;
+
+        private bool freqByStepTextBox_filledWithDefaultValue = false;
+
+        private bool freqBySecTextBox_filledWithDefaultValue = false;
         #endregion
 
-        #region Accessors
-        /// <summary>
-        /// DataManager.
-        /// </summary>
-        public DataManager DataManager
+        public IEnumerable<SimulationParameterSet> Result
         {
-            get { return m_owner.DataManager; }
+            get
+            {
+                List<SimulationParameterSet> retval = new List<SimulationParameterSet>();
+                foreach (SimulationParameterSet sps in m_simParamSets)
+                    retval.Add(sps);
+                return retval;
+            }
         }
-        #endregion
 
         /// <summary>
         /// Constructor for SimulationSetup.
         /// </summary>
-        public SimulationConfigurationDialog(Simulation owner)
+        public SimulationConfigurationDialog(Simulation owner, IEnumerable<SimulationParameterSet> simParamSets)
         {
             m_owner = owner;
+            m_stepperClasses = m_owner.DataManager.GetStepperList();
+            m_originalStepperConfigurations = new Dictionary<string,Dictionary<string,Dictionary<string,StepperConfiguration>>>();
             InitializeComponent();
-
-            paramCombo.SelectedIndexChanged += new EventHandler(SelectedIndexChangedParam);
-            stepperListBox.SelectedIndexChanged += new EventHandler(StepperListBoxSelectedIndexChanged);
-            stepCombo.SelectedIndexChanged += new EventHandler(StepComboSelectedIndexChanged);
-            modelCombo.SelectedIndexChanged += new EventHandler(ModelComboSelectedIndexChanged);
-            SSCreateButton.Click += new EventHandler(NewButtonClick);
-            SSDeleteButton.Click += new EventHandler(DeleteButtonClick);
-            SSCloseButton.Click += new EventHandler(CloseButtonClick);
-            SSApplyButton.Click += new EventHandler(UpdateButtonClick);
-            modelCombo.SelectedIndexChanged += new EventHandler(InitModelComboSelectedIndexChanged);
-
-            SSSetButton.Click += new EventHandler(SetButtonClick);
-            SSAddStepperButton.Click += new EventHandler(AddStepperClick);
-            SSDeleteStepperButton.Click += new EventHandler(DeleteStepperClick);
+            stepCombo.DataSource = m_stepperClasses;
+            perModelSimulationParameterBindingSource.CurrentChanged += new EventHandler(perModelSimulationParameterBindingSource_CurrentChanged);
+            perModelSimulationParameterBindingSource.MoveFirst();
+            m_simParamSets.SuspendBinding();
+            foreach (SimulationParameterSet i in simParamSets)
+            {
+                Dictionary<string, Dictionary<string, StepperConfiguration>> pmsc = new Dictionary<string,Dictionary<string,StepperConfiguration>>();
+                m_originalStepperConfigurations[i.Name] = pmsc;
+                foreach (PerModelSimulationParameter pmsp in i.PerModelSimulationParameters)
+                {
+                    Dictionary<string, StepperConfiguration> scs = new Dictionary<string, StepperConfiguration>();
+                    pmsc[pmsp.ModelID] = scs;
+                    foreach (StepperConfiguration sc in pmsp.Steppers)
+                    {
+                        scs[sc.Name] = (StepperConfiguration)sc.Clone();
+                    }
+                }
+                m_simParamSets.Add(i);
+            }
+            m_simParamSets.ResumeBinding();
         }
 
-        /// <summary>
-        /// Check whether this steppr is existed.
-        /// </summary>
-        /// <param name="data">stepper name.</param>
-        /// <returns>if exist, return true.</returns>
-        public bool IsExistStepper(string data)
+        void perModelSimulationParameterBindingSource_CurrentChanged(object sender, EventArgs e)
         {
-            return stepCombo.Items.Contains(data);
-        }
-
-        /// <summary>
-        /// Get the current parameter name.
-        /// </summary>
-        /// <returns>the parameter name.</returns>
-        public string GetCurrentParameter()
-        {
-            return paramCombo.Text;
-        }
-
-        /// <summary>
-        /// Get the current model name.
-        /// </summary>
-        /// <returns>the model name.</returns>
-        public string GetCurrentModel()
-        {
-            return modelCombo.Text;
-        }
-
-        /// <summary>
-        /// Get the current stepper name.
-        /// </summary>
-        /// <returns>the stepper name.</returns>
-        public string GetCurrentStepper()
-        {
-            return stepCombo.Text;
-        }
-
-        /// <summary>
-        /// Add the stepper to ListBox.
-        /// </summary>
-        /// <param name="data">the stepper name.</param>
-        public void AddStepper(string data)
-        {
-            stepperListBox.Items.Add(data);
-        }
-
-        /// <summary>
-        /// Set the created parameter.
-        /// </summary>
-        /// <param name="data">the parameter name.</param>
-        public void SetNewParameter(string data)
-        {
-            paramCombo.Items.Add(data);
-            paramCombo.SelectedItem = data;
-        }
-
-        /// <summary>
-        /// Set stepper list.
-        /// </summary>
-        /// <param name="list">stepper list</param>
-        public void SetStepperList(List<EcellObject> list)
-        {
-            m_steppList = list;
+            PerModelSimulationParameter p = (PerModelSimulationParameter)((BindingSource)sender).Current;
+            steppersBindingSource.DataSource = p.Steppers;
+            perTypeInitialConditionsBindingSource.DataSource = p.PerTypeInitialConditions;
         }
 
         /// <summary>
@@ -223,7 +182,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// Redraw simulation setup window on changing parameter ID.
         /// </summary>
         /// <param name="param">parameter ID</param>
-        public void ChangePameterID(string param)
+        public void ChangeParameterID(string param)
         {
             int j = 0;
             string selectModelName = "";
@@ -240,286 +199,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 }
                 j++;
             }
-            SetInitialParameter();
-            SetLoggingCondition();
         }
-
-        /// <summary>
-        /// The action of changing selected model in Initial condition tab.
-        /// </summary>
-        private void SetInitialParameter()
-        {
-            InitProDGV.Rows.Clear();
-            InitVarDGV.Rows.Clear();
-
-            SetInitialParameterGrid(Constants.xpathProcess, InitProDGV);
-            SetInitialParameterGrid(Constants.xpathVariable, InitVarDGV);
-        }
-
-        /// <summary>
-        /// Set the initial parameters of data to DataGridView.
-        /// </summary>
-        /// <param name="type">data type.</param>
-        /// <param name="dgv">DataGridView for data type.</param>
-        private void SetInitialParameterGrid(string type, DataGridView dgv)
-        {
-            string modelName = modelCombo.Text;
-            string currentParam = paramCombo.Text;
-
-            Dictionary<string, double> initList =
-                m_owner.DataManager.GetInitialCondition(currentParam,
-                                modelName, type);
-            foreach (string key in initList.Keys)
-            {
-                DataGridViewRow row = new DataGridViewRow();
-
-                DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-                c1.Value = key;
-                row.Cells.Add(c1);
-
-                DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
-                c2.Value = initList[key];
-                row.Cells.Add(c2);
-
-                row.Tag = initList[key];
-                dgv.Rows.Add(row);
-                c1.ReadOnly = true;
-            }
-        }
-
-        /// <summary>
-        /// Update the property of stepper from the information of DataGridView.
-        /// </summary>
-        private void UpdateStepperCondition()
-        {
-            List<EcellObject> list = new List<EcellObject>();
-            string paramID = paramCombo.Text;
-            string stepperID = stepperListBox.Text;
-            string modelID = modelCombo.Text;
-            string classname = stepCombo.Text;
-
-            foreach (DataGridViewRow row in dgv.Rows)
-            {
-                string name = (string)row.Cells[0].Value;
-                string value = (string)row.Cells[1].Value;
-                try
-                {
-                    foreach (EcellData tmp in m_selectValue)
-                    {
-                        if (tmp.Name != name) continue;
-                        if (tmp.Value.IsInt)
-                            tmp.Value = new EcellValue(Convert.ToInt32(value));
-                        else if (tmp.Value.IsDouble)
-                        {
-                            if (value == "1.79769313486232E+308")
-                                tmp.Value = new EcellValue(Double.MaxValue);
-                            else
-                                tmp.Value = new EcellValue(System.Double.Parse(value));
-                        }
-                        else if (tmp.Value.IsList)
-                            tmp.Value = EcellValue.ToList(value);
-                        else
-                            tmp.Value = new EcellValue(value);
-
-                    }
-                }
-                catch (Exception)
-                {
-                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                    return;
-                }
-            }
-            EcellObject obj = EcellObject.CreateObject(modelID, stepperID,
-                Constants.xpathStepper, classname, m_selectValue);
-            list.Add(obj);
-
-            m_owner.DataManager.UpdateStepperID(paramID, list);
-            foreach (EcellObject tmp in m_steppList)
-            {
-                if (tmp.Value == null) continue;
-                if (tmp.Key != stepperID) continue;
-
-                m_steppList.Remove(tmp);
-                break;
-            }
-            m_steppList.Add(obj);
-        }
-
-        /// <summary>
-        /// Set the simulation condition when this form is shown.
-        /// </summary>
-        private void SetSimulationCondition()
-        {
-            int i = 0;
-            List<string> stepList = m_owner.DataManager.GetStepperList();
-            foreach (string step in stepList)
-            {
-                stepCombo.Items.Add(step);
-            }
-
-            string currentParam = m_owner.DataManager.GetCurrentSimulationParameterID();
-            List<string> paramList = m_owner.DataManager.GetSimulationParameterIDs();
-            foreach (string param in paramList)
-            {
-                paramCombo.Items.Add(param);
-                if (param == currentParam || (currentParam == null && i == 0))
-                {
-                    paramCombo.SelectedIndex = i;
-                    ChangePameterID(param);
-                    ChangeModelID(modelCombo.Text);
-                }
-                i++;
-            }
-            SetInitialParameter();
-        }
-
-        /// <summary>
-        /// Set the property of logging for current parameters.
-        /// </summary>
-        public void SetLoggingCondition()
-        {
-            LoggerPolicy log = m_owner.DataManager.GetLoggerPolicy(paramCombo.Text);
-            if (log.m_reloadStepCount > 0)
-            {
-                freqByStepRadio.Checked = true;
-                freqByStepTextBox.Text = log.m_reloadStepCount.ToString();
-            }
-            else if (log.m_reloadInterval > 0.0)
-            {
-                freqBySecRadio.Checked = true;
-                freqBySecTextBox.Text = log.m_reloadInterval.ToString();
-            }
-            if (log.m_diskFullAction == 0)
-            {
-                exceptionRadio.Checked = true;
-            }
-            else
-            {
-                overrideRadio.Checked = true;
-            }
-            if (log.m_maxDiskSpace == 0)
-            {
-                noLimitRadio.Checked = true;
-            }
-            else
-            {
-                maxSizeRadio.Checked = true;
-                maxKbTextBox.Text = log.m_maxDiskSpace.ToString();
-            }
-        }
-
-        /// <summary>
-        /// Update the property of logging from DataGridView.
-        /// </summary>
-        private void UpdateLoggingCondition()
-        {
-            int stepNum = 0;
-            double secNum = 0.0;
-            int fullAction = 0;
-            int diskSpace = 0;
-            string paramID = paramCombo.Text;
-
-            try
-            {
-                // frequency
-                if (freqByStepRadio.Checked)
-                {
-                    if (String.IsNullOrEmpty( freqByStepTextBox.Text))
-                    {
-                        Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput,
-                            new object[] { "Step" }));
-
-                        return;
-                    }
-                    stepNum = Convert.ToInt32(freqByStepTextBox.Text);
-                }
-                else if (freqBySecRadio.Checked)
-                {
-                    if (freqBySecTextBox.Text == "")
-                    {
-                        Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput,
-                            new object[] { "Sec" }));
-
-                        return;
-                    }
-                    secNum = Convert.ToDouble(freqBySecTextBox.Text);
-                }
-
-                // action when disk is full
-                if (exceptionRadio.Checked) { }
-                else if (overrideRadio.Checked)
-                {
-                    fullAction = 1;
-                }
-
-                // disk space
-                if (noLimitRadio.Checked) { }
-                else if (maxSizeRadio.Checked)
-                {
-                    if (maxKbTextBox.Text == "")
-                    {
-                        Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput,
-                            new object[] { "Disk Size" }));
-
-                        return;
-                    }
-
-                    diskSpace = Convert.ToInt32(maxKbTextBox.Text);
-                }
-
-                LoggerPolicy log = new LoggerPolicy(stepNum, secNum, fullAction, diskSpace);
-                m_owner.DataManager.SetLoggerPolicy(paramID, ref log);
-            }
-            catch (Exception ex)
-            {
-                String errmes = MessageResources.ErrUpdateLog;
-                Util.ShowErrorDialog(errmes + "\n\n" + ex.Message);
-                return;
-            }
-        }
-
-        /// <summary>
-        /// Update the property of initial parameter from DataGridView.
-        /// </summary>
-        private void UpdateInitialCondition()
-        {
-            string paramName = paramCombo.Text;
-            string modelName = modelCombo.Text;
-            Dictionary<string, double> updateList = new Dictionary<string, double>();
-
-            // ======================================== 
-            // initial parameter of process update.
-            // ========================================
-            foreach (DataGridViewRow row in InitProDGV.Rows)
-            {
-                double value = Convert.ToDouble(row.Cells[1].Value);
-                double pre = Convert.ToDouble(row.Tag);
-
-                if (value == pre) continue;
-                string id = (string)row.Cells[0].Value;
-
-                updateList.Add(id, value);
-            }
-            m_owner.DataManager.UpdateInitialCondition(paramName, modelName, "Process", updateList);
-            updateList.Clear();
-
-            // ======================================== 
-            // initial parameter of variable update.
-            // ========================================
-            foreach (DataGridViewRow row in InitVarDGV.Rows)
-            {
-                double value = Convert.ToDouble(row.Cells[1].Value);
-                double pre = Convert.ToDouble(row.Tag);
-
-                if (value == pre) continue;
-                string id = (string)row.Cells[0].Value;
-
-                updateList.Add(id, value);
-            }
-            m_owner.DataManager.UpdateInitialCondition(paramName, modelName, "Variable", updateList);
-            updateList.Clear();
-        }
-
 
         #region Event
         /// <summary>
@@ -531,16 +211,6 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             string modelName = modelCombo.Text;
             ChangeModelID(modelName);
-        }
-
-        /// <summary>
-        /// The action of changing selected model in Initial condition tab.
-        /// </summary>
-        /// <param name="sender">object(ComboBox)</param>
-        /// <param name="e">EventArgs</param>
-        public void InitModelComboSelectedIndexChanged(object sender, EventArgs e)
-        {
-            SetInitialParameter();
         }
 
         /// <summary>
@@ -600,32 +270,6 @@ namespace Ecell.IDE.Plugins.Simulation
         }
 
         /// <summary>
-        /// The action of changing the selected item in ParaComboBox.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void SelectedIndexChangedParam(object sender, EventArgs e)
-        {
-            stepperListBox.Items.Clear();
-            dgv.Rows.Clear();
-            string param = paramCombo.SelectedItem.ToString();
-            ChangePameterID(param);
-        }
-
-        /// <summary>
-        /// The action of clicking set button in SimulationSetupWindow.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void SetButtonClick(object sender, EventArgs e)
-        {
-            if (paramCombo.SelectedItem == null) return;
-            string param = paramCombo.SelectedItem.ToString();
-
-            m_owner.DataManager.SetSimulationParameter(param, false, false);
-        }
-
-        /// <summary>
         /// The action of clicking new button in SimulationSetupWindow.
         /// </summary>
         /// <param name="sender">object(Button)</param>
@@ -637,9 +281,12 @@ namespace Ecell.IDE.Plugins.Simulation
             {
                 if (newwin.ShowDialog() != DialogResult.OK)
                     return;
-                string newParamName = newwin.InputText;
-                DataManager.CreateSimulationParameter(newParamName);
-                SetNewParameter(newParamName);
+                SimulationParameterSet sps = new SimulationParameterSet(newwin.InputText);
+                foreach (string modelID in m_owner.DataManager.GetModelList())
+                {
+                    sps.PerModelSimulationParameters.Add(new PerModelSimulationParameter(modelID));
+                }
+                m_simParamSets.Add(sps);
             }
         }
 
@@ -665,72 +312,23 @@ namespace Ecell.IDE.Plugins.Simulation
         }
 
         /// <summary>
-        /// The action of clicking save button in SimulationSetupWindow.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void SaveButtonClick(object sender, EventArgs e)
-        {
-            string param = paramCombo.SelectedItem.ToString();
-            m_owner.DataManager.SaveSimulationParameter(param);
-        }
-
-        /// <summary>
-        /// The action of clicking close button in SimulationSetupWindow
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void CloseButtonClick(object sender, EventArgs e)
-        {
-            this.Dispose();
-        }
-
-        /// <summary>
-        /// The action of clicking the Update Button on SimulationSetup.
-        /// </summary>
-        /// <param name="sender">object(Button)</param>
-        /// <param name="e">EventArgs</param>
-        public void UpdateButtonClick(object sender, EventArgs e)
-        {
-            if (tabControl1.SelectedTab.Text == "Stepper")
-            {
-                UpdateStepperCondition();
-            }
-            else if (tabControl1.SelectedTab.Text == "Logging")
-            {
-                UpdateLoggingCondition();
-            }
-            else if (tabControl1.SelectedTab.Text == "Initial Condition")
-            {
-                UpdateInitialCondition();
-            }
-            this.Close();
-        }
-
-        /// <summary>
         /// The action of clicking Delete Button on SimulationSetup.
         /// </summary>
         /// <param name="sender">object(Button)</param>
         /// <param name="e">EventArgs</param>
         public void DeleteStepperClick(object sender, EventArgs e)
         {
-            string param = paramCombo.SelectedItem.ToString();
-            string modelID = modelCombo.SelectedItem.ToString();
-            string stepperID = stepperListBox.SelectedItem.ToString();
+            StepperConfiguration sc = (StepperConfiguration)steppersBindingSource.Current;
+            if (sc == null)
+                return;
 
-            if (stepperListBox.Items.Count <= 1)
+            if (steppersBindingSource.Count <= 1)
             {
                 Util.ShowWarningDialog(MessageResources.ErrDelStep);
-
                 return;
             }
 
-            EcellObject obj = EcellObject.CreateObject(modelID, stepperID,
-                Constants.xpathStepper, "", new List<EcellData>());
-            m_owner.DataManager.DeleteStepperID(param, obj);
-            stepperListBox.Items.Remove(stepperID);
-            dgv.Rows.Clear();
-            stepperListBox.SelectedIndex = 0;
+            steppersBindingSource.RemoveCurrent(); 
         }
 
         /// <summary>
@@ -746,107 +344,12 @@ namespace Ecell.IDE.Plugins.Simulation
                 newwin.Text = MessageResources.NewStepperText;
                 if (newwin.ShowDialog() != DialogResult.OK)
                     return;
-                try
-                {
-                    string paramID = GetCurrentParameter();
-                    string modelID = GetCurrentModel();
-                    string stepperID = GetCurrentStepper();
-                    Dictionary<string, EcellData> propDict =
-                        m_owner.DataManager.GetStepperProperty(stepperID);
-                    List<EcellData> list = new List<EcellData>();
-                    foreach (string key in propDict.Keys)
-                    {
-                        if (propDict[key].Name == Constants.propProcessList ||
-                            propDict[key].Name == Constants.propSystemList ||
-                            propDict[key].Name == Constants.propReadVariableList ||
-                            propDict[key].Name == Constants.propWriteVariableList)
-                        {
-                            EcellData d = propDict[key];
-                            List<EcellValue> nulllist = new List<EcellValue>();
-                            d.Value = new EcellValue(nulllist);
-                            list.Add(d);
-                        }
-                        else
-                        {
-                            list.Add(propDict[key]);
-                        }
-                    }
-                    EcellObject obj = EcellObject.CreateObject(modelID, newwin.InputText, Constants.xpathStepper, stepperID, list);
-                    DataManager.AddStepperID(paramID, obj);
-                    AddStepper(newwin.InputText);
-                    SetStepperList(m_owner.DataManager.GetStepper(paramID, modelID));
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine(ex);
-                    Util.ShowErrorDialog(ex.Message);
-                }
+                StepperConfiguration sc = new StepperConfiguration();
+                sc.Name = newwin.InputText;
+                sc.ClassName = m_stepperClasses[0];
+                ResetStepperProperties(sc);
+                steppersBindingSource.Add(sc);
             }
-        }
-
-        /// <summary>
-        /// Event when the setup window of simulation is shown.
-        /// </summary>
-        /// <param name="sender">Form.</param>
-        /// <param name="e">EventArgs.</param>
-        private void ShowSimulationSetupWin(object sender, EventArgs e)
-        {
-            SetSimulationCondition();
-            SetLoggingCondition();
-            if (freqBySecTextBox.Text == "")
-            {
-                this.freqByStepRadio.Checked = true;
-                this.freqByStepTextBox.ReadOnly = false;
-                this.freqBySecTextBox.ReadOnly = true;
-            }
-            else
-            {
-                this.freqBySecRadio.Checked = true;
-                this.freqBySecTextBox.ReadOnly = false;
-                this.freqByStepTextBox.ReadOnly = true;
-            }
-
-            maxKbTextBox.ReadOnly = noLimitRadio.Checked;
-            this.paramCombo.Focus();
-        }
-
-        /// <summary>
-        /// Event when the check of frequency is changed.
-        /// </summary>
-        /// <param name="sender">RadioButton.</param>
-        /// <param name="e">EventArgs.</param>
-        private void FreqCheckChanged(object sender, EventArgs e)
-        {
-            if (freqBySecRadio.Checked)
-            {
-                freqBySecTextBox.ReadOnly = false;
-                freqByStepTextBox.ReadOnly = true;
-            }
-            else
-            {
-                freqBySecTextBox.ReadOnly = true;
-                freqByStepTextBox.ReadOnly = false;
-            }
-        }
-
-        /// <summary>
-        /// Event when the check of action is changed.
-        /// </summary>
-        /// <param name="sender">RadioButton.</param>
-        /// <param name="e">EventArgs.</param>
-        private void ActionCheckChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        /// <summary>
-        /// Event when the check of space is changed.
-        /// </summary>
-        /// <param name="sender">RadioButton.</param>
-        /// <param name="e">EventArgs.</param>
-        private void SpaceCheckChanged(object sender, EventArgs e)
-        {
-            maxKbTextBox.ReadOnly = noLimitRadio.Checked;
         }
 
         /// <summary>
@@ -856,17 +359,229 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="e">KeyPressEventArgs</param>
         private void SetupKeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Enter)
+            if (e.KeyChar == (char)Keys.Escape)
             {
-                SSApplyButton.PerformClick();
-            }
-            else if (e.KeyChar == (char)Keys.Escape)
-            {
-                SSCloseButton.PerformClick();
+                Close();
             }
         }
         #endregion
 
+        private void ResetStepperProperties(StepperConfiguration sc)
+        {
+            sc.Properties.Clear();
+            Dictionary<string, StepperConfiguration> scs = null;
+            Dictionary<string, Dictionary<string, StepperConfiguration>> pmsc = null;
+            StepperConfiguration original = null;
+            if (m_originalStepperConfigurations.TryGetValue(((SimulationParameterSet)m_simParamSets.Current).Name, out pmsc))
+                pmsc.TryGetValue(((PerModelSimulationParameter)perModelSimulationParameterBindingSource.Current).ModelID, out scs);
 
+            if (scs != null && scs.TryGetValue(((StepperConfiguration)steppersBindingSource.Current).Name, out original) &&
+                    original.ClassName == sc.ClassName)
+            {
+                sc.Properties.AddRange(original.Properties);
+            }
+            else
+            {
+                foreach (KeyValuePair<string, EcellData> pair in m_owner.DataManager.GetStepperProperty(sc.ClassName))
+                {
+                    if (pair.Value.Value.IsList || !pair.Value.Settable)
+                        continue;
+                    sc.Properties.Add(
+                        new MutableKeyValuePair<string, string>(
+                            pair.Key, pair.Value.Value.ToString()));
+                }
+            }
+        }
+
+        private void stepCombo_SelectedValueChanged(object sender, EventArgs e)
+        {
+            StepperConfiguration sc = (StepperConfiguration)steppersBindingSource.Current;
+            if (sc == null)
+                return;
+            sc.ClassName = (string)((ComboBox)sender).SelectedValue;
+            ResetStepperProperties(sc);
+            propertiesBindingSource.ResetBindings(false);
+        }
+
+        private void m_simParamSets_CurrentChanged(object sender, EventArgs e)
+        {
+            LoggerPolicy pol = ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy;
+            switch (pol.DiskFullAction)
+            {
+                case DiskFullAction.Overwrite:
+                    overrideRadio.Checked = true;
+                    break;
+                case DiskFullAction.Terminate:
+                    exceptionRadio.Checked = true;
+                    break;
+            }
+
+            if (pol.ReloadStepCount > 0)
+            {
+                freqByStepRadio.Checked = true;
+                freqByStepTextBox.Enabled = true;
+                freqByStepTextBox.Text = Convert.ToString(pol.ReloadStepCount);
+                freqBySecTextBox.Enabled = false;
+                freqBySecTextBox.Text = "";
+                freqByStepTextBox_filledWithDefaultValue = false;
+                freqBySecTextBox_filledWithDefaultValue = true;
+            }
+            else if (pol.ReloadInterval > 0)
+            {
+                freqBySecRadio.Checked = true;
+                freqBySecTextBox.Enabled = true;
+                freqBySecTextBox.Text = Convert.ToString(pol.ReloadStepCount);
+                freqByStepTextBox.Enabled = false;
+                freqByStepTextBox.Text = "";
+                freqByStepTextBox_filledWithDefaultValue = true;
+                freqBySecTextBox_filledWithDefaultValue = false;
+            }
+            else 
+            {
+                freqByStepRadio.Checked = true;
+                freqByStepTextBox.Enabled = true;
+                freqByStepTextBox.Text = Convert.ToString(1);
+                freqBySecTextBox.Enabled = false;
+                freqBySecTextBox.Text = "";
+                freqByStepTextBox_filledWithDefaultValue = true;
+                freqBySecTextBox_filledWithDefaultValue = true;
+            }
+
+            if (pol.MaxDiskSpace == 0)
+            {
+                noLimitRadio.Checked = true;
+                maxKbTextBox.Text = "";
+                maxKbTextBox.Enabled = false;
+            }
+            else
+            {
+                maxSizeRadio.Checked = true;
+                maxKbTextBox.Enabled = true;
+                maxKbTextBox.Text = Convert.ToString(pol.MaxDiskSpace);
+            }
+        }
+
+        private void overrideRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.DiskFullAction =
+                ((RadioButton)sender).Checked ?
+                DiskFullAction.Overwrite :
+                DiskFullAction.Terminate;
+        }
+
+        private void freqByStepRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((RadioButton)sender).Checked)
+            {
+                freqBySecTextBox.Enabled = false;
+                freqByStepTextBox.Enabled = true;
+                if (freqBySecTextBox_filledWithDefaultValue)
+                {
+                    freqBySecTextBox.Text = "";
+                }
+                if (string.IsNullOrEmpty(freqByStepTextBox.Text))
+                {
+                    freqByStepTextBox.Text = "1";
+                    freqByStepTextBox_filledWithDefaultValue = true;
+                }
+            }
+            else
+            {
+                freqBySecTextBox.Enabled = true;
+                freqByStepTextBox.Enabled = false;
+                if (freqByStepTextBox_filledWithDefaultValue)
+                {
+                    freqByStepTextBox.Text = "";
+                }
+                if (string.IsNullOrEmpty(freqBySecTextBox.Text))
+                {
+                    freqBySecTextBox.Text = "0.01";
+                    freqBySecTextBox_filledWithDefaultValue = true;
+                }
+            }
+        }
+
+        private void freqByStepTextBox_Validating(object sender, CancelEventArgs e)
+        {
+            string text = freqByStepTextBox.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                if (string.IsNullOrEmpty(freqBySecTextBox.Text))
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                    e.Cancel = true;
+                }
+            }
+            else
+            {
+                int dummy;
+                if (!Int32.TryParse(text, out dummy))
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    e.Cancel = true;
+                }
+            }
+        }
+
+        private void freqByStepTextBox_Validated(object sender, EventArgs e)
+        {
+            ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.ReloadStepCount = Int32.Parse(freqByStepTextBox.Text);
+            ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.ReloadInterval = 0;
+            freqBySecTextBox.Text = "";
+            freqBySecTextBox_filledWithDefaultValue = true;
+        }
+
+        private void freqBySecTextBox_Validating(object sender, CancelEventArgs e)
+        {
+            string text = freqBySecTextBox.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                if (string.IsNullOrEmpty(freqByStepTextBox.Text))
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                    e.Cancel = true;
+                }
+            }
+            else
+            {
+                double dummy;
+                if (!Double.TryParse(text, out dummy))
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    e.Cancel = true;
+                }
+            }
+        }
+
+        private void freqBySecTextBox_Validated(object sender, EventArgs e)
+        {
+            ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.ReloadInterval = Double.Parse(freqBySecTextBox.Text);
+            ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.ReloadStepCount = 0;
+            freqByStepTextBox.Text = "";
+            freqByStepTextBox_filledWithDefaultValue = true;
+        }
+
+        private void noLimitRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((RadioButton)sender).Checked)
+            {
+                ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.MaxDiskSpace = 0;
+                maxKbTextBox.Enabled = false;
+            }
+            else
+            {
+                maxKbTextBox.Enabled = true;
+            }
+        }
+
+        private void freqByStepTextBox_TextChanged(object sender, EventArgs e)
+        {
+            freqByStepTextBox_filledWithDefaultValue = false;
+        }
+
+        private void freqBySecTextBox_TextChanged(object sender, EventArgs e)
+        {
+            freqBySecTextBox_filledWithDefaultValue = false;
+        }
     }
 }

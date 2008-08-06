@@ -39,6 +39,7 @@ using System.Reflection;
 using System.ComponentModel;
 
 using Ecell;
+using Ecell.Objects;
 using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.Simulation
@@ -445,10 +446,101 @@ namespace Ecell.IDE.Plugins.Simulation
                 ResetSimulation(sender, e);
             }
 
-            SimulationConfigurationDialog win = new SimulationConfigurationDialog(this);
+            Dictionary<string, SimulationParameterSet> sim = new Dictionary<string, SimulationParameterSet>();
+            foreach (string paramID in m_dManager.GetSimulationParameterIDs())
+            {
+                SimulationParameterSet sps = new SimulationParameterSet(paramID);
+                foreach (string modelID in m_dManager.GetModelList())
+                {
+                    PerModelSimulationParameter pmsp = new PerModelSimulationParameter(modelID);
+                    foreach (KeyValuePair<string, double> pair in 
+                        m_dManager.GetInitialCondition(paramID, modelID, Constants.xpathVariable))
+                    {
+                        pmsp.PerTypeInitialConditions.VariableInitialConditions.Add(
+                            KeyValuePairConverter<string, double>.Convert(pair));
+                    }
+
+                    foreach (KeyValuePair<string, double> pair in 
+                        m_dManager.GetInitialCondition(paramID, modelID, Constants.xpathProcess))
+                    {
+                        pmsp.PerTypeInitialConditions.ProcessInitialConditions.Add(
+                            KeyValuePairConverter<string, double>.Convert(pair));
+                    }
+
+                    foreach (EcellObject stepper in m_dManager.GetStepper(paramID, modelID))
+                    {
+                        StepperConfiguration sc = new StepperConfiguration();
+                        sc.Name = stepper.Name;
+                        sc.ClassName = stepper.Classname;
+                        foreach (EcellData prop in stepper.Value)
+                        {
+                            if (prop.Value.IsList || !prop.Settable)
+                                continue;
+                            sc.Properties.Add(new MutableKeyValuePair<string, string>(
+                                prop.Name, prop.Value.Value.ToString()));
+                        }
+                        pmsp.Steppers.Add(sc);
+                    }
+                    sps.PerModelSimulationParameters.Add(pmsp);
+                }
+                sps.LoggerPolicy = (LoggerPolicy)m_dManager.GetLoggerPolicy(paramID).Clone();
+                sim.Add(sps.Name, sps);
+            }
+
+            SimulationConfigurationDialog win = new SimulationConfigurationDialog(this, sim.Values);
             using (win)
             {
-                win.ShowDialog();
+                DialogResult r = win.ShowDialog();
+                if (r != DialogResult.OK)
+                    return;
+                foreach (SimulationParameterSet sps in win.Result)
+                {
+                    if (!sim.ContainsKey(sps.Name))
+                        m_dManager.CreateSimulationParameter(sps.Name);
+
+                    m_dManager.SetLoggerPolicy(sps.Name, sps.LoggerPolicy);
+
+                    List<EcellObject> steppers = new List<EcellObject>();
+                    foreach (PerModelSimulationParameter pmsp in sps.PerModelSimulationParameters)
+                    {
+                        {
+                            Dictionary<string, double> pairs = new Dictionary<string, double>(pmsp.PerTypeInitialConditions.VariableInitialConditions.Count);
+                            foreach (MutableKeyValuePair<string, double> pair in pmsp.PerTypeInitialConditions.VariableInitialConditions)
+                                pairs.Add(pair.Key, pair.Value);
+                            m_dManager.UpdateInitialCondition(sps.Name, pmsp.ModelID, Constants.xpathVariable, pairs);
+                        }
+                        {
+                            Dictionary<string, double> pairs = new Dictionary<string, double>(pmsp.PerTypeInitialConditions.ProcessInitialConditions.Count);
+                            foreach (MutableKeyValuePair<string, double> pair in pmsp.PerTypeInitialConditions.ProcessInitialConditions)
+                                pairs.Add(pair.Key, pair.Value);
+                            m_dManager.UpdateInitialCondition(sps.Name, pmsp.ModelID, Constants.xpathProcess, pairs);
+                        }
+                        foreach (StepperConfiguration sc in pmsp.Steppers)
+                        {
+                            Dictionary<string, EcellData> propDict = m_dManager.GetStepperProperty(sc.ClassName);
+                            foreach (MutableKeyValuePair<string, string> pair in sc.Properties)
+                            {
+                                EcellData d = propDict[pair.Key];
+                                if (d.Value.IsDouble)
+                                {
+                                    d.Value = new EcellValue(Convert.ToDouble(pair.Value));
+                                }
+                                else if (d.Value.IsInt)
+                                {
+                                    d.Value = new EcellValue(Convert.ToInt32(pair.Value));
+                                }
+                                else if (d.Value.IsString)
+                                {
+                                    d.Value = new EcellValue(pair.Value);
+                                }
+                                Trace.WriteLine(d.Name + ":" + d.Value.Value);
+                            }
+                            steppers.Add(EcellObject.CreateObject(pmsp.ModelID, sc.Name, Constants.xpathStepper, sc.ClassName, new List<EcellData>(propDict.Values)));
+                        }
+                    }
+
+                    m_dManager.UpdateStepperID(sps.Name, steppers);
+                }
             }
         }
 

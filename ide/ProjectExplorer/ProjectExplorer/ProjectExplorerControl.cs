@@ -635,12 +635,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             m_lastSelectedNode = e.Node;
 
-            TagData tag = e.Node.Tag as TagData;
             if (e.Button == MouseButtons.Left)
             {
-                if (tag != null)
+                if (e.Node.Tag != null && e.Node is TagData)
                 {
-                    m_owner.Environment.PluginManager.SelectChanged(tag.m_modelID, tag.m_key, tag.m_type);
+                    TagData tag = e.Node.Tag as TagData;
+                    m_owner.Environment.PluginManager.SelectChanged(
+                        tag.m_modelID, tag.m_key, tag.m_type);
                 }
             }
             else if (e.Button == MouseButtons.Right)
@@ -653,8 +654,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 {
                     treeView1.ContextMenuStrip = contextMenuStripDM;
                 }
-                else if (tag is TagData)
+                else if (e.Node.Tag is TagData)
                 {
+                    TagData tag = e.Node.Tag as TagData;
                     if (tag.m_type == Constants.xpathModel)
                     {
                         treeView1.ContextMenuStrip = null;
@@ -718,36 +720,29 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
         private void NodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            TreeView t = (TreeView)sender;
-            TreeNode node = t.GetNodeAt(e.X, e.Y);
-            if (node == null) return;
-            TagData tag = (TagData)node.Tag;
-            if (tag == null) return;
-            if (tag.m_modelID == null) return;
-            if (tag.m_type == Constants.xpathProject) return;
-            if (tag.m_type == Constants.xpathParameters)
-            {
-                m_owner.Environment.PluginManager.SelectChanged("", node.Text, tag.m_type);
-                return;
-            }
-            if (tag.m_type == Constants.xpathDM)
-            {
-                string path = m_owner.Environment.DataManager.GetDMFileName(node.Text);
-                if (path == null) return;
-                DisplayDMEditor(path);
-
-                return;
-            }
-
             if (m_owner.Environment.PluginManager.Status != ProjectStatus.Uninitialized &&
                 m_owner.Environment.PluginManager.Status != ProjectStatus.Loaded)
+            {
                 return;
+            }
 
-            EcellObject obj = m_owner.Environment.DataManager.GetEcellObject(tag.m_modelID,
-                tag.m_key, tag.m_type);
-            Debug.Assert(obj != null);
-            ShowPropEditWindow(obj);
-            return;
+            if (e.Node.Parent == m_DMNode)
+            {
+                string path = m_owner.Environment.DataManager.GetDMFileName(e.Node.Text);
+                if (path == null) return;
+                DisplayDMEditor(path);
+            }
+            else if (m_paramNodeDic.ContainsValue(e.Node.Parent))
+            {
+                m_owner.Environment.PluginManager.SelectChanged(
+                    "", (string)e.Node.Tag, Constants.xpathParameters);
+            }
+            else if (e.Node.Tag != null && e.Node.Tag is TagData)
+            {
+                EcellObject obj = GetObjectFromNode(e.Node);
+                Debug.Assert(obj != null);
+                ShowPropEditWindow(obj);
+            }
         }
 
         public void DataDelete(string modelID, string key, string type)
@@ -1009,7 +1004,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 if (t.Text == parameterID) return;
             }
             TreeNode paramNode = new TreeNode(parameterID);
-            paramNode.Tag = new TagData("", "", Constants.xpathParameters);
+            paramNode.Tag = parameterID;
             paramNode.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathParameters);
             paramNode.SelectedImageIndex = paramNode.ImageIndex;
             paramsNode.Nodes.Add(paramNode);

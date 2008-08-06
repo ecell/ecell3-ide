@@ -64,8 +64,8 @@ namespace Ecell.IDE
             string[] fileList = parseArguments(args);
 
             Util.InitialLanguage();
-            //XPでツリービューがおかしくなる
-            //Application.EnableVisualStyles();
+            // XPでツリービューがおかしくなる
+            Application.EnableVisualStyles();
             //Vistaでエラーになる
             //Application.SetCompatibleTextRenderingDefault(false);
 
