@@ -1460,6 +1460,7 @@ namespace Ecell.IDE.MainWindow
             string currentDir = Util.GetBaseDir();
 
             FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.SelectedPath = currentDir;
             using (dialog)
             {
                 dialog.Description = MessageResources.ExpModelMes;

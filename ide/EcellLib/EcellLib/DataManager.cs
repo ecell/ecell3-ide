@@ -4885,10 +4885,7 @@ namespace Ecell
                     {
                         this.SaveProject(m_currentProject.Name);
                     }
-                    simulationDirName =
-                        this.m_defaultDir + Constants.delimiterPath +
-                        m_currentProject.Name + Constants.delimiterPath + Constants.xpathParameters +
-                        Constants.delimiterPath + m_currentProject.SimulationParam;
+                    simulationDirName = GetSimulationResultSaveDirectory();
                 }
                 if (!Directory.Exists(simulationDirName))
                 {
@@ -4931,6 +4928,13 @@ namespace Ecell
                 Trace.WriteLine(message);
                 throw new Exception(message, ex);
             }
+        }
+
+        public string GetSimulationResultSaveDirectory()
+        {
+            return this.m_defaultDir + "\\" +
+                        m_currentProject.Name + "\\" + Constants.xpathParameters +
+                        "\\" + m_currentProject.SimulationParam;
         }
 
         /// <summary>

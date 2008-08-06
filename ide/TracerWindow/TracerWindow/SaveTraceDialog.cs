@@ -84,6 +84,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             m_owner = owner;
             InitializeComponent();
+            dirTextBox.Text = owner.DataManager.GetSimulationResultSaveDirectory();
         }
 
         /// <summary>
@@ -104,11 +105,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="e">EventArgs.</param>
         private void STSearchDirButtonClick(object sender, EventArgs e)
         {
-            if (DialogResult.Cancel == m_folderDialog.ShowDialog())
-            {
-                dirTextBox.Text = "";
-            }
-            else
+            m_folderDialog.SelectedPath = dirTextBox.Text;
+            if (DialogResult.OK == m_folderDialog.ShowDialog())
             {
                 dirTextBox.Text = m_folderDialog.SelectedPath;
             }

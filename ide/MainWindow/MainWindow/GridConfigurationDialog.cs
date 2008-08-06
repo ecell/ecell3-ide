@@ -167,6 +167,7 @@ namespace Ecell.IDE.MainWindow
         private void DESearchDir_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.SelectedPath = DEWorkDirTextBox.Text;
             using (fbd)
             {
                 if (fbd.ShowDialog() != DialogResult.OK)
