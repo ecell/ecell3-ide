@@ -574,7 +574,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Select nodes under... に類似しているローカライズされた文字列を検索します。
+        ///   Select nodes on thie layer... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string LayerMenuSelectNodes {
             get {
@@ -741,6 +741,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string MenuToolTipViewMode {
             get {
                 return ResourceManager.GetString("MenuToolTipViewMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Please select the merged layer. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MergeLayerDialogMessage {
+            get {
+                return ResourceManager.GetString("MergeLayerDialogMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Merge layer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MergeLayerDialogText {
+            get {
+                return ResourceManager.GetString("MergeLayerDialogText", resourceCulture);
             }
         }
         

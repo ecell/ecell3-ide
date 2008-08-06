@@ -465,7 +465,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             CanvasControl canvas = m_con.Canvas;
             List<string> list = canvas.GetLayerNameList();
-            string newName = SelectBoxDialog.Show(MessageResources.LayerDialogMessage, MessageResources.LayerDialogTitle, list);
+            string newName = SelectBoxDialog.Show(MessageResources.MergeLayerDialogMessage, MessageResources.MergeLayerDialogText, list);
             if (newName == null || newName.Equals(""))
                 return;
             Debug.Assert(!canvas.Layers.ContainsKey(newName));

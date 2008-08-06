@@ -61,6 +61,24 @@ namespace Ecell.IDE {
         }
         
         /// <summary>
+        ///   Add Property に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ButtonAddProperty {
+            get {
+                return ResourceManager.GetString("ButtonAddProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ButtonDeleteProperty {
+            get {
+                return ResourceManager.GetString("ButtonDeleteProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} already exists in this VariableReferenceList. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrExistVariableRef {

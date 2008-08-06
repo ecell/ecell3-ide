@@ -396,4 +396,10 @@
   <data name="DialogTextPathwaySetting" xml:space="preserve">
     <value>パスウエイの設定</value>
   </data>
+  <data name="MergeLayerDialogMessage" xml:space="preserve">
+    <value>結合するレイヤを選択してください。</value>
+  </data>
+  <data name="MergeLayerDialogText" xml:space="preserve">
+    <value>レイヤの結合</value>
+  </data>
 </root>

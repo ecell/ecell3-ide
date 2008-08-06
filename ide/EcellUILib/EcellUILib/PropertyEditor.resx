@@ -183,6 +183,9 @@
   <data name="layoutPanel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
+  <data name="layoutPanel.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="layoutPanel.ColumnCount" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
@@ -193,7 +196,7 @@
     <value>1</value>
   </data>
   <data name="layoutPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>427, 332</value>
+    <value>425, 330</value>
   </data>
   <data name="layoutPanel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -211,7 +214,7 @@
     <value>0</value>
   </data>
   <data name="layoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls /&gt;&lt;Columns Styles="Absolute,20,Percent,44.51411,Percent,55.48589,Absolute,81" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls /&gt;&lt;Columns Styles="Absolute,20,Percent,44.51411,Percent,55.48589,Absolute,82" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>

@@ -602,18 +602,18 @@ namespace Ecell.IDE
 
             if (m_currentObj == null && m_type.Equals(EcellObject.SYSTEM))
             {
-                layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
-                layoutPanel.RowCount = m_propDict.Keys.Count + 5;
+                layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 6));
+                layoutPanel.RowCount = m_propDict.Keys.Count + 6;
             }
             else if (m_currentObj != null && m_currentObj.Type.Equals(EcellObject.SYSTEM))
             {
-                layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
-                layoutPanel.RowCount = m_propDict.Keys.Count + 5;
+                layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 6));
+                layoutPanel.RowCount = m_propDict.Keys.Count + 6;
             }
             else
             {
-                layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
-                layoutPanel.RowCount = m_propDict.Keys.Count + 5;
+                layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 6));
+                layoutPanel.RowCount = m_propDict.Keys.Count + 6;
             }
 
             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
@@ -817,7 +817,7 @@ namespace Ecell.IDE
                     else if (tmpProcDict != null && !tmpProcDict.ContainsKey(key))
                     {
                         Button b = new Button();
-                        b.Text = "Delete";
+                        b.Text = MessageResources.ButtonDeleteProperty;
                         b.Tag = key;
                         b.Dock = DockStyle.Fill;
                         b.Click += new EventHandler(DeletePropertyForProcess);
@@ -830,7 +830,7 @@ namespace Ecell.IDE
                 this.m_dManager.IsEnableAddProperty(m_propName))
             {
                 Button b = new Button();
-                b.Text = "Add Property";
+                b.Text = MessageResources.ButtonAddProperty;
                 b.Tag = "Add Property";
                 b.Dock = DockStyle.Fill;
                 b.Click += new EventHandler(AddPropertyForProcess);
@@ -1388,6 +1388,7 @@ namespace Ecell.IDE
                 m_propDict.Remove(delKey);
             }
             LayoutNodePropertyEditor();
+            LayoutNodeCommit();
         }
         /// <summary>
         /// The event sequence when user add the property of object.
@@ -1416,12 +1417,14 @@ namespace Ecell.IDE
             data.Saveable = true;
             data.Settable = true;
 
+            if (m_propDict.ContainsKey(name))
+                return;
             m_propDict.Add(name, data);
 
             Control cnt = null;
             int width = layoutPanel.Width;
-            layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 5));
-            layoutPanel.RowCount = m_propDict.Keys.Count + 5;
+            layoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 6));
+            layoutPanel.RowCount = m_propDict.Keys.Count + 6;
 
             try
             {
@@ -1459,7 +1462,7 @@ namespace Ecell.IDE
                         layoutPanel.Controls.Add(t, 2, pos.Row);
 
                         Button b = new Button();
-                        b.Text = "Delete";
+                        b.Text = MessageResources.ButtonDeleteProperty;
                         b.Tag = name;
                         b.Dock = DockStyle.Fill;
                         b.Click += new EventHandler(DeletePropertyForProcess);
@@ -1467,7 +1470,7 @@ namespace Ecell.IDE
 
                         layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                         Button b1 = new Button();
-                        b1.Text = "Add Property";
+                        b1.Text = MessageResources.ButtonAddProperty;
                         b1.Tag = "Add Property";
                         b1.Dock = DockStyle.Fill;
                         b1.Click += new EventHandler(AddPropertyForProcess);
