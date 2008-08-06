@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrFormat" xml:space="preserve">
-    <value>Invalid value.</value>
+    <value>Value is not valid.</value>
   </data>
   <data name="ErrID" xml:space="preserve">
-    <value>There are invalid characters in ID.</value>
+    <value>ID string is not valid.</value>
   </data>
   <data name="ErrNoProp" xml:space="preserve">
-    <value>Input the name of property before input the value.</value>
+    <value>Input the property name before input the value.</value>
   </data>
   <data name="ErrSameProp" xml:space="preserve">
-    <value>There are the property have the same name.</value>
+    <value>Same name property already exists.</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="proper" type="System.Resources.ResXFileRef, System.Windows.Forms">

@@ -118,22 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfirmSetup" xml:space="preserve">
-    <value>Simulation is running. Would you reset the simulation?</value>
+    <value>Simulation process is currently running. Would you reset this simulation?</value>
   </data>
   <data name="ErrDelParam" xml:space="preserve">
-    <value>Can not delete the selected parameter {0}.</value>
+    <value>Cannot delete the parameter {0}.</value>
   </data>
   <data name="ErrDelStep" xml:space="preserve">
-    <value>Can not delete the stepper. </value>
+    <value>At least one Stepper is required in the model.</value>
   </data>
   <data name="ErrIDNG" xml:space="preserve">
-    <value>There are any invalid characters in ID.</value>
+    <value>ID string is not valid.</value>
   </data>
   <data name="ErrInvalidValue" xml:space="preserve">
-    <value>There are any invalid parameters.</value>
+    <value>Value is not valid.</value>
   </data>
   <data name="ErrNoInput" xml:space="preserve">
-    <value>No input [ {0} ].</value>
+    <value>Nothing input {0}.</value>
   </data>
   <data name="ErrUpdateLog" xml:space="preserve">
     <value>Can not update the simulation parameters.</value>

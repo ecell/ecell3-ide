@@ -127,16 +127,16 @@
     <value>少なくともモデルには１つのステッパーが必要です。</value>
   </data>
   <data name="ErrIDNG" xml:space="preserve">
-    <value>IDに使用できないな文字が含まれています。</value>
+    <value>ID文字列が不正です。</value>
   </data>
   <data name="ErrInvalidValue" xml:space="preserve">
-    <value>入力された値が異常です。</value>
+    <value>入力された値が不正です。</value>
   </data>
   <data name="ErrNoInput" xml:space="preserve">
     <value>{0} が入力されていません。</value>
   </data>
   <data name="ErrUpdatELog" xml:space="preserve">
-    <value>ロギングポリシーを更新できません。</value>
+    <value>シミュレーションパラメータを更新できません。</value>
   </data>
   <data name="MenuItemRun" xml:space="preserve">
     <value>シミュレーション実行(&amp;R)</value>
