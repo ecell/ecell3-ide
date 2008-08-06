@@ -70,7 +70,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Opposite direction に類似しているローカライズされた文字列を検索します。
+        ///   Set opposite direction に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuAnotherArrow {
             get {
@@ -79,7 +79,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Both directions に類似しているローカライズされた文字列を検索します。
+        ///   Set both directions に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuBidirArrow {
             get {
@@ -97,7 +97,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Constant に類似しているローカライズされた文字列を検索します。
+        ///   Set effector に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuConstantLine {
             get {
@@ -115,7 +115,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Create Logger に類似しているローカライズされた文字列を検索します。
+        ///   Create logger に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuCreateLogger {
             get {
@@ -142,7 +142,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Delete Logger に類似しているローカライズされた文字列を検索します。
+        ///   Delete logger に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuDeleteLogger {
             get {
@@ -196,7 +196,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Animation Setting に類似しているローカライズされた文字列を検索します。
+        ///   Animation setting に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextAnimationSetting {
             get {
@@ -205,7 +205,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Background Brush に類似しているローカライズされた文字列を検索します。
+        ///   Background color に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextBackgroundBrush {
             get {
@@ -223,7 +223,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Edge Brush に類似しているローカライズされた文字列を検索します。
+        ///   Edge color に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextEdgeBrush {
             get {
@@ -232,7 +232,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Edge Width に類似しているローカライズされた文字列を検索します。
+        ///   Edge width に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextEdgeWidth {
             get {
@@ -241,7 +241,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Edit Mode に類似しているローカライズされた文字列を検索します。
+        ///   Edit mode に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextEditMode {
             get {
@@ -250,7 +250,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Object figure に類似しているローカライズされた文字列を検索します。
+        ///   Object shape に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextFigure {
             get {
@@ -295,7 +295,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Logarithmic に類似しているローカライズされた文字列を検索します。
+        ///   Logarithmic scale に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextLogarithmic {
             get {
@@ -304,7 +304,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Max Edge Width に類似しているローカライズされた文字列を検索します。
+        ///   Max edge width に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextMaxEdgeWidth {
             get {
@@ -313,7 +313,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   NG Brush に類似しているローカライズされた文字列を検索します。
+        ///   NG color に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextNGBrush {
             get {
@@ -322,7 +322,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Normal Edge に類似しているローカライズされた文字列を検索します。
+        ///   Normal edge に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextNormalEdge {
             get {
@@ -331,7 +331,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Property Brush に類似しているローカライズされた文字列を検索します。
+        ///   Property color に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextPropertyBrush {
             get {
@@ -349,7 +349,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Threshold High に類似しているローカライズされた文字列を検索します。
+        ///   Upper threshold に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextThresholdHigh {
             get {
@@ -358,7 +358,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Threshold Low に類似しているローカライズされた文字列を検索します。
+        ///   Lower threshold に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextThresholdLow {
             get {
@@ -367,7 +367,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   View Mode に類似しているローカライズされた文字列を検索します。
+        ///   View mode に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextViewMode {
             get {
@@ -376,7 +376,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   {0} has already existed. に類似しているローカライズされた文字列を検索します。
+        ///   Entity {0} has already existed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrAlrExist {
             get {
@@ -385,7 +385,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   ComponentSettings.xml is imcomplete for the following reason に類似しているローカライズされた文字列を検索します。
+        ///   The setting file for shape of entities is imcomplete. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrCompInvalid {
             get {
@@ -394,7 +394,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Fail to convert the information to component object. に類似しているローカライズされた文字列を検索します。
+        ///   Cannot create the shape of entities. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrCreateComponent {
             get {
@@ -403,7 +403,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Can&apos;t execute this layout due to an unexpected error, sorry. に類似しているローカライズされた文字列を検索します。
+        ///   Autolayout process of this algorithm was failed due to an unexpected error. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLayout {
             get {
@@ -412,7 +412,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Fail to load EcellObject position settings. に類似しているローカライズされた文字列を検索します。
+        ///   Loading pathway layouts were failed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadLEML {
             get {
@@ -421,7 +421,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Failed to load window settings に類似しているローカライズされた文字列を検索します。
+        ///   Cannot load window settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadWindowSettings {
             get {
@@ -430,7 +430,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Can not create an object outside the root system に類似しているローカライズされた文字列を検索します。
+        ///   Cannot put any objects to outside root System. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrOutRoot {
             get {
@@ -439,7 +439,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   A system can&apos;t be overlapping other systems に類似しているローカライズされた文字列を検索します。
+        ///   Cannot partially-overlap with other Systems. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrOverSystem {
             get {
@@ -448,7 +448,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Fail to save EcellObject position settings. に類似しているローカライズされた文字列を検索します。
+        ///   Saving pathway layouts were failed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSaveLEML {
             get {
@@ -457,7 +457,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   There is no space to create new system. に類似しているローカライズされた文字列を検索します。
+        ///   The pointed place has no space to paste the System. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSystemOverlap {
             get {
@@ -466,7 +466,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   The added object have the unknown type. に類似しているローカライズされた文字列を検索します。
+        ///   The type of  added Entity is unknown. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrUnknowType {
             get {
@@ -475,7 +475,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Input new Layer name. に類似しているローカライズされた文字列を検索します。
+        ///   Input new layer name. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string LayerDialogMessage {
             get {
@@ -484,7 +484,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   LayerNameInputDialog に類似しているローカライズされた文字列を検索します。
+        ///   Layer name input dialog に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string LayerDialogTitle {
             get {
@@ -493,7 +493,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Change Layer に類似しているローカライズされた文字列を検索します。
+        ///   Change layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string LayerMenuChange {
             get {
@@ -502,7 +502,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Create Layer に類似しているローカライズされた文字列を検索します。
+        ///   New layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string LayerMenuCreate {
             get {
@@ -511,7 +511,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Delete Layer に類似しているローカライズされた文字列を検索します。
+        ///   Delete layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string LayerMenuDelete {
             get {
@@ -520,7 +520,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Merge Layer に類似しているローカライズされた文字列を検索します。
+        ///   Merge layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string LayerMenuMerge {
             get {
@@ -547,7 +547,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Rename Layer に類似しているローカライズされた文字列を検索します。
+        ///   Rename layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string LayerMenuRename {
             get {
@@ -574,7 +574,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Export Graphics. に類似しているローカライズされた文字列を検索します。
+        ///   Export diagrams に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemExport {
             get {
@@ -628,7 +628,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Pathway Settings... に類似しているローカライズされた文字列を検索します。
+        ///   Pathway settings... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemSetup {
             get {
@@ -655,7 +655,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   View Mode に類似しているローカライズされた文字列を検索します。
+        ///   View mode に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemViewMode {
             get {
@@ -664,7 +664,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Export Graphics. に類似しているローカライズされた文字列を検索します。
+        ///   Export diagrams. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuToolTipExport {
             get {
@@ -673,7 +673,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Export Image file. に類似しているローカライズされた文字列を検索します。
+        ///   Export image file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuToolTipExportImage {
             get {
@@ -700,7 +700,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Show PropertyDialog of PathwayWindow. に類似しているローカライズされた文字列を検索します。
+        ///   Show property dialog of PathwayWindow. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuToolTipSetup {
             get {
@@ -709,7 +709,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Visibility of Node&apos;s name of each pathway object. に類似しているローカライズされた文字列を検索します。
+        ///   Change the visibility mode of each object ID. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuToolTipShowID {
             get {
@@ -727,7 +727,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Now layout ... に類似しているローカライズされた文字列を検索します。
+        ///   Now layouting ... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MessageLayout {
             get {
@@ -745,7 +745,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Create constant references. に類似しているローカライズされた文字列を検索します。
+        ///   Create effectors. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ToolButtonAddConstant {
             get {
@@ -754,7 +754,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Create mutual reactions. に類似しているローカライズされた文字列を検索します。
+        ///   Create reversible reactions. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ToolButtonAddMutualReaction {
             get {
@@ -763,7 +763,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Create oneway reactions. に類似しているローカライズされた文字列を検索します。
+        ///   Create irreversible reactions. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ToolButtonAddOnewayReaction {
             get {
@@ -772,7 +772,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Create new processes. に類似しているローカライズされた文字列を検索します。
+        ///   Create new Process. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ToolButtonCreateProcess {
             get {
@@ -781,7 +781,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Create new systems. に類似しているローカライズされた文字列を検索します。
+        ///   Create new System. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ToolButtonCreateSystem {
             get {
@@ -790,7 +790,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Create Text objent. に類似しているローカライズされた文字列を検索します。
+        ///   Create new text box. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ToolButtonCreateText {
             get {
@@ -799,7 +799,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Create new variables. に類似しているローカライズされた文字列を検索します。
+        ///   Create new Variable. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ToolButtonCreateVariable {
             get {
@@ -808,7 +808,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Move canvas. に類似しているローカライズされた文字列を検索します。
+        ///   Drag canvas. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ToolButtonMoveCanvas {
             get {
@@ -817,7 +817,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Select Mode. に類似しているローカライズされた文字列を検索します。
+        ///   Object select. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ToolButtonSelectMode {
             get {

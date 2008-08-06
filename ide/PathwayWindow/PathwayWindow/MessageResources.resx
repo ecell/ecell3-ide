@@ -124,58 +124,58 @@
     <value>Are you sure merge the component in system to upper system.</value>
   </data>
   <data name="ErrAlrExist" xml:space="preserve">
-    <value>{0} has already existed.</value>
+    <value>Entity {0} has already existed.</value>
   </data>
   <data name="ErrCompInvalid" xml:space="preserve">
-    <value>ComponentSettings.xml is imcomplete for the following reason</value>
+    <value>The setting file for shape of entities is imcomplete.</value>
   </data>
   <data name="ErrCreateComponent" xml:space="preserve">
-    <value>Fail to convert the information to component object.</value>
+    <value>Cannot create the shape of entities.</value>
   </data>
   <data name="ErrLayout" xml:space="preserve">
-    <value>Can't execute this layout due to an unexpected error, sorry.</value>
+    <value>Autolayout process of this algorithm was failed due to an unexpected error.</value>
   </data>
   <data name="ErrOutRoot" xml:space="preserve">
-    <value>Can not create an object outside the root system</value>
+    <value>Cannot put any objects to outside root System.</value>
   </data>
   <data name="ErrOverSystem" xml:space="preserve">
-    <value>A system can't be overlapping other systems</value>
+    <value>Cannot partially-overlap with other Systems.</value>
   </data>
   <data name="ErrUnknowType" xml:space="preserve">
-    <value>The added object have the unknown type.</value>
+    <value>The type of  added Entity is unknown.</value>
   </data>
   <data name="MenuItemShowID" xml:space="preserve">
     <value>Show &amp;IDs(Pathway)</value>
   </data>
   <data name="ErrLoadLEML" xml:space="preserve">
-    <value>Fail to load EcellObject position settings.</value>
+    <value>Loading pathway layouts were failed.</value>
   </data>
   <data name="ErrSaveLEML" xml:space="preserve">
-    <value>Fail to save EcellObject position settings.</value>
+    <value>Saving pathway layouts were failed.</value>
   </data>
   <data name="LayerMenuCreate" xml:space="preserve">
-    <value>Create Layer</value>
+    <value>New layer</value>
   </data>
   <data name="LayerMenuDelete" xml:space="preserve">
-    <value>Delete Layer</value>
+    <value>Delete layer</value>
   </data>
   <data name="LayerDialogMessage" xml:space="preserve">
-    <value>Input new Layer name.</value>
+    <value>Input new layer name.</value>
   </data>
   <data name="LayerDialogTitle" xml:space="preserve">
-    <value>LayerNameInputDialog</value>
+    <value>Layer name input dialog</value>
   </data>
   <data name="LayerMenuRename" xml:space="preserve">
-    <value>Rename Layer</value>
+    <value>Rename layer</value>
   </data>
   <data name="LayerMenuMerge" xml:space="preserve">
-    <value>Merge Layer</value>
+    <value>Merge layer</value>
   </data>
   <data name="LayerMenuChange" xml:space="preserve">
-    <value>Change Layer</value>
+    <value>Change layer</value>
   </data>
   <data name="MenuItemViewMode" xml:space="preserve">
-    <value>View Mode</value>
+    <value>View mode</value>
   </data>
   <data name="LayerMenuSelectNodes" xml:space="preserve">
     <value>Select nodes under...</value>
@@ -184,13 +184,13 @@
     <value>Change Layer</value>
   </data>
   <data name="CanvasMenuConstantLine" xml:space="preserve">
-    <value>Constant</value>
+    <value>Set effector</value>
   </data>
   <data name="CanvasMenuCopy" xml:space="preserve">
     <value>&amp;Copy</value>
   </data>
   <data name="CanvasMenuCreateLogger" xml:space="preserve">
-    <value>Create Logger</value>
+    <value>Create logger</value>
   </data>
   <data name="CanvasMenuCut" xml:space="preserve">
     <value>Cu&amp;t</value>
@@ -199,7 +199,7 @@
     <value>&amp;Delete</value>
   </data>
   <data name="CanvasMenuDeleteLogger" xml:space="preserve">
-    <value>Delete Logger</value>
+    <value>Delete logger</value>
   </data>
   <data name="CanvasMenuMerge" xml:space="preserve">
     <value>Merge to supersystem</value>
@@ -208,13 +208,13 @@
     <value>Layout</value>
   </data>
   <data name="CanvasMenuAnotherArrow" xml:space="preserve">
-    <value>Opposite direction</value>
+    <value>Set opposite direction</value>
   </data>
   <data name="CanvasMenuPaste" xml:space="preserve">
     <value>&amp;Paste</value>
   </data>
   <data name="MenuToolTipShowID" xml:space="preserve">
-    <value>Visibility of Node's name of each pathway object.</value>
+    <value>Change the visibility mode of each object ID.</value>
   </data>
   <data name="MenuToolTipViewMode" xml:space="preserve">
     <value>Change view mode of canvas.</value>
@@ -229,37 +229,37 @@
     <value>&amp;View</value>
   </data>
   <data name="MenuItemSetup" xml:space="preserve">
-    <value>Pathway Settings...</value>
+    <value>Pathway settings...</value>
   </data>
   <data name="MenuToolTipSetup" xml:space="preserve">
-    <value>Show PropertyDialog of PathwayWindow.</value>
+    <value>Show property dialog of PathwayWindow.</value>
   </data>
   <data name="ErrSystemOverlap" xml:space="preserve">
-    <value>There is no space to create new system.</value>
+    <value>The pointed place has no space to paste the System.</value>
   </data>
   <data name="ToolButtonAddConstant" xml:space="preserve">
-    <value>Create constant references.</value>
+    <value>Create effectors.</value>
   </data>
   <data name="ToolButtonAddMutualReaction" xml:space="preserve">
-    <value>Create mutual reactions.</value>
+    <value>Create reversible reactions.</value>
   </data>
   <data name="ToolButtonAddOnewayReaction" xml:space="preserve">
-    <value>Create oneway reactions.</value>
+    <value>Create irreversible reactions.</value>
   </data>
   <data name="ToolButtonCreateProcess" xml:space="preserve">
-    <value>Create new processes.</value>
+    <value>Create new Process.</value>
   </data>
   <data name="ToolButtonCreateSystem" xml:space="preserve">
-    <value>Create new systems.</value>
+    <value>Create new System.</value>
   </data>
   <data name="ToolButtonCreateVariable" xml:space="preserve">
-    <value>Create new variables.</value>
+    <value>Create new Variable.</value>
   </data>
   <data name="ToolButtonMoveCanvas" xml:space="preserve">
-    <value>Move canvas.</value>
+    <value>Drag canvas.</value>
   </data>
   <data name="ToolButtonSelectMode" xml:space="preserve">
-    <value>Select Mode.</value>
+    <value>Object select.</value>
   </data>
   <data name="ToolButtonZoomIn" xml:space="preserve">
     <value>Zoom in</value>
@@ -274,13 +274,13 @@
     <value>Move to front</value>
   </data>
   <data name="MenuItemExport" xml:space="preserve">
-    <value>Export Graphics.</value>
+    <value>Export diagrams</value>
   </data>
   <data name="MenuItemExportSVG" xml:space="preserve">
     <value>Export SVG format...</value>
   </data>
   <data name="MenuToolTipExport" xml:space="preserve">
-    <value>Export Graphics.</value>
+    <value>Export diagrams.</value>
   </data>
   <data name="MenuToolTipExportSVG" xml:space="preserve">
     <value>Export SVG format.</value>
@@ -289,46 +289,46 @@
     <value>File</value>
   </data>
   <data name="DialogTextAnimationSetting" xml:space="preserve">
-    <value>Animation Setting</value>
+    <value>Animation setting</value>
   </data>
   <data name="DialogTextBackgroundBrush" xml:space="preserve">
-    <value>Background Brush</value>
+    <value>Background color</value>
   </data>
   <data name="DialogTextEdgeBrush" xml:space="preserve">
-    <value>Edge Brush</value>
+    <value>Edge color</value>
   </data>
   <data name="DialogTextEdgeWidth" xml:space="preserve">
-    <value>Edge Width</value>
+    <value>Edge width</value>
   </data>
   <data name="DialogTextEditMode" xml:space="preserve">
-    <value>Edit Mode</value>
+    <value>Edit mode</value>
   </data>
   <data name="DialogTextLogarithmic" xml:space="preserve">
-    <value>Logarithmic</value>
+    <value>Logarithmic scale</value>
   </data>
   <data name="DialogTextMaxEdgeWidth" xml:space="preserve">
-    <value>Max Edge Width</value>
+    <value>Max edge width</value>
   </data>
   <data name="DialogTextNGBrush" xml:space="preserve">
-    <value>NG Brush</value>
+    <value>NG color</value>
   </data>
   <data name="DialogTextNormalEdge" xml:space="preserve">
-    <value>Normal Edge</value>
+    <value>Normal edge</value>
   </data>
   <data name="DialogTextThresholdHigh" xml:space="preserve">
-    <value>Threshold High</value>
+    <value>Upper threshold</value>
   </data>
   <data name="DialogTextThresholdLow" xml:space="preserve">
-    <value>Threshold Low</value>
+    <value>Lower threshold</value>
   </data>
   <data name="DialogTextViewMode" xml:space="preserve">
-    <value>View Mode</value>
+    <value>View mode</value>
   </data>
   <data name="DialogTextPropertyBrush" xml:space="preserve">
-    <value>Property Brush</value>
+    <value>Property color</value>
   </data>
   <data name="ToolButtonCreateText" xml:space="preserve">
-    <value>Create Text objent.</value>
+    <value>Create new text box.</value>
   </data>
   <data name="WindowLayer" xml:space="preserve">
     <value>Layer</value>
@@ -346,7 +346,7 @@
     <value>Center color</value>
   </data>
   <data name="DialogTextFigure" xml:space="preserve">
-    <value>Object figure</value>
+    <value>Object shape</value>
   </data>
   <data name="DialogTextFillBrush" xml:space="preserve">
     <value>Fill color</value>
@@ -364,16 +364,16 @@
     <value>Text color</value>
   </data>
   <data name="ErrLoadWindowSettings" xml:space="preserve">
-    <value>Failed to load window settings</value>
+    <value>Cannot load window settings</value>
   </data>
   <data name="CanvasMenuBidirArrow" xml:space="preserve">
-    <value>Both directions</value>
+    <value>Set both directions</value>
   </data>
   <data name="CanvasMenuAlias" xml:space="preserve">
     <value>Create alias</value>
   </data>
   <data name="MessageLayout" xml:space="preserve">
-    <value>Now layout ...</value>
+    <value>Now layouting ...</value>
   </data>
   <data name="MessageLoadModel" xml:space="preserve">
     <value>Now loading model ...</value>
@@ -382,7 +382,7 @@
     <value>Export Image...</value>
   </data>
   <data name="MenuToolTipExportImage" xml:space="preserve">
-    <value>Export Image file.</value>
+    <value>Export image file.</value>
   </data>
   <data name="MenuItemFocus" xml:space="preserve">
     <value>Focus the selected object,</value>
