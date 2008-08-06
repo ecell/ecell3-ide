@@ -565,7 +565,7 @@ namespace Ecell
             else if (ext.Equals(Constants.FileExtEML))
                 project = LoadProjectFromEml(filepath);
             else
-                return project;
+                throw Exception("Unknown file type");
             project.FilePath = filepath;
             project.ProjectPath = Path.GetDirectoryName(filepath);
             return project;
