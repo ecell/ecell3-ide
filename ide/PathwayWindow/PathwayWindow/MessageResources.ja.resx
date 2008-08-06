@@ -136,7 +136,7 @@
     <value>レイアウト中に予期しないエラーが発生しました。</value>
   </data>
   <data name="ErrOutRoot" xml:space="preserve">
-    <value>ルートシステム外にオブジェクトを置けません。</value>
+    <value>ルートシステム外にはオブジェクトを置けません。</value>
   </data>
   <data name="ErrOverSystem" xml:space="preserve">
     <value>Systemを一部分だけ重ねることはできません。</value>

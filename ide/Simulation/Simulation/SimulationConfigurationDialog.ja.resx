@@ -123,9 +123,6 @@
   <data name="configurationLabel.Text" xml:space="preserve">
     <value>設定(&amp;S)</value>
   </data>
-  <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
-    <value>ID</value>
-  </data>
   <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
     <value>初期値</value>
   </data>
@@ -146,6 +143,9 @@
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>ディスクの使用方法</value>
+  </data>
+  <data name="initialvalue.HeaderText" xml:space="preserve">
+    <value>初期値</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>クラス名(&amp;L)</value>

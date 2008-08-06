@@ -523,7 +523,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             AddProperty(dModelID, type);
 
             EcellData dKey = new EcellData();
-            dKey.Name = "ID";
+            dKey.Name = "FullID";
             dKey.Value = new EcellValue(key);
             dKey.Settable = true;
             AddProperty(dKey, type);

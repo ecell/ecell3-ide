@@ -209,6 +209,20 @@ namespace Ecell.IDE.Plugins.Analysis
             parameterEstimationToolTip.SetToolTip(parameterEstimationPopulationTextBox, MessageResources.ToolTipPopulation);
             parameterEstimationToolTip.SetToolTip(estimationFormulatorTextBox, MessageResources.ToopTipEstimation);
             parameterEstimationToolTip.SetToolTip(groupBox3, MessageResources.ToolTipUnknownParameterGrid);
+            estimationTypeComboBox.SelectedIndex = 0;
+        }
+
+        private void AdvancedButtonClicked(object sender, EventArgs e)
+        {
+            ParameterEstimationAdvancedSettingDialog dlg = new ParameterEstimationAdvancedSettingDialog();
+            dlg.SetParameter(m_parameter);
+            using (dlg)
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    m_parameter = dlg.GetParam();
+                }
+            }
         }
     }
 }

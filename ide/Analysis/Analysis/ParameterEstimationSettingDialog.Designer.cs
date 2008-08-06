@@ -131,6 +131,7 @@
             resources.ApplyResources(this.advancedButton, "advancedButton");
             this.advancedButton.Name = "advancedButton";
             this.advancedButton.UseVisualStyleBackColor = true;
+            this.advancedButton.Click += new System.EventHandler(this.AdvancedButtonClicked);
             // 
             // parameterEstimationPopulationTextBox
             // 
@@ -253,14 +254,14 @@
         private System.Windows.Forms.Button advancedButton;
         private System.Windows.Forms.TextBox parameterEstimationSimulationTimeTextBox;
         private System.Windows.Forms.DataGridView parameterEstimationParameterDataGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.Button closeButton;
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button executeButton;
         private System.Windows.Forms.ToolTip parameterEstimationToolTip;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox abstractTextBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
     }
 }

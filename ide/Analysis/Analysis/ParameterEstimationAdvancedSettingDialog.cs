@@ -43,6 +43,8 @@ namespace Ecell.IDE.Plugins.Analysis
     /// </summary>
     public partial class ParameterEstimationAdvancedSettingDialog : Form
     {
+        private bool m_isCancel = false;
+        private SimplexCrossoverParameter m_param;
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -70,12 +72,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <returns></returns>
         public SimplexCrossoverParameter GetParam()
         {
-            return new SimplexCrossoverParameter(
-                Convert.ToInt32(PEMTextBox.Text),
-                Convert.ToDouble(PEM0TextBox.Text),
-                Convert.ToDouble(PEMaxRateTextBox.Text),
-                Convert.ToDouble(PEKTextBox.Text),
-                Convert.ToDouble(PEUpsilonTextBox.Text));
+            return m_param;
         }
 
         #region Events
@@ -86,8 +83,26 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void PEACloseButtonClicked(object sender, EventArgs e)
         {
-            this.Close();
+            m_isCancel = true;
         }
         #endregion
+
+        private void AdvancedFormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (m_isCancel) return;
+            try
+            {
+                m_param = new SimplexCrossoverParameter(
+                     Convert.ToInt32(PEMTextBox.Text),
+                     Convert.ToDouble(PEM0TextBox.Text),
+                     Convert.ToDouble(PEMaxRateTextBox.Text),
+                     Convert.ToDouble(PEKTextBox.Text),
+                     Convert.ToDouble(PEUpsilonTextBox.Text));
+            }
+            catch (Exception)
+            {
+                e.Cancel = true;
+            }
+        }
     }
 }

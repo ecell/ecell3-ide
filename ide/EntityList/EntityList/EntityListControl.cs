@@ -114,7 +114,8 @@ namespace Ecell.IDE.Plugins.EntityList
             }
             {
                 DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-                c.Value = obj.GetEcellData("Name");
+                EcellData d = obj.GetEcellData("Name");
+                c.Value = d.Value.ToString();
                 rs.Cells.Add(c);
                 c.ReadOnly = true;
             }

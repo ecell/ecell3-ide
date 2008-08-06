@@ -163,7 +163,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <summary>
         /// The reserved name for ID of object.
         /// </summary>
-        private const string s_indexID = "ID";
+        private const string s_indexID = "FullID";
         /// <summary>
         /// The reserved name for the Model ID of object.
         /// </summary>
@@ -171,7 +171,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <summary>
         /// The reserved name for the class name of object.
         /// </summary>
-        private const string s_indexClass = "ClassName";
+        private const string s_indexClass = "Classname";
         /// <summary>
         /// The reserved name for the name of object.
         /// </summary>

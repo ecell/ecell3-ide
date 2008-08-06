@@ -527,7 +527,7 @@ namespace Ecell.IDE
             layoutPanel.SuspendLayout();
             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             Label l = new Label();
-            l.Text = "modelID";
+            l.Text = "ModelID";
             l.Dock = DockStyle.Fill;
             layoutPanel.Controls.Add(l, 1, 0);
             TextBox t = new TextBox();
@@ -618,7 +618,7 @@ namespace Ecell.IDE
 
             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             Label l1 = new Label();
-            l1.Text = "modelID";
+            l1.Text = "ModelID";
             l1.Dock = DockStyle.Fill;
             layoutPanel.Controls.Add(l1, 1, i);
             TextBox t1 = new TextBox();
@@ -633,7 +633,7 @@ namespace Ecell.IDE
 
             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             Label l2 = new Label();
-            l2.Text = "id";
+            l2.Text = "FullID";
             l2.Dock = DockStyle.Fill;
             layoutPanel.Controls.Add(l2, 1, i);
             TextBox t2 = new TextBox();
@@ -663,7 +663,7 @@ namespace Ecell.IDE
 
             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             Label l3 = new Label();
-            l3.Text = "classname";
+            l3.Text = "Classname";
             l3.Dock = DockStyle.Fill;
             layoutPanel.Controls.Add(l3, 1, i);
             ComboBox combo = new ComboBox();
@@ -710,7 +710,7 @@ namespace Ecell.IDE
 
             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             Label l4 = new Label();
-            l4.Text = "type";
+            l4.Text = "Type";
             l4.Dock = DockStyle.Fill;
             layoutPanel.Controls.Add(l4, 1, i);
             TextBox t4 = new TextBox();
