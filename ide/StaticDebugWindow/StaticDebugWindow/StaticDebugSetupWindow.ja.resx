@@ -120,10 +120,22 @@
   <data name="$this.Text" xml:space="preserve">
     <value>静的デバッガ</value>
   </data>
+  <data name="MessageColumn.HeaderText" xml:space="preserve">
+    <value>メッセージ</value>
+  </data>
+  <data name="ModelColumn.HeaderText" xml:space="preserve">
+    <value>モデル</value>
+  </data>
+  <data name="PathColumn.HeaderText" xml:space="preserve">
+    <value>パス</value>
+  </data>
   <data name="SSCloseButton.Text" xml:space="preserve">
     <value>閉じる</value>
   </data>
   <data name="SSDebugButton.Text" xml:space="preserve">
     <value>デバッグ</value>
+  </data>
+  <data name="TypeColumn.HeaderText" xml:space="preserve">
+    <value>タイプ</value>
   </data>
 </root>

@@ -257,9 +257,9 @@
   <data name="URLLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <metadata name="toolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="toolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>126, 5</value>
-  </metadata>
+  </data>
   <data name="ButtonBack.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -523,7 +523,7 @@
     <value>121, 20</value>
   </data>
   <data name="URLComboBox.ToolTipText" xml:space="preserve">
-    <value>URL ComboBox</value>
+    <value>Please input URL</value>
   </data>
   <data name="toolStrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -573,12 +573,12 @@
   <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="$this.TrayHeight" type="System.Int32, mscorlib">
     <value>25</value>
-  </metadata>
+  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>718, 490</value>
   </data>

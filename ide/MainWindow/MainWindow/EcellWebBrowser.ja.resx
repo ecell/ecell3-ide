@@ -123,13 +123,19 @@
   <data name="ButtonForward.Text" xml:space="preserve">
     <value>進む</value>
   </data>
+  <data name="ButtonNavigate.Text" xml:space="preserve">
+    <value>移動</value>
+  </data>
   <data name="ButtonRefresh.Text" xml:space="preserve">
-    <value>更新</value>
+    <value>最新の情報に更新</value>
   </data>
   <data name="ButtonStop.Text" xml:space="preserve">
-    <value>停止</value>
+    <value>中止</value>
   </data>
   <data name="groupBox.Text" xml:space="preserve">
     <value>最近使ったプロジェクト</value>
+  </data>
+  <data name="URLComboBox.ToolTipText" xml:space="preserve">
+    <value>URLを入力してください</value>
   </data>
 </root>
