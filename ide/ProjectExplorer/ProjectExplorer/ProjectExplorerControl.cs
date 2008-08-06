@@ -960,7 +960,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             Dictionary<string, TreeNode> nodeDic = new Dictionary<string, TreeNode>();
             foreach (string name in logList)
             {
-                string[] sep = name.Split(new char[] { '/' });
+                string[] sep = name.Split(new char[] { ';' });
                 TreeNode n = new TreeNode(sep[1]);
                 n.Tag = new  TagData("", "", Constants.xpathLog);
 
