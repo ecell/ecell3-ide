@@ -123,7 +123,22 @@
   <data name="$this.Text" xml:space="preserve">
     <value>ジョブリスト</value>
   </data>
+  <data name="ArgumentColumn.HeaderText" xml:space="preserve">
+    <value>引数</value>
+  </data>
   <data name="DEWCloseButton.Text" xml:space="preserve">
     <value>閉じる</value>
+  </data>
+  <data name="JobIDColumn.HeaderText" xml:space="preserve">
+    <value>ジョブID</value>
+  </data>
+  <data name="MachineColumn.HeaderText" xml:space="preserve">
+    <value>実行ノード</value>
+  </data>
+  <data name="ScriptColumn.HeaderText" xml:space="preserve">
+    <value>スクリプト名</value>
+  </data>
+  <data name="StatusColumn.HeaderText" xml:space="preserve">
+    <value>状態</value>
   </data>
 </root>
