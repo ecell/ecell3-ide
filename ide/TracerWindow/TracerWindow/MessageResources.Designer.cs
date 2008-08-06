@@ -106,7 +106,7 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
-        ///   Save graph... に類似しているローカライズされた文字列を検索します。
+        ///   Save simulation result... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemShowSaveTraceText {
             get {

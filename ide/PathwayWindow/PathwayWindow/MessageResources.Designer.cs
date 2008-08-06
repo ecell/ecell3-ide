@@ -574,7 +574,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Select nodes on thie layer... に類似しているローカライズされた文字列を検索します。
+        ///   Select nodes on thie layer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string LayerMenuSelectNodes {
             get {

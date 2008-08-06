@@ -76,7 +76,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Constructor
         /// </summary>
-        public EcellWebBrowser()
+        public EcellWebBrowser(Dictionary<string, string> recentFiles)
         {
             m_env = ApplicationEnvironment.GetInstance();
             InitializeComponent();
@@ -89,7 +89,7 @@ namespace Ecell.IDE.MainWindow
             {
                 webBrowser.Navigate(startPage);
             }
-            //SetRecentFiles();
+            SetRecentFiles(recentFiles);
         }
 
         private void InitializeComponent()
@@ -253,6 +253,22 @@ namespace Ecell.IDE.MainWindow
                 }
             }
             return null;
+        }
+
+        private void SetRecentFiles(Dictionary<string, string> recentDics)
+        {
+                int i = 0;
+                foreach (KeyValuePair<string, string> project in recentDics)
+                {
+                    i++;
+                    ProjectLabel label = new ProjectLabel(project.Key, project.Value);
+                    label.Text = i.ToString() + ". " + project.Key;
+                    label.Width = 220;
+                    label.Left = 20;
+                    label.Top = i * 25;
+                    label.MouseClick += new MouseEventHandler(label_MouseClick);
+                    groupBox.Controls.Add(label);
+                }
         }
 
         //private void SetRecentFiles()

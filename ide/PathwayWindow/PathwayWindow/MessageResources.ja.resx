@@ -178,7 +178,7 @@
     <value>ビューモード</value>
   </data>
   <data name="LayerMenuSelectNodes" xml:space="preserve">
-    <value>レイヤー下のノードを選択する。</value>
+    <value>レイヤー上のノードを選択する。</value>
   </data>
   <data name="CanvasMenuChangeLayer" xml:space="preserve">
     <value>レイヤーを変更</value>

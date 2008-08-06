@@ -178,7 +178,7 @@
     <value>View mode</value>
   </data>
   <data name="LayerMenuSelectNodes" xml:space="preserve">
-    <value>Select nodes on thie layer...</value>
+    <value>Select nodes on thie layer</value>
   </data>
   <data name="CanvasMenuChangeLayer" xml:space="preserve">
     <value>Change Layer</value>

@@ -133,7 +133,7 @@
     <value>Import ...</value>
   </data>
   <data name="MenuItemShowSaveTraceText" xml:space="preserve">
-    <value>Save graph...</value>
+    <value>Save simulation result...</value>
   </data>
   <data name="MenuItemShowTraceSetupText" xml:space="preserve">
     <value>&amp;Graph setting...</value>

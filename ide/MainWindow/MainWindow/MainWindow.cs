@@ -564,7 +564,7 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         internal void SetStartUpWindow()
         {
-            EcellDockContent content = new EcellWebBrowser();
+            EcellDockContent content = new EcellWebBrowser(m_recentProjects);
             content.Name = "StartUpWindow";
             content.Text = "StartUpWindow";
             content.DockHandler.DockPanel = this.dockPanel;
@@ -1077,10 +1077,17 @@ namespace Ecell.IDE.MainWindow
             {
                 try
                 {
-                    if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
+                    bool res;
+                    try
                     {
-                        SaveProjectMenuClick(sender, e);
+                        res = Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm);
                     }
+                    catch (Exception)
+                    {
+                        return;
+                    }
+                    if (res)
+                        SaveProjectMenuClick(sender, e);
                     CloseProject();
                 }
                 catch (Util.CancelException)
@@ -1108,7 +1115,16 @@ namespace Ecell.IDE.MainWindow
             // Check the modification and confirm save.
             if (m_editCount > 0)
             {
-                if (Util.ShowYesNoDialog(MessageResources.SaveConfirm))
+                bool res;
+                try
+                {
+                    res = Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm);
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+                if (res) 
                 {
                     SaveProjectMenuClick(sender, e);
                     CloseProject();
@@ -1188,6 +1204,7 @@ namespace Ecell.IDE.MainWindow
                         {
                             case SaveProjectDialog.ProjectItemKind.Model:
                                 m_env.DataManager.SaveModel(pi.Name);
+                                m_editCount = 0;
                                 break;
                             case SaveProjectDialog.ProjectItemKind.SimulationParameter:
                                 m_env.DataManager.SaveSimulationParameter(pi.Name);
@@ -1218,7 +1235,16 @@ namespace Ecell.IDE.MainWindow
             {
                 try
                 {
-                    if (m_editCount > 0 && Util.ShowYesNoDialog(MessageResources.SaveConfirm))
+                    bool res;
+                    try
+                    {
+                        res = Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm);
+                    }
+                    catch (Exception)
+                    {
+                        return;
+                    }
+                    if (res)
                         SaveProjectMenuClick(sender, e);
 
                     CloseProject();
@@ -1243,9 +1269,20 @@ namespace Ecell.IDE.MainWindow
         private void ImportModelMenuClick(object sender, EventArgs e)
         {
             // Check current project and save it.
-            if (m_editCount > 0 && Util.ShowYesNoDialog(MessageResources.SaveConfirm))
-                SaveProjectMenuClick(sender, e);
-
+            if (m_editCount > 0)
+            {
+                bool res;
+                try
+                {
+                    res = Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm);
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+                if (res)
+                    SaveProjectMenuClick(sender, e);
+            }
             // Show OpenFileDialog.
             try
             {
@@ -1374,7 +1411,16 @@ namespace Ecell.IDE.MainWindow
                 {
                     try
                     {
-                        if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
+                        bool res;
+                        try
+                        {
+                            res = Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm);
+                        }
+                        catch (Exception)
+                        {
+                            return;
+                        }
+                        if (res)
                         {
                             m_env.DataManager.SimulationStop();
                             Thread.Sleep(1000);
