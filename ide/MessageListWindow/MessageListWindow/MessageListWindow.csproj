@@ -85,6 +85,10 @@
     <None Include="Properties\AssemblyInfo.cs.tmpl" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="MessageListWindowControl.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MessageListWindowControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MessageListWindowControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MessageListWindowControl.cs</DependentUpon>

@@ -41,18 +41,9 @@
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.MLWMessageDridView, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(401, 227);
-            this.tableLayoutPanel1.TabIndex = 0;
             // 
             // MLWMessageDridView
             // 
@@ -65,48 +56,41 @@
             this.MLWTypeColumn,
             this.MLWLocColumn,
             this.MLWMesColumn});
-            this.MLWMessageDridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MLWMessageDridView.Location = new System.Drawing.Point(3, 3);
+            resources.ApplyResources(this.MLWMessageDridView, "MLWMessageDridView");
             this.MLWMessageDridView.Name = "MLWMessageDridView";
             this.MLWMessageDridView.RowHeadersVisible = false;
             this.MLWMessageDridView.RowTemplate.Height = 21;
-            this.MLWMessageDridView.Size = new System.Drawing.Size(395, 221);
-            this.MLWMessageDridView.TabIndex = 0;
             // 
             // MLWDateColumn
             // 
             this.MLWDateColumn.FillWeight = 30F;
-            this.MLWDateColumn.HeaderText = "Date";
+            resources.ApplyResources(this.MLWDateColumn, "MLWDateColumn");
             this.MLWDateColumn.Name = "MLWDateColumn";
             // 
             // MLWTypeColumn
             // 
             this.MLWTypeColumn.FillWeight = 15F;
-            this.MLWTypeColumn.HeaderText = "Type";
+            resources.ApplyResources(this.MLWTypeColumn, "MLWTypeColumn");
             this.MLWTypeColumn.Name = "MLWTypeColumn";
             // 
             // MLWLocColumn
             // 
             this.MLWLocColumn.FillWeight = 35F;
-            this.MLWLocColumn.HeaderText = "Location";
+            resources.ApplyResources(this.MLWLocColumn, "MLWLocColumn");
             this.MLWLocColumn.Name = "MLWLocColumn";
             // 
             // MLWMesColumn
             // 
             this.MLWMesColumn.FillWeight = 50F;
-            this.MLWMesColumn.HeaderText = "Message";
+            resources.ApplyResources(this.MLWMesColumn, "MLWMesColumn");
             this.MLWMesColumn.Name = "MLWMesColumn";
             // 
             // MessageListWindowControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(401, 227);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MessageListWindowControl";
-            this.TabText = "MessageListWindowControl";
-            this.Text = "MessageListWindowControl";
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.MLWMessageDridView)).EndInit();
             this.ResumeLayout(false);

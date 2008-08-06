@@ -117,29 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ErrFormat" xml:space="preserve">
-    <value>Value is not valid.</value>
+  <data name="MLWDateColumn.HeaderText" xml:space="preserve">
+    <value>日時</value>
   </data>
-  <data name="ErrID" xml:space="preserve">
-    <value>ID string is not valid.</value>
+  <data name="MLWLocColumn.HeaderText" xml:space="preserve">
+    <value>場所</value>
   </data>
-  <data name="ErrNoProp" xml:space="preserve">
-    <value>Input the property name before input the value.</value>
+  <data name="MLWMesColumn.HeaderText" xml:space="preserve">
+    <value>メッセージ</value>
   </data>
-  <data name="ErrSameProp" xml:space="preserve">
-    <value>Same name property already exists.</value>
-  </data>
-  <data name="NamePropertyName" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="NameValue" xml:space="preserve">
-    <value>Value</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="proper" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\proper.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PropertyWindow" xml:space="preserve">
-    <value>Property</value>
+  <data name="MLWTypeColumn.HeaderText" xml:space="preserve">
+    <value>タイプ</value>
   </data>
 </root>

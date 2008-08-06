@@ -114,7 +114,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         {
             m_dgv = new DataGridView();
             m_dgv.Dock = DockStyle.Fill;
-            m_dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+//            m_dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             m_dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             m_dgv.AllowUserToAddRows = false;
             m_dgv.AllowUserToDeleteRows = false;
@@ -123,14 +123,16 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             m_dgv.RowTemplate.Height = 21;
 
             DataGridViewTextBoxColumn textName = new DataGridViewTextBoxColumn();
-            textName.HeaderText = "Name";
+            textName.HeaderText = MessageResources.NamePropertyName;
             textName.Name = "NameColumn";
             textName.ReadOnly = false;
+            textName.FillWeight = 30F;
 
             DataGridViewTextBoxColumn textValue = new DataGridViewTextBoxColumn();
-            textValue.HeaderText = "Value";
+            textValue.HeaderText = MessageResources.NameValue;
             textValue.Name = "ValueColumn";
             textValue.ReadOnly = true;
+            textValue.FillWeight = 50F;
 
             m_dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
                     textName, textValue});
