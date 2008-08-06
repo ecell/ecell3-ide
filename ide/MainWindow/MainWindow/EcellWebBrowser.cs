@@ -114,40 +114,27 @@ namespace Ecell.IDE.MainWindow
             // 
             // pictureBox
             // 
-            this.pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox.Image")));
-            this.pictureBox.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.pictureBox, "pictureBox");
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(259, 89);
-            this.pictureBox.TabIndex = 1;
             this.pictureBox.TabStop = false;
             // 
             // groupBox
             // 
-            this.groupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            resources.ApplyResources(this.groupBox, "groupBox");
             this.groupBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.groupBox.Location = new System.Drawing.Point(12, 95);
             this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(245, 345);
-            this.groupBox.TabIndex = 2;
             this.groupBox.TabStop = false;
-            this.groupBox.Text = "Recent Projects";
             // 
             // webBrowser
             // 
-            this.webBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.webBrowser.Location = new System.Drawing.Point(265, 0);
+            resources.ApplyResources(this.webBrowser, "webBrowser");
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(453, 443);
-            this.webBrowser.TabIndex = 3;
+            this.webBrowser.StatusTextChanged += new System.EventHandler(this.webBrowser_StatusTextChanged);
             this.webBrowser.CanGoForwardChanged += new System.EventHandler(this.webBrowser_CanGoForwardChanged);
             this.webBrowser.CanGoBackChanged += new System.EventHandler(this.webBrowser_CanGoBackChanged);
             this.webBrowser.ProgressChanged += new System.Windows.Forms.WebBrowserProgressChangedEventHandler(this.webBrowser_ProgressChanged);
             this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
-            this.webBrowser.StatusTextChanged += new System.EventHandler(this.webBrowser_StatusTextChanged);
             // 
             // URLLabel
             // 
@@ -157,9 +144,8 @@ namespace Ecell.IDE.MainWindow
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.URLLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.URLLabel.Name = "URLLabel";
-            this.URLLabel.Size = new System.Drawing.Size(672, 17);
+            resources.ApplyResources(this.URLLabel, "URLLabel");
             this.URLLabel.Spring = true;
-            this.URLLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // toolStrip
             // 
@@ -170,96 +156,70 @@ namespace Ecell.IDE.MainWindow
             this.ButtonRefresh,
             this.ButtonNavigate,
             this.URLComboBox});
-            this.toolStrip.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.toolStrip, "toolStrip");
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(718, 25);
-            this.toolStrip.TabIndex = 5;
-            this.toolStrip.Text = "toolStrip1";
             this.toolStrip.SizeChanged += new System.EventHandler(this.toolStrip_SizeChanged);
             // 
             // ButtonBack
             // 
             this.ButtonBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ButtonBack.Image = ((System.Drawing.Image)(resources.GetObject("ButtonBack.Image")));
-            this.ButtonBack.ImageTransparentColor = System.Drawing.Color.Magenta;
+            resources.ApplyResources(this.ButtonBack, "ButtonBack");
             this.ButtonBack.Name = "ButtonBack";
-            this.ButtonBack.Size = new System.Drawing.Size(23, 22);
-            this.ButtonBack.Text = "Back";
             this.ButtonBack.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonForward
             // 
             this.ButtonForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ButtonForward.Image = ((System.Drawing.Image)(resources.GetObject("ButtonForward.Image")));
-            this.ButtonForward.ImageTransparentColor = System.Drawing.Color.Magenta;
+            resources.ApplyResources(this.ButtonForward, "ButtonForward");
             this.ButtonForward.Name = "ButtonForward";
-            this.ButtonForward.Size = new System.Drawing.Size(23, 22);
-            this.ButtonForward.Text = "Go";
             this.ButtonForward.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonStop
             // 
             this.ButtonStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ButtonStop.Image = ((System.Drawing.Image)(resources.GetObject("ButtonStop.Image")));
-            this.ButtonStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+            resources.ApplyResources(this.ButtonStop, "ButtonStop");
             this.ButtonStop.Name = "ButtonStop";
-            this.ButtonStop.Size = new System.Drawing.Size(23, 22);
-            this.ButtonStop.Text = "Stop";
             this.ButtonStop.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonRefresh
             // 
             this.ButtonRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ButtonRefresh.Image = ((System.Drawing.Image)(resources.GetObject("ButtonRefresh.Image")));
-            this.ButtonRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
+            resources.ApplyResources(this.ButtonRefresh, "ButtonRefresh");
             this.ButtonRefresh.Name = "ButtonRefresh";
-            this.ButtonRefresh.Size = new System.Drawing.Size(23, 22);
-            this.ButtonRefresh.Text = "Refresh";
             this.ButtonRefresh.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonNavigate
             // 
             this.ButtonNavigate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ButtonNavigate.Image = ((System.Drawing.Image)(resources.GetObject("ButtonNavigate.Image")));
-            this.ButtonNavigate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            resources.ApplyResources(this.ButtonNavigate, "ButtonNavigate");
             this.ButtonNavigate.Name = "ButtonNavigate";
-            this.ButtonNavigate.Size = new System.Drawing.Size(23, 22);
-            this.ButtonNavigate.Text = "Navigate";
             this.ButtonNavigate.Click += new System.EventHandler(this.Button_Click);
             // 
             // URLComboBox
             // 
             this.URLComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.URLComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.AllUrl;
-            this.URLComboBox.AutoSize = false;
-            this.URLComboBox.MaxDropDownItems = 10;
-            this.URLComboBox.MaxLength = 1000;
+            resources.ApplyResources(this.URLComboBox, "URLComboBox");
             this.URLComboBox.Name = "URLComboBox";
-            this.URLComboBox.Size = new System.Drawing.Size(121, 20);
-            this.URLComboBox.ToolTipText = "URL ComboBox";
-            this.URLComboBox.SelectedIndexChanged += new System.EventHandler(this.URLComboBox_SelectedIndexChanged);
-            this.URLComboBox.LocationChanged += new System.EventHandler(this.URLComboBox_LocationChanged);
             this.URLComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.URLComboBox_KeyDown);
+            this.URLComboBox.LocationChanged += new System.EventHandler(this.URLComboBox_LocationChanged);
+            this.URLComboBox.SelectedIndexChanged += new System.EventHandler(this.URLComboBox_SelectedIndexChanged);
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.webBrowser);
             this.panel1.Controls.Add(this.groupBox);
             this.panel1.Controls.Add(this.pictureBox);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 25);
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(718, 443);
-            this.panel1.TabIndex = 6;
             // 
-            // StartUpWindow
+            // EcellWebBrowser
             // 
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(718, 490);
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.toolStrip);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "StartUpWindow";
+            this.Name = "EcellWebBrowser";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();

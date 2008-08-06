@@ -183,6 +183,10 @@
       <DependentUpon>AboutDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="EcellWebBrowser.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EcellWebBrowser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GridConfigurationDialog.ja.resx">
       <DependentUpon>GridConfigurationDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
