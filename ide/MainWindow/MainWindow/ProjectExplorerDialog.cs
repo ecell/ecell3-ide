@@ -138,12 +138,14 @@ namespace Ecell.IDE.MainWindow
             // Check project.xml and load.
             if (File.Exists(prjXMLFileName))
             {
+                if (!IsExistModelFile(path)) return;
                 TreeNode childNode = new ProjectTreeNode(prjXMLFileName);
                 node.Nodes.Add(childNode);
             }
             // Check project.info and load.
             else if (File.Exists(prjFileName))
             {
+                if (!IsExistModelFile(path)) return;
                 TreeNode childNode = new ProjectTreeNode(prjFileName);
                 node.Nodes.Add(childNode);
             }
@@ -169,6 +171,17 @@ namespace Ecell.IDE.MainWindow
                 CreateProjectTreeView(childNode, dir);
             }
         }
+
+        private static bool IsExistModelFile(string dir)
+        {
+            string path = Path.Combine(dir, "Model");
+            if (!Directory.Exists(path)) return false;
+
+            string[] files = Directory.GetFiles(path, "*.eml");
+            if (files.Length > 0) return true;
+            return false;
+        }
+
         /// <summary>
         /// IsIgnoredDir
         /// </summary>
@@ -215,8 +228,11 @@ namespace Ecell.IDE.MainWindow
             string filepath = Path.Combine(prj.ProjectPath, "model.png");
             if (File.Exists(filepath))
                 pictureBox1.Image = Image.FromFile(filepath);
-            else if(pictureBox1.Image != null)
+            else if (pictureBox1.Image != null)
+            {
                 pictureBox1.Image.Dispose();
+                pictureBox1.Image = null;
+            }
 
             projectNameText.BackColor = Color.White;
             dateText.BackColor = Color.White;
@@ -247,8 +263,11 @@ namespace Ecell.IDE.MainWindow
             projectNameText.ReadOnly = true;
             m_fileName = "";
 
-            if(pictureBox1.Image != null)
+            if (pictureBox1.Image != null)
+            {
                 pictureBox1.Image.Dispose();
+                pictureBox1.Image = null;
+            }
         }
 
         #endregion
@@ -720,11 +739,15 @@ namespace Ecell.IDE.MainWindow
             {
                 this.m_filePath = filepath;
                 this.m_nodeType = GetNodeType(filepath);
-                this.m_project = ProjectLoader.LoadProject(filepath);
-                if (m_project == null)
-                    this.Text = Path.GetFileNameWithoutExtension(filepath);
-                else
+                if (this.m_nodeType == FileType.Project ||
+                    this.m_nodeType == FileType.Model)
+                {
+                    this.m_project = ProjectLoader.LoadProject(filepath);
                     this.Text = m_project.Name;
+                }
+                else 
+                    this.Text = Path.GetFileNameWithoutExtension(filepath);
+                
                 this.ImageIndex = (int)m_nodeType;
                 this.SelectedImageIndex = ImageIndex;
                 this.Tag = filepath;

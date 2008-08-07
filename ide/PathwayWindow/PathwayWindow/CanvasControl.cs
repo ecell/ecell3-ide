@@ -947,7 +947,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     true,
                     (i == list.Count));
             }
-            m_layers.Remove(oldName);
+            RemoveLayer(oldName);
             RefreshLayerTable();
         }
         #endregion
