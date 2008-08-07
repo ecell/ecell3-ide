@@ -803,6 +803,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             obj.Layer = m_layers[layerID];
             obj.Layer.AddChild(obj);
+            if (!m_layers[layerID].Visible)
+            {
+                ChangeLayerVisibility(layerID, true);
+                RefreshLayerTable();
+                m_con.LayerView.SelectedLayer = layerID;
+            }
         }
 
         /// <summary>

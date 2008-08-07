@@ -136,16 +136,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         public string SelectedLayer
         {
             get { return m_selectedLayer; }
-            set { m_selectedLayer = value; }
+            set { 
+                m_selectedLayer = value;
+                for (int i = 0; i < m_dgv.RowCount; i++)
+                {
+                    if (m_selectedLayer.Equals(m_dgv[1, i].FormattedValue))
+                        m_dgv.Rows[i].Selected = true;
+                }
+            }
         }
-        
+
         #endregion
 
-        #region Constructor
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public LayerView(PathwayControl control)
+            #region Constructor
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            public LayerView(PathwayControl control)
         {
             base.m_isSavable = true;
             this.m_con = control;
