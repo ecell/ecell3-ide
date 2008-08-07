@@ -2976,7 +2976,8 @@ namespace Ecell
         /// <returns>The list of parameter ID</returns>
         public List<string> GetSimulationParameterIDs()
         {
-            if (m_currentProject.StepperDic == null)
+            if (m_currentProject == null ||
+                m_currentProject.StepperDic == null)
                 return new List<string>();
 
             return new List<string>(m_currentProject.StepperDic.Keys);
@@ -3608,16 +3609,20 @@ namespace Ecell
             }
             finally
             {
-                if (passList != null && passList.Count > 0)
+                if (m_currentProject != null)
                 {
-                    this.m_env.PluginManager.DataAdd(passList);
+                    if (passList != null && passList.Count > 0)
+                    {
+                        this.m_env.PluginManager.DataAdd(passList);
+                    }
+                    foreach (string paramID in this.GetSimulationParameterIDs())
+                    {
+                        this.m_env.PluginManager.ParameterAdd(projectID, paramID);
+                    }
+
+                    m_env.ActionManager.AddAction(new LoadProjectAction(projectID, project.FilePath));
+                    m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
                 }
-                foreach (string paramID in this.GetSimulationParameterIDs())
-                {
-                    this.m_env.PluginManager.ParameterAdd(projectID, paramID);
-                }
-                m_env.ActionManager.AddAction(new LoadProjectAction(projectID, project.FilePath));
-                m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
             }
         }
 
