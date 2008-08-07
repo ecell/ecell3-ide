@@ -196,11 +196,7 @@ namespace Ecell.Objects
         /// <returns>true if the type is "int"; false otherwise</returns>
         public bool IsInt
         {
-            get
-            {
-                Type type = typeof(int);
-                return CheckValueType(type);
-            }
+            get { return m_type == typeof(int); }
         }
 
         /// <summary>
@@ -209,11 +205,7 @@ namespace Ecell.Objects
         /// <returns>true if the type is "double"; false otherwise</returns>
         public bool IsDouble
         {
-            get
-            {
-                Type type = typeof(double);
-                return CheckValueType(type);
-            }
+            get { return m_type == typeof(double); }
         }
         /// <summary>
         /// Tests whether the type is a "string" type.
@@ -221,11 +213,7 @@ namespace Ecell.Objects
         /// <returns>true if the type is "string"; false otherwise</returns>
         public bool IsString
         {
-            get
-            {
-                Type type = typeof(string);
-                return CheckValueType(type);
-            }
+            get {  return m_type == typeof(string); }
         }
         /// <summary>
         /// Tests whether the type is the list of EcellValue type.
@@ -233,23 +221,7 @@ namespace Ecell.Objects
         /// <returns>true if the type is the list of EcellValue; false otherwise</returns>
         public bool IsList
         {
-            get
-            {
-                Type type = typeof(List<EcellValue>);
-                return CheckValueType(type);
-            }
-        }
-
-        private bool CheckValueType(Type type)
-        {
-            if (this.m_type == type)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            get { return m_type == typeof(List<EcellValue>); }
         }
 
         #endregion

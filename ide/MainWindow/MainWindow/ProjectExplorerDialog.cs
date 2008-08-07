@@ -138,14 +138,16 @@ namespace Ecell.IDE.MainWindow
             // Check project.xml and load.
             if (File.Exists(prjXMLFileName))
             {
-                if (!IsExistModelFile(path)) return;
+                if (!IsExistModelFile(path)) 
+                    return;
                 TreeNode childNode = new ProjectTreeNode(prjXMLFileName);
                 node.Nodes.Add(childNode);
             }
             // Check project.info and load.
             else if (File.Exists(prjFileName))
             {
-                if (!IsExistModelFile(path)) return;
+                if (!IsExistModelFile(path)) 
+                    return;
                 TreeNode childNode = new ProjectTreeNode(prjFileName);
                 node.Nodes.Add(childNode);
             }
@@ -764,9 +766,9 @@ namespace Ecell.IDE.MainWindow
             private FileType GetNodeType(string filepath)
             {
                 string ext = Path.GetExtension(filepath);
-                if (ext.Equals(Constants.FileExtXML))
+                if (filepath.EndsWith(Constants.fileProjectXML))
                     return FileType.Project;
-                else if (ext.Equals(Constants.FileExtINFO))
+                else if (filepath.EndsWith(Constants.fileProject))
                     return FileType.Project;
                 else if (ext.Equals(Constants.FileExtEML))
                     return FileType.Model;

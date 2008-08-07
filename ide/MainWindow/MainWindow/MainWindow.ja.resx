@@ -386,4 +386,7 @@
   <data name="aboutIDEToolStripMenuItem.Text" xml:space="preserve">
     <value>E-Cell IDEの情報(&amp;I)</value>
   </data>
+  <data name="importSBMLMenuItem.Text" xml:space="preserve">
+    <value>SBMLのインポート(&amp;B)</value>
+  </data>
 </root>

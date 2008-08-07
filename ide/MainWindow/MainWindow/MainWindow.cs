@@ -58,6 +58,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using Ecell.Objects;
 using System.Xml;
 using System.Runtime.InteropServices;
+using System.Net;
 
 namespace Ecell.IDE.MainWindow
 {
@@ -1802,14 +1803,97 @@ namespace Ecell.IDE.MainWindow
                     break;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
         public virtual void SetProgressBarValue(int val)
         {
             if (val == 100)
                 val = 0;
             genericProgressBar.Value = val;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ImportSBMLMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            using (dialog)
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    LoadSBML(dialog.FileName);
+                }
+            }
+        }
 
+        private void LoadSBML(string filepath)
+        {
+            try
+            {
+                Encoding enc = Encoding.GetEncoding("shift_jis");
+                string boundary = System.Environment.TickCount.ToString();
+                string url = "http://chaperone.e-cell.org/services/sbml2eml/";
+                string filename = Path.GetFileName(filepath);
+
+                // Send HTTP request
+                HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
+                req.Method = "POST";
+                req.ContentType = "multipart/form-data; boundary=" + boundary;
+                string postData = "";
+                postData = "--" + boundary + "\r\n" +
+                    "Content-Disposition: form-data; name=\"file\"; filename=\"" +
+                        filename + "\"\r\n" +
+                    "Content-Type: application/octet-stream\r\n" +
+                    "Content-Transfer-Encoding: binary\r\n\r\n";
+                byte[] startData = enc.GetBytes(postData);
+                postData = "\r\n--" + boundary + "\r\n";
+                byte[] endData = enc.GetBytes(postData);
+
+                FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read);
+
+                req.ContentLength = startData.Length + endData.Length + fs.Length;
+                Stream reqStream = req.GetRequestStream();
+                reqStream.Write(startData, 0, startData.Length);
+                byte[] readData = new byte[0x1000];
+                int readSize = 0;
+                while (true)
+                {
+                    readSize = fs.Read(readData, 0, readData.Length);
+                    if (readSize == 0)
+                        break;
+                    reqStream.Write(readData, 0, readSize);
+                }
+                fs.Close();
+                reqStream.Write(endData, 0, endData.Length);
+                reqStream.Close();
+
+                // Get HTTP response
+                HttpWebResponse res = (HttpWebResponse)req.GetResponse();
+                Stream resStream = res.GetResponseStream();
+                StreamReader reader = new StreamReader(resStream, enc);
+
+                // Save temporary file
+                string savefile = Path.Combine(Util.GetTmpDir(), filename + Constants.FileExtEML);
+                FileStream saveFs = new FileStream(savefile, FileMode.Create, FileAccess.Write);
+                int b;
+                while((b=resStream.ReadByte()) != -1)
+                    saveFs.WriteByte(Convert.ToByte(b));
+
+                saveFs.Close();
+                resStream.Close();
+
+                m_env.DataManager.LoadProject(savefile);
+            }
+            catch (Exception e)
+            {
+                Util.ShowErrorDialog("Failed to convert SBML.\n" + e.StackTrace);
+            }
+
+        }
 
     }
 }

@@ -50,6 +50,7 @@ namespace Ecell.IDE.MainWindow
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.importModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ImportSBMLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.importScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -177,6 +178,7 @@ namespace Ecell.IDE.MainWindow
             this.toolStripSeparator1,
             this.importModelToolStripMenuItem,
             this.exportModelToolStripMenuItem,
+            this.ImportSBMLMenuItem,
             this.toolStripSeparator2,
             this.importScriptToolStripMenuItem,
             this.saveScriptToolStripMenuItem,
@@ -254,6 +256,12 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this.exportModelToolStripMenuItem, "exportModelToolStripMenuItem");
             this.exportModelToolStripMenuItem.Tag = "12";
             this.exportModelToolStripMenuItem.Click += new System.EventHandler(this.ExportModelMenuClick);
+            // 
+            // ImportSBMLMenuItem
+            // 
+            this.ImportSBMLMenuItem.Name = "ImportSBMLMenuItem";
+            resources.ApplyResources(this.ImportSBMLMenuItem, "ImportSBMLMenuItem");
+            this.ImportSBMLMenuItem.Click += new System.EventHandler(this.ImportSBMLMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -597,6 +605,7 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.ToolStripMenuItem scriptEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutIDEToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripMenuItem ImportSBMLMenuItem;
     }
 }
 

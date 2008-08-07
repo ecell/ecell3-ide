@@ -557,15 +557,21 @@ namespace Ecell
         {
             Project project = null;
             string ext = Path.GetExtension(filepath);
-
-            if (ext.Equals(Constants.FileExtXML))
-                project = LoadProjectFromXML(filepath);
-            else if (ext.Equals(Constants.FileExtINFO))
-                project = LoadProjectFromInfo(filepath);
-            else if (ext.Equals(Constants.FileExtEML))
-                project = LoadProjectFromEml(filepath);
-            else
-                throw new Exception("Unknown file type");
+            try
+            {
+                if (filepath.EndsWith(Constants.fileProjectXML))
+                    project = LoadProjectFromXML(filepath);
+                else if (filepath.EndsWith(Constants.fileProject))
+                    project = LoadProjectFromInfo(filepath);
+                else if (ext.Equals(Constants.FileExtEML))
+                    project = LoadProjectFromEml(filepath);
+                else
+                    throw new Exception("Unknown file type");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
             project.FilePath = filepath;
             project.ProjectPath = Path.GetDirectoryName(filepath);
             return project;
