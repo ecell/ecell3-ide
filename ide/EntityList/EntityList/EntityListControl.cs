@@ -89,6 +89,11 @@ namespace Ecell.IDE.Plugins.EntityList
 
         public void DataAdd(EcellObject obj)
         {
+            if (obj.Type != Constants.xpathSystem &&
+                obj.Type != Constants.xpathVariable &&
+                obj.Type != Constants.xpathProcess)
+                return;
+
             if (obj.Key.EndsWith(":SIZE")) return;
             int ind = SearchInsertPosition(obj.Key, obj.Type);
             int len = m_propArray.Length;
