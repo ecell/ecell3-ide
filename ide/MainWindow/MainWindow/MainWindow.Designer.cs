@@ -50,7 +50,7 @@ namespace Ecell.IDE.MainWindow
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.importModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ImportSBMLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importSBMLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.importScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,6 +86,7 @@ namespace Ecell.IDE.MainWindow
             this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
+            this.recentProejctToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
@@ -173,12 +174,13 @@ namespace Ecell.IDE.MainWindow
             this.newProjectToolStripMenuItem,
             this.projectWizardMenuItem,
             this.openProjectToolStripMenuItem,
+            this.recentProejctToolStripMenuItem,
             this.saveProjectToolStripMenuItem,
             this.closeProjectToolStripMenuItem,
             this.toolStripSeparator1,
             this.importModelToolStripMenuItem,
             this.exportModelToolStripMenuItem,
-            this.ImportSBMLMenuItem,
+            this.importSBMLMenuItem,
             this.toolStripSeparator2,
             this.importScriptToolStripMenuItem,
             this.saveScriptToolStripMenuItem,
@@ -257,11 +259,11 @@ namespace Ecell.IDE.MainWindow
             this.exportModelToolStripMenuItem.Tag = "12";
             this.exportModelToolStripMenuItem.Click += new System.EventHandler(this.ExportModelMenuClick);
             // 
-            // ImportSBMLMenuItem
+            // importSBMLMenuItem
             // 
-            this.ImportSBMLMenuItem.Name = "ImportSBMLMenuItem";
-            resources.ApplyResources(this.ImportSBMLMenuItem, "ImportSBMLMenuItem");
-            this.ImportSBMLMenuItem.Click += new System.EventHandler(this.ImportSBMLMenuItem_Click);
+            this.importSBMLMenuItem.Name = "importSBMLMenuItem";
+            resources.ApplyResources(this.importSBMLMenuItem, "importSBMLMenuItem");
+            this.importSBMLMenuItem.Click += new System.EventHandler(this.ImportSBMLMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -480,6 +482,11 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             this.openScriptDialog.RestoreDirectory = true;
             // 
+            // recentProejctToolStripMenuItem
+            // 
+            this.recentProejctToolStripMenuItem.Name = "recentProejctToolStripMenuItem";
+            resources.ApplyResources(this.recentProejctToolStripMenuItem, "recentProejctToolStripMenuItem");
+            // 
             // MainWindow
             // 
             resources.ApplyResources(this, "$this");
@@ -605,7 +612,8 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.ToolStripMenuItem scriptEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutIDEToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
-        private System.Windows.Forms.ToolStripMenuItem ImportSBMLMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importSBMLMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem recentProejctToolStripMenuItem;
     }
 }
 

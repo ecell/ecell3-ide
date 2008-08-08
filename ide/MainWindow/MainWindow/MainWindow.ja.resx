@@ -389,4 +389,7 @@
   <data name="importSBMLMenuItem.Text" xml:space="preserve">
     <value>SBMLのインポート(&amp;B)</value>
   </data>
+  <data name="recentProejctToolStripMenuItem.Text" xml:space="preserve">
+    <value>最近使用したプロジェクト(&amp;R) </value>
+  </data>
 </root>

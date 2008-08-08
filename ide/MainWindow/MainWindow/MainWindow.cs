@@ -358,14 +358,14 @@ namespace Ecell.IDE.MainWindow
 
         private void ResetRecentProject()
         {
-            openProjectToolStripMenuItem.DropDownItems.Clear();
+            recentProejctToolStripMenuItem.DropDownItems.Clear();
             foreach (KeyValuePair<string, string> project in m_recentProjects)
             {
                 ToolStripMenuItem item = new ToolStripMenuItem(project.Key);
                 item.ToolTipText = project.Value;
                 item.ToolTipText = project.Value;
                 item.Click += new EventHandler(RecentProject_Click);
-                openProjectToolStripMenuItem.DropDownItems.Add(item);
+                recentProejctToolStripMenuItem.DropDownItems.Add(item);
             }
         }
 
