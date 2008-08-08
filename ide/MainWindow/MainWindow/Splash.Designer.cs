@@ -32,10 +32,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.CopyrightNotice = new System.Windows.Forms.Label();
             this.VersionNumber = new System.Windows.Forms.Label();
-            this.progressInfo = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.assemVersionText = new System.Windows.Forms.Label();
+            this.progressInfo = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,6 +41,7 @@
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.MinimumSize = new System.Drawing.Size(80, 14);
             this.label1.Name = "label1";
             this.label1.UseMnemonic = false;
             // 
@@ -50,6 +49,7 @@
             // 
             resources.ApplyResources(this.CopyrightNotice, "CopyrightNotice");
             this.CopyrightNotice.BackColor = System.Drawing.Color.Transparent;
+            this.CopyrightNotice.MinimumSize = new System.Drawing.Size(452, 42);
             this.CopyrightNotice.Name = "CopyrightNotice";
             this.CopyrightNotice.UseMnemonic = false;
             // 
@@ -57,37 +57,27 @@
             // 
             resources.ApplyResources(this.VersionNumber, "VersionNumber");
             this.VersionNumber.BackColor = System.Drawing.Color.Transparent;
+            this.VersionNumber.MinimumSize = new System.Drawing.Size(100, 0);
             this.VersionNumber.Name = "VersionNumber";
-            // 
-            // progressInfo
-            // 
-            resources.ApplyResources(this.progressInfo, "progressInfo");
-            this.progressInfo.BackColor = System.Drawing.Color.Transparent;
-            this.progressInfo.Name = "progressInfo";
             // 
             // panel1
             // 
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BackgroundImage = global::Ecell.IDE.MainWindow.Properties.Resources.splash;
-            this.panel1.Controls.Add(this.assemVersionText);
-            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.VersionNumber);
             this.panel1.Controls.Add(this.CopyrightNotice);
             this.panel1.Name = "panel1";
             // 
-            // label2
+            // progressInfo
             // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Name = "label2";
-            this.label2.UseMnemonic = false;
-            // 
-            // assemVersionText
-            // 
-            resources.ApplyResources(this.assemVersionText, "assemVersionText");
-            this.assemVersionText.BackColor = System.Drawing.Color.Transparent;
-            this.assemVersionText.Name = "assemVersionText";
+            this.progressInfo.BackColor = System.Drawing.SystemColors.Window;
+            this.progressInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.progressInfo.Cursor = System.Windows.Forms.Cursors.Arrow;
+            resources.ApplyResources(this.progressInfo, "progressInfo");
+            this.progressInfo.MinimumSize = new System.Drawing.Size(0, 12);
+            this.progressInfo.Name = "progressInfo";
+            this.progressInfo.ReadOnly = true;
             // 
             // Splash
             // 
@@ -95,8 +85,8 @@
             resources.ApplyResources(this, "$this");
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ControlBox = false;
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.progressInfo);
+            this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -115,9 +105,7 @@
         private System.Windows.Forms.Label VersionNumber;
         private System.Windows.Forms.Label CopyrightNotice;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label progressInfo;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label assemVersionText;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox progressInfo;
     }
 }
