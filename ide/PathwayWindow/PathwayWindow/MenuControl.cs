@@ -808,6 +808,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 ToolStripMenuItem layerItem = new ToolStripMenuItem(layerName);
                 layerItem.Checked = layerName.Equals(obj.Layer.Name);
+                layerItem.Enabled = !layerItem.Checked;
                 layerItem.Click += new EventHandler(m_con.Menu.ChangeLeyerClick);
                 layerMenu.DropDown.Items.Add(layerItem);
             }

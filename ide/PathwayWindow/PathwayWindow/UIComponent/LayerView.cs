@@ -160,14 +160,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             InitializeComponent();
             // Preparing context menus.
             m_dgv.ContextMenuStrip = CreatePopUpMenus();
-            m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(m_dgv_EditingControlShowing);
             this.Text = MessageResources.WindowLayer;
             this.TabText = this.Text;
-        }
-
-        void m_dgv_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-        {
-
         }
 
         void m_con_CanvasChange(object sender, EventArgs e)
@@ -188,8 +182,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LayerView));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LayerView));
             this.panel = new System.Windows.Forms.Panel();
             this.m_dgv = new System.Windows.Forms.DataGridView();
             this.panel.SuspendLayout();
@@ -198,25 +192,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             // 
             // panel
             // 
-            this.panel.AccessibleDescription = null;
-            this.panel.AccessibleName = null;
-            resources.ApplyResources(this.panel, "panel");
-            this.panel.BackgroundImage = null;
             this.panel.Controls.Add(this.m_dgv);
-            this.panel.Font = null;
+            resources.ApplyResources(this.panel, "panel");
             this.panel.Name = "panel";
             // 
             // m_dgv
             // 
-            this.m_dgv.AccessibleDescription = null;
-            this.m_dgv.AccessibleName = null;
             this.m_dgv.AllowUserToAddRows = false;
             this.m_dgv.AllowUserToDeleteRows = false;
             this.m_dgv.AllowUserToResizeRows = false;
-            resources.ApplyResources(this.m_dgv, "m_dgv");
             this.m_dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.m_dgv.BackgroundImage = null;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
@@ -225,7 +211,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.m_dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.m_dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.m_dgv.Font = null;
+            resources.ApplyResources(this.m_dgv, "m_dgv");
             this.m_dgv.MultiSelect = false;
             this.m_dgv.Name = "m_dgv";
             this.m_dgv.RowHeadersVisible = false;
@@ -239,17 +225,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             // 
             // LayerView
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
-            this.BackgroundImage = null;
             this.Controls.Add(this.panel);
-            this.Font = null;
             this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_LayerView;
             this.Name = "LayerView";
             this.TabText = this.Name;
             this.Text = this.Name;
-            this.ToolTipText = null;
             this.panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).EndInit();
             this.ResumeLayout(false);
@@ -353,7 +334,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Width = LAYER_SHOWCOLUMN_WIDTH;
                 ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Resizable = DataGridViewTriState.False;
                 ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Frozen = true;
-                ((DataGridView)sender).Columns[MessageResources.LayerColumnName].SortMode = DataGridViewColumnSortMode.Automatic;
+                ((DataGridView)sender).Columns[MessageResources.LayerColumnName].SortMode = DataGridViewColumnSortMode.NotSortable;
                 ((DataGridView)sender).Columns[MessageResources.LayerColumnName].ReadOnly = true;
             }
         }
@@ -494,6 +475,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void m_dgv_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
+            int index = e.RowIndex;
+            if (index < 0)
+                return;
+
+            m_selectedLayer = (string)m_dgv.Rows[index].Cells[1].FormattedValue;
+            m_dgv.Rows[index].Selected = true;
+
             m_cMenuDict[MenuSelectNode].Visible = true;
             m_cMenuDict[MenuMoveFront].Visible = true;
             m_cMenuDict[MenuMoveBack].Visible = true;
@@ -502,11 +490,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             m_cMenuDict[MenuRename].Visible = true;
             m_cMenuDict[MenuMerge].Visible = true;
             m_cMenuDict[MenuDelete].Visible = true;
-            if (e.RowIndex >= 0)
-            {
-                m_selectedLayer = (string)m_dgv.Rows[e.RowIndex].Cells[1].FormattedValue;
-                m_dgv.Rows[e.RowIndex].Selected = true;
-            }
         }
 
         /// <summary>
