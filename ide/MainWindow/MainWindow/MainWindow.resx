@@ -505,10 +505,10 @@
     <value>&amp;View</value>
   </data>
   <data name="MenuItemRun.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
+    <value>70, 20</value>
   </data>
   <data name="MenuItemRun.Text" xml:space="preserve">
-    <value>&amp;Run</value>
+    <value>S&amp;imulation</value>
   </data>
   <data name="scriptEditorToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>139, 22</value>

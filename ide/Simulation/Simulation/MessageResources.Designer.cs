@@ -61,15 +61,6 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
-        ///   Simulation process is currently running. Would you reset this simulation? に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ConfirmSetup {
-            get {
-                return ResourceManager.GetString("ConfirmSetup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Cannot delete the last parameter set. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrDelParam {
@@ -106,7 +97,7 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
-        ///   No value is entered に類似しているローカライズされた文字列を検索します。
+        ///   Nothing is input in {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNoInput {
             get {
@@ -115,7 +106,7 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
-        ///   Can not update the simulation parameters. に類似しているローカライズされた文字列を検索します。
+        ///   Cannot update the simulation parameters. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrUpdateLog {
             get {

@@ -175,9 +175,12 @@ namespace Ecell.IDE.Plugins.Simulation
             ToolStrip list = new ToolStrip();
 
             m_paramsCombo = new ToolStripComboBox();
+//            m_paramsCombo = new ToolStripDropDown();
             m_paramsCombo.Name = "SimulationParameter";
             m_paramsCombo.Size = new System.Drawing.Size(150, 25);
             m_paramsCombo.AutoSize = false;
+            m_paramsCombo.MaxLength = 0;
+            m_paramsCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             m_paramsCombo.SelectedIndexChanged += new EventHandler(ParameterSelectedIndexChanged);
             m_paramsCombo.Tag = 1;
             list.Items.Add(m_paramsCombo);
@@ -268,6 +271,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_stepUnitCombo.Tag = 11;
             m_stepUnitCombo.Items.Add("Step");
             m_stepUnitCombo.Items.Add("Sec");
+            m_stepUnitCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             m_stepUnitCombo.SelectedText = "Step";
             list.Items.Add(m_stepUnitCombo);
             list.Location = new Point(400, 0);
@@ -379,14 +383,14 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_runSim.Enabled = true;
                 m_stopSim.Enabled = false;
                 m_suspendSim.Enabled = false;
-                m_setupSim.Enabled = true;
+                m_setupSim.Enabled = false;
             }
             else if (type == ProjectStatus.Running)
             {
                 m_runSim.Enabled = false;
                 m_stopSim.Enabled = true;
                 m_suspendSim.Enabled = true;
-                m_setupSim.Enabled = true;
+                m_setupSim.Enabled = false;
                 m_paramsCombo.Enabled = false;
                 m_stepText.Enabled = false;
                 m_stepUnitCombo.Enabled = false;
@@ -397,7 +401,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_runSim.Enabled = true;
                 m_stopSim.Enabled = true;
                 m_suspendSim.Enabled = false;
-                m_setupSim.Enabled = true;
+                m_setupSim.Enabled = false;
                 m_timeText.ForeColor = Color.Gray;
             }
             else
@@ -437,15 +441,6 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="e">EventArgs</param>
         public void SetupSimulation(object sender, EventArgs e)
         {
-            if (m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Running)
-            {
-                if (!Util.ShowOKCancelDialog(MessageResources.ConfirmSetup))
-                {
-                    return;
-                }
-                ResetSimulation(sender, e);
-            }
-
             Dictionary<string, SimulationParameterSet> sim = new Dictionary<string, SimulationParameterSet>();
             foreach (string paramID in m_dManager.GetSimulationParameterIDs())
             {

@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmSetup" xml:space="preserve">
-    <value>Simulation process is currently running. Would you reset this simulation?</value>
-  </data>
   <data name="ErrDelParam" xml:space="preserve">
     <value>Cannot delete the last parameter set.</value>
   </data>
@@ -133,10 +130,10 @@
     <value>Value is not valid.</value>
   </data>
   <data name="ErrNoInput" xml:space="preserve">
-    <value>No value is entered</value>
+    <value>Nothing is input in {0}</value>
   </data>
   <data name="ErrUpdateLog" xml:space="preserve">
-    <value>Can not update the simulation parameters.</value>
+    <value>Cannot update the simulation parameters.</value>
   </data>
   <data name="MenuItemRun" xml:space="preserve">
     <value>&amp;Run</value>

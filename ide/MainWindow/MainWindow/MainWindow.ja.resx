@@ -169,7 +169,7 @@
     <value>表示(&amp;V)</value>
   </data>
   <data name="MenuItemRun.Text" xml:space="preserve">
-    <value>実行(&amp;R)</value>
+    <value>シミュレーション(&amp;I)</value>
   </data>
   <data name="MenuItemAnalysis.Text" xml:space="preserve">
     <value>解析(&amp;A)</value>

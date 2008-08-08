@@ -79,7 +79,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow {
         }
         
         /// <summary>
-        ///   Input the property name before input the value. に類似しているローカライズされた文字列を検索します。
+        ///   Input the property name. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNoProp {
             get {
@@ -88,7 +88,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow {
         }
         
         /// <summary>
-        ///   Same name property already exists. に類似しているローカライズされた文字列を検索します。
+        ///   The property of the same name already exists. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSameProp {
             get {

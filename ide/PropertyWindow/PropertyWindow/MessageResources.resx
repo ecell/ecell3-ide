@@ -124,10 +124,10 @@
     <value>ID string is not valid.</value>
   </data>
   <data name="ErrNoProp" xml:space="preserve">
-    <value>Input the property name before input the value.</value>
+    <value>Input the property name.</value>
   </data>
   <data name="ErrSameProp" xml:space="preserve">
-    <value>Same name property already exists.</value>
+    <value>The property of the same name already exists.</value>
   </data>
   <data name="NamePropertyName" xml:space="preserve">
     <value>Name</value>
