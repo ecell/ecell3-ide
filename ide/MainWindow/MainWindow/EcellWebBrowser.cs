@@ -48,6 +48,8 @@ namespace Ecell.IDE.MainWindow
     {
         #region Fields
         private const string URL = "http://chaperone.e-cell.org/trac/ecell-ide";
+        private static Uri STARTUP;
+
         private PictureBox pictureBox;
         private GroupBox groupBox;
         private WebBrowser webBrowser;
@@ -60,8 +62,9 @@ namespace Ecell.IDE.MainWindow
         private ToolStripButton ButtonNavigate;
         private Panel panel1;
         private ToolStripButton ButtonRefresh;
+
         private ApplicationEnvironment m_env;
-        private static Uri STARTUP;
+        private Dictionary<string, string> m_recentFiles;
         #endregion
 
         /// <summary>
@@ -72,6 +75,11 @@ namespace Ecell.IDE.MainWindow
             get { return m_env; }
         }
 
+        public Dictionary<string, string> RecentFiles
+        {
+            get { return m_recentFiles; }
+        }
+
         #region Constructor
         /// <summary>
         /// Constructor
@@ -79,6 +87,7 @@ namespace Ecell.IDE.MainWindow
         public EcellWebBrowser(Dictionary<string, string> recentFiles)
         {
             m_env = ApplicationEnvironment.GetInstance();
+            m_recentFiles = recentFiles;
             InitializeComponent();
             this.Text = MessageResources.StartUpWindow;
             this.TabText = this.Text;
@@ -550,11 +559,39 @@ namespace Ecell.IDE.MainWindow
             /// </summary>
             /// <param name="projectID"></param>
             /// <param name="filename"></param>
-            public void LoadProject(string projectID, string filename)
+            public void LoadProject(string filename)
             {
                 m_browser.Environment.DataManager.LoadProject(filename);
             }
 
+            /// <summary>
+            /// Create new project
+            /// </summary>
+            public void CreateNewProject()
+            {
+                m_browser.Environment.DataManager.CreateNewProject(
+                    "NewProject",
+                    "NewProject",
+                    "",
+                    new List<string>());
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
+            public string GetRecentFiles()
+            {
+                string recentFiles = "";
+                string temp;
+                int i = 0;
+                foreach (KeyValuePair<string, string> project in m_browser.RecentFiles)
+                {
+                    temp = "<li><a href=\"#\" onclick=\"window.external.LoadProject('" + project.Value.Replace("\\", "/") + "');\">" + project.Key + "</a></li>\n";
+                    recentFiles += temp;
+                }
+                return recentFiles;
+            }
         }
         #endregion
     }
