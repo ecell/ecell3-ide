@@ -112,6 +112,12 @@
     <Compile Include="AboutDialog.designer.cs">
       <DependentUpon>AboutDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="CreditDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreditDialog.Designer.cs">
+      <DependentUpon>CreditDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="DockWindowSerializer.cs">
     </Compile>
     <Compile Include="GridConfigurationDialog.cs">
@@ -182,6 +188,14 @@
     <EmbeddedResource Include="AboutDialog.resx">
       <DependentUpon>AboutDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreditDialog.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CreditDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreditDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CreditDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EcellWebBrowser.ja.resx">
       <SubType>Designer</SubType>

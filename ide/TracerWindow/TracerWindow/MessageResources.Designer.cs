@@ -61,7 +61,7 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
-        ///   Do you really want to close this window? に類似しているローカライズされた文字列を検索します。
+        ///   Do you want to close this window? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmClose {
             get {
@@ -70,7 +70,7 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
-        ///   Other than numeric value is set. に類似しているローカライズされた文字列を検索します。
+        ///   Non-numeric value is set. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrInputData {
             get {
@@ -79,7 +79,7 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
-        ///   Finish to save the simulation log successfully. に類似しているローカライズされた文字列を検索します。
+        ///   The simulation results have been archived. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string FinishSave {
             get {
@@ -106,7 +106,7 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
-        ///   Save simulation &amp;result... に類似しているローカライズされた文字列を検索します。
+        ///   Archive simulation &amp;result... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemShowSaveTraceText {
             get {
@@ -124,7 +124,7 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
-        ///   Create new &amp;graph... に類似しているローカライズされた文字列を検索します。
+        ///   Create new &amp;graph pane... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemShowTraceText {
             get {

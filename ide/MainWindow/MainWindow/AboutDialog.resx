@@ -133,13 +133,13 @@
     <value>12, 123</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>234, 12</value>
+    <value>257, 12</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>E-Cell IDE is distributed under the terms of </value>
+    <value>E-Cell IDE is distributed under the terms of GPL.</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -151,7 +151,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <metadata name="label2.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -159,17 +159,20 @@
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>MS UI Gothic, 9pt, style=Underline</value>
+  </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>126, 12</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 12</value>
+    <value>230, 12</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>E-Cell IDE</value>
+    <value>E-Cell Integrated Development Environment</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -181,7 +184,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <metadata name="pictureBox1.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -470,7 +473,37 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
+  </data>
+  <metadata name="assemblyLabel.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <data name="assemblyLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="assemblyLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>126, 50</value>
+  </data>
+  <data name="assemblyLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>98, 12</value>
+  </data>
+  <data name="assemblyLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="assemblyLabel.Text" xml:space="preserve">
+    <value>Assembly Version</value>
+  </data>
+  <data name="&gt;&gt;assemblyLabel.Name" xml:space="preserve">
+    <value>assemblyLabel</value>
+  </data>
+  <data name="&gt;&gt;assemblyLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;assemblyLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;assemblyLabel.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="copyLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -500,7 +533,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;copyLabel.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="ecellLink.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -509,7 +542,7 @@
     <value>NoControl</value>
   </data>
   <data name="ecellLink.Location" type="System.Drawing.Point, System.Drawing">
-    <value>126, 74</value>
+    <value>126, 96</value>
   </data>
   <data name="ecellLink.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 12</value>
@@ -530,37 +563,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ecellLink.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="manualLink.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="manualLink.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="manualLink.Location" type="System.Drawing.Point, System.Drawing">
-    <value>126, 95</value>
-  </data>
-  <data name="manualLink.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 12</value>
-  </data>
-  <data name="manualLink.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="manualLink.Text" xml:space="preserve">
-    <value>Online Manual </value>
-  </data>
-  <data name="&gt;&gt;manualLink.Name" xml:space="preserve">
-    <value>manualLink</value>
-  </data>
-  <data name="&gt;&gt;manualLink.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;manualLink.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;manualLink.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="CloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -569,7 +572,7 @@
     <value>NoControl</value>
   </data>
   <data name="CloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>278, 186</value>
+    <value>305, 186</value>
   </data>
   <data name="CloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -578,7 +581,7 @@
     <value>4</value>
   </data>
   <data name="CloseButton.Text" xml:space="preserve">
-    <value>Close</value>
+    <value>OK</value>
   </data>
   <data name="&gt;&gt;CloseButton.Name" xml:space="preserve">
     <value>CloseButton</value>
@@ -590,13 +593,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CloseButton.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="assemblyVersionLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="assemblyVersionLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>246, 46</value>
+    <value>246, 50</value>
   </data>
   <data name="assemblyVersionLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 12</value>
@@ -617,43 +620,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;assemblyVersionLabel.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <metadata name="assemblyLabel.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <data name="assemblyLabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="assemblyLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>126, 46</value>
-  </data>
-  <data name="assemblyLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 12</value>
-  </data>
-  <data name="assemblyLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="assemblyLabel.Text" xml:space="preserve">
-    <value>Assembly Version</value>
-  </data>
-  <data name="&gt;&gt;assemblyLabel.Name" xml:space="preserve">
-    <value>assemblyLabel</value>
-  </data>
-  <data name="&gt;&gt;assemblyLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;assemblyLabel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;assemblyLabel.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>9</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>126, 29</value>
+    <value>126, 34</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>114, 12</value>
@@ -674,13 +647,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="informationVersionLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="informationVersionLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>246, 29</value>
+    <value>246, 34</value>
   </data>
   <data name="informationVersionLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>55, 12</value>
@@ -701,6 +674,60 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;informationVersionLabel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>126, 78</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>249, 12</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Please visit E-Cell IDE project page for details.</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="creditButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="creditButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>224, 186</value>
+  </data>
+  <data name="creditButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="creditButton.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="creditButton.Text" xml:space="preserve">
+    <value>Credit</value>
+  </data>
+  <data name="&gt;&gt;creditButton.Name" xml:space="preserve">
+    <value>creditButton</value>
+  </data>
+  <data name="&gt;&gt;creditButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;creditButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;creditButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -710,7 +737,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>364, 221</value>
+    <value>391, 221</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

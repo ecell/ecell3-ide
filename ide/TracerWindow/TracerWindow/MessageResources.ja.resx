@@ -136,10 +136,10 @@
     <value>シミュレーション結果の保存(&amp;R)...</value>
   </data>
   <data name="MenuItemShowTraceSetupText" xml:space="preserve">
-    <value>グラフ設定(&amp;T)...</value>
+    <value>グラフ設定(&amp;G)...</value>
   </data>
   <data name="MenuItemShowTraceText" xml:space="preserve">
-    <value>グラフの表示(&amp;T)...</value>
+    <value>グラフペインの表示(&amp;G)...</value>
   </data>
   <data name="TracerWindow" xml:space="preserve">
     <value>グラフ</value>

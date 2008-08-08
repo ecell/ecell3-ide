@@ -124,7 +124,10 @@
     <value>アセンブリ・バージョン</value>
   </data>
   <data name="CloseButton.Text" xml:space="preserve">
-    <value>閉じる</value>
+    <value>OK</value>
+  </data>
+  <data name="creditButton.Text" xml:space="preserve">
+    <value>クレジット</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>製品バージョン</value>

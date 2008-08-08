@@ -53,10 +53,6 @@ namespace Ecell.IDE.MainWindow
             this.ecellLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
             this.ecellLink.Links[0].LinkData = "www.e-cell.org";
 
-            this.manualLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
-            this.manualLink.Links[0].LinkData = "http://chaperone.e-cell.org/downloads/usermanual_j.pdf";
-
-            
         }
 
         /// <summary>
@@ -74,8 +70,6 @@ namespace Ecell.IDE.MainWindow
             this.ecellLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
             this.ecellLink.Links[0].LinkData = "www.e-cell.org";
 
-            this.manualLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
-            this.manualLink.Links[0].LinkData = "http://chaperone.e-cell.org/trac/ecell-ide/wiki/UserManualTopPage";
 
             this.assemblyVersionLabel.Text = versionText;
             this.informationVersionLabel.Text = informationText;
@@ -88,6 +82,16 @@ namespace Ecell.IDE.MainWindow
             // LinkData property of the Link object.
             string target = e.Link.LinkData as string;
             System.Diagnostics.Process.Start(target);
+
+        }
+
+        private void creditButton_Click(object sender, EventArgs e)
+        {
+            CreditDialog cdlg = new CreditDialog();
+            using (cdlg)
+            {
+                cdlg.ShowDialog();
+            }
 
         }
     }

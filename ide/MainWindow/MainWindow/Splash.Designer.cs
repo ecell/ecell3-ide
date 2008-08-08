@@ -34,6 +34,8 @@
             this.VersionNumber = new System.Windows.Forms.Label();
             this.progressInfo = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.assemVersionText = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,10 +69,25 @@
             // 
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BackgroundImage = global::Ecell.IDE.MainWindow.Properties.Resources.splash;
+            this.panel1.Controls.Add(this.assemVersionText);
+            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.VersionNumber);
             this.panel1.Controls.Add(this.CopyrightNotice);
             this.panel1.Name = "panel1";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Name = "label2";
+            this.label2.UseMnemonic = false;
+            // 
+            // assemVersionText
+            // 
+            resources.ApplyResources(this.assemVersionText, "assemVersionText");
+            this.assemVersionText.BackColor = System.Drawing.Color.Transparent;
+            this.assemVersionText.Name = "assemVersionText";
             // 
             // Splash
             // 
@@ -100,5 +117,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label progressInfo;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label assemVersionText;
+        private System.Windows.Forms.Label label2;
     }
 }

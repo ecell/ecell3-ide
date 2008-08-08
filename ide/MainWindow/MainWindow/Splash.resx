@@ -123,23 +123,23 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>MS UI Gothic, 8.25pt, style=Bold</value>
+    <value>MS UI Gothic, 8.25pt</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 220</value>
+    <value>300, 11</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 11</value>
+    <value>97, 11</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Version</value>
+    <value>Information Version</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -151,7 +151,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="CopyrightNotice.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -160,16 +160,19 @@
     <value>Arial, 8.25pt, style=Bold</value>
   </data>
   <data name="CopyrightNotice.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 240</value>
+    <value>9, 241</value>
   </data>
   <data name="CopyrightNotice.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="CopyrightNotice.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 14</value>
+    <value>28, 14</value>
   </data>
   <data name="CopyrightNotice.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
+  </data>
+  <data name="CopyrightNotice.Text" xml:space="preserve">
+    <value>bbb</value>
   </data>
   <data name="&gt;&gt;CopyrightNotice.Name" xml:space="preserve">
     <value>CopyrightNotice</value>
@@ -181,25 +184,28 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;CopyrightNotice.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="VersionNumber.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="VersionNumber.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 8.25pt, style=Bold</value>
+    <value>Arial, 8.25pt</value>
   </data>
   <data name="VersionNumber.Location" type="System.Drawing.Point, System.Drawing">
-    <value>67, 217</value>
+    <value>416, 11</value>
   </data>
   <data name="VersionNumber.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
   <data name="VersionNumber.Size" type="System.Drawing.Size, System.Drawing">
-    <value>0, 14</value>
+    <value>19, 14</value>
   </data>
   <data name="VersionNumber.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
+  </data>
+  <data name="VersionNumber.Text" xml:space="preserve">
+    <value>aa</value>
   </data>
   <data name="&gt;&gt;VersionNumber.Name" xml:space="preserve">
     <value>VersionNumber</value>
@@ -211,7 +217,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;VersionNumber.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="progressInfo.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -252,6 +258,78 @@
   <data name="panel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="assemVersionText.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="assemVersionText.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 8.25pt</value>
+  </data>
+  <data name="assemVersionText.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="assemVersionText.Location" type="System.Drawing.Point, System.Drawing">
+    <value>417, 25</value>
+  </data>
+  <data name="assemVersionText.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="assemVersionText.Size" type="System.Drawing.Size, System.Drawing">
+    <value>19, 14</value>
+  </data>
+  <data name="assemVersionText.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="assemVersionText.Text" xml:space="preserve">
+    <value>aa</value>
+  </data>
+  <data name="&gt;&gt;assemVersionText.Name" xml:space="preserve">
+    <value>assemVersionText</value>
+  </data>
+  <data name="&gt;&gt;assemVersionText.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;assemVersionText.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;assemVersionText.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>MS UI Gothic, 8.25pt</value>
+  </data>
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>299, 27</value>
+  </data>
+  <data name="label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 11</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Assembly Version</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>-2, -2</value>
   </data>
@@ -286,7 +364,7 @@
     <value>None</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>462, 289</value>
+    <value>458, 285</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
