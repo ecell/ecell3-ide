@@ -341,9 +341,9 @@ namespace Ecell.IDE.MainWindow
             {
                 m_env.DataManager.LoadProject(label.FilePath);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Util.ShowErrorDialog(e.Message);
+                Util.ShowErrorDialog(ex.Message);
             }
         }
 
