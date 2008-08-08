@@ -146,6 +146,18 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_form.DataChanged(modelID, key, type, data);
         }
 
+        private void SaveSimulationResult(List<string> list)
+        {
+            m_form.RefreshLogEntry();
+        }
+
+        public override Dictionary<string, Delegate> GetPublicDelegate()
+        {
+            Dictionary<string, Delegate> list = new Dictionary<string, Delegate>();
+            list.Add("SaveSimulationResult", new SaveSimulationResultDelegate(this.SaveSimulationResult));
+            return list;
+        }
+
         /// <summary>
         /// The event sequence on deleting the object at other plugin.
         /// </summary>

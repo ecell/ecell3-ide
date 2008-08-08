@@ -3044,7 +3044,7 @@ namespace Ecell
 
         private string GetParameterDir()
         {
-            return Path.Combine(m_currentProject.ProjectPath, Constants.ParameterDirName);
+            return Path.Combine(Path.Combine(this.m_defaultDir, m_currentProject.Name), Constants.ParameterDirName);
         }
 
         public List<string> GetLogDataList()

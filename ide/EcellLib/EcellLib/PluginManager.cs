@@ -50,6 +50,7 @@ using Ecell.Objects;
 
 namespace Ecell
 {
+    public delegate void SaveSimulationResultDelegate(List<string> list);
     public delegate void ShowDialogDelegate();
     public delegate void SetDockContentDelegate(EcellDockContent s);
     public delegate void ShowSplashMessage(string mes);

@@ -133,7 +133,7 @@
     <value>インポート ...</value>
   </data>
   <data name="MenuItemShowSaveTraceText" xml:space="preserve">
-    <value>シミュレーション結果の保存...</value>
+    <value>シミュレーション結果の保存(&amp;R)...</value>
   </data>
   <data name="MenuItemShowTraceSetupText" xml:space="preserve">
     <value>グラフ設定(&amp;T)...</value>

@@ -35,15 +35,18 @@ namespace Ecell.IDE.MainWindow
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutDialog));
             System.Windows.Forms.Label label2;
             System.Windows.Forms.PictureBox pictureBox1;
+            System.Windows.Forms.Label assemblyLabel;
             this.copyLabel = new System.Windows.Forms.Label();
             this.ecellLink = new System.Windows.Forms.LinkLabel();
             this.manualLink = new System.Windows.Forms.LinkLabel();
             this.CloseButton = new System.Windows.Forms.Button();
-            this.versionLabel = new System.Windows.Forms.Label();
-            this.gnuLink = new System.Windows.Forms.LinkLabel();
+            this.assemblyVersionLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.informationVersionLabel = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             pictureBox1 = new System.Windows.Forms.PictureBox();
+            assemblyLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,6 +59,12 @@ namespace Ecell.IDE.MainWindow
             // 
             resources.ApplyResources(label2, "label2");
             label2.Name = "label2";
+            // 
+            // pictureBox1
+            // 
+            resources.ApplyResources(pictureBox1, "pictureBox1");
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.TabStop = false;
             // 
             // copyLabel
             // 
@@ -81,42 +90,47 @@ namespace Ecell.IDE.MainWindow
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.UseVisualStyleBackColor = true;
             // 
-            // pictureBox1
+            // assemblyVersionLabel
             // 
-            resources.ApplyResources(pictureBox1, "pictureBox1");
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.TabStop = false;
+            resources.ApplyResources(this.assemblyVersionLabel, "assemblyVersionLabel");
+            this.assemblyVersionLabel.Name = "assemblyVersionLabel";
             // 
-            // versionLabel
+            // assemblyLabel
             // 
-            resources.ApplyResources(this.versionLabel, "versionLabel");
-            this.versionLabel.Name = "versionLabel";
+            resources.ApplyResources(assemblyLabel, "assemblyLabel");
+            assemblyLabel.Name = "assemblyLabel";
             // 
-            // gnuLink
+            // label1
             // 
-            resources.ApplyResources(this.gnuLink, "gnuLink");
-            this.gnuLink.Name = "gnuLink";
-            this.gnuLink.TabStop = true;
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
-            // AboutForm
+            // informationVersionLabel
+            // 
+            resources.ApplyResources(this.informationVersionLabel, "informationVersionLabel");
+            this.informationVersionLabel.Name = "informationVersionLabel";
+            // 
+            // AboutDialog
             // 
             this.AcceptButton = this.CloseButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CloseButton;
+            this.Controls.Add(this.informationVersionLabel);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(assemblyLabel);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.copyLabel);
             this.Controls.Add(label3);
-            this.Controls.Add(this.gnuLink);
             this.Controls.Add(this.manualLink);
             this.Controls.Add(this.ecellLink);
-            this.Controls.Add(this.versionLabel);
+            this.Controls.Add(this.assemblyVersionLabel);
             this.Controls.Add(pictureBox1);
             this.Controls.Add(label2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "AboutForm";
+            this.Name = "AboutDialog";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             ((System.ComponentModel.ISupportInitialize)(pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -129,8 +143,9 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.LinkLabel ecellLink;
         private System.Windows.Forms.LinkLabel manualLink;
         private System.Windows.Forms.Button CloseButton;
-        private System.Windows.Forms.LinkLabel gnuLink;
-        private System.Windows.Forms.Label versionLabel;
+        private System.Windows.Forms.Label assemblyVersionLabel;
         private System.Windows.Forms.Label copyLabel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label informationVersionLabel;
     }
 }

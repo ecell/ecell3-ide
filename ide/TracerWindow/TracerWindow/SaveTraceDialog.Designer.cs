@@ -64,17 +64,16 @@ namespace Ecell.IDE.Plugins.TracerWindow
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label4;
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.STSearchDirButton = new System.Windows.Forms.Button();
             this.dirTextBox = new System.Windows.Forms.TextBox();
             this.startTextBox = new System.Windows.Forms.TextBox();
             this.endTextBox = new System.Windows.Forms.TextBox();
             this.typeComboBox = new System.Windows.Forms.ComboBox();
             this.SaveEntrySelectView = new System.Windows.Forms.DataGridView();
-            this.SaveEntryColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.STSaveButton = new System.Windows.Forms.Button();
             this.STCloseButton = new System.Windows.Forms.Button();
             this.m_folderDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.SaveEntryColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
@@ -106,7 +105,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             // groupBox1
             // 
             resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Controls.Add(this.STSearchDirButton);
             this.groupBox1.Controls.Add(label1);
             this.groupBox1.Controls.Add(label4);
             this.groupBox1.Controls.Add(this.dirTextBox);
@@ -118,17 +116,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
-            // STSearchDirButton
-            // 
-            resources.ApplyResources(this.STSearchDirButton, "STSearchDirButton");
-            this.STSearchDirButton.Name = "STSearchDirButton";
-            this.STSearchDirButton.UseVisualStyleBackColor = true;
-            this.STSearchDirButton.Click += new System.EventHandler(this.STSearchDirButtonClick);
-            // 
             // dirTextBox
             // 
             resources.ApplyResources(this.dirTextBox, "dirTextBox");
             this.dirTextBox.Name = "dirTextBox";
+            this.dirTextBox.ReadOnly = true;
             // 
             // startTextBox
             // 
@@ -166,18 +158,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.SaveEntrySelectView.RowTemplate.Height = 21;
             this.SaveEntrySelectView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             // 
-            // SaveEntryColumn
-            // 
-            this.SaveEntryColumn.FillWeight = 20F;
-            resources.ApplyResources(this.SaveEntryColumn, "SaveEntryColumn");
-            this.SaveEntryColumn.Name = "SaveEntryColumn";
-            // 
-            // IDColumn
-            // 
-            this.IDColumn.FillWeight = 80F;
-            resources.ApplyResources(this.IDColumn, "IDColumn");
-            this.IDColumn.Name = "IDColumn";
-            // 
             // STSaveButton
             // 
             resources.ApplyResources(this.STSaveButton, "STSaveButton");
@@ -192,6 +172,18 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.STCloseButton.Name = "STCloseButton";
             this.STCloseButton.UseVisualStyleBackColor = true;
             this.STCloseButton.Click += new System.EventHandler(this.STCloseButtonClick);
+            // 
+            // SaveEntryColumn
+            // 
+            this.SaveEntryColumn.FillWeight = 10F;
+            resources.ApplyResources(this.SaveEntryColumn, "SaveEntryColumn");
+            this.SaveEntryColumn.Name = "SaveEntryColumn";
+            // 
+            // IDColumn
+            // 
+            this.IDColumn.FillWeight = 79.69543F;
+            resources.ApplyResources(this.IDColumn, "IDColumn");
+            this.IDColumn.Name = "IDColumn";
             // 
             // SaveTraceDialog
             // 
@@ -219,18 +211,17 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// DataGridView to show the save logger entry.
         /// </summary>
         public System.Windows.Forms.DataGridView SaveEntrySelectView;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn SaveEntryColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
         /// <summary>
         /// FolderBrowserDialog to set the save directory.
         /// </summary>
         public System.Windows.Forms.FolderBrowserDialog m_folderDialog;
         private System.Windows.Forms.Button STSaveButton;
         private System.Windows.Forms.Button STCloseButton;
-        private System.Windows.Forms.Button STSearchDirButton;
         private System.Windows.Forms.TextBox dirTextBox;
         private System.Windows.Forms.ComboBox typeComboBox;
         private System.Windows.Forms.TextBox startTextBox;
         private System.Windows.Forms.TextBox endTextBox;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn SaveEntryColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
     }
 }

@@ -29,6 +29,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// </summary>
         private TreeNode m_DMNode;
         /// <summary>
+        /// DM tree node in TreeView
+        /// </summary>
+        private TreeNode m_logNode;
+        /// <summary>
         /// Last selecte dnode
         /// </summary>
         private TreeNode m_lastSelectedNode;
@@ -841,11 +845,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     paramNode.Tag = null;
                     m_DMNode = new TreeNode("DMs");
                     m_DMNode.Tag = null;
-                    TreeNode logNode = new TreeNode("Logs");
-                    logNode.Tag = null;
+                    m_logNode = new TreeNode("Logs");
+                    m_logNode.Tag = null;
                     m_prjNode.Nodes.Add(modelNode);
                     m_prjNode.Nodes.Add(paramNode);
-                    m_prjNode.Nodes.Add(logNode);
+                    m_prjNode.Nodes.Add(m_logNode);
                     m_prjNode.Nodes.Add(m_DMNode);
                     m_modelNodeDic.Add(obj.ModelID, modelNode);
                     m_paramNodeDic.Add(obj.ModelID, paramNode);
@@ -861,7 +865,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                         m_DMNode.Nodes.Add(dNode);
                     }
 
-                    SetLogEntry(logNode);
+                    SetLogEntry(m_logNode);
 
                     continue;
                 }
@@ -947,6 +951,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 }
             }
             treeView1.Sort();
+        }
+
+        public void RefreshLogEntry()
+        {
+            if (m_logNode == null) return;
+            m_logNode.Nodes.Clear();
+            SetLogEntry(m_logNode);
         }
 
         private void SetLogEntry(TreeNode node)
@@ -1055,6 +1066,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             m_modelNodeDic.Clear();
             m_paramNodeDic.Clear();
+            m_logNode = null;
+            m_DMNode = null;
         }
 
         private void TreeViewSortByName(object sender, EventArgs e)

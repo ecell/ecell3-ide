@@ -118,10 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CopyrightNotice" xml:space="preserve">
-    <value>© 1996-2008 Keio University
-© 2005-2008 Mitsubishi Space Software Co., LTD.
-© 2005-2008 The Molecular Sciences Institute.
+    <value>© Keio University 1996-2008
+© Mitsubishi Space Software Co., LTD.  2005-2008
+© The Molecular Sciences Institute. 2005-2008
 All Rights Reserved.</value>
+  </data>
+  <data name="InformationVersion" xml:space="preserve">
+    <value>1.0 beta 3</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="splash" type="System.Resources.ResXFileRef, System.Windows.Forms">

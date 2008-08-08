@@ -120,20 +120,20 @@
   <data name="$this.Text" xml:space="preserve">
     <value>保存するログを選択してください</value>
   </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>保存設定</value>
+  </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>開始時間(&amp;S)</value>
+    <value>開始時間(&amp;S):</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>保存形式(&amp;T)</value>
+    <value>保存形式(&amp;T):</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>終了時間(&amp;E)</value>
+    <value>終了時間(&amp;E):</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>ディレクトリ(&amp;D)</value>
-  </data>
-  <data name="SaveEntryColumn.HeaderText" xml:space="preserve">
-    <value>保存チェック</value>
+    <value>ディレクトリ(&amp;D):</value>
   </data>
   <data name="STCloseButton.Text" xml:space="preserve">
     <value>閉じる</value>

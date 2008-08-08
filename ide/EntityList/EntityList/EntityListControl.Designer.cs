@@ -57,6 +57,7 @@
             this.objectListDataGrid.AllowUserToAddRows = false;
             this.objectListDataGrid.AllowUserToDeleteRows = false;
             this.objectListDataGrid.AllowUserToOrderColumns = true;
+            this.objectListDataGrid.AllowUserToResizeRows = false;
             resources.ApplyResources(this.objectListDataGrid, "objectListDataGrid");
             this.objectListDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.objectListDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {

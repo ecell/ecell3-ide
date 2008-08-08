@@ -150,19 +150,25 @@
   <data name="executeButton.Text" xml:space="preserve">
     <value>実行(&amp;E)</value>
   </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>解析設定</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>パラメータ</value>
+  </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>シミュレーション時間(&amp;S)</value>
+    <value>シミュレーション時間(&amp;S):</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>ウインドウサイズ(&amp;W)</value>
+    <value>ウインドウサイズ(&amp;W):</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>最大サンプル数(&amp;I)</value>
+    <value>最大サンプル数(&amp;I):</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>最大頻度(&amp;X)</value>
+    <value>最大頻度(&amp;X):</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>最小頻度(&amp;N)</value>
+    <value>最小頻度(&amp;N):</value>
   </data>
 </root>

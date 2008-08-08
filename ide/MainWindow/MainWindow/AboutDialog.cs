@@ -47,8 +47,8 @@ namespace Ecell.IDE.MainWindow
         {
             InitializeComponent();
 
-            this.gnuLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
-            this.gnuLink.Links[0].LinkData = "www.gnu.org/copyleft/gpl.html";
+            //this.gnuLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
+            //this.gnuLink.Links[0].LinkData = "www.gnu.org/copyleft/gpl.html";
 
             this.ecellLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
             this.ecellLink.Links[0].LinkData = "www.e-cell.org";
@@ -64,20 +64,21 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         /// <param name="versionText"></param>
         /// <param name="copyrightText"></param>
-        public AboutDialog(string versionText, string copyrightText)
+        public AboutDialog(string versionText, string copyrightText, string informationText)
         {
             InitializeComponent();
 
-            this.gnuLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
-            this.gnuLink.Links[0].LinkData = "www.gnu.org/copyleft/gpl.html";
+//            this.gnuLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
+//            this.gnuLink.Links[0].LinkData = "www.gnu.org/copyleft/gpl.html";
 
             this.ecellLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
             this.ecellLink.Links[0].LinkData = "www.e-cell.org";
 
             this.manualLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
-            this.manualLink.Links[0].LinkData = "http://chaperone.e-cell.org/downloads/usermanual_j.pdf";
+            this.manualLink.Links[0].LinkData = "http://chaperone.e-cell.org/trac/ecell-ide/wiki/UserManualTopPage";
 
-            this.versionLabel.Text = versionText;
+            this.assemblyVersionLabel.Text = versionText;
+            this.informationVersionLabel.Text = informationText;
             this.copyLabel.Text = copyrightText;
         }
 

@@ -45,6 +45,8 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.PEEstimateView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.PEEstimationValue = new System.Windows.Forms.TextBox();
@@ -60,8 +62,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.ARTrackBar = new System.Windows.Forms.TrackBar();
             this.RATrackLabel = new System.Windows.Forms.Label();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RAAnalysisTableLayout.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -112,14 +112,12 @@
             resources.ApplyResources(this.RAXComboBox, "RAXComboBox");
             this.RAXComboBox.FormattingEnabled = true;
             this.RAXComboBox.Name = "RAXComboBox";
-            this.RAXComboBox.SelectedIndexChanged += new System.EventHandler(this.XSelectedIndexChanged);
             // 
             // RAYComboBox
             // 
             resources.ApplyResources(this.RAYComboBox, "RAYComboBox");
             this.RAYComboBox.FormattingEnabled = true;
             this.RAYComboBox.Name = "RAYComboBox";
-            this.RAYComboBox.SelectedIndexChanged += new System.EventHandler(this.YSelectedIndexChanged);
             // 
             // tabControl1
             // 
@@ -180,6 +178,18 @@
             this.PEEstimateView.RowHeadersVisible = false;
             this.PEEstimateView.RowTemplate.Height = 21;
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.FillWeight = 40F;
+            resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.FillWeight = 60F;
+            resources.ApplyResources(this.dataGridViewTextBoxColumn2, "dataGridViewTextBoxColumn2");
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
             // tableLayoutPanel3
             // 
             resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
@@ -198,6 +208,7 @@
             // 
             resources.ApplyResources(this.PEEstimationValue, "PEEstimationValue");
             this.PEEstimationValue.Name = "PEEstimationValue";
+            this.PEEstimationValue.ReadOnly = true;
             // 
             // label4
             // 
@@ -208,6 +219,7 @@
             // 
             resources.ApplyResources(this.PEGenerateValue, "PEGenerateValue");
             this.PEGenerateValue.Name = "PEGenerateValue";
+            this.PEGenerateValue.ReadOnly = true;
             // 
             // tabPage3
             // 
@@ -279,30 +291,15 @@
             this.ARTrackBar.Maximum = 500;
             this.ARTrackBar.Name = "ARTrackBar";
             this.ARTrackBar.Value = 500;
-            this.ARTrackBar.ValueChanged += new System.EventHandler(this.ARTrackBarChanged);
             // 
             // RATrackLabel
             // 
             resources.ApplyResources(this.RATrackLabel, "RATrackLabel");
             this.RATrackLabel.Name = "RATrackLabel";
             // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.FillWeight = 40F;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.FillWeight = 60F;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn2, "dataGridViewTextBoxColumn2");
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            // 
             // AnalysisResultWindow
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tabControl1);
             this.Name = "AnalysisResultWindow";
             this.RAAnalysisTableLayout.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);

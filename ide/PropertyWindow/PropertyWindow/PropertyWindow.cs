@@ -114,25 +114,26 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         {
             m_dgv = new DataGridView();
             m_dgv.Dock = DockStyle.Fill;
-//            m_dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            m_dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             m_dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             m_dgv.AllowUserToAddRows = false;
             m_dgv.AllowUserToDeleteRows = false;
             m_dgv.AllowUserToResizeRows = false;
             m_dgv.RowHeadersVisible = true;
             m_dgv.RowTemplate.Height = 21;
+            m_dgv.RowHeadersWidth = 25;
 
             DataGridViewTextBoxColumn textName = new DataGridViewTextBoxColumn();
             textName.HeaderText = MessageResources.NamePropertyName;
             textName.Name = "NameColumn";
             textName.ReadOnly = false;
-            textName.FillWeight = 30F;
+            textName.Width = 50;
 
             DataGridViewTextBoxColumn textValue = new DataGridViewTextBoxColumn();
             textValue.HeaderText = MessageResources.NameValue;
             textValue.Name = "ValueColumn";
             textValue.ReadOnly = true;
-            textValue.FillWeight = 50F;
+            textValue.Width = 100;
 
             m_dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
                     textName, textValue});
@@ -464,8 +465,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             else
             {
                 c2.ReadOnly = true;
-                c1.Style.BackColor = Color.Silver;
-                c2.Style.BackColor = Color.Silver;
+//                c1.Style.BackColor = Color.Silver;
+//                c2.Style.BackColor = Color.Silver;
+                c2.Style.ForeColor = Color.Silver;
             }
             c2.Tag = d;
 

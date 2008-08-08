@@ -85,6 +85,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_owner = owner;
             InitializeComponent();
             dirTextBox.Text = owner.DataManager.GetSimulationResultSaveDirectory();
+            endTextBox.Text = Convert.ToString(owner.DataManager.GetCurrentSimulationTime());
         }
 
         /// <summary>

@@ -130,13 +130,13 @@
     <value>結果</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>評価値</value>
+    <value>評価値:</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>世代数</value>
+    <value>世代数:</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>しきい値</value>
+    <value>しきい値:</value>
   </data>
   <data name="tabPage1.Text" xml:space="preserve">
     <value>グラフ</value>

@@ -130,10 +130,10 @@
     <value>同じ名前のプロパティが存在します。</value>
   </data>
   <data name="NamePropertyName" xml:space="preserve">
-    <value>プロパティ名</value>
+    <value>名称</value>
   </data>
   <data name="NameValue" xml:space="preserve">
-    <value>プロパティ値</value>
+    <value>値</value>
   </data>
   <data name="PropertyWindow" xml:space="preserve">
     <value>プロパティ</value>

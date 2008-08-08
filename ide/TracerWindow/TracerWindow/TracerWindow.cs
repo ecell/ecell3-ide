@@ -784,6 +784,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 {
                     m_env.DataManager.SaveSimulationResult(win.DirectoryName,
                         win.Start, win.End, win.FileType, win.SaveList);
+                    SaveSimulationResultDelegate dlg = m_env.PluginManager.GetDelegate("SaveSimulationResult") as SaveSimulationResultDelegate;
+                    if (dlg != null)
+                        dlg(win.SaveList);
                     Util.ShowNoticeDialog(MessageResources.FinishSave);
                 }
             }

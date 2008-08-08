@@ -120,7 +120,16 @@
   <data name="$this.Text" xml:space="preserve">
     <value>E-Cell IDEについて</value>
   </data>
+  <data name="assemblyLabel.Text" xml:space="preserve">
+    <value>アセンブリ・バージョン</value>
+  </data>
   <data name="CloseButton.Text" xml:space="preserve">
     <value>閉じる</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>製品バージョン</value>
+  </data>
+  <data name="manualLink.Text" xml:space="preserve">
+    <value>ユーザマニュアル</value>
   </data>
 </root>

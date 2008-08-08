@@ -214,7 +214,7 @@
     <value>貼り付け(&amp;P)</value>
   </data>
   <data name="MenuToolTipShowID" xml:space="preserve">
-    <value>オブジェクトのID表示/非表示を変更する。</value>
+    <value>エンティティのID表示/非表示を変更する。</value>
   </data>
   <data name="MenuToolTipViewMode" xml:space="preserve">
     <value>キャンバスのビューモードを変更する。</value>
@@ -397,9 +397,9 @@
     <value>パスウエイの設定</value>
   </data>
   <data name="MergeLayerDialogMessage" xml:space="preserve">
-    <value>結合するレイヤを選択してください。</value>
+    <value>結合先のレイヤーを選択してください。</value>
   </data>
   <data name="MergeLayerDialogText" xml:space="preserve">
-    <value>レイヤの結合</value>
+    <value>レイヤーの結合</value>
   </data>
 </root>

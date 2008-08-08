@@ -117,20 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="label1.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label1.GenerateMember" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 18</value>
+    <value>6, 24</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>30, 12</value>
@@ -139,7 +139,7 @@
     <value>1</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>&amp;Start</value>
+    <value>&amp;Start:</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
@@ -151,11 +151,11 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
-  <metadata name="label2.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="label2.GenerateMember" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
+  </data>
   <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
@@ -163,7 +163,7 @@
     <value>True</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 50</value>
+    <value>6, 74</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>30, 12</value>
@@ -172,7 +172,7 @@
     <value>5</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>&amp;Type</value>
+    <value>&amp;Type:</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -184,11 +184,11 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
-  <metadata name="label3.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="label3.GenerateMember" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
+  </data>
   <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
@@ -196,7 +196,7 @@
     <value>True</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 21</value>
+    <value>6, 49</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>24, 12</value>
@@ -205,7 +205,7 @@
     <value>3</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>&amp;End</value>
+    <value>&amp;End:</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -217,11 +217,11 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
-  <metadata name="label4.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="label4.GenerateMember" type="System.Boolean, mscorlib">
     <value>False</value>
-  </metadata>
+  </data>
   <data name="label4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
@@ -229,7 +229,7 @@
     <value>True</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>214, 50</value>
+    <value>6, 100</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>52, 12</value>
@@ -238,7 +238,7 @@
     <value>7</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>&amp;Directory</value>
+    <value>&amp;Directory:</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
@@ -250,46 +250,19 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="groupBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="STSearchDirButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="STSearchDirButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>405, 45</value>
-  </data>
-  <data name="STSearchDirButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 23</value>
-  </data>
-  <data name="STSearchDirButton.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="STSearchDirButton.Text" xml:space="preserve">
-    <value>...</value>
-  </data>
-  <data name="&gt;&gt;STSearchDirButton.Name" xml:space="preserve">
-    <value>STSearchDirButton</value>
-  </data>
-  <data name="&gt;&gt;STSearchDirButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;STSearchDirButton.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;STSearchDirButton.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>Bottom, Left, Right</value>
   </data>
   <data name="dirTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
   <data name="dirTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>314, 47</value>
+    <value>96, 97</value>
   </data>
   <data name="dirTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 19</value>
+    <value>239, 19</value>
   </data>
   <data name="dirTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -304,16 +277,16 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;dirTextBox.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="startTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
   <data name="startTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>98, 18</value>
+    <value>96, 21</value>
   </data>
   <data name="startTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 19</value>
+    <value>101, 19</value>
   </data>
   <data name="startTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -334,16 +307,16 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;startTextBox.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="endTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
   <data name="endTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>314, 18</value>
+    <value>96, 46</value>
   </data>
   <data name="endTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 19</value>
+    <value>101, 19</value>
   </data>
   <data name="endTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -364,7 +337,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;endTextBox.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="typeComboBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
@@ -376,10 +349,10 @@
     <value>ecd</value>
   </data>
   <data name="typeComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>98, 50</value>
+    <value>96, 71</value>
   </data>
   <data name="typeComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>88, 20</value>
+    <value>101, 20</value>
   </data>
   <data name="typeComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -397,13 +370,13 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;typeComboBox.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 151</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>456, 80</value>
+    <value>341, 134</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -423,29 +396,20 @@
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="SaveEntryColumn.UserAddedColumn" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="IDColumn.UserAddedColumn" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="SaveEntrySelectView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
-  </data>
-  <metadata name="SaveEntryColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="SaveEntryColumn.HeaderText" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="SaveEntryColumn.MinimumWidth" type="System.Int32, mscorlib">
-    <value>40</value>
-  </data>
-  <metadata name="IDColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="IDColumn.HeaderText" xml:space="preserve">
-    <value>ID</value>
   </data>
   <data name="SaveEntrySelectView.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 12</value>
   </data>
   <data name="SaveEntrySelectView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>456, 133</value>
+    <value>341, 133</value>
   </data>
   <data name="SaveEntrySelectView.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -466,7 +430,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="STSaveButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>314, 237</value>
+    <value>199, 291</value>
   </data>
   <data name="STSaveButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -493,7 +457,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="STCloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>394, 237</value>
+    <value>279, 291</value>
   </data>
   <data name="STCloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -516,20 +480,35 @@
   <data name="&gt;&gt;STCloseButton.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <metadata name="m_folderDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <data name="m_folderDialog.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>17, 17</value>
-  </metadata>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  </data>
+  <data name="SaveEntryColumn.HeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SaveEntryColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="IDColumn.HeaderText" xml:space="preserve">
+    <value>FullPN</value>
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>480, 272</value>
+    <value>365, 326</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Select the save entries.</value>
+  </data>
+  <data name="&gt;&gt;m_folderDialog.Name" xml:space="preserve">
+    <value>m_folderDialog</value>
+  </data>
+  <data name="&gt;&gt;m_folderDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;SaveEntryColumn.Name" xml:space="preserve">
     <value>SaveEntryColumn</value>
@@ -542,12 +521,6 @@
   </data>
   <data name="&gt;&gt;IDColumn.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;m_folderDialog.Name" xml:space="preserve">
-    <value>m_folderDialog</value>
-  </data>
-  <data name="&gt;&gt;m_folderDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SaveTraceDialog</value>

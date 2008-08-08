@@ -123,7 +123,7 @@ namespace Ecell
                     WriteComponentProperty(fileName, enc, sysObj);
                 }
             }
-            WriteSimulationForStep(fileName, 100, enc);
+            WriteSimulationForStep(fileName, 1, enc);
         }
 
         /// <summary>
