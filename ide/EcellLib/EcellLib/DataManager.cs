@@ -289,7 +289,7 @@ namespace Ecell
         /// <param name="parameterID">The simulation parameter ID</param>
         private void CheckDifferences(EcellObject src, EcellObject dest, string parameterID)
         {
-            Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = this.m_currentProject.InitialCondition;
+            Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialCondition = this.m_currentProject.InitialCondition;
 
             // Set Message
             string message = null;
@@ -327,7 +327,7 @@ namespace Ecell
                     {
                         foreach (string keyParameterID in initialCondition.Keys)
                         {
-                            Dictionary<string, double> condition = initialCondition[keyParameterID][src.ModelID][src.Type];
+                            Dictionary<string, double> condition = initialCondition[keyParameterID][src.ModelID];
                             if (condition.ContainsKey(srcEcellData.EntityPath))
                             {
                                 condition.Remove(srcEcellData.EntityPath);
@@ -336,7 +336,7 @@ namespace Ecell
                     }
                     else
                     {
-                        Dictionary<string, double> condition = initialCondition[parameterID][src.ModelID][src.Type];
+                        Dictionary<string, double> condition = initialCondition[parameterID][src.ModelID];
                         if (condition.ContainsKey(srcEcellData.EntityPath))
                         {
                             condition.Remove(srcEcellData.EntityPath);
@@ -365,13 +365,13 @@ namespace Ecell
 
                     if (!string.IsNullOrEmpty(parameterID))
                     {
-                        initialCondition[parameterID][dest.ModelID][dest.Type][destEcellData.EntityPath] = temp;
+                        initialCondition[parameterID][dest.ModelID][destEcellData.EntityPath] = temp;
                     }
                     else
                     {
                         foreach (string keyParameterID in initialCondition.Keys)
                         {
-                            initialCondition[keyParameterID][dest.ModelID][dest.Type][destEcellData.EntityPath] = temp;
+                            initialCondition[keyParameterID][dest.ModelID][destEcellData.EntityPath] = temp;
                         }
                     }
                 }
@@ -428,7 +428,7 @@ namespace Ecell
 
                         if (!string.IsNullOrEmpty(parameterID))
                         {
-                            Dictionary<string, double> condition = initialCondition[parameterID][src.ModelID][src.Type];
+                            Dictionary<string, double> condition = initialCondition[parameterID][src.ModelID];
                             if (!condition.ContainsKey(srcEcellData.EntityPath))
                                 continue;
                             condition[srcEcellData.EntityPath] = temp;
@@ -437,7 +437,7 @@ namespace Ecell
                         {
                             foreach (string keyParameterID in initialCondition.Keys)
                             {
-                                Dictionary<string, double> condition = initialCondition[keyParameterID][src.ModelID][src.Type];
+                                Dictionary<string, double> condition = initialCondition[keyParameterID][src.ModelID];
 
                                 if (!condition.ContainsKey(srcEcellData.EntityPath))
                                     continue;
@@ -690,30 +690,6 @@ namespace Ecell
                 }
             }
             return foundFlag;
-        }
-
-        /// <summary>
-        /// Copys the initial condition.
-        /// </summary>
-        /// <param name="srcDic">The source</param>
-        /// <param name="destDic">The destination</param>
-        private static void Copy4InitialCondition(
-                Dictionary<string, Dictionary<string, Dictionary<string, double>>> srcDic,
-                Dictionary<string, Dictionary<string, Dictionary<string, double>>> destDic)
-        {
-            foreach (string parentKey in srcDic.Keys)
-            {
-                destDic[parentKey] = new Dictionary<string, Dictionary<string, double>>();
-                foreach (string childKey in srcDic[parentKey].Keys)
-                {
-                    destDic[parentKey][childKey] = new Dictionary<string, double>();
-                    foreach (string grandChildKey in srcDic[parentKey][childKey].Keys)
-                    {
-                        destDic[parentKey][childKey][grandChildKey]
-                                = srcDic[parentKey][childKey][grandChildKey];
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -1011,7 +987,7 @@ namespace Ecell
             if (ecellObject.Value == null || ecellObject.Value.Count <= 0)
                 return;
             // Set simulation parameter
-            SetSimulationParameter(ecellObject, modelID, type);
+            SetSimulationParameter(ecellObject, modelID);
         }
 
         /// <summary>
@@ -1071,7 +1047,7 @@ namespace Ecell
                 return;
 
             // Set Simulation param
-            SetSimulationParameter(ecellObject, modelID, type);
+            SetSimulationParameter(ecellObject, modelID);
         }
 
         /// <summary>
@@ -1080,11 +1056,11 @@ namespace Ecell
         /// <param name="ecellObject"></param>
         /// <param name="modelID"></param>
         /// <param name="type"></param>
-        private void SetSimulationParameter(EcellObject ecellObject, string modelID, string type)
+        private void SetSimulationParameter(EcellObject ecellObject, string modelID)
         {
             foreach (string keyParameterID in m_currentProject.InitialCondition.Keys)
             {
-                Dictionary<string, double> initialCondition = m_currentProject.InitialCondition[keyParameterID][modelID][type];
+                Dictionary<string, double> initialCondition = m_currentProject.InitialCondition[keyParameterID][modelID];
                 foreach (EcellData data in ecellObject.Value)
                 {
                     if (!data.IsInitialized())
@@ -1540,7 +1516,7 @@ namespace Ecell
             if (!m_currentProject.SystemDic.ContainsKey(model))
                 return;
 
-            Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = this.m_currentProject.InitialCondition;
+            Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialCondition = this.m_currentProject.InitialCondition;
 
             string message = "[" + model + "][" + key + "]";
             List<EcellObject> delList = new List<EcellObject>();
@@ -1573,7 +1549,7 @@ namespace Ecell
 
                     foreach (string keyParameterID in initialCondition.Keys)
                     {
-                        Dictionary<string, double> condition = initialCondition[keyParameterID][child.ModelID][child.Type];
+                        Dictionary<string, double> condition = initialCondition[keyParameterID][child.ModelID];
                         foreach (EcellData data in child.Value)
                         {
                             if (!data.Settable)
@@ -1943,7 +1919,7 @@ namespace Ecell
         /// <param name="messageFlag">The flag of the messages</param>
         private void DataDelete4System(string model, string key, bool messageFlag)
         {
-            Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> initialCondition = this.m_currentProject.InitialCondition;
+            Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialCondition = this.m_currentProject.InitialCondition;
             Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
 
             string message = "[" + model + "][" + key + "]";
@@ -1965,19 +1941,17 @@ namespace Ecell
                 {
                     foreach (string delModel in initialCondition[keyParamID].Keys)
                     {
-                        foreach (string cType in initialCondition[keyParamID][delModel].Keys)
+                        Debug.Assert(obj.Type == Constants.xpathSystem);
+                        String delKey = obj.Type + ":" + key;
+                        List<String> delKeyList = new List<string>();
+                        foreach (String entKey in initialCondition[keyParamID][delModel].Keys)
                         {
-                            String delKey = cType + ":" + key;
-                            List<String> delKeyList = new List<string>();
-                            foreach (String entKey in initialCondition[keyParamID][delModel][cType].Keys)
-                            {
-                                if (entKey.StartsWith(delKey))
-                                    delKeyList.Add(entKey);
-                            }
-                            foreach (String entKey in delKeyList)
-                            {
-                                initialCondition[keyParamID][delModel][cType].Remove(entKey);
-                            }
+                            if (entKey.StartsWith(delKey))
+                                delKeyList.Add(entKey);
+                        }
+                        foreach (String entKey in delKeyList)
+                        {
+                            initialCondition[keyParamID][delModel].Remove(entKey);
                         }
                     }
                 }
@@ -2042,6 +2016,9 @@ namespace Ecell
                     File.Delete(simulationFileName);
                 }
                 m_currentProject.LoggerPolicyDic.Remove(parameterID);
+                Trace.WriteLine(m_currentProject.SimulationParam + ":" + parameterID);
+                if (m_currentProject.SimulationParam == parameterID)
+                    m_currentProject.SimulationParam = null;
                 m_env.PluginManager.ParameterDelete(m_currentProject.Name, parameterID);
                 MessageDeleteEntity("Simulation Parameter", message);
 
@@ -2409,23 +2386,10 @@ namespace Ecell
         /// <param name="paremterID">The parameter ID</param>
         /// <param name="modelID">The model ID</param>
         /// <returns>The initial condition</returns>
-        public Dictionary<string, Dictionary<string, double>>
+        public Dictionary<string, double>
                 GetInitialCondition(string paremterID, string modelID)
         {
             return this.m_currentProject.InitialCondition[paremterID][modelID];
-        }
-
-        /// <summary>
-        /// Returns the initial condition.
-        /// </summary>
-        /// <param name="paremterID">The parameter ID</param>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="type">The data type</param>
-        /// <returns>The initial condition</returns>
-        public Dictionary<string, double>
-                GetInitialCondition(string paremterID, string modelID, string type)
-        {
-            return this.m_currentProject.InitialCondition[paremterID][modelID][type];
         }
 
         /// <summary>
@@ -3270,7 +3234,7 @@ namespace Ecell
             string simParam = m_currentProject.SimulationParam;
             Dictionary<string, List<EcellObject>> stepperList = m_currentProject.StepperDic[simParam];
             WrappedSimulator simulator = null;
-            Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialCondition = m_currentProject.InitialCondition[simParam];
+            Dictionary<string, Dictionary<string, double>> initialCondition = m_currentProject.InitialCondition[simParam];
 
             try
             {
@@ -3367,37 +3331,31 @@ namespace Ecell
                 //
                 foreach (string modelID in modelIDList)
                 {
-                    foreach (string type
-                        in initialCondition[modelID].Keys)
+                    foreach (string fullPN in initialCondition[modelID].Keys)
                     {
-                        foreach (string fullPN
-                            in initialCondition[modelID]
-                                [type].Keys)
+                        EcellValue storedValue = new EcellValue(simulator.GetEntityProperty(fullPN));
+                        double initialValue = initialCondition[modelID][fullPN];
+                        WrappedPolymorph newValue = null;
+                        if (storedValue.IsInt)
                         {
-                            EcellValue storedValue = new EcellValue(simulator.GetEntityProperty(fullPN));
-                            double initialValue = initialCondition[modelID][type][fullPN];
-                            WrappedPolymorph newValue = null;
-                            if (storedValue.IsInt)
+                            int initialValueInt = Convert.ToInt32(initialValue);
+                            if (storedValue.CastToInt().Equals(initialValueInt))
                             {
-                                int initialValueInt = Convert.ToInt32(initialValue);
-                                if (storedValue.CastToInt().Equals(initialValueInt))
-                                {
-                                    continue;
-                                }
-                                newValue
-                                    = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(initialValueInt));
+                                continue;
                             }
-                            else
-                            {
-                                if (storedValue.CastToDouble().Equals(initialValue))
-                                {
-                                    continue;
-                                }
-                                newValue
-                                    = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(initialValue));
-                            }
-                            simulator.SetEntityProperty(fullPN, newValue);
+                            newValue
+                                = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(initialValueInt));
                         }
+                        else
+                        {
+                            if (storedValue.CastToDouble().Equals(initialValue))
+                            {
+                                continue;
+                            }
+                            newValue
+                                = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(initialValue));
+                        }
+                        simulator.SetEntityProperty(fullPN, newValue);
                     }
                 }
                 //
@@ -3975,7 +3933,7 @@ namespace Ecell
             WrappedSimulator simulator,
             List<EcellObject> systemList,
             List<string> loggerList,
-            Dictionary<string, Dictionary<string, double>> initialCondition,
+            Dictionary<string, double> initialCondition,
             Dictionary<string, WrappedPolymorph> setPropertyDic)
         {
             Debug.Assert(systemList != null && systemList.Count > 0);
@@ -4075,7 +4033,7 @@ namespace Ecell
             List<EcellObject> entityList,
             List<string> loggerList,
             Dictionary<string, WrappedPolymorph> processPropertyDic,
-            Dictionary<string, Dictionary<string, double>> initialCondition,
+            Dictionary<string, double> initialCondition,
             Dictionary<string, WrappedPolymorph> setPropertyDic)
         {
             if (entityList == null || entityList.Count <= 0)
@@ -4434,76 +4392,27 @@ namespace Ecell
                 //
                 // 4 Stepper
                 //
-                string storedParameterID = null;
-                if (!m_currentProject.StepperDic.ContainsKey(parameterID))
-                {
-                    //
-                    // Searches the source stepper.
-                    //
-                    if (m_currentProject.SimulationParam != null && m_currentProject.SimulationParam.Length > 0)
-                    {
-                        storedParameterID = m_currentProject.SimulationParam;
-                    }
-                    else
-                    {
-                        Debug.Assert(m_currentProject.StepperDic != null &&
-                            m_currentProject.StepperDic.Count > 0);
-
-                        foreach (string key in m_currentProject.StepperDic.Keys)
-                        {
-                            storedParameterID = key;
-                            break;
-                        }
-                    }
-                    //
-                    // Sets the destination stepper.
-                    //
-                    m_currentProject.StepperDic[parameterID]
-                            = new Dictionary<string, List<EcellObject>>();
-
-                    foreach (string key in m_currentProject.StepperDic[storedParameterID].Keys)
-                    {
-                        m_currentProject.StepperDic[parameterID][key] = new List<EcellObject>();
-                        foreach (EcellObject stepper in m_currentProject.StepperDic[storedParameterID][key])
-                        {
-                            m_currentProject.StepperDic[parameterID][key]
-                                    .Add(stepper.Copy());
-                        }
-                    }
-                }
-                else
+                if (m_currentProject.StepperDic.ContainsKey(parameterID))
                 {
                     throw new Exception(
                         String.Format(MessageResources.ErrExistObj,
                         new object[] { parameterID }));
                 }
-                //
-                // 4 LoggerPolicy
-                //
 
-                LoggerPolicy loggerPolicy = m_currentProject.LoggerPolicyDic[storedParameterID];
+                m_currentProject.LoggerPolicyDic[parameterID] = new LoggerPolicy();
 
-                m_currentProject.LoggerPolicyDic[parameterID]
-                    = new LoggerPolicy(
-                        loggerPolicy.ReloadStepCount,
-                        loggerPolicy.ReloadInterval,
-                        loggerPolicy.DiskFullAction,
-                        loggerPolicy.MaxDiskSpace);
-                //
-                // 4 Initial Condition
-                //
+                Dictionary<string, List<EcellObject>> newStepperListSets = new Dictionary<string, List<EcellObject>>();
+                Dictionary<string, Dictionary<string, double>> newInitialCondSets = new Dictionary<string, Dictionary<string, double>>();
+                foreach (EcellObject model in m_currentProject.ModelList)
+                {
+                    newInitialCondSets[model.ModelID] = new Dictionary<string, double>();
+                    newStepperListSets[model.ModelID] = new List<EcellObject>();
+                }
+                m_currentProject.StepperDic[parameterID] = newStepperListSets;
+                m_currentProject.InitialCondition[parameterID] = newInitialCondSets;
 
-                Dictionary<string, Dictionary<string, Dictionary<string, double>>> srcInitialCondition
-                    = m_currentProject.InitialCondition[storedParameterID];
-                Dictionary<string, Dictionary<string, Dictionary<string, double>>> dstInitialCondition
-                    = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
-
-                Copy4InitialCondition(srcInitialCondition, dstInitialCondition);
-
-                m_currentProject.InitialCondition[parameterID] = dstInitialCondition;
-
+                // Notify that a new parameter set is created.
                 m_env.PluginManager.ParameterAdd(m_currentProject.Name, parameterID);
-
 
                 Trace.WriteLine(String.Format(MessageResources.InfoCreSim,
                     new object[] { parameterID }));
@@ -4512,9 +4421,9 @@ namespace Ecell
             }
             catch (Exception ex)
             {
+                Trace.WriteLine(ex);
                 string message = String.Format(MessageResources.ErrCreSimParam,
                     new object[] { parameterID });
-                Trace.WriteLine(message);
                 throw new Exception(message, ex);
             }
         }
@@ -4786,7 +4695,7 @@ namespace Ecell
                 //
                 // Picks the "InitialCondition" up.
                 //
-                Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialCondition
+                Dictionary<string, Dictionary<string, double>> initialCondition
                         = this.m_currentProject.InitialCondition[paramID];
                 //
                 // Creates.
@@ -5436,21 +5345,14 @@ namespace Ecell
         /// </summary>
         /// <param name="parameterID"></param>
         /// <param name="modelID"></param>
-        /// <param name="type"></param>
         /// <param name="initialList"></param>
         public void UpdateInitialCondition(
-                string parameterID, string modelID, string type, Dictionary<string, double> initialList)
+                string parameterID, string modelID, Dictionary<string, double> initialList)
         {
-            // Check null.
-            if (initialList == null || initialList.Count <= 0)
-                return;
-
-            string message = null;
             if (string.IsNullOrEmpty(parameterID))
                 parameterID = m_currentProject.SimulationParam;
 
-            message = "[" + parameterID + "][" + modelID + "][" + type + "]";
-            Dictionary<string, double> parameters = this.m_currentProject.InitialCondition[parameterID][modelID][type];
+            Dictionary<string, double> parameters = this.m_currentProject.InitialCondition[parameterID][modelID];
             foreach (string key in initialList.Keys)
             {
                 if (parameters.ContainsKey(key))
@@ -5458,7 +5360,7 @@ namespace Ecell
 
                 parameters[key] = initialList[key];
             }
-            Trace.WriteLine("Update Initial Condition: " + message);
+            Trace.WriteLine("Update Initial Condition: " + "(parameterName=" + parameterID + ", modelID=" + modelID + ")");
         }
 
         /// <summary>

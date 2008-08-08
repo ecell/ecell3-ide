@@ -15,7 +15,7 @@ namespace Ecell
     public class SimulationParameter
     {
         List<EcellObject> m_steppers;
-        Dictionary<string, Dictionary<string, Dictionary<string, double>>> m_initialConditions;
+        Dictionary<string, Dictionary<string, double>> m_initialConditions;
         LoggerPolicy m_loggerPolicy;
         string m_id;
 
@@ -33,7 +33,7 @@ namespace Ecell
         /// <summary>
         /// get the dictionary of initial parameters.
         /// </summary>
-        public Dictionary<string, Dictionary<string, Dictionary<string, double>>> InitialConditions
+        public Dictionary<string, Dictionary<string, double>> InitialConditions
         {
             get
             {
@@ -72,7 +72,7 @@ namespace Ecell
         /// <param name="loggerPolicy">the logging policy.</param>
         /// <param name="id">the simulation ID.</param>
         public SimulationParameter(List<EcellObject> steppers,
-                Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialConditions,
+                Dictionary<string, Dictionary<string, double>> initialConditions,
                 LoggerPolicy loggerPolicy,
                 string id)
         {
@@ -108,52 +108,17 @@ namespace Ecell
         /// </summary>
         /// <param name="initialCondition">the list of initial condition.</param>
         private void WriteInitialConditionElement(
-                Dictionary<string, Dictionary<string, double>> initialCondition)
+                Dictionary<string, double> initialCondition)
         {
             m_tx.WriteStartElement(Constants.xpathInitialCondition.ToLower());
-            //
-            // Creates the "System" part.
-            //
-            m_tx.WriteStartElement(Constants.xpathSystem.ToLower());
-            foreach (string key in initialCondition[Constants.xpathSystem].Keys)
+            foreach (string key in initialCondition.Keys)
             {
                 m_tx.WriteStartElement(Constants.xpathID.ToLower());
                 m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, key);
                 this.WriteValueElements(
-                    new EcellValue(initialCondition[Constants.xpathSystem][key]), false);
+                    new EcellValue(initialCondition[key]), false);
                 m_tx.WriteEndElement();
             }
-            m_tx.WriteEndElement();
-            //
-            // Creates the "Process" part.
-            //
-            m_tx.WriteStartElement(Constants.xpathProcess.ToLower());
-            foreach (string key in initialCondition[Constants.xpathProcess].Keys)
-            {
-                m_tx.WriteStartElement(Constants.xpathID.ToLower());
-                m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, key);
-                this.WriteValueElements(
-                    new EcellValue(initialCondition[Constants.xpathProcess][key]), false);
-                m_tx.WriteEndElement();
-            }
-            m_tx.WriteEndElement();
-            //
-            // Creates the "Variable part.
-            //
-            m_tx.WriteStartElement(Constants.xpathVariable.ToLower());
-            foreach (string key in initialCondition[Constants.xpathVariable].Keys)
-            {
-                m_tx.WriteStartElement(Constants.xpathID.ToLower());
-                m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, key);
-                this.WriteValueElements(
-                        new EcellValue(initialCondition[Constants.xpathVariable][key]), false);
-                m_tx.WriteEndElement();
-            }
-            m_tx.WriteEndElement();
-            //
-            // Closes
-            //
-            m_tx.WriteEndElement();
         }
 
         /// <summary>
@@ -224,7 +189,7 @@ namespace Ecell
         /// <param name="initialCondition">the dictionary of initial parameters.</param>
         public void WriteSteppers(string modelID,
                 List<EcellObject> stepperList,
-                Dictionary<string, Dictionary<string, double>> initialCondition)
+                Dictionary<string, double> initialCondition)
         {
             m_tx.WriteStartElement(Constants.xpathModel.ToLower());
             m_tx.WriteAttributeString(Constants.xpathID.ToLower(), null, modelID);
@@ -354,68 +319,29 @@ namespace Ecell
         /// </summary>
         /// <param name="modelID">model ID.</param>
         /// <param name="node">XML node.</param>
-        private Dictionary<string, Dictionary<string, double>> ParseInitialCondition(
-                string modelID, XmlNode node)
+        private Dictionary<string, double> ParseInitialCondition(string modelID, XmlNode node)
         {
-            Dictionary<string, Dictionary<string, double>> initialCondition = new Dictionary<string, Dictionary<string, double>>();
-            foreach (XmlNode nodeType in node.ChildNodes)
+            Dictionary<string, double> initialCondition = new Dictionary<string, double>();
+            foreach (XmlNode nodeID in node.ChildNodes)
             {
-                if (!this.IsValidNode(nodeType))
+                if (!this.IsValidNode(nodeID))
                 {
                     continue;
                 }
-                string type = null;
-                if (nodeType.Name.Equals(Constants.xpathSystem.ToLower()))
-                {
-                    type = Constants.xpathSystem;
-                }
-                else if (nodeType.Name.Equals(Constants.xpathProcess.ToLower()))
-                {
-                    type = Constants.xpathProcess;
-                }
-                else if (nodeType.Name.Equals(Constants.xpathVariable.ToLower()))
-                {
-                    type = Constants.xpathVariable;
-                }
-                else
+                XmlNode nodeName = nodeID.Attributes.GetNamedItem(Constants.xpathName.ToLower());
+                if (!this.IsValidNode(nodeName))
                 {
                     continue;
                 }
-                initialCondition[type] = new Dictionary<string, double>();
-                foreach (XmlNode nodeID in nodeType.ChildNodes)
+                try
                 {
-                    if (!this.IsValidNode(nodeID))
-                    {
-                        continue;
-                    }
-                    XmlNode nodeName = nodeID.Attributes.GetNamedItem(Constants.xpathName.ToLower());
-                    if (!this.IsValidNode(nodeName))
-                    {
-                        continue;
-                    }
-                    try
-                    {
-                        initialCondition[type][nodeName.InnerText]
-                            = XmlConvert.ToDouble(nodeID.InnerText);
-                    }
-                    catch (Exception ex)
-                    {
-                        Trace.WriteLine(ex);
-                        // do nothing
-                    }
+                    initialCondition[nodeName.InnerText] = XmlConvert.ToDouble(nodeID.InnerText);
                 }
-            }
-            if (!initialCondition.ContainsKey(Constants.xpathSystem))
-            {
-                initialCondition[Constants.xpathSystem] = new Dictionary<string, double>();
-            }
-            if (!initialCondition.ContainsKey(Constants.xpathProcess))
-            {
-                initialCondition[Constants.xpathProcess] = new Dictionary<string, double>();
-            }
-            if (!initialCondition.ContainsKey(Constants.xpathVariable))
-            {
-                initialCondition[Constants.xpathVariable] = new Dictionary<string, double>();
+                catch (Exception ex)
+                {
+                    Trace.WriteLine(ex);
+                    // do nothing
+                }
             }
             return initialCondition;
         }
@@ -556,7 +482,7 @@ namespace Ecell
         /// <returns></returns>
         public SimulationParameter Parse()
         {
-            Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialConditions = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
+            Dictionary<string, Dictionary<string, double>> initialConditions = new Dictionary<string, Dictionary<string, double>>();
             List<EcellObject> stepperList = new List<EcellObject>();
 
             //
@@ -577,8 +503,7 @@ namespace Ecell
                     }
                     else if (child.Name.Equals(Constants.xpathInitialCondition.ToLower()))
                     {
-                        initialConditions[modelID.InnerText] = ParseInitialCondition(
-                                modelID.InnerText, child);
+                        initialConditions[modelID.InnerText] = ParseInitialCondition( modelID.InnerText, child);
                     }
                 }
             }

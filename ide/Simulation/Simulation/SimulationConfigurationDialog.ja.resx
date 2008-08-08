@@ -117,11 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="variableInitialConditionsPage.Text" xml:space="preserve">
-    <value>初期値 (Variable)</value>
+  <data name="keyDataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
+    <value>FullPN</value>
   </data>
-  <data name="processInitialConditionsPage.Text" xml:space="preserve">
-    <value>初期値 (Process)</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="keyDataGridViewTextBoxColumn1.Width" type="System.Int32, mscorlib">
+    <value>62</value>
+  </data>
+  <data name="valueDataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
+    <value>値</value>
+  </data>
+  <data name="initialParametersPage.Text" xml:space="preserve">
+    <value>初期パラメータ</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
@@ -136,8 +143,11 @@
   <data name="label1.Text" xml:space="preserve">
     <value>クラス名(&amp;L):</value>
   </data>
+  <data name="dgv.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 60</value>
+  </data>
   <data name="dgv.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 167</value>
+    <value>222, 167</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>66, 12</value>
@@ -146,7 +156,7 @@
     <value>プロパティ(&amp;P):</value>
   </data>
   <data name="stepCombo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 20</value>
+    <value>222, 20</value>
   </data>
   <data name="stepperDefinitionsPage.Text" xml:space="preserve">
     <value>Stepper定義</value>
@@ -157,8 +167,8 @@
   <data name="label6.Text" xml:space="preserve">
     <value>モデル名(&amp;M):</value>
   </data>
-  <data name="initialConditionPage.Text" xml:space="preserve">
-    <value>初期条件 / Stepper定義</value>
+  <data name="perModelSimulationParametersPage.Text" xml:space="preserve">
+    <value>初期パラメータ / Stepper</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 12</value>
@@ -385,5 +395,8 @@
         AAB//wAA//AAAP//AAD//AAD//8AAP//gF///wAA////////AAD///////8AAP///////wAA////////
         AAA=
 </value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>シミュレーション設定</value>
   </data>
 </root>

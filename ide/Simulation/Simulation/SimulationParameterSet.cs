@@ -42,41 +42,6 @@ namespace Ecell.IDE.Plugins.Simulation
         private Tvalue m_value;
     }
 
-    internal class PerTypeInitialConditions: ICloneable
-    {
-        List<MutableKeyValuePair<string, double>> m_variableInitialConds;
-        List<MutableKeyValuePair<string, double>> m_processInitialConds;
-
-        public List<MutableKeyValuePair<string, double>> VariableInitialConditions
-        {
-            get { return m_variableInitialConds; }
-        }
-
-        public List<MutableKeyValuePair<string, double>> ProcessInitialConditions
-        {
-            get { return m_processInitialConds; }
-        }
-
-        public object Clone()
-        {
-            return new PerTypeInitialConditions(this);
-        }
-
-        public PerTypeInitialConditions()
-        {
-            m_variableInitialConds = new List<MutableKeyValuePair<string, double>>();
-            m_processInitialConds = new List<MutableKeyValuePair<string, double>>();
-        }
-
-        public PerTypeInitialConditions(PerTypeInitialConditions rhs)
-        {
-            m_variableInitialConds = new List<MutableKeyValuePair<string, double>>();
-            m_variableInitialConds.AddRange(rhs.m_variableInitialConds);
-            m_processInitialConds = new List<MutableKeyValuePair<string, double>>();
-            m_processInitialConds.AddRange(rhs.m_processInitialConds);
-        }
-    }
-
     internal class StepperConfiguration: ICloneable
     {
         public string Name
@@ -120,47 +85,54 @@ namespace Ecell.IDE.Plugins.Simulation
 
     internal class PerModelSimulationParameter: ICloneable
     {
+        [System.ComponentModel.Browsable(true)]
         public string ModelID
         {
             get { return m_modelID; }
             set { m_modelID = value; }
         }
 
-        public PerTypeInitialConditions PerTypeInitialConditions
+        [System.ComponentModel.Browsable(true)]
+        public IList<MutableKeyValuePair<string, double>> InitialConditions
         {
-            get { return m_perTypeInitialConds; }
-            set
-            {
-                m_perTypeInitialConds = value;
-            }
+            get { return m_initialConds; }
         }
 
+        [System.ComponentModel.Browsable(true)]
         public IList<StepperConfiguration> Steppers
         {
             get { return m_steppers; }
         }
 
+        [System.ComponentModel.Browsable(true)]
         public object Clone()
         {
             return new PerModelSimulationParameter(this);
         }
 
+        public PerModelSimulationParameter()
+        {
+            m_modelID = null;
+            m_initialConds = new List<MutableKeyValuePair<string, double>>();
+            m_steppers = new List<StepperConfiguration>();
+        }
+
         public PerModelSimulationParameter(string modelID)
         {
             m_modelID = modelID;
-            m_perTypeInitialConds = new PerTypeInitialConditions();
+            m_initialConds = new List<MutableKeyValuePair<string, double>>();
             m_steppers = new List<StepperConfiguration>();
         }
 
         public PerModelSimulationParameter(PerModelSimulationParameter rhs)
         {
             m_modelID = rhs.ModelID;
-            m_perTypeInitialConds = new PerTypeInitialConditions(rhs.PerTypeInitialConditions);
+            m_initialConds = new List<MutableKeyValuePair<string, double>>(rhs.InitialConditions);
             m_steppers = new List<StepperConfiguration>(rhs.Steppers);
         }
 
         string m_modelID;
-        PerTypeInitialConditions m_perTypeInitialConds;
+        List<MutableKeyValuePair<string, double>> m_initialConds;
         List<StepperConfiguration> m_steppers;
     }
 

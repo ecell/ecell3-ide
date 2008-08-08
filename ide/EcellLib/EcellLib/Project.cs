@@ -106,7 +106,7 @@ namespace Ecell
         /// The dictionary of the "InitialCondition" with
         ///     the parameter ID, the model ID, the data type and the full ID
         /// </summary>
-        private Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> m_initialCondition = null;
+        private Dictionary<string, Dictionary<string, Dictionary<string, double>>> m_initialCondition = null;
         /// <summary>
         /// The dictionary of the "Stepper" with the parameter ID and the model ID
         /// </summary>
@@ -245,13 +245,7 @@ namespace Ecell
         public string SimulationParam
         {
             get { return m_simParam; }
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                    this.m_simParam = Constants.defaultSimParam;
-                else
-                    this.m_simParam = value;
-            }
+            set { this.m_simParam = value; }
         }
 
         /// <summary>
@@ -342,7 +336,7 @@ namespace Ecell
         /// The dictionary of the "InitialCondition" with
         ///     the parameter ID, the model ID, the data type and the full ID
         /// </summary>
-        public Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>> InitialCondition
+        public Dictionary<string, Dictionary<string, Dictionary<string, double>>> InitialCondition
         {
             get { return m_initialCondition; }
             set { m_initialCondition = value; }
@@ -387,14 +381,9 @@ namespace Ecell
             if (string.IsNullOrEmpty(m_simParam))
                 m_simParam = Constants.defaultSimParam;
 
-            m_initialCondition = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<string, double>>>>();
-            m_initialCondition[m_simParam] = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
-            m_initialCondition[m_simParam][modelID] = new Dictionary<string, Dictionary<string, double>>();
-            m_initialCondition[m_simParam][modelID][Constants.xpathSystem] = new Dictionary<string, double>();
-            m_initialCondition[m_simParam][modelID][Constants.xpathProcess] = new Dictionary<string, double>();
-            m_initialCondition[m_simParam][modelID][Constants.xpathVariable] = new Dictionary<string, double>();
-            m_initialCondition[m_simParam][modelID][Constants.xpathText] = new Dictionary<string, double>();
-
+            m_initialCondition = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
+            m_initialCondition[m_simParam] = new Dictionary<string, Dictionary<string, double>>();
+            m_initialCondition[m_simParam][modelID] = new Dictionary<string, double>();
         }
 
         /// <summary>
@@ -850,56 +839,40 @@ namespace Ecell
         internal static void DataStored(
                 WrappedSimulator simulator,
                 EcellObject ecellObject,
-                Dictionary<string, Dictionary<string, double>> initialCondition)
+                Dictionary<string, double> initialCondition)
         {
-            Dictionary<string, double> childInitialCondition = null;
             if (ecellObject.Type.Equals(Constants.xpathStepper))
             {
                 DataStored4Stepper(simulator, ecellObject);
             }
             else if (ecellObject.Type.Equals(Constants.xpathSystem))
             {
-                if (initialCondition != null)
-                {
-                    childInitialCondition = initialCondition[Constants.xpathSystem];
-                }
                 DataStored4System(
                         simulator,
                         ecellObject,
-                        childInitialCondition);
+                        initialCondition);
             }
             else if (ecellObject.Type.Equals(Constants.xpathProcess))
             {
-                if (initialCondition != null)
-                {
-                    childInitialCondition = initialCondition[Constants.xpathProcess];
-                }
                 DataStored4Process(
                         simulator,
                         ecellObject,
-                        childInitialCondition);
+                        initialCondition);
             }
             else if (ecellObject.Type.Equals(Constants.xpathVariable))
             {
-                if (initialCondition != null)
-                {
-                    childInitialCondition = initialCondition[Constants.xpathVariable];
-                }
                 DataStored4Variable(
                         simulator,
                         ecellObject,
-                        childInitialCondition);
+                        initialCondition);
             }
             //
             // 4 children
             //
-            if (ecellObject.Children != null && ecellObject.Children.Count > 0)
+            if (ecellObject.Children != null)
             {
-                for (int i = 0; i < ecellObject.Children.Count; i++)
-                {
-                    EcellObject childEcellObject = ecellObject.Children[i];
+                foreach (EcellObject childEcellObject in ecellObject.Children)
                     DataStored(simulator, childEcellObject, initialCondition);
-                }
             }
         }
 

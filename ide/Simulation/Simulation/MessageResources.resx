@@ -121,7 +121,7 @@
     <value>Simulation process is currently running. Would you reset this simulation?</value>
   </data>
   <data name="ErrDelParam" xml:space="preserve">
-    <value>Cannot delete the parameter {0}.</value>
+    <value>Cannot delete the last parameter set.</value>
   </data>
   <data name="ErrDelStep" xml:space="preserve">
     <value>At least one Stepper is required in the model.</value>

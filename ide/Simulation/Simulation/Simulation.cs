@@ -454,16 +454,9 @@ namespace Ecell.IDE.Plugins.Simulation
                 {
                     PerModelSimulationParameter pmsp = new PerModelSimulationParameter(modelID);
                     foreach (KeyValuePair<string, double> pair in 
-                        m_dManager.GetInitialCondition(paramID, modelID, Constants.xpathVariable))
+                        m_dManager.GetInitialCondition(paramID, modelID))
                     {
-                        pmsp.PerTypeInitialConditions.VariableInitialConditions.Add(
-                            KeyValuePairConverter<string, double>.Convert(pair));
-                    }
-
-                    foreach (KeyValuePair<string, double> pair in 
-                        m_dManager.GetInitialCondition(paramID, modelID, Constants.xpathProcess))
-                    {
-                        pmsp.PerTypeInitialConditions.ProcessInitialConditions.Add(
+                        pmsp.InitialConditions.Add(
                             KeyValuePairConverter<string, double>.Convert(pair));
                     }
 
@@ -493,6 +486,24 @@ namespace Ecell.IDE.Plugins.Simulation
                 DialogResult r = win.ShowDialog();
                 if (r != DialogResult.OK)
                     return;
+                foreach (SimulationParameterSet sps in sim.Values)
+                {
+                    bool deleted = true;
+                    foreach (SimulationParameterSet newSps in win.Result)
+                    {
+                        if (newSps.Name == sps.Name)
+                        {
+                            deleted = false;
+                            break;
+                        }
+                    }
+
+                    if (deleted)
+                    {
+                        m_dManager.DeleteSimulationParameter(sps.Name);
+                    }
+                }
+
                 foreach (SimulationParameterSet sps in win.Result)
                 {
                     if (!sim.ContainsKey(sps.Name))
@@ -504,16 +515,10 @@ namespace Ecell.IDE.Plugins.Simulation
                     foreach (PerModelSimulationParameter pmsp in sps.PerModelSimulationParameters)
                     {
                         {
-                            Dictionary<string, double> pairs = new Dictionary<string, double>(pmsp.PerTypeInitialConditions.VariableInitialConditions.Count);
-                            foreach (MutableKeyValuePair<string, double> pair in pmsp.PerTypeInitialConditions.VariableInitialConditions)
+                            Dictionary<string, double> pairs = new Dictionary<string, double>(pmsp.InitialConditions.Count);
+                            foreach (MutableKeyValuePair<string, double> pair in pmsp.InitialConditions)
                                 pairs.Add(pair.Key, pair.Value);
-                            m_dManager.UpdateInitialCondition(sps.Name, pmsp.ModelID, Constants.xpathVariable, pairs);
-                        }
-                        {
-                            Dictionary<string, double> pairs = new Dictionary<string, double>(pmsp.PerTypeInitialConditions.ProcessInitialConditions.Count);
-                            foreach (MutableKeyValuePair<string, double> pair in pmsp.PerTypeInitialConditions.ProcessInitialConditions)
-                                pairs.Add(pair.Key, pair.Value);
-                            m_dManager.UpdateInitialCondition(sps.Name, pmsp.ModelID, Constants.xpathProcess, pairs);
+                            m_dManager.UpdateInitialCondition(sps.Name, pmsp.ModelID, pairs);
                         }
                         foreach (StepperConfiguration sc in pmsp.Steppers)
                         {
@@ -541,6 +546,13 @@ namespace Ecell.IDE.Plugins.Simulation
 
                     m_dManager.UpdateStepperID(sps.Name, steppers);
                 }
+
+                if (m_dManager.CurrentProject.SimulationParam == null)
+                {
+                    IEnumerator<SimulationParameterSet> en = win.Result.GetEnumerator();
+                    en.MoveNext();
+                    m_dManager.CurrentProject.SimulationParam = en.Current.Name;
+                }
             }
         }
 
@@ -567,7 +579,6 @@ namespace Ecell.IDE.Plugins.Simulation
                 if (m_type != ProjectStatus.Uninitialized)
                     m_pManager.ChangeStatus(preType);
             }
-
         }
 
         /// <summary>
@@ -593,7 +604,6 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_pManager.ChangeStatus(preType);
             }
         }
-
 
         /// <summary>
         /// The action of [Step ...] menu click.

@@ -889,14 +889,9 @@ namespace Ecell
         /// </summary>
         /// <param name="type">data type to set initial parameter.</param>
         /// <param name="initialDic">the dictionary of initial parameter.</param>
-        public void UpdateInitialCondition(string type, Dictionary<string, double> initialDic)
+        public void UpdateInitialCondition(Dictionary<string, double> initialDic)
         {
-            if (type == null || type.Length <= 0
-                || initialDic == null || initialDic.Count <= 0)
-            {
-                return;
-            }
-            m_env.DataManager.UpdateInitialCondition(null, s_modelID, type, initialDic);
+            m_env.DataManager.UpdateInitialCondition(null, s_modelID, initialDic);
         }
 
 
@@ -1529,7 +1524,7 @@ namespace Ecell
             /// <summary>
             /// the initial condition belong to this
             /// </summary>
-            private Dictionary<string, Dictionary<string, double>> m_initialCondition = null;
+            private Dictionary<string, double> m_initialCondition = null;
 
             /// <summary>
             /// Creates the simulation parameter stub with the simulation parameter ID.
@@ -1640,21 +1635,9 @@ namespace Ecell
             /// </summary>
             /// <param name="type">the type of the entity</param>
             /// <returns>the initial condition</returns>
-            public Dictionary<string, double> GetInitialCondition(string type)
+            public Dictionary<string, double> GetInitialCondition()
             {
-                if (type.Equals(Constants.xpathSystem))
-                {
-                    return this.m_initialCondition[Constants.xpathSystem];
-                }
-                else if (type.Equals(Constants.xpathProcess))
-                {
-                    return this.m_initialCondition[Constants.xpathProcess];
-                }
-                else if (type.Equals(Constants.xpathVariable))
-                {
-                    return this.m_initialCondition[Constants.xpathVariable];
-                }
-                return new Dictionary<string, double>();
+                return this.m_initialCondition;
             }
 
             /// <summary>

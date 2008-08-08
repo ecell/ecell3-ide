@@ -116,7 +116,7 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             PerModelSimulationParameter p = (PerModelSimulationParameter)((BindingSource)sender).Current;
             steppersBindingSource.DataSource = p.Steppers;
-            perTypeInitialConditionsBindingSource.DataSource = p.PerTypeInitialConditions;
+            initialConditionsBindingSource.DataSource = p.InitialConditions;
         }
 
         /// <summary>
@@ -297,18 +297,12 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="e">EventArgs</param>
         public void DeleteButtonClick(object sender, EventArgs e)
         {
-            if (paramCombo.SelectedItem == null) return;
-
-            string param = paramCombo.SelectedItem.ToString();
-            if (param == "DefaultParameter" || paramCombo.Items.Count == 1)
+            if (m_simParamSets.Count <= 1)
             {
-                Util.ShowWarningDialog(String.Format(MessageResources.ErrDelParam,
-                    new object[] { param }));
+                Util.ShowErrorDialog(MessageResources.ErrDelParam);
                 return;
             }
-            paramCombo.Items.Remove(param);
-            paramCombo.SelectedIndex = 0;
-            m_owner.DataManager.DeleteSimulationParameter(param);
+            m_simParamSets.RemoveCurrent();
         }
 
         /// <summary>

@@ -482,8 +482,8 @@ namespace Ecell
         {
             string l_paremterID = null;
             string l_modelID = null;
-            System.Collections.Generic.Dictionary<System.String, System.Collections.Generic.Dictionary<System.String, System.Double>> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.String, System.Collections.Generic.Dictionary<System.String, System.Double>> resultDictionary = null;
+            System.Collections.Generic.Dictionary<System.String, System.Double> expectedDictionary = null;
+            System.Collections.Generic.Dictionary<System.String, System.Double> resultDictionary = null;
             resultDictionary = _unitUnderTest.GetInitialCondition(l_paremterID, l_modelID);
             Assert.AreEqual(expectedDictionary, resultDictionary, "GetInitialCondition method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -497,10 +497,9 @@ namespace Ecell
         {
             string l_paremterID = null;
             string l_modelID = null;
-            string l_type = null;
             System.Collections.Generic.Dictionary<System.String, System.Double> expectedDictionary = null;
             System.Collections.Generic.Dictionary<System.String, System.Double> resultDictionary = null;
-            resultDictionary = _unitUnderTest.GetInitialCondition(l_paremterID, l_modelID, l_type);
+            resultDictionary = _unitUnderTest.GetInitialCondition(l_paremterID, l_modelID);
             Assert.AreEqual(expectedDictionary, resultDictionary, "GetInitialCondition method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
@@ -1147,9 +1146,8 @@ namespace Ecell
         {
             string l_parameterID = null;
             string l_modelID = null;
-            string l_type = null;
             System.Collections.Generic.Dictionary<System.String, System.Double> l_initialList = null;
-            _unitUnderTest.UpdateInitialCondition(l_parameterID, l_modelID, l_type, l_initialList);
+            _unitUnderTest.UpdateInitialCondition(l_parameterID, l_modelID, l_initialList);
             Assert.Fail("Create or modify test(s).");
 
         }
