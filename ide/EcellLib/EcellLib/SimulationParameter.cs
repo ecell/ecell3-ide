@@ -206,7 +206,7 @@ namespace Ecell
             m_tx.WriteElementString(
                 Constants.xpathAction.ToLower(),
                 null,
-                System.Environment.NewLine + loggerPolicy.DiskFullAction + System.Environment.NewLine
+                System.Environment.NewLine + (loggerPolicy.DiskFullAction == DiskFullAction.Terminate? 0 : 1) + System.Environment.NewLine
                 );
             m_tx.WriteElementString(
                 Constants.xpathSpace.ToLower(),
