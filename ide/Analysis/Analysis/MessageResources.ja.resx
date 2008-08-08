@@ -117,15 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AnalysisResultWindow" xml:space="preserve">
-    <value>解析結果</value>
-  </data>
-  <data name="AnalysisWindow" xml:space="preserve">
-    <value>解析設定</value>
-  </data>
-  <data name="ConfirmClose" xml:space="preserve">
-    <value>このウインドウを閉じますか？</value>
-  </data>
   <data name="ConfirmFindErrorJob" xml:space="preserve">
     <value>エラーの発生したパラメータがあります。結果を表示しますか？</value>
   </data>
@@ -211,7 +202,7 @@
     <value>解析を中断します</value>
   </data>
   <data name="NameAbsolutePert" xml:space="preserve">
-    <value>Absolute </value>
+    <value>絶対的摂動値</value>
   </data>
   <data name="NameBifurcation" xml:space="preserve">
     <value>分岐解析</value>
@@ -226,7 +217,7 @@
     <value>FFTのサンプル数</value>
   </data>
   <data name="NameObservedData" xml:space="preserve">
-    <value>観察されたデータセット</value>
+    <value>観察されたパラメータセット</value>
   </data>
   <data name="NameParameterData" xml:space="preserve">
     <value>パラメータセット</value>
@@ -238,7 +229,7 @@
     <value>個体数</value>
   </data>
   <data name="NameRelativePert" xml:space="preserve">
-    <value>Relative perturbation</value>
+    <value>相対的摂動値</value>
   </data>
   <data name="NameRobustAnalysis" xml:space="preserve">
     <value>ロバスト解析</value>
@@ -247,7 +238,7 @@
     <value>感受性解析</value>
   </data>
   <data name="NameSimulationTime" xml:space="preserve">
-    <value>シミュレーション時間</value>
+    <value>シミュレーション実行時間</value>
   </data>
   <data name="NameStepNum" xml:space="preserve">
     <value>ステップ数</value>

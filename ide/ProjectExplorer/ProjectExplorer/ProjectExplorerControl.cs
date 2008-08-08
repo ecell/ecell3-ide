@@ -839,13 +839,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 {
                     m_prjNode = new TreeNode(obj.ModelID);
                     treeView1.Nodes.Add(m_prjNode);
-                    TreeNode modelNode = new TreeNode("Models");
+                    TreeNode modelNode = new TreeNode(MessageResources.NameModel);
                     modelNode.Tag = null;
-                    TreeNode paramNode = new TreeNode("Parameters");
+                    TreeNode paramNode = new TreeNode(MessageResources.NameParameters);
                     paramNode.Tag = null;
-                    m_DMNode = new TreeNode("DMs");
+                    m_DMNode = new TreeNode(MessageResources.NameDMs);
                     m_DMNode.Tag = null;
-                    m_logNode = new TreeNode("Logs");
+                    m_logNode = new TreeNode(MessageResources.NameLogArchives);
                     m_logNode.Tag = null;
                     m_prjNode.Nodes.Add(modelNode);
                     m_prjNode.Nodes.Add(paramNode);

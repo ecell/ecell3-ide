@@ -61,34 +61,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   Analysis results に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string AnalysisResultWindow {
-            get {
-                return ResourceManager.GetString("AnalysisResultWindow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Analysis settings に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string AnalysisWindow {
-            get {
-                return ResourceManager.GetString("AnalysisWindow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Do you want to close this window? に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ConfirmClose {
-            get {
-                return ResourceManager.GetString("ConfirmClose", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Some errors were found in parameters. Do you want to check it? に類似しているローカライズされた文字列を検索します。
+        ///   Some errors occurred in the parameters. Do you want to proceed to the result? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmFindErrorJob {
             get {
@@ -97,7 +70,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   Do you want to abort this analysis? に類似しているローカライズされた文字列を検索します。
+        ///   Are you sure to abort this analysis? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmStopAnalysis {
             get {
@@ -106,7 +79,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   The execution of the {0} was failed. に類似しているローカライズされた文字列を検索します。
+        ///   Execution of {0} failed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrExecute {
             get {
@@ -124,7 +97,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   The selected data on X-axis and Y-axis are same. に類似しているローカライズされた文字列を検索します。
+        ///   The same parameter is selected for X-axis and Y-axis. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSameAxis {
             get {
@@ -169,7 +142,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   The executuion of the {0} has been finished. に類似しているローカライズされた文字列を検索します。
+        ///   Executuion of {0} has finished. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoFinishExecute {
             get {
@@ -340,7 +313,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   The absolute perturbation に類似しているローカライズされた文字列を検索します。
+        ///   The absolute perturbation bounds に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameAbsolutePert {
             get {
@@ -367,7 +340,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   The number of generation に類似しているローカライズされた文字列を検索します。
+        ///   The number of generations に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameGenerationNum {
             get {
@@ -385,7 +358,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   The observed data set に類似しているローカライズされた文字列を検索します。
+        ///   The observed parameter set に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameObservedData {
             get {
@@ -421,7 +394,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   The relative perturbation に類似しているローカライズされた文字列を検索します。
+        ///   The relative perturbation bounds に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameRelativePert {
             get {
@@ -448,7 +421,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   The simulation time に類似しているローカライズされた文字列を検索します。
+        ///   The simulation duration に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameSimulationTime {
             get {
@@ -457,7 +430,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   The number of step に類似しているローカライズされた文字列を検索します。
+        ///   The number of steps に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameStepNum {
             get {

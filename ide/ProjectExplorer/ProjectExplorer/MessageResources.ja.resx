@@ -118,16 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ErrCreateFile" xml:space="preserve">
-    <value>{0} が作成できません。</value>
+    <value>ファイル {0} が作成できません。</value>
   </data>
   <data name="ErrStartupApp" xml:space="preserve">
-    <value>このファイルに関連付けられたアプリケーションが見つかりません。</value>
+    <value>このファイル形式に関連付けられたアプリケーションが見つかりません。</value>
+  </data>
+  <data name="NameLogArchives" xml:space="preserve">
+    <value>ログアーカイブ</value>
+  </data>
+  <data name="NameModel" xml:space="preserve">
+    <value>モデル</value>
+  </data>
+  <data name="NameParameters" xml:space="preserve">
+    <value>パラメータ</value>
   </data>
   <data name="NoticeNotFind" xml:space="preserve">
-    <value>検索条件に一致するオブジェクトが見つかりませんでした。</value>
-  </data>
-  <data name="NoticeNotInstallSDK" xml:space="preserve">
-    <value>E-Cell SDKがインストールされていません。</value>
+    <value>検索条件に一致するエンティティが見つかりません。</value>
   </data>
   <data name="PopMergeText" xml:space="preserve">
     <value>上位システムへマージ ({0})</value>

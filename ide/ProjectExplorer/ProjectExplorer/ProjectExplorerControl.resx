@@ -256,19 +256,19 @@
     <value>182, 22</value>
   </data>
   <data name="toolStripMenuItemLogging.Text" xml:space="preserve">
-    <value>Log</value>
+    <value>Mark the property as logging</value>
   </data>
   <data name="toolStripMenuItemObservation.Size" type="System.Drawing.Size, System.Drawing">
     <value>182, 22</value>
   </data>
   <data name="toolStripMenuItemObservation.Text" xml:space="preserve">
-    <value>Set parameter observed</value>
+    <value>Mark the analytic property as unknown</value>
   </data>
   <data name="toolStripMenuItemParameter.Size" type="System.Drawing.Size, System.Drawing">
     <value>182, 22</value>
   </data>
   <data name="toolStripMenuItemParameter.Text" xml:space="preserve">
-    <value>Set parameter unknown</value>
+    <value>Mark the analytic property as observed</value>
   </data>
   <data name="contextMenuStripStdEntity.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>393, 17</value>

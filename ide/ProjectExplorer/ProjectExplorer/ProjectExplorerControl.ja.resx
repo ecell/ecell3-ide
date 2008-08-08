@@ -191,13 +191,13 @@
     <value>174, 22</value>
   </data>
   <data name="toolStripMenuItemLogging.Text" xml:space="preserve">
-    <value>ログ</value>
+    <value>記録対象として設定</value>
   </data>
   <data name="toolStripMenuItemObservation.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 22</value>
   </data>
   <data name="toolStripMenuItemObservation.Text" xml:space="preserve">
-    <value>評価パラメータとして設定</value>
+    <value>観察パラメータとして設定</value>
   </data>
   <data name="toolStripMenuItemParameter.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 22</value>

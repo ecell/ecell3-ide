@@ -123,11 +123,20 @@
   <data name="ErrStartupApp" xml:space="preserve">
     <value>Cannot find any applications associated with this file type.</value>
   </data>
-  <data name="NoticeNotFind" xml:space="preserve">
-    <value>Any objects is not matched by the search condition.</value>
+  <data name="NameDMs" xml:space="preserve">
+    <value>DMS</value>
   </data>
-  <data name="NoticeNotInstallSDK" xml:space="preserve">
-    <value>Cannot find the installed E-Cell SDK.</value>
+  <data name="NameLogArchives" xml:space="preserve">
+    <value>Log archives</value>
+  </data>
+  <data name="NameModel" xml:space="preserve">
+    <value>Models</value>
+  </data>
+  <data name="NameParameters" xml:space="preserve">
+    <value>Parameters</value>
+  </data>
+  <data name="NoticeNotFind" xml:space="preserve">
+    <value>No entities are matched by the search condition.</value>
   </data>
   <data name="PopMergeText" xml:space="preserve">
     <value>Merge to supersystem ({0})</value>
@@ -136,6 +145,6 @@
     <value>Project Explorer</value>
   </data>
   <data name="WarnDMName" xml:space="preserve">
-    <value>Please input name that the last string is "Process" or "Stepper".</value>
+    <value>Please input the name whose suffix is "Process" or "Stepper".</value>
   </data>
 </root>

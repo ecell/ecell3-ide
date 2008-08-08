@@ -79,20 +79,47 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
-        ///   Any objects is not matched by the search condition. に類似しているローカライズされた文字列を検索します。
+        ///   DMS に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string NoticeNotFind {
+        internal static string NameDMs {
             get {
-                return ResourceManager.GetString("NoticeNotFind", resourceCulture);
+                return ResourceManager.GetString("NameDMs", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Cannot find the installed E-Cell SDK. に類似しているローカライズされた文字列を検索します。
+        ///   Log archives に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string NoticeNotInstallSDK {
+        internal static string NameLogArchives {
             get {
-                return ResourceManager.GetString("NoticeNotInstallSDK", resourceCulture);
+                return ResourceManager.GetString("NameLogArchives", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Models に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameModel {
+            get {
+                return ResourceManager.GetString("NameModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Parameters に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameParameters {
+            get {
+                return ResourceManager.GetString("NameParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   No entities are matched by the search condition. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NoticeNotFind {
+            get {
+                return ResourceManager.GetString("NoticeNotFind", resourceCulture);
             }
         }
         
@@ -115,7 +142,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
-        ///   Please input name that the last string is &quot;Process&quot; or &quot;Stepper&quot;. に類似しているローカライズされた文字列を検索します。
+        ///   Please input the name whose suffix is &quot;Process&quot; or &quot;Stepper&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string WarnDMName {
             get {

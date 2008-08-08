@@ -133,9 +133,9 @@
     <value>ステップ幅(&amp;S):</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>相対的摂動(&amp;A):</value>
+    <value>相対的摂動値(&amp;A):</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>絶対的摂動(&amp;R):</value>
+    <value>絶対的摂動値(&amp;R):</value>
   </data>
 </root>
