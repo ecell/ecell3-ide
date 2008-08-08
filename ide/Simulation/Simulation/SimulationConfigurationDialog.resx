@@ -145,7 +145,7 @@
     <value>6, 6, 6, 6</value>
   </data>
   <data name="initialParameters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>421, 246</value>
+    <value>421, 252</value>
   </data>
   <data name="initialParameters.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -166,7 +166,7 @@
     <value>4, 21</value>
   </data>
   <data name="initialParametersPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>433, 258</value>
+    <value>433, 264</value>
   </data>
   <data name="initialParametersPage.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -265,10 +265,10 @@
     <value>NoControl</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 9</value>
+    <value>4, 6</value>
   </data>
   <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>5, 0, 5, 0</value>
+    <value>6, 6, 6, 0</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>69, 12</value>
@@ -292,7 +292,7 @@
     <value>0</value>
   </data>
   <data name="dgv.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left, Right</value>
+    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="keyDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
     <value>Name</value>
@@ -310,13 +310,13 @@
     <value>608, 17</value>
   </metadata>
   <data name="dgv.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 44</value>
+    <value>6, 74</value>
   </data>
   <data name="dgv.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>5, 5, 5, 5</value>
+    <value>6, 6, 6, 6</value>
   </data>
   <data name="dgv.Size" type="System.Drawing.Size, System.Drawing">
-    <value>204, 161</value>
+    <value>235, 162</value>
   </data>
   <data name="dgv.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -343,7 +343,10 @@
     <value>NoControl</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 55</value>
+    <value>4, 53</value>
+  </data>
+  <data name="label7.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>6, 0, 6, 0</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 12</value>
@@ -370,13 +373,13 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="stepCombo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 26</value>
+    <value>6, 24</value>
   </data>
   <data name="stepCombo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>5, 5, 5, 5</value>
+    <value>6, 6, 6, 6</value>
   </data>
   <data name="stepCombo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>204, 20</value>
+    <value>235, 20</value>
   </data>
   <data name="stepCombo.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -397,7 +400,7 @@
     <value>171, 6</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>252, 244</value>
+    <value>255, 250</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -448,7 +451,7 @@
     <value>12</value>
   </data>
   <data name="stepperListBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 30</value>
+    <value>6, 35</value>
   </data>
   <data name="stepperListBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>159, 220</value>
@@ -472,7 +475,7 @@
     <value>4, 21</value>
   </data>
   <data name="stepperDefinitionsPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>433, 258</value>
+    <value>433, 264</value>
   </data>
   <data name="stepperDefinitionsPage.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -496,7 +499,7 @@
     <value>6, 35</value>
   </data>
   <data name="tabControl2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>441, 283</value>
+    <value>441, 289</value>
   </data>
   <data name="tabControl2.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -577,7 +580,7 @@
     <value>4, 21</value>
   </data>
   <data name="perModelSimulationParametersPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>453, 324</value>
+    <value>453, 330</value>
   </data>
   <data name="perModelSimulationParametersPage.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -712,7 +715,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="SSApplyButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>321, 396</value>
+    <value>321, 402</value>
   </data>
   <data name="SSApplyButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -739,7 +742,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="SSCloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>401, 396</value>
+    <value>401, 402</value>
   </data>
   <data name="SSCloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -1120,7 +1123,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="loggingPage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>453, 324</value>
+    <value>453, 330</value>
   </data>
   <data name="loggingPage.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1147,7 +1150,7 @@
     <value>12, 41</value>
   </data>
   <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>461, 349</value>
+    <value>461, 355</value>
   </data>
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -1174,7 +1177,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>487, 431</value>
+    <value>487, 437</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1345,6 +1348,18 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Simulation Configuration</value>
   </data>
+  <data name="&gt;&gt;keyDataGridViewTextBoxColumn1.Name" xml:space="preserve">
+    <value>keyDataGridViewTextBoxColumn1</value>
+  </data>
+  <data name="&gt;&gt;keyDataGridViewTextBoxColumn1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;valueDataGridViewTextBoxColumn1.Name" xml:space="preserve">
+    <value>valueDataGridViewTextBoxColumn1</value>
+  </data>
+  <data name="&gt;&gt;valueDataGridViewTextBoxColumn1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;initialConditionsBindingSource.Name" xml:space="preserve">
     <value>initialConditionsBindingSource</value>
   </data>
@@ -1392,18 +1407,6 @@
   </data>
   <data name="&gt;&gt;m_simParamSets.Type" xml:space="preserve">
     <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;keyDataGridViewTextBoxColumn1.Name" xml:space="preserve">
-    <value>keyDataGridViewTextBoxColumn1</value>
-  </data>
-  <data name="&gt;&gt;keyDataGridViewTextBoxColumn1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;valueDataGridViewTextBoxColumn1.Name" xml:space="preserve">
-    <value>valueDataGridViewTextBoxColumn1</value>
-  </data>
-  <data name="&gt;&gt;valueDataGridViewTextBoxColumn1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SimulationConfigurationDialog</value>

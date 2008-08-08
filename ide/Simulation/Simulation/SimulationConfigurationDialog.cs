@@ -577,5 +577,15 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             freqBySecTextBox_filledWithDefaultValue = false;
         }
+
+        private void initialConditionsBindingSource_DataError(object sender, BindingManagerDataErrorEventArgs e)
+        {
+            Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+        }
+
+        private void propertiesBindingSource_DataError(object sender, BindingManagerDataErrorEventArgs e)
+        {
+            Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+        }
     }
 }
