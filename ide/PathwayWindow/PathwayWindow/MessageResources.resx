@@ -117,23 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmDelete" xml:space="preserve">
-    <value>Are you sure you want to delete?</value>
-  </data>
-  <data name="ConfirmMerge" xml:space="preserve">
-    <value>Are you sure merge the component in system to upper system.</value>
-  </data>
   <data name="ErrAlrExist" xml:space="preserve">
-    <value>Entity {0} has already existed.</value>
+    <value>Entity {0} already exists.</value>
   </data>
   <data name="ErrCompInvalid" xml:space="preserve">
-    <value>The setting file for shape of entities is imcomplete.</value>
+    <value>The setting file for shapes of entities is incorrect.</value>
   </data>
   <data name="ErrCreateComponent" xml:space="preserve">
     <value>Cannot create the shape of entities.</value>
   </data>
   <data name="ErrLayout" xml:space="preserve">
-    <value>Autolayout process of this algorithm was failed due to an unexpected error.</value>
+    <value>Autolayout process failed with an unexpected error.</value>
   </data>
   <data name="ErrOutRoot" xml:space="preserve">
     <value>Cannot put any objects to outside root System.</value>
@@ -142,31 +136,31 @@
     <value>Cannot partially-overlap with other Systems.</value>
   </data>
   <data name="ErrUnknowType" xml:space="preserve">
-    <value>The type of  added Entity is unknown.</value>
+    <value>The type of added Entity is unknown.</value>
   </data>
   <data name="MenuItemShowID" xml:space="preserve">
     <value>Show &amp;IDs(Pathway)</value>
   </data>
   <data name="ErrLoadLEML" xml:space="preserve">
-    <value>Loading pathway layouts were failed.</value>
+    <value>Cannot load the layout information.</value>
   </data>
   <data name="ErrSaveLEML" xml:space="preserve">
-    <value>Saving pathway layouts were failed.</value>
+    <value>Cannot save the layout information.</value>
   </data>
   <data name="LayerMenuCreate" xml:space="preserve">
     <value>New layer</value>
   </data>
   <data name="LayerMenuDelete" xml:space="preserve">
-    <value>Delete layer</value>
+    <value>Delete</value>
   </data>
   <data name="LayerDialogMessage" xml:space="preserve">
-    <value>Input new layer name.</value>
+    <value>Please input the new layer name.</value>
   </data>
   <data name="LayerDialogTitle" xml:space="preserve">
-    <value>Layer name input dialog</value>
+    <value>Layer name</value>
   </data>
   <data name="LayerMenuRename" xml:space="preserve">
-    <value>Rename layer</value>
+    <value>Rename</value>
   </data>
   <data name="LayerMenuMerge" xml:space="preserve">
     <value>Merge layer</value>
@@ -229,10 +223,10 @@
     <value>&amp;View</value>
   </data>
   <data name="MenuItemSetup" xml:space="preserve">
-    <value>Pathway settings...</value>
+    <value>Diagram settings...</value>
   </data>
   <data name="MenuToolTipSetup" xml:space="preserve">
-    <value>Show property dialog of PathwayWindow.</value>
+    <value>Show setting dialog of diagram.</value>
   </data>
   <data name="ErrSystemOverlap" xml:space="preserve">
     <value>The pointed place has no space to paste the System.</value>
@@ -280,10 +274,7 @@
     <value>Export SVG format...</value>
   </data>
   <data name="MenuToolTipExport" xml:space="preserve">
-    <value>Export diagrams.</value>
-  </data>
-  <data name="MenuToolTipExportSVG" xml:space="preserve">
-    <value>Export SVG format.</value>
+    <value>Export diagrams...</value>
   </data>
   <data name="MenuItemFile" xml:space="preserve">
     <value>File</value>
@@ -295,10 +286,10 @@
     <value>Background color</value>
   </data>
   <data name="DialogTextEdgeBrush" xml:space="preserve">
-    <value>Edge color</value>
+    <value>Arrow color</value>
   </data>
   <data name="DialogTextEdgeWidth" xml:space="preserve">
-    <value>Edge width</value>
+    <value>Arrow width</value>
   </data>
   <data name="DialogTextEditMode" xml:space="preserve">
     <value>Edit mode</value>
@@ -307,13 +298,13 @@
     <value>Logarithmic scale</value>
   </data>
   <data name="DialogTextMaxEdgeWidth" xml:space="preserve">
-    <value>Max edge width</value>
+    <value>Max arrow width</value>
   </data>
   <data name="DialogTextNGBrush" xml:space="preserve">
-    <value>NG color</value>
+    <value>Error color</value>
   </data>
   <data name="DialogTextNormalEdge" xml:space="preserve">
-    <value>Normal edge</value>
+    <value>Normal arrow color</value>
   </data>
   <data name="DialogTextThresholdHigh" xml:space="preserve">
     <value>Upper threshold</value>
@@ -333,11 +324,8 @@
   <data name="WindowLayer" xml:space="preserve">
     <value>Layer</value>
   </data>
-  <data name="WindowOverview" xml:space="preserve">
-    <value>Overview</value>
-  </data>
   <data name="WindowPathway" xml:space="preserve">
-    <value>Network</value>
+    <value>Diagram</value>
   </data>
   <data name="WindowStencil" xml:space="preserve">
     <value>Stencil</value>
@@ -346,7 +334,7 @@
     <value>Center color</value>
   </data>
   <data name="DialogTextFigure" xml:space="preserve">
-    <value>Object shape</value>
+    <value>Shape</value>
   </data>
   <data name="DialogTextFillBrush" xml:space="preserve">
     <value>Fill color</value>
@@ -363,9 +351,6 @@
   <data name="DialogTextTextBrush" xml:space="preserve">
     <value>Text color</value>
   </data>
-  <data name="ErrLoadWindowSettings" xml:space="preserve">
-    <value>Cannot load window settings</value>
-  </data>
   <data name="CanvasMenuBidirArrow" xml:space="preserve">
     <value>Set both directions</value>
   </data>
@@ -380,9 +365,6 @@
   </data>
   <data name="MenuItemExportImage" xml:space="preserve">
     <value>Export Image...</value>
-  </data>
-  <data name="MenuToolTipExportImage" xml:space="preserve">
-    <value>Export image file.</value>
   </data>
   <data name="MenuItemFocus" xml:space="preserve">
     <value>Focus the selected object,</value>

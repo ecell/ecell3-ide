@@ -132,7 +132,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResources.ErrLoadWindowSettings + Environment.NewLine + filename + Environment.NewLine + ex.Message);
+                Util.ShowErrorDialog(MessageResources.ErrSaveLEML + Environment.NewLine + filename + Environment.NewLine + ex.Message);
             }
             finally
             {
@@ -178,7 +178,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(MessageResources.ErrLoadWindowSettings + Environment.NewLine + filename + Environment.NewLine + ex.Message);
+                Util.ShowErrorDialog(MessageResources.ErrLoadLEML + Environment.NewLine + filename + Environment.NewLine + ex.Message);
             }
         }
 

@@ -88,10 +88,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         private PathwayView m_pathwayView;
         /// <summary>
-        /// OverView interface.
-        /// </summary>
-        private OverView m_overView;
-        /// <summary>
         /// LayerView interface.
         /// </summary>
         private LayerView m_layerView;
@@ -155,13 +151,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public PathwayView PathwayView
         {
             get { return m_pathwayView; }
-        }
-        /// <summary>
-        /// Accessor for m_overView.
-        /// </summary>
-        public OverView OverView
-        {
-            get { return m_overView; }
         }
         /// <summary>
         /// Accessor for m_layerView.
@@ -301,7 +290,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             //m_overView = new OverView(this);
             m_layerView = new LayerView(this);
             m_toolBox = new Stencils(this);
-            m_overView = null;
         }
         #endregion
 

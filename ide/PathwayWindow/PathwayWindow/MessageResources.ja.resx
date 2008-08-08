@@ -229,10 +229,10 @@
     <value>表示(&amp;V)</value>
   </data>
   <data name="MenuItemSetup" xml:space="preserve">
-    <value>パスウエイ表示設定...</value>
+    <value>ダイアグラム表示設定...</value>
   </data>
   <data name="MenuToolTipSetup" xml:space="preserve">
-    <value>パスウエイの表示設定ダイアログを開きます。</value>
+    <value>ダイアグラムの設定ダイアログを開きます。</value>
   </data>
   <data name="ErrSystemOverlap" xml:space="preserve">
     <value>システムを作成するスペースがないため、指定した位置にペーストできません。</value>
@@ -274,16 +274,10 @@
     <value>前面移動</value>
   </data>
   <data name="MenuItemExport" xml:space="preserve">
-    <value>ダイアグラム出力</value>
-  </data>
-  <data name="MenuItemExportSVG" xml:space="preserve">
-    <value>SVG出力...</value>
+    <value>ダイアグラム出力...</value>
   </data>
   <data name="MenuToolTipExport" xml:space="preserve">
     <value>ダイアグラムを出力します。</value>
-  </data>
-  <data name="MenuToolTipExportSVG" xml:space="preserve">
-    <value>SVGフォーマットで画像を保存します。</value>
   </data>
   <data name="MenuItemFile" xml:space="preserve">
     <value>ファイル</value>
@@ -310,7 +304,7 @@
     <value>線の最大の太さ</value>
   </data>
   <data name="DialogTextNGBrush" xml:space="preserve">
-    <value>NG色</value>
+    <value>エラー色</value>
   </data>
   <data name="DialogTextNormalEdge" xml:space="preserve">
     <value>通常線</value>
@@ -333,11 +327,8 @@
   <data name="WindowLayer" xml:space="preserve">
     <value>レイヤー</value>
   </data>
-  <data name="WindowOverview" xml:space="preserve">
-    <value>オーバービュー</value>
-  </data>
   <data name="WindowPathway" xml:space="preserve">
-    <value>ネットワーク</value>
+    <value>ダイアグラム</value>
   </data>
   <data name="WindowStencil" xml:space="preserve">
     <value>ステンシル</value>
@@ -346,7 +337,7 @@
     <value>中央色</value>
   </data>
   <data name="DialogTextFigure" xml:space="preserve">
-    <value>オブジェクト形状</value>
+    <value>形状</value>
   </data>
   <data name="DialogTextFillBrush" xml:space="preserve">
     <value>塗りつぶし色</value>
@@ -363,9 +354,6 @@
   <data name="DialogTextTextBrush" xml:space="preserve">
     <value>文字色</value>
   </data>
-  <data name="ErrLoadWindowSettings" xml:space="preserve">
-    <value>ウィンドウ設定を読み込めませんでした。</value>
-  </data>
   <data name="CanvasMenuBidirArrow" xml:space="preserve">
     <value>両方向にする</value>
   </data>
@@ -377,12 +365,6 @@
   </data>
   <data name="MessageLoadModel" xml:space="preserve">
     <value>モデルのロード中...</value>
-  </data>
-  <data name="MenuItemExportImage" xml:space="preserve">
-    <value>画像ファイルを出力</value>
-  </data>
-  <data name="MenuToolTipExportImage" xml:space="preserve">
-    <value>画像ファイルを出力します。</value>
   </data>
   <data name="MenuItemFocus" xml:space="preserve">
     <value>フォーカス</value>

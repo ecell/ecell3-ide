@@ -436,22 +436,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             List<ToolStripMenuItem> menuList = new List<ToolStripMenuItem>();
 
-            // ExportGraphics menu.
-            ToolStripMenuItem exportSVGItem = new ToolStripMenuItem();
-            exportSVGItem.ToolTipText = MessageResources.MenuToolTipExportSVG;
-            exportSVGItem.Text = MessageResources.MenuItemExportSVG;
-            exportSVGItem.Click += new EventHandler(ExportSVG);
-
-            ToolStripMenuItem exportImageItem = new ToolStripMenuItem();
-            exportImageItem.ToolTipText = MessageResources.MenuToolTipExportImage;
-            exportImageItem.Text = MessageResources.MenuItemExportImage;
-            exportImageItem.Click += new EventHandler(ExportImage);
-
             ToolStripMenuItem exportMenu = new ToolStripMenuItem();
-            exportMenu.DropDownItems.AddRange(new ToolStripItem[] { exportSVGItem, exportImageItem });
             exportMenu.ToolTipText = MessageResources.MenuToolTipExport;
             exportMenu.Text = MessageResources.MenuItemExport;
             exportMenu.Name = MenuConstants.MenuItemExport;
+            exportMenu.Click += new EventHandler(ExportImage);
             exportMenu.Tag = 17;
 
             ToolStripMenuItem fileMenu = new ToolStripMenuItem();
@@ -1467,27 +1456,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             float rate = m_con.Canvas.PCanvas.Camera.ViewScale * 100f;
             m_zoomRate.Text = rate.ToString("###") + "%";
         }
-        /// <summary>
-        /// Export SVG format.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ExportSVG(object sender, EventArgs e)
-        {
-            if (m_con.Canvas == null)
-                return;
-            SaveFileDialog sfd = new SaveFileDialog();
-            using (sfd)
-            {
-                sfd.Filter = "SVG File|*.svg";
-                sfd.CheckPathExists = true;
-                if (sfd.ShowDialog() != DialogResult.OK)
-                    return;
-
-                // Save window settings.
-                GraphicsExporter.ExportSVG(m_con.Canvas, sfd.FileName);
-            }
-        }
 
         /// <summary>
         /// ExportImage
@@ -1501,15 +1469,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             SaveFileDialog sfd = new SaveFileDialog();
             using (sfd)
             {
-                sfd.Filter = Constants.FilterImageFile;
+                sfd.Filter = "SVG File|*.svg|" + Constants.FilterImageFile;
                 sfd.CheckPathExists = true;
+                sfd.FileName = m_con.Canvas.ModelID;
                 if (sfd.ShowDialog() != DialogResult.OK)
                     return;
                 if (string.IsNullOrEmpty(sfd.FileName))
                     return;
+
+                // save SVG image
+                if (sfd.FileName.EndsWith(Constants.FileExtSVG))
+                {
+                    GraphicsExporter.ExportSVG(m_con.Canvas, sfd.FileName);
+                    return;
+                }
+
+                // Save Other format.
                 Image image = m_con.Canvas.ToImage();
                 ImageFormat format = GetImageFormat(sfd.FileName);
-                // Save window settings.
                 image.Save(sfd.FileName, format);
             }
         }
