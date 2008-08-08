@@ -362,6 +362,24 @@ namespace Ecell
             return newKey.Replace("//", "/");
         }
 
+        public static string GetNewProjectName()
+        {
+            string baseDir = Util.GetBaseDir();
+            string preName = "project_";
+            int i = 0;
+            while (true)
+            {
+                string prjName = preName + i;
+                string prjPath = Path.Combine(baseDir, prjName);
+                if (!Directory.Exists(prjPath) &&
+                    !File.Exists(prjPath))
+                    return prjName;
+
+                i++;
+            }
+            return "";
+        }
+
         public static void ParseEntityKey(string str, out string systemPath, out string localID)
         {
             int idx = str.LastIndexOf(Constants.delimiterColon);

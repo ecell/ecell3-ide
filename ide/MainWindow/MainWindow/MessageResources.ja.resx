@@ -145,7 +145,7 @@
     <value>ウィンドウ設定を保存できません。</value>
   </data>
   <data name="ExpModelMes" xml:space="preserve">
-    <value>プロジェクトルートディレクトリを設定してください。</value>
+    <value>プロジェクトルートフォルダを設定してください。ここに各プロジェクトが保存されます。</value>
   </data>
   <data name="ExportModelDialog" xml:space="preserve">
     <value>モデルのエクスポート</value>
@@ -190,7 +190,7 @@
     <value>シミュレーション結果</value>
   </data>
   <data name="NameWorkDir" xml:space="preserve">
-    <value>プロジェクトルートディレクトリ</value>
+    <value>プロジェクトルートフォルダ</value>
   </data>
   <data name="ProjectWizardCreate" xml:space="preserve">
     <value>作成</value>

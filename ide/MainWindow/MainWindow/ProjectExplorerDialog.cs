@@ -476,9 +476,9 @@ namespace Ecell.IDE.MainWindow
             if (newPrjDialog.ShowDialog() != DialogResult.OK)
                 return;
 
-            string name = newPrjDialog.textName.Text;
-            string model = newPrjDialog.textComment.Text;
-            string comment = newPrjDialog.textModelName.Text;
+            string name = newPrjDialog.ProjectName;
+            string model = newPrjDialog.Comment;
+            string comment = newPrjDialog.ProjectName;
 
             Project project = new Project(name, comment, DateTime.Now.ToString());
         }

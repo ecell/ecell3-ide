@@ -42,6 +42,16 @@ namespace Ecell.IDE.MainWindow
     /// </summary>
     public partial class NewProjectDialog : Form
     {
+        public string ProjectName
+        {
+            get { return textName.Text; }
+        }
+
+        public string Comment
+        {
+            get { return textComment.Text; }
+        }
+
         /// <summary>
         /// Get the list of dm directory.
         /// </summary>
@@ -68,6 +78,8 @@ namespace Ecell.IDE.MainWindow
         public NewProjectDialog()
         {
             InitializeComponent();
+            string prjName = Util.GetNewProjectName();
+            textName.Text = prjName;
             FormClosing += new FormClosingEventHandler(NewProjectDialog_FormClosing);
         }
 
@@ -162,7 +174,7 @@ namespace Ecell.IDE.MainWindow
 
         private bool ValidateModelName()
         {
-            string modelName = textModelName.Text;
+            string modelName = textName.Text;
             if (String.IsNullOrEmpty(modelName))
             {
                 Util.ShowWarningDialog(String.Format(MessageResources.ErrNoSet,

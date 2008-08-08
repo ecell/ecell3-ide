@@ -351,7 +351,7 @@
     <value>プラグイン(&amp;P)...</value>
   </data>
   <data name="modelEditorToolStripMenuItem.Text" xml:space="preserve">
-    <value>プロジェクトルートディレクトリ(&amp;P)...</value>
+    <value>プロジェクトルートフォルダ(&amp;P)...</value>
   </data>
   <data name="showWindowToolStripMenuItem.Text" xml:space="preserve">
     <value>ウインドウ</value>

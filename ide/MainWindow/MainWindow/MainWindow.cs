@@ -932,7 +932,7 @@ namespace Ecell.IDE.MainWindow
             if (type == ProjectStatus.Loaded)
             {
                 string projectID = m_env.DataManager.CurrentProjectID;
-                this.Text = m_title + " (" + projectID + ")";
+                this.Text = projectID + " - " + m_title;
                 string filename = m_env.DataManager.CurrentProject.FilePath;
                 CheckAndReplaceRecentProject(projectID, filename);
                 ResetRecentProjectMenu();                
@@ -1124,7 +1124,7 @@ namespace Ecell.IDE.MainWindow
             {
                 if (npd.ShowDialog() != DialogResult.OK)
                     return;
-                m_env.DataManager.CreateNewProject(npd.textName.Text, npd.textModelName.Text, npd.textComment.Text, npd.DMList);
+                m_env.DataManager.CreateNewProject(npd.ProjectName, npd.ProjectName, npd.Comment, npd.DMList);
             }
         }
 

@@ -45,6 +45,7 @@ namespace Ecell.IDE.MainWindow
             this.newProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projectWizardMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.recentProejctToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -86,7 +87,6 @@ namespace Ecell.IDE.MainWindow
             this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
-            this.recentProejctToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
@@ -220,6 +220,11 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this.openProjectToolStripMenuItem, "openProjectToolStripMenuItem");
             this.openProjectToolStripMenuItem.Tag = "3";
             this.openProjectToolStripMenuItem.Click += new System.EventHandler(this.LoadProjectMenuClick);
+            // 
+            // recentProejctToolStripMenuItem
+            // 
+            this.recentProejctToolStripMenuItem.Name = "recentProejctToolStripMenuItem";
+            resources.ApplyResources(this.recentProejctToolStripMenuItem, "recentProejctToolStripMenuItem");
             // 
             // saveProjectToolStripMenuItem
             // 
@@ -481,11 +486,6 @@ namespace Ecell.IDE.MainWindow
             // 
             resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             this.openScriptDialog.RestoreDirectory = true;
-            // 
-            // recentProejctToolStripMenuItem
-            // 
-            this.recentProejctToolStripMenuItem.Name = "recentProejctToolStripMenuItem";
-            resources.ApplyResources(this.recentProejctToolStripMenuItem, "recentProejctToolStripMenuItem");
             // 
             // MainWindow
             // 

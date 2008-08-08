@@ -61,8 +61,6 @@ namespace Ecell.IDE.MainWindow
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textName = new System.Windows.Forms.TextBox();
-            this.textModelName = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.textComment = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.CPAddButton = new System.Windows.Forms.Button();
@@ -87,17 +85,6 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this.textName, "textName");
             this.textName.Name = "textName";
             this.textName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
-            // 
-            // textModelName
-            // 
-            resources.ApplyResources(this.textModelName, "textModelName");
-            this.textModelName.Name = "textModelName";
-            this.textModelName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
             // 
             // textComment
             // 
@@ -159,9 +146,7 @@ namespace Ecell.IDE.MainWindow
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textComment);
-            this.Controls.Add(this.textModelName);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.textName);
             this.Name = "NewProjectDialog";
             this.Shown += new System.EventHandler(this.NewProjectDialogShown);
@@ -174,19 +159,6 @@ namespace Ecell.IDE.MainWindow
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        /// <summary>
-        /// TextBox to set project id.
-        /// </summary>
-        public System.Windows.Forms.TextBox textName;
-        /// <summary>
-        /// TextBox to set default model of project.
-        /// </summary>
-        public System.Windows.Forms.TextBox textComment;
-        /// <summary>
-        /// TextBox to set the comment of project.
-        /// </summary>
-        public System.Windows.Forms.TextBox textModelName;
         /// <summary>
         /// Button to create the project by using input properties.
         /// </summary>
@@ -199,5 +171,7 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.Button CPAddButton;
         private System.Windows.Forms.Button CPRemoveButton;
         private System.Windows.Forms.ListBox CPListBox;
+        private System.Windows.Forms.TextBox textName;
+        private System.Windows.Forms.TextBox textComment;
     }
 }

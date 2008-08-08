@@ -142,7 +142,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Please set the project root directory. に類似しているローカライズされた文字列を検索します。
+        ///   Please set the project root folder. Project is saved in this folder. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ExpModelMes {
             get {
@@ -277,7 +277,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   The project root directory に類似しているローカライズされた文字列を検索します。
+        ///   The project root folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameWorkDir {
             get {
