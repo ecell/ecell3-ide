@@ -148,11 +148,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         #endregion
 
-            #region Constructor
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            public LayerView(PathwayControl control)
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public LayerView(PathwayControl control)
         {
             base.m_isSavable = true;
             this.m_con = control;
@@ -188,6 +188,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LayerView));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel = new System.Windows.Forms.Panel();
             this.m_dgv = new System.Windows.Forms.DataGridView();
@@ -195,22 +196,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).BeginInit();
             this.SuspendLayout();
             // 
-            // groupBox
+            // panel
             // 
+            this.panel.AccessibleDescription = null;
+            this.panel.AccessibleName = null;
+            resources.ApplyResources(this.panel, "panel");
+            this.panel.BackgroundImage = null;
             this.panel.Controls.Add(this.m_dgv);
-            this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel.Location = new System.Drawing.Point(0, 0);
+            this.panel.Font = null;
             this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(281, 243);
-            this.panel.TabIndex = 1;
-            this.panel.TabStop = false;
             // 
             // m_dgv
             // 
+            this.m_dgv.AccessibleDescription = null;
+            this.m_dgv.AccessibleName = null;
             this.m_dgv.AllowUserToAddRows = false;
             this.m_dgv.AllowUserToDeleteRows = false;
             this.m_dgv.AllowUserToResizeRows = false;
+            resources.ApplyResources(this.m_dgv, "m_dgv");
             this.m_dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.m_dgv.BackgroundImage = null;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -220,15 +225,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.m_dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.m_dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.m_dgv.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_dgv.Location = new System.Drawing.Point(3, 15);
+            this.m_dgv.Font = null;
             this.m_dgv.MultiSelect = false;
             this.m_dgv.Name = "m_dgv";
             this.m_dgv.RowHeadersVisible = false;
             this.m_dgv.RowTemplate.Height = 21;
             this.m_dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.m_dgv.Size = new System.Drawing.Size(275, 225);
-            this.m_dgv.TabIndex = 0;
             this.m_dgv.MouseDown += new System.Windows.Forms.MouseEventHandler(this.m_dgv_MouseDown);
             this.m_dgv.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_dgv_CellMouseDown);
             this.m_dgv.CurrentCellDirtyStateChanged += new System.EventHandler(this.m_dgv_CurrentCellDirtyStateChanged);
@@ -237,12 +239,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             // 
             // LayerView
             // 
-            this.ClientSize = new System.Drawing.Size(281, 243);
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
+            resources.ApplyResources(this, "$this");
+            this.BackgroundImage = null;
             this.Controls.Add(this.panel);
+            this.Font = null;
+            this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_LayerView;
             this.Name = "LayerView";
             this.TabText = this.Name;
             this.Text = this.Name;
-            this.Icon = PathwayResource.Icon_LayerView;
+            this.ToolTipText = null;
             this.panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).EndInit();
             this.ResumeLayout(false);
@@ -320,8 +327,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             if (!m_dirtyEventProcessed)
             {
                 CanvasControl canvas = m_con.Canvas;
-                bool show = !(bool)((DataGridView)sender).CurrentRow.Cells["Show"].Value;
-                string layerName = (string)((DataGridView)sender).CurrentRow.Cells["Name"].Value;
+                bool show = !(bool)((DataGridView)sender).CurrentRow.Cells[MessageResources.LayerColumnShow].Value;
+                string layerName = (string)((DataGridView)sender).CurrentRow.Cells[MessageResources.LayerColumnName].Value;
 
                 canvas.ChangeLayerVisibility(layerName, show);
                 m_dirtyEventProcessed = true;
@@ -341,13 +348,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e">DataGridViewBindingComplete.</param>
         private void dgv_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            if (((DataGridView)sender).Columns.Contains("Show") && ((DataGridView)sender).Visible)
+            if (((DataGridView)sender).Columns.Contains(MessageResources.LayerColumnShow) && ((DataGridView)sender).Visible)
             {
-                ((DataGridView)sender).Columns["Show"].Width = LAYER_SHOWCOLUMN_WIDTH;
-                ((DataGridView)sender).Columns["Show"].Resizable = DataGridViewTriState.False;
-                ((DataGridView)sender).Columns["Show"].Frozen = true;
-                ((DataGridView)sender).Columns["Name"].SortMode = DataGridViewColumnSortMode.Automatic;
-                ((DataGridView)sender).Columns["Name"].ReadOnly = true;
+                ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Width = LAYER_SHOWCOLUMN_WIDTH;
+                ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Resizable = DataGridViewTriState.False;
+                ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Frozen = true;
+                ((DataGridView)sender).Columns[MessageResources.LayerColumnName].SortMode = DataGridViewColumnSortMode.Automatic;
+                ((DataGridView)sender).Columns[MessageResources.LayerColumnName].ReadOnly = true;
             }
         }
 
@@ -359,13 +366,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e">DataGridViewBindingComplete.</param>
         private void m_dgv_VisibleChanged(object sender, EventArgs e)
         {
-            if (((DataGridView)sender).Columns.Contains("Show") && ((DataGridView)sender).Visible)
+            if (((DataGridView)sender).Columns.Contains(MessageResources.LayerColumnShow) && ((DataGridView)sender).Visible)
             {
-                ((DataGridView)sender).Columns["Show"].Width = LAYER_SHOWCOLUMN_WIDTH;
-                ((DataGridView)sender).Columns["Show"].Resizable = DataGridViewTriState.False;
-                ((DataGridView)sender).Columns["Show"].Frozen = true;
-                ((DataGridView)sender).Columns["Name"].SortMode = DataGridViewColumnSortMode.Automatic;
-                ((DataGridView)sender).Columns["Name"].ReadOnly = true;
+                ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Width = LAYER_SHOWCOLUMN_WIDTH;
+                ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Resizable = DataGridViewTriState.False;
+                ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Frozen = true;
+                ((DataGridView)sender).Columns[MessageResources.LayerColumnName].SortMode = DataGridViewColumnSortMode.Automatic;
+                ((DataGridView)sender).Columns[MessageResources.LayerColumnName].ReadOnly = true;
             }
         }
 

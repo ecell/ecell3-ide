@@ -154,10 +154,10 @@
     <value>レイアウト情報の保存に失敗しました。</value>
   </data>
   <data name="LayerMenuCreate" xml:space="preserve">
-    <value>レイヤーの作成</value>
+    <value>新規作成</value>
   </data>
   <data name="LayerMenuDelete" xml:space="preserve">
-    <value>レイヤーの削除</value>
+    <value>削除</value>
   </data>
   <data name="LayerDialogMessage" xml:space="preserve">
     <value>新規レイヤー名を入力してください。</value>
@@ -178,7 +178,7 @@
     <value>ビューモード</value>
   </data>
   <data name="LayerMenuSelectNodes" xml:space="preserve">
-    <value>レイヤー上のノードを選択する。</value>
+    <value>レイヤー上の項目を選択する。</value>
   </data>
   <data name="CanvasMenuChangeLayer" xml:space="preserve">
     <value>レイヤーを変更</value>
@@ -376,12 +376,18 @@
     <value>形状の設定</value>
   </data>
   <data name="DialogTextPathwaySetting" xml:space="preserve">
-    <value>パスウエイの設定</value>
+    <value>ダイアグラムの設定</value>
   </data>
   <data name="MergeLayerDialogMessage" xml:space="preserve">
     <value>結合先のレイヤーを選択してください。</value>
   </data>
   <data name="MergeLayerDialogText" xml:space="preserve">
     <value>レイヤーの結合</value>
+  </data>
+  <data name="LayerColumnName" xml:space="preserve">
+    <value>名前</value>
+  </data>
+  <data name="LayerColumnShow" xml:space="preserve">
+    <value>表示</value>
   </data>
 </root>

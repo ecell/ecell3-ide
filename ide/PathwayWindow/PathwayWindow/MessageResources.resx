@@ -384,4 +384,10 @@
   <data name="MergeLayerDialogText" xml:space="preserve">
     <value>Merge layer</value>
   </data>
+  <data name="LayerColumnName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="LayerColumnShow" xml:space="preserve">
+    <value>Show</value>
+  </data>
 </root>

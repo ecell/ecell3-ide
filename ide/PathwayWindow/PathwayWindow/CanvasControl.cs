@@ -85,16 +85,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private const float MAX_SCALE = 5;
 
         /// <summary>
-        /// Name of DataColumn for setting layer visibilities (check box)
-        /// </summary>
-        private const string COLUMN_NAME4SHOW = "Show";
-
-        /// <summary>
-        /// Name of DataColumn for indicating layer names (string)
-        /// </summary>
-        private const string COLUMN_NAME4NAME = "Name";
-
-        /// <summary>
         /// Default LayerID
         /// </summary>
         private const string DEFAULT_LAYERID = "Layer0";
@@ -406,10 +396,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Preparing DataTable
             m_table = new DataTable(modelID);
-            DataColumn dc = new DataColumn(COLUMN_NAME4SHOW);
+            DataColumn dc = new DataColumn(MessageResources.LayerColumnShow);
             dc.DataType = typeof(bool);
             m_table.Columns.Add(dc);
-            DataColumn dc2 = new DataColumn(COLUMN_NAME4NAME);
+            DataColumn dc2 = new DataColumn(MessageResources.LayerColumnName);
             dc2.DataType = typeof(string);
             m_table.Columns.Add(dc2);
             // Preparing layer list
@@ -826,8 +816,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     continue;
 
                 DataRow dr = m_table.NewRow();
-                dr[COLUMN_NAME4SHOW] = layer.Visible;
-                dr[COLUMN_NAME4NAME] = layer.Name;
+                dr[MessageResources.LayerColumnShow] = layer.Visible;
+                dr[MessageResources.LayerColumnName] = layer.Name;
                 m_table.Rows.Add(dr);
             }
         }

@@ -483,6 +483,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             m_varKey = er.Key;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="processKey"></param>
+        /// <param name="varKey"></param>
+        /// <param name="dir"></param>
         public EdgeInfo(string processKey, string varKey, EdgeDirection dir)
         {
             m_proKey = processKey;
