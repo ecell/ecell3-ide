@@ -67,7 +67,11 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <summary>
         /// Color of header.
         /// </summary>
-        private Color m_headerColor = Color.Lavender;
+        private Color m_headerColor = SystemColors.ButtonFace;
+        private Color m_systemColor = Color.LightBlue;
+        private Color m_processColor = Color.LightCyan;
+        private Color m_variableColor = Color.LightGreen;
+        private int m_headerHeight = 1;
         /// <summary>
         /// Timer for executing redraw event at each 0.5 minutes.
         /// </summary>
@@ -428,6 +432,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         {
             int len = m_systemProp.Length;
             DataGridViewRow rs = new DataGridViewRow();
+            rs.DividerHeight = m_headerHeight;
             for (int i = 0; i < s_columnNum; i++)
             {
                 DataGridViewCell cs1 = new DataGridViewTextBoxCell();
@@ -449,6 +454,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         {
             int len = m_variableProp.Length;
             DataGridViewRow rs = new DataGridViewRow();
+            rs.DividerHeight = m_headerHeight;
             for (int i = 0; i < s_columnNum; i++)
             {
                 DataGridViewCell cs1 = new DataGridViewTextBoxCell();
@@ -470,9 +476,11 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         {
             int len = m_processProp.Length;
             DataGridViewRow rs = new DataGridViewRow();
+            rs.DividerHeight = m_headerHeight;
             for (int i = 0; i < s_columnNum; i++)
             {
                 DataGridViewCell cs1 = new DataGridViewTextBoxCell();
+                
                 cs1.Style.BackColor = m_headerColor;
                 if (i < len)
                     cs1.Value = m_processProp[i];
@@ -496,20 +504,12 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             for (int i = 0; i < len; i++)
             {
                 string data = GetData(m_systemProp[i], obj);
-                DataGridViewCell c;
-                if (m_variableProp[i].Equals(s_indexType))
-                {
-                    c = new DataGridViewImageCell();
-                    c.Value = m_icons.Images[obj.Type];
-                    c.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                }
-                else
-                {
-                    c = new DataGridViewTextBoxCell();
-                    c.Value = data;
-                }
-                //DataGridViewCell c = new DataGridViewTextBoxCell();
-                //c.Value = data;
+                DataGridViewCell c = new DataGridViewTextBoxCell();
+                bool isNum = IsNumeric(m_systemProp[i], obj);
+                if (isNum)
+                    c.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+                c.Value = data;
+                c.Style.BackColor = m_systemColor;
                 rs.Cells.Add(c);
                 c.ReadOnly = true;
                 foreach (string name in m_notEditProp)
@@ -554,20 +554,12 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             for (int i = 0; i < len; i++)
             {
                 string data = GetData(m_variableProp[i], obj);
-                DataGridViewCell c;
-                if (m_variableProp[i].Equals(s_indexType))
-                {
-                    c = new DataGridViewImageCell();
-                    c.Value = m_icons.Images[obj.Type];
-                    c.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                }
-                else
-                {
-                    c = new DataGridViewTextBoxCell();
-                    c.Value = data;
-                }
-                //DataGridViewCell c = new DataGridViewTextBoxCell();
-                //c.Value = data;
+                DataGridViewCell c = new DataGridViewTextBoxCell();
+                bool isNum = IsNumeric(m_variableProp[i], obj);
+                if (isNum)
+                    c.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+                c.Value = data;
+                c.Style.BackColor = m_variableColor;
                 rs.Cells.Add(c);
                 c.ReadOnly = true;
                 foreach (string name in m_notEditProp)
@@ -609,23 +601,16 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         {
             int len = m_processProp.Length;
             DataGridViewRow rs = new DataGridViewRow();
+           
             for (int i = 0; i < len; i++)
             {
                 string data = GetData(m_processProp[i], obj);
-                DataGridViewCell c;
-                if (m_processProp[i].Equals(s_indexType))
-                {
-                    c = new DataGridViewImageCell();
-                    c.Value = m_icons.Images[obj.Type];
-                    c.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                }
-                else
-                {
-                    c = new DataGridViewTextBoxCell();
-                    c.Value = data;
-                }
-                //DataGridViewCell c = new DataGridViewTextBoxCell();
-                //c.Value = data;
+                DataGridViewCell c = new DataGridViewTextBoxCell();
+                bool isNum = IsNumeric(m_processProp[i], obj);
+                if (isNum)
+                    c.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+                c.Value = data;
+                c.Style.BackColor = m_processColor;
                 rs.Cells.Add(c);
                 c.ReadOnly = true;
                 foreach (string name in m_notEditProp)
@@ -742,6 +727,49 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             }
 
             return "";
+        }
+
+        public bool IsNumeric(string name, EcellObject obj)
+        {
+            if (name.Equals(s_indexType))
+            {
+                return false;
+            }
+            else if (name.Equals(s_indexID))
+            {
+                return false;
+            }
+            else if (name.Equals(s_indexModel))
+            {
+                return false;
+            }
+            else if (name.Equals(s_indexClass))
+            {
+                return false;
+            }
+            else if (name.Equals(s_indexName))
+            {
+                return false;
+            }
+            else if (name.Equals(s_indexStepper))
+            {
+                return false;
+            }
+            else
+            {
+                foreach (EcellData d in obj.Value)
+                {
+                    if (name.Equals(d.Name))
+                    {
+                        if (d.Value.IsDouble || d.Value.IsInt)
+                            return true;
+                        else
+                            return false;
+                    }
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
