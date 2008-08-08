@@ -486,6 +486,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         /// <summary>
         ///   Please input the new layer name. に類似しているローカライズされた文字列を検索します。
         /// </summary>
+        internal static string LayerDialogChange {
+            get {
+                return ResourceManager.GetString("LayerDialogChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Please input the new layer name. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
         internal static string LayerDialogMessage {
             get {
                 return ResourceManager.GetString("LayerDialogMessage", resourceCulture);

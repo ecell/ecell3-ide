@@ -390,4 +390,7 @@
   <data name="LayerColumnShow" xml:space="preserve">
     <value>表示</value>
   </data>
+  <data name="LayerDialogChange" xml:space="preserve">
+    <value>変更後のレイヤー名を入力してください。</value>
+  </data>
 </root>

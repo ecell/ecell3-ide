@@ -38,22 +38,36 @@ using System.Windows.Forms;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class SelectBoxDialog : PathwayDialog
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        public ComboBox ComboBox
+        {
+            get { return this.comboBox; }
+        }
+
         #region Constructor
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="message"></param>
         /// <param name="title"></param>
+        /// <param name="selected"></param>
         /// <param name="options"></param>
-        public SelectBoxDialog(string message, string title, List<string> options)
+        public SelectBoxDialog(string message, string title, string selected, List<string> options)
         {
             InitializeComponent();
-            if (message != null)
+            if (!string.IsNullOrEmpty(message))
                 this.message.Text = message;
-            if (title != null)
+            if (!string.IsNullOrEmpty(title))
                 this.Text = title;
+            if (!string.IsNullOrEmpty(selected))
+                this.comboBox.Text = selected;
             if (options != null)
                 this.comboBox.Items.AddRange(options.ToArray());
         }
@@ -66,13 +80,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         /// </summary>
         /// <param name="message"></param>
         /// <param name="title"></param>
+        /// <param name="selected"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        public static string Show(string message, string title, List<string> options)
+        public static string Show(string message, string title, string selected, List<string> options)
         {
-            SelectBoxDialog dialog = new SelectBoxDialog(message, title, options);
+            SelectBoxDialog dialog = new SelectBoxDialog(message, title, selected, options);
             using (dialog)
             {
+                dialog.ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return null;
                 return dialog.comboBox.Text;

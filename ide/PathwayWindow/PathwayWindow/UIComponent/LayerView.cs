@@ -439,7 +439,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             CanvasControl canvas = m_con.Canvas;
             string oldName = m_selectedLayer;
-            string newName = InputBoxDialog.Show(MessageResources.LayerDialogMessage, MessageResources.LayerDialogTitle, oldName);
+            string newName = InputBoxDialog.Show(MessageResources.LayerDialogChange, MessageResources.LayerDialogTitle, oldName);
             if (newName == null || newName.Equals(""))
                 return;
             if (canvas.Layers.ContainsKey(newName))
@@ -460,7 +460,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             CanvasControl canvas = m_con.Canvas;
             List<string> list = canvas.GetLayerNameList();
-            string newName = SelectBoxDialog.Show(MessageResources.MergeLayerDialogMessage, MessageResources.MergeLayerDialogText, list);
+            string newName = SelectBoxDialog.Show(MessageResources.MergeLayerDialogMessage, MessageResources.MergeLayerDialogText, m_selectedLayer, list); 
             if (newName == null || newName.Equals(""))
                 return;
             Debug.Assert(!canvas.Layers.ContainsKey(newName));

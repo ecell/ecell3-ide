@@ -390,4 +390,7 @@
   <data name="LayerColumnShow" xml:space="preserve">
     <value>Show</value>
   </data>
+  <data name="LayerDialogChange" xml:space="preserve">
+    <value>Please input the new layer name.</value>
+  </data>
 </root>

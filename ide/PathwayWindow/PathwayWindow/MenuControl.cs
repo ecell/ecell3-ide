@@ -1179,13 +1179,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             ToolStripMenuItem menu = (ToolStripMenuItem)sender;
 
             // Get new layer name.
-            string name;
+            PPathwayObject node = (PPathwayObject)canvas.FocusNode;
+            string name = node.EcellObject.LayerID;
             if (menu.Text.Equals(MessageResources.LayerMenuCreate))
             {
                 // Select Layer
                 List<string> layerList = canvas.GetLayerNameList();
                 string title = MessageResources.LayerMenuCreate;
-                name = SelectBoxDialog.Show(title, title, layerList);
+                name = SelectBoxDialog.Show(title, title, name, layerList);
                 if (name == null || name.Equals(""))
                     return;
                 if (!canvas.Layers.ContainsKey(name))
