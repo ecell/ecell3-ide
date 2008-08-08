@@ -47,6 +47,7 @@
             // 
             this.versionListView.AllowUserToAddRows = false;
             this.versionListView.AllowUserToDeleteRows = false;
+            this.versionListView.AllowUserToResizeRows = false;
             resources.ApplyResources(this.versionListView, "versionListView");
             this.versionListView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.versionListView.BackgroundColor = System.Drawing.SystemColors.Window;

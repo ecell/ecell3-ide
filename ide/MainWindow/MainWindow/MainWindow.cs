@@ -1163,15 +1163,16 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void SaveProjectMenuClick(object sender, EventArgs e)
         {
-            List<SaveProjectDialog.ProjectItem> items = new List<SaveProjectDialog.ProjectItem>();
+            List<string> modelList = new List<string>();
+            List<string> paramList = new List<string>();
+            List<string> logList = new List<string>();
             {
                 IEnumerable<string> list = m_env.DataManager.GetSavableModel();
                 if (list != null)
                 {
                     foreach (string s in list)
                     {
-                        items.Add(new SaveProjectDialog.ProjectItem(
-                            SaveProjectDialog.ProjectItemKind.Model, s));
+                        modelList.Add(s);
                     }
                 }
             }
@@ -1181,8 +1182,7 @@ namespace Ecell.IDE.MainWindow
                 {
                     foreach (string s in list)
                     {
-                        items.Add(new SaveProjectDialog.ProjectItem(
-                            SaveProjectDialog.ProjectItemKind.SimulationParameter, s));
+                        paramList.Add(s);
                     }
                 }
             }
@@ -1190,40 +1190,25 @@ namespace Ecell.IDE.MainWindow
                 String res = m_env.DataManager.GetSavableSimulationResult();
                 if (res != null)
                 {
-                   items.Add(new SaveProjectDialog.ProjectItem(
-                        SaveProjectDialog.ProjectItemKind.SimulationResult, res));
+                    logList.Add(res);
                 }
             }
 
-            SaveProjectDialog svd = new SaveProjectDialog(items);
-            using (svd)
+            foreach (String name in modelList)
             {
-                if (svd.ShowDialog() != DialogResult.OK)
-                    return;
-                try
-                {
-                    foreach (SaveProjectDialog.ProjectItem pi in svd.CheckedItems)
-                    {
-                        switch (pi.Kind)
-                        {
-                            case SaveProjectDialog.ProjectItemKind.Model:
-                                m_env.DataManager.SaveModel(pi.Name);
-                                m_editCount = 0;
-                                break;
-                            case SaveProjectDialog.ProjectItemKind.SimulationParameter:
-                                m_env.DataManager.SaveSimulationParameter(pi.Name);
-                                break;
-                            case SaveProjectDialog.ProjectItemKind.SimulationResult:
-                                m_env.DataManager.SaveSimulationResult();
-                                break;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine(e);
-                    Util.ShowErrorDialog(ex.Message);
-                }
+                m_env.DataManager.SaveModel(name);
+                m_editCount = 0;
+            }
+            foreach (string name in paramList)
+            {
+                m_env.DataManager.SaveSimulationParameter(name);
+            }
+            foreach (string name in logList)
+            {
+                m_env.DataManager.SaveSimulationResult();
+                SaveSimulationResultDelegate dlg = m_env.PluginManager.GetDelegate("SaveSimulationResult") as SaveSimulationResultDelegate;
+                if (dlg != null)
+                    dlg(logList);
             }
         }
 
@@ -1317,38 +1302,27 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void ExportModelMenuClick(object sender, EventArgs e)
         {
-            List<SaveProjectDialog.ProjectItem> items = new List<SaveProjectDialog.ProjectItem>();
+            //            List<SaveProjectDialog.ProjectItem> items = new List<SaveProjectDialog.ProjectItem>();
+            List<string> items = new List<string>();
             {
                 foreach (string s in m_env.DataManager.GetModelList())
-                    items.Add(new SaveProjectDialog.ProjectItem(
-                        SaveProjectDialog.ProjectItemKind.Model,
-                        s));
+                    items.Add(s);
             }
-            SaveProjectDialog spd = new SaveProjectDialog(items);
-            spd.Text = MessageResources.ExportModelDialog;
-            using (spd)
+
+
+            try
             {
-                if (spd.ShowDialog() != DialogResult.OK)
-                    return;
-                List<string> list = new List<string>();
-                foreach (SaveProjectDialog.ProjectItem i in spd.CheckedItems)
+                saveFileDialog.RestoreDirectory = true;
+                saveFileDialog.Filter = Constants.FilterEmlFile;
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    list.Add(i.Name);
+                    m_env.DataManager.ExportModel(items, saveFileDialog.FileName);
                 }
-                try
-                {
-                    saveFileDialog.RestoreDirectory = true;
-                    saveFileDialog.Filter = Constants.FilterEmlFile;
-                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        m_env.DataManager.ExportModel(list, saveFileDialog.FileName);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine(ex);
-                    Util.ShowErrorDialog(ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                Util.ShowErrorDialog(ex.Message);
             }
         }
 
