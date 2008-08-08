@@ -38,6 +38,7 @@ using System.Threading;
 using System.Globalization;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Collections;
 
 namespace Ecell.IDE.MainWindow
 {
@@ -64,7 +65,7 @@ namespace Ecell.IDE.MainWindow
         private ToolStripButton ButtonRefresh;
 
         private ApplicationEnvironment m_env;
-        private Dictionary<string, string> m_recentFiles;
+        private List<KeyValuePair<string, string>> m_recentFiles;
         #endregion
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace Ecell.IDE.MainWindow
             get { return m_env; }
         }
 
-        public Dictionary<string, string> RecentFiles
+        public List<KeyValuePair<string, string>> RecentFiles
         {
             get { return m_recentFiles; }
         }
@@ -84,7 +85,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Constructor
         /// </summary>
-        public EcellWebBrowser(Dictionary<string, string> recentFiles)
+        public EcellWebBrowser(List<KeyValuePair<string, string>> recentFiles)
         {
             m_env = ApplicationEnvironment.GetInstance();
             m_recentFiles = recentFiles;
@@ -264,7 +265,7 @@ namespace Ecell.IDE.MainWindow
             return null;
         }
 
-        private void SetRecentFiles(Dictionary<string, string> recentDics)
+        private void SetRecentFiles(List<KeyValuePair<string, string>> recentDics)
         {
                 int i = 0;
                 foreach (KeyValuePair<string, string> project in recentDics)
@@ -557,11 +558,18 @@ namespace Ecell.IDE.MainWindow
             /// <summary>
             /// LoadProject
             /// </summary>
-            /// <param name="projectID"></param>
             /// <param name="filename"></param>
             public void LoadProject(string filename)
             {
-                m_browser.Environment.DataManager.LoadProject(filename);
+                try
+                {
+                    m_browser.Environment.DataManager.LoadProject(filename);
+                }
+                catch (Exception e)
+                {
+                    Util.ShowErrorDialog(e.Message);
+                }
+
             }
 
             /// <summary>

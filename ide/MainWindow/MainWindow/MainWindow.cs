@@ -119,7 +119,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// RecentProjects
         /// </summary>
-        private Dictionary<string, string> m_recentProjects = new Dictionary<string, string>();
+        private List<KeyValuePair<string, string>> m_recentProjects = new List<KeyValuePair<string, string>>();
         private GridJobStatusDialog m_statusDialog;
         private string m_title;
 
@@ -129,7 +129,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// RecentProjects
         /// </summary>
-        public Dictionary<string, string> RecentProjects
+        public List<KeyValuePair<string, string>> RecentProjects
         {
             get { return m_recentProjects; }
             set { m_recentProjects = value; }
@@ -347,16 +347,16 @@ namespace Ecell.IDE.MainWindow
                     string file = GetStringChild(node, "File");
                     if (name == null || file == null)
                         continue;
-                    m_recentProjects.Add(name, file);
+                    m_recentProjects.Add(new KeyValuePair<string, string>(name, file));
                 }
-                ResetRecentProject();
+                ResetRecentProjectMenu();
             }
             catch (Exception)
             {
             }
         }
 
-        private void ResetRecentProject()
+        private void ResetRecentProjectMenu()
         {
             recentProejctToolStripMenuItem.DropDownItems.Clear();
             foreach (KeyValuePair<string, string> project in m_recentProjects)
@@ -377,7 +377,16 @@ namespace Ecell.IDE.MainWindow
         void RecentProject_Click(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            m_env.DataManager.LoadProject((string)item.Tag);
+            string filename = (string)item.Tag;
+            try
+            {
+                m_env.DataManager.LoadProject((string)filename);
+            }
+            catch(Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
+            }
+                
         }
         /// <summary>
         /// GetNodeByKey
@@ -925,13 +934,24 @@ namespace Ecell.IDE.MainWindow
                 string projectID = m_env.DataManager.CurrentProjectID;
                 this.Text = m_title + " (" + projectID + ")";
                 string filename = m_env.DataManager.CurrentProject.FilePath;
-                if (m_recentProjects.ContainsKey(projectID))
-                    m_recentProjects.Remove(projectID);
-                m_recentProjects.Add(projectID, filename);
-                ResetRecentProject();                
+                CheckAndReplaceRecentProject(projectID, filename);
+                ResetRecentProjectMenu();                
             }
             m_statusDialog.ChangeStatus(type);
             m_type = type;
+        }
+
+        private void CheckAndReplaceRecentProject(string projectID, string filename)
+        {
+            KeyValuePair<string, string> oldProject = new KeyValuePair<string,string>();
+            foreach (KeyValuePair<string, string> project in m_recentProjects)
+            {
+                if (project.Key.Equals(projectID))
+                    oldProject = project;
+            }
+            if (oldProject.Key != null)
+                m_recentProjects.Remove(oldProject);
+            m_recentProjects.Add(new KeyValuePair<string, string>(projectID, filename));
         }
 
         /// <summary>
