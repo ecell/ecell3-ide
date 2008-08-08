@@ -67,6 +67,7 @@
             this.Controls.Add(this.CPCancelButton);
             this.Name = "InputParameterNameDialog";
             this.Shown += new System.EventHandler(this.ShowCreateParameterWin);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.InputParameterNameDialog_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
