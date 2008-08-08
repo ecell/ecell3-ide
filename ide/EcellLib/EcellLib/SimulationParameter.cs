@@ -119,6 +119,7 @@ namespace Ecell
                     new EcellValue(initialCondition[key]), false);
                 m_tx.WriteEndElement();
             }
+            m_tx.WriteEndElement();
         }
 
         /// <summary>

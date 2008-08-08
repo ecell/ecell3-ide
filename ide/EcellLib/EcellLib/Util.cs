@@ -599,6 +599,8 @@ namespace Ecell
         /// </summary>
         private static bool s_noDefaultPaths;
 
+        private static string s_windowSettingDir = GetRegistryValue(Constants.registryWinSetDir);
+
         /// <summary>
         /// Get the temporary directory from register.
         /// </summary>
@@ -671,7 +673,12 @@ namespace Ecell
         /// <returns>the directory path.</returns>
         public static string GetWindowSettingDir()
         {
-            return GetRegistryValue(Constants.registryWinSetDir);
+            return s_windowSettingDir;
+        }
+
+        public static void SetWindowSettingDir(string dir)
+        {
+            s_windowSettingDir = dir;
         }
 
         /// <summary>
