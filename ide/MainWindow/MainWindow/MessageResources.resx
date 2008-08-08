@@ -154,7 +154,7 @@
     <value>Create new project</value>
   </data>
   <data name="MessageWebBrowse" xml:space="preserve">
-    <value>Now connecting ...</value>
+    <value>Connectiing...</value>
   </data>
   <data name="ErrNoSelect" xml:space="preserve">
     <value>Nothing selected.</value>
@@ -214,6 +214,6 @@
     <value>Simulation result</value>
   </data>
   <data name="InfoLoadPlugin" xml:space="preserve">
-    <value>Now the plugin {0} is loading...</value>
+    <value>Loading {0}</value>
   </data>
 </root>

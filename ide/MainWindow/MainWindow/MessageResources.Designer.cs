@@ -169,7 +169,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Now the plugin {0} is loading... に類似しているローカライズされた文字列を検索します。
+        ///   Loading {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoLoadPlugin {
             get {
@@ -232,7 +232,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Now connecting ... に類似しているローカライズされた文字列を検索します。
+        ///   Connectiing... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MessageWebBrowse {
             get {

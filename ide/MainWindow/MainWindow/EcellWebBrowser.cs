@@ -337,7 +337,14 @@ namespace Ecell.IDE.MainWindow
         private void label_MouseClick(object sender, MouseEventArgs e)
         {
             ProjectLabel label = (ProjectLabel)sender;
-            m_env.DataManager.LoadProject(label.FilePath);
+            try
+            {
+                m_env.DataManager.LoadProject(label.FilePath);
+            }
+            catch (Exception e)
+            {
+                Util.ShowErrorDialog(e.Message);
+            }
         }
 
         /// <summary>
