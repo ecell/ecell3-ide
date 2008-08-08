@@ -365,8 +365,8 @@ namespace Ecell
         public static string GetNewProjectName()
         {
             string baseDir = Util.GetBaseDir();
-            string preName = "project_";
-            int i = 0;
+            string preName = "project";
+            int i = 1;
             while (true)
             {
                 string prjName = preName + i;
