@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="$this.Text" xml:space="preserve">
-    <value>感度解析設定</value>
+    <value>感受性解析設定</value>
   </data>
   <data name="abstractTextBox.Text" xml:space="preserve">
-    <value>感度解析は、特定のステップを実行したときに初期値からの変化を計測することで、パラメータの感度を計測する。感度解析としてFFCとCCCをサポートしている。</value>
+    <value>感受性解析は、特定のステップを実行したときに初期値からの変化を計測することで、パラメータの感受性を計測する。感受性解析としてFFCとCCCをサポートしている。</value>
   </data>
   <data name="cancelButton.Text" xml:space="preserve">
     <value>キャンセル</value>
@@ -130,12 +130,12 @@
     <value>実行(&amp;E)</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>ステップ幅(&amp;S)</value>
+    <value>ステップ幅(&amp;S):</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>相対的摂動(&amp;A)</value>
+    <value>相対的摂動(&amp;A):</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>絶対的摂動(&amp;R)</value>
+    <value>絶対的摂動(&amp;R):</value>
   </data>
 </root>

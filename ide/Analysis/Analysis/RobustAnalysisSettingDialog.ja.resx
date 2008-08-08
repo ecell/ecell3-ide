@@ -125,11 +125,8 @@
 評価する。パラメータの設定方法としてランダムに設定する方法と
 マトリックス状に設定する方法がある。</value>
   </data>
-  <data name="button1.Text" xml:space="preserve">
+  <data name="cancelButton.Text" xml:space="preserve">
     <value>キャンセル</value>
-  </data>
-  <data name="button3.Text" xml:space="preserve">
-    <value>実行(&amp;E)</value>
   </data>
   <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
     <value>最大値</value>
@@ -152,25 +149,49 @@
   <data name="dataGridViewTextBoxColumn9.HeaderText" xml:space="preserve">
     <value>振幅率</value>
   </data>
+  <data name="executeButton.Text" xml:space="preserve">
+    <value>実行(&amp;E)</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>解析設定</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>サンプル</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>高速フーリエ変換</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>パラメータ</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>評価パラメータ</value>
+  </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>ウインドウサイズ(&amp;W)</value>
+    <value>ウインドウサイズ(&amp;W):</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>シミュレーション時間(&amp;S)</value>
+    <value>シミュレーション時間(&amp;S):</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>最大サンプル数(&amp;U)</value>
+    <value>最大サンプル数(&amp;U):</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>サンプル生成方法(&amp;R)</value>
+    <value>サンプル生成方法(&amp;R):</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>最小頻度(&amp;N)</value>
+    <value>最小頻度(&amp;N):</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>最大頻度(&amp;X)</value>
+    <value>最大頻度(&amp;X):</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>最大入力数(&amp;I)</value>
+    <value>最大入力数(&amp;I):</value>
+  </data>
+  <data name="robustAnalysisMatrixCheckBox.Text" xml:space="preserve">
+    <value>行列</value>
+  </data>
+  <data name="robustAnalysisRandomCheckBox.Text" xml:space="preserve">
+    <value>ランダム</value>
   </data>
 </root>

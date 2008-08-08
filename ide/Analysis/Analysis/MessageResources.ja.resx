@@ -193,10 +193,10 @@
     <value>解析結果の保存...</value>
   </data>
   <data name="MenuItemSensitivityAnalysis" xml:space="preserve">
-    <value>感度解析(&amp;S)</value>
+    <value>感受性解析(&amp;S)</value>
   </data>
   <data name="MenuItemSensitivityAnalysisSetting" xml:space="preserve">
-    <value>感度解析の設定</value>
+    <value>感受性解析の設定</value>
   </data>
   <data name="MenuItemStopAnalysis" xml:space="preserve">
     <value>解析中断</value>
@@ -235,7 +235,7 @@
     <value>ロバスト解析</value>
   </data>
   <data name="NameSensAnalysis" xml:space="preserve">
-    <value>感度解析</value>
+    <value>感受性解析</value>
   </data>
   <data name="NameSimulationTime" xml:space="preserve">
     <value>シミュレーション時間</value>

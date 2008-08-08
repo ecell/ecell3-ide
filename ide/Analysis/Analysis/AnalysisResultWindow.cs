@@ -67,7 +67,6 @@ namespace Ecell.IDE.Plugins.Analysis
             PEEstimateView.ContextMenuStrip = peCntMenu;
 
             m_headerColor = Color.LightCyan;
-            this.Text = MessageResources.AnalysisResultWindow;
             this.TabText = this.Text;
 
         }

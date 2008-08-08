@@ -124,7 +124,7 @@
     <value>パラメータ推定は未知のパラメータをある評価式に従って最適なパラメータを検索し、設定する。パラメータ推定ではSimple GAを利用している。</value>
   </data>
   <data name="advancedButton.Text" xml:space="preserve">
-    <value>詳細設定...(&amp;A)</value>
+    <value>詳細設定(&amp;A)...</value>
   </data>
   <data name="closeButton.Text" xml:space="preserve">
     <value>キャンセル</value>
@@ -157,21 +157,21 @@
     <value>実行(&amp;E)</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>評価関数(&amp;E)</value>
+    <value>評価関数</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>全般</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
-    <value>パラメータ(&amp;P)</value>
+    <value>パラメータ</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>世代数(&amp;G)</value>
+    <value>世代数(&amp;G):</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>個体数(&amp;O)</value>
+    <value>個体数(&amp;O):</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>シミュレーション時間(&amp;S)</value>
+    <value>シミュレーション時間(&amp;S):</value>
   </data>
 </root>

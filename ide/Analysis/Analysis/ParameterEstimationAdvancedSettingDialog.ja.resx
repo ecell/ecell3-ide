@@ -120,6 +120,18 @@
   <data name="$this.Text" xml:space="preserve">
     <value>パラメータ推定（詳細）</value>
   </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>シンプレックス交叉</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>変異</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>初期変異率(&amp;I):</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>最大変異率(&amp;X):</value>
+  </data>
   <data name="PEAApplyButton.Text" xml:space="preserve">
     <value>OK</value>
   </data>

@@ -153,8 +153,14 @@
   <data name="groupBox1.Text" xml:space="preserve">
     <value>解析設定</value>
   </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>高速フーリエ変換</value>
+  </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>パラメータ</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>評価パラメータ</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>シミュレーション時間(&amp;S):</value>
