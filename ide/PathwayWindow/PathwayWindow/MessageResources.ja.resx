@@ -316,7 +316,7 @@
     <value>しきい値最小</value>
   </data>
   <data name="DialogTextViewMode" xml:space="preserve">
-    <value>ビューモード</value>
+    <value>表示モード</value>
   </data>
   <data name="DialogTextPropertyBrush" xml:space="preserve">
     <value>プロパティ色</value>

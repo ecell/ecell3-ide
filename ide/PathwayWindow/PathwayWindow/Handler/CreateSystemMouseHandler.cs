@@ -102,6 +102,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// </summary>
         protected Pen m_overlapPen = new Pen(Brushes.Red, 5);
 
+        bool m_isNode = false;
+
         #endregion
 
         /// <summary>
@@ -113,6 +115,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         {
         }
 
+        public override void Initialize()
+        {
+            base.Initialize();
+            if (m_con.Canvas == null)
+                return;
+            m_con.Canvas.PCanvas.Cursor = Cursors.Cross;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void Reset()
+        {
+            if (m_con.Canvas == null)
+                return;
+            m_con.Canvas.PCanvas.Cursor = Cursors.Arrow;
+        }
+
         /// <summary>
         /// Get the flag whether system accept this action.
         /// </summary>
@@ -122,8 +142,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         {
             return e.Button != MouseButtons.Right;
         }
-
-        bool m_isNode = false;
         /// <summary>
         /// Called when the mouse is down on the pathway canvas
         /// </summary>
