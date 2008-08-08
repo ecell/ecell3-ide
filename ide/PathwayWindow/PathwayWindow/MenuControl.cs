@@ -1333,9 +1333,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             if (item.CheckState == CheckState.Checked)
-                m_con.Canvas.FocusMode = true;
+                m_con.FocusMode = true;
             else
-                m_con.Canvas.FocusMode = false;
+                m_con.FocusMode = false;
         }
 
         /// <summary>

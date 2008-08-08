@@ -367,7 +367,7 @@
     <value>Export Image...</value>
   </data>
   <data name="MenuItemFocus" xml:space="preserve">
-    <value>Focus the selected object,</value>
+    <value>Auto Zoom</value>
   </data>
   <data name="MenuToolTipFocus" xml:space="preserve">
     <value>Focus the selected object.</value>

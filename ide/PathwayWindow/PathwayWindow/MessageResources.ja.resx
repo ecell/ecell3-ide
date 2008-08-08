@@ -367,7 +367,7 @@
     <value>モデルのロード中...</value>
   </data>
   <data name="MenuItemFocus" xml:space="preserve">
-    <value>フォーカス</value>
+    <value>自動ズーム</value>
   </data>
   <data name="MenuToolTipFocus" xml:space="preserve">
     <value>選択してエンティティをフォーカスする。</value>

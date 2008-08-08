@@ -619,7 +619,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Focus the selected object, に類似しているローカライズされた文字列を検索します。
+        ///   Auto Zoom に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemFocus {
             get {

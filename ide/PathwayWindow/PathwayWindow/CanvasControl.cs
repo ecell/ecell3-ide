@@ -420,6 +420,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Set ViewMode
             this.ViewMode = m_con.ViewMode;
             this.ShowingID = m_con.ShowingID;
+            this.FocusMode = m_con.FocusMode;
         }
         #endregion
 

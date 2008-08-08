@@ -132,6 +132,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Whether each node is showing it's ID or not;
         /// </summary>
         private bool m_isViewMode = false;
+
+        /// <summary>
+        /// Focus Mode
+        /// </summary>
+        private bool m_focusMode = true;
+
         #endregion
 
         #region Accessors
@@ -248,6 +254,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 {
                     m_animCon.ResetPropForSimulation();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Accessor for m_focusMode.
+        /// </summary>
+        public bool FocusMode
+        {
+            get { return m_focusMode; }
+            set 
+            {
+                m_focusMode = value;
+                if (m_canvas != null)
+                    m_canvas.FocusMode = value;
             }
         }
 
