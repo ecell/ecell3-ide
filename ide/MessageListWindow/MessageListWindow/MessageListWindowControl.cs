@@ -113,7 +113,7 @@ namespace Ecell.IDE.Plugins.MessageListWindow
 
             DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
             c3.Value = mes.Message;
-            r.Cells.Add(c3);
+            r.Cells.Add(c3);            
             r.Tag = mes;
 
             c0.ReadOnly = true;
@@ -139,6 +139,16 @@ namespace Ecell.IDE.Plugins.MessageListWindow
                 }
             }
 
+        }
+
+        private void MessageCellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (MLWMessageDridView.Rows[e.RowIndex].Tag == null) return;
+            ObjectMessageEntry mes = MLWMessageDridView.Rows[e.RowIndex].Tag as ObjectMessageEntry;
+            if (mes == null) return;
+
+            m_control.PluginManager.SelectChanged(mes.Object.ModelID,
+                mes.Object.Key, mes.Object.Type);
         }
     }
 }

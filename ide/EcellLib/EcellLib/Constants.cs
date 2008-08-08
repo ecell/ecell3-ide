@@ -688,6 +688,7 @@ namespace Ecell
         /// <summary>
         /// Index of the error message.
         /// </summary>
-        Error = 2
+        Error = 2,
+        Warning = 3
     }
 }

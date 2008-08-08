@@ -382,7 +382,7 @@
     <value>0</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>Logging Setting</value>
+    <value>Archive setting</value>
   </data>
   <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
     <value>groupBox1</value>
@@ -502,7 +502,7 @@
     <value>365, 326</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Select the save entries.</value>
+    <value>Select the archived entries.</value>
   </data>
   <data name="&gt;&gt;m_folderDialog.Name" xml:space="preserve">
     <value>m_folderDialog</value>

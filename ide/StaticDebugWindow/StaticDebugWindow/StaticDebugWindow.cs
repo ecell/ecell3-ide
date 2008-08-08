@@ -266,7 +266,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                 m_currentMessageList.Add(em);
                 String key = GetKeyFromPath(em.EntityPath);
                 EcellObject obj = DataManager.GetEcellObject(em.ModelID, key, em.Type);
-                ObjectMessageEntry oMes = new ObjectMessageEntry(MessageType.Debug, em.Message, obj);
+                ObjectMessageEntry oMes = new ObjectMessageEntry(MessageType.Warning, em.Message, obj);
                 m_messages.Add(em, oMes);
                 PluginManager.Message2(oMes);
             }

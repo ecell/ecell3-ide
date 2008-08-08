@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageListWindowControl));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.MLWMessageDridView = new System.Windows.Forms.DataGridView();
             this.MLWDateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,17 +50,29 @@
             // 
             this.MLWMessageDridView.AllowUserToAddRows = false;
             this.MLWMessageDridView.AllowUserToDeleteRows = false;
+            this.MLWMessageDridView.AllowUserToResizeRows = false;
             this.MLWMessageDridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.MLWMessageDridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             this.MLWMessageDridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.MLWMessageDridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.MLWDateColumn,
             this.MLWTypeColumn,
             this.MLWLocColumn,
             this.MLWMesColumn});
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MLWMessageDridView.DefaultCellStyle = dataGridViewCellStyle1;
             resources.ApplyResources(this.MLWMessageDridView, "MLWMessageDridView");
             this.MLWMessageDridView.Name = "MLWMessageDridView";
             this.MLWMessageDridView.RowHeadersVisible = false;
+            this.MLWMessageDridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.MLWMessageDridView.RowTemplate.Height = 21;
+            this.MLWMessageDridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MessageCellDoubleClick);
             // 
             // MLWDateColumn
             // 

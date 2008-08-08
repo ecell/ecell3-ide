@@ -28,16 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateDMDialog));
             System.Windows.Forms.Label label2;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateDMDialog));
             this.INNewButton = new System.Windows.Forms.Button();
             this.INCancelButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.INTextBox = new System.Windows.Forms.TextBox();
             this.templateComboBox = new System.Windows.Forms.ComboBox();
             this.templateRichText = new System.Windows.Forms.RichTextBox();
+            this.label3 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // label2
+            // 
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
             // 
             // INNewButton
             // 
@@ -68,29 +74,31 @@
             // templateComboBox
             // 
             resources.ApplyResources(this.templateComboBox, "templateComboBox");
+            this.templateComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.templateComboBox.FormattingEnabled = true;
             this.templateComboBox.Name = "templateComboBox";
             this.templateComboBox.SelectedIndexChanged += new System.EventHandler(this.TemplateComboBoxSelectedChanged);
             // 
-            // label2
-            // 
-            resources.ApplyResources(label2, "label2");
-            label2.Name = "label2";
-            // 
             // templateRichText
             // 
             resources.ApplyResources(this.templateRichText, "templateRichText");
-            this.templateRichText.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.templateRichText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.templateRichText.Name = "templateRichText";
             this.templateRichText.ReadOnly = true;
             this.templateRichText.TabStop = false;
             // 
-            // InputName
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // CreateDMDialog
             // 
             this.AcceptButton = this.INNewButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.INCancelButton;
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.templateRichText);
             this.Controls.Add(label2);
             this.Controls.Add(this.templateComboBox);
@@ -98,7 +106,7 @@
             this.Controls.Add(this.INNewButton);
             this.Controls.Add(this.INTextBox);
             this.Controls.Add(this.INCancelButton);
-            this.Name = "InputName";
+            this.Name = "CreateDMDialog";
             this.Shown += new System.EventHandler(this.InputNameShown);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -113,5 +121,6 @@
         private System.Windows.Forms.TextBox INTextBox;
         private System.Windows.Forms.ComboBox templateComboBox;
         private System.Windows.Forms.RichTextBox templateRichText;
+        private System.Windows.Forms.Label label3;
     }
 }
