@@ -156,50 +156,59 @@
   <data name="InfoFinishExecute" xml:space="preserve">
     <value>The executuion of the {0} has been finished.</value>
   </data>
-  <data name="MenuItemAnalysis" xml:space="preserve">
-    <value>&amp;Analysis...</value>
-  </data>
-  <data name="MenuItemAnalysisWindow" xml:space="preserve">
-    <value>&amp;Analysis...</value>
-  </data>
   <data name="MenuItemBifurcationAnalysis" xml:space="preserve">
-    <value>&amp;Bifurcation analysis</value>
-  </data>
-  <data name="MenuItemBifurcationAnalysisSetting" xml:space="preserve">
-    <value>Bifurcation analysis settings</value>
+    <value>&amp;Bifurcation analysis ...</value>
   </data>
   <data name="MenuItemLoadAnalysisCond" xml:space="preserve">
-    <value>Load analysis parameters ...</value>
+    <value>&amp;Load analysis parameters ...</value>
   </data>
   <data name="MenuItemLoadAnalysisResult" xml:space="preserve">
-    <value>Load analysis results ...</value>
+    <value>L&amp;oad analysis results ...</value>
   </data>
   <data name="MenuItemParameterEstimation" xml:space="preserve">
-    <value>&amp;Parameter estimation</value>
-  </data>
-  <data name="MenuItemParameterEstimationSetting" xml:space="preserve">
-    <value>Parameter estimation settings</value>
+    <value>&amp;Parameter estimation ...</value>
   </data>
   <data name="MenuItemRobustAnalysis" xml:space="preserve">
-    <value>&amp;Robust analysis</value>
-  </data>
-  <data name="MenuItemRobustAnalysisSetting" xml:space="preserve">
-    <value>Robust analysis settings</value>
+    <value>&amp;Robust analysis ...</value>
   </data>
   <data name="MenuItemSaveAnalysisCond" xml:space="preserve">
-    <value>Save analysis parameters ...</value>
+    <value>Sav&amp;e analysis parameters ...</value>
   </data>
   <data name="MenuItemSaveAnalysisResult" xml:space="preserve">
-    <value>Save analysis results ...</value>
+    <value>Sav&amp;e analysis results ...</value>
   </data>
   <data name="MenuItemSensitivityAnalysis" xml:space="preserve">
-    <value>&amp;Sensitivity analysis</value>
-  </data>
-  <data name="MenuItemSensitivityAnalysisSetting" xml:space="preserve">
-    <value>Sensitivity analysis settings.</value>
+    <value>&amp;Sensitivity analysis ...</value>
   </data>
   <data name="MenuItemStopAnalysis" xml:space="preserve">
-    <value>Abort analysis.</value>
+    <value>&amp;Abort analysis</value>
+  </data>
+  <data name="MenuToolTipBifurcationAnalysis" xml:space="preserve">
+    <value>Execute bifurcation analysis.</value>
+  </data>
+  <data name="MenuToolTipLoadAnalysisCond" xml:space="preserve">
+    <value>Load the analysis settings.</value>
+  </data>
+  <data name="MenuToolTipLoadAnalysisResult" xml:space="preserve">
+    <value>Load the analysis results.</value>
+  </data>
+  <data name="MenuToolTipParameterEstimation" xml:space="preserve">
+    <value>Execute patameter estimation.</value>
+  </data>
+  <data name="MenuToolTipRobustAnalysis" xml:space="preserve">
+    <value>Execute robust analysis.</value>
+  </data>
+  <data name="MenuToolTipSaveAnalysisCond" xml:space="preserve">
+    <value>Save the analysis settings.</value>
+  </data>
+  <data name="MenuToolTipSaveAnalysisResult" xml:space="preserve">
+    <value>Save the analysis results.</value>
+  </data>
+  <data name="MenuToolTipSensitivityAnalysis" xml:space="preserve">
+    <value>Execute sensitivity analysis.</value>
+  </data>
+  <data name="MenuToolTipStopAnalysis" xml:space="preserve">
+    <value>Abort the analysis.</value>
   </data>
   <data name="NameAbsolutePert" xml:space="preserve">
     <value>The absolute perturbation</value>

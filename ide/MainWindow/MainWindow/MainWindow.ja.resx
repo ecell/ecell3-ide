@@ -378,7 +378,7 @@
     <value>スクリプトの状態表示 ...</value>
   </data>
   <data name="scriptEditorToolStripMenuItem.Text" xml:space="preserve">
-    <value>スクリプトの編集 ...</value>
+    <value>スクリプトの編集(&amp;C) ...</value>
   </data>
   <data name="projectWizardMenuItem.Text" xml:space="preserve">
     <value>プロジェクトウィザード(&amp;Z)...</value>

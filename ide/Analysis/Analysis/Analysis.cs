@@ -690,25 +690,25 @@ namespace Ecell.IDE.Plugins.Analysis
 
             m_showBifurcationSetupItem = new ToolStripMenuItem();
             m_showBifurcationSetupItem.Text = MessageResources.MenuItemBifurcationAnalysis;
-            m_showBifurcationSetupItem.ToolTipText = MessageResources.MenuItemBifurcationAnalysis;
+            m_showBifurcationSetupItem.ToolTipText = MessageResources.MenuToolTipBifurcationAnalysis;
             m_showBifurcationSetupItem.Tag = 10;
             m_showBifurcationSetupItem.Click += new EventHandler(ShowBifurcationSetting);
 
             m_showParameterEstimationSetupItem = new ToolStripMenuItem();
             m_showParameterEstimationSetupItem.Text = MessageResources.MenuItemParameterEstimation;
-            m_showParameterEstimationSetupItem.ToolTipText = MessageResources.MenuItemParameterEstimation;
+            m_showParameterEstimationSetupItem.ToolTipText = MessageResources.MenuToolTipParameterEstimation;
             m_showParameterEstimationSetupItem.Tag = 10;
             m_showParameterEstimationSetupItem.Click += new EventHandler(ShowParameterEstimationSetting);
 
             m_showRobustAnalysisSetupItem = new ToolStripMenuItem();
             m_showRobustAnalysisSetupItem.Text = MessageResources.MenuItemRobustAnalysis;
-            m_showRobustAnalysisSetupItem.ToolTipText = MessageResources.MenuItemRobustAnalysis;
+            m_showRobustAnalysisSetupItem.ToolTipText = MessageResources.MenuToolTipRobustAnalysis;
             m_showRobustAnalysisSetupItem.Tag = 10;
             m_showRobustAnalysisSetupItem.Click += new EventHandler(ShowRobustAnalysisSetting);
 
             m_showSensitiveAnalysisSetupItem = new ToolStripMenuItem();
             m_showSensitiveAnalysisSetupItem.Text = MessageResources.MenuItemSensitivityAnalysis;
-            m_showSensitiveAnalysisSetupItem.ToolTipText = MessageResources.MenuItemSensitivityAnalysis;
+            m_showSensitiveAnalysisSetupItem.ToolTipText = MessageResources.MenuToolTipSensitivityAnalysis;
             m_showSensitiveAnalysisSetupItem.Tag = 10;
             m_showSensitiveAnalysisSetupItem.Click += new EventHandler(ShowSensitivityAnalysisSetting);
 
@@ -718,7 +718,7 @@ namespace Ecell.IDE.Plugins.Analysis
 
             ToolStripMenuItem stopAnalysisItem = new ToolStripMenuItem();
             stopAnalysisItem.Text = MessageResources.MenuItemStopAnalysis;
-            stopAnalysisItem.ToolTipText = MessageResources.MenuItemStopAnalysis;
+            stopAnalysisItem.ToolTipText = MessageResources.MenuToolTipStopAnalysis;
             stopAnalysisItem.Tag = 90;
             stopAnalysisItem.Enabled = true;
             stopAnalysisItem.Click += new EventHandler(StopAnalysis);
@@ -728,14 +728,14 @@ namespace Ecell.IDE.Plugins.Analysis
 
             ToolStripMenuItem saveAnalysisResultItem = new ToolStripMenuItem();
             saveAnalysisResultItem.Text = MessageResources.MenuItemSaveAnalysisResult;
-            saveAnalysisResultItem.ToolTipText = MessageResources.MenuItemSaveAnalysisResult;
+            saveAnalysisResultItem.ToolTipText = MessageResources.MenuToolTipSaveAnalysisResult;
             saveAnalysisResultItem.Tag = 150;
             saveAnalysisResultItem.Enabled = true;
             saveAnalysisResultItem.Click += new EventHandler(SaveAnalysisResult);
 
             ToolStripMenuItem loadAnalysisResultItem = new ToolStripMenuItem();
             loadAnalysisResultItem.Text = MessageResources.MenuItemLoadAnalysisResult;
-            loadAnalysisResultItem.ToolTipText = MessageResources.MenuItemLoadAnalysisResult;
+            loadAnalysisResultItem.ToolTipText = MessageResources.MenuToolTipLoadAnalysisResult;
             loadAnalysisResultItem.Tag = 160;
             loadAnalysisResultItem.Enabled = true;
             loadAnalysisResultItem.Click += new EventHandler(LoadAnalysisResult);

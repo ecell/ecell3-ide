@@ -156,53 +156,62 @@
   <data name="InfoFinishExecute" xml:space="preserve">
     <value>{0} の実行が終了しました。</value>
   </data>
-  <data name="MenuItemAnalysis" xml:space="preserve">
-    <value>解析(&amp;A)...</value>
-  </data>
-  <data name="MenuItemAnalysisWindow" xml:space="preserve">
-    <value>解析(&amp;A)...</value>
-  </data>
   <data name="MenuItemBifurcationAnalysis" xml:space="preserve">
-    <value>分岐解析(&amp;B)</value>
-  </data>
-  <data name="MenuItemBifurcationAnalysisSetting" xml:space="preserve">
-    <value>分岐解析の設定</value>
+    <value>分岐解析(&amp;B) ...</value>
   </data>
   <data name="MenuItemLoadAnalysisCond" xml:space="preserve">
-    <value>解析パラメータの読み込み...</value>
+    <value>解析パラメータの読み込み(&amp;L)...</value>
   </data>
   <data name="MenuItemLoadAnalysisResult" xml:space="preserve">
-    <value>解析結果の読み込み...</value>
+    <value>解析結果の読み込み(&amp;O)...</value>
   </data>
   <data name="MenuItemParameterEstimation" xml:space="preserve">
-    <value>パラメータ推定(&amp;P)</value>
-  </data>
-  <data name="MenuItemParameterEstimationSetting" xml:space="preserve">
-    <value>パラメータ推定の設定</value>
+    <value>パラメータ推定(&amp;P) ...</value>
   </data>
   <data name="MenuItemRobustAnalysis" xml:space="preserve">
-    <value>ロバスト解析(&amp;R)</value>
-  </data>
-  <data name="MenuItemRobustAnalysisSetting" xml:space="preserve">
-    <value>ロバスト解析の設定</value>
+    <value>ロバスト解析(&amp;R) ...</value>
   </data>
   <data name="MenuItemSaveAnalysisCond" xml:space="preserve">
-    <value>解析パラメータの保存...</value>
+    <value>解析パラメータの保存(&amp;E)...</value>
   </data>
   <data name="MenuItemSaveAnalysisResult" xml:space="preserve">
-    <value>解析結果の保存...</value>
+    <value>解析結果の保存(&amp;V)...</value>
   </data>
   <data name="MenuItemSensitivityAnalysis" xml:space="preserve">
-    <value>感受性解析(&amp;S)</value>
-  </data>
-  <data name="MenuItemSensitivityAnalysisSetting" xml:space="preserve">
-    <value>感受性解析の設定</value>
+    <value>感受性解析(&amp;S) ...</value>
   </data>
   <data name="MenuItemStopAnalysis" xml:space="preserve">
-    <value>解析中断</value>
+    <value>解析中断(&amp;A)</value>
+  </data>
+  <data name="MenuToolTipBifurcationAnalysis" xml:space="preserve">
+    <value>分岐解析を実行します</value>
+  </data>
+  <data name="MenuToolTipLoadAnalysisCond" xml:space="preserve">
+    <value>解析の設定を保存します</value>
+  </data>
+  <data name="MenuToolTipLoadAnalysisResult" xml:space="preserve">
+    <value>解析の結果を保存します</value>
+  </data>
+  <data name="MenuToolTipParameterEstimation" xml:space="preserve">
+    <value>パラメータ推定を実行します</value>
+  </data>
+  <data name="MenuToolTipRobustAnalysis" xml:space="preserve">
+    <value>ロバスト解析を実行します</value>
+  </data>
+  <data name="MenuToolTipSaveAnalysisCond" xml:space="preserve">
+    <value>解析の設定を保存します</value>
+  </data>
+  <data name="MenuToolTipSaveAnalysisResult" xml:space="preserve">
+    <value>解析の結果を保存します</value>
+  </data>
+  <data name="MenuToolTipSensitivityAnalysis" xml:space="preserve">
+    <value>感受性解析を実行します</value>
+  </data>
+  <data name="MenuToolTipStopAnalysis" xml:space="preserve">
+    <value>解析を中断します</value>
   </data>
   <data name="NameAbsolutePert" xml:space="preserve">
-    <value>Absolute perturbation</value>
+    <value>Absolute </value>
   </data>
   <data name="NameBifurcation" xml:space="preserve">
     <value>分岐解析</value>

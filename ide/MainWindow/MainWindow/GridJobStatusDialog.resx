@@ -459,7 +459,7 @@
     <value>Job status</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Job status</value>
+    <value>Analysis status</value>
   </data>
   <data name="&gt;&gt;JobIDColumn.Name" xml:space="preserve">
     <value>JobIDColumn</value>

@@ -121,7 +121,7 @@
     <value>解析結果</value>
   </data>
   <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
-    <value>パラメータ</value>
+    <value>値</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>CCC行列</value>

@@ -178,25 +178,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   &amp;Analysis... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuItemAnalysis {
-            get {
-                return ResourceManager.GetString("MenuItemAnalysis", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   &amp;Analysis... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuItemAnalysisWindow {
-            get {
-                return ResourceManager.GetString("MenuItemAnalysisWindow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   &amp;Bifurcation analysis に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Bifurcation analysis ... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemBifurcationAnalysis {
             get {
@@ -205,16 +187,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   Bifurcation analysis settings に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuItemBifurcationAnalysisSetting {
-            get {
-                return ResourceManager.GetString("MenuItemBifurcationAnalysisSetting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Load analysis parameters ... に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Load analysis parameters ... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemLoadAnalysisCond {
             get {
@@ -223,7 +196,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   Load analysis results ... に類似しているローカライズされた文字列を検索します。
+        ///   L&amp;oad analysis results ... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemLoadAnalysisResult {
             get {
@@ -232,7 +205,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   &amp;Parameter estimation に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Parameter estimation ... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemParameterEstimation {
             get {
@@ -241,16 +214,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   Parameter estimation settings に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuItemParameterEstimationSetting {
-            get {
-                return ResourceManager.GetString("MenuItemParameterEstimationSetting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   &amp;Robust analysis に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Robust analysis ... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemRobustAnalysis {
             get {
@@ -259,16 +223,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   Robust analysis settings に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuItemRobustAnalysisSetting {
-            get {
-                return ResourceManager.GetString("MenuItemRobustAnalysisSetting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Save analysis parameters ... に類似しているローカライズされた文字列を検索します。
+        ///   Sav&amp;e analysis parameters ... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemSaveAnalysisCond {
             get {
@@ -277,7 +232,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   Save analysis results ... に類似しているローカライズされた文字列を検索します。
+        ///   Sav&amp;e analysis results ... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemSaveAnalysisResult {
             get {
@@ -286,7 +241,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   &amp;Sensitivity analysis に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Sensitivity analysis ... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemSensitivityAnalysis {
             get {
@@ -295,20 +250,92 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   Sensitivity analysis settings. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuItemSensitivityAnalysisSetting {
-            get {
-                return ResourceManager.GetString("MenuItemSensitivityAnalysisSetting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Abort analysis. に類似しているローカライズされた文字列を検索します。
+        ///   &amp;Abort analysis に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemStopAnalysis {
             get {
                 return ResourceManager.GetString("MenuItemStopAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Execute bifurcation analysis. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipBifurcationAnalysis {
+            get {
+                return ResourceManager.GetString("MenuToolTipBifurcationAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load the analysis settings. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipLoadAnalysisCond {
+            get {
+                return ResourceManager.GetString("MenuToolTipLoadAnalysisCond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load the analysis results. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipLoadAnalysisResult {
+            get {
+                return ResourceManager.GetString("MenuToolTipLoadAnalysisResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Execute patameter estimation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipParameterEstimation {
+            get {
+                return ResourceManager.GetString("MenuToolTipParameterEstimation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Execute robust analysis. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipRobustAnalysis {
+            get {
+                return ResourceManager.GetString("MenuToolTipRobustAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save the analysis settings. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipSaveAnalysisCond {
+            get {
+                return ResourceManager.GetString("MenuToolTipSaveAnalysisCond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save the analysis results. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipSaveAnalysisResult {
+            get {
+                return ResourceManager.GetString("MenuToolTipSaveAnalysisResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Execute sensitivity analysis. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipSensitivityAnalysis {
+            get {
+                return ResourceManager.GetString("MenuToolTipSensitivityAnalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Abort the analysis. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipStopAnalysis {
+            get {
+                return ResourceManager.GetString("MenuToolTipStopAnalysis", resourceCulture);
             }
         }
         

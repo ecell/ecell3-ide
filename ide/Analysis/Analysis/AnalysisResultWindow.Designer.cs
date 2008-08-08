@@ -44,20 +44,20 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.PEEstimateView = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.PEEstimationValue = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.PEGenerateValue = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.PEEstimationValue = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.SACCCGridView = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.SAFCCGridView = new System.Windows.Forms.DataGridView();
-            this.label5 = new System.Windows.Forms.Label();
-            this.ARTrackBar = new System.Windows.Forms.TrackBar();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.SACCCGridView = new System.Windows.Forms.DataGridView();
             this.RATrackLabel = new System.Windows.Forms.Label();
+            this.ARTrackBar = new System.Windows.Forms.TrackBar();
+            this.label5 = new System.Windows.Forms.Label();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RAAnalysisTableLayout.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -67,10 +67,10 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PEEstimateView)).BeginInit();
             this.tabPage3.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.SACCCGridView)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SAFCCGridView)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SACCCGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ARTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
@@ -167,22 +167,16 @@
             this.PEEstimateView.RowHeadersVisible = false;
             this.PEEstimateView.RowTemplate.Height = 21;
             // 
-            // dataGridViewTextBoxColumn1
+            // PEGenerateValue
             // 
-            this.dataGridViewTextBoxColumn1.FillWeight = 40F;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            resources.ApplyResources(this.PEGenerateValue, "PEGenerateValue");
+            this.PEGenerateValue.Name = "PEGenerateValue";
+            this.PEGenerateValue.ReadOnly = true;
             // 
-            // dataGridViewTextBoxColumn2
+            // label4
             // 
-            this.dataGridViewTextBoxColumn2.FillWeight = 60F;
-            resources.ApplyResources(this.dataGridViewTextBoxColumn2, "dataGridViewTextBoxColumn2");
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
             // 
             // PEEstimationValue
             // 
@@ -190,16 +184,10 @@
             this.PEEstimationValue.Name = "PEEstimationValue";
             this.PEEstimationValue.ReadOnly = true;
             // 
-            // label4
+            // label1
             // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // PEGenerateValue
-            // 
-            resources.ApplyResources(this.PEGenerateValue, "PEGenerateValue");
-            this.PEGenerateValue.Name = "PEGenerateValue";
-            this.PEGenerateValue.ReadOnly = true;
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
             // tabPage3
             // 
@@ -211,24 +199,6 @@
             resources.ApplyResources(this.tabPage3, "tabPage3");
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Controls.Add(this.SACCCGridView);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
-            // 
-            // SACCCGridView
-            // 
-            this.SACCCGridView.AllowUserToAddRows = false;
-            this.SACCCGridView.AllowUserToDeleteRows = false;
-            this.SACCCGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.SACCCGridView.ColumnHeadersVisible = false;
-            resources.ApplyResources(this.SACCCGridView, "SACCCGridView");
-            this.SACCCGridView.Name = "SACCCGridView";
-            this.SACCCGridView.RowHeadersVisible = false;
-            this.SACCCGridView.RowTemplate.Height = 21;
             // 
             // groupBox2
             // 
@@ -248,10 +218,28 @@
             this.SAFCCGridView.RowHeadersVisible = false;
             this.SAFCCGridView.RowTemplate.Height = 21;
             // 
-            // label5
+            // groupBox1
             // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(this.SACCCGridView);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // SACCCGridView
+            // 
+            this.SACCCGridView.AllowUserToAddRows = false;
+            this.SACCCGridView.AllowUserToDeleteRows = false;
+            this.SACCCGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.SACCCGridView.ColumnHeadersVisible = false;
+            resources.ApplyResources(this.SACCCGridView, "SACCCGridView");
+            this.SACCCGridView.Name = "SACCCGridView";
+            this.SACCCGridView.RowHeadersVisible = false;
+            this.SACCCGridView.RowTemplate.Height = 21;
+            // 
+            // RATrackLabel
+            // 
+            resources.ApplyResources(this.RATrackLabel, "RATrackLabel");
+            this.RATrackLabel.Name = "RATrackLabel";
             // 
             // ARTrackBar
             // 
@@ -260,10 +248,22 @@
             this.ARTrackBar.Name = "ARTrackBar";
             this.ARTrackBar.Value = 500;
             // 
-            // RATrackLabel
+            // label5
             // 
-            resources.ApplyResources(this.RATrackLabel, "RATrackLabel");
-            this.RATrackLabel.Name = "RATrackLabel";
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.FillWeight = 40F;
+            resources.ApplyResources(this.dataGridViewTextBoxColumn1, "dataGridViewTextBoxColumn1");
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.FillWeight = 60F;
+            resources.ApplyResources(this.dataGridViewTextBoxColumn2, "dataGridViewTextBoxColumn2");
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             // 
             // AnalysisResultWindow
             // 
@@ -282,10 +282,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.PEEstimateView)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.SACCCGridView)).EndInit();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SAFCCGridView)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SACCCGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ARTrackBar)).EndInit();
             this.ResumeLayout(false);
 
