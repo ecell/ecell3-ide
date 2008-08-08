@@ -126,6 +126,10 @@ namespace Ecell.IDE
                     {
                         Util.AddDMDir(Path.GetFullPath(arg.Substring("/DMDIR:".Length)));
                     }
+                    else if (arg.StartsWith("/WINDOWSETTINGSDIR:"))
+                    {
+                        Util.SetWindowSettingDir(Path.GetFullPath(arg.Substring("/WINDOWSETTINGSDIR:".Length)));
+                    }
                     else if (arg == "/NODEFAULTS")
                     {
                         Util.OmitDefaultPaths();
