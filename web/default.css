@@ -180,10 +180,11 @@ body .page {
 .page-footer .page-footer-content {
     border-top: 1px solid #cccccc;
     padding: 10px 20px 10px 20px;
+    font-size: 0.75em;
 }
 
 .page-footer-content p {
-    margin: 0 0 1em 0;
+    margin: 0 0 0.5em 0;
 }
 /* }}} */
 /*
