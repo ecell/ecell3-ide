@@ -143,6 +143,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="MessageResources.ja.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessageResources.ja.resx</DependentUpon>
+    </Compile>
     <Compile Include="PluginListDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -236,6 +241,7 @@
     <EmbeddedResource Include="MessageResources.ja.resx">
       <LastGenOutput>MessageResources.ja.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="MessageResources.resx">
       <SubType>Designer</SubType>
@@ -270,10 +276,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Splash.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Splash.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Splash.resx">
       <SubType>Designer</SubType>
@@ -317,6 +319,7 @@
   <ItemGroup>
     <None Include="Resources\banner.bmp" />
     <Content Include="Resources\ECellIDE.ico" />
+    <None Include="Resources\logo.png" />
     <Content Include="Resources\splash.bmp" />
     <Content Include="Resources\welcome.ico" />
   </ItemGroup>

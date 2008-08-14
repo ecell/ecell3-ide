@@ -33,22 +33,17 @@ namespace Ecell.IDE.MainWindow
         {
             System.Windows.Forms.Label label3;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutDialog));
-            System.Windows.Forms.Label label2;
-            System.Windows.Forms.PictureBox pictureBox1;
             System.Windows.Forms.Label assemblyLabel;
+            this.productNameLabel = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.copyLabel = new System.Windows.Forms.Label();
             this.ecellLink = new System.Windows.Forms.LinkLabel();
             this.CloseButton = new System.Windows.Forms.Button();
             this.assemblyVersionLabel = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.informationVersionLabel = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.creditButton = new System.Windows.Forms.Button();
             label3 = new System.Windows.Forms.Label();
-            label2 = new System.Windows.Forms.Label();
-            pictureBox1 = new System.Windows.Forms.PictureBox();
             assemblyLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label3
@@ -56,16 +51,16 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(label3, "label3");
             label3.Name = "label3";
             // 
-            // label2
+            // productNameLabel
             // 
-            resources.ApplyResources(label2, "label2");
-            label2.Name = "label2";
+            resources.ApplyResources(this.productNameLabel, "productNameLabel");
+            this.productNameLabel.Name = "productNameLabel";
             // 
             // pictureBox1
             // 
-            resources.ApplyResources(pictureBox1, "pictureBox1");
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.TabStop = false;
+            resources.ApplyResources(this.pictureBox1, "pictureBox1");
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.TabStop = false;
             // 
             // assemblyLabel
             // 
@@ -95,21 +90,6 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this.assemblyVersionLabel, "assemblyVersionLabel");
             this.assemblyVersionLabel.Name = "assemblyVersionLabel";
             // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // informationVersionLabel
-            // 
-            resources.ApplyResources(this.informationVersionLabel, "informationVersionLabel");
-            this.informationVersionLabel.Name = "informationVersionLabel";
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
             // creditButton
             // 
             resources.ApplyResources(this.creditButton, "creditButton");
@@ -124,23 +104,20 @@ namespace Ecell.IDE.MainWindow
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CloseButton;
             this.Controls.Add(this.creditButton);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.informationVersionLabel);
-            this.Controls.Add(this.label1);
             this.Controls.Add(assemblyLabel);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.copyLabel);
             this.Controls.Add(label3);
             this.Controls.Add(this.ecellLink);
             this.Controls.Add(this.assemblyVersionLabel);
-            this.Controls.Add(pictureBox1);
-            this.Controls.Add(label2);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.productNameLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AboutDialog";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            ((System.ComponentModel.ISupportInitialize)(pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -152,9 +129,8 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.Label assemblyVersionLabel;
         private System.Windows.Forms.Label copyLabel;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label informationVersionLabel;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button creditButton;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label productNameLabel;
     }
 }

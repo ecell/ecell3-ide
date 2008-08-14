@@ -72,7 +72,7 @@ namespace Ecell.IDE.MainWindow
 
 
             this.assemblyVersionLabel.Text = versionText;
-            this.informationVersionLabel.Text = informationText;
+            this.productNameLabel.Text = informationText;
             this.copyLabel.Text = copyrightText;
         }
 

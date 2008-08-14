@@ -49,8 +49,9 @@ namespace Ecell.IDE
         public Splash(ApplicationEnvironment env)
         {
             InitializeComponent();
-            VersionNumber.Text = global::Ecell.IDE.MainWindow.Properties.Resources.InformationVersion;
-            CopyrightNotice.Text = global::Ecell.IDE.MainWindow.Properties.Resources.CopyrightNotice;
+            Assembly executingAssembly = Assembly.GetExecutingAssembly();
+            VersionNumber.Text = (executingAssembly.GetCustomAttributes(typeof(AssemblyProductAttribute), false))[0].ToString();
+            CopyrightNotice.Text = (executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false))[0].ToString();
             env.PluginManager.SetSplashDelegate(this.SetProgressMessage);
         }
 

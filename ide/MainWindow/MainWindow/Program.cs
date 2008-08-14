@@ -64,10 +64,10 @@ namespace Ecell.IDE
             string[] fileList = parseArguments(args);
 
             Util.InitialLanguage();
-            // XPでツリービューがおかしくなる
             Application.EnableVisualStyles();
-            //Vistaでエラーになる
-            //Application.SetCompatibleTextRenderingDefault(false);
+            // workaround for .NET Framework 1.1
+            // see http://msdn.microsoft.com/en-us/library/system.windows.forms.treeview.imagelist.aspx
+            Application.DoEvents();
 
             ApplicationEnvironment env = ApplicationEnvironment.GetInstance();
 

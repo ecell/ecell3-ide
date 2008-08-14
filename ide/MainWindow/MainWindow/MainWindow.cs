@@ -1607,9 +1607,10 @@ namespace Ecell.IDE.MainWindow
 
         private void ShowAboutDialog(object sender, EventArgs e)
         {
-            string versionText = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            string copyrightText = global::Ecell.IDE.MainWindow.Properties.Resources.CopyrightNotice;
-            string informationVersionText = global::Ecell.IDE.MainWindow.Properties.Resources.InformationVersion;
+            Assembly executingAssembly = Assembly.GetExecutingAssembly();
+            string versionText = executingAssembly.GetName().Version.ToString();
+            string copyrightText = (executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false))[0].ToString();
+            string informationVersionText = (executingAssembly.GetCustomAttributes(typeof(AssemblyProductAttribute), false))[0].ToString();
 
             AboutDialog dlg = new AboutDialog(versionText, copyrightText, informationVersionText);
             using (dlg)
