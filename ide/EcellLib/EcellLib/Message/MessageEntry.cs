@@ -32,12 +32,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ecell.Message
+namespace Ecell.Logging
 {
     /// <summary>
     /// Abstract class of the message entry.
     /// </summary>
-    public abstract class MessageEntry : IMessageEntry
+    public abstract class LogEntry : ILogEntry
     {
         #region Fields
         /// <summary>
@@ -91,7 +91,7 @@ namespace Ecell.Message
         /// </summary>
         /// <param name="type">the message type.</param>
         /// <param name="message">the message string.</param>
-        public MessageEntry(MessageType type, string message)
+        public LogEntry(MessageType type, string message)
             : this(type, message, DateTime.Now)
         {
         }
@@ -102,7 +102,7 @@ namespace Ecell.Message
         /// <param name="type">the message type.</param>
         /// <param name="message">the message string.</param>
         /// <param name="time">the date time of message.</param>
-        public MessageEntry(MessageType type, string message, DateTime time)
+        public LogEntry(MessageType type, string message, DateTime time)
         {
             m_type = type;
             m_message = message;
@@ -121,9 +121,9 @@ namespace Ecell.Message
 
         public override bool Equals(object obj)
         {
-            if (obj == null || !(obj is MessageEntry))
+            if (obj == null || !(obj is LogEntry))
                 return false;
-            MessageEntry ent = obj as MessageEntry;
+            LogEntry ent = obj as LogEntry;
             return ent.m_type == this.m_type &&
                 ent.m_time == this.m_time &&
                 ent.m_message == this.m_message;

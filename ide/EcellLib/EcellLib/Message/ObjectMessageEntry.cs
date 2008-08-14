@@ -34,12 +34,12 @@ using System.Text;
 
 using Ecell.Objects;
 
-namespace Ecell.Message
+namespace Ecell.Logging
 {
     /// <summary>
     /// Message Entry Object for EcellObject.
     /// </summary>
-    public class ObjectMessageEntry : MessageEntry
+    public class ObjectLogEntry : LogEntry
     {
         private EcellObject m_object;
 
@@ -67,7 +67,7 @@ namespace Ecell.Message
         /// <param name="type">the type of message.</param>
         /// <param name="message">the message string.</param>
         /// <param name="obj">the object of message.</param>
-        public ObjectMessageEntry(MessageType type, String message, EcellObject obj)
+        public ObjectLogEntry(MessageType type, String message, EcellObject obj)
             : base(type, message)
         {
             m_object = obj;

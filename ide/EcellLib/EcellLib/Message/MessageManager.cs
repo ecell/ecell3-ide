@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 
-namespace Ecell.Message
+namespace Ecell.Logging
 {
     /// <summary>
     /// Class to manage the error message.
     /// </summary>
-    public class MessageManager
+    public class LogManager
     {
         private ApplicationEnvironment m_env;
 
-        private List<IMessageEntry> m_entries;
+        private List<ILogEntry> m_entries;
 
         #region Accessors
         /// <summary>
@@ -28,7 +28,7 @@ namespace Ecell.Message
         /// </summary>
         /// <param name="idx"></param>
         /// <returns></returns>
-        public IMessageEntry this[int idx]
+        public ILogEntry this[int idx]
         {
             get { return m_entries[idx]; }
         }
@@ -39,10 +39,10 @@ namespace Ecell.Message
         /// Constructor.
         /// </summary>
         /// <param name="env">the application environment.</param>
-        public MessageManager(ApplicationEnvironment env)
+        public LogManager(ApplicationEnvironment env)
         {
             m_env = env;
-            m_entries = new List<IMessageEntry>();
+            m_entries = new List<ILogEntry>();
         }
         #endregion
 
@@ -51,7 +51,7 @@ namespace Ecell.Message
         /// Add the error message.
         /// </summary>
         /// <param name="entry">the error message entry.</param>
-        public void Append(IMessageEntry entry)
+        public void Append(ILogEntry entry)
         {
             Trace.WriteLine(entry);
             m_entries.Add(entry);

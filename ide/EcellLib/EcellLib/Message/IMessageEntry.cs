@@ -32,12 +32,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ecell.Message
+namespace Ecell.Logging
 {
     /// <summary>
     /// Interface of the message entry.
     /// </summary>
-    public interface IMessageEntry
+    public interface ILogEntry
     {
         /// <summary>
         /// Get the type of message.
