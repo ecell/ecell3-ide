@@ -7,8 +7,8 @@
     <ProjectGuid>{50EBFCBE-63FE-40AC-BEBF-85ADAB80FDED}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ecell.IDE.Plugins.MessageWindow</RootNamespace>
-    <AssemblyName>MessageWindow</AssemblyName>
+    <RootNamespace>Ecell.IDE.Plugins.Console</RootNamespace>
+    <AssemblyName>Console</AssemblyName>
     <SccProjectName>
     </SccProjectName>
     <SccLocalPath>
@@ -75,19 +75,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessageWindow.cs" />
-    <Compile Include="MessageWindowControl.cs">
+    <Compile Include="Console.cs" />
+    <Compile Include="ConsoleControl.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MessageWindowControl.Designer.cs">
-      <DependentUpon>MessageWindowControl.cs</DependentUpon>
+    <Compile Include="ConsoleControl.Designer.cs">
+      <DependentUpon>ConsoleControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MessageWindowControl.resx">
+    <EmbeddedResource Include="ConsoleControl.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>MessageWindowControl.cs</DependentUpon>
+      <DependentUpon>ConsoleControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
