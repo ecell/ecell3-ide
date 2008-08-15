@@ -70,6 +70,24 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Closing dockable pane {0}... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DockClosing {
+            get {
+                return ResourceManager.GetString("DockClosing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Preparing dockable pane {0}... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DockPreparing {
+            get {
+                return ResourceManager.GetString("DockPreparing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} has some invalid characters. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrIDNG {

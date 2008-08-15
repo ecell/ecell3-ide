@@ -74,7 +74,8 @@ namespace Ecell.Logging
         {
             Trace.WriteLine(entry);
             m_entries.Add(entry);
-            LogEntryAppended(this, new LogEntryEventArgs(entry));
+            if (LogEntryAppended != null)
+                LogEntryAppended(this, new LogEntryEventArgs(entry));
         }
         #endregion
     }

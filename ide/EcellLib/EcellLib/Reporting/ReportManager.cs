@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 
 namespace Ecell.Reporting
 {
@@ -72,6 +73,7 @@ namespace Ecell.Reporting
 
         internal void OnReportAdded(IReport rep)
         {
+            Trace.WriteLine("Report added");
             if (ReportAdded != null)
                 ReportAdded(m_rep, new ReportEventArgs(rep));
         }
@@ -105,6 +107,7 @@ namespace Ecell.Reporting
                 }
                 m_rep = new ReportingSession(this);
             }
+            Trace.WriteLine("ReportingSession acquired");
             if (ReportingSessionStarted != null)
                 ReportingSessionStarted(this, new ReportingSessionEventArgs(m_rep));
             return m_rep;

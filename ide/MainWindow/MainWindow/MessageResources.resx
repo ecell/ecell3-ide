@@ -216,4 +216,10 @@
   <data name="InfoLoadPlugin" xml:space="preserve">
     <value>Loading {0}</value>
   </data>
+  <data name="DockClosing" xml:space="preserve">
+    <value>Closing dockable pane {0}...</value>
+  </data>
+  <data name="DockPreparing" xml:space="preserve">
+    <value>Preparing dockable pane {0}...</value>
+  </data>
 </root>

@@ -677,18 +677,9 @@ namespace Ecell
     /// </summary>
     public enum MessageType
     {
-        /// <summary>
-        /// Index of the information message.
-        /// </summary>
-        Information = 0,
-        /// <summary>
-        /// Index of the debug message.
-        /// </summary>
-        Debug = 1,
-        /// <summary>
-        /// Index of the error message.
-        /// </summary>
-        Error = 2,
-        Warning = 3
+        Debug = 0,
+        Information = 1,
+        Warning = 2,
+        Error = 3
     }
 }

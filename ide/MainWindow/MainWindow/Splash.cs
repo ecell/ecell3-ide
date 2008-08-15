@@ -36,6 +36,8 @@ using System.Text;
 using System.Reflection;
 using System.Windows.Forms;
 
+using Ecell.Logging;
+
 namespace Ecell.IDE
 {
     /// <summary>
@@ -43,22 +45,34 @@ namespace Ecell.IDE
     /// </summary>
     public partial class Splash : Form
     {
+        private ApplicationEnvironment m_env;
+        private LogEntryAppendedEventHandler m_ehandler;
         /// <summary>
         /// Constructor.
         /// </summary>
         public Splash(ApplicationEnvironment env)
         {
+            m_env = env;
             InitializeComponent();
             Assembly executingAssembly = Assembly.GetExecutingAssembly();
             VersionNumber.Text = ((AssemblyProductAttribute)executingAssembly.GetCustomAttributes(typeof(AssemblyProductAttribute), false)[0]).Product;
             CopyrightNotice.Text = ((AssemblyCopyrightAttribute)executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)[0]).Copyright;
-            env.PluginManager.SetSplashDelegate(this.SetProgressMessage);
+            m_ehandler = new Ecell.Logging.LogEntryAppendedEventHandler(LogManager_LogEntryAppended);
+            env.LogManager.LogEntryAppended += m_ehandler;
         }
 
-        private void SetProgressMessage(string mes)
+        private void LogManager_LogEntryAppended(object o, LogEntryEventArgs e)
         {
-            progressInfo.Text = mes;
-            this.Refresh();
+            if (e.LogEntry.Type == MessageType.Information)
+            {
+                progressInfo.Text = e.LogEntry.Message;
+                progressInfo.Update();
+            }
+        }
+
+        private void Splash_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            m_env.LogManager.LogEntryAppended -= m_ehandler;
         }
     }
 }

@@ -18,7 +18,8 @@
     <SccProvider>
     </SccProvider>
     <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>StaticDebugWindow.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ReferencePath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin;$(REFPATH)</ReferencePath>
@@ -100,7 +101,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AssemblyInfo.cs.tmpl" />
-    <None Include="StaticDebugWindow.snk" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ECellIDE.ico" />

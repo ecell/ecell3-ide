@@ -195,6 +195,18 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             m_timer.Enabled = true;
         }
 
+        public override void ChangeStatus(ProjectStatus type)
+        {
+            if (type == ProjectStatus.Loaded)
+            {
+                m_timer.Enabled = true;
+            }
+            else if (type == ProjectStatus.Uninitialized)
+            {
+                m_timer.Enabled = false;
+            }
+        }
+
         #endregion
     }
 }

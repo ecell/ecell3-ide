@@ -18,7 +18,8 @@
     <SccProvider>
     </SccProvider>
     <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>ecelllib.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ReferencePath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin;$(REFPATH)</ReferencePath>
@@ -173,7 +174,6 @@
     <Compile Include="DataLogger.cs" />
     <Compile Include="Eml.cs" />
     <Compile Include="Job\JobProxy.cs" />
-    <None Include="ecelllib.snk" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ECellIDE.ico" />

@@ -253,8 +253,11 @@ namespace Ecell.IDE.MainWindow
             
             if (m_pluginList.Contains(pName)) return;
             m_pluginList.Add(pName);
-            m_env.PluginManager.SendSplashDelegate(
-                string.Format(MessageResources.InfoLoadPlugin, pName));
+            m_env.LogManager.Append(new ApplicationLogEntry(
+                MessageType.Information,
+                string.Format(MessageResources.InfoLoadPlugin, pName),
+                this
+            ));
 
             try
             {
@@ -262,7 +265,6 @@ namespace Ecell.IDE.MainWindow
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e);
                 String errmes = MessageResources.ErrLoadPlugin;
                 m_env.LogManager.Append(
                     new ApplicationLogEntry(
@@ -589,7 +591,11 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private void SetDockContent(EcellDockContent content)
         {
-            Trace.WriteLine("Create dock: " + content.Text);
+            m_env.LogManager.Append(new ApplicationLogEntry(
+                MessageType.Information,
+                string.Format(MessageResources.DockPreparing, content.Text),
+                this
+            ));
             content.SuspendLayout();
             //Create New DockContent
             content.Pane = null;
@@ -637,7 +643,11 @@ namespace Ecell.IDE.MainWindow
 
         private void DockContent_Closing(object sender, FormClosingEventArgs e)
         {
-            Trace.WriteLine("Closing dock: " + ((DockContent)sender).Name + " - " + e.CloseReason);
+            m_env.LogManager.Append(new ApplicationLogEntry(
+                MessageType.Debug,
+                string.Format(MessageResources.DockClosing, ((DockContent)sender).Name),
+                this
+            ));
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 // hide dock window

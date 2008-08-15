@@ -44,7 +44,7 @@
             this.CopyrightNotice.Location = new System.Drawing.Point(6, 240);
             this.CopyrightNotice.Margin = new System.Windows.Forms.Padding(0);
             this.CopyrightNotice.Name = "CopyrightNotice";
-            this.CopyrightNotice.Size = new System.Drawing.Size(448, 58);
+            this.CopyrightNotice.Size = new System.Drawing.Size(440, 58);
             this.CopyrightNotice.TabIndex = 2;
             this.CopyrightNotice.Text = "bbb";
             this.CopyrightNotice.UseMnemonic = false;
@@ -54,7 +54,7 @@
             this.VersionNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.VersionNumber.BackColor = System.Drawing.Color.Transparent;
             this.VersionNumber.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold);
-            this.VersionNumber.Location = new System.Drawing.Point(183, 9);
+            this.VersionNumber.Location = new System.Drawing.Point(175, 9);
             this.VersionNumber.Margin = new System.Windows.Forms.Padding(9);
             this.VersionNumber.Name = "VersionNumber";
             this.VersionNumber.Size = new System.Drawing.Size(256, 14);
@@ -73,7 +73,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(454, 300);
+            this.panel1.Size = new System.Drawing.Size(446, 300);
             this.panel1.TabIndex = 5;
             // 
             // progressInfo
@@ -83,7 +83,7 @@
             this.progressInfo.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.progressInfo.Location = new System.Drawing.Point(0, 298);
             this.progressInfo.Name = "progressInfo";
-            this.progressInfo.Size = new System.Drawing.Size(454, 20);
+            this.progressInfo.Size = new System.Drawing.Size(446, 20);
             this.progressInfo.TabIndex = 6;
             this.progressInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -93,7 +93,7 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(454, 318);
+            this.ClientSize = new System.Drawing.Size(446, 318);
             this.ControlBox = false;
             this.Controls.Add(this.progressInfo);
             this.Controls.Add(this.panel1);
@@ -105,6 +105,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Splash_FormClosing);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
