@@ -35,7 +35,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-using Ecell.Message;
+using Ecell.Logging;
 
 namespace Ecell
 {
@@ -141,8 +141,7 @@ namespace Ecell
 
 
             string mes = p.StandardOutput.ReadToEnd();
-            env.PluginManager.Message("Simulation", mes);
-            Console.WriteLine(mes);
+            env.Console.Write(mes);
             if (mes.Contains(" error"))
             {
                 string[] ele = mes.Split(new char[] { '\n' });
@@ -150,7 +149,7 @@ namespace Ecell
                 {
                     if (ele[i].Contains(" error"))
                     {
-                        env.PluginManager.Message2(new ApplicationMessageEntry(MessageType.Error, ele[i], this));
+                        env.LogManager.Append(new ApplicationLogEntry(MessageType.Error, ele[i], this));
                     }
                 }
                 string errmes = string.Format(MessageResources.ErrCompile, new object[] { m_sourceFile });
@@ -178,7 +177,7 @@ namespace Ecell
 
 
             mes = p.StandardOutput.ReadToEnd();
-            env.PluginManager.Message("Simulation", mes);
+            env.Console.WriteLine(mes);
             Console.WriteLine(mes);
 
             if (mes.Contains(" error"))
@@ -188,7 +187,7 @@ namespace Ecell
                 {
                     if (ele[i].Contains(" error"))
                     {
-                        env.PluginManager.Message2(new ApplicationMessageEntry(MessageType.Error, ele[i], this));
+                        env.LogManager.Append(new ApplicationLogEntry(MessageType.Error, ele[i], this));
                     }
                 }
                 string errmes = string.Format(MessageResources.ErrCompile, new object[] { m_sourceFile });

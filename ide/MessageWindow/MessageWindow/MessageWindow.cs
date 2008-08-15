@@ -49,12 +49,6 @@ namespace Ecell.IDE.Plugins.MessageWindow
         ///  MessageWindow form.
         /// </summary>
         private MessageWindowControl m_form = null;
-        /// <summary>
-        /// The delegate function while simulation is running.
-        /// </summary>
-        /// <param name="t">message type.</param>
-        /// <param name="m">message.</param>
-        public delegate void SetTextCallback(string t, string m);
         #endregion
 
         #region Internal Methods
@@ -120,47 +114,28 @@ namespace Ecell.IDE.Plugins.MessageWindow
             return new EcellDockContent[] { m_form };
         }
 
-        /// <summary>
-        /// The event sequence on closing project.
-        /// </summary>
-        public override void Clear()
+        public override void Initialize()
         {
-            m_form.simText.Text = "";
+            Environment.Console.ConsoleDataAvailable +=
+                new ConsoleDataAvailableEventHandler(Console_ConsoleDataAvailable);
+
         }
 
-        /// <summary>
-        /// The execution log of simulation, debug and analysis.
-        /// </summary>
-        /// <param name="type">Log type.</param>
-        /// <param name="message">Message.</param>
-        public override void Message(string type, string message)
+        private void Console_ConsoleDataAvailable(object o, ConsoleDataAvailableEventArgs args)
         {
-            Form parentForm = GetParent(m_form);
-            if (parentForm == null && m_form.InvokeRequired)
+            if (m_form.InvokeRequired)
             {
-                SetTextCallback f = new SetTextCallback(SetText);
-                m_form.Invoke(f, new object[] { type, message });
-            }
-            else if (parentForm != null && parentForm.InvokeRequired)
-            {
-                SetTextCallback f = new SetTextCallback(SetText);
-                parentForm.Invoke(f, new object[] { type, message });
+                m_form.Invoke(new MethodInvoker(delegate() { AppendText(args.Data); } ));
             }
             else
             {
-                TextBox curBox = null;
-                if (type == Constants.messageSimulation) curBox = m_form.simText;
-                else if (type == Constants.messageAnalysis) curBox = m_form.simText;
-                else if (type == Constants.messageDebug) curBox = m_form.simText;
-                if (curBox == null) return;
-
-                curBox.Text += message;
-                if (curBox.Visible)
-                {
-                    curBox.SelectionStart = curBox.Text.Length;
-                    curBox.ScrollToCaret();
-                }
+                AppendText(args.Data);
             }
+        }
+
+        private void AppendText(string data)
+        {
+            m_form.AppendText(data);
         }
 
         /// <summary>
@@ -169,7 +144,7 @@ namespace Ecell.IDE.Plugins.MessageWindow
         /// <returns>"MessageWindow"</returns>
         public override string GetPluginName()
         {
-            return "MessageWindow";
+            return "Console";
         }
 
         /// <summary>
@@ -179,15 +154,6 @@ namespace Ecell.IDE.Plugins.MessageWindow
         public override String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
-
-        /// <summary>
-        /// Check whether this plugin is MessageWindow.
-        /// </summary>
-        /// <returns>true</returns>
-        public override bool IsMessageWindow()
-        {
-            return true;
         }
         #endregion
     }

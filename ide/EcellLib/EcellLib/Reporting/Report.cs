@@ -24,20 +24,19 @@
 //
 //END_HEADER
 //
-// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
-// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+// written by Moriyoshi Koizumi <mozo@sfc.keio.ac.jp>.
 //
 
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ecell.Logging
+namespace Ecell.Reporting
 {
     /// <summary>
     /// Abstract class of the message entry.
     /// </summary>
-    public abstract class LogEntry : ILogEntry
+    public abstract class Report : IReport
     {
         #region Fields
         /// <summary>
@@ -48,17 +47,13 @@ namespace Ecell.Logging
         /// The message string.
         /// </summary>
         protected string m_message;
-        /// <summary>
-        /// The time when the message is composed
-        /// </summary>
-        protected DateTime m_time;
         #endregion
 
         #region Accessors
         /// <summary>
         /// 
         /// </summary>
-        public MessageType MessageType
+        public MessageType Type
         {
             get { return m_type; }
         }
@@ -72,13 +67,6 @@ namespace Ecell.Logging
         /// <summary>
         /// 
         /// </summary>
-        public DateTime Timestamp
-        {
-            get { return m_time; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
         public abstract string Location
         {
             get;
@@ -86,27 +74,10 @@ namespace Ecell.Logging
         #endregion
 
         #region Constructor
-        /// <summary>
-        /// Constructor with the initial parameters.
-        /// </summary>
-        /// <param name="type">the message type.</param>
-        /// <param name="message">the message string.</param>
-        public LogEntry(MessageType type, string message)
-            : this(type, message, DateTime.Now)
-        {
-        }
-
-        /// <summary>
-        /// Constructor with the initial parameters.
-        /// </summary>
-        /// <param name="type">the message type.</param>
-        /// <param name="message">the message string.</param>
-        /// <param name="time">the date time of message.</param>
-        public LogEntry(MessageType type, string message, DateTime time)
+        public Report(MessageType type, string message)
         {
             m_type = type;
             m_message = message;
-            m_time = time;
         }
         #endregion
 
@@ -116,22 +87,22 @@ namespace Ecell.Logging
         /// <returns>the object string.</returns>
         public override string ToString()
         {
-            return "[" + Timestamp + "] " + MessageType + ": " + Message + "(location: " + Location + ")";
+            return  Type + ": " + Message + "(location: " + Location + ")";
         }
 
         public override bool Equals(object obj)
         {
-            if (obj == null || !(obj is LogEntry))
+            if (obj == null || !(obj is Report))
                 return false;
-            LogEntry ent = obj as LogEntry;
+            Report ent = obj as Report;
             return ent.m_type == this.m_type &&
-                ent.m_time == this.m_time &&
                 ent.m_message == this.m_message;
         }
 
         public override int GetHashCode()
         {
-            return m_type.GetHashCode() ^ m_time.GetHashCode() ^ m_message.GetHashCode();
+            return m_type.GetHashCode() ^ m_message.GetHashCode();
         }
     }
 }
+

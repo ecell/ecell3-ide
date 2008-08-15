@@ -43,34 +43,13 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Constructor.
         /// </summary>
-        public AboutDialog()
-        {
-            InitializeComponent();
-
-            //this.gnuLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
-            //this.gnuLink.Links[0].LinkData = "www.gnu.org/copyleft/gpl.html";
-
-            this.ecellLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
-            this.ecellLink.Links[0].LinkData = "www.e-cell.org";
-
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
         /// <param name="versionText"></param>
         /// <param name="copyrightText"></param>
         public AboutDialog(string versionText, string copyrightText, string informationText)
         {
             InitializeComponent();
-
-//            this.gnuLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
-//            this.gnuLink.Links[0].LinkData = "www.gnu.org/copyleft/gpl.html";
-
             this.ecellLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
-            this.ecellLink.Links[0].LinkData = "www.e-cell.org";
-
-
+            this.ecellLink.Links[0].LinkData = "http://www.e-cell.org/ide/";
             this.assemblyVersionLabel.Text = versionText;
             this.productNameLabel.Text = informationText;
             this.copyLabel.Text = copyrightText;
@@ -82,7 +61,6 @@ namespace Ecell.IDE.MainWindow
             // LinkData property of the Link object.
             string target = e.Link.LinkData as string;
             System.Diagnostics.Process.Start(target);
-
         }
 
         private void creditButton_Click(object sender, EventArgs e)

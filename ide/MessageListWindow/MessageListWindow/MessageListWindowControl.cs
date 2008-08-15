@@ -37,7 +37,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using Ecell;
-using Ecell.Message;
+using Ecell.Reporting;
 
 namespace Ecell.IDE.Plugins.MessageListWindow
 {
@@ -46,40 +46,19 @@ namespace Ecell.IDE.Plugins.MessageListWindow
     /// </summary>
     public partial class MessageListWindowControl : EcellDockContent
     {
-        private MessageListWindow m_control;
-        private List<IMessageEntry> m_messages;
-
-        /// <summary>
-        /// get / set the parent plugin.
-        /// </summary>
-        public MessageListWindow Control
-        {
-            get { return this.m_control; }
-            set { this.m_control = value; }
-        }
+        private MessageListWindow m_owner;
+        private List<IReport> m_messages;
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public MessageListWindowControl()
+        public MessageListWindowControl(MessageListWindow owner)
         {
+            m_owner = owner;
             base.m_isSavable = true;
-            this.m_messages = new List<IMessageEntry>();
+            this.m_messages = new List<IReport>();
             InitializeComponent();
-            this.Name = "MessageListWindow";
-            this.Text = MessageResources.MessageListWindow;
             this.TabText = this.Text;
-
-            this.Shown += new EventHandler(ShownMessageListWindowControl);
-        }
-
-        private void ShownMessageListWindowControl(object sender, EventArgs e)
-        {
-            IEnumerable<IMessageEntry> list = m_control.GetMessages(-1);
-            foreach (IMessageEntry ent in list)
-            {
-                AddMessageEntry(ent);
-            }
         }
 
         /// <summary>
@@ -94,17 +73,13 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         /// The event sequence to display the message.
         /// </summary>
         /// <param name="mes">the message entry object.</param>
-        public void AddMessageEntry(IMessageEntry mes)
+        public void AddMessageEntry(IReport mes)
         {
 
             DataGridViewRow r = new DataGridViewRow();
 
-            DataGridViewTextBoxCell c0 = new DataGridViewTextBoxCell();
-            c0.Value = mes.Timestamp;
-            r.Cells.Add(c0);
-
             DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-            c1.Value = mes.MessageType;
+            c1.Value = mes.Type;
             r.Cells.Add(c1);
 
             DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
@@ -116,7 +91,6 @@ namespace Ecell.IDE.Plugins.MessageListWindow
             r.Cells.Add(c3);            
             r.Tag = mes;
 
-            c0.ReadOnly = true;
             c1.ReadOnly = true;
             c2.ReadOnly = true;
             c3.ReadOnly = true;
@@ -125,29 +99,13 @@ namespace Ecell.IDE.Plugins.MessageListWindow
             m_messages.Add(mes);
         }
 
-        public void RemoveMessageEntry(IMessageEntry mes)
-        {
-            foreach (DataGridViewRow r in MLWMessageDridView.Rows)
-            {
-                MessageEntry ent = r.Tag as MessageEntry;
-                if (ent == null) continue;
-                if (ent.Equals(mes))
-                {
-                    m_messages.Remove(mes);
-                    MLWMessageDridView.Rows.RemoveAt(r.Index);
-                    return;
-                }
-            }
-
-        }
-
         private void MessageCellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (MLWMessageDridView.Rows[e.RowIndex].Tag == null) return;
-            ObjectMessageEntry mes = MLWMessageDridView.Rows[e.RowIndex].Tag as ObjectMessageEntry;
+            ObjectReport mes = MLWMessageDridView.Rows[e.RowIndex].Tag as ObjectReport;
             if (mes == null) return;
 
-            m_control.PluginManager.SelectChanged(mes.Object.ModelID,
+            m_owner.PluginManager.SelectChanged(mes.Object.ModelID,
                 mes.Object.Key, mes.Object.Type);
         }
     }

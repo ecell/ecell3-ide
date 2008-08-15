@@ -77,6 +77,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IStaticDebugPlugin.cs" />
     <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -84,13 +85,6 @@
     </Compile>
     <Compile Include="StaticDebugForModel.cs" />
     <Compile Include="StaticDebugForNetwork.cs" />
-    <Compile Include="StaticDebugPlugin.cs" />
-    <Compile Include="StaticDebugSetupWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StaticDebugSetupWindow.Designer.cs">
-      <DependentUpon>StaticDebugSetupWindow.cs</DependentUpon>
-    </Compile>
     <Compile Include="StaticDebugWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -102,14 +96,6 @@
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StaticDebugSetupWindow.ja.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>StaticDebugSetupWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StaticDebugSetupWindow.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>StaticDebugSetupWindow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -40,7 +40,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using Ecell;
-using Ecell.Message;
+using Ecell.Logging;
 
 using IronPython.Hosting;
 

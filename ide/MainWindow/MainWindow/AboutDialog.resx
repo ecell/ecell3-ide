@@ -121,15 +121,21 @@
     <value>False</value>
   </metadata>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
   <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 123</value>
+    <value>11, 216</value>
+  </data>
+  <data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>365, 30</value>
+    <value>383, 12</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
@@ -150,65 +156,17 @@
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="productNameLabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="productNameLabel.Font" type="System.Drawing.Font, System.Drawing">
-    <value>MS UI Gothic, 9pt, style=Underline</value>
-  </data>
-  <data name="productNameLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>118, 12</value>
-  </data>
-  <data name="productNameLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 12</value>
-  </data>
-  <data name="productNameLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="productNameLabel.Text" xml:space="preserve">
-    <value>E-Cell Integrated Development Environment</value>
-  </data>
-  <data name="&gt;&gt;productNameLabel.Name" xml:space="preserve">
-    <value>productNameLabel</value>
-  </data>
-  <data name="&gt;&gt;productNameLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;productNameLabel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;productNameLabel.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="pictureBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 100</value>
-  </data>
-  <data name="pictureBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;pictureBox1.Name" xml:space="preserve">
-    <value>pictureBox1</value>
-  </data>
-  <data name="&gt;&gt;pictureBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pictureBox1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
   <metadata name="assemblyLabel.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
   <data name="assemblyLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="assemblyLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="assemblyLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>118, 38</value>
+    <value>240, 84</value>
   </data>
   <data name="assemblyLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>98, 12</value>
@@ -231,11 +189,50 @@
   <data name="&gt;&gt;assemblyLabel.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="productNameLabel.Font" type="System.Drawing.Font, System.Drawing">
+    <value>MS UI Gothic, 9pt, style=Bold, Underline</value>
+  </data>
+  <data name="productNameLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="productNameLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 84</value>
+  </data>
+  <data name="productNameLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>6, 6, 6, 6</value>
+  </data>
+  <data name="productNameLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>156, 12</value>
+  </data>
+  <data name="productNameLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="productNameLabel.Text" xml:space="preserve">
+    <value>E-Cell IDE ...</value>
+  </data>
+  <data name="&gt;&gt;productNameLabel.Name" xml:space="preserve">
+    <value>productNameLabel</value>
+  </data>
+  <data name="&gt;&gt;productNameLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;productNameLabel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;productNameLabel.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="copyLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="copyLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="copyLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>11, 102</value>
   </data>
   <data name="copyLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 23</value>
+    <value>395, 101</value>
   </data>
   <data name="copyLabel.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -258,11 +255,17 @@
   <data name="ecellLink.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <data name="ecellLink.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
+    <value>6, 23</value>
+  </data>
   <data name="ecellLink.Location" type="System.Drawing.Point, System.Drawing">
-    <value>118, 73</value>
+    <value>11, 234</value>
+  </data>
+  <data name="ecellLink.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
   </data>
   <data name="ecellLink.Size" type="System.Drawing.Size, System.Drawing">
-    <value>265, 12</value>
+    <value>265, 17</value>
   </data>
   <data name="ecellLink.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -289,7 +292,7 @@
     <value>NoControl</value>
   </data>
   <data name="CloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>305, 217</value>
+    <value>333, 273</value>
   </data>
   <data name="CloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 23</value>
@@ -315,8 +318,11 @@
   <data name="assemblyVersionLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="assemblyVersionLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="assemblyVersionLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>245, 38</value>
+    <value>344, 84</value>
   </data>
   <data name="assemblyVersionLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 12</value>
@@ -342,8 +348,11 @@
   <data name="creditButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
+  <data name="creditButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="creditButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>224, 217</value>
+    <value>252, 273</value>
   </data>
   <data name="creditButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -366,6 +375,36 @@
   <data name="&gt;&gt;creditButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="pictureBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="pictureBox1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="pictureBox1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="pictureBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>419, 68</value>
+  </data>
+  <data name="pictureBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;pictureBox1.Name" xml:space="preserve">
+    <value>pictureBox1</value>
+  </data>
+  <data name="&gt;&gt;pictureBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pictureBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -373,7 +412,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>391, 252</value>
+    <value>419, 308</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

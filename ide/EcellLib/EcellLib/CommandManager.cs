@@ -776,15 +776,6 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Sends to the "Message" window the message.
-        /// </summary>
-        /// <param name="message">The message</param>
-        public void Message(string message)
-        {
-            m_env.PluginManager.Message(Constants.messageSimulation, message);
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         public void Refresh()
@@ -884,11 +875,6 @@ namespace Ecell
             m_env.DataManager.SimulationSuspend();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="type">data type to set initial parameter.</param>
-        /// <param name="initialDic">the dictionary of initial parameter.</param>
         public void UpdateInitialCondition(Dictionary<string, double> initialDic)
         {
             m_env.DataManager.UpdateInitialCondition(null, s_modelID, initialDic);
@@ -1630,11 +1616,6 @@ namespace Ecell
                 return this.m_loggerPolicy;
             }
 
-            /// <summary>
-            /// Returns the initial condition of the type.
-            /// </summary>
-            /// <param name="type">the type of the entity</param>
-            /// <returns>the initial condition</returns>
             public Dictionary<string, double> GetInitialCondition()
             {
                 return this.m_initialCondition;

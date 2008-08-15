@@ -1,8 +1,39 @@
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2006 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Moriyoshi Koizumi <mozo@sfc.keio.ac.jp>
+//
+
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Ecell.Message;
+using System.IO;
+using Ecell.Logging;
 using Ecell.Job;
+using Ecell.Reporting;
 
 namespace Ecell
 {
@@ -15,10 +46,12 @@ namespace Ecell
 
         private DataManager m_dManager;
         private PluginManager m_pManager;
-        private MessageManager m_mManager;
+        private LogManager m_lManager;
+        private ReportManager m_rManager;
         private ActionManager m_aManager;
         private CommandManager m_cManager;
         private IJobManager m_jManager;
+        private ConsoleManager m_console;
         /// <summary>
         /// 
         /// </summary>
@@ -36,9 +69,16 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        public MessageManager MessageManager
+        public LogManager LogManager
         {
-            get { return m_mManager; }
+            get { return m_lManager; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public ReportManager ReportManager
+        {
+            get { return m_rManager; }
         }
         /// <summary>
         /// 
@@ -60,7 +100,14 @@ namespace Ecell
         public IJobManager JobManager
         {
             get { return m_jManager; }
-            set { m_jManager = value; }
+            // set { m_jManager = value; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public ConsoleManager Console
+        {
+            get { return m_console; }
         }
         /// <summary>
         /// 
@@ -68,11 +115,13 @@ namespace Ecell
         private ApplicationEnvironment()
         {
             m_dManager = new DataManager(this);
-            m_mManager = new MessageManager(this);
+            m_lManager = new LogManager(this);
             m_pManager = new PluginManager(this);
             m_aManager = new ActionManager(this);
             m_jManager = new JobManager(this);
+            m_rManager = new ReportManager(this);
             m_cManager = new CommandManager(this);
+            m_console = new ConsoleManager(this);
         }
         /// <summary>
         /// 

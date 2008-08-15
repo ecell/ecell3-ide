@@ -399,7 +399,6 @@ namespace Ecell.IDE.Plugins.GridLayout
         /// <param name="sys">nodes must be within this sytem</param>
         /// <param name="childSystems">child systems of this system</param>
         /// <param name="nodeList">nodes, to be layouted</param>
-        /// <param name="dialog">a progress bar</param>
         /// <param name="isFromScratch">Whether layouting will be done from scratch or from current positions</param>
         private void DoNodeLayout(
             EcellObject sys,

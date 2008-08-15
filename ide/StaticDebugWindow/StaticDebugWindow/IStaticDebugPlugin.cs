@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2007 Keio University
+//                Copyright (C) 1996-2006 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -27,38 +27,31 @@
 // written by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Text;
-using System.Reflection;
-using System.Windows.Forms;
+using Ecell.Objects;
+using Ecell.Reporting;
 
-namespace Ecell.IDE
+namespace Ecell.IDE.Plugins.StaticDebugWindow
 {
     /// <summary>
-    /// SplashSheet window class.
+    /// The interface of static debug algorithm .
     /// </summary>
-    public partial class Splash : Form
+    public interface IStaticDebugPlugin
     {
         /// <summary>
-        /// Constructor.
+        /// get the name of this debug.
         /// </summary>
-        public Splash(ApplicationEnvironment env)
-        {
-            InitializeComponent();
-            Assembly executingAssembly = Assembly.GetExecutingAssembly();
-            VersionNumber.Text = ((AssemblyProductAttribute)executingAssembly.GetCustomAttributes(typeof(AssemblyProductAttribute), false)[0]).Product;
-            CopyrightNotice.Text = ((AssemblyCopyrightAttribute)executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)[0]).Copyright;
-            env.PluginManager.SetSplashDelegate(this.SetProgressMessage);
-        }
+        /// <returns></returns>
+        string Name { get; }
 
-        private void SetProgressMessage(string mes)
-        {
-            progressInfo.Text = mes;
-            this.Refresh();
-        }
+        /// <summary>
+        /// exevute debug.
+        /// </summary>
+        /// <param name="data">The list of object to be checked.</param>
+        /// <returns>The list of error message.</returns>
+        IEnumerable<IReport> Debug(List<EcellObject> data);
     }
 }

@@ -34,7 +34,7 @@ using System.Reflection;
 using System.Text;
 
 using Ecell;
-using Ecell.Message;
+using Ecell.Reporting;
 using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.MessageListWindow
@@ -65,18 +65,14 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         /// <returns>Windows form</returns>
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
-            List<EcellDockContent> res = new List<EcellDockContent>();
-            m_control = new MessageListWindowControl();
-            m_control.Control = this;
-            res.Add(m_control);
-
-            return res;
+            m_control = new MessageListWindowControl(this);
+            return new EcellDockContent[] { m_control };
         }
 
         /// <summary>
         /// The event sequence on closing project.
         /// </summary>
-        public override void Clear()
+        public void Report_ReportingSessionStarted(object obj, ReportingSessionEventArgs e)
         {
             m_control.Clear();
         }
@@ -85,15 +81,9 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         /// The event sequence to display the message.
         /// </summary>
         /// <param name="message">the message entry object.</param>
-        public override void Message2(IMessageEntry message)
+        public void Report_ReportEntryAdded(object obj, ReportEventArgs e)
         {
-            m_control.AddMessageEntry(message);
-        }
-
-
-        public override void RemoveMessage(IMessageEntry message)
-        {
-            m_control.RemoveMessageEntry(message);
+            m_control.AddMessageEntry(e.Report);
         }
 
         /// <summary>
@@ -114,32 +104,5 @@ namespace Ecell.IDE.Plugins.MessageListWindow
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
         #endregion
-
-        /// <summary>
-        /// get the error message with using index.
-        /// if index == -1, get the all messages.
-        /// </summary>
-        /// <param name="ind">the message index.</param>
-        /// <returns>the list of messages.</returns>
-        public IEnumerable<IMessageEntry> GetMessages(int ind)
-        {
-            int count = m_env.MessageManager.Count;
-            List<IMessageEntry> message = new List<IMessageEntry>();
-
-            if (ind == -1)
-            {
-                for (int i = 0; i < count; i++)
-                {
-                    message.Add(m_env.MessageManager[i]);
-                }
-            }
-            else
-            {
-                message.Add(m_env.MessageManager[ind]);
-            }
-
-            return message;
-        }
-
     }
 }

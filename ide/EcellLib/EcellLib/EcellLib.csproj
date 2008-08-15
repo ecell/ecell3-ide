@@ -39,7 +39,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <DocumentationFile>bin\Release\Formulator.XML</DocumentationFile>
     <PlatformTarget>x86</PlatformTarget>
@@ -116,26 +116,25 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleManager.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DMCompiler.cs" />
     <Compile Include="EcellDockContent.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ApplicationEnvironment.cs" />
+    <Compile Include="Logging\ApplicationLogEntry.cs" />
+    <Compile Include="Logging\ILogEntry.cs" />
+    <Compile Include="Logging\LogEntry.cs" />
+    <Compile Include="Logging\LogManager.cs" />
     <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Message\ApplicationMessageEntry.cs" />
     <Compile Include="Job\IJobManager.cs" />
     <Compile Include="Job\LocalJob.cs" />
     <Compile Include="Job\LocalJobProxy.cs" />
-    <Compile Include="Message\EntityMessageEntry.cs" />
-    <Compile Include="Message\IMessageEntry.cs" />
-    <Compile Include="Message\MessageManager.cs" />
-    <Compile Include="Message\MessageEntry.cs" />
-    <Compile Include="Message\ObjectMessageEntry.cs" />
     <Compile Include="NodeImageList.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -156,8 +155,17 @@
     <Compile Include="Objects\EcellVariable.cs" />
     <Compile Include="EcellXml.cs" />
     <Compile Include="Plugin\IDockOwner.cs" />
+    <Compile Include="Plugin\IEcellObjectTaskPlugin.cs" />
     <Compile Include="Plugin\IEcellPlugin.cs" />
     <Compile Include="Project.cs" />
+    <Compile Include="Reporting\IReport.cs" />
+    <Compile Include="Reporting\ObjectPropertyReport.cs" />
+    <Compile Include="Reporting\ObjectReport.cs" />
+    <Compile Include="Reporting\Report.cs" />
+    <Compile Include="Reporting\ReportEventArgs.cs" />
+    <Compile Include="Reporting\ReportingSession.cs" />
+    <Compile Include="Reporting\ReportingSessionEventArgs.cs" />
+    <Compile Include="Reporting\ReportManager.cs" />
     <Compile Include="ScriptWriter.cs" />
     <Compile Include="Job\JobManager.cs" />
     <Compile Include="Job\Job.cs" />

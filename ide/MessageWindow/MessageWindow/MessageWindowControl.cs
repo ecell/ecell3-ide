@@ -18,12 +18,14 @@ namespace Ecell.IDE.Plugins.MessageWindow
         /// </summary>
         public MessageWindowControl()
         {
-
             base.m_isSavable = true;
             InitializeComponent();
-            this.Name = "MessageWindow";
-            this.Text = MessageResources.MessageWindow;
             this.TabText = this.Text;
+        }
+
+        public void AppendText(string text)
+        {
+            simText.AppendText(text);
         }
     }
 }

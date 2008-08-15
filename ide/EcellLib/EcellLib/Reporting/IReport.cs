@@ -2,7 +2,7 @@
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2006 Keio University
+//                Copyright (C) 1996-2008 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -24,33 +24,32 @@
 //
 //END_HEADER
 //
-// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
-// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+// written by Moriyoshi Koizumi <mozo@sfc.keio.ac.jp>.
 //
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Ecell.Objects;
 
-namespace Ecell.IDE.Plugins.StaticDebugWindow
+namespace Ecell.Reporting
 {
     /// <summary>
-    /// The interface of static debug algorithm .
+    /// Interface of the message entry.
     /// </summary>
-    public interface StaticDebugPlugin
+    public interface IReport
     {
         /// <summary>
-        /// get the name of this debug.
+        /// Get the type of message.
         /// </summary>
-        /// <returns></returns>
-        string GetDebugName();
-
+        /// <returns>the type of message.</returns>
+        MessageType Type { get; }
         /// <summary>
-        /// exevute debug.
+        /// Get the location of message.
         /// </summary>
-        /// <param name="data">The list of object to be checked.</param>
-        /// <returns>The list of error message.</returns>
-        List<ErrorMessage> Debug(List<EcellObject> data);
+        /// <returns>the location of message.</returns>
+        string Location { get; }
+        /// <summary>
+        /// Get the message string.
+        /// </summary>
+        /// <returns>the message string</returns>
+        String Message { get; }        
     }
 }

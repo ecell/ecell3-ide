@@ -74,11 +74,6 @@
     <Compile Include="MessageListWindowControl.Designer.cs">
       <DependentUpon>MessageListWindowControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="MessageResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MessageResources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -92,14 +87,6 @@
     <EmbeddedResource Include="MessageListWindowControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MessageListWindowControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MessageResources.ja.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MessageResources.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

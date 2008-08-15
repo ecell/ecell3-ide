@@ -265,20 +265,6 @@ namespace Ecell.IDE.MainWindow
         /// 
         /// </summary>
         [Test()]
-        public void TestWarnData()
-        {
-            string modelID = null;
-            string key = null;
-            string type = null;
-            string warntype = null;
-            _unitUnderTest.WarnData(modelID, key, type, warntype);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestMessage()
         {
             string type = null;

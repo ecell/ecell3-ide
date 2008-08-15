@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InitialPreferencesDialog));
-            this.SWSPictureBox = new System.Windows.Forms.PictureBox();
             this.SWSPatternListLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.SWSNoteTextBox = new System.Windows.Forms.TextBox();
             this.SILangGroupBox = new System.Windows.Forms.GroupBox();
@@ -41,19 +40,12 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.SWSPictureBox)).BeginInit();
+            this.SWSPictureBox = new System.Windows.Forms.PictureBox();
             this.SILangGroupBox.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SWSPictureBox)).BeginInit();
             this.SuspendLayout();
-            // 
-            // SWSPictureBox
-            // 
-            resources.ApplyResources(this.SWSPictureBox, "SWSPictureBox");
-            this.SWSPictureBox.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.SWSPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.SWSPictureBox.Name = "SWSPictureBox";
-            this.SWSPictureBox.TabStop = false;
             // 
             // SWSPatternListLayoutPanel
             // 
@@ -135,16 +127,23 @@
             resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.BackColor = System.Drawing.Color.White;
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBox1.Image = global::Ecell.IDE.MainWindow.Properties.Resources.banner;
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             // 
+            // SWSPictureBox
+            // 
+            resources.ApplyResources(this.SWSPictureBox, "SWSPictureBox");
+            this.SWSPictureBox.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.SWSPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.SWSPictureBox.Name = "SWSPictureBox";
+            this.SWSPictureBox.TabStop = false;
+            // 
             // InitialPreferencesDialog
             // 
-            this.AcceptButton = this.okButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.CancelButton = this.cancelButton;
             this.ControlBox = false;
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox2);
@@ -156,12 +155,12 @@
             this.Name = "InitialPreferencesDialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            ((System.ComponentModel.ISupportInitialize)(this.SWSPictureBox)).EndInit();
             this.SILangGroupBox.ResumeLayout(false);
             this.SILangGroupBox.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SWSPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }

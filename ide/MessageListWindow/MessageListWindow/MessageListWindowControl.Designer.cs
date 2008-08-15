@@ -32,7 +32,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.MLWMessageDridView = new System.Windows.Forms.DataGridView();
-            this.MLWDateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MLWTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MLWLocColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MLWMesColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,7 +54,6 @@
             this.MLWMessageDridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             this.MLWMessageDridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.MLWMessageDridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.MLWDateColumn,
             this.MLWTypeColumn,
             this.MLWLocColumn,
             this.MLWMesColumn});
@@ -73,12 +71,6 @@
             this.MLWMessageDridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.MLWMessageDridView.RowTemplate.Height = 21;
             this.MLWMessageDridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MessageCellDoubleClick);
-            // 
-            // MLWDateColumn
-            // 
-            this.MLWDateColumn.FillWeight = 30F;
-            resources.ApplyResources(this.MLWDateColumn, "MLWDateColumn");
-            this.MLWDateColumn.Name = "MLWDateColumn";
             // 
             // MLWTypeColumn
             // 
@@ -114,7 +106,6 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.DataGridView MLWMessageDridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MLWDateColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn MLWTypeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn MLWLocColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn MLWMesColumn;

@@ -38,7 +38,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
 
-using Ecell.Message;
+using Ecell.Logging;
 using Ecell.Objects;
 using Ecell.Layout;
 
@@ -68,7 +68,7 @@ namespace Ecell.Plugin
         /// <summary>
         /// MessageManager instance
         /// </summary>
-        protected MessageManager m_mManager;
+        protected LogManager m_mManager;
         #endregion
 
         #region Accessors
@@ -91,9 +91,9 @@ namespace Ecell.Plugin
         /// <summary>
         /// The MessageManager instance associated to this plugin.
         /// </summary>
-        public MessageManager MessageManager
+        public LogManager MessageManager
         {
-            get { return m_env.MessageManager; }
+            get { return m_env.LogManager; }
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Ecell.Plugin
                 m_env = value;
                 m_dManager = value.DataManager;
                 m_pManager = value.PluginManager;
-                m_mManager = value.MessageManager;
+                m_mManager = value.LogManager;
             }
         }
         #endregion
@@ -195,15 +195,6 @@ namespace Ecell.Plugin
         public virtual Bitmap Print(string name)
         {
             return null;
-        }
-
-        /// <summary>
-        /// cCeck whether this plugin is MessageWindow.
-        /// </summary>
-        /// <returns>false</returns>
-        public virtual bool IsMessageWindow()
-        {
-            return false; 
         }
         #endregion
 
@@ -359,18 +350,6 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// The event sequence on generating warning data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID generating warning data.</param>
-        /// <param name="key">The ID generating warning data.</param>
-        /// <param name="type">The data type generating warning data.</param>
-        /// <param name="warntype">The type of waring data.</param>
-        public virtual void WarnData(string modelID, string key, string type, string warntype)
-        {
-            // do nothing
-        }
-
-        /// <summary>
         /// The event sequence on adding the logger at other plugin.
         /// </summary>
         /// <param name="modelID">The model ID.</param>
@@ -383,29 +362,10 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// The execution log of simulation, debug and analysis.
-        /// </summary>
-        /// <param name="type">Log type.</param>
-        /// <param name="message">Message.</param>
-        public virtual void Message(string type, string message)
-        {
-            // do nothing
-        }
-
-        /// <summary>
-        /// The event sequence to display the message.
-        /// </summary>
-        /// <param name="message">the message entry object.</param>
-        public virtual void Message2(IMessageEntry message)
-        {
-            // do nothing.
-        }
-
-        /// <summary>
         /// The event sequence to remove the message.
         /// </summary>
         /// <param name="message">the message entry object.</param>
-        public virtual void RemoveMessage(IMessageEntry message)
+        public virtual void RemoveMessage(ILogEntry message)
         {
             // do nothing.
         }
@@ -633,21 +593,13 @@ namespace Ecell.Plugin
         {
             m_pManager.RemoveSelect(modelID, key, type);
         }
+
         /// <summary>
         /// Inform the ResetSelect() to PluginManager
         /// </summary>
         public void NotifyResetSelect()
         {
             m_pManager.ResetSelect();
-        }
-        /// <summary>
-        /// Inform the plugin message.
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="message"></param>
-        public void NotifyMessage(string type, string message)
-        {
-            m_pManager.Message(type, message);
         }
         #endregion
     }

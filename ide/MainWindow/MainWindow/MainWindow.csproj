@@ -31,6 +31,8 @@
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ReferencePath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin;$(REFPATH)</ReferencePath>
@@ -53,7 +55,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
-    <DocumentationFile>bin\Release\Formulator.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
@@ -142,11 +145,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="MessageResources.ja.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MessageResources.ja.resx</DependentUpon>
     </Compile>
     <Compile Include="PluginListDialog.cs">
       <SubType>Form</SubType>

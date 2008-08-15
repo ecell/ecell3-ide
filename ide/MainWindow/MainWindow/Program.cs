@@ -39,7 +39,7 @@ using System.Reflection;
 using System.IO;
 using System.Runtime.InteropServices;
 
-using Ecell.Message;
+using Ecell.Logging;
 using Ecell.Plugin;
 
 namespace Ecell.IDE
@@ -64,10 +64,6 @@ namespace Ecell.IDE
             string[] fileList = parseArguments(args);
 
             Util.InitialLanguage();
-            Application.EnableVisualStyles();
-            // workaround for .NET Framework 1.1
-            // see http://msdn.microsoft.com/en-us/library/system.windows.forms.treeview.imagelist.aspx
-            Application.DoEvents();
 
             ApplicationEnvironment env = ApplicationEnvironment.GetInstance();
 

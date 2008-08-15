@@ -37,7 +37,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using Ecell.Message;
+using Ecell.Logging;
 using Ecell.Objects;
 
 namespace Ecell.Plugin
@@ -112,12 +112,6 @@ namespace Ecell.Plugin
         /// </summary>
         /// <returns>The bitmap data of plugin.</returns>   
         Bitmap Print(string name);
-
-        /// <summary>
-        /// cCeck whether this plugin is MessageWindow.
-        /// </summary>
-        /// <returns>false</returns>
-        bool IsMessageWindow();
         #endregion
 
         #region Methods involved in the object lifecycle
@@ -232,15 +226,6 @@ namespace Ecell.Plugin
         void RemoveParameterData(EcellParameterData data);
 
         /// <summary>
-        /// The event sequence on generating warning data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID generating warning data.</param>
-        /// <param name="key">The ID generating warning data.</param>
-        /// <param name="type">The data type generating warning data.</param>
-        /// <param name="warntype">The type of waring data.</param>
-        void WarnData(string modelID, string key, string type, string warntype);
-
-        /// <summary>
         /// The event sequence on adding the logger at other plugin.
         /// </summary>
         /// <param name="modelID">The model ID.</param>
@@ -248,25 +233,6 @@ namespace Ecell.Plugin
         /// <param name="type">The data type.</param>
         /// <param name="path">The path of entity.</param>
         void LoggerAdd(string modelID, string type, string key, string path);
-
-        /// <summary>
-        /// The execution log of simulation, debug and analysis.
-        /// </summary>
-        /// <param name="type">Log type.</param>
-        /// <param name="message">Message.</param>
-        void Message(string type, string message);
-
-        /// <summary>
-        /// The event sequence to display the message.
-        /// </summary>
-        /// <param name="message">the message entry object.</param>
-        void Message2(IMessageEntry message);
-
-        /// <summary>
-        /// The event sequence to display the message.
-        /// </summary>
-        /// <param name="message">the message entry object.</param>
-        void RemoveMessage(IMessageEntry message);
 
         /// <summary>
         /// The event sequence on advancing time.

@@ -35,12 +35,12 @@ namespace Ecell.IDE.MainWindow
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutDialog));
             System.Windows.Forms.Label assemblyLabel;
             this.productNameLabel = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.copyLabel = new System.Windows.Forms.Label();
             this.ecellLink = new System.Windows.Forms.LinkLabel();
             this.CloseButton = new System.Windows.Forms.Button();
             this.assemblyVersionLabel = new System.Windows.Forms.Label();
             this.creditButton = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             label3 = new System.Windows.Forms.Label();
             assemblyLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -51,32 +51,29 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(label3, "label3");
             label3.Name = "label3";
             // 
-            // productNameLabel
-            // 
-            resources.ApplyResources(this.productNameLabel, "productNameLabel");
-            this.productNameLabel.Name = "productNameLabel";
-            // 
-            // pictureBox1
-            // 
-            resources.ApplyResources(this.pictureBox1, "pictureBox1");
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.TabStop = false;
-            // 
             // assemblyLabel
             // 
             resources.ApplyResources(assemblyLabel, "assemblyLabel");
             assemblyLabel.Name = "assemblyLabel";
             // 
+            // productNameLabel
+            // 
+            resources.ApplyResources(this.productNameLabel, "productNameLabel");
+            this.productNameLabel.Name = "productNameLabel";
+            // 
             // copyLabel
             // 
             resources.ApplyResources(this.copyLabel, "copyLabel");
             this.copyLabel.Name = "copyLabel";
+            this.copyLabel.UseMnemonic = false;
             // 
             // ecellLink
             // 
             resources.ApplyResources(this.ecellLink, "ecellLink");
             this.ecellLink.Name = "ecellLink";
             this.ecellLink.TabStop = true;
+            this.ecellLink.UseCompatibleTextRendering = true;
+            this.ecellLink.UseMnemonic = false;
             // 
             // CloseButton
             // 
@@ -97,12 +94,18 @@ namespace Ecell.IDE.MainWindow
             this.creditButton.UseVisualStyleBackColor = true;
             this.creditButton.Click += new System.EventHandler(this.creditButton_Click);
             // 
+            // pictureBox1
+            // 
+            resources.ApplyResources(this.pictureBox1, "pictureBox1");
+            this.pictureBox1.Image = global::Ecell.IDE.MainWindow.Properties.Resources.banner;
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.TabStop = false;
+            // 
             // AboutDialog
             // 
-            this.AcceptButton = this.CloseButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.CloseButton;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.creditButton);
             this.Controls.Add(assemblyLabel);
             this.Controls.Add(this.CloseButton);
@@ -116,6 +119,7 @@ namespace Ecell.IDE.MainWindow
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AboutDialog";
+            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -125,12 +129,12 @@ namespace Ecell.IDE.MainWindow
 
         #endregion
 
-        private System.Windows.Forms.LinkLabel ecellLink;
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.Label assemblyVersionLabel;
         private System.Windows.Forms.Label copyLabel;
         private System.Windows.Forms.Button creditButton;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label productNameLabel;
+        private System.Windows.Forms.LinkLabel ecellLink;
     }
 }

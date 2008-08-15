@@ -52,7 +52,7 @@ using IronPython.Hosting;
 using IronPython.Runtime;
 
 using Ecell;
-using Ecell.Message;
+using Ecell.Logging;
 using Ecell.Plugin;
 using WeifenLuo.WinFormsUI.Docking;
 using Ecell.Objects;
@@ -264,8 +264,8 @@ namespace Ecell.IDE.MainWindow
             {
                 Trace.WriteLine(e);
                 String errmes = MessageResources.ErrLoadPlugin;
-                m_env.MessageManager.Append(
-                    new ApplicationMessageEntry(
+                m_env.LogManager.Append(
+                    new ApplicationLogEntry(
                         MessageType.Error,
                         String.Format(errmes, className, path), this));
                 return;
@@ -825,46 +825,6 @@ namespace Ecell.IDE.MainWindow
         public void Clear()
         {
             this.Text = m_title;
-        }
-
-        /// <summary>
-        /// The event sequence on generating warning data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID generating warning data.</param>
-        /// <param name="key">The ID generating warning data.</param>
-        /// <param name="type">The data type generating warning data.</param>
-        /// <param name="warntype">The type of waring data.</param>
-        public void WarnData(string modelID, string key, string type, string warntype)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The execution log of simulation, debug and analysis.
-        /// </summary>
-        /// <param name="type">Log type.</param>
-        /// <param name="message">Message.</param>
-        public void Message(string type, string message)
-        {
-            // nothing
-        }
-
-        /// <summary>
-        /// The event sequence to display the message.
-        /// </summary>
-        /// <param name="message">the message entry object.</param>
-        public virtual void Message2(IMessageEntry message)
-        {
-            // nothing.
-        }
-
-        /// <summary>
-        /// The event sequence to delete the message.
-        /// </summary>
-        /// <param name="message">the message entry object.</param>
-        public virtual void RemoveMessage(IMessageEntry message)
-        {
-            // nothing.
         }
 
         /// <summary>
@@ -1609,8 +1569,8 @@ namespace Ecell.IDE.MainWindow
         {
             Assembly executingAssembly = Assembly.GetExecutingAssembly();
             string versionText = executingAssembly.GetName().Version.ToString();
-            string copyrightText = (executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false))[0].ToString();
-            string informationVersionText = (executingAssembly.GetCustomAttributes(typeof(AssemblyProductAttribute), false))[0].ToString();
+            string copyrightText = ((AssemblyCopyrightAttribute)executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)[0]).Copyright;
+            string informationVersionText = ((AssemblyProductAttribute)executingAssembly.GetCustomAttributes(typeof(AssemblyProductAttribute), false)[0]).Product;
 
             AboutDialog dlg = new AboutDialog(versionText, copyrightText, informationVersionText);
             using (dlg)

@@ -65,6 +65,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// MenuItem to display the window for robust analysis.
         /// </summary>
         private ToolStripMenuItem m_showSensitiveAnalysisSetupItem;
+        /// <summary>
         /// For to display the result of analysis.
         /// </summary>
         private AnalysisResultWindow m_rWin = null;

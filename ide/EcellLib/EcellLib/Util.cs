@@ -367,7 +367,7 @@ namespace Ecell
             string baseDir = Util.GetBaseDir();
             string preName = "project";
             int i = 1;
-            while (true)
+            for (;;)
             {
                 string prjName = preName + i;
                 string prjPath = Path.Combine(baseDir, prjName);
@@ -377,7 +377,6 @@ namespace Ecell
 
                 i++;
             }
-            return "";
         }
 
         public static void ParseEntityKey(string str, out string systemPath, out string localID)
@@ -436,11 +435,6 @@ namespace Ecell
             propName = parts[3];
         }
 
-
-        /// <summary>
-        /// get parent system ID.
-        /// </summary>
-        /// <param name="key">The key</param>
         public static string GetSuperSystemPath(string systemPath)
         {
             Regex postColonRegex = new Regex(":\\w*$");

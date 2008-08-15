@@ -121,12 +121,6 @@
   <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <metadata name="MLWDateColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="MLWDateColumn.HeaderText" xml:space="preserve">
-    <value>Date</value>
-  </data>
   <metadata name="MLWTypeColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -291,12 +285,6 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>MessageListWindowControl</value>
-  </data>
-  <data name="&gt;&gt;MLWDateColumn.Name" xml:space="preserve">
-    <value>MLWDateColumn</value>
-  </data>
-  <data name="&gt;&gt;MLWDateColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;MLWTypeColumn.Name" xml:space="preserve">
     <value>MLWTypeColumn</value>

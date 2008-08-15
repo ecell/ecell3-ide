@@ -540,6 +540,37 @@ namespace Ecell.IDE.MainWindow
 
         }
 
+        [ComVisible(true)]
+        public class MyIEnumerator
+        {
+            IEnumerator<KeyValuePair<string, string>> m_en;
+
+            public MyIEnumerator(IEnumerator<KeyValuePair<string, string>> en)
+            {
+                m_en = en;
+            }
+
+            public string CurrentKey
+            {
+                get { return m_en.Current.Key; }
+            }
+
+            public string CurrentValue
+            {
+                get { return m_en.Current.Value; }
+            }
+
+            public bool MoveNext()
+            {
+                return m_en.MoveNext();
+            }
+
+            public void Reset()
+            {
+                m_en.Reset();
+            }
+        }
+
         /// <summary>
         /// AutomationClass
         /// </summary>
@@ -588,17 +619,9 @@ namespace Ecell.IDE.MainWindow
             /// 
             /// </summary>
             /// <returns></returns>
-            public string GetRecentFiles()
+            public MyIEnumerator GetRecentFiles()
             {
-                string recentFiles = "";
-                string temp;
-                int i = 0;
-                foreach (KeyValuePair<string, string> project in m_browser.RecentFiles)
-                {
-                    temp = "<li><a href=\"#\" onclick=\"window.external.LoadProject('" + project.Value.Replace("\\", "/") + "');\">" + project.Key + "</a></li>\n";
-                    recentFiles += temp;
-                }
-                return recentFiles;
+                return new MyIEnumerator(m_browser.RecentFiles.GetEnumerator());
             }
         }
         #endregion

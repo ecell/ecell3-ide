@@ -37,7 +37,7 @@ using System.Windows.Forms;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 
-using Ecell.Message;
+using Ecell.Logging;
 using Ecell.Job;
 using Ecell.Objects;
 
@@ -763,8 +763,8 @@ namespace Ecell.IDE.Plugins.Analysis
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute,
                     new object[] { MessageResources.NameSensAnalysis }));
 
-                m_owner.MessageManager.Append(
-                        new ApplicationMessageEntry(MessageType.Error, ex.ToString(), this));
+                m_owner.Environment.LogManager.Append(
+                        new ApplicationLogEntry(MessageType.Error, ex.ToString(), this));
             }
         }
         #endregion

@@ -1095,8 +1095,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <summary>
         /// Compare with two object by name.
         /// </summary>
-        /// <param name="x">compared object.</param>
-        /// <param name="y">compare object.</param>
+        /// <param name="tx">compared object.</param>
+        /// <param name="ty">compare object.</param>
         /// <returns></returns>
         public int Compare(TreeNode tx, TreeNode ty)
         {
@@ -1120,8 +1120,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// The first, system sort by the type of object.
         /// The second, system sort by the name of object.
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="tx"></param>
+        /// <param name="ty"></param>
         /// <returns></returns>
         public int Compare(TreeNode tx, TreeNode ty)
         {

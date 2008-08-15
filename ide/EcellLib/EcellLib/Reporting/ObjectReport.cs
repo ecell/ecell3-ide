@@ -24,8 +24,7 @@
 //
 //END_HEADER
 //
-// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
-// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+// written by Moriyoshi Koizumi <mozo@sfc.keio.ac.jp>.
 //
 
 using System;
@@ -34,12 +33,9 @@ using System.Text;
 
 using Ecell.Objects;
 
-namespace Ecell.Logging
+namespace Ecell.Reporting
 {
-    /// <summary>
-    /// Message Entry Object for EcellObject.
-    /// </summary>
-    public class ObjectLogEntry : LogEntry
+    public class ObjectReport: Report
     {
         private EcellObject m_object;
 
@@ -67,7 +63,7 @@ namespace Ecell.Logging
         /// <param name="type">the type of message.</param>
         /// <param name="message">the message string.</param>
         /// <param name="obj">the object of message.</param>
-        public ObjectLogEntry(MessageType type, String message, EcellObject obj)
+        public ObjectReport(MessageType type, String message, EcellObject obj)
             : base(type, message)
         {
             m_object = obj;

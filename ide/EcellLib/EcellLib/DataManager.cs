@@ -660,7 +660,7 @@ namespace Ecell
                 Trace.WriteLine(String.Format(MessageResources.InfoClose,
                     new object[] { projectID }));
                 m_env.ActionManager.Clear();
-                m_env.MessageManager.Clear();
+                m_env.ReportManager.Clear();
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
             }
             catch (Exception ex)
@@ -1050,12 +1050,6 @@ namespace Ecell
             SetSimulationParameter(ecellObject, modelID);
         }
 
-        /// <summary>
-        /// Set simulation parameter
-        /// </summary>
-        /// <param name="ecellObject"></param>
-        /// <param name="modelID"></param>
-        /// <param name="type"></param>
         private void SetSimulationParameter(EcellObject ecellObject, string modelID)
         {
             foreach (string keyParameterID in m_currentProject.InitialCondition.Keys)
@@ -5397,7 +5391,6 @@ namespace Ecell
                     foreach (EcellObject stepper in perParameterStepperListDic[model.ModelID])
                     {
                         oldStepperList.Add(stepper.Copy());
-                        bool deleted = true;
                         foreach (EcellObject newStepper in stepperList)
                         {
                             if (stepper.Name == newStepper.Name)

@@ -44,7 +44,7 @@ using System.IO;
 using System.ComponentModel;
 
 using Ecell.Layout;
-using Ecell.Message;
+using Ecell.Logging;
 using Ecell.Plugin;
 using Ecell.Objects;
 
@@ -398,21 +398,6 @@ namespace Ecell
         }
 
         /// <summary>
-        /// event sequence on generating warning data at other plugin.
-        /// </summary>
-        /// <param name="modelID">the model ID generating warning data</param>
-        /// <param name="key">the key ID generating warning data</param>
-        /// <param name="type">the data type generating warning data</param>
-        /// <param name="warntype">the type of warning data</param>
-        public void WarnData(string modelID, string key, string type, string warntype)
-        {
-            foreach (IEcellPlugin p in m_pluginList.Values)
-            {
-                p.WarnData(modelID, key, type, warntype);
-            }
-        }
-
-        /// <summary>
         /// trans the load data to loading all plugin.
         /// </summary>
         /// <param name="modelID"></param>
@@ -500,42 +485,6 @@ namespace Ecell
             foreach (IEcellPlugin p in m_pluginList.Values)
             {
                 p.AdvancedTime(time);
-            }
-        }
-
-        /// <summary>
-        /// display the message of executing simulation, debug, analysis and so on.
-        /// </summary>
-        /// <param name="type">display tab of this message</param>
-        /// <param name="message">message of executing simulation, debug, analysis and so on</param>
-        public void Message(string type, string message)
-        {
-            foreach (IEcellPlugin p in m_pluginList.Values)
-            {
-                if (p.IsMessageWindow())
-                {
-                    p.Message(type, message);
-                }
-            }
-        }
-
-        /// <summary>
-        /// The event sequence to display the message.
-        /// </summary>
-        /// <param name="message">the message entry object.</param>
-        public void Message2(IMessageEntry message)
-        {
-            foreach (IEcellPlugin p in m_pluginList.Values)
-            {
-                p.Message2(message);
-            }
-        }
-
-        public void RemoveMessage(IMessageEntry mes)
-        {
-            foreach (IEcellPlugin p in m_pluginList.Values)
-            {
-                p.RemoveMessage(mes);
             }
         }
 

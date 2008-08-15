@@ -317,19 +317,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// 
         /// </summary>
         [Test()]
-        public void TestIsMessageWindow()
-        {
-            bool expectedBoolean = false;
-            bool resultBoolean = false;
-            resultBoolean = _unitUnderTest.IsMessageWindow();
-            Assert.AreEqual(expectedBoolean, resultBoolean, "IsMessageWindow method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestLoggerAdd()
         {
             string modelID = null;
@@ -337,18 +324,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             string key = null;
             string path = null;
             _unitUnderTest.LoggerAdd(modelID, type, key, path);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestMessage()
-        {
-            string type = null;
-            string message = null;
-            _unitUnderTest.Message(type, message);
             Assert.Fail("Create or modify test(s).");
 
         }
@@ -423,20 +398,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public void TestResetSelect()
         {
             _unitUnderTest.ResetSelect();
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestWarnData()
-        {
-            string modelID = null;
-            string key = null;
-            string type = null;
-            string warntype = null;
-            _unitUnderTest.WarnData(modelID, key, type, warntype);
             Assert.Fail("Create or modify test(s).");
 
         }

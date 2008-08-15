@@ -34,13 +34,14 @@ using System.Text.RegularExpressions;
 
 using Ecell;
 using Ecell.Objects;
+using Ecell.Reporting;
 
 namespace Ecell.IDE.Plugins.StaticDebugWindow
 {
     /// <summary>
     /// Static debug for network compliance.
     /// </summary>
-    class StaticDebugForNetwork : StaticDebugPlugin
+    class StaticDebugForNetwork : IStaticDebugPlugin
     {
         /// <summary>
         /// Owner of this object
@@ -53,7 +54,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <summary>
         /// List of error message.
         /// </summary>
-        private List<ErrorMessage> m_errorList = new List<ErrorMessage>();
+        private List<IReport> m_errorList = new List<IReport>();
 
         /// <summary>
         /// Constructor.
@@ -69,9 +70,9 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// Debugger Name.
         /// </summary>
         /// <returns>"Network Compliance."</returns>
-        public string GetDebugName()
+        public string Name
         {
-            return MessageResources.NetworkComplianceName;
+            get { return MessageResources.NetworkComplianceName; }
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// </summary>
         /// <param name="l_data">The list of object to be checked.</param>
         /// <returns>The list of error messages.</returns>
-        public List<ErrorMessage> Debug(List<EcellObject> l_data)
+        public IEnumerable<IReport> Debug(List<EcellObject> l_data)
         {
             m_errorList.Clear();
             m_existProcessList.Clear();
@@ -142,10 +143,12 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                             systemPath + Constants.delimiterColon + data[2];
                         if (!m_existVariableList.ContainsKey(systemPath))
                         {
-                            ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
-                                d.EntityPath,
-                                MessageResources.ErrNoVariable);
-                            m_errorList.Add(mes);
+                            m_errorList.Add(new ObjectPropertyReport(
+                                MessageType.Error,
+                                MessageResources.ErrNoVariable,
+                                obj,
+                                d.Name
+                            ));
                             break;
                         }
 
@@ -170,11 +173,11 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 if (obj.Value == null)
                 {
-                    ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
-                        Constants.xpathProcess + Constants.delimiterColon + 
-                        obj.Key + Constants.delimiterColon + Constants.xpathVRL,
-                        MessageResources.ErrNoConnect);
-                    m_errorList.Add(mes);
+                    m_errorList.Add(new ObjectReport(
+                        MessageType.Warning,
+                        MessageResources.ErrNoConnect,
+                        obj
+                    ));
                     continue;
                 }
                 foreach (EcellData d in obj.Value)
@@ -184,10 +187,11 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                     List<EcellValue> rList = d.Value.CastToList();
                     if (rList == null || rList.Count <= 0)
                     {
-                        ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
-                            d.EntityPath,
-                            MessageResources.ErrNoConnect);
-                        m_errorList.Add(mes);
+                        m_errorList.Add(new ObjectReport(
+                            MessageType.Warning,
+                            MessageResources.ErrNoConnect,
+                            obj
+                        ));
                         break;
                     }
                     foreach (EcellValue v in rList)
@@ -215,11 +219,11 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             foreach (string key in valDic.Keys)
             {
                 EcellObject obj = valDic[key];
-                ErrorMessage mes = new ErrorMessage(obj.ModelID, obj.Type,
-                    Constants.xpathVariable + Constants.delimiterColon + obj.Key + 
-                    Constants.delimiterColon + Constants.xpathID,
-                    MessageResources.ErrNoConnect);
-                m_errorList.Add(mes);
+                m_errorList.Add(new ObjectReport(
+                    MessageType.Warning,
+                    MessageResources.ErrNoConnect,
+                    obj
+                ));
             }
         }
     }

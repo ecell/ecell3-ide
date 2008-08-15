@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Ecell;
 using Ecell.Plugin;
 using Ecell.Objects;
-using Ecell.Message;
+using Ecell.Logging;
 
 namespace Ecell
 {
@@ -176,20 +176,6 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
-        public void TestWarnData()
-        {
-            string modelID = null;
-            string key = null;
-            string type = null;
-            string warntype = null;
-            _unitUnderTest.WarnData(modelID, key, type, warntype);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestLoadData()
         {
             string modelID = null;
@@ -240,18 +226,6 @@ namespace Ecell
         {
             double time = 0;
             _unitUnderTest.AdvancedTime(time);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestMessage()
-        {
-            string type = null;
-            string message = null;
-            _unitUnderTest.Message(type, message);
             Assert.Fail("Create or modify test(s).");
 
         }
