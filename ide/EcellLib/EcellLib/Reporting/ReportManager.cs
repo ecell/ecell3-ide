@@ -45,7 +45,6 @@ namespace Ecell.Reporting
         public event ReportingSessionClosedEventHandler ReportingSessionClosed;
         public event ReportAddedEventHandler ReportAdded;
         public event ReportRemovedEventHandler ReportRemoved;
-        public event ReportClearEventHandler Clearing;
         public event ReportClearEventHandler Cleared;
 
         private ApplicationEnvironment m_env;
@@ -63,7 +62,8 @@ namespace Ecell.Reporting
 
         internal void OnSessionClosed()
         {
-            ReportingSessionClosed(this, new ReportingSessionEventArgs(m_rep));
+            if (ReportingSessionClosed != null)
+                ReportingSessionClosed(this, new ReportingSessionEventArgs(m_rep));
             lock (this)
             {
                 m_rep = null;
@@ -72,12 +72,14 @@ namespace Ecell.Reporting
 
         internal void OnReportAdded(IReport rep)
         {
-            ReportAdded(m_rep, new ReportEventArgs(rep));
+            if (ReportAdded != null)
+                ReportAdded(m_rep, new ReportEventArgs(rep));
         }
 
         internal void OnReportRemoved(IReport rep)
         {
-            ReportRemoved(m_rep, new ReportEventArgs(rep));
+            if (ReportRemoved != null)
+                ReportRemoved(m_rep, new ReportEventArgs(rep));
         }
 
         internal void Clear()
@@ -89,8 +91,8 @@ namespace Ecell.Reporting
                     throw new InvalidOperationException();
                 }
             }
-            Clearing(this, new EventArgs());
-            Cleared(this, new EventArgs());
+            if (Cleared != null)
+                Cleared(this, new EventArgs());
         }
 
         public ReportingSession GetReportingSession()
@@ -103,7 +105,8 @@ namespace Ecell.Reporting
                 }
                 m_rep = new ReportingSession(this);
             }
-            ReportingSessionStarted(this, new ReportingSessionEventArgs(m_rep));
+            if (ReportingSessionStarted != null)
+                ReportingSessionStarted(this, new ReportingSessionEventArgs(m_rep));
             return m_rep;
         }
     }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageListWindowControl));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.MLWMessageDridView = new System.Windows.Forms.DataGridView();
             this.MLWTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,31 +41,39 @@
             // 
             // tableLayoutPanel1
             // 
+            this.tableLayoutPanel1.AccessibleDescription = null;
+            this.tableLayoutPanel1.AccessibleName = null;
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.BackgroundImage = null;
             this.tableLayoutPanel1.Controls.Add(this.MLWMessageDridView, 0, 0);
+            this.tableLayoutPanel1.Font = null;
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // MLWMessageDridView
             // 
+            this.MLWMessageDridView.AccessibleDescription = null;
+            this.MLWMessageDridView.AccessibleName = null;
             this.MLWMessageDridView.AllowUserToAddRows = false;
             this.MLWMessageDridView.AllowUserToDeleteRows = false;
             this.MLWMessageDridView.AllowUserToResizeRows = false;
+            resources.ApplyResources(this.MLWMessageDridView, "MLWMessageDridView");
             this.MLWMessageDridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.MLWMessageDridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+            this.MLWMessageDridView.BackgroundImage = null;
             this.MLWMessageDridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.MLWMessageDridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.MLWTypeColumn,
             this.MLWLocColumn,
             this.MLWMesColumn});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MLWMessageDridView.DefaultCellStyle = dataGridViewCellStyle1;
-            resources.ApplyResources(this.MLWMessageDridView, "MLWMessageDridView");
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MLWMessageDridView.DefaultCellStyle = dataGridViewCellStyle2;
+            this.MLWMessageDridView.Font = null;
             this.MLWMessageDridView.Name = "MLWMessageDridView";
             this.MLWMessageDridView.RowHeadersVisible = false;
             this.MLWMessageDridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
@@ -92,10 +100,15 @@
             // 
             // MessageListWindowControl
             // 
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = null;
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Font = null;
             this.Name = "MessageListWindowControl";
+            this.ToolTipText = null;
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.MLWMessageDridView)).EndInit();
             this.ResumeLayout(false);

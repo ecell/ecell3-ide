@@ -58,10 +58,6 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         private Timer m_timer;
         List<IReport> m_messages;
         /// <summary>
-        /// MenuItem of [Debug]->[Static Debug].
-        /// </summary>
-        ToolStripMenuItem m_staticDebug;
-        /// <summary>
         /// The dictionary of StaticDebugPlugin.
         /// Word is the name of static debug. Data is the plugin of static debug.
         /// </summary>
@@ -81,26 +77,6 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         }
 
         #region PluginBase
-        /// <summary>
-        ///  When the system status is changed, the menu is changed to enable/disable.
-        /// </summary>
-        /// <param name="type">the status type</param>
-        public override void ChangeStatus(ProjectStatus type)
-        {
-            if (type == ProjectStatus.Loaded)
-            {
-                m_staticDebug.Enabled = true;
-                m_timer.Enabled = true;
-                m_timer.Start();
-            }
-            else
-            {
-                m_staticDebug.Enabled = false;
-                m_timer.Enabled = false;
-                m_timer.Stop();
-            }
-        }
-
         /// <summary>
         /// Returns the name of this plugin.
         /// </summary>

@@ -69,10 +69,16 @@ namespace Ecell.IDE.Plugins.MessageListWindow
             return new EcellDockContent[] { m_control };
         }
 
+        public override void Initialize()
+        {
+            m_env.ReportManager.ReportAdded +=new ReportAddedEventHandler(ReportManager_ReportAdded);
+            m_env.ReportManager.ReportingSessionStarted += new ReportingSessionStartedEventHandler(ReportManager_ReportingSessionStarted);
+        }
+
         /// <summary>
         /// The event sequence on closing project.
         /// </summary>
-        public void Report_ReportingSessionStarted(object obj, ReportingSessionEventArgs e)
+        public void ReportManager_ReportingSessionStarted(object obj, ReportingSessionEventArgs e)
         {
             m_control.Clear();
         }
@@ -81,7 +87,7 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         /// The event sequence to display the message.
         /// </summary>
         /// <param name="message">the message entry object.</param>
-        public void Report_ReportEntryAdded(object obj, ReportEventArgs e)
+        public void ReportManager_ReportAdded(object obj, ReportEventArgs e)
         {
             m_control.AddMessageEntry(e.Report);
         }
