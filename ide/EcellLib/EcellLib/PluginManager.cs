@@ -53,7 +53,6 @@ namespace Ecell
     public delegate void SaveSimulationResultDelegate(List<string> list);
     public delegate void ShowDialogDelegate();
     public delegate void SetDockContentDelegate(EcellDockContent s);
-    public delegate void ShowSplashMessage(string mes);
 
     /// <summary>
     /// Availability of Redo/Undo
@@ -132,18 +131,6 @@ namespace Ecell
 
             // default image type
             m_imageList = new NodeImageComponent().ImageList;
-        }
-
-        private ShowSplashMessage m_splashDelegate = null;
-        public void SetSplashDelegate(ShowSplashMessage dlg)
-        {            
-            m_splashDelegate = dlg;
-        }
-
-        public void SendSplashDelegate(string mes)
-        {
-            if (m_splashDelegate != null)
-                m_splashDelegate(mes);
         }
 
         /// <summary>
