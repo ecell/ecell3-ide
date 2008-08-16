@@ -24,25 +24,23 @@
 //
 //END_HEADER
 //
-// written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
-// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+// written by Moriyoshi Koizumi <mozo@sfc.keio.ac.jp>
 //
 
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WeifenLuo.WinFormsUI.Docking;
 
 namespace Ecell.Plugin
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface IDockOwner
+    public interface IDockContentProvider
     {
         /// <summary>
-        /// 
+        /// Get the window forms of each plugin.
+        /// DockContent is a docking window class of WeifenLuo.WinFormsUI plugin.
         /// </summary>
-        DockPanel DockPanel { get; }
+        /// <returns>UserControl.</returns>
+        //List<UserControl> GetWindowsForms();
+        IEnumerable<EcellDockContent> GetWindowsForms();
     }
 }

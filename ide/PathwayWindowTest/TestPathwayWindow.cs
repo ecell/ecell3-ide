@@ -162,8 +162,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         [Test()]
         public void TestGetMenuStripItems()
         {
-            System.Collections.Generic.List<System.Windows.Forms.ToolStripMenuItem> expectedList = null;
-            System.Collections.Generic.List<System.Windows.Forms.ToolStripMenuItem> resultList = null;
+            System.Collections.Generic.IEnumerable<System.Windows.Forms.ToolStripMenuItem> expectedList = null;
+            System.Collections.Generic.IEnumerable<System.Windows.Forms.ToolStripMenuItem> resultList = null;
             resultList = _unitUnderTest.GetMenuStripItems();
             Assert.AreEqual(expectedList, resultList, "GetMenuStripItems method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -451,19 +451,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             Ecell.Objects.EcellObject data = null;
             _unitUnderTest.SetPosition(data);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetLayoutAlgorithms()
-        {
-            System.Collections.Generic.List<Ecell.Layout.ILayoutAlgorithm> expectedList = null;
-            System.Collections.Generic.List<Ecell.Layout.ILayoutAlgorithm> resultList = null;
-            resultList = _unitUnderTest.GetLayoutAlgorithms();
-            Assert.AreEqual(expectedList, resultList, "GetLayoutAlgorithms method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
         }

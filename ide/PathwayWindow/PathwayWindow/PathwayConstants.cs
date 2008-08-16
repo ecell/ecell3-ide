@@ -266,7 +266,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
     /// <summary>
     /// Menu constants
     /// </summary>
-    internal class MenuConstants
+    internal class MenuConstants: Ecell.MenuConstants
     {
         #region Menu Constants
         #region CanvasPopUpMenu
@@ -371,10 +371,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
         #region ToolBarMenu
         /// <summary>
-        /// Key definition of MessageResources for File
-        /// </summary>
-        internal const string MenuItemFile = "MenuItemFile";
-        /// <summary>
         /// Key definition of MessageResources for Export
         /// </summary>
         internal const string MenuItemExport = "MenuItemExport";
@@ -390,10 +386,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Key definition of MessageResources for ToolTipExportSVG
         /// </summary>
         internal const string MenuToolTipExportSVG = "MenuToolTipExportSVG";
-        /// <summary>
-        /// Key definition of MessageResources for Setup
-        /// </summary>
-        internal const string MenuItemSetup = "MenuItemSetup";
         /// <summary>
         /// Key definition of MessageResources for ToolTipShowID
         /// </summary>
@@ -414,18 +406,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Key definition of MessageResources for ToolTipViewMode
         /// </summary>
         internal const string MenuToolTipViewMode = "MenuToolTipViewMode";
-        /// <summary>
-        /// Key definition of MessageResources for MenuItemLayout
-        /// </summary>
-        internal const string MenuItemLayout = "MenuItemLayout";
-        /// <summary>
-        /// Key definition of MessageResources for MenuItemLayout
-        /// </summary>
-        internal const string MenuItemEdit = "MenuItemEdit";
-        /// <summary>
-        /// Key definition of MessageResources for MenuItemLayout
-        /// </summary>
-        internal const string MenuItemView = "MenuItemView";
         #endregion
 
         #region ToolButton

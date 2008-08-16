@@ -65,7 +65,7 @@ namespace Ecell
             get { return Encoding.UTF8; }
         }
 
-        public ApplicationEnvironment ApplicationEnvironment
+        public ApplicationEnvironment Environment
         {
             get { return m_env; }
         }

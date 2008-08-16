@@ -52,7 +52,7 @@ using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
-using Ecell.Layout;
+using Ecell.Plugin;
 using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
@@ -398,7 +398,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (File.Exists(fileName))
                     this.LoadFromLeml(fileName);
                 else
-                    DoLayout(m_menu.DefaultLayoutAlgorithm, 0, false);
+                {
+                    foreach (ILayoutAlgorithm la in m_window.Environment.PluginManager.LayoutAlgorithms)
+                    {
+                        if (la.GetLayoutName() == "Grid")
+                        {
+                            DoLayout(la, 0, false);
+                            break;
+                        }
+                    }
+                }
             }
         }
 
@@ -410,11 +419,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="val">the value of progress.</param>
         public void Progress(string msg, int max, int val)
         {
-            Window.Environment.PluginManager.SetStatusBarMessage(
-                Ecell.Plugin.StatusBarMessageKind.Generic,
+            Window.Environment.ReportManager.SetStatus(
+                StatusBarMessageKind.Generic,
                 msg
             );
-            Window.Environment.PluginManager.SetProgressBarValue(100 * val / max);
+            Window.Environment.ReportManager.SetProgress(100 * val / max);
         }
 
         /// <summary>
@@ -667,21 +676,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public void ChangeStatus(ProjectStatus status)
         {
             m_status = status;
-            // When a project is loaded or unloaded.
-            if (status == ProjectStatus.Loaded)
-            {
-                foreach (ToolStripMenuItem item in m_menu.LayoutMenus)
-                    item.Enabled = true;
-                if (m_canvas != null)
-                {
-                    m_canvas.UpdateOverview();
-                }
-            }
-            else if (status == ProjectStatus.Uninitialized)
-            {
-                foreach (ToolStripMenuItem item in m_menu.LayoutMenus)
-                    item.Enabled = false;
-            }
             // When simulation started.
             if (status == ProjectStatus.Running && m_isViewMode)
             {

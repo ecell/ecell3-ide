@@ -16,7 +16,7 @@ namespace Ecell.IDE
     {
         public class Entry
         {
-            public IEcellPlugin Plugin
+            public IRasterizable Plugin
             {
                 get { return m_plugin; }
             }
@@ -26,7 +26,7 @@ namespace Ecell.IDE
                 get { return m_portion; }
             }
 
-            internal Entry(IEcellPlugin plugin, string portion)
+            internal Entry(IRasterizable plugin, string portion)
             {
                 m_plugin = plugin;
                 m_portion = portion;
@@ -37,7 +37,7 @@ namespace Ecell.IDE
                 return string.Format("{0}", m_portion);
             }
 
-            private IEcellPlugin m_plugin;
+            private IRasterizable m_plugin;
             private string m_portion;
         }
 
@@ -55,7 +55,7 @@ namespace Ecell.IDE
             m_selectedItem = null;
             InitializeComponent();
 
-            foreach (IEcellPlugin plugin in m_pManager.Plugins)
+            foreach (IRasterizable plugin in m_pManager.Rasterizables)
             {
                 IEnumerable<string> names = plugin.GetEnablePrintNames();
                 if (names == null)

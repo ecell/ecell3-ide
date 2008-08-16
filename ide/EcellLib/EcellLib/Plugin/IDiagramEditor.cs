@@ -24,25 +24,17 @@
 //
 //END_HEADER
 //
-// written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
-// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+// Moriyoshi Koizumi <mozo@sfc.keio.ac.jp>
 //
 
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WeifenLuo.WinFormsUI.Docking;
 
 namespace Ecell.Plugin
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface IDockOwner
+    public interface IDiagramEditor
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        DockPanel DockPanel { get; }
+        void InitiateLayout(ILayoutAlgorithm algo, int subIdx);
     }
 }

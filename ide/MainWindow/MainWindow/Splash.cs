@@ -65,8 +65,11 @@ namespace Ecell.IDE
         {
             if (e.LogEntry.Type == MessageType.Information)
             {
-                progressInfo.Text = e.LogEntry.Message;
-                progressInfo.Update();
+                Invoke(new MethodInvoker(delegate()
+                {
+                    progressInfo.Text = e.LogEntry.Message;
+                    Update();
+                }));
             }
         }
 

@@ -146,11 +146,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="MessageResources.ja.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MessageResources.ja.resx</DependentUpon>
-    </Compile>
     <Compile Include="PluginListDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -242,9 +237,7 @@
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MessageResources.ja.resx">
-      <LastGenOutput>MessageResources.ja.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="MessageResources.resx">
       <SubType>Designer</SubType>
@@ -324,7 +317,6 @@
     <Content Include="Resources\ECellIDE.ico" />
     <None Include="Resources\logo.png" />
     <Content Include="Resources\splash.bmp" />
-    <Content Include="Resources\welcome.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

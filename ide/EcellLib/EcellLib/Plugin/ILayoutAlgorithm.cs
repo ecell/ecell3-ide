@@ -32,7 +32,7 @@ using System.Collections.Generic;
 using System.Text;
 using Ecell.Objects;
 
-namespace Ecell.Layout
+namespace Ecell.Plugin
 {
     /// <summary>
     /// Type of layout.
@@ -72,33 +72,11 @@ namespace Ecell.Layout
                       List<EcellObject> nodeList);
 
         /// <summary>
-        /// Which LayoutType does this algorithm serves.
+        /// Which LayoutType does this algorithm serve.
         /// </summary>
         /// <returns>layout type of this algorithm</returns>
         LayoutType GetLayoutType();
 
-        /// <summary>
-        /// Get menu name of this algorithm
-        /// </summary>
-        /// <returns>menu name of this algorithm</returns>
-        string GetMenuText();
-
-        /// <summary>
-        /// This name is displayed for this layout menu in MainWindow.
-        /// </summary>
-        /// <returns>name of this algorithm</returns>
-        string GetName();
-
-        /// <summary>
-        /// This tip is displayed when mouse is on this layout menu.
-        /// </summary>
-        /// <returns>tooltip text</returns>
-        string GetToolTipText();
-
-        /// <summary>
-        /// The names of submenus shown when the mouse is on this layout menu.
-        /// </summary>
-        /// <returns>a list of submenu names</returns>
-        List<string> GetSubCommands();
+        string GetLayoutName();
     }
 }

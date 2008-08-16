@@ -690,17 +690,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         }
 
         /// <summary>
-        /// Get bitmap that converts display image on this plugin.
-        /// </summary>
-        /// <returns>The bitmap data of plugin.</returns>
-        public override Bitmap Print(string name)
-        {
-            Bitmap bitmap = new Bitmap(m_dgv.Width, m_dgv.Height);
-            m_dgv.DrawToBitmap(bitmap, m_dgv.ClientRectangle);
-            return bitmap;
-        }
-
-        /// <summary>
         /// Get the name of this plugin.
         /// </summary>
         /// <returns>"PropertyWindow"</returns>
@@ -716,17 +705,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         public override String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
-
-        /// <summary>
-        /// Check whether this plugin can print display image.
-        /// </summary>
-        /// <returns>true</returns>
-        public override IEnumerable<string> GetEnablePrintNames()
-        {
-            List<string> names = new List<string>();
-            names.Add(MessageResources.PropertyWindow);
-            return names;
         }
         #endregion
 

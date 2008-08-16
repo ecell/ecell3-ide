@@ -105,7 +105,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// [Setup] -> [Simulation]
         /// </summary>
         /// <returns>MenuStripItems</returns>
-        public override List<ToolStripMenuItem> GetMenuStripItems()
+        public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Simulation));
             List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();

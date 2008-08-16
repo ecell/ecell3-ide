@@ -43,7 +43,6 @@ using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
 using System.ComponentModel;
 
-using Ecell.Layout;
 using Ecell.Logging;
 using Ecell.Plugin;
 using Ecell.Objects;
@@ -92,6 +91,15 @@ namespace Ecell
         /// </summary>
         private Dictionary<string, IEcellPlugin> m_pluginList;
         /// <summary>
+        /// </summary>
+        private List<IDataHandler> m_dataHandlerList;
+        /// <summary>
+        /// </summary>
+        private List<IRasterizable> m_rasterizableList;
+        /// <summary>
+        /// </summary>
+        private List<ILayoutAlgorithm> m_layoutAlgorithmList;
+        /// <summary>
         /// m_pluginDic (map between plugin and data)
         /// </summary>
         private Dictionary<PluginData, List<IEcellPlugin>> m_pluginDic;
@@ -112,6 +120,12 @@ namespace Ecell
         /// </summary>
         private IDockOwner m_dockOwner;
         /// <summary>
+        /// </summary>
+        private IRootMenuItemProvider m_rootMenuItemProvider;
+        /// <summary>
+        /// </summary>
+        private IDiagramEditor m_diagramEditor;
+        /// <summary>
         /// Status of the current project.
         /// </summary>
         private ProjectStatus m_status;
@@ -126,6 +140,9 @@ namespace Ecell
             this.m_env = env;
             this.m_pluginList = new Dictionary<string, IEcellPlugin>();
             this.m_pluginDic = new Dictionary<PluginData,List<IEcellPlugin>>();
+            this.m_rasterizableList = new List<IRasterizable>();
+            this.m_dataHandlerList = new List<IDataHandler>();
+            this.m_layoutAlgorithmList = new List<ILayoutAlgorithm>();
             this.m_dialog = new System.Windows.Forms.PrintDialog();
             this.m_status = ProjectStatus.Uninitialized;
 
@@ -139,6 +156,16 @@ namespace Ecell
         public DockPanel DockPanel
         {
             get { return this.m_dockOwner.DockPanel; }
+        }
+
+        public IRootMenuItemProvider RootMenuItemProvider
+        {
+            get { return m_rootMenuItemProvider; }
+        }
+
+        public IDiagramEditor DiagramEditor
+        {
+            get { return m_diagramEditor; }
         }
 
         /// <summary>
@@ -157,6 +184,21 @@ namespace Ecell
             get { return m_pluginList.Values; }
         }
 
+        public IEnumerable<IRasterizable> Rasterizables
+        {
+            get { return m_rasterizableList; }
+        }
+
+        public IEnumerable<IDataHandler> DataHandlers
+        {
+            get { return m_dataHandlerList; }
+        }
+
+        public IEnumerable<ILayoutAlgorithm> LayoutAlgorithms
+        {
+            get { return m_layoutAlgorithmList; }
+        }
+    
         /// <summary>
         /// get /set ImageList
         /// </summary>
@@ -211,7 +253,7 @@ namespace Ecell
         /// <param name="type">selected the data type</param>
         public void SelectChanged(string modelID, string key, string type)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.SelectChanged(modelID, key, type);
             }
@@ -225,7 +267,7 @@ namespace Ecell
         /// <param name="type">Type of object added to selected objects.</param>
         public void AddSelect(string modelID, string key, string type)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.AddSelect(modelID, key, type);
             }
@@ -239,7 +281,7 @@ namespace Ecell
         /// <param name="type">Type of object removed from selected objects.</param>
         public void RemoveSelect(string modelID, string key, string type)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.RemoveSelect(modelID, key, type);
             }
@@ -250,7 +292,7 @@ namespace Ecell
         /// </summary>
         public void ResetSelect()
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.ResetSelect();
             }
@@ -265,7 +307,7 @@ namespace Ecell
         /// <param name="data">changed value of data</param>
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.DataChanged(modelID, key, type, data);
             }
@@ -277,7 +319,7 @@ namespace Ecell
         /// <param name="data">value of the adding object</param>
         public void DataAdd(List<EcellObject> data)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.DataAdd(data);
             }
@@ -291,7 +333,7 @@ namespace Ecell
         /// <param name="type">the deleting data type</param>
         public void DataDelete(string modelID, string key, string type)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.DataDelete(modelID, key, type);
             }
@@ -304,7 +346,7 @@ namespace Ecell
         /// <param name="paramID">The added model ID.</param>
         public void ParameterAdd(string projectID, string paramID)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.ParameterAdd(projectID, paramID);
             }
@@ -317,7 +359,7 @@ namespace Ecell
         /// <param name="paramID">The deleted model ID.</param>
         public void ParameterDelete(string projectID, string paramID)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.ParameterDelete(projectID, paramID);
             }
@@ -330,7 +372,7 @@ namespace Ecell
         /// <param name="paramID">The set model ID.</param>
         public void ParameterSet(string projectID, string paramID)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.ParameterSet(projectID, paramID);
             }
@@ -340,9 +382,9 @@ namespace Ecell
         /// The event sequence when the user set and change the observed data.
         /// </summary>
         /// <param name="data">The observed data.</param>
-        public virtual void SetObservedData(EcellObservedData data)
+        public void SetObservedData(EcellObservedData data)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_pluginList.Values)
             {
                 p.SetObservedData(data);
             }
@@ -352,9 +394,9 @@ namespace Ecell
         /// The event sequence when the user remove the data from the list of observed data.
         /// </summary>
         /// <param name="data">The removed observed data.</param>
-        public virtual void RemoveObservedData(EcellObservedData data)
+        public void RemoveObservedData(EcellObservedData data)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.RemoveObservedData(data);
             }
@@ -364,9 +406,9 @@ namespace Ecell
         /// The event sequence when the user add and change the parameter data.
         /// </summary>
         /// <param name="data">The parameter data.</param>
-        public virtual void SetParameterData(EcellParameterData data)
+        public void SetParameterData(EcellParameterData data)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.SetParameterData(data);
             }
@@ -376,9 +418,9 @@ namespace Ecell
         /// The event sequence when the user remove the data from the list of parameter data.
         /// </summary>
         /// <param name="data">The removed parameter data.</param>
-        public virtual void RemoveParameterData(EcellParameterData data)
+        public void RemoveParameterData(EcellParameterData data)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.RemoveParameterData(data);
             }
@@ -415,6 +457,41 @@ namespace Ecell
                 m_dockOwner = (IDockOwner)p;
             }
 
+            if (p is IDiagramEditor)
+            {
+                if (m_diagramEditor != null)
+                {
+                    throw new Exception(String.Format(MessageResources.ErrAdd,
+                        new object[] { p.GetPluginName(), "Plugin" }));
+                }
+                m_diagramEditor = (IDiagramEditor)p;
+            }
+
+            if (p is IRootMenuItemProvider)
+            {
+                if (m_rootMenuItemProvider != null)
+                {
+                    throw new Exception(String.Format(MessageResources.ErrAdd,
+                        new object[] { p.GetPluginName(), "Plugin" }));
+                }
+                m_rootMenuItemProvider = (IRootMenuItemProvider)p;
+            }
+
+            if (p is IDataHandler)
+            {
+                m_dataHandlerList.Add((IDataHandler)p);
+            }
+
+            if (p is IRasterizable)
+            {
+                m_rasterizableList.Add((IRasterizable)p);
+            }
+
+            if (p is ILayoutAlgorithm)
+            {
+                m_layoutAlgorithmList.Add((ILayoutAlgorithm)p);
+            }
+
             if (!m_pluginList.ContainsKey(p.GetPluginName()))
             {
                 p.Environment = m_env;
@@ -442,7 +519,7 @@ namespace Ecell
         /// </summary>
         public void Clear()
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.Clear();
             }
@@ -457,7 +534,7 @@ namespace Ecell
         /// <param name="path">The property name of object changed value.</param>
         public void LoggerAdd(string modelID, string type, string key, string path)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.LoggerAdd(modelID, type, key, path);
             }
@@ -469,33 +546,9 @@ namespace Ecell
         /// <param name="time">current simulation time</param>
         public void AdvancedTime(double time)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.AdvancedTime(time);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="kind"></param>
-        /// <param name="str"></param>
-        public void SetStatusBarMessage(StatusBarMessageKind kind, string str)
-        {
-            foreach (IEcellPlugin p in m_pluginList.Values)
-            {
-                p.SetStatusBarMessage(kind, str);
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="val"></param>
-        public void SetProgressBarValue(int val)
-        {
-            foreach (IEcellPlugin p in m_pluginList.Values)
-            {
-                p.SetProgressBarValue(val);
             }
         }
 
@@ -506,7 +559,7 @@ namespace Ecell
         /// <param name="path">output directory.</param>
         public void SaveModel(string modelID, string path)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.SaveModel(modelID, path);
             }
@@ -541,20 +594,42 @@ namespace Ecell
         /// </summary>
         /// <param name="path">path of plugin dll.</param>
         /// <param name="className">class name.</param>
-        public IEcellPlugin LoadPlugin(string path, string className)
+        public IEcellPlugin LoadPlugin(string path)
         {
-            Trace.WriteLine("Loading plugin: " + className);
-            Trace.WriteLine(Assembly.GetCallingAssembly());
-            Assembly handle = path != null ?
-                Assembly.LoadFile(path) :
-                Assembly.GetCallingAssembly();
-            Type aType = handle.GetType(className);
-            if (aType == null)
+            IEcellPlugin pb = null;
+            string pName = Path.GetFileNameWithoutExtension(path);
+            string className = "Ecell.IDE.Plugins." + pName + "." + pName;
+            
+            m_env.LogManager.Append(new ApplicationLogEntry(
+                MessageType.Information,
+                string.Format(MessageResources.InfoLoadPlugin, pName),
+                this
+            ));
+
+            try
             {
-                throw new Exception(String.Format(MessageResources.ErrLoadFile,
-                    new object[] { path }));
+                Assembly handle = path != null ?
+                    Assembly.LoadFile(path) :
+                    Assembly.GetCallingAssembly();
+                Type aType = handle.GetType(className);
+                if (aType == null)
+                {
+                    throw new Exception(String.Format(MessageResources.ErrLoadFile,
+                        new object[] { path }));
+                }
+                pb = RegisterPlugin(aType);
             }
-            return RegisterPlugin(aType);
+            catch (Exception e)
+            {
+                String errmes = MessageResources.ErrLoadPlugin;
+                m_env.LogManager.Append(
+                    new ApplicationLogEntry(
+                        MessageType.Error,
+                        String.Format(errmes, className, path), this));
+                return null;
+            }
+
+            return pb;
         }
 
         /// <summary>
@@ -625,7 +700,7 @@ namespace Ecell
         /// <param name="status"></param>
         public void ChangeUndoStatus(UndoStatus status)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.ChangeUndoStatus(status);
             }
@@ -644,66 +719,6 @@ namespace Ecell
                     return p;
             }
             return null;
-        }
-
-        /// <summary>
-        /// Get layout plugins.
-        /// </summary>
-        /// <returns>the plugin. if not find the plugin, return null.</returns>
-        public List<ILayoutAlgorithm> GetLayoutPlugins()
-        {
-            List<string> loadedPlugins = new List<string>();
-            List<ILayoutAlgorithm> layoutList = new List<ILayoutAlgorithm>();
-
-            // Read component settings from ComponentSettings.xml
-            // string pathwayDir = PathUtil.GetEnvironmentVariable4DirPath("ecellide_plugin");
-            string[] pluginDirs = Ecell.Util.GetPluginDirs();
-            foreach (string pluginDir in pluginDirs)
-            {
-                string pathwayPluginDir = pluginDir + "\\pathway";
-
-
-                foreach (string pluginName in Directory.GetFiles(pathwayPluginDir))
-                {
-                    // Only dlls will be loaded (NOT xml)!
-                    if (string.IsNullOrEmpty(pluginName) || !pluginName.EndsWith(Constants.FileExtPlugin))
-                        continue;
-                    if (loadedPlugins.Contains(pluginName)) continue;
-                    loadedPlugins.Add(pluginName);
-                    try
-                    {
-                        Assembly handle = Assembly.LoadFile(pluginName);
-                        foreach (Type type in handle.GetTypes())
-                        {
-                            foreach (Type intType in type.GetInterfaces())
-                            {
-                                if (!intType.Name.Equals("ILayoutAlgorithm"))
-                                    continue;
-
-                                try
-                                {
-                                    Object anAllocator = type.InvokeMember(
-                                        null,
-                                        BindingFlags.CreateInstance,
-                                        null,
-                                        null,
-                                        null);
-                                    layoutList.Add((ILayoutAlgorithm)anAllocator);
-                                }
-                                catch (TargetInvocationException e)
-                                {
-                                    throw e.InnerException;
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
-                }
-            }
-            return layoutList;
         }
 
         /// <summary>
@@ -727,8 +742,10 @@ namespace Ecell
         /// <param name="data">EcellObject, whose position will be set</param>
         public void SetPosition(EcellObject data)
         {
-            foreach (IEcellPlugin p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
+            {
                 p.SetPosition(data);
+            }
         }
     }
 

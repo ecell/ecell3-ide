@@ -282,4 +282,10 @@
   <data name="WarnLoadDM" xml:space="preserve">
     <value>Some Dynamic Modules(DM) cannot be loaded.</value>
   </data>
+  <data name="InfoLoadPlugin" xml:space="preserve">
+    <value>Loading plugin {0}...</value>
+  </data>
+  <data name="ErrLoadPlugin" xml:space="preserve">
+    <value>Cannot load the plugin {0} (location: {1}).</value>
+  </data>
 </root>

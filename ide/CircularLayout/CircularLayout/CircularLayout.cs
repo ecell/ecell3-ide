@@ -33,7 +33,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.ComponentModel;
-using Ecell.Layout;
+using Ecell.Plugin;
 using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.CircularLayout
@@ -41,7 +41,7 @@ namespace Ecell.IDE.Plugins.CircularLayout
     /// <summary>
     /// Layout algorithm to layout nodes on a circle
     /// </summary>
-    public class CircularLayout : LayoutBase, ILayoutAlgorithm
+    public class CircularLayout : LayoutBase, IMenuStripProvider
     {
         public CircularLayout()
         {
@@ -59,7 +59,7 @@ namespace Ecell.IDE.Plugins.CircularLayout
         /// <param name="systemList">Systems</param>
         /// <param name="nodeList">Nodes (Variables, Processes)</param>
         /// <returns>Whether layout is completed or aborted</returns>
-        public bool DoLayout(int subNum,
+        public override bool DoLayout(int subNum,
                              bool layoutSystem,
                              List<EcellObject> systemList,
                              List<EcellObject> nodeList)
@@ -546,45 +546,18 @@ namespace Ecell.IDE.Plugins.CircularLayout
         /// Get LayoutType of this layout
         /// </summary>
         /// <returns>LayoutType of this layout</returns>
-        public LayoutType GetLayoutType()
+        public override LayoutType GetLayoutType()
         {
             return LayoutType.Selected;
-        }
-
-        /// <summary>
-        /// Get menu name of this algorithm
-        /// </summary>
-        /// <returns>menu name of this algorithm</returns>
-        public string GetMenuText()
-        {
-            return MessageResCircularLayout.MenuItemCircular;
         }
 
         /// <summary>
         /// Get a name of this layout
         /// </summary>
         /// <returns>a name of this layout</returns>
-        public string GetName()
+        public override string GetLayoutName()
         {
             return "Circular";
-        }
-
-        /// <summary>
-        /// Get a tooltip of this layout
-        /// </summary>
-        /// <returns>tooltip</returns>
-        public string GetToolTipText()
-        {
-            return MessageResCircularLayout.ToolTip;
-        }
-
-        /// <summary>
-        /// Get a list of names for submenu.
-        /// </summary>
-        /// <returns>a list of name of sub commands</returns>
-        public List<string> GetSubCommands()
-        {
-            return null;
         }
 
         #region Inner class
@@ -612,5 +585,24 @@ namespace Ecell.IDE.Plugins.CircularLayout
             }
         }
         #endregion
+
+        public IEnumerable<ToolStripMenuItem> GetMenuStripItems()
+        {
+            ToolStripMenuItem fileMenu = new ToolStripMenuItem();
+            fileMenu.Name = MenuConstants.MenuItemFile;
+
+            ToolStripMenuItem layoutMenu = new ToolStripMenuItem(
+                MessageResCircularLayout.MenuItemCircular,
+                null,
+                new EventHandler(delegate(object o, EventArgs e)
+                {
+                    m_env.PluginManager.DiagramEditor.InitiateLayout(this, 0);
+                })
+            );
+
+            layoutMenu.ToolTipText = MessageResCircularLayout.ToolTip;
+            fileMenu.DropDownItems.Add(layoutMenu);
+            return new ToolStripMenuItem[] { fileMenu };
+        }
     }
 }

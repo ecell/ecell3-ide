@@ -187,7 +187,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   Loading {0} に類似しているローカライズされた文字列を検索します。
+        ///   Loading plugin {0}... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoLoadPlugin {
             get {

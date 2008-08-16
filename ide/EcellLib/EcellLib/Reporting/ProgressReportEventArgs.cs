@@ -24,25 +24,25 @@
 //
 //END_HEADER
 //
-// written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
-// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+// written by Moriyoshi Koizumi <mozo@sfc.keio.ac.jp>
 //
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using WeifenLuo.WinFormsUI.Docking;
 
-namespace Ecell.Plugin
+namespace Ecell.Reporting
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface IDockOwner
+    public class ProgressReportEventArgs: EventArgs
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        DockPanel DockPanel { get; }
+        private int m_perc;
+
+        public int Value
+        {
+            get { return m_perc; }
+        }
+
+        public ProgressReportEventArgs(int perc)
+        {
+            m_perc = perc;
+        }
     }
 }

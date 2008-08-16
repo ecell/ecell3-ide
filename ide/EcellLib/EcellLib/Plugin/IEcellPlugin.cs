@@ -43,21 +43,6 @@ using Ecell.Objects;
 namespace Ecell.Plugin
 {
     /// <summary>
-    /// 
-    /// </summary>
-    public enum StatusBarMessageKind
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        Generic,
-        /// <summary>
-        /// 
-        /// </summary>
-        QuickInspector
-    }
-
-    /// <summary>
     /// Interface of plugin.
     /// </summary>
     public interface IEcellPlugin
@@ -67,7 +52,6 @@ namespace Ecell.Plugin
         /// </summary>
         ApplicationEnvironment Environment { get; set; }
 
-        #region Methods to return answer or objects.
         /// <summary>
         /// Get the name of this plugin.
         /// PluginName MUST BE unique.
@@ -82,163 +66,9 @@ namespace Ecell.Plugin
         string GetVersionString();
 
         /// <summary>
-        /// Get menustrips for each plugin.
-        /// </summary>
-        /// <returns>null.</returns>
-        List<ToolStripMenuItem> GetMenuStripItems();
-
-        /// <summary>
-        /// Get toolbar buttons for each plugin.
-        /// </summary>
-        /// <returns>null</returns>
-        ToolStrip GetToolBarMenuStrip();
-
-        /// <summary>
-        /// Get the window forms of each plugin.
-        /// DockContent is a docking window class of WeifenLuo.WinFormsUI plugin.
-        /// </summary>
-        /// <returns>UserControl.</returns>
-        //List<UserControl> GetWindowsForms();
-        IEnumerable<EcellDockContent> GetWindowsForms();
-
-        /// <summary>
-        /// Check whether this plugin can print display image.
-        /// </summary>
-        /// <returns>Collection of the names that is capable of printing themselves, or null</returns>
-        IEnumerable<String> GetEnablePrintNames();
-
-        /// <summary>
-        /// Get bitmap that converts display image on this plugin.
-        /// </summary>
-        /// <returns>The bitmap data of plugin.</returns>   
-        Bitmap Print(string name);
-        #endregion
-
-        #region Methods involved in the object lifecycle
-        /// <summary>
         /// Initializes the plugin.
         /// </summary>
         void Initialize();
-        #endregion
-
-        #region Methods to receive events.
-        /// <summary>
-        /// The event sequence to add the object at other plugin.
-        /// </summary>
-        /// <param name="data">The value of the adding object.</param>
-        void DataAdd(List<EcellObject> data);
-
-        /// <summary>
-        /// The event sequence on changing value of data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID before value change.</param>
-        /// <param name="key">The ID before value change.</param>
-        /// <param name="type">The data type before value change.</param>
-        /// <param name="data">Changed value of object.</param>
-        void DataChanged(string modelID, string key, string type, EcellObject data);
-
-        /// <summary>
-        /// The event sequence on deleting the object at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID of deleted object.</param>
-        /// <param name="key">The ID of deleted object.</param>
-        /// <param name="type">The object type of deleted object.</param>
-        void DataDelete(string modelID, string key, string type);
-
-        /// <summary>
-        /// Set the position of EcellObject.
-        /// </summary>
-        /// <param name="data">EcellObject, whose position will be set</param>
-        void SetPosition(EcellObject data);
-
-        /// <summary>
-        /// The event sequence on changing selected object at other plugin.
-        /// </summary>
-        /// <param name="modelID">Selected the model ID.</param>
-        /// <param name="key">Selected the ID.</param>
-        /// <param name="type">Selected the data type.</param>
-        void SelectChanged(string modelID, string key, string type);
-
-        /// <summary>
-        /// The event process when user add the object to the selected objects.
-        /// </summary>
-        /// <param name="modelID">ModelID of object added to selected objects.</param>
-        /// <param name="key">ID of object added to selected objects.</param>
-        /// <param name="type">Type of object added to selected objects.</param>
-        void AddSelect(string modelID, string key, string type);
-
-        /// <summary>
-        /// The event process when user remove object from the selected objects.
-        /// </summary>
-        /// <param name="modelID">ModelID of object removed from seleted objects.</param>
-        /// <param name="key">ID of object removed from selected objects.</param>
-        /// <param name="type">Type of object removed from selected objects.</param>
-        void RemoveSelect(string modelID, string key, string type);
-
-        /// <summary>
-        /// Reset all selected objects.
-        /// </summary>
-        void ResetSelect();
-
-        /// <summary>
-        /// The event sequence when the user add the simulation parameter.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The added parameter ID/</param>
-        void ParameterAdd(string projectID, string parameterID);
-
-        /// <summary>
-        /// The event sequence when the user delete the simulation parameter.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The deleted parameter ID.</param>
-        void ParameterDelete(string projectID, string parameterID);
-
-        /// <summary>
-        /// The event sequence when the user set the simulation parameter.
-        /// </summary>
-        /// <param name="projectID">The current project ID.</param>
-        /// <param name="parameterID">The set parameter ID.</param>
-        void ParameterSet(string projectID, string parameterID);
-
-        /// <summary>
-        /// The event sequence when the user add and change the observed data.
-        /// </summary>
-        /// <param name="data">the observed data.</param>
-        void SetObservedData(EcellObservedData data);
-
-        /// <summary>
-        /// The event sequence when the user remove the data from the list of observed data.
-        /// </summary>
-        /// <param name="data">The removed observed data.</param>
-        void RemoveObservedData(EcellObservedData data);
-
-        /// <summary>
-        /// The event sequence when the user add and change the parameter data.
-        /// </summary>
-        /// <param name="data">The parameter data.</param>
-        void SetParameterData(EcellParameterData data);
-
-        /// <summary>
-        /// The event sequence when the user remove the data from the list of parameter data.
-        /// </summary>
-        /// <param name="data">The removed parameter data.</param>
-        void RemoveParameterData(EcellParameterData data);
-
-        /// <summary>
-        /// The event sequence on adding the logger at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID.</param>
-        /// <param name="key">The ID.</param>
-        /// <param name="type">The data type.</param>
-        /// <param name="path">The path of entity.</param>
-        void LoggerAdd(string modelID, string type, string key, string path);
-
-        /// <summary>
-        /// The event sequence on advancing time.
-        /// </summary>
-        /// <param name="time">The current simulation time.</param>
-        void AdvancedTime(double time);
 
         /// <summary>
         ///  When change system status, change menu enable/disable.
@@ -246,37 +76,6 @@ namespace Ecell.Plugin
         /// <param name="type">System status.</param>
         void ChangeStatus(ProjectStatus type); // 0:initial 1:load 2:run 3:suspend
 
-        /// <summary>
-        /// Change availability of undo/redo function.
-        /// </summary>
-        /// <param name="status"></param>
-        void ChangeUndoStatus(UndoStatus status);
-
-        /// <summary>
-        /// Notify a plugin that it should save model-related information if necessary.
-        /// </summary>
-        /// <param name="modelID">ModelID of a model which is going to be saved</param>
-        /// <param name="directory">A saved file must be under this directory </param>
-        void SaveModel(string modelID, string directory);
-
-        /// <summary>
-        /// The event sequence on closing project.
-        /// </summary>        
-        void Clear();
-
-        /// <summary>
-        /// Sets the message to the status bar
-        /// </summary>
-        /// <param name="kind">Type of the message</param>
-        /// <param name="str">Message to set to the status bar of the application's main window</param>
-        void SetStatusBarMessage(StatusBarMessageKind kind, string str);
-
-        /// <summary>
-        /// Sets the value of the progress bar in the status bar
-        /// </summary>
-        void SetProgressBarValue(int value);
-
         Dictionary<string, Delegate> GetPublicDelegate();
-        #endregion
     }
 }

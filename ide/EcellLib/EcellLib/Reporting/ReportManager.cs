@@ -39,6 +39,8 @@ namespace Ecell.Reporting
     public delegate void ReportAddedEventHandler(object o, ReportEventArgs e);
     public delegate void ReportRemovedEventHandler(object o, ReportEventArgs e);
     public delegate void ReportClearEventHandler(object o, EventArgs e);
+    public delegate void StatusUpdatedEventHandler(object o, StatusUpdateEventArgs e);
+    public delegate void ProgressReportEventHandler(object o, ProgressReportEventArgs e);
 
     public class ReportManager
     {
@@ -47,11 +49,13 @@ namespace Ecell.Reporting
         public event ReportAddedEventHandler ReportAdded;
         public event ReportRemovedEventHandler ReportRemoved;
         public event ReportClearEventHandler Cleared;
+        public event StatusUpdatedEventHandler StatusUpdated;
+        public event ProgressReportEventHandler ProgressValueUpdated;
 
         private ApplicationEnvironment m_env;
         private ReportingSession m_rep;
 
-        public ApplicationEnvironment ApplicationEnvironment
+        public ApplicationEnvironment Environment
         {
             get { return m_env; }
         }
@@ -111,6 +115,18 @@ namespace Ecell.Reporting
             if (ReportingSessionStarted != null)
                 ReportingSessionStarted(this, new ReportingSessionEventArgs(m_rep));
             return m_rep;
+        }
+
+        public void SetStatus(StatusBarMessageKind type, string text)
+        {
+            if (StatusUpdated != null)
+                StatusUpdated(this, new StatusUpdateEventArgs(type, text));
+        }
+
+        public void SetProgress(int value)
+        {
+            if (ProgressValueUpdated != null)
+                ProgressValueUpdated(this, new ProgressReportEventArgs(value));
         }
     }
 }

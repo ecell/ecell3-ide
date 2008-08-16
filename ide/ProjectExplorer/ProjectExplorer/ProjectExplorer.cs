@@ -199,19 +199,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// Get bitmap that converts display image on this plugin.
-        /// </summary>
-        /// <returns>The bitmap data of plugin.</returns>        
-        public override Bitmap Print(string name)
-        {
-            if (m_form == null) return null;
-
-            Bitmap bitmap = new Bitmap(m_form.treeView1.Width, m_form.treeView1.Height);
-            m_form.treeView1.DrawToBitmap(bitmap, m_form.treeView1.ClientRectangle);
-            return bitmap;
-        }
-
-        /// <summary>
         /// Get the name of this plugin.
         /// </summary>
         /// <returns>"ProjectExplorer"</returns>
@@ -227,17 +214,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         public override String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
-
-        /// <summary>
-        /// Check whether this plugin can print display image.
-        /// </summary>
-        /// <returns>true</returns>
-        public override IEnumerable<string> GetEnablePrintNames()
-        {
-            List<string> names = new List<string>();
-            names.Add(MessageResources.ProjectExplorer);
-            return names;
         }
         #endregion
 

@@ -48,7 +48,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
     /// <summary>
     /// Plugin Class of TracerWindow.
     /// </summary>
-    public class TracerWindow : PluginBase
+    public class TracerWindow : PluginBase, IRasterizable
     {
         #region Fields
         /// <summary>
@@ -160,7 +160,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// Get menustrips for TracerWindow.
         /// </summary>
         /// <returns>MenuStripItems</returns>
-        public override List<ToolStripMenuItem> GetMenuStripItems()
+        public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
             List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();
 
@@ -473,7 +473,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// Get bitmap that converts display image on this plugin.
         /// </summary>
         /// <returns>The bitmap data of plugin.</returns>
-        public override Bitmap Print(string name)
+        public Bitmap Print(string name)
         {
             foreach (TraceWindow t in m_winList)
             {
@@ -507,7 +507,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>true</returns>
-        public override IEnumerable<string> GetEnablePrintNames()
+        public IEnumerable<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
             foreach (TraceWindow t in m_winList)

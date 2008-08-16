@@ -265,18 +265,6 @@ namespace Ecell.IDE.MainWindow
         /// 
         /// </summary>
         [Test()]
-        public void TestMessage()
-        {
-            string type = null;
-            string message = null;
-            _unitUnderTest.Message(type, message);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestAdvancedTime()
         {
             double time = 0;

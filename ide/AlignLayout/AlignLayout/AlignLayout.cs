@@ -32,7 +32,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
 using System.Drawing;
-using Ecell.Layout;
+using System.Windows.Forms;
+using Ecell.Plugin;
 using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.AlignLayout
@@ -40,7 +41,7 @@ namespace Ecell.IDE.Plugins.AlignLayout
     /// <summary>
     /// Layout algorithm to align nodes
     /// </summary>
-    public class AlignLayout : LayoutBase, ILayoutAlgorithm
+    public class AlignLayout : LayoutBase, IMenuStripProvider
     {
         enum Alignment {
             /// <summary>
@@ -77,7 +78,7 @@ namespace Ecell.IDE.Plugins.AlignLayout
         /// <param name="systemList">Systems (can null)</param>
         /// <param name="nodeList">Nodes (Variables, Processes)</param>
         /// <returns>Whether layout is completed or aborted</returns>
-        public bool DoLayout(int subNum,
+        public override bool DoLayout(int subNum,
                              bool layoutSystem,
                              List<EcellObject> systemList,
                              List<EcellObject> nodeList)
@@ -114,51 +115,18 @@ namespace Ecell.IDE.Plugins.AlignLayout
         /// Get LayoutType of this layout
         /// </summary>
         /// <returns>LayoutType of this layout</returns>
-        public LayoutType GetLayoutType()
+        public override LayoutType GetLayoutType()
         {
             return LayoutType.Selected;
-        }
-
-        /// <summary>
-        /// Get menu name of this algorithm
-        /// </summary>
-        /// <returns>menu name of this algorithm</returns>
-        public string GetMenuText()
-        {
-            return MessageResAlignLayout.MenuItemAlign;
         }
 
         /// <summary>
         /// Get a name of this layout
         /// </summary>
         /// <returns>a name of this layout</returns>
-        public string GetName()
+        public override string GetLayoutName()
         {
             return "Align";
-        }
-
-        /// <summary>
-        /// Get a tooltip of this layout
-        /// </summary>
-        /// <returns>tooltip</returns>
-        public string GetToolTipText()
-        {
-            return MessageResAlignLayout.ToolTip;
-        }
-
-        /// <summary>
-        /// Get a list of names for submenu.
-        /// </summary>
-        /// <returns>a list of name of sub commands</returns>
-        public List<string> GetSubCommands()
-        {
-            List<string> subCommands = new List<string>();
-            subCommands.Add(MessageResAlignLayout.MenuItemSubLeft);
-            subCommands.Add(MessageResAlignLayout.MenuItemSubRight);
-            subCommands.Add(MessageResAlignLayout.MenuItemSubUpper);
-            subCommands.Add(MessageResAlignLayout.MenuItemSubLower);
-
-            return subCommands;
         }
 
         #region Private Methods
@@ -204,5 +172,45 @@ namespace Ecell.IDE.Plugins.AlignLayout
             }
         }
         #endregion
+
+        public IEnumerable<ToolStripMenuItem> GetMenuStripItems()
+        {
+            ToolStripMenuItem fileMenu = new ToolStripMenuItem();
+            fileMenu.Name = MenuConstants.MenuItemFile;
+
+            ToolStripMenuItem layoutMenu = new ToolStripMenuItem(
+                MessageResAlignLayout.MenuItemAlign,
+                null,
+                new ToolStripMenuItem(MessageResAlignLayout.MenuItemSubLeft, null,
+                    new EventHandler(delegate(object o, EventArgs e)
+                    {
+                        m_env.PluginManager.DiagramEditor.InitiateLayout(this, (int)Alignment.Left);
+                    })
+                ),
+                new ToolStripMenuItem(MessageResAlignLayout.MenuItemSubRight, null,
+                    new EventHandler(delegate(object o, EventArgs e)
+                    {
+                        m_env.PluginManager.DiagramEditor.InitiateLayout(this, (int)Alignment.Right);
+                    })
+                ),
+                new ToolStripMenuItem(MessageResAlignLayout.MenuItemSubUpper, null,
+                    new EventHandler(delegate(object o, EventArgs e)
+                    {
+                        m_env.PluginManager.DiagramEditor.InitiateLayout(this, (int)Alignment.Upper);
+                    })
+                ),
+                new ToolStripMenuItem(MessageResAlignLayout.MenuItemSubLower, null,
+                    new EventHandler(delegate(object o, EventArgs e)
+                    {
+                        m_env.PluginManager.DiagramEditor.InitiateLayout(this, (int)Alignment.Lower);
+                    })
+                )
+            );
+
+            layoutMenu.ToolTipText = MessageResAlignLayout.ToolTip;
+
+            fileMenu.DropDownItems.Add(layoutMenu);
+            return new ToolStripMenuItem[] { fileMenu };
+        }
     }
 }

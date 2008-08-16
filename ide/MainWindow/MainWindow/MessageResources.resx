@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ErrLoadPlugin" xml:space="preserve">
-    <value>Cannot load the plugin {0} (location: {1}).</value>
-  </data>
   <data name="SelectDMDir" xml:space="preserve">
     <value>Please select the DM directory.</value>
   </data>
@@ -212,9 +209,6 @@
   </data>
   <data name="NameSimResult" xml:space="preserve">
     <value>Simulation result</value>
-  </data>
-  <data name="InfoLoadPlugin" xml:space="preserve">
-    <value>Loading {0}</value>
   </data>
   <data name="DockClosing" xml:space="preserve">
     <value>Closing dockable pane {0}...</value>

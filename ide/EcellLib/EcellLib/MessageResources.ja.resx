@@ -282,4 +282,10 @@
   <data name="WarnLoadDM" xml:space="preserve">
     <value>ロードできないダイナミックモジュール(DM)が存在します。</value>
   </data>
+  <data name="InfoLoadPlugin" xml:space="preserve">
+    <value>プラグイン {0} を読み込んでいます...</value>
+  </data>
+  <data name="ErrLoadPlugin" xml:space="preserve">
+    <value>プラグイン {0} (場所: {1}) をロードできません。</value>
+  </data>
 </root>

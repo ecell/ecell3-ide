@@ -24,25 +24,33 @@
 //
 //END_HEADER
 //
-// written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
-// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+// written by Moriyoshi Koizumi <mozo@sfc.keio.ac.jp>.
 //
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using WeifenLuo.WinFormsUI.Docking;
 
-namespace Ecell.Plugin
+namespace Ecell.Reporting
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface IDockOwner
+    public class StatusUpdateEventArgs: EventArgs
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        DockPanel DockPanel { get; }
+        private string m_text;
+
+        private StatusBarMessageKind m_type;
+
+        public StatusBarMessageKind Type
+        {
+            get { return m_type; }
+        }
+
+        public string Text
+        {
+            get { return m_text; }
+        }
+
+        public StatusUpdateEventArgs(StatusBarMessageKind type, string text)
+        {
+            m_type = type;
+            m_text = text; 
+        }
     }
 }

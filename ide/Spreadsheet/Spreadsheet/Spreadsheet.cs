@@ -49,7 +49,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
     /// <summary>
     /// Plugin class to display object by list.
     /// </summary>
-    public class Spreadsheet : PluginBase
+    public class Spreadsheet : PluginBase, IRasterizable
     {
         #region Fields
         /// <summary>
@@ -295,7 +295,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// get bitmap that converts display image on this plugin.
         /// </summary>
         /// <returns>bitmap data</returns>
-        public override Bitmap Print(string names)
+        public Bitmap Print(string names)
         {
             Bitmap b = new Bitmap(m_gridView.Width, m_gridView.Height);
             m_gridView.DrawToBitmap(b, m_gridView.ClientRectangle);
@@ -325,7 +325,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>true</returns>
-        public override IEnumerable<string> GetEnablePrintNames()
+        public IEnumerable<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
             names.Add(MessageResources.Spreadsheet);

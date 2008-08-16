@@ -271,20 +271,6 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
-        public void TestLoadPlugin()
-        {
-            string path = null;
-            string className = null;
-            IEcellPlugin expectedPluginBase = null;
-            IEcellPlugin resultPluginBase = _unitUnderTest.LoadPlugin(path, className);
-            Assert.AreEqual(expectedPluginBase, resultPluginBase, "LoadPlugin method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestUnloadPlugin()
         {
             IEcellPlugin p = null;
@@ -338,18 +324,6 @@ namespace Ecell
             IEcellPlugin resultPluginBase = null;
             resultPluginBase = _unitUnderTest.GetPlugin(name);
             Assert.AreEqual(expectedPluginBase, resultPluginBase, "GetPlugin method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetLayoutPlugins()
-        {
-            List<Ecell.Layout.ILayoutAlgorithm> expectedList = null;
-            List<Ecell.Layout.ILayoutAlgorithm> resultList = _unitUnderTest.GetLayoutPlugins();
-            Assert.AreEqual(expectedList, resultList, "GetLayoutPlugins method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
         }

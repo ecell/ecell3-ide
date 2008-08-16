@@ -85,6 +85,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ConsoleControl.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ConsoleControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConsoleControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ConsoleControl.cs</DependentUpon>

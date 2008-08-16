@@ -217,18 +217,6 @@ namespace Ecell.IDE.Plugins.EntityList
         }
 
         /// <summary>
-        /// get bitmap that converts display image on this plugin.
-        /// </summary>
-        /// <returns>bitmap data</returns>
-        public override Bitmap Print(string names)
-        {
-            Bitmap b = new Bitmap(m_control.Width, m_control.Height);
-            m_control.DrawToBitmap(b, m_control.ClientRectangle);
-
-            return b;
-        }
-
-        /// <summary>
         /// Get the name of this plugin.
         /// </summary>
         /// <returns>"ObjectList"</returns>
@@ -244,17 +232,6 @@ namespace Ecell.IDE.Plugins.EntityList
         public override String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
-
-        /// <summary>
-        /// Check whether this plugin can print display image.
-        /// </summary>
-        /// <returns>true</returns>
-        public override IEnumerable<string> GetEnablePrintNames()
-        {
-            List<string> names = new List<string>();
-            names.Add(MessageResources.EntityList);
-            return names;
         }
         #endregion
     }

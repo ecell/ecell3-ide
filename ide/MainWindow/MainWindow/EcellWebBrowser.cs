@@ -48,11 +48,7 @@ namespace Ecell.IDE.MainWindow
     public class EcellWebBrowser : EcellDockContent
     {
         #region Fields
-        private const string URL = "http://chaperone.e-cell.org/trac/ecell-ide";
-        private static Uri STARTUP;
-
-        private PictureBox pictureBox;
-        private GroupBox groupBox;
+        private Uri m_startupPage;
         private WebBrowser webBrowser;
         private ToolStripStatusLabel URLLabel;
         private ToolStrip toolStrip;
@@ -76,11 +72,16 @@ namespace Ecell.IDE.MainWindow
             get { return m_env; }
         }
 
-        public List<KeyValuePair<string, string>> RecentFiles
+        public Uri Url
+        {
+            get { return webBrowser.Url; }
+            set { webBrowser.Navigate(value); }
+        }
+
+        internal IEnumerable<KeyValuePair<string, string>> RecentFiles
         {
             get { return m_recentFiles; }
         }
-
         #region Constructor
         /// <summary>
         /// Constructor
@@ -89,25 +90,15 @@ namespace Ecell.IDE.MainWindow
         {
             m_env = ApplicationEnvironment.GetInstance();
             m_recentFiles = recentFiles;
+            m_startupPage = FindStartPage();
             InitializeComponent();
-            this.Text = MessageResources.StartUpWindow;
-            this.TabText = this.Text;
-            this.webBrowser.ObjectForScripting = new AutomationStub(this);
-            Uri startPage = FindStartPage();
-            STARTUP = startPage;
-            if (startPage != null)
-            {
-                webBrowser.Navigate(startPage);
-            }
-            SetRecentFiles(recentFiles);
+            webBrowser.ObjectForScripting = new AutomationStub(this);
         }
 
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EcellWebBrowser));
-            this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.groupBox = new System.Windows.Forms.GroupBox();
-            this.webBrowser = new System.Windows.Forms.WebBrowser();
+            this.webBrowser = new WebBrowser();
             this.URLLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.ButtonBack = new System.Windows.Forms.ToolStripButton();
@@ -117,26 +108,14 @@ namespace Ecell.IDE.MainWindow
             this.ButtonNavigate = new System.Windows.Forms.ToolStripButton();
             this.URLComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.toolStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // pictureBox
-            // 
-            resources.ApplyResources(this.pictureBox, "pictureBox");
-            this.pictureBox.Name = "pictureBox";
-            this.pictureBox.TabStop = false;
-            // 
-            // groupBox
-            // 
-            resources.ApplyResources(this.groupBox, "groupBox");
-            this.groupBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.groupBox.Name = "groupBox";
-            this.groupBox.TabStop = false;
-            // 
             // webBrowser
             // 
+            this.webBrowser.AccessibleDescription = null;
+            this.webBrowser.AccessibleName = null;
             resources.ApplyResources(this.webBrowser, "webBrowser");
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
@@ -148,17 +127,25 @@ namespace Ecell.IDE.MainWindow
             // 
             // URLLabel
             // 
+            this.URLLabel.AccessibleDescription = null;
+            this.URLLabel.AccessibleName = null;
+            resources.ApplyResources(this.URLLabel, "URLLabel");
             this.URLLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.URLLabel.BackgroundImage = null;
             this.URLLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.URLLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.URLLabel.Name = "URLLabel";
-            resources.ApplyResources(this.URLLabel, "URLLabel");
             this.URLLabel.Spring = true;
             // 
             // toolStrip
             // 
+            this.toolStrip.AccessibleDescription = null;
+            this.toolStrip.AccessibleName = null;
+            resources.ApplyResources(this.toolStrip, "toolStrip");
+            this.toolStrip.BackgroundImage = null;
+            this.toolStrip.Font = null;
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ButtonBack,
             this.ButtonForward,
@@ -166,47 +153,63 @@ namespace Ecell.IDE.MainWindow
             this.ButtonRefresh,
             this.ButtonNavigate,
             this.URLComboBox});
-            resources.ApplyResources(this.toolStrip, "toolStrip");
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.SizeChanged += new System.EventHandler(this.toolStrip_SizeChanged);
             // 
             // ButtonBack
             // 
-            this.ButtonBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonBack.AccessibleDescription = null;
+            this.ButtonBack.AccessibleName = null;
             resources.ApplyResources(this.ButtonBack, "ButtonBack");
+            this.ButtonBack.BackgroundImage = null;
+            this.ButtonBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ButtonBack.Name = "ButtonBack";
             this.ButtonBack.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonForward
             // 
-            this.ButtonForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonForward.AccessibleDescription = null;
+            this.ButtonForward.AccessibleName = null;
             resources.ApplyResources(this.ButtonForward, "ButtonForward");
+            this.ButtonForward.BackgroundImage = null;
+            this.ButtonForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ButtonForward.Name = "ButtonForward";
             this.ButtonForward.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonStop
             // 
-            this.ButtonStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonStop.AccessibleDescription = null;
+            this.ButtonStop.AccessibleName = null;
             resources.ApplyResources(this.ButtonStop, "ButtonStop");
+            this.ButtonStop.BackgroundImage = null;
+            this.ButtonStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ButtonStop.Name = "ButtonStop";
             this.ButtonStop.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonRefresh
             // 
-            this.ButtonRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonRefresh.AccessibleDescription = null;
+            this.ButtonRefresh.AccessibleName = null;
             resources.ApplyResources(this.ButtonRefresh, "ButtonRefresh");
+            this.ButtonRefresh.BackgroundImage = null;
+            this.ButtonRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ButtonRefresh.Name = "ButtonRefresh";
             this.ButtonRefresh.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonNavigate
             // 
-            this.ButtonNavigate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ButtonNavigate.AccessibleDescription = null;
+            this.ButtonNavigate.AccessibleName = null;
             resources.ApplyResources(this.ButtonNavigate, "ButtonNavigate");
+            this.ButtonNavigate.BackgroundImage = null;
+            this.ButtonNavigate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ButtonNavigate.Name = "ButtonNavigate";
             this.ButtonNavigate.Click += new System.EventHandler(this.Button_Click);
             // 
             // URLComboBox
             // 
+            this.URLComboBox.AccessibleDescription = null;
+            this.URLComboBox.AccessibleName = null;
             this.URLComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.URLComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.AllUrl;
             resources.ApplyResources(this.URLComboBox, "URLComboBox");
@@ -217,26 +220,32 @@ namespace Ecell.IDE.MainWindow
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.webBrowser);
-            this.panel1.Controls.Add(this.groupBox);
-            this.panel1.Controls.Add(this.pictureBox);
+            this.panel1.AccessibleDescription = null;
+            this.panel1.AccessibleName = null;
             resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.BackgroundImage = null;
+            this.panel1.Controls.Add(this.webBrowser);
+            this.panel1.Font = null;
             this.panel1.Name = "panel1";
             // 
             // EcellWebBrowser
             // 
-            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
+            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.BackgroundImage = null;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.toolStrip);
+            this.Font = null;
             this.Name = "EcellWebBrowser";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
+            this.ToolTipText = null;
+            this.VisibleChanged += new System.EventHandler(this.EcellWebBrowser_VisibleChanged);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         private Uri FindStartPage()
@@ -264,44 +273,6 @@ namespace Ecell.IDE.MainWindow
             }
             return null;
         }
-
-        private void SetRecentFiles(List<KeyValuePair<string, string>> recentDics)
-        {
-                int i = 0;
-                foreach (KeyValuePair<string, string> project in recentDics)
-                {
-                    i++;
-                    ProjectLabel label = new ProjectLabel(project.Key, project.Value);
-                    label.Text = i.ToString() + ". " + project.Key;
-                    label.Width = 220;
-                    label.Left = 20;
-                    label.Top = i * 25;
-                    label.MouseClick += new MouseEventHandler(label_MouseClick);
-                    groupBox.Controls.Add(label);
-                }
-        }
-
-        //private void SetRecentFiles()
-        //{
-        //    string recentFiles = "<div id =\"recentProject\">\n<h2>最近使ったファイル</h2>\n";
-        //    string temp;
-        //    int i = 0;
-        //    foreach (KeyValuePair<string, string> project in m_window.RecentProjects)
-        //    {
-        //        temp = "<li><a onclick=\"window.external.LoadProject('" + project.Key + "','" + project.Value.Replace("\\","/") + "');\">" + project.Key + "</a></li>\n";
-        //        recentFiles += temp;
-        //        i++;
-        //        ProjectLabel label = new ProjectLabel(project.Key, project.Value);
-        //        label.Text = i.ToString() + ". " + project.Key;
-        //        label.Width = 220;
-        //        label.Left = 20;
-        //        label.Top = i * 25;
-        //        label.MouseClick += new MouseEventHandler(label_MouseClick);
-        //        groupBox.Controls.Add(label);
-        //    }
-        //    recentFiles += "</div>";
-        //    //webBrowser.DocumentText = webBrowser.DocumentText.Replace("<div id =\"recentProject\"></div>",recentFiles);
-        //}
         #endregion
 
         #region private methods
@@ -332,8 +303,9 @@ namespace Ecell.IDE.MainWindow
             {
                 this.webBrowser.Refresh();    
             }
-            catch 
+            catch (Exception e)
             {
+                Trace.WriteLine(e);
             }
         }
         #endregion
@@ -431,18 +403,8 @@ namespace Ecell.IDE.MainWindow
                 URLComboBox.Items.RemoveAt(URLComboBox.Items.Count - 1);
 
             this.Text = webBrowser.Url.ToString();
-            if (webBrowser.Url == STARTUP)
-            {
-                webBrowser.Left = 265;
-                webBrowser.Width = panel1.Width - 265;
-            }
-            else
-            {
-                webBrowser.Left = 0;
-                webBrowser.Width = panel1.Width;
-            }
-            m_env.PluginManager.SetStatusBarMessage(
-                Ecell.Plugin.StatusBarMessageKind.Generic,
+            m_env.ReportManager.SetStatus(
+                StatusBarMessageKind.Generic,
                 ""
                 );
         }
@@ -454,12 +416,12 @@ namespace Ecell.IDE.MainWindow
         private void webBrowser_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
         {
             if (e.MaximumProgress == 0.0) return;
-            m_env.PluginManager.SetStatusBarMessage(
-                Ecell.Plugin.StatusBarMessageKind.Generic,
+            m_env.ReportManager.SetStatus(
+                StatusBarMessageKind.Generic,
                 MessageResources.MessageWebBrowse
             );
             int progress = (int)(100 * ((double)e.CurrentProgress / (double)e.MaximumProgress));
-            m_env.PluginManager.SetProgressBarValue(progress);
+            m_env.ReportManager.SetProgress(progress);
         }
         /// <summary>
         /// Event on status changed
@@ -469,8 +431,8 @@ namespace Ecell.IDE.MainWindow
         private void webBrowser_StatusTextChanged(object sender, EventArgs e)
         {
 //            this.URLLabel.Text = webBrowser.StatusText;
-            m_env.PluginManager.SetStatusBarMessage(
-                        Ecell.Plugin.StatusBarMessageKind.Generic,
+            m_env.ReportManager.SetStatus(
+                        StatusBarMessageKind.Generic,
                         webBrowser.StatusText);
         }
         /// <summary>
@@ -557,7 +519,15 @@ namespace Ecell.IDE.MainWindow
 
             public string CurrentValue
             {
-                get { return m_en.Current.Value; }
+                get
+                {
+                    try
+                    {
+                        return new Uri(m_en.Current.Value).ToString();
+                    }
+                    catch { }
+                    return null;
+                }
             }
 
             public bool MoveNext()
@@ -589,17 +559,16 @@ namespace Ecell.IDE.MainWindow
             /// <summary>
             /// LoadProject
             /// </summary>
-            /// <param name="filename"></param>
-            public void LoadProject(string filename)
+            /// <param name="uri"></param>
+            public bool LoadProject(string url)
             {
-                try
-                {
-                    m_browser.Environment.DataManager.LoadProject(filename);
-                }
-                catch (Exception e)
-                {
-                    Util.ShowErrorDialog(e.Message);
-                }
+                Uri uri = new Uri(url);
+                if (!uri.IsFile)
+                    return false;
+                Trace.WriteLine(url);
+                m_browser.Invoke(new MethodInvoker(
+                    delegate() { m_browser.Environment.DataManager.LoadProject(uri.LocalPath); }));
+                return true;
 
             }
 
@@ -625,5 +594,11 @@ namespace Ecell.IDE.MainWindow
             }
         }
         #endregion
+
+        private void EcellWebBrowser_VisibleChanged(object sender, EventArgs e)
+        {
+            if (Visible && m_startupPage != null)
+                Url = m_startupPage;
+        }
     }
 }

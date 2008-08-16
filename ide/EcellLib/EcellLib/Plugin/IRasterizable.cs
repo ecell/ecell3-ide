@@ -24,25 +24,32 @@
 //
 //END_HEADER
 //
-// written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
 using System;
 using System.Collections.Generic;
 using System.Text;
-using WeifenLuo.WinFormsUI.Docking;
+using System.Drawing;
 
 namespace Ecell.Plugin
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface IDockOwner
+    public interface IRasterizable
     {
         /// <summary>
-        /// 
+        /// Check whether this plugin can print display image.
         /// </summary>
-        DockPanel DockPanel { get; }
+        /// <returns>Collection of the names that is capable of printing themselves, or null</returns>
+        IEnumerable<String> GetEnablePrintNames();
+
+        /// <summary>
+        /// Get bitmap that converts display image on this plugin.
+        /// </summary>
+        /// <returns>The bitmap data of plugin.</returns>   
+        Bitmap Print(string name);
     }
 }

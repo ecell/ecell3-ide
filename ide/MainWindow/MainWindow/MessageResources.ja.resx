@@ -121,7 +121,7 @@
     <value>言語設定の変更は次回起動時から有効になります。</value>
   </data>
   <data name="DockClosing" xml:space="preserve">
-    <value>ドッカブルペイン {1} を閉じています...</value>
+    <value>ドッカブルペイン {0} を閉じています...</value>
   </data>
   <data name="DockPreparing" xml:space="preserve">
     <value>ドッカブルペイン {0} を準備しています...</value>
@@ -134,9 +134,6 @@
   </data>
   <data name="ErrLoadFile" xml:space="preserve">
     <value>ファイル {0} を読み込めません。</value>
-  </data>
-  <data name="ErrLoadPlugin" xml:space="preserve">
-    <value>プラグイン {0} (場所: {1}) をロードできません。</value>
   </data>
   <data name="ErrLoadWindowSettings" xml:space="preserve">
     <value>ウィンドウ設定を読み込めません。</value>
@@ -158,9 +155,6 @@
   </data>
   <data name="FileNotFound" xml:space="preserve">
     <value>指定したファイルが存在しません。</value>
-  </data>
-  <data name="InfoLoadPlugin" xml:space="preserve">
-    <value>{0}を読み込んでいます</value>
   </data>
   <data name="MenuCopy" xml:space="preserve">
     <value>プロジェクトの複製</value>

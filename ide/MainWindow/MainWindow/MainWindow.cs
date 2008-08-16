@@ -48,17 +48,20 @@ using System.Reflection;
 using System.Globalization;
 using System.Resources;
 using System.Xml.Serialization;
-using IronPython.Hosting;
-using IronPython.Runtime;
+using System.Xml;
+using System.Runtime.InteropServices;
+using System.Net;
 
 using Ecell;
 using Ecell.Logging;
 using Ecell.Plugin;
-using WeifenLuo.WinFormsUI.Docking;
 using Ecell.Objects;
-using System.Xml;
-using System.Runtime.InteropServices;
-using System.Net;
+using Ecell.Reporting;
+
+using WeifenLuo.WinFormsUI.Docking;
+
+using IronPython.Hosting;
+using IronPython.Runtime;
 
 namespace Ecell.IDE.MainWindow
 {
@@ -108,10 +111,6 @@ namespace Ecell.IDE.MainWindow
         /// The number of edit after project is opened.
         /// </summary>
         private int m_editCount = 0;
-        /// <summary>
-        /// List of plugin to check loaded plugin.
-        /// </summary>
-        public List<string> m_pluginList;
         /// <summary>
         /// Docking Windows object.
         /// </summary>
@@ -183,6 +182,8 @@ namespace Ecell.IDE.MainWindow
             LoadDefaultWindowSetting();
             SetStartUpWindow();
             m_title = this.Text;
+            m_env.ReportManager.StatusUpdated += new StatusUpdatedEventHandler(ReportManager_StatusUpdated);
+            m_env.ReportManager.ProgressValueUpdated += new ProgressReportEventHandler(ReportManager_ProgressValueUpdated);
         }
 
         /// <summary>
@@ -213,7 +214,6 @@ namespace Ecell.IDE.MainWindow
         void LoadPlugins()
         {
             m_env.PluginManager.AppVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            m_pluginList = new List<string>();
             ResetCurrentDirectory();
 
             // Load plugins
@@ -224,111 +224,89 @@ namespace Ecell.IDE.MainWindow
                     Constants.delimiterWildcard + Constants.FileExtPlugin);
                 foreach (string fileName in files)
                 {
-                    LoadPlugin(fileName);
+                    m_env.PluginManager.LoadPlugin(fileName);
                 }
             }
 
-            // Set menu availability.
-            foreach (ToolStripItem tool in menustrip.Items)
+            foreach (IEcellPlugin pb in m_env.PluginManager.Plugins)
             {
-                ToolStripMenuItem menu = (ToolStripMenuItem)tool;
-
-                if (menu.DropDownItems.Count <= 0)
+                if (pb is IDockContentProvider)
                 {
-                    menu.Enabled = false;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Load plugin in plugin directory and add the plugin menus to MainWindow.
-        /// </summary>
-        /// <param name="path">path of plugin.</param>
-        private void LoadPlugin(string path)
-        {
-            IEcellPlugin pb = null;
-            string pName = Path.GetFileNameWithoutExtension(path);
-            string className = "Ecell.IDE.Plugins." + pName + "." + pName;
-
-            
-            if (m_pluginList.Contains(pName)) return;
-            m_pluginList.Add(pName);
-            m_env.LogManager.Append(new ApplicationLogEntry(
-                MessageType.Information,
-                string.Format(MessageResources.InfoLoadPlugin, pName),
-                this
-            ));
-
-            try
-            {
-                pb = m_env.PluginManager.LoadPlugin(path, className);
-            }
-            catch (Exception e)
-            {
-                String errmes = MessageResources.ErrLoadPlugin;
-                m_env.LogManager.Append(
-                    new ApplicationLogEntry(
-                        MessageType.Error,
-                        String.Format(errmes, className, path), this));
-                return;
-            }
-            // Set DockContent.
-            IEnumerable<EcellDockContent> winList = pb.GetWindowsForms();
-            if (winList != null)
-            {
-                foreach (EcellDockContent dock in winList)
-                {
-                    SetDockContent(dock);
-                }
-            }
-
-            // Set Menu.
-            List<ToolStripMenuItem> menuList = pb.GetMenuStripItems();
-            if (menuList != null)
-            {
-                foreach (ToolStripMenuItem menu in menuList)
-                {
-                    if (!this.menustrip.Items.ContainsKey(menu.Name))
+                    // Set DockContent.
+                    IEnumerable<EcellDockContent> winList = ((IDockContentProvider)pb).GetWindowsForms();
+                    if (winList != null)
                     {
-                        // if you want to sort menu item at first plugin,
-                        // you copy above program sequence.
-                        this.menustrip.Items.AddRange(new ToolStripItem[] { menu });
-                        continue;
-                    }
-
-                    while (menu.DropDownItems.Count > 0)
-                    {
-                        ToolStripItem[] tmp = this.menustrip.Items.Find(menu.Name, false);
-                        ToolStripMenuItem menuItem = (ToolStripMenuItem)tmp[0];
-                        ToolStripItem item = menu.DropDownItems[0];
-                        IEnumerator iter = menuItem.DropDownItems.GetEnumerator();
-                        int i = 0;
-                        while (iter.MoveNext())
+                        foreach (EcellDockContent dock in winList)
                         {
-                            ToolStripItem t = (ToolStripItem)iter.Current;
-                            if (Convert.ToInt32(t.Tag) > Convert.ToInt32(item.Tag))
+                            SetDockContent(dock);
+                        }
+                    }
+                }
+
+                if (pb is IMenuStripProvider)
+                {
+                    // Set Menu.
+                    IEnumerable<ToolStripMenuItem> menuList = ((IMenuStripProvider)pb).GetMenuStripItems();
+                    if (menuList != null)
+                    {
+                        foreach (ToolStripMenuItem menu in menuList)
+                        {
+                            if (!this.menustrip.Items.ContainsKey(menu.Name))
                             {
-                                menuItem.DropDownItems.Insert(i, item);
-                                i = -1;
-                                break;
+                                // if you want to sort menu item at first plugin,
+                                // you copy above program sequence.
+                                this.menustrip.Items.AddRange(new ToolStripItem[] { menu });
+                                continue;
                             }
-                            i++;
+
+                            while (menu.DropDownItems.Count > 0)
+                            {
+                                ToolStripItem[] tmp = this.menustrip.Items.Find(menu.Name, false);
+                                ToolStripMenuItem menuItem = (ToolStripMenuItem)tmp[0];
+                                ToolStripItem item = menu.DropDownItems[0];
+                                IEnumerator iter = menuItem.DropDownItems.GetEnumerator();
+                                int i = 0;
+                                while (iter.MoveNext())
+                                {
+                                    ToolStripItem t = (ToolStripItem)iter.Current;
+                                    if (Convert.ToInt32(t.Tag) > Convert.ToInt32(item.Tag))
+                                    {
+                                        menuItem.DropDownItems.Insert(i, item);
+                                        i = -1;
+                                        break;
+                                    }
+                                    i++;
+                                }
+                                if (i != -1)
+                                {
+                                    menuItem.DropDownItems.AddRange(new ToolStripItem[] { item });
+                                }
+                            }
                         }
-                        if (i != -1)
+                    }
+                }
+
+                if (pb is IToolStripProvider)
+                {
+                    // Set ToolBar
+                    ToolStrip toolList = ((IToolStripProvider)pb).GetToolBarMenuStrip();
+                    if (toolList != null)
+                    {
+                        this.toolStripContainer.TopToolStripPanel.Join(toolList, toolList.Location);
+                    }
+                    // Set menu availability.
+                    foreach (ToolStripItem tool in menustrip.Items)
+                    {
+                        ToolStripMenuItem menu = (ToolStripMenuItem)tool;
+
+                        if (menu.DropDownItems.Count <= 0)
                         {
-                            menuItem.DropDownItems.AddRange(new ToolStripItem[] { item });
+                            menu.Enabled = false;
                         }
                     }
                 }
             }
-            // Set ToolBar
-            ToolStrip toolList = pb.GetToolBarMenuStrip();
-            if (toolList != null)
-            {
-                this.toolStripContainer.TopToolStripPanel.Join(toolList,toolList.Location);
-            }
         }
-
         #endregion
 
         private void SetRecentProject()
@@ -1752,32 +1730,29 @@ namespace Ecell.IDE.MainWindow
         {
             ShowScriptEditor();
         }
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="kind"></param>
-        /// <param name="str"></param>
-        public virtual void SetStatusBarMessage(StatusBarMessageKind kind, string str)
+        private void ReportManager_StatusUpdated(object o, StatusUpdateEventArgs e)
         {
-            switch (kind)
+            switch (e.Type)
             {
                 case StatusBarMessageKind.Generic:
-                    genericStatusText.Text = str;
+                    genericStatusText.Text = e.Text;
                     break;
                 case StatusBarMessageKind.QuickInspector:
-                    quickInspectorText.Text = str;
+                    quickInspectorText.Text = e.Text;
                     break;
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="val"></param>
-        public virtual void SetProgressBarValue(int val)
+        private void ReportManager_ProgressValueUpdated(object o, ProgressReportEventArgs e)
         {
-            if (val == 100)
-                val = 0;
-            genericProgressBar.Value = val;
+            genericProgressBar.Value = (e.Value == 100 ? 0 : e.Value);
         }
         /// <summary>
         /// 

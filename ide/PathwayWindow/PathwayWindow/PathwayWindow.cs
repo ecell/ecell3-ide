@@ -58,7 +58,6 @@ using UMD.HCIL.PiccoloX.Components;
 using UMD.HCIL.Piccolo.Util;
 using UMD.HCIL.PiccoloX.Nodes;
 using Ecell;
-using Ecell.Layout;
 using Ecell.Plugin;
 using Ecell.Objects;
 
@@ -67,7 +66,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
     /// <summary>
     /// PathwayWindow plugin
     /// </summary>
-    public class PathwayWindow : PluginBase
+    public class PathwayWindow : PluginBase, IRasterizable, IDiagramEditor
     {
         #region Fields
         /// <summary>
@@ -123,7 +122,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Get menustrips for PathwayWindow plugin.
         /// </summary>
         /// <returns>the list of menu.</returns>
-        public override List<ToolStripMenuItem> GetMenuStripItems()
+        public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
             return m_con.Menu.ToolMenuList;
         }
@@ -152,7 +151,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>true.</returns>
-        public override IEnumerable<string> GetEnablePrintNames()
+        public IEnumerable<string> GetEnablePrintNames()
         {
             List<string> names = new List<string>();
             names.Add(m_con.PathwayView.Text);
@@ -163,7 +162,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Get bitmap that converts display image on this plugin.
         /// </summary>
         /// <returns>The bitmap data of plugin.</returns>
-        public override Bitmap Print(string name)
+        public Bitmap Print(string name)
         {
             return m_con.Print();
         }
@@ -298,5 +297,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_con.ResetSelect();
         }
         #endregion
+
+        public void InitiateLayout(ILayoutAlgorithm algo, int subIdx)
+        {
+            m_con.DoLayout(algo, subIdx, true);
+        }
     }
 }

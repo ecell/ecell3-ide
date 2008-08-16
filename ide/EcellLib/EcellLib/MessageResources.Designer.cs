@@ -268,6 +268,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   Cannot load the plugin {0} (location: {1}). に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrLoadPlugin {
+            get {
+                return ResourceManager.GetString("ErrLoadPlugin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot load the project {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadPrj {
@@ -462,6 +471,15 @@ namespace Ecell {
         internal static string InfoDel {
             get {
                 return ResourceManager.GetString("InfoDel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loading plugin {0}... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoLoadPlugin {
+            get {
+                return ResourceManager.GetString("InfoLoadPlugin", resourceCulture);
             }
         }
         

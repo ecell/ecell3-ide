@@ -684,7 +684,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Get menustrips for Analysis plugin.
         /// </summary>
         /// <returns>the list of menu.</returns>
-        public override List<ToolStripMenuItem> GetMenuStripItems()
+        public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResources));
             List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();

@@ -118,50 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 12</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="simText.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Both</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>362, 182</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>MessageWindowControl</value>
-  </data>
-  <data name="&gt;&gt;simText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.EcellDockContent, EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="$this.TabText" xml:space="preserve">
-    <value>MessageWindow</value>
-  </data>
-  <data name="simText.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Courier New, 9pt</value>
-  </data>
-  <data name="&gt;&gt;simText.Name" xml:space="preserve">
-    <value>simText</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Console Output</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="simText.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="simText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>362, 182</value>
-  </data>
-  <data name="&gt;&gt;simText.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="simText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAgAEBAAAAEACABoBQAAhgAAABAQAAABACAAaAQAAO4FAAAYGAAAAQAIAMgGAABWCgAAGBgAAAEA
@@ -611,16 +567,7 @@
         AAAABwAA4AAAAAAHAADwAAAAAA8AAPgAAAAAHwAA////////AAD///////8AAP///////wAA
 </value>
   </data>
-  <data name="&gt;&gt;simText.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>コンソール出力</value>
   </data>
-  <data name="simText.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="simText.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
 </root>

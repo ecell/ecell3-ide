@@ -34,27 +34,25 @@
             // 
             // simText
             // 
+            this.simText.AccessibleDescription = null;
+            this.simText.AccessibleName = null;
+            resources.ApplyResources(this.simText, "simText");
             this.simText.BackColor = System.Drawing.SystemColors.Window;
-            this.simText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.simText.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.simText.Location = new System.Drawing.Point(0, 0);
-            this.simText.Multiline = true;
+            this.simText.BackgroundImage = null;
             this.simText.Name = "simText";
             this.simText.ReadOnly = true;
-            this.simText.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.simText.Size = new System.Drawing.Size(362, 182);
-            this.simText.TabIndex = 0;
             // 
             // MessageWindowControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(362, 182);
+            this.BackgroundImage = null;
             this.Controls.Add(this.simText);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Font = null;
             this.Name = "MessageWindowControl";
-            this.TabText = "MessageWindow";
-            this.Text = "Console";
+            this.ToolTipText = null;
             this.ResumeLayout(false);
             this.PerformLayout();
 

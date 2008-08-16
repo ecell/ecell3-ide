@@ -40,14 +40,13 @@ using System.Reflection;
 
 using Ecell.Logging;
 using Ecell.Objects;
-using Ecell.Layout;
 
 namespace Ecell.Plugin
 {
     /// <summary>
     /// Interface of plugins on ECell IDE.
     /// </summary>
-    public abstract class PluginBase : IEcellPlugin
+    public abstract class PluginBase : IEcellPlugin, IToolStripProvider, IMenuStripProvider, IDockContentProvider, IDataHandler
     {
         #region Fields
         /// <summary>
@@ -138,7 +137,7 @@ namespace Ecell.Plugin
         /// <returns>""</returns>
         public virtual string GetPluginName()
         {
-            return "PluginBase";
+            return GetType().Name;
         }
 
         /// <summary>
@@ -154,7 +153,7 @@ namespace Ecell.Plugin
         /// Get menustrips for each plugin.
         /// </summary>
         /// <returns>null.</returns>
-        public virtual List<ToolStripMenuItem> GetMenuStripItems()
+        public virtual IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
             return null;
         }
@@ -175,24 +174,6 @@ namespace Ecell.Plugin
         /// <returns>UserControl.</returns>
         //List<UserControl> GetWindowsForms();
         public virtual IEnumerable<EcellDockContent> GetWindowsForms()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Check whether this plugin can print display image.
-        /// </summary>
-        /// <returns>false.</returns>
-        public virtual IEnumerable<String> GetEnablePrintNames()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Get bitmap that converts display image on this plugin.
-        /// </summary>
-        /// <returns>The bitmap data of plugin.</returns>   
-        public virtual Bitmap Print(string name)
         {
             return null;
         }
@@ -466,15 +447,6 @@ namespace Ecell.Plugin
         public EcellObject GetEcellObject(EcellObject eo)
         {
             return m_dManager.GetEcellObject(eo.ModelID, eo.Key, eo.Type);
-        }
-        /// <summary>
-        /// Check layout algorithm's dlls in a plugin\pathway directory and register them
-        /// to m_layoutList
-        /// </summary>
-        /// <returns></returns>
-        public List<ILayoutAlgorithm> GetLayoutAlgorithms()
-        {
-            return m_pManager.GetLayoutPlugins();
         }
         /// <summary>
         /// Get a temporary key of EcellObject.

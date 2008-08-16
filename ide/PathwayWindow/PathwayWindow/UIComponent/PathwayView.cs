@@ -37,6 +37,7 @@ using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.PiccoloX.Components;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using Ecell.Reporting;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
@@ -114,25 +115,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         private void canvas_MouseMove(object sender, MouseEventArgs e)
         {
             PNode node = m_con.Canvas.FocusNode;
-            PluginManager pman = m_con.Window.Environment.PluginManager;
+            ReportManager rman = m_con.Window.Environment.ReportManager;
             if (node is PPathwayObject)
             {
-                pman.SetStatusBarMessage(
-                    Ecell.Plugin.StatusBarMessageKind.Generic,
+                rman.SetStatus(
+                    StatusBarMessageKind.Generic,
                     ((PPathwayObject)node).EcellObject.Key
                 );
             }
             else
             {
-                pman.SetStatusBarMessage(
-                    Ecell.Plugin.StatusBarMessageKind.Generic,
+                rman.SetStatus(
+                    StatusBarMessageKind.Generic,
                     ""
                 );
             }
             Point systemPos = GetDesktopLocation(m_con.Canvas.PCanvas);
             PointF pos = m_con.Canvas.SystemPosToCanvasPos(new Point(e.Location.X + systemPos.X,e.Location.Y + systemPos.Y));
-            pman.SetStatusBarMessage(
-                Ecell.Plugin.StatusBarMessageKind.QuickInspector,
+            rman.SetStatus(
+                StatusBarMessageKind.QuickInspector,
                 string.Format("X:{0:###.##}, Y:{1:###.##}", pos.X, pos.Y)
             );
         }

@@ -38,7 +38,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.ComponentModel;
-using Ecell.Layout;
+using Ecell.Plugin;
 using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.GridLayout
@@ -46,7 +46,7 @@ namespace Ecell.IDE.Plugins.GridLayout
     /// <summary>
     /// Layout algorithm to layout nodes on grid.
     /// </summary>
-    public class GridLayout : LayoutBase, ILayoutAlgorithm
+    public class GridLayout : LayoutBase, IMenuStripProvider
     {
         #region fields
         /// <summary>
@@ -112,7 +112,7 @@ namespace Ecell.IDE.Plugins.GridLayout
         /// <param name="systemList">Systems</param>
         /// <param name="nodeList">Nodes (Variables, Processes)</param>
         /// <returns>Whether layout is completed or aborted</returns>
-        public bool DoLayout(int subNum,
+        public override bool DoLayout(int subNum,
                              bool layoutSystem,
                              List<EcellObject> systemList,
                              List<EcellObject> nodeList)
@@ -154,45 +154,37 @@ namespace Ecell.IDE.Plugins.GridLayout
         /// Get LayoutType of this layout algorithm.
         /// </summary>
         /// <returns></returns>
-        public LayoutType GetLayoutType()
+        public override LayoutType GetLayoutType()
         {
             return LayoutType.Whole;
-        }
-
-        /// <summary>
-        /// Get menu name of this algorithm
-        /// </summary>
-        /// <returns>menu name of this algorithm</returns>
-        public string GetMenuText()
-        {
-            return MessageResGridLayout.MenuItemGrid;
         }
 
         /// <summary>
         /// Get a name of this layout algorithm.
         /// </summary>
         /// <returns></returns>
-        public string GetName()
+        public override string GetLayoutName()
         {
             return "Grid";
         }
 
-        /// <summary>
-        /// Get a tooltip of this layout algorithm.
-        /// </summary>
-        /// <returns></returns>
-        public string GetToolTipText()
+        public IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
-            return MessageResGridLayout.ToolTip;
-        }
+            ToolStripMenuItem fileMenu = new ToolStripMenuItem();
+            fileMenu.Name = MenuConstants.MenuItemFile;
 
-        /// <summary>
-        /// Get a list of name of sub menus.
-        /// </summary>
-        /// <returns>a list of name of sub menus</returns>
-        public List<string> GetSubCommands()
-        {
-            return null;
+            ToolStripMenuItem layoutMenu = new ToolStripMenuItem(
+                MessageResGridLayout.MenuItemGrid,
+                null,
+                new EventHandler(delegate(object o, EventArgs e)
+                {
+                    m_env.PluginManager.DiagramEditor.InitiateLayout(this, 0);
+                })
+            );
+
+            layoutMenu.ToolTipText = MessageResGridLayout.ToolTip;
+            fileMenu.DropDownItems.Add(layoutMenu);
+            return new ToolStripMenuItem[] { fileMenu };
         }
         #endregion
 

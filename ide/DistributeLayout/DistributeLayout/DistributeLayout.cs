@@ -32,7 +32,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.ComponentModel;
-using Ecell.Layout;
+using System.Windows.Forms;
+using Ecell.Plugin;
 using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.DistributeLayout
@@ -40,7 +41,7 @@ namespace Ecell.IDE.Plugins.DistributeLayout
     /// <summary>
     /// Layout algorithm to distribute nodes evenly spaced
     /// </summary>
-    public partial class DistributeLayout : LayoutBase, ILayoutAlgorithm
+    public partial class DistributeLayout : LayoutBase, IMenuStripProvider
     {
         enum Direction { Horizontally, Vertically }
 
@@ -60,7 +61,7 @@ namespace Ecell.IDE.Plugins.DistributeLayout
         /// <param name="systemList">Systems</param>
         /// <param name="nodeList">Nodes (Variables, Processes)</param>
         /// <returns>Whether layout is completed or aborted</returns>
-        public bool DoLayout(int subNum,
+        public override bool DoLayout(int subNum,
                              bool layoutSystem,
                              List<EcellObject> systemList,
                              List<EcellObject> nodeList)
@@ -135,49 +136,47 @@ namespace Ecell.IDE.Plugins.DistributeLayout
         /// Get LayoutType of this layout algorithm.
         /// </summary>
         /// <returns>LayoutType of this layout algorithm</returns>
-        public LayoutType GetLayoutType()
+        public override LayoutType GetLayoutType()
         {
             return LayoutType.Selected;
-        }
-
-        /// <summary>
-        /// Get the menu text of this layout.
-        /// </summary>
-        /// <returns></returns>
-        public string GetMenuText()
-        {
-            return MessageResDistributeLayout.MenuItemDistribute;
         }
 
         /// <summary>
         /// Get a name of this layout algorithm.
         /// </summary>
         /// <returns>a name of this layout algorithm</returns>
-        public string GetName()
+        public override string GetLayoutName()
         {
             return "Distribute";
         }
 
-        /// <summary>
-        /// Get a tooltip of this layout algorithm.
-        /// </summary>
-        /// <returns>a tooltip of this layout</returns>
-        public string GetToolTipText()
-        {
-            return MessageResDistributeLayout.ToolTip;
-        }
 
-        /// <summary>
-        /// Get a list of name for sub menus.
-        /// </summary>
-        /// <returns>a list of name</returns>
-        public List<string> GetSubCommands()
+        public IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
-            List<string> subCommands = new List<string>();
-            subCommands.Add(MessageResDistributeLayout.MenuItemSubHorizontally);
-            subCommands.Add(MessageResDistributeLayout.MenuItemSubVertically);
+            ToolStripMenuItem fileMenu = new ToolStripMenuItem();
+            fileMenu.Name = MenuConstants.MenuItemFile;
 
-            return subCommands;
+            ToolStripMenuItem layoutMenu = new ToolStripMenuItem(
+                MessageResDistributeLayout.MenuItemDistribute,
+                null,
+                new ToolStripMenuItem(MessageResDistributeLayout.MenuItemSubHorizontally, null,
+                    new EventHandler(delegate(object o, EventArgs e)
+                    {
+                        m_env.PluginManager.DiagramEditor.InitiateLayout(this, (int)Direction.Horizontally);
+                    })
+                ),
+                new ToolStripMenuItem(MessageResDistributeLayout.MenuItemSubVertically, null,
+                    new EventHandler(delegate(object o, EventArgs e)
+                    {
+                        m_env.PluginManager.DiagramEditor.InitiateLayout(this, (int)Direction.Vertically);
+                    })
+                )
+            );
+
+            layoutMenu.ToolTipText = MessageResDistributeLayout.ToolTip;
+
+            fileMenu.DropDownItems.Add(layoutMenu);
+            return new ToolStripMenuItem[] { fileMenu };
         }
     }
 }

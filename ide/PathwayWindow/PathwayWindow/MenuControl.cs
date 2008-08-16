@@ -49,7 +49,6 @@ using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using Ecell.IDE.Plugins.PathwayWindow.Dialog;
-using Ecell.Layout;
 using Ecell.Objects;
 using System.Drawing.Imaging;
 using System.IO;
@@ -72,11 +71,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// A list of menu items.
         /// </summary>
         private List<ToolStripMenuItem> m_menuList;
-
-        /// <summary>
-        /// A list for menu of layout algorithm, which implement ILayoutAlgorithm.
-        /// </summary>
-        private List<ToolStripItem> m_menuLayoutList;
 
         /// <summary>
         /// ContextMenuStrip for PPathwayNode
@@ -109,19 +103,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private Dictionary<string, Handle> m_handleDict = new Dictionary<string, Handle>();
 
         /// <summary>
-        /// A list for layout algorithms, which implement ILayoutAlgorithm.
-        /// </summary>
-        private List<ILayoutAlgorithm> m_layoutList = new List<ILayoutAlgorithm>();
-
-        /// <summary>
         /// 
         /// </summary>
         private ToolStripComboBox m_zoomRate;
-
-        /// <summary>
-        /// Default layout algorithm
-        /// </summary>
-        private ILayoutAlgorithm m_defaultLayoutAlgorithm;
         #endregion
 
         #region Accessors
@@ -177,31 +161,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
-        /// Accessor for m_menuLayoutList.
-        /// </summary>
-        public List<ToolStripItem> LayoutMenus
-        {
-            get { return m_menuLayoutList; }
-        }
-
-        /// <summary>
-        /// LayoutList
-        /// </summary>
-        public List<ILayoutAlgorithm> LayoutList
-        {
-            get { return m_layoutList; }
-            set { m_layoutList = value; }
-        }
-
-        /// <summary>
-        /// DefaultLayoutAlgorithm
-        /// </summary>
-        public ILayoutAlgorithm DefaultLayoutAlgorithm
-        {
-            get { return m_defaultLayoutAlgorithm; }
-        }
-
-        /// <summary>
         /// ZoomRate
         /// </summary>
         public ToolStripComboBox ZoomRate
@@ -219,73 +178,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public MenuControl(PathwayControl control)
         {
             m_con = control;
-            m_layoutList = m_con.Window.GetLayoutAlgorithms();
-            m_defaultLayoutAlgorithm = GetDefaultLayoutAlgorithm();
-            m_menuLayoutList = CreateLayoutMenus();
             m_menuList = CreateToolMenus();
             m_buttonList = CreateToolButtons();
             m_popupMenu = CreatePopUpMenus();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        private ILayoutAlgorithm GetDefaultLayoutAlgorithm()
-        {
-            ILayoutAlgorithm la = null;
-            foreach (ILayoutAlgorithm algo in m_layoutList)
-            {
-                if (algo.GetName() == "Grid")
-                {
-                    la = algo;
-                }
-            }
-            return la;
-        }
         #endregion
-
-        #region Methods to Create Menus
-        /// <summary>
-        /// Create LayoutAlgorithm menus.
-        /// </summary>
-        private List<ToolStripItem> CreateLayoutMenus()
-        {
-            // Create menu.
-            List<ToolStripItem> menuList = new List<ToolStripItem>();
-            int count = 0;
-            foreach (ILayoutAlgorithm algorithm in m_layoutList)
-            {
-                PathwayToolStripMenuItem layoutItem = new PathwayToolStripMenuItem();
-                layoutItem.Text = algorithm.GetMenuText();
-                layoutItem.ID = count;
-                layoutItem.Visible = true;
-                layoutItem.ToolTipText = algorithm.GetToolTipText();
-
-                List<string> subCommands = algorithm.GetSubCommands();
-                if (subCommands == null || subCommands.Count == 0)
-                {
-                    layoutItem.Click += new EventHandler(LayoutItem_Click);
-                }
-                else
-                {
-                    int subcount = 0;
-                    foreach (string subCommandName in subCommands)
-                    {
-                        PathwayToolStripMenuItem layoutSubItem = new PathwayToolStripMenuItem();
-                        layoutSubItem.Text = subCommandName;
-                        layoutSubItem.ID = count;
-                        layoutSubItem.SubID = subcount;
-                        layoutSubItem.Visible = true;
-                        layoutSubItem.Click += new EventHandler(LayoutItem_Click);
-                        layoutItem.DropDownItems.Add(layoutSubItem);
-                        subcount++;
-                    }
-                }
-                menuList.Add(layoutItem);
-                count++;
-            }
-            return menuList;
-        }
 
         /// <summary>
         /// Create Popup Menus.
@@ -398,17 +295,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             ToolStripSeparator separator5 = new ToolStripSeparator();
             nodeMenu.Items.Add(separator5);
             m_popMenuDict.Add(MenuConstants.CanvasMenuSeparator5, separator5);
-
-            // Add LayoutMenu
-            ToolStripMenuItem layout = new ToolStripMenuItem(MessageResources.CanvasMenuLayout);
-            layout.Name = MenuConstants.CanvasMenuLayout;
-            layout.DropDownItems.AddRange(CreateLayoutMenus().ToArray());
-            nodeMenu.Items.Add(layout);
-            m_popMenuDict.Add(MenuConstants.CanvasMenuLayout, layout);
-
-            ToolStripSeparator separator2 = new ToolStripSeparator();
-            nodeMenu.Items.Add(separator2);
-            m_popMenuDict.Add(MenuConstants.CanvasMenuSeparator2, separator2);
 
             // Create Logger
             ToolStripMenuItem createLogger = new ToolStripMenuItem(MessageResources.CanvasMenuCreateLogger);
@@ -527,13 +413,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             editMenu.DropDownItems.AddRange(new ToolStripItem[] { cutMenu, copyMenu, pasteMenu, deleteMenu });
             menuList.Add(editMenu);
-
-            // Layout menu
-            ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
-            layoutMenu.Text = MessageResources.MenuItemLayout;
-            layoutMenu.Name = MenuConstants.MenuItemLayout;
-            layoutMenu.DropDownItems.AddRange(m_menuLayoutList.ToArray());
-            menuList.Add(layoutMenu);
 
             return menuList;
         }
@@ -683,7 +562,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             return list;
         }
-        #endregion
 
         #region Internal Methods
         
@@ -704,7 +582,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             bool isRoot = false;
             bool isLine = (node is PPathwayLine);
             bool isCopiedObject = (m_con.CopiedNodes.Count > 0);
-            bool isLayoutMenu = (m_menuLayoutList.Count > 0);
 
             // Set popup menu text.
             if (isPPathwayObject)
@@ -750,9 +627,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_popMenuDict[MenuConstants.CanvasMenuMoveFront].Visible = isPPathwayObject && !isRoot;
             m_popMenuDict[MenuConstants.CanvasMenuMoveBack].Visible = isPPathwayObject && !isRoot;
             m_popMenuDict[MenuConstants.CanvasMenuSeparator5].Visible = isPPathwayObject && !isRoot && !isPPathwayText;
-            // Show Layout menus.
-            m_popMenuDict[MenuConstants.CanvasMenuLayout].Visible = isLayoutMenu && !(isLine || isPPathwayText);
-            m_popMenuDict[MenuConstants.CanvasMenuSeparator2].Visible = isLayoutMenu && !(isNull || isLine || isPPathwayText);
             // Show Logger menu.
             m_popMenuDict[MenuConstants.CanvasMenuCreateLogger].Visible = isPPathwayObject && !isPPathwayText;
             m_popMenuDict[MenuConstants.CanvasMenuDeleteLogger].Visible = isPPathwayObject && !isPPathwayText;
@@ -1079,22 +953,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             Debug.WriteLine("Delete " + obj.EcellObject.Type + " Logger:" + obj.EcellObject.Key);
             // delete logger
             m_con.NotifyLoggerChanged(obj, logger, false);
-        }
-
-        /// <summary>
-        /// Called when one of layout menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void LayoutItem_Click(object sender, EventArgs e)
-        {
-            if (!(sender is PathwayToolStripMenuItem))
-                return;
-            PathwayToolStripMenuItem item = (PathwayToolStripMenuItem)sender;
-            int layoutIdx = item.ID;
-            int subIdx = item.SubID;
-            ILayoutAlgorithm algorithm = m_layoutList[layoutIdx];
-            m_con.DoLayout(algorithm, subIdx, true);
         }
 
         /// <summary>

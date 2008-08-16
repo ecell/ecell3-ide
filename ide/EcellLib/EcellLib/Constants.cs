@@ -682,4 +682,32 @@ namespace Ecell
         Warning = 2,
         Error = 3
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public enum StatusBarMessageKind
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        Generic,
+        /// <summary>
+        /// 
+        /// </summary>
+        QuickInspector
+    }
+
+    public class MenuConstants
+    {
+        public const string MenuItemFile = "MenuItemFile";
+        public const string MenuItemEdit = "MenuItemEdit";
+        public const string MenuItemLayout = "MenuItemLayout";
+        public const string MenuItemView = "MenuItemView";
+        public const string MenuItemRun = "MenuItemRun";
+        public const string MenuItemSetup = "MenuItemSetup";
+        public const string MenuItemAnalysis = "MenuItemAnalysis";
+        public const string MenuItemDebug = "MenuItemDebug";
+        public const string MenuItemHelp = "MenuItemHelp";
+    }
 }
