@@ -113,7 +113,7 @@ namespace Ecell.Plugin
 
         public string GetVersionString()
         {
-            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            return Assembly.GetAssembly(GetType()).GetName().Version.ToString();
         }
 
         public void ChangeStatus(ProjectStatus status)
