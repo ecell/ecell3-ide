@@ -300,21 +300,17 @@ Source: "x64\plugins\Simulation.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Ch
 Source: "x64\plugins\StaticDebugWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
 Source: "x64\plugins\TracerWindow.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
 
+Source: "conf\ComponentSettings.xml"; DestDir: "{app}\plugins";Components: extension; CopyMode: alwaysoverwrite;
 
-; ======================================================
-; plugins/pathway/*
-; ======================================================
-Source: "conf\ComponentSettings.xml"; DestDir: "{app}\plugins\pathway";Components: extension; CopyMode: alwaysoverwrite;
+Source: "Win32\plugins\AlignLayout.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\plugins\CircularLayout.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\plugins\DistributeLayout.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "Win32\plugins\GridLayout.dll"; DestDir: "{app}\plugins"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
 
-Source: "Win32\plugins\pathway\AlignLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
-Source: "Win32\plugins\pathway\CircularLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
-Source: "Win32\plugins\pathway\DistributeLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
-Source: "Win32\plugins\pathway\GridLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 32Bit; Check: not IsWin64();Components: main; CopyMode: alwaysoverwrite;
-
-Source: "x64\plugins\pathway\AlignLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
-Source: "x64\plugins\pathway\CircularLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
-Source: "x64\plugins\pathway\DistributeLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
-Source: "x64\plugins\pathway\GridLayout.dll"; DestDir: "{app}\plugins\pathway"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\AlignLayout.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\CircularLayout.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\DistributeLayout.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\GridLayout.dll"; DestDir: "{app}\plugins"; Flags: 64Bit; Check: IsWin64();Components: main; CopyMode: alwaysoverwrite;
 
 
 ; ======================================================
