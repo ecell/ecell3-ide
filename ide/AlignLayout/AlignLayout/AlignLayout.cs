@@ -175,10 +175,10 @@ namespace Ecell.IDE.Plugins.AlignLayout
 
         public IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
-            ToolStripMenuItem fileMenu = new ToolStripMenuItem();
-            fileMenu.Name = MenuConstants.MenuItemFile;
+            ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
+            layoutMenu.Name = MenuConstants.MenuItemLayout;
 
-            ToolStripMenuItem layoutMenu = new ToolStripMenuItem(
+            ToolStripMenuItem algoMenu = new ToolStripMenuItem(
                 MessageResAlignLayout.MenuItemAlign,
                 null,
                 new ToolStripMenuItem(MessageResAlignLayout.MenuItemSubLeft, null,
@@ -207,10 +207,10 @@ namespace Ecell.IDE.Plugins.AlignLayout
                 )
             );
 
-            layoutMenu.ToolTipText = MessageResAlignLayout.ToolTip;
+            algoMenu.ToolTipText = MessageResAlignLayout.ToolTip;
 
-            fileMenu.DropDownItems.Add(layoutMenu);
-            return new ToolStripMenuItem[] { fileMenu };
+            layoutMenu.DropDownItems.Add(algoMenu);
+            return new ToolStripMenuItem[] { layoutMenu };
         }
     }
 }

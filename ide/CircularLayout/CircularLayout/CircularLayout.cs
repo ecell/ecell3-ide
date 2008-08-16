@@ -588,10 +588,10 @@ namespace Ecell.IDE.Plugins.CircularLayout
 
         public IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
-            ToolStripMenuItem fileMenu = new ToolStripMenuItem();
-            fileMenu.Name = MenuConstants.MenuItemFile;
+            ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
+            layoutMenu.Name = MenuConstants.MenuItemLayout;
 
-            ToolStripMenuItem layoutMenu = new ToolStripMenuItem(
+            ToolStripMenuItem algoMenu = new ToolStripMenuItem(
                 MessageResCircularLayout.MenuItemCircular,
                 null,
                 new EventHandler(delegate(object o, EventArgs e)
@@ -600,9 +600,9 @@ namespace Ecell.IDE.Plugins.CircularLayout
                 })
             );
 
-            layoutMenu.ToolTipText = MessageResCircularLayout.ToolTip;
-            fileMenu.DropDownItems.Add(layoutMenu);
-            return new ToolStripMenuItem[] { fileMenu };
+            algoMenu.ToolTipText = MessageResCircularLayout.ToolTip;
+            layoutMenu.DropDownItems.Add(algoMenu);
+            return new ToolStripMenuItem[] { layoutMenu };
         }
     }
 }

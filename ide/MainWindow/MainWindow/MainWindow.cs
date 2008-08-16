@@ -68,7 +68,7 @@ namespace Ecell.IDE.MainWindow
     [ComVisible(true)]
     [Guid("758E6028-5769-4048-B3CB-AC633B9CABAF")]
     [ClassInterface(ClassInterfaceType.AutoDispatch)]
-    public partial class MainWindow : Form, IEcellPlugin, IDockOwner
+    public partial class MainWindow : Form, IEcellPlugin, IDockOwner, IRootMenuProvider
     {
         #region Fields
         /// <summary>
@@ -843,6 +843,7 @@ namespace Ecell.IDE.MainWindow
                 printToolStripMenuItem.Enabled = false;
                 saveActionMenuItem.Enabled = false;
                 exitToolStripMenuItem.Enabled = true;
+                MenuItemLayout.Enabled = false;
             }
             else if (type == ProjectStatus.Loaded || type == ProjectStatus.Stepping)
             {
@@ -857,6 +858,7 @@ namespace Ecell.IDE.MainWindow
                 printToolStripMenuItem.Enabled = true;
                 saveActionMenuItem.Enabled = true;
                 exitToolStripMenuItem.Enabled = true;
+                MenuItemLayout.Enabled = true;
             }
             else
             {
@@ -872,6 +874,7 @@ namespace Ecell.IDE.MainWindow
                 printToolStripMenuItem.Enabled = true;
                 saveActionMenuItem.Enabled = false;
                 exitToolStripMenuItem.Enabled = true;
+                MenuItemLayout.Enabled = false;
             }
             // Reset edit count.
             if (type == ProjectStatus.Uninitialized || type == ProjectStatus.Loaded)
@@ -1836,5 +1839,30 @@ namespace Ecell.IDE.MainWindow
 
         }
 
+        public ToolStripMenuItem GetRootMenuItem(string name)
+        {
+            switch (name)
+            {
+                case MenuConstants.MenuItemAnalysis:
+                    return MenuItemAnalysis;
+                case MenuConstants.MenuItemDebug:
+                    return MenuItemDebug;
+                case MenuConstants.MenuItemEdit:
+                    return MenuItemEdit;
+                case MenuConstants.MenuItemFile:
+                    return MenuItemFile;
+                case MenuConstants.MenuItemHelp:
+                    return MenuItemHelp;
+                case MenuConstants.MenuItemLayout:
+                    return MenuItemLayout;
+                case MenuConstants.MenuItemRun:
+                    return MenuItemRun;
+                case MenuConstants.MenuItemSetup:
+                    return MenuItemSetup;
+                case MenuConstants.MenuItemView:
+                    return MenuItemView;
+            }
+            return null;
+        }
     }
 }

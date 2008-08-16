@@ -153,10 +153,10 @@ namespace Ecell.IDE.Plugins.DistributeLayout
 
         public IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
-            ToolStripMenuItem fileMenu = new ToolStripMenuItem();
-            fileMenu.Name = MenuConstants.MenuItemFile;
+            ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
+            layoutMenu.Name = MenuConstants.MenuItemLayout;
 
-            ToolStripMenuItem layoutMenu = new ToolStripMenuItem(
+            ToolStripMenuItem algoMenu = new ToolStripMenuItem(
                 MessageResDistributeLayout.MenuItemDistribute,
                 null,
                 new ToolStripMenuItem(MessageResDistributeLayout.MenuItemSubHorizontally, null,
@@ -173,10 +173,10 @@ namespace Ecell.IDE.Plugins.DistributeLayout
                 )
             );
 
-            layoutMenu.ToolTipText = MessageResDistributeLayout.ToolTip;
+            algoMenu.ToolTipText = MessageResDistributeLayout.ToolTip;
 
-            fileMenu.DropDownItems.Add(layoutMenu);
-            return new ToolStripMenuItem[] { fileMenu };
+            layoutMenu.DropDownItems.Add(algoMenu);
+            return new ToolStripMenuItem[] { layoutMenu };
         }
     }
 }

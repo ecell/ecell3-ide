@@ -121,7 +121,7 @@ namespace Ecell
         private IDockOwner m_dockOwner;
         /// <summary>
         /// </summary>
-        private IRootMenuItemProvider m_rootMenuItemProvider;
+        private IRootMenuProvider m_rootMenuProvider;
         /// <summary>
         /// </summary>
         private IDiagramEditor m_diagramEditor;
@@ -158,9 +158,9 @@ namespace Ecell
             get { return this.m_dockOwner.DockPanel; }
         }
 
-        public IRootMenuItemProvider RootMenuItemProvider
+        public IRootMenuProvider RootMenuProvider
         {
-            get { return m_rootMenuItemProvider; }
+            get { return m_rootMenuProvider; }
         }
 
         public IDiagramEditor DiagramEditor
@@ -467,14 +467,14 @@ namespace Ecell
                 m_diagramEditor = (IDiagramEditor)p;
             }
 
-            if (p is IRootMenuItemProvider)
+            if (p is IRootMenuProvider)
             {
-                if (m_rootMenuItemProvider != null)
+                if (m_rootMenuProvider != null)
                 {
                     throw new Exception(String.Format(MessageResources.ErrAdd,
                         new object[] { p.GetPluginName(), "Plugin" }));
                 }
-                m_rootMenuItemProvider = (IRootMenuItemProvider)p;
+                m_rootMenuProvider = (IRootMenuProvider)p;
             }
 
             if (p is IDataHandler)

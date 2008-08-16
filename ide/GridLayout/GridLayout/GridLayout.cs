@@ -170,10 +170,10 @@ namespace Ecell.IDE.Plugins.GridLayout
 
         public IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
-            ToolStripMenuItem fileMenu = new ToolStripMenuItem();
-            fileMenu.Name = MenuConstants.MenuItemFile;
+            ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
+            layoutMenu.Name = MenuConstants.MenuItemLayout;
 
-            ToolStripMenuItem layoutMenu = new ToolStripMenuItem(
+            ToolStripMenuItem algoMenu = new ToolStripMenuItem(
                 MessageResGridLayout.MenuItemGrid,
                 null,
                 new EventHandler(delegate(object o, EventArgs e)
@@ -182,9 +182,9 @@ namespace Ecell.IDE.Plugins.GridLayout
                 })
             );
 
-            layoutMenu.ToolTipText = MessageResGridLayout.ToolTip;
-            fileMenu.DropDownItems.Add(layoutMenu);
-            return new ToolStripMenuItem[] { fileMenu };
+            algoMenu.ToolTipText = MessageResGridLayout.ToolTip;
+            layoutMenu.DropDownItems.Add(algoMenu);
+            return new ToolStripMenuItem[] { layoutMenu };
         }
         #endregion
 

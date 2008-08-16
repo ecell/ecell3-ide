@@ -33,7 +33,7 @@ using System.Text;
 
 namespace Ecell.Plugin
 {
-    interface IEcellObjectTaskPlugin
+    interface IEcellObjectMenuProvider
     {
     }
 }

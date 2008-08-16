@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Ecell.Plugin
 {
-    public interface IRootMenuItemProvider
+    public interface IRootMenuProvider
     {
         ToolStripMenuItem GetRootMenuItem(string name);
     }

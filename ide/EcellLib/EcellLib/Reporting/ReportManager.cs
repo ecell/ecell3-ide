@@ -67,6 +67,7 @@ namespace Ecell.Reporting
 
         internal void OnSessionClosed()
         {
+            Trace.WriteLine("ReportingSession closed");
             if (ReportingSessionClosed != null)
                 ReportingSessionClosed(this, new ReportingSessionEventArgs(m_rep));
             lock (this)
