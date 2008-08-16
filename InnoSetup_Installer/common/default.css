@@ -1,0 +1,69 @@
+body, table {
+    font-family: Verdana;
+}
+
+body {
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    background-image: url(banner.png);
+    background-repeat: no-repeat;
+    background-position: left top;
+}
+
+a {
+    text-decoration: none;
+    color: #394984;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.page-header {
+    display: block;
+}
+
+.page-header-body {
+}
+
+.page-content-body {
+    padding: 0px 16px 16px 16px; 
+}
+
+.page-content-body .groupbox {
+    border: 1px solid #394984;
+    padding: 0 0 0 0;
+}
+
+.page-content-body .groupbox-header {
+    background-color: #394984;
+    background-image: url(groupbox-header-bg.png);
+    background-repeat: repeat-x;
+    background-position: top;
+}
+.page-content-body h2.groupbox-header-body {
+    color: #f0f0ff;
+    font-weight: bold;
+    font-size: 1em;
+    padding: 4px 8px 4px 8px;
+    margin: 0 0 0 0;
+    border-bottom: 1px solid #394984;
+}
+
+.page-content-body .groupbox-content {
+    background-color: #f6f6f6;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    width: 100%;
+    height: 100%;
+}
+
+.page-content-body .groupbox-content-body {
+    padding: 8px 8px 8px 8px;
+    margin: 0 0 0 0;
+}
+
+.page-content-body .groupbox-content-body ul {
+    margin: 0 0 0 2em;
+}
+
