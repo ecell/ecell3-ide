@@ -62,7 +62,7 @@ namespace Ecell
         /// <summary>
         /// Reserved the file name of startup html.
         /// </summary>
-        public const string fileStartupHTML = "startup.html";
+        public const string fileStartupHTML = "startup";
         /// <summary>
         /// The default process name
         /// </summary>
@@ -131,45 +131,49 @@ namespace Ecell
         /// The extention of source file.
         /// </summary>
         public const string FileExtSource = ".cpp";
+        /// <summary>
+        /// The extention of HTML file.
+        /// </summary>
+        public const string FileExtHTML = ".html";
         #endregion
 
         #region File Filters
         /// <summary>
         /// File Filter for the action file.
         /// </summary>
-        public const string FilterActionFile = "Action File(*.xml)|*.xml";
+        public const string FilterActionFile = "Action File (*.xml)|*.xml";
         /// <summary>
         /// File Filter for the csv file.
         /// </summary>
-        public const string FileExtCSV = "CSV File(*.csv)|*.csv|all(*.*)|*.*";
+        public const string FileExtCSV = "CSV File (*.csv)|*.csv|all(*.*)|*.*";
         /// <summary>
         /// File Filter for the window setting file.
         /// </summary>
-        public const string FilterDMFile = "DM File(*.cpp)|*.cpp|all(*.*)|*.*";
+        public const string FilterDMFile = "C++ Source (*.cpp)|*.cpp|all(*.*)|*.*";
         /// <summary>
         /// File Filter for the model file.
         /// </summary>
-        public const string FilterEmlFile = "Model File(*.eml)|*.eml|all(*.*)|*.*";
+        public const string FilterEmlFile = "E-Cell Model (*.eml)|*.eml|all(*.*)|*.*";
         /// <summary>
         /// File Filter for the script file.
         /// </summary>
-        public const string FilterEssFile = "Script File(*.ess)|*.ess|all(*.*)|*.*";
+        public const string FilterEssFile = "E-Cell Script Files (*.ess)|*.ess|all(*.*)|*.*";
         /// <summary>
         /// File Filter for the window setting file.
         /// </summary>
-        public const string FilterWinSetFile = "Window Setting File(*.xml)|*.xml|all(*.*)|*.*";
+        public const string FilterWinSetFile = "Window Settings (*.xml)|*.xml|all(*.*)|*.*";
         /// <summary>
         /// File Filter for the zip file.
         /// </summary>
-        public const string FilterZipFile = "Zip File(*.zip)|*.zip";
+        public const string FilterZipFile = "Zip Archive (*.zip)|*.zip";
         /// <summary>
         /// File Filter for the zip file.
         /// </summary>
-        public const string FilterSVGFile = "SVG File|*.svg";
+        public const string FilterSVGFile = "SVG - Scalable Vector Graphics (*.svg)|*.svg";
         /// <summary>
         /// File Filter for the zip file.
         /// </summary>
-        public const string FilterImageFile = "Bitmap File(*.bmp)|*.bmp|JPEG File(*.jpg)|*.jpg|GIF File(*.gif)|*.gif|PNG File(*.png)|*.png";
+        public const string FilterImageFile = "BMP - Windows Bitmap (*.bmp)|*.bmp|JPEG File(*.jpg)|*.jpg|GIF File(*.gif)|*.gif|PNG File(*.png)|*.png";
 
         #endregion
 

@@ -256,10 +256,10 @@ namespace Ecell.IDE.MainWindow
             CultureInfo lang = Util.GetLanguage();
             if (documentDir != null)
             {
+                candidates.Add(Path.Combine(documentDir, Constants.fileStartupHTML + "."
+                    + lang.TwoLetterISOLanguageName.ToLower() + Constants.FileExtHTML));
                 candidates.Add(Path.Combine(documentDir,
-                    Constants.fileStartupHTML));
-                candidates.Add(Path.Combine(documentDir,
-                    lang.TwoLetterISOLanguageName + "_" + Constants.fileStartupHTML));
+                    Constants.fileStartupHTML + Constants.FileExtHTML));
             }
             foreach (string candidate in candidates)
             {
