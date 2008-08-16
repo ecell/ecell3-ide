@@ -272,7 +272,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_stepUnitCombo.Items.Add("Step");
             m_stepUnitCombo.Items.Add("Sec");
             m_stepUnitCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-            m_stepUnitCombo.SelectedText = "Step";
+            m_stepUnitCombo.SelectedIndex = 0;
             list.Items.Add(m_stepUnitCombo);
             list.Location = new Point(400, 0);
             return list;
