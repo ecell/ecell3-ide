@@ -37,18 +37,18 @@ using System.Reflection;
 using Ecell;
 using Ecell.Plugin;
 
-namespace Ecell.IDE.Plugins.MessageWindow
+namespace Ecell.IDE.Plugins.Console
 {
     /// <summary>
     /// The plugin to show message.
     /// </summary>
-    public class MessageWindow : PluginBase
+    public class Console : PluginBase
     {
         #region Fields
         /// <summary>
         ///  MessageWindow form.
         /// </summary>
-        private MessageWindowControl m_form = null;
+        private ConsoleControl m_form = null;
         #endregion
 
         #region Internal Methods
@@ -110,7 +110,7 @@ namespace Ecell.IDE.Plugins.MessageWindow
         /// <returns>Windows form</returns>
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
-            m_form = new MessageWindowControl();
+            m_form = new ConsoleControl();
             return new EcellDockContent[] { m_form };
         }
 

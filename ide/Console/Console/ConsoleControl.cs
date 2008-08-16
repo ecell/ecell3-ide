@@ -6,17 +6,17 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Ecell.IDE.Plugins.MessageWindow
+namespace Ecell.IDE.Plugins.Console
 {
     /// <summary>
     /// User Control for MessageWindow.
     /// </summary>
-    public partial class MessageWindowControl : EcellDockContent
+    public partial class ConsoleControl : EcellDockContent
     {
         /// <summary>
         /// Constructor.
         /// </summary>
-        public MessageWindowControl()
+        public ConsoleControl()
         {
             base.m_isSavable = true;
             InitializeComponent();

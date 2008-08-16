@@ -1,6 +1,6 @@
-﻿namespace Ecell.IDE.Plugins.MessageWindow
+﻿namespace Ecell.IDE.Plugins.Console
 {
-    partial class MessageWindowControl
+    partial class ConsoleControl
     {
         /// <summary> 
         /// 必要なデザイナ変数です。
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageWindowControl));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConsoleControl));
             this.simText = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
