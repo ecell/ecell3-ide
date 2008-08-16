@@ -78,8 +78,16 @@ namespace Ecell.IDE.Plugins.MessageListWindow
 
             DataGridViewRow r = new DataGridViewRow();
 
-            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-            c1.Value = mes.Type;
+            DataGridViewImageCell c1 = new DataGridViewImageCell(true);
+            switch (mes.Type)
+            {
+                case MessageType.Error:
+                    c1.Value = Properties.Resources.ErrorIcon;
+                    break;
+                case MessageType.Warning:
+                    c1.Value = Properties.Resources.WarningIcon;
+                    break;
+            }
             r.Cells.Add(c1);
 
             DataGridViewTextBoxCell c2 = new DataGridViewTextBoxCell();
@@ -90,10 +98,6 @@ namespace Ecell.IDE.Plugins.MessageListWindow
             c3.Value = mes.Message;
             r.Cells.Add(c3);            
             r.Tag = mes;
-
-            c1.ReadOnly = true;
-            c2.ReadOnly = true;
-            c3.ReadOnly = true;
 
             MLWMessageDridView.Rows.Add(r);
             m_messages.Add(mes);

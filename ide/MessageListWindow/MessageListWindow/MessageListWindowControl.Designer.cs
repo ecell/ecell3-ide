@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageListWindowControl));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.MLWMessageDridView = new System.Windows.Forms.DataGridView();
-            this.MLWTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MLWTypeColumn = new System.Windows.Forms.DataGridViewImageColumn();
             this.MLWLocColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MLWMesColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
@@ -65,14 +65,14 @@
             this.MLWTypeColumn,
             this.MLWLocColumn,
             this.MLWMesColumn});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MLWMessageDridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MLWMessageDridView.DefaultCellStyle = dataGridViewCellStyle1;
             this.MLWMessageDridView.Font = null;
             this.MLWMessageDridView.Name = "MLWMessageDridView";
             this.MLWMessageDridView.RowHeadersVisible = false;
@@ -82,21 +82,26 @@
             // 
             // MLWTypeColumn
             // 
-            this.MLWTypeColumn.FillWeight = 15F;
+            this.MLWTypeColumn.FillWeight = 9.847716F;
             resources.ApplyResources(this.MLWTypeColumn, "MLWTypeColumn");
             this.MLWTypeColumn.Name = "MLWTypeColumn";
+            this.MLWTypeColumn.ReadOnly = true;
+            this.MLWTypeColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.MLWTypeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // MLWLocColumn
             // 
-            this.MLWLocColumn.FillWeight = 35F;
+            this.MLWLocColumn.FillWeight = 35.88624F;
             resources.ApplyResources(this.MLWLocColumn, "MLWLocColumn");
             this.MLWLocColumn.Name = "MLWLocColumn";
+            this.MLWLocColumn.ReadOnly = true;
             // 
             // MLWMesColumn
             // 
-            this.MLWMesColumn.FillWeight = 50F;
+            this.MLWMesColumn.FillWeight = 51.26605F;
             resources.ApplyResources(this.MLWMesColumn, "MLWMesColumn");
             this.MLWMesColumn.Name = "MLWMesColumn";
+            this.MLWMesColumn.ReadOnly = true;
             // 
             // MessageListWindowControl
             // 
@@ -119,7 +124,7 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.DataGridView MLWMessageDridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MLWTypeColumn;
+        private System.Windows.Forms.DataGridViewImageColumn MLWTypeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn MLWLocColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn MLWMesColumn;
     }

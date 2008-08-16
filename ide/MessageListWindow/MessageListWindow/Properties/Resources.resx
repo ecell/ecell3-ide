@@ -117,41 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MLWTypeColumn.HeaderText" xml:space="preserve">
-    <value>種類</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ErrorIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\error.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MLWLocColumn.HeaderText" xml:space="preserve">
-    <value>場所</value>
-  </data>
-  <data name="MLWMesColumn.HeaderText" xml:space="preserve">
-    <value>メッセージ</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAIGBOQBXV5QAAADiAAAA4gAAAOIAAADiAAAA4gAAAOIAAADiAAAA4wAAAOMAAACMAAAAAAAA
-        AAAAAAAAAAAAAAAAAMz/////ANbW/wDc3P8A0dH/ANvb/wDh4f8A4+P/ANfX/wC0tP8ApKT/AH19/wAA
-        AOQAAAAAAAAAAAAAAGb/////sv///wD///8A////AP///wDX1/8AMzP/AM7O/wD9/f8A9fX/APPz/wDr
-        6/8AiYn/AAAAnAAAAAAAAADe/////wD///8A////AP///wD///8AeXn/ADMz/wCRkf8A////AP///wD/
-        //8A8/P/ALCw/wAAAOEAAAAAAAAAcf////+/////AP///wD///8A////APPz/wCgoP8A7e3/AP///wD/
-        //8A/f3/AO3t/wCJif8AAACsAAAAAAAAAAAAAADiv////wD///8A////AP///wDp6f8Ai4v/ANra/wD/
-        //8A/f3/AO3t/wDS0v8AAADQAAAAAAAAAAAAAAAAAAAArv////+Y////AP///wD///8Ara3/AGBg/wC9
-        vf8A////APX1/wDd3f8AhIT/AAAAjAAAAAAAAAAAAAAAAAAAAAAAAADV/////1v///8A////AI2N/wBM
-        TP8Aj4//AP39/wDr6/8Aysr/AAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAh/////+X////AP///wBz
-        c/8ASEj/AGVl/wDw8P8A2dn/AISE/wAAAHcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADM/////wD/
-        //8AcnL/AEZG/wBqav8A6+v/ALq6/wAAANAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAh/j9
-        /f8t////AJmZ/wA3N/8Ahob/ANnZ/wCEhP8AAACMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAADiXv///wDb2/8AYWH/AMfH/wDKyv8AAADkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAqdn4+P9F////APX1/wDMzP8AcXH/AAAAjAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAADM/f39/wDm5v8Aqqr/AAAA5AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAmACIiP8AgoL/AJqa/wAAAIcAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIAAAAwAAAAFEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAwAcAAIADAACAAQAAAAEAAIABAACAAwAAgAMAAMAHAADADwAA4A8AAOAPAADwHwAA8B8AAPg/
-        AAD4PwAA/P8AAA==
-</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>エラー</value>
+  <data name="WarningIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\warning.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
