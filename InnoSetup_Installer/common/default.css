@@ -12,7 +12,7 @@ body {
 
 a {
     text-decoration: none;
-    color: #394984;
+    color: #7989c4;
 }
 
 a:hover {
@@ -31,23 +31,25 @@ a:hover {
 }
 
 .page-content-body .groupbox {
-    border: 1px solid #394984;
+    border: 1px solid #7989c4;
     padding: 0 0 0 0;
 }
 
 .page-content-body .groupbox-header {
-    background-color: #394984;
-    background-image: url(groupbox-header-bg.png);
-    background-repeat: repeat-x;
-    background-position: top;
+    padding: 1px 0 0 1px;
+    border-bottom: 1px solid #6979c4;
+    background-color: white;
 }
+
 .page-content-body h2.groupbox-header-body {
     color: #f0f0ff;
     font-weight: bold;
     font-size: 1em;
     padding: 4px 8px 4px 8px;
     margin: 0 0 0 0;
-    border-bottom: 1px solid #394984;
+    background-image: url(groupbox-header-bg.png);
+    background-repeat: repeat-x;
+    background-position: top;
 }
 
 .page-content-body .groupbox-content {
