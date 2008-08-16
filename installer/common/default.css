@@ -1,5 +1,6 @@
 body, table {
     font-family: Verdana;
+    font-size: 10pt;
 }
 
 body {
@@ -45,7 +46,7 @@ a:hover {
     color: #f0f0ff;
     font-weight: bold;
     font-size: 1em;
-    padding: 4px 8px 4px 8px;
+    padding: 2px 8px 2px 8px;
     margin: 0 0 0 0;
     background-image: url(groupbox-header-bg.png);
     background-repeat: repeat-x;
