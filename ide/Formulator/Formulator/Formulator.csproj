@@ -18,7 +18,8 @@
     <SccProvider>
     </SccProvider>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>formulator.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ReferencePath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin;$(REFPATH)</ReferencePath>
@@ -84,9 +85,6 @@
       <SubType>Designer</SubType>
       <DependentUpon>FormulatorControl.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="formulator.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

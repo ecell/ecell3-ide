@@ -268,13 +268,10 @@
     <value>Move to front</value>
   </data>
   <data name="MenuItemExport" xml:space="preserve">
-    <value>Export diagrams</value>
-  </data>
-  <data name="MenuItemExportSVG" xml:space="preserve">
-    <value>Export SVG format...</value>
+    <value>Export diagrams...</value>
   </data>
   <data name="MenuToolTipExport" xml:space="preserve">
-    <value>Export diagrams...</value>
+    <value>Export diagrams</value>
   </data>
   <data name="MenuItemFile" xml:space="preserve">
     <value>File</value>
