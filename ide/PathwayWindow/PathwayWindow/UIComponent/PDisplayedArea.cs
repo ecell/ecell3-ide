@@ -57,8 +57,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         public PDisplayedArea()
         {
-            base.Brush = new SolidBrush(Color.FromArgb(96, Color.LightGray));
-            base.Pen = new Pen(Color.FromArgb(96, Color.Gray));
+            base.Brush = new SolidBrush(Color.FromArgb(64, Color.LightGray));
+            base.Pen = new Pen(Color.FromArgb(64, Color.Gray));
             RectangleFigure fig = new RectangleFigure();
             base.AddPath(fig.GraphicsPath, false);
         }

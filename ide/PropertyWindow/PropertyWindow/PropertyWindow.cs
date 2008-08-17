@@ -123,9 +123,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             m_dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             DataGridViewTextBoxColumn textName = new DataGridViewTextBoxColumn();
-            textName.DefaultCellStyle.SelectionForeColor = textName.DefaultCellStyle.ForeColor;
             textName.DefaultCellStyle.BackColor = Color.LightGray;
             textName.DefaultCellStyle.SelectionBackColor = Color.LightGray;
+            textName.DefaultCellStyle.SelectionForeColor = textName.DefaultCellStyle.ForeColor;
             textName.HeaderText = MessageResources.NamePropertyName;
             textName.Name = "NameColumn";
             textName.ReadOnly = true;
@@ -141,7 +141,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     textName, textValue});
 
             m_dgv.MouseDown += new MouseEventHandler(MouseDownOnDataGrid);
-            m_dgv.CellClick += new DataGridViewCellEventHandler(CellClick);
+            m_dgv.CellContentClick += new DataGridViewCellEventHandler(CellClick);
             m_dgv.UserDeletingRow += new DataGridViewRowCancelEventHandler(DeleteRowByUser);
             m_dgv.CellValueChanged += new DataGridViewCellEventHandler(ChangeProperty);
             m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(ShowEditingControl);
@@ -426,8 +426,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             else if (d.Name.Equals(Constants.xpathVRL))
             {
                 c2 = new DataGridViewLinkCell();
-                c2.Tag = new EventHandler(VarRefListCellClicked);
-                c2.Value = "Edit Variable Reference ...";
+                c2.Value = MessageResources.LabelEdit;
             }
             else if (d.Name.Equals(Constants.xpathStepperID))
             {
@@ -851,17 +850,15 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
                 return;
             DataGridViewCell c = m_dgv.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewCell;
-            Trace.WriteLine(c.Tag);
-            if (c.Tag != null && c.Tag is EventHandler)
-            {
-                ((EventHandler)c.Tag)(c, e);
-            }
+            EcellData d = c.Tag as EcellData;
+            if (d != null && d.Name == Constants.xpathVRL)
+                VarRefListCellClicked(c, e);
         }
 
         void VarRefListCellClicked(object o, EventArgs e)
         {
             DataGridViewCell c = o as DataGridViewCell;
-            List<EcellReference> list = EcellReference.ConvertString((string)c.Value);
+            List<EcellReference> list = EcellReference.ConvertFromVarRefList(((EcellData)c.Tag).Value);
             VariableReferenceEditDialog win = new VariableReferenceEditDialog(m_dManager, m_pManager, list);
             using (win)
             {

@@ -47,6 +47,103 @@ namespace Ecell.IDE.MainWindow
     /// </summary>
     public class EcellWebBrowser : EcellDockContent
     {
+        [ComVisible(true)]
+        public class MyIEnumerator
+        {
+            IEnumerator<KeyValuePair<string, string>> m_en;
+
+            public MyIEnumerator(IEnumerator<KeyValuePair<string, string>> en)
+            {
+                m_en = en;
+            }
+
+            public string CurrentKey
+            {
+                get { return m_en.Current.Key; }
+            }
+
+            public string CurrentValue
+            {
+                get
+                {
+                    try
+                    {
+                        return new Uri(m_en.Current.Value).ToString();
+                    }
+                    catch { }
+                    return null;
+                }
+            }
+
+            public bool MoveNext()
+            {
+                return m_en.MoveNext();
+            }
+
+            public void Reset()
+            {
+                m_en.Reset();
+            }
+        }
+
+        /// <summary>
+        /// AutomationClass
+        /// </summary>
+        [ComVisible(true)]
+        public class AutomationStub {
+            private EcellWebBrowser m_browser;
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="browser"></param>
+            public AutomationStub(EcellWebBrowser browser)
+            {
+                this.m_browser = browser;
+            }
+            /// <summary>
+            /// LoadProject
+            /// </summary>
+            /// <param name="uri"></param>
+            public bool LoadProject(string url)
+            {
+                try
+                {
+                    Uri uri = new Uri(url);
+                    if (!uri.IsFile)
+                        return false;
+                    m_browser.Environment.DataManager.LoadProject(uri.LocalPath);
+                }
+                catch (Exception e)
+                {
+                    Trace.WriteLine(e);
+                    return false;
+                }
+                return true;
+
+            }
+
+            /// <summary>
+            /// Create new project
+            /// </summary>
+            public void CreateNewProject()
+            {
+                m_browser.Environment.DataManager.CreateNewProject(
+                    "NewProject",
+                    "NewProject",
+                    "",
+                    new List<string>());
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
+            public MyIEnumerator GetRecentFiles()
+            {
+                return new MyIEnumerator(m_browser.RecentFiles.GetEnumerator());
+            }
+        }
+
         #region Fields
         private Uri m_startupPage;
         private WebBrowser webBrowser;
@@ -312,24 +409,6 @@ namespace Ecell.IDE.MainWindow
 
         #region Event Handlers
         /// <summary>
-        /// Event on menu mouse clisk.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void label_MouseClick(object sender, MouseEventArgs e)
-        {
-            ProjectLabel label = (ProjectLabel)sender;
-            try
-            {
-                m_env.DataManager.LoadProject(label.FilePath);
-            }
-            catch (Exception ex)
-            {
-                Util.ShowErrorDialog(ex.Message);
-            }
-        }
-
-        /// <summary>
         /// Event on ToolButton click
         /// </summary>
         /// <param name="sender"></param>
@@ -454,145 +533,6 @@ namespace Ecell.IDE.MainWindow
             this.ButtonBack.Enabled = webBrowser.CanGoBack;
         }
 
-        #endregion
-
-        #region Internal class
-        /// <summary>
-        /// Custom Label.
-        /// </summary>
-        private class ProjectLabel : Label
-        {
-            private string m_project;
-            private string m_filePath;
-
-            public string Project
-            {
-                get { return m_project; }
-                set { m_project = value; }
-            }
-
-            public string FilePath
-            {
-                get { return m_filePath; }
-                set { m_filePath = value; }
-            }
-
-            public ProjectLabel(string project, string file)
-            {
-                m_project = project;
-                m_filePath = file;
-
-                this.Text = project;
-                this.Font = new Font(Font.SystemFontName, 10);
-                this.MouseHover += new EventHandler(label_MouseHover);
-                this.MouseLeave += new EventHandler(label_MouseLeave);
-            }
-
-            void label_MouseLeave(object sender, EventArgs e)
-            {
-                Label label = (Label)sender;
-                label.Font = new Font(label.Font, FontStyle.Regular);
-            }
-
-            void label_MouseHover(object sender, EventArgs e)
-            {
-                Label label = (Label)sender;
-                label.Font = new Font(label.Font, FontStyle.Underline);
-            }
-
-        }
-
-        [ComVisible(true)]
-        public class MyIEnumerator
-        {
-            IEnumerator<KeyValuePair<string, string>> m_en;
-
-            public MyIEnumerator(IEnumerator<KeyValuePair<string, string>> en)
-            {
-                m_en = en;
-            }
-
-            public string CurrentKey
-            {
-                get { return m_en.Current.Key; }
-            }
-
-            public string CurrentValue
-            {
-                get
-                {
-                    try
-                    {
-                        return new Uri(m_en.Current.Value).ToString();
-                    }
-                    catch { }
-                    return null;
-                }
-            }
-
-            public bool MoveNext()
-            {
-                return m_en.MoveNext();
-            }
-
-            public void Reset()
-            {
-                m_en.Reset();
-            }
-        }
-
-        /// <summary>
-        /// AutomationClass
-        /// </summary>
-        [ComVisible(true)]
-        public class AutomationStub
-        {
-            private EcellWebBrowser m_browser;
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="browser"></param>
-            public AutomationStub(EcellWebBrowser browser)
-            {
-                this.m_browser = browser;
-            }
-            /// <summary>
-            /// LoadProject
-            /// </summary>
-            /// <param name="uri"></param>
-            public bool LoadProject(string url)
-            {
-                Uri uri = new Uri(url);
-                if (!uri.IsFile)
-                    return false;
-                Trace.WriteLine(url);
-                m_browser.Invoke(new MethodInvoker(
-                    delegate() { m_browser.Environment.DataManager.LoadProject(uri.LocalPath); }));
-                return true;
-
-            }
-
-            /// <summary>
-            /// Create new project
-            /// </summary>
-            public void CreateNewProject()
-            {
-                m_browser.Environment.DataManager.CreateNewProject(
-                    "NewProject",
-                    "NewProject",
-                    "",
-                    new List<string>());
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <returns></returns>
-            public MyIEnumerator GetRecentFiles()
-            {
-                return new MyIEnumerator(m_browser.RecentFiles.GetEnumerator());
-            }
-        }
         #endregion
 
         private void EcellWebBrowser_VisibleChanged(object sender, EventArgs e)

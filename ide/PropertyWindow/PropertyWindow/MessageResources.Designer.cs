@@ -97,6 +97,15 @@ namespace Ecell.IDE.Plugins.PropertyWindow {
         }
         
         /// <summary>
+        ///   Edit... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LabelEdit {
+            get {
+                return ResourceManager.GetString("LabelEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Name に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NamePropertyName {

@@ -3427,7 +3427,7 @@ namespace Ecell
             try
             {
 
-                Project project = new Project(filename);
+                Project project = ProjectLoader.LoadProject(filename);
                 LoadProject(project);
             }
             catch (Exception ex)
@@ -3448,7 +3448,7 @@ namespace Ecell
             try
             {
                 // Initializes.
-                project = new Project(prjFile);
+                project = ProjectLoader.LoadProject(prjFile);
                 if (project == null)
                     throw new Exception(MessageResources.ErrFindFile + " [" + Constants.fileProject + "]");
 
@@ -5121,8 +5121,7 @@ namespace Ecell
             catch (Exception ex)
             {
                 m_currentProject.SimulationStatus = SimulationStatus.Wait;
-                string message = MessageResources.ErrRunSim;
-                throw new Exception(message, ex);
+                throw new Exception(MessageResources.ErrRunSim, ex);
             }
         }
 

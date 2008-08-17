@@ -129,6 +129,9 @@
   <data name="ErrSameProp" xml:space="preserve">
     <value>The property of the same name already exists.</value>
   </data>
+  <data name="LabelEdit" xml:space="preserve">
+    <value>Edit...</value>
+  </data>
   <data name="NamePropertyName" xml:space="preserve">
     <value>Name</value>
   </data>

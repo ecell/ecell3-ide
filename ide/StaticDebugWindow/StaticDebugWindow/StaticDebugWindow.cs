@@ -41,6 +41,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
 using System.ComponentModel;
+using System.Diagnostics;
 
 using Ecell;
 using Ecell.Plugin;
@@ -139,22 +140,28 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <param name="list">the list of static debug.</param>
         public void Debug()
         {
-            ReportingSession rs = m_env.ReportManager.GetReportingSession();
-
-            using (rs)
+            try
             {
-                List<string> mList = m_dManager.GetModelList();
-                foreach (string modelID in mList)
+                ReportingSession rs = m_env.ReportManager.GetReportingSession();
+                using (rs)
                 {
-                    List<EcellObject> olist = m_dManager.GetData(modelID, null);
-                    foreach (IStaticDebugPlugin plugin in m_plugins)
+                    List<string> mList = m_dManager.GetModelList();
+                    foreach (string modelID in mList)
                     {
-                        foreach (IReport rep in plugin.Debug(olist))
+                        List<EcellObject> olist = m_dManager.GetData(modelID, null);
+                        foreach (IStaticDebugPlugin plugin in m_plugins)
                         {
-                            rs.Add(rep);
+                            foreach (IReport rep in plugin.Debug(olist))
+                            {
+                                rs.Add(rep);
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e);
             }
         }
         

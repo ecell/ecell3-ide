@@ -621,11 +621,11 @@ namespace Ecell
             }
             catch (Exception e)
             {
-                String errmes = MessageResources.ErrLoadPlugin;
                 m_env.LogManager.Append(
                     new ApplicationLogEntry(
                         MessageType.Error,
-                        String.Format(errmes, className, path), this));
+                        String.Format(MessageResources.ErrLoadPlugin, className, path), this));
+                m_env.Console.WriteLine(e);
                 return null;
             }
 

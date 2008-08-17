@@ -125,7 +125,7 @@ namespace Ecell.IDE.MainWindow
                 if (!File.Exists(prjXMLFileName))
                     continue;
 
-                Project project = new Project(prjXMLFileName);
+                Project project = ProjectLoader.LoadProject(prjXMLFileName);
                 ProjectLabel label = new ProjectLabel(project);
                 label.Click += new EventHandler(label_Click);
                 ProjectPatternList.Controls.Add(label, 0, i);

@@ -145,21 +145,6 @@ namespace Ecell
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="filePath"></param>
-        public Project(string filePath)
-        {
-            Project prj = ProjectLoader.LoadProject(filePath);
-            this.m_prjName = prj.m_prjName;
-            this.m_comment = prj.m_comment;
-            this.m_simParam = prj.m_simParam;
-            this.m_updateTime = prj.m_updateTime;
-            this.m_filePath = prj.m_filePath;
-            this.m_prjPath = prj.m_prjPath;
-        }
-
-        /// <summary>
         /// Creates the new "Project" instance with initialized arguments.
         /// </summary>
         /// <param name="prjName">The project name</param>
@@ -567,8 +552,6 @@ namespace Ecell
         private static Project LoadProjectFromXML(string filepath)
         {
             Project project = null;
-            if (!File.Exists(filepath))
-                return project;
             string dirPathName = Path.GetDirectoryName(filepath);
             string prjName = Path.GetFileName(dirPathName);
             string comment = "";
@@ -616,8 +599,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                Util.ShowErrorDialog("ErrLoadProjectSettings" + Environment.NewLine + filepath + Environment.NewLine + ex.Message);
-
+                throw new Exception(MessageResources.ErrLoadPrj, ex);
             }
             project = new Project(prjName, comment, time, param);
             return project;
@@ -631,10 +613,6 @@ namespace Ecell
         private static Project LoadProjectFromInfo(string filepath)
         {
             Project project = null;
-            if (!File.Exists(filepath))
-            {
-                return project;
-            }
             string line = "";
             string comment = "";
             string simParam = "";
@@ -689,11 +667,6 @@ namespace Ecell
         private static Project LoadProjectFromEml(string filepath)
         {
             Project project = null;
-            if (!File.Exists(filepath))
-            {
-                return project;
-            }
-
             string name = Path.GetFileNameWithoutExtension(filepath);
             string comment = "";
             string time = File.GetLastWriteTime(filepath).ToString();
