@@ -864,8 +864,12 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             {
                 if (win.ShowDialog() != DialogResult.OK)
                     return;
-                c.Value = win.ReferenceString;
-                c.DataGridView.UpdateCellValue(c.ColumnIndex, c.RowIndex);
+                EcellObject eo = m_current.Copy();
+                EcellData nd = eo.GetEcellData(((EcellData)c.Tag).Name);
+                nd.Value = EcellReference.ConvertToVarRefList(EcellReference.ConvertString(win.ReferenceString));
+                c.Tag = nd;
+                m_current = eo;
+                NotifyDataChanged(eo.ModelID, eo.Key, eo);
             }
         }
 
