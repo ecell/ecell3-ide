@@ -32,6 +32,7 @@ using System.Globalization;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Diagnostics;
 
 namespace Ecell
 {
@@ -85,6 +86,7 @@ namespace Ecell
         private void _Flush()
         {
             ConsoleDataAvailable(this, new ConsoleDataAvailableEventArgs(m_buf.ToString()));
+            m_buf.Length = 0;
         }
 
         public override void Write(char c)
@@ -122,6 +124,7 @@ namespace Ecell
                     m_buf.Append('\r');
                 m_buf.Append('\n');
                 _Flush();
+                i = ni + 1;
             }
             m_buf.Append(buf, i, e - i);
         }

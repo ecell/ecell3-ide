@@ -179,6 +179,7 @@
     <Compile Include="ScriptWriter.cs" />
     <Compile Include="Job\JobManager.cs" />
     <Compile Include="Job\Job.cs" />
+    <Compile Include="SimulationException.cs" />
     <Compile Include="SimulationParameter.cs" />
     <Compile Include="DataLogger.cs" />
     <Compile Include="Eml.cs" />

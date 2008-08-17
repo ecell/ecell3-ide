@@ -205,17 +205,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public override void DataChanged(string modelID, string key, string type, EcellObject data)
         {
             // Null Check.
-            if (String.IsNullOrEmpty(modelID) || String.IsNullOrEmpty(key) || String.IsNullOrEmpty(type))
-                return;
-            if (data == null)
-                return;
+            Debug.Assert(!String.IsNullOrEmpty(modelID));
+            Debug.Assert(!String.IsNullOrEmpty(key));
+            Debug.Assert(!String.IsNullOrEmpty(type));
+            Debug.Assert(data != null);
             try
             {
                 m_con.DataChanged(modelID, key, type, data);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.StackTrace);
+                Trace.WriteLine(e);
             }
         }
 

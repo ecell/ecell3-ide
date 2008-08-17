@@ -457,9 +457,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="isAnchor">True is default. If undo unit contains multiple actions,
         /// only the last action's isAnchor is true, the others' isAnchor is false</param>
         /// <param name="isFirst"></param>
-        public void DataAdd(EcellObject eo,
-            bool isAnchor,
-            bool isFirst)
+        public void DataAdd(EcellObject eo, bool isAnchor, bool isFirst)
         {
             // Null check.
             if (eo == null)
@@ -485,17 +483,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             Debug.Assert(!string.IsNullOrEmpty(eo.Key));
             Debug.Assert(!string.IsNullOrEmpty(eo.ModelID));
             Debug.Assert(m_canvas.ModelID == eo.ModelID);
-            if (eo.Key.EndsWith(":SIZE"))
-                return;
+
+            if (eo.Type == Constants.xpathVariable)
+            {
+                string superSystemPath, localID;
+                Util.ParseEntityKey(eo.Key, out superSystemPath, out localID);
+                if (localID == "SIZE")
+                    return;
+            }
 
             // Create PathwayObject and set to canvas.
-//            Console.WriteLine(DateTime.Now.ToLongTimeString() + " : START CS");
             ComponentType cType = ComponentManager.ParseStringToComponentType(eo.Type);
             ComponentSetting cs = m_csManager.GetDefaultComponentSetting(cType);
-            PPathwayObject obj = cs.CreateNewComponent(eo);
-//            Console.WriteLine(DateTime.Now.ToLongTimeString() + " : END CS");
-            m_canvas.DataAdd(eo.ParentSystemID, obj, eo.IsPosSet, isFirst);
-            NotifySetPosition(obj);
+            {
+                PPathwayObject obj = cs.CreateNewComponent(eo);
+                m_canvas.DataAdd(eo.ParentSystemID, obj, eo.IsPosSet, isFirst);
+                NotifySetPosition(obj);
+            }
         }
 
         /// <summary>
@@ -511,8 +515,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (m_canvas == null)
                 return;
             // If case SystemSize
-            if (oldKey.EndsWith(":SIZE"))
-                return;
+            if (type == Constants.xpathVariable)
+            {
+                string superSystemPath, localID;
+                Util.ParseEntityKey(oldKey, out superSystemPath, out localID);
+                if (localID == "SIZE")
+                    return;
+            }
+
             // Select changed object.
             PPathwayObject obj = m_canvas.GetSelectedObject(oldKey, type);
             if (obj == null)
@@ -534,8 +544,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (m_canvas == null)
                 return;
             // If case SystemSize
-            if (key.EndsWith(":SIZE"))
-                return;
+            if (type == Constants.xpathVariable)
+            {
+                string superSystemPath, localID;
+                Util.ParseEntityKey(key, out superSystemPath, out localID);
+                if (localID == "SIZE")
+                    return;
+            }
 
             // Delete object.
             m_canvas.DataDelete(key, type);
@@ -551,8 +566,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (m_canvas == null)
                 return;
             // If case SystemSize
-            if (eo.Key.EndsWith(":SIZE"))
-                return;
+            if (eo.Type == Constants.xpathVariable)
+            {
+                string superSystemPath, localID;
+                Util.ParseEntityKey(eo.Key, out superSystemPath, out localID);
+                if (localID == "SIZE")
+                    return;
+            }
+
             // Select changed object.
             PPathwayObject obj = m_canvas.GetSelectedObject(eo.Key, eo.Type);
             if (obj == null)

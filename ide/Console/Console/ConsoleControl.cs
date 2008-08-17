@@ -25,6 +25,7 @@ namespace Ecell.IDE.Plugins.Console
 
         public void AppendText(string text)
         {
+            simText.Select(simText.TextLength, 0);
             simText.AppendText(text);
         }
     }

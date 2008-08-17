@@ -567,11 +567,10 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_pManager.ChangeStatus(ProjectStatus.Running);
                 m_dManager.SimulationStart(0.0, 0);
             }
-            catch (Exception ex)
+            catch (SimulationException ex)
             {
-                Trace.WriteLine(ex);
-                m_env.Console.WriteLine(ex.InnerException);
-                Util.ShowErrorDialog(ex.Message + "\r\n" + ex.InnerException.Message);
+                m_env.Console.WriteLine(ex);
+                Util.ShowErrorDialog(ex.Message + "\r\n\r\n" + ex.InnerException.Message);
                 if (m_type != ProjectStatus.Uninitialized)
                     m_pManager.ChangeStatus(preType);
             }
@@ -593,9 +592,8 @@ namespace Ecell.IDE.Plugins.Simulation
             {
                 m_dManager.SimulationSuspend();
             }
-            catch (Exception ex)
+            catch (SimulationException ex)
             {
-                Trace.WriteLine(ex);
                 Util.ShowErrorDialog(ex.Message);
                 m_pManager.ChangeStatus(preType);
             }
@@ -628,11 +626,10 @@ namespace Ecell.IDE.Plugins.Simulation
                 }
                 m_pManager.ChangeStatus(ProjectStatus.Stepping);
             }
-            catch (Exception ex)
+            catch (SimulationException ex)
             {
-                Trace.WriteLine(ex);
-                Util.ShowErrorDialog(ex.Message);
-                m_pManager.ChangeStatus(preType);                
+                Util.ShowErrorDialog(ex.Message + "\r\n\r\n" + ex.InnerException.Message);
+                m_pManager.ChangeStatus(preType);
             }
         }
 

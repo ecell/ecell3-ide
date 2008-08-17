@@ -135,7 +135,10 @@ namespace Ecell.IDE.Plugins.Console
 
         private void AppendText(string data)
         {
-            m_form.AppendText(data);
+            if (m_form.InvokeRequired)
+                m_form.Invoke(new MethodInvoker(delegate() { m_form.AppendText(data); }));
+            else
+                m_form.AppendText(data);
         }
 
         /// <summary>

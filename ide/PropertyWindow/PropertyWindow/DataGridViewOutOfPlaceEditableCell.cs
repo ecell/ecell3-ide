@@ -259,7 +259,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                             sf.Alignment = StringAlignment.Near;
                             break;
                     }
-                    sf.Trimming = StringTrimming.EllipsisCharacter;
+                    sf.Trimming = StringTrimming.EllipsisWord;
+                    sf.FormatFlags |= StringFormatFlags.NoWrap;
                     graphics.DrawString((string)Value, cellStyle.Font, b, textBounds, sf);
                 }
                 ButtonRenderer.DrawButton(graphics,

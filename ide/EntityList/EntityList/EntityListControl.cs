@@ -141,7 +141,7 @@ namespace Ecell.IDE.Plugins.EntityList
             if (r != null)
             {
                 r.Cells[s_indexClass].Value = data.Classname;
-                r.Cells[s_indexName].Value = data.Name;
+                r.Cells[s_indexName].Value = data.GetEcellValue("Name").ToString();
             }
         }
 
@@ -244,8 +244,8 @@ namespace Ecell.IDE.Plugins.EntityList
             foreach (DataGridViewRow r in objectListDataGrid.Rows)
             {
                 r.Visible =
-                    ((EcellObject)r.Tag).Key.Contains(searchCnd)
-                    || ((EcellObject)r.Tag).Name.Contains(searchCnd);
+                    ((EcellObject)r.Tag).Key.ToLower().Contains(searchCnd.ToLower())
+                    || ((EcellObject)r.Tag).Name.ToLower().Contains(searchCnd.ToLower());
             }
         }
 

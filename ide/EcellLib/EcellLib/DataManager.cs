@@ -50,6 +50,7 @@ using IronPython.Runtime;
 
 using EcellCoreLib;
 using Ecell.Objects;
+using Ecell.Logging;
 
 namespace Ecell
 {
@@ -833,7 +834,18 @@ namespace Ecell
 
                 ConfirmReset("add", type);
 
-                if (type.Equals(Constants.xpathProcess) || type.Equals(Constants.xpathVariable) || type.Equals(Constants.xpathText))
+                if (type.Equals(Constants.xpathProcess))
+                {
+                    this.DataAdd4Entity(ecellObject, true);
+                    usableList.Add(ecellObject);
+                }
+                else if (type.Equals(Constants.xpathVariable))
+                {
+                    this.DataAdd4Entity(ecellObject, true);
+                    HandleSizeVariable(ecellObject);
+                    usableList.Add(ecellObject);
+                }
+                else if (type.Equals(Constants.xpathText))
                 {
                     this.DataAdd4Entity(ecellObject, true);
                     usableList.Add(ecellObject);
@@ -858,12 +870,11 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                string message = String.Format(MessageResources.ErrAdd,
-                    new object[] { type, ecellObject.Key });
-
+                Trace.WriteLine(ex);
                 usableList = null;
-                Trace.WriteLine(message);
-                throw new Exception(message, ex);
+                throw new Exception(
+                   String.Format(MessageResources.ErrAdd,
+                    new object[] { type, ecellObject.Key }), ex);
             }
             finally
             {
@@ -892,8 +903,6 @@ namespace Ecell
 
             string modelID = ecellObject.ModelID;
 
-            string message = String.Format(MessageResources.InfoAdd,
-                new object[] { ecellObject.Type, modelID });
             foreach (EcellObject model in modelList)
             {
                 Debug.Assert(!model.ModelID.Equals(modelID));
@@ -937,6 +946,8 @@ namespace Ecell
             //
             // Messages
             //
+            string message = String.Format(MessageResources.InfoAdd,
+                new object[] { ecellObject.Type, modelID });
             MessageCreateEntity(EcellObject.MODEL, message);
             MessageCreateEntity(EcellObject.SYSTEM, message);
         }
@@ -959,8 +970,6 @@ namespace Ecell
         {
             string modelID = ecellObject.ModelID;
             string type = ecellObject.Type;
-            string message = String.Format(MessageResources.InfoAdd,
-                new object[] { type, ecellObject.Key });
 
             Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
 
@@ -971,17 +980,17 @@ namespace Ecell
             {
                 if (!system.Key.Equals(ecellObject.Key))
                     continue;
-                String errmessage = String.Format(MessageResources.ErrAdd,
-                    new object[] { type, ecellObject.Key });
-
-                throw new Exception(errmessage);
+                throw new Exception(String.Format(MessageResources.ErrAdd,
+                    new object[] { type, ecellObject.Key })); 
             }
             CheckEntityPath(ecellObject);
             sysDic[modelID].Add(ecellObject.Copy());
 
             if (messageFlag)
             {
-                MessageCreateEntity(EcellObject.SYSTEM, message);
+                MessageCreateEntity(EcellObject.SYSTEM,
+                    String.Format(MessageResources.InfoAdd,
+                    new object[] { type, ecellObject.Key }));
             }
 
             if (ecellObject.Value == null || ecellObject.Value.Count <= 0)
@@ -1001,8 +1010,6 @@ namespace Ecell
             string key = ecellObject.Key;
             string type = ecellObject.Type;
             string systemKey = ecellObject.ParentSystemID;
-            string message = String.Format(MessageResources.InfoAdd,
-                new object[] { type, ecellObject.Key });
 
             Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
             Debug.Assert(sysDic != null && sysDic.Count > 0);
@@ -1034,7 +1041,8 @@ namespace Ecell
                 findFlag = true;
                 if (messageFlag)
                 {
-                    MessageCreateEntity(type, message);
+                    MessageCreateEntity(type, String.Format(MessageResources.InfoAdd,
+                        new object[] { type, ecellObject.Key }));
                 }
                 break;
             }
@@ -1120,6 +1128,10 @@ namespace Ecell
             bool isRecorded,
             bool isAnchor)
         {
+            Debug.Assert(!String.IsNullOrEmpty(modelID));
+            Debug.Assert(!String.IsNullOrEmpty(key));
+            Debug.Assert(!String.IsNullOrEmpty(type));
+
             // StatusCheck
             if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
                 m_currentProject.SimulationStatus == SimulationStatus.Suspended)
@@ -1143,17 +1155,9 @@ namespace Ecell
                     }
                 }
             }
-            string message = null;
 
             try
             {
-                // Check null.
-
-                message = "[" + ecellObject.ModelID + "][" + ecellObject.Key + "]";
-                Debug.Assert(!String.IsNullOrEmpty(modelID));
-                Debug.Assert(!String.IsNullOrEmpty(key));
-                Debug.Assert(!String.IsNullOrEmpty(type));
-
                 // Record action
                 EcellObject oldObj = GetEcellObject(modelID, key, type);
 
@@ -1185,6 +1189,8 @@ namespace Ecell
                 else if (ecellObject.Type.Equals(Constants.xpathVariable))
                 {
                     DataChanged4Entity(modelID, key, type, ecellObject, isRecorded, isAnchor);
+                    HandleSizeVariable(ecellObject);
+
                     if (!modelID.Equals(ecellObject.ModelID) || !key.Equals(ecellObject.Key))
                     {
                         List<EcellObject> changedProcessList = new List<EcellObject>();
@@ -1220,7 +1226,6 @@ namespace Ecell
         private void DataChanged4Entity(
             string modelID, string key, string type, EcellObject ecellObject, bool isRecorded, bool isAnchor)
         {
-            string message = "[" + modelID + "][" + ecellObject.Key + "]";
             List<EcellObject> changedProcessList = new List<EcellObject>();
 
             // Get parent system.
@@ -1264,7 +1269,6 @@ namespace Ecell
         /// <param name="isAnchor">Whether this action is an anchor or not</param>
         private void DataChanged4System(string modelID, string key, string type, EcellObject ecellObject, bool isRecorded, bool isAnchor)
         {
-            string message = "[" + ecellObject.ModelID + "][" + ecellObject.Key + "]";
             m_currentProject.SortSystems();
             List<EcellObject> systemList = m_currentProject.SystemDic[modelID];
 
@@ -1284,6 +1288,11 @@ namespace Ecell
                     break;
                 }
                 return;
+            }
+
+            if (key == Constants.delimiterPath)
+            {
+                throw new Exception(MessageResources.ErrChangeRoot);
             }
 
             // Changes the key.
@@ -1412,14 +1421,11 @@ namespace Ecell
         {
             ConfirmReset("delete", type);
 
-            string message = null;
             EcellObject deleteObj = null;
             try
             {
                 if (string.IsNullOrEmpty(modelID))
                     return;
-                message = "[" + modelID + "][" + key + "]";
-
                 deleteObj = GetEcellObject(modelID, key, type);
 
                 if (string.IsNullOrEmpty(key))
@@ -3230,151 +3236,140 @@ namespace Ecell
             WrappedSimulator simulator = null;
             Dictionary<string, Dictionary<string, double>> initialCondition = m_currentProject.InitialCondition[simParam];
 
-            try
+            m_currentProject.Simulator = CreateSimulatorInstance();
+            simulator = m_currentProject.Simulator;
+            //
+            // Loads steppers on the simulator.
+            //
+            List<EcellObject> newStepperList = new List<EcellObject>();
+            List<string> modelIDList = new List<string>();
+            Dictionary<string, Dictionary<string, WrappedPolymorph>> setStepperPropertyDic
+                = new Dictionary<string, Dictionary<string, WrappedPolymorph>>();
+            foreach (string modelID in stepperList.Keys)
             {
-                m_currentProject.Simulator = CreateSimulatorInstance();
-                simulator = m_currentProject.Simulator;
-                //
-                // Loads steppers on the simulator.
-                //
-                List<EcellObject> newStepperList = new List<EcellObject>();
-                List<string> modelIDList = new List<string>();
-                Dictionary<string, Dictionary<string, WrappedPolymorph>> setStepperPropertyDic
-                    = new Dictionary<string, Dictionary<string, WrappedPolymorph>>();
-                foreach (string modelID in stepperList.Keys)
-                {
-                    newStepperList.AddRange(stepperList[modelID]);
-                    modelIDList.Add(modelID);
-                }
-                if (newStepperList.Count > 0)
-                    LoadStepper(
-                    simulator,
-                    newStepperList,
-                    setStepperPropertyDic);
+                newStepperList.AddRange(stepperList[modelID]);
+                modelIDList.Add(modelID);
+            }
+            if (newStepperList.Count > 0)
+                LoadStepper(
+                simulator,
+                newStepperList,
+                setStepperPropertyDic);
 
-                //
-                // Loads systems on the simulator.
-                //
-                List<string> allLoggerList = new List<string>();
-                List<EcellObject> systemList = new List<EcellObject>();
-                m_currentProject.LogableEntityPathDic = new Dictionary<string, string>();
-                Dictionary<string, WrappedPolymorph> setSystemPropertyDic = new Dictionary<string, WrappedPolymorph>();
-                foreach (string modelID in modelIDList)
+            //
+            // Loads systems on the simulator.
+            //
+            List<string> allLoggerList = new List<string>();
+            List<EcellObject> systemList = new List<EcellObject>();
+            m_currentProject.LogableEntityPathDic = new Dictionary<string, string>();
+            Dictionary<string, WrappedPolymorph> setSystemPropertyDic = new Dictionary<string, WrappedPolymorph>();
+            foreach (string modelID in modelIDList)
+            {
+                List<string> loggerList = new List<string>();
+                if (flag)
                 {
-                    List<string> loggerList = new List<string>();
-                    if (flag)
-                    {
-                        LoadSystem(
-                            simulator,
-                            m_currentProject.SystemDic[modelID],
-                            loggerList,
-                            initialCondition[modelID],
-                            setSystemPropertyDic);
-                    }
-                    else
-                    {
-                        LoadSystem(
-                            simulator,
-                            m_currentProject.SystemDic[modelID],
-                            loggerList,
-                            null,
-                            setSystemPropertyDic);
-                    }
-                    foreach (string logger in loggerList)
-                    {
-                        m_currentProject.LogableEntityPathDic[logger] = modelID;
-                    }
-                    allLoggerList.AddRange(loggerList);
+                    LoadSystem(
+                        simulator,
+                        m_currentProject.SystemDic[modelID],
+                        loggerList,
+                        initialCondition[modelID],
+                        setSystemPropertyDic);
                 }
+                else
+                {
+                    LoadSystem(
+                        simulator,
+                        m_currentProject.SystemDic[modelID],
+                        loggerList,
+                        null,
+                        setSystemPropertyDic);
+                }
+                foreach (string logger in loggerList)
+                {
+                    m_currentProject.LogableEntityPathDic[logger] = modelID;
+                }
+                allLoggerList.AddRange(loggerList);
+            }
 
-                //
-                // Initializes
-                //
-                simulator.Initialize();
-                //
-                // Sets the "Settable" and "Not Savable" properties
-                //
-                foreach (string key in setStepperPropertyDic.Keys)
+            //
+            // Initializes
+            //
+            simulator.Initialize();
+            //
+            // Sets the "Settable" and "Not Savable" properties
+            //
+            foreach (string key in setStepperPropertyDic.Keys)
+            {
+                foreach (string path in setStepperPropertyDic[key].Keys)
                 {
-                    foreach (string path in setStepperPropertyDic[key].Keys)
+                    simulator.SetStepperProperty(key, path, setStepperPropertyDic[key][path]);
+                }
+            }
+            foreach (string path in setSystemPropertyDic.Keys)
+            {
+                try
+                {
+                    EcellValue storedEcellValue = new EcellValue(simulator.GetEntityProperty(path));
+                    EcellValue newEcellValue = new EcellValue(setSystemPropertyDic[path]);
+                    if (storedEcellValue.Type.Equals(newEcellValue.Type)
+                        && storedEcellValue.Value.Equals(newEcellValue.Value))
                     {
-                        simulator.SetStepperProperty(key, path, setStepperPropertyDic[key][path]);
+                        continue;
                     }
                 }
-                foreach (string path in setSystemPropertyDic.Keys)
+                catch (Exception ex)
                 {
-                    try
+                    Trace.WriteLine(ex);
+                    // do nothing
+                }
+                simulator.SetEntityProperty(path, setSystemPropertyDic[path]);
+            }
+            //
+            // Set the initial condition property.
+            //
+            foreach (string modelID in modelIDList)
+            {
+                foreach (string fullPN in initialCondition[modelID].Keys)
+                {
+                    EcellValue storedValue = new EcellValue(simulator.GetEntityProperty(fullPN));
+                    double initialValue = initialCondition[modelID][fullPN];
+                    WrappedPolymorph newValue = null;
+                    if (storedValue.IsInt)
                     {
-                        EcellValue storedEcellValue = new EcellValue(simulator.GetEntityProperty(path));
-                        EcellValue newEcellValue = new EcellValue(setSystemPropertyDic[path]);
-                        if (storedEcellValue.Type.Equals(newEcellValue.Type)
-                            && storedEcellValue.Value.Equals(newEcellValue.Value))
+                        int initialValueInt = Convert.ToInt32(initialValue);
+                        if (storedValue.CastToInt().Equals(initialValueInt))
                         {
                             continue;
                         }
+                        newValue
+                            = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(initialValueInt));
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        Trace.WriteLine(ex);
-                        // do nothing
-                    }
-                    simulator.SetEntityProperty(path, setSystemPropertyDic[path]);
-                }
-                //
-                // Set the initial condition property.
-                //
-                foreach (string modelID in modelIDList)
-                {
-                    foreach (string fullPN in initialCondition[modelID].Keys)
-                    {
-                        EcellValue storedValue = new EcellValue(simulator.GetEntityProperty(fullPN));
-                        double initialValue = initialCondition[modelID][fullPN];
-                        WrappedPolymorph newValue = null;
-                        if (storedValue.IsInt)
+                        if (storedValue.CastToDouble().Equals(initialValue))
                         {
-                            int initialValueInt = Convert.ToInt32(initialValue);
-                            if (storedValue.CastToInt().Equals(initialValueInt))
-                            {
-                                continue;
-                            }
-                            newValue
-                                = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(initialValueInt));
+                            continue;
                         }
-                        else
-                        {
-                            if (storedValue.CastToDouble().Equals(initialValue))
-                            {
-                                continue;
-                            }
-                            newValue
-                                = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(initialValue));
-                        }
-                        simulator.SetEntityProperty(fullPN, newValue);
+                        newValue
+                            = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(initialValue));
                     }
+                    simulator.SetEntityProperty(fullPN, newValue);
                 }
-                //
-                // Reinitializes
-                //
-                // this.m_simulatorDic[m_currentProject.Name].Initialize();
-                //
-                // Creates the "Logger" only after the initialization.
-                //
-                if (allLoggerList != null && allLoggerList.Count > 0)
-                {
-                    WrappedPolymorph loggerPolicy = this.GetCurrentLoggerPolicy();
-                    foreach (string logger in allLoggerList)
-                    {
-                        simulator.CreateLogger(logger, loggerPolicy);
-                    }
-                }
-                //
-                // Messages
-                //
-                Trace.WriteLine("Initialize the simulator:");
             }
-            catch (Exception ex)
+            //
+            // Reinitializes
+            //
+            // this.m_simulatorDic[m_currentProject.Name].Initialize();
+            //
+            // Creates the "Logger" only after the initialization.
+            //
+            if (allLoggerList != null && allLoggerList.Count > 0)
             {
-                throw new Exception(MessageResources.ErrInitSim, ex);
+                WrappedPolymorph loggerPolicy = this.GetCurrentLoggerPolicy();
+                foreach (string logger in allLoggerList)
+                {
+                    simulator.CreateLogger(logger, loggerPolicy);
+                }
             }
         }
 
@@ -4033,65 +4028,58 @@ namespace Ecell
             if (entityList == null || entityList.Count <= 0)
                 return;
 
-            try
+            foreach (EcellObject entity in entityList)
             {
-                foreach (EcellObject entity in entityList)
+                if (entity is EcellText)
+                    continue;
+                simulator.CreateEntity(
+                    entity.Classname,
+                    entity.Type + Constants.delimiterColon + entity.Key);
+                if (entity.Value == null || entity.Value.Count <= 0)
+                    continue;
+
+                foreach (EcellData ecellData in entity.Value)
                 {
-                    if (entity is EcellText)
-                        continue;
-                    simulator.CreateEntity(
-                        entity.Classname,
-                        entity.Type + Constants.delimiterColon + entity.Key);
-                    if (entity.Value == null || entity.Value.Count <= 0)
-                        continue;
-
-                    foreach (EcellData ecellData in entity.Value)
+                    EcellValue value = ecellData.Value;
+                    if (string.IsNullOrEmpty(ecellData.Name)
+                            || value == null
+                            || (value.IsString && value.CastToString().Length == 0))
                     {
-                        EcellValue value = ecellData.Value;
-                        if (string.IsNullOrEmpty(ecellData.Name)
-                                || value == null
-                                || (value.IsString && value.CastToString().Length == 0))
-                        {
-                            continue;
-                        }
+                        continue;
+                    }
 
-                        if (ecellData.Logged)
-                        {
-                            loggerList.Add(ecellData.EntityPath);
-                        }
+                    if (ecellData.Logged)
+                    {
+                        loggerList.Add(ecellData.EntityPath);
+                    }
 
-                        if (value.IsDouble
-                            && (Double.IsInfinity(value.CastToDouble()) || Double.IsNaN(value.CastToDouble())))
+                    if (value.IsDouble
+                        && (Double.IsInfinity(value.CastToDouble()) || Double.IsNaN(value.CastToDouble())))
+                    {
+                        continue;
+                    }
+                    if (ecellData.Saveable)
+                    {
+                        if (ecellData.EntityPath.EndsWith(Constants.xpathVRL))
                         {
-                            continue;
-                        }
-                        if (ecellData.Saveable)
-                        {
-                            if (ecellData.EntityPath.EndsWith(Constants.xpathVRL))
-                            {
-                                processPropertyDic[ecellData.EntityPath]
-                                    = EcellValue.CastToWrappedPolymorph4EcellValue(value);
-                            }
-                            else
-                            {
-                                if (ecellData.EntityPath.EndsWith("FluxDistributionList"))
-                                    continue;
-                                simulator.LoadEntityProperty(
-                                    ecellData.EntityPath,
-                                    EcellValue.CastToWrappedPolymorph4EcellValue(value));
-                            }
-                        }
-                        else if (ecellData.Settable)
-                        {
-                            setPropertyDic[ecellData.EntityPath]
+                            processPropertyDic[ecellData.EntityPath]
                                 = EcellValue.CastToWrappedPolymorph4EcellValue(value);
                         }
+                        else
+                        {
+                            if (ecellData.EntityPath.EndsWith("FluxDistributionList"))
+                                continue;
+                            simulator.LoadEntityProperty(
+                                ecellData.EntityPath,
+                                EcellValue.CastToWrappedPolymorph4EcellValue(value));
+                        }
+                    }
+                    else if (ecellData.Settable)
+                    {
+                        setPropertyDic[ecellData.EntityPath]
+                            = EcellValue.CastToWrappedPolymorph4EcellValue(value);
                     }
                 }
-            }
-            catch (WrappedException e)
-            {
-                throw new Exception("Failed to create entity", e);
             }
         }
 
@@ -5035,15 +5023,17 @@ namespace Ecell
                     }
                 }
                 m_env.PluginManager.ParameterSet(m_currentProject.Name, parameterID);
-                Trace.WriteLine("Set Simulation Parameter: " + message);
+                m_env.LogManager.Append(new ApplicationLogEntry(
+                    MessageType.Information,
+                    string.Format(MessageResources.InfoSimParamSet, parameterID),
+                    this));
                 if (isRecorded)
                     m_env.ActionManager.AddAction(new SetSimParamAction(parameterID, oldParameterID, isAnchor));
             }
             catch (Exception ex)
             {
-                message = MessageResources.ErrSetSimParam;
-                Trace.WriteLine(message);
-                throw new Exception(message, ex);
+                Trace.WriteLine(ex);
+                throw new Exception(MessageResources.ErrSetSimParam, ex);
             }
         }
 
@@ -5061,7 +5051,10 @@ namespace Ecell
                 {
                     this.Initialize(true);
                     this.m_simulationStepLimit = stepLimit;
-                    Trace.WriteLine("Start Simulator: [" + m_currentProject.Simulator.GetCurrentTime() + "]");
+                    m_env.LogManager.Append(new ApplicationLogEntry(
+                        MessageType.Information,
+                        MessageResources.SimulationStarted,
+                        this));
                 }
                 else if (m_currentProject.SimulationStatus == SimulationStatus.Suspended)
                 {
@@ -5118,10 +5111,10 @@ namespace Ecell
                     }
                 }
             }
-            catch (Exception ex)
+            catch (WrappedException ex)
             {
                 m_currentProject.SimulationStatus = SimulationStatus.Wait;
-                throw new Exception(MessageResources.ErrRunSim, ex);
+                throw new SimulationException(MessageResources.ErrRunSim, ex);
             }
         }
 
@@ -5143,7 +5136,10 @@ namespace Ecell
                     this.Initialize(true);
                     this.m_simulationTimeLimit = timeLimit;
                     this.m_simulationStartTime = 0.0;
-                    Trace.WriteLine("Start Simulator: [" + m_currentProject.Simulator.GetCurrentTime() + "]");
+                    m_env.LogManager.Append(new ApplicationLogEntry(
+                        MessageType.Information,
+                        MessageResources.SimulationStarted,
+                        this));
                 }
                 else if (m_currentProject.SimulationStatus == SimulationStatus.Suspended)
                 {
@@ -5152,7 +5148,10 @@ namespace Ecell
                         this.m_simulationTimeLimit = timeLimit;
                         this.m_simulationStartTime = m_currentProject.Simulator.GetCurrentTime();
                     }
-                    Trace.WriteLine("Restart Simulator: [" + m_currentProject.Simulator.GetCurrentTime() + "]");
+                    m_env.LogManager.Append(new ApplicationLogEntry(
+                        MessageType.Information,
+                        MessageResources.SimulationRestarted,
+                        this));
                 }
 
                 //
@@ -5195,8 +5194,6 @@ namespace Ecell
                 }
                 else
                 {
-                    // Thread thread = new Thread(new ThreadStart(SimulationStartByThreadWithLimit));
-                    // thread.Start();
                     int i = 0;
                     while (m_currentProject.SimulationStatus == SimulationStatus.Run)
                     {
@@ -5212,11 +5209,10 @@ namespace Ecell
                     }
                 }
             }
-            catch (Exception ex)
+            catch (WrappedException ex)
             {
                 m_currentProject.SimulationStatus = SimulationStatus.Wait;
-                string message = MessageResources.ErrRunSim;
-                throw new Exception(message, ex);
+                throw new SimulationException(MessageResources.ErrRunSim, ex);
             }
         }
 
@@ -5279,13 +5275,14 @@ namespace Ecell
                 {
                     m_currentProject.Simulator.Stop();
                 }
-                Trace.WriteLine(String.Format(MessageResources.InfoResetSim,
-                    new object[] { m_currentProject.Simulator.GetCurrentTime().ToString() }));
+                m_env.LogManager.Append(new ApplicationLogEntry(
+                    MessageType.Information,
+                    MessageResources.InfoResetSim,
+                    this));
             }
-            catch (Exception ex)
+            catch (WrappedException ex)
             {
-                Trace.WriteLine(ex);
-                throw new Exception(MessageResources.ErrResetSim, ex);
+                throw new SimulationException(MessageResources.ErrResetSim, ex);
             }
             finally
             {
@@ -5302,15 +5299,15 @@ namespace Ecell
             {
                 m_currentProject.Simulator.Suspend();
                 m_currentProject.SimulationStatus = SimulationStatus.Suspended;
-                Trace.WriteLine(String.Format(MessageResources.InfoSuspend,
-                    new object[] { m_currentProject.Simulator.GetCurrentTime() }));
+                m_env.LogManager.Append(new ApplicationLogEntry(
+                    MessageType.Information,
+                    MessageResources.InfoSuspend,
+                    this));
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Suspended);
             }
-            catch (Exception ex)
+            catch (WrappedException ex)
             {
-                string message = MessageResources.ErrSuspendSim;
-                Trace.WriteLine(message);
-                throw new Exception(message, ex);
+                throw new SimulationException(MessageResources.ErrSuspendSim, ex);
             }
         }
 
@@ -5528,6 +5525,30 @@ namespace Ecell
             string[] dmpath = Util.GetDMDirs(m_currentProject.ProjectPath);
             Trace.WriteLine("Creating simulator (dmpath=" + string.Join(";", dmpath) + ")");
             return new WrappedSimulator(dmpath);
+        }
+
+        private void HandleSizeVariable(EcellObject ecellObject)
+        {
+            string superSystemPath, localID;
+            Util.ParseEntityKey(ecellObject.Key, out superSystemPath, out localID);
+            if (localID == "SIZE")
+            {
+                EcellObject superSystem = GetEcellObject(
+                        ecellObject.ModelID, superSystemPath, Constants.xpathSystem);
+                EcellObject newSuperSystem = superSystem.Copy();
+                EcellData data = newSuperSystem.GetEcellData(Constants.xpathSize);
+                if (data == null)
+                {
+                    string supersuperSystemPath, superSystemLocalID;
+                    Util.SplitSystemPath(superSystemPath, out supersuperSystemPath, out superSystemLocalID);
+                    data = new EcellData(Constants.xpathSize, new EcellValue(0.0),
+                        Util.BuildFullPN(Constants.xpathSystem, supersuperSystemPath, superSystemLocalID,
+                        Constants.xpathSize));
+                    newSuperSystem.AddValue(data);
+                }
+                data.Value = ecellObject.GetEcellValue(Constants.xpathValue);
+                DataChanged(ecellObject.ModelID, superSystem.Key, superSystem.Type, newSuperSystem, false, false);
+            }
         }
 
         #region Send Message

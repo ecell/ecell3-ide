@@ -61,7 +61,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   Are you sure to merge the components to the supersystem? に類似しているローカライズされた文字列を検索します。
+        ///   Are you sure you want to merge the components to the supersystem? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmMerge {
             get {
@@ -70,7 +70,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   The simulation is currentlly running. Do you want to reset this simulation? に類似しているローカライズされた文字列を検索します。
+        ///   The parameter cannot be changed when the simulation is running. Do you want to stop the simulation? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmReset {
             get {
@@ -84,6 +84,15 @@ namespace Ecell {
         internal static string ErrAdd {
             get {
                 return ResourceManager.GetString("ErrAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The ID of the root System cannot be changed.  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrChangeRoot {
+            get {
+                return ResourceManager.GetString("ErrChangeRoot", resourceCulture);
             }
         }
         
@@ -295,7 +304,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   Can not create the stepper {0}. に類似しているローカライズされた文字列を検索します。
+        ///   Cannot create the stepper {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNotCreStepper {
             get {
@@ -322,7 +331,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   Simulation is already running. に類似しているローカライズされた文字列を検索します。
+        ///   Simulation is already started. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrRunning {
             get {
@@ -439,7 +448,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   The {0} was added ({1}). に類似しているローカライズされた文字列を検索します。
+        ///   {0} is added ({1}). に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoAdd {
             get {
@@ -448,7 +457,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   The project {0} was closed. に類似しているローカライズされた文字列を検索します。
+        ///   The project {0} is closed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoClose {
             get {
@@ -457,7 +466,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   The simulation parameter {0} was created. に類似しているローカライズされた文字列を検索します。
+        ///   The simulation parameter {0} is created. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoCreSim {
             get {
@@ -466,7 +475,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   The {0} was deleted ({1}). に類似しているローカライズされた文字列を検索します。
+        ///   {0} is deleted ({1}). に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoDel {
             get {
@@ -484,7 +493,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   The simulation was reset [{0}]. に類似しているローカライズされた文字列を検索します。
+        ///   Simulation is terminated. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoResetSim {
             get {
@@ -493,7 +502,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   The model {0} was saved. に類似しているローカライズされた文字列を検索します。
+        ///   Model {0} is saved. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoSaveModel {
             get {
@@ -502,7 +511,7 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   The project {0} was saved. に類似しているローカライズされた文字列を検索します。
+        ///   Project {0} is saved. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoSavePrj {
             get {
@@ -511,7 +520,16 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   The simulation is suspending [{0}]. に類似しているローカライズされた文字列を検索します。
+        ///   Current simulation parameter is set to {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoSimParamSet {
+            get {
+                return ResourceManager.GetString("InfoSimParamSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Siimulation is suspended. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoSuspend {
             get {
@@ -561,6 +579,24 @@ namespace Ecell {
         internal static string NameWorkDir {
             get {
                 return ResourceManager.GetString("NameWorkDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Simulation is restarted. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SimulationRestarted {
+            get {
+                return ResourceManager.GetString("SimulationRestarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Simulation is started. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SimulationStarted {
+            get {
+                return ResourceManager.GetString("SimulationStarted", resourceCulture);
             }
         }
         

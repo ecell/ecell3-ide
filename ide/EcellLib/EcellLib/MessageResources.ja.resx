@@ -121,19 +121,19 @@
     <value>Systemの内容を上位Systemにマージしますか？</value>
   </data>
   <data name="ConfirmReset" xml:space="preserve">
-    <value>シミュレーション実行中です。シミュレーションをリセットしますか？</value>
+    <value>シミュレーション実行中はパラメータを変更できません。シミュレーションをリセットしますか？</value>
   </data>
   <data name="ErrAdd" xml:space="preserve">
     <value>{0} を追加できません({1})。</value>
   </data>
   <data name="ErrClosePrj" xml:space="preserve">
-    <value>プロジェクト {0} を閉じれません、</value>
+    <value>プロジェクト {0} を閉じることができませ。</value>
   </data>
   <data name="ErrCombiStepProc" xml:space="preserve">
     <value>このProcessはStepperと適合しないため選択できません。。</value>
   </data>
   <data name="ErrCompile" xml:space="preserve">
-    <value>DM({0})のコンパイルができません。</value>
+    <value>DM ({0}) のコンパイルができません。</value>
   </data>
   <data name="ErrCopy" xml:space="preserve">
     <value>{0} をコピーできません。</value>
@@ -250,10 +250,10 @@
     <value>シミュレーションパラメータ {0} を作成しました。</value>
   </data>
   <data name="InfoDel" xml:space="preserve">
-    <value>{0} を削除しました({1})。</value>
+    <value>{0} を削除しました ({1})。</value>
   </data>
   <data name="InfoResetSim" xml:space="preserve">
-    <value>シミュレーションをリセットしました [ {0} ].</value>
+    <value>シミュレーションを中止しました。</value>
   </data>
   <data name="InfoSaveModel" xml:space="preserve">
     <value>モデル {0} を保存しました。</value>
@@ -262,7 +262,7 @@
     <value>プロジェクト {0} を保存しました。</value>
   </data>
   <data name="InfoSuspend" xml:space="preserve">
-    <value>シミュレーションを一時停止しました [ {0} ].</value>
+    <value>シミュレーションを一時停止しました。</value>
   </data>
   <data name="InfoUpdateLogPol" xml:space="preserve">
     <value>{0} のロガー ポリシーを設定しました。</value>
@@ -280,12 +280,24 @@
     <value>プロジェクトルートディレクトリ</value>
   </data>
   <data name="WarnLoadDM" xml:space="preserve">
-    <value>ロードできないダイナミックモジュール(DM)が存在します。</value>
+    <value>ロードできないダイナミックモジュール (DM) が存在します。</value>
   </data>
   <data name="InfoLoadPlugin" xml:space="preserve">
     <value>プラグイン {0} を読み込んでいます...</value>
   </data>
   <data name="ErrLoadPlugin" xml:space="preserve">
     <value>プラグイン {0} (場所: {1}) をロードできません。</value>
+  </data>
+  <data name="SimulationRestarted" xml:space="preserve">
+    <value>シミュレーションが再開されました。</value>
+  </data>
+  <data name="SimulationStarted" xml:space="preserve">
+    <value>シミュレーションが開始されました。</value>
+  </data>
+  <data name="InfoSimParamSet" xml:space="preserve">
+    <value>シミュレーションパラメータは {0} に設定されました。</value>
+  </data>
+  <data name="ErrChangeRoot" xml:space="preserve">
+    <value>ルートSystemのIDは変更できません。</value>
   </data>
 </root>
