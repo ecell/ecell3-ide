@@ -129,6 +129,9 @@
   <data name="ErrSameProp" xml:space="preserve">
     <value>同じ名前のプロパティが存在します。</value>
   </data>
+  <data name="MenuItemExportImage" xml:space="preserve">
+    <value>ダイアグラムのエクスポート...</value>
+  </data>
   <data name="NamePropertyName" xml:space="preserve">
     <value>名称</value>
   </data>

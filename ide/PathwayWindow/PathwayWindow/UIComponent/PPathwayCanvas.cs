@@ -83,7 +83,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.Dock = DockStyle.Fill;
             this.Name = canvas.ModelID;
             this.Camera.ScaleViewBy(0.7f);
-
         }
 
         /// <summary>

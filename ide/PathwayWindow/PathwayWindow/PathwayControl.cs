@@ -307,7 +307,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_animCon = new AnimationControl(this);
             // Preparing Interfaces
             m_pathwayView = new PathwayView(this);
-            //m_overView = new OverView(this);
             m_layerView = new LayerView(this);
             m_toolBox = new Stencils(this);
         }

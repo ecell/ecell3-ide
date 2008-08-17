@@ -41,18 +41,12 @@ using Ecell.IDE.Plugins.PathwayWindow.Figure;
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
     /// <summary>
-    /// PDisplayedArea is used in overview window for indicating the area which 
-    /// is displayed main canvas. PDisplayedArea has a rectangle shape and painted
+    /// PDisplayedArea is used in overview window to indicate the region which 
+    /// is displayed in the main canvas. PDisplayedArea has a rectangle shape and painted
     /// with alpha blended color.
     /// </summary>
     public class PDisplayedArea : PPathwayObject
     {
-        /// <summary>
-        /// used for painting within rectangle. For viewing objects under rectangle area,
-        /// this color has alpha value.
-        /// </summary>
-        SolidBrush m_brush = new SolidBrush(Color.FromArgb(64, Color.Red));
-
         /// <summary>
         /// Cursor to move this object.
         /// </summary>
@@ -63,8 +57,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         public PDisplayedArea()
         {
-            base.Brush = m_brush;
-            base.Pen = new Pen(Brushes.DarkRed, 4);
+            base.Brush = new SolidBrush(Color.FromArgb(96, Color.LightGray));
+            base.Pen = new Pen(Color.FromArgb(96, Color.Gray));
             RectangleFigure fig = new RectangleFigure();
             base.AddPath(fig.GraphicsPath, false);
         }

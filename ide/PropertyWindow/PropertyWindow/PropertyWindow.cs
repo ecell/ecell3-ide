@@ -32,8 +32,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
@@ -81,10 +81,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// </summary>
         private ProjectStatus m_type = ProjectStatus.Uninitialized;
         /// <summary>
-        /// Expression.
-        /// </summary>
-        private String m_expression = null;
-        /// <summary>
         /// Dictionary of property of displayed object.
         /// </summary>
         private Dictionary<String, EcellData> m_propDic;
@@ -119,29 +115,35 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             m_dgv.AllowUserToAddRows = false;
             m_dgv.AllowUserToDeleteRows = false;
             m_dgv.AllowUserToResizeRows = false;
-            m_dgv.RowHeadersVisible = true;
-            m_dgv.RowTemplate.Height = 21;
-            m_dgv.RowHeadersWidth = 25;
+            m_dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            m_dgv.RowHeadersVisible = false;
+            m_dgv.RowTemplate.Height = m_dgv.ColumnHeadersHeight;
+            m_dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            m_dgv.BorderStyle = BorderStyle.None;
+            m_dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             DataGridViewTextBoxColumn textName = new DataGridViewTextBoxColumn();
+            textName.DefaultCellStyle.SelectionForeColor = textName.DefaultCellStyle.ForeColor;
+            textName.DefaultCellStyle.BackColor = Color.LightGray;
+            textName.DefaultCellStyle.SelectionBackColor = Color.LightGray;
             textName.HeaderText = MessageResources.NamePropertyName;
             textName.Name = "NameColumn";
-            textName.ReadOnly = false;
-            textName.Width = 50;
+            textName.ReadOnly = true;
+            textName.FillWeight = 50;
 
             DataGridViewTextBoxColumn textValue = new DataGridViewTextBoxColumn();
             textValue.HeaderText = MessageResources.NameValue;
             textValue.Name = "ValueColumn";
             textValue.ReadOnly = true;
-            textValue.Width = 100;
+            textName.FillWeight = 100;
 
             m_dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
                     textName, textValue});
 
             m_dgv.MouseDown += new MouseEventHandler(MouseDownOnDataGrid);
+            m_dgv.CellClick += new DataGridViewCellEventHandler(CellClick);
             m_dgv.UserDeletingRow += new DataGridViewRowCancelEventHandler(DeleteRowByUser);
-            m_dgv.CellClick += new DataGridViewCellEventHandler(ClickCell);
-            m_dgv.CellEndEdit += new DataGridViewCellEventHandler(ChangeProperty);
+            m_dgv.CellValueChanged += new DataGridViewCellEventHandler(ChangeProperty);
             m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(ShowEditingControl);
             m_dgv.MouseLeave += new EventHandler(LeaveMouse);
 
@@ -277,7 +279,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// Event of clicking the formulator button.
         /// Show the window to edit the formulator.
         /// </summary>
-        public void ShowFormulatorWindow()
+        private string ShowFormulatorDialog(string formula)
         {
             FormulatorDialog fwin = new FormulatorDialog();
             using (fwin)
@@ -304,28 +306,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 }
                 fwin.AddReserveString(list);
 
-                fwin.ImportFormulate(m_expression);
+                fwin.ImportFormulate(formula);
                 if (fwin.ShowDialog() != DialogResult.OK)
-                    return;
-                string tmp = fwin.ExportFormulate();
-                EcellObject p = m_current.Copy();
-                foreach (EcellData d in p.Value)
-                {
-                    if (d.Name.Equals(Constants.xpathExpression))
-                    {
-                        d.Value = new EcellValue(tmp);
-                    }
-                }
-                try
-                {
-                    NotifyDataChanged(m_current.ModelID, m_current.Key, p);
-                    m_expression = tmp;
-                }
-                catch (Exception ex)
-                {
-                    Util.ShowErrorDialog(ex.Message);
-                    m_isChanging = false;
-                }
+                    return null;
+
+                return fwin.ExportFormulate();
             }
         }
 
@@ -424,12 +409,24 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
             else if (d.Name.Equals(Constants.xpathExpression))
             {
-                c2 = new DataGridViewButtonCell();
-                c2.Value = "...";
+                c2 = new DataGridViewOutOfPlaceEditableCell();
+                c2.Value = d.Value.CastToString();
+                ((DataGridViewOutOfPlaceEditableCell)c2).OnOutOfPlaceEditRequested =
+                    delegate(DataGridViewOutOfPlaceEditableCell c)
+                    {
+                        string retval = ShowFormulatorDialog(c.Value == null ? "": c.Value.ToString());
+                        if (retval != null)
+                        {
+                            c.Value = retval;
+                            return true;
+                        }
+                        return false;
+                    };
             }
             else if (d.Name.Equals(Constants.xpathVRL))
             {
-                c2 = new DataGridViewButtonCell();
+                c2 = new DataGridViewLinkCell();
+                c2.Tag = new EventHandler(VarRefListCellClicked);
                 c2.Value = "Edit Variable Reference ...";
             }
             else if (d.Name.Equals(Constants.xpathStepperID))
@@ -465,8 +462,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             else
             {
                 c2.ReadOnly = true;
-//                c1.Style.BackColor = Color.Silver;
-//                c2.Style.BackColor = Color.Silver;
                 c2.Style.ForeColor = Color.Silver;
             }
             c2.Tag = d;
@@ -545,8 +540,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 AddProperty(d, type);
                 if (d.Name.Equals(EcellProcess.VARIABLEREFERENCELIST))
                     m_refStr = d.Value.ToString();
-                if (d.Name.Equals(EcellProcess.EXPRESSION))
-                    m_expression = d.Value.ToString();
             }
             if (type == Constants.xpathSystem)
             {
@@ -852,54 +845,30 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// </summary>
         /// <param name="sender">DataGridView.</param>
         /// <param name="e">DataGridViewCellEventArgs.</param>
-        void ClickCell(object sender, DataGridViewCellEventArgs e)
+        void CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            int rIndex = e.RowIndex;
-            int cIndex = e.ColumnIndex;
-            if (cIndex < 0) return;
-            if (rIndex < 0) return;
-
-            DataGridViewCell c = m_dgv.Rows[rIndex].Cells[cIndex] as DataGridViewCell;
-            if (c == null) return;
-            if (c is DataGridViewTextBoxCell) return;
-            if (c.Value == null) return;
-
-            if (c.Value.Equals("..."))
+            // Return immediately in case one of row headers or column headers is clicked.
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+            DataGridViewCell c = m_dgv.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewCell;
+            Trace.WriteLine(c.Tag);
+            if (c.Tag != null && c.Tag is EventHandler)
             {
-                ShowFormulatorWindow();
+                ((EventHandler)c.Tag)(c, e);
             }
-            else if (c.Value.Equals("Edit Variable Reference ..."))
-            {
-                List<EcellReference> list = EcellReference.ConvertString(m_refStr);
-                VariableReferenceEditDialog win = new VariableReferenceEditDialog(m_dManager, m_pManager, list);
-                using (win)
-                {
-                    if (win.ShowDialog() != DialogResult.OK)
-                        return;
-                    String refStr = win.ReferenceString;
-                    if (refStr == null || m_refStr.Equals(refStr))
-                        return;
+        }
 
-                    EcellObject obj = m_current.Copy();
-                    obj.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).Value =
-                        EcellValue.ToVariableReferenceList(refStr);
-
-                    try
-                    {
-                        NotifyDataChanged(m_current.ModelID, m_current.Key, obj);
-                        m_refStr = refStr;
-                    }
-                    catch (Exception ex)
-                    {
-                        Util.ShowErrorDialog(ex.Message);
-                        m_isChanging = false;
-                        return;
-                    }
-                }
-            }
-            else
+        void VarRefListCellClicked(object o, EventArgs e)
+        {
+            DataGridViewCell c = o as DataGridViewCell;
+            List<EcellReference> list = EcellReference.ConvertString((string)c.Value);
+            VariableReferenceEditDialog win = new VariableReferenceEditDialog(m_dManager, m_pManager, list);
+            using (win)
             {
-                // nothing
+                if (win.ShowDialog() != DialogResult.OK)
+                    return;
+                c.Value = win.ReferenceString;
+                c.DataGridView.UpdateCellValue(c.ColumnIndex, c.RowIndex);
             }
         }
 
