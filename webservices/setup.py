@@ -37,7 +37,7 @@ for scheme in INSTALL_SCHEMES.values():
 
 setup(
     name = "sbml2eml",
-    version = '0.0.0',
+    version = '0.1.0',
     url = 'http://www.e-cell.org/',
     author = 'E-Cell Project',
     author_email = 'mozo@sfc.keio.ac.jp',
