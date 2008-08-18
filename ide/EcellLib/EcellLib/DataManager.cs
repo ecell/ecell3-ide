@@ -194,7 +194,7 @@ namespace Ecell
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                throw new Exception(String.Format(MessageResources.ErrSaveAct), ex);
+                throw new Exception(String.Format(MessageResources.ErrSaveAct, fileName), ex);
             }
         }
 
@@ -2701,7 +2701,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new Exception(String.Format(MessageResources.ErrSimPropData,
+                throw new Exception(String.Format(MessageResources.ErrPropData,
                     new object[] { fullPN }), ex);
             }
         }
@@ -4597,7 +4597,7 @@ namespace Ecell
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                throw new Exception(MessageResources.ErrSaveScript, ex);
+                throw new Exception(String.Format( MessageResources.ErrSaveScript, fileName), ex);
             }
         }
 
@@ -4889,8 +4889,6 @@ namespace Ecell
         public void SetLoggerPolicy(string parameterID, LoggerPolicy loggerPolicy)
         {
             m_currentProject.LoggerPolicyDic[parameterID] = loggerPolicy;
-            Trace.WriteLine(String.Format(MessageResources.InfoUpdateLogPol,
-                new object[] { parameterID }));
         }
 
         /// <summary>
@@ -5277,7 +5275,7 @@ namespace Ecell
                 }
                 m_env.LogManager.Append(new ApplicationLogEntry(
                     MessageType.Information,
-                    MessageResources.InfoResetSim,
+                    String.Format(MessageResources.InfoResetSim, m_currentProject.Simulator.GetCurrentTime()),
                     this));
             }
             catch (WrappedException ex)
@@ -5301,7 +5299,7 @@ namespace Ecell
                 m_currentProject.SimulationStatus = SimulationStatus.Suspended;
                 m_env.LogManager.Append(new ApplicationLogEntry(
                     MessageType.Information,
-                    MessageResources.InfoSuspend,
+                    String.Format(MessageResources.InfoSuspend, m_currentProject.Simulator.GetCurrentTime()),
                     this));
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Suspended);
             }

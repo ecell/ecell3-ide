@@ -139,13 +139,13 @@
     <value>Cannot copy the object ({0}).</value>
   </data>
   <data name="ErrCreFile" xml:space="preserve">
-    <value>Cannot create the file ({0}).</value>
+    <value>Cannot create the file {0}.</value>
   </data>
   <data name="ErrCrePrj" xml:space="preserve">
-    <value>Cannot create the project({0}).</value>
+    <value>Cannot create the project ({0}).</value>
   </data>
   <data name="ErrCreSimParam" xml:space="preserve">
-    <value>Cannot create the simulation parameter({0}).</value>
+    <value>Cannot create the simulation parameter ({0}).</value>
   </data>
   <data name="ErrDelete" xml:space="preserve">
     <value>Cannot delete ({0}).</value>
@@ -154,13 +154,13 @@
     <value>Cannot delete the root system.</value>
   </data>
   <data name="ErrExistObj" xml:space="preserve">
-    <value>{0} already exists in project.</value>
+    <value>Entity {0} already exists in this project.</value>
   </data>
   <data name="ErrExistSimParam" xml:space="preserve">
-    <value>{0} already exists in project.</value>
+    <value>Simulation parameter {0} already exists in this project.</value>
   </data>
   <data name="ErrExistStepper" xml:space="preserve">
-    <value>{0} already exists in project.</value>
+    <value>Stepper {0} already exists in this project.</value>
   </data>
   <data name="ErrFindEnt" xml:space="preserve">
     <value>Cannot find Entity {0}.</value>
@@ -178,7 +178,7 @@
     <value>Cannot initialize the simulator.</value>
   </data>
   <data name="ErrInvalidID" xml:space="preserve">
-    <value>ID string is not valid.</value>
+    <value>FullID string is invalid.</value>
   </data>
   <data name="ErrLoadFile" xml:space="preserve">
     <value>Cannot load the file {0}.</value>
@@ -193,7 +193,7 @@
     <value>The {0} is not set.</value>
   </data>
   <data name="ErrNotCreStepper" xml:space="preserve">
-    <value>Cannot create the stepper {0}.</value>
+    <value>Cannot create the Stepper {0}.</value>
   </data>
   <data name="ErrNotInstall" xml:space="preserve">
     <value>{0} is not installed.</value>
@@ -208,7 +208,7 @@
     <value>Cannot start the simulation.</value>
   </data>
   <data name="ErrSaveAct" xml:space="preserve">
-    <value>Cannot save the action file.</value>
+    <value>Cannot save the action file {0}.</value>
   </data>
   <data name="ErrSaveLog" xml:space="preserve">
     <value>Cannot save the log.</value>
@@ -220,7 +220,7 @@
     <value>Cannot save the project {0}.</value>
   </data>
   <data name="ErrSaveScript" xml:space="preserve">
-    <value>Cannot save the script file.</value>
+    <value>Cannot save the script file {0}.</value>
   </data>
   <data name="ErrSetInitParam" xml:space="preserve">
     <value>Cannot set the initial parameters.</value>
@@ -231,8 +231,8 @@
   <data name="ErrSetSimParam" xml:space="preserve">
     <value>Cannot set the simulation parameter.</value>
   </data>
-  <data name="ErrSimPropData" xml:space="preserve">
-    <value>Cannot retrive the property value {0} under the simulation.</value>
+  <data name="ErrPropData" xml:space="preserve">
+    <value>Cannotget the property value {0}.</value>
   </data>
   <data name="ErrSuspendSim" xml:space="preserve">
     <value>Cannot suspend the simulation.</value>
@@ -253,7 +253,7 @@
     <value>{0} is deleted ({1}).</value>
   </data>
   <data name="InfoResetSim" xml:space="preserve">
-    <value>Simulation is terminated.</value>
+    <value>The simulation was reset at [{0}].</value>
   </data>
   <data name="InfoSaveModel" xml:space="preserve">
     <value>Model {0} is saved.</value>
@@ -262,10 +262,7 @@
     <value>Project {0} is saved.</value>
   </data>
   <data name="InfoSuspend" xml:space="preserve">
-    <value>Siimulation is suspended.</value>
-  </data>
-  <data name="InfoUpdateLogPol" xml:space="preserve">
-    <value>The logging policy of {0} was updated.</value>
+    <value>The simulation was suspended at [{0}].</value>
   </data>
   <data name="NameModel" xml:space="preserve">
     <value>Model</value>
@@ -277,7 +274,7 @@
     <value>Simulation result</value>
   </data>
   <data name="NameWorkDir" xml:space="preserve">
-    <value>Project root directory</value>
+    <value>Project root folder</value>
   </data>
   <data name="WarnLoadDM" xml:space="preserve">
     <value>Some Dynamic Modules(DM) cannot be loaded.</value>

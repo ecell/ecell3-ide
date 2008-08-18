@@ -133,7 +133,7 @@
     <value>ID string is not valid.</value>
   </data>
   <data name="ErrNoNumber" xml:space="preserve">
-    <value>Coefficient and Accessor should be integer.</value>
+    <value>Please input an integer value for coefficient.</value>
   </data>
   <data name="ErrNoSelectTarget" xml:space="preserve">
     <value>No target is selected.</value>

@@ -133,7 +133,7 @@
     <value>ID文字列が不正です。</value>
   </data>
   <data name="ErrNoNumber" xml:space="preserve">
-    <value>coefficientとisAccessorは整数を入力してください。</value>
+    <value>coefficientには整数を入力してください。</value>
   </data>
   <data name="ErrNoSelectTarget" xml:space="preserve">
     <value>対象が選択されていません。</value>

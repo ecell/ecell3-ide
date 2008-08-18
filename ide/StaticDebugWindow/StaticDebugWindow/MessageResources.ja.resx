@@ -154,6 +154,6 @@
     <value>ネットワークの整合性</value>
   </data>
   <data name="NoError" xml:space="preserve">
-    <value>不正なエンティティは見つかりませんでした。</value>
+    <value>一貫性を破るエンティティはありません。</value>
   </data>
 </root>

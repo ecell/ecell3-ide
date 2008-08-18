@@ -121,7 +121,7 @@
     <value>Please select the DM directory.</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>Cannot find the file specified.</value>
+    <value>Cannot find the specified file.</value>
   </data>
   <data name="ProjectWizardGoForward" xml:space="preserve">
     <value>Next</value>
@@ -160,22 +160,22 @@
     <value>Export model</value>
   </data>
   <data name="SaveConfirm" xml:space="preserve">
-    <value>Do you want to save the project before the project close?</value>
+    <value>Do you want to save the project before closing this project?</value>
   </data>
   <data name="ErrIDNG" xml:space="preserve">
-    <value>{0} has some invalid characters.</value>
+    <value>{0} contains some invalid chacters.</value>
   </data>
   <data name="MenuCopy" xml:space="preserve">
     <value>Create a copy of this projct</value>
   </data>
   <data name="ProjectWizardSelectTemplete" xml:space="preserve">
-    <value>Please select a templete for new project.</value>
+    <value>Please select a templete for the new project.</value>
   </data>
   <data name="TitleInitialSet" xml:space="preserve">
     <value>Please select the initial setting.</value>
   </data>
   <data name="ConfirmRestart" xml:space="preserve">
-    <value>The language setting will apply after you restart this application.</value>
+    <value>The language setting will be applied after you restart this application.</value>
   </data>
   <data name="MenuSaveZip" xml:space="preserve">
     <value>Compress to Zip</value>
@@ -193,7 +193,7 @@
     <value>Paste</value>
   </data>
   <data name="ErrLoadWindowSettings" xml:space="preserve">
-    <value>Cannot load window settings.</value>
+    <value>Cannot load the window settings.</value>
   </data>
   <data name="ExpModelMes" xml:space="preserve">
     <value>Please set the project root folder. Project is saved in this folder.</value>

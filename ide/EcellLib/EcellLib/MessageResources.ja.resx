@@ -178,7 +178,7 @@
     <value>シミュレーターを初期化できません。</value>
   </data>
   <data name="ErrInvalidID" xml:space="preserve">
-    <value>ID文字列が不正です。</value>
+    <value>FullID文字列が不正です。</value>
   </data>
   <data name="ErrLoadFile" xml:space="preserve">
     <value>ファイル {0} を読み込めません。</value>
@@ -208,7 +208,7 @@
     <value>シミュレーションが実行できません。</value>
   </data>
   <data name="ErrSaveAct" xml:space="preserve">
-    <value>アクションファイルを保存できません。</value>
+    <value>アクションファイル {0} を保存できません。</value>
   </data>
   <data name="ErrSaveLog" xml:space="preserve">
     <value>ログが保存できません。</value>
@@ -220,7 +220,7 @@
     <value>プロジェクト {0} を保存できません。</value>
   </data>
   <data name="ErrSaveScript" xml:space="preserve">
-    <value>スクリプトファイルを保存できません。</value>
+    <value>スクリプトファイル {0} を保存できません。</value>
   </data>
   <data name="ErrSetInitParam" xml:space="preserve">
     <value>初期パラメータの設定に失敗しました。</value>
@@ -231,8 +231,8 @@
   <data name="ErrSetSimParam" xml:space="preserve">
     <value>シミュレーションパラメータを設定できません。</value>
   </data>
-  <data name="ErrSimPropData" xml:space="preserve">
-    <value>シミュレーション中のプロパティ {0} の値を取得できません。</value>
+  <data name="ErrPropData" xml:space="preserve">
+    <value>プロパティ {0} の値を取得できません。</value>
   </data>
   <data name="ErrSuspendSim" xml:space="preserve">
     <value>シミュレーションを一時停止できません。</value>
@@ -253,7 +253,7 @@
     <value>{0} を削除しました ({1})。</value>
   </data>
   <data name="InfoResetSim" xml:space="preserve">
-    <value>シミュレーションを中止しました。</value>
+    <value>シミュレーションをリセットしました[{0}]。</value>
   </data>
   <data name="InfoSaveModel" xml:space="preserve">
     <value>モデル {0} を保存しました。</value>
@@ -262,10 +262,7 @@
     <value>プロジェクト {0} を保存しました。</value>
   </data>
   <data name="InfoSuspend" xml:space="preserve">
-    <value>シミュレーションを一時停止しました。</value>
-  </data>
-  <data name="InfoUpdateLogPol" xml:space="preserve">
-    <value>{0} のロガー ポリシーを設定しました。</value>
+    <value>シミュレーションを一時停止しました[{0}]。</value>
   </data>
   <data name="NameModel" xml:space="preserve">
     <value>モデル</value>
@@ -277,7 +274,7 @@
     <value>シミュレーション結果</value>
   </data>
   <data name="NameWorkDir" xml:space="preserve">
-    <value>プロジェクトルートディレクトリ</value>
+    <value>プロジェクトルートフォルダ</value>
   </data>
   <data name="WarnLoadDM" xml:space="preserve">
     <value>ロードできないダイナミックモジュール (DM) が存在します。</value>
