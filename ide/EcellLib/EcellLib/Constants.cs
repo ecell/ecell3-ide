@@ -710,8 +710,7 @@ namespace Ecell
         public const string MenuItemView = "MenuItemView";
         public const string MenuItemRun = "MenuItemRun";
         public const string MenuItemSetup = "MenuItemSetup";
-        public const string MenuItemAnalysis = "MenuItemAnalysis";
-        public const string MenuItemDebug = "MenuItemDebug";
+        public const string MenuItemTools = "MenuItemTools";
         public const string MenuItemHelp = "MenuItemHelp";
     }
 }

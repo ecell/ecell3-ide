@@ -749,7 +749,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 saveAnalysisResultItem, loadAnalysisResultItem
             });
             analysisMenu.Text = "Analysis";
-            analysisMenu.Name = "MenuItemAnalysis";
+            analysisMenu.Name = MenuConstants.MenuItemTools;
 
             list.Add(analysisMenu);
 

@@ -1843,10 +1843,8 @@ namespace Ecell.IDE.MainWindow
         {
             switch (name)
             {
-                case MenuConstants.MenuItemAnalysis:
-                    return MenuItemAnalysis;
-                case MenuConstants.MenuItemDebug:
-                    return MenuItemDebug;
+                case MenuConstants.MenuItemTools:
+                    return MenuItemTools;
                 case MenuConstants.MenuItemEdit:
                     return MenuItemEdit;
                 case MenuConstants.MenuItemFile:

@@ -78,9 +78,8 @@ namespace Ecell.IDE.MainWindow
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemRun = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuItemAnalysis = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItemTools = new System.Windows.Forms.ToolStripMenuItem();
             this.scriptEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuItemDebug = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowVersionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutIDEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -162,8 +161,7 @@ namespace Ecell.IDE.MainWindow
             this.MenuItemLayout,
             this.MenuItemView,
             this.MenuItemRun,
-            this.MenuItemAnalysis,
-            this.MenuItemDebug,
+            this.MenuItemTools,
             this.MenuItemHelp});
             resources.ApplyResources(this.menustrip, "menustrip");
             this.menustrip.Name = "menustrip";
@@ -441,13 +439,13 @@ namespace Ecell.IDE.MainWindow
             this.MenuItemRun.Name = "MenuItemRun";
             resources.ApplyResources(this.MenuItemRun, "MenuItemRun");
             // 
-            // MenuItemAnalysis
+            // MenuItemTools
             // 
-            this.MenuItemAnalysis.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuItemTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.scriptEditorToolStripMenuItem,
             toolStripSeparator8});
-            this.MenuItemAnalysis.Name = "MenuItemAnalysis";
-            resources.ApplyResources(this.MenuItemAnalysis, "MenuItemAnalysis");
+            this.MenuItemTools.Name = "MenuItemTools";
+            resources.ApplyResources(this.MenuItemTools, "MenuItemTools");
             // 
             // scriptEditorToolStripMenuItem
             // 
@@ -455,11 +453,6 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this.scriptEditorToolStripMenuItem, "scriptEditorToolStripMenuItem");
             this.scriptEditorToolStripMenuItem.Tag = "0";
             this.scriptEditorToolStripMenuItem.Click += new System.EventHandler(this.ClickScriptEditorMenu);
-            // 
-            // MenuItemDebug
-            // 
-            this.MenuItemDebug.Name = "MenuItemDebug";
-            resources.ApplyResources(this.MenuItemDebug, "MenuItemDebug");
             // 
             // MenuItemHelp
             // 
@@ -568,7 +561,6 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         public System.Windows.Forms.ToolStripMenuItem modelEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MenuItemRun;
-        private System.Windows.Forms.ToolStripMenuItem MenuItemDebug;
         private System.Windows.Forms.ToolStripMenuItem MenuItemHelp;
         private System.Windows.Forms.ToolStripMenuItem MenuItemView;
         private System.Windows.Forms.OpenFileDialog openScriptDialog;
@@ -586,7 +578,7 @@ namespace Ecell.IDE.MainWindow
         /// MenuItem to import selected script.
         /// </summary>
         public System.Windows.Forms.ToolStripMenuItem importScriptToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem MenuItemAnalysis;
+        private System.Windows.Forms.ToolStripMenuItem MenuItemTools;
         private System.Windows.Forms.ToolStripMenuItem MenuItemLayout;
         /// <summary>
         /// MenuItem to display version dialog.

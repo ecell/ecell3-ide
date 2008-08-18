@@ -171,11 +171,8 @@
   <data name="MenuItemRun.Text" xml:space="preserve">
     <value>シミュレーション(&amp;I)</value>
   </data>
-  <data name="MenuItemAnalysis.Text" xml:space="preserve">
-    <value>解析(&amp;A)</value>
-  </data>
-  <data name="MenuItemDebug.Text" xml:space="preserve">
-    <value>デバッグ(&amp;D)</value>
+  <data name="MenuItemTools.Text" xml:space="preserve">
+    <value>ツール(&amp;T)</value>
   </data>
   <data name="MenuItemHelp.Text" xml:space="preserve">
     <value>ヘルプ(&amp;H)</value>
