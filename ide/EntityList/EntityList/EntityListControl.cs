@@ -50,6 +50,7 @@ namespace Ecell.IDE.Plugins.EntityList
             m_owner = owner;
             m_icons = icons;
             InitializeComponent();
+            ResetSearchTextBox();
         }
 
         public void SelectChanged(string modelID, string key, string type)
@@ -140,8 +141,9 @@ namespace Ecell.IDE.Plugins.EntityList
             DataGridViewRow r = SearchIndex(key, type);
             if (r != null)
             {
+                Trace.WriteLine("index=" + r.Index);
                 r.Cells[s_indexClass].Value = data.Classname;
-                r.Cells[s_indexName].Value = data.GetEcellValue("Name").ToString();
+                r.Cells[s_indexName].Value = data.Name;
             }
         }
 
@@ -238,20 +240,47 @@ namespace Ecell.IDE.Plugins.EntityList
             m_isSelected = false;
         }
 
+        private void ResetSearchTextBox()
+        {
+            searchTextBox.ForeColor = SystemColors.GrayText;
+            searchTextBox.Text = MessageResources.InitialText;
+            foreach (DataGridViewRow r in objectListDataGrid.Rows)
+            {
+                r.Visible = true;
+            }
+        }
+
+        private void clearButton_Click(object sender, EventArgs e)
+        {
+            ResetSearchTextBox();
+        }
+
+        private void searchTextBox_Enter(object sender, EventArgs e)
+        {
+            ((TextBox)sender).ForeColor = SystemColors.WindowText;
+            ((TextBox)sender).Clear();
+        }
+
         private void searchTextBox_TextChanged(object sender, EventArgs e)
         {
+            if (!((TextBox)sender).Focused)
+                return;
+
             string searchCnd = searchTextBox.Text;
+            objectListDataGrid.SuspendLayout();
             foreach (DataGridViewRow r in objectListDataGrid.Rows)
             {
                 r.Visible =
                     ((EcellObject)r.Tag).Key.ToLower().Contains(searchCnd.ToLower())
                     || ((EcellObject)r.Tag).Name.ToLower().Contains(searchCnd.ToLower());
             }
+            objectListDataGrid.ResumeLayout();
         }
 
-        private void clearButton_Click(object sender, EventArgs e)
+        private void searchTextBox_Leave(object sender, EventArgs e)
         {
-            searchTextBox.Clear();
+            if (((TextBox)sender).Text.Length == 0)
+                ResetSearchTextBox();
         }
     }
 }

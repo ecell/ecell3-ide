@@ -120,4 +120,7 @@
   <data name="EntityList" xml:space="preserve">
     <value>Entity list</value>
   </data>
+  <data name="InitialText" xml:space="preserve">
+    <value>Enter an ID or a search term...</value>
+  </data>
 </root>

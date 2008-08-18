@@ -120,4 +120,7 @@
   <data name="EntityList" xml:space="preserve">
     <value>エンティティリスト</value>
   </data>
+  <data name="InitialText" xml:space="preserve">
+    <value>IDまたは名称を入力してください...</value>
+  </data>
 </root>
