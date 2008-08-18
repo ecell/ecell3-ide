@@ -838,7 +838,7 @@ namespace Ecell.IDE.MainWindow
                 closeProjectToolStripMenuItem.Enabled = false;
                 exportModelToolStripMenuItem.Enabled = false;
                 importModelToolStripMenuItem.Enabled = true;
-                importScriptToolStripMenuItem.Enabled = true;
+                importScriptToolStripMenuItem.Enabled = false;
                 saveScriptToolStripMenuItem.Enabled = false;
                 printToolStripMenuItem.Enabled = false;
                 saveActionMenuItem.Enabled = false;
@@ -853,7 +853,7 @@ namespace Ecell.IDE.MainWindow
                 closeProjectToolStripMenuItem.Enabled = true;
                 exportModelToolStripMenuItem.Enabled = true;
                 importModelToolStripMenuItem.Enabled = true;
-                importScriptToolStripMenuItem.Enabled = false;
+                importScriptToolStripMenuItem.Enabled = true;
                 saveScriptToolStripMenuItem.Enabled = true;
                 printToolStripMenuItem.Enabled = true;
                 saveActionMenuItem.Enabled = true;
@@ -887,6 +887,10 @@ namespace Ecell.IDE.MainWindow
                 string filename = m_env.DataManager.CurrentProject.FilePath;
                 CheckAndReplaceRecentProject(projectID, filename);
                 ResetRecentProjectMenu();                
+            }
+            else if (type == ProjectStatus.Uninitialized)
+            {
+                this.Text = m_title;
             }
             m_statusDialog.ChangeStatus(type);
             m_type = type;

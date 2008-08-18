@@ -295,7 +295,7 @@
     <value>False</value>
   </metadata>
   <data name="toolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
+    <value>136, 6</value>
   </data>
   <metadata name="menustrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>0, 0</value>
@@ -360,17 +360,11 @@
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 6</value>
   </data>
-  <data name="importScriptToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 22</value>
-  </data>
-  <data name="importScriptToolStripMenuItem.Text" xml:space="preserve">
-    <value>I&amp;mport Script...</value>
-  </data>
   <data name="saveScriptToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>189, 22</value>
   </data>
   <data name="saveScriptToolStripMenuItem.Text" xml:space="preserve">
-    <value>Sa&amp;ve Script...</value>
+    <value>Sa&amp;ve Script Template...</value>
   </data>
   <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 6</value>
@@ -504,6 +498,12 @@
   <data name="MenuItemView.Text" xml:space="preserve">
     <value>&amp;View</value>
   </data>
+  <data name="importScriptToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>156, 22</value>
+  </data>
+  <data name="importScriptToolStripMenuItem.Text" xml:space="preserve">
+    <value>R&amp;un from script...</value>
+  </data>
   <data name="MenuItemRun.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 20</value>
   </data>
@@ -511,7 +511,7 @@
     <value>S&amp;imulation</value>
   </data>
   <data name="scriptEditorToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>139, 22</value>
   </data>
   <data name="scriptEditorToolStripMenuItem.Text" xml:space="preserve">
     <value>Editor s&amp;cript...</value>
@@ -853,12 +853,6 @@
   <data name="&gt;&gt;toolStripSeparator2.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;importScriptToolStripMenuItem.Name" xml:space="preserve">
-    <value>importScriptToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;importScriptToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;saveScriptToolStripMenuItem.Name" xml:space="preserve">
     <value>saveScriptToolStripMenuItem</value>
   </data>
@@ -1001,6 +995,12 @@
     <value>MenuItemRun</value>
   </data>
   <data name="&gt;&gt;MenuItemRun.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;importScriptToolStripMenuItem.Name" xml:space="preserve">
+    <value>importScriptToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;importScriptToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;MenuItemTools.Name" xml:space="preserve">

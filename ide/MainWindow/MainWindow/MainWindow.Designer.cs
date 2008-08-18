@@ -53,7 +53,6 @@ namespace Ecell.IDE.MainWindow
             this.exportModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importSBMLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.importScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.importActionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,6 +77,7 @@ namespace Ecell.IDE.MainWindow
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemRun = new System.Windows.Forms.ToolStripMenuItem();
+            this.importScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemTools = new System.Windows.Forms.ToolStripMenuItem();
             this.scriptEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
@@ -180,7 +180,6 @@ namespace Ecell.IDE.MainWindow
             this.exportModelToolStripMenuItem,
             this.importSBMLMenuItem,
             this.toolStripSeparator2,
-            this.importScriptToolStripMenuItem,
             this.saveScriptToolStripMenuItem,
             this.toolStripSeparator5,
             this.importActionMenuItem,
@@ -273,13 +272,6 @@ namespace Ecell.IDE.MainWindow
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             this.toolStripSeparator2.Tag = "20";
-            // 
-            // importScriptToolStripMenuItem
-            // 
-            this.importScriptToolStripMenuItem.Name = "importScriptToolStripMenuItem";
-            resources.ApplyResources(this.importScriptToolStripMenuItem, "importScriptToolStripMenuItem");
-            this.importScriptToolStripMenuItem.Tag = "21";
-            this.importScriptToolStripMenuItem.Click += new System.EventHandler(this.ImportScriptMenuClick);
             // 
             // saveScriptToolStripMenuItem
             // 
@@ -436,8 +428,17 @@ namespace Ecell.IDE.MainWindow
             // 
             // MenuItemRun
             // 
+            this.MenuItemRun.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.importScriptToolStripMenuItem});
             this.MenuItemRun.Name = "MenuItemRun";
             resources.ApplyResources(this.MenuItemRun, "MenuItemRun");
+            // 
+            // importScriptToolStripMenuItem
+            // 
+            this.importScriptToolStripMenuItem.Name = "importScriptToolStripMenuItem";
+            resources.ApplyResources(this.importScriptToolStripMenuItem, "importScriptToolStripMenuItem");
+            this.importScriptToolStripMenuItem.Tag = "21";
+            this.importScriptToolStripMenuItem.Click += new System.EventHandler(this.ImportScriptMenuClick);
             // 
             // MenuItemTools
             // 
@@ -574,10 +575,6 @@ namespace Ecell.IDE.MainWindow
         /// MenuItem to save action.
         /// </summary>
         public System.Windows.Forms.ToolStripMenuItem saveActionMenuItem;
-        /// <summary>
-        /// MenuItem to import selected script.
-        /// </summary>
-        public System.Windows.Forms.ToolStripMenuItem importScriptToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MenuItemTools;
         private System.Windows.Forms.ToolStripMenuItem MenuItemLayout;
         /// <summary>
@@ -606,6 +603,7 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripMenuItem importSBMLMenuItem;
         private System.Windows.Forms.ToolStripMenuItem recentProejctToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem importScriptToolStripMenuItem;
     }
 }
 

@@ -105,12 +105,12 @@ namespace Ecell
             ClearScriptInfo();
             Encoding enc = Encoding.GetEncoding(932);
             File.WriteAllText(fileName, "", enc);
-            WritePrefix(fileName, enc);
+//            WritePrefix(fileName, enc);
             foreach (EcellObject modelObj in m_currentProject.ModelList)
             {
                 String modelName = modelObj.ModelID;
-                WriteModelEntry(fileName, enc, modelName);
-                WriteModelProperty(fileName, enc, modelName);
+//                WriteModelEntry(fileName, enc, modelName);
+//                WriteModelProperty(fileName, enc, modelName);
                 File.AppendAllText(fileName, "\n# System\n", enc);
                 foreach (EcellObject sysObj in m_currentProject.SystemDic[modelName])
                 {
@@ -227,10 +227,10 @@ namespace Ecell
                     if (!d.Settable) continue;
                     if (d.Value.ToString().Equals("+∞"))
                         File.AppendAllText(fileName,
-                            "stepperStub" + count + ".setProperty(\"" + d.Name + "\",\"" + "1.79769313486231E+308" + "\")\n", enc);
+                            "stepperStub" + count + ".setProperty(\"" + d.EntityPath + "\",\"" + "1.79769313486231E+308" + "\")\n", enc);
                     else
                         File.AppendAllText(fileName,
-                            "stepperStub" + count + ".setProperty(\"" + d.Name + "\",\"" + Convert.ToDouble(d.Value.ToString()) + "\")\n", enc);
+                            "stepperStub" + count + ".setProperty(\"" + d.EntityPath + "\",\"" + Convert.ToDouble(d.Value.ToString()) + "\")\n", enc);
                 }
             }
         }
@@ -294,7 +294,7 @@ namespace Ecell
                 if (!d.Settable)
                     continue;
                 File.AppendAllText(fileName,
-                    "systemStub" + count + ".setProperty(\"" + d.Name + "\",\"" + d.Value.ToString() + "\")\n", enc);
+                    "systemStub" + count + ".setProperty(\"" + d.EntityPath + "\",\"" + d.Value.ToString() + "\")\n", enc);
             }
         }
 
@@ -325,7 +325,7 @@ namespace Ecell
                     "logger" + m_logCount + ".setLoggerPolicy(" +
                     l.ReloadStepCount + "," +
                     l.ReloadInterval + "," +
-                    l.DiskFullAction + "," +
+                    (l.DiskFullAction == DiskFullAction.Terminate ? 0 : 1) + "," +
                     l.MaxDiskSpace + ")\n", enc);
                 m_logCount++;
             }
@@ -421,7 +421,7 @@ namespace Ecell
                     if (!d.Settable)
                         continue;
                     File.AppendAllText(fileName,
-                        "variableStub" + count + name + ".setProperty(\"" + d.Name + "\",\"" + d.Value.ToString() + "\")\n", enc);
+                        "variableStub" + count + name + ".setProperty(\"" + d.EntityPath + "\",\"" + d.Value.ToString() + "\")\n", enc);
                     //                        "variableStub" + count + name + ".setProperty(\"" + d.Name + "\",\"" + GetEntityProperty(d.EntityPath).ToString() + "\")\n", enc);
                 }
             }
@@ -439,7 +439,7 @@ namespace Ecell
                     if (!d.Settable)
                         continue;
                     File.AppendAllText(fileName,
-                        "processStub" + count + name + ".setProperty(\"" + d.Name + "\",\"" + d.Value.ToString().Replace("\"", "\\\"") + "\")\n", enc);
+                        "processStub" + count + name + ".setProperty(\"" + d.EntityPath + "\",\"" + d.Value.ToString().Replace("\"", "\\\"") + "\")\n", enc);
                     //                        "processStub" + count + name + ".setProperty(\"" + d.Name + "\",\"" + GetEntityProperty(d.EntityPath).ToString().Replace("\"", "\\\"") + "\")\n", enc);
                 }
             }

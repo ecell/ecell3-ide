@@ -130,6 +130,7 @@ namespace Ecell.IDE.MainWindow
             {
                 node = new ProjectTreeNode(path);
                 PrjTreeView.Nodes.Add(node);
+                node.Expand();
             }
 
             string prjFileName = Path.Combine(path, Constants.fileProject);

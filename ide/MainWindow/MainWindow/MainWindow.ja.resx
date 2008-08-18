@@ -136,10 +136,10 @@
     <value>モデルのエクスポート(&amp;E)...</value>
   </data>
   <data name="importScriptToolStripMenuItem.Text" xml:space="preserve">
-    <value>スクリプトのインポート(&amp;M)...</value>
+    <value>スクリプトを読み込んで実行(&amp;U)...</value>
   </data>
   <data name="saveScriptToolStripMenuItem.Text" xml:space="preserve">
-    <value>スクリプトの保存(&amp;V)...</value>
+    <value>スクリプトテンプレートの保存(&amp;V)...</value>
   </data>
   <data name="importActionMenuItem.Text" xml:space="preserve">
     <value>アクションのインポート(&amp;P)...</value>

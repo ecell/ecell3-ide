@@ -4617,6 +4617,10 @@ namespace Ecell
             {
                 MemoryStream standardOutput = new MemoryStream();
                 engine.SetStandardOutput(standardOutput);
+                engine.Execute("from EcellIDE import *");
+                engine.Execute("import time");
+                engine.Execute("import System.Threading");
+                engine.Execute("session=Session()");
                 engine.ExecuteFile(scriptFile);
                 string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
             }

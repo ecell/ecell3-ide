@@ -105,6 +105,7 @@ namespace Ecell
         /// <returns>the created entity</returns>
         public EntityStub CreateEntityStub(string fullID)
         {
+            s_modelID = m_env.DataManager.CurrentProject.ModelList[0].ModelID;
             return new EntityStub(this, fullID);
         }
 
@@ -780,7 +781,7 @@ namespace Ecell
         /// </summary>
         public void Refresh()
         {
-            m_env.DataManager.CloseProject(null);
+            m_env.DataManager.CloseProject(null);            
         }
 
         /// <summary>
@@ -1249,12 +1250,14 @@ namespace Ecell
             /// </summary>
             /// <param name="propertyName">the property</param>
             /// <param name="value">the value</param>
-            public void SetProperty(string propertyName, string value)
+            public void SetProperty(string fullPN, string value)
             {
                 //
                 // Get a current EcellObject.
                 //
                 this.RefinedEcellObject();
+                string[] ele = fullPN.Split(new char[] { ':' });
+                string propertyName = ele[ele.Length - 1];
                 //
                 // Set.
                 //
@@ -1266,14 +1269,14 @@ namespace Ecell
                         for (int i = 0; i < this.m_ecellObject.Value.Count; i++)
                         {
                             EcellData data = this.m_ecellObject.Value[i];
-                            if (data.Name.Equals(propertyName))
+                            if (data.EntityPath.Equals(fullPN))
                             {
                                 if (!data.Settable)
                                 {
                                     throw new Exception(String.Format(MessageResources.ErrSetProp,
-                                        new object[] { propertyName }));
+                                        new object[] { fullPN }));
                                 }
-                                else if (propertyName.Equals(Constants.xpathVRL))
+                                else if (data.Name.Equals(Constants.xpathVRL))
                                 {
                                     data.Value = EcellValue.ToVariableReferenceList(value);
                                     //
@@ -1322,7 +1325,7 @@ namespace Ecell
                                 = new EcellData(
                                     propertyName,
                                     new EcellValue(Convert.ToDouble(value)),
-                                    this.m_fullID + Constants.delimiterColon + propertyName);
+                                    fullPN);
                             newData.Logable = true;
                             this.m_ecellObject.Value.Add(newData);
                             // throw new Exception("The property named [" + propertyName + "]" + "isn't found.");
@@ -1477,11 +1480,11 @@ namespace Ecell
             public void SetLoggerPolicy(
                     int savedStepCount,
                     double savedInterval,
-                    DiskFullAction diskFullAction,
+                    int diskFullAction,
                     int maxDiskSpace)
             {
                 m_cManager.CreateLoggerPolicy(
-                        savedStepCount, savedInterval, diskFullAction, maxDiskSpace);
+                    savedStepCount, savedInterval, (diskFullAction == 0 ? DiskFullAction.Terminate : DiskFullAction.Overwrite), maxDiskSpace);
             }
         }
 
@@ -1972,7 +1975,7 @@ namespace Ecell
                         for (int i = 0; i < this.m_stepper.Value.Count; i++)
                         {
                             EcellData data = this.m_stepper.Value[i];
-                            if (data.Name.Equals(propertyName))
+                            if (data.EntityPath.Equals(propertyName))
                             {
                                 if (!data.Settable)
                                 {
