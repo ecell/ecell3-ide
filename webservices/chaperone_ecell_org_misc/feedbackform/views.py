@@ -9,7 +9,16 @@ from chaperone_ecell_org_misc.feedbackform.forms import *
 from ecell.convertSBML2EML import convertSBML2EML
 from django.conf import settings
 from smtplib import SMTP
-import email.mime as mime
+try:
+    from email.mime.text import MIMEText
+    from email.mime.multipart import MIMEMultipart
+    from ecell.mime.image import MIMEImage
+except:
+    from email.MIMEText import MIMEText
+    from email.MIMEMultipart import MIMEMultipart
+    from email.MIMEImage import MIMEImage
+
+
 # Create your views here.
 
 def send_error_report_as_email(e, tb):
@@ -17,7 +26,7 @@ def send_error_report_as_email(e, tb):
     currentLang = get_language()
     try:
         activate_lang('en_US')
-        msg = mime.text.MIMEText(''.join(traceback.format_exception(e.__class__, e, tb)))
+        msg = MIMEText(''.join(traceback.format_exception(e.__class__, e, tb)))
         msg['From'] = 'feedback@chaperone.e-cell.org'
         msg['To'] = settings.FEEDBACK_RECIPIENT
         msg['Subject'] = _(u'E-Cell IDE Feedback Exception Report')
@@ -28,7 +37,7 @@ def send_error_report_as_email(e, tb):
 
 def send_feedback_as_email(form):
     import codecs
-    msg = mime.multipart.MIMEMultipart()
+    msg = MIMEMultipart()
     currentLang = get_language()
     try:
         activate_lang('en_US')
@@ -50,11 +59,11 @@ def send_feedback_as_email(form):
             else:
                 rendered_text = data
             text += u"%s:\n%s\n\n" % ((field.label), rendered_text)
-        msg.attach(mime.text.MIMEText(
+        msg.attach(MIMEText(
             codecs.getencoder('UTF-8')(text)[0],
             _charset = 'UTF-8'))
         if form.cleaned_data['screenshot'] != None:
-            attach = mime.image.MIMEImage(form.cleaned_data['screenshot'].read())
+            attach = MIMEImage(form.cleaned_data['screenshot'].read())
             msg.attach(attach)
         conn = SMTP('localhost', 25, 'chaperone.e-cell.org')
         conn.sendmail('feedback@chaperone.e-cell.org', settings.FEEDBACK_RECIPIENT, str(msg))
