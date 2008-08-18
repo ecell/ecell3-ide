@@ -21,7 +21,7 @@ namespace Ecell
         [SetUp()]
         public void SetUp()
         {
-            _unitUnderTest = ApplicationEnvironment.GetInstance().PluginManager;
+            _unitUnderTest = new ApplicationEnvironment().PluginManager;
         }
         /// <summary>
         /// 

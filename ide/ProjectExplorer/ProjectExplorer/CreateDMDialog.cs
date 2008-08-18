@@ -53,7 +53,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// The current selected node.
         /// </summary>
         private TreeNode m_node;
+
         private string m_path;
+
+        private ApplicationEnvironment m_env;
         #endregion
 
         #region Constructor
@@ -62,8 +65,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// </summary>
         /// <param name="dmDir">The path of dm directory.</param>
         /// <param name="node">The current selected node.</param>
-        public CreateDMDialog(string dmDir, TreeNode node)
+        public CreateDMDialog(ApplicationEnvironment env, string dmDir, TreeNode node)
         {
+            m_env = env;
             InitializeComponent();
             m_dir = dmDir;
             m_node = node;
@@ -121,8 +125,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 }
 
                 TreeNode dNode = new TreeNode(name);
-                ApplicationEnvironment env = ApplicationEnvironment.GetInstance();
-                dNode.ImageIndex = env.PluginManager.GetImageIndex(Constants.xpathDM);
+                dNode.ImageIndex = m_env.PluginManager.GetImageIndex(Constants.xpathDM);
                 dNode.SelectedImageIndex = dNode.ImageIndex;
                 dNode.Tag = new TagData("", "", Constants.xpathDM);
                 m_node.Nodes.Add(dNode);

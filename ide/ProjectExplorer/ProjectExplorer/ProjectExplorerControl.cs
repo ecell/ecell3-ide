@@ -60,6 +60,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_nameSorter = new NameSorter();
             m_typeSorter = new TypeSorter();
             treeView1.TreeViewNodeSorter = m_typeSorter;
+            treeView1.Environment = m_owner.Environment;
             toolStripButtonSortByName.Checked = false;
             toolStripButtonSortByType.Checked = true;
             this.Text = MessageResources.ProjectExplorer;
@@ -599,7 +600,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (m_lastSelectedNode == null)
                 return;
             string dmDir = m_owner.Environment.DataManager.GetDMDir();
-            CreateDMDialog ind = new CreateDMDialog(dmDir, m_lastSelectedNode);
+            CreateDMDialog ind = new CreateDMDialog(m_owner.Environment, dmDir, m_lastSelectedNode);
             using (ind)
             {
                 DialogResult res = ind.ShowDialog();

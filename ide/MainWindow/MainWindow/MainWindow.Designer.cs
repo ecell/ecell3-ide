@@ -77,16 +77,17 @@ namespace Ecell.IDE.MainWindow
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemRun = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.importScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemTools = new System.Windows.Forms.ToolStripMenuItem();
             this.scriptEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowVersionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutIDEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.feedbackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
@@ -435,6 +436,12 @@ namespace Ecell.IDE.MainWindow
             this.MenuItemRun.Name = "MenuItemRun";
             resources.ApplyResources(this.MenuItemRun, "MenuItemRun");
             // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            resources.ApplyResources(this.toolStripSeparator10, "toolStripSeparator10");
+            this.toolStripSeparator10.Tag = "40";
+            // 
             // importScriptToolStripMenuItem
             // 
             this.importScriptToolStripMenuItem.Name = "importScriptToolStripMenuItem";
@@ -461,7 +468,8 @@ namespace Ecell.IDE.MainWindow
             // 
             this.MenuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ShowVersionMenuItem,
-            this.aboutIDEToolStripMenuItem});
+            this.aboutIDEToolStripMenuItem,
+            this.feedbackToolStripMenuItem});
             this.MenuItemHelp.Name = "MenuItemHelp";
             resources.ApplyResources(this.MenuItemHelp, "MenuItemHelp");
             // 
@@ -478,16 +486,16 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this.aboutIDEToolStripMenuItem, "aboutIDEToolStripMenuItem");
             this.aboutIDEToolStripMenuItem.Click += new System.EventHandler(this.ShowAboutDialog);
             // 
+            // feedbackToolStripMenuItem
+            // 
+            this.feedbackToolStripMenuItem.Name = "feedbackToolStripMenuItem";
+            resources.ApplyResources(this.feedbackToolStripMenuItem, "feedbackToolStripMenuItem");
+            this.feedbackToolStripMenuItem.Click += new System.EventHandler(this.feedbackToolStripMenuItem_Click);
+            // 
             // openScriptDialog
             // 
             resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             this.openScriptDialog.RestoreDirectory = true;
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            resources.ApplyResources(this.toolStripSeparator10, "toolStripSeparator10");
-            this.toolStripSeparator10.Tag = "40";
             // 
             // MainWindow
             // 
@@ -613,6 +621,7 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.ToolStripMenuItem recentProejctToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem importScriptToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+        private System.Windows.Forms.ToolStripMenuItem feedbackToolStripMenuItem;
     }
 }
 

@@ -183,11 +183,12 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Constructor
         /// </summary>
-        public EcellWebBrowser(List<KeyValuePair<string, string>> recentFiles)
+        public EcellWebBrowser(ApplicationEnvironment env, List<KeyValuePair<string, string>> recentFiles)
         {
-            m_env = ApplicationEnvironment.GetInstance();
+            m_env = env;
             m_recentFiles = recentFiles;
             m_startupPage = FindStartPage();
+            Util.InitialLanguage();
             InitializeComponent();
             webBrowser.ObjectForScripting = new AutomationStub(this);
         }

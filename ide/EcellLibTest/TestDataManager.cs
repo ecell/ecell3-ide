@@ -21,7 +21,7 @@ namespace Ecell
         [TestFixtureSetUp()]
         public void TestFixtureSetUp()
         {
-            _unitUnderTest = ApplicationEnvironment.GetInstance().DataManager;
+            _unitUnderTest = new ApplicationEnvironment().DataManager;
         }
         /// <summary>
         /// 

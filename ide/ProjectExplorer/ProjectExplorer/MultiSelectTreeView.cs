@@ -43,7 +43,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
     {
         #region Fields
         private bool m_isUpdate = false;
-        private ApplicationEnvironment m_env = ApplicationEnvironment.GetInstance();
+        private ApplicationEnvironment m_env;
         private List<TreeNode> m_selected = new List<TreeNode>();
         #endregion
 
@@ -58,6 +58,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         #endregion
 
         #region ACCESSORS
+        public ApplicationEnvironment Environment
+        {
+            get { return m_env; }
+            set { m_env = value; }
+        }
+
         /// <summary>
         /// Get the selected nodes.
         /// </summary>

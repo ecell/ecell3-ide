@@ -121,7 +121,7 @@ namespace Ecell.IDE.MainWindow
         private List<KeyValuePair<string, string>> m_recentProjects = new List<KeyValuePair<string, string>>();
         private GridJobStatusDialog m_statusDialog;
         private string m_title;
-
+        private EcellWebBrowser m_browser;
         #endregion
 
         #region Accessor
@@ -557,11 +557,12 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         internal void SetStartUpWindow()
         {
-            EcellDockContent content = new EcellWebBrowser(m_recentProjects);
+            EcellWebBrowser content = new EcellWebBrowser(m_env, m_recentProjects);
             content.Name = "StartUpWindow";
             content.Text = "StartUpWindow";
             content.DockHandler.DockPanel = this.dockPanel;
             SetDockContent(content);
+            m_browser = content;
         }
 
         /// <summary>
@@ -1865,6 +1866,11 @@ namespace Ecell.IDE.MainWindow
                     return MenuItemView;
             }
             return null;
+        }
+
+        private void feedbackToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            m_browser.Url = new Uri("http://chaperone.e-cell.org/services/feedback/");
         }
     }
 }
