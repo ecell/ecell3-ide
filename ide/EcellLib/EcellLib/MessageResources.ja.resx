@@ -127,7 +127,7 @@
     <value>{0} を追加できません({1})。</value>
   </data>
   <data name="ErrClosePrj" xml:space="preserve">
-    <value>プロジェクト {0} を閉じることができませ。</value>
+    <value>プロジェクト {0} を閉じることができません。</value>
   </data>
   <data name="ErrCombiStepProc" xml:space="preserve">
     <value>このProcessはStepperと適合しないため選択できません。。</value>

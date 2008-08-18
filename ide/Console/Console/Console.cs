@@ -110,12 +110,12 @@ namespace Ecell.IDE.Plugins.Console
         /// <returns>Windows form</returns>
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
-            m_form = new ConsoleControl();
             return new EcellDockContent[] { m_form };
         }
 
         public override void Initialize()
         {
+            m_form = new ConsoleControl();
             Environment.Console.ConsoleDataAvailable +=
                 new ConsoleDataAvailableEventHandler(Console_ConsoleDataAvailable);
 

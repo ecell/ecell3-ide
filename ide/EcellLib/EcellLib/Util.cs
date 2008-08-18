@@ -945,7 +945,7 @@ namespace Ecell
                         if (subkey != null)
                         {
                             string pluginDir = (string)subkey.GetValue(Constants.registryPluginDirKey);
-                            if (pluginDir != null && Directory.Exists(pluginDir))
+                            if (pluginDir != null && Directory.Exists(pluginDir) && !pluginDirs.Contains(pluginDir))
                                 pluginDirs.Add(pluginDir);
                             subkey.Close();
                         }
@@ -955,7 +955,7 @@ namespace Ecell
                         if (subkey != null)
                         {
                             string pluginDir = (string)subkey.GetValue(Constants.registryPluginDirKey);
-                            if (pluginDir != null && Directory.Exists(pluginDir))
+                            if (pluginDir != null && Directory.Exists(pluginDir) && !pluginDirs.Contains(pluginDir))
                                 pluginDirs.Add(pluginDir);
                             subkey.Close();
                         }
@@ -969,7 +969,7 @@ namespace Ecell
                         if (subkey != null)
                         {
                             string pluginDir = (string)subkey.GetValue(Constants.registryPluginDirKey);
-                            if (pluginDir != null && Directory.Exists(pluginDir))
+                            if (pluginDir != null && Directory.Exists(pluginDir) && !pluginDirs.Contains(pluginDir))
                                 pluginDirs.Add(pluginDir);
                             subkey.Close();
                         }
