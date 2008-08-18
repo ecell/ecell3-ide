@@ -121,10 +121,10 @@
     <value>Are you sure you want to merge the components to the supersystem?</value>
   </data>
   <data name="ConfirmReset" xml:space="preserve">
-    <value>The parameter cannot be changed when the simulation is running. Do you want to stop the simulation?</value>
+    <value>Change to a property that cannot be set during  simulation is attempted. Do you want to stop the simulation?</value>
   </data>
   <data name="ErrAdd" xml:space="preserve">
-    <value>Cannot add the {0} ({1}).</value>
+    <value>Cannot add {0} ({1}).</value>
   </data>
   <data name="ErrClosePrj" xml:space="preserve">
     <value>Can not close the project ({0}).</value>
@@ -190,7 +190,7 @@
     <value>Cannot load the project {0}.</value>
   </data>
   <data name="ErrNoSet" xml:space="preserve">
-    <value>The {0} is not set.</value>
+    <value>{0} is not set.</value>
   </data>
   <data name="ErrNotCreStepper" xml:space="preserve">
     <value>Cannot create the Stepper {0}.</value>
@@ -241,16 +241,16 @@
     <value>{0} is added ({1}).</value>
   </data>
   <data name="InfoClose" xml:space="preserve">
-    <value>The project {0} is closed.</value>
+    <value>Project {0} is closed.</value>
   </data>
   <data name="InfoCreSim" xml:space="preserve">
-    <value>The simulation parameter {0} is created.</value>
+    <value>Simulation parameter {0} was created.</value>
   </data>
   <data name="InfoDel" xml:space="preserve">
     <value>{0} is deleted ({1}).</value>
   </data>
   <data name="InfoResetSim" xml:space="preserve">
-    <value>The simulation was reset at [{0}].</value>
+    <value>The simulation was terminated at [{0}].</value>
   </data>
   <data name="InfoSaveModel" xml:space="preserve">
     <value>Model {0} is saved.</value>
@@ -274,7 +274,7 @@
     <value>Project root folder</value>
   </data>
   <data name="WarnLoadDM" xml:space="preserve">
-    <value>Some Dynamic Modules(DM) cannot be loaded.</value>
+    <value>Some Dynamic Modules (DM) cannot be loaded.</value>
   </data>
   <data name="InfoLoadPlugin" xml:space="preserve">
     <value>Loading plugin {0}...</value>

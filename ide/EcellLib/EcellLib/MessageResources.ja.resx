@@ -121,7 +121,7 @@
     <value>Systemの内容を上位Systemにマージしますか？</value>
   </data>
   <data name="ConfirmReset" xml:space="preserve">
-    <value>シミュレーション実行中はパラメータを変更できません。シミュレーションをリセットしますか？</value>
+    <value>シミュレーション実行中に設定できないプロパティを変更しようとしています。シミュレーションをリセットしますか？</value>
   </data>
   <data name="ErrAdd" xml:space="preserve">
     <value>{0} を追加できません({1})。</value>
