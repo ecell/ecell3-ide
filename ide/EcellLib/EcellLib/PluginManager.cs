@@ -593,7 +593,6 @@ namespace Ecell
         /// load the plugin and control the plugin.
         /// </summary>
         /// <param name="path">path of plugin dll.</param>
-        /// <param name="className">class name.</param>
         public IEcellPlugin LoadPlugin(string path)
         {
             IEcellPlugin pb = null;

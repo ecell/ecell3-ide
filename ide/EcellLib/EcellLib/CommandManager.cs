@@ -87,18 +87,6 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Get the singleton object.
-        /// </summary>
-        /// <returns>CommandManager.</returns>
-        public static CommandManager GetInstance()
-        {
-            if (s_instance == null)
-                ApplicationEnvironment.GetInstance();
-
-            return s_instance;
-        }
-
-        /// <summary>
         /// Creates the entity of the full ID.
         /// </summary>
         /// <param name="fullID">the created full ID</param>

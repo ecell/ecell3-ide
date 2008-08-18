@@ -42,8 +42,6 @@ namespace Ecell
     /// </summary>
     public class ApplicationEnvironment
     {
-        private static readonly ApplicationEnvironment instance = new ApplicationEnvironment();
-
         private DataManager m_dManager;
         private PluginManager m_pManager;
         private LogManager m_lManager;
@@ -52,6 +50,7 @@ namespace Ecell
         private CommandManager m_cManager;
         private IJobManager m_jManager;
         private ConsoleManager m_console;
+
         /// <summary>
         /// 
         /// </summary>
@@ -112,7 +111,7 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        private ApplicationEnvironment()
+        public ApplicationEnvironment()
         {
             m_dManager = new DataManager(this);
             m_lManager = new LogManager(this);
@@ -122,14 +121,6 @@ namespace Ecell
             m_rManager = new ReportManager(this);
             m_cManager = new CommandManager(this);
             m_console = new ConsoleManager(this);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static ApplicationEnvironment GetInstance()
-        {
-            return instance;
         }
     }
 }

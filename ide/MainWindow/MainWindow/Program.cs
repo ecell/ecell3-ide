@@ -65,7 +65,7 @@ namespace Ecell.IDE
 
             Util.InitialLanguage();
 
-            ApplicationEnvironment env = ApplicationEnvironment.GetInstance();
+            ApplicationEnvironment env = new ApplicationEnvironment();
 
             Splash frmSplash = new Splash(env);
 
