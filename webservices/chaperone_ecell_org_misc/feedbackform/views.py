@@ -51,7 +51,7 @@ def send_feedback_as_email(form):
                 rendered_text = data
             text += u"%s:\n%s\n\n" % ((field.label), rendered_text)
         msg.attach(mime.text.MIMEText(
-            codecs.getencoder('UTF-8')(text)[],
+            codecs.getencoder('UTF-8')(text)[0],
             _charset = 'UTF-8'))
         if form.cleaned_data['screenshot'] != None:
             attach = mime.image.MIMEImage(form.cleaned_data['screenshot'].read())
