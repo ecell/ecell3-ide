@@ -343,7 +343,7 @@ namespace Ecell.IDE.MainWindow
             {
                 ToolStripMenuItem item = new ToolStripMenuItem(project.Key);
                 item.ToolTipText = project.Value;
-                item.ToolTipText = project.Value;
+                item.Tag = project.Value;
                 item.Click += new EventHandler(RecentProject_Click);
                 recentProejctToolStripMenuItem.DropDownItems.Add(item);
             }

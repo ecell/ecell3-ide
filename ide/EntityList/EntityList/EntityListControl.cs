@@ -258,7 +258,8 @@ namespace Ecell.IDE.Plugins.EntityList
         private void searchTextBox_Enter(object sender, EventArgs e)
         {
             ((TextBox)sender).ForeColor = SystemColors.WindowText;
-            ((TextBox)sender).Clear();
+            if (((TextBox)sender).Text.Equals(MessageResources.InitialText))
+                ((TextBox)sender).Clear();
         }
 
         private void searchTextBox_TextChanged(object sender, EventArgs e)
