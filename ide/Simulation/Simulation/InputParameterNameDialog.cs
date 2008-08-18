@@ -82,7 +82,7 @@ namespace Ecell.IDE.Plugins.Simulation
 
             if (String.IsNullOrEmpty(paramTextBox.Text))
             {
-                Util.ShowWarningDialog(MessageResources.ErrNoInput);
+                Util.ShowWarningDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameName));
                 e.Cancel = true;
                 return;
             }

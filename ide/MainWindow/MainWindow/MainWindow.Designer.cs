@@ -86,6 +86,7 @@ namespace Ecell.IDE.MainWindow
             this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer.ContentPanel.SuspendLayout();
@@ -429,6 +430,7 @@ namespace Ecell.IDE.MainWindow
             // MenuItemRun
             // 
             this.MenuItemRun.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripSeparator10,
             this.importScriptToolStripMenuItem});
             this.MenuItemRun.Name = "MenuItemRun";
             resources.ApplyResources(this.MenuItemRun, "MenuItemRun");
@@ -437,7 +439,7 @@ namespace Ecell.IDE.MainWindow
             // 
             this.importScriptToolStripMenuItem.Name = "importScriptToolStripMenuItem";
             resources.ApplyResources(this.importScriptToolStripMenuItem, "importScriptToolStripMenuItem");
-            this.importScriptToolStripMenuItem.Tag = "21";
+            this.importScriptToolStripMenuItem.Tag = "50";
             this.importScriptToolStripMenuItem.Click += new System.EventHandler(this.ImportScriptMenuClick);
             // 
             // MenuItemTools
@@ -480,6 +482,12 @@ namespace Ecell.IDE.MainWindow
             // 
             resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             this.openScriptDialog.RestoreDirectory = true;
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            resources.ApplyResources(this.toolStripSeparator10, "toolStripSeparator10");
+            this.toolStripSeparator10.Tag = "40";
             // 
             // MainWindow
             // 
@@ -604,6 +612,7 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.ToolStripMenuItem importSBMLMenuItem;
         private System.Windows.Forms.ToolStripMenuItem recentProejctToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem importScriptToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
     }
 }
 

@@ -40,6 +40,8 @@
             System.Windows.Forms.Button button2;
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Label label5;
+            System.Windows.Forms.Label label3;
+            System.Windows.Forms.Label label4;
             this.initialParameters = new System.Windows.Forms.DataGridView();
             this.keyDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.valueDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -87,6 +89,8 @@
             button2 = new System.Windows.Forms.Button();
             label6 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
             initialParametersPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.initialParameters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.initialConditionsBindingSource)).BeginInit();
@@ -359,9 +363,9 @@
             // 
             // groupBox2
             // 
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.overrideRadio);
             this.groupBox2.Controls.Add(this.exceptionRadio);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -382,11 +386,11 @@
             // 
             // groupBox3
             // 
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(label5);
             this.groupBox3.Controls.Add(this.noLimitRadio);
             this.groupBox3.Controls.Add(this.maxKbTextBox);
             this.groupBox3.Controls.Add(this.maxSizeRadio);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -412,11 +416,13 @@
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(label4);
+            this.groupBox1.Controls.Add(label3);
             this.groupBox1.Controls.Add(this.freqBySecRadio);
             this.groupBox1.Controls.Add(this.freqBySecTextBox);
             this.groupBox1.Controls.Add(this.freqByStepRadio);
             this.groupBox1.Controls.Add(this.freqByStepTextBox);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -430,9 +436,9 @@
             // 
             resources.ApplyResources(this.freqBySecTextBox, "freqBySecTextBox");
             this.freqBySecTextBox.Name = "freqBySecTextBox";
+            this.freqBySecTextBox.TextChanged += new System.EventHandler(this.freqBySecTextBox_TextChanged);
             this.freqBySecTextBox.Validated += new System.EventHandler(this.freqBySecTextBox_Validated);
             this.freqBySecTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.freqBySecTextBox_Validating);
-            this.freqBySecTextBox.TextChanged += new System.EventHandler(this.freqBySecTextBox_TextChanged);
             // 
             // freqByStepRadio
             // 
@@ -447,9 +453,9 @@
             // 
             resources.ApplyResources(this.freqByStepTextBox, "freqByStepTextBox");
             this.freqByStepTextBox.Name = "freqByStepTextBox";
+            this.freqByStepTextBox.TextChanged += new System.EventHandler(this.freqByStepTextBox_TextChanged);
             this.freqByStepTextBox.Validated += new System.EventHandler(this.freqByStepTextBox_Validated);
             this.freqByStepTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.freqByStepTextBox_Validating);
-            this.freqByStepTextBox.TextChanged += new System.EventHandler(this.freqByStepTextBox_TextChanged);
             // 
             // tabControl1
             // 
@@ -458,6 +464,16 @@
             this.tabControl1.Controls.Add(this.loggingPage);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
+            // 
+            // label3
+            // 
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(label4, "label4");
+            label4.Name = "label4";
             // 
             // SimulationConfigurationDialog
             // 

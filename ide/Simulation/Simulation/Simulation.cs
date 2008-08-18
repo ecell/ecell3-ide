@@ -115,6 +115,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_runSim.Size = new Size(96, 22);
             m_runSim.Image = (Image)resources.GetObject("media_play_green");
             m_runSim.Text = MessageResources.MenuItemRun;
+            m_runSim.Tag = 10;
             m_runSim.Enabled = false;
             m_runSim.Click += new EventHandler(this.RunSimulation);
 
@@ -122,6 +123,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_suspendSim.Name = "MenuItemSuspendSimulation";
             m_suspendSim.Size = new Size(96, 22);
             m_suspendSim.Text = MessageResources.MenuItemSuspend;
+            m_suspendSim.Tag = 20;
             m_suspendSim.Image = (Image)resources.GetObject("media_pause"); 
             m_suspendSim.Enabled = false;
             m_suspendSim.Click += new EventHandler(this.SuspendSimulation);
@@ -131,6 +133,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_stopSim.Size = new Size(96, 22);
             m_stopSim.Image = (Image)resources.GetObject("media_stop_red");
             m_stopSim.Text = MessageResources.MenuItemStop;
+            m_stopSim.Tag = 30;
             m_stopSim.Enabled = false;
             m_stopSim.Click += new EventHandler(this.ResetSimulation);
 

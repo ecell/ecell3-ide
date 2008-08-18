@@ -236,7 +236,7 @@
     <value>サイズを指定(&amp;X):</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
-    <value>ログあたりの最大容量</value>
+    <value>ログファイルの保存領域</value>
   </data>
   <data name="freqBySecRadio.Size" type="System.Drawing.Size, System.Drawing">
     <value>76, 16</value>
@@ -248,7 +248,7 @@
     <value>96, 16</value>
   </data>
   <data name="freqByStepRadio.Text" xml:space="preserve">
-    <value>ステップ数で(&amp;T):</value>
+    <value>ステップ数で(&amp;P):</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>ログ間隔</value>
@@ -433,5 +433,20 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>シミュレーション設定</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>ステップ</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="SSCloseButton.Text" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="keyDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="valueDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
+    <value>値</value>
   </data>
 </root>

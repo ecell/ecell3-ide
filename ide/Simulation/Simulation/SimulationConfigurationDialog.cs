@@ -424,7 +424,7 @@ namespace Ecell.IDE.Plugins.Simulation
             {
                 freqBySecRadio.Checked = true;
                 freqBySecTextBox.Enabled = true;
-                freqBySecTextBox.Text = Convert.ToString(pol.ReloadStepCount);
+                freqBySecTextBox.Text = Convert.ToString(pol.ReloadInterval);
                 freqByStepTextBox.Enabled = false;
                 freqByStepTextBox.Text = "";
                 freqByStepTextBox_filledWithDefaultValue = true;

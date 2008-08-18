@@ -147,6 +147,9 @@
   <data name="MenuItemSuspend" xml:space="preserve">
     <value>&amp;Suspend</value>
   </data>
+  <data name="NameName" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="NewStepperText" xml:space="preserve">
     <value>New Stepper</value>
   </data>

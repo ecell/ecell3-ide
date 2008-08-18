@@ -121,16 +121,16 @@
     <value>整列</value>
   </data>
   <data name="MenuItemSubLeft" xml:space="preserve">
-    <value>左</value>
+    <value>左揃え</value>
   </data>
   <data name="MenuItemSubLower" xml:space="preserve">
-    <value>下</value>
+    <value>下部揃え</value>
   </data>
   <data name="MenuItemSubRight" xml:space="preserve">
-    <value>右</value>
+    <value>右揃え</value>
   </data>
   <data name="MenuItemSubUpper" xml:space="preserve">
-    <value>上</value>
+    <value>上部揃え</value>
   </data>
   <data name="ToolTip" xml:space="preserve">
     <value>ノードが直線状に整列されます</value>

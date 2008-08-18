@@ -147,6 +147,9 @@
   <data name="MenuItemSuspend" xml:space="preserve">
     <value>シミュレーション一時停止(&amp;S)</value>
   </data>
+  <data name="NameName" xml:space="preserve">
+    <value>名称</value>
+  </data>
   <data name="NewStepperText" xml:space="preserve">
     <value>新規Stepper</value>
   </data>
