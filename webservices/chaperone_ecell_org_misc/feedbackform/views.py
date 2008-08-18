@@ -31,7 +31,7 @@ def send_error_report_as_email(e, tb):
         msg['To'] = settings.FEEDBACK_RECIPIENT
         msg['Subject'] = _(u'E-Cell IDE Feedback Exception Report')
         conn = SMTP('localhost', 25, 'chaperone.e-cell.org')
-        conn.sendmail('feedback@chaperone.e-cell.org', settings.FEEDBACK_RECIPIENT, str(msg))
+        conn.sendmail('feedback@chaperone.e-cell.org', settings.FEEDBACK_RECIPIENT, msg.as_string())
     finally:
         activate_lang(currentLang)
 
@@ -66,7 +66,7 @@ def send_feedback_as_email(form):
             attach = MIMEImage(form.cleaned_data['screenshot'].read())
             msg.attach(attach)
         conn = SMTP('localhost', 25, 'chaperone.e-cell.org')
-        conn.sendmail('feedback@chaperone.e-cell.org', settings.FEEDBACK_RECIPIENT, str(msg))
+        conn.sendmail('feedback@chaperone.e-cell.org', settings.FEEDBACK_RECIPIENT, msg.as_string())
     finally:
         activate_lang(currentLang)
 
