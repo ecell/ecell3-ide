@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+  <title>{% if title %}{{ title }} - {% endif %}E-Cell IDE services</title>
+  <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{{ MEDIA_URL }}/default.css{% endblock %}" />
+</head>
+<body>
+  <div class="page">
+    <div class="page-header">
+      <div class="page-header--">
+        <h1>{% if title %}{{ title|escape }}{% else %}E-Cell IDE services{% endif %}</h1>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="page-content--">
+        {% block body %}{% endblock %}
+      </div>
+    </div>
+    <div class="page-footer">
+      <div class="page-footer--">
+        &copy;1997-2008 E-Cell Project. All rights reserved.
+      </div>
+    </div>
+  </div>
+</html>
+<!--
+vim: sts=2 sw=2 ts=2 et
+-->

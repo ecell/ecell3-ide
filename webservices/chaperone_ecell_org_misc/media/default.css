@@ -1,0 +1,103 @@
+body, table {
+    font-family: Helvetica, Arial, Sans-Serif;
+}
+
+body {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    text-align: left;
+}
+
+body .page {
+    padding: 0 0 0 0;
+    width: 719px;
+    border-right: 1px solid #d0d0d0;
+    text-align: left;
+}
+
+.page .page-header {
+    height: 78px;
+    border-bottom: 2px solid #d0d0d0;
+}
+
+.page .page-content {
+    background-color: white;
+}
+
+.page .page-footer {
+    bottom: 0px;
+}
+
+/* {{{ page-header */
+.page-header {
+    overflow: hidden;
+    background-color: #e0e0e0;
+}
+
+.page-header .page-header-- {
+    height: 100%;
+    margin: 0 0 0 0;
+    padding: 12px 12px 12px 12px;
+}
+
+.page-header-- h1 {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;    
+    color: white;
+}
+/* }}} */
+
+/* {{{ page-content */
+.page-content {
+}
+
+.page-content .page-content-- {
+    margin: 12px 12px 12px 12px;
+}
+
+/* }}} */
+
+/* {{{ page-footer */
+.page-footer {
+    width: 720px;
+    background-color: #e0e0e0;
+}
+
+.page-footer .page-footer-- {
+    border-top: 1px solid #d0d0d0;
+    padding: 12px 12px 12px 12px;
+    text-align: center;
+}
+/* }}} */
+
+/* {{{ form */
+form .form-fieldset {
+}
+
+.form-fieldset ul.errorlist {
+    margin: 0 0.5em 0.25em 0;
+    padding: 0.25em 0.5em 0.25em 1.5em;
+    color: #c00000;
+}
+
+.form-fieldset .form-field {
+    overflow: hidden;
+    padding: 0.25em 0.25em 0.25em 0.25em;
+}
+
+.form-fieldset .form-footer {
+    margin: 0.25em 0 0 0;
+    padding: 0.25em 0.25em 0.25em 0.25em;
+}
+
+.form-field label {
+    display: block;
+}
+/* }}} */
+
+/* {{{ cosmetics */
+.label_and_errorlist {
+    float: left;
+}
+/* }}} */
+

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}SBML to EML converter{% endblock %}
+{% block body %}
+<form method="post" enctype="multipart/form-data">
+<div class="form-fieldset">
+  <style type="text/css">
+    .form-field label {
+        width: 6em;
+    }
+  </style>
+  {{ form.as_div }}
+  <div class="form-footer">
+    <input type="submit" value="{% trans "Convert" %}" />
+  </div>
+</div>
+</form>
+{% endblock %}
+<!--
+vim: sts=2 sw=2 ts=2 et
+-->
