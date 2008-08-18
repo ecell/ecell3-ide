@@ -49,11 +49,14 @@ def send_feedback_as_email(form):
         for field in form:
             rendered_text = ''
             data = form.cleaned_data[field.name]
-            if isinstance(field.field, forms.FileInput):
-                rendered_text = "%s (%s)" % (
-                    data.filename,
-                    data.content_type
-                    )
+            if isinstance(field.field, forms.FileField):
+                if data != None:
+                    rendered_text = "%s (%s)" % (
+                        data.filename,
+                        data.content_type
+                        )
+                else:
+                    rendered_text = '(None)'
             elif isinstance(field.field, forms.ChoiceField):
                 rendered_text = dict(field.field.choices)[data]
             else:
