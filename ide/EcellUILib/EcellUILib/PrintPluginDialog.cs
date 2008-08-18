@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Ecell.Plugin;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Ecell.IDE
 {
@@ -100,5 +101,19 @@ namespace Ecell.IDE
         private PluginManager m_pManager;
 
         private Entry m_selectedItem;
+
+        private void listBox1_SelectedValueChanged(object sender, EventArgs e)
+        {
+            ActivateWindow(listBox1.SelectedItem.ToString());
+        }
+
+        private void ActivateWindow(string name)
+        {
+            foreach (DockContent content in m_pManager.DockPanel.Contents)
+            {
+                if (content.Text == name)
+                    content.Activate();
+            }
+        }
     }
 }
