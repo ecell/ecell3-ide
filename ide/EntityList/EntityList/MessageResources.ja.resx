@@ -121,6 +121,6 @@
     <value>エンティティリスト</value>
   </data>
   <data name="InitialText" xml:space="preserve">
-    <value>IDまたは名称を入力してください...</value>
+    <value>検索文字列を入力してください</value>
   </data>
 </root>

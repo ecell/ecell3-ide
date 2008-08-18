@@ -18,6 +18,8 @@ namespace Ecell.IDE.Plugins.EntityList
 
         protected ImageList m_icons;
 
+        protected bool m_intact = false;
+
         /// <summary>
         /// The reserved name for the type of object.
         /// </summary>
@@ -35,7 +37,7 @@ namespace Ecell.IDE.Plugins.EntityList
         /// </summary>
         protected const string s_indexName = "ObjectName";
 
-                /// <summary>
+        /// <summary>
         /// The property array of System.
         /// </summary>
         private static String[] m_propArray = new string[] {
@@ -248,6 +250,7 @@ namespace Ecell.IDE.Plugins.EntityList
             {
                 r.Visible = true;
             }
+            m_intact = true;
         }
 
         private void clearButton_Click(object sender, EventArgs e)
@@ -258,7 +261,7 @@ namespace Ecell.IDE.Plugins.EntityList
         private void searchTextBox_Enter(object sender, EventArgs e)
         {
             ((TextBox)sender).ForeColor = SystemColors.WindowText;
-            if (((TextBox)sender).Text.Equals(MessageResources.InitialText))
+            if (m_intact)
                 ((TextBox)sender).Clear();
         }
 
@@ -266,6 +269,7 @@ namespace Ecell.IDE.Plugins.EntityList
         {
             if (!((TextBox)sender).Focused)
                 return;
+            m_intact = false;
 
             string searchCnd = searchTextBox.Text;
             objectListDataGrid.SuspendLayout();

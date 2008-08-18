@@ -70,7 +70,7 @@ namespace Ecell.IDE.Plugins.EntityList {
         }
         
         /// <summary>
-        ///   Enter an ID or a search term... に類似しているローカライズされた文字列を検索します。
+        ///   Enter a search string に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InitialText {
             get {
