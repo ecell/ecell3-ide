@@ -439,15 +439,6 @@ namespace Ecell {
         }
         
         /// <summary>
-        ///   Cannot set the logger policy. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ErrUpdateLogPol {
-            get {
-                return ResourceManager.GetString("ErrUpdateLogPol", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   {0} is added ({1}). に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoAdd {

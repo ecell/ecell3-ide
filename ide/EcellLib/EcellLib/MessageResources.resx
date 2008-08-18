@@ -237,9 +237,6 @@
   <data name="ErrSuspendSim" xml:space="preserve">
     <value>Cannot suspend the simulation.</value>
   </data>
-  <data name="ErrUpdateLogPol" xml:space="preserve">
-    <value>Cannot set the logger policy.</value>
-  </data>
   <data name="InfoAdd" xml:space="preserve">
     <value>{0} is added ({1}).</value>
   </data>

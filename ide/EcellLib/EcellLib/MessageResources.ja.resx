@@ -237,9 +237,6 @@
   <data name="ErrSuspendSim" xml:space="preserve">
     <value>シミュレーションを一時停止できません。</value>
   </data>
-  <data name="ErrUpdateLogPol" xml:space="preserve">
-    <value>ロガーポリシーを設定できません。</value>
-  </data>
   <data name="InfoAdd" xml:space="preserve">
     <value>{0} を追加しました({1}).</value>
   </data>
