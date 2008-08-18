@@ -1,65 +1,25 @@
-//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-//
-//        This file is part of E-Cell Environment Application package
-//
-//                Copyright (C) 1996-2006 Keio University
-//
-//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-//
-//
-// E-Cell is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
-//
-// E-Cell is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public
-// License along with E-Cell -- see the file COPYING.
-// If not, write to the Free Software Foundation, Inc.,
-// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-//
-//END_HEADER
-//
-// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
-// MITSUBISHI SPACE SOFTWARE CO.,LTD.
-//
-
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
+using System.ComponentModel;
 using System.Drawing;
-using System.Diagnostics;
+using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
 using System.Reflection;
-using System.Text.RegularExpressions;
-using System.ComponentModel;
-
-using Ecell.UI.Components;
-using Ecell.Plugin;
+using Ecell;
 using Ecell.Objects;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.PropertyWindow
 {
-    /// <summary>
-    /// The Plugin Class to show property of object.
-    /// </summary>
-    public class PropertyWindow : PluginBase
+    public partial class PropertyWindow : EcellDockContent, IEcellPlugin, IDataHandler, IDockContentProvider
     {
         #region Fields
         /// <summary>
         /// The displayed object.
         /// </summary>
         private EcellObject m_current = null;
-        /// <summary>
-        /// dgv (DataGridView) is property window grid.
-        /// </summary>
-        private DataGridView m_dgv = null;
         /// <summary>
         /// Controller to edit ComboBox in DataGridView.
         /// </summary>
@@ -100,70 +60,25 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// StepperID ComboBox of current object.
         /// </summary>
         private DataGridViewComboBoxCell m_stepperIDComboBox = null;
+
+        /// <summary>
+        /// The application environment associated to this object.
+        /// </summary>
+        protected ApplicationEnvironment m_env = null;
         #endregion
 
-        #region Constructors
         /// <summary>
-        /// Constructor.
+        /// The application environment associated to this plugin
         /// </summary>
+        public ApplicationEnvironment Environment
+        {
+            get { return m_env; }
+            set { m_env = value; }
+        }
+
         public PropertyWindow()
         {
-            DataGridViewCellStyle cellStyle = new DataGridViewCellStyle();
-            cellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            cellStyle.BackColor = SystemColors.Window;
-            cellStyle.Font = new Font("MS UI Gothic", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(128)));
-            cellStyle.ForeColor = SystemColors.WindowText;
-            cellStyle.SelectionBackColor = SystemColors.Highlight;
-            cellStyle.SelectionForeColor = SystemColors.HighlightText;
-            cellStyle.WrapMode = DataGridViewTriState.False;
-
-            m_dgv = new DataGridView();
-            m_dgv.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)m_dgv).BeginInit();
-            m_dgv.Dock = DockStyle.Fill;
-            m_dgv.DefaultCellStyle = cellStyle;
-            m_dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            m_dgv.ColumnHeadersDefaultCellStyle = cellStyle;
-            m_dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            m_dgv.AllowUserToAddRows = false;
-            m_dgv.AllowUserToDeleteRows = false;
-            m_dgv.AllowUserToResizeRows = false;
-            m_dgv.RowHeadersVisible = false;
-            m_dgv.RowTemplate.Height = 21;
-            m_dgv.ColumnHeadersHeight = 21;
-            m_dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            m_dgv.BorderStyle = BorderStyle.None;
-            m_dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-            DataGridViewTextBoxColumn textName = new DataGridViewTextBoxColumn();
-            textName.DefaultCellStyle.BackColor = Color.LightGray;
-            textName.DefaultCellStyle.ForeColor = SystemColors.WindowText;
-            textName.DefaultCellStyle.SelectionBackColor = Color.LightGray;
-            textName.DefaultCellStyle.SelectionForeColor = textName.DefaultCellStyle.ForeColor;
-            textName.HeaderText = MessageResources.NamePropertyName;
-            textName.Name = "NameColumn";
-            textName.ReadOnly = true;
-            textName.FillWeight = 25;
-
-            DataGridViewTextBoxColumn textValue = new DataGridViewTextBoxColumn();
-            textValue.HeaderText = MessageResources.NameValue;
-            textValue.Name = "ValueColumn";
-            textValue.ReadOnly = true;
-            textName.FillWeight = 75;
-
-            m_dgv.Columns.Add(textName);
-            m_dgv.Columns.Add(textValue);
-
-            m_dgv.MouseDown += new MouseEventHandler(MouseDownOnDataGrid);
-            m_dgv.CellContentClick += new DataGridViewCellEventHandler(CellClick);
-            m_dgv.UserDeletingRow += new DataGridViewRowCancelEventHandler(DeleteRowByUser);
-            m_dgv.CellParsing += new DataGridViewCellParsingEventHandler(ChangeProperty);
-            m_dgv.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(ShowEditingControl);
-            m_dgv.MouseLeave += new EventHandler(LeaveMouse);
-            ((System.ComponentModel.ISupportInitialize)m_dgv).EndInit();
-
-            m_dgv.ResumeLayout();
-            m_dgv.Refresh();
+            InitializeComponent();
 
             m_time = new System.Windows.Forms.Timer();
             m_time.Enabled = false;
@@ -175,7 +90,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             m_deletetime.Interval = 100;
             m_deletetime.Tick += new EventHandler(DeleteTimerFire);
         }
-        #endregion
 
         /// <summary>
         /// Change the property of data. 
@@ -188,7 +102,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             m_isChanging = true;
             try
             {
-                m_dManager.DataChanged(modelID, key, obj.Type, obj);
+                m_env.DataManager.DataChanged(modelID, key, obj.Type, obj);
                 m_current = obj;
             }
             finally
@@ -239,14 +153,14 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         {
                             EcellObject no = o.Copy();
                             no.GetEcellData("Value").Value = new EcellValue(Convert.ToDouble(data));
-                            m_dManager.DataChanged(o.ModelID, o.Key, o.Type, no);
+                            m_env.DataManager.DataChanged(o.ModelID, o.Key, o.Type, no);
                             return;
                         }
                     }
                 }
 
                 {
-                    Dictionary<string, EcellData> plist = m_dManager.GetVariableProperty();
+                    Dictionary<string, EcellData> plist = m_env.DataManager.GetVariableProperty();
                     List<EcellData> dlist = new List<EcellData>();
                     foreach (string pname in plist.Keys)
                     {
@@ -266,7 +180,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         Constants.xpathVariable, dlist);
                     List<EcellObject> rList = new List<EcellObject>();
                     rList.Add(obj);
-                    m_dManager.DataAdd(rList);
+                    m_env.DataManager.DataAdd(rList);
                     if (sysObj.Children == null)
                         sysObj.Children = new List<EcellObject>();
                     sysObj.Children.Add(obj);
@@ -322,12 +236,12 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// </summary>
         void UpdatePropForSimulation()
         {
-            double l_time = m_dManager.GetCurrentSimulationTime();
+            double l_time = m_env.DataManager.GetCurrentSimulationTime();
             if (l_time == 0.0) return;
             if (m_current == null || m_current.Value == null) return;
             foreach (EcellData d in m_current.Value)
             {
-                EcellValue e = m_dManager.GetEntityProperty(d.EntityPath);
+                EcellValue e = m_env.DataManager.GetEntityProperty(d.EntityPath);
                 foreach (DataGridViewRow r in m_dgv.Rows)
                 {
                     if ((string)r.Cells[0].Value == d.Name)
@@ -352,7 +266,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <returns>the result object.</returns>
         EcellObject GetData(string modelID, string key, string type)
         {
-            return m_dManager.GetEcellObject(modelID, key, type);
+            return m_env.DataManager.GetEcellObject(modelID, key, type);
         }
 
         /// <summary>
@@ -384,7 +298,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 }
                 else
                 {
-                    List<string> procList = m_dManager.GetProcessList();
+                    List<string> procList = m_env.DataManager.GetProcessList();
                     bool isHit = false;
                     foreach (string pName in procList)
                     {
@@ -397,11 +311,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         ((DataGridViewComboBoxCell)c2).Items.Add(d.Value.ToString());
                     }
                     c2.Value = d.Value.ToString();
-                    if (m_dManager.IsEnableAddProperty(d.Value.ToString()))
+                    if (m_env.DataManager.IsEnableAddProperty(d.Value.ToString()))
                     {
                         m_dgv.AllowUserToAddRows = true;
                         m_dgv.AllowUserToDeleteRows = true;
-                        m_propDic = m_dManager.GetProcessProperty(d.Value.ToString());
+                        m_propDic = m_env.DataManager.GetProcessProperty(d.Value.ToString());
                     }
                     else
                     {
@@ -435,7 +349,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             {
                 c2 = new DataGridViewComboBoxCell();
                 List<EcellObject> slist;
-                slist = m_dManager.GetStepper(null, m_current.ModelID);
+                slist = m_env.DataManager.GetStepper(null, m_current.ModelID);
                 foreach (EcellObject obj in slist)
                 {
                     ((DataGridViewComboBoxCell)c2).Items.AddRange(new object[] { obj.Key });
@@ -473,38 +387,16 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
         #region PluginBase
         /// <summary>
-        /// Get the window form for PropertyWindow.
-        /// </summary>
-        /// <returns>UserControl</returns>
-        public override IEnumerable<EcellDockContent> GetWindowsForms()
-        {
-            EcellDockContent dock = new EcellDockContent();
-            dock.Name = "PropertyWindow";
-            dock.Text = MessageResources.PropertyWindow;
-            dock.Icon = MessageResources.proper;         
-            dock.TabText = dock.Text;
-            dock.Controls.Add(m_dgv);
-            dock.IsSavable = true;
-            return new EcellDockContent[] { dock };
-        }
-
-        /// <summary>
         /// The event sequence on changing selected object at other plugin.
         /// </summary>
         /// <param name="modelID">Selected the model ID.</param>
         /// <param name="key">Selected the ID.</param>
         /// <param name="type">Selected the data type.</param>
-        public override void SelectChanged(string modelID, string key, string type)
+        public void SelectChanged(string modelID, string key, string type)
         {
             ChangeObject(modelID, key, type);
         }
 
-        /// <summary>
-        /// Change the displayed object.
-        /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
         private void ChangeObject(string modelID, string key, string type)
         {
             // When called with illegal arguments, this method will do nothing;
@@ -512,6 +404,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             {
                 return;
             }
+
             Clear();
             EcellObject obj = GetData(modelID, key, type);
             if (obj == null) return;
@@ -549,6 +442,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 if (d.Name == EcellProcess.VARIABLEREFERENCELIST)
                     m_refStr = d.Value.ToString();
             }
+
             if (type == Constants.xpathSystem)
             {
                 EcellData dSize = new EcellData();
@@ -578,6 +472,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             {
                 UpdatePropForSimulation();
             }
+
+            label1.Text = Util.BuildFullID(type, parentSystemPath, localID);
         }
 
         /// <summary>
@@ -586,7 +482,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <param name="modelID">ModelID of object added to selected objects.</param>
         /// <param name="key">ID of object added to selected objects.</param>
         /// <param name="type">Type of object added to selected objects.</param>
-        public override void AddSelect(string modelID, string key, string type)
+        public void AddSelect(string modelID, string key, string type)
         {
             ChangeObject(modelID, key, type);
         }
@@ -595,7 +491,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// The event sequence to add the object at other plugin.
         /// </summary>
         /// <param name="data">The value of the adding object.</param>
-        public override void DataAdd(List<EcellObject> data)
+        public void DataAdd(List<EcellObject> data)
         {
             if (data == null) return;
             foreach (EcellObject obj in data)
@@ -615,7 +511,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <param name="key">The ID before value change.</param>
         /// <param name="type">The data type before value change.</param>
         /// <param name="data">Changed value of object.</param>
-        public override void DataChanged(string modelID, string key, string type, EcellObject data)
+        public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
             if (m_current == null) return;
             if (m_isChanging == true) return;
@@ -628,7 +524,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <param name="modelID">The model ID of deleted object.</param>
         /// <param name="key">The ID of deleted object.</param>
         /// <param name="type">The object type of deleted object.</param>
-        public override void DataDelete(string modelID, string key, string type)
+        public void DataDelete(string modelID, string key, string type)
         {
             if (m_current == null) return;
             if (type == Constants.xpathStepper)
@@ -648,7 +544,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <summary>
         /// The event sequence on closing project.
         /// </summary>
-        public override void Clear()
+        public void Clear()
         {
             m_current = null;
             m_dgv.Rows.Clear();
@@ -661,7 +557,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">System status.</param>
-        public override void ChangeStatus(ProjectStatus type)
+        public void ChangeStatus(ProjectStatus type)
         {
             if (type == ProjectStatus.Running)
             {
@@ -698,7 +594,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// Get the name of this plugin.
         /// </summary>
         /// <returns>"PropertyWindow"</returns>
-        public override string GetPluginName()
+        public string GetPluginName()
         {
             return "PropertyWindow";
         }
@@ -707,7 +603,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// Get the version of this plugin.
         /// </summary>
         /// <returns>version string.</returns>
-        public override String GetVersionString()
+        public String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
@@ -872,7 +768,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         {
             DataGridViewCell c = o as DataGridViewCell;
             List<EcellReference> list = EcellReference.ConvertFromVarRefList(((EcellData)c.Tag).Value);
-            VariableReferenceEditDialog win = new VariableReferenceEditDialog(m_dManager, m_pManager, list);
+            VariableReferenceEditDialog win = new VariableReferenceEditDialog(m_env.DataManager, m_env.PluginManager, list);
             using (win)
             {
                 if (win.ShowDialog() != DialogResult.OK)
@@ -965,7 +861,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     if (m_env.PluginManager.Status == ProjectStatus.Running
                         || m_env.PluginManager.Status == ProjectStatus.Suspended)
                     {
-                        m_dManager.SetEntityProperty(tag.EntityPath, data);
+                        m_env.DataManager.SetEntityProperty(tag.EntityPath, data);
                         UpdatePropForSimulation(); // for calculated properties such as MolarConc, etc.
                     }
                     else
@@ -1020,7 +916,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 return;
 
             List<EcellData> propList = new List<EcellData>();
-            Dictionary<String, EcellData> propDict = m_dManager.GetProcessProperty(cname);
+            Dictionary<String, EcellData> propDict = m_env.DataManager.GetProcessProperty(cname);
             foreach (EcellData d in m_current.Value)
             {
                 if (!propDict.ContainsKey(d.Name))
@@ -1049,7 +945,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             try
             {
                 NotifyDataChanged(m_current.ModelID, m_current.Key, obj);
-                if (m_dManager.IsEnableAddProperty(cname))
+                if (m_env.DataManager.IsEnableAddProperty(cname))
                 {
                     m_dgv.AllowUserToAddRows = true;
                 }
@@ -1109,5 +1005,78 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
         }
         #endregion
+
+        #region IDataHandler ÉÅÉìÉo
+
+        public void AdvancedTime(double time)
+        {
+        }
+
+        public void ChangeUndoStatus(UndoStatus status)
+        {
+        }
+
+        public void LoggerAdd(string modelID, string type, string key, string path)
+        {
+        }
+
+        public void ParameterAdd(string projectID, string parameterID)
+        {
+        }
+
+        public void ParameterDelete(string projectID, string parameterID)
+        {
+        }
+
+        public void ParameterSet(string projectID, string parameterID)
+        {
+        }
+
+        public void RemoveObservedData(EcellObservedData data)
+        {
+        }
+
+        public void RemoveParameterData(EcellParameterData data)
+        {
+        }
+
+        public void RemoveSelect(string modelID, string key, string type)
+        {
+        }
+
+        public void ResetSelect()
+        {
+        }
+
+        public void SaveModel(string modelID, string directory)
+        {
+        }
+
+        public void SetObservedData(EcellObservedData data)
+        {
+        }
+
+        public void SetParameterData(EcellParameterData data)
+        {
+        }
+
+        public void SetPosition(EcellObject data)
+        {
+        }
+        #endregion
+
+        public Dictionary<string, Delegate> GetPublicDelegate()
+        {
+            return null;
+        }
+
+        public void Initialize()
+        {
+        }
+
+        public IEnumerable<EcellDockContent> GetWindowsForms()
+        {
+            return new EcellDockContent[] { this };
+        }
     }
 }

@@ -94,8 +94,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="PropertyWindow.cs">
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MessageResources.ja.resx">
       <SubType>Designer</SubType>
@@ -110,10 +108,24 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="PropertyWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PropertyWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertyWindow.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PropertyWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="PropertyWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PropertyWindow.Designer.cs">
+      <DependentUpon>PropertyWindow.cs</DependentUpon>
     </Compile>
     <None Include="Properties\AssemblyInfo.cs.tmpl" />
   </ItemGroup>

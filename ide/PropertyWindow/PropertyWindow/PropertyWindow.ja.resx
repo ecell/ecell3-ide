@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,22 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ErrFormat" xml:space="preserve">
-    <value>入力された値が不正です。</value>
+  <data name="NameColumn.HeaderText" xml:space="preserve">
+    <value>名前</value>
   </data>
-  <data name="ErrID" xml:space="preserve">
-    <value>ID文字列が不正です。</value>
+  <data name="ValueColumn.HeaderText" xml:space="preserve">
+    <value>値</value>
   </data>
-  <data name="ErrNoProp" xml:space="preserve">
-    <value>プロパティ名が入力されていません。</value>
-  </data>
-  <data name="ErrSameProp" xml:space="preserve">
-    <value>同じ名前のプロパティが存在します。</value>
-  </data>
-  <data name="LabelEdit" xml:space="preserve">
-    <value>編集...</value>
-  </data>
-  <data name="PropertyWindow" xml:space="preserve">
+  <data name="$this.Text" xml:space="preserve">
     <value>プロパティ</value>
   </data>
 </root>
