@@ -175,7 +175,6 @@ namespace Ecell.IDE.Plugins.Simulation
             ToolStrip list = new ToolStrip();
 
             m_paramsCombo = new ToolStripComboBox();
-//            m_paramsCombo = new ToolStripDropDown();
             m_paramsCombo.Name = "SimulationParameter";
             m_paramsCombo.Size = new System.Drawing.Size(150, 25);
             m_paramsCombo.AutoSize = false;
