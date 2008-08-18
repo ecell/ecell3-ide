@@ -1,0 +1,5 @@
+recursive-include chaperone_ecell_org_misc/media *
+recursive-include chaperone_ecell_org_misc/feedbackform/templates *
+recursive-include chaperone_ecell_org_misc/sbml2eml/templates *
+recursive-include chaperone_ecell_org_misc/templates *
+global-exclude .svn/*
