@@ -19,7 +19,9 @@ class Session:
 	Return None :
 	'''
         if aCommandManager is None:
-            self.theCommandManager = Ecell.CommandManager.GetInstance()
+            if Ecell.CommandManager.s_instance is None:
+                theEnv = Ecell.ApplicationEnvironment()
+            self.theCommandManager = Ecell.CommandManager.s_instance
         else:
             self.theCommandManager = aCommandManager
         self.execNumpyFileName = "ExecNumpy.bat"
