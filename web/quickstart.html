@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Tutorial - E-Cell IDE</title>
+  <link rel="stylesheet" type="text/css" href="default.css" />
+  <style type="text/css">
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-content">
+      <a href="."><img src="images/banner.png" alt="ecell-logo" /></a>
+      <h1><a href=".">E-Cell Integrated Development Environment</a></h1>
+    </div>
+  </div>
+  <div class="page-navigation">
+    <div class="page-navigation-content">
+      <ul>
+        <li class="first"><a href="index.html">Top</a></li>
+        <li class="selected"><a href="doc.html">Documentation</a></li>
+        <li><a href="downloads.html">Downloads</a></li>
+        <li class="last"><a href="devel.html">Development</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="page-body">
+    <div class="page-body-content">
+      <div class="section">
+        <div class="section-header"n>
+          <h2 class="section-header-content">Tutorial: Quick Start</h2>
+        </div>
+        <div class="section-body">
+          <div class="section-body-content">
+            <p>
+              Tutorials on the E-Cell core system is available at the <a href="http://www.e-cell.org/community/tutorials/">E-Cell project website</a>.
+            </p>
+	<h3>Load & simulate a sample model</h3>
+		<h4>Load a sample model file</h4>
+			<ol>
+			<li> From the menu, select: </li>
+				<p>[File] -> [Import Model]</p> 
+			<li> Select "My Documents\My E-Cell Projects\sample\Drosophila.eml" from the list of files and click [OK].</li>
+				<ul>
+				<li> The Drosophilla circadian rhythm model has now been loaded into the simulator. </li>
+				<li> The round objects represent Variables(usually correspond to substances), while the square objects represent Processes(reactions). </li>
+				</ul> 
+			</ol>
+		<h4>Run simulation</h4> 
+			<ol>
+			<li>Create Loggers</li> 
+				<ul>
+				<li>From the pathway, right-click [Pn].</li>
+				<li>Select [Create Logger] -> [Value].</li>
+					<p>You will see the flag [logged] on the right of the [Pn]. You need to set Logger for the Variables or Processes you want to trace during run time.</p>
+				</ul> 
+			<li>Start simulation</li> 
+				<ol>
+				<li>From the menu, select: </li>
+					<p>[View] -> [Tracer]</p>
+					<p>Objects with [logged] flag will be displayed in a Tracer Window.</p> 
+				<!-- fig -->
+				<li>Input "100" in the text field on the right of the toolbar.</li>
+				<li>From the listbox, select [sec].</li> 
+					<p>The simulation will run for 100 seconds by this setting.</p>
+				<li>In the Tracer window, click [Save]. </li>
+				</ol>
+			</ol>
+		<h4>Observe effects of parameter variation</h4>
+			<p>Here we change parameter [vd] in the reaction [toy_R10] from 0.95 to 2.0, and see how the model behaves.</p>
+			<ol>
+			<li>Click the Stop button from the toolbar.</li>
+				<p>The simulation will be reset to time zero.</p> 
+			<li>Double-click the Process [R_toy10] from the EntityList on the left of the main window.</p>
+				<p>PropertyEditor window will appear.</p> 
+			<li>Change value of [vd] to "2.0".</li> 
+			<li>Click [OK]. </li>
+			<li>Click Step button from the toolbar and run 100 seconds simulation. </li>
+			<li>Click [Save] in the Tracer window. </li>
+			</ol>
+
+		<h4>Close the model</h4> 
+			<ol>
+			<li>From the menu, select: [File] -> [Close Project].</li>
+			<li>Click [No] from the dialog to save the model.</li>
+			</ol>
+
+	<h3>Write a simple reaction model</h3>
+		<h4>Open a new project</h4>
+			<ol>
+			<li>From the menu, select:</li> 
+				<p>[File] -> [New Project]</p>
+			<li>Input "toy" in the text fields ([Name], [Comment], [Model Name]) of the NewProjectDialog.</li>
+			<li>Click [OK].</li> 
+			</ol>
+
+		<h4>Define Variables</h4>
+			<ol>
+			<li>Create a new Variable:</li>
+				<ul>
+				<li>Click the Variable button in the toolbar.</li>
+				<li>Click on the white area in the RootSystem A new Variable named "V0" is created.</li> 
+				</ul>
+			<li>Create another Variable following the steps above.</li> 
+			</ol>
+
+		<h4>Define a Process</h4>
+			<ol>
+			<li>Create a new Process:</li>
+				<ul>
+				<li>Click the Process button in the toolbar.</li>
+				<li>Click on the white area in the RootSystem A new Process named "P0" is created.</li> 
+				</ul>
+			<li>Connect Variables with a Process.</li>
+				<ul>
+				<li>Click the VariableReference button (arrow) in the toolbar.</li> 
+				<li>Click on [V0].</li>
+				<li>Drag it over onto [P0].</li>
+				<li>Click on [P0] again.</li>
+				<li>Drag it over onto [V1].</li>
+					<p>Variable [V0] was defined as a substrate and [V1] was defined as a product of the reaction.</p>
+				</ul>
+			</ol>
+
+		<h4>Change properties of the new Variables</h4> 
+			<p>Click the select button.</p>
+			<ol>
+			<li>Set the initial value of V0</li> 
+				<ul>
+				<li>Double-click [V0] in the pathway.</li>
+				<li>Enter 1000000 in the text field labeled [Value].</li>
+				<li>Variable [V0] now has the initial quantity of 1000000. .</li>
+				<li>Check the checkbox on the left of the [Value] field.</li>
+					<p>[V0] was also set as being logged during the simulatoin.</p>
+				<li>Click [OK].</li>
+				</ul>
+			<li>Set the initial value of V1</li>
+				<ul>
+				<li>Double-click [V1] in the pathway.</li>
+				<li>Enter 0 in the text field labeled [Value].</li>
+					<p>Variable [V1] now has the initial quantity of 0.</p>
+				<li>Check the checkbox on the left of the [Value] field.</li>
+					<p>[V1] was also set as being logged during the simulatoin.</p>
+				<li>Click [OK].</li>
+				</ul>
+			</ol>
+
+		<h4>Define properties of the Process P0</h4> 
+			<ol>
+				<li>Double-click [P0] in the pathway.</li>
+				<li>For [classname], select "MassActionFluxProcess".</li>
+				<li>Input "0.01" in the [k] text box.</li>
+				<li>Click [OK].</li>
+			</ol>
+
+		<h4>Run simulation</h4> 
+			<ol>
+				<li>From the menu, select: [View] -> [Tracer].</li>
+				<li>Set simulation time as "800" seconds.</li>
+				<li>Click the Step button.</li>
+			</ol>
+
+		<h4>Exit E-Cell IDE</h4>
+			<ol>
+				<li>From the menu, select:</li>
+					<p>[File] -> [Exit].</p>
+				<li>Click [OK] in the confirmation dialog to save the model .</li>
+				<li>Click [Save] in the SaveProjectDialog.</li>
+					<p>The model file and the saved simulation data will be placed in <font class="em">My Documents\My E-Cell Projects\toy</font>.</p> 
+			</ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <div class="page-footer-content">
+      <p>
+        The E-Cell project is supported by <a href="http://www.jst.go.jp/EN/">JST</a> <a href="http://www.simulation.jst.go.jp/">CREST</a>.
+      </p>
+      <p>
+        Copyright 2008 <a href="http://www.e-cell.org/">E-Cell Project</a>, <a href="http://www.mss.co.jp/en/">Mitsubishi Space Software Co., LTD</a>, and <a href="http://www.molsci.org/">The Molecular Sciences Institute</a>.  All rights reserved.
+      </p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+<!--
+vim: sts=2 sw=2 ts=2 et
+-->
