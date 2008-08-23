@@ -517,7 +517,7 @@
     <value>143, 22</value>
   </data>
   <data name="scriptEditorToolStripMenuItem.Text" xml:space="preserve">
-    <value>Editor s&amp;cript...</value>
+    <value>Edit s&amp;cript...</value>
   </data>
   <data name="MenuItemTools.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 20</value>
