@@ -78,6 +78,7 @@ namespace Ecell.IDE
             m_dManager = dManager;
             m_pManager = pManager;
             InitializeComponent();
+            m_refStr = EcellReference.ConvertToVarRefList(list).ToString();
             foreach (EcellReference v in list)
             {
                 DataGridViewRow row = new DataGridViewRow();
@@ -281,7 +282,7 @@ namespace Ecell.IDE
             if (!String.IsNullOrEmpty(m_errMsg))
             {
                 Util.ShowWarningDialog(m_errMsg);
-                e.Cancel = false;
+                e.Cancel = true;
                 m_errMsg = "";
             }
         }
@@ -297,8 +298,8 @@ namespace Ecell.IDE
                 string name = (string)this.dgv[0, i].Value;
                 if (nameList.Contains(name))
                 {
-                    Util.ShowErrorDialog(String.Format(MessageResources.ErrExistVariableRef,
-                        new object[] { name }));
+                    m_errMsg = String.Format(MessageResources.ErrExistVariableRef,
+                        new object[] { name });
                     return;
                 }
                 nameList.Add(name);

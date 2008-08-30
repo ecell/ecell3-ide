@@ -189,6 +189,7 @@ namespace Ecell.IDE
         private void GetCommitInfo(EcellData d)
         {
             bool isCheck = false;
+            double max = 0.0, min = 0.0, step = 0.0;
             IEnumerator iter = commitLayoutPanel.Controls.GetEnumerator();
             while (iter.MoveNext())
             {
@@ -210,30 +211,30 @@ namespace Ecell.IDE
                     TextBox t = c as TextBox;
                     if (t == null) continue;
                     if (t.Text == null || t.Text == "") continue;
-                    d.Max = Convert.ToDouble(t.Text);
+                    max = Convert.ToDouble(t.Text);
                 }
                 else if (pos.Column == 3) // Min
                 {
                     TextBox t = c as TextBox;
                     if (t == null) continue;
                     if (t.Text == null || t.Text == "") continue;
-                    d.Min = Convert.ToDouble(t.Text);
+                    min = Convert.ToDouble(t.Text);
                 }
                 else if (pos.Column == 4) // Step
                 {
                     TextBox t = c as TextBox;
                     if (t == null) continue;
                     if (t.Text == null || t.Text == "") continue;
-                    d.Step = Convert.ToDouble(t.Text);
+                    step = Convert.ToDouble(t.Text);
                 }
             }
-            if (d.Max < d.Min)
+            if (max < min)
             {
                 throw new Exception("Invalid parameter(MAX < Min).");
             }
             if (!isCheck)
                 m_dManager.SetParameterData(new EcellParameterData(d.EntityPath,
-                    d.Max, d.Min, d.Step));
+                    max, min, step));
             else
                 m_dManager.RemoveParameterData(new EcellParameterData(d.EntityPath, 0.0));
         }
@@ -360,9 +361,13 @@ namespace Ecell.IDE
                 }
                 else
                 {
-                    if (m_propDict[key].Max == 0.0)
+                    if (param.Max == 0.0)
                     {
-                        t1.Text = Convert.ToString(m_propDict[key].Value.CastToDouble() * 1.5);
+                        double d = m_propDict[key].Value.CastToDouble();
+                        if (d >= 0.0)
+                            t1.Text = Convert.ToString(d * 1.5);
+                        else
+                            t1.Text = Convert.ToString(d * 0.5);
                     }
                     else
                     {
@@ -383,9 +388,13 @@ namespace Ecell.IDE
                 }
                 else
                 {
-                    if (m_propDict[key].Min == 0.0)
+                    if (param.Min == 0.0)
                     {
-                        t2.Text = Convert.ToString(m_propDict[key].Value.CastToDouble() * 0.5);
+                        double d = m_propDict[key].Value.CastToDouble();
+                        if (d >= 0.0)
+                            t2.Text = Convert.ToString(d * 0.5);
+                        else
+                            t2.Text = Convert.ToString(d * 1.5);
                     }
                     else
                     {
@@ -633,7 +642,7 @@ namespace Ecell.IDE
 
             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             Label l2 = new Label();
-            l2.Text = "FullID";
+            l2.Text = "ID";
             l2.Dock = DockStyle.Fill;
             layoutPanel.Controls.Add(l2, 1, i);
             TextBox t2 = new TextBox();
@@ -1124,10 +1133,10 @@ namespace Ecell.IDE
                                 new object[] { "ID" }));
                             return;
                         }
-                        else if (c.Text.ToUpper() == "SIZE")
+                        else if (Util.IsReservedID(c.Text))
                         {
                             Util.ShowWarningDialog(String.Format(MessageResources.ErrReserved,
-                                new object[] { "SIZE" }));
+                                new object[] { c.Text }));
                             return;
                         }
                         else if (m_currentObj.Type.Equals(EcellObject.SYSTEM) &&
@@ -1400,7 +1409,7 @@ namespace Ecell.IDE
             AddPropertyDialog dialog = new AddPropertyDialog();
 
             String name = dialog.ShowPropertyDialog();
-            if (name == null) return;
+            if (String.IsNullOrEmpty(name)) return;
 
             EcellData data;
             if (m_currentObj != null)

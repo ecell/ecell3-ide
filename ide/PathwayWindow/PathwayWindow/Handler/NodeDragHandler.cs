@@ -151,12 +151,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <param name="e">PInputEventArgs.</param>
         protected override void OnDrag(object sender, PInputEventArgs e)
         {
-            base.OnDrag(sender, e);
             //e.Canvas.BackColor = Color.Silver;
             //SetBackToDefault();
-
             if (!(e.PickedNode is PPathwayObject))
                 return;
+
+            base.OnDrag(sender, e);
             PPathwayObject obj = e.PickedNode as PPathwayObject;
             //SetShadeWithoutSystem(m_canvas.GetSurroundingSystemKey(obj.PointF));
             // Move Nodes.
@@ -227,9 +227,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 if (parentSysKey == null)
                     newSysKey = "/";
                 else if (parentSysKey.Equals("/"))
-                    newSysKey = "/" + system.EcellObject.Name;
+                    newSysKey = "/" + system.EcellObject.LocalID;
                 else
-                    newSysKey = parentSysKey + "/" + system.EcellObject.Name;
+                    newSysKey = parentSysKey + "/" + system.EcellObject.LocalID;
 
                 // Reset system movement when the system is overlapping other system or out of root.
                 if (m_canvas.DoesSystemOverlaps(system) || !IsInsideRoot(system.Rect))
@@ -267,7 +267,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             }
             //SetBackToDefault();
             m_canvas.PCanvas.Refresh();
-            m_canvas.UpdateOverview();
         }
 
         /// <summary>
@@ -288,12 +287,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 m_canvas.SetLayer(node);
                 newPosition = new PointF(node.X + node.OffsetX, node.Y + node.OffsetY);
                 newSystem = m_canvas.GetSurroundingSystemKey(newPosition);
-                newKey = newSystem + ":" + node.EcellObject.Name;
+                newKey = newSystem + ":" + node.EcellObject.LocalID;
 
                 // When node is out of root.
                 if (newSystem == null)
                 {
-                    Util.ShowErrorDialog(node.EcellObject.Name + ":" + MessageResources.ErrOutRoot);
+                    Util.ShowErrorDialog(node.EcellObject.LocalID + ":" + MessageResources.ErrOutRoot);
                     isError = true;
                     continue;
                 }
@@ -303,7 +302,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 {
                     Util.ShowErrorDialog(string.Format(
                         MessageResources.ErrAlrExist,
-                        new object[] { node.EcellObject.Name }));
+                        new object[] { node.EcellObject.LocalID }));
                     isError = true;
                     continue;
                 }
@@ -338,7 +337,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 i++;
                 node.Refresh();
                 newSystem = m_canvas.GetSurroundingSystemKey(node.PointF);
-                newKey = newSystem + ":" + node.EcellObject.Name;
+                newKey = newSystem + ":" + node.EcellObject.LocalID;
                 m_canvas.Control.NotifyDataChanged(
                     node.EcellObject.Key,
                     newKey,

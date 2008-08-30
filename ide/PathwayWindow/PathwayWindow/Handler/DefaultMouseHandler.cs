@@ -87,8 +87,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             m_con.MousePosition = e.Position;
 
             if (!(e.PickedNode is PCamera))
+            {
+                base.OnMouseDown(sender, e);
                 return;
-
+            }
             m_isDragged = true;
             CanvasControl canvas = m_con.Canvas;
             canvas.NotifyResetSelect();

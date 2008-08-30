@@ -74,7 +74,7 @@ namespace Ecell
         {
             m_tx.WriteStartElement(entityName.ToLower());
             m_tx.WriteAttributeString(Constants.xpathClass, null, ecellObject.Classname);
-            m_tx.WriteAttributeString(Constants.xpathID.ToLower(), null, ecellObject.Name);
+            m_tx.WriteAttributeString(Constants.xpathID.ToLower(), null, ecellObject.LocalID);
             if (ecellObject.Value != null)
                 WriteDataElement(ecellObject);
             m_tx.WriteEndElement();

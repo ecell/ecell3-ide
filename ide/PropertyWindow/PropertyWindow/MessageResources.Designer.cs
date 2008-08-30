@@ -105,24 +105,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow {
             }
         }
         
-        /// <summary>
-        ///   Name に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string NamePropertyName {
-            get {
-                return ResourceManager.GetString("NamePropertyName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Value に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string NameValue {
-            get {
-                return ResourceManager.GetString("NameValue", resourceCulture);
-            }
-        }
-        
         internal static System.Drawing.Icon proper {
             get {
                 object obj = ResourceManager.GetObject("proper", resourceCulture);

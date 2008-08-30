@@ -393,6 +393,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Preparing OverviewCanvas
             m_overviewCanvas = new POverviewCanvas(this);
             m_pCanvas.Camera.RemoveLayer(m_pCanvas.Layer);
+            m_pCanvas.Camera.ViewTransformChanged += new PPropertyEventHandler(Camera_ViewChanged);
+            m_pCanvas.Camera.BoundsChanged += new PPropertyEventHandler(Camera_ViewChanged);
 
             // Preparing DataTable
             m_table = new DataTable(modelID);
@@ -421,6 +423,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.ViewMode = m_con.ViewMode;
             this.ShowingID = m_con.ShowingID;
             this.FocusMode = m_con.FocusMode;
+        }
+
+        /// <summary>
+        /// Refresh overview.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void Camera_ViewChanged(object sender, PPropertyEventArgs e)
+        {
+            RectangleF rect = m_pCanvas.Camera.ViewBounds;
+            m_overviewCanvas.UpdateOverview(rect);
         }
         #endregion
 
@@ -1143,7 +1156,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 m_pCanvas.Camera.TranslateViewBy(0, delta);
             else
                 m_pCanvas.Camera.TranslateViewBy(delta, 0);
-            this.UpdateOverview();
         }
 
         /// <summary>
@@ -1403,19 +1415,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e"></param>
         void timer_Tick(object sender, EventArgs e)
         {
-            this.UpdateOverview();
             m_con.Menu.Zoom(1f);
             ((Timer)sender).Stop();
             ((Timer)sender).Dispose();
-        }
-
-        /// <summary>
-        /// redraw the overview.
-        /// </summary>
-        public void UpdateOverview()
-        {
-            RectangleF rect = m_pCanvas.Camera.ViewBounds;
-            m_overviewCanvas.UpdateOverview(rect);
         }
 
         /// <summary>
@@ -1431,8 +1433,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             float zoomX = this.PCanvas.Camera.ViewBounds.X + (this.PCanvas.Camera.ViewBounds.Width / 2);
             float zoomY = this.PCanvas.Camera.ViewBounds.Y + (this.PCanvas.Camera.ViewBounds.Height / 2);
             this.PCanvas.Camera.ScaleViewBy(rate, zoomX, zoomY);
-            //m_con.Menu.ZoomRate.Text = m_pCanvas.Camera.ViewScale.ToString();
-            UpdateOverview();
         }
 
         /// <summary>
@@ -1493,7 +1493,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         public void ResetSelect()
         {
-            m_focusNode = null;
             ResetSelectedSystem();
             ResetSelectedNodes();
             ResetSelectedLine();
@@ -1543,6 +1542,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <returns>PointF.</returns>
         public PointF GetVacantPoint(string sysKey, RectangleF rectF)
         {
+            if(string.IsNullOrEmpty(sysKey))
+                sysKey = "/";
             PPathwaySystem sys = m_systems[sysKey];
             PointF basePos = new PointF(rectF.X, rectF.Y);
             double rad = Math.PI * 0.25f;

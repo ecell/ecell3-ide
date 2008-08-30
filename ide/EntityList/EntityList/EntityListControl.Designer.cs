@@ -29,23 +29,17 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityListControl));
-            this.searchTextBox = new System.Windows.Forms.TextBox();
             this.clearButton = new System.Windows.Forms.Button();
             this.objectListDataGrid = new System.Windows.Forms.DataGridView();
             this.Type = new System.Windows.Forms.DataGridViewImageColumn();
             this.ClassName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ObjectName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.searchTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.objectListDataGrid)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // searchTextBox
-            // 
-            resources.ApplyResources(this.searchTextBox, "searchTextBox");
-            this.searchTextBox.Name = "searchTextBox";
-            this.searchTextBox.Enter += new System.EventHandler(this.searchTextBox_Enter);
-            this.searchTextBox.Leave += new System.EventHandler(this.searchTextBox_Leave);
-            this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
             // 
             // clearButton
             // 
@@ -86,6 +80,7 @@
             // 
             // ClassName
             // 
+            this.ClassName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.ClassName.FillWeight = 30F;
             resources.ApplyResources(this.ClassName, "ClassName");
             this.ClassName.Name = "ClassName";
@@ -93,6 +88,7 @@
             // 
             // ID
             // 
+            this.ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.ID.FillWeight = 30F;
             resources.ApplyResources(this.ID, "ID");
             this.ID.Name = "ID";
@@ -100,33 +96,50 @@
             // 
             // ObjectName
             // 
+            this.ObjectName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.ObjectName.FillWeight = 30F;
             resources.ApplyResources(this.ObjectName, "ObjectName");
             this.ObjectName.Name = "ObjectName";
             this.ObjectName.ReadOnly = true;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.clearButton);
+            this.panel1.Controls.Add(this.searchTextBox);
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
+            // 
+            // searchTextBox
+            // 
+            resources.ApplyResources(this.searchTextBox, "searchTextBox");
+            this.searchTextBox.Name = "searchTextBox";
+            this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
+            this.searchTextBox.Leave += new System.EventHandler(this.searchTextBox_Leave);
+            this.searchTextBox.Enter += new System.EventHandler(this.searchTextBox_Enter);
+            // 
             // EntityListControl
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.objectListDataGrid);
-            this.Controls.Add(this.clearButton);
-            this.Controls.Add(this.searchTextBox);
             this.Name = "EntityListControl";
             ((System.ComponentModel.ISupportInitialize)(this.objectListDataGrid)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox searchTextBox;
         private System.Windows.Forms.Button clearButton;
         private System.Windows.Forms.DataGridView objectListDataGrid;
         private System.Windows.Forms.DataGridViewImageColumn Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn ClassName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn ObjectName;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox searchTextBox;
     }
 }

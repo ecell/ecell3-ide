@@ -72,7 +72,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set
             {
                 EcellText text = (EcellText)value;
-                this.m_name = text.Name;
+                this.m_name = text.LocalID;
                 base.m_pText.Text = text.Comment;
                 if (text.Width != 0 && text.Height != 0)
                 {

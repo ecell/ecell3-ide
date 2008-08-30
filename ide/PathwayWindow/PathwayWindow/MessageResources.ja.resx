@@ -178,7 +178,7 @@
     <value>ビューモード</value>
   </data>
   <data name="LayerMenuSelectNodes" xml:space="preserve">
-    <value>レイヤー上の項目を選択する。</value>
+    <value>レイヤー上の項目を選択</value>
   </data>
   <data name="CanvasMenuChangeLayer" xml:space="preserve">
     <value>レイヤーを変更</value>
@@ -190,7 +190,7 @@
     <value>コピー(&amp;C)</value>
   </data>
   <data name="CanvasMenuCreateLogger" xml:space="preserve">
-    <value>ロガーの作成</value>
+    <value>記録対象として設定</value>
   </data>
   <data name="CanvasMenuCut" xml:space="preserve">
     <value>切り取り(&amp;T)</value>

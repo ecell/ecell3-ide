@@ -937,7 +937,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="data">The parameter data.</param>
         public override void SetParameterData(EcellParameterData data)
         {
-            m_paramList.Add(data.Key, null);
+            if (!m_paramList.ContainsKey(data.Key))
+                m_paramList.Add(data.Key, null);
         }
 
         /// <summary>
@@ -955,7 +956,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="data">The observed data.</param>
         public override void SetObservedData(EcellObservedData data)
         {
-            m_observedList.Add(data.Key, null);
+            if (!m_observedList.ContainsKey(data.Key))
+                m_observedList.Add(data.Key, null);
         }
 
         /// <summary>

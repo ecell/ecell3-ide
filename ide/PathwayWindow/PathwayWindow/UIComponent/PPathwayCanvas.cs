@@ -86,17 +86,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         }
 
         /// <summary>
-        /// Called when the canvas has been resized.
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnSizeChanged(EventArgs e)
-        {
-            base.OnSizeChanged(e);
-            if (m_canvas == null)
-                return;
-            m_canvas.UpdateOverview();
-        }
-        /// <summary>
         /// </summary>
         /// <param name="e">MouseEventArgs.</param>
         protected override void OnMouseWheel(MouseEventArgs e)
@@ -122,22 +111,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e">MouseEventArgs.</param>
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            this.Focus();
+            this.Focus(); 
             m_canvas.FocusNode = null;
             base.OnMouseDown(e);
-        }
-
-        /// <summary>
-        /// Called when the mouse is on this canvas.
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnMouseUp(MouseEventArgs e)
-        {
-            base.OnMouseUp(e);
-
-            if (e.Button != MouseButtons.Right)
-                return;
-
             // Set popup menu visibility flags.
             m_con.Menu.SetPopupMenus();
         }

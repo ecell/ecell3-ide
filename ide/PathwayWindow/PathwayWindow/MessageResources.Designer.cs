@@ -115,7 +115,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Create logger に類似しているローカライズされた文字列を検索します。
+        ///   Mark the property as logging に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuCreateLogger {
             get {
@@ -322,7 +322,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Pathway settings に類似しているローカライズされた文字列を検索します。
+        ///   Diagram settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextPathwaySetting {
             get {

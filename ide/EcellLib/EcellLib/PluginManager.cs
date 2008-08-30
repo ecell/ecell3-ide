@@ -379,12 +379,26 @@ namespace Ecell
         }
 
         /// <summary>
+        /// The event sequence when the parameter is updated.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="paramID">The set model ID.</param>
+        public void ParameterUpdate(string projectID, string paramID)
+        {
+            foreach (IDataHandler p in m_dataHandlerList)
+            {
+                p.ParameterUpdate(projectID, paramID);
+            }
+        }
+
+
+        /// <summary>
         /// The event sequence when the user set and change the observed data.
         /// </summary>
         /// <param name="data">The observed data.</param>
         public void SetObservedData(EcellObservedData data)
         {
-            foreach (IDataHandler p in m_pluginList.Values)
+            foreach (IDataHandler p in m_dataHandlerList)
             {
                 p.SetObservedData(data);
             }

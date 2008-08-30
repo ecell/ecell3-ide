@@ -883,16 +883,13 @@ namespace Ecell
                     processEcellDataList.Add(storedEcellData);
                     if (initialCondition != null && storedEcellData.Settable)
                     {
-                        if (storedEcellData.Value.IsDouble &&
-                            (storedEcellData.Settable == false ||
-                            storedEcellData.Saveable == false))
+                        if (storedEcellData.Value.IsDouble && storedEcellData.Settable == true)
                         {
-                            storedEcellData.Logable = true;
                             initialCondition[storedEcellData.EntityPath]
                                     = storedEcellData.Value.CastToDouble();
                         }
                         // else if (storedEcellData.Value.IsInt() && !storedEcellData.Name.StartsWith("Is"))
-                        else if (storedEcellData.Value.IsInt)
+                        else if (storedEcellData.Value.IsInt && storedEcellData.Settable == true)
                         {
                             initialCondition[storedEcellData.EntityPath]
                                 = storedEcellData.Value.CastToInt();
@@ -972,6 +969,9 @@ namespace Ecell
                             ecellData.Saveable == false))
                         {
                             ecellData.Logable = true;
+                        }
+                        if (ecellData.Value.IsDouble)
+                        {
                             if (initialCondition != null && ecellData.Settable)
                             {
                                 initialCondition[ecellData.EntityPath] = ecellData.Value.CastToDouble();

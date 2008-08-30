@@ -157,19 +157,46 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
-  <metadata name="NameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="nameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="NameColumn.HeaderText" xml:space="preserve">
+  <data name="nameColumn.HeaderText" xml:space="preserve">
     <value>Name</value>
   </data>
-  <metadata name="ValueColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="nameColumn.Width" type="System.Int32, mscorlib">
+    <value>96</value>
+  </data>
+  <metadata name="valueColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="ValueColumn.HeaderText" xml:space="preserve">
+  <data name="valueColumn.HeaderText" xml:space="preserve">
     <value>Value</value>
+  </data>
+  <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>21, 20</value>
+  </metadata>
+  <data name="defineANewPropertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 22</value>
+  </data>
+  <data name="defineANewPropertyToolStripMenuItem.Text" xml:space="preserve">
+    <value>New property</value>
+  </data>
+  <data name="deleteThisPropertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 22</value>
+  </data>
+  <data name="deleteThisPropertyToolStripMenuItem.Text" xml:space="preserve">
+    <value>Delete this property</value>
+  </data>
+  <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 48</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip1.Name" xml:space="preserve">
+    <value>contextMenuStrip1</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="m_dgv.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -179,6 +206,9 @@
   </data>
   <data name="m_dgv.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
+  </data>
+  <data name="m_dgv.RowHeadersWidth" type="System.Int32, mscorlib">
+    <value>16</value>
   </data>
   <data name="m_dgv.Size" type="System.Drawing.Size, System.Drawing">
     <value>292, 242</value>
@@ -196,10 +226,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;m_dgv.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="dataGridViewTextBoxColumn1.HeaderText" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn1.Width" type="System.Int32, mscorlib">
+    <value>96</value>
   </data>
   <data name="dataGridViewTextBoxColumn2.HeaderText" xml:space="preserve">
     <value>Value</value>
@@ -213,23 +246,111 @@
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>292, 266</value>
   </data>
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAJAAAAJAAAACcAAAAnAAAAJwAAACcAAAAnAAAAJwAAACcAAAAnAAAAJwAAACcAAAAnAAAAJwAA
+        ACcAAAAnAAAAJwAAACcAAAAnAAAAJwAAACcAAAAnAAAAJwAAACcAAAAmAAAADwAAAAAAAAAAAAAABwAA
+        ADgAAAAmAAAAASIiIluYmJjanJyc3JqamtyamprcmZmZ3JiYmNyXl5fclpaW3JWVldyUlJTck5OT3JKS
+        ktyRkZHckJCQ3I+Pj9yOjo7cjY2N3IyMjNyLi4vci4uL3IqKityJiYnciIiI3IaGhts5OTmGAAAAAwAA
+        AAgHBwdlHh4e7QYGBswAAAApbGxskvT09P/t7e3/7e3t/+zs7P/s7Oz/7Ozs/+zs7P/s7Oz/7Ozs/+zs
+        7P/s7Oz/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6urq/+rq6v/q6ur/6urq/+rq6v/q6ur/5+fn/5KS
+        kswAAAAMCgoKZS4uLvIUFBT/BgYG/wEBAX9ubm6S8vLy/+zs7P/s7Oz/7Ozs/+zs7P/s7Oz/7Ozs/+zs
+        7P/s7Oz/6urq/+zs7P/s7Oz/7Ozs/+zs7P/s7Oz/7Ozs/+zs7P/s7Oz/7Ozs/+zs7P/s7Oz/7Ozs/+zs
+        7P/s7Oz/lZWV0QwMDGg8PDzyHh4e/xYWFv8JCQnrAAAAKm5ubpLn5+f/xsbG/8bGxv/Gxsb/0tLS/8nJ
+        yf/Jycn/xsbG/8PDw//m5ub/7u7u/+7u7v/u7u7/7u7u/+7u7v/u7u7/7u7u/+7u7v/u7u7/7u7u/+7u
+        7v/u7u7/7u7u/+jo6P+AgIDuSkpK8icnJ/8tLS3/JiYm6wMDAzAAAAAAb29vkurq6v/Jycn/yMjI/8rK
+        yv/Ozs7/xsbG/9vb2//Jycn/zs7O/9jY2P/IyMj/zMzM/8/Pz//S0tL/z8/P/8HBwf/MzMz/y8vL/8vL
+        y//V1dX/6Ojo/+/v7//p6en/qamp/2NjY/8wMDD/QEBA/0FBQesNDQ0wAAAAAAAAAABvb2+S7Ozs/8nJ
+        yf/V1dX/0dHR/9ra2v/Nzc3/zc3N/9LS0v/Ly8v/2dnZ/8zMzP/MzMz/0tLS/9DQ0P/b29v/1dXV/87O
+        zv/T09P/0dHR/9ra2v/o6Oj/6urq/6urq/9wcHD/ODg4/1FRUf9YWFjrFhYWMAAAAAAAAAAAAAAAAHBw
+        cJLw8PD/0NDQ/9/f3//Z2dn/4ODg/9XV1f/Z2dn/3t7e/93d3f/R0dH/29vb/9jY2P/c3Nz/3d3d/9XV
+        1f/S0tL/29vb/9TU1P/Y2Nj/2dnZ/+bm5v+tra3/e3t7/0FBQf9gYGD/bW1t6x8fHzAAAAAAAAAAAAAA
+        AAAAAAAAcXFxku3t7f/R0dH/1NTU/9jY2P/R0dH/19fX/9ra2v/h4eH/2NjY/9jY2P/U1NT/z8/P/9zc
+        3P/e3t7/1NTU/+Pj4//o6Oj/09PT/9ra2v/i4uL/w8PD/4eHh/9ISEj/bW1t/39/f/IkJCQyAAAAAAAA
+        AAAAAAAAAAAAAAAAAABxcXGS9vb2//Pz8//z8/P/8/Pz//Pz8//z8/P/8/Pz//Pz8//z8/P/8vLy/+rq
+        6v/Nzc3/sbGx/6urq/+qqqr/sLCw/8zMzP/p6en/8vLy/9XV1f+urq7/UVFR/3l5ef+enp7/iYmJzQAA
+        AAQAAAAAAAAAAAAAAAAAAAAAAAAAAHFxcZL29vb/6urq/+jo6P/p6en/6enp/+np6f/p6en/4eHh/+bm
+        5v/CwsL/sLCw/8jIyP/o6Oj/7u7u/+/u7v/l5eX/xcXF/6enp/+5ubn/t7e3/5+fn/+Nj4//qqur/9ra
+        2v+lpaXNAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAcnJykvf39//r6+v/9/f3//f39//39/f/9/f3//f3
+        9//j4+P/vb29/9XV1f/x8fH/+/r6//z8/P/9/f3/+/v7//n4+P/49/f/9PPz/8DAwP+enp7/r7Gy/8XG
+        x//z8/P/9PT0/6enp80AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAABycnKS+Pj4/+zs7P/X19f/19fX/9fX
+        1//X19f/0tLS/6Wlpf/e3d3/8fDw//X09P/39vb/+Pj4//z8/P/7+vr/9/b2//X09P/z8vL/8/Ly/8XF
+        xv+nqKn/4eHh/9vb2//r6+v/qampzQAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAHNzc5L5+fn/7Ozs/9TU
+        1P/U1NT/1NTU/9PT0/+ysrL/1dTU//Du7v/z8vL/9fPz//b19f/29vb/+/n5//r4+P/29fX/9fPz//Lw
+        8P/x8PD/9PLy/7u7u//Nzc3/3d3d/+bm5v+rq6vNAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAc3Nzkvn5
+        +f/t7e3/5OTk/+Tk5P/k5OT/3d3d/76+vv/q6Oj/8/Dw//Ty8v/19PT/9vX1//b19f/49/f/+Pf3//X0
+        9P/08vL/8/Hx//Hu7v/u7Oz/7Ovr/7y8vP/a2tr/6+vr/62trc0AAAAEAAAAAAAAAAAAAAAAAAAAAAAA
+        AAB0dHSS+fn5/+7u7v/6+vr/+vr6//r6+v/e3t7/19fX//Hv7//08fH/9fPz//b09P/29fX/9vT0//f1
+        9f/29fX/8/Hx//Px8f/w7u7/8O3t/+7r6//s6ur/urq6/8/Pz//e3t7/r6+vzQAAAAQAAAAAAAAAAAAA
+        AAAAAAAAAAAAAHR0dJL6+vr/7+/v/+/v7//v7+//7+/v/9PT0//a2dn/8O3t//Lv7//y8PD/9PLy//Xz
+        8//08/P/9/X1//b19f/19PT/9PLy//Pw8P/y7+//8O7u/+/s7P/Z2dn/8PDw//j4+P+wsLDNAAAABAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAdXV1kvr6+v/w8PD//Pz8//z8/P/8/Pz/3d3d/9fW1v/y8PD/9vT0//f2
+        9v/49/f/+Pj4//f29v/4+Pj/+Pj4//j39//49/f/9/b2//b09P/z8fH/7ezs/97d3f/v7+//+Pj4/7Cw
+        sM0AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAB1dXWS+/v7//Hx8f/a2tr/2tra/9ra2v/MzMz/0dDQ//Ly
+        8v/08/P/9PPz//Xz8//19PT/9PPz//j4+P/39/f/9vb2//b19f/29PT/9vT0//X09P/v7u7/3Nzc/+bm
+        5v/y8vL/sbGxzQAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAHZ2dpL7+/v/8fHx/9XV1f/V1dX/1dXV/87O
+        zv/Jycn/8fDw//Tz8//19PT/9fT0//Xz8//08/P/+Pj4//f39//29fX/9vX1//b09P/29vb/9PPz/+zr
+        6//g39//5OTk//Hx8f+ysrLNAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAdnZ2kvz8/P/x8fH/5OTk/+Tk
+        5P/k5OT/3d3d/8HAwP/x8PD/9fT0//f39//6+vr/+fn5//b19f/5+Pj/+Pf3//f29v/39vb/9vb2//X0
+        9P/y8fH/6ejo/97e3v/n5+f/5+fn/7Gxsc0AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAB3d3eS/Pz8//Hx
+        8f/9/f3//f39//39/f/8/Pz/0tLS/9bW1v/39vb/+fn5//v7+//7+/v/+fj4//r6+v/6+fn/9vb2//b2
+        9v/08/P/9PT0/+/v7//m5ub/zMzM/9XV1f/g4OD/ra2tzQAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAHd3
+        d5L9/f3/9/f3//Hx8f/x8fH/8fHx//Hx8f/r6+v/ubi4/+zs7P/29vb/9/f3//j39//49/f/+vn5//n5
+        +f/29vb/9/b2//T09P/z8/P/4uHh/9fX1//d3d3/2NjY/93d3f+rq6vNAAAABAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAeHh4kvX19f/i4uL/7e3t/+jo6P/q6ur/7+/v/+3t7f/X19f/sbGx/+jo6P/39/f/9/f3//f3
+        9//49/f/+Pf3//f39//4+Pj/9/b2/9/e3v/d3d3/6Ojo/+fn5//m5ub/5ubm/56enscAAAADAAAAAAAA
+        AAAAAAAAAAAAAAAAAAB4eHiS+Pj4/+3t7f/o6Oj/5eXl/+np6f/u7u7/5ubm/+bm5v/l5eX/uLe3/8PD
+        w//v7+//9/f3//j39//39/f/9/f3/+Pi4v/Pz8//19fX/97e3v/f39//4ODg/93d3f/R0dH8b29vWQAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAHl5eZL6+vr/6urq/+Pj4//l5eX/7+/v/+Hh4f/n5+f/6Ojo/+rq
+        6v/q6ur/4uLi/7y8vP+8u7v/w8PD/8XFxf/BwcH/1tbW/+Li4v/9/f3//f39//z8/P/19fX/3d3d/H5+
+        fl4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeXl5kv39/f/9/f3//f39//39/f/9/f3//f39//39
+        /f/9/f3//f39//39/f/9/f3//f39//j4+P/09PT/8/Pz//f39//z8/P/5ubm//39/f/8/Pz/9fX1/93d
+        3fyBgYFeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB6enqS9PT0/9DQ0P/X19f/0dHR/97e
+        3v/b29v/yMjI/9PT0//R0dH/0dHR/9jY2P/W1tb/zc3N/9ra2v/b29v/zMzM//Pz8//p6en//Pz8//X1
+        9f/f39/8goKCXgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHp6epL7+/v/4uLi/9vb
+        2//m5ub/5+fn/9vb2//h4eH/3d3d/+Hh4f/z8/P/39/f/97e3v/f39//4eHh/+Xl5f/d3d3/9PT0/+3t
+        7f/19fX/4ODg/IWFhV4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe3t7kvj4
+        +P/o6Oj/7u7u/+/v7//09PT/7Ozs/+3t7f/v7+//7+/v//39/f/u7u7/6+vr/+zs7P/u7u7/8fHx/+jo
+        6P/z8/P/7e3t/+Hh4f6EhIRkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAB7e3uQ/f39//39/f/9/f3//f39//39/f/9/f3//f39//39/f/9/f3//f39//39/f/9/f3//f39//39
+        /f/8/Pz/+vr6//j4+P/p6en+h4eHbAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAG1tbV319fX+9fX1//X19f/19fX/9fX1//X19f/19fX/9fX1//X19f/19fX/9fX1//X1
+        9f/19fX/9fX1//X19f/19fX/8fHx+5eXl2sAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAAAAAAAEAAAADAAAABwAAAA8AAAAfAAAAHwAA
+        AB8AAAAfAAAAHwAAAB8AAAAfAAAAHwAAAB8AAAAfAAAAHwAAAB8AAAAfAAAAHwAAAB8AAAAfAAAAPwAA
+        AH8AAAD/AAAB/wAAA/8AAAf/AAAP/wAAH/8=
+</value>
+  </data>
   <data name="$this.TabText" xml:space="preserve">
     <value>Property</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Property</value>
   </data>
-  <data name="&gt;&gt;NameColumn.Name" xml:space="preserve">
-    <value>NameColumn</value>
+  <data name="&gt;&gt;nameColumn.Name" xml:space="preserve">
+    <value>nameColumn</value>
   </data>
-  <data name="&gt;&gt;NameColumn.Type" xml:space="preserve">
+  <data name="&gt;&gt;nameColumn.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ValueColumn.Name" xml:space="preserve">
-    <value>ValueColumn</value>
+  <data name="&gt;&gt;valueColumn.Name" xml:space="preserve">
+    <value>valueColumn</value>
   </data>
-  <data name="&gt;&gt;ValueColumn.Type" xml:space="preserve">
+  <data name="&gt;&gt;valueColumn.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;defineANewPropertyToolStripMenuItem.Name" xml:space="preserve">
+    <value>defineANewPropertyToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;defineANewPropertyToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;deleteThisPropertyToolStripMenuItem.Name" xml:space="preserve">
+    <value>deleteThisPropertyToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;deleteThisPropertyToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn1.Name" xml:space="preserve">
     <value>dataGridViewTextBoxColumn1</value>

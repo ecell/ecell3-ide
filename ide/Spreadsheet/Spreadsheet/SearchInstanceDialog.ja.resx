@@ -120,13 +120,13 @@
   <data name="$this.Text" xml:space="preserve">
     <value>検索</value>
   </data>
+  <data name="closeButton.Text" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>検索文字列</value>
   </data>
-  <data name="SICloseButton.Text" xml:space="preserve">
-    <value>閉じる</value>
-  </data>
-  <data name="SISearchButton.Text" xml:space="preserve">
+  <data name="searchButton.Text" xml:space="preserve">
     <value>検索</value>
   </data>
 </root>

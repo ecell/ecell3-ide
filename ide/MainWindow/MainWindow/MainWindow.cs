@@ -68,7 +68,7 @@ namespace Ecell.IDE.MainWindow
     [ComVisible(true)]
     [Guid("758E6028-5769-4048-B3CB-AC633B9CABAF")]
     [ClassInterface(ClassInterfaceType.AutoDispatch)]
-    public partial class MainWindow : Form, IEcellPlugin, IDockOwner, IRootMenuProvider
+    public partial class MainWindow : Form, IEcellPlugin, IDockOwner, IRootMenuProvider, IDataHandler
     {
         #region Fields
         /// <summary>
@@ -792,6 +792,10 @@ namespace Ecell.IDE.MainWindow
         public void ParameterSet(string projectID, string parameterID)
         {
             // nothing
+        }
+
+        public void ParameterUpdate(string projectID, string parameterID)
+        {
         }
 
         /// <summary>

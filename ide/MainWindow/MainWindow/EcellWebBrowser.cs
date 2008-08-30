@@ -47,103 +47,6 @@ namespace Ecell.IDE.MainWindow
     /// </summary>
     public class EcellWebBrowser : EcellDockContent
     {
-        [ComVisible(true)]
-        public class MyIEnumerator
-        {
-            IEnumerator<KeyValuePair<string, string>> m_en;
-
-            public MyIEnumerator(IEnumerator<KeyValuePair<string, string>> en)
-            {
-                m_en = en;
-            }
-
-            public string CurrentKey
-            {
-                get { return m_en.Current.Key; }
-            }
-
-            public string CurrentValue
-            {
-                get
-                {
-                    try
-                    {
-                        return new Uri(m_en.Current.Value).ToString();
-                    }
-                    catch { }
-                    return null;
-                }
-            }
-
-            public bool MoveNext()
-            {
-                return m_en.MoveNext();
-            }
-
-            public void Reset()
-            {
-                m_en.Reset();
-            }
-        }
-
-        /// <summary>
-        /// AutomationClass
-        /// </summary>
-        [ComVisible(true)]
-        public class AutomationStub {
-            private EcellWebBrowser m_browser;
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="browser"></param>
-            public AutomationStub(EcellWebBrowser browser)
-            {
-                this.m_browser = browser;
-            }
-            /// <summary>
-            /// LoadProject
-            /// </summary>
-            /// <param name="uri"></param>
-            public bool LoadProject(string url)
-            {
-                try
-                {
-                    Uri uri = new Uri(url);
-                    if (!uri.IsFile)
-                        return false;
-                    m_browser.Environment.DataManager.LoadProject(uri.LocalPath);
-                }
-                catch (Exception e)
-                {
-                    Trace.WriteLine(e);
-                    return false;
-                }
-                return true;
-
-            }
-
-            /// <summary>
-            /// Create new project
-            /// </summary>
-            public void CreateNewProject()
-            {
-                m_browser.Environment.DataManager.CreateNewProject(
-                    "NewProject",
-                    "NewProject",
-                    "",
-                    new List<string>());
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <returns></returns>
-            public MyIEnumerator GetRecentFiles()
-            {
-                return new MyIEnumerator(m_browser.RecentFiles.GetEnumerator());
-            }
-        }
-
         #region Fields
         private Uri m_startupPage;
         private WebBrowser webBrowser;
@@ -186,17 +89,17 @@ namespace Ecell.IDE.MainWindow
         public EcellWebBrowser(ApplicationEnvironment env, List<KeyValuePair<string, string>> recentFiles)
         {
             m_env = env;
+            InitializeComponent();
+            Util.InitialLanguage();
+            webBrowser.ObjectForScripting = new AutomationStub(this);
             m_recentFiles = recentFiles;
             m_startupPage = FindStartPage();
-            Util.InitialLanguage();
-            InitializeComponent();
-            webBrowser.ObjectForScripting = new AutomationStub(this);
         }
 
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EcellWebBrowser));
-            this.webBrowser = new WebBrowser();
+            this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.URLLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.ButtonBack = new System.Windows.Forms.ToolStripButton();
@@ -212,38 +115,29 @@ namespace Ecell.IDE.MainWindow
             // 
             // webBrowser
             // 
-            this.webBrowser.AccessibleDescription = null;
-            this.webBrowser.AccessibleName = null;
             resources.ApplyResources(this.webBrowser, "webBrowser");
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
-            this.webBrowser.StatusTextChanged += new System.EventHandler(this.webBrowser_StatusTextChanged);
             this.webBrowser.CanGoForwardChanged += new System.EventHandler(this.webBrowser_CanGoForwardChanged);
             this.webBrowser.CanGoBackChanged += new System.EventHandler(this.webBrowser_CanGoBackChanged);
             this.webBrowser.ProgressChanged += new System.Windows.Forms.WebBrowserProgressChangedEventHandler(this.webBrowser_ProgressChanged);
             this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
+            this.webBrowser.StatusTextChanged += new System.EventHandler(this.webBrowser_StatusTextChanged);
+
             // 
             // URLLabel
             // 
-            this.URLLabel.AccessibleDescription = null;
-            this.URLLabel.AccessibleName = null;
-            resources.ApplyResources(this.URLLabel, "URLLabel");
             this.URLLabel.BackColor = System.Drawing.SystemColors.Control;
-            this.URLLabel.BackgroundImage = null;
             this.URLLabel.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
                         | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
             this.URLLabel.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
             this.URLLabel.Name = "URLLabel";
+            resources.ApplyResources(this.URLLabel, "URLLabel");
             this.URLLabel.Spring = true;
             // 
             // toolStrip
             // 
-            this.toolStrip.AccessibleDescription = null;
-            this.toolStrip.AccessibleName = null;
-            resources.ApplyResources(this.toolStrip, "toolStrip");
-            this.toolStrip.BackgroundImage = null;
-            this.toolStrip.Font = null;
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ButtonBack,
             this.ButtonForward,
@@ -251,94 +145,70 @@ namespace Ecell.IDE.MainWindow
             this.ButtonRefresh,
             this.ButtonNavigate,
             this.URLComboBox});
+            resources.ApplyResources(this.toolStrip, "toolStrip");
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.SizeChanged += new System.EventHandler(this.toolStrip_SizeChanged);
             // 
             // ButtonBack
             // 
-            this.ButtonBack.AccessibleDescription = null;
-            this.ButtonBack.AccessibleName = null;
-            resources.ApplyResources(this.ButtonBack, "ButtonBack");
-            this.ButtonBack.BackgroundImage = null;
             this.ButtonBack.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.ButtonBack, "ButtonBack");
             this.ButtonBack.Name = "ButtonBack";
             this.ButtonBack.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonForward
             // 
-            this.ButtonForward.AccessibleDescription = null;
-            this.ButtonForward.AccessibleName = null;
-            resources.ApplyResources(this.ButtonForward, "ButtonForward");
-            this.ButtonForward.BackgroundImage = null;
             this.ButtonForward.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.ButtonForward, "ButtonForward");
             this.ButtonForward.Name = "ButtonForward";
             this.ButtonForward.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonStop
             // 
-            this.ButtonStop.AccessibleDescription = null;
-            this.ButtonStop.AccessibleName = null;
-            resources.ApplyResources(this.ButtonStop, "ButtonStop");
-            this.ButtonStop.BackgroundImage = null;
             this.ButtonStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.ButtonStop, "ButtonStop");
             this.ButtonStop.Name = "ButtonStop";
             this.ButtonStop.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonRefresh
             // 
-            this.ButtonRefresh.AccessibleDescription = null;
-            this.ButtonRefresh.AccessibleName = null;
-            resources.ApplyResources(this.ButtonRefresh, "ButtonRefresh");
-            this.ButtonRefresh.BackgroundImage = null;
             this.ButtonRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.ButtonRefresh, "ButtonRefresh");
             this.ButtonRefresh.Name = "ButtonRefresh";
             this.ButtonRefresh.Click += new System.EventHandler(this.Button_Click);
             // 
             // ButtonNavigate
             // 
-            this.ButtonNavigate.AccessibleDescription = null;
-            this.ButtonNavigate.AccessibleName = null;
-            resources.ApplyResources(this.ButtonNavigate, "ButtonNavigate");
-            this.ButtonNavigate.BackgroundImage = null;
             this.ButtonNavigate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.ButtonNavigate, "ButtonNavigate");
             this.ButtonNavigate.Name = "ButtonNavigate";
             this.ButtonNavigate.Click += new System.EventHandler(this.Button_Click);
             // 
             // URLComboBox
             // 
-            this.URLComboBox.AccessibleDescription = null;
-            this.URLComboBox.AccessibleName = null;
             this.URLComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.URLComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.AllUrl;
             resources.ApplyResources(this.URLComboBox, "URLComboBox");
             this.URLComboBox.Name = "URLComboBox";
+            this.URLComboBox.SelectedIndexChanged += new System.EventHandler(this.URLComboBox_SelectedIndexChanged);
             this.URLComboBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.URLComboBox_KeyDown);
             this.URLComboBox.LocationChanged += new System.EventHandler(this.URLComboBox_LocationChanged);
-            this.URLComboBox.SelectedIndexChanged += new System.EventHandler(this.URLComboBox_SelectedIndexChanged);
             // 
             // panel1
             // 
-            this.panel1.AccessibleDescription = null;
-            this.panel1.AccessibleName = null;
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.BackgroundImage = null;
             this.panel1.Controls.Add(this.webBrowser);
-            this.panel1.Font = null;
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
             // EcellWebBrowser
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
-            resources.ApplyResources(this, "$this");
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.BackgroundImage = null;
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.toolStrip);
-            this.Font = null;
             this.Name = "EcellWebBrowser";
-            this.ToolTipText = null;
-            this.VisibleChanged += new System.EventHandler(this.EcellWebBrowser_VisibleChanged);
+            this.Load += new System.EventHandler(this.EcellWebBrowser_Load);
+            this.DockStateChanged += new System.EventHandler(this.EcellWebBrowser_DockStateChanged);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -534,12 +404,127 @@ namespace Ecell.IDE.MainWindow
             this.ButtonBack.Enabled = webBrowser.CanGoBack;
         }
 
+        /// <summary>
+        /// Event on Load form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EcellWebBrowser_Load(object sender, EventArgs e)
+        {
+            // Set startup page.
+            Url = m_startupPage;
+        }
+        /// <summary>
+        /// Event on DockState changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EcellWebBrowser_DockStateChanged(object sender, EventArgs e)
+        {
+            if (this.DockState == WeifenLuo.WinFormsUI.Docking.DockState.Hidden)
+            {
+                Url = m_startupPage;
+            }
+        }
+
         #endregion
 
-        private void EcellWebBrowser_VisibleChanged(object sender, EventArgs e)
+        [ComVisible(true)]
+        public class MyIEnumerator
         {
-            if (Visible && m_startupPage != null)
-                Url = m_startupPage;
+            IEnumerator<KeyValuePair<string, string>> m_en;
+
+            public MyIEnumerator(IEnumerator<KeyValuePair<string, string>> en)
+            {
+                m_en = en;
+            }
+
+            public string CurrentKey
+            {
+                get { return m_en.Current.Key; }
+            }
+
+            public string CurrentValue
+            {
+                get
+                {
+                    try
+                    {
+                        return new Uri(m_en.Current.Value).ToString();
+                    }
+                    catch { }
+                    return null;
+                }
+            }
+
+            public bool MoveNext()
+            {
+                return m_en.MoveNext();
+            }
+
+            public void Reset()
+            {
+                m_en.Reset();
+            }
+        }
+
+        /// <summary>
+        /// AutomationClass
+        /// </summary>
+        [ComVisible(true)]
+        public class AutomationStub
+        {
+            private EcellWebBrowser m_browser;
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="browser"></param>
+            public AutomationStub(EcellWebBrowser browser)
+            {
+                this.m_browser = browser;
+            }
+            /// <summary>
+            /// LoadProject
+            /// </summary>
+            /// <param name="uri"></param>
+            public bool LoadProject(string url)
+            {
+                try
+                {
+                    Uri uri = new Uri(url);
+                    if (!uri.IsFile)
+                        return false;
+                    m_browser.Environment.DataManager.LoadProject(uri.LocalPath);
+                }
+                catch (Exception e)
+                {
+                    Trace.WriteLine(e);
+                    return false;
+                }
+                return true;
+
+            }
+
+            /// <summary>
+            /// Create new project
+            /// </summary>
+            public void CreateNewProject()
+            {
+                m_browser.Environment.DataManager.CreateNewProject(
+                    "NewProject",
+                    "NewProject",
+                    "",
+                    new List<string>());
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
+            public MyIEnumerator GetRecentFiles()
+            {
+                return new MyIEnumerator(m_browser.RecentFiles.GetEnumerator());
+            }
         }
     }
 }

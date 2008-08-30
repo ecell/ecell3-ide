@@ -103,6 +103,7 @@ namespace Ecell.IDE.MainWindow
             // 
             // AboutDialog
             // 
+            this.AcceptButton = this.CloseButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;

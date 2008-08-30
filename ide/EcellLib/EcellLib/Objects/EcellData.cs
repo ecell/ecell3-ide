@@ -81,19 +81,6 @@ namespace Ecell.Objects
         /// The flag of settable
         /// </summary>
         private bool m_isSettable;
-        /// <summary>
-        /// Max value of this data.
-        /// </summary>
-        private double m_max;
-        /// <summary>
-        /// Min value of this data.
-        /// </summary>
-        private double m_min;
-        /// <summary>
-        /// Step value of this data.
-        /// If this value is 0, this data is random parameter.
-        /// </summary>
-        private double m_step;
         #endregion
 
         #region Constructors
@@ -111,9 +98,6 @@ namespace Ecell.Objects
             this.m_isSavable = true;
             this.m_isLogable = false;
             this.m_isLogger = false;
-            this.m_max = 0.0;
-            this.m_min = 0.0;
-            this.m_step = 0.0;
         }
 
         /// <summary>
@@ -133,9 +117,6 @@ namespace Ecell.Objects
             this.m_isSavable = true;
             this.m_isLogable = false;
             this.m_isLogger = false;
-            this.m_max = 0.0;
-            this.m_min = 0.0;
-            this.m_step = 0.0;
         }
         #endregion
 
@@ -220,33 +201,6 @@ namespace Ecell.Objects
             get { return m_isSettable; }
             set { this.m_isSettable = value; }
         }
-
-        /// <summary>
-        /// get/set the max value of this data.
-        /// </summary>
-        public double Max
-        {
-            get { return this.m_max; }
-            set { this.m_max = value; }
-        }
-
-        /// <summary>
-        /// get/set the min value of this data.
-        /// </summary>
-        public double Min
-        {
-            get { return this.m_min; }
-            set { this.m_min = value; }
-        }
-
-        /// <summary>
-        /// get/set the step value of this data.
-        /// </summary>
-        public double Step
-        {
-            get { return this.m_step; }
-            set { this.m_step = value; }
-        }
         #endregion
 
         #region Methods
@@ -273,9 +227,6 @@ namespace Ecell.Objects
                 newData.Logged = this.m_isLogger;
                 newData.Saveable = this.m_isSavable;
                 newData.Settable = this.m_isSettable;
-                newData.Max = this.m_max;
-                newData.Min = this.m_min;
-                newData.Step = this.m_step;
                 return newData;
             }
             catch (Exception ex)

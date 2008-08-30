@@ -285,7 +285,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// The event sequence when the user set the simulation parameter.
+        /// The event sequence when the user sets the simulation parameter.
         /// </summary>
         /// <param name="projectID">The current project ID.</param>
         /// <param name="parameterID">The set parameter ID.</param>
@@ -293,6 +293,17 @@ namespace Ecell.Plugin
         {
             // do nothing
         }
+
+        /// <summary>
+        /// The event sequence when the user updates the simulation parameter.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The set parameter ID.</param>
+        public virtual void ParameterUpdate(string projectID, string parameterID)
+        {
+            // do nothing
+        }
+
 
         /// <summary>
         /// The event sequence when the user set and change the observed data.
@@ -531,7 +542,14 @@ namespace Ecell.Plugin
         /// <param name="key"></param>
         public void NotifyDataMerge(string modelID, string key)
         {
-            m_dManager.SystemDeleteAndMove(modelID, key);
+            try
+            {
+                m_dManager.SystemDeleteAndMove(modelID, key);
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
+            }
         }
 
         /// <summary>

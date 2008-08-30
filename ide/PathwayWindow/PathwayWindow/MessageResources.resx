@@ -184,7 +184,7 @@
     <value>&amp;Copy</value>
   </data>
   <data name="CanvasMenuCreateLogger" xml:space="preserve">
-    <value>Create logger</value>
+    <value>Mark the property as logging</value>
   </data>
   <data name="CanvasMenuCut" xml:space="preserve">
     <value>Cu&amp;t</value>
@@ -373,7 +373,7 @@
     <value>Shape settings</value>
   </data>
   <data name="DialogTextPathwaySetting" xml:space="preserve">
-    <value>Pathway settings</value>
+    <value>Diagram settings</value>
   </data>
   <data name="MergeLayerDialogMessage" xml:space="preserve">
     <value>Please select the merged layer.</value>

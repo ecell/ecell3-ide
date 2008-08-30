@@ -305,9 +305,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// Called when the mouse up.
         /// </summary>
         /// <param name="e"></param>
-        public override void OnMouseUp(PInputEventArgs e)
+        public override void OnMouseDown(PInputEventArgs e)
         {
-            base.OnMouseUp(e);
+            base.OnMouseDown(e);
             if (m_canvas == null)
                 return;
             m_canvas.NotifyResetSelect();

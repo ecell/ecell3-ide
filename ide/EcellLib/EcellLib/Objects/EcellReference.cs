@@ -232,10 +232,10 @@ namespace Ecell.Objects
         /// </summary>
         /// <param name="refList">VariableReferenceList.</param>
         /// <returns>the list of EcellReference.</returns>
-        public static EcellValue ConvertToVarRefList(List<EcellReference> refList)
+        public static EcellValue ConvertToVarRefList(IEnumerable<EcellReference> refList)
         {
             List<EcellValue> list = new List<EcellValue>();
-            if (refList == null || refList.Count == 0)
+            if (refList == null)
                 return new EcellValue(list);
 
             foreach (EcellReference er in refList)

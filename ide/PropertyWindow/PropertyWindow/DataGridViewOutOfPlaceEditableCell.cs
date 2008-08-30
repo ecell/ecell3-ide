@@ -102,6 +102,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         protected void OnButtonPressed()
         {
             RenderButtonPressed();
+            Application.DoEvents();
             RaiseCellClick(new DataGridViewCellEventArgs(ColumnIndex, RowIndex));
 
             if (OnOutOfPlaceEditRequested != null)

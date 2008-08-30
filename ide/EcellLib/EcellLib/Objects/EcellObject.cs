@@ -178,7 +178,7 @@ namespace Ecell.Objects
         /// <summary>
         /// get / set name.
         /// </summary>
-        public virtual string Name
+        public virtual string LocalID
         {
             get {
                 string name;
@@ -189,15 +189,6 @@ namespace Ecell.Objects
                 else
                     name = m_key.Substring(m_key.LastIndexOf("/") + 1);
                 return name;
-            }
-            set
-            {
-                if (m_key == null || m_key.Equals("/"))
-                    this.m_key = "/";
-                else if (m_key.Contains(":"))
-                    this.m_key = ParentSystemID + ":" + value;
-                else
-                    this.m_key = ParentSystemID + "/" + value;
             }
         }
 
@@ -220,15 +211,15 @@ namespace Ecell.Objects
             {
                 if (this.m_type == EcellObject.PROCESS || this.m_type == EcellObject.VARIABLE)
                 {
-                    this.m_key = value + ":" + this.Name;
+                    this.m_key = value + ":" + this.LocalID;
                     return;
                 }
                 else if (m_key == null || m_key.Equals("/"))
                     this.m_key = "/";
                 else if (value.Equals("/"))
-                    this.m_key = value + this.Name;
+                    this.m_key = value + this.LocalID;
                 else
-                    this.m_key = value + "/" + this.Name;
+                    this.m_key = value + "/" + this.LocalID;
 
                 foreach (EcellObject eo in m_children)
                     eo.ParentSystemID = this.m_key;
@@ -644,7 +635,7 @@ namespace Ecell.Objects
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(Type);
-            sb.Append("(name=" + Name + ")" + "(Location="+ this.Rect.ToString()+ ")");
+            sb.Append("(localID=" + LocalID + ")" + "(Location="+ this.Rect.ToString()+ ")");
             if (Children.Count > 0)
             {
                 sb.Append("{");

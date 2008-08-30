@@ -144,6 +144,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         void InitializeComponent()
         {
             this.OverviewContainer = new System.Windows.Forms.Panel();
+            this.ScrollContainer = new PScrollableControl();
+
             this.SuspendLayout();
             // 
             // panel1
@@ -164,26 +166,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.Text = MessageResources.WindowPathway;
             this.TabText = this.Text;
 
-            this.ScrollContainer = new PScrollableControl();
             this.ScrollContainer.Dock = DockStyle.Fill;
             this.ScrollContainer.VsbPolicy = ScrollBarPolicy.Always;
             this.ScrollContainer.HsbPolicy = ScrollBarPolicy.Always;
-
             this.ResumeLayout(false);
             this.PerformLayout();
         }
 
-        /// <summary>
-        /// Refresh the canvas on size changed.
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnSizeChanged(EventArgs e)
-        {
-            base.OnSizeChanged(e);
-            if (m_con.Canvas == null)
-                return;
-            this.PerformLayout();
-        }
         #endregion
     }
 }

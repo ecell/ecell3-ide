@@ -121,8 +121,10 @@
             this.tabControl1.ResumeLayout(false);
             this.PEPropTabPage.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.PECommitTabPage.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }

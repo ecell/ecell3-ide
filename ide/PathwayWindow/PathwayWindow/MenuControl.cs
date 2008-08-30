@@ -571,7 +571,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             bool isRoot = false;
             bool isLine = (node is PPathwayLine);
             bool isCopiedObject = (m_con.CopiedNodes.Count > 0);
-
+            bool isInsideRoot = m_con.Canvas.Systems["/"].Rect.Contains(m_con.MousePosition);
             // Set popup menu text.
             if (isPPathwayObject)
             {
@@ -603,11 +603,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Show Node / System edit menus.
             m_popMenuDict[MenuConstants.CanvasMenuCut].Visible = isPPathwayObject && !isRoot;
             m_popMenuDict[MenuConstants.CanvasMenuCopy].Visible = isPPathwayObject && !isRoot;
-            m_popMenuDict[MenuConstants.CanvasMenuPaste].Visible = isCopiedObject;
+            m_popMenuDict[MenuConstants.CanvasMenuPaste].Visible = isCopiedObject && isInsideRoot;
             m_popMenuDict[MenuConstants.CanvasMenuDelete].Visible = (isPPathwayObject && !isRoot) || isPPathwayText;
             m_popMenuDict[MenuConstants.CanvasMenuMerge].Visible = isPPathwaySystem && !isRoot;
             m_popMenuDict[MenuConstants.CanvasMenuAlias].Visible = isPPathwayVariable;
-            m_popMenuDict[MenuConstants.CanvasMenuSeparator4].Visible = isCopiedObject || (isPPathwayObject && !isRoot);
+            m_popMenuDict[MenuConstants.CanvasMenuSeparator4].Visible = isPPathwayObject && !isRoot;
             // Show Layer menu.
             m_popMenuDict[MenuConstants.CanvasMenuChangeLayer].Visible = isPPathwayObject && !isRoot;
             m_popMenuDict[MenuConstants.CanvasMenuMoveFront].Visible = isPPathwayObject && !isRoot;
@@ -615,7 +615,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_popMenuDict[MenuConstants.CanvasMenuSeparator5].Visible = isPPathwayObject && !isRoot && !isPPathwayText;
             // Show Logger menu.
             m_popMenuDict[MenuConstants.CanvasMenuCreateLogger].Visible = isPPathwayObject && !isPPathwayText;
-            m_popMenuDict[MenuConstants.CanvasMenuDeleteLogger].Visible = isPPathwayObject && !isPPathwayText;
+            m_popMenuDict[MenuConstants.CanvasMenuDeleteLogger].Visible = false; //isPPathwayObject && !isPPathwayText;
         }
 
         /// <summary>
@@ -672,12 +672,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 layerItem.Click += new EventHandler(m_con.Menu.ChangeLeyerClick);
                 layerMenu.DropDown.Items.Add(layerItem);
             }
-            ToolStripSeparator separator = new ToolStripSeparator();
-            layerMenu.DropDown.Items.Add(separator);
+            //ToolStripSeparator separator = new ToolStripSeparator();
+            //layerMenu.DropDown.Items.Add(separator);
 
-            ToolStripMenuItem createNewLayer = new ToolStripMenuItem(MessageResources.LayerMenuCreate);
-            createNewLayer.Click += new EventHandler(m_con.Menu.ChangeLeyerClick);
-            layerMenu.DropDown.Items.Add(createNewLayer);
+            //ToolStripMenuItem createNewLayer = new ToolStripMenuItem(MessageResources.LayerMenuCreate);
+            //createNewLayer.Click += new EventHandler(m_con.Menu.ChangeLeyerClick);
+            //layerMenu.DropDown.Items.Add(createNewLayer);
         }
         /// <summary>
         /// Set line menu.
@@ -1117,7 +1117,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e"></param>
         private void PasteClick(object sender, EventArgs e)
         {
-            m_con.PasteNodes();
+            try
+            {
+                m_con.PasteNodes();
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
+            }
         }
 
         /// <summary>

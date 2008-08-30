@@ -63,8 +63,16 @@ namespace Ecell.Objects
         public EcellParameterData(string key, double current)
         {
             m_key = key;
-            m_max = current * (1.0 + s_multi);
-            m_min = current * (1.0 - s_multi);
+            if (current >= 0.0)
+            {
+                m_max = current * (1.0 + s_multi);
+                m_min = current * (1.0 - s_multi);
+            }
+            else
+            {
+                m_max = current * (1.0 - s_multi);
+                m_min = current * (1.0 + s_multi);
+            }
             m_step = 0.0;
         }
 

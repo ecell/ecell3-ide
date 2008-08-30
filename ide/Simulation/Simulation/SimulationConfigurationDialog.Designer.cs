@@ -121,6 +121,7 @@
             // initialParameters
             // 
             this.initialParameters.AllowUserToAddRows = false;
+            this.initialParameters.AllowUserToResizeRows = false;
             resources.ApplyResources(this.initialParameters, "initialParameters");
             this.initialParameters.AutoGenerateColumns = false;
             this.initialParameters.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -211,6 +212,7 @@
             // dgv
             // 
             this.dgv.AllowUserToAddRows = false;
+            this.dgv.AllowUserToResizeRows = false;
             resources.ApplyResources(this.dgv, "dgv");
             this.dgv.AutoGenerateColumns = false;
             this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -309,6 +311,16 @@
             // 
             resources.ApplyResources(label5, "label5");
             label5.Name = "label5";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(label4, "label4");
+            label4.Name = "label4";
             // 
             // SSCreateButton
             // 
@@ -464,16 +476,6 @@
             this.tabControl1.Controls.Add(this.loggingPage);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            // 
-            // label3
-            // 
-            resources.ApplyResources(label3, "label3");
-            label3.Name = "label3";
-            // 
-            // label4
-            // 
-            resources.ApplyResources(label4, "label4");
-            label4.Name = "label4";
             // 
             // SimulationConfigurationDialog
             // 

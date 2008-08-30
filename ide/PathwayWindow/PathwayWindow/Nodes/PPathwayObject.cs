@@ -586,11 +586,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             if (obj is EcellSystem)
             {
                 retval.Append(string.Format("{0} (size={1})",
-                    obj.Name, ((EcellSystem)obj).SizeInVolume));
+                    obj.LocalID, ((EcellSystem)obj).SizeInVolume));
             }
             else
             {
-                retval.Append(string.Format("{0}", obj.Name));
+                retval.Append(string.Format("{0}", obj.LocalID));
             }
             if (obj.Logged)
             {

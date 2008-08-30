@@ -69,8 +69,10 @@
             // 
             // SelectBoxDialog
             // 
+            this.AcceptButton = this.buttonOK;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.buttonCancel;
             this.Controls.Add(this.comboBox);
             this.Controls.Add(this.message);
             this.Controls.Add(this.buttonCancel);

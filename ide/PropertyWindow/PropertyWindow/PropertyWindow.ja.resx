@@ -117,13 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NameColumn.HeaderText" xml:space="preserve">
-    <value>名前</value>
+  <data name="nameColumn.HeaderText" xml:space="preserve">
+    <value>名称</value>
   </data>
-  <data name="ValueColumn.HeaderText" xml:space="preserve">
+  <data name="valueColumn.HeaderText" xml:space="preserve">
     <value>値</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="defineANewPropertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 22</value>
+  </data>
+  <data name="defineANewPropertyToolStripMenuItem.Text" xml:space="preserve">
+    <value>新規プロパティ</value>
+  </data>
+  <data name="deleteThisPropertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 22</value>
+  </data>
+  <data name="deleteThisPropertyToolStripMenuItem.Text" xml:space="preserve">
+    <value>このプロパテイを削除</value>
+  </data>
+  <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 48</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
+    <value>プロパティ</value>
+  </data>
+  <data name="$this.TabText" xml:space="preserve">
     <value>プロパティ</value>
   </data>
 </root>

@@ -121,22 +121,23 @@ namespace Ecell.IDE.Plugins.TracerWindow
             dgv.DragDrop += new DragEventHandler(dgv_DragDrop);
 
             ContextMenuStrip cStrip = new ContextMenuStrip();
-            ToolStripMenuItem it1 = new ToolStripMenuItem();
-            it1.Text = MessageResources.MenuItemImportData;
-            it1.Click += new EventHandler(ImportDataItem);
+            //ToolStripMenuItem it1 = new ToolStripMenuItem();
+            //it1.Text = MessageResources.MenuItemImportData;
+            //it1.Click += new EventHandler(ImportDataItem);
 
             ToolStripMenuItem it2 = new ToolStripMenuItem();
             it2.Text = MessageResources.MenuItemShowTraceSetupText;
             it2.Click += new EventHandler(ShowSetupWindow);
 
-            cStrip.Items.AddRange(new ToolStripItem[] { it1, it2 });
+            //cStrip.Items.AddRange(new ToolStripItem[] { it1, it2 });
+            cStrip.Items.AddRange(new ToolStripItem[] { it2 });
             dgv.ContextMenuStrip = cStrip;
 
         }
 
         void dgv_DragEnter(object sender, DragEventArgs e)
         {
-            object obj = e.Data.GetData("EcellLib.EcellDragObject");
+            object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");
             if (obj != null)
                 e.Effect = DragDropEffects.Move;
             else
@@ -145,7 +146,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
         void dgv_DragDrop(object sender, DragEventArgs e)
         {
-            object obj = e.Data.GetData("EcellLib.EcellDragObject");
+            object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");
             if (obj == null) return;
             EcellDragObject dobj = obj as EcellDragObject;
 

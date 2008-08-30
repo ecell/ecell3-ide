@@ -123,7 +123,9 @@ namespace Ecell.IDE.Plugins.EntityList
             {
                 DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
                 EcellData d = obj.GetEcellData("Name");
-                c.Value = d.Value.ToString();
+                // for loading the project include the process not in DM directory.
+                if (d == null) c.Value = "";
+                else c.Value = d.Value.ToString();
                 rs.Cells.Add(c);
                 c.ReadOnly = true;
             }
@@ -140,12 +142,13 @@ namespace Ecell.IDE.Plugins.EntityList
                 AddSelection(data.ModelID, data.Key, data.Type);
                 return;
             }
-            DataGridViewRow r = SearchIndex(key, type);
+            DataGridViewRow r = SearchIndex(type, key);
             if (r != null)
             {
-                Trace.WriteLine("index=" + r.Index);
+                r.Tag = data;
                 r.Cells[s_indexClass].Value = data.Classname;
-                r.Cells[s_indexName].Value = data.Name;
+                EcellData d = data.GetEcellData("Name");
+                r.Cells[s_indexName].Value = d != null ? d.Value.ToString() : "";
             }
         }
 
@@ -276,8 +279,8 @@ namespace Ecell.IDE.Plugins.EntityList
             foreach (DataGridViewRow r in objectListDataGrid.Rows)
             {
                 r.Visible =
-                    ((EcellObject)r.Tag).Key.ToLower().Contains(searchCnd.ToLower())
-                    || ((EcellObject)r.Tag).Name.ToLower().Contains(searchCnd.ToLower());
+                    ((string)r.Cells[s_indexID].Value).ToLower().Contains(searchCnd.ToLower())
+                    || ((string)r.Cells[s_indexName].Value).ToLower().Contains(searchCnd.ToLower());
             }
             objectListDataGrid.ResumeLayout();
         }

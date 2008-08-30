@@ -116,6 +116,7 @@ namespace Ecell
         {
             m_list.Clear();
             m_listIndex = 0;
+            NotifyStatus();
         }
 
         /// <summary>

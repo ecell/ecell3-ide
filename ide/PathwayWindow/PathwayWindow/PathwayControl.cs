@@ -1253,6 +1253,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 sysKey = canvas.GetSurroundingSystemKey(eo.PointF);
                 if (sysKey == null)
                     sysKey = canvas.GetSurroundingSystemKey(this.m_mousePos);
+                if (sysKey == null)
+                    throw new Exception(MessageResources.ErrOutRoot);
                 if (eo.ParentSystemID != sysKey)
                     eo.ParentSystemID = sysKey;
                 // Check Position

@@ -198,17 +198,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 // Check duplicated object.
                 if (obj is PPathwayText)
                     continue;
-                if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(systemName + "/" + obj.EcellObject.Name))
+                if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(systemName + "/" + obj.EcellObject.LocalID))
                     continue;
-                else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(systemName + ":" + obj.EcellObject.Name))
+                else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(systemName + ":" + obj.EcellObject.LocalID))
                     continue;
-                else if (obj is PPathwayVariable && !m_canvas.Variables.ContainsKey(systemName + ":" + obj.EcellObject.Name))
+                else if (obj is PPathwayVariable && !m_canvas.Variables.ContainsKey(systemName + ":" + obj.EcellObject.LocalID))
                     continue;
                 // If duplicated object exists.
                 ResetSystemResize();
                 Util.ShowErrorDialog(string.Format(
                         MessageResources.ErrAlrExist,
-                        new object[] { obj.EcellObject.Name }));
+                        new object[] { obj.EcellObject.LocalID }));
                 return;
             }
             string parentKey = m_obj.EcellObject.ParentSystemID;
@@ -223,22 +223,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                     ResetSystemResize();
                     Util.ShowErrorDialog(string.Format(
                             MessageResources.ErrOutRoot,
-                            new object[] { obj.EcellObject.Name }));
+                            new object[] { obj.EcellObject.LocalID }));
                     return;
 
                 }
                 // Check duplilcated key
-                if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(parentKey + "/" + obj.EcellObject.Name))
+                if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(parentKey + "/" + obj.EcellObject.LocalID ))
                     continue;
-                else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(parentKey + ":" + obj.EcellObject.Name))
+                else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(parentKey + ":" + obj.EcellObject.LocalID ))
                     continue;
-                else if (obj is PPathwayVariable && !m_canvas.Variables.ContainsKey(parentKey + ":" + obj.EcellObject.Name))
+                else if (obj is PPathwayVariable && !m_canvas.Variables.ContainsKey(parentKey + ":" + obj.EcellObject.LocalID ))
                     continue;
                 // If duplicated object exists.
                 ResetSystemResize();
                 Util.ShowErrorDialog(string.Format(
                         MessageResources.ErrAlrExist,
-                        new object[] { obj.EcellObject.Name }));
+                        new object[] { obj.EcellObject.LocalID }));
                 return;
             }
 

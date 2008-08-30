@@ -375,6 +375,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_suspendSim.Enabled = false;
                 m_setupSim.Enabled = true;
                 m_timeText.Text = "0";
+                m_timeText.Enabled = true;
                 m_timeText.ForeColor = Color.Black;
                 m_paramsCombo.Enabled = true;
                 m_stepUnitCombo.Enabled = true;
@@ -396,6 +397,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_paramsCombo.Enabled = false;
                 m_stepText.Enabled = false;
                 m_stepUnitCombo.Enabled = false;
+                m_timeText.Enabled = true;
                 m_timeText.ForeColor = Color.Black;
             }
             else if (type == ProjectStatus.Suspended)
@@ -404,7 +406,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_stopSim.Enabled = true;
                 m_suspendSim.Enabled = false;
                 m_setupSim.Enabled = false;
-                m_timeText.ForeColor = Color.Gray;
+                m_timeText.Enabled = false;
             }
             else
             {
@@ -460,7 +462,7 @@ namespace Ecell.IDE.Plugins.Simulation
                     foreach (EcellObject stepper in m_dManager.GetStepper(paramID, modelID))
                     {
                         StepperConfiguration sc = new StepperConfiguration();
-                        sc.Name = stepper.Name;
+                        sc.Name = stepper.Key;
                         sc.ClassName = stepper.Classname;
                         foreach (EcellData prop in stepper.Value)
                         {
@@ -542,6 +544,8 @@ namespace Ecell.IDE.Plugins.Simulation
                     }
 
                     m_dManager.UpdateStepperID(sps.Name, steppers);
+                    m_env.PluginManager.ParameterUpdate(
+                        m_env.DataManager.CurrentProjectID, sps.Name);
                 }
 
                 if (m_dManager.CurrentProject.SimulationParam == null)

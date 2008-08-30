@@ -322,6 +322,34 @@ namespace Ecell.IDE.Plugins.Simulation
                 return;
             }
 
+            bool stillInUse = false;
+            foreach (EcellObject sysObj in m_owner.DataManager.GetData(
+                ((PerModelSimulationParameter)perModelSimulationParameterBindingSource.Current).ModelID, null))
+            {
+                // XXX: unlikely to happen, for safety.
+                if (sysObj.Children == null)
+                    continue;
+
+                foreach (EcellObject obj in sysObj.Children)
+                {
+                    if (obj.Type == Constants.xpathProcess)
+                    {
+                        EcellData data = obj.GetEcellData(Constants.xpathStepperID);
+                        if (data != null && data.Value.CastToString() == sc.Name)
+                        {
+                            stillInUse = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (stillInUse)
+            {
+                Util.ShowWarningDialog(String.Format(MessageResources.ErrStepperStillInUse, sc.Name));
+                return;
+            }
+
             steppersBindingSource.RemoveCurrent(); 
         }
 

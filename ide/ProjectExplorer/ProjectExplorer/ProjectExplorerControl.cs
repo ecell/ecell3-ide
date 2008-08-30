@@ -526,10 +526,20 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             try
             {
-                if (tag.m_type == Constants.xpathModel)
-                    m_owner.Environment.DataManager.DataDelete(tag.m_modelID, null, Constants.xpathModel);
-                else
-                    m_owner.Environment.DataManager.DataDelete(tag.m_modelID, tag.m_key, tag.m_type);
+                int i = 0;
+                int count = treeView1.SelNodes.Count;
+                foreach (TreeNode delNode in treeView1.SelNodes.ToArray())
+                {
+                    bool isAnchor = false;
+                    if (i == count) isAnchor = true;
+                    i++;
+                    TagData delTag = delNode.Tag as TagData;
+                    if (delTag == null) continue;
+                    if (tag.m_type == Constants.xpathModel)
+                        m_owner.Environment.DataManager.DataDelete(delTag.m_modelID, null, Constants.xpathModel, true, isAnchor);
+                    else
+                        m_owner.Environment.DataManager.DataDelete(delTag.m_modelID, delTag.m_key, delTag.m_type, true, isAnchor);
+                }
                 if (modelID != null)
                     m_owner.Environment.PluginManager.SelectChanged(modelID, key, type);
             }
@@ -705,15 +715,17 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                         toolStripMenuItemDelete.Visible = true;
                         toolStripMenuItemMerge.Visible = false;
                         EcellObject obj = GetObjectFromNode(e.Node);
-                        toolStripMenuItemLogging.Visible = true;
+                        bool isVisible = true;
+                        if (treeView1.SelNodes.Count > 1) isVisible = false;
+                        toolStripMenuItemLogging.Visible = isVisible;
                         toolStripMenuItemLogging.DropDownItems.Clear();
                         toolStripMenuItemLogging.DropDownItems.AddRange(
                             CreateLoggerPopupMenu(obj));
-                        toolStripMenuItemObservation.Visible = true;
+                        toolStripMenuItemObservation.Visible = isVisible;
                         toolStripMenuItemObservation.DropDownItems.Clear();
                         toolStripMenuItemObservation.DropDownItems.AddRange(
                             CreateObservedPopupMenu(obj));
-                        toolStripMenuItemParameter.Visible = true;
+                        toolStripMenuItemParameter.Visible = isVisible;
                         toolStripMenuItemParameter.DropDownItems.Clear();
                         toolStripMenuItemParameter.DropDownItems.AddRange(
                             CreateParameterPopupMenu(obj));

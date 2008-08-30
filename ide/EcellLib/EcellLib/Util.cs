@@ -37,6 +37,7 @@ using System.Security.AccessControl;
 using System.Threading;
 using System.Windows.Forms;
 using System.Globalization;
+using System.Diagnostics;
 using Microsoft.Win32;
 using Ecell.Objects;
 
@@ -132,6 +133,14 @@ namespace Ecell
                     || key[i] == '~')
                 return true;
             }
+            return false;
+        }
+
+        static public bool IsReservedID(string key)
+        {
+            string ID = key.ToUpper();
+            if (ID.EndsWith(":SIZE") || ID.Equals("SIZE"))
+                return true;
             return false;
         }
 
@@ -492,11 +501,17 @@ namespace Ecell
             if (isoTwoLetterLangCode != null)
             {
                 isoTwoLetterLangCode = isoTwoLetterLangCode.Replace('_', '-');
-                try
+                if (isoTwoLetterLangCode != CultureInfo.InvariantCulture.TwoLetterISOLanguageName)
                 {
-                    return CultureInfo.GetCultureInfo(isoTwoLetterLangCode);
+                    try
+                    {
+                        return CultureInfo.GetCultureInfo(isoTwoLetterLangCode);
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.WriteLine(e);
+                    }
                 }
-                catch (Exception) {}
             }
             return CultureInfo.InvariantCulture;
         }

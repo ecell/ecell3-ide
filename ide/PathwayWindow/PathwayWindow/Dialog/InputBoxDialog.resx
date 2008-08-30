@@ -244,6 +244,6 @@
     <value>InputBoxDialog</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PathwayDialog, PathwayWindow, Version=1.1.1544.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PathwayDialog, PathwayWindow, Version=1.1.1687.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

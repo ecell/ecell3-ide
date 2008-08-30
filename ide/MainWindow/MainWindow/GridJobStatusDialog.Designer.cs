@@ -132,6 +132,7 @@
             this.Controls.Add(this.DEWStopButton);
             this.Controls.Add(this.DEWDeleteButton);
             this.Controls.Add(this.DEWUpdateButton);
+            this.IsSavable = true;
             this.Name = "GridJobStatusDialog";
             this.Shown += new System.EventHandler(this.WinShown);
             ((System.ComponentModel.ISupportInitialize)(this.JobGridView)).EndInit();

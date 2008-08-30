@@ -682,7 +682,7 @@
     <value>88, 6</value>
   </data>
   <data name="ARTrackBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 45</value>
+    <value>144, 42</value>
   </data>
   <data name="ARTrackBar.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>

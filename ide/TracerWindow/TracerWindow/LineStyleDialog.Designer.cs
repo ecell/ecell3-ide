@@ -124,6 +124,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             // LSApplyButton
             // 
             resources.ApplyResources(this.LSApplyButton, "LSApplyButton");
+            this.LSApplyButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.LSApplyButton.Name = "LSApplyButton";
             this.LSApplyButton.UseVisualStyleBackColor = true;
             // 

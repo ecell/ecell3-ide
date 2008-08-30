@@ -39,12 +39,12 @@
             this.cancelButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.SWSPictureBox = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.SILangGroupBox.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SWSPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // SWSPatternListLayoutPanel
@@ -122,6 +122,14 @@
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
+            // SWSPictureBox
+            // 
+            resources.ApplyResources(this.SWSPictureBox, "SWSPictureBox");
+            this.SWSPictureBox.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.SWSPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.SWSPictureBox.Name = "SWSPictureBox";
+            this.SWSPictureBox.TabStop = false;
+            // 
             // pictureBox1
             // 
             resources.ApplyResources(this.pictureBox1, "pictureBox1");
@@ -131,19 +139,13 @@
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             // 
-            // SWSPictureBox
-            // 
-            resources.ApplyResources(this.SWSPictureBox, "SWSPictureBox");
-            this.SWSPictureBox.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.SWSPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.SWSPictureBox.Name = "SWSPictureBox";
-            this.SWSPictureBox.TabStop = false;
-            // 
             // InitialPreferencesDialog
             // 
+            this.AcceptButton = this.okButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.CancelButton = this.cancelButton;
             this.ControlBox = false;
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox2);
@@ -159,8 +161,8 @@
             this.SILangGroupBox.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SWSPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

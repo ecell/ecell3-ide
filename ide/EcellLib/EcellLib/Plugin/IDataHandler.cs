@@ -86,7 +86,7 @@ namespace Ecell.Plugin
         void AddSelect(string modelID, string key, string type);
 
         /// <summary>
-        /// The event process when user remove object from the selected objects.
+        /// The event process when user removes the selected objects.
         /// </summary>
         /// <param name="modelID">ModelID of object removed from seleted objects.</param>
         /// <param name="key">ID of object removed from selected objects.</param>
@@ -99,28 +99,35 @@ namespace Ecell.Plugin
         void ResetSelect();
 
         /// <summary>
-        /// The event sequence when the user add the simulation parameter.
+        /// The event sequence when the user adds the simulation parameter.
         /// </summary>
         /// <param name="projectID">The current project ID.</param>
         /// <param name="parameterID">The added parameter ID/</param>
         void ParameterAdd(string projectID, string parameterID);
 
         /// <summary>
-        /// The event sequence when the user delete the simulation parameter.
+        /// The event sequence when the user deletes the simulation parameter.
         /// </summary>
         /// <param name="projectID">The current project ID.</param>
         /// <param name="parameterID">The deleted parameter ID.</param>
         void ParameterDelete(string projectID, string parameterID);
 
         /// <summary>
-        /// The event sequence when the user set the simulation parameter.
+        /// The event sequence when the user sets the simulation parameter.
         /// </summary>
         /// <param name="projectID">The current project ID.</param>
         /// <param name="parameterID">The set parameter ID.</param>
         void ParameterSet(string projectID, string parameterID);
 
         /// <summary>
-        /// The event sequence when the user add and change the observed data.
+        /// The event sequence when the user updates the simulation parameter.
+        /// </summary>
+        /// <param name="projectID">The current project ID.</param>
+        /// <param name="parameterID">The set parameter ID.</param>
+        void ParameterUpdate(string projectID, string parameterID);
+
+        /// <summary>
+        /// The event sequence when the user adds and changes the observed data.
         /// </summary>
         /// <param name="data">the observed data.</param>
         void SetObservedData(EcellObservedData data);

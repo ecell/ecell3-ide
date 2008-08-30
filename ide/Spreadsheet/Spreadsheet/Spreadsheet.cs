@@ -39,13 +39,39 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Reflection;
 using System.ComponentModel;
+using System.Diagnostics;
 
 using Ecell;
 using Ecell.Plugin;
 using Ecell.Objects;
 
+using System.Drawing;
+using System.Drawing.Drawing2D;
+
 namespace Ecell.IDE.Plugins.Spreadsheet
 {
+    class DataGridViewNumberedRowHeaderCell : DataGridViewRowHeaderCell
+    {
+        protected override void Paint(Graphics graphics, Rectangle clipBounds, Rectangle cellBounds, int rowIndex, DataGridViewElementStates cellState, object value, object formattedValue, string errorText, DataGridViewCellStyle cellStyle, DataGridViewAdvancedBorderStyle advancedBorderStyle, DataGridViewPaintParts paintParts)
+        {
+            if ((paintParts & DataGridViewPaintParts.SelectionBackground) != 0)
+                base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, DataGridViewPaintParts.Background);
+
+            base.Paint(graphics, clipBounds, cellBounds, rowIndex, cellState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts & ~(DataGridViewPaintParts.ContentBackground | DataGridViewPaintParts.SelectionBackground));
+
+            if ((paintParts & DataGridViewPaintParts.ContentForeground) != 0)
+            {
+                StringFormat sf = new StringFormat();
+                sf.LineAlignment = StringAlignment.Center;
+                sf.Alignment = StringAlignment.Center;
+                sf.Trimming = StringTrimming.None;
+                sf.FormatFlags |= StringFormatFlags.NoWrap;
+                Brush b = new SolidBrush(SystemColors.ControlText);
+                using (b) graphics.DrawString(Convert.ToString(rowIndex + 1), cellStyle.Font, b, cellBounds, sf);
+            }
+        }
+    }
+
     /// <summary>
     /// Plugin class to display object by list.
     /// </summary>
@@ -67,11 +93,11 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <summary>
         /// Color of header.
         /// </summary>
-        private Color m_headerColor = SystemColors.ButtonFace;
-        private Color m_systemColor = Color.LightBlue;
-        private Color m_processColor = Color.LightCyan;
-        private Color m_variableColor = Color.LightGreen;
-        private int m_headerHeight = 1;
+        private Color m_headerColor = Color.Gray;
+        private Color m_headerForeColor = Color.White;
+        private Color m_systemColor = Color.FromArgb(0xff, 0xff, 0xd0);
+        private Color m_processColor = Color.FromArgb(0xcc, 0xff, 0xcc);
+        private Color m_variableColor = Color.FromArgb(0xcc, 0xcc, 0xff);
         /// <summary>
         /// Timer for executing redraw event at each 0.5 minutes.
         /// </summary>
@@ -97,7 +123,11 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <summary>
         /// Max number of column.
         /// </summary>
-        private static int s_columnNum = 8;
+        private static char[] s_columnChars = new char[] {
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+            'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+            'U', 'V', 'W', 'X', 'Y', 'Z'
+        };
 
         /// <summary>
         /// The property array of System.
@@ -266,17 +296,19 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_gridView.AllowUserToAddRows = false;
             m_gridView.AllowUserToDeleteRows = false;
             m_gridView.AllowUserToResizeRows = false;
-            m_gridView.RowHeadersVisible = false;
-            m_gridView.ColumnHeadersVisible = false;
+            m_gridView.RowHeadersVisible = true;
+            m_gridView.ColumnHeadersVisible = true;
             m_gridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             m_gridView.CellClick += new DataGridViewCellEventHandler(ClickObjectCell);
-
-            for (int i = 0; i < s_columnNum; i++)
+            m_gridView.RowTemplate.DefaultHeaderCellType = typeof(DataGridViewNumberedRowHeaderCell);
+            foreach (char c in s_columnChars)
             {
-                DataGridViewColumn c = new DataGridViewTextBoxColumn();
-                c.HeaderText = Convert.ToString(i);
-                c.Name = Convert.ToString(i);
-                m_gridView.Columns.Add(c);
+                DataGridViewColumn col = new DataGridViewTextBoxColumn();
+                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                col.HeaderText = Convert.ToString(c);
+                col.Name = Convert.ToString(c);
+                m_gridView.Columns.Add(col);
             }
             CreateSystemHeader();
             CreateVariableHeader();
@@ -431,12 +463,15 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         private void CreateSystemHeader()
         {
             int len = m_systemProp.Length;
-            DataGridViewRow rs = new DataGridViewRow();
-            rs.DividerHeight = m_headerHeight;
-            for (int i = 0; i < s_columnNum; i++)
+            DataGridViewRow rs = m_gridView.RowTemplate.Clone() as DataGridViewRow;
+            rs.DefaultCellStyle.BackColor = m_headerColor;
+            rs.DefaultCellStyle.SelectionBackColor = m_headerColor;
+            rs.DefaultCellStyle.ForeColor = m_headerForeColor;
+            rs.DefaultCellStyle.SelectionForeColor = m_headerForeColor;
+            rs.DefaultCellStyle.Font = new Font(m_gridView.DefaultCellStyle.Font, FontStyle.Bold);
+            for (int i = 0; i < s_columnChars.Length; i++)
             {
                 DataGridViewCell cs1 = new DataGridViewTextBoxCell();
-                cs1.Style.BackColor = m_headerColor;
                 if (i < len)
                     cs1.Value = m_systemProp[i];
                 else
@@ -453,12 +488,15 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         private void CreateVariableHeader()
         {
             int len = m_variableProp.Length;
-            DataGridViewRow rs = new DataGridViewRow();
-            rs.DividerHeight = m_headerHeight;
-            for (int i = 0; i < s_columnNum; i++)
+            DataGridViewRow rs = m_gridView.RowTemplate.Clone() as DataGridViewRow;
+            rs.DefaultCellStyle.BackColor = m_headerColor;
+            rs.DefaultCellStyle.SelectionBackColor = m_headerColor;
+            rs.DefaultCellStyle.ForeColor = m_headerForeColor;
+            rs.DefaultCellStyle.SelectionForeColor = m_headerForeColor;
+            rs.DefaultCellStyle.Font = new Font(m_gridView.DefaultCellStyle.Font, FontStyle.Bold);
+            for (int i = 0; i < s_columnChars.Length; i++)
             {
                 DataGridViewCell cs1 = new DataGridViewTextBoxCell();
-                cs1.Style.BackColor = m_headerColor;
                 if (i < len)
                     cs1.Value = m_variableProp[i];
                 else
@@ -475,13 +513,17 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         private void CreateProcessHeader()
         {
             int len = m_processProp.Length;
-            DataGridViewRow rs = new DataGridViewRow();
-            rs.DividerHeight = m_headerHeight;
-            for (int i = 0; i < s_columnNum; i++)
+            DataGridViewRow rs = m_gridView.RowTemplate.Clone() as DataGridViewRow;
+            Trace.WriteLine(rs.HeaderCell.GetType());
+            rs.DefaultCellStyle.BackColor = m_headerColor;
+            rs.DefaultCellStyle.SelectionBackColor = m_headerColor;
+            rs.DefaultCellStyle.ForeColor = m_headerForeColor;
+            rs.DefaultCellStyle.SelectionForeColor = m_headerForeColor;
+            rs.DefaultCellStyle.Font = new Font(m_gridView.DefaultCellStyle.Font, FontStyle.Bold);
+            for (int i = 0; i < s_columnChars.Length; i++)
             {
                 DataGridViewCell cs1 = new DataGridViewTextBoxCell();
                 
-                cs1.Style.BackColor = m_headerColor;
                 if (i < len)
                     cs1.Value = m_processProp[i];
                 else
@@ -500,7 +542,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         private void AddSystem(int index, EcellObject obj)
         {
             int len = m_systemProp.Length;
-            DataGridViewRow rs = new DataGridViewRow();
+            DataGridViewRow rs = m_gridView.RowTemplate.Clone() as DataGridViewRow;
+            rs.DefaultCellStyle.BackColor = m_systemColor;
             for (int i = 0; i < len; i++)
             {
                 string data = GetData(m_systemProp[i], obj);
@@ -509,7 +552,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 if (isNum)
                     c.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
                 c.Value = data;
-                c.Style.BackColor = m_systemColor;
                 rs.Cells.Add(c);
                 c.ReadOnly = true;
                 foreach (string name in m_notEditProp)
@@ -529,7 +571,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     break;
                 }
             }
-            for (int i = len; i < s_columnNum; i++)
+            for (int i = len; i < s_columnChars.Length; i++)
             {
                 DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
                 c.Value = "";
@@ -550,7 +592,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         {
             int len = m_variableProp.Length;
             if (obj.Key.EndsWith(":SIZE")) return;
-            DataGridViewRow rs = new DataGridViewRow();
+            DataGridViewRow rs = m_gridView.RowTemplate.Clone() as DataGridViewRow;
+            rs.DefaultCellStyle.BackColor = m_variableColor;
             for (int i = 0; i < len; i++)
             {
                 string data = GetData(m_variableProp[i], obj);
@@ -559,7 +602,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 if (isNum)
                     c.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
                 c.Value = data;
-                c.Style.BackColor = m_variableColor;
                 rs.Cells.Add(c);
                 c.ReadOnly = true;
                 foreach (string name in m_notEditProp)
@@ -581,7 +623,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     break;
                 }
             }
-            for (int i = len; i < s_columnNum; i++)
+            for (int i = len; i < s_columnChars.Length; i++)
             {
                 DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
                 c.Value = "";
@@ -600,8 +642,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         private void AddProcess(int index, EcellObject obj)
         {
             int len = m_processProp.Length;
-            DataGridViewRow rs = new DataGridViewRow();
-           
+            DataGridViewRow rs = m_gridView.RowTemplate.Clone() as DataGridViewRow;
+            rs.DefaultCellStyle.BackColor = m_processColor;
             for (int i = 0; i < len; i++)
             {
                 string data = GetData(m_processProp[i], obj);
@@ -610,7 +652,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 if (isNum)
                     c.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
                 c.Value = data;
-                c.Style.BackColor = m_processColor;
                 rs.Cells.Add(c);
                 c.ReadOnly = true;
                 foreach (string name in m_notEditProp)
@@ -633,7 +674,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 }
 
             }
-            for (int i = len; i < s_columnNum; i++)
+            for (int i = len; i < s_columnChars.Length; i++)
             {
                 DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
                 c.Value = "";
@@ -707,7 +748,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             }
             else if (name.Equals(s_indexName))
             {
-                return obj.Name;
+                EcellData data = obj.GetEcellData("Name");
+                return data != null ? data.Value.ToString() : "";
             }
             else if (name.Equals(s_indexStepper))
             {
@@ -809,7 +851,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             int len = m_gridView.Rows.Count;
             for (int i = ind + 1; i < len; i++)
             {
-                for (int j = 0; j < s_columnNum; j++)
+                for (int j = 0; j < s_columnChars.Length; j++)
                 {
                     if (!m_gridView[j, i].Value.ToString().Contains(text))
                         continue;
@@ -852,9 +894,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         public override void AddSelect(string modelID, string key, string type)
         {
             int ind = SearchObjectIndex(key, type);
-            if (ind < 0 || ind > m_gridView.RowCount - 1)
-                return;
-            if (!m_gridView.Rows[ind].Visible || m_gridView.Rows[ind].Frozen)
+            if (ind < 0 || ind >= m_gridView.RowCount)
                 return;
             m_gridView.Rows[ind].Selected = true;
             if (!m_isSelected)
@@ -870,9 +910,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         public override void RemoveSelect(string modelID, string key, string type)
         {
             int ind = SearchObjectIndex(key, type);
-            if (ind < 0 || ind > m_gridView.RowCount - 1)
-                return;
-            if (!m_gridView.Rows[ind].Visible || m_gridView.Rows[ind].Frozen) 
+            if (ind < 0 || ind >= m_gridView.RowCount)
                 return;
             m_gridView.Rows[ind].Selected = false;
             if (!m_isSelected)
@@ -1067,6 +1105,12 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 PluginManager.RemoveSelect(obj.ModelID, obj.Key, obj.Type);                                
             }
             m_isSelected = false;
+        }
+
+        public override void ResetSelect()
+        {
+            foreach (DataGridViewRow r in m_gridView.Rows)
+                r.Selected = false;
         }
 
         /// <summary>
