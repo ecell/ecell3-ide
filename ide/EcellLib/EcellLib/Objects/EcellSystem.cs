@@ -94,16 +94,13 @@ namespace Ecell.Objects
             get
             {
                 if (IsEcellValueExists(SIZE))
-                    return GetEcellValue(SIZE).CastToDouble();
+                    return (double)GetEcellValue(SIZE);
                 else
                     return 0.1d;
             }
             set
             {
-                if (IsEcellValueExists(SIZE))
-                    GetEcellValue(SIZE).Value = value;
-                else
-                    AddEcellValue(SIZE, new EcellValue(value));
+                SetEcellValue(SIZE, new EcellValue(value));
             }
         }
 
@@ -114,17 +111,14 @@ namespace Ecell.Objects
         {
             get
             {
-                if (IsEcellValueExists("StepperID"))
-                    return GetEcellValue("StepperID").ToString();
+                if (IsEcellValueExists(Constants.xpathStepperID))
+                    return GetEcellValue(Constants.xpathStepperID).ToString();
                 else
                     return null;
             }
             set
             {
-                if (IsEcellValueExists("StepperID"))
-                    GetEcellValue("StepperID").Value = value;
-                else
-                    AddEcellValue("StepperID", new EcellValue(value));
+                SetEcellValue(Constants.xpathStepperID, new EcellValue(value));
             }
         }
         #endregion

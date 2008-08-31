@@ -403,7 +403,7 @@ namespace Ecell
                     else if (vtype.Equals(typeof(int).ToString()))
                         v = new EcellValue(Convert.ToInt32(valueData));
                     else
-                        v = EcellValue.ToVariableReferenceList(valueData);
+                        v = EcellValue.FromListString(valueData);
                     d.Value = v;
                 }
 

@@ -42,21 +42,21 @@ using System.Text.RegularExpressions;
 
 namespace Ecell.Objects
 {
+    public enum EcellValueType
+    {
+        Integer = 1,
+        Double = 2,
+        String = 3,
+        List = 4
+    }
 
-    /// <summary>
-    /// The polymorphism 4 the "EcellData".
-    /// </summary>
-    public class EcellValue
+    public class EcellValue: ICloneable, IComparable
     {
         #region Fields
         /// <summary>
         /// The stored value.
         /// </summary>
         private Object m_value = null;
-        /// <summary>
-        /// The type of the stored value.
-        /// </summary>
-        private Type m_type = null;
         #endregion
 
         #region Constractors
@@ -74,10 +74,8 @@ namespace Ecell.Objects
         /// <param name="value">The "int" value</param>
         public EcellValue(int value)
         {
-            Value = value;
-            m_type = typeof(int);
+            m_value = value;
         }
-
 
         /// <summary>
         /// Creates a new "EcellValue" instance with a "double" argument.
@@ -85,8 +83,7 @@ namespace Ecell.Objects
         /// <param name="value">The "double" value</param>
         public EcellValue(double value)
         {
-            Value = value;
-            m_type = typeof(double);
+            m_value = value;
         }
 
         /// <summary>
@@ -95,20 +92,36 @@ namespace Ecell.Objects
         /// <param name="value">The "string" value</param>
         public EcellValue(string value)
         {
-            Value = value;
-            m_type = typeof(string);
+            m_value = value;
         }
 
         /// <summary>
         /// Creates a new "EcellValue" instance with a "List&lt;EcellValue&gt;" argument.
         /// </summary>
         /// <param name="value">The "List&lt;EcellValue&gt;" value</param>
-        public EcellValue(List<EcellValue> value)
+        public EcellValue(IEnumerable<EcellValue> value)
         {
-            List<EcellValue> list = new List<EcellValue>();
-            list.AddRange(value);
-            Value = list;
-            m_type = typeof(List<EcellValue>);
+            m_value = new List<EcellValue>(value);
+        }
+
+        public EcellValue(EcellValue that): this(that.m_value)
+        {
+        }
+
+        public EcellValue(object o)
+        {
+            if ((o is int) || (o is double) || (o is string))
+            {
+                m_value = o;
+            }
+            else if (o is IEnumerable<EcellValue>)
+            {
+                m_value = new List<EcellValue>((IEnumerable<EcellValue>)o);
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
         }
 
         /// <summary>
@@ -127,76 +140,66 @@ namespace Ecell.Objects
             list.Add(value3);
             list.Add(value4);
 
-            Value = list;
-            m_type = typeof(List<EcellValue>);
+            m_value = list;
         }
 
-        /// <summary>
-        /// Creates a new "EcellValue" instance with a "WrappedPolymorph" argument.
-        /// </summary>
-        /// <param name="value">The "WrappedPolymorph" value</param>
         internal EcellValue(WrappedPolymorph value)
         {
-            if (value == null)
+            if (value.IsDouble())
             {
-                Value = "";
-                m_type = typeof(string);
+                m_value = value.CastToDouble();
+            }
+            else if (value.IsInt())
+            {
+                m_value = value.CastToInt();
+            }
+            else if (value.IsList())
+            {
+                List<EcellValue> ecellValueList = new List<EcellValue>();
+                foreach (WrappedPolymorph polymorph in value.CastToList())
+                {
+                    ecellValueList.Add(new EcellValue(polymorph));
+                }
+                m_value = ecellValueList;
             }
             else
             {
-                if (value.IsDouble())
-                {
-                    Value = value.CastToDouble();
-                    m_type = typeof(double);
-                }
-                else if (value.IsInt())
-                {
-                    Value = value.CastToInt();
-                    m_type = typeof(int);
-                }
-                else if (value.IsList())
-                {
-                    Value = this.CastToEcellValue4WrappedPolymorph(value.CastToList());
-                    m_type = typeof(List<EcellValue>);
-                }
-                else
-                {
-                    Value = value.CastToString();
-                    m_type = typeof(string);
-                }
+                m_value = value.CastToString();
             }
         }
         #endregion
 
         #region Accessors
         /// <summary>
-        /// The property of the type of the stored value.
-        /// </summary>
-        public Type Type
-        {
-            get { return this.m_type; }
-        }
-
-        /// <summary>
         /// The property of the stored value.
         /// </summary>
-        public Object Value
+        public object Value
         {
             get { return this.m_value; }
-            set
-            {
-                this.m_value = value;
-                m_type = this.Value.GetType();
-            }
         }
 
+        public EcellValueType Type
+        {
+            get
+            {
+                if (m_value is int)
+                    return EcellValueType.Integer;
+                else if (m_value is double)
+                    return EcellValueType.Double;
+                else if (m_value is string)
+                    return EcellValueType.String;
+                else if (m_value is IEnumerable<EcellValue>)
+                    return EcellValueType.List;
+                throw new NotImplementedException();
+            }
+        }
         /// <summary>
         /// Tests whether the type is a "int" type.
         /// </summary>
         /// <returns>true if the type is "int"; false otherwise</returns>
         public bool IsInt
         {
-            get { return m_type == typeof(int); }
+            get { return m_value is int; }
         }
 
         /// <summary>
@@ -205,7 +208,7 @@ namespace Ecell.Objects
         /// <returns>true if the type is "double"; false otherwise</returns>
         public bool IsDouble
         {
-            get { return m_type == typeof(double); }
+            get { return m_value is double; }
         }
         /// <summary>
         /// Tests whether the type is a "string" type.
@@ -213,7 +216,7 @@ namespace Ecell.Objects
         /// <returns>true if the type is "string"; false otherwise</returns>
         public bool IsString
         {
-            get {  return m_type == typeof(string); }
+            get { return m_value is string; }
         }
         /// <summary>
         /// Tests whether the type is the list of EcellValue type.
@@ -221,18 +224,46 @@ namespace Ecell.Objects
         /// <returns>true if the type is the list of EcellValue; false otherwise</returns>
         public bool IsList
         {
-            get { return m_type == typeof(List<EcellValue>); }
+            get { return m_value is List<EcellValue>; }
         }
 
         #endregion
 
-        #region Methods
+        public override bool Equals(object obj)
+        {
+            if (obj is EcellValue)
+                return Equals(((EcellValue)obj).m_value);
+            else if (obj is int)
+                return (int)this == (int)obj;
+            else if (obj is double)
+                return (double)this == (double)obj;
+            else if (obj is string)
+                return (string)this == (string)obj;
+            else if (obj is IEnumerable<EcellValue>)
+                return (List<EcellValue>)this == (IEnumerable<EcellValue>)obj;
+            throw new InvalidOperationException();
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj is EcellValue)
+                return CompareTo(((EcellValue)obj).m_value);
+            else if (obj is int)
+                return ((int)this).CompareTo((int)obj);
+            else if (obj is double)
+                return ((double)this).CompareTo((double)obj);
+            else if (obj is string)
+                return ((string)this).CompareTo((string)obj);
+            throw new InvalidOperationException();
+        }
+
+
         /// <summary>
         /// Convert to EcellValue from string.
         /// </summary>
         /// <param name="str">string.</param>
         /// <returns>EcellValue.</returns>
-        public static EcellValue ToList(string str)
+        public static EcellValue FromListString(string str)
         {
             List<EcellValue> list = new List<EcellValue>();
             if (str == null || str == "") return new EcellValue(list);
@@ -253,137 +284,109 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// Returns the "ArrayList" casting value.
-        /// </summary>
-        /// <param name="ecellValue">The "EcellValue" value</param>
-        /// <returns>The "ArrayList" value</returns>
-        static public ArrayList CastToArrayList4EcellValue(EcellValue ecellValue)
-        {
-            if (ecellValue == null)
-            {
-                return null;
-            }
-            if (ecellValue.IsDouble)
-            {
-                ArrayList arrayList = new ArrayList();
-                arrayList.Add(ecellValue.CastToDouble().ToString());
-                return arrayList;
-            }
-            else if (ecellValue.IsInt)
-            {
-                ArrayList arrayList = new ArrayList();
-                arrayList.Add(ecellValue.CastToInt().ToString());
-                return arrayList;
-            }
-            else if (ecellValue.IsList)
-            {
-                ArrayList arrayList = new ArrayList();
-                foreach (EcellValue childEcellValue in ecellValue.CastToList())
-                {
-                    ArrayList childList = CastToArrayList4EcellValue(childEcellValue);
-                    arrayList.AddRange(childList);
-                }
-                return arrayList;
-            }
-            else
-            {
-                ArrayList arrayList = new ArrayList();
-                arrayList.Add(ecellValue.CastToString());
-                return arrayList;
-            }
-        }
-
-        /// <summary>
-        /// Returns the "double" casting value.
-        /// </summary>
-        /// <returns>The "double" value</returns>
-        public double CastToDouble()
-        {
-            if (this.IsDouble)
-            {
-                return Convert.ToDouble(this.Value);
-            }
-            else
-            {
-                return default(double);
-            }
-        }
-
-        /// <summary>
-        /// Returns the "EcellValue" casting value 4 "WrappedPolymorph".
-        /// </summary>
-        /// <param name="polymorphList">The list of a "WrappedPolymorph" value</param>
-        /// <returns>The list of a "EcellValue"</returns>
-        private List<EcellValue> CastToEcellValue4WrappedPolymorph(List<WrappedPolymorph> polymorphList)
-        {
-            List<EcellValue> ecellValueList = new List<EcellValue>();
-            foreach (WrappedPolymorph polymorph in polymorphList)
-            {
-                if (polymorph.IsDouble())
-                {
-                    ecellValueList.Add(new EcellValue(polymorph.CastToDouble()));
-                }
-                else if (polymorph.IsInt())
-                {
-                    ecellValueList.Add(new EcellValue(polymorph.CastToInt()));
-                }
-                else if (polymorph.IsList())
-                {
-                    ecellValueList.Add(new EcellValue(this.CastToEcellValue4WrappedPolymorph(polymorph.CastToList())));
-                }
-                else
-                {
-                    ecellValueList.Add(new EcellValue(polymorph.CastToString()));
-                }
-            }
-            return ecellValueList;
-        }
-
-        /// <summary>
-        /// Returns the "int" casting value.
-        /// </summary>
-        /// <returns>The "int" value</returns>
-        public int CastToInt()
-        {
-            if (this.IsInt)
-            {
-                return (int)this.Value;
-            }
-            else
-            {
-                return default(int);
-            }
-        }
-
-        /// <summary>
-        /// Returns the list of EcellValue casting value.
-        /// </summary>
-        /// <returns>The list of EcellValue</returns>
-        public List<EcellValue> CastToList()
-        {
-            if (this.IsList)
-            {
-                return this.Value as List<EcellValue>;
-            }
-            else
-            {
-                return default(List<EcellValue>);
-            }
-        }
-
-        /// <summary>
-        /// Returns the "string" casting value.
+        /// Casts the value to "string".
         /// </summary>
         /// <returns>The "string" value</returns>
-        public string CastToString()
+        public override string ToString()
         {
-            if (this.IsString)
+            if (m_value is string)
+                return (string)m_value;
+            return ToSerializedForm();
+        }
+
+        /// <summary>
+        /// Copy EcellValue.
+        /// </summary>
+        /// <returns>EcellValue</returns>
+        public object Clone()
+        {
+            return new EcellValue(this);
+        }
+
+        public string ToSerializedForm()
+        {
+            string value = "";
+            if (m_value is string)
             {
-                return this.Value.ToString();
+                return "\"" + ((string)m_value).Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
+            }
+            else if (m_value is List<EcellValue>)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append('(');
+                foreach (EcellValue ecellValue in (IEnumerable<EcellValue>)m_value)
+                {
+                    sb.Append(ecellValue.ToSerializedForm());
+                    sb.Append(", ");
+                }
+                if (sb.Length > 1)
+                {
+                    sb.Length -= 2;
+                }
+                sb.Append(')');
+                value = sb.ToString();
             }
             else
             {
-                return default(string);
+                value = m_value.ToString();
+            }
+            return value;
+        }
+
+        public static implicit operator int(EcellValue val)
+        {
+            if (val.m_value is double)
+                return (int)(double)val.m_value;
+            else if (val.m_value is int)
+                return (int)val.m_value;
+            else if (val.m_value is string)
+            {
+                try
+                {
+                    return Convert.ToInt32((string)val.m_value);
+                }
+                catch (Exception e)
+                {
+                    throw new InvalidCastException("Specified value does not represent an integer value", e);
+                }
+            }
+            throw new InvalidCastException("Specified value is not a numeric type");
+        }
+
+        public static implicit operator double(EcellValue val)
+        {
+            if (val.m_value is double)
+                return (double)val.m_value;
+            else if (val.m_value is int)
+                return (double)(int)val.m_value;
+            else if (val.m_value is string)
+            {
+                try
+                {
+                    return Convert.ToDouble((string)val.m_value);
+                }
+                catch (Exception e)
+                {
+                    throw new InvalidCastException("Specified value does not represent a double value", e);
+                }
+            }
+            throw new InvalidCastException("Specified value is not a numeric type");
+        }
+
+        public static explicit operator List<EcellValue>(EcellValue val)
+        {
+            return (List<EcellValue>)val.Value;
+        }
+
+        public static implicit operator string(EcellValue val)
+        {
+            if (val.Value is string)
+            {
+                return (string)val.Value;
+            }
+            else
+            {
+                return val.Value.ToString();
             }
         }
 
@@ -392,156 +395,30 @@ namespace Ecell.Objects
         /// </summary>
         /// <param name="ecellValue">The "EcellValue" value</param>
         /// <returns>The "WrappedPolymorph" value</returns>
-        internal static WrappedPolymorph CastToWrappedPolymorph4EcellValue(EcellValue ecellValue)
+        internal WrappedPolymorph ToWrappedPolymorph()
         {
-            if (ecellValue.IsDouble)
+            if (this.m_value is double)
             {
-                return new WrappedPolymorph(ecellValue.CastToDouble());
+                return new WrappedPolymorph((double)this.m_value);
             }
-            else if (ecellValue.IsInt)
+            else if (this.m_value is int)
             {
-                return new WrappedPolymorph(ecellValue.CastToInt());
+                return new WrappedPolymorph((int)this.m_value);
             }
-            else if (ecellValue.IsList)
+            else if (this.m_value is List<EcellValue>)
             {
                 List<WrappedPolymorph> wrappedPolymorphList = new List<WrappedPolymorph>();
-                foreach (EcellValue childEcellValue in ecellValue.CastToList())
+                foreach (EcellValue childEcellValue in (List<EcellValue>)this.m_value)
                 {
-                    wrappedPolymorphList.Add(CastToWrappedPolymorph4EcellValue(childEcellValue));
+                    wrappedPolymorphList.Add(childEcellValue.ToWrappedPolymorph());
                 }
                 return new WrappedPolymorph(wrappedPolymorphList);
             }
-            else
+            else if (this.m_value is string)
             {
-                return new WrappedPolymorph(ecellValue.CastToString());
+                return new WrappedPolymorph((string)this.m_value);
             }
+            throw new ArgumentException();
         }
-
-        /// <summary>
-        /// Casts the value to "string".
-        /// </summary>
-        /// <returns>The "string" value</returns>
-        public override string ToString()
-        {
-            if (this.Value == null)
-            {
-                return null;
-            }
-            if (this.IsList)
-            {
-                return this.ToString4List((List<EcellValue>)this.Value);
-            }
-            else
-            {
-                return this.Value.ToString();
-            }
-        }
-
-        /// <summary>
-        /// Convert to EcellValue from string.
-        /// </summary>
-        /// <param name="str">string.</param>
-        /// <returns>EcellValue.</returns>
-        public static EcellValue ToVariableReferenceList(string str)
-        {
-            List<EcellValue> list = new List<EcellValue>();
-            if (str == null || str == "") return new EcellValue(list);
-
-            string text = str.Substring(1);
-            text = text.Substring(0, text.Length - 1);
-            Regex reg = new Regex("\\((?<refer>.+?)\\)");
-
-            MatchCollection coll = reg.Matches(text);
-            IEnumerator iter = coll.GetEnumerator();
-            while (iter.MoveNext())
-            {
-                Match m1 = (Match)iter.Current;
-                string refStr = m1.Groups["refer"].Value;
-                /*
-                Regex regObj =
-                    new Regex("\"(?<name>.+)\",(.+)\"(?<id>.+)\",(.+)(?<coe>.+),(.+)(?<fix>.+)");
-                 */
-                Regex regObj =
-                    new Regex("(.*)\"(?<name>.+)\"(.*),(.*)\"(?<id>.+)\"(.*),(?<coe>.+),(?<fix>.+)");
-                Match m = regObj.Match(refStr);
-                if (m.Success)
-                {
-                    List<EcellValue> tmpList = new List<EcellValue>();
-                    tmpList.Add(new EcellValue(m.Groups["name"].Value.Trim()));
-                    tmpList.Add(new EcellValue(m.Groups["id"].Value.Trim()));
-                    tmpList.Add(new EcellValue(Convert.ToInt32(m.Groups["coe"].Value.Trim())));
-                    tmpList.Add(new EcellValue(Convert.ToInt32(m.Groups["fix"].Value.Trim())));
-                    list.Add(new EcellValue(tmpList));
-                }
-            }
-            return new EcellValue(list);
-        }
-
-        /// <summary>
-        /// Casts the list of "EcellObject" to "string"
-        /// </summary>
-        /// <param name="ecellValueList">The list of "EcellValue"</param>
-        /// <returns>The "string" value</returns>
-        private string ToString4List(List<EcellValue> ecellValueList)
-        {
-            String value = "";
-            foreach (EcellValue ecellValue in ecellValueList)
-            {
-                if (ecellValue.IsList)
-                {
-                    value += ", " + this.ToString4List(ecellValue.CastToList());
-                }
-                else if (ecellValue.IsInt)
-                {
-                    value += ", " + ecellValue.CastToInt();
-                }
-                else if (ecellValue.IsDouble)
-                {
-                    value += ", " + ecellValue.CastToDouble();
-                }
-                else
-                {
-                    value += ", " + "\"" + ecellValue.ToString() + "\"";
-                }
-            }
-            if (value.Length >= 2)
-            {
-                value = "(" + value.Substring(2) + ")";
-            }
-            else
-            {
-                value = "(" + value + ")";
-            }
-            return value;
-        }
-
-        /// <summary>
-        /// Copy EcellValue.
-        /// </summary>
-        /// <returns>EcellValue</returns>
-        public EcellValue Copy()
-        {
-            if (IsList)
-            {
-                List<EcellValue> list = new List<EcellValue>();
-                foreach (EcellValue value in this.CastToList())
-                    list.Add(value.Copy());
-                return new EcellValue(list);
-            }
-            else if (IsInt)
-            {
-                return new EcellValue(this.CastToInt());
-            }
-            else if (IsDouble)
-            {
-                return new EcellValue(this.CastToDouble());
-            }
-            else if (IsString)
-            {
-                return new EcellValue(this.CastToString());
-            }
-            else return null;
-        }
-        #endregion
     }
 }

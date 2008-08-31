@@ -123,9 +123,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 {
                     if (m_dgv.Rows[i].IsNewRow) continue;
                     if (m_dgv[0, i].Value == null) continue;
-                    if (d.Name == m_dgv[0, i].Value.ToString())
+                    if (d.Name == (string)m_dgv[0, i].Value)
                     {
-                        m_dgv[1, i].Value = d.Value.ToString();
+                        m_dgv[1, i].Value = (string)d.Value;
                     }
                 }
             }
@@ -246,7 +246,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     if ((string)r.Cells[0].Value == d.Name)
                     {
                         if (d.Gettable && (d.Value.IsDouble))
-                            r.Cells[1].Value = e.ToString();
+                            r.Cells[1].Value = (string)e;
                         if (d.Name == "FullID")
                             r.Cells[1].ReadOnly = true;
                         break;
@@ -298,11 +298,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             if (d.Name == Constants.xpathExpression)
             {
                 c2 = new DataGridViewOutOfPlaceEditableCell();
-                c2.Value = d.Value.CastToString();
+                c2.Value = (string)d.Value;
                 ((DataGridViewOutOfPlaceEditableCell)c2).OnOutOfPlaceEditRequested =
                     delegate(DataGridViewOutOfPlaceEditableCell c)
                     {
-                        string retval = ShowFormulatorDialog(c.Value == null ? "" : c.Value.ToString());
+                        string retval = ShowFormulatorDialog(c.Value == null ? "" : (string)c.Value);
                         if (retval != null)
                         {
                             c.Value = retval;
@@ -323,13 +323,13 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 {
                     ((DataGridViewComboBoxCell)c2).Items.Add(obj.Key);
                 }
-                c2.Value = d.Value.ToString();
+                c2.Value = (string)d.Value;
                 m_stepperIDComboBox = (DataGridViewComboBoxCell)c2;
             }
             else
             {
                 c2 = new DataGridViewTextBoxCell();
-                c2.Value = d.Value.ToString();
+                c2.Value = (string)d.Value;
             }
             r.Cells.Add(c2);
             m_dgv.Rows.Add(r);
@@ -470,7 +470,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
                 AddProperty(d, m_current.Type);
                 if (d.Name == EcellProcess.VARIABLEREFERENCELIST)
-                    m_refStr = d.Value.ToString();
+                    m_refStr = (string)d.Value;
             }
 
             if (m_current.Type == Constants.xpathSystem)
@@ -489,7 +489,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                             {
                                 if (d.Name == "Value")
                                 {
-                                    dSize.Value = new EcellValue(d.Value.CastToDouble());
+                                    dSize.Value = new EcellValue((double)d.Value);
                                 }
                             }
                         }
@@ -778,10 +778,10 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             if (e.ColumnIndex == 0)
             {
                 // user-defined property
-                string propName = e.Value.ToString();
+                string propName = (string)e.Value;
                 try
                 {
-                    if (propName == editCell.Value)
+                    if (propName == (string)editCell.Value)
                         return;
 
                     if (m_current.GetEcellData(propName) != null
@@ -839,11 +839,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         EcellData tag = editCell.Tag as EcellData;
                         if (tag.Name == Constants.xpathSize)
                         {
-                            UpdateSize(m_current, e.Value.ToString());
+                            UpdateSize(m_current, (string)e.Value);
                         }
                         else
                         {
-                            String data = e.Value.ToString();
+                            String data = (string)e.Value;
                             if (m_env.PluginManager.Status == ProjectStatus.Running
                                 || m_env.PluginManager.Status == ProjectStatus.Suspended)
                             {
@@ -881,7 +881,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         string propName = editCell.Tag as string;
                         if (propName == "ID")
                         {
-                            String tmpID = e.Value.ToString();
+                            String tmpID = (string)e.Value;
                             if (tmpID.Equals(m_current.Key))
                                 return;
                             if (Util.IsReservedID(tmpID) || Util.IsNGforID(tmpID))

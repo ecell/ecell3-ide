@@ -154,7 +154,7 @@ namespace Ecell
                 if (ecellData == null || !ecellData.Saveable)
                     continue;
                 if (ecellData.Value == null
-                    || (ecellData.Value.IsString && ecellData.Value.CastToString().Length <= 0))
+                    || (ecellData.Value.IsString && ((string)ecellData.Value).Length <= 0))
                     continue;
 
                 m_tx.WriteStartElement(Constants.xpathProperty.ToLower());
@@ -368,7 +368,7 @@ namespace Ecell
                     systemID + Constants.delimiterColon +
                     nodeID.InnerText + Constants.delimiterColon +
                     nodePropertyName.InnerText;
-                WrappedPolymorph polymorph = EcellValue.CastToWrappedPolymorph4EcellValue(ecellValue);
+                WrappedPolymorph polymorph = ecellValue.ToWrappedPolymorph();
                 if (flag.Equals(Constants.xpathVariable))
                 {
                     if (isCreated == true)
@@ -508,7 +508,7 @@ namespace Ecell
                     m_simulator.LoadStepperProperty(
                         stepperID.InnerText,
                         propertyName.InnerText,
-                        EcellValue.CastToWrappedPolymorph4EcellValue(ecellValue));
+                        ecellValue.ToWrappedPolymorph());
                     EcellData ecellData = new EcellData(
                             propertyName.InnerText, ecellValue,
                             propertyName.InnerText);
@@ -627,7 +627,7 @@ namespace Ecell
                             systemPropertyName.InnerText;
                         m_simulator.LoadEntityProperty(
                                 entityPath,
-                                EcellValue.CastToWrappedPolymorph4EcellValue(ecellValue));
+                                ecellValue.ToWrappedPolymorph());
                         EcellData ecellData = new EcellData(
                                 systemPropertyName.InnerText,
                                 ecellValue,

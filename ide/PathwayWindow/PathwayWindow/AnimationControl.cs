@@ -604,7 +604,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             try
             {
                 value = m_dManager.GetEntityProperty(fullpath);
-                num = (float)value.CastToDouble();
+                num = (float)((double)value);
             }
             catch (Exception e)
             {

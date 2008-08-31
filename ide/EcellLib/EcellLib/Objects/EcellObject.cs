@@ -460,7 +460,7 @@ namespace Ecell.Objects
                 {
                     foreach (EcellData value in this.m_ecellDatas)
                     {
-                        copyValueList.Add(value.Copy());
+                        copyValueList.Add((EcellData)value.Clone());
                     }
                 }
             }
@@ -616,11 +616,16 @@ namespace Ecell.Objects
             return false;
         }
 
-        /// <summary>
-        /// Add EcellValue.
-        /// </summary>
-        protected void AddEcellValue(string name, EcellValue value)
+        protected void SetEcellValue(string name, EcellValue value)
         {
+            foreach (EcellData d in Value)
+            {
+                if (d.Name == name)
+                {
+                    d.Value = value;
+                    return;
+                }
+            }
             string entytyPath = this.m_type + ":" + this.m_key + ":" + name;
             EcellData data = new EcellData(name, value, entytyPath);
             AddValue(data);

@@ -42,16 +42,13 @@ namespace Ecell.Objects
             get
             {
                 if (IsEcellValueExists(COMMENT))
-                    return GetEcellValue(COMMENT).CastToString();
+                    return GetEcellValue(COMMENT).ToString();
                 else
                     return null;
             }
             set
             {
-                if (IsEcellValueExists(COMMENT))
-                    GetEcellValue(COMMENT).Value = value;
-                else
-                    AddEcellValue(COMMENT, new EcellValue(value));
+                SetEcellValue(COMMENT, new EcellValue(value));
             }
         }
         /// <summary>
@@ -62,16 +59,13 @@ namespace Ecell.Objects
             get
             {
                 if (IsEcellValueExists(ALIGN))
-                    return (StringAlignment)GetEcellValue(ALIGN).CastToInt();
+                    return (StringAlignment)(int)GetEcellValue(ALIGN);
                 else
                     return StringAlignment.Near;
             }
             set
             {
-                if (IsEcellValueExists(ALIGN))
-                    GetEcellValue(ALIGN).Value = (int)value;
-                else
-                    AddEcellValue(ALIGN, new EcellValue((int)value));
+                SetEcellValue(ALIGN, new EcellValue(value));
             }
         }
         #endregion

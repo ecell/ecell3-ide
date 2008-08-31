@@ -140,8 +140,7 @@ namespace Ecell
                         || !ecellData.Settable
                         || !ecellData.Loadable
                         || ecellData.Value == null
-                        || (ecellData.Value.IsString &&
-                            ecellData.Value.CastToString().Length <= 0))
+                        || (ecellData.Value.IsString && ((string)ecellData.Value).Length <= 0))
                         continue;
                     m_tx.WriteStartElement(Constants.xpathProperty.ToLower());
                     m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, ecellData.Name);
@@ -455,7 +454,7 @@ namespace Ecell
                     m_simulator.LoadStepperProperty(
                         stepperID.InnerText,
                         stepperPropertyName.InnerText,
-                        EcellValue.CastToWrappedPolymorph4EcellValue(ecellValue));
+                        ecellValue.ToWrappedPolymorph());
                     EcellData ecellData = new EcellData(
                             stepperPropertyName.InnerText, ecellValue, stepperPropertyName.InnerText);
                     ecellData.Gettable = true;

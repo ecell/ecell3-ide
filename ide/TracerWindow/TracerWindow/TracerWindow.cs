@@ -230,8 +230,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 {
                     if (d.Name.Equals(EcellProcess.ISCONTINUOUS))
                     {
-                        if (d.Value.CastToInt() == 1) isContinue = true;
-                        else isContinue = false;
+                        isContinue = (int)d.Value != 0;
                     }
                 }
                 foreach (EcellData d in obj.Value)
@@ -331,8 +330,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 if (d.Name.Equals(EcellProcess.ISCONTINUOUS))
                 {
-                    if (d.Value.CastToInt() == 1) isContinue = true;
-                    else isContinue = false;
+                    isContinue = (int)d.Value != 0;
                     break;
                 }
             }
@@ -690,8 +688,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     EcellValue v = m_dManager.GetEntityProperty(FullPN);
                     if (v == null) continue;
                     bool isCont = false;
-                    if (v.CastToInt() == 1) isCont = true;
-
+                    isCont = (int)v != 0;
                     tagDic.Add(t, isCont);
                     foreach (TraceWindow win in m_winList)
                     {

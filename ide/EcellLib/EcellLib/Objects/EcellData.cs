@@ -42,7 +42,7 @@ namespace Ecell.Objects
     /// <summary>
     /// Stores the property data.
     /// </summary>
-    public class EcellData
+    public class EcellData: ICloneable
     {
         #region Fields
         /// <summary>
@@ -109,7 +109,7 @@ namespace Ecell.Objects
         public EcellData(string name, EcellValue data, string entityPath)
         {
             this.m_name = name;
-            this.Value = data;
+            this.m_value = data;
             this.m_entityPath = entityPath;
             this.m_isGettable = true;
             this.m_isSettable = true;
@@ -117,6 +117,17 @@ namespace Ecell.Objects
             this.m_isSavable = true;
             this.m_isLogable = false;
             this.m_isLogger = false;
+        }
+
+        public EcellData(EcellData that)
+            : this(that.m_name, (EcellValue)that.m_value.Clone(), that.m_entityPath)
+        {
+            m_isGettable = that.m_isGettable;
+            m_isLoadable = that.m_isLoadable;
+            m_isLogable = that.m_isLogable;
+            m_isLogger = that.m_isLogger;
+            m_isSavable = that.m_isSavable;
+            m_isSettable = that.m_isSettable;
         }
         #endregion
 
@@ -216,23 +227,9 @@ namespace Ecell.Objects
         /// Create the copy "EcellData".
         /// </summary>
         /// <returns>The copy "EcellData"</returns>
-        public EcellData Copy()
+        public object Clone()
         {
-            try
-            {
-                EcellData newData = new EcellData(this.m_name, this.Value.Copy(), this.m_entityPath);
-                newData.Gettable = this.m_isGettable;
-                newData.Loadable = this.m_isLoadable;
-                newData.Logable = this.m_isLogable;
-                newData.Logged = this.m_isLogger;
-                newData.Saveable = this.m_isSavable;
-                newData.Settable = this.m_isSettable;
-                return newData;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Can't copy the \"EcellData\". {" + ex.ToString() + "}");
-            }
+            return new EcellData(this);
         }
 
         /// <summary>

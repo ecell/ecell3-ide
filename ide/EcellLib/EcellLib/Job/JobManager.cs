@@ -795,13 +795,14 @@ namespace Ecell.Job
                 File.AppendAllText(fileName, "\n# System\n", enc);
                 foreach (EcellObject sysObj in sysList)
                 {
+                    Debug.Assert(sysObj.Value != null);
                     foreach (string path in paramDic.Keys)
                     {
-                        if (sysObj.Value == null) continue;
                         foreach (EcellData v in sysObj.Value)
                         {
-                            if (!path.Equals(v.EntityPath)) continue;
-                            v.Value.Value = paramDic[path];
+                            if (path != v.EntityPath)
+                                continue;
+                            v.Value = new EcellValue(paramDic[path]);
                             break;
                         }
                     }
@@ -820,7 +821,7 @@ namespace Ecell.Job
                             foreach (EcellData v in obj.Value)
                             {
                                 if (!path.Equals(v.EntityPath)) continue;
-                                v.Value.Value = paramDic[path];
+                                v.Value = new EcellValue(paramDic[path]);
                                 break;
                             }
                         }
@@ -909,7 +910,7 @@ namespace Ecell.Job
                         foreach (EcellData v in sysObj.Value)
                         {
                             if (!path.Equals(v.EntityPath)) continue;
-                            v.Value.Value = paramDic[path];
+                            v.Value = new EcellValue(paramDic[path]);
                             break;
                         }
                     }
@@ -927,7 +928,7 @@ namespace Ecell.Job
                             foreach (EcellData v in obj.Value)
                             {
                                 if (!path.Equals(v.EntityPath)) continue;
-                                v.Value.Value = paramDic[path];
+                                v.Value = new EcellValue(paramDic[path]);
                                 break;
                             }
                         }
@@ -1065,12 +1066,12 @@ namespace Ecell.Job
                             {
                                 if (d.EntityPath.Equals(x.Key))
                                 {
-                                    d.Value.Value = xd;
+                                    d.Value = new EcellValue(xd);
                                     paramDic.Add(x.Key, xd);
                                 }
                                 else if (d.EntityPath.Equals(y.Key))
                                 {
-                                    d.Value.Value = yd;
+                                    d.Value = new EcellValue(yd);
                                     paramDic.Add(y.Key, yd);
                                 }
                             }
@@ -1087,12 +1088,12 @@ namespace Ecell.Job
                             {
                                 if (d.EntityPath.Equals(x.Key))
                                 {
-                                    d.Value.Value = xd;
+                                    d.Value = new EcellValue(xd);
                                     paramDic.Add(x.Key, xd);
                                 }
                                 else if (d.EntityPath.Equals(y.Key))
                                 {
-                                    d.Value.Value = yd;
+                                    d.Value = new EcellValue(yd);
                                     paramDic.Add(y.Key, yd);
                                 }
                             }

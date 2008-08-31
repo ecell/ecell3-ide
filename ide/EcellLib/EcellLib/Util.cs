@@ -250,6 +250,11 @@ namespace Ecell
             return type + Constants.delimiterColon + systemPath + Constants.delimiterColon + localID;
         }
 
+        public static string BuildFullPN(string fullID, string propName)
+        {
+            return fullID + Constants.delimiterColon + propName;
+        }
+
         /// <summary>
         /// Build the full PN from the information of components.
         /// </summary>
@@ -260,7 +265,7 @@ namespace Ecell
         /// <returns>the full PN.</returns>
         public static string BuildFullPN(string type, string systemPath, string localID, string propName)
         {
-            return BuildFullID(type, systemPath, localID) + Constants.delimiterColon + propName;
+            return BuildFullPN(BuildFullID(type, systemPath, localID), propName);
         }
 
         /// <summary>

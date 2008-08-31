@@ -315,11 +315,10 @@ namespace Ecell.IDE
                 EcellParameterData param = m_dManager.GetParameterData(key);
                 if (param == null)
                 {
-                    param = new EcellParameterData(key, m_propDict[key].Value.CastToDouble());
+                    param = new EcellParameterData(key, (double)m_propDict[key].Value);
                 }
                 commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                if (m_propDict[key].Settable &&
-                    m_propDict[key].Value.Type == typeof(double))
+                if (m_propDict[key].Settable && m_propDict[key].Value.IsDouble)
                 {
                     CheckBox c = new CheckBox();
                     if (m_dManager.IsContainsParameterData(m_propDict[key].EntityPath))
@@ -353,8 +352,7 @@ namespace Ecell.IDE
 
                 t1.Dock = DockStyle.Fill;
                 t1.Tag = key;
-                if (!m_propDict[key].Settable ||
-                    m_propDict[key].Value.Type != typeof(double))
+                if (!m_propDict[key].Settable || !m_propDict[key].Value.IsDouble)
                 {
                     t1.ReadOnly = true;
                     t1.Text = param.Max.ToString();
@@ -363,7 +361,7 @@ namespace Ecell.IDE
                 {
                     if (param.Max == 0.0)
                     {
-                        double d = m_propDict[key].Value.CastToDouble();
+                        double d = (double)m_propDict[key].Value;
                         if (d >= 0.0)
                             t1.Text = Convert.ToString(d * 1.5);
                         else
@@ -380,8 +378,7 @@ namespace Ecell.IDE
                 TextBox t2 = new TextBox();
                 t2.Dock = DockStyle.Fill;
                 t2.Tag = key;
-                if (!m_propDict[key].Settable ||
-                    m_propDict[key].Value.Type != typeof(double))
+                if (!m_propDict[key].Settable || !m_propDict[key].Value.IsDouble)
                 {
                     t2.ReadOnly = true;
                     t2.Text = param.Min.ToString();
@@ -390,7 +387,7 @@ namespace Ecell.IDE
                 {
                     if (param.Min == 0.0)
                     {
-                        double d = m_propDict[key].Value.CastToDouble();
+                        double d = (double)m_propDict[key].Value;
                         if (d >= 0.0)
                             t2.Text = Convert.ToString(d * 0.5);
                         else
@@ -410,8 +407,7 @@ namespace Ecell.IDE
                 t3.Text = param.Step.ToString();
                 t3.Dock = DockStyle.Fill;
                 t3.Tag = key;
-                if (!m_propDict[key].Settable ||
-                    m_propDict[key].Value.Type != typeof(double))
+                if (!m_propDict[key].Settable || !m_propDict[key].Value.IsDouble)
                 {
                     t3.ReadOnly = true;
                 }
@@ -509,8 +505,7 @@ namespace Ecell.IDE
                                     EcellParameterData pvalue = m_dManager.GetParameterData(d.EntityPath);
                                     if (pvalue == null)
                                     {
-                                        pvalue = new EcellParameterData(d.EntityPath,
-                                            d.Value.CastToDouble());
+                                        pvalue = new EcellParameterData(d.EntityPath, (double)d.Value);
                                     }
                                     t1.Text = pvalue.Max.ToString();
                                     t2.Text = pvalue.Min.ToString();
@@ -1168,7 +1163,7 @@ namespace Ecell.IDE
                     {
                         EcellData data = new EcellData();
                         data.Name = (string)c.Tag;
-                        data.Value = EcellValue.ToVariableReferenceList(m_refStr);
+                        data.Value = EcellValue.FromListString(m_refStr);
                         if (key.Contains(":"))
                         {
                             int ind = key.LastIndexOf(":");
@@ -1253,7 +1248,7 @@ namespace Ecell.IDE
                                 {
                                     if (d.EntityPath.EndsWith(":Value"))
                                     {
-                                        if (d.Value.CastToDouble() == Convert.ToDouble(c.Text))
+                                        if ((double)d.Value == Convert.ToDouble(c.Text))
                                         {
                                         }
                                         else
@@ -1293,17 +1288,17 @@ namespace Ecell.IDE
                     {
                         EcellData data = new EcellData();
                         data.Name = (string)c.Tag;
-                        if (m_propDict[data.Name].Value.Type == typeof(int))
+                        if (m_propDict[data.Name].Value.IsInt)
                             data.Value = new EcellValue(Convert.ToInt32(c.Text));
-                        else if (m_propDict[data.Name].Value.Type == typeof(double))
+                        else if (m_propDict[data.Name].Value.IsDouble)
                         {
                             if (c.Text == "1.79769313486232E+308")
                                 data.Value = new EcellValue(Double.MaxValue);
                             else
                                 data.Value = new EcellValue(Convert.ToDouble(c.Text));
                         }
-                        else if (m_propDict[data.Name].Value.Type == typeof(List<EcellValue>))
-                            data.Value = EcellValue.ToList(c.Text);
+                        else if (m_propDict[data.Name].Value.IsList)
+                            data.Value = EcellValue.FromListString(c.Text);
                         else
                             data.Value = new EcellValue(c.Text);
 

@@ -1257,37 +1257,29 @@ namespace Ecell
                         for (int i = 0; i < this.m_ecellObject.Value.Count; i++)
                         {
                             EcellData data = this.m_ecellObject.Value[i];
-                            if (data.EntityPath.Equals(fullPN))
+                            if (data.EntityPath == fullPN)
                             {
                                 if (!data.Settable)
                                 {
                                     throw new Exception(String.Format(MessageResources.ErrSetProp,
                                         new object[] { fullPN }));
                                 }
-                                else if (data.Name.Equals(Constants.xpathVRL))
+                                else if (data.Name == Constants.xpathVRL)
                                 {
-                                    data.Value = EcellValue.ToVariableReferenceList(value);
+                                    data.Value = EcellValue.FromListString(value);
                                     //
                                     // Exchange ":.:" for ":[path]:".
                                     //
-                                    string path = this.m_fullID.Split(Constants.delimiterColon.ToCharArray())[1];
-                                    for (int j = 0; j < data.Value.CastToList().Count; j++)
+                                    string type, systemPath, localID;
+                                    Util.ParseFullID(m_fullID, out type, out systemPath, out localID);
+                                    List<EcellValue> newVRL = new List<EcellValue>();
+                                    foreach (List<EcellValue> vr in (List<EcellValue>)data.Value)
                                     {
-                                        string[] IDs
-                                            = data.Value.CastToList()[j].CastToList()[1].CastToString()
-                                                .Split(Constants.delimiterColon.ToCharArray());
-                                        if (IDs[1].Equals(Constants.delimiterPeriod))
-                                        {
-                                            IDs[1] = path;
-                                        }
-                                        string ID = null;
-                                        foreach (string IDElement in IDs)
-                                        {
-                                            ID = ID + Constants.delimiterColon + IDElement;
-                                        }
-                                        data.Value.CastToList()[j].CastToList()[1]
-                                            = new EcellValue(ID.Substring(1));
+                                        if (vr[1] == Constants.delimiterPeriod)
+                                            vr[1] = new EcellValue(systemPath);
+                                        newVRL.Add(new EcellValue(vr));
                                     }
+                                    data.Value = new EcellValue(newVRL);
                                     findFlag = true;
                                 }
                                 else if (data.Value.IsDouble)

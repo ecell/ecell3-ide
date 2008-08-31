@@ -376,7 +376,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             {
                 EcellValue v = DataManager.GetEntityProperty(entPath);
                 if (v == null) continue;
-                m_propDic[entPath].Value = v.Value.ToString();
+                m_propDic[entPath].Value = (string)v;
             }
         }
 
@@ -427,7 +427,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             {
                 if (m_gridView.Rows[i].Tag == null) 
                     return m_gridView.Rows[i].Index;
-                if (m_gridView[s_ID, i].Value.ToString().CompareTo(id) > 0) 
+                if (((IComparable)m_gridView[s_ID, i].Value).CompareTo(id) > 0) 
                     return m_gridView.Rows[i].Index;
                 preIndex = m_gridView.Rows[i].Index;
             }
@@ -749,14 +749,14 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             else if (name.Equals(s_indexName))
             {
                 EcellData data = obj.GetEcellData("Name");
-                return data != null ? data.Value.ToString() : "";
+                return data != null ? (string)data.Value: "";
             }
             else if (name.Equals(s_indexStepper))
             {
                 foreach (EcellData d in obj.Value)
                 {
                     if (d.Name.Equals(Constants.xpathStepperID))
-                        return d.Value.ToString();
+                        return (string)d.Value;
                 }
             }
             else 
@@ -764,7 +764,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 foreach (EcellData d in obj.Value)
                 {
                     if (name.Equals(d.Name))
-                        return d.Value.ToString();
+                        return (string)d.Value;
                 }
             }
 
@@ -853,7 +853,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             {
                 for (int j = 0; j < s_columnChars.Length; j++)
                 {
-                    if (!m_gridView[j, i].Value.ToString().Contains(text))
+                    if (!((string)m_gridView[j, i].Value).Contains(text))
                         continue;
 
                     ResetSelect();
@@ -985,14 +985,14 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 int len = m_gridView.Rows.Count;
                 for (int i = len - 1; i >= 0; i--)
                 {
-                    if (m_gridView[s_ID, i].Value.ToString().Equals(id))
+                    if (m_gridView[s_ID, i].Value.Equals(id))
                     {
                         DeleteDictionary(i);
                         m_gridView.Rows.RemoveAt(i);
                     }
                     if (isChanged)
                     {
-                        if (m_gridView[s_ID, i].Value.ToString().StartsWith(id))
+                        if (((string)m_gridView[s_ID, i].Value).StartsWith(id))
                         {
                             DeleteDictionary(i);
                             m_gridView.Rows.RemoveAt(i);

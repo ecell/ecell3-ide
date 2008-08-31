@@ -85,19 +85,19 @@ namespace Ecell.Objects
         /// <param name="value">EcellValue</param>
         public EcellReference(EcellValue value)
         {
-            List<EcellValue> list = value.CastToList();
+            List<EcellValue> list = (List<EcellValue>)value;
             if (list.Count == 4)
             {
-                this.m_name = list[0].CastToString();
-                this.m_fullID = list[1].CastToString();
-                this.m_coeff = list[2].CastToInt();
-                this.m_accessor = list[3].CastToInt();
+                this.m_name = (string)list[0];
+                this.m_fullID = (string)list[1];
+                this.m_coeff = (int)list[2];
+                this.m_accessor = (int)list[3];
             }
             else if (list.Count == 3)
             {
-                this.m_name = list[0].CastToString();
-                this.m_fullID = list[1].CastToString();
-                this.m_coeff = list[2].CastToInt();
+                this.m_name = (string)list[0];
+                this.m_fullID = (string)list[1];
+                this.m_coeff = (int)list[2];
                 this.m_accessor = 1;
             }
         }
@@ -215,7 +215,7 @@ namespace Ecell.Objects
         /// <returns>the list of EcellReference.</returns>
         public static List<EcellReference> ConvertFromVarRefList(EcellValue varRef)
         {
-            List<EcellValue> varRefList = varRef.CastToList();
+            List<EcellValue> varRefList = (List<EcellValue>)varRef;
             List<EcellReference> list = new List<EcellReference>();
             if (varRefList == null || varRefList.Count == 0)
                 return list;
@@ -256,7 +256,7 @@ namespace Ecell.Objects
         {
             if (!org.IsList) return org;
             List<EcellValue> list = new List<EcellValue>();
-            foreach (EcellValue v in org.CastToList())
+            foreach (EcellValue v in (List<EcellValue>)org)
             {
                 string str = v.ToString();
                 str = str.Replace('(', ' ');

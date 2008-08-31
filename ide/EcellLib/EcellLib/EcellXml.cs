@@ -34,14 +34,14 @@ namespace Ecell
 
             if (ecellValue.IsDouble)
             {
-                if (Double.IsInfinity(ecellValue.CastToDouble()))
+                if (Double.IsInfinity((double)ecellValue))
                 {
                     m_tx.WriteElementString(
                         Constants.xpathValue.ToLower(),
                         null,
                         XmlConvert.ToString(Double.PositiveInfinity));
                 }
-                else if (ecellValue.CastToDouble() == Double.MaxValue)
+                else if ((double)ecellValue == Double.MaxValue)
                 {
                     m_tx.WriteElementString(
                         Constants.xpathValue.ToLower(),
@@ -53,7 +53,7 @@ namespace Ecell
                     m_tx.WriteElementString(
                         Constants.xpathValue.ToLower(),
                         null,
-                        ecellValue.CastToDouble().ToString());
+                        ((double)ecellValue).ToString());
                 }
             }
             else if (ecellValue.IsInt)
@@ -61,18 +61,14 @@ namespace Ecell
                 m_tx.WriteElementString(
                     Constants.xpathValue.ToLower(),
                     null,
-                    ecellValue.CastToInt().ToString());
+                    ((int)ecellValue).ToString());
             }
             else if (ecellValue.IsList)
             {
-                if (ecellValue.CastToList() == null || ecellValue.CastToList().Count <= 0)
-                {
-                    return;
-                }
                 if (isElement)
                 {
                     m_tx.WriteStartElement(Constants.xpathValue.ToLower());
-                    foreach (EcellValue childEcellValue in ecellValue.CastToList())
+                    foreach (EcellValue childEcellValue in (List<EcellValue>)ecellValue)
                     {
                         this.WriteValueElements(childEcellValue, true);
                     }
@@ -80,7 +76,7 @@ namespace Ecell
                 }
                 else
                 {
-                    foreach (EcellValue childEcellValue in ecellValue.CastToList())
+                    foreach (EcellValue childEcellValue in (List<EcellValue>)ecellValue)
                     {
                         this.WriteValueElements(childEcellValue, true);
                     }
@@ -91,7 +87,7 @@ namespace Ecell
                 m_tx.WriteElementString(
                     Constants.xpathValue.ToLower(),
                     null,
-                    ecellValue.CastToString());
+                    (string)ecellValue);
             }
         }
 

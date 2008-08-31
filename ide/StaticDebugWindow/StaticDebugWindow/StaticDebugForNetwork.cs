@@ -123,12 +123,12 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                 foreach (EcellData d in obj.Value)
                 {
                     if (d.Name != Constants.xpathVRL) continue;
-                    List<EcellValue> rList = d.Value.CastToList();
+                    List<EcellValue> rList = (List<EcellValue>)d.Value;
                     if (rList == null) continue;
                     foreach (EcellValue v in rList)
                     {
                         string systemPath = "";
-                        List<EcellValue> vList = v.CastToList();
+                        List<EcellValue> vList = (List<EcellValue>)v;
                         EcellValue vData = vList[1];
                         string[] data = vData.ToString().Split(new char[] { ':' });
                         if (data[1].Equals("."))
@@ -184,7 +184,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                 {
                     if (d.Name != Constants.xpathVRL) continue;
 
-                    List<EcellValue> rList = d.Value.CastToList();
+                    List<EcellValue> rList = (List<EcellValue>)d.Value;
                     if (rList == null || rList.Count <= 0)
                     {
                         m_errorList.Add(new ObjectReport(
@@ -197,7 +197,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                     foreach (EcellValue v in rList)
                     {
                         string systemPath = "";
-                        List<EcellValue> vList = v.CastToList();
+                        List<EcellValue> vList = (List<EcellValue>)v;
                         EcellValue vData = vList[1];
                         string[] data = vData.ToString().Split(new char[] { ':' });
                         if (data[1].Equals("."))

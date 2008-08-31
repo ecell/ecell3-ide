@@ -122,10 +122,9 @@ namespace Ecell.IDE.Plugins.EntityList
             }
             {
                 DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-                EcellData d = obj.GetEcellData("Name");
+                EcellValue v = obj.GetEcellValue("Name");
                 // for loading the project include the process not in DM directory.
-                if (d == null) c.Value = "";
-                else c.Value = d.Value.ToString();
+                c.Value = v == null ? "": (string)v;
                 rs.Cells.Add(c);
                 c.ReadOnly = true;
             }

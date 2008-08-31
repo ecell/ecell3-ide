@@ -111,16 +111,13 @@ namespace Ecell.Objects
             get
             {
                 if (IsEcellValueExists(ACTIVITY))
-                    return GetEcellValue(ACTIVITY).CastToDouble();
+                    return (double)GetEcellValue(ACTIVITY);
                 else
                     return 0;
             }
             set
             {
-                if (IsEcellValueExists(ACTIVITY))
-                    GetEcellValue(ACTIVITY).Value = value;
-                else
-                    AddEcellValue(ACTIVITY, new EcellValue(value));
+                SetEcellValue(ACTIVITY, new EcellValue(value));
             }
         }
 
@@ -138,10 +135,7 @@ namespace Ecell.Objects
             }
             set
             {
-                if (IsEcellValueExists(EXPRESSION))
-                    GetEcellValue(EXPRESSION).Value = value;
-                else
-                    AddEcellValue(EXPRESSION, new EcellValue(value));
+                SetEcellValue(EXPRESSION, new EcellValue(value));
             }
         }
 
@@ -153,16 +147,13 @@ namespace Ecell.Objects
             get
             {
                 if (IsEcellValueExists(ISCONTINUOUS))
-                    return GetEcellValue(ISCONTINUOUS).CastToInt();
+                    return (int)GetEcellValue(ISCONTINUOUS);
                 else
                     return 0;
             }
             set
             {
-                if (IsEcellValueExists(ISCONTINUOUS))
-                    GetEcellValue(ISCONTINUOUS).Value = value;
-                else
-                    AddEcellValue(ISCONTINUOUS, new EcellValue(value));
+                SetEcellValue(ISCONTINUOUS, new EcellValue(value));
             }
         }
 
@@ -174,16 +165,13 @@ namespace Ecell.Objects
             get
             {
                 if (IsEcellValueExists(PRIORITY))
-                    return GetEcellValue(PRIORITY).CastToInt();
+                    return (int)GetEcellValue(PRIORITY);
                 else
                     return 0;
             }
             set
             {
-                if (IsEcellValueExists(PRIORITY))
-                    GetEcellValue(PRIORITY).Value = value;
-                else
-                    AddEcellValue(PRIORITY, new EcellValue(value));
+                SetEcellValue(PRIORITY, new EcellValue(value));
             }
         }
 
@@ -201,10 +189,7 @@ namespace Ecell.Objects
             }
             set
             {
-                if (IsEcellValueExists(STEPPERID))
-                    GetEcellValue(STEPPERID).Value = value;
-                else
-                    AddEcellValue(STEPPERID, new EcellValue(value));
+                SetEcellValue(STEPPERID, new EcellValue(value));
             }
         }
 

@@ -881,19 +881,14 @@ namespace Ecell
                 {
                     storedEcellDataDic[storedEcellData.Name] = storedEcellData;
                     processEcellDataList.Add(storedEcellData);
-                    if (initialCondition != null && storedEcellData.Settable)
+                    try
                     {
-                        if (storedEcellData.Value.IsDouble && storedEcellData.Settable == true)
-                        {
-                            initialCondition[storedEcellData.EntityPath]
-                                    = storedEcellData.Value.CastToDouble();
-                        }
-                        // else if (storedEcellData.Value.IsInt() && !storedEcellData.Name.StartsWith("Is"))
-                        else if (storedEcellData.Value.IsInt && storedEcellData.Settable == true)
-                        {
-                            initialCondition[storedEcellData.EntityPath]
-                                = storedEcellData.Value.CastToInt();
-                        }
+                        if (storedEcellData.Settable)
+                            initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
+                    }
+                    catch (InvalidCastException)
+                    {
+                        // non-numeric properties
                     }
                 }
             }
@@ -913,78 +908,28 @@ namespace Ecell
                     List<bool> flag = simulator.GetEntityPropertyAttributes(
                             key + Constants.delimiterColon + name);
                     if (!flag[WrappedSimulator.s_flagGettable])
-                    {
                         continue;
-                    }
+
                     EcellValue value = null;
-                    try
-                    {
-                        WrappedPolymorph property = simulator.GetEntityProperty(
-                                key + Constants.delimiterColon + name);
-                        value = new EcellValue(property);
-                    }
-                    catch (Exception ex)
-                    {
-                        Trace.WriteLine(ex);
-                        if (storedEcellDataDic.ContainsKey(name))
-                        {
-                            if (storedEcellDataDic[name].Value.CastToList()[0].IsList)
-                            {
-                                value = storedEcellDataDic[name].Value;
-                                if (name.Equals(Constants.xpathVRL))
-                                {
-                                    foreach (EcellValue vr in value.CastToList())
-                                    {
-                                        vr.CastToList()[2]
-                                            = new EcellValue(Convert.ToInt32(vr.CastToList()[2].ToString()));
-                                        vr.CastToList()[3]
-                                            = new EcellValue(Convert.ToInt32(vr.CastToList()[3].ToString()));
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                value = storedEcellDataDic[name].Value.CastToList()[0];
-                            }
-                        }
-                        else if (name.Equals(Constants.xpathActivity))
-                        {
-                            value = new EcellValue(0.0);
-                        }
-                        else
-                        {
-                            value = new EcellValue("");
-                        }
-                    }
+                    WrappedPolymorph property = simulator.GetEntityProperty(key + Constants.delimiterColon + name);
+                    value = new EcellValue(property);
                     EcellData ecellData = new EcellData(
                             name, value, key + Constants.delimiterColon + name);
                     ecellData.Settable = flag[WrappedSimulator.s_flagSettable];
                     ecellData.Gettable = flag[WrappedSimulator.s_flagGettable];
                     ecellData.Loadable = flag[WrappedSimulator.s_flagLoadable];
                     ecellData.Saveable = flag[WrappedSimulator.s_flagSavable];
-                    if (ecellData.Value != null)
+                    ecellData.Logable = ecellData.Value.IsDouble;
+                    try
                     {
-                        if (ecellData.Value.IsDouble &&
-                            (ecellData.Settable == false ||
-                            ecellData.Saveable == false))
-                        {
-                            ecellData.Logable = true;
-                        }
-                        if (ecellData.Value.IsDouble)
-                        {
-                            if (initialCondition != null && ecellData.Settable)
-                            {
-                                initialCondition[ecellData.EntityPath] = ecellData.Value.CastToDouble();
-                            }
-                        }
-                        else if (ecellData.Value.IsInt)
-                        {
-                            if (initialCondition != null && ecellData.Settable)
-                            {
-                                initialCondition[ecellData.EntityPath] = ecellData.Value.CastToInt();
-                            }
-                        }
+                        if (ecellData.Settable)
+                            initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
                     }
+                    catch (InvalidCastException)
+                    {
+                        // non-numeric properties
+                    }
+
                     if (storedEcellDataDic.ContainsKey(name))
                     {
                         ecellData.Logged = storedEcellDataDic[name].Logged;
@@ -1105,14 +1050,9 @@ namespace Ecell
                 ecellData.Saveable = flag[WrappedSimulator.s_flagSavable];
                 if (storedEcellDataDic.ContainsKey(name))
                 {
-                    if (value.IsString && value.CastToString().Equals(""))
-                    {
+                    if (value.IsString && ((string)value).Length == 0)
                         continue;
-                    }
-                    else
-                    {
-                        stepperEcellDataList.Remove(storedEcellDataDic[name]);
-                    }
+                    stepperEcellDataList.Remove(storedEcellDataDic[name]);
                 }
                 stepperEcellDataList.Add(ecellData);
             }
@@ -1177,17 +1117,14 @@ namespace Ecell
                     systemEcellDataList.Add(storedEcellData);
                     if (initialCondition != null && storedEcellData.Settable)
                     {
-                        if (storedEcellData.Value.IsDouble)
+                        try
                         {
-                            storedEcellData.Logable = true;
-                            initialCondition[storedEcellData.EntityPath]
-                                = storedEcellData.Value.CastToDouble();
+                            storedEcellData.Logable = storedEcellData.Value.IsDouble;
+                            initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
                         }
-                        // else if (storedEcellData.Value.IsInt() && !storedEcellData.Name.StartsWith("Is"))
-                        else if (storedEcellData.Value.IsInt)
+                        catch (InvalidCastException) 
                         {
-                            initialCondition[storedEcellData.EntityPath]
-                                = storedEcellData.Value.CastToInt();
+                            // non-numeric property
                         }
                     }
                 }
@@ -1206,68 +1143,24 @@ namespace Ecell
                 {
                     continue;
                 }
-                /*
-                foreach (EcellData notNullEcellData in notNullPropertyList)
-                {
-                    if (notNullEcellData.Name.Equals(name))
-                    {
-                        notNullEcellData.Value = null;
-                        break;
-                    }
-                }
-                 */
                 EcellValue value = null;
-                try
-                {
-                    WrappedPolymorph property = simulator.GetEntityProperty(key + Constants.delimiterColon + name);
-                    value = new EcellValue(property);
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine(ex);
-                    if (storedEcellDataDic.ContainsKey(name))
-                    {
-                        if (storedEcellDataDic[name].Value.CastToList()[0].IsList)
-                        {
-                            value = storedEcellDataDic[name].Value;
-                        }
-                        else
-                        {
-                            value = storedEcellDataDic[name].Value.CastToList()[0];
-                        }
-                    }
-                    else if (name.Equals(Constants.xpathSize))
-                    {
-                        value = new EcellValue(0.0);
-                    }
-                    else
-                    {
-                        value = new EcellValue("");
-                    }
-                }
+                WrappedPolymorph property = simulator.GetEntityProperty(key + Constants.delimiterColon + name);
+                value = new EcellValue(property);
                 EcellData ecellData
                         = new EcellData(name, value, key + Constants.delimiterColon + name);
                 ecellData.Settable = flag[WrappedSimulator.s_flagSettable];
                 ecellData.Gettable = flag[WrappedSimulator.s_flagGettable];
                 ecellData.Loadable = flag[WrappedSimulator.s_flagLoadable];
                 ecellData.Saveable = flag[WrappedSimulator.s_flagSavable];
-                if (ecellData.Value != null)
+                try
                 {
-                    if (ecellData.Value.IsDouble)
-                    {
-                        ecellData.Logable = true;
-                        if (initialCondition != null && ecellData.Settable)
-                        {
-                            initialCondition[ecellData.EntityPath] = ecellData.Value.CastToDouble();
-                        }
-                    }
-                    else if (ecellData.Value.IsInt)
-                    {
-                        if (initialCondition != null && ecellData.Settable)
-                        {
-                            initialCondition[ecellData.EntityPath] = ecellData.Value.CastToInt();
-                        }
-                    }
+                    ecellData.Logable = ecellData.Value.IsDouble;
+                    if (ecellData.Settable)
+                        initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
+                }
+                catch (InvalidCastException)
+                {
+                    // non-numeric property
                 }
                 if (storedEcellDataDic.ContainsKey(name))
                 {
@@ -1325,17 +1218,14 @@ namespace Ecell
                     variableEcellDataList.Add(storedEcellData);
                     if (initialCondition != null && storedEcellData.Settable)
                     {
-                        if (storedEcellData.Value.IsDouble)
+                        try
                         {
-                            storedEcellData.Logable = true;
-                            initialCondition[storedEcellData.EntityPath]
-                                = storedEcellData.Value.CastToDouble();
+                            storedEcellData.Logable = storedEcellData.Value.IsDouble;
+                            initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
                         }
-                        // else if (storedEcellData.Value.IsInt() && !storedEcellData.Name.StartsWith("Is"))
-                        else if (storedEcellData.Value.IsInt)
+                        catch (InvalidCastException)
                         {
-                            initialCondition[storedEcellData.EntityPath]
-                                = storedEcellData.Value.CastToInt();
+                            // non-numeric property
                         }
                     }
                 }
@@ -1355,59 +1245,26 @@ namespace Ecell
                     continue;
                 }
                 EcellValue value = null;
-                try
-                {
-                    WrappedPolymorph property = simulator.GetEntityProperty(
-                            key + Constants.delimiterColon + name);
-                    value = new EcellValue(property);
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine(ex);
-                    if (storedEcellDataDic.ContainsKey(name))
-                    {
-                        if (storedEcellDataDic[name].Value.CastToList()[0].IsList)
-                        {
-                            value = storedEcellDataDic[name].Value;
-                        }
-                        else
-                        {
-                            value = storedEcellDataDic[name].Value.CastToList()[0];
-                        }
-                    }
-                    else if (name.Equals(Constants.xpathMolarConc) || name.Equals(Constants.xpathNumberConc))
-                    {
-                        value = new EcellValue(0.0);
-                    }
-                    else
-                    {
-                        value = new EcellValue("");
-                    }
-                }
+                WrappedPolymorph property = simulator.GetEntityProperty(
+                        key + Constants.delimiterColon + name);
+                value = new EcellValue(property);
                 EcellData ecellData = new EcellData(
                         name, value, key + Constants.delimiterColon + name);
                 ecellData.Settable = flag[WrappedSimulator.s_flagSettable];
                 ecellData.Gettable = flag[WrappedSimulator.s_flagGettable];
                 ecellData.Loadable = flag[WrappedSimulator.s_flagLoadable];
                 ecellData.Saveable = flag[WrappedSimulator.s_flagSavable];
-                if (ecellData.Value != null)
+                try
                 {
-                    if (ecellData.Value.IsDouble)
-                    {
-                        ecellData.Logable = true;
-                        if (initialCondition != null && ecellData.Settable)
-                        {
-                            initialCondition[ecellData.EntityPath] = ecellData.Value.CastToDouble();
-                        }
-                    }
-                    else if (ecellData.Value.IsInt)
-                    {
-                        if (initialCondition != null && ecellData.Settable)
-                        {
-                            initialCondition[ecellData.EntityPath] = ecellData.Value.CastToInt();
-                        }
-                    }
+                    ecellData.Logable = ecellData.Value.IsDouble;
+                    if (ecellData.Settable)
+                        initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
                 }
+                catch (InvalidCastException)
+                {
+                    // non-numeric property
+                }
+                
                 if (storedEcellDataDic.ContainsKey(name))
                 {
                     ecellData.Logged = storedEcellDataDic[name].Logged;

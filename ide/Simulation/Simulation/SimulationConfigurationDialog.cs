@@ -335,7 +335,7 @@ namespace Ecell.IDE.Plugins.Simulation
                     if (obj.Type == Constants.xpathProcess)
                     {
                         EcellData data = obj.GetEcellData(Constants.xpathStepperID);
-                        if (data != null && data.Value.CastToString() == sc.Name)
+                        if (data != null && (string)data.Value == sc.Name)
                         {
                             stillInUse = true;
                             break;

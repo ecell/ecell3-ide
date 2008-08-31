@@ -118,6 +118,8 @@
     <Compile Include="ConsoleManager.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DMCompiler.cs" />
+    <Compile Include="DMDescriptor.cs" />
+    <Compile Include="DMDescriptorKeeper.cs" />
     <Compile Include="EcellDockContent.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -166,6 +168,7 @@
     <Compile Include="Plugin\IToolStripProvider.cs" />
     <Compile Include="Plugin\LayoutBase.cs" />
     <Compile Include="Project.cs" />
+    <Compile Include="PropertyDescriptor.cs" />
     <Compile Include="Reporting\IReport.cs" />
     <Compile Include="Reporting\ObjectPropertyReport.cs" />
     <Compile Include="Reporting\ObjectReport.cs" />

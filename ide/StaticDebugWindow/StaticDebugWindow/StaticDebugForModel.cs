@@ -131,7 +131,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 if (d.Name == Constants.xpathStepperID)
                 {
-                    CheckStepperExistence(obj, d.Value.CastToString());
+                    CheckStepperExistence(obj, (string)d.Value);
                 }
             }
         }
@@ -147,7 +147,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 if (d.Name == Constants.xpathStepperID)
                 {
-                    CheckStepperExistence(obj, d.Value.CastToString());
+                    CheckStepperExistence(obj, (string)d.Value);
                 }
                 if (d.Name == Constants.xpathExpression ||
                     d.Name == Constants.xpathFireMethod)
@@ -302,7 +302,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                 ));
                 return;
             }
-            double d = val.CastToDouble();
+            double d = (double)val;
             if (d <= 0.0)
             {
                 m_errorList.Add(new ObjectPropertyReport(
@@ -334,7 +334,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                 ));
                 return;
             }
-            double d = val.CastToDouble();
+            double d = (double)val;
             if (d < 0.0)
             {
                 m_errorList.Add(new ObjectPropertyReport(
@@ -356,8 +356,8 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <param name="l_min">The min data to be checked.</param>
         private void CompareMaxAndMin(EcellObject obj, EcellData l_max, EcellData l_min)
         {
-            double maxValue = l_max.Value.CastToDouble();
-            double minValue = l_min.Value.CastToDouble();
+            double maxValue = (double)l_max.Value;
+            double minValue = (double)l_min.Value;
 
             if (minValue > maxValue)
             {
@@ -382,10 +382,10 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             Match matchBrackets = null;
             int leftBracketsCount = 0;
             int rightBracketsCount = 0;
-            for (matchBrackets = regBrackets.Match(l_data.Value.CastToString());
+            for (matchBrackets = regBrackets.Match((string)l_data.Value);
                 matchBrackets.Success; matchBrackets = matchBrackets.NextMatch())
             {
-                if (l_data.Value.CastToString()[matchBrackets.Groups[0].Index] == '(')
+                if (((string)l_data.Value)[matchBrackets.Groups[0].Index] == '(')
                 {
                     leftBracketsCount++;
                 }

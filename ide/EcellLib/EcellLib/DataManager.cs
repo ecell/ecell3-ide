@@ -363,13 +363,7 @@ public class DataManager
 
                 // GetValue
                 EcellValue value = destEcellData.Value;
-                double temp = 0;
-                if (value.IsDouble)
-                    temp = value.CastToDouble();
-                else if (value.IsInt)
-                    temp = value.CastToInt();
-                else
-                    continue;
+                double temp = (double)value;
 
                 if (!string.IsNullOrEmpty(parameterID))
                 {
@@ -429,13 +423,7 @@ public class DataManager
                         continue;
 
                     // GetValue
-                    double temp = 0;
-                    if (value.IsDouble)
-                        temp = value.CastToDouble();
-                    else if (value.IsInt)
-                        temp = value.CastToInt();
-                    else
-                        continue;
+                    double temp = (double)value;
 
                     if (!string.IsNullOrEmpty(parameterID))
                     {
@@ -537,15 +525,14 @@ public class DataManager
             return changedFlag;
 
         List<EcellValue> changedValue = new List<EcellValue>();
-        foreach (EcellValue ecellValue in varList.CastToList())
+        foreach (EcellValue ecellValue in (List<EcellValue>)varList)
         {
             List<EcellValue> changedElements = new List<EcellValue>();
-            foreach (EcellValue element in ecellValue.CastToList())
+            foreach (EcellValue element in (List<EcellValue>)ecellValue)
             {
-                if (element.IsString
-                    && element.CastToString().StartsWith(Constants.delimiterColon))
+                if (element.IsString && ((string)element).StartsWith(Constants.delimiterColon))
                 {
-                    string oldKey = element.CastToString().Substring(1);
+                    string oldKey = ((string)element).Substring(1);
                     if (variableDic.ContainsKey(oldKey))
                     {
                         changedElements.Add(
@@ -601,13 +588,12 @@ public class DataManager
                     List<EcellValue> changedValue = new List<EcellValue>();
                     if (ecellData.Value == null) continue;
                     if (ecellData.Value.ToString() == "") continue;
-                    foreach (EcellValue ecellValue in ecellData.Value.CastToList())
+                    foreach (EcellValue ecellValue in (List<EcellValue>)ecellData.Value)
                     {
                         List<EcellValue> changedElements = new List<EcellValue>();
-                        foreach (EcellValue element in ecellValue.CastToList())
+                        foreach (EcellValue element in (List<EcellValue>)ecellValue)
                         {
-                            if (element.IsString
-                                && element.CastToString().Equals(Constants.delimiterColon + oldKey))
+                            if (element.IsString && (string)element == Constants.delimiterColon + oldKey)
                             {
                                 changedElements.Add(
                                     new EcellValue(Constants.delimiterColon + newKey));
@@ -1079,13 +1065,7 @@ public class DataManager
                 if (!data.IsInitialized())
                     continue;
 
-                double value = 0;
-                if (data.Value.IsDouble)
-                    value = data.Value.CastToDouble();
-                else if (data.Value.IsInt)
-                    value = data.Value.CastToInt();
-
-                initialCondition[data.EntityPath] = value;
+                initialCondition[data.EntityPath] = (double)data.Value;
             }
         }
     }
@@ -1157,10 +1137,9 @@ public class DataManager
                 foreach (EcellData d1 in ecellObject.Value)
                 {
                     if (!d.Name.Equals(d1.Name)) continue;
-                    if (!d.Value.ToString().Equals(d1.Value.ToString()))
+                    if (d.Value != d1.Value)
                     {
-                        WrappedPolymorph newValue = EcellValue.CastToWrappedPolymorph4EcellValue(d1.Value);
-                        m_currentProject.Simulator.SetEntityProperty(d1.EntityPath, newValue);
+                        m_currentProject.Simulator.SetEntityProperty(d1.EntityPath, d1.Value.ToWrappedPolymorph());
                     }
                     break;
                 }
@@ -2773,7 +2752,7 @@ public class DataManager
             string fullPath = Constants.xpathProcess + Constants.delimiterColon +
             Constants.delimiterPath + Constants.delimiterColon +
             Constants.xpathSize.ToUpper() + Constants.delimiterColon + "CheckProperty";
-            WrappedPolymorph newValue = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(0.01));
+            WrappedPolymorph newValue = new WrappedPolymorph(0.01);
             sim.SetEntityProperty(fullPath, newValue);
         }
         catch (Exception ex)
@@ -2795,6 +2774,8 @@ public class DataManager
         try
         {
             WrappedSimulator sim = CreateSimulatorInstance();
+            sim.CreateStepper("PassiveStepper", "tmp");
+            sim.SetEntityProperty(Util.BuildFullPN(Constants.xpathSystem, "", "/", "StepperID"), new WrappedPolymorph("tmp"));
             sim.CreateEntity(
                 dmName,
                 Constants.xpathProcess + Constants.delimiterColon +
@@ -3329,11 +3310,8 @@ public class DataManager
             {
                 EcellValue storedEcellValue = new EcellValue(simulator.GetEntityProperty(path));
                 EcellValue newEcellValue = new EcellValue(setSystemPropertyDic[path]);
-                if (storedEcellValue.Type.Equals(newEcellValue.Type)
-                    && storedEcellValue.Value.Equals(newEcellValue.Value))
-                {
+                if (storedEcellValue == newEcellValue.Value)
                     continue;
-                }
             }
             catch (Exception ex)
             {
@@ -3351,27 +3329,9 @@ public class DataManager
             {
                 EcellValue storedValue = new EcellValue(simulator.GetEntityProperty(fullPN));
                 double initialValue = initialCondition[modelID][fullPN];
-                WrappedPolymorph newValue = null;
-                if (storedValue.IsInt)
-                {
-                    int initialValueInt = Convert.ToInt32(initialValue);
-                    if (storedValue.CastToInt().Equals(initialValueInt))
-                    {
-                        continue;
-                    }
-                    newValue
-                        = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(initialValueInt));
-                }
-                else
-                {
-                    if (storedValue.CastToDouble().Equals(initialValue))
-                    {
-                        continue;
-                    }
-                    newValue
-                        = EcellValue.CastToWrappedPolymorph4EcellValue(new EcellValue(initialValue));
-                }
-                simulator.SetEntityProperty(fullPN, newValue);
+                if ((double)storedValue == initialValue)
+                    continue;
+                simulator.SetEntityProperty(fullPN, storedValue.ToWrappedPolymorph());
             }
         }
         //
@@ -3730,7 +3690,7 @@ public class DataManager
                     }
                     foreach (EcellData data in stepper.Value)
                     {
-                        data.Value = GetEcellValue(data);
+                        data.Value = new EcellValue((double)data.Value);
                     }
                     m_currentProject.StepperDic[simParamID][stepper.ModelID].Add(stepper);
                 }
@@ -3767,26 +3727,7 @@ public class DataManager
                                     || !storedData.EntityPath.Equals(newData.EntityPath))
                                     continue;
 
-                                if (storedData.Value.IsDouble)
-                                {
-                                    newData.Value = GetEcellValue(newData);
-                                }
-                                else
-                                {
-                                    try
-                                    {
-                                        newData.Value = new EcellValue(
-                                            Convert.ToInt32(
-                                                newData.Value.CastToList()[0].ToString()
-                                            )
-                                        );
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Trace.WriteLine(ex);
-                                        // do nothing
-                                    }
-                                }
+                                newData.Value = new EcellValue((double)newData.Value);
                                 newData.Gettable = storedData.Gettable;
                                 newData.Loadable = storedData.Loadable;
                                 newData.Saveable = storedData.Saveable;
@@ -3827,32 +3768,6 @@ public class DataManager
                 new object[] { projectID }), ex);
         }
     }
-    /// <summary>
-    /// GetEcellValue
-    /// </summary>
-    /// <param name="data"></param>
-    /// <returns></returns>
-    private static EcellValue GetEcellValue(EcellData data)
-    {
-        double value = 0.0;
-        try
-        {
-            // Get new value.
-            string newValue = data.Value.CastToList()[0].ToString();
-            if (newValue.Equals(Double.PositiveInfinity.ToString()))
-                value = Double.PositiveInfinity;
-            else if (newValue.Equals(Double.MaxValue.ToString()))
-                value = Double.MaxValue;
-            else
-                value = XmlConvert.ToDouble(newValue);
-        }
-        catch (Exception ex)
-        {
-            Trace.WriteLine(ex);
-            value = Double.PositiveInfinity;
-        }
-        return new EcellValue(value);
-    }
 
     /// <summary>
     /// Loads the "Stepper" 2 the "EcellCoreLib".
@@ -3886,25 +3801,10 @@ public class DataManager
                     continue;
 
                 // 4 MaxStepInterval == Double.MaxValue
-                EcellValue velue = ecellData.Value;
-                try
-                {
-                    string value = velue.ToString().Replace("(", "").Replace(")", "").Replace("\"", "");
-                    if (value.Equals(Double.PositiveInfinity.ToString()))
-                        continue;
-                    else if (value.Equals(Double.MaxValue.ToString()))
-                        continue;
+                EcellValue value = ecellData.Value;
 
-                    XmlConvert.ToDouble(value);
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine(ex);
-                    continue;
-                }
-
-                if (velue.IsDouble
-                    && (Double.IsInfinity(velue.CastToDouble()) || Double.IsNaN(velue.CastToDouble())))
+                if (value.IsDouble
+                    && (Double.IsInfinity((double)value) || Double.IsNaN((double)value)))
                     continue;
 
                 if (ecellData.Saveable)
@@ -3912,7 +3812,7 @@ public class DataManager
                     simulator.LoadStepperProperty(
                         stepper.Key,
                         ecellData.Name,
-                        EcellValue.CastToWrappedPolymorph4EcellValue(velue));
+                        value.ToWrappedPolymorph());
                 }
                 else if (ecellData.Settable)
                 {
@@ -3920,8 +3820,7 @@ public class DataManager
                     {
                         setStepperDic[stepper.Key] = new Dictionary<string, WrappedPolymorph>();
                     }
-                    setStepperDic[stepper.Key][ecellData.Name]
-                        = EcellValue.CastToWrappedPolymorph4EcellValue(velue);
+                    setStepperDic[stepper.Key][ecellData.Name] = value.ToWrappedPolymorph();
                 }
             }
         }
@@ -3976,14 +3875,11 @@ public class DataManager
                 EcellValue value = ecellData.Value;
                 if (ecellData.Saveable)
                 {
-                    simulator.LoadEntityProperty(
-                        ecellData.EntityPath,
-                        EcellValue.CastToWrappedPolymorph4EcellValue(value));
+                    simulator.LoadEntityProperty(ecellData.EntityPath, value.ToWrappedPolymorph());
                 }
                 else if (ecellData.Settable)
                 {
-                    setPropertyDic[ecellData.EntityPath]
-                        = EcellValue.CastToWrappedPolymorph4EcellValue(value);
+                    setPropertyDic[ecellData.EntityPath] = value.ToWrappedPolymorph();
                 }
                 if (ecellData.Logged)
                 {
@@ -4060,7 +3956,7 @@ public class DataManager
                 EcellValue value = ecellData.Value;
                 if (string.IsNullOrEmpty(ecellData.Name)
                         || value == null
-                        || (value.IsString && value.CastToString().Length == 0))
+                        || (value.IsString && ((string)value).Length == 0))
                 {
                     continue;
                 }
@@ -4070,8 +3966,7 @@ public class DataManager
                     loggerList.Add(ecellData.EntityPath);
                 }
 
-                if (value.IsDouble
-                    && (Double.IsInfinity(value.CastToDouble()) || Double.IsNaN(value.CastToDouble())))
+                if (value.IsDouble && (Double.IsInfinity((double)value) || Double.IsNaN((double)value)))
                 {
                     continue;
                 }
@@ -4079,22 +3974,18 @@ public class DataManager
                 {
                     if (ecellData.EntityPath.EndsWith(Constants.xpathVRL))
                     {
-                        processPropertyDic[ecellData.EntityPath]
-                            = EcellValue.CastToWrappedPolymorph4EcellValue(value);
+                        processPropertyDic[ecellData.EntityPath] = value.ToWrappedPolymorph();
                     }
                     else
                     {
                         if (ecellData.EntityPath.EndsWith("FluxDistributionList"))
                             continue;
-                        simulator.LoadEntityProperty(
-                            ecellData.EntityPath,
-                            EcellValue.CastToWrappedPolymorph4EcellValue(value));
+                        simulator.LoadEntityProperty(ecellData.EntityPath, value.ToWrappedPolymorph());
                     }
                 }
                 else if (ecellData.Settable)
                 {
-                    setPropertyDic[ecellData.EntityPath]
-                        = EcellValue.CastToWrappedPolymorph4EcellValue(value);
+                    setPropertyDic[ecellData.EntityPath] = value.ToWrappedPolymorph();
                 }
             }
         }
@@ -4110,35 +4001,26 @@ public class DataManager
     /// <returns>the create object.</returns>
     public EcellObject CreateDefaultObject(string modelID, string key, string type, bool isProper)
     {
-        try
+        if (type.Equals(Constants.xpathSystem))
         {
-            if (type.Equals(Constants.xpathSystem))
-            {
-                return CreateDefaultSystem(modelID, key, isProper);
-            }
-            else if (type.Equals(Constants.xpathProcess))
-            {
-                return CreateDefaultProcess(modelID, key, isProper);
-            }
-            else if (type.Equals(Constants.xpathVariable))
-            {
-                return CreateDefaultVariable(modelID, key, isProper);
-            }
-            else if (type.Equals(Constants.xpathText))
-            {
-                string nodeKey = GetTemporaryID(modelID, EcellObject.TEXT, "/");
-                EcellText text = new EcellText(modelID, nodeKey, EcellObject.TEXT, EcellObject.TEXT, new List<EcellData>());
-                text.Comment = text.LocalID;
-                return text;
-            }
-            return null;
+            return CreateDefaultSystem(modelID, key, isProper);
         }
-        catch (Exception ex)
+        else if (type.Equals(Constants.xpathProcess))
         {
-            String message = String.Format(MessageResources.ErrAdd,
-                new object[] { type, key });
-            throw new Exception(message, ex);
+            return CreateDefaultProcess(modelID, key, isProper);
         }
+        else if (type.Equals(Constants.xpathVariable))
+        {
+            return CreateDefaultVariable(modelID, key, isProper);
+        }
+        else if (type.Equals(Constants.xpathText))
+        {
+            string nodeKey = GetTemporaryID(modelID, EcellObject.TEXT, "/");
+            EcellText text = new EcellText(modelID, nodeKey, EcellObject.TEXT, EcellObject.TEXT, new List<EcellData>());
+            text.Comment = text.LocalID;
+            return text;
+        }
+        return null;
     }
 
     /// <summary>
@@ -4154,12 +4036,7 @@ public class DataManager
             Constants.xpathProcess, key);
         EcellObject sysobj = GetEcellObject(modelID, key, Constants.xpathSystem);
         if (sysobj == null) return null;
-        String stepperID = "";
-        foreach (EcellData d in sysobj.Value)
-        {
-            if (!d.Name.Equals(Constants.xpathStepperID)) continue;
-            stepperID = d.Value.ToString();
-        }
+        String stepperID = (string)sysobj.GetEcellValue(Constants.xpathStepperID);
 
         Dictionary<string, EcellData> list = GetProcessProperty(Constants.DefaultProcessName);
         List<EcellData> data = new List<EcellData>();
@@ -4241,7 +4118,7 @@ public class DataManager
         foreach (EcellData d in sysobj.Value)
         {
             if (!d.Name.Equals(Constants.xpathStepperID)) continue;
-            stepperID = d.Value.ToString();
+            stepperID = (string)d.Value;
         }
 
         Dictionary<string, EcellData> list = this.GetSystemProperty();
@@ -4897,9 +4774,7 @@ public class DataManager
         {
             newValue = new EcellValue(value);
         }
-        m_currentProject.Simulator.LoadEntityProperty(
-            fullPN,
-            EcellValue.CastToWrappedPolymorph4EcellValue(newValue));
+        m_currentProject.Simulator.LoadEntityProperty(fullPN, newValue.ToWrappedPolymorph());
     }
 
     /// <summary>
@@ -5477,7 +5352,7 @@ public class DataManager
                         entityName + Constants.delimiterColon + Constants.delimiterPath + Constants.delimiterColon +
                         fullID).CastToList())
                 {
-                    string entityProperty = (new EcellValue(wpEntityProperty)).CastToString();
+                    string entityProperty = wpEntityProperty.CastToString();
                     List<bool> wpAttrList
                         = m_currentProject.Simulator.GetEntityPropertyAttributes(
                             entityName + Constants.delimiterColon + Constants.delimiterPath + Constants.delimiterColon +
@@ -5505,12 +5380,12 @@ public class DataManager
         foreach (WrappedPolymorph wpStepperID in
             m_currentProject.Simulator.GetStepperList().CastToList())
         {
-            string stepperID = (new EcellValue(wpStepperID)).CastToString();
+            string stepperID = wpStepperID.CastToString();
             Console.WriteLine(Constants.xpathStepper + " " + stepperID);
             foreach (WrappedPolymorph wpStepperProperty in
                 m_currentProject.Simulator.GetStepperPropertyList(stepperID).CastToList())
             {
-                string stepperProperty = (new EcellValue(wpStepperProperty)).CastToString();
+                string stepperProperty = wpStepperProperty.CastToString();
                 List<bool> wpAttrList
                     = m_currentProject.Simulator.GetStepperPropertyAttributes(
                     stepperID, stepperProperty);
