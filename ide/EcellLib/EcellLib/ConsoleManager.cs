@@ -85,7 +85,8 @@ namespace Ecell
 
         private void _Flush()
         {
-            ConsoleDataAvailable(this, new ConsoleDataAvailableEventArgs(m_buf.ToString()));
+            if (ConsoleDataAvailable != null)
+                ConsoleDataAvailable(this, new ConsoleDataAvailableEventArgs(m_buf.ToString()));
             m_buf.Length = 0;
         }
 
