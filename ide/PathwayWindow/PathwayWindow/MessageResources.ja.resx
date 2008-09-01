@@ -393,4 +393,7 @@
   <data name="LayerDialogChange" xml:space="preserve">
     <value>変更後のレイヤー名を入力してください。</value>
   </data>
+  <data name="ErrUpdateConfig" xml:space="preserve">
+    <value>形状設定を更新することができません。</value>
+  </data>
 </root>

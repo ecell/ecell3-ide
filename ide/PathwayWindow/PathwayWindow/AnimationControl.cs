@@ -814,11 +814,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             public override void ApplyChange()
             {
-                base.ApplyChange();
-                m_editModeItems.ApplyChanges();
-                m_viewModeItems.ApplyChanges();
-                m_animationItems.ApplyChanges();
-                m_con.SaveSettings();
+                try
+                {
+                    base.ApplyChange();
+                    m_editModeItems.ApplyChanges();
+                    m_viewModeItems.ApplyChanges();
+                    m_animationItems.ApplyChanges();
+                    m_con.SaveSettings();
+                }
+                catch (Exception)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrUpdateConfig);
+                }
             }
         }
 

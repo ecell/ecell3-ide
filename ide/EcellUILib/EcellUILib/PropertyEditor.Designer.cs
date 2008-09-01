@@ -118,6 +118,7 @@
             this.Controls.Add(this.PECloseButton);
             this.Name = "PropertyEditor";
             this.Shown += new System.EventHandler(this.PropertyEditorShown);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PropertyEditorFormClosing);
             this.tabControl1.ResumeLayout(false);
             this.PEPropTabPage.ResumeLayout(false);
             this.panel1.ResumeLayout(false);

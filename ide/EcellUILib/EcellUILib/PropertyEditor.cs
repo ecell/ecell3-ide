@@ -127,7 +127,8 @@ namespace Ecell.IDE
                 editor.LayoutPropertyEditor();
                 editor.layoutPanel.ResumeLayout(false);
                 if (editor.ShowDialog() == DialogResult.OK)
-                    editor.UpdateProperty();
+                {
+                }
             }
             catch (IgnoreException ex)
             {
@@ -1088,8 +1089,9 @@ namespace Ecell.IDE
         /// <summary>
         /// Update property of the selected TreeNode.
         /// </summary>
-        private void UpdateProperty()
+        private void PropertyEditorFormClosing(object sender, FormClosingEventArgs e)
         {
+            if (this.DialogResult != DialogResult.OK) return;
             string modelID = "";
             string key = "";
             string classname = "";

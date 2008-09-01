@@ -391,6 +391,10 @@ public class DataManager
                     if (!srcEcellData.Logged && destEcellData.Logged)
                     {
                         MessageCreateEntity("Logger", message + "[" + srcEcellData.Name + "]");
+                        WrappedSimulator simulator = m_currentProject.Simulator;
+                        WrappedPolymorph loggerPolicy = this.GetCurrentLoggerPolicy();
+                        simulator.CreateLogger(srcEcellData.EntityPath, loggerPolicy); 
+
                         updated = true;
                     }
                     else if (srcEcellData.Logged && !destEcellData.Logged)
