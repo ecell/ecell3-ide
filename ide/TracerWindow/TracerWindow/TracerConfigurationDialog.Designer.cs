@@ -91,7 +91,6 @@
             this.TSCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.TSCloseButton.Name = "TSCloseButton";
             this.TSCloseButton.UseVisualStyleBackColor = true;
-            this.TSCloseButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // label6
             // 

@@ -171,7 +171,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.STCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.STCloseButton.Name = "STCloseButton";
             this.STCloseButton.UseVisualStyleBackColor = true;
-            this.STCloseButton.Click += new System.EventHandler(this.STCloseButtonClick);
             // 
             // SaveEntryColumn
             // 

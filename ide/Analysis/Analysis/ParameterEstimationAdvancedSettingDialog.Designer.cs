@@ -90,7 +90,6 @@
             this.PEACloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.PEACloseButton.Name = "PEACloseButton";
             this.PEACloseButton.UseVisualStyleBackColor = true;
-            this.PEACloseButton.Click += new System.EventHandler(this.PEACloseButtonClicked);
             // 
             // groupBox1
             // 

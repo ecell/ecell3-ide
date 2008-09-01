@@ -10,7 +10,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
 {
     public partial class TracerConfigurationDialog : Form
     {
-        private bool m_isCancel = false;
         private double m_plotNumber;
         private double m_intervalSecond;
         private int m_stepNumber;
@@ -42,17 +41,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// The event when user click close button.
-        /// </summary>
-        /// <param name="sender">close button.</param>
-        /// <param name="e">EventArgs.</param>
-        private void cancelButton_Click(object sender, EventArgs e)
-        {
-            m_isCancel = true;
-            this.Dispose();
-        }
-
-        /// <summary>
         /// The event when user return enter key in TextBox.
         /// </summary>
         /// <param name="sender">TextBox.</param>
@@ -80,15 +68,14 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         private void TracerWindowSetup_FormClosing(object sender, FormClosingEventArgs e)
-        {            
+        {
+            if (this.DialogResult != DialogResult.OK) return;
             try
             {
-                if (m_isCancel == false)
-                {
-                    m_plotNumber = Convert.ToDouble(numberTextBox.Text);
-                    m_intervalSecond = Convert.ToDouble(intervalTextBox.Text);
-                    m_stepNumber = Convert.ToInt32(stepCountTextBox.Text);
-                }
+                m_plotNumber = Convert.ToDouble(numberTextBox.Text);
+                m_intervalSecond = Convert.ToDouble(intervalTextBox.Text);
+                m_stepNumber = Convert.ToInt32(stepCountTextBox.Text);
+
             }
             catch (Exception)
             {

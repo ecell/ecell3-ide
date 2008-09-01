@@ -76,20 +76,9 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         #region Events
-        /// <summary>
-        /// The event sequence when close button is clicked.
-        /// </summary>
-        /// <param name="sender">Button.</param>
-        /// <param name="e">EventArgs.</param>
-        private void PEACloseButtonClicked(object sender, EventArgs e)
-        {
-            m_isCancel = true;
-        }
-        #endregion
-
         private void AdvancedFormClosing(object sender, FormClosingEventArgs e)
         {
-            if (m_isCancel) return;
+            if (this.DialogResult != DialogResult.OK) return;
             try
             {
                 m_param = new SimplexCrossoverParameter(
@@ -104,5 +93,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 e.Cancel = true;
             }
         }
+        #endregion
     }
 }

@@ -45,7 +45,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
     public partial class SaveTraceDialog : Form
     {
         private TracerWindow m_owner;
-        private bool m_isCancel = false;
         private string m_directoryName;
         private double m_start;
         private double m_end;
@@ -89,17 +88,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// Close this window.
-        /// </summary>
-        /// <param name="sender">Button.</param>
-        /// <param name="e">EventArgs.</param>
-        private void STCloseButtonClick(object sender, EventArgs e)
-        {
-            m_isCancel = true;
-            this.Close();
-        }
-
-        /// <summary>
         /// Set the directory to save the trace.
         /// </summary>
         /// <param name="sender">Button.</param>
@@ -127,27 +115,25 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
         private void SaveTraceDialogClosing(object sender, FormClosingEventArgs e)
         {
+            if (this.DialogResult != DialogResult.OK) return;
             try
             {
-                if (m_isCancel == false)
+                m_fileType = typeComboBox.Text;
+                if (dirTextBox.Text == "") m_directoryName = "";
+                else m_directoryName = dirTextBox.Text;
+
+                if (startTextBox.Text == "" || startTextBox.Text == null) m_start = 0.0;
+                else m_start = Convert.ToDouble(startTextBox.Text);
+
+                if (endTextBox.Text == "" || endTextBox.Text == null) m_end = 0.0;
+                else m_end = Convert.ToDouble(endTextBox.Text);
+
+                m_saveList = new List<string>();
+                for (int i = 0; i < SaveEntrySelectView.Rows.Count; i++)
                 {
-                    m_fileType = typeComboBox.Text;
-                    if (dirTextBox.Text == "") m_directoryName = "";
-                    else m_directoryName = dirTextBox.Text;
-
-                    if (startTextBox.Text == "" || startTextBox.Text == null) m_start = 0.0;
-                    else m_start = Convert.ToDouble(startTextBox.Text);
-
-                    if (endTextBox.Text == "" || endTextBox.Text == null) m_end = 0.0;
-                    else m_end = Convert.ToDouble(endTextBox.Text);
-
-                    m_saveList = new List<string>();
-                    for (int i = 0; i < SaveEntrySelectView.Rows.Count; i++)
+                    if ((bool)SaveEntrySelectView[0, i].Value == true)
                     {
-                        if ((bool)SaveEntrySelectView[0, i].Value == true)
-                        {
-                            m_saveList.Add(SaveEntrySelectView[1, i].Value.ToString());
-                        }
+                        m_saveList.Add(SaveEntrySelectView[1, i].Value.ToString());
                     }
                 }
             }
