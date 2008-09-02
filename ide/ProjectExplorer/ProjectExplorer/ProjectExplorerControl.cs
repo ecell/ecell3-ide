@@ -134,6 +134,31 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             PropertyEditor.Show(m_owner.Environment.DataManager, m_owner.Environment.PluginManager, obj);
         }
 
+
+        private void EnterDragMode(EcellObject obj)
+        {
+            if (!obj.Type.Equals(EcellObject.PROCESS) &&
+                !obj.Type.Equals(EcellObject.VARIABLE)) return;
+
+            foreach (EcellData v in obj.Value)
+            {
+                if (!v.Name.Equals(Constants.xpathActivity) &&
+                    !v.Name.Equals(Constants.xpathMolarConc))
+                    continue;
+
+                EcellDragObject dobj = new EcellDragObject(
+                    obj.ModelID,
+                    obj.Key,
+                    obj.Type,
+                    v.EntityPath,
+                    v.Settable,
+                    v.Logable);
+
+                this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
+                return;
+            }
+        }
+
         /// <summary>
         /// Change selected Object
         /// </summary>
@@ -1097,6 +1122,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             treeView1.Sort();
             toolStripButtonSortByName.Checked = false;
             toolStripButtonSortByType.Checked = true;
+        }
+
+        private void TreeViewItemDrag(object sender, ItemDragEventArgs e)
+        {
+            TreeNode node = e.Item as TreeNode;
+            if (node == null) return;
+            EcellObject obj = GetObjectFromNode(node);
+            if (obj == null) return;
+            EnterDragMode(obj);
         }
     }
 
