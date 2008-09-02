@@ -419,6 +419,8 @@
             // 
             resources.ApplyResources(this.maxKbTextBox, "maxKbTextBox");
             this.maxKbTextBox.Name = "maxKbTextBox";
+            this.maxKbTextBox.Validated += new System.EventHandler(this.maxKbTextBox_Validated);
+            this.maxKbTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.maxKbTextBox_Validating);
             // 
             // maxSizeRadio
             // 

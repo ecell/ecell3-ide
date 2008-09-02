@@ -542,6 +542,11 @@ namespace Ecell.IDE.Plugins.Simulation
                     Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                     e.Cancel = true;
                 }
+                if (dummy <= 0)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    e.Cancel = true;
+                }
             }
         }
 
@@ -568,6 +573,11 @@ namespace Ecell.IDE.Plugins.Simulation
             {
                 double dummy;
                 if (!Double.TryParse(text, out dummy))
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    e.Cancel = true;
+                }
+                if (dummy <= 0.0)
                 {
                     Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                     e.Cancel = true;
@@ -614,6 +624,45 @@ namespace Ecell.IDE.Plugins.Simulation
         private void propertiesBindingSource_DataError(object sender, BindingManagerDataErrorEventArgs e)
         {
             Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+        }
+
+        private void maxKbTextBox_Validated(object sender, EventArgs e)
+        {
+            if (maxSizeRadio.Checked)
+            {
+                ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.MaxDiskSpace = Convert.ToInt32(maxKbTextBox.Text);
+            }
+            else
+            {
+                ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.MaxDiskSpace = 0;
+            }
+        }
+
+        private void maxKbTextBox_Validating(object sender, CancelEventArgs e)
+        {
+            if (maxSizeRadio.Checked)
+            {
+                string text = maxKbTextBox.Text;
+                if (String.IsNullOrEmpty(text))
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                    e.Cancel = true;
+                    return;
+                }
+                int dummy;
+                if (!Int32.TryParse(text, out dummy))
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    e.Cancel = true;
+                    return;
+                }
+                if (dummy <= 0)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    e.Cancel = true;
+                    return;
+                }
+            }
         }
     }
 }
