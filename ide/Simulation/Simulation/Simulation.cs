@@ -652,6 +652,8 @@ namespace Ecell.IDE.Plugins.Simulation
                     m_type != ProjectStatus.Suspended &&
                     m_type != ProjectStatus.Stepping)
                 return;
+
+            if (!Util.ShowYesNoDialog(MessageResources.ConfirmReset)) return;
             ProjectStatus preType = m_type;
             m_pManager.ChangeStatus(ProjectStatus.Loaded);
             try
