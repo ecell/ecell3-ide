@@ -827,7 +827,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 {
                     e.Value = editCell.Value;
                     Trace.WriteLine(ex);
+                    m_dgv.MouseLeave -= new EventHandler(this.LeaveMouse);
                     Util.ShowErrorDialog(ex.Message);
+                    m_dgv.MouseLeave += new EventHandler(this.LeaveMouse);
                 }
             }
             else if (e.ColumnIndex == 1)
@@ -866,9 +868,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                                         }
                                         catch (Exception ex)
                                         {
-                                            Trace.WriteLine(ex);
-                                            Util.ShowErrorDialog(MessageResources.ErrFormat);
                                             e.Value = editCell.Value;
+                                            Trace.WriteLine(ex);
+                                            m_dgv.MouseLeave -= new EventHandler(this.LeaveMouse);
+                                            Util.ShowErrorDialog(MessageResources.ErrFormat);
+                                            m_dgv.MouseLeave += new EventHandler(this.LeaveMouse);
                                             return;
                                         }
                                     }
@@ -903,7 +907,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 {
                     e.Value = editCell.Value;
                     Trace.WriteLine(ex);
+                    m_dgv.MouseLeave -= new EventHandler(this.LeaveMouse);
                     Util.ShowErrorDialog(ex.Message);
+                    m_dgv.MouseLeave += new EventHandler(this.LeaveMouse);
                 }
             }
         }
