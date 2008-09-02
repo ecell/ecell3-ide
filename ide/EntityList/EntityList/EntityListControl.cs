@@ -289,5 +289,39 @@ namespace Ecell.IDE.Plugins.EntityList
             if (((TextBox)sender).Text.Length == 0)
                 ResetSearchTextBox();
         }
+
+        private void DataGridViewMouseDown(object sender, MouseEventArgs e)
+        {
+            DataGridView.HitTestInfo hti = objectListDataGrid.HitTest(e.X, e.Y);
+            if (hti.RowIndex <= 0)
+                return;
+            DataGridViewRow r = objectListDataGrid.Rows[hti.RowIndex];
+            EcellObject obj = r.Tag as EcellObject;
+            EnterDragMode(obj);
+        }
+
+        private void EnterDragMode(EcellObject obj)
+        {
+            if (!obj.Type.Equals(EcellObject.PROCESS) &&
+                !obj.Type.Equals(EcellObject.VARIABLE)) return;
+
+            foreach (EcellData v in obj.Value)
+            {
+                if (!v.Name.Equals(Constants.xpathActivity) &&
+                    !v.Name.Equals(Constants.xpathMolarConc))
+                    continue;
+
+                EcellDragObject dobj = new EcellDragObject(
+                    obj.ModelID,
+                    obj.Key,
+                    obj.Type,
+                    v.EntityPath,
+                    v.Settable,
+                    v.Logable);
+
+                this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
+                return;
+            }
+        }
     }
 }
