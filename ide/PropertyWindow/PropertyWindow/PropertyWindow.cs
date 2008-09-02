@@ -868,6 +868,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                                         {
                                             Trace.WriteLine(ex);
                                             Util.ShowErrorDialog(MessageResources.ErrFormat);
+                                            e.Value = editCell.Value;
                                             return;
                                         }
                                     }

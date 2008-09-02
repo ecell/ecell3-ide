@@ -390,4 +390,7 @@
   <data name="LayerDialogChange" xml:space="preserve">
     <value>Please input the new layer name.</value>
   </data>
+  <data name="ErrUpdateConfig" xml:space="preserve">
+    <value>Can not update the shape property.</value>
+  </data>
 </root>
