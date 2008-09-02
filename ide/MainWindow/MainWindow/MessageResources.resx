@@ -216,4 +216,7 @@
   <data name="DockPreparing" xml:space="preserve">
     <value>Preparing dockable pane {0}...</value>
   </data>
+  <data name="ConfirmClose" xml:space="preserve">
+    <value>The simulation is running. Do you really want to close this application?</value>
+  </data>
 </root>

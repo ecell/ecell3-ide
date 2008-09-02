@@ -386,14 +386,14 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_runSim.Enabled = true;
                 m_stopSim.Enabled = false;
                 m_suspendSim.Enabled = false;
-                m_setupSim.Enabled = false;
+                m_setupSim.Enabled = true;
             }
             else if (type == ProjectStatus.Running)
             {
                 m_runSim.Enabled = false;
                 m_stopSim.Enabled = true;
                 m_suspendSim.Enabled = true;
-                m_setupSim.Enabled = false;
+                m_setupSim.Enabled = true;
                 m_paramsCombo.Enabled = false;
                 m_stepText.Enabled = false;
                 m_stepUnitCombo.Enabled = false;
@@ -405,7 +405,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_runSim.Enabled = true;
                 m_stopSim.Enabled = true;
                 m_suspendSim.Enabled = false;
-                m_setupSim.Enabled = false;
+                m_setupSim.Enabled = true;
                 m_timeText.Enabled = false;
             }
             else

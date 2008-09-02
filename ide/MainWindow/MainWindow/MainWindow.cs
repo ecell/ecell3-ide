@@ -840,6 +840,7 @@ namespace Ecell.IDE.MainWindow
                 newProjectToolStripMenuItem.Enabled = true;
                 openProjectToolStripMenuItem.Enabled = true;
                 saveProjectToolStripMenuItem.Enabled = false;
+                projectWizardMenuItem.Enabled = true;
                 closeProjectToolStripMenuItem.Enabled = false;
                 exportModelToolStripMenuItem.Enabled = false;
                 importModelToolStripMenuItem.Enabled = true;
@@ -855,6 +856,7 @@ namespace Ecell.IDE.MainWindow
                 newProjectToolStripMenuItem.Enabled = true;
                 openProjectToolStripMenuItem.Enabled = true;
                 saveProjectToolStripMenuItem.Enabled = true;
+                projectWizardMenuItem.Enabled = true;
                 closeProjectToolStripMenuItem.Enabled = true;
                 exportModelToolStripMenuItem.Enabled = true;
                 importModelToolStripMenuItem.Enabled = true;
@@ -870,6 +872,7 @@ namespace Ecell.IDE.MainWindow
                 newProjectToolStripMenuItem.Enabled = false;
                 openProjectToolStripMenuItem.Enabled = false;
                 saveProjectToolStripMenuItem.Enabled = false;
+                projectWizardMenuItem.Enabled = false;
                 closeProjectToolStripMenuItem.Enabled = false;
                 exportModelToolStripMenuItem.Enabled = false;
                 importModelToolStripMenuItem.Enabled = false;
@@ -1709,6 +1712,16 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">FormClosingEventArgs</param>
         private void MainWindowFormClosing(object sender, FormClosingEventArgs e)
         {
+            if (m_type == ProjectStatus.Running ||
+                m_type == ProjectStatus.Stepping ||
+                m_type == ProjectStatus.Suspended)
+            {
+                if (!Util.ShowYesNoDialog(MessageResources.ConfirmClose))
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
             if (!string.IsNullOrEmpty(m_env.DataManager.CurrentProjectID))
             {
                 CloseProject();

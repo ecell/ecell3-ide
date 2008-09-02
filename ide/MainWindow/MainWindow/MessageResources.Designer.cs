@@ -61,6 +61,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   The simulation is running. Do you really want to close this application? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmClose {
+            get {
+                return ResourceManager.GetString("ConfirmClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   The language setting will be applied after you restart this application. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmRestart {
