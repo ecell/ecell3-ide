@@ -761,8 +761,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
         private void NodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (m_owner.Environment.PluginManager.Status != ProjectStatus.Uninitialized &&
-                m_owner.Environment.PluginManager.Status != ProjectStatus.Loaded)
+            if (m_owner.Environment.PluginManager.Status == ProjectStatus.Uninitialized)
             {
                 return;
             }
