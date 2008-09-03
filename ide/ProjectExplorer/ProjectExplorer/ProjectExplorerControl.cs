@@ -668,8 +668,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             treeView1.ContextMenuStrip = null;
             TreeView t = (TreeView)sender;
             if (e.Node == null
-                || (m_owner.Environment.PluginManager.Status != ProjectStatus.Loaded &&
-                    m_owner.Environment.PluginManager.Status != ProjectStatus.Stepping))
+                || m_owner.Environment.PluginManager.Status == ProjectStatus.Uninitialized)
             {
                 return;
             }
