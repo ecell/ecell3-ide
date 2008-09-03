@@ -91,6 +91,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             PCanvas canvas = m_con.Canvas.PCanvas;
             canvas.Camera.Pickable = true;
         }
+
+        protected override void Pan(PInputEventArgs e)
+        {
+            base.Pan(e);
+            m_con.Canvas.RefreshOverView();
+        }
         #endregion
     }
 }

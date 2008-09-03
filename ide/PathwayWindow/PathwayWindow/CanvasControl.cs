@@ -424,17 +424,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.ShowingID = m_con.ShowingID;
             this.FocusMode = m_con.FocusMode;
         }
-
-        /// <summary>
-        /// Refresh overview.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void Camera_ViewChanged(object sender, PPropertyEventArgs e)
-        {
-            RectangleF rect = m_pCanvas.Camera.ViewBounds;
-            m_overviewCanvas.UpdateOverview(rect);
-        }
         #endregion
 
         /// <summary>
@@ -1418,6 +1407,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_con.Menu.Zoom(1f);
             ((Timer)sender).Stop();
             ((Timer)sender).Dispose();
+        }
+
+        /// <summary>
+        /// Refresh overview.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void Camera_ViewChanged(object sender, PPropertyEventArgs e)
+        {
+            RefreshOverView();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void RefreshOverView()
+        {
+            RectangleF rect = m_pCanvas.Camera.ViewBounds;
+            m_overviewCanvas.UpdateOverview(rect);
         }
 
         /// <summary>
