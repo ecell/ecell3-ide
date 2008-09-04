@@ -862,7 +862,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                ex.ToString();
+                Trace.WriteLine(ex);
                 isCreated = false;
             }
             if (isCreated != false && !wrappedPolymorph.IsList())
@@ -900,19 +900,32 @@ namespace Ecell
                 List<WrappedPolymorph> processAllPropertyList = wrappedPolymorph.CastToList();
                 for (int i = 0; i < processAllPropertyList.Count; i++)
                 {
-                    if (!(processAllPropertyList[i]).IsString())
-                    {
-                        continue;
-                    }
-                    string name = (processAllPropertyList[i]).CastToString();
+                    Debug.Assert(processAllPropertyList[i].IsString());
+                    string name = processAllPropertyList[i].CastToString();
                     List<bool> flag = simulator.GetEntityPropertyAttributes(
-                            key + Constants.delimiterColon + name);
+                        Util.BuildFullPN(key, name));
                     if (!flag[WrappedSimulator.s_flagGettable])
                         continue;
 
                     EcellValue value = null;
-                    WrappedPolymorph property = simulator.GetEntityProperty(key + Constants.delimiterColon + name);
-                    value = new EcellValue(property);
+                    if (name == Constants.xpathActivity || name == Constants.xpathMolarActivity)
+                    {
+                        value = new EcellValue(0.0);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            value = new EcellValue(simulator.GetEntityProperty(key + Constants.delimiterColon + name));
+                        }
+                        catch (WrappedException ex)
+                        {
+                            Trace.WriteLine(ex);
+                            // failed to fetch the default value of a property for unknown reasons
+                            value = new EcellValue("");
+                        }
+                    }
+
                     EcellData ecellData = new EcellData(
                             name, value, key + Constants.delimiterColon + name);
                     ecellData.Settable = flag[WrappedSimulator.s_flagSettable];

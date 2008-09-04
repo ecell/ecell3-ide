@@ -2780,12 +2780,11 @@ public class DataManager
             WrappedSimulator sim = CreateSimulatorInstance();
             sim.CreateStepper("PassiveStepper", "tmp");
             sim.SetEntityProperty(Util.BuildFullPN(Constants.xpathSystem, "", "/", "StepperID"), new WrappedPolymorph("tmp"));
-            sim.CreateEntity(
-                dmName,
+            sim.CreateEntity(dmName,
                 Constants.xpathProcess + Constants.delimiterColon +
                 Constants.delimiterPath + Constants.delimiterColon +
-                Constants.xpathSize.ToUpper());
-            string key = Constants.delimiterPath + Constants.delimiterColon + Constants.xpathSize.ToUpper();
+                "tmp");
+            string key = Constants.delimiterPath + Constants.delimiterColon + "tmp";
             EcellObject dummyEcellObject = EcellObject.CreateObject("", key, "", "", null);
             DataStorer.DataStored4Process(
                     sim,
