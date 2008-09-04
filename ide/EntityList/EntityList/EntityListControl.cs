@@ -15,9 +15,8 @@ namespace Ecell.IDE.Plugins.EntityList
     {
         private EntityList m_owner;
         private bool m_isSelected = false;
-
         protected ImageList m_icons;
-
+        private EcellObject m_dragObject;
         protected bool m_intact = false;
 
         /// <summary>
@@ -290,14 +289,22 @@ namespace Ecell.IDE.Plugins.EntityList
                 ResetSearchTextBox();
         }
 
+        private void DataGridViewMouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) != MouseButtons.Left)
+                return;
+            if (m_dragObject == null) return;
+            EnterDragMode(m_dragObject);
+            m_dragObject = null;
+        }
+
         private void DataGridViewMouseDown(object sender, MouseEventArgs e)
         {
             DataGridView.HitTestInfo hti = objectListDataGrid.HitTest(e.X, e.Y);
             if (hti.RowIndex <= 0)
                 return;
             DataGridViewRow r = objectListDataGrid.Rows[hti.RowIndex];
-            EcellObject obj = r.Tag as EcellObject;
-            EnterDragMode(obj);
+            m_dragObject = r.Tag as EcellObject;
         }
 
         private void EnterDragMode(EcellObject obj)
