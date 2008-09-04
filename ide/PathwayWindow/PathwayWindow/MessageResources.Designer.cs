@@ -700,6 +700,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Change the visibility of Overview panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipOverview {
+            get {
+                return ResourceManager.GetString("MenuToolTipOverview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Show setting dialog of diagram. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuToolTipSetup {

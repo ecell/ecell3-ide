@@ -71,6 +71,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         }
         #endregion
 
+        /// <summary>
+        /// Visibility of Overview canvas.
+        /// </summary>
+        public bool OverviewVisibility
+        {
+            get { return OverviewContainer.Visible; }
+            set { OverviewContainer.Visible = value; }
+        }
+
         #region Inner Methods
         /// <summary>
         /// Change canvas.

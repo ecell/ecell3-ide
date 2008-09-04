@@ -393,4 +393,7 @@
   <data name="ErrUpdateConfig" xml:space="preserve">
     <value>Can not update the shape property.</value>
   </data>
+  <data name="MenuToolTipOverview" xml:space="preserve">
+    <value>Change the visibility of Overview panel.</value>
+  </data>
 </root>

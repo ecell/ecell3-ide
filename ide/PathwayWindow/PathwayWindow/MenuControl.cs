@@ -106,6 +106,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// 
         /// </summary>
         private ToolStripComboBox m_zoomRate;
+
+        private ToolStripMenuItem viewModeItem;
+        private ToolStripButton viewModeButton;
         #endregion
 
         #region Accessors
@@ -353,12 +356,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             showIdItem.Text = MessageResources.MenuItemShowID;
             showIdItem.Click += new EventHandler(ShowIdClick);
 
-            ToolStripMenuItem viewModeItem = new ToolStripMenuItem();
+            viewModeItem = new ToolStripMenuItem();
             viewModeItem.CheckOnClick = true;
             viewModeItem.CheckState = CheckState.Unchecked;
             viewModeItem.ToolTipText = MessageResources.MenuToolTipViewMode;
             viewModeItem.Text = MessageResources.MenuItemViewMode;
-            viewModeItem.Click += new EventHandler(ViewModeClick);
+            viewModeItem.Click += new EventHandler(ViewModeItemClick);
 
             ToolStripMenuItem viewMenu = new ToolStripMenuItem();
             viewMenu.DropDownItems.AddRange(new ToolStripItem[] { focusModeItem, showIdItem, viewModeItem });
@@ -428,16 +431,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             handButton.Click += new EventHandler(ButtonStateChanged);
             list.Items.Add(handButton);
 
-            PathwayToolStripButton button0 = new PathwayToolStripButton();
-            button0.ImageTransparentColor = System.Drawing.Color.Magenta;
-            button0.Name = MenuConstants.ToolButtonSelectMode;
-            button0.Image = PathwayResource.arrow;
-            button0.CheckOnClick = true;
-            button0.ToolTipText = MessageResources.ToolButtonSelectMode;
-            button0.Handle = new Handle(Mode.Select, handleCount, new DefaultMouseHandler(m_con));
-            m_handleDict.Add(MenuConstants.ToolButtonSelectMode, button0.Handle);
-            button0.Click += new EventHandler(ButtonStateChanged);
-            list.Items.Add(button0);
+            PathwayToolStripButton selectButton = new PathwayToolStripButton();
+            selectButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            selectButton.Name = MenuConstants.ToolButtonSelectMode;
+            selectButton.Image = PathwayResource.arrow;
+            selectButton.CheckOnClick = true;
+            selectButton.ToolTipText = MessageResources.ToolButtonSelectMode;
+            selectButton.Handle = new Handle(Mode.Select, handleCount, new DefaultMouseHandler(m_con));
+            m_handleDict.Add(MenuConstants.ToolButtonSelectMode, selectButton.Handle);
+            selectButton.Click += new EventHandler(ButtonStateChanged);
+            list.Items.Add(selectButton);
 
             ToolStripSeparator sep1 = new ToolStripSeparator();
             list.Items.Add(sep1);
@@ -508,6 +511,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             ToolStripSeparator sep2 = new ToolStripSeparator();
             list.Items.Add(sep2);
 
+            ToolStripButton overviewButton = new ToolStripButton();
+            overviewButton.Name = MenuConstants.ToolButtonOverview;
+            overviewButton.ToolTipText = MessageResources.MenuToolTipOverview;
+            overviewButton.CheckOnClick = true;
+            overviewButton.CheckState = CheckState.Checked;
+            overviewButton.Click += new EventHandler(overviewButton_CheckedChanged);
+            overviewButton.Image = (Image)TypeDescriptor.GetConverter(
+                    PathwayResource.Icon_PathwayView).ConvertTo(
+                        PathwayResource.Icon_OverView,
+                        typeof(Image));
+            list.Items.Add(overviewButton);
+
+            viewModeButton = new ToolStripButton();
+            viewModeButton.Name = MenuConstants.ToolButtonViewMode;
+            viewModeButton.ToolTipText = MessageResources.MenuToolTipViewMode;
+            viewModeButton.CheckOnClick = true;
+            viewModeButton.Click += new EventHandler(ViewModeButtonClick);
+            viewModeButton.Image = (Image)TypeDescriptor.GetConverter(
+                    PathwayResource.Icon_PathwayView).ConvertTo(
+                        PathwayResource.Icon_PathwayView,
+                        typeof(Image));
+            list.Items.Add(viewModeButton);
+
             ToolStripButton zoominButton = new ToolStripButton();
             zoominButton.ImageTransparentColor = Color.Magenta;
             zoominButton.Name = MenuConstants.ToolButtonZoomIn;
@@ -545,8 +571,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_zoomRate.SelectedIndexChanged += new EventHandler(ZoomRate_SelectedIndexChanged);
             list.Items.Add(m_zoomRate);
             // SelectMode is default.
-            button0.Checked = true;
-            m_handle = (Handle)button0.Handle;
+            selectButton.Checked = true;
+            m_handle = (Handle)selectButton.Handle;
             m_defHandle = m_handle;
 
             return list;
@@ -851,7 +877,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e"></param>
         private void DeleteClick(object sender, EventArgs e)
         {
-            // Check active canvas.
+            // Check active canvas.          
             CanvasControl canvas = m_con.Canvas;
             if (canvas == null)
                 return;
@@ -1186,17 +1212,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
-        /// the event sequence of clicking the menu of [View]->[Show Id]
-        /// </summary>
-        /// <param name="sender">MenuStripItem.</param>
-        /// <param name="e">EventArgs.</param>
-        private void ViewModeClick(object sender, EventArgs e)
-        {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            m_con.ViewMode = item.Checked;
-        }
-
-        /// <summary>
         /// When select the button in ToolBox,
         /// system change the listener for event
         /// </summary>
@@ -1209,6 +1224,46 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             PathwayToolStripButton selectedButton = (PathwayToolStripButton)sender;
             SetEventHandler(selectedButton.Handle);
         }
+
+        /// <summary>
+        /// the event sequence of clicking the menu of [View]->[Show Id]
+        /// </summary>
+        /// <param name="sender">MenuStripItem.</param>
+        /// <param name="e">EventArgs.</param>
+        private void ViewModeItemClick(object sender, EventArgs e)
+        {
+            SetViewMode(viewModeItem.Checked);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ViewModeButtonClick(object sender, EventArgs e)
+        {
+            SetViewMode(viewModeButton.Checked);
+        }
+
+        private void SetViewMode(bool viewMode)
+        {
+            viewModeButton.Checked = viewMode;
+            viewModeItem.Checked = viewMode;
+            m_con.ViewMode = viewMode;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void overviewButton_CheckedChanged(object sender, EventArgs e)
+        {
+            ToolStripButton item = (ToolStripButton)sender;
+            m_con.PathwayView.OverviewVisibility = item.Checked;
+        }
+
+
         /// <summary>
         /// 
         /// </summary>

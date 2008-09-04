@@ -396,4 +396,7 @@
   <data name="ErrUpdateConfig" xml:space="preserve">
     <value>形状設定を更新することができません。</value>
   </data>
+  <data name="MenuToolTipOverview" xml:space="preserve">
+    <value>オーバービューの表示切替</value>
+  </data>
 </root>
