@@ -425,16 +425,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.FocusMode = m_con.FocusMode;
         }
 
-        /// <summary>
-        /// Refresh overview.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void Camera_ViewChanged(object sender, PPropertyEventArgs e)
-        {
-            RectangleF rect = m_pCanvas.Camera.ViewBounds;
-            m_overviewCanvas.UpdateOverview(rect);
-        }
         #endregion
 
         /// <summary>
@@ -1406,6 +1396,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             timer.Start();
         }
 
+        /// <summary>
+        /// Refresh overview.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void Camera_ViewChanged(object sender, PPropertyEventArgs e)
+        {
+            RefreshOverView();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void RefreshOverView()
+        {
+            RectangleF rect = m_pCanvas.Camera.ViewBounds;
+            m_overviewCanvas.UpdateOverview(rect);
+        }
         /// <summary>
         /// This timer delegate is called for updating overview after object-moving anime has finished.
         /// </summary>
