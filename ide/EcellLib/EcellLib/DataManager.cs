@@ -667,10 +667,9 @@ public class DataManager
         }
         catch (Exception ex)
         {
+            Trace.WriteLine(ex);
             String errmes = string.Format(MessageResources.ErrClosePrj,
                 new object[] { projectID });
-
-            Trace.WriteLine(errmes);
             throw new Exception(errmes, ex);
         }
     }
