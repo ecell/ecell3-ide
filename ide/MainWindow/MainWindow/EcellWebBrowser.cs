@@ -61,6 +61,7 @@ namespace Ecell.IDE.MainWindow
         private ToolStripButton ButtonRefresh;
 
         private ApplicationEnvironment m_env;
+        private ToolStripButton ButtonHome;
         private List<KeyValuePair<string, string>> m_recentFiles;
         #endregion
 
@@ -109,6 +110,7 @@ namespace Ecell.IDE.MainWindow
             this.ButtonNavigate = new System.Windows.Forms.ToolStripButton();
             this.URLComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ButtonHome = new System.Windows.Forms.ToolStripButton();
             this.toolStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -123,7 +125,6 @@ namespace Ecell.IDE.MainWindow
             this.webBrowser.ProgressChanged += new System.Windows.Forms.WebBrowserProgressChangedEventHandler(this.webBrowser_ProgressChanged);
             this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
             this.webBrowser.StatusTextChanged += new System.EventHandler(this.webBrowser_StatusTextChanged);
-
             // 
             // URLLabel
             // 
@@ -142,6 +143,7 @@ namespace Ecell.IDE.MainWindow
             this.ButtonBack,
             this.ButtonForward,
             this.ButtonStop,
+            this.ButtonHome,
             this.ButtonRefresh,
             this.ButtonNavigate,
             this.URLComboBox});
@@ -200,6 +202,13 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
+            // ButtonHome
+            // 
+            this.ButtonHome.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.ButtonHome, "ButtonHome");
+            this.ButtonHome.Name = "ButtonHome";
+            this.ButtonHome.Click += new System.EventHandler(this.Button_Click);
+            // 
             // EcellWebBrowser
             // 
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
@@ -214,6 +223,7 @@ namespace Ecell.IDE.MainWindow
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         private Uri FindStartPage()
@@ -276,6 +286,11 @@ namespace Ecell.IDE.MainWindow
                 Trace.WriteLine(e);
             }
         }
+
+        private void SetStartPage()
+        {
+            Url = m_startupPage;
+        }
         #endregion
 
         #region Event Handlers
@@ -296,6 +311,8 @@ namespace Ecell.IDE.MainWindow
                 go();
             else if (sender == ButtonRefresh)
                 refresh();
+            else if (sender == ButtonHome)
+                SetStartPage();
         }
 
         /// <summary>
@@ -326,7 +343,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         private void URLComboBox_LocationChanged(object sender, EventArgs e)
         {
-            URLComboBox.Width = toolStrip.Width - 130;
+            SetURLComboBoxSize();
         }
 
         /// <summary>
@@ -336,7 +353,12 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         private void toolStrip_SizeChanged(object sender, EventArgs e)
         {
-            URLComboBox.Width = toolStrip.Width - 130;
+            SetURLComboBoxSize();
+        }
+
+        private void SetURLComboBoxSize()
+        {
+            URLComboBox.Width = toolStrip.Width - 150;
         }
 
         /// <summary>
@@ -412,7 +434,7 @@ namespace Ecell.IDE.MainWindow
         private void EcellWebBrowser_Load(object sender, EventArgs e)
         {
             // Set startup page.
-            Url = m_startupPage;
+            SetStartPage();
         }
         /// <summary>
         /// Event on DockState changed
@@ -423,7 +445,7 @@ namespace Ecell.IDE.MainWindow
         {
             if (this.DockState == WeifenLuo.WinFormsUI.Docking.DockState.Hidden)
             {
-                Url = m_startupPage;
+                SetStartPage();
             }
         }
 

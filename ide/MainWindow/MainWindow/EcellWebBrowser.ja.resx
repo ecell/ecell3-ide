@@ -347,4 +347,7 @@
   <data name="$this.TabText" xml:space="preserve">
     <value>ウェブブラウザ</value>
   </data>
+  <data name="ButtonHome.Text" xml:space="preserve">
+    <value>ホーム</value>
+  </data>
 </root>
