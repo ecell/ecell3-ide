@@ -912,6 +912,10 @@ namespace Ecell
                     {
                         value = new EcellValue(0.0);
                     }
+                    else if (name == Constants.xpathVRL)
+                    {
+                        value = new EcellValue(new List<EcellValue>());
+                    }
                     else
                     {
                         try
