@@ -446,6 +446,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         internal const string ToolButtonSelectMode = "ToolButtonSelectMode";
         /// <summary>
+        /// Key definition of MessageResources for ToolButtonOverview
+        /// </summary>
+        internal const string ToolButtonOverview = "ToolButtonOverview";
+        /// <summary>
+        /// Key definition of MessageResources for ToolButtonViewMode
+        /// </summary>
+        internal const string ToolButtonViewMode = "ToolButtonViewMode";
+        /// <summary>
         /// Key definition of MessageResources for ToolButtonZoomIn
         /// </summary>
         internal const string ToolButtonZoomIn = "ToolButtonZoomIn";
