@@ -71,6 +71,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             return new RectangleF(x, y, focusRect.Width, focusRect.Height);
         }
 
+        public static RectangleF GetFocusBound(RectangleF node, RectangleF camera)
+        {
+            if(node.Width > camera.Width || node.Height > camera.Height)
+            {
+                return node;
+            }
+            else
+            {
+                float x = node.X + node.Width / 2f - camera.Width / 2f;
+                float y = node.Y + node.Height / 2f - camera.Height / 2f;
+                return new RectangleF(x, y, camera.Width, camera.Height);
+            }
+        }
+
         /// <summary>
         /// Create new EcellReference's name.
         /// </summary>
