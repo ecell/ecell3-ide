@@ -42,14 +42,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <returns>the parameter set of bifurcation analysis.</returns>
         public BifurcationAnalysisParameter GetParameter()
         {
-            BifurcationAnalysisParameter p = new BifurcationAnalysisParameter();
-            p.SimulationTime = Convert.ToDouble(bifurcationSimulationTimeTextBox.Text);
-            p.WindowSize = Convert.ToDouble(bifurcationWindowSizeTextBox.Text);
-            p.MaxInput = Convert.ToInt32(bifurcationMaxInputTextBox.Text);
-            p.MaxFreq = Convert.ToDouble(bifurcationMaxFrequencyTextBox.Text);
-            p.MinFreq = Convert.ToDouble(bifurcationMinFrequencyTextBox.Text);
-
-            return p;
+            return m_param;
         }
 
         public void SetParameterDataList(Dictionary<string, EcellData> dic)

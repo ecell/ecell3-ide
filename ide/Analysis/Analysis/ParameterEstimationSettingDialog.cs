@@ -26,7 +26,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The user control to set the estimation formulator.
         /// </summary>
         private FormulatorControl m_fcnt;
-        private SimplexCrossoverParameter m_parameter;
+        private ParameterEstimationParameter m_param;
 
         /// <summary>
         /// Constructor.
@@ -36,7 +36,6 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             InitializeComponent();
             m_owner = owner;
-            m_parameter = new SimplexCrossoverParameter();
         }
 
         /// <summary>
@@ -49,7 +48,7 @@ namespace Ecell.IDE.Plugins.Analysis
             parameterEstimationPopulationTextBox.Text = Convert.ToString(param.Population);
             parameterEstimationGenerationTextBox.Text = Convert.ToString(param.Generation);
 
-            m_parameter = param.Param;
+            m_param = param;
         }
 
         /// <summary>
@@ -58,13 +57,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <returns></returns>
         public ParameterEstimationParameter GetParameter()
         {
-            string estForm = estimationFormulatorTextBox.Text;
-            double simTime = Convert.ToDouble(parameterEstimationSimulationTimeTextBox.Text);
-            int popNum = Convert.ToInt32(parameterEstimationPopulationTextBox.Text);
-            int genNum = Convert.ToInt32(parameterEstimationGenerationTextBox.Text);
-            EstimationFormulatorType type = GetFormulatorType();
-
-            return new ParameterEstimationParameter(estForm, simTime, popNum, genNum, type, m_parameter);
+            return m_param;
         }
 
         public void SetParameterDataList(Dictionary<string, EcellData> dic)
@@ -198,6 +191,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 {
                     string ext = m_fwin.ExportFormulate();
                     estimationFormulatorTextBox.Text = ext;
+                    m_param.EstimationFormulator = ext;
                 }
             }
         }
@@ -215,14 +209,77 @@ namespace Ecell.IDE.Plugins.Analysis
         private void AdvancedButtonClicked(object sender, EventArgs e)
         {
             ParameterEstimationAdvancedSettingDialog dlg = new ParameterEstimationAdvancedSettingDialog();
-            dlg.SetParameter(m_parameter);
+            dlg.SetParameter(m_param.Param);
             using (dlg)
             {
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    m_parameter = dlg.GetParam();
+                    m_param.Param = dlg.GetParam();
                 }
             }
+        }
+
+        private void SimulationTime_Validating(object sender, CancelEventArgs e)
+        {
+            string text = parameterEstimationSimulationTimeTextBox.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameSimulationTime));
+                parameterEstimationSimulationTimeTextBox.Text = Convert.ToString(m_param.SimulationTime);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                parameterEstimationSimulationTimeTextBox.Text = Convert.ToString(m_param.SimulationTime);
+                e.Cancel = true;
+                return;
+            }
+            m_param.SimulationTime = dummy;
+        }
+
+        private void Population_Validating(object sender, CancelEventArgs e)
+        {
+            string text = parameterEstimationPopulationTextBox.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NamePopulation));
+                parameterEstimationPopulationTextBox.Text = Convert.ToString(m_param.Population);
+                e.Cancel = true;
+                return;
+            }
+            int dummy;
+            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                parameterEstimationPopulationTextBox.Text = Convert.ToString(m_param.Population);
+                e.Cancel = true;
+                return;
+            }
+            m_param.Population = dummy;
+        }
+
+        private void Generation_Validating(object sender, CancelEventArgs e)
+        {
+            string text = parameterEstimationGenerationTextBox.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameGenerationNum));
+                parameterEstimationGenerationTextBox.Text = Convert.ToString(m_param.Generation);
+                e.Cancel = true;
+                return;
+            }
+            int dummy;
+            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                parameterEstimationGenerationTextBox.Text = Convert.ToString(m_param.Generation);
+                e.Cancel = true;
+                return;
+            }
+            m_param.Generation = dummy;
         }
     }
 }

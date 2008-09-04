@@ -105,11 +105,13 @@
             // 
             resources.ApplyResources(this.PEUpsilonTextBox, "PEUpsilonTextBox");
             this.PEUpsilonTextBox.Name = "PEUpsilonTextBox";
+            this.PEUpsilonTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.Upsilon_Validating);
             // 
             // PEMTextBox
             // 
             resources.ApplyResources(this.PEMTextBox, "PEMTextBox");
             this.PEMTextBox.Name = "PEMTextBox";
+            this.PEMTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.M_Validating);
             // 
             // groupBox2
             // 
@@ -127,16 +129,19 @@
             // 
             resources.ApplyResources(this.PEMaxRateTextBox, "PEMaxRateTextBox");
             this.PEMaxRateTextBox.Name = "PEMaxRateTextBox";
+            this.PEMaxRateTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.MaxRate_Validating);
             // 
             // PEKTextBox
             // 
             resources.ApplyResources(this.PEKTextBox, "PEKTextBox");
             this.PEKTextBox.Name = "PEKTextBox";
+            this.PEKTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.K_Validating);
             // 
             // PEM0TextBox
             // 
             resources.ApplyResources(this.PEM0TextBox, "PEM0TextBox");
             this.PEM0TextBox.Name = "PEM0TextBox";
+            this.PEM0TextBox.Validating += new System.ComponentModel.CancelEventHandler(this.M0_Validating);
             // 
             // ParameterEstimationAdvancedSettingDialog
             // 
@@ -149,7 +154,6 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "ParameterEstimationAdvancedSettingDialog";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AdvancedFormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

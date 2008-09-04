@@ -76,23 +76,111 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         #region Events
-        private void AdvancedFormClosing(object sender, FormClosingEventArgs e)
+        private void M_Validating(object sender, CancelEventArgs e)
         {
-            if (this.DialogResult != DialogResult.OK) return;
-            try
+            string text = PEMTextBox.Text;
+            if (string.IsNullOrEmpty(text))
             {
-                m_param = new SimplexCrossoverParameter(
-                     Convert.ToInt32(PEMTextBox.Text),
-                     Convert.ToDouble(PEM0TextBox.Text),
-                     Convert.ToDouble(PEMaxRateTextBox.Text),
-                     Convert.ToDouble(PEKTextBox.Text),
-                     Convert.ToDouble(PEUpsilonTextBox.Text));
-            }
-            catch (Exception)
-            {
+                Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                PEMTextBox.Text = Convert.ToString(m_param.M);
                 e.Cancel = true;
+                return;
             }
+            int dummy;
+            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                PEMTextBox.Text = Convert.ToString(m_param.M);
+                e.Cancel = true;
+                return;
+            }
+            m_param.M = dummy;
         }
+
+        private void Upsilon_Validating(object sender, CancelEventArgs e)
+        {
+            string text = PEUpsilonTextBox.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                PEUpsilonTextBox.Text = Convert.ToString(m_param.Upsilon);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                PEUpsilonTextBox.Text = Convert.ToString(m_param.Upsilon);
+                e.Cancel = true;
+                return;
+            }
+            m_param.Upsilon = dummy;
+        }
+
+        private void M0_Validating(object sender, CancelEventArgs e)
+        {
+            string text = PEM0TextBox.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                PEM0TextBox.Text = Convert.ToString(m_param.Initial);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy <= 1.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                PEM0TextBox.Text = Convert.ToString(m_param.Initial);
+                e.Cancel = true;
+                return;
+            }
+            m_param.Initial = dummy;
+        }
+
+        private void K_Validating(object sender, CancelEventArgs e)
+        {
+            string text = PEKTextBox.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                PEKTextBox.Text = Convert.ToString(m_param.K);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy <= 1.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                PEKTextBox.Text = Convert.ToString(m_param.K);
+                e.Cancel = true;
+                return;
+            }
+            m_param.K = dummy;
+        }
+
+        private void MaxRate_Validating(object sender, CancelEventArgs e)
+        {
+            string text = PEMaxRateTextBox.Text;
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                PEMaxRateTextBox.Text = Convert.ToString(m_param.Max);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                PEMaxRateTextBox.Text = Convert.ToString(m_param.Max);
+                e.Cancel = true;
+                return;
+            }
+            m_param.Max = dummy;
+        }
+
         #endregion
     }
 }

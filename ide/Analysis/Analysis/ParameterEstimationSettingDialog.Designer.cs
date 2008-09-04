@@ -137,16 +137,19 @@
             // 
             resources.ApplyResources(this.parameterEstimationPopulationTextBox, "parameterEstimationPopulationTextBox");
             this.parameterEstimationPopulationTextBox.Name = "parameterEstimationPopulationTextBox";
+            this.parameterEstimationPopulationTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.Population_Validating);
             // 
             // parameterEstimationSimulationTimeTextBox
             // 
             resources.ApplyResources(this.parameterEstimationSimulationTimeTextBox, "parameterEstimationSimulationTimeTextBox");
             this.parameterEstimationSimulationTimeTextBox.Name = "parameterEstimationSimulationTimeTextBox";
+            this.parameterEstimationSimulationTimeTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.SimulationTime_Validating);
             // 
             // parameterEstimationGenerationTextBox
             // 
             resources.ApplyResources(this.parameterEstimationGenerationTextBox, "parameterEstimationGenerationTextBox");
             this.parameterEstimationGenerationTextBox.Name = "parameterEstimationGenerationTextBox";
+            this.parameterEstimationGenerationTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.Generation_Validating);
             // 
             // groupBox3
             // 
