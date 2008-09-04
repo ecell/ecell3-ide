@@ -126,8 +126,14 @@
   <data name="ErrExecute" xml:space="preserve">
     <value>Execution of {0} failed.</value>
   </data>
+  <data name="ErrInvalidValue" xml:space="preserve">
+    <value>Value is not valid.</value>
+  </data>
   <data name="ErrLarger" xml:space="preserve">
     <value>{0} should be greater than {1}.</value>
+  </data>
+  <data name="ErrNoInput" xml:space="preserve">
+    <value>Nothing is input in {0}</value>
   </data>
   <data name="ErrSameAxis" xml:space="preserve">
     <value>The same parameter is selected for X-axis and Y-axis.</value>
@@ -213,8 +219,14 @@
   <data name="NameGenerationNum" xml:space="preserve">
     <value>The number of generations</value>
   </data>
+  <data name="NameMaxFrequency" xml:space="preserve">
+    <value>Max frequency</value>
+  </data>
   <data name="NameMaxSample" xml:space="preserve">
     <value>The number of samples for FFT</value>
+  </data>
+  <data name="NameMinFrequency" xml:space="preserve">
+    <value>Min frequency</value>
   </data>
   <data name="NameObservedData" xml:space="preserve">
     <value>The observed parameter set</value>
@@ -242,6 +254,9 @@
   </data>
   <data name="NameStepNum" xml:space="preserve">
     <value>The number of steps</value>
+  </data>
+  <data name="NameWindowSize" xml:space="preserve">
+    <value>Window size</value>
   </data>
   <data name="ReflectMenuText" xml:space="preserve">
     <value>Reflect</value>

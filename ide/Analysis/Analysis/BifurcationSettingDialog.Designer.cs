@@ -126,11 +126,13 @@
             // 
             resources.ApplyResources(this.bifurcationSimulationTimeTextBox, "bifurcationSimulationTimeTextBox");
             this.bifurcationSimulationTimeTextBox.Name = "bifurcationSimulationTimeTextBox";
+            this.bifurcationSimulationTimeTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.WindowSize_Validating);
             // 
             // bifurcationWindowSizeTextBox
             // 
             resources.ApplyResources(this.bifurcationWindowSizeTextBox, "bifurcationWindowSizeTextBox");
             this.bifurcationWindowSizeTextBox.Name = "bifurcationWindowSizeTextBox";
+            this.bifurcationWindowSizeTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.SimulationTime_Validating);
             // 
             // groupBox1
             // 
@@ -146,16 +148,19 @@
             // 
             resources.ApplyResources(this.bifurcationMaxInputTextBox, "bifurcationMaxInputTextBox");
             this.bifurcationMaxInputTextBox.Name = "bifurcationMaxInputTextBox";
+            this.bifurcationMaxInputTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.MaxInput_Validating);
             // 
             // bifurcationMaxFrequencyTextBox
             // 
             resources.ApplyResources(this.bifurcationMaxFrequencyTextBox, "bifurcationMaxFrequencyTextBox");
             this.bifurcationMaxFrequencyTextBox.Name = "bifurcationMaxFrequencyTextBox";
+            this.bifurcationMaxFrequencyTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.MaxFrequency_Validating);
             // 
             // bifurcationMinFrequencyTextBox
             // 
             resources.ApplyResources(this.bifurcationMinFrequencyTextBox, "bifurcationMinFrequencyTextBox");
             this.bifurcationMinFrequencyTextBox.Name = "bifurcationMinFrequencyTextBox";
+            this.bifurcationMinFrequencyTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.MinFrequency_Validating);
             // 
             // groupBox2
             // 

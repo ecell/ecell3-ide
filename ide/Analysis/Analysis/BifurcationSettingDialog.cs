@@ -14,6 +14,7 @@ namespace Ecell.IDE.Plugins.Analysis
     public partial class BifurcationSettingDialog : Form
     {
         private Analysis m_owner;
+        private BifurcationAnalysisParameter m_param;
 
         public BifurcationSettingDialog(Analysis owner)
         {
@@ -32,6 +33,7 @@ namespace Ecell.IDE.Plugins.Analysis
             bifurcationMaxInputTextBox.Text = Convert.ToString(p.MaxInput);
             bifurcationMaxFrequencyTextBox.Text = Convert.ToString(p.MaxFreq);
             bifurcationMinFrequencyTextBox.Text = Convert.ToString(p.MinFreq);
+            m_param = p;
         }
 
         /// <summary>
@@ -131,6 +133,111 @@ namespace Ecell.IDE.Plugins.Analysis
             bifurcationToolTip.SetToolTip(groupBox3, MessageResources.ToolTipParameterGrid);
             bifurcationToolTip.SetToolTip(groupBox4, MessageResources.ToolTipObservedGrid);
             bifurcationToolTip.SetToolTip(bifurcationMaxInputTextBox, MessageResources.ToolTipMaxInputSize);            
+        }
+
+        private void WindowSize_Validating(object sender, CancelEventArgs e)
+        {
+            string text = bifurcationWindowSizeTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameWindowSize));
+                bifurcationWindowSizeTextBox.Text = Convert.ToString(m_param.WindowSize);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                bifurcationWindowSizeTextBox.Text = Convert.ToString(m_param.WindowSize);
+                e.Cancel = true;
+                return;
+            }
+            m_param.WindowSize = dummy;
+        }
+
+        private void SimulationTime_Validating(object sender, CancelEventArgs e)
+        {
+            string text = bifurcationSimulationTimeTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameSimulationTime));
+                bifurcationSimulationTimeTextBox.Text = Convert.ToString(m_param.SimulationTime);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                bifurcationSimulationTimeTextBox.Text = Convert.ToString(m_param.SimulationTime);
+                e.Cancel = true;
+                return;
+            }
+            m_param.SimulationTime = dummy;
+        }
+
+        private void MaxInput_Validating(object sender, CancelEventArgs e)
+        {
+            string text = bifurcationMaxInputTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameMaxSample));
+                bifurcationMaxInputTextBox.Text = Convert.ToString(m_param.MaxInput);
+                e.Cancel = true;
+                return;
+            }
+            int dummy;
+            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                bifurcationMaxInputTextBox.Text = Convert.ToString(m_param.MaxInput);
+                e.Cancel = true;
+                return;
+            }
+            m_param.MaxInput = dummy;
+        }
+
+        private void MaxFrequency_Validating(object sender, CancelEventArgs e)
+        {
+            string text = bifurcationMaxFrequencyTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameMaxFrequency));
+                bifurcationMaxFrequencyTextBox.Text = Convert.ToString(m_param.MaxFreq);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy <= 0.0 || dummy < m_param.MinFreq)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                bifurcationMaxFrequencyTextBox.Text = Convert.ToString(m_param.MaxFreq);
+                e.Cancel = true;
+                return;
+            }
+            m_param.MaxFreq = dummy;
+        }
+
+        private void MinFrequency_Validating(object sender, CancelEventArgs e)
+        {
+            string text = bifurcationMinFrequencyTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameMinFrequency));
+                bifurcationMinFrequencyTextBox.Text = Convert.ToString(m_param.MinFreq);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy <= 0.0 || dummy > m_param.MaxFreq)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                bifurcationMinFrequencyTextBox.Text = Convert.ToString(m_param.MinFreq);
+                e.Cancel = true;
+                return;
+            }
+            m_param.MinFreq = dummy;
         }
     }
 }
