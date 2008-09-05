@@ -961,17 +961,15 @@ namespace Ecell
                     EcellData ecellData = CreateEcellData(name, value, entityPath, flag);
                     if (ecellData.Value != null)
                     {
-                        if (ecellData.Value.IsDouble &&
-                            (ecellData.Settable == false ||
-                            ecellData.Saveable == false))
-                        {
-                            ecellData.Logable = true;
-                        }
                         if (ecellData.Value.IsDouble)
                         {
                             if (initialCondition != null && ecellData.Settable)
                             {
                                 initialCondition[ecellData.EntityPath] = ecellData.Value.CastToDouble();
+                            }
+                            if (ecellData.Settable == false || ecellData.Saveable == false)
+                            {
+                                ecellData.Logable = true;
                             }
                         }
                         else if (ecellData.Value.IsInt)
@@ -1053,21 +1051,6 @@ namespace Ecell
                     stepperEcellDataList.Add(storedEcellData);
                 }
             }
-            else if (ecellObject.Value != null && ecellObject.Value.Count <= 0)
-            {
-                //
-                // Sets the class name.
-                //
-                /* 20060315
-                EcellData classNameData = new EcellData(
-                    Constants.xpathClassName,
-                    new EcellValue(simulator.GetStepperClassName(ecellObject.key)), Constants.xpathClassName
-                    );
-                classNameData.Settable = false;
-                classNameData.Saveable = false;
-                stepperEcellDataList.Add(classNameData);
-                 */
-            }
             //
             // Stores the "EcellData"
             //
@@ -1124,32 +1107,11 @@ namespace Ecell
                 Dictionary<string, double> initialCondition)
         {
             // Creates an entityPath.
-            string parentPath = ecellObject.Key.Substring(0, ecellObject.Key.LastIndexOf(
-                    Constants.delimiterPath));
-            string childPath = ecellObject.Key.Substring(ecellObject.Key.LastIndexOf(
-                    Constants.delimiterPath) + 1);
-            string key = Constants.xpathSystem + Constants.delimiterColon + ecellObject.Key;
-            if (parentPath.Length == 0)
-            {
-                if (childPath.Length == 0)
-                {
-                    key = Constants.xpathSystem + Constants.delimiterColon +
-                        parentPath + Constants.delimiterColon +
-                        Constants.delimiterPath;
-                }
-                else
-                {
-                    key = Constants.xpathSystem + Constants.delimiterColon +
-                        Constants.delimiterPath + Constants.delimiterColon +
-                        childPath;
-                }
-            }
-            else
-            {
-                key = Constants.xpathSystem + Constants.delimiterColon +
-                    parentPath + Constants.delimiterColon +
-                    childPath;
-            }
+            string parentPath = ecellObject.ParentSystemID;
+            string childPath = ecellObject.LocalID;
+            string key = Constants.xpathSystem + Constants.delimiterColon +
+                parentPath + Constants.delimiterColon +
+                childPath;
             // Property List
             WrappedPolymorph wrappedPolymorph = simulator.GetEntityPropertyList(key);
             if (!wrappedPolymorph.IsList())
