@@ -847,7 +847,6 @@ namespace Ecell.IDE.MainWindow
                 importScriptToolStripMenuItem.Enabled = false;
                 saveScriptToolStripMenuItem.Enabled = false;
                 printToolStripMenuItem.Enabled = false;
-                saveActionMenuItem.Enabled = false;
                 exitToolStripMenuItem.Enabled = true;
                 MenuItemLayout.Enabled = false;
             }
@@ -863,7 +862,6 @@ namespace Ecell.IDE.MainWindow
                 importScriptToolStripMenuItem.Enabled = true;
                 saveScriptToolStripMenuItem.Enabled = true;
                 printToolStripMenuItem.Enabled = true;
-                saveActionMenuItem.Enabled = true;
                 exitToolStripMenuItem.Enabled = true;
                 MenuItemLayout.Enabled = true;
             }
@@ -880,7 +878,6 @@ namespace Ecell.IDE.MainWindow
                 importScriptToolStripMenuItem.Enabled = false;
                 saveScriptToolStripMenuItem.Enabled = false;
                 printToolStripMenuItem.Enabled = true;
-                saveActionMenuItem.Enabled = false;
                 exitToolStripMenuItem.Enabled = true;
                 MenuItemLayout.Enabled = false;
             }
@@ -916,6 +913,7 @@ namespace Ecell.IDE.MainWindow
                 m_recentProjects.Remove(oldProject);
             if(File.Exists(filename))
                 m_recentProjects.Add(new KeyValuePair<string, string>(projectID, filename));
+            ResetRecentProjectMenu();
         }
 
         /// <summary>
@@ -1148,6 +1146,8 @@ namespace Ecell.IDE.MainWindow
         private void SaveProjectMenuClick(object sender, EventArgs e)
         {
             m_env.DataManager.SaveProject();
+            Project project = m_env.DataManager.CurrentProject;
+            CheckAndReplaceRecentProject(project.Name, project.FilePath);
             m_editCount = 0;
         }
 
@@ -1679,7 +1679,7 @@ namespace Ecell.IDE.MainWindow
                 }
             }
             if (!string.IsNullOrEmpty(m_env.DataManager.CurrentProjectID))
-            {
+            {            
                 CloseProject();
             }
             SaveRecentProject();

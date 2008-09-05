@@ -355,7 +355,6 @@ namespace Ecell
         public void Save(string filePath)
         {
             ProjectSaver.SaveProject(this, filePath);
-            m_filePath = filePath;
         }
 
         /// <summary>
@@ -699,7 +698,6 @@ namespace Ecell
             {
                 SaveProjectINFO(project, projectInfo);
                 SaveProjectXML(project, projectXML);
-
             }
             catch (Exception ex)
             {
@@ -741,6 +739,7 @@ namespace Ecell
                 writer.WriteLine(Constants.xpathProject + sepalator + project.Name);
                 writer.WriteLine(Constants.textComment + sepalator + project.Comment);
                 writer.WriteLine(Constants.textParameter + sepalator + project.SimulationParam);
+                project.FilePath = filePath;
             }
             finally
             {
@@ -780,6 +779,7 @@ namespace Ecell
                 xmlOut.WriteElementString(Constants.textParameter, project.SimulationParam);
                 xmlOut.WriteEndElement();
                 xmlOut.WriteEndDocument();
+                project.FilePath = filePath;
             }
             finally
             {
@@ -1035,7 +1035,7 @@ namespace Ecell
             //
             // Sets the class name.
             //
-            if (ecellObject.Classname == null || ecellObject.Classname.Length <= 0)
+            if (string.IsNullOrEmpty(ecellObject.Classname))
             {
                 ecellObject.Classname = simulator.GetStepperClassName(ecellObject.Key);
             }
