@@ -882,18 +882,15 @@ namespace Ecell
                 {
                     storedEcellDataDic[storedEcellData.Name] = storedEcellData;
                     processEcellDataList.Add(storedEcellData);
-                    if (initialCondition != null && storedEcellData.Settable)
+                    if (storedEcellData.Settable)
                     {
-                        if (storedEcellData.Value.IsDouble && storedEcellData.Settable == true)
+                        try
                         {
-                            initialCondition[storedEcellData.EntityPath]
-                                    = storedEcellData.Value.CastToDouble();
+                            initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
                         }
-                        // else if (storedEcellData.Value.IsInt() && !storedEcellData.Name.StartsWith("Is"))
-                        else if (storedEcellData.Value.IsInt && storedEcellData.Settable == true)
+                        catch (InvalidCastException)
                         {
-                            initialCondition[storedEcellData.EntityPath]
-                                = storedEcellData.Value.CastToInt();
+                            // non-numeric value
                         }
                     }
                 }
@@ -906,54 +903,39 @@ namespace Ecell
                 List<WrappedPolymorph> processAllPropertyList = wrappedPolymorph.CastToList();
                 for (int i = 0; i < processAllPropertyList.Count; i++)
                 {
-                    if (!(processAllPropertyList[i]).IsString())
-                    {
-                        continue;
-                    }
-                    string name = (processAllPropertyList[i]).CastToString();
-                    string entityPath = key + Constants.delimiterColon + name;
+                    Debug.Assert(!processAllPropertyList[i].IsString());
+                    string name = processAllPropertyList[i].CastToString();
+                    string entityPath = Util.BuildFullPN(key, name);
+
                     List<bool> flag = simulator.GetEntityPropertyAttributes(entityPath);
                     if (!flag[WrappedSimulator.s_flagGettable])
                     {
                         continue;
                     }
                     EcellValue value = null;
-                    try
+
+                    if (name == Constants.xpathVRL)
                     {
-                        WrappedPolymorph property = simulator.GetEntityProperty(
-                                entityPath);
-                        value = new EcellValue(property);
-                    }
-                    catch (Exception ex)
-                    {
-                        Trace.WriteLine(ex);
+                        // Won't restore the variable reference list from the simulator's corresponding
+                        // object.
                         if (storedEcellDataDic.ContainsKey(name))
-                        {
-                            if (storedEcellDataDic[name].Value.CastToList()[0].IsList)
-                            {
-                                value = storedEcellDataDic[name].Value;
-                                if (name.Equals(Constants.xpathVRL))
-                                {
-                                    foreach (EcellValue vr in value.CastToList())
-                                    {
-                                        vr.CastToList()[2]
-                                            = new EcellValue(Convert.ToInt32(vr.CastToList()[2].ToString()));
-                                        vr.CastToList()[3]
-                                            = new EcellValue(Convert.ToInt32(vr.CastToList()[3].ToString()));
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                value = storedEcellDataDic[name].Value.CastToList()[0];
-                            }
-                        }
-                        else if (name.Equals(Constants.xpathActivity))
-                        {
-                            value = new EcellValue(0.0);
-                        }
+                            value = storedEcellDataDic[name].Value;
                         else
+                            value = new EcellValue(new List<EcellValue>());
+                    }
+                    else if (name == Constants.xpathActivity && name == Constants.xpathMolarActivity)
+                    {
+                        value = new EcellValue(0.0);
+                    }
+                    else
+                    {
+                        try
                         {
+                            value = new EcellValue(simulator.GetEntityProperty(entityPath));
+                        }
+                        catch (WrappedException ex)
+                        {
+                            Trace.WriteLine(ex);
                             value = new EcellValue("");
                         }
                     }
@@ -963,21 +945,16 @@ namespace Ecell
                     {
                         if (ecellData.Value.IsDouble)
                         {
-                            if (initialCondition != null && ecellData.Settable)
-                            {
-                                initialCondition[ecellData.EntityPath] = ecellData.Value.CastToDouble();
-                            }
-                            if (ecellData.Settable == false || ecellData.Saveable == false)
-                            {
-                                ecellData.Logable = true;
-                            }
+                            ecellData.Logable = ecellData.Settable == false || ecellData.Saveable == false;
                         }
-                        else if (ecellData.Value.IsInt)
+                        try
                         {
-                            if (initialCondition != null && ecellData.Settable)
-                            {
-                                initialCondition[ecellData.EntityPath] = ecellData.Value.CastToInt();
-                            }
+                            if (ecellData.Settable)
+                                initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
+                        }
+                        catch
+                        {
+                            // non-numeric value
                         }
                     }
                     if (storedEcellDataDic.ContainsKey(name))
@@ -986,21 +963,6 @@ namespace Ecell
                         processEcellDataList.Remove(storedEcellDataDic[name]);
                     }
                     processEcellDataList.Add(ecellData);
-                }
-            }
-            else
-            {
-                foreach (EcellData d in processEcellDataList)
-                {
-                    if (d.Name == Constants.xpathVRL)
-                    {
-                        string systemPath = "";
-                        string name = Util.GetNameFromPath(ecellObject.Key, ref systemPath);
-                        EcellValue v = EcellReference.ConvertReferenceInEml(systemPath, d.Value);
-                        d.Value = v;
-                        v.ToString();
-                        break;
-                    }
                 }
             }
             ecellObject.SetEcellDatas(processEcellDataList);
@@ -1081,7 +1043,7 @@ namespace Ecell
                 EcellData ecellData = CreateEcellData(name, value, name, flag);
                 if (storedEcellDataDic.ContainsKey(name))
                 {
-                    if (value.IsString && value.CastToString().Equals(""))
+                    if (value.IsString && ((string)value).Equals(""))
                     {
                         continue;
                     }
@@ -1130,19 +1092,17 @@ namespace Ecell
                 {
                     storedEcellDataDic[storedEcellData.Name] = storedEcellData;
                     systemEcellDataList.Add(storedEcellData);
-                    if (initialCondition != null && storedEcellData.Settable)
+                    if (storedEcellData.Settable)
                     {
-                        if (storedEcellData.Value.IsDouble)
+                        storedEcellData.Logable = storedEcellData.Value.IsDouble;
+
+                        try
                         {
-                            storedEcellData.Logable = true;
-                            initialCondition[storedEcellData.EntityPath]
-                                = storedEcellData.Value.CastToDouble();
+                            initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
                         }
-                        // else if (storedEcellData.Value.IsInt() && !storedEcellData.Name.StartsWith("Is"))
-                        else if (storedEcellData.Value.IsInt)
+                        catch (InvalidCastException)
                         {
-                            initialCondition[storedEcellData.EntityPath]
-                                = storedEcellData.Value.CastToInt();
+                            // non-numeric value
                         }
                     }
                 }
@@ -1150,11 +1110,8 @@ namespace Ecell
             List<WrappedPolymorph> systemAllPropertyList = wrappedPolymorph.CastToList();
             for (int i = 0; i < systemAllPropertyList.Count; i++)
             {
-                if (!(systemAllPropertyList[i]).IsString())
-                {
-                    continue;
-                }
-                string name = (systemAllPropertyList[i]).CastToString();
+                Debug.Assert(systemAllPropertyList[i].IsString());
+                string name = systemAllPropertyList[i].CastToString();
                 string entityPath = key + Constants.delimiterColon + name;
                 List<bool> flag = simulator.GetEntityPropertyAttributes(entityPath);
 
@@ -1164,51 +1121,51 @@ namespace Ecell
                 }
 
                 EcellValue value = null;
-                try
+                if (name.Equals(Constants.xpathSize))
                 {
-                    WrappedPolymorph property = simulator.GetEntityProperty(entityPath);
-                    value = new EcellValue(property);
+                    value = new EcellValue(0.0);
                 }
-                catch (Exception ex)
+                else
                 {
-                    Trace.WriteLine(ex);
-                    if (storedEcellDataDic.ContainsKey(name))
+                    try
                     {
-                        if (storedEcellDataDic[name].Value.CastToList()[0].IsList)
+                        value = new EcellValue(simulator.GetEntityProperty(entityPath));
+                    }
+                    catch (WrappedException ex)
+                    {
+                        Trace.WriteLine(ex);
+                        if (storedEcellDataDic.ContainsKey(name))
                         {
-                            value = storedEcellDataDic[name].Value;
+                            if (((List<EcellValue>)storedEcellDataDic[name].Value)[0].IsList)
+                            {
+                                value = storedEcellDataDic[name].Value;
+                            }
+                            else
+                            {
+                                value = ((List<EcellValue>)storedEcellDataDic[name].Value)[0];
+                            }
                         }
                         else
                         {
-                            value = storedEcellDataDic[name].Value.CastToList()[0];
+                            value = new EcellValue("");
                         }
-                    }
-                    else if (name.Equals(Constants.xpathSize))
-                    {
-                        value = new EcellValue(0.0);
-                    }
-                    else
-                    {
-                        value = new EcellValue("");
                     }
                 }
 
                 EcellData ecellData = CreateEcellData(name, value, entityPath, flag);
                 if (ecellData.Value != null)
                 {
-                    if (ecellData.Value.IsDouble)
+                    ecellData.Logable = ecellData.Value.IsDouble;
+
+                    if (ecellData.Settable)
                     {
-                        ecellData.Logable = true;
-                        if (initialCondition != null && ecellData.Settable)
+                        try
                         {
-                            initialCondition[ecellData.EntityPath] = ecellData.Value.CastToDouble();
+                            initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
                         }
-                    }
-                    else if (ecellData.Value.IsInt)
-                    {
-                        if (initialCondition != null && ecellData.Settable)
+                        catch (InvalidCastException)
                         {
-                            initialCondition[ecellData.EntityPath] = ecellData.Value.CastToInt();
+                            // non-numeric value
                         }
                     }
                 }
@@ -1252,19 +1209,17 @@ namespace Ecell
                 {
                     storedEcellDataDic[storedEcellData.Name] = storedEcellData;
                     variableEcellDataList.Add(storedEcellData);
-                    if (initialCondition != null && storedEcellData.Settable)
+                    if (storedEcellData.Settable)
                     {
-                        if (storedEcellData.Value.IsDouble)
+                        storedEcellData.Logable = storedEcellData.Value.IsDouble;
+
+                        try
                         {
-                            storedEcellData.Logable = true;
-                            initialCondition[storedEcellData.EntityPath]
-                                = storedEcellData.Value.CastToDouble();
+                            initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
                         }
-                        // else if (storedEcellData.Value.IsInt() && !storedEcellData.Name.StartsWith("Is"))
-                        else if (storedEcellData.Value.IsInt)
+                        catch (InvalidCastException)
                         {
-                            initialCondition[storedEcellData.EntityPath]
-                                = storedEcellData.Value.CastToInt();
+                            // non-numeric value
                         }
                     }
                 }
@@ -1294,13 +1249,13 @@ namespace Ecell
                     Trace.WriteLine(ex);
                     if (storedEcellDataDic.ContainsKey(name))
                     {
-                        if (storedEcellDataDic[name].Value.CastToList()[0].IsList)
+                        if (((List<EcellValue>)storedEcellDataDic[name].Value)[0].IsList)
                         {
                             value = storedEcellDataDic[name].Value;
                         }
                         else
                         {
-                            value = storedEcellDataDic[name].Value.CastToList()[0];
+                            value = ((List<EcellValue>)storedEcellDataDic[name].Value)[0];
                         }
                     }
                     else if (name.Equals(Constants.xpathMolarConc) || name.Equals(Constants.xpathNumberConc))
@@ -1315,19 +1270,17 @@ namespace Ecell
                 EcellData ecellData = CreateEcellData(name, value, entityPath, flag);
                 if (ecellData.Value != null)
                 {
-                    if (ecellData.Value.IsDouble)
+                    ecellData.Logable = ecellData.Value.IsDouble;
+
+                    if (ecellData.Settable)
                     {
-                        ecellData.Logable = true;
-                        if (initialCondition != null && ecellData.Settable)
+                        try
                         {
-                            initialCondition[ecellData.EntityPath] = ecellData.Value.CastToDouble();
+                            initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
                         }
-                    }
-                    else if (ecellData.Value.IsInt)
-                    {
-                        if (initialCondition != null && ecellData.Settable)
+                        catch (InvalidCastException)
                         {
-                            initialCondition[ecellData.EntityPath] = ecellData.Value.CastToInt();
+                            // non-numeric value
                         }
                     }
                 }

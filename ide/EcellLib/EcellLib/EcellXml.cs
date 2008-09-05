@@ -155,7 +155,7 @@ namespace Ecell
                     break;
                 }
             }
-            return new EcellValue(ecellValueList);
+            return ecellValueList.Count == 1 && !ecellValueList[0].IsList ? ecellValueList[0]: new EcellValue(ecellValueList);
         }
     }
 }

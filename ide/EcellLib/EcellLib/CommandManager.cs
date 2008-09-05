@@ -1266,28 +1266,13 @@ namespace Ecell
                                 }
                                 else if (data.Name.Equals(Constants.xpathVRL))
                                 {
-                                    data.Value = EcellValue.ToVariableReferenceList(value);
-                                    //
-                                    // Exchange ":.:" for ":[path]:".
-                                    //
-                                    string path = this.m_fullID.Split(Constants.delimiterColon.ToCharArray())[1];
-                                    for (int j = 0; j < data.Value.CastToList().Count; j++)
+                                    // XXX: optimize
+                                    List<EcellValue> newValue = new List<EcellValue>();
+                                    foreach (EcellValue vr in (List<EcellValue>)EcellValue.FromListString(value))
                                     {
-                                        string[] IDs
-                                            = data.Value.CastToList()[j].CastToList()[1].CastToString()
-                                                .Split(Constants.delimiterColon.ToCharArray());
-                                        if (IDs[1].Equals(Constants.delimiterPeriod))
-                                        {
-                                            IDs[1] = path;
-                                        }
-                                        string ID = null;
-                                        foreach (string IDElement in IDs)
-                                        {
-                                            ID = ID + Constants.delimiterColon + IDElement;
-                                        }
-                                        data.Value.CastToList()[j].CastToList()[1]
-                                            = new EcellValue(ID.Substring(1));
+                                        newValue.Add(Util.NormalizeVariableReference(vr, ele[1]));
                                     }
+                                    data.Value = new EcellValue(newValue);
                                     findFlag = true;
                                 }
                                 else if (data.Value.IsDouble)

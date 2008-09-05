@@ -469,6 +469,48 @@ namespace Ecell
             }
         }
 
+        public static string NormalizeSystemPath(string systemPath, string currentSystemPath)
+        {
+            if (systemPath[0] == '/')
+                return systemPath;
+
+            if (systemPath.Length == 0)
+                return currentSystemPath;
+
+            Debug.Assert(currentSystemPath != null && currentSystemPath[0] == '/');
+
+            List<string> retval = new List<string>(currentSystemPath.Split('/'));
+
+            foreach (string comp in systemPath.Split('/'))
+            {
+                if (comp == "..")
+                {
+                    if (retval.Count > 1)
+                        retval.RemoveAt(retval.Count - 1);
+                }
+                else if (comp != ".")
+                {
+                    retval.Add(comp);
+                }
+            }
+
+            return string.Join("/", retval.ToArray());
+        }
+
+        public static EcellValue NormalizeVariableReference(EcellValue val, string systemPath)
+        {
+            if (!val.IsList)
+                throw new ArgumentException();
+            List<EcellValue> newComps = new List<EcellValue>((List<EcellValue>)val);
+            if (!newComps[1].IsString)
+                throw new ArgumentException();
+            string entityType, path, localID;
+            ParseFullID((string)newComps[1], out entityType, out path, out localID);
+            newComps[1] = new EcellValue(
+                BuildFullID(entityType, NormalizeSystemPath(path, systemPath), localID));
+            return new EcellValue(newComps);
+        }
+
         public static string GenerateRandomID(int len)
         {
             StringBuilder sb = new StringBuilder();

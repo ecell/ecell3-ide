@@ -86,20 +86,14 @@ namespace Ecell.Objects
         public EcellReference(EcellValue value)
         {
             List<EcellValue> list = (List<EcellValue>)value;
-            if (list.Count == 4)
-            {
-                this.m_name = (string)list[0];
-                this.m_fullID = (string)list[1];
+            this.m_name = (string)list[0];
+            this.m_fullID = (string)list[1];
+            this.m_coeff = 0;
+            this.m_accessor = 1;
+            if (list.Count >= 3)
                 this.m_coeff = (int)list[2];
+            if (list.Count >= 4)
                 this.m_accessor = (int)list[3];
-            }
-            else if (list.Count == 3)
-            {
-                this.m_name = (string)list[0];
-                this.m_fullID = (string)list[1];
-                this.m_coeff = (int)list[2];
-                this.m_accessor = 1;
-            }
         }
         #endregion
 
@@ -242,46 +236,6 @@ namespace Ecell.Objects
             {
                 EcellValue value = new EcellValue(er);
                 list.Add(value);
-            }
-            return new EcellValue(list);
-        }
-
-        /// <summary>
-        /// Convert the reference tag to VariableReferenceList in Eml.
-        /// </summary>
-        /// <param name="systemPath">current system path.</param>
-        /// <param name="org">original reference tag.</param>
-        /// <returns>The tag of VariableReferenceList.</returns>
-        public static EcellValue ConvertReferenceInEml(String systemPath, EcellValue org)
-        {
-            if (!org.IsList) return org;
-            List<EcellValue> list = new List<EcellValue>();
-            foreach (EcellValue v in (List<EcellValue>)org)
-            {
-                string str = v.ToString();
-                str = str.Replace('(', ' ');
-                str = str.Replace(')', ' ');
-                str = str.Replace('\"', ' ');
-                string[] ele = str.Split(new char[] { ',' });
-                string id = ele[0].Trim();
-                string key = ele[1].Trim();
-                if (key.StartsWith("Variable"))
-                {
-                    key = key.Substring(8);
-                }
-                if (key.StartsWith(":.:"))
-                {
-                    key = ":" + systemPath + ":" + key.Substring(3);
-                }
-                string coeff = ele[2].Trim();
-
-                str = "((\"" + id + "\", \"" + key + "\", " + Convert.ToInt32(coeff) + ", 1))";
-                List<EcellReference> refs = EcellReference.ConvertString(str);
-                foreach (EcellReference refd in refs)
-                {
-                    EcellValue value = new EcellValue(refd);
-                    list.Add(value);
-                }
             }
             return new EcellValue(list);
         }
