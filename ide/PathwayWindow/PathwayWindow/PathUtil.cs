@@ -60,17 +60,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Get bounds to focus on a object.
         /// </summary>
-        /// <param name="centerPos"></param>
-        /// <param name="focusRect"></param>
+        /// <param name="node"></param>
+        /// <param name="camera"></param>
         /// <returns></returns>
-        public static RectangleF GetFocusBound(PointF centerPos, RectangleF focusRect)
-        {
-            float x = centerPos.X - focusRect.Width / 2f;
-            float y = centerPos.Y - focusRect.Height / 2f;
-
-            return new RectangleF(x, y, focusRect.Width, focusRect.Height);
-        }
-
         public static RectangleF GetFocusBound(RectangleF node, RectangleF camera)
         {
             if(node.Width > camera.Width || node.Height > camera.Height)

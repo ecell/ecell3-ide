@@ -4444,6 +4444,35 @@ public class DataManager
 
         return null;
     }
+
+    public void SaveProject()
+    {
+        List<string> modelList = GetSavableModel();
+        List<string> paramList = GetSavableSimulationParameter();
+        List<string> logList = new List<string>();
+        string res = GetSavableSimulationResult();
+        if (res != null)
+        {
+            logList.Add(res);
+        }
+
+        foreach (string name in modelList)
+        {
+            SaveModel(name);
+        }
+        foreach (string name in paramList)
+        {
+            SaveSimulationParameter(name);
+        }
+        foreach (string name in logList)
+        {
+            SaveSimulationResult();
+            SaveSimulationResultDelegate dlg = m_env.PluginManager.GetDelegate("SaveSimulationResult") as SaveSimulationResultDelegate;
+            if (dlg != null)
+                dlg(logList);
+        }
+    }
+
     /// <summary>
     /// Saves only the project using the project ID.
     /// </summary>

@@ -355,6 +355,7 @@ namespace Ecell
         public void Save(string filePath)
         {
             ProjectSaver.SaveProject(this, filePath);
+            m_filePath = filePath;
         }
 
         /// <summary>

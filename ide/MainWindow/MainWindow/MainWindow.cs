@@ -325,7 +325,7 @@ namespace Ecell.IDE.MainWindow
                 {
                     string name = GetStringChild(node, "Name");
                     string file = GetStringChild(node, "File");
-                    if (name == null || file == null)
+                    if (name == null || file == null || !File.Exists(file))
                         continue;
                     m_recentProjects.Add(new KeyValuePair<string, string>(name, file));
                 }
@@ -914,7 +914,8 @@ namespace Ecell.IDE.MainWindow
             }
             if (oldProject.Key != null)
                 m_recentProjects.Remove(oldProject);
-            m_recentProjects.Add(new KeyValuePair<string, string>(projectID, filename));
+            if(File.Exists(filename))
+                m_recentProjects.Add(new KeyValuePair<string, string>(projectID, filename));
         }
 
         /// <summary>
@@ -1146,53 +1147,8 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void SaveProjectMenuClick(object sender, EventArgs e)
         {
-            List<string> modelList = new List<string>();
-            List<string> paramList = new List<string>();
-            List<string> logList = new List<string>();
-            {
-                IEnumerable<string> list = m_env.DataManager.GetSavableModel();
-                if (list != null)
-                {
-                    foreach (string s in list)
-                    {
-                        modelList.Add(s);
-                    }
-                }
-            }
-            {
-                IEnumerable list = m_env.DataManager.GetSavableSimulationParameter();
-                if (list != null)
-                {
-                    foreach (string s in list)
-                    {
-                        paramList.Add(s);
-                    }
-                }
-            }
-            {
-                String res = m_env.DataManager.GetSavableSimulationResult();
-                if (res != null)
-                {
-                    logList.Add(res);
-                }
-            }
-
-            foreach (String name in modelList)
-            {
-                m_env.DataManager.SaveModel(name);
-                m_editCount = 0;
-            }
-            foreach (string name in paramList)
-            {
-                m_env.DataManager.SaveSimulationParameter(name);
-            }
-            foreach (string name in logList)
-            {
-                m_env.DataManager.SaveSimulationResult();
-                SaveSimulationResultDelegate dlg = m_env.PluginManager.GetDelegate("SaveSimulationResult") as SaveSimulationResultDelegate;
-                if (dlg != null)
-                    dlg(logList);
-            }
+            m_env.DataManager.SaveProject();
+            m_editCount = 0;
         }
 
         /// <summary>
