@@ -64,6 +64,7 @@ namespace Ecell.IDE.Plugins.Analysis
             PEM0TextBox.Text =  Convert.ToString(param.Initial);
             PEKTextBox.Text =  Convert.ToString(param.K);
             PEMaxRateTextBox.Text = Convert.ToString(param.Max);
+            m_param = param;
         }
 
         /// <summary>

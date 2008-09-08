@@ -129,21 +129,15 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             if (robustAnalysisRandomCheckBox.Checked == true)
             {
-                if (robustAnalysisMatrixCheckBox.Checked == true)
-                {
-                    robustAnalysisMatrixCheckBox.Checked = false;
-                    robustAnalysisMaxSampleTextBox.ReadOnly = false;
-                    m_param.IsRandomCheck = false;
-                }
+                robustAnalysisMatrixCheckBox.Checked = false;
+                robustAnalysisSampleNumberTextBox.ReadOnly = false;
+                m_param.IsRandomCheck = false;
             }
             else
             {
-                if (robustAnalysisMatrixCheckBox.Checked == false)
-                {
-                    robustAnalysisMatrixCheckBox.Checked = true;
-                    robustAnalysisMaxSampleTextBox.ReadOnly = true;
-                    m_param.IsRandomCheck = true;
-                }
+                robustAnalysisMatrixCheckBox.Checked = true;
+                robustAnalysisSampleNumberTextBox.ReadOnly = true;
+                m_param.IsRandomCheck = true;
             }
         }
 
