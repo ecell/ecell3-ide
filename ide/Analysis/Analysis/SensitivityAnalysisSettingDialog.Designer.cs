@@ -89,16 +89,19 @@
             // 
             resources.ApplyResources(this.sensitivityStepTextBox, "sensitivityStepTextBox");
             this.sensitivityStepTextBox.Name = "sensitivityStepTextBox";
+            this.sensitivityStepTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.Step_Validating);
             // 
             // sensitivityAbsolutePerturbationTextBox
             // 
             resources.ApplyResources(this.sensitivityAbsolutePerturbationTextBox, "sensitivityAbsolutePerturbationTextBox");
             this.sensitivityAbsolutePerturbationTextBox.Name = "sensitivityAbsolutePerturbationTextBox";
+            this.sensitivityAbsolutePerturbationTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.AbsolutePerturbation_Validating);
             // 
             // sensitivityRelativePerturbationTextBox
             // 
             resources.ApplyResources(this.sensitivityRelativePerturbationTextBox, "sensitivityRelativePerturbationTextBox");
             this.sensitivityRelativePerturbationTextBox.Name = "sensitivityRelativePerturbationTextBox";
+            this.sensitivityRelativePerturbationTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.RelativePerturbation_Validating);
             // 
             // abstractTextBox
             // 

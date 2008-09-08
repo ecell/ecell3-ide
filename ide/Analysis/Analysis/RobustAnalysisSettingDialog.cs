@@ -14,6 +14,7 @@ namespace Ecell.IDE.Plugins.Analysis
     public partial class RobustAnalysisSettingDialog : Form
     {
         private Analysis m_owner;
+        private RobustAnalysisParameter m_param;
         public RobustAnalysisSettingDialog(Analysis owner)
         {
             InitializeComponent();
@@ -26,16 +27,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <returns>the parameter of robust analysis.</returns>
         public RobustAnalysisParameter GetParameter()
         {
-            RobustAnalysisParameter p = new RobustAnalysisParameter();
-            p.SampleNum = Convert.ToInt32(robustAnalysisSampleNumberTextBox.Text);
-            p.SimulationTime = Convert.ToDouble(robustAnalysisSimulationTimeTextBox.Text);
-            p.IsRandomCheck = robustAnalysisRandomCheckBox.Checked;
-            p.MaxData = Convert.ToInt32(robustAnalysisMaxSampleTextBox.Text);
-            p.MaxFreq = Convert.ToDouble(robustAnalysisMaxFrequencyTextBox.Text);
-            p.MinFreq = Convert.ToDouble(robustAnalysisMinFrequencyTextBox.Text);
-            p.WinSize = Convert.ToDouble(robustAnalysisWindowSizeTextBox.Text);
-
-            return p;
+            return m_param;
         }
 
         /// <summary>
@@ -52,6 +44,7 @@ namespace Ecell.IDE.Plugins.Analysis
             robustAnalysisWindowSizeTextBox.Text = Convert.ToString(p.WinSize);
             if (p.IsRandomCheck) robustAnalysisRandomCheckBox.Checked = true;
             else robustAnalysisMatrixCheckBox.Checked = true;
+            m_param = p;
         }
 
         public void SetParameterDataList(Dictionary<string, EcellData> dic)
@@ -140,6 +133,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 {
                     robustAnalysisMatrixCheckBox.Checked = false;
                     robustAnalysisMaxSampleTextBox.ReadOnly = false;
+                    m_param.IsRandomCheck = false;
                 }
             }
             else
@@ -148,6 +142,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 {
                     robustAnalysisMatrixCheckBox.Checked = true;
                     robustAnalysisMaxSampleTextBox.ReadOnly = true;
+                    m_param.IsRandomCheck = true;
                 }
             }
         }
@@ -174,6 +169,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 {
                     robustAnalysisRandomCheckBox.Checked = true;
                     robustAnalysisMaxSampleTextBox.ReadOnly = false;
+                    
                 }
             }
         }
@@ -187,6 +183,132 @@ namespace Ecell.IDE.Plugins.Analysis
             robustToolTip.SetToolTip(robustAnalysisMinFrequencyTextBox, MessageResources.ToolTipMinFFT);
             robustToolTip.SetToolTip(robustAnalysisSampleNumberTextBox, MessageResources.ToolTipSampleNumber);
             robustToolTip.SetToolTip(groupBox4, MessageResources.ToolTipParameterGrid);
-        }        
+        }
+
+        private void SimulationTime_Validating(object sender, CancelEventArgs e)
+        {
+            string text = robustAnalysisSimulationTimeTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameSimulationTime));
+                robustAnalysisSimulationTimeTextBox.Text = Convert.ToString(m_param.SimulationTime);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                robustAnalysisSimulationTimeTextBox.Text = Convert.ToString(m_param.SimulationTime);
+                e.Cancel = true;
+                return;
+            }
+            m_param.SimulationTime = dummy;
+        }
+
+        private void WindowSize_Validating(object sender, CancelEventArgs e)
+        {
+            string text = robustAnalysisWindowSizeTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameWindowSize));
+                robustAnalysisWindowSizeTextBox.Text = Convert.ToString(m_param.WinSize);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                robustAnalysisWindowSizeTextBox.Text = Convert.ToString(m_param.WinSize);
+                e.Cancel = true;
+                return;
+            }
+            m_param.WinSize = dummy;
+        }
+
+        private void SampleNumber_Validating(object sender, CancelEventArgs e)
+        {
+            string text = robustAnalysisSampleNumberTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameSampleNum));
+                robustAnalysisSampleNumberTextBox.Text = Convert.ToString(m_param.SampleNum);
+                e.Cancel = true;
+                return;
+            }
+            int dummy;
+            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                robustAnalysisSampleNumberTextBox.Text = Convert.ToString(m_param.SampleNum);
+                e.Cancel = true;
+                return;
+            }
+            m_param.SampleNum = dummy;
+        }
+
+        private void MaxInput_Validating(object sender, CancelEventArgs e)
+        {
+            string text = robustAnalysisMaxSampleTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameMaxSample));
+                robustAnalysisMaxSampleTextBox.Text = Convert.ToString(m_param.MaxData);
+                e.Cancel = true;
+                return;
+            }
+            int dummy;
+            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                robustAnalysisMaxSampleTextBox.Text = Convert.ToString(m_param.MaxData);
+                e.Cancel = true;
+                return;
+            }
+            m_param.MaxData = dummy;
+        }
+
+        private void MaxFrequency_Validating(object sender, CancelEventArgs e)
+        {
+            string text = robustAnalysisMaxFrequencyTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameMaxFrequency));
+                robustAnalysisMaxFrequencyTextBox.Text = Convert.ToString(m_param.MaxFreq);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy <= 0.0 || dummy < m_param.MinFreq)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                robustAnalysisMaxFrequencyTextBox.Text = Convert.ToString(m_param.MaxFreq);
+                e.Cancel = true;
+                return;
+            }
+            m_param.MaxFreq = dummy;
+        }
+
+        private void MinFrequency_Validating(object sender, CancelEventArgs e)
+        {
+            string text = robustAnalysisMinFrequencyTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameMinFrequency));
+                robustAnalysisMinFrequencyTextBox.Text = Convert.ToString(m_param.MinFreq);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy <= 0.0 || dummy > m_param.MaxFreq)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                robustAnalysisMinFrequencyTextBox.Text = Convert.ToString(m_param.MinFreq);
+                e.Cancel = true;
+                return;
+            }
+            m_param.MinFreq = dummy;
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace Ecell.IDE.Plugins.Analysis
     public partial class SensitivityAnalysisSettingDialog : Form
     {
         private Analysis m_owner;
+        private SensitivityAnalysisParameter m_param;
         public SensitivityAnalysisSettingDialog(Analysis owner)
         {
             InitializeComponent();
@@ -23,12 +24,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <returns>the parameter of sensitivity analysis.</returns>
         public SensitivityAnalysisParameter GetParameter()
         {
-            SensitivityAnalysisParameter p = new SensitivityAnalysisParameter();
-            p.Step = Convert.ToInt32(sensitivityStepTextBox.Text);
-            p.RelativePerturbation = Convert.ToDouble(sensitivityRelativePerturbationTextBox.Text);
-            p.AbsolutePerturbation = Convert.ToDouble(sensitivityAbsolutePerturbationTextBox.Text);
-
-            return p;
+           return m_param;
         }
 
         /// <summary>
@@ -40,6 +36,7 @@ namespace Ecell.IDE.Plugins.Analysis
             sensitivityStepTextBox.Text = Convert.ToString(p.Step);
             sensitivityRelativePerturbationTextBox.Text = Convert.ToString(p.RelativePerturbation);
             sensitivityAbsolutePerturbationTextBox.Text = Convert.ToString(p.AbsolutePerturbation);
+            m_param = p;
         }
 
         private void FormLoad(object sender, EventArgs e)
@@ -49,7 +46,67 @@ namespace Ecell.IDE.Plugins.Analysis
             sensitivityToolTip.SetToolTip(sensitivityRelativePerturbationTextBox, MessageResources.ToolTipRelativePert);
         }
 
+        private void Step_Validating(object sender, CancelEventArgs e)
+        {
+            string text = sensitivityStepTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameStepNum));
+                sensitivityStepTextBox.Text = Convert.ToString(m_param.Step);
+                e.Cancel = true;
+                return;
+            }
+            int dummy;
+            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                sensitivityStepTextBox.Text = Convert.ToString(m_param.Step);
+                e.Cancel = true;
+                return;
+            }
+            m_param.Step = dummy;
+        }
 
+        private void AbsolutePerturbation_Validating(object sender, CancelEventArgs e)
+        {
+            string text = sensitivityAbsolutePerturbationTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameAbsolutePert));
+                sensitivityAbsolutePerturbationTextBox.Text = Convert.ToString(m_param.AbsolutePerturbation);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                sensitivityAbsolutePerturbationTextBox.Text = Convert.ToString(m_param.AbsolutePerturbation);
+                e.Cancel = true;
+                return;
+            }
+            m_param.AbsolutePerturbation = dummy;
+        }
 
+        private void RelativePerturbation_Validating(object sender, CancelEventArgs e)
+        {
+            string text = sensitivityRelativePerturbationTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameRelativePert));
+                sensitivityRelativePerturbationTextBox.Text = Convert.ToString(m_param.RelativePerturbation);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                sensitivityRelativePerturbationTextBox.Text = Convert.ToString(m_param.RelativePerturbation);
+                e.Cancel = true;
+                return;
+            }
+            m_param.RelativePerturbation = dummy;
+        }
     }
 }
