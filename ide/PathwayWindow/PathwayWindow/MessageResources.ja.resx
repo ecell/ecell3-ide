@@ -399,4 +399,10 @@
   <data name="MenuToolTipOverview" xml:space="preserve">
     <value>オーバービューの表示切替</value>
   </data>
+  <data name="DialogTextAutoThreshold" xml:space="preserve">
+    <value>閾値の自動設定</value>
+  </data>
+  <data name="DialogTooltipAutoThreshold" xml:space="preserve">
+    <value>エッジのアニメーションの太さを自動設定します。</value>
+  </data>
 </root>

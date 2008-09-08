@@ -396,4 +396,10 @@
   <data name="MenuToolTipOverview" xml:space="preserve">
     <value>Change the visibility of Overview panel.</value>
   </data>
+  <data name="DialogTextAutoThreshold" xml:space="preserve">
+    <value>Auto Threshold</value>
+  </data>
+  <data name="DialogTooltipAutoThreshold" xml:space="preserve">
+    <value>Automatic setting of the threshold of Edge width.</value>
+  </data>
 </root>

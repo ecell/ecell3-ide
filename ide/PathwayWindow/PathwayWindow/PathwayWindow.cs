@@ -298,6 +298,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="algo"></param>
+        /// <param name="subIdx"></param>
         public void InitiateLayout(ILayoutAlgorithm algo, int subIdx)
         {
             m_con.DoLayout(algo, subIdx, true);

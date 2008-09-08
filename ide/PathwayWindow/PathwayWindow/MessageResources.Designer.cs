@@ -187,6 +187,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Auto Threshold に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextAutoThreshold {
+            get {
+                return ResourceManager.GetString("DialogTextAutoThreshold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Background color に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextBackgroundBrush {
@@ -372,6 +381,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string DialogTextViewMode {
             get {
                 return ResourceManager.GetString("DialogTextViewMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Automatic setting of the threshold of Edge width. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTooltipAutoThreshold {
+            get {
+                return ResourceManager.GetString("DialogTooltipAutoThreshold", resourceCulture);
             }
         }
         

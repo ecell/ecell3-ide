@@ -114,6 +114,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// 
         /// </summary>
         private bool m_isLogarithmic = true;
+        /// <summary>
+        /// 
+        /// </summary>
+        private bool m_autoThreshold = true;
         #endregion
 
         #region Object Fields
@@ -257,6 +261,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             get { return m_isLogarithmic; }
             set { m_isLogarithmic = value; }
         }
+        /// <summary>
+        /// Get/Set m_autoThreshold
+        /// </summary>
+        public bool AutoThreshold
+        {
+            get { return m_autoThreshold; }
+            set { m_autoThreshold = value; }
+        }
         #endregion
 
         #region Constructors
@@ -294,9 +306,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         public void StartSimulation()
         {
+            if (m_autoThreshold)
+                m_thresholdHigh = 0f;
             SetPropForSimulation();
             TimerStart();
             m_isPausing = true;
+
         }
         /// <summary>
         /// Pause Simulation
@@ -359,6 +374,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 // Line setting.
                 float activity = GetFloatValue(process.EcellObject, Constants.xpathMolarActivity);
                 process.EdgeBrush = m_viewEdgeBrush;
+                // Set threshold
+                if (m_autoThreshold && activity > m_thresholdHigh)
+                    m_thresholdHigh = activity;
             }
             foreach (PPathwayVariable variable in m_canvas.Variables.Values)
             {
@@ -387,6 +405,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 float activity = GetFloatValue(process.EcellObject, Constants.xpathMolarActivity);
                 process.EdgeBrush = GetEdgeBrush(activity);
                 process.SetLineWidth(GetEdgeWidth(activity));
+                // Set threshold
+                if (m_autoThreshold && activity > m_thresholdHigh)
+                    m_thresholdHigh = activity;
             }
             foreach (PPathwayVariable variable in m_canvas.Variables.Values)
             {
@@ -476,6 +497,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
                 xmlOut.WriteElementString(AnimationConstants.xPathHighEdgeBrush, BrushManager.ParseBrushToString(m_highEdgeBrush));
                 xmlOut.WriteElementString(AnimationConstants.xPathLowEdgeBrush, BrushManager.ParseBrushToString(m_lowEdgeBrush));
+                xmlOut.WriteElementString(AnimationConstants.xPathAutoThreshold, m_autoThreshold.ToString());
                 xmlOut.WriteElementString(AnimationConstants.xPathThresholdHigh, m_thresholdHigh.ToString());
                 xmlOut.WriteElementString(AnimationConstants.xPathThresholdLow, m_thresholdLow.ToString());
 
@@ -567,9 +589,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     case AnimationConstants.xPathPropertyBrush:
                         m_propBrush = BrushManager.ParseStringToBrush(setting.InnerText);
                         break;
-                    // ThresholdHigh
+                    // IsLogarithmic
                     case AnimationConstants.xPathIsLogarithmic:
                         m_isLogarithmic = bool.Parse(setting.InnerText);
+                        break;
+                    // AutoThreshold
+                    case AnimationConstants.xPathAutoThreshold:
+                        m_autoThreshold = bool.Parse(setting.InnerText);
                         break;
                 }
             }
@@ -622,7 +648,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             if (float.IsNaN(activity))
                 return 0f;
-            else if (activity <= m_thresholdLow)
+            else if (activity <= m_thresholdLow || m_thresholdHigh == 0f)
                 return 0f;
             else if (activity >= m_thresholdHigh)
                 return m_maxEdgeWidth;
@@ -728,6 +754,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             /// 
             /// </summary>
             public const string xPathVersion = "1.0";
+            /// <summary>
+            /// 
+            /// </summary>
+            public const string xPathAutoThreshold = "AutoThreshold";
             /// <summary>
             /// 
             /// </summary>
@@ -938,7 +968,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             private PropertyBrushItem m_edgeNGBrush;
             private PropertyTextItem m_thresholdHigh;
             private PropertyTextItem m_thresholdLow;
-
+            private PropertyCheckBoxItem m_autoShreshold;
             private PropertyBrushItem m_propBrush;
             private PropertyCheckBoxItem m_lineCheckBox;
 
@@ -955,7 +985,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 m_edgeNGBrush = new PropertyBrushItem(MessageResources.DialogTextNGBrush, control.NgEdgeBrush);
                 m_propBrush = new PropertyBrushItem(MessageResources.DialogTextPropertyBrush, control.PropertyBrush);
                 m_lineCheckBox = new PropertyCheckBoxItem(MessageResources.DialogTextLogarithmic, control.IsLogarithmic);
-
+                m_autoShreshold = new PropertyCheckBoxItem(MessageResources.DialogTextAutoThreshold, control.AutoThreshold);
                 this.SuspendLayout();
                 // 
                 // This
@@ -964,6 +994,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 this.AutoSize = true;
                 this.Controls.Add(m_edgeHighBrush);
                 this.Controls.Add(m_edgeLowBrush);
+                this.Controls.Add(m_autoShreshold);
                 this.Controls.Add(m_thresholdHigh);
                 this.Controls.Add(m_thresholdLow);
                 this.Controls.Add(m_edgeNGBrush);
@@ -973,13 +1004,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 this.TabStop = false;
 
                 // SetPosition 
-                m_thresholdHigh.Location = new Point(10, 20);
-                m_edgeHighBrush.Location = new Point(10, 45);
-                m_thresholdLow.Location = new Point(10, 70);
-                m_edgeLowBrush.Location = new Point(10, 95);
-                m_edgeNGBrush.Location = new Point(10, 120);
-                m_propBrush.Location = new Point(10, 145);
-                m_lineCheckBox.Location = new Point(10, 170);
+                m_autoShreshold.Location = new Point(10, 20);
+                m_thresholdHigh.Location = new Point(10, 45);
+                m_edgeHighBrush.Location = new Point(10, 70);
+                m_thresholdLow.Location = new Point(10, 95);
+                m_edgeLowBrush.Location = new Point(10, 120);
+                m_edgeNGBrush.Location = new Point(10, 145);
+                m_propBrush.Location = new Point(10, 170);
+                m_lineCheckBox.Location = new Point(10, 195);
 
                 this.ResumeLayout(false);
                 this.PerformLayout();
@@ -987,6 +1019,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             public void ApplyChanges()
             {
+                m_control.AutoThreshold = m_autoShreshold.Checked;
                 m_control.ThresholdHigh = float.Parse(m_thresholdHigh.Text);
                 m_control.ThresholdLow = float.Parse(m_thresholdLow.Text);
                 m_control.HighEdgeBrush = m_edgeHighBrush.Brush;
