@@ -252,6 +252,9 @@
   <data name="&gt;&gt;numberTextBox.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
+  <metadata name="label4.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
   <data name="label4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Right</value>
   </data>
@@ -366,6 +369,9 @@
   <data name="&gt;&gt;TSCloseButton.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <metadata name="label6.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
   <data name="label6.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Right</value>
   </data>
@@ -605,7 +611,7 @@
     <value>Graph Setting</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>TracerWindowSetup</value>
+    <value>TracerConfigurationDialog</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

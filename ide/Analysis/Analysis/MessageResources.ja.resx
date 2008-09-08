@@ -246,6 +246,9 @@
   <data name="NameRobustAnalysis" xml:space="preserve">
     <value>ロバスト解析</value>
   </data>
+  <data name="NameSampleNum" xml:space="preserve">
+    <value>サンプル数</value>
+  </data>
   <data name="NameSensAnalysis" xml:space="preserve">
     <value>感受性解析</value>
   </data>

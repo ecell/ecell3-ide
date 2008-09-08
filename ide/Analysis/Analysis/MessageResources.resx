@@ -246,6 +246,9 @@
   <data name="NameRobustAnalysis" xml:space="preserve">
     <value>Robust analysis</value>
   </data>
+  <data name="NameSampleNum" xml:space="preserve">
+    <value>The number of samples</value>
+  </data>
   <data name="NameSensAnalysis" xml:space="preserve">
     <value>Sensitivity analysis</value>
   </data>

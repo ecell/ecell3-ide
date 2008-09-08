@@ -448,6 +448,15 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
+        ///   The number of samples に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameSampleNum {
+            get {
+                return ResourceManager.GetString("NameSampleNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sensitivity analysis に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameSensAnalysis {

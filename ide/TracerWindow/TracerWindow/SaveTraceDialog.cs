@@ -85,6 +85,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
             InitializeComponent();
             dirTextBox.Text = owner.DataManager.GetSimulationResultSaveDirectory();
             endTextBox.Text = Convert.ToString(owner.DataManager.GetCurrentSimulationTime());
+            m_start = 0.0;
+            m_end = owner.DataManager.GetCurrentSimulationTime();
         }
 
         /// <summary>
@@ -122,12 +124,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 if (dirTextBox.Text == "") m_directoryName = "";
                 else m_directoryName = dirTextBox.Text;
 
-                if (startTextBox.Text == "" || startTextBox.Text == null) m_start = 0.0;
-                else m_start = Convert.ToDouble(startTextBox.Text);
-
-                if (endTextBox.Text == "" || endTextBox.Text == null) m_end = 0.0;
-                else m_end = Convert.ToDouble(endTextBox.Text);
-
                 m_saveList = new List<string>();
                 for (int i = 0; i < SaveEntrySelectView.Rows.Count; i++)
                 {
@@ -142,6 +138,48 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 Util.ShowErrorDialog(MessageResources.ErrInputData);
                 e.Cancel = true;
             }
+        }
+
+        private void StartTime_Validating(object sender, CancelEventArgs e)
+        {
+            string text = startTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameStartTime));
+                startTextBox.Text = Convert.ToString(m_start);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy < 0.0 || m_end < dummy)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                startTextBox.Text = Convert.ToString(m_start);
+                e.Cancel = true;
+                return;
+            }
+            m_start = dummy;
+        }
+
+        private void EndTime_Validating(object sender, CancelEventArgs e)
+        {
+            string text = endTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameEndTime));
+                endTextBox.Text = Convert.ToString(m_end);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy < 0.0 || m_start > dummy)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                endTextBox.Text = Convert.ToString(m_end);
+                e.Cancel = true;
+                return;
+            }
+            m_end = dummy;
         }
     }
 }

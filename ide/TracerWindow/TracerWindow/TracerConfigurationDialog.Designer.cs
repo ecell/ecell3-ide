@@ -35,16 +35,18 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TracerConfigurationDialog));
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label5;
+            System.Windows.Forms.Label label4;
+            System.Windows.Forms.Label label6;
             this.numberTextBox = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.intervalTextBox = new System.Windows.Forms.TextBox();
             this.TSApplyButton = new System.Windows.Forms.Button();
             this.TSCloseButton = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
             this.stepCountTextBox = new System.Windows.Forms.TextBox();
             label1 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
+            label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -67,16 +69,18 @@
             resources.ApplyResources(this.numberTextBox, "numberTextBox");
             this.numberTextBox.Name = "numberTextBox";
             this.numberTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
+            this.numberTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.PlotNumber_Validating);
             // 
             // label4
             // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
+            resources.ApplyResources(label4, "label4");
+            label4.Name = "label4";
             // 
             // intervalTextBox
             // 
             resources.ApplyResources(this.intervalTextBox, "intervalTextBox");
             this.intervalTextBox.Name = "intervalTextBox";
+            this.intervalTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.RedrawInterval_Validating);
             // 
             // TSApplyButton
             // 
@@ -94,33 +98,33 @@
             // 
             // label6
             // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
+            resources.ApplyResources(label6, "label6");
+            label6.Name = "label6";
             // 
             // stepCountTextBox
             // 
             resources.ApplyResources(this.stepCountTextBox, "stepCountTextBox");
             this.stepCountTextBox.Name = "stepCountTextBox";
+            this.stepCountTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.StepCount_Validating);
             // 
-            // TracerWindowSetup
+            // TracerConfigurationDialog
             // 
             this.AcceptButton = this.TSApplyButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.TSCloseButton;
             this.Controls.Add(this.TSApplyButton);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(label6);
             this.Controls.Add(this.TSCloseButton);
             this.Controls.Add(label5);
             this.Controls.Add(this.stepCountTextBox);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(label4);
             this.Controls.Add(label3);
             this.Controls.Add(this.intervalTextBox);
             this.Controls.Add(label1);
             this.Controls.Add(this.numberTextBox);
-            this.Name = "TracerWindowSetup";
+            this.Name = "TracerConfigurationDialog";
             this.Shown += new System.EventHandler(this.TracerWinSetupShown);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TracerWindowSetup_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -128,8 +132,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label6;
         /// <summary>
         /// Button to apply this condition.
         /// </summary>

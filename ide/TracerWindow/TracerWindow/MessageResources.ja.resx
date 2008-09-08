@@ -123,6 +123,12 @@
   <data name="ErrInputData" xml:space="preserve">
     <value>数値以外が設定されています。</value>
   </data>
+  <data name="ErrInvalidValue" xml:space="preserve">
+    <value>入力された値が不正です。</value>
+  </data>
+  <data name="ErrNoInput" xml:space="preserve">
+    <value>{0} が入力されていません</value>
+  </data>
   <data name="FinishSave" xml:space="preserve">
     <value>シミュレーションログを保存しました</value>
   </data>
@@ -140,6 +146,21 @@
   </data>
   <data name="MenuItemShowTraceText" xml:space="preserve">
     <value>グラフペインの表示(&amp;G)...</value>
+  </data>
+  <data name="NameEndTime" xml:space="preserve">
+    <value>終了時間</value>
+  </data>
+  <data name="NamePlotNumber" xml:space="preserve">
+    <value>プロット数</value>
+  </data>
+  <data name="NameRedrawInterval" xml:space="preserve">
+    <value>再描画間隔</value>
+  </data>
+  <data name="NameStartTime" xml:space="preserve">
+    <value>開始時間</value>
+  </data>
+  <data name="NameStepInterval" xml:space="preserve">
+    <value>ステップ間隔</value>
   </data>
   <data name="TracerWindow" xml:space="preserve">
     <value>グラフ</value>

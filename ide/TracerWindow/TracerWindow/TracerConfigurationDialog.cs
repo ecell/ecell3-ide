@@ -38,6 +38,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
             numberTextBox.Text = Convert.ToString(number);
             intervalTextBox.Text = Convert.ToString(interval);
             stepCountTextBox.Text = Convert.ToString(step);
+            m_plotNumber = number;
+            m_intervalSecond = interval;
+            m_stepNumber = step;
         }
 
         /// <summary>
@@ -67,21 +70,68 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.numberTextBox.Focus();
         }
 
-        private void TracerWindowSetup_FormClosing(object sender, FormClosingEventArgs e)
+        private void PlotNumber_Validating(object sender, CancelEventArgs e)
         {
-            if (this.DialogResult != DialogResult.OK) return;
-            try
+            string text = numberTextBox.Text;
+            if (String.IsNullOrEmpty(text))
             {
-                m_plotNumber = Convert.ToDouble(numberTextBox.Text);
-                m_intervalSecond = Convert.ToDouble(intervalTextBox.Text);
-                m_stepNumber = Convert.ToInt32(stepCountTextBox.Text);
-
-            }
-            catch (Exception)
-            {
-                Util.ShowErrorDialog(MessageResources.ErrInputData);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NamePlotNumber));
+                numberTextBox.Text = Convert.ToString(m_plotNumber);
                 e.Cancel = true;
+                return;
             }
+            int dummy;
+            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                numberTextBox.Text = Convert.ToString(m_plotNumber);
+                e.Cancel = true;
+                return;
+            }
+            m_plotNumber = dummy;
         }
+
+        private void RedrawInterval_Validating(object sender, CancelEventArgs e)
+        {
+            string text = intervalTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameRedrawInterval));
+                intervalTextBox.Text = Convert.ToString(m_intervalSecond);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                intervalTextBox.Text = Convert.ToString(m_intervalSecond);
+                e.Cancel = true;
+                return;
+            }
+            m_intervalSecond = dummy;
+        }
+
+        private void StepCount_Validating(object sender, CancelEventArgs e)
+        {
+            string text = stepCountTextBox.Text;
+            if (String.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameStepInterval));
+                stepCountTextBox.Text = Convert.ToString(m_stepNumber);
+                e.Cancel = true;
+                return;
+            }
+            int dummy;
+            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                stepCountTextBox.Text = Convert.ToString(m_stepNumber);
+                e.Cancel = true;
+                return;
+            }
+            m_stepNumber = dummy;
+        }
+
     }
 }

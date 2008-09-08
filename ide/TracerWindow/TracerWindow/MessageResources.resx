@@ -123,6 +123,12 @@
   <data name="ErrInputData" xml:space="preserve">
     <value>Non-numeric value is set.</value>
   </data>
+  <data name="ErrInvalidValue" xml:space="preserve">
+    <value>Value is not valid.</value>
+  </data>
+  <data name="ErrNoInput" xml:space="preserve">
+    <value>Nothing is input in {0}</value>
+  </data>
   <data name="FinishSave" xml:space="preserve">
     <value>The simulation results have been archived.</value>
   </data>
@@ -140,6 +146,21 @@
   </data>
   <data name="MenuItemShowTraceText" xml:space="preserve">
     <value>Create new &amp;graph pane...</value>
+  </data>
+  <data name="NameEndTime" xml:space="preserve">
+    <value>End time</value>
+  </data>
+  <data name="NamePlotNumber" xml:space="preserve">
+    <value>Number of plots</value>
+  </data>
+  <data name="NameRedrawInterval" xml:space="preserve">
+    <value>Redraw interval</value>
+  </data>
+  <data name="NameStartTime" xml:space="preserve">
+    <value>Start time</value>
+  </data>
+  <data name="NameStepInterval" xml:space="preserve">
+    <value>Step count for dispatch</value>
   </data>
   <data name="TracerWindow" xml:space="preserve">
     <value>Graph plotter</value>
