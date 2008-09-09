@@ -132,6 +132,9 @@
   <data name="ErrInvalidID" xml:space="preserve">
     <value>ID文字列が不正です。</value>
   </data>
+  <data name="ErrInvalidValue" xml:space="preserve">
+    <value>入力された値が不正です。</value>
+  </data>
   <data name="ErrNoNumber" xml:space="preserve">
     <value>coefficientには整数を入力してください。</value>
   </data>

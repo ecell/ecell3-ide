@@ -132,6 +132,9 @@
   <data name="ErrInvalidID" xml:space="preserve">
     <value>ID string is not valid.</value>
   </data>
+  <data name="ErrInvalidValue" xml:space="preserve">
+    <value>Value is not valid.</value>
+  </data>
   <data name="ErrNoNumber" xml:space="preserve">
     <value>Please input an integer value for coefficient.</value>
   </data>

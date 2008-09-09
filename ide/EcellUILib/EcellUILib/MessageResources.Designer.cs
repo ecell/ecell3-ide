@@ -106,6 +106,15 @@ namespace Ecell.IDE {
         }
         
         /// <summary>
+        ///   Value is not valid. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrInvalidValue {
+            get {
+                return ResourceManager.GetString("ErrInvalidValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Please input an integer value for coefficient. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNoNumber {

@@ -553,6 +553,52 @@ namespace Ecell.IDE
             layoutPanel.ResumeLayout(false);
         }
 
+        private void IntInputTextValidating(object sender, CancelEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            string text = textBox.Text;
+            string propName = (string)(textBox.Tag);
+
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet, propName));
+                textBox.Text = m_propDict[propName].Value.ToString();
+                e.Cancel = true;
+                return;
+            }
+            int dummy;
+            if (!Int32.TryParse(text, out dummy))
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                textBox.Text = m_propDict[propName].Value.ToString();
+                e.Cancel = true;
+                return;
+            }
+        }
+
+        private void DoubleInputTextValidating(object sender, CancelEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            string text = textBox.Text;
+            string propName = (string)(textBox.Tag);
+
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet, propName));
+                textBox.Text = m_propDict[propName].Value.ToString();
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy))
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                textBox.Text = m_propDict[propName].Value.ToString();
+                e.Cancel = true;
+                return;
+            }
+        }
+
         /// <summary>
         /// layout the column of property editor for System, Process and Variable.
         /// </summary>
@@ -806,6 +852,17 @@ namespace Ecell.IDE
                     {
                         t.ReadOnly = true;
                     }
+                    else
+                    {
+                        if (m_propDict[key].Value.IsDouble)
+                        {
+                            t.Validating += new CancelEventHandler(DoubleInputTextValidating);
+                        }
+                        else if (m_propDict[key].Value.IsInt)
+                        {
+                            t.Validating += new CancelEventHandler(IntInputTextValidating);
+                        }
+                    }
                     t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                     layoutPanel.Controls.Add(t, 2, i);
 
@@ -856,6 +913,7 @@ namespace Ecell.IDE
                 t.Tag = "DefinedSize";
                 t.Dock = DockStyle.Fill;
                 t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                t.Validating += new CancelEventHandler(DoubleInputTextValidating);
                 layoutPanel.Controls.Add(t, 2, i);
             }
             else if (m_currentObj != null && m_currentObj.Type.Equals(EcellObject.SYSTEM))
@@ -871,6 +929,7 @@ namespace Ecell.IDE
                 t.Tag = "DefinedSize";
                 t.Dock = DockStyle.Fill;
                 t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                t.Validating += new CancelEventHandler(DoubleInputTextValidating);
                 layoutPanel.Controls.Add(t, 2, i);
 
                 if (m_currentObj.Children != null)
