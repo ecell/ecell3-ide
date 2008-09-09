@@ -98,13 +98,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private void INNewButton_Click(object sender, EventArgs e)
         {
             String name = INTextBox.Text;
-            if (String.IsNullOrEmpty(name)) return;
-            if (!name.EndsWith(Constants.xpathProcess) && !name.EndsWith(Constants.xpathStepper))
-            {
-                Util.ShowWarningDialog(MessageResources.WarnDMName);
-                return;
-            }
-
             try
             {
                 string filename = Path.Combine(m_dir, name);
@@ -162,6 +155,23 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             string temp = Util.GetProcessTemplate(name);
             templateRichText.Text = temp;
+        }
+
+        private void InputName_Validating(object sender, CancelEventArgs e)
+        {
+            String name = INTextBox.Text;
+            if (String.IsNullOrEmpty(name))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameName));
+                e.Cancel = true;
+                return;
+            }
+            if (!name.EndsWith(Constants.xpathProcess) && !name.EndsWith(Constants.xpathStepper))
+            {
+                Util.ShowWarningDialog(MessageResources.WarnDMName);
+                e.Cancel = true;
+                return;
+            }
         }
     }
 }

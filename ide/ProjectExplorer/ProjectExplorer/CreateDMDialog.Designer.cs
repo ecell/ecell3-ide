@@ -70,6 +70,7 @@
             // 
             resources.ApplyResources(this.INTextBox, "INTextBox");
             this.INTextBox.Name = "INTextBox";
+            this.INTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.InputName_Validating);
             // 
             // templateComboBox
             // 
