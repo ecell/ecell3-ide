@@ -90,10 +90,7 @@ namespace Ecell.IDE
         /// </summary>
         private FormulatorDialog m_fwin = null;
         private String m_title = null;
-        /// <summary>
-        /// ResourceManager for PropertyEditor.
-        /// </summary>
-        private static ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResources));
+        private Dictionary<string, EcellParameterData> m_paramDic = new Dictionary<string, EcellParameterData>();
         #endregion
 
         #region Constructor
@@ -279,6 +276,7 @@ namespace Ecell.IDE
             commitLayoutPanel.RowStyles.Clear();
             commitLayoutPanel.Size = new Size(width, 30 * (m_propDict.Keys.Count + 1));
             commitLayoutPanel.RowCount = m_propDict.Keys.Count;
+            m_paramDic.Clear();
 
             commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             Label l1 = new Label();
@@ -374,6 +372,7 @@ namespace Ecell.IDE
                     }
                 }
                 //                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                t1.Validating += new CancelEventHandler(MaxDataValidating); 
                 commitLayoutPanel.Controls.Add(t1, 2, i);
 
                 TextBox t2 = new TextBox();
@@ -402,6 +401,7 @@ namespace Ecell.IDE
 
 
                 //                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                t2.Validating += new CancelEventHandler(MinDataValidating);                
                 commitLayoutPanel.Controls.Add(t2, 3, i);
 
                 TextBox t3 = new TextBox();
@@ -413,6 +413,7 @@ namespace Ecell.IDE
                     t3.ReadOnly = true;
                 }
                 //                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
+                t3.Validating += new CancelEventHandler(StepDataValidating);
                 commitLayoutPanel.Controls.Add(t3, 4, i);
                 i++;
             }
@@ -1668,6 +1669,79 @@ namespace Ecell.IDE
                 m_idText.Focus();
             }
         }
+
+        private void MaxDataValidating(object sender, CancelEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            string text = textBox.Text;
+            string propName = (string)(textBox.Tag);
+
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet, propName));
+                textBox.Text = Convert.ToString(m_paramDic[propName].Max);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy < m_paramDic[propName].Min)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                textBox.Text = Convert.ToString(m_paramDic[propName].Max);
+                e.Cancel = true;
+                return;
+            }
+            m_paramDic[propName].Max = dummy;
+        }
+
+        private void MinDataValidating(object sender, CancelEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            string text = textBox.Text;
+            string propName = (string)(textBox.Tag);
+
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet, propName));
+                textBox.Text = Convert.ToString(m_paramDic[propName].Min);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy) || dummy > m_paramDic[propName].Max)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                textBox.Text = Convert.ToString(m_paramDic[propName].Min);
+                e.Cancel = true;
+                return;
+            }
+            m_paramDic[propName].Min = dummy;
+        }
+
+        private void StepDataValidating(object sender, CancelEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            string text = textBox.Text;
+            string propName = (string)(textBox.Tag);
+
+            if (string.IsNullOrEmpty(text))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet, propName));
+                textBox.Text = Convert.ToString(m_paramDic[propName].Step);
+                e.Cancel = true;
+                return;
+            }
+            double dummy;
+            if (!Double.TryParse(text, out dummy))
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                textBox.Text = Convert.ToString(m_paramDic[propName].Step);
+                e.Cancel = true;
+                return;
+            }
+            m_paramDic[propName].Step = dummy;
+        }
+
         #endregion
         #endregion
     }
