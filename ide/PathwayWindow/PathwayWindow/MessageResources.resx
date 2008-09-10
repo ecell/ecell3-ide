@@ -402,4 +402,10 @@
   <data name="DialogTooltipAutoThreshold" xml:space="preserve">
     <value>Automatic setting of the threshold of Edge width.</value>
   </data>
+  <data name="ErrInvalidValue" xml:space="preserve">
+    <value>Value is not valid.</value>
+  </data>
+  <data name="ErrNoInput" xml:space="preserve">
+    <value>Nothing is input in {0}</value>
+  </data>
 </root>

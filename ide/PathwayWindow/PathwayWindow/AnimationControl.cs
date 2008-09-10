@@ -894,11 +894,32 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 this.m_bgBrushItem.Location = new Point(10, 20);
                 this.m_edgeBrushItem.Location = new Point(10, 45);
                 this.m_edgeWidth.Location = new Point(10, 70);
+                this.m_edgeWidth.Validating += new System.ComponentModel.CancelEventHandler(EdgeWidthValidating);
 
                 this.ResumeLayout(false);
                 this.PerformLayout();
                 this.Height = 120;
 
+            }
+
+            void EdgeWidthValidating(object sender, System.ComponentModel.CancelEventArgs e)
+            {
+                string text = m_edgeWidth.Text;
+                if (String.IsNullOrEmpty(text))
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.DialogTextEdgeWidth));
+                    m_edgeWidth.Text = Convert.ToString(m_control.EdgeWidth);
+                    e.Cancel = true;
+                    return;
+                }
+                float dummy;
+                if (!float.TryParse(text, out dummy) || dummy < 0)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    m_edgeWidth.Text = Convert.ToString(m_control.EdgeWidth);
+                    e.Cancel = true;
+                    return;
+                }
             }
 
             public void ApplyChanges()
@@ -944,10 +965,31 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 this.m_bgBrush.Location = new Point(10, 20);
                 this.m_edgeBrush.Location = new Point(10, 45);
                 this.m_edgeWidth.Location = new Point(10, 70);
+                this.m_edgeWidth.Validating += new System.ComponentModel.CancelEventHandler(MaxEdgeWidthValidating);
 
                 this.ResumeLayout(false);
                 this.PerformLayout();
                 this.Height = 120;
+            }
+
+            void MaxEdgeWidthValidating(object sender, System.ComponentModel.CancelEventArgs e)
+            {
+                string text = m_edgeWidth.Text;
+                if (String.IsNullOrEmpty(text))
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.DialogTextMaxEdgeWidth));
+                    m_edgeWidth.Text = Convert.ToString(m_control.MaxEdgeWidth);
+                    e.Cancel = true;
+                    return;
+                }
+                float dummy;
+                if (!float.TryParse(text, out dummy) || dummy < 0)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    m_edgeWidth.Text = Convert.ToString(m_control.MaxEdgeWidth);
+                    e.Cancel = true;
+                    return;
+                }
             }
 
             public void ApplyChanges()
@@ -1013,8 +1055,51 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 m_propBrush.Location = new Point(10, 170);
                 m_lineCheckBox.Location = new Point(10, 195);
 
+                m_thresholdHigh.Validating += new System.ComponentModel.CancelEventHandler(HighThresholdValidating);
+                m_thresholdLow.Validating += new System.ComponentModel.CancelEventHandler(LowThresholdValidating);
+
                 this.ResumeLayout(false);
                 this.PerformLayout();
+            }
+
+            void HighThresholdValidating(object sender, System.ComponentModel.CancelEventArgs e)
+            {
+                string text = m_thresholdHigh.Text;
+                if (String.IsNullOrEmpty(text))
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.DialogTextThresholdHigh));
+                    m_thresholdHigh.Text = Convert.ToString(m_control.ThresholdHigh);
+                    e.Cancel = true;
+                    return;
+                }
+                float dummy;
+                if (!float.TryParse(text, out dummy) || Convert.ToDouble(m_thresholdLow.Text) > dummy)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    m_thresholdHigh.Text = Convert.ToString(m_control.ThresholdHigh);
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
+            void LowThresholdValidating(object sender, System.ComponentModel.CancelEventArgs e)
+            {
+                string text = m_thresholdLow.Text;
+                if (String.IsNullOrEmpty(text))
+                {
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.DialogTextThresholdLow));
+                    m_thresholdLow.Text = Convert.ToString(m_control.ThresholdLow);
+                    e.Cancel = true;
+                    return;
+                }
+                float dummy;
+                if (!float.TryParse(text, out dummy) || Convert.ToDouble(m_thresholdHigh.Text) < dummy)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    m_thresholdLow.Text = Convert.ToString(m_control.ThresholdLow);
+                    e.Cancel = true;
+                    return;
+                }
             }
 
             public void ApplyChanges()

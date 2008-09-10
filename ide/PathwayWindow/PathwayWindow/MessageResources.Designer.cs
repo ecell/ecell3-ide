@@ -421,6 +421,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Value is not valid. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrInvalidValue {
+            get {
+                return ResourceManager.GetString("ErrInvalidValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Autolayout process failed with an unexpected error. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLayout {
@@ -435,6 +444,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string ErrLoadLEML {
             get {
                 return ResourceManager.GetString("ErrLoadLEML", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Nothing is input in {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrNoInput {
+            get {
+                return ResourceManager.GetString("ErrNoInput", resourceCulture);
             }
         }
         
