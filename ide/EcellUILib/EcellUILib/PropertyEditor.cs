@@ -1391,19 +1391,6 @@ namespace Ecell.IDE
                         data.Gettable = m_propDict[data.Name].Gettable;
                         data.Logable = m_propDict[data.Name].Logable;
                         GetCommitInfo(data);
-
-                        if (m_propDict[data.Name].Logged != isLogger)
-                        {
-                            if (m_propDict[data.Name].Logged)
-                            {
-                                // nothing
-                            }
-                            else
-                            {
-                                m_pManager.LoggerAdd(modelID, key, type,
-                                    m_propDict[data.Name].EntityPath);
-                            }
-                        }
                         data.Logged = isLogger;
 
                         list.Add(data);
