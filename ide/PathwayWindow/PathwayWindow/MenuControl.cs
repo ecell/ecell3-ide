@@ -881,6 +881,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             CanvasControl canvas = m_con.Canvas;
             if (canvas == null)
                 return;
+
+            if (!m_con.Canvas.PCanvas.Focused)
+                return;
             // Delete Selected Text
             if (canvas.FocusNode is PPathwayText)
             {
@@ -1113,6 +1116,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e"></param>
         private void CopyClick(object sender, EventArgs e)
         {
+            if (!m_con.Canvas.PCanvas.Focused)
+                return;
             m_con.CopyNodes();
         }
 
@@ -1123,6 +1128,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e"></param>
         private void CutClick(object sender, EventArgs e)
         {
+            if (!m_con.Canvas.PCanvas.Focused)
+                return;
             m_con.CopyNodes();
 
             int i = 0;
@@ -1143,6 +1150,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e"></param>
         private void PasteClick(object sender, EventArgs e)
         {
+            if (!m_con.Canvas.PCanvas.Focused)
+                return;
             try
             {
                 m_con.PasteNodes();
