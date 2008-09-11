@@ -32,6 +32,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyEditor));
+            System.Windows.Forms.Label label1;
+            System.Windows.Forms.Label label2;
+            System.Windows.Forms.Label label3;
             this.PEApplyButton = new System.Windows.Forms.Button();
             this.PECloseButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -41,6 +44,9 @@
             this.PECommitTabPage = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
             this.commitLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.PEPropTabPage.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -81,6 +87,9 @@
             // 
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(label3);
+            this.panel1.Controls.Add(label2);
+            this.panel1.Controls.Add(label1);
             this.panel1.Controls.Add(this.layoutPanel);
             this.panel1.Name = "panel1";
             // 
@@ -106,6 +115,21 @@
             // 
             resources.ApplyResources(this.commitLayoutPanel, "commitLayoutPanel");
             this.commitLayoutPanel.Name = "commitLayoutPanel";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(label3, "label3");
+            label3.Name = "label3";
             // 
             // PropertyEditor
             // 

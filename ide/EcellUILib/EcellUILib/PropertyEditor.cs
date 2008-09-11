@@ -671,7 +671,7 @@ namespace Ecell.IDE
             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             Label l1 = new Label();
             l1.Text = "ModelID";
-            l1.Dock = DockStyle.Fill;
+            l1.Anchor = AnchorStyles.Left;
             layoutPanel.Controls.Add(l1, 1, i);
             TextBox t1 = new TextBox();
             t1.Tag = "modelID";
@@ -686,7 +686,7 @@ namespace Ecell.IDE
             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             Label l2 = new Label();
             l2.Text = "ID";
-            l2.Dock = DockStyle.Fill;
+            l2.Anchor = AnchorStyles.Left;
             layoutPanel.Controls.Add(l2, 1, i);
             TextBox t2 = new TextBox();
             t2.Tag = "id";
@@ -716,7 +716,7 @@ namespace Ecell.IDE
             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             Label l3 = new Label();
             l3.Text = "Classname";
-            l3.Dock = DockStyle.Fill;
+            l3.Anchor = AnchorStyles.Left;
             layoutPanel.Controls.Add(l3, 1, i);
             ComboBox combo = new ComboBox();
             combo.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -763,7 +763,7 @@ namespace Ecell.IDE
             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             Label l4 = new Label();
             l4.Text = "Type";
-            l4.Dock = DockStyle.Fill;
+            l4.Anchor = AnchorStyles.Left;
             layoutPanel.Controls.Add(l4, 1, i);
             TextBox t4 = new TextBox();
             t4.Text = "";
@@ -794,26 +794,16 @@ namespace Ecell.IDE
                     {
                         c.Checked = false;
                     }
-                    c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
                     c.Text = "";
                     c.AutoSize = true;
                     c.Enabled = true;
                     layoutPanel.Controls.Add(c, 0, i);
                 }
-                else
-                {
-                    CheckBox c = new CheckBox();
-                    c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                    c.Text = "";
-                    c.AutoSize = true;
-                    c.Checked = false;
-                    c.Enabled = false;
-                    layoutPanel.Controls.Add(c, 0, i);
-                }
 
                 Label l = new Label();
                 l.Text = key;
-                l.Dock = DockStyle.Fill;
+                l.Anchor = AnchorStyles.Left;
+                l.AutoSize = true;
                 layoutPanel.Controls.Add(l, 1, i);
 
                 if (key == EcellProcess.VARIABLEREFERENCELIST)
@@ -906,7 +896,7 @@ namespace Ecell.IDE
                 layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                 Label l = new Label();
                 l.Text = "Size";
-                l.Dock = DockStyle.Fill;
+                l.Anchor = AnchorStyles.Left;
                 layoutPanel.Controls.Add(l, 1, i);
 
                 TextBox t = new TextBox();
@@ -922,7 +912,7 @@ namespace Ecell.IDE
                 layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                 Label l = new Label();
                 l.Text = "Size";
-                l.Dock = DockStyle.Fill;
+                l.Anchor = AnchorStyles.Left;
                 layoutPanel.Controls.Add(l, 1, i);
 
                 TextBox t = new TextBox();

@@ -120,6 +120,15 @@
   <data name="$this.Text" xml:space="preserve">
     <value>プロパティ</value>
   </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>記録</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>値</value>
+  </data>
   <data name="PEApplyButton.Text" xml:space="preserve">
     <value>OK</value>
   </data>
