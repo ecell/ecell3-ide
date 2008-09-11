@@ -3424,30 +3424,6 @@ public class DataManager
         }
 
     }
-    /// <summary>
-    /// Loads the project.
-    /// </summary>
-    /// <param name="projectID">The load project ID</param>
-    /// <param name="prjFile">The load project file.</param>
-    public void LoadProject(string projectID, string prjFile)
-    {
-        Project project = null;
-        try
-        {
-            // Initializes.
-            project = ProjectLoader.LoadProject(prjFile);
-            if (project == null)
-                throw new Exception(MessageResources.ErrFindFile + " [" + Constants.fileProject + "]");
-
-            project.Name = projectID;
-            LoadProject(project);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(String.Format(MessageResources.ErrLoadPrj,
-                new object[] { projectID }), ex);
-        }
-    }
 
     /// <summary>
     /// LoadProject

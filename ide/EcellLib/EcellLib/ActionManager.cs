@@ -984,7 +984,7 @@ namespace Ecell
         /// </summary>
         public override void Execute()
         {
-            m_env.DataManager.LoadProject(m_prjID, m_prjFile);
+            m_env.DataManager.LoadProject(m_prjFile);
             m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
         }
         /// <summary>

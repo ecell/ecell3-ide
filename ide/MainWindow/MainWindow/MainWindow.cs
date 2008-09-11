@@ -344,7 +344,7 @@ namespace Ecell.IDE.MainWindow
                 ToolStripMenuItem item = new ToolStripMenuItem(project.Key);
                 item.ToolTipText = project.Value;
                 item.Tag = project.Value;
-                item.Click += new EventHandler(RecentProject_Click);
+                item.Click += new EventHandler(LoadRecentProjectMenuClick);
                 recentProejctToolStripMenuItem.DropDownItems.Add(item);
             }
         }
@@ -354,8 +354,10 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void RecentProject_Click(object sender, EventArgs e)
+        void LoadRecentProjectMenuClick(object sender, EventArgs e)
         {
+            if (!SaveConfirm())
+                return;
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             string filename = (string)item.Tag;
             try
@@ -1059,28 +1061,8 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void NewProjectMenuClick(object sender, EventArgs e)
         {
-            if (m_editCount > 0)
-            {
-                try
-                {
-                    bool res;
-                    try
-                    {
-                        res = Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm);
-                    }
-                    catch (Exception)
-                    {
-                        return;
-                    }
-                    if (res)
-                        SaveProjectMenuClick(sender, e);
-                    CloseProject();
-                }
-                catch (Util.CancelException)
-                {
-                    return;
-                }
-            }
+            if (!SaveConfirm())
+                return;
             NewProjectDialog npd = new NewProjectDialog();
             using (npd)
             {
@@ -1088,6 +1070,35 @@ namespace Ecell.IDE.MainWindow
                     return;
                 m_env.DataManager.CreateNewProject(npd.ProjectName, npd.ProjectName, npd.Comment, npd.DMList);
             }
+        }
+
+        /// <summary>
+        /// Save confirm.
+        /// </summary>
+        /// <returns>
+        /// It return true when the current project was closed successfully
+        /// and returns false when SaveProject is canceled.
+        /// </returns>
+        private bool SaveConfirm()
+        {
+            if (m_editCount > 0)
+            {
+                try
+                {
+                    // Save if answer is yes.
+                    if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
+                        SaveProject();
+                    // Close project.
+                    CloseProject();
+                }
+                catch (Exception)
+                {
+                    // Return false when canceled
+                    return false;
+                }
+            }
+            // Return true when the current project was closed successfully.
+            return true;
         }
 
         /// <summary>
@@ -1099,23 +1110,8 @@ namespace Ecell.IDE.MainWindow
         private void LoadProjectMenuClick(object sender, EventArgs e)
         {
             // Check the modification and confirm save.
-            if (m_editCount > 0)
-            {
-                bool res;
-                try
-                {
-                    res = Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm);
-                }
-                catch (Exception)
-                {
-                    return;
-                }
-                if (res) 
-                {
-                    SaveProjectMenuClick(sender, e);
-                    CloseProject();
-                }
-            }
+            if (!SaveConfirm())
+                return;
 
             ProjectExplorerDialog ped = new ProjectExplorerDialog(m_currentDir);
             using (ped)
@@ -1159,33 +1155,8 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void CloseProjectMenuClick(object sender, EventArgs e)
         {
-            if (m_editCount > 0)
-            {
-                try
-                {
-                    bool res;
-                    try
-                    {
-                        res = Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm);
-                    }
-                    catch (Exception)
-                    {
-                        return;
-                    }
-                    if (res)
-                        SaveProjectMenuClick(sender, e);
-
-                    CloseProject();
-                }
-                catch (Util.CancelException)
-                {
-                    return;
-                }
-            }
-            else
-            {
-                CloseProject();
-            }
+            if (!SaveConfirm())
+                return;
         }
 
         /// <summary>
@@ -1197,20 +1168,8 @@ namespace Ecell.IDE.MainWindow
         private void ImportModelMenuClick(object sender, EventArgs e)
         {
             // Check current project and save it.
-            if (m_editCount > 0)
-            {
-                bool res;
-                try
-                {
-                    res = Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm);
-                }
-                catch (Exception)
-                {
-                    return;
-                }
-                if (res)
-                    SaveProjectMenuClick(sender, e);
-            }
+            if (!SaveConfirm())
+                return;
             // Show OpenFileDialog.
             try
             {
@@ -1322,47 +1281,6 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void ExitMenuClick(object sender, EventArgs e)
         {
-            if (m_type != ProjectStatus.Uninitialized)
-            {
-                if (m_editCount > 0)
-                {
-                    try
-                    {
-                        bool res;
-                        try
-                        {
-                            res = Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm);
-                        }
-                        catch (Exception)
-                        {
-                            return;
-                        }
-                        if (res)
-                        {
-                            m_env.DataManager.SimulationStop();
-                            Thread.Sleep(1000);
-                            SaveProjectMenuClick(sender, e);
-                        }
-                        else
-                        {
-                            m_env.DataManager.SimulationStop();
-                            Thread.Sleep(1000);
-                        }
-                        CloseProject();
-                    }
-                    catch (Util.CancelException)
-                    {
-                        return;
-                    }
-                }
-                else
-                {
-                    m_env.DataManager.SimulationStop();
-                    Thread.Sleep(1000);
-
-                    CloseProject();
-                }
-            }
             this.Close();
         }
 
@@ -1677,13 +1595,17 @@ namespace Ecell.IDE.MainWindow
                     e.Cancel = true;
                     return;
                 }
+                m_env.DataManager.SimulationStop();
+                Thread.Sleep(1000);
             }
-            if (!string.IsNullOrEmpty(m_env.DataManager.CurrentProjectID))
-            {            
-                CloseProject();
-            }
+
+            if (!SaveConfirm())
+                e.Cancel = true;
+
             SaveRecentProject();
             SaveWindowSetting(m_userWindowSettingPath);
+
+            base.OnClosing(e);
         }
 
         /// <summary>
@@ -1742,6 +1664,8 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         private void ImportSBMLMenuItem_Click(object sender, EventArgs e)
         {
+            if (!SaveConfirm())
+                e.Cancel = true;
             OpenFileDialog dialog = new OpenFileDialog();
             using (dialog)
             {

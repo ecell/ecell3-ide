@@ -12,7 +12,7 @@ namespace Ecell.Objects
     [Serializable]
     public struct EcellLayout : ICloneable
     {
-        #region MyRegion
+        #region Fields
         /// <summary>
         /// RectangleF
         /// </summary>
@@ -39,8 +39,8 @@ namespace Ecell.Objects
         /// <param name="location"></param>
         public EcellLayout(PointF location)
         {
-            m_rect = new RectangleF();
-            m_offset = new PointF();
+            m_rect = RectangleF.Empty;
+            m_offset = PointF.Empty;
             m_layer = DefaultLayer;
             m_rect.Location = location;
         }
@@ -52,7 +52,7 @@ namespace Ecell.Objects
         public EcellLayout(RectangleF rect)
         {
             m_rect = rect;
-            m_offset = new PointF();
+            m_offset = PointF.Empty;
             m_layer = DefaultLayer;
         }
         /// <summary>
@@ -197,8 +197,8 @@ namespace Ecell.Objects
         /// </summary>
         public float CenterY
         {
-            get { return m_rect.X + m_rect.Width / 2f; }
-            set { m_rect.X = value - m_rect.Width / 2f; }
+            get { return m_rect.Y + m_rect.Height / 2f; }
+            set { m_rect.Y = value - m_rect.Height / 2f; }
         }
 
         /// <summary>

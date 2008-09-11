@@ -891,9 +891,8 @@ namespace Ecell
         [Test()]
         public void TestLoadProject()
         {
-            string l_prjID = null;
             string l_prjFile = null;
-            _unitUnderTest.LoadProject(l_prjID, l_prjFile);
+            _unitUnderTest.LoadProject(l_prjFile);
             Assert.Fail("Create or modify test(s).");
 
         }
