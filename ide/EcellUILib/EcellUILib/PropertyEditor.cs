@@ -1399,13 +1399,7 @@ namespace Ecell.IDE
 
                 EcellObject uobj = EcellObject.CreateObject(modelID, key, type, classname, list);
                 uobj.Children = m_currentObj.Children;
-                uobj.X = m_currentObj.X;
-                uobj.Y = m_currentObj.Y;
-                uobj.OffsetX = m_currentObj.OffsetX;
-                uobj.OffsetY = m_currentObj.OffsetY;
-                uobj.Width = m_currentObj.Width;
-                uobj.Height = m_currentObj.Height;
-                uobj.LayerID = m_currentObj.LayerID;
+                uobj.Layout = m_currentObj.Layout;
                 NotifyDataChanged(m_currentObj.ModelID, m_currentObj.Key, uobj);
             }
             catch (IgnoreException ex)

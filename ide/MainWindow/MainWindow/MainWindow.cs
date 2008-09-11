@@ -1141,6 +1141,14 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void SaveProjectMenuClick(object sender, EventArgs e)
         {
+            SaveProject();
+        }
+
+        /// <summary>
+        /// Save Project
+        /// </summary>
+        private void SaveProject()
+        {
             m_env.DataManager.SaveProject();
             Project project = m_env.DataManager.CurrentProject;
             CheckAndReplaceRecentProject(project.Name, project.FilePath);
@@ -1665,7 +1673,7 @@ namespace Ecell.IDE.MainWindow
         private void ImportSBMLMenuItem_Click(object sender, EventArgs e)
         {
             if (!SaveConfirm())
-                e.Cancel = true;
+                return;
             OpenFileDialog dialog = new OpenFileDialog();
             using (dialog)
             {

@@ -1047,7 +1047,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Get new layer name.
             PPathwayObject node = (PPathwayObject)canvas.FocusNode;
-            string name = node.EcellObject.LayerID;
+            string name = node.EcellObject.Layer;
             if (menu.Text.Equals(MessageResources.LayerMenuCreate))
             {
                 // Select Layer

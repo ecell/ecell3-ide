@@ -96,33 +96,9 @@ namespace Ecell.Objects
         /// </summary>
         private string m_type;
         /// <summary>
-        /// The layer include this object.
+        /// The layout struct of EcellObject.
         /// </summary>
-        private string m_layerID = "";
-        /// <summary>
-        /// X coordinate
-        /// </summary>
-        private float m_x;
-        /// <summary>
-        /// Y coordinate
-        /// </summary>
-        private float m_y;
-        /// <summary>
-        /// X offset
-        /// </summary>
-        private float m_offsetX;
-        /// <summary>
-        /// Y offset
-        /// </summary>
-        private float m_offsetY;
-        /// <summary>
-        /// Width
-        /// </summary>
-        private float m_width;
-        /// <summary>
-        /// Height
-        /// </summary>
-        private float m_height;
+        protected EcellLayout m_leyout;
         /// <summary>
         /// The value
         /// </summary>
@@ -237,12 +213,21 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// get/set the layer property.
+        /// get/set the EcellLayout.
         /// </summary>
-        public virtual string LayerID
+        public virtual EcellLayout Layout
         {
-            get { return this.m_layerID; }
-            set { this.m_layerID = value; }
+            get { return m_leyout; }
+            set { m_leyout = value; }
+        }
+
+        /// <summary>
+        /// PointF
+        /// </summary>
+        public virtual string Layer
+        {
+            get { return m_leyout.Layer; }
+            set { m_leyout.Layer = value; }
         }
 
         /// <summary>
@@ -250,12 +235,8 @@ namespace Ecell.Objects
         /// </summary>
         public virtual PointF PointF
         {
-            get { return new PointF(m_x, m_y); }
-            set
-            {
-                m_x = value.X;
-                m_y = value.Y;
-            }
+            get { return m_leyout.Location; }
+            set { m_leyout.Location = value; }
         }
 
         /// <summary>
@@ -263,12 +244,8 @@ namespace Ecell.Objects
         /// </summary>
         public PointF CenterPointF
         {
-            get { return new PointF(m_x + m_offsetX + m_width / 2f, m_y + m_offsetY + m_height / 2f); }
-            set
-            {
-                m_x = value.X - m_width / 2f;
-                m_y = value.Y - m_height / 2f;
-            }
+            get { return m_leyout.Center; }
+            set { m_leyout.Center = value; }
         }
 
         /// <summary>
@@ -276,7 +253,7 @@ namespace Ecell.Objects
         /// </summary>
         public virtual RectangleF Rect
         {
-            get { return new RectangleF(m_x, m_y, m_width, m_height); }
+            get { return m_leyout.Rect; }
         }
 
         /// <summary>
@@ -284,11 +261,8 @@ namespace Ecell.Objects
         /// </summary>
         public virtual float X
         {
-            get { return m_x; }
-            set
-            {
-                m_x = value;
-            }
+            get { return m_leyout.X; }
+            set { m_leyout.X = value; }
         }
 
         /// <summary>
@@ -296,10 +270,8 @@ namespace Ecell.Objects
         /// </summary>
         public virtual float Y
         {
-            get { return m_y; }
-            set {
-                m_y = value;
-            }
+            get { return m_leyout.Y; }
+            set { m_leyout.Y = value; }
         }
 
         /// <summary>
@@ -307,8 +279,8 @@ namespace Ecell.Objects
         /// </summary>
         public virtual float OffsetX
         {
-            get { return m_offsetX; }
-            set { m_offsetX = value; }
+            get { return m_leyout.OffsetX; }
+            set { m_leyout.OffsetX = value; }
         }
 
         /// <summary>
@@ -316,8 +288,8 @@ namespace Ecell.Objects
         /// </summary>
         public virtual float OffsetY
         {
-            get { return m_offsetY; }
-            set { m_offsetY = value; }
+            get { return m_leyout.OffsetY; }
+            set { m_leyout.OffsetY = value; }
         }
 
         /// <summary>
@@ -325,10 +297,8 @@ namespace Ecell.Objects
         /// </summary>
         public virtual float Width
         {
-            get { return m_width; }
-            set {
-                m_width = value;
-            }
+            get { return m_leyout.Width; }
+            set { m_leyout.Width = value; }
         }
 
         /// <summary>
@@ -336,10 +306,8 @@ namespace Ecell.Objects
         /// </summary>
         public virtual float Height
         {
-            get { return m_height; }
-            set {
-                m_height = value;
-            }
+            get { return m_leyout.Height; }
+            set { m_leyout.Height = value; }
         }
 
         /// <summary>
@@ -433,13 +401,7 @@ namespace Ecell.Objects
             {
                 EcellObject newEcellObject =
                     CreateObject(this.m_modelID, this.m_key, this.m_type, this.m_class, this.CopyValueList());
-                newEcellObject.X = this.m_x;
-                newEcellObject.Y = this.m_y;
-                newEcellObject.OffsetX = this.m_offsetX;
-                newEcellObject.OffsetY = this.m_offsetY;
-                newEcellObject.Width = this.m_width;
-                newEcellObject.Height = this.m_height;
-                newEcellObject.LayerID = this.LayerID;
+                newEcellObject.Layout = this.m_leyout;
                 newEcellObject.Children = this.CopyChildren();
                 return newEcellObject;
             }
@@ -475,29 +437,14 @@ namespace Ecell.Objects
             }
             return list;
         }
-        /// <summary>
-        /// Set object coordinates.
-        /// </summary>
-        /// <param name="x">X Position</param>
-        /// <param name="y">Y Position</param>
-        public void SetPosition(float x, float y)
-        {
-            this.X = x;
-            this.Y = y;
-        }
+
         /// <summary>
         /// Copy coordinates of passed object.
         /// </summary>
         /// <param name="obj">EcellObject</param>
         public void SetPosition(EcellObject obj)
         {
-            this.X = obj.X;
-            this.Y = obj.Y;
-            this.OffsetX = obj.OffsetX;
-            this.OffsetY = obj.OffsetY;
-            this.Width = obj.Width;
-            this.Height = obj.Height;
-            this.LayerID = obj.LayerID;
+            m_leyout = obj.Layout;
         }
 
         /// <summary>
@@ -640,7 +587,7 @@ namespace Ecell.Objects
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(Type);
-            sb.Append("(localID=" + LocalID + ")" + "(Location="+ this.Rect.ToString()+ ")");
+            sb.Append("(localID=" + LocalID + ")" + "(Location="+ m_leyout.Rect.ToString()+ ")");
             if (Children.Count > 0)
             {
                 sb.Append("{");

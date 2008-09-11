@@ -115,7 +115,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
                     xmlOut.WriteAttributeString(PathwayConstants.xPathModelID, eo.ModelID);
                     xmlOut.WriteAttributeString(PathwayConstants.xPathType, eo.Type);
                     xmlOut.WriteAttributeString(PathwayConstants.xPathKey, eo.Key);
-                    xmlOut.WriteAttributeString(PathwayConstants.xPathLayer, eo.LayerID);
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathLayer, eo.Layer);
                     xmlOut.WriteAttributeString(PathwayConstants.xPathX, eo.X.ToString());
                     xmlOut.WriteAttributeString(PathwayConstants.xPathY, eo.Y.ToString());
                     xmlOut.WriteAttributeString(PathwayConstants.xPathOffsetX, eo.OffsetX.ToString());
@@ -271,7 +271,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
                 return;
 
             EcellObject eo = obj.EcellObject;
-            eo.LayerID = GetStringAttribute(node, PathwayConstants.xPathLayer);
+            eo.Layer = GetStringAttribute(node, PathwayConstants.xPathLayer);
             eo.X = GetFloatAttribute(node, PathwayConstants.xPathX);
             eo.Y = GetFloatAttribute(node, PathwayConstants.xPathY);
             eo.OffsetX = GetFloatAttribute(node, PathwayConstants.xPathOffsetX);

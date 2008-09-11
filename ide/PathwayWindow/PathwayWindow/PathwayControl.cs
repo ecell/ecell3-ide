@@ -805,7 +805,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public void NotifyDataAdd(EcellObject eo, bool isAnchor)
         {
             // Set current layer.
-            eo.LayerID = m_layerView.SelectedLayer;
+            eo.Layer = m_layerView.SelectedLayer;
             List<EcellObject> list = new List<EcellObject>();
             list.Add(eo);
             try
@@ -865,7 +865,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             try
             {
                 eo.Key = newKey;
-                eo.LayerID = obj.Layer.Name;
+                eo.Layer = obj.Layer.Name;
                 eo.X = obj.X + obj.OffsetX;
                 eo.Y = obj.Y + obj.OffsetY;
                 eo.Width = obj.Width;

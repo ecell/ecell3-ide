@@ -781,7 +781,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="obj"></param>
         public void SetLayer(PPathwayObject obj)
         {
-            string layerID = obj.EcellObject.LayerID;
+            string layerID = obj.EcellObject.Layer;
             // rule out root system
             if (obj.EcellObject.Key.Equals("/"))
             {
