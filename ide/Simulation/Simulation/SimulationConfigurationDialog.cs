@@ -68,6 +68,8 @@ namespace Ecell.IDE.Plugins.Simulation
         private bool freqByStepTextBox_filledWithDefaultValue = false;
 
         private bool freqBySecTextBox_filledWithDefaultValue = false;
+        private const int m_defaultStepCount = 1;
+        private const double m_defaultInterval = 0.01;
         #endregion
 
         public IEnumerable<SimulationParameterSet> Result
@@ -503,7 +505,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 }
                 if (string.IsNullOrEmpty(freqByStepTextBox.Text))
                 {
-                    freqByStepTextBox.Text = "1";
+                    freqByStepTextBox.Text = Convert.ToString(m_defaultStepCount);
                     freqByStepTextBox_filledWithDefaultValue = true;
                 }
             }
@@ -517,7 +519,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 }
                 if (string.IsNullOrEmpty(freqBySecTextBox.Text))
                 {
-                    freqBySecTextBox.Text = "0.01";
+                    freqBySecTextBox.Text = Convert.ToString(m_defaultInterval);
                     freqBySecTextBox_filledWithDefaultValue = true;
                 }
             }
@@ -526,12 +528,16 @@ namespace Ecell.IDE.Plugins.Simulation
         private void freqByStepTextBox_Validating(object sender, CancelEventArgs e)
         {
             string text = freqByStepTextBox.Text;
+            int stepcount = ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.ReloadStepCount;
+            if (stepcount <= 0) stepcount = m_defaultStepCount;
             if (string.IsNullOrEmpty(text))
             {
                 if (string.IsNullOrEmpty(freqBySecTextBox.Text))
                 {
                     Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                    freqByStepTextBox.Text = Convert.ToString(stepcount);
                     e.Cancel = true;
+                    return;
                 }
             }
             else
@@ -540,12 +546,16 @@ namespace Ecell.IDE.Plugins.Simulation
                 if (!Int32.TryParse(text, out dummy))
                 {
                     Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    freqByStepTextBox.Text = Convert.ToString(stepcount);
                     e.Cancel = true;
+                    return;
                 }
                 if (dummy <= 0)
                 {
                     Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    freqByStepTextBox.Text = Convert.ToString(stepcount);
                     e.Cancel = true;
+                    return;
                 }
             }
         }
@@ -561,12 +571,16 @@ namespace Ecell.IDE.Plugins.Simulation
         private void freqBySecTextBox_Validating(object sender, CancelEventArgs e)
         {
             string text = freqBySecTextBox.Text;
+            double interval = ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.ReloadInterval;
+            if (interval <= 0.0) interval = m_defaultInterval;
             if (string.IsNullOrEmpty(text))
             {
                 if (string.IsNullOrEmpty(freqByStepTextBox.Text))
                 {
                     Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                    freqBySecTextBox.Text = Convert.ToString(interval);
                     e.Cancel = true;
+                    return;
                 }
             }
             else
@@ -575,12 +589,16 @@ namespace Ecell.IDE.Plugins.Simulation
                 if (!Double.TryParse(text, out dummy))
                 {
                     Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    freqBySecTextBox.Text = Convert.ToString(interval);
                     e.Cancel = true;
+                    return;
                 }
                 if (dummy <= 0.0)
                 {
                     Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    freqBySecTextBox.Text = Convert.ToString(interval);
                     e.Cancel = true;
+                    return;
                 }
             }
         }
@@ -646,6 +664,8 @@ namespace Ecell.IDE.Plugins.Simulation
                 if (String.IsNullOrEmpty(text))
                 {
                     Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                    maxKbTextBox.Text =
+                        Convert.ToString(((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.MaxDiskSpace);
                     e.Cancel = true;
                     return;
                 }
@@ -653,12 +673,16 @@ namespace Ecell.IDE.Plugins.Simulation
                 if (!Int32.TryParse(text, out dummy))
                 {
                     Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    maxKbTextBox.Text =
+                        Convert.ToString(((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.MaxDiskSpace);
                     e.Cancel = true;
                     return;
                 }
                 if (dummy <= 0)
                 {
                     Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    maxKbTextBox.Text =
+                        Convert.ToString(((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.MaxDiskSpace);
                     e.Cancel = true;
                     return;
                 }
