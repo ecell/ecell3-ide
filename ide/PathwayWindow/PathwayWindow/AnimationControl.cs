@@ -506,7 +506,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (!process.Visible)
                     continue;
                 // Line setting.
-                process.EdgeBrush = m_viewEdgeBrush;
+                if (m_con.ViewMode)
+                    process.EdgeBrush = m_viewEdgeBrush;
+                else
+                    process.EdgeBrush = m_editEdgeBrush;
             }
             foreach (PPathwayVariable variable in m_canvas.Variables.Values)
             {
