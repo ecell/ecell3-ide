@@ -516,6 +516,8 @@ namespace Ecell.IDE.MainWindow
                     Uri uri = new Uri(url);
                     if (!uri.IsFile)
                         return false;
+                    if (!SaveConfirm())
+                        return false;
                     m_browser.Environment.DataManager.LoadProject(uri.LocalPath);
                 }
                 catch (Exception e)
@@ -527,6 +529,35 @@ namespace Ecell.IDE.MainWindow
 
             }
 
+            /// <summary>
+            /// Save confirm.
+            /// </summary>
+            /// <returns>
+            /// It return true when the current project was closed successfully
+            /// and returns false when SaveProject is canceled.
+            /// </returns>
+            private bool SaveConfirm()
+            {
+                ActionManager am = m_browser.Environment.ActionManager;
+                if (am.Undoable || am.Redoable)
+                {
+                    try
+                    {
+                        // Save if answer is yes.
+                        if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
+                            m_browser.Environment.DataManager.SaveProject();
+                        // Close project.
+                        m_browser.Environment.DataManager.CloseProject();
+                    }
+                    catch (Exception)
+                    {
+                        // Return false when canceled
+                        return false;
+                    }
+                }
+                // Return true when the current project was closed successfully.
+                return true;
+            }
             /// <summary>
             /// Create new project
             /// </summary>

@@ -769,7 +769,7 @@ namespace Ecell
         /// </summary>
         public void Refresh()
         {
-            m_env.DataManager.CloseProject(null);            
+            m_env.DataManager.CloseProject();            
         }
 
         /// <summary>

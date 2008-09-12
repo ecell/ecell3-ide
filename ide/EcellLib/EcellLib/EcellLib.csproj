@@ -187,6 +187,7 @@
     <Compile Include="DataLogger.cs" />
     <Compile Include="Eml.cs" />
     <Compile Include="Job\JobProxy.cs" />
+    <Compile Include="UserAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ECellIDE.ico" />

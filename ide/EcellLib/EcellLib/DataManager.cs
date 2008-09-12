@@ -206,7 +206,7 @@ public class DataManager
     {
         try
         {
-            CloseProject(null);
+            CloseProject();
             m_env.ActionManager.LoadActionFile(filenName);
         }
         catch (Exception ex)
@@ -620,6 +620,14 @@ public class DataManager
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Closes project without confirming save or no save.
+    /// </summary>
+    public void CloseProject()
+    {
+        CloseProject(null);
     }
 
     /// <summary>
@@ -3438,7 +3446,7 @@ public class DataManager
         try
         {
             if (m_currentProject != null)
-                CloseProject(null);
+                CloseProject();
             if (project == null)
                 throw new Exception(MessageResources.ErrLoadPrj);
 
@@ -3517,7 +3525,7 @@ public class DataManager
         catch (Exception ex)
         {
             passList = null;
-            CloseProject(null);
+            CloseProject();
             throw new Exception(String.Format(MessageResources.ErrLoadPrj,
                 new object[] { projectID }), ex);
         }
@@ -4240,7 +4248,7 @@ public class DataManager
             //
             if (m_currentProject != null)
             {
-                this.CloseProject(null);
+                this.CloseProject();
             }
             //
             // Initialize
