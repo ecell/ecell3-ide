@@ -48,7 +48,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
     /// <summary>
     /// AnimationControl
     /// </summary>
-    public class AnimationControl
+    public class AnimationControl : IDisposable 
     {
         #region Constant
         /// <summary>
@@ -279,6 +279,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public AnimationControl(PathwayControl control)
         {
             m_con = control;
+            m_con.CanvasChange += new EventHandler(m_con_CanvasChange);
+            m_con.ViewModeChange += new EventHandler(m_con_ViewModeChange);
+            m_con.ProjectStatusChange += new EventHandler(m_con_ProjectStatusChange);
             LoadSettings();
             m_dManager = m_con.Window.DataManager;
             // Set Timer.
@@ -286,6 +289,73 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_time.Enabled = false;
             m_time.Interval = 200;
             m_time.Tick += new EventHandler(TimerFire);
+        }
+
+        /// <summary>
+        /// Event on Dispose
+        /// </summary>
+        public void Dispose()
+        {
+            StopSimulation();
+            m_con.ViewModeChange -= m_con_ViewModeChange;
+            m_con.ProjectStatusChange -= m_con_ProjectStatusChange;
+        }
+
+        #endregion
+
+        #region EventHanlers
+        /// <summary>
+        /// Event on CnavasChange
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void m_con_CanvasChange(object sender, EventArgs e)
+        {
+            m_canvas = m_con.Canvas;
+        }
+
+        /// <summary>
+        /// Event on ProjectStatusChange
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void m_con_ProjectStatusChange(object sender, EventArgs e)
+        {
+            ProjectStatus status = m_con.ProjectStatus;
+            bool isViewmode = m_con.ViewMode;
+            // When simulation started.
+            if (status == ProjectStatus.Running && isViewmode)
+            {
+                StartSimulation();
+            }
+            else if (status == ProjectStatus.Stepping && isViewmode)
+            {
+                StepSimulation();
+            }
+            else if (status == ProjectStatus.Suspended)
+            {
+                PauseSimulation();
+            }
+            else
+            {
+                StopSimulation();
+            }
+        }
+
+        void m_con_ViewModeChange(object sender, EventArgs e)
+        {
+            if (m_con.ViewMode)
+            {
+                if (m_con.ProjectStatus == ProjectStatus.Running)
+                    StartSimulation();
+                else
+                    SetPropForSimulation();
+            }
+            else
+            {
+                ResetPropForSimulation();
+            }
+
         }
         #endregion
 

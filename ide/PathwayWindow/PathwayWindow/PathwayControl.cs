@@ -202,6 +202,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public ProjectStatus ProjectStatus
+        {
+            get { return m_status; }
+            set 
+            {
+                m_status = value;
+                RaiseProjectStatusChange();
+            }
+        }
+        /// <summary>
         /// Accessor for currently active canvas.
         /// </summary>
         public CanvasControl Canvas
@@ -240,20 +252,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             set
             {
                 m_isViewMode = value;
-                if (m_canvas == null)
-                    return;
-                m_canvas.ViewMode = m_isViewMode;
-                if (m_isViewMode)
-                {
-                    if (m_status == ProjectStatus.Running)
-                        m_animCon.StartSimulation();
-                    else
-                        m_animCon.SetPropForSimulation();
-                }
-                else
-                {
-                    m_animCon.ResetPropForSimulation();
-                }
+                RaiseViewModeChange();
             }
         }
 
@@ -610,8 +609,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         public void Clear()
         {
-            // Reset Interfaces
-            m_animCon.StopSimulation();
             // Clear Canvas dictionary.
             if (m_canvas != null)
                 m_canvas.Dispose();
@@ -687,32 +684,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
             m_canvas.ResetSelect();
 
-        }
-
-        /// <summary>
-        ///  When change project status, change menu enable/disable.
-        /// </summary>
-        /// <param name="status">System status.</param>
-        public void ChangeStatus(ProjectStatus status)
-        {
-            m_status = status;
-            // When simulation started.
-            if (status == ProjectStatus.Running && m_isViewMode)
-            {
-                m_animCon.StartSimulation();
-            }
-            else if (status == ProjectStatus.Stepping && m_isViewMode)
-            {
-                m_animCon.StepSimulation();
-            }
-            else if (status == ProjectStatus.Suspended)
-            {
-                m_animCon.PauseSimulation();
-            }
-            else
-            {
-                m_animCon.StopSimulation();
-            }
         }
 
         /// <summary>
@@ -1111,6 +1082,63 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             EventArgs e = new EventArgs();
             OnCanvasChange(e);
+        }
+        #endregion
+
+        #region EventHandler for ViewModeChange
+        private EventHandler m_onViewModeChange
+            ;
+        /// <summary>
+        /// Event on canvas change.
+        /// </summary>
+        public event EventHandler ViewModeChange
+        {
+            add { m_onViewModeChange += value; }
+            remove { m_onViewModeChange -= value; }
+        }
+        /// <summary>
+        /// Event on view mode change.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnViewModeChange(EventArgs e)
+        {
+            if (m_onViewModeChange != null)
+                m_onViewModeChange(this, e);
+        }
+        private void RaiseViewModeChange()
+        {
+            EventArgs e = new EventArgs();
+            OnViewModeChange(e);
+        }
+        #endregion
+
+        #region EventHandler for ProjectStatusChange
+        private EventHandler m_onProjectStatusChange
+            ;
+        /// <summary>
+        /// Event on canvas change.
+        /// </summary>
+        public event EventHandler ProjectStatusChange
+        {
+            add { m_onProjectStatusChange += value; }
+            remove { m_onProjectStatusChange -= value; }
+        }
+        /// <summary>
+        /// Event on view mode change.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnProjectStatusChange(EventArgs e)
+        {
+            if (m_onProjectStatusChange != null)
+                m_onProjectStatusChange(this, e);
+        }
+        /// <summary>
+        /// Raise ProjectStatusChange event.
+        /// </summary>
+        private void RaiseProjectStatusChange()
+        {
+            EventArgs e = new EventArgs();
+            OnProjectStatusChange(e);
         }
         #endregion
 

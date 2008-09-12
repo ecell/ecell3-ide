@@ -343,18 +343,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
-        /// Accessor for m_showingId.
-        /// </summary>
-        public bool ViewMode
-        {
-            get { return m_isViewMode; }
-            set
-            {
-                m_isViewMode = value;
-                ResetObjectSettings();
-            }
-        }
-        /// <summary>
         /// BackGroundBrush
         /// </summary>
         public Brush BackGroundBrush
@@ -420,9 +408,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_lineHandler = new LineHandler(this);
 
             // Set ViewMode
-            this.ViewMode = m_con.ViewMode;
-            this.ShowingID = m_con.ShowingID;
-            this.FocusMode = m_con.FocusMode;
+            m_isViewMode = m_con.ViewMode;
+            m_showingId = m_con.ShowingID;
+            m_focusMode = m_con.FocusMode;
+            ResetObjectSettings();
+
+            m_con.ViewModeChange += new EventHandler(m_con_ViewModeChange);
+        }
+
+        /// <summary>
+        /// Event on Viewmode change.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void m_con_ViewModeChange(object sender, EventArgs e)
+        {
+            m_isViewMode = m_con.ViewMode;
+            ResetObjectSettings();
         }
 
         #endregion
@@ -1451,6 +1453,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             if (m_overviewCanvas != null)
                 m_overviewCanvas.Dispose();
+
+            m_con.ViewModeChange -= m_con_ViewModeChange;
         }
 
         /// <summary>

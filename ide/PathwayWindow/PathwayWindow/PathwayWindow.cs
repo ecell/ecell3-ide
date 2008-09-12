@@ -173,7 +173,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="status">System status.</param>
         public override void ChangeStatus(ProjectStatus status)
         {
-            m_con.ChangeStatus(status);
+            m_con.ProjectStatus = status;
         }
 
         /// <summary>
