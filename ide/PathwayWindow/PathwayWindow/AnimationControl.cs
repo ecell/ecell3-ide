@@ -117,7 +117,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
-        private bool m_autoThreshold = true;
+        private bool m_autoThreshold = false;
         #endregion
 
         #region Object Fields
