@@ -843,6 +843,7 @@ namespace Ecell.IDE.MainWindow
                 openProjectToolStripMenuItem.Enabled = true;
                 saveProjectToolStripMenuItem.Enabled = false;
                 projectWizardMenuItem.Enabled = true;
+                recentProejctToolStripMenuItem.Enabled = true;
                 closeProjectToolStripMenuItem.Enabled = false;
                 exportModelToolStripMenuItem.Enabled = false;
                 importModelToolStripMenuItem.Enabled = true;
@@ -856,6 +857,7 @@ namespace Ecell.IDE.MainWindow
             {
                 newProjectToolStripMenuItem.Enabled = true;
                 openProjectToolStripMenuItem.Enabled = true;
+                recentProejctToolStripMenuItem.Enabled = true;
                 saveProjectToolStripMenuItem.Enabled = true;
                 projectWizardMenuItem.Enabled = true;
                 closeProjectToolStripMenuItem.Enabled = true;
@@ -873,6 +875,7 @@ namespace Ecell.IDE.MainWindow
                 openProjectToolStripMenuItem.Enabled = false;
                 saveProjectToolStripMenuItem.Enabled = false;
                 projectWizardMenuItem.Enabled = false;
+                recentProejctToolStripMenuItem.Enabled = false;
                 closeProjectToolStripMenuItem.Enabled = false;
                 exportModelToolStripMenuItem.Enabled = false;
                 importModelToolStripMenuItem.Enabled = false;
