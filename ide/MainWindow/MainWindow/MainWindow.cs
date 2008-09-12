@@ -1165,6 +1165,7 @@ namespace Ecell.IDE.MainWindow
         {
             if (!SaveConfirm())
                 return;
+            CloseProject();
         }
 
         /// <summary>
