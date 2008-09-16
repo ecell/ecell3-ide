@@ -346,6 +346,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         public void ClearTime()
         {
+            // Zoom中にデータをクリアすると問題あり。
+            if (m_zCnt.GraphPane.IsZoomed) return;
             foreach (string key in m_entryDic.Keys)
             {
                 m_entryDic[key].ClearPoint();
@@ -446,9 +448,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_zCnt.AxisChange();
                 m_zCnt.Refresh();
             }
-            else if (m_zCnt.GraphPane.IsZoomed)
-            {
-            }
             else
             {
                 Graphics g = m_zCnt.CreateGraphics();
@@ -478,11 +477,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 if (m_current > m_zCnt.GraphPane.XAxis.Scale.Max ||
                     nextTime < m_zCnt.GraphPane.XAxis.Scale.Min)
                 {
-                    Console.WriteLine("IN");
                     m_current = nextTime;
                     return;
                 }
-                Console.WriteLine("OUT");
             }
             else
             {
@@ -515,7 +512,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 string p = d.type + ":" + d.key + ":" + d.propName;
                 if (!m_entryDic.ContainsKey(p)) continue;
                 if (m_entryDic[p].IsLoaded != d.IsLoaded) continue;
-                if (m_zCnt.GraphPane.IsZoomed) continue;
 
                 bool isRet = m_entryDic[p].AddPoint(d.logValueList, m_zCnt.GraphPane.YAxis.Scale.Max, m_zCnt.GraphPane.YAxis.Scale.Min);
                 if (isAxis == false)
@@ -523,6 +519,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     isAxis = isRet;
                 }
             }
+            // Zoom中に軸の変更をしないようする
             if (m_zCnt.GraphPane.IsZoomed) isAxis = false;
 
             Console.WriteLine(m_current + " -> " + nextTime + " : " + isAxis);

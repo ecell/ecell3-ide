@@ -554,41 +554,49 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     m_currentMax = m_currentMax * TracerWindow.s_duple;
                     m_step = m_currentMax / TracerWindow.s_count;
                     list = m_dManager.GetLogData(m_current, nextTime, m_step);
-                    if (list != null)
-                    {
-                        foreach (LogData d in list)
-                        {
-                            List<LogValue> delList = new List<LogValue>();
-                            foreach (LogValue v in d.logValueList)
-                            {
-                                if (v.time < m_current) delList.Add(v);
-                            }
-                            foreach (LogValue v in delList)
-                            {
-                                d.logValueList.Remove(v);
-                            }
-                        }
-                    }
+                    // StartとEndの間以外のデータがエンジンから返ってきており、
+                    // 無視するとグラフが歯抜けになってしまうので、
+                    // グラフに追加するように変更した。
+
+                    //if (list != null)
+                    //{
+                    //    foreach (LogData d in list)
+                    //    {
+                    //        List<LogValue> delList = new List<LogValue>();
+                    //        foreach (LogValue v in d.logValueList)
+                    //        {
+                    //            if (v.time < m_current) delList.Add(v);
+                    //        }
+                    //        foreach (LogValue v in delList)
+                    //        {
+                    //            d.logValueList.Remove(v);
+                    //        }
+                    //    }
+                    //}
                 }
             }
             else if (m_current + m_step < nextTime)
             {
                 list = m_dManager.GetLogData(m_current, nextTime, m_step);
-                if (list != null)
-                {
-                    foreach (LogData d in list)
-                    {
-                        List<LogValue> delList = new List<LogValue>();
-                        foreach (LogValue v in d.logValueList)
-                        {
-                            if (v.time < m_current) delList.Add(v);
-                        }
-                        foreach (LogValue v in delList)
-                        {
-                            d.logValueList.Remove(v);
-                        }
-                    }
-                }
+                // StartとEndの間以外のデータがエンジンから返ってきており、
+                // 無視するとグラフが歯抜けになってしまうので、
+                // グラフに追加するように変更した。
+
+                //if (list != null)
+                //{
+                //    foreach (LogData d in list)
+                //    {
+                //        List<LogValue> delList = new List<LogValue>();
+                //        foreach (LogValue v in d.logValueList)
+                //        {
+                //            if (v.time < m_current) delList.Add(v);
+                //        }
+                //        foreach (LogValue v in delList)
+                //        {
+                //            d.logValueList.Remove(v);
+                //        }
+                //    }
+                //}
             }
             else
             {
