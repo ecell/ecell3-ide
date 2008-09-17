@@ -779,9 +779,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             else if (e.Node.Tag != null && e.Node.Tag is TagData)
             {
-                EcellObject obj = GetObjectFromNode(e.Node);
-                Debug.Assert(obj != null);
-                ShowPropEditWindow(obj);
+                TagData tag = (TagData)e.Node.Tag;
+                if (tag.m_type.Equals(EcellObject.PROCESS) ||
+                    tag.m_type.Equals(EcellObject.VARIABLE) ||
+                    tag.m_type.Equals(EcellObject.SYSTEM))
+                {
+                    EcellObject obj = GetObjectFromNode(e.Node);
+                    Debug.Assert(obj != null);
+                    ShowPropEditWindow(obj);
+                }
             }
         }
 
@@ -1004,6 +1010,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             {
                 string[] sep = name.Split(new char[] { ';' });
                 TreeNode n = new TreeNode(sep[1]);
+                n.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathLog);
+                n.SelectedImageIndex = n.ImageIndex;
                 n.Tag = new  TagData("", "", Constants.xpathLog);
 
                 if (nodeDic.ContainsKey(sep[0]))

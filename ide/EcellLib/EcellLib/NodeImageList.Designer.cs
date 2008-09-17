@@ -43,6 +43,7 @@
             this.imageList1.Images.SetKeyName(4, "Variable");
             this.imageList1.Images.SetKeyName(5, "dm");
             this.imageList1.Images.SetKeyName(6, "Parameters");
+            this.imageList1.Images.SetKeyName(7, "Log");
 
         }
 
