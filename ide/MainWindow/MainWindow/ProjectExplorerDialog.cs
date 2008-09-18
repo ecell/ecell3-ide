@@ -73,7 +73,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Selected Project
         /// </summary>
-        private Project m_selectedProject = null;
+        private ProjectInfo m_selectedProject = null;
 
         /// <summary>
         /// FileName
@@ -110,7 +110,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// get the project.
         /// </summary>
-        public Project Project
+        public ProjectInfo Project
         {
             get { return this.m_selectedProject; }
         }
@@ -221,7 +221,7 @@ namespace Ecell.IDE.MainWindow
         private void SetSelectedProject()
         {
             // Reflect Project parameters.
-            Project prj = m_selectedNode.Project;
+            ProjectInfo prj = m_selectedNode.Project;
             m_selectedProject = prj;
             m_fileName = m_selectedNode.FilePath;
             projectNameText.Text = prj.Name;
@@ -481,21 +481,7 @@ namespace Ecell.IDE.MainWindow
             string model = newPrjDialog.Comment;
             string comment = newPrjDialog.ProjectName;
 
-            Project project = new Project(name, comment, DateTime.Now.ToString());
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="project"></param>
-        /// <param name="path"></param>
-        /// <param name="modelName"></param>
-        /// <param name="dmList"></param>
-        private void CreateNewProject(Project project, string path, string modelName, List<string> dmList)
-        {
-            project.Save(path);
-            // DataManagerに新規プロジェクトを作成する関数を追加する。
-            // 
+            ProjectInfo project = new ProjectInfo(name, comment, DateTime.Now.ToString());
         }
 
         /// <summary>
@@ -705,7 +691,7 @@ namespace Ecell.IDE.MainWindow
             #region Fields
             private string m_filePath = null;
             private FileType m_nodeType = FileType.Folder;
-            private Project m_project = null;
+            private ProjectInfo m_project = null;
             #endregion
 
             #region Accessors
@@ -718,7 +704,7 @@ namespace Ecell.IDE.MainWindow
                 set { m_filePath = value; }
             }
 
-            public Project Project
+            public ProjectInfo Project
             {
                 get { return m_project; }
                 set { m_project = value; }
@@ -745,7 +731,7 @@ namespace Ecell.IDE.MainWindow
                 if (this.m_nodeType == FileType.Project ||
                     this.m_nodeType == FileType.Model)
                 {
-                    this.m_project = ProjectLoader.LoadProject(filepath);
+                    this.m_project = ProjectInfoLoader.Load(filepath);
                     this.Text = m_project.Name;
                 }
                 else 

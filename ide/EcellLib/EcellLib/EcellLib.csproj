@@ -168,6 +168,7 @@
     <Compile Include="Plugin\IToolStripProvider.cs" />
     <Compile Include="Plugin\LayoutBase.cs" />
     <Compile Include="Project.cs" />
+    <Compile Include="ProjectInfo.cs" />
     <Compile Include="PropertyDescriptor.cs" />
     <Compile Include="Reporting\IReport.cs" />
     <Compile Include="Reporting\ObjectPropertyReport.cs" />

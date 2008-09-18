@@ -141,7 +141,7 @@ public class DataManager
         {
             if (m_currentProject == null)
                 return null;
-            return m_currentProject.Name;
+            return m_currentProject.Info.Name;
         }
     }
 
@@ -263,7 +263,7 @@ public class DataManager
             }
             // Set Stteper.
             stepperDic[stepper.ModelID].Add(stepper);
-            if (m_currentProject.SimulationParam.Equals(parameterID))
+            if (m_currentProject.Info.SimulationParam.Equals(parameterID))
             {
                 List<EcellObject> stepperList = new List<EcellObject>();
                 stepperList.Add(stepper);
@@ -643,7 +643,7 @@ public class DataManager
             {
                 foreach (Project prj in m_projectList)
                 {
-                    tmpList.Add(prj.Name);
+                    tmpList.Add(prj.Info.Name);
                 }
             }
             else
@@ -655,7 +655,7 @@ public class DataManager
             {
                 foreach (Project prj in m_projectList)
                 {
-                    if (prj.Name == str)
+                    if (prj.Info.Name == str)
                     {
                         m_projectList.Remove(prj);
                         break;
@@ -2013,7 +2013,7 @@ public class DataManager
             m_currentProject.StepperDic.Remove(parameterID);
             string simulationDirName
                     = this.m_defaultDir + Constants.delimiterPath
-                    + m_currentProject.Name + Constants.delimiterPath + Constants.xpathParameters;
+                    + m_currentProject.Info.Name + Constants.delimiterPath + Constants.xpathParameters;
             string pattern
                     = "_????_??_??_??_??_??_" + parameterID + Constants.FileExtXML;
             if (Directory.Exists(simulationDirName))
@@ -2027,10 +2027,10 @@ public class DataManager
                 File.Delete(simulationFileName);
             }
             m_currentProject.LoggerPolicyDic.Remove(parameterID);
-            Trace.WriteLine(m_currentProject.SimulationParam + ":" + parameterID);
-            if (m_currentProject.SimulationParam == parameterID)
-                m_currentProject.SimulationParam = null;
-            m_env.PluginManager.ParameterDelete(m_currentProject.Name, parameterID);
+            Trace.WriteLine(m_currentProject.Info.SimulationParam + ":" + parameterID);
+            if (m_currentProject.Info.SimulationParam == parameterID)
+                m_currentProject.Info.SimulationParam = null;
+            m_env.PluginManager.ParameterDelete(m_currentProject.Info.Name, parameterID);
             MessageDeleteEntity("Simulation Parameter", message);
 
             if (isRecorded)
@@ -2082,7 +2082,7 @@ public class DataManager
             }
             if (isRecorded)
                 m_env.ActionManager.AddAction(new DeleteStepperAction(parameterID, stepper));
-            if (m_currentProject.SimulationParam.Equals(parameterID))
+            if (m_currentProject.Info.SimulationParam.Equals(parameterID))
             {
                 m_env.PluginManager.DataDelete(stepper.ModelID, stepper.Key, stepper.Type);
             }
@@ -2192,7 +2192,7 @@ public class DataManager
             List<EcellObject> storedSystemList = new List<EcellObject>();
 
             Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
-            Dictionary<string, List<EcellObject>> stepperDic = m_currentProject.StepperDic[m_currentProject.SimulationParam];
+            Dictionary<string, List<EcellObject>> stepperDic = m_currentProject.StepperDic[m_currentProject.Info.SimulationParam];
 
             foreach (string modelID in modelIDList)
             {
@@ -2223,7 +2223,7 @@ public class DataManager
     private WrappedPolymorph GetCurrentLoggerPolicy()
     {
         List<WrappedPolymorph> policyList = new List<WrappedPolymorph>();
-        string simParam = m_currentProject.SimulationParam;
+        string simParam = m_currentProject.Info.SimulationParam;
         policyList.Add(new WrappedPolymorph(m_currentProject.LoggerPolicyDic[simParam].ReloadStepCount));
         policyList.Add(new WrappedPolymorph(m_currentProject.LoggerPolicyDic[simParam].ReloadInterval));
         policyList.Add(new WrappedPolymorph((int)m_currentProject.LoggerPolicyDic[simParam].DiskFullAction));
@@ -2237,7 +2237,7 @@ public class DataManager
     /// <returns>The current simulation parameter ID</returns>
     public string GetCurrentSimulationParameterID()
     {
-        return m_currentProject.SimulationParam;
+        return m_currentProject.Info.SimulationParam;
     }
 
     /// <summary>
@@ -2756,7 +2756,7 @@ public class DataManager
         bool isEnable = true;
         try
         {
-            WrappedSimulator sim = CreateSimulatorInstance();
+            WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
             sim.CreateEntity(
                 dmName,
                 Constants.xpathProcess + Constants.delimiterColon +
@@ -2787,7 +2787,7 @@ public class DataManager
         Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
         try
         {
-            WrappedSimulator sim = CreateSimulatorInstance();
+            WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
             sim.CreateStepper("PassiveStepper", "tmp");
             sim.SetEntityProperty(Util.BuildFullPN(Constants.xpathSystem, "", "/", "StepperID"), new WrappedPolymorph("tmp"));
             sim.CreateEntity(dmName,
@@ -2812,61 +2812,6 @@ public class DataManager
     }
 
     /// <summary>
-    /// Returns the list of the "Project" with the directory name.
-    /// </summary>
-    /// <param name="dir">The directory name</param>
-    /// <returns>The list of the "Project"</returns>
-    public List<Project> GetProjects(string dir)
-    {
-        if (!Directory.Exists(dir))
-        {
-            return null;
-        }
-        List<Project> list = new List<Project>();
-        string[] dirList = Directory.GetDirectories(dir);
-        if (dirList == null || dirList.Length <= 0)
-        {
-            return null;
-        }
-        for (int i = 0; i < dirList.Length; i++)
-        {
-            string prjFile = dirList[i] + Constants.delimiterPath + Constants.fileProject;
-            if (File.Exists(prjFile))
-            {
-                StreamReader reader = null;
-                try
-                {
-                    reader = new StreamReader(prjFile, Encoding.UTF8);
-                    list.Add(
-                        new Project(
-                            Path.GetFileName(dirList[i]),
-                            reader.ReadLine(),
-                            File.GetLastWriteTime(prjFile).ToString()
-                        )
-                    );
-                }
-                catch (Exception ex)
-                {
-                    ex.ToString();
-                    continue;
-                }
-                finally
-                {
-                    if (reader != null)
-                    {
-                        reader.Close();
-                    }
-                }
-            }
-        }
-        if (list.Count > 0)
-        {
-            this.m_defaultDir = dir;
-        }
-        return list;
-    }
-
-    /// <summary>
     /// Returns the savable model ID.
     /// </summary>
     /// <returns>The savable model ID</returns>
@@ -2886,15 +2831,6 @@ public class DataManager
         {
             return null;
         }
-    }
-
-    /// <summary>
-    /// Returns the savable project ID.
-    /// </summary>
-    /// <returns>The savable project ID</returns>
-    public string GetSavableProject()
-    {
-        return m_currentProject.Name;
     }
 
     /// <summary>
@@ -2932,7 +2868,7 @@ public class DataManager
         List<EcellObject> returnedStepper = new List<EcellObject>();
         Debug.Assert(!string.IsNullOrEmpty(modelID));
         if (string.IsNullOrEmpty(parameterID))
-            parameterID = m_currentProject.SimulationParam;
+            parameterID = m_currentProject.Info.SimulationParam;
         if (string.IsNullOrEmpty(parameterID))
             throw new Exception(String.Format(MessageResources.ErrNoSet,
                 new object[] { MessageResources.NameSimParam }));
@@ -2965,7 +2901,7 @@ public class DataManager
     public List<string> GetStepperList()
     {
         List<string> stepperList = new List<string>();
-        WrappedSimulator sim = CreateSimulatorInstance();
+        WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
         foreach (WrappedPolymorph polymorph in sim.GetDMInfo().CastToList())
         {
             List<WrappedPolymorph> dmInfoList = polymorph.CastToList();
@@ -2987,7 +2923,7 @@ public class DataManager
     public List<string> GetDMDirData()
     {
         List<string> resultList = new List<string>();
-        string path = Path.Combine(m_currentProject.ProjectPath, Constants.DMDirName);
+        string path = Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
         if (!Directory.Exists(path))
             return resultList;
 
@@ -3014,12 +2950,12 @@ public class DataManager
     /// <returns></returns>
     public string GetDMDir()
     {
-        return Path.Combine(m_currentProject.ProjectPath, Constants.DMDirName);
+        return Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
     }
 
     private string GetParameterDir()
     {
-        return Path.Combine(Path.Combine(this.m_defaultDir, m_currentProject.Name), Constants.ParameterDirName);
+        return Path.Combine(Path.Combine(this.m_defaultDir, m_currentProject.Info.Name), Constants.ParameterDirName);
     }
 
     public List<string> GetLogDataList()
@@ -3057,7 +2993,7 @@ public class DataManager
     /// <returns></returns>
     public string GetDMFileName(string indexName)
     {
-        string path = Path.Combine(m_currentProject.ProjectPath, Constants.DMDirName);
+        string path = Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
         path = Path.Combine(path, indexName + Constants.FileExtSource);
         if (!File.Exists(path))
             return null;
@@ -3075,7 +3011,7 @@ public class DataManager
         EcellObject dummyEcellObject = null;
         try
         {
-            WrappedSimulator sim = CreateSimulatorInstance();
+            WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
             sim.CreateStepper(dmName, Constants.textKey);
             dummyEcellObject = EcellObject.CreateObject("", Constants.textKey, "", "", null);
             DataStorer.DataStored4Stepper(sim, dummyEcellObject);
@@ -3119,7 +3055,7 @@ public class DataManager
     public Dictionary<string, EcellData> GetSystemProperty()
     {
         Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
-        WrappedSimulator sim = CreateSimulatorInstance();
+        WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
         BuildDefaultSimulator(sim, null, null);
         ArrayList list = new ArrayList();
         list.Clear();
@@ -3177,7 +3113,7 @@ public class DataManager
         EcellObject dummyEcellObject = null;
         try
         {
-            simulator = CreateSimulatorInstance();
+            simulator = m_currentProject.CreateSimulatorInstance();
             BuildDefaultSimulator(simulator, null, null);
             dummyEcellObject = EcellObject.CreateObject(
                 "",
@@ -3242,13 +3178,12 @@ public class DataManager
     /// </summary>
     public void Initialize(bool flag)
     {
-        string simParam = m_currentProject.SimulationParam;
+        string simParam = m_currentProject.Info.SimulationParam;
         Dictionary<string, List<EcellObject>> stepperList = m_currentProject.StepperDic[simParam];
         WrappedSimulator simulator = null;
         Dictionary<string, Dictionary<string, double>> initialCondition = m_currentProject.InitialCondition[simParam];
 
-        m_currentProject.Simulator = CreateSimulatorInstance();
-        simulator = m_currentProject.Simulator;
+        simulator = m_currentProject.CreateSimulatorInstance();
         //
         // Loads steppers on the simulator.
         //
@@ -3421,9 +3356,8 @@ public class DataManager
     {
         try
         {
-
-            Project project = ProjectLoader.LoadProject(filename);
-            LoadProject(project);
+            ProjectInfo info = ProjectInfoLoader.Load(filename);
+            LoadProject(info);
         }
         catch (Exception ex)
         {
@@ -3436,49 +3370,51 @@ public class DataManager
     /// <summary>
     /// LoadProject
     /// </summary>
-    /// <param name="project"></param>
-    public void LoadProject(Project project)
+    /// <param name="info"></param>
+    public void LoadProject(ProjectInfo info)
     {
         List<EcellObject> passList = new List<EcellObject>();
         string[] parameters = new string[0];
         string message = null;
         string projectID = null;
+        Project project = null;
         try
         {
             if (m_currentProject != null)
                 CloseProject();
-            if (project == null)
-                throw new Exception(MessageResources.ErrLoadPrj);
 
             // Initializes.
-            message = "[" + project.Name + "]";
-            m_currentProject = project;
-            projectID = project.Name;
+            message = "[" + info.Name + "]";
+            projectID = info.Name;
 
+            project = new Project(info);
             project.SetDMList();
-            project.Simulator = CreateSimulatorInstance();
+
+            project.Simulator = project.CreateSimulatorInstance();
             project.LoggerPolicyDic = new Dictionary<string, LoggerPolicy>();
             project.StepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
             project.ModelList = new List<EcellObject>();
             project.SystemDic = new Dictionary<string, List<EcellObject>>();
 
             m_projectList.Add(project);
+            m_currentProject = project;
+            
 
-            m_env.PluginManager.ParameterSet(projectID, project.SimulationParam);
+            m_env.PluginManager.ParameterSet(projectID, info.SimulationParam);
 
             List<EcellData> ecellDataList = new List<EcellData>();
-            ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(project.Comment), null));
+            ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(info.Comment), null));
             passList.Add(EcellObject.CreateObject(projectID, "", Constants.xpathProject, "", ecellDataList));
 
             // Loads the model.
             string[] models;
-            if (project.FilePath.EndsWith(Constants.FileExtEML))
+            if (info.FilePath.EndsWith(Constants.FileExtEML))
             {
-                models = new string[] { project.FilePath };
+                models = new string[] { info.FilePath };
             }
             else
             {
-                string modelDirName = Path.Combine(project.ProjectPath, Constants.xpathModel);
+                string modelDirName = Path.Combine(info.ProjectPath, Constants.xpathModel);
                 Debug.Assert(Directory.Exists(modelDirName));
 
                 models = Directory.GetFileSystemEntries(
@@ -3501,7 +3437,7 @@ public class DataManager
             }
 
             // Loads the simulation parameter.
-            string simulationDirName = Path.Combine(project.ProjectPath, Constants.xpathParameters);
+            string simulationDirName = Path.Combine(info.ProjectPath, Constants.xpathParameters);
 
             if (Directory.Exists(simulationDirName))
             {
@@ -3542,7 +3478,7 @@ public class DataManager
                     this.m_env.PluginManager.ParameterAdd(projectID, paramID);
                 }
 
-                m_env.ActionManager.AddAction(new LoadProjectAction(projectID, project.FilePath));
+                m_env.ActionManager.AddAction(new LoadProjectAction(projectID, info.FilePath));
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
             }
         }
@@ -3564,14 +3500,14 @@ public class DataManager
             // To load
             //
             string modelID = null;
-            if (m_currentProject.FilePath == null)
+            if (m_currentProject.Info.FilePath == null)
             {
-                m_currentProject.FilePath = filename;
+                m_currentProject.Info.FilePath = filename;
             }
             if (m_currentProject.Simulator == null)
             {
                 m_currentProject.SetDMList();
-                m_currentProject.Simulator = CreateSimulatorInstance();
+                m_currentProject.Simulator = m_currentProject.CreateSimulatorInstance();
             }
             EcellObject modelObj = EmlReader.Parse(filename, m_currentProject.Simulator);
             NormalizeVariableReferences(modelObj);
@@ -3590,7 +3526,7 @@ public class DataManager
             m_currentProject.Simulator.Initialize();
             // Sets initial conditions.
             m_currentProject.Initialize(modelID);
-            string simParam = m_currentProject.SimulationParam;
+            string simParam = m_currentProject.Info.SimulationParam;
             InitializeModel(modelObj);
             // Stores the "LoggerPolicy"
             if (!m_currentProject.LoggerPolicyDic.ContainsKey(simParam))
@@ -3618,10 +3554,10 @@ public class DataManager
         DataStorer.DataStored(
             m_currentProject.Simulator,
             ecellObject,
-            m_currentProject.InitialCondition[m_currentProject.SimulationParam][ecellObject.ModelID]);
+            m_currentProject.InitialCondition[m_currentProject.Info.SimulationParam][ecellObject.ModelID]);
         // Sets the "EcellObject".
         string modelID = ecellObject.ModelID;
-        string simParam = m_currentProject.SimulationParam;
+        string simParam = m_currentProject.Info.SimulationParam;
         if (ecellObject.Type.Equals(Constants.xpathModel))
         {
             m_currentProject.ModelList.Add(ecellObject);
@@ -3660,7 +3596,7 @@ public class DataManager
     public void LoadSimulationParameter(string fileName)
     {
         string message = null;
-        string projectID = m_currentProject.Name;
+        string projectID = m_currentProject.Info.Name;
         try
         {
             message = "[" + fileName + "]";
@@ -3671,7 +3607,7 @@ public class DataManager
                     fileName, m_currentProject.Simulator);
             string simParamID = simParam.ID;
             // Stores the simulation parameter.
-            if (!m_currentProject.SimulationParam.Equals(simParamID))
+            if (!m_currentProject.Info.SimulationParam.Equals(simParamID))
             {
                 if (!m_currentProject.StepperDic.ContainsKey(simParamID))
                 {
@@ -4253,15 +4189,16 @@ public class DataManager
             //
             // Initialize
             //
-            prj = new Project(projectID, comment, DateTime.Now.ToString());
+            ProjectInfo info = new ProjectInfo(projectID, comment, DateTime.Now.ToString());
+            prj = new Project(info);
             m_projectList.Add(prj);
             m_currentProject = prj;
             if (projectPath != null)
-                m_currentProject.ProjectPath = projectPath;
+                m_currentProject.Info.ProjectPath = projectPath;
 
             CreateProjectDir(projectID, setDirList);
             m_currentProject.SetDMList();
-            m_currentProject.Simulator = CreateSimulatorInstance();
+            m_currentProject.Simulator = m_currentProject.CreateSimulatorInstance();
             m_currentProject.LoggerPolicyDic = new Dictionary<string, LoggerPolicy>();
             m_currentProject.StepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
             m_currentProject.ModelList = new List<EcellObject>();
@@ -4345,7 +4282,7 @@ public class DataManager
             m_currentProject.InitialCondition[parameterID] = newInitialCondSets;
 
             // Notify that a new parameter set is created.
-            m_env.PluginManager.ParameterAdd(m_currentProject.Name, parameterID);
+            m_env.PluginManager.ParameterAdd(m_currentProject.Info.Name, parameterID);
 
             Trace.WriteLine(String.Format(MessageResources.InfoCreSim,
                 new object[] { parameterID }));
@@ -4436,13 +4373,13 @@ public class DataManager
                 throw new Exception(String.Format(MessageResources.ErrNoSet,
                     new object[] { MessageResources.NameWorkDir }));
             }
-            if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Name))
+            if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Info.Name))
             {
-                this.SaveProject(m_currentProject.Name);
+                this.SaveProject(m_currentProject.Info.Name);
             }
             string modelDirName
                 = this.m_defaultDir + Constants.delimiterPath +
-                m_currentProject.Name + Constants.delimiterPath + Constants.xpathModel;
+                m_currentProject.Info.Name + Constants.delimiterPath + Constants.xpathModel;
             if (!Directory.Exists(modelDirName))
             {
                 Directory.CreateDirectory(modelDirName);
@@ -4453,7 +4390,7 @@ public class DataManager
             // Picks the "Stepper" up.
             //
             List<EcellObject> stepperList
-                = m_currentProject.StepperDic[m_currentProject.SimulationParam][modelID];
+                = m_currentProject.StepperDic[m_currentProject.Info.SimulationParam][modelID];
             Debug.Assert(stepperList != null && stepperList.Count > 0);
             storedList.AddRange(stepperList);
             //
@@ -4470,7 +4407,7 @@ public class DataManager
             //
             // 4 Project
             //
-            this.SaveProject(m_currentProject.Name);
+            this.SaveProject(m_currentProject.Info.Name);
             m_env.PluginManager.SaveModel(modelID, modelDirName);
         }
         catch (Exception ex)
@@ -4494,7 +4431,7 @@ public class DataManager
         Debug.Assert(this.m_projectList != null && this.m_projectList.Count > 0);
 
         foreach (Project prj in this.m_projectList)
-            if (prj.Name.Equals(projectID))
+            if (prj.Info.Name.Equals(projectID))
                 return prj;
 
         return null;
@@ -4553,7 +4490,7 @@ public class DataManager
 
             // Saves the project.
             string prjFile = Path.Combine(this.m_defaultDir, projectID);
-            thisPrj.Save(prjFile);
+            thisPrj.Info.Save(prjFile);
 
             Trace.WriteLine(message);
         }
@@ -4634,13 +4571,13 @@ public class DataManager
                 throw new Exception(String.Format(MessageResources.ErrNoSet,
                     new object[] { MessageResources.NameWorkDir }));
             }
-            if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Name))
+            if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Info.Name))
             {
-                this.SaveProject(m_currentProject.Name);
+                this.SaveProject(m_currentProject.Info.Name);
             }
             string simulationDirName =
                 this.m_defaultDir + Constants.delimiterPath +
-                m_currentProject.Name + Constants.delimiterPath + Constants.xpathParameters;
+                m_currentProject.Info.Name + Constants.delimiterPath + Constants.xpathParameters;
             if (!Directory.Exists(simulationDirName))
             {
                 Directory.CreateDirectory(simulationDirName);
@@ -4679,12 +4616,12 @@ public class DataManager
             //
             // 4 Project
             //
-            this.SaveProject(m_currentProject.Name);
+            this.SaveProject(m_currentProject.Info.Name);
         }
         catch (Exception ex)
         {
             message = String.Format(MessageResources.ErrSavePrj,
-                new object[] { m_currentProject.Name });
+                new object[] { m_currentProject.Info.Name });
             Trace.WriteLine(message);
             throw new Exception(message, ex);
         }
@@ -4702,7 +4639,7 @@ public class DataManager
         catch (Exception ex)
         {
             throw new Exception(String.Format(MessageResources.ErrSavePrj,
-                new object[] { m_currentProject.Name }), ex);
+                new object[] { m_currentProject.Info.Name }), ex);
         }
     }
 
@@ -4731,7 +4668,7 @@ public class DataManager
         try
         {
             message =
-                "[" + m_currentProject.Name + "][" + m_currentProject.SimulationParam + "]";
+                "[" + m_currentProject.Info.Name + "][" + m_currentProject.Info.SimulationParam + "]";
             //
             // Initializes.
             //
@@ -4752,9 +4689,9 @@ public class DataManager
                     throw new Exception(String.Format(MessageResources.ErrNoSet,
                         new object[] { MessageResources.NameWorkDir }));
                 }
-                if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Name))
+                if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Info.Name))
                 {
-                    this.SaveProject(m_currentProject.Name);
+                    this.SaveProject(m_currentProject.Info.Name);
                 }
                 simulationDirName = GetSimulationResultSaveDirectory();
             }
@@ -4768,7 +4705,7 @@ public class DataManager
             List<LogData> logDataList = this.GetLogData(
                 startTime,
                 endTime,
-                m_currentProject.LoggerPolicyDic[m_currentProject.SimulationParam].ReloadInterval
+                m_currentProject.LoggerPolicyDic[m_currentProject.Info.SimulationParam].ReloadInterval
                 );
             if (logDataList == null || logDataList.Count <= 0)
             {
@@ -4804,8 +4741,8 @@ public class DataManager
     public string GetSimulationResultSaveDirectory()
     {
         return this.m_defaultDir + "\\" +
-                    m_currentProject.Name + "\\" + Constants.xpathParameters +
-                    "\\" + m_currentProject.SimulationParam;
+                    m_currentProject.Info.Name + "\\" + Constants.xpathParameters +
+                    "\\" + m_currentProject.Info.SimulationParam;
     }
 
     /// <summary>
@@ -4944,7 +4881,7 @@ public class DataManager
         try
         {
             message = "[" + parameterID + "]";
-            string oldParameterID = m_currentProject.SimulationParam;
+            string oldParameterID = m_currentProject.Info.SimulationParam;
             if (oldParameterID != parameterID)
             {
                 foreach (string modelID in m_currentProject.StepperDic[oldParameterID].Keys)
@@ -4981,7 +4918,7 @@ public class DataManager
                         }
                     }
                 }
-                m_currentProject.SimulationParam = parameterID;
+                m_currentProject.Info.SimulationParam = parameterID;
                 this.Initialize(true);
                 foreach (string modelID
                     in m_currentProject.StepperDic[oldParameterID].Keys)
@@ -5007,7 +4944,7 @@ public class DataManager
                     }
                 }
             }
-            m_env.PluginManager.ParameterSet(m_currentProject.Name, parameterID);
+            m_env.PluginManager.ParameterSet(m_currentProject.Info.Name, parameterID);
             m_env.LogManager.Append(new ApplicationLogEntry(
                 MessageType.Information,
                 string.Format(MessageResources.InfoSimParamSet, parameterID),
@@ -5325,7 +5262,7 @@ public class DataManager
             string parameterID, string modelID, Dictionary<string, double> initialList)
     {
         if (string.IsNullOrEmpty(parameterID))
-            parameterID = m_currentProject.SimulationParam;
+            parameterID = m_currentProject.Info.SimulationParam;
 
         Dictionary<string, double> parameters = this.m_currentProject.InitialCondition[parameterID][modelID];
         foreach (string key in initialList.Keys)
@@ -5508,16 +5445,6 @@ public class DataManager
     public void RedoAction()
     {
         m_env.ActionManager.RedoAction();
-    }
-
-    /// <summary>
-    /// Create a new WrappedSimulator instance.
-    /// </summary>
-    protected WrappedSimulator CreateSimulatorInstance()
-    {
-        string[] dmpath = Util.GetDMDirs(m_currentProject.ProjectPath);
-        Trace.WriteLine("Creating simulator (dmpath=" + string.Join(";", dmpath) + ")");
-        return new WrappedSimulator(dmpath);
     }
 
     private void HandleSizeVariable(EcellObject ecellObject)

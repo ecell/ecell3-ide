@@ -892,10 +892,9 @@ namespace Ecell.IDE.MainWindow
             // Set recent Project.
             if (type == ProjectStatus.Loaded)
             {
-                string projectID = m_env.DataManager.CurrentProjectID;
-                this.Text = projectID + " - " + m_title;
-                string filename = m_env.DataManager.CurrentProject.FilePath;
-                CheckAndReplaceRecentProject(projectID, filename);
+                ProjectInfo info = m_env.DataManager.CurrentProject.Info;
+                this.Text = info.Name + " - " + m_title;
+                CheckAndReplaceRecentProject(info);
                 ResetRecentProjectMenu();                
             }
             else if (type == ProjectStatus.Uninitialized)
@@ -906,8 +905,10 @@ namespace Ecell.IDE.MainWindow
             m_type = type;
         }
 
-        private void CheckAndReplaceRecentProject(string projectID, string filename)
+        private void CheckAndReplaceRecentProject(ProjectInfo info)
         {
+            string projectID = info.Name;
+            string filename = info.FilePath;
             KeyValuePair<string, string> oldProject = new KeyValuePair<string,string>();
             foreach (KeyValuePair<string, string> project in m_recentProjects)
             {
@@ -1153,8 +1154,8 @@ namespace Ecell.IDE.MainWindow
         private void SaveProject()
         {
             m_env.DataManager.SaveProject();
-            Project project = m_env.DataManager.CurrentProject;
-            CheckAndReplaceRecentProject(project.Name, project.FilePath);
+            ProjectInfo Info = m_env.DataManager.CurrentProject.Info;
+            CheckAndReplaceRecentProject(Info);
             m_editCount = 0;
         }
 
@@ -1586,8 +1587,8 @@ namespace Ecell.IDE.MainWindow
             ProjectWizardWindow win = new ProjectWizardWindow();
             if (win.ShowDialog() == DialogResult.OK && win.SelectedProject != null)
             {
-                Project prj = win.SelectedProject;
-                m_env.DataManager.LoadProject(prj);
+                ProjectInfo info = win.SelectedProject;
+                m_env.DataManager.LoadProject(info);
             }
         }
 

@@ -548,11 +548,11 @@ namespace Ecell.IDE.Plugins.Simulation
                         m_env.DataManager.CurrentProjectID, sps.Name);
                 }
 
-                if (m_dManager.CurrentProject.SimulationParam == null)
+                if (m_dManager.CurrentProject.Info.SimulationParam == null)
                 {
                     IEnumerator<SimulationParameterSet> en = win.Result.GetEnumerator();
                     en.MoveNext();
-                    m_dManager.CurrentProject.SimulationParam = en.Current.Name;
+                    m_dManager.CurrentProject.Info.SimulationParam = en.Current.Name;
                 }
             }
         }

@@ -48,7 +48,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// The path of the initial window setting file.
         /// </summary>
-        private Project m_project = null;
+        private ProjectInfo m_project = null;
         
         #endregion
 
@@ -56,7 +56,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// 
         /// </summary>
-        public Project SelectedProject
+        public ProjectInfo SelectedProject
         {
             get { return m_project; }
             set { m_project = value; }
@@ -125,7 +125,7 @@ namespace Ecell.IDE.MainWindow
                 if (!File.Exists(prjXMLFileName))
                     continue;
 
-                Project project = ProjectLoader.LoadProject(prjXMLFileName);
+                ProjectInfo project = ProjectInfoLoader.Load(prjXMLFileName);
                 ProjectLabel label = new ProjectLabel(project);
                 label.Click += new EventHandler(label_Click);
                 ProjectPatternList.Controls.Add(label, 0, i);
@@ -236,11 +236,11 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private class ProjectLabel : Label
         {
-            private Project m_project;
+            private ProjectInfo m_project;
             /// <summary>
             /// 
             /// </summary>
-            public Project Project
+            public ProjectInfo Project
             {
                 get { return m_project; }
                 set { m_project = value; }
@@ -249,7 +249,7 @@ namespace Ecell.IDE.MainWindow
             /// 
             /// </summary>
             /// <param name="project"></param>
-            public ProjectLabel(Project project)
+            public ProjectLabel(ProjectInfo project)
             {
                 m_project = project;
 

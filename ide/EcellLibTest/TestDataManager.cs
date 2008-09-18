@@ -647,20 +647,6 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
-        public void TestGetProjects()
-        {
-            string l_dir = null;
-            System.Collections.Generic.List<Ecell.Project> expectedList = null;
-            System.Collections.Generic.List<Ecell.Project> resultList = null;
-            resultList = _unitUnderTest.GetProjects(l_dir);
-            Assert.AreEqual(expectedList, resultList, "GetProjects method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestGetSavableModel()
         {
             System.Collections.Generic.List<System.String> expectedList = null;
@@ -670,19 +656,7 @@ namespace Ecell
             Assert.Fail("Create or modify test(s).");
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetSavableProject()
-        {
-            string expectedString = null;
-            string resultString = null;
-            resultString = _unitUnderTest.GetSavableProject();
-            Assert.AreEqual(expectedString, resultString, "GetSavableProject method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
-        }
         /// <summary>
         /// 
         /// </summary>
