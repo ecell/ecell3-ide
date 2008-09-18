@@ -178,19 +178,19 @@
     <value>21, 20</value>
   </metadata>
   <data name="defineANewPropertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>172, 22</value>
   </data>
   <data name="defineANewPropertyToolStripMenuItem.Text" xml:space="preserve">
     <value>New property</value>
   </data>
   <data name="deleteThisPropertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
+    <value>172, 22</value>
   </data>
   <data name="deleteThisPropertyToolStripMenuItem.Text" xml:space="preserve">
     <value>Delete this property</value>
   </data>
   <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 48</value>
+    <value>173, 48</value>
   </data>
   <data name="&gt;&gt;contextMenuStrip1.Name" xml:space="preserve">
     <value>contextMenuStrip1</value>

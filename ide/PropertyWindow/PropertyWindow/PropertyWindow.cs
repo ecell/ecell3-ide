@@ -666,33 +666,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             if (hti.RowIndex <= 0)
                 return;
 
-            if (e.Button == MouseButtons.Left)
-            {
-                string s = v[0, hti.RowIndex].Value as string;
-                if (s == null) return;
-                foreach (EcellData d in m_current.Value)
-                {
-                    if (d.Name != s)
-                        continue;
-                    if (!d.Logable && !d.Settable)
-                        break;
-                    if (!d.Value.IsDouble)
-                        break;
-                    EcellDragObject dobj = new EcellDragObject(m_current.ModelID,
-                        m_current.Key,
-                        m_current.Type,
-                        d.EntityPath,
-                        d.Settable,
-                        d.Logable);
-
-                    v.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
-                    return;
-                }
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                m_dgv[1, hti.RowIndex].Selected = true;
-            }
+            m_dgv[1, hti.RowIndex].Selected = true;
         }
 
         /// <summary>
@@ -1139,6 +1113,39 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         combo.SelectedIndexChanged -= hdlr;
                     };
                     combo.SelectedIndexChanged += hdlr;
+                }
+            }
+        }
+
+        private void MouseMoveOnDataGridView(object sender, MouseEventArgs e)
+        {
+            DataGridView v = sender as DataGridView;
+
+            DataGridView.HitTestInfo hti = v.HitTest(e.X, e.Y);
+            if (hti.RowIndex <= 0)
+                return;
+
+            if (e.Button == MouseButtons.Left)
+            {
+                string s = v[0, hti.RowIndex].Value as string;
+                if (s == null) return;
+                foreach (EcellData d in m_current.Value)
+                {
+                    if (d.Name != s)
+                        continue;
+                    if (!d.Logable && !d.Settable)
+                        break;
+                    if (!d.Value.IsDouble)
+                        break;
+                    EcellDragObject dobj = new EcellDragObject(m_current.ModelID,
+                        m_current.Key,
+                        m_current.Type,
+                        d.EntityPath,
+                        d.Settable,
+                        d.Logable);
+
+                    v.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
+                    return;
                 }
             }
         }

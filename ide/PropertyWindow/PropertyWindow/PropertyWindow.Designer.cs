@@ -72,6 +72,7 @@
             this.m_dgv.ShowEditingIcon = false;
             this.m_dgv.ShowRowErrors = false;
             this.m_dgv.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MouseDownOnDataGrid);
+            this.m_dgv.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MouseMoveOnDataGridView);
             this.m_dgv.CellParsing += new System.Windows.Forms.DataGridViewCellParsingEventHandler(this.ChangeProperty);
             this.m_dgv.MouseLeave += new System.EventHandler(this.LeaveMouse);
             this.m_dgv.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.m_dgv_EditingControlShowing);
