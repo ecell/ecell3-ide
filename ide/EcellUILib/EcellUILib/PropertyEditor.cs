@@ -1455,7 +1455,10 @@ namespace Ecell.IDE
             data.Settable = true;
 
             if (m_propDict.ContainsKey(name))
+            {
+                Util.ShowErrorDialog(MessageResources.ErrAlreadyExist);
                 return;
+            }
             m_propDict.Add(name, data);
 
             Control cnt = null;
@@ -1518,9 +1521,9 @@ namespace Ecell.IDE
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ex.ToString();
+                Util.ShowErrorDialog(MessageResources.ErrAddProperty);
             }
             panel1.ClientSize = panel1.Size;
             this.ActiveControl = cnt;

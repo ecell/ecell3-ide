@@ -123,6 +123,12 @@
   <data name="ButtonDeleteProperty" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="ErrAddProperty" xml:space="preserve">
+    <value>Cannot add the property.</value>
+  </data>
+  <data name="ErrAlreadyExist" xml:space="preserve">
+    <value>The property of the same name already exists.</value>
+  </data>
   <data name="ErrExistVariableRef" xml:space="preserve">
     <value>{0} already exists in this VariableReferenceList.</value>
   </data>

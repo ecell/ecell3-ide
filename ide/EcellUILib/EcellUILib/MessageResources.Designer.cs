@@ -79,6 +79,24 @@ namespace Ecell.IDE {
         }
         
         /// <summary>
+        ///   Cannot add the property. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrAddProperty {
+            get {
+                return ResourceManager.GetString("ErrAddProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The property of the same name already exists. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrAlreadyExist {
+            get {
+                return ResourceManager.GetString("ErrAlreadyExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} already exists in this VariableReferenceList. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrExistVariableRef {

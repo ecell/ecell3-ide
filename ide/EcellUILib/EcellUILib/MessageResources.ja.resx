@@ -123,6 +123,12 @@
   <data name="ButtonDeleteProperty" xml:space="preserve">
     <value>削除</value>
   </data>
+  <data name="ErrAddProperty" xml:space="preserve">
+    <value>プロパティを追加できません。</value>
+  </data>
+  <data name="ErrAlreadyExist" xml:space="preserve">
+    <value>同じ名前のプロパティが存在します。</value>
+  </data>
   <data name="ErrExistVariableRef" xml:space="preserve">
     <value>{0} はすでにVariableReferenceListに存在します。</value>
   </data>
