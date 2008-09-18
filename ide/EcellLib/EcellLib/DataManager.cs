@@ -4566,7 +4566,7 @@ public class DataManager
     /// <param name="endTime">The end time</param>
     /// <param name="savedType">The saved type (ECD or Binary)</param>
     /// <param name="fullIDList">The list of the saved fullID</param>
-    internal void SaveSimulationResult(
+    public void SaveSimulationResult(
         string savedDirName,
         double startTime,
         double endTime,

@@ -897,17 +897,7 @@ namespace Ecell
             Assert.Fail("Create or modify test(s).");
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestSaveModel()
-        {
-            string l_modelID = null;
-            _unitUnderTest.SaveModel(l_modelID);
-            Assert.Fail("Create or modify test(s).");
-
-        }
+        
         /// <summary>
         /// 
         /// </summary>
