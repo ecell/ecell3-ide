@@ -643,46 +643,7 @@ namespace Ecell
             Assert.Fail("Create or modify test(s).");
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetSavableModel()
-        {
-            System.Collections.Generic.List<System.String> expectedList = null;
-            System.Collections.Generic.List<System.String> resultList = null;
-            resultList = _unitUnderTest.GetSavableModel();
-            Assert.AreEqual(expectedList, resultList, "GetSavableModel method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetSavableSimulationParameter()
-        {
-            System.Collections.Generic.List<System.String> expectedList = null;
-            System.Collections.Generic.List<System.String> resultList = null;
-            resultList = _unitUnderTest.GetSavableSimulationParameter();
-            Assert.AreEqual(expectedList, resultList, "GetSavableSimulationParameter method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetSavableSimulationResult()
-        {
-            string expectedString = null;
-            string resultString = null;
-            resultString = _unitUnderTest.GetSavableSimulationResult();
-            Assert.AreEqual(expectedString, resultString, "GetSavableSimulationResult method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -958,32 +919,7 @@ namespace Ecell
             Assert.Fail("Create or modify test(s).");
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestSaveSimulationParameter()
-        {
-            string l_paramID = null;
-            _unitUnderTest.SaveSimulationParameter(l_paramID);
-            Assert.Fail("Create or modify test(s).");
 
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestSaveSimulationResult()
-        {
-            string l_savedDirName = null;
-            double l_startTime = 0;
-            double l_endTime = 0;
-            string l_savedType = null;
-            System.Collections.Generic.List<System.String> l_fullIDList = null;
-            _unitUnderTest.SaveSimulationResult(l_savedDirName, l_startTime, l_endTime, l_savedType, l_fullIDList);
-            Assert.Fail("Create or modify test(s).");
-
-        }
         /// <summary>
         /// 
         /// </summary>

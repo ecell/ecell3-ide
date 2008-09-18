@@ -115,25 +115,6 @@ namespace Ecell
 
         #endregion
 
-        #region Constructor
-        ///// <summary>
-        ///// Creates the new "Project" instance with Project file.
-        ///// </summary>
-        ///// <param name="filePath"></param>
-        //public Project(string filePath)
-        //{
-        //    m_info = new ProjectInfo(filePath);
-        //}
-        /// <summary>
-        /// Creates the new "Project" instance with ProjectInfo.
-        /// </summary>
-        public Project(ProjectInfo info)
-        {
-            m_info = info;
-        }
-
-        #endregion
-
         #region Accessor
         /// <summary>
         /// The ProjectInfo
@@ -162,12 +143,17 @@ namespace Ecell
         }
 
         /// <summary>
-        /// The dictionary of the "System" with the model ID 
+        /// The dictionary of the "Systems" with the model ID 
         /// </summary>
         public Dictionary<string, List<EcellObject>> SystemDic
         {
             get { return m_systemDic; }
             set { m_systemDic = value; }
+        }
+
+        public List<EcellObject> SystemList
+        {
+            get { return m_systemDic[""];}
         }
 
         /// <summary>
@@ -226,12 +212,37 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Current LoggerPolicy.
+        /// </summary>
+        public LoggerPolicy LoggerPolicy
+        {
+            get { return m_loggerPolicyDic[m_info.SimulationParam];}
+        }
+
+        /// <summary>
         /// The dictionary of the "Stepper" with the parameter ID and the model ID
         /// </summary>
         public Dictionary<string, Dictionary<string, List<EcellObject>>> StepperDic
         {
             get { return m_stepperDic; }
             set { m_stepperDic = value; }
+        }
+
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Creates the new "Project" instance with ProjectInfo.
+        /// </summary>
+        public Project(ProjectInfo info)
+        {
+            m_info = info;
+            SetDMList();
+            m_loggerPolicyDic = new Dictionary<string, LoggerPolicy>();
+            m_stepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
+            m_modelList = new List<EcellObject>();
+            m_systemDic = new Dictionary<string, List<EcellObject>>();
+            m_simulator = CreateSimulatorInstance();
         }
 
         #endregion
@@ -289,6 +300,71 @@ namespace Ecell
                     systemList.Add(system);
             }
         }
+
+        #region Saver
+        public void Save()
+        {
+            m_info.ProjectPath = Path.Combine(Util.GetBaseDir(), m_info.Name);
+            m_info.Save();
+
+            List<string> modelList = GetSavableModel();
+            List<string> paramList = GetSavableSimulationParameter();
+            List<string> logList = GetSavableSimulationResult();
+
+            //foreach (string name in modelList)
+            //{
+            //    SaveModel(name);
+            //}
+            //foreach (string name in paramList)
+            //{
+            //    SaveSimulationParameter(name);
+            //}
+            //SaveSimulationResult();
+        }
+
+        /// <summary>
+        /// Returns the savable model ID.
+        /// </summary>
+        /// <returns>The savable model ID</returns>
+        internal List<string> GetSavableModel()
+        {
+            if (m_modelList == null ||m_modelList.Count <= 0)
+                return null;
+
+            List<string> modelIDList = new List<string>();
+            foreach (EcellObject model in m_modelList)
+            {
+                modelIDList.Add(model.ModelID);
+            }
+            return modelIDList;
+        }
+
+        /// <summary>
+        /// Returns the savable simulation parameter ID.
+        /// </summary>
+        /// <returns>The savable simulation parameter ID</returns>
+        internal List<string> GetSavableSimulationParameter()
+        {
+            Debug.Assert(m_loggerPolicyDic != null);
+            List<string> prmIDList = new List<string>();
+            foreach (string prmID in m_loggerPolicyDic.Keys)
+            {
+                prmIDList.Add(prmID);
+            }
+            return prmIDList;
+        }
+
+        /// <summary>
+        /// Returns the savable simulation result.
+        /// </summary>
+        /// <returns>The savable simulation result</returns>
+        internal List<string> GetSavableSimulationResult()
+        {
+            List<string> list = new List<string>();
+            list.Add(Constants.xpathParameters + Constants.xpathResult);
+            return list;
+        }
+        #endregion
 
         #region Getter
         /// <summary>
