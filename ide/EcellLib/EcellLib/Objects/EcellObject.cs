@@ -469,7 +469,9 @@ namespace Ecell.Objects
         public static EcellObject CreateObject(string modelID, string key,
             string type, string classname, List<EcellData> data)
         {
-            if (PROCESS.Equals(type) )
+            if (MODEL.Equals(type))
+                return new EcellModel(modelID, key, type, classname, data);
+            if (PROCESS.Equals(type))
                 return new EcellProcess(modelID, key, type, classname, data);
             else if (VARIABLE.Equals(type))
                 return new EcellVariable(modelID, key, type, classname, data);

@@ -98,7 +98,6 @@ namespace Ecell.Objects
             string type, string classname, List<EcellData> data)
             : base(modelID, key, type, classname, data)
         {
-            
         }
         #endregion
 

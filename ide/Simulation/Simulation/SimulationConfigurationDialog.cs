@@ -89,7 +89,7 @@ namespace Ecell.IDE.Plugins.Simulation
         public SimulationConfigurationDialog(Simulation owner, IEnumerable<SimulationParameterSet> simParamSets)
         {
             m_owner = owner;
-            m_stepperClasses = m_owner.DataManager.GetStepperList();
+            m_stepperClasses = m_owner.DataManager.CurrentProject.StepperDmList;
             m_originalStepperConfigurations = new Dictionary<string,Dictionary<string,Dictionary<string,StepperConfiguration>>>();
             InitializeComponent();
             stepCombo.DataSource = m_stepperClasses;

@@ -56,12 +56,8 @@ namespace Ecell.Objects
         /// <param name="data">properties of object.</param>
         public EcellModel(string modelID, string key,
              string type, string classname, List<EcellData> data)
+            : base(modelID, key, type, classname, data)
         {
-            this.ModelID = modelID;
-            this.Key = key;
-            this.Type = type;
-            this.Classname = classname;
-            this.m_ecellDatas = data;
         }
         #endregion
     }

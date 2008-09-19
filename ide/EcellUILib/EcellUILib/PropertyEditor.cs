@@ -723,7 +723,7 @@ namespace Ecell.IDE
             int j = 0;
             if (m_type.Equals(EcellObject.PROCESS))
             {
-                List<string> list = m_dManager.GetProcessList();
+                List<string> list = m_dManager.CurrentProject.ProcessDmList;
                 int selectedIndex = -1;
                 foreach (string str in list)
                 {

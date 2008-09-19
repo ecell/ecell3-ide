@@ -610,7 +610,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             else if (type == ProjectStatus.Loaded)
             {
                 m_dgv.Enabled = true;
-                m_procList = m_env.DataManager.GetProcessList();
+                m_procList = m_env.DataManager.CurrentProject.ProcessDmList;
                 if (m_type == ProjectStatus.Running || m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Stepping)
                 {
                     m_time.Enabled = false;

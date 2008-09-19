@@ -610,7 +610,7 @@ namespace Ecell
         {
             System.Collections.Generic.List<System.String> expectedList = null;
             System.Collections.Generic.List<System.String> resultList = null;
-            resultList = _unitUnderTest.GetProcessList();
+            resultList = _unitUnderTest.CurrentProject.ProcessDmList;
             Assert.AreEqual(expectedList, resultList, "GetProcessList method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
@@ -680,7 +680,7 @@ namespace Ecell
         {
             System.Collections.Generic.List<System.String> expectedList = null;
             System.Collections.Generic.List<System.String> resultList = null;
-            resultList = _unitUnderTest.GetStepperList();
+            resultList = _unitUnderTest.CurrentProject.StepperDmList;
             Assert.AreEqual(expectedList, resultList, "GetStepperList method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
@@ -707,7 +707,7 @@ namespace Ecell
         {
             System.Collections.Generic.List<System.String> expectedList = null;
             System.Collections.Generic.List<System.String> resultList = null;
-            resultList = _unitUnderTest.GetSystemList();
+            resultList = _unitUnderTest.CurrentProject.SystemDmList;
             Assert.AreEqual(expectedList, resultList, "GetSystemList method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
@@ -747,7 +747,7 @@ namespace Ecell
         {
             System.Collections.Generic.List<System.String> expectedList = null;
             System.Collections.Generic.List<System.String> resultList = null;
-            resultList = _unitUnderTest.GetVariableList();
+            resultList = _unitUnderTest.CurrentProject.VariableDmList;
             Assert.AreEqual(expectedList, resultList, "GetVariableList method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 

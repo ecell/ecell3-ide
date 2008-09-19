@@ -975,15 +975,15 @@ namespace Ecell
                 List<string> entityList = null;
                 if (type.Equals(Constants.xpathSystem))
                 {
-                    entityList = m_cManager.DataManager.GetSystemList();
+                    entityList = m_cManager.DataManager.CurrentProject.SystemDmList;
                 }
                 else if (type.Equals(Constants.xpathProcess))
                 {
-                    entityList = m_cManager.DataManager.GetProcessList();
+                    entityList = m_cManager.DataManager.CurrentProject.ProcessDmList;
                 }
                 else if (type.Equals(Constants.xpathVariable))
                 {
-                    entityList = m_cManager.DataManager.GetVariableList();
+                    entityList = m_cManager.DataManager.CurrentProject.VariableDmList;
                 }
 
                 if (entityList != null && entityList.Count > 0)
@@ -1760,7 +1760,7 @@ namespace Ecell
             /// <param name="className">the class name</param>
             private void Create(string key, string className)
             {
-                List<string> entityList = m_cManager.DataManager.GetStepperList();
+                List<string> entityList = m_cManager.DataManager.CurrentProject.StepperDmList;
                 if (entityList != null && entityList.Count > 0)
                 {
                     foreach (string entity in entityList)

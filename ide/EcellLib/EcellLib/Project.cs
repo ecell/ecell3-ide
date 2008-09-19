@@ -55,13 +55,13 @@ namespace Ecell
         private ProjectInfo m_info;
 
         /// <summary>
-        /// The list of the DM
+        /// The list of the DM with Object type (stepper, system, process, variable).
         /// </summary>
         private Dictionary<string, List<string>> m_dmDic = null;
         /// <summary>
         /// The ModelList of this project
         /// </summary>
-        private List<EcellObject> m_modelList = null;
+        private List<EcellModel> m_modelList = null;
         /// <summary>
         /// The ModelFileList of this project
         /// </summary>
@@ -134,12 +134,81 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Returns the list of the "Stepper" DM.
+        /// </summary>
+        public List<string> StepperDmList
+        {
+            get
+            {
+                SetDMList();
+                List<string> stepperList = new List<string>();
+                WrappedSimulator sim = CreateSimulatorInstance();
+                foreach (WrappedPolymorph polymorph in sim.GetDMInfo().CastToList())
+                {
+                    List<WrappedPolymorph> dmInfoList = polymorph.CastToList();
+                    if (dmInfoList[0].CastToString().Equals(Constants.xpathStepper))
+                    {
+                        stepperList.Add(dmInfoList[1].CastToString());
+                    }
+                }
+                if (m_dmDic != null)
+                    stepperList.AddRange(m_dmDic[Constants.xpathStepper]);
+                stepperList.Sort();
+                return stepperList;
+            }
+        }
+
+        /// <summary>
+        /// Returns the list of the "System" DM.
+        /// </summary>
+        public List<string> SystemDmList
+        {
+            get
+            {
+                SetDMList();
+                return m_dmDic[Constants.xpathSystem];
+            }
+        }
+
+        /// <summary>
+        /// Returns the list of the "Variable" DM.
+        /// </summary>
+        public List<string> VariableDmList
+        {
+            get
+            {
+                SetDMList();
+                return m_dmDic[Constants.xpathVariable];
+            }
+        }
+
+        /// <summary>
+        /// Returns the list of the "Process" DM.
+        /// </summary>
+        public List<string> ProcessDmList
+        {
+            get
+            {
+                SetDMList();
+                return m_dmDic[Constants.xpathProcess];
+            }
+        }
+
+        /// <summary>
         /// The List of the Model
         /// </summary>
-        public List<EcellObject> ModelList
+        public List<EcellModel> ModelList
         {
             get { return m_modelList; }
             set { m_modelList = value; }
+        }
+
+        /// <summary>
+        /// Current Model
+        /// </summary>
+        public EcellObject Model
+        {
+            get { return m_modelList[0]; }
         }
 
         /// <summary>
@@ -240,7 +309,7 @@ namespace Ecell
             SetDMList();
             m_loggerPolicyDic = new Dictionary<string, LoggerPolicy>();
             m_stepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
-            m_modelList = new List<EcellObject>();
+            m_modelList = new List<EcellModel>();
             m_systemDic = new Dictionary<string, List<EcellObject>>();
             m_simulator = CreateSimulatorInstance();
         }
@@ -307,9 +376,9 @@ namespace Ecell
             m_info.ProjectPath = Path.Combine(Util.GetBaseDir(), m_info.Name);
             m_info.Save();
 
-            List<string> modelList = GetSavableModel();
-            List<string> paramList = GetSavableSimulationParameter();
-            List<string> logList = GetSavableSimulationResult();
+            //List<string> modelList = GetSavableModel();
+            //List<string> paramList = GetSavableSimulationParameter();
+            //List<string> logList = GetSavableSimulationResult();
 
             //foreach (string name in modelList)
             //{
@@ -328,7 +397,7 @@ namespace Ecell
         /// <returns>The savable model ID</returns>
         internal List<string> GetSavableModel()
         {
-            if (m_modelList == null ||m_modelList.Count <= 0)
+            if (m_modelList.Count <= 0)
                 return null;
 
             List<string> modelIDList = new List<string>();
