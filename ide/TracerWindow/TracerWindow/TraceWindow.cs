@@ -339,6 +339,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 UpdateGraphCallBack dlg = new UpdateGraphCallBack(UpdateGraph);
                 this.Invoke(dlg, new object[] { true });
             }
+            if (m_tagDic.ContainsKey(tag.M_path))
+                m_tagDic.Remove(tag.M_path);
         }
 
         /// <summary>

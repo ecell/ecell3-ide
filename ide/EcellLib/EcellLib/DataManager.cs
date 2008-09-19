@@ -105,6 +105,7 @@ namespace Ecell
 
         private Dictionary<string, EcellObservedData> m_observedList;
         private Dictionary<string, EcellParameterData> m_parameterList;
+        private List<string> m_loggerEntry = new List<string>();
         #endregion
 
         #region Constructor
@@ -395,9 +396,13 @@ namespace Ecell
                         {
                             MessageCreateEntity("Logger", message + "[" + srcEcellData.Name + "]");
 
-                            WrappedSimulator simulator = m_currentProject.Simulator;
-                            WrappedPolymorph loggerPolicy = this.GetCurrentLoggerPolicy();
-                            simulator.CreateLogger(srcEcellData.EntityPath, loggerPolicy);                       
+                            if (!m_loggerEntry.Contains(srcEcellData.EntityPath))
+                            {
+                                WrappedSimulator simulator = m_currentProject.Simulator;
+                                WrappedPolymorph loggerPolicy = this.GetCurrentLoggerPolicy();
+                                simulator.CreateLogger(srcEcellData.EntityPath, loggerPolicy);
+                                m_loggerEntry.Add(srcEcellData.EntityPath);
+                            }
                             updated = true;
                         }
                         else if (srcEcellData.Logged && !destEcellData.Logged)
@@ -677,6 +682,7 @@ namespace Ecell
                 m_env.ActionManager.Clear();
                 m_env.ReportManager.Clear();
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
+                m_loggerEntry.Clear();
             }
             catch (Exception ex)
             {
@@ -3203,12 +3209,14 @@ namespace Ecell
             //
             // Creates the "Logger" only after the initialization.
             //
+            m_loggerEntry.Clear();
             if (allLoggerList != null && allLoggerList.Count > 0)
             {
                 WrappedPolymorph loggerPolicy = this.GetCurrentLoggerPolicy();
                 foreach (string logger in allLoggerList)
                 {
                     simulator.CreateLogger(logger, loggerPolicy);
+                    m_loggerEntry.Add(logger);
                 }
             }
         }
