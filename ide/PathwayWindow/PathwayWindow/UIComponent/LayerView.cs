@@ -216,10 +216,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.m_dgv.Name = "m_dgv";
             this.m_dgv.RowHeadersVisible = false;
             this.m_dgv.RowTemplate.Height = 21;
-            this.m_dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.m_dgv.MouseDown += new System.Windows.Forms.MouseEventHandler(this.m_dgv_MouseDown);
             this.m_dgv.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_dgv_CellMouseDown);
             this.m_dgv.CurrentCellDirtyStateChanged += new System.EventHandler(this.m_dgv_CurrentCellDirtyStateChanged);
+            this.m_dgv.CellValidated += new DataGridViewCellEventHandler(m_dgv_CellValidated);
             this.m_dgv.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgv_DataBindingComplete);
             this.m_dgv.VisibleChanged += new System.EventHandler(this.m_dgv_VisibleChanged);
             // 
@@ -298,6 +298,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         #endregion
 
         #region Event sequences
+        void m_dgv_CellValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            CanvasControl canvas = m_con.Canvas;
+            if (e.ColumnIndex == 0)
+            {
+                return;
+            }
+            string oldName = m_selectedLayer;
+            string newName = m_dgv[e.ColumnIndex, e.RowIndex].Value.ToString();
+
+            if (canvas.Layers.ContainsKey(newName))
+            {
+                Util.ShowNoticeDialog(newName + MessageResources.ErrAlrExist);
+                m_dgv[e.ColumnIndex, e.RowIndex].Value = oldName;
+                return;
+            }
+            canvas.RenameLayer(oldName, newName);
+        }
+
         /// <summary>
         /// event sequence of changing the check of layer showing.
         /// </summary>
@@ -305,6 +324,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void m_dgv_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
+            if (m_dgv.CurrentCell is DataGridViewTextBoxCell) return;
             if (!m_dirtyEventProcessed)
             {
                 CanvasControl canvas = m_con.Canvas;
@@ -335,7 +355,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Resizable = DataGridViewTriState.False;
                 ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Frozen = true;
                 ((DataGridView)sender).Columns[MessageResources.LayerColumnName].SortMode = DataGridViewColumnSortMode.NotSortable;
-                ((DataGridView)sender).Columns[MessageResources.LayerColumnName].ReadOnly = true;
+//                ((DataGridView)sender).Columns[MessageResources.LayerColumnName].ReadOnly = true;
             }
         }
 
@@ -353,7 +373,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Resizable = DataGridViewTriState.False;
                 ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Frozen = true;
                 ((DataGridView)sender).Columns[MessageResources.LayerColumnName].SortMode = DataGridViewColumnSortMode.Automatic;
-                ((DataGridView)sender).Columns[MessageResources.LayerColumnName].ReadOnly = true;
+//                ((DataGridView)sender).Columns[MessageResources.LayerColumnName].ReadOnly = true;
             }
         }
 
@@ -507,7 +527,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             m_cMenuDict[MenuRename].Visible = false;
             m_cMenuDict[MenuMerge].Visible = false;
             m_cMenuDict[MenuDelete].Visible = false;
-            m_selectedLayer = null;
         }
         #endregion
     }

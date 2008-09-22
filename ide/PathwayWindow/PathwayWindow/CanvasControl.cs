@@ -391,6 +391,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_table.Columns.Add(dc);
             DataColumn dc2 = new DataColumn(MessageResources.LayerColumnName);
             dc2.DataType = typeof(string);
+            dc2.ReadOnly = false;
             m_table.Columns.Add(dc2);
             // Preparing layer list
             m_layers = new Dictionary<string, PPathwayLayer>();
