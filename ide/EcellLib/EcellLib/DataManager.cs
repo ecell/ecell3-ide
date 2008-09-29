@@ -887,6 +887,11 @@ namespace Ecell
                     DataAdd4Model(ecellObject, usableList);
                 }
             }
+            catch (IgnoreException)
+            {
+                // CancelしたときにIgnoreExceptionが発生するが無視しないと
+                // Cancelしているのにエラーダイアログが表示されてしまう
+            }
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
@@ -1145,28 +1150,37 @@ namespace Ecell
             Debug.Assert(!String.IsNullOrEmpty(key));
             Debug.Assert(!String.IsNullOrEmpty(type));
 
-            // StatusCheck
-            if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
-                m_currentProject.SimulationStatus == SimulationStatus.Suspended)
+            try
             {
-                EcellObject obj = GetEcellObject(modelID, key, type);
-                if (!key.Equals(ecellObject.Key) ||
-                    obj.Value.Count != ecellObject.Value.Count)
-                    ConfirmReset("change", type);
-
-                foreach (EcellData d in obj.Value)
+                // StatusCheck
+                if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
+                    m_currentProject.SimulationStatus == SimulationStatus.Suspended)
                 {
-                    foreach (EcellData d1 in ecellObject.Value)
+                    EcellObject obj = GetEcellObject(modelID, key, type);
+                    if (!key.Equals(ecellObject.Key) ||
+                        obj.Value.Count != ecellObject.Value.Count)
+                        ConfirmReset("change", type);
+
+                    foreach (EcellData d in obj.Value)
                     {
-                        if (!d.Name.Equals(d1.Name)) continue;
-                        if (!d.Value.ToString().Equals(d1.Value.ToString()))
+                        foreach (EcellData d1 in ecellObject.Value)
                         {
-                            WrappedPolymorph newValue = d1.Value.ToWrappedPolymorph();
-                            m_currentProject.Simulator.SetEntityProperty(d1.EntityPath, newValue);
+                            if (!d.Name.Equals(d1.Name)) continue;
+                            if (!d.Value.ToString().Equals(d1.Value.ToString()))
+                            {
+                                WrappedPolymorph newValue = d1.Value.ToWrappedPolymorph();
+                                m_currentProject.Simulator.SetEntityProperty(d1.EntityPath, newValue);
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
+            }
+            catch (IgnoreException)
+            {
+                // CancelしたときにIgnoreExceptionが発生するが無視しないと
+                // Cancelしているのにエラーダイアログが表示されてしまう
+                return;
             }
 
             try
@@ -1432,7 +1446,16 @@ namespace Ecell
         /// <param name="isAnchor">Whether this action is an anchor or not</param>
         public void DataDelete(string modelID, string key, string type, bool isRecorded, bool isAnchor)
         {
-            ConfirmReset("delete", type);
+            try
+            {
+                ConfirmReset("delete", type);
+            }
+            catch (IgnoreException)
+            {
+                // CancelしたときにIgnoreExceptionが発生するが無視しないと
+                // Cancelしているのにエラーダイアログが表示されてしまう
+                return;
+            }
 
             // Check root
             if (key.Equals("/"))
