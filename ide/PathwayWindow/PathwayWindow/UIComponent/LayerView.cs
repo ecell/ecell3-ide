@@ -308,6 +308,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             string oldName = m_selectedLayer;
             string newName = m_dgv[e.ColumnIndex, e.RowIndex].Value.ToString();
 
+            if (oldName.Equals(newName)) return;
             if (canvas.Layers.ContainsKey(newName))
             {
                 Util.ShowNoticeDialog(newName + MessageResources.ErrAlrExist);
