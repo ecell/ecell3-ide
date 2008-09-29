@@ -311,7 +311,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             if (oldName.Equals(newName)) return;
             if (canvas.Layers.ContainsKey(newName))
             {
-                Util.ShowNoticeDialog(newName + MessageResources.ErrAlrExist);
+                Util.ShowNoticeDialog(string.Format(MessageResources.ErrAlrExist, newName));
                 m_dgv[e.ColumnIndex, e.RowIndex].Value = oldName;
                 return;
             }
