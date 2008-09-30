@@ -811,7 +811,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Refresh Layer table.
         /// </summary>
-        private void RefreshLayerTable()
+        public void RefreshLayerTable()
         {
             m_table.Clear();
             foreach (PNode obj in m_pCanvas.Root.ChildrenReference)

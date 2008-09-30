@@ -219,6 +219,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.m_dgv.MouseDown += new System.Windows.Forms.MouseEventHandler(this.m_dgv_MouseDown);
             this.m_dgv.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_dgv_CellMouseDown);
             this.m_dgv.CurrentCellDirtyStateChanged += new System.EventHandler(this.m_dgv_CurrentCellDirtyStateChanged);
+            this.m_dgv.CellBeginEdit += new DataGridViewCellCancelEventHandler(m_dgv_CellBeginEdit);
             this.m_dgv.CellValidated += new DataGridViewCellEventHandler(m_dgv_CellValidated);
             this.m_dgv.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgv_DataBindingComplete);
             this.m_dgv.VisibleChanged += new System.EventHandler(this.m_dgv_VisibleChanged);
@@ -298,6 +299,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         #endregion
 
         #region Event sequences
+        void m_dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            CanvasControl canvas = m_con.Canvas;
+
+            m_dgv.Rows[e.RowIndex].Tag = m_dgv[e.ColumnIndex, e.RowIndex].Value.ToString();
+        }
+
         void m_dgv_CellValidated(object sender, DataGridViewCellEventArgs e)
         {
             CanvasControl canvas = m_con.Canvas;
@@ -305,14 +313,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             {
                 return;
             }
-            string oldName = m_selectedLayer;
+            string oldName = (string)m_dgv.Rows[e.RowIndex].Tag;
             string newName = m_dgv[e.ColumnIndex, e.RowIndex].Value.ToString();
 
+            if (oldName == null) return;
             if (oldName.Equals(newName)) return;
             if (canvas.Layers.ContainsKey(newName))
             {
                 Util.ShowNoticeDialog(string.Format(MessageResources.ErrAlrExist, newName));
-                m_dgv[e.ColumnIndex, e.RowIndex].Value = oldName;
+                canvas.RefreshLayerTable();
                 return;
             }
             canvas.RenameLayer(oldName, newName);
@@ -501,6 +510,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 return;
 
             m_selectedLayer = (string)m_dgv.Rows[index].Cells[1].FormattedValue;
+            m_dgv.ClearSelection();
             m_dgv.Rows[index].Selected = true;
 
             m_cMenuDict[MenuSelectNode].Visible = true;
