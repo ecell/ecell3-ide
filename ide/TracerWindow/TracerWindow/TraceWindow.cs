@@ -273,11 +273,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
             LineItem i = m_zCnt.GraphPane.AddCurve(tag.M_path,
                     new PointPairList(), ColorCreator.GetColor(ind), SymbolType.None);
-            i.Line.Width = 2;
+            i.Line.Width = 1;
             i.Line.Style = LineCreator.GetLine(ind);
             LineItem i1 = m_zCnt.GraphPane.AddCurve(tag.M_path,
                     new PointPairList(), ColorCreator.GetColor(ind), SymbolType.None);
-            i1.Line.Width = 2;
+            i1.Line.Width = 1;
             m_entryDic.Add(tag.M_path, new TraceEntry(tag.M_path, i, i1, tag.IsContinue, tag.isLoaded));
             m_tagDic.Add(tag.M_path, tag.IsContinue);
         }
@@ -605,8 +605,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt = new ZedGraphControl();
             m_zCnt.Dock = DockStyle.Fill;
             m_zCnt.GraphPane.Title.Text = "";
-            m_zCnt.GraphPane.XAxis.Title.Text = "Time";
-            m_zCnt.GraphPane.YAxis.Title.Text = "Value";
+            m_zCnt.GraphPane.XAxis.Title.Text = "Time(sec)";
+            m_zCnt.GraphPane.YAxis.Title.IsVisible = false;
             m_zCnt.GraphPane.Legend.IsVisible = false;
             m_zCnt.GraphPane.XAxis.Scale.Max = 100;
             m_zCnt.GraphPane.XAxis.Scale.MaxAuto = false;
@@ -618,6 +618,15 @@ namespace Ecell.IDE.Plugins.TracerWindow
             dgv.CellValueChanged += new DataGridViewCellEventHandler(CellValueChanged);
             dgv.Columns[0].Width = 40;
             dgv.Columns[1].Width = 40;
+            m_zCnt.GraphPane.Margin.Top = 35.0f;
+            m_zCnt.GraphPane.YAxis.MajorGrid.IsVisible = true;
+            m_zCnt.GraphPane.XAxis.MinorTic.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.XAxis.MajorTic.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.YAxis.MinorTic.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.YAxis.MajorTic.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.Chart.Border.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.YAxis.MajorGrid.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.Fill = new Fill(Color.White, Color.LightGray, 90.0f);
 
             tableLayoutPanel1.Controls.Add(m_zCnt, 0, 0);
             m_zCnt.AxisChange();
