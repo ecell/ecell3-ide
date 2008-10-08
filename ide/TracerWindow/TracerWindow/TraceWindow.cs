@@ -49,6 +49,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
     public partial class TraceWindow : EcellDockContent
     {
         #region Fields
+        private double m_MaxXAxis = 10.0;
         /// <summary>
         /// The object managed this window.
         /// </summary>
@@ -152,18 +153,22 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
             TraceWindow tWin = m_owner.CurrentWin;
             m_owner.CurrentWin = this;
-            m_owner.PluginManager.LoggerAdd(dobj.ModelID, dobj.Key, dobj.Type, dobj.Path);
-            m_owner.CurrentWin = tWin;
-            EcellObject t = m_owner.DataManager.GetEcellObject(dobj.ModelID, dobj.Key, dobj.Type);
-            foreach (EcellData d in t.Value)
+            foreach (EcellDragEntry ent in dobj.Entries)
             {
-                if (d.EntityPath.Equals(dobj.Path))
+                m_owner.PluginManager.LoggerAdd(dobj.ModelID, ent.Key, ent.Type, ent.Path);
+                EcellObject t = m_owner.DataManager.GetEcellObject(dobj.ModelID, ent.Key, ent.Type);
+                foreach (EcellData d in t.Value)
                 {
-                    d.Logged = true;
-                    break;
+                    if (d.EntityPath.Equals(ent.Path))
+                    {
+                        d.Logged = true;
+                        break;
+                    }
                 }
+                m_owner.DataManager.DataChanged(t.ModelID, t.Key, t.Type, t);
+
             }
-            m_owner.DataManager.DataChanged(t.ModelID, t.Key, t.Type, t);
+            m_owner.CurrentWin = tWin;
         }
 
         /// <summary>
@@ -355,7 +360,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_entryDic[key].ClearPoint();
             }
             m_current = 0.0;
-            m_zCnt.GraphPane.XAxis.Scale.Max = 10.0;
+            m_zCnt.GraphPane.XAxis.Scale.Max = m_MaxXAxis;
             m_zCnt.AxisChange();
             m_zCnt.Refresh();
         }
@@ -375,6 +380,25 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_current = 0.0;
             }
             m_zCnt.IsShowContextMenu = false;
+            double max = 0.0;
+            double plotCount = TracerWindow.s_count;
+            List<EcellObject> stepperList = m_owner.DataManager.GetStepper(m_owner.DataManager.GetCurrentSimulationParameterID(),
+                m_owner.DataManager.GetModelList()[0]);
+            foreach (EcellObject obj in stepperList)
+            {
+                if (obj.Value == null) continue;
+                foreach (EcellData data in obj.Value)
+                {
+                    if (data.Name.Equals("StepInterval"))
+                    {
+                        double tmp = Convert.ToDouble(data.Value.ToString()) * plotCount;
+                        if (tmp > max)
+                            max = tmp;
+                    }
+                }
+            }
+            m_MaxXAxis = max;
+
             if (this.InvokeRequired)
             {
                 ChangeStatusCallBack f = new ChangeStatusCallBack(ChangeStatus);
@@ -384,7 +408,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 if (!isSuspend)
                 {
-                    m_zCnt.GraphPane.XAxis.Scale.Max = 10.0;
+                    m_zCnt.GraphPane.XAxis.Scale.Max = m_MaxXAxis;
                     m_zCnt.AxisChange();
                     m_zCnt.Refresh();
                 }
@@ -402,7 +426,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (status == false)
             {
                 if (isSuspend == false)
-                    m_zCnt.GraphPane.XAxis.Scale.Max = 10.0;
+                    m_zCnt.GraphPane.XAxis.Scale.Max = m_MaxXAxis;
                 m_zCnt.AxisChange();
                 m_zCnt.Refresh();
             }
@@ -524,7 +548,33 @@ namespace Ecell.IDE.Plugins.TracerWindow
             // Zoom中に軸の変更をしないようする
             if (m_zCnt.GraphPane.IsZoomed) isAxis = false;
 
-            Console.WriteLine(m_current + " -> " + nextTime + " : " + isAxis);
+            if (isAxis == true)
+            {
+                // 変動が少ないトレースでは点線が実線になってしまうため、
+                // 変動の状態を確認しLine.IsSmoothプロパティをtrueに変更する。
+                // 全データを変更しないのは、Drosophilaのように振動している場合に
+                // Smoothを利用すると髭が発生してしまうために使用できなかった。
+                foreach (string key in m_entryDic.Keys)
+                {
+                    if (m_entryDic[key].CurrentLineItem.Line.IsSmooth) continue;
+                    if (!m_entryDic[key].IsSmoothing(m_zCnt.GraphPane.XAxis.Scale.Max,
+                        m_zCnt.GraphPane.XAxis.Scale.Min,
+                        m_zCnt.GraphPane.YAxis.Scale.Max,
+                        m_zCnt.GraphPane.YAxis.Scale.Min,
+                        m_zCnt.Width, m_zCnt.Height))
+                    {
+                        m_entryDic[key].CurrentLineItem.Line.IsSmooth = true;
+                        m_entryDic[key].TmpLineItem.Line.IsSmooth = true;
+                    }
+                    else
+                    {
+                        m_entryDic[key].CurrentLineItem.Line.IsSmooth = false;
+                        m_entryDic[key].TmpLineItem.Line.IsSmooth = false;
+                    }
+
+                }
+            }
+
             UpdateGraphCallBack dlg = new UpdateGraphCallBack(UpdateGraph);
             this.Invoke(dlg, new object[] { isAxis });
         }

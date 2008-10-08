@@ -135,28 +135,40 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
 
-        private void EnterDragMode(EcellObject obj)
+        private void EnterDragMode(List<EcellObject> oList)
         {
-            if (!obj.Type.Equals(EcellObject.PROCESS) &&
-                !obj.Type.Equals(EcellObject.VARIABLE)) return;
-
-            foreach (EcellData v in obj.Value)
+            EcellDragObject dobj = null;
+            foreach (EcellObject obj in oList)
             {
-                if (!v.Name.Equals(Constants.xpathActivity) &&
-                    !v.Name.Equals(Constants.xpathMolarConc))
-                    continue;
+                if (!obj.Type.Equals(EcellObject.PROCESS) &&
+                    !obj.Type.Equals(EcellObject.VARIABLE)) continue;
 
-                EcellDragObject dobj = new EcellDragObject(
-                    obj.ModelID,
-                    obj.Key,
-                    obj.Type,
-                    v.EntityPath,
-                    v.Settable,
-                    v.Logable);
+                foreach (EcellData v in obj.Value)
+                {
+                    if (!v.Name.Equals(Constants.xpathActivity) &&
+                        !v.Name.Equals(Constants.xpathMolarConc))
+                        continue;
 
-                this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
-                return;
+                    if (dobj == null)
+                        dobj = new EcellDragObject(
+                            obj.ModelID,
+                            obj.Key,
+                            obj.Type,
+                            v.EntityPath,
+                            v.Settable,
+                            v.Logable);
+                    else
+                        dobj.Entries.Add(new EcellDragEntry(
+                            obj.Key,
+                            obj.Type,
+                            v.EntityPath,
+                            v.Settable,
+                            v.Logable));
+                    break;
+                }
             }
+            this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
+            return;
         }
 
         /// <summary>
@@ -1132,11 +1144,14 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
         private void TreeViewItemDrag(object sender, ItemDragEventArgs e)
         {
-            TreeNode node = e.Item as TreeNode;
-            if (node == null) return;
-            EcellObject obj = GetObjectFromNode(node);
-            if (obj == null) return;
-            EnterDragMode(obj);
+            List<EcellObject> oList = new List<EcellObject>();
+            foreach (TreeNode node in this.treeView1.SelNodes)
+            {
+                EcellObject obj = GetObjectFromNode(node);
+                if (obj == null) continue;
+                oList.Add(obj);
+            }
+            EnterDragMode(oList);
         }
     }
 

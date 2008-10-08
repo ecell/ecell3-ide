@@ -64,6 +64,29 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_prevPoints = new PointD(0.0, 0.0);
         }
 
+        public bool IsSmoothing(double xmax, double xmin, double ymax, double ymin, int width, int height)
+        {
+            double prex = -1.0;
+            double prey = -1.0;
+            double cx, cy;
+            for (int i = 0; i < CurrentLineItem.Points.Count; i++)
+            {
+                cx = (CurrentLineItem.Points[i].X) / (xmax - xmin) * width;
+                cy = (CurrentLineItem.Points[i].Y) / (ymax - ymin) * height;
+                if (prex != -1.0)
+                {
+                    double dis = Math.Sqrt((cx - prex) * (cx - prex) + (cy - prey) * (cy - prey));
+                    if (dis > 8) // 8ÇÕ3[ê¸],1[ãÛ],1[ì_],1[ãÛ],1[ì_],1[ãÛ]
+                    {
+                        return true;
+                    }
+                }
+                prex = cx;
+                prey = cy;
+            }
+            return false;
+        }
+
         public bool AddPoint(List<LogValue> data, double max, double min)
         {
             bool isAxis = false;

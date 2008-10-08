@@ -467,18 +467,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void RenameLayerClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.Canvas;
-            string oldName = m_selectedLayer;
-            string newName = InputBoxDialog.Show(MessageResources.LayerDialogChange, MessageResources.LayerDialogTitle, oldName);
-            if (newName == null || newName.Equals(""))
-                return;
-            if (canvas.Layers.ContainsKey(newName))
-            {
-                Util.ShowNoticeDialog(newName + MessageResources.ErrAlrExist);
-                return;
-            }
-
-            canvas.RenameLayer(oldName, newName);
+            m_dgv.BeginEdit(false);
         }
 
         /// <summary>

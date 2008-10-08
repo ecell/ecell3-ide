@@ -674,7 +674,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (!isSuspend)
             {
                 m_current = 0.0;
-                m_currentMax = 10.0;
 
                 Dictionary<TagData, bool> tagDic = new Dictionary<TagData, bool>();
                 foreach (TagData t in m_tagList.Values)
@@ -708,6 +707,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_time.Interval = m_timespan;
 
             foreach (TraceWindow w in m_winList) w.StartSimulation();
+            if (m_winList.Count > 0)
+                m_currentMax = m_winList[0].m_zCnt.GraphPane.XAxis.Scale.Max;
 
             isSuspend = false;
             m_time.Enabled = true;
