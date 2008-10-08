@@ -450,9 +450,9 @@
             // 
             resources.ApplyResources(this.freqBySecTextBox, "freqBySecTextBox");
             this.freqBySecTextBox.Name = "freqBySecTextBox";
-            this.freqBySecTextBox.TextChanged += new System.EventHandler(this.freqBySecTextBox_TextChanged);
             this.freqBySecTextBox.Validated += new System.EventHandler(this.freqBySecTextBox_Validated);
             this.freqBySecTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.freqBySecTextBox_Validating);
+            this.freqBySecTextBox.TextChanged += new System.EventHandler(this.freqBySecTextBox_TextChanged);
             // 
             // freqByStepRadio
             // 
@@ -467,9 +467,9 @@
             // 
             resources.ApplyResources(this.freqByStepTextBox, "freqByStepTextBox");
             this.freqByStepTextBox.Name = "freqByStepTextBox";
-            this.freqByStepTextBox.TextChanged += new System.EventHandler(this.freqByStepTextBox_TextChanged);
             this.freqByStepTextBox.Validated += new System.EventHandler(this.freqByStepTextBox_Validated);
             this.freqByStepTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.freqByStepTextBox_Validating);
+            this.freqByStepTextBox.TextChanged += new System.EventHandler(this.freqByStepTextBox_TextChanged);
             // 
             // tabControl1
             // 
