@@ -123,7 +123,8 @@ namespace Ecell.IDE.MainWindow
             this.webBrowser.CanGoForwardChanged += new System.EventHandler(this.webBrowser_CanGoForwardChanged);
             this.webBrowser.CanGoBackChanged += new System.EventHandler(this.webBrowser_CanGoBackChanged);
             this.webBrowser.ProgressChanged += new System.Windows.Forms.WebBrowserProgressChangedEventHandler(this.webBrowser_ProgressChanged);
-            this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
+            this.webBrowser.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webBrowser_Navigated);
+            this.webBrowser.DocumentTitleChanged += new EventHandler(webBrowser_DocumentTitleChanged);
             this.webBrowser.StatusTextChanged += new System.EventHandler(this.webBrowser_StatusTextChanged);
             // 
             // URLLabel
@@ -366,7 +367,7 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        private void webBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
         {
             this.URLComboBox.Text = webBrowser.Url.AbsoluteUri;
             if (URLComboBox.Items.Count == 0 || (string)URLComboBox.Items[0] != URLComboBox.Text)
@@ -374,12 +375,23 @@ namespace Ecell.IDE.MainWindow
             if (URLComboBox.Items.Count > URLComboBox.MaxDropDownItems)
                 URLComboBox.Items.RemoveAt(URLComboBox.Items.Count - 1);
 
-            this.Text = webBrowser.Url.ToString();
             m_env.ReportManager.SetStatus(
                 StatusBarMessageKind.Generic,
                 ""
                 );
         }
+
+        /// <summary>
+        /// DocumentTitle Changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void webBrowser_DocumentTitleChanged(object sender, EventArgs e)
+        {
+            this.Text = webBrowser.DocumentTitle;
+            this.TabText = this.Text;
+        }
+
         /// <summary>
         /// Event on progress changed
         /// </summary>
