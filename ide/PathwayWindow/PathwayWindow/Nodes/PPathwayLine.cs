@@ -73,7 +73,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         ///  Arrow design settings
         /// </summary>        
-        private const float LINE_WIDTH = 2;
+        private const float LINE_WIDTH = 3.0f;
         #endregion
 
         #region Fields
