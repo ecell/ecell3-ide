@@ -400,24 +400,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Tracer</value>
   </data>
-  <data name="&gt;&gt;m_folderDialog.Name" xml:space="preserve">
-    <value>m_folderDialog</value>
-  </data>
-  <data name="&gt;&gt;m_folderDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;m_colorDialog.Name" xml:space="preserve">
-    <value>m_colorDialog</value>
-  </data>
-  <data name="&gt;&gt;m_colorDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColorDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;m_openDialog.Name" xml:space="preserve">
-    <value>m_openDialog</value>
-  </data>
-  <data name="&gt;&gt;m_openDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;view.Name" xml:space="preserve">
     <value>view</value>
   </data>
@@ -441,6 +423,24 @@
   </data>
   <data name="&gt;&gt;full.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;m_folderDialog.Name" xml:space="preserve">
+    <value>m_folderDialog</value>
+  </data>
+  <data name="&gt;&gt;m_folderDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;m_colorDialog.Name" xml:space="preserve">
+    <value>m_colorDialog</value>
+  </data>
+  <data name="&gt;&gt;m_colorDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColorDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;m_openDialog.Name" xml:space="preserve">
+    <value>m_openDialog</value>
+  </data>
+  <data name="&gt;&gt;m_openDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>TraceWindow</value>

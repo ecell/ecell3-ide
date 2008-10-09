@@ -31,12 +31,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityListControl));
             this.clearButton = new System.Windows.Forms.Button();
             this.objectListDataGrid = new System.Windows.Forms.DataGridView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.searchTextBox = new System.Windows.Forms.TextBox();
             this.Type = new System.Windows.Forms.DataGridViewImageColumn();
             this.ClassName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ObjectName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.searchTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.objectListDataGrid)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -67,8 +67,23 @@
             this.objectListDataGrid.RowTemplate.Height = 21;
             this.objectListDataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.objectListDataGrid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DataGridViewMouseDown);
-            this.objectListDataGrid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DataGridViewMouseMove);
             this.objectListDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ClickObjectCell);
+            this.objectListDataGrid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DataGridViewMouseMove);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.clearButton);
+            this.panel1.Controls.Add(this.searchTextBox);
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
+            // 
+            // searchTextBox
+            // 
+            resources.ApplyResources(this.searchTextBox, "searchTextBox");
+            this.searchTextBox.Name = "searchTextBox";
+            this.searchTextBox.Enter += new System.EventHandler(this.searchTextBox_Enter);
+            this.searchTextBox.Leave += new System.EventHandler(this.searchTextBox_Leave);
+            this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
             // 
             // Type
             // 
@@ -104,21 +119,6 @@
             this.ObjectName.Name = "ObjectName";
             this.ObjectName.ReadOnly = true;
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.clearButton);
-            this.panel1.Controls.Add(this.searchTextBox);
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.Name = "panel1";
-            // 
-            // searchTextBox
-            // 
-            resources.ApplyResources(this.searchTextBox, "searchTextBox");
-            this.searchTextBox.Name = "searchTextBox";
-            this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
-            this.searchTextBox.Leave += new System.EventHandler(this.searchTextBox_Leave);
-            this.searchTextBox.Enter += new System.EventHandler(this.searchTextBox_Enter);
-            // 
             // EntityListControl
             // 
             resources.ApplyResources(this, "$this");
@@ -137,11 +137,11 @@
 
         private System.Windows.Forms.Button clearButton;
         private System.Windows.Forms.DataGridView objectListDataGrid;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox searchTextBox;
         private System.Windows.Forms.DataGridViewImageColumn Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn ClassName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn ObjectName;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox searchTextBox;
     }
 }

@@ -178,7 +178,7 @@
     <value>True</value>
   </metadata>
   <data name="ID.HeaderText" xml:space="preserve">
-    <value>FullID</value>
+    <value>Path:ID</value>
   </data>
   <metadata name="ObjectName.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

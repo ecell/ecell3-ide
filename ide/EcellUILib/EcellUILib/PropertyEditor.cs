@@ -685,7 +685,7 @@ namespace Ecell.IDE
 
             layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             Label l2 = new Label();
-            l2.Text = "ID";
+            l2.Text = "Path:ID";
             l2.Anchor = AnchorStyles.Left;
             layoutPanel.Controls.Add(l2, 1, i);
             TextBox t2 = new TextBox();

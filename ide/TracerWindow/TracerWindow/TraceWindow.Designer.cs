@@ -31,13 +31,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TraceWindow));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dgv = new System.Windows.Forms.DataGridView();
-            this.m_folderDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.m_colorDialog = new System.Windows.Forms.ColorDialog();
-            this.m_openDialog = new System.Windows.Forms.OpenFileDialog();
             this.view = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.color = new System.Windows.Forms.DataGridViewImageColumn();
             this.LineStyle = new System.Windows.Forms.DataGridViewImageColumn();
             this.full = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.m_folderDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.m_colorDialog = new System.Windows.Forms.ColorDialog();
+            this.m_openDialog = new System.Windows.Forms.OpenFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
@@ -53,6 +53,7 @@
             this.dgv.AllowDrop = true;
             this.dgv.AllowUserToAddRows = false;
             this.dgv.AllowUserToDeleteRows = false;
+            this.dgv.AllowUserToResizeRows = false;
             this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
