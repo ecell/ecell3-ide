@@ -302,7 +302,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         void m_dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             CanvasControl canvas = m_con.Canvas;
-
+            if (m_dgv[e.ColumnIndex, e.RowIndex] is DataGridViewCheckBoxCell)
+                return;
             m_dgv.Rows[e.RowIndex].Tag = m_dgv[e.ColumnIndex, e.RowIndex].Value.ToString();
         }
 
