@@ -167,6 +167,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     break;
                 }
             }
+            if (dobj == null) return;
             this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
             return;
         }
@@ -223,7 +224,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <returns>EcellObject.</returns>
         private EcellObject GetObjectFromNode(TreeNode node)
         {
-            TagData t = (TagData)node.Tag;
+            TagData t = node.Tag as TagData;
             if (t == null) return null;
 
             EcellObject obj = m_owner.Environment.DataManager.GetEcellObject(t.m_modelID, t.m_key, t.m_type);
