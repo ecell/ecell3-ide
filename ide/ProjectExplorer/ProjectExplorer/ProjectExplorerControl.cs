@@ -779,6 +779,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 return;
             }
 
+            // ノード以外の場所(+や空白)を選択したときにプロパティ編集ダイアログを
+            // 表示しないように変更
+            if (e.Node == null || !e.Node.Bounds.Contains(e.X, e.Y))
+                return;
+
             if (e.Node.Parent == m_DMNode)
             {
                 string path = m_owner.Environment.DataManager.GetDMFileName(e.Node.Text);
