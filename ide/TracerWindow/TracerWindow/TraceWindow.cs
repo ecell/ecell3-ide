@@ -613,6 +613,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
 //            m_zCnt.GraphPane.YAxis.Scale.MaxAuto = false;
             m_zCnt.GraphPane.XAxis.Scale.Min = 0;
             m_zCnt.ZoomEvent += new ZedGraphControl.ZoomEventHandler(ZcntZoomEvent);
+            m_zCnt.ContextMenuBuilder += new ZedGraphControl.ContextMenuBuilderEventHandler(ZedControlContextMenuBuilder);
             dgv.CellDoubleClick += new DataGridViewCellEventHandler(CellDoubleClicked);
             dgv.CurrentCellDirtyStateChanged += new EventHandler(CurrentCellDirtyStateChanged);
             dgv.CellValueChanged += new DataGridViewCellEventHandler(CellValueChanged);
@@ -827,6 +828,34 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_owner.ShowSetupWindow();
         }
 
+        private void ZedControlContextMenuBuilder(ZedGraphControl sender, ContextMenuStrip menuStrip, Point mousePt, ZedGraphControl.ContextMenuObjectState objState)
+        {
+            foreach (ToolStripMenuItem m in menuStrip.Items)
+            {
+                if (m.Name.Contains("copy"))
+                {
+                    menuStrip.Items.Remove(m);
+                    break;
+                }
+            }
+            foreach (ToolStripMenuItem m in menuStrip.Items)
+            {
+                if (m.Name.Contains("save_as"))
+                {
+                    menuStrip.Items.Remove(m);
+                    break;
+                }
+            }
+            foreach (ToolStripMenuItem m in menuStrip.Items)
+            {
+                if (m.Name.Contains("set_default"))
+                {
+                    menuStrip.Items.Remove(m);
+                    break;
+                }
+            }
+        }
+
         /// <summary>
         /// The event sequence when the log data is imported.
         /// </summary>
@@ -844,56 +873,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             AddLoggerEntry(tag);
             logList.Add(log);
             AddPoints(m_current, m_current, logList);                        
-        }
-
-        /// <summary>
-        /// the event of popup the context menu.
-        /// Because [Save Image As ...] menu don't work correctly on threading process,
-        /// this menu item is invisible.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ContextMenuPopup(object sender, EventArgs e)
-        {
-            if (this.InvokeRequired)
-            {
-                EventHandlerCallBack f = new EventHandlerCallBack(ContextPopup);
-                this.Invoke(f);
-            }
-            else
-            {
-                foreach (MenuItem m in m_zCnt.ContextMenu.MenuItems)
-                {
-                    if (m.Text.Contains("Save Image As"))
-                    {
-                        m_zCnt.ContextMenu.MenuItems.Remove(m);
-                        break;
-                    }
-                }
-                foreach (MenuItem m in m_zCnt.ContextMenu.MenuItems)
-                {
-                    if (m.Text.Contains("Copy"))
-                    {
-                        m_zCnt.ContextMenu.MenuItems.Remove(m);
-                        break;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// remove menu item on on threading process.
-        /// </summary>
-        public void ContextPopup()
-        {
-            foreach (MenuItem m in m_zCnt.ContextMenu.MenuItems)
-            {
-                if (m.Text.Contains("Save Image As"))
-                {
-                    m_zCnt.ContextMenu.MenuItems.Remove(m);
-                    break;
-                }
-            }
         }
 
         /// <summary>
