@@ -314,7 +314,10 @@ namespace Ecell.IDE
                 EcellParameterData param = m_dManager.GetParameterData(key);
                 if (param == null)
                 {
-                    param = new EcellParameterData(key, (double)m_propDict[key].Value);
+                    if (m_propDict[key].Value.IsDouble)
+                        param = new EcellParameterData(key, (double)m_propDict[key].Value);
+                    else
+                        param = new EcellParameterData(key, 0.0);
                 }
                 commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                 if (m_propDict[key].Settable && m_propDict[key].Value.IsDouble)
