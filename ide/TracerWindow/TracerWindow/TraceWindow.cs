@@ -278,6 +278,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             LineItem i1 = m_zCnt.GraphPane.AddCurve(tag.M_path,
                     new PointPairList(), ColorCreator.GetColor(ind), SymbolType.None);
             i1.Line.Width = 1;
+            i1.Line.Style = LineCreator.GetLine(ind);
             m_entryDic.Add(tag.M_path, new TraceEntry(tag.M_path, i, i1, tag.IsContinue, tag.isLoaded));
             m_tagDic.Add(tag.M_path, tag.IsContinue);
         }
