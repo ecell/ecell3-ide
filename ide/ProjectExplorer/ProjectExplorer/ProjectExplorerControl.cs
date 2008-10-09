@@ -687,17 +687,17 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             m_lastSelectedNode = e.Node;
 
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Right)
             {
-                if (e.Node.Tag != null && e.Node is TagData)
+                if (!treeView1.SelNodes.Contains(e.Node))
                 {
-                    TagData tag = e.Node.Tag as TagData;
-                    m_owner.Environment.PluginManager.SelectChanged(
-                        tag.m_modelID, tag.m_key, tag.m_type);
+                    if (e.Node.Tag != null && e.Node.Tag is TagData)
+                    {
+                        TagData tag = e.Node.Tag as TagData;
+                        m_owner.Environment.PluginManager.SelectChanged(
+                            tag.m_modelID, tag.m_key, tag.m_type);
+                    }
                 }
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
                 if (e.Node == m_DMNode)
                 {
                     treeView1.ContextMenuStrip = contextMenuStripDMCollection;
