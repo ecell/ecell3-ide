@@ -639,7 +639,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 tmp = m_tagList[tag.ToString()];
             }
 
-            if (m_win == null) return;
+            if (m_win == null)
+            {
+                ShowTracerWindow(this, new EventArgs());
+            }
             if (m_entry[tmp].Contains(m_win)) return;
             m_entry[tmp].Add(m_win);
             m_win.AddLoggerEntry(tag);
@@ -806,7 +809,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="e">EventArgs</param>
         void ShowTracerWindow(Object sender, EventArgs e)
         {
-            ToolStripItem item = (ToolStripItem)sender;
             m_win = new TraceWindow(this);
             m_win.Disposed += new EventHandler(FormDisposed);
             m_win.Shown += new EventHandler(m_win.ShownEvent);
