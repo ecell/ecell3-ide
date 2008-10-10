@@ -12,6 +12,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 {
     public partial class ProjectExplorerControl : EcellDockContent
     {
+        private bool m_isExpland = false;
         /// <summary>
         /// Dictionary of tree node for Models.
         /// </summary>
@@ -687,6 +688,18 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             m_lastSelectedNode = e.Node;
 
+            if (e.Button == MouseButtons.Left)
+            {
+                m_isExpland = false;
+                if (e.Node.Tag != null && e.Node.Tag is TagData)
+                {
+                    TagData tag = e.Node.Tag as TagData;
+                    if (tag.m_type.Equals(EcellObject.SYSTEM) &&
+                        e.Node.Bounds.Contains(e.X, e.Y))
+                        m_isExpland = true;
+                }
+            }
+
             if (e.Button == MouseButtons.Right)
             {
                 if (!treeView1.SelNodes.Contains(e.Node))
@@ -1010,6 +1023,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     }
                 }
             }
+            treeView1.ExpandAll();
             treeView1.Sort();
         }
 
@@ -1158,6 +1172,22 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 oList.Add(obj);
             }
             EnterDragMode(oList);
+        }
+
+        private void TreeViewBeforeCollapse(object sender, TreeViewCancelEventArgs e)
+        {
+            if (m_isExpland)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void TreeViewBeforeExpand(object sender, TreeViewCancelEventArgs e)
+        {
+            if (m_isExpland)
+            {
+                e.Cancel = true;
+            }
         }
     }
 

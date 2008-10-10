@@ -307,7 +307,7 @@
     <value>treeView1</value>
   </data>
   <data name="&gt;&gt;treeView1.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView, ProjectExplorer, Version=1.1.1773.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView, ProjectExplorer, Version=1.1.1912.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;treeView1.Parent" xml:space="preserve">
     <value>$this</value>
