@@ -138,6 +138,12 @@
   <data name="MenuItemImportData" xml:space="preserve">
     <value>インポート ...</value>
   </data>
+  <data name="MenuItemLinear" xml:space="preserve">
+    <value>均等目盛</value>
+  </data>
+  <data name="MenuItemLog" xml:space="preserve">
+    <value>ログ目盛</value>
+  </data>
   <data name="MenuItemShowSaveTraceText" xml:space="preserve">
     <value>シミュレーション結果の保存(&amp;R)...</value>
   </data>

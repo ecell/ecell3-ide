@@ -49,6 +49,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
     public partial class TraceWindow : EcellDockContent
     {
         #region Fields
+        private bool m_isLog = false;
         private double m_MaxXAxis = 10.0;
         /// <summary>
         /// The object managed this window.
@@ -66,14 +67,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// The last time on drawing tracer.
         /// </summary>
         public double m_current;
-        ///// <summary>
-        ///// The dictionary of entity path and LineItem.
-        ///// </summary>
-        //public Dictionary<string, LineItem> m_paneDic;
-        ///// <summary>
-        ///// The dictionary of entity path and temporary LineItem.
-        ///// </summary>
-        //public Dictionary<string, LineItem> m_tmpPaneDic;
         /// <summary>
         /// The List of entity path on tracer.
         /// </summary>
@@ -829,6 +822,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_owner.ShowSetupWindow();
         }
 
+        // ZedGraphでContextMenuを表示するたびに作り直しているので、
+        // このイベントでも毎回メニューの削除、追加をする必要がある
         private void ZedControlContextMenuBuilder(ZedGraphControl sender, ContextMenuStrip menuStrip, Point mousePt, ZedGraphControl.ContextMenuObjectState objState)
         {
             foreach (ToolStripMenuItem m in menuStrip.Items)
@@ -855,6 +850,25 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     break;
                 }
             }
+
+            ToolStripMenuItem p = new ToolStripMenuItem();
+            if (m_isLog)
+                p.Text = MessageResources.MenuItemLinear;
+            else
+                p.Text = MessageResources.MenuItemLog;
+            p.Name = "set_log";
+            p.Click += new EventHandler(SetLogAxis);
+            menuStrip.Items.Add(p);
+        }
+
+        private void SetLogAxis(object sender, EventArgs e)
+        {
+            m_isLog = !m_isLog;
+            if (m_isLog)
+                m_zCnt.GraphPane.YAxis.Type = AxisType.Log;
+            else
+                m_zCnt.GraphPane.YAxis.Type = AxisType.Linear;
+            m_zCnt.Refresh();
         }
 
         /// <summary>

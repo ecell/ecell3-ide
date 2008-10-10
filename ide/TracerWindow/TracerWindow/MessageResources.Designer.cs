@@ -124,6 +124,24 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
+        ///   Linear Scale に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemLinear {
+            get {
+                return ResourceManager.GetString("MenuItemLinear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Log Scale に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemLog {
+            get {
+                return ResourceManager.GetString("MenuItemLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Archive simulation &amp;result... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemShowSaveTraceText {

@@ -138,6 +138,12 @@
   <data name="MenuItemImportData" xml:space="preserve">
     <value>Import ...</value>
   </data>
+  <data name="MenuItemLinear" xml:space="preserve">
+    <value>Linear Scale</value>
+  </data>
+  <data name="MenuItemLog" xml:space="preserve">
+    <value>Log Scale</value>
+  </data>
   <data name="MenuItemShowSaveTraceText" xml:space="preserve">
     <value>Archive simulation &amp;result...</value>
   </data>
