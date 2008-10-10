@@ -47,6 +47,7 @@ namespace Ecell.Objects
     {
         private string m_modelID;
         private List<EcellDragEntry> m_entries = new List<EcellDragEntry>();
+        private List<string> m_loglist = new List<string>();
 
         /// <summary>
         /// Constructor without initial parameters.
@@ -85,6 +86,12 @@ namespace Ecell.Objects
         {
             get { return this.m_entries; }
             set { this.m_entries = value; }
+        }
+
+        public List<string> LogList
+        {
+            get { return this.m_loglist; }
+            set { this.m_loglist = value; }
         }
     }
 

@@ -2925,13 +2925,17 @@ namespace Ecell
                 string[] vfiles = Directory.GetFiles(paramdir, Constants.xpathVariable + "*");
                 for (int j = 0; j < pfiles.Length; j++)
                 {
-                    string logdata = paramName + Path.PathSeparator + Path.GetFileName(pfiles[j]);
+                    string logdata = paramName + Path.PathSeparator 
+                        + Path.GetFileName(pfiles[j])
+                        + Path.PathSeparator + pfiles[j];
                     result.Add(logdata);
                 }
 
                 for (int j = 0; j < vfiles.Length; j++)
                 {
-                    string logdata = paramName + Path.PathSeparator + Path.GetFileName(vfiles[j]);
+                    string logdata = paramName + Path.PathSeparator 
+                        + Path.GetFileName(vfiles[j])
+                        + Path.PathSeparator + vfiles[j];
                     result.Add(logdata);
                 }
             }

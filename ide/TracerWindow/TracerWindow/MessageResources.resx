@@ -136,7 +136,7 @@
     <value>Delete</value>
   </data>
   <data name="MenuItemImportData" xml:space="preserve">
-    <value>Import ...</value>
+    <value>Log Import ...</value>
   </data>
   <data name="MenuItemLinear" xml:space="preserve">
     <value>Linear Scale</value>

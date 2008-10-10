@@ -136,7 +136,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
 
-        private void EnterDragMode(List<EcellObject> oList)
+        private void EnterDragMode(List<EcellObject> oList, List<string> fileList)
         {
             EcellDragObject dobj = null;
             foreach (EcellObject obj in oList)
@@ -168,7 +168,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     break;
                 }
             }
-            if (dobj == null) return;
+            if (dobj == null && fileList.Count <= 0) return;
+            if (dobj == null)
+            {
+                dobj = new EcellDragObject();
+            }
+            dobj.LogList = fileList;
             this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
             return;
         }
@@ -1164,14 +1169,23 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
         private void TreeViewItemDrag(object sender, ItemDragEventArgs e)
         {
+            List<string> fileList = new List<string>();
             List<EcellObject> oList = new List<EcellObject>();
             foreach (TreeNode node in this.treeView1.SelNodes)
             {
+                if (node.Tag != null && node.Tag is TagData)
+                {
+                    TagData t = node.Tag as TagData;
+                    if (t.m_type.Equals(Constants.xpathLog))
+                    {
+                        fileList.Add(t.m_key);
+                    }
+                }
                 EcellObject obj = GetObjectFromNode(node);
                 if (obj == null) continue;
                 oList.Add(obj);
             }
-            EnterDragMode(oList);
+            EnterDragMode(oList, fileList);
         }
 
         private void TreeViewBeforeCollapse(object sender, TreeViewCancelEventArgs e)

@@ -115,16 +115,15 @@ namespace Ecell.IDE.Plugins.TracerWindow
             dgv.DragDrop += new DragEventHandler(dgv_DragDrop);
 
             ContextMenuStrip cStrip = new ContextMenuStrip();
-            //ToolStripMenuItem it1 = new ToolStripMenuItem();
-            //it1.Text = MessageResources.MenuItemImportData;
-            //it1.Click += new EventHandler(ImportDataItem);
+            ToolStripMenuItem it1 = new ToolStripMenuItem();
+            it1.Text = MessageResources.MenuItemImportData;
+            it1.Click += new EventHandler(ImportDataItem);
 
             ToolStripMenuItem it2 = new ToolStripMenuItem();
             it2.Text = MessageResources.MenuItemShowTraceSetupText;
             it2.Click += new EventHandler(ShowSetupWindow);
 
-            //cStrip.Items.AddRange(new ToolStripItem[] { it1, it2 });
-            cStrip.Items.AddRange(new ToolStripItem[] { it2 });
+            cStrip.Items.AddRange(new ToolStripItem[] { it1, it2 });
             dgv.ContextMenuStrip = cStrip;
 
         }
@@ -161,6 +160,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_owner.DataManager.DataChanged(t.ModelID, t.Key, t.Type, t);
 
             }
+
+            foreach (string fileName in dobj.LogList)
+            {
+                ImportLog(fileName);
+            }
             m_owner.CurrentWin = tWin;
         }
 
@@ -195,6 +199,22 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 m_tagDic[tag] = isCont;
             }
+        }
+
+        private void ImportLog(string fileName)
+        {
+            LogData log = m_owner.DataManager.LoadSimulationResult(fileName);
+            string[] ele = log.propName.Split(new char[] { ':' });
+            string propName = "Log:" + log.key + ":" + ele[ele.Length - 1];
+            TagData tag = new TagData(log.model, log.key, Constants.xpathLog, propName, true);
+            List<LogData> logList = new List<LogData>();
+            tag.isLoaded = true;
+            AddLoggerEntry(tag);
+
+            LogData newLog = new LogData(log.model, log.key, Constants.xpathLog, ele[ele.Length - 1], log.logValueList);
+            newLog.IsLoaded = true;
+            logList.Add(newLog);
+            AddPoints(log.logValueList[log.logValueList.Count - 1].time, log.logValueList[log.logValueList.Count - 1].time, logList);
         }
 
         /// <summary>
@@ -351,6 +371,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (m_zCnt.GraphPane.IsZoomed) return;
             foreach (string key in m_entryDic.Keys)
             {
+                if (m_entryDic[key].IsLoaded) continue;
                 m_entryDic[key].ClearPoint();
             }
             m_current = 0.0;
@@ -369,6 +390,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 foreach (string key in m_entryDic.Keys)
                 {
+                    if (m_entryDic[key].IsLoaded) continue;
                     m_entryDic[key].ClearPoint();
                 }
                 m_current = 0.0;
@@ -510,6 +532,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                         m_zCnt.GraphPane.XAxis.Scale.Max = maxAxis;
                         foreach (string key in m_entryDic.Keys)
                         {
+                            if (m_entryDic[key].IsLoaded) continue;
                             m_entryDic[key].ClearPoint();
                         }
                     }
@@ -518,6 +541,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                         m_zCnt.GraphPane.XAxis.Scale.Max = maxAxis;
                         foreach (string key in m_entryDic.Keys)
                         {
+                            if (m_entryDic[key].IsLoaded) continue;
                             m_entryDic[key].ThinPoints();
                         }
                     }
@@ -550,6 +574,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 // Smoothを利用すると髭が発生してしまうために使用できなかった。
                 foreach (string key in m_entryDic.Keys)
                 {
+                    if (m_entryDic[key].IsLoaded) continue;
                     if (m_entryDic[key].CurrentLineItem.Line.IsSmooth) continue;
                     if (!m_entryDic[key].IsSmoothing(m_zCnt.GraphPane.XAxis.Scale.Max,
                         m_zCnt.GraphPane.XAxis.Scale.Min,
@@ -880,14 +905,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             DialogResult r = m_openDialog.ShowDialog();
             if (r != DialogResult.OK) return;
-
-            LogData log = m_owner.DataManager.LoadSimulationResult(m_openDialog.FileName);
-            TagData tag = new TagData(log.model, log.key, log.type, log.propName, false);
-            List<LogData> logList = new List<LogData>();
-            tag.isLoaded = true;
-            AddLoggerEntry(tag);
-            logList.Add(log);
-            AddPoints(m_current, m_current, logList);                        
+            ImportLog(m_openDialog.FileName);
         }
 
         /// <summary>
@@ -925,6 +943,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (m_current == 0.0) return;
             foreach (string key in m_entryDic.Keys)
             {
+                if (m_entryDic[key].IsLoaded) continue;
                 m_entryDic[key].ClearPoint();
             }
             double sx = m_zCnt.GraphPane.XAxis.Scale.Min;

@@ -136,7 +136,7 @@
     <value>削除</value>
   </data>
   <data name="MenuItemImportData" xml:space="preserve">
-    <value>インポート ...</value>
+    <value>ログインポート ...</value>
   </data>
   <data name="MenuItemLinear" xml:space="preserve">
     <value>均等目盛</value>
