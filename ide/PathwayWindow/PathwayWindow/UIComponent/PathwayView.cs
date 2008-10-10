@@ -125,20 +125,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             PNode node = m_con.Canvas.FocusNode;
             ReportManager rman = m_con.Window.Environment.ReportManager;
-            if (node is PPathwayObject)
-            {
-                rman.SetStatus(
-                    StatusBarMessageKind.Generic,
-                    ((PPathwayObject)node).EcellObject.Key
-                );
-            }
-            else
-            {
-                rman.SetStatus(
-                    StatusBarMessageKind.Generic,
-                    ""
-                );
-            }
             Point systemPos = GetDesktopLocation(m_con.Canvas.PCanvas);
             PointF pos = m_con.Canvas.SystemPosToCanvasPos(new Point(e.Location.X + systemPos.X,e.Location.Y + systemPos.Y));
             rman.SetStatus(

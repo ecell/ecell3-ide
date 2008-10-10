@@ -257,6 +257,9 @@ namespace Ecell
             {
                 p.SelectChanged(modelID, key, type);
             }
+            m_env.ReportManager.SetStatus(
+                StatusBarMessageKind.Generic,
+                key);
         }
 
         /// <summary>
