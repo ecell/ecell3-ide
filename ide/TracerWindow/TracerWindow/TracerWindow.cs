@@ -394,8 +394,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 isStep = false;
                 m_showWin.Enabled = false;
-                m_showSaveWin.Enabled = false;
                 m_setupWin.Enabled = true;
+                m_showSaveWin.Enabled = false;
             }
             else if (type == ProjectStatus.Loaded)
             {
@@ -407,9 +407,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 m_currentMax = 1.0;
                 isStep = false;
-                m_showWin.Enabled = false;
+                m_showWin.Enabled = true;
+                m_setupWin.Enabled = false; 
                 m_showSaveWin.Enabled = true;
-                m_setupWin.Enabled = false;
             }
             else if (type == ProjectStatus.Stepping)
             {
@@ -425,14 +425,16 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 }
                 isStep = true;
                 UpdateGraphDelegate();
+                m_showWin.Enabled = true;
+                m_setupWin.Enabled = false;
                 m_showSaveWin.Enabled = true;
             }
             else
             {
                 isStep = false;
-                m_showWin.Enabled = false;
+                m_showWin.Enabled = true;
+                m_setupWin.Enabled = true;
                 m_showSaveWin.Enabled = true;
-                m_setupWin.Enabled = false;
             }
 
             if (type == ProjectStatus.Running)

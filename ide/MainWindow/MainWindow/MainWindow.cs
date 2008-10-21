@@ -853,7 +853,7 @@ namespace Ecell.IDE.MainWindow
                 exitToolStripMenuItem.Enabled = true;
                 MenuItemLayout.Enabled = false;
             }
-            else if (type == ProjectStatus.Loaded || type == ProjectStatus.Stepping)
+            else if (type == ProjectStatus.Loaded)
             {
                 newProjectToolStripMenuItem.Enabled = true;
                 openProjectToolStripMenuItem.Enabled = true;

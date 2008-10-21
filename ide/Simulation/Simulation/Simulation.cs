@@ -83,6 +83,10 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         private ToolStripMenuItem m_stopSim;
         /// <summary>
+        /// the menu strip for Step ...]
+        /// </summary>
+        private ToolStripMenuItem m_stepSim;
+        /// <summary>
         /// the menu strip for [Setup ...]
         /// </summary>
         private ToolStripMenuItem m_setupSim;
@@ -137,11 +141,21 @@ namespace Ecell.IDE.Plugins.Simulation
             m_stopSim.Enabled = false;
             m_stopSim.Click += new EventHandler(this.ResetSimulation);
 
+            m_stepSim = new ToolStripMenuItem();
+            m_stepSim.Name = "MenuItemStepSimulation";
+            m_stepSim.Size = new Size(96, 22);
+            m_stepSim.Image = (Image)resources.GetObject("media_step_forward");
+            m_stepSim.Text = MessageResources.MenuItemStep;
+            m_stepSim.Tag = 30;
+            m_stepSim.Enabled = false;
+            m_stepSim.Click += new EventHandler(this.Step);
+
             ToolStripMenuItem run = new ToolStripMenuItem();
             run.DropDownItems.AddRange(new ToolStripItem[] {
                 m_runSim,
                 m_suspendSim,
-                m_stopSim
+                m_stopSim,
+                m_stepSim
             });
             run.Name = "MenuItemRun";
             run.Size = new Size(36, 20);
@@ -363,17 +377,31 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             if (type == ProjectStatus.Uninitialized)
             {
+                // Menu
                 m_runSim.Enabled = false;
                 m_stopSim.Enabled = false;
                 m_suspendSim.Enabled = false;
+                m_stepSim.Enabled = false;
                 m_setupSim.Enabled = false;
+
+                // ToolBar
+                m_timeText.Text = "0";
+                m_timeText.Enabled = false;
+                m_timeText.ForeColor = Color.Black;
+                m_paramsCombo.Enabled = false;
+                m_stepUnitCombo.Enabled = false;
+                m_stepText.Enabled = false;
             }
             else if (type == ProjectStatus.Loaded)
             {
+                // Menu
                 m_runSim.Enabled = true;
                 m_stopSim.Enabled = false;
                 m_suspendSim.Enabled = false;
+                m_stepSim.Enabled = true;
                 m_setupSim.Enabled = true;
+
+                // ToolBar
                 m_timeText.Text = "0";
                 m_timeText.Enabled = true;
                 m_timeText.ForeColor = Color.Black;
@@ -383,17 +411,28 @@ namespace Ecell.IDE.Plugins.Simulation
             }
             else if (type == ProjectStatus.Stepping)
             {
-                m_runSim.Enabled = true;
-                m_stopSim.Enabled = false;
-                m_suspendSim.Enabled = false;
-                m_setupSim.Enabled = true;
-            }
-            else if (type == ProjectStatus.Running)
-            {
+                // Menu
                 m_runSim.Enabled = false;
                 m_stopSim.Enabled = true;
                 m_suspendSim.Enabled = true;
+                m_stepSim.Enabled = true;
                 m_setupSim.Enabled = true;
+
+                // ToolBar
+                m_paramsCombo.Enabled = true;
+                m_timeText.Enabled = true;
+                m_timeText.ForeColor = Color.Black;
+            }
+            else if (type == ProjectStatus.Running)
+            {
+                // Menu
+                m_runSim.Enabled = false;
+                m_stopSim.Enabled = true;
+                m_suspendSim.Enabled = true;
+                m_stepSim.Enabled = false;
+                m_setupSim.Enabled = true;
+
+                // ToolBar
                 m_paramsCombo.Enabled = false;
                 m_stepText.Enabled = false;
                 m_stepUnitCombo.Enabled = false;
@@ -402,11 +441,16 @@ namespace Ecell.IDE.Plugins.Simulation
             }
             else if (type == ProjectStatus.Suspended)
             {
+                // Menu
                 m_runSim.Enabled = true;
                 m_stopSim.Enabled = true;
                 m_suspendSim.Enabled = false;
+                m_stepSim.Enabled = true;
                 m_setupSim.Enabled = true;
-                m_timeText.Enabled = false;
+
+                // ToolBar
+                m_timeText.Enabled = true;
+                m_stepUnitCombo.Enabled = true;
             }
             else
             {

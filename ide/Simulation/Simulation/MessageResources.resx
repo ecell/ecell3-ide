@@ -147,6 +147,9 @@
   <data name="MenuItemSetupSim" xml:space="preserve">
     <value>&amp;Simulation...</value>
   </data>
+  <data name="MenuItemStep" xml:space="preserve">
+    <value>S&amp;tep</value>
+  </data>
   <data name="MenuItemStop" xml:space="preserve">
     <value>R&amp;eset</value>
   </data>

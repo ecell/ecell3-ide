@@ -151,6 +151,15 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
+        ///   S&amp;tep に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemStep {
+            get {
+                return ResourceManager.GetString("MenuItemStep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   R&amp;eset に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemStop {
