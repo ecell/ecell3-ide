@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ErrAlreadyExist" xml:space="preserve">
+    <value>This simulation set already exist.</value>
+  </data>
   <data name="ErrCreateFile" xml:space="preserve">
     <value>Cannot create the file {0}.</value>
   </data>

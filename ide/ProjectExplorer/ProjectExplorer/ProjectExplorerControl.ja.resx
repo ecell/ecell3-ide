@@ -251,4 +251,7 @@
   <data name="toolStripMenuItemProperties.Text" xml:space="preserve">
     <value>プロパティ</value>
   </data>
+  <data name="addSimulationSetToolStripMenuItem.Text" xml:space="preserve">
+    <value>追加...</value>
+  </data>
 </root>

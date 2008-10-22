@@ -61,6 +61,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer {
         }
         
         /// <summary>
+        ///   This simulation set already exist. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrAlreadyExist {
+            get {
+                return ResourceManager.GetString("ErrAlreadyExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot create the file {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrCreateFile {

@@ -89,6 +89,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InputNameDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputNameDialog.Designer.cs">
+      <DependentUpon>InputNameDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -111,6 +117,14 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="InputNameDialog.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>InputNameDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputNameDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>InputNameDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ProjectExplorerControl.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ProjectExplorerControl.cs</DependentUpon>

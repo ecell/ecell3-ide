@@ -719,6 +719,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 {
                     treeView1.ContextMenuStrip = contextMenuStripDM;
                 }
+                else if (m_paramNodeDic.ContainsValue(e.Node))
+                {
+                    treeView1.ContextMenuStrip = contextMenuSimulationSetCollection;
+                }
                 else if (e.Node.Tag is TagData)
                 {
                     TagData tag = e.Node.Tag as TagData;
@@ -1242,6 +1246,17 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             ShowGraphDelegate dlg = m_owner.PluginManager.GetDelegate("ShowGraphWithLog") as ShowGraphDelegate;
 
             dlg(tag.m_key, true);
+        }
+
+        private void TreeViewAddSimulationSet(object sender, EventArgs e)
+        {
+            InputNameDialog dlg = new InputNameDialog();
+            dlg.Owner = m_owner;
+
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                m_owner.DataManager.CreateSimulationParameter(dlg.InputText);
+            }
         }
 
     }

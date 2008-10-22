@@ -64,6 +64,7 @@
             this.contextMenuSimulationSetCollection = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStripSimulationSet = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.m_saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.addSimulationSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             compileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             systemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -77,6 +78,7 @@
             this.contextMenuStripDM.SuspendLayout();
             this.contextMenuStripDMCollection.SuspendLayout();
             this.contextMenuStripLog.SuspendLayout();
+            this.contextMenuSimulationSetCollection.SuspendLayout();
             this.SuspendLayout();
             // 
             // compileToolStripMenuItem
@@ -276,6 +278,8 @@
             // 
             // contextMenuSimulationSetCollection
             // 
+            this.contextMenuSimulationSetCollection.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addSimulationSetToolStripMenuItem});
             this.contextMenuSimulationSetCollection.Name = "contextMenuSimulationSetCollection";
             resources.ApplyResources(this.contextMenuSimulationSetCollection, "contextMenuSimulationSetCollection");
             // 
@@ -283,6 +287,12 @@
             // 
             this.contextMenuStripSimulationSet.Name = "contextMenuStripSimulationSet";
             resources.ApplyResources(this.contextMenuStripSimulationSet, "contextMenuStripSimulationSet");
+            // 
+            // addSimulationSetToolStripMenuItem
+            // 
+            this.addSimulationSetToolStripMenuItem.Name = "addSimulationSetToolStripMenuItem";
+            resources.ApplyResources(this.addSimulationSetToolStripMenuItem, "addSimulationSetToolStripMenuItem");
+            this.addSimulationSetToolStripMenuItem.Click += new System.EventHandler(this.TreeViewAddSimulationSet);
             // 
             // ProjectExplorerControl
             // 
@@ -297,6 +307,7 @@
             this.contextMenuStripDM.ResumeLayout(false);
             this.contextMenuStripDMCollection.ResumeLayout(false);
             this.contextMenuStripLog.ResumeLayout(false);
+            this.contextMenuSimulationSetCollection.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -328,6 +339,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuSimulationSetCollection;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripSimulationSet;
         private System.Windows.Forms.SaveFileDialog m_saveFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem addSimulationSetToolStripMenuItem;
 
     }
 }
