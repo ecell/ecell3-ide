@@ -703,6 +703,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                         e.Node.Bounds.Contains(e.X, e.Y))
                         m_isExpland = true;
                 }
+                treeView1.SelectedNode = e.Node;
             }
 
             if (e.Button == MouseButtons.Right)
@@ -715,6 +716,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                         m_owner.Environment.PluginManager.SelectChanged(
                             tag.m_modelID, tag.m_key, tag.m_type);
                     }
+                    treeView1.SelectedNode = e.Node;
                 }
                 if (e.Node == m_DMNode)
                 {
