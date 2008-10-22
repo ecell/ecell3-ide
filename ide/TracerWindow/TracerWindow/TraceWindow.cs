@@ -126,6 +126,35 @@ namespace Ecell.IDE.Plugins.TracerWindow
             cStrip.Items.AddRange(new ToolStripItem[] { it1, it2 });
             dgv.ContextMenuStrip = cStrip;
 
+            m_zCnt = new ZedGraphControl();
+            m_zCnt.Dock = DockStyle.Fill;
+            m_zCnt.GraphPane.Title.Text = "";
+            m_zCnt.GraphPane.XAxis.Title.Text = "Time(sec)";
+            m_zCnt.GraphPane.YAxis.Title.IsVisible = false;
+            m_zCnt.GraphPane.Legend.IsVisible = false;
+            m_zCnt.GraphPane.XAxis.Scale.Max = 100;
+            m_zCnt.GraphPane.XAxis.Scale.MaxAuto = false;
+            m_zCnt.GraphPane.XAxis.Scale.Min = 0;
+            m_zCnt.ZoomEvent += new ZedGraphControl.ZoomEventHandler(ZcntZoomEvent);
+            m_zCnt.ContextMenuBuilder += new ZedGraphControl.ContextMenuBuilderEventHandler(ZedControlContextMenuBuilder);
+            dgv.CellDoubleClick += new DataGridViewCellEventHandler(CellDoubleClicked);
+            dgv.CurrentCellDirtyStateChanged += new EventHandler(CurrentCellDirtyStateChanged);
+            dgv.CellValueChanged += new DataGridViewCellEventHandler(CellValueChanged);
+            dgv.Columns[0].Width = 40;
+            dgv.Columns[1].Width = 40;
+            m_zCnt.GraphPane.Margin.Top = 35.0f;
+            m_zCnt.GraphPane.YAxis.MajorGrid.IsVisible = true;
+            m_zCnt.GraphPane.XAxis.MinorTic.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.XAxis.MajorTic.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.YAxis.MinorTic.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.YAxis.MajorTic.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.Chart.Border.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.YAxis.MajorGrid.Color = Color.FromArgb(200, 200, 200);
+            m_zCnt.GraphPane.Fill = new Fill(Color.White, Color.LightGray, 90.0f);
+
+            tableLayoutPanel1.Controls.Add(m_zCnt, 0, 0);
+            m_zCnt.AxisChange();
+            m_zCnt.Refresh();
         }
 
         void dgv_DragEnter(object sender, DragEventArgs e)
@@ -201,7 +230,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
         }
 
-        private void ImportLog(string fileName)
+        public void ImportLog(string fileName)
         {
             LogData log = m_owner.DataManager.LoadSimulationResult(fileName);
             string[] ele = log.propName.Split(new char[] { ':' });
@@ -621,37 +650,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="e">EventArgs</param>
         public void ShownEvent(object sender, EventArgs e)
         {
-            m_zCnt = new ZedGraphControl();
-            m_zCnt.Dock = DockStyle.Fill;
-            m_zCnt.GraphPane.Title.Text = "";
-            m_zCnt.GraphPane.XAxis.Title.Text = "Time(sec)";
-            m_zCnt.GraphPane.YAxis.Title.IsVisible = false;
-            m_zCnt.GraphPane.Legend.IsVisible = false;
-            m_zCnt.GraphPane.XAxis.Scale.Max = 100;
-            m_zCnt.GraphPane.XAxis.Scale.MaxAuto = false;
-//            m_zCnt.GraphPane.YAxis.Scale.MaxAuto = false;
-            m_zCnt.GraphPane.XAxis.Scale.Min = 0;
-            m_zCnt.ZoomEvent += new ZedGraphControl.ZoomEventHandler(ZcntZoomEvent);
-            m_zCnt.ContextMenuBuilder += new ZedGraphControl.ContextMenuBuilderEventHandler(ZedControlContextMenuBuilder);
-            dgv.CellDoubleClick += new DataGridViewCellEventHandler(CellDoubleClicked);
-            dgv.CurrentCellDirtyStateChanged += new EventHandler(CurrentCellDirtyStateChanged);
-            dgv.CellValueChanged += new DataGridViewCellEventHandler(CellValueChanged);
-            dgv.Columns[0].Width = 40;
-            dgv.Columns[1].Width = 40;
-            m_zCnt.GraphPane.Margin.Top = 35.0f;
-            m_zCnt.GraphPane.YAxis.MajorGrid.IsVisible = true;
-            m_zCnt.GraphPane.XAxis.MinorTic.Color = Color.FromArgb(200, 200, 200);
-            m_zCnt.GraphPane.XAxis.MajorTic.Color = Color.FromArgb(200, 200, 200);
-            m_zCnt.GraphPane.YAxis.MinorTic.Color = Color.FromArgb(200, 200, 200);
-            m_zCnt.GraphPane.YAxis.MajorTic.Color = Color.FromArgb(200, 200, 200);
-            m_zCnt.GraphPane.Chart.Border.Color = Color.FromArgb(200, 200, 200);
-            m_zCnt.GraphPane.YAxis.MajorGrid.Color = Color.FromArgb(200, 200, 200);
-            m_zCnt.GraphPane.Fill = new Fill(Color.White, Color.LightGray, 90.0f);
-
-            tableLayoutPanel1.Controls.Add(m_zCnt, 0, 0);
-            m_zCnt.AxisChange();
-            m_zCnt.Refresh();
-
             Thread.CurrentThread.IsBackground = true;
 
             InitializeWindow(m_entry);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -486,17 +487,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         /// <summary>
-        /// The action of [Add Model] menu on popup menu.
-        /// </summary>
-        /// <param name="sender">object (MenuItem)</param>
-        /// <param name="e">EventArgs</param>
-        public void TreeviewAddModel(object sender, EventArgs e)
-        {
-            if (m_lastSelectedNode != null)
-                ShowPropEditWindow(GetObjectFromNode(m_lastSelectedNode));
-        }
-
-        /// <summary>
         /// The action of [Add System] menu on popup menu.
         /// </summary>
         /// <param name="sender">object (MenuItem)</param>
@@ -674,12 +664,16 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             DisplayDMEditor(path);
         }
 
-        private void TreeViewDMDisplayWithApp(object sender, EventArgs e)
+        private void TreeViewLogDisplayWithApp(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null) return;
-            string path = m_owner.Environment.DataManager.GetDMFileName((String)m_lastSelectedNode.Tag);
-            if (path == null) return;
-            DisplayDMWithApp(path);
+            TagData tag = m_lastSelectedNode.Tag as TagData;
+            if (tag == null) return;
+            if (tag.m_type.Equals(Constants.xpathLog))
+            {
+                string path = tag.m_key;
+                DisplayDMWithApp(path);
+            }
         }
 
         private void NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -703,7 +697,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                         e.Node.Bounds.Contains(e.X, e.Y))
                         m_isExpland = true;
                 }
-                treeView1.SelectedNode = e.Node;
             }
 
             if (e.Button == MouseButtons.Right)
@@ -787,6 +780,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                         toolStripMenuItemParameter.DropDownItems.AddRange(
                             CreateParameterPopupMenu(obj));
                         treeView1.ContextMenuStrip = contextMenuStripStdEntity;
+                    }
+                    else if (tag.m_type == Constants.xpathLog)
+                    {
+                        treeView1.ContextMenuStrip = contextMenuStripLog;
                     }
                 }
             }
@@ -1051,7 +1048,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 TreeNode n = new TreeNode(sep[1]);
                 n.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(Constants.xpathLog);
                 n.SelectedImageIndex = n.ImageIndex;
-                n.Tag = new  TagData("", "", Constants.xpathLog);
+                n.Tag = new TagData("", sep[2], Constants.xpathLog);
 
                 if (nodeDic.ContainsKey(sep[0]))
                 {
@@ -1205,6 +1202,48 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 e.Cancel = true;
             }
         }
+
+        private void TreeViewElementProperties(object sender, EventArgs e)
+        {
+            if (m_lastSelectedNode != null)
+                ShowPropEditWindow(GetObjectFromNode(m_lastSelectedNode));
+        }
+
+        private void TreeViewExportLog(object sender, EventArgs e)
+        {
+            if (m_lastSelectedNode == null) return;
+            TagData tag = m_lastSelectedNode.Tag as TagData;
+            if (tag == null || tag.m_type != Constants.xpathLog) return;
+
+            m_saveFileDialog.Filter = Constants.FileExtCSV;
+            if (m_saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string text = "";
+                string fileName = m_saveFileDialog.FileName;
+                using (StreamReader sr = new StreamReader(
+                        tag.m_key, Encoding.GetEncoding("Shift_JIS")))
+                {
+                    text = sr.ReadToEnd();
+                }
+                using (StreamWriter sw = new StreamWriter(
+                    fileName, false, Encoding.GetEncoding("Shift_JIS")))
+                {
+                    sw.Write(text);
+                }
+            }
+        }
+
+        private void TreeViewShowLogOnGraph(object sender, EventArgs e)
+        {
+            if (m_lastSelectedNode == null) return;
+            TagData tag = m_lastSelectedNode.Tag as TagData;
+            if (tag == null || tag.m_type != Constants.xpathLog) return;
+
+            ShowGraphDelegate dlg = m_owner.PluginManager.GetDelegate("ShowGraphWithLog") as ShowGraphDelegate;
+
+            dlg(tag.m_key, true);
+        }
+
     }
 
     /// <summary>

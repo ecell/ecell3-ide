@@ -50,9 +50,20 @@
             this.toolStripMenuItemParameter = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripStdEntity = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemMerge = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemProperties = new System.Windows.Forms.ToolStripMenuItem();
             this.treeView1 = new Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView();
             this.contextMenuStripDM = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStripDMCollection = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStripModel = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStripLog = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.plotGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuSimulationSetCollection = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuStripSimulationSet = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.m_saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             compileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             systemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,6 +76,7 @@
             this.contextMenuStripStdEntity.SuspendLayout();
             this.contextMenuStripDM.SuspendLayout();
             this.contextMenuStripDMCollection.SuspendLayout();
+            this.contextMenuStripLog.SuspendLayout();
             this.SuspendLayout();
             // 
             // compileToolStripMenuItem
@@ -173,7 +185,9 @@
             toolStripSeparator4,
             this.toolStripMenuItemLogging,
             this.toolStripMenuItemObservation,
-            this.toolStripMenuItemParameter});
+            this.toolStripMenuItemParameter,
+            this.toolStripSeparator1,
+            this.toolStripMenuItemProperties});
             this.contextMenuStripStdEntity.Name = "contextMenuVariable";
             resources.ApplyResources(this.contextMenuStripStdEntity, "contextMenuStripStdEntity");
             // 
@@ -182,6 +196,17 @@
             this.toolStripMenuItemMerge.Name = "toolStripMenuItemMerge";
             resources.ApplyResources(this.toolStripMenuItemMerge, "toolStripMenuItemMerge");
             this.toolStripMenuItemMerge.Click += new System.EventHandler(this.TreeviewMerge);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            // 
+            // toolStripMenuItemProperties
+            // 
+            this.toolStripMenuItemProperties.Name = "toolStripMenuItemProperties";
+            resources.ApplyResources(this.toolStripMenuItemProperties, "toolStripMenuItemProperties");
+            this.toolStripMenuItemProperties.Click += new System.EventHandler(this.TreeViewElementProperties);
             // 
             // treeView1
             // 
@@ -211,6 +236,54 @@
             this.contextMenuStripDMCollection.Name = "contextMenuStripDMCollection";
             resources.ApplyResources(this.contextMenuStripDMCollection, "contextMenuStripDMCollection");
             // 
+            // contextMenuStripModel
+            // 
+            this.contextMenuStripModel.Name = "contextMenuStripModel";
+            resources.ApplyResources(this.contextMenuStripModel, "contextMenuStripModel");
+            // 
+            // contextMenuStripLog
+            // 
+            this.contextMenuStripLog.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.plotGraphToolStripMenuItem,
+            this.editLogToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.exportToolStripMenuItem});
+            this.contextMenuStripLog.Name = "contextMenuStripLog";
+            resources.ApplyResources(this.contextMenuStripLog, "contextMenuStripLog");
+            // 
+            // plotGraphToolStripMenuItem
+            // 
+            this.plotGraphToolStripMenuItem.Name = "plotGraphToolStripMenuItem";
+            resources.ApplyResources(this.plotGraphToolStripMenuItem, "plotGraphToolStripMenuItem");
+            this.plotGraphToolStripMenuItem.Click += new System.EventHandler(this.TreeViewShowLogOnGraph);
+            // 
+            // editLogToolStripMenuItem
+            // 
+            this.editLogToolStripMenuItem.Name = "editLogToolStripMenuItem";
+            resources.ApplyResources(this.editLogToolStripMenuItem, "editLogToolStripMenuItem");
+            this.editLogToolStripMenuItem.Click += new System.EventHandler(this.TreeViewLogDisplayWithApp);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            resources.ApplyResources(this.exportToolStripMenuItem, "exportToolStripMenuItem");
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.TreeViewExportLog);
+            // 
+            // contextMenuSimulationSetCollection
+            // 
+            this.contextMenuSimulationSetCollection.Name = "contextMenuSimulationSetCollection";
+            resources.ApplyResources(this.contextMenuSimulationSetCollection, "contextMenuSimulationSetCollection");
+            // 
+            // contextMenuStripSimulationSet
+            // 
+            this.contextMenuStripSimulationSet.Name = "contextMenuStripSimulationSet";
+            resources.ApplyResources(this.contextMenuStripSimulationSet, "contextMenuStripSimulationSet");
+            // 
             // ProjectExplorerControl
             // 
             resources.ApplyResources(this, "$this");
@@ -223,6 +296,7 @@
             this.contextMenuStripStdEntity.ResumeLayout(false);
             this.contextMenuStripDM.ResumeLayout(false);
             this.contextMenuStripDMCollection.ResumeLayout(false);
+            this.contextMenuStripLog.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -243,6 +317,17 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripDMCollection;
         private System.Windows.Forms.ToolStripButton toolStripButtonSortByType;
         private System.Windows.Forms.ToolStripButton toolStripButtonSortByName;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemProperties;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripModel;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripLog;
+        private System.Windows.Forms.ToolStripMenuItem plotGraphToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editLogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuSimulationSetCollection;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripSimulationSet;
+        private System.Windows.Forms.SaveFileDialog m_saveFileDialog;
 
     }
 }

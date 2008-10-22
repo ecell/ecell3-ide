@@ -494,6 +494,14 @@ namespace Ecell.IDE.Plugins.TracerWindow
             return "TracerWindow";
         }
 
+
+        public override Dictionary<string, Delegate> GetPublicDelegate()
+        {
+            Dictionary<string, Delegate> list = new Dictionary<string, Delegate>();
+            list.Add("ShowGraphWithLog", new ShowGraphDelegate(this.ShowTraceWindow));
+            return list;
+        }
+
         /// <summary>
         /// Get the version of this plugin.
         /// </summary>
@@ -778,6 +786,14 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     m_dManager.StepCount = m_setup.StepNumber;
                 }
             }
+        }
+
+        void ShowTraceWindow(string filename, bool isNewWin)
+        {
+            if (isNewWin == true || m_win == null)
+                m_showWin.PerformClick();
+
+            m_win.ImportLog(filename);
         }
 
         /// <summary>

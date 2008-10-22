@@ -239,4 +239,16 @@
   <data name="toolStripButtonSortByType.Text" xml:space="preserve">
     <value>エンティティタイプでソート</value>
   </data>
+  <data name="editLogToolStripMenuItem.Text" xml:space="preserve">
+    <value>編集...</value>
+  </data>
+  <data name="exportToolStripMenuItem.Text" xml:space="preserve">
+    <value>出力...</value>
+  </data>
+  <data name="plotGraphToolStripMenuItem.Text" xml:space="preserve">
+    <value>グラフに表示...</value>
+  </data>
+  <data name="toolStripMenuItemProperties.Text" xml:space="preserve">
+    <value>プロパティ</value>
+  </data>
 </root>
