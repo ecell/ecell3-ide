@@ -291,32 +291,79 @@ namespace Ecell
 
             return val.Substring(startIdx, endIdx - startIdx + 1);
         }
+        
+        /// <summary>
+        /// Copy File
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="targetDir"></param>
+        public static void CopyFile(string filename, string targetDir)
+        {
+            File.Copy(filename, Path.Combine(targetDir, Path.GetFileName(filename)), true);
+        }
 
         /// <summary>
         /// Copy Directory.
         /// </summary>
-        /// <param name="sourceDirName"></param>
-        /// <param name="destDirName"></param>
-        public static void CopyDirectory(string sourceDirName, string destDirName)
+        /// <param name="sourceDir"></param>
+        /// <param name="targetDir"></param>
+        public static void CopyDirectory(string sourceDir, string targetDir)
         {
-            if (!System.IO.Directory.Exists(destDirName))
+            if (sourceDir.Equals(targetDir))
+                targetDir = GetNewDir(targetDir);
+            else if (Directory.Exists(targetDir))
+                targetDir = GetNewDir(targetDir);
+
+            // List up directories and files.
+            string[] dirs = System.IO.Directory.GetDirectories(sourceDir, "*.*", SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(sourceDir, "*.*", SearchOption.AllDirectories);
+
+            // Create directory if necessary.
+            if (!Directory.Exists(targetDir))
             {
-                System.IO.Directory.CreateDirectory(destDirName);
-                System.IO.File.SetAttributes(destDirName,
-                    System.IO.File.GetAttributes(sourceDirName));
+                Directory.CreateDirectory(targetDir);
+                File.SetAttributes(targetDir, File.GetAttributes(sourceDir));
             }
-            if (destDirName[destDirName.Length - 1] !=
-                    System.IO.Path.DirectorySeparatorChar)
-                destDirName = destDirName + System.IO.Path.DirectorySeparatorChar;
-
-            string[] files = System.IO.Directory.GetFiles(sourceDirName);
-            foreach (string file in files)
-                System.IO.File.Copy(file,
-                    destDirName + System.IO.Path.GetFileName(file), true);
-
-            string[] dirs = System.IO.Directory.GetDirectories(sourceDirName);
+            // Copy directories.
             foreach (string dir in dirs)
-                CopyDirectory(dir, destDirName + System.IO.Path.GetFileName(dir));
+                Directory.CreateDirectory(dir.Replace(sourceDir, targetDir));
+            // Copy Files.
+            foreach (string file in files)
+                File.Copy(file, file.Replace(sourceDir, targetDir));
+        }
+
+        /// <summary>
+        /// Get New Directory name.
+        /// </summary>
+        /// <param name="targetDir"></param>
+        /// <returns></returns>
+        public static string GetNewDir(string targetDir)
+        {
+            int revNo = 0;
+            string newDir = "";
+            do
+            {
+                revNo++;
+                newDir = targetDir + revNo.ToString();
+            } while (Directory.Exists(newDir));
+            return newDir;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceDir"></param>
+        /// <returns></returns>
+        public static string GetRevNo(string sourceDir)
+        {
+            int revNo = 0;
+            string revision = "";
+            do
+            {
+                revNo++;
+                revision = "Revision" + revNo.ToString();
+            } while (Directory.Exists(Path.Combine(sourceDir, revision)));
+            return revision;
         }
 
         /// <summary>
@@ -1070,5 +1117,44 @@ namespace Ecell
             return fileName.Replace("/", "_") + ".csv";
         }
 
+        /// <summary>
+        /// Ignored directory names.
+        /// </summary>
+        public static string[] IgnoredDirList = {
+            "Model",
+            "Simulation",
+            "Parameters",
+            Constants.DMDirName
+        };
+
+        /// <summary>
+        /// IsIgnoredDir
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <returns></returns>
+        public static bool IsIgnoredDir(string dir)
+        {
+            string name = Path.GetFileNameWithoutExtension(dir);
+            bool ignored = false;
+            foreach (string ignoredDir in IgnoredDirList)
+            {
+                if (ignoredDir.Equals(name, StringComparison.OrdinalIgnoreCase))
+                {
+                    ignored = true;
+                    break;
+                }
+            }
+            return ignored;
+        }
+        /// <summary>
+        /// IsHidden
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <returns></returns>
+        public static bool IsHidden(string dir)
+        {
+            FileAttributes fas = File.GetAttributes(dir);
+            return ((fas & FileAttributes.Hidden) == FileAttributes.Hidden);
+        }
     }
 }

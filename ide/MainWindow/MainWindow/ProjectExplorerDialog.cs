@@ -79,16 +79,6 @@ namespace Ecell.IDE.MainWindow
         /// FileName
         /// </summary>
         private string m_fileName = "";
-
-        /// <summary>
-        /// Ignored directory names.
-        /// </summary>
-        private static string[] ignoredDirList = {
-            "Model",
-            "Simulation",
-            "Parameters",
-            Constants.DMDirName
-        };
         
         #endregion
 
@@ -165,7 +155,7 @@ namespace Ecell.IDE.MainWindow
             string[] dirs = Directory.GetDirectories(path);
             foreach (string dir in dirs)
             {
-                if (IsIgnoredDir(dir) || IsHidden(dir))
+                if (Util.IsIgnoredDir(dir) || Util.IsHidden(dir))
                     continue;
 
                 ProjectTreeNode childNode = new ProjectTreeNode(dir);
@@ -183,36 +173,6 @@ namespace Ecell.IDE.MainWindow
             string[] files = Directory.GetFiles(path, "*.eml");
             if (files.Length > 0) return true;
             return false;
-        }
-
-        /// <summary>
-        /// IsIgnoredDir
-        /// </summary>
-        /// <param name="dir"></param>
-        /// <returns></returns>
-        private static bool IsIgnoredDir(string dir)
-        {
-            string name = Path.GetFileNameWithoutExtension(dir);
-            bool ignored = false;
-            foreach (string ignoredDir in ignoredDirList)
-            {
-                if (ignoredDir.Equals(name, StringComparison.OrdinalIgnoreCase))
-                {
-                    ignored = true;
-                    break;
-                }
-            }
-            return ignored;
-        }
-        /// <summary>
-        /// IsHidden
-        /// </summary>
-        /// <param name="dir"></param>
-        /// <returns></returns>
-        private bool IsHidden(string dir)
-        {
-            FileAttributes fas = File.GetAttributes(dir);
-            return ((fas & FileAttributes.Hidden) == FileAttributes.Hidden); 
         }
 
         /// <summary>
@@ -492,36 +452,20 @@ namespace Ecell.IDE.MainWindow
         private void CreateNewRevisionClick(object sender, EventArgs e)
         {
             string sourceDir = Path.GetDirectoryName(m_selectedNode.FilePath);
-            string targetDir = Path.Combine(sourceDir, GetRevNo(sourceDir));
-            foreach (string dir in ignoredDirList)
+            string targetDir = Path.Combine(sourceDir, Util.GetRevNo(sourceDir));
+            foreach (string dir in Util.IgnoredDirList)
             {
                 string tempdir = Path.Combine(sourceDir, dir);
                 if (Directory.Exists(tempdir))
-                    CopyDirectory(tempdir, Path.Combine(targetDir, dir));
+                    Util.CopyDirectory(tempdir, Path.Combine(targetDir, dir));
             }
             string[] files = Directory.GetFiles(sourceDir, "project.*");
             foreach (string file in files)
-                CopyFile(file, targetDir);
+                Util.CopyFile(file, targetDir);
 
             TreeNode childNode = new ProjectTreeNode(targetDir);
             m_selectedNode.Parent.Nodes.Add(childNode);
             CreateProjectTreeView(childNode, targetDir);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sourceDir"></param>
-        /// <returns></returns>
-        private static string GetRevNo(string sourceDir)
-        {
-            int revNo = 0;
-            string revision = "";
-            do
-            {
-                revNo++;
-                revision = "Revision" + revNo.ToString();
-            } while (Directory.Exists(Path.Combine(sourceDir, revision)));
-            return revision;
         }
 
         /// <summary>
@@ -545,14 +489,14 @@ namespace Ecell.IDE.MainWindow
             // Set targetPath.
             string targetPath = Path.Combine(m_selectedNode.FilePath, Path.GetFileName(path));
             if (path.Equals(targetPath) || Directory.Exists(targetPath))
-                targetPath = GetNewDir(targetPath);
+                targetPath = Util.GetNewDir(targetPath);
 
             // Copy Directory / File.
             switch (type)
             {
                 case FileType.Project:
                 case FileType.Folder:
-                    CopyDirectory(path, targetPath);
+                    Util.CopyDirectory(path, targetPath);
                     break;
                 case FileType.Model:
                     File.Copy(path, targetPath, true);
@@ -584,14 +528,14 @@ namespace Ecell.IDE.MainWindow
             // Set targetPath.
             string targetPath = Path.Combine(m_selectedNode.FilePath, Path.GetFileName(path));
             if (path.Equals(targetPath) || Directory.Exists(targetPath))
-                targetPath = GetNewDir(targetPath);
+                targetPath = Util.GetNewDir(targetPath);
 
             // Copy Directory / File.
             switch (type)
             {
                 case FileType.Project:
                 case FileType.Folder:
-                    CopyDirectory(path, targetPath);
+                    Util.CopyDirectory(path, targetPath);
                     break;
                 case FileType.Model:
                     File.Copy(path, targetPath, true);
@@ -622,63 +566,6 @@ namespace Ecell.IDE.MainWindow
                 File.Delete(m_selectedNode.FilePath);
             m_selectedNode.Remove();
             m_selectedNode = null;
-        }
-
-        /// <summary>
-        /// Copy File
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <param name="targetDir"></param>
-        public static void CopyFile(string filename, string targetDir)
-        {
-            File.Copy(filename, Path.Combine(targetDir, Path.GetFileName(filename)), true);
-        }
-
-        /// <summary>
-        /// Copy Directory.
-        /// </summary>
-        /// <param name="sourceDir"></param>
-        /// <param name="targetDir"></param>
-        public static void CopyDirectory(string sourceDir, string targetDir)
-        {
-            if (sourceDir.Equals(targetDir))
-                targetDir = GetNewDir(targetDir);
-            else if (Directory.Exists(targetDir))
-                targetDir = GetNewDir(targetDir);
-
-            // List up directories and files.
-            string[] dirs = System.IO.Directory.GetDirectories(sourceDir, "*.*", SearchOption.AllDirectories);
-            string[] files = Directory.GetFiles(sourceDir, "*.*", SearchOption.AllDirectories);
-
-            // Create directory if necessary.
-            if (!Directory.Exists(targetDir))
-            {
-                Directory.CreateDirectory(targetDir);
-                File.SetAttributes(targetDir, File.GetAttributes(sourceDir));
-            }
-            // Copy directories.
-            foreach (string dir in dirs)
-                Directory.CreateDirectory(dir.Replace(sourceDir, targetDir));
-            // Copy Files.
-            foreach (string file in files)
-                File.Copy(file, file.Replace(sourceDir, targetDir));
-        }
-
-        /// <summary>
-        /// Get New Directory name.
-        /// </summary>
-        /// <param name="targetDir"></param>
-        /// <returns></returns>
-        public static string GetNewDir(string targetDir)
-        {
-            int revNo = 0;
-            string newDir = "";
-            do
-            {
-                revNo++;
-                newDir = targetDir + revNo.ToString();
-            } while (Directory.Exists(newDir));
-            return newDir;
         }
 
         #endregion

@@ -869,7 +869,7 @@ namespace Ecell
             string l_comment = null;
             string l_projectPath = null;
             System.Collections.Generic.List<System.String> l_setDirList = null;
-            _unitUnderTest.CreateProject(l_prjID, l_comment, l_projectPath, l_setDirList);
+            _unitUnderTest.CreateNewProject(l_prjID, l_comment, l_projectPath, l_setDirList);
             Assert.Fail("Create or modify test(s).");
 
         }

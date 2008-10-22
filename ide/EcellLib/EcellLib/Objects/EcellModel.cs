@@ -45,6 +45,13 @@ namespace Ecell.Objects
     /// </summary>
     public class EcellModel : EcellObject
     {
+        #region Fields
+        /// <summary>
+        /// Layer list of this model.
+        /// </summary>
+        private List<string> m_layers = null;
+        #endregion
+
         #region Constractors
         /// <summary>
         /// constructor with initial parameter.
@@ -58,6 +65,17 @@ namespace Ecell.Objects
              string type, string classname, List<EcellData> data)
             : base(modelID, key, type, classname, data)
         {
+            m_layers = new List<string>();
+        }
+        #endregion
+
+        #region Accessors
+        /// <summary>
+        /// Layer list of this model.
+        /// </summary>
+        public List<string> Layers
+        {
+            get { return m_layers; }
         }
         #endregion
     }

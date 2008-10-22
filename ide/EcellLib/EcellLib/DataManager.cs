@@ -4164,6 +4164,28 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Create new revision of current project.
+        /// </summary>
+        public void CreateNewRevision()
+        {
+            if (m_currentProject == null)
+                return;
+            SaveProject();
+
+            string sourceDir = Path.GetDirectoryName(m_currentProject.Info.ProjectPath);
+            string targetDir = Path.Combine(sourceDir, Util.GetRevNo(sourceDir));
+            foreach (string dir in Util.IgnoredDirList)
+            {
+                string tempdir = Path.Combine(sourceDir, dir);
+                if (Directory.Exists(tempdir))
+                    Util.CopyDirectory(tempdir, Path.Combine(targetDir, dir));
+            }
+            string[] files = Directory.GetFiles(sourceDir, "project.*");
+            foreach (string file in files)
+                Util.CopyFile(file, targetDir);
+        }
+
+        /// <summary>
         /// Creates the new simulation parameter.
         /// </summary>
         /// <param name="parameterID">The new parameter ID</param>
@@ -4362,25 +4384,32 @@ namespace Ecell
         public void SaveProject()
         {
             SetDefaultDir();
-            m_currentProject.Save();
-
-            List<string> modelList = m_currentProject.GetSavableModel();
-            List<string> paramList = m_currentProject.GetSavableSimulationParameter();
-            List<string> logList = m_currentProject.GetSavableSimulationResult();
-
-            foreach (EcellObject model in m_currentProject.ModelList)
+            try
             {
-                SaveModel(model.ModelID);
-            }
-            foreach (string name in paramList)
-            {
-                SaveSimulationParameter(name);
-            }
+                m_currentProject.Save();
+                List<string> modelList = m_currentProject.GetSavableModel();
+                List<string> paramList = m_currentProject.GetSavableSimulationParameter();
+                List<string> logList = m_currentProject.GetSavableSimulationResult();
 
-            SaveSimulationResult();
-            SaveSimulationResultDelegate dlg = m_env.PluginManager.GetDelegate("SaveSimulationResult") as SaveSimulationResultDelegate;
-            if (dlg != null)
-                dlg(logList);
+                foreach (EcellObject model in m_currentProject.ModelList)
+                {
+                    SaveModel(model.ModelID);
+                }
+                foreach (string name in paramList)
+                {
+                    SaveSimulationParameter(name);
+                }
+
+                SaveSimulationResult();
+                SaveSimulationResultDelegate dlg = m_env.PluginManager.GetDelegate("SaveSimulationResult") as SaveSimulationResultDelegate;
+                if (dlg != null)
+                    dlg(logList);
+            }
+            catch (Exception ex)
+            {
+                String.Format(MessageResources.ErrSavePrj, m_currentProject.Info.Name);
+                Trace.WriteLine(ex);
+            }
         }
 
         /// <summary>

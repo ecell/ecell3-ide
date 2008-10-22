@@ -159,7 +159,6 @@ namespace Ecell
         /// <summary>
         /// Save project.
         /// </summary>
-        /// <param name="filePath"></param>
         public void Save()
         {
             ProjectInfoSaver.Save(this, m_prjPath);
