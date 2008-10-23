@@ -230,6 +230,7 @@
             this.robustAnalysisObservedDataGrid.Name = "robustAnalysisObservedDataGrid";
             this.robustAnalysisObservedDataGrid.RowHeadersVisible = false;
             this.robustAnalysisObservedDataGrid.RowTemplate.Height = 21;
+            this.robustAnalysisObservedDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ObservedDataChanged);
             // 
             // dataGridViewTextBoxColumn5
             // 
@@ -303,6 +304,7 @@
             this.robustAnalysisParameterDataGrid.Name = "robustAnalysisParameterDataGrid";
             this.robustAnalysisParameterDataGrid.RowHeadersVisible = false;
             this.robustAnalysisParameterDataGrid.RowTemplate.Height = 21;
+            this.robustAnalysisParameterDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ParameterDataChanged);
             // 
             // dataGridViewTextBoxColumn1
             // 

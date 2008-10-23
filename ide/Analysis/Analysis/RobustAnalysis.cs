@@ -369,7 +369,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 double d = Math.Sqrt(data[j * 2] * data[j * 2] + data[j * 2 + 1] * data[j * 2 + 1]);
                 if (maxFreq > d && minFreq < d) count++;
             }
-            if ((double)count / (double)resDic.Count > rate)
+            if ((double)count / (double)size > rate)
                 return true;
 
             return false;

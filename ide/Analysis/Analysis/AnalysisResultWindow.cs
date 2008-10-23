@@ -235,12 +235,14 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 c = new DataGridViewTextBoxColumn();
                 c.Name = key;
-                c.HeaderText = key;
+                string[] ele = key.Split(new char[] { ':' });
+                c.HeaderText = ele[ele.Length - 2];
                 gridView.Columns.Add(c);
             }
 
             DataGridViewRow r = new DataGridViewRow();
             DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
+            c1.Value = "Item";
             c1.Style.BackColor = m_headerColor;
             r.Cells.Add(c1);
             c1.ReadOnly = true;
@@ -249,7 +251,8 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 c1 = new DataGridViewTextBoxCell();
                 c1.Style.BackColor = m_headerColor;
-                c1.Value = key;
+                string[] ele = key.Split(new char[] { ':' });
+                c1.Value = ele[ele.Length - 2];
                 r.Cells.Add(c1);
                 c1.ReadOnly = true;
             }
@@ -267,7 +270,8 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             DataGridViewRow r = new DataGridViewRow();
             DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-            c.Value = key;
+            string[] ele = key.Split(new char[] { ':' });
+            c.Value = ele[ele.Length - 2];
             c.Style.BackColor = m_headerColor;
             r.Cells.Add(c);
             c.ReadOnly = true;
@@ -275,7 +279,7 @@ namespace Ecell.IDE.Plugins.Analysis
             foreach (double d in sensList)
             {
                 c = new DataGridViewTextBoxCell();
-                c.Value = d;
+                c.Value = d.ToString("###0.000");
                 c.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
                 r.Cells.Add(c);
                 c.ReadOnly = true;
@@ -292,7 +296,8 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             DataGridViewRow r = new DataGridViewRow();
             DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-            c.Value = key;
+            string[] ele = key.Split(new char[] { ':' });
+            c.Value = ele[ele.Length - 2];
             c.Style.BackColor = m_headerColor;
             r.Cells.Add(c);
             c.ReadOnly = true;
@@ -300,7 +305,8 @@ namespace Ecell.IDE.Plugins.Analysis
             foreach (double d in sensList)
             {
                 c = new DataGridViewTextBoxCell();
-                c.Value = d;
+                c.Value = d.ToString("###0.000");
+                c.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
                 r.Cells.Add(c);
                 c.ReadOnly = true;
             }

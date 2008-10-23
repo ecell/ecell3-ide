@@ -304,5 +304,97 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.MinFreq = dummy;
         }
+
+        private void ObservedDataChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            EcellObservedData data = robustAnalysisObservedDataGrid.Rows[e.RowIndex].Tag as EcellObservedData;
+            if (data == null) return;
+            double dummy = 0;
+            bool isCorrect = true;
+            if (!double.TryParse(robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
+            {
+                isCorrect = false;
+            }
+
+            if (isCorrect)
+            {
+                switch (e.ColumnIndex)
+                {
+                    case 1:
+                        data.Max = dummy;
+                        break;
+                    case 2:
+                        data.Min = dummy;
+                        break;
+                    case 3:
+                        data.Differ = dummy;
+                        break;
+                    case 4:
+                        data.Rate = dummy;
+                        break;
+                }
+            }
+            else
+            {
+                switch (e.ColumnIndex)
+                {
+                    case 1:
+                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Max;
+                        break;
+                    case 2:
+                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Min;
+                        break;
+                    case 3:
+                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Differ;
+                        break;
+                    case 4:
+                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Rate;
+                        break;
+                }
+            }
+        }
+
+        private void ParameterDataChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            EcellParameterData data = robustAnalysisParameterDataGrid.Rows[e.RowIndex].Tag as EcellParameterData;
+            if (data == null) return;
+            double dummy = 0;
+            bool isCorrect = true;
+            if (!double.TryParse(robustAnalysisParameterDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
+            {
+                isCorrect = false;
+            }
+
+            if (isCorrect)
+            {
+                switch (e.ColumnIndex)
+                {
+                    case 1:
+                        data.Max = dummy;
+                        break;
+                    case 2:
+                        data.Min = dummy;
+                        break;
+                    case 3:
+                        data.Step = dummy;
+                        break;
+                }
+            }
+            else
+            {
+                switch (e.ColumnIndex)
+                {
+                    case 1:
+                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Max;
+                        break;
+                    case 2:
+                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Min;
+                        break;
+                    case 3:
+                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Step;
+                        break;
+                }
+            }
+        }
     }
 }

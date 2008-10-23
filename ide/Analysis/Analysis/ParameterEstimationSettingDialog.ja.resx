@@ -121,7 +121,7 @@
     <value>パラメータ推定設定</value>
   </data>
   <data name="abstractTextBox.Text" xml:space="preserve">
-    <value>パラメータ推定は未知のパラメータをある評価式に従って最適なパラメータを検索し、設定する。パラメータ推定ではSimple GAを利用している。</value>
+    <value>パラメータ推定は未知のパラメータをある評価式に従って最適なパラメータを検索し、設定する。パラメータ推定ではGAを利用している。</value>
   </data>
   <data name="advancedButton.Text" xml:space="preserve">
     <value>詳細設定(&amp;A)...</value>
@@ -136,22 +136,22 @@
     <value>最小値</value>
   </data>
   <data name="estimationTypeComboBox.Items" xml:space="preserve">
-    <value>最大</value>
+    <value>最大化</value>
   </data>
   <data name="estimationTypeComboBox.Items1" xml:space="preserve">
-    <value>最大和</value>
+    <value>和の最大化</value>
   </data>
   <data name="estimationTypeComboBox.Items2" xml:space="preserve">
-    <value>最小</value>
+    <value>最小化</value>
   </data>
   <data name="estimationTypeComboBox.Items3" xml:space="preserve">
-    <value>最小和</value>
+    <value>和の最小化</value>
   </data>
   <data name="estimationTypeComboBox.Items4" xml:space="preserve">
-    <value>0に近い</value>
+    <value>0に近づける</value>
   </data>
   <data name="estimationTypeComboBox.Items5" xml:space="preserve">
-    <value>和が0に近い</value>
+    <value>和を0に近づける</value>
   </data>
   <data name="executeButton.Text" xml:space="preserve">
     <value>実行(&amp;E)</value>
