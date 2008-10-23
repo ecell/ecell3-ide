@@ -69,28 +69,48 @@ namespace Ecell.Objects
         public EcellReference(string str)
         {
             Regex reg =
-                  new Regex("\"(?<name>.+)\",(.+)\"(?<id>.+)\", (\"|.*)(?<coe>\\d+)(\"|.*), (\"|.*)(?<fix>\\d+)(\"|.*)");
+                  new Regex("\"(?<name>.+)\",(.+)\"(?<id>.+)\",(\"|.*)\\-(?<coe>\\d+)(\"|.*),(\"|.*)(?<fix>\\d+)(\"|.*)");
             Match m = reg.Match(str);
+            if (m.Success)
+            {
+                this.m_name = m.Groups["name"].Value;
+                this.m_fullID = m.Groups["id"].Value;
+                this.m_coeff = Convert.ToInt32(m.Groups["coe"].Value) * -1;
+                this.m_accessor = Convert.ToInt32(m.Groups["fix"].Value);
+                return;
+            }
+            reg =
+                new Regex("\"(?<name>.+)\",(.+)\"(?<id>.+)\",(\"|.*)(?<coe>\\d+)(\"|.*),(\"|.*)(?<fix>\\d+)(\"|.*)");
+            m = reg.Match(str);
             if (m.Success)
             {
                 this.m_name = m.Groups["name"].Value;
                 this.m_fullID = m.Groups["id"].Value;
                 this.m_coeff = Convert.ToInt32(m.Groups["coe"].Value);
                 this.m_accessor = Convert.ToInt32(m.Groups["fix"].Value);
+                return;
             }
-            else
+
+            // ロードしたモデルによってはAccessorが書かれていないものがあるため、
+            // Accessorが書かれていないものにも対応できるようにした。
+            reg = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\", (\"|.*)\\-(?<coe>\\d+)(\"|.*)");
+            m = reg.Match(str);
+            if (m.Success)
             {
-                // ロードしたモデルによってはAccessorが書かれていないものがあるため、
-                // Accessorが書かれていないものにも対応できるようにした。
-                reg = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\", (\"|.*)(?<coe>\\d+)(\"|.*)");
-                m = reg.Match(str);
-                if (m.Success)
-                {
-                    this.m_name = m.Groups["name"].Value;
-                    this.m_fullID = m.Groups["id"].Value;
-                    this.m_coeff = Convert.ToInt32(m.Groups["coe"].Value);
-                    this.m_accessor = 1;
-                }
+                this.m_name = m.Groups["name"].Value;
+                this.m_fullID = m.Groups["id"].Value;
+                this.m_coeff = Convert.ToInt32(m.Groups["coe"].Value) * -1;
+                this.m_accessor = 1;
+                return;
+            }
+            reg = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\", (\"|.*)(?<coe>\\d+)(\"|.*)");
+            m = reg.Match(str);
+            if (m.Success)
+            {
+                this.m_name = m.Groups["name"].Value;
+                this.m_fullID = m.Groups["id"].Value;
+                this.m_coeff = Convert.ToInt32(m.Groups["coe"].Value);
+                this.m_accessor = 1;
             }
         }
         /// <summary>
