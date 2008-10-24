@@ -254,4 +254,10 @@
   <data name="addSimulationSetToolStripMenuItem.Text" xml:space="preserve">
     <value>追加...</value>
   </data>
+  <data name="copySimulationSetToolStripMenuItem.Text" xml:space="preserve">
+    <value>コピー</value>
+  </data>
+  <data name="deleteSimulationSetToolStripMenuItem.Text" xml:space="preserve">
+    <value>削除</value>
+  </data>
 </root>

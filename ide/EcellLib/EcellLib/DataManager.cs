@@ -4163,6 +4163,67 @@ namespace Ecell
             }
         }
 
+        public void CopySimulationParameter(string newParameterID, string srcParameterID)
+        {
+            try
+            {
+                string message = null;
+
+                message = "[" + newParameterID + "]";
+                //
+                // 4 Stepper
+                //
+                if (m_currentProject.StepperDic.ContainsKey(newParameterID))
+                {
+                    throw new Exception(
+                        String.Format(MessageResources.ErrExistObj,
+                        new object[] { newParameterID }));
+                }
+
+                m_currentProject.LoggerPolicyDic[newParameterID] =
+                    new LoggerPolicy(m_currentProject.LoggerPolicyDic[srcParameterID]);
+
+
+                Dictionary<string, List<EcellObject>> newStepperListSets = new Dictionary<string, List<EcellObject>>();
+                Dictionary<string, Dictionary<string, double>> newInitialCondSets = new Dictionary<string, Dictionary<string, double>>();
+                foreach (string name in m_currentProject.StepperDic[srcParameterID].Keys)
+                {
+                    List<EcellObject> tmpList = new List<EcellObject>();
+                    foreach (EcellObject sObj in m_currentProject.StepperDic[srcParameterID][name])
+                    {
+                        tmpList.Add(sObj.Copy());
+                    }
+                    newStepperListSets.Add(name, tmpList);
+                }
+                foreach (string name in m_currentProject.InitialCondition[srcParameterID].Keys)
+                {
+                    Dictionary<string, double> tmpDic = new Dictionary<string, double>();
+                    foreach (string path in m_currentProject.InitialCondition[srcParameterID][name].Keys)
+                    {
+                        tmpDic.Add(path, m_currentProject.InitialCondition[srcParameterID][name][path]);
+                    }
+                    newInitialCondSets.Add(name, tmpDic);
+                }
+
+                m_currentProject.StepperDic[newParameterID] = newStepperListSets;
+                m_currentProject.InitialCondition[newParameterID] = newInitialCondSets;
+
+                m_env.PluginManager.ParameterAdd(m_currentProject.Info.Name, newParameterID);
+
+                Trace.WriteLine(String.Format(MessageResources.InfoCreSim,
+                    new object[] { newParameterID }));
+                //‚Ü‚¾copy‚ª‚È‚¢
+                //m_env.ActionManager.AddAction(new NewSimParamAction(parameterID, isAnchor));
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                string message = String.Format(MessageResources.ErrCreSimParam,
+                    new object[] { newParameterID });
+                throw new Exception(message, ex);
+            }
+        }
+
         /// <summary>
         /// Create new revision of current project.
         /// </summary>

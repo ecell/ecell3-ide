@@ -19,10 +19,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// </summary>
         private Dictionary<string, TreeNode> m_modelNodeDic = new Dictionary<string, TreeNode>();
         /// <summary>
-        /// Dictionary of tree node for Simulation Parameters.
-        /// </summary>
-        private Dictionary<string, TreeNode> m_paramNodeDic = new Dictionary<string, TreeNode>();
-        /// <summary>
         /// Project tree node in TreeView
         /// </summary>
         private TreeNode m_prjNode;
@@ -31,9 +27,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// </summary>
         private TreeNode m_DMNode;
         /// <summary>
-        /// DM tree node in TreeView
+        /// Log tree node in TreeView
         /// </summary>
         private TreeNode m_logNode;
+        /// <summary>
+        /// Parameter tree node in TreeView
+        /// </summary>
+        private TreeNode m_paramNode;
         /// <summary>
         /// Last selecte dnode
         /// </summary>
@@ -711,17 +711,22 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     }
                     treeView1.SelectedNode = e.Node;
                 }
+
                 if (e.Node == m_DMNode)
                 {
                     treeView1.ContextMenuStrip = contextMenuStripDMCollection;
                 }
-                else if (e.Node.Parent == m_DMNode)
+                else if (e.Node.Parent != null && e.Node.Parent == m_DMNode)
                 {
                     treeView1.ContextMenuStrip = contextMenuStripDM;
                 }
-                else if (m_paramNodeDic.ContainsValue(e.Node))
+                else if (e.Node == m_paramNode)
                 {
                     treeView1.ContextMenuStrip = contextMenuSimulationSetCollection;
+                }
+                else if (e.Node.Parent != null && e.Node.Parent == m_paramNode)
+                {
+                    treeView1.ContextMenuStrip = contextMenuStripSimulationSet;
                 }
                 else if (e.Node.Tag is TagData)
                 {
@@ -811,7 +816,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 if (path == null) return;
                 DisplayDMEditor(path);
             }
-            else if (m_paramNodeDic.ContainsValue(e.Node.Parent))
+            else if (m_paramNode == e.Node.Parent)
             {
                 m_owner.Environment.PluginManager.SelectChanged(
                     "", (string)e.Node.Tag, Constants.xpathParameters);
@@ -933,7 +938,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     m_prjNode.Nodes.Add(m_logNode);
                     m_prjNode.Nodes.Add(m_DMNode);
                     m_modelNodeDic.Add(obj.ModelID, modelNode);
-                    m_paramNodeDic.Add(obj.ModelID, paramNode);
+                    m_paramNode = paramNode;
 
                     List<string> fileList = m_owner.Environment.DataManager.GetDMDirData();
                     foreach (string d in fileList)
@@ -1071,9 +1076,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
         public void ParameterAdd(string projectID, string parameterID) {
             TreeNode paramsNode = null;
-            if (m_paramNodeDic.ContainsKey(projectID))
+            if (m_paramNode != null)
             {
-                paramsNode = m_paramNodeDic[projectID];
+                paramsNode = m_paramNode;
             }
             else
             {
@@ -1084,7 +1089,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                         paramsNode = new TreeNode(Constants.xpathParameters);
                         paramsNode.Tag = null;
                         project.Nodes.Add(paramsNode);
-                        m_paramNodeDic.Add(projectID, paramsNode);
+                        m_paramNode = paramsNode;
                         break;
                     }
                 }
@@ -1110,9 +1115,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         public void ParameterDelete(string projectID, string parameterID)
         {
             TreeNode paramsNode = null;
-            if (m_paramNodeDic.ContainsKey(projectID))
+            if (m_paramNode != null)
             {
-                paramsNode = m_paramNodeDic[projectID];
+                paramsNode = m_paramNode;
             }
             else
             {
@@ -1123,7 +1128,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                         paramsNode = new TreeNode(Constants.xpathParameters);
                         paramsNode.Tag = null;
                         project.Nodes.Add(paramsNode);
-                        m_paramNodeDic.Add(projectID, paramsNode);
+                        m_paramNode = paramsNode;
                         break;
                     }
                 }
@@ -1149,7 +1154,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 project.Remove();
             }
             m_modelNodeDic.Clear();
-            m_paramNodeDic.Clear();
+            m_paramNode = null;
             m_logNode = null;
             m_DMNode = null;
         }
@@ -1259,6 +1264,24 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
+        private void TreeViewCopySimulationSet(object sender, EventArgs e)
+        {
+            if (m_lastSelectedNode == null) return;
+            String name = m_lastSelectedNode.Tag as string;
+            if (String.IsNullOrEmpty(name)) return;
+            string newParam = name + "_copy";
+
+            m_owner.DataManager.CopySimulationParameter(newParam, name);
+        }
+
+        private void TreeViewDeleteSimulationSet(object sender, EventArgs e)
+        {
+            if (m_lastSelectedNode == null) return;
+            String name = m_lastSelectedNode.Tag as string;
+            if (String.IsNullOrEmpty(name)) return;
+
+            m_owner.DataManager.DeleteSimulationParameter(name);
+        }
     }
 
     /// <summary>

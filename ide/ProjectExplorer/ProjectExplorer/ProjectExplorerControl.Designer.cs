@@ -62,9 +62,11 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuSimulationSetCollection = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addSimulationSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripSimulationSet = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.m_saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.addSimulationSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copySimulationSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteSimulationSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             compileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             systemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,6 +81,7 @@
             this.contextMenuStripDMCollection.SuspendLayout();
             this.contextMenuStripLog.SuspendLayout();
             this.contextMenuSimulationSetCollection.SuspendLayout();
+            this.contextMenuStripSimulationSet.SuspendLayout();
             this.SuspendLayout();
             // 
             // compileToolStripMenuItem
@@ -283,16 +286,31 @@
             this.contextMenuSimulationSetCollection.Name = "contextMenuSimulationSetCollection";
             resources.ApplyResources(this.contextMenuSimulationSetCollection, "contextMenuSimulationSetCollection");
             // 
-            // contextMenuStripSimulationSet
-            // 
-            this.contextMenuStripSimulationSet.Name = "contextMenuStripSimulationSet";
-            resources.ApplyResources(this.contextMenuStripSimulationSet, "contextMenuStripSimulationSet");
-            // 
             // addSimulationSetToolStripMenuItem
             // 
             this.addSimulationSetToolStripMenuItem.Name = "addSimulationSetToolStripMenuItem";
             resources.ApplyResources(this.addSimulationSetToolStripMenuItem, "addSimulationSetToolStripMenuItem");
             this.addSimulationSetToolStripMenuItem.Click += new System.EventHandler(this.TreeViewAddSimulationSet);
+            // 
+            // contextMenuStripSimulationSet
+            // 
+            this.contextMenuStripSimulationSet.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copySimulationSetToolStripMenuItem,
+            this.deleteSimulationSetToolStripMenuItem});
+            this.contextMenuStripSimulationSet.Name = "contextMenuStripSimulationSet";
+            resources.ApplyResources(this.contextMenuStripSimulationSet, "contextMenuStripSimulationSet");
+            // 
+            // copySimulationSetToolStripMenuItem
+            // 
+            this.copySimulationSetToolStripMenuItem.Name = "copySimulationSetToolStripMenuItem";
+            resources.ApplyResources(this.copySimulationSetToolStripMenuItem, "copySimulationSetToolStripMenuItem");
+            this.copySimulationSetToolStripMenuItem.Click += new System.EventHandler(this.TreeViewCopySimulationSet);
+            // 
+            // deleteSimulationSetToolStripMenuItem
+            // 
+            this.deleteSimulationSetToolStripMenuItem.Name = "deleteSimulationSetToolStripMenuItem";
+            resources.ApplyResources(this.deleteSimulationSetToolStripMenuItem, "deleteSimulationSetToolStripMenuItem");
+            this.deleteSimulationSetToolStripMenuItem.Click += new System.EventHandler(this.TreeViewDeleteSimulationSet);
             // 
             // ProjectExplorerControl
             // 
@@ -308,6 +326,7 @@
             this.contextMenuStripDMCollection.ResumeLayout(false);
             this.contextMenuStripLog.ResumeLayout(false);
             this.contextMenuSimulationSetCollection.ResumeLayout(false);
+            this.contextMenuStripSimulationSet.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -340,6 +359,8 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripSimulationSet;
         private System.Windows.Forms.SaveFileDialog m_saveFileDialog;
         private System.Windows.Forms.ToolStripMenuItem addSimulationSetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copySimulationSetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteSimulationSetToolStripMenuItem;
 
     }
 }
