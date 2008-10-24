@@ -4233,7 +4233,7 @@ namespace Ecell
                 return;
             SaveProject();
 
-            string sourceDir = Path.GetDirectoryName(m_currentProject.Info.ProjectPath);
+            string sourceDir = m_currentProject.Info.ProjectPath;
             string targetDir = Path.Combine(sourceDir, Util.GetRevNo(sourceDir));
             foreach (string dir in Util.IgnoredDirList)
             {
@@ -4420,23 +4420,6 @@ namespace Ecell
                 Trace.WriteLine(message);
                 throw new Exception(message, ex);
             }
-        }
-
-        /// <summary>
-        /// Get Project.
-        /// </summary>
-        /// <param name="projectID"></param>
-        /// <returns></returns>
-        private Project GetProject(string projectID)
-        {
-            Debug.Assert(!string.IsNullOrEmpty(projectID));
-            Debug.Assert(this.m_projectList != null && this.m_projectList.Count > 0);
-
-            foreach (Project prj in this.m_projectList)
-                if (prj.Info.Name.Equals(projectID))
-                    return prj;
-
-            return null;
         }
 
         /// <summary>
