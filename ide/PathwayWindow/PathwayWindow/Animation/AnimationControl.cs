@@ -302,6 +302,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             get { return m_movieFile; }
             set { m_movieFile = value; }
         }
+        /// <summary>
+        /// get PropertyDialogTabPage for Animation settings.
+        /// </summary>
+        public PropertyDialogTabPage AnimationSettingsTabPage
+        {
+            get { return new AnimationTabPage(this); }
+        }
+
+        /// <summary>
+        /// get PropertyDialogTabPage for Pathway settings.
+        /// </summary>
+        public PropertyDialogTabPage PathwaySettingsTabPage
+        {
+            get { return new PathwayTabPage(this); }
+        }
         #endregion
 
         #region Constructors
@@ -574,16 +589,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         #endregion
 
         /// <summary>
-        /// Create TabPage for PathwaySettingDialog
-        /// </summary>
-        /// <returns></returns>
-        public PropertyDialogTabPage CreateTabPage()
-        {
-            PropertyDialogTabPage page = new AnimationTabPage(this);
-            return page;
-        }
-
-        /// <summary>
         /// Save Settings
         /// </summary>
         public void SaveSettings()
@@ -803,52 +808,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             if (m_isLogarithmic)
                 return value.ToString(FormatLog);
             return value.ToString(FormatNatural);
-        }
-
-        /// <summary>
-        /// private class for AnimationSettingDialog
-        /// </summary>
-        internal class AnimationTabPage : PropertyDialogTabPage
-        {
-            private AnimationControl m_con;
-            private EditModeItems m_editModeItems;
-            private ViewModeItems m_viewModeItems;
-            private AnimationItems m_animationItems;
-
-            public AnimationTabPage(AnimationControl control)
-            {
-                m_con = control;
-                m_editModeItems = new EditModeItems(control);
-                m_viewModeItems = new ViewModeItems(control);
-                m_animationItems = new AnimationItems(control);
-
-                this.Text = MessageResources.DialogTextPathwaySetting;
-                this.SuspendLayout();
-                this.Controls.Add(m_editModeItems);
-                this.Controls.Add(m_viewModeItems);
-                this.Controls.Add(m_animationItems);
-
-                m_viewModeItems.Top = m_editModeItems.Top + m_editModeItems.Height;
-                m_animationItems.Top = m_viewModeItems.Top + m_viewModeItems.Height;
-                this.ResumeLayout();
-                this.PerformLayout();
-            }
-
-            public override void ApplyChange()
-            {
-                try
-                {
-                    base.ApplyChange();
-                    m_editModeItems.ApplyChanges();
-                    m_viewModeItems.ApplyChanges();
-                    m_animationItems.ApplyChanges();
-                    m_con.SaveSettings();
-                }
-                catch (Exception)
-                {
-                    Util.ShowErrorDialog(MessageResources.ErrUpdateConfig);
-                }
-            }
         }
     }
 }

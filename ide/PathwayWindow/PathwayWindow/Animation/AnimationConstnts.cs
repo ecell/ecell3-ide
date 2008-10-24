@@ -39,61 +39,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     /// </summary>
     internal class AnimationConstants
     {
-        #region Constants for dialog text.
-        /// <summary>
-        /// DialogTextAnimationSetting
-        /// </summary>
-        public const string DialogTextAnimationSetting = "DialogTextAnimationSetting";
-        /// <summary>
-        /// DialogTextBackgroundBrush
-        /// </summary>
-        public const string DialogTextBackgroundBrush = "DialogTextBackgroundBrush";
-        /// <summary>
-        /// DialogTextEdgeBrush
-        /// </summary>
-        public const string DialogTextEdgeBrush = "DialogTextEdgeBrush";
-        /// <summary>
-        /// DialogTextEditMode
-        /// </summary>
-        public const string DialogTextEditMode = "DialogTextEditMode";
-        /// <summary>
-        /// DialogTextEdgeWidth
-        /// </summary>
-        public const string DialogTextEdgeWidth = "DialogTextEdgeWidth";
-        /// <summary>
-        /// DialogTextMaxEdgeWidth
-        /// </summary>
-        public const string DialogTextMaxEdgeWidth = "DialogTextMaxEdgeWidth";
-        /// <summary>
-        /// DialogTextNGBrush
-        /// </summary>
-        public const string DialogTextNGBrush = "DialogTextNGBrush";
-        /// <summary>
-        /// DialogTextNormalEdge
-        /// </summary>
-        public const string DialogTextNormalEdge = "DialogTextNormalEdge";
-        /// <summary>
-        /// DialogTextThresholdHigh
-        /// </summary>
-        public const string DialogTextThresholdHigh = "DialogTextThresholdHigh";
-        /// <summary>
-        /// DialogTextThresholdLow
-        /// </summary>
-        public const string DialogTextThresholdLow = "DialogTextThresholdLow";
-        /// <summary>
-        /// DialogTextViewMode
-        /// </summary>
-        public const string DialogTextViewMode = "DialogTextViewMode";
-        /// <summary>
-        /// DialogTextViewMode
-        /// </summary>
-        public const string DialogTextPropertyBrush = "DialogTextPropertyBrush";
-        /// <summary>
-        /// DialogTextLogarithmic
-        /// </summary>
-        public const string DialogTextLogarithmic = "DialogTextLogarithmic";
-        #endregion
-
         #region Constants for XML.
         /// <summary>
         /// 

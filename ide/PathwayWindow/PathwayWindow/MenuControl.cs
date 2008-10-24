@@ -1173,15 +1173,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             using (dialog)
             {
                 dialog.Text = MessageResources.DialogTextPathwaySetting;
+                PropertyDialogTabPage pathwayPage = m_con.Animation.PathwaySettingsTabPage;
+                PropertyDialogTabPage animationPage = m_con.Animation.AnimationSettingsTabPage;
                 PropertyDialogTabPage componentPage = m_con.ComponentManager.CreateTabPage();
-                PropertyDialogTabPage animationPage = m_con.Animation.CreateTabPage();
+                dialog.TabControl.Controls.Add(pathwayPage);
                 dialog.TabControl.Controls.Add(animationPage);
                 dialog.TabControl.Controls.Add(componentPage);
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return;
 
-                componentPage.ApplyChange();
+                pathwayPage.ApplyChange();
                 animationPage.ApplyChange();
+                componentPage.ApplyChange();
                 m_con.ResetObjectSettings();
             }
         }

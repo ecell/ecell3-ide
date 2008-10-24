@@ -56,11 +56,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyDialogTabPage));
             this.SuspendLayout();
             // 
             // PropertyDialogTabPage
             // 
-            this.AutoScroll = true;
+            resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
 
         }
