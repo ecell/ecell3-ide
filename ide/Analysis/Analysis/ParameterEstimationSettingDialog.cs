@@ -292,5 +292,48 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.Generation = dummy;
         }
+
+        private void ParameterDataChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            EcellParameterData data = parameterEstimationParameterDataGrid.Rows[e.RowIndex].Tag as EcellParameterData;
+            if (data == null) return;
+            double dummy = 0;
+            bool isCorrect = true;
+            if (!double.TryParse(parameterEstimationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
+            {
+                isCorrect = false;
+            }
+
+            if (isCorrect)
+            {
+                switch (e.ColumnIndex)
+                {
+                    case 1:
+                        data.Max = dummy;
+                        break;
+                    case 2:
+                        data.Min = dummy;
+                        break;
+                    case 3:
+                        data.Step = dummy;
+                        break;
+                }
+            }
+            else
+            {
+                switch (e.ColumnIndex)
+                {
+                    case 1:
+                        parameterEstimationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Max;
+                        break;
+                    case 2:
+                        parameterEstimationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Min;
+                        break;
+                    case 3:
+                        parameterEstimationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Step;
+                        break;
+                }
+            }
+        }
     }
 }

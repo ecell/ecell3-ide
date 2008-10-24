@@ -174,6 +174,7 @@
             this.parameterEstimationParameterDataGrid.Name = "parameterEstimationParameterDataGrid";
             this.parameterEstimationParameterDataGrid.RowHeadersVisible = false;
             this.parameterEstimationParameterDataGrid.RowTemplate.Height = 21;
+            this.parameterEstimationParameterDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ParameterDataChanged);
             // 
             // dataGridViewTextBoxColumn1
             // 

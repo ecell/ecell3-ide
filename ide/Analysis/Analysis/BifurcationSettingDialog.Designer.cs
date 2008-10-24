@@ -189,6 +189,7 @@
             this.bifurcationParameterDataGrid.Name = "bifurcationParameterDataGrid";
             this.bifurcationParameterDataGrid.RowHeadersVisible = false;
             this.bifurcationParameterDataGrid.RowTemplate.Height = 21;
+            this.bifurcationParameterDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ParameterDataChanged);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -236,6 +237,7 @@
             this.bifurcationObservedDataGrid.Name = "bifurcationObservedDataGrid";
             this.bifurcationObservedDataGrid.RowHeadersVisible = false;
             this.bifurcationObservedDataGrid.RowTemplate.Height = 21;
+            this.bifurcationObservedDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ObservedDataChanged);
             // 
             // dataGridViewTextBoxColumn5
             // 

@@ -254,5 +254,98 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.MinFreq = dummy;
         }
+
+        private void ObservedDataChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            EcellObservedData data = bifurcationObservedDataGrid.Rows[e.RowIndex].Tag as EcellObservedData;
+            if (data == null) return;
+            double dummy = 0;
+            bool isCorrect = true;
+            if (!double.TryParse(bifurcationObservedDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
+            {
+                isCorrect = false;
+            }
+
+            if (isCorrect)
+            {
+                switch (e.ColumnIndex)
+                {
+                    case 1:
+                        data.Max = dummy;
+                        break;
+                    case 2:
+                        data.Min = dummy;
+                        break;
+                    case 3:
+                        data.Differ = dummy;
+                        break;
+                    case 4:
+                        data.Rate = dummy;
+                        break;
+                }
+            }
+            else
+            {
+                switch (e.ColumnIndex)
+                {
+                    case 1:
+                        bifurcationObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Max;
+                        break;
+                    case 2:
+                        bifurcationObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Min;
+                        break;
+                    case 3:
+                        bifurcationObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Differ;
+                        break;
+                    case 4:
+                        bifurcationObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Rate;
+                        break;
+                }
+            }
+        }
+
+        private void ParameterDataChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            EcellParameterData data = bifurcationParameterDataGrid.Rows[e.RowIndex].Tag as EcellParameterData;
+            if (data == null) return;
+            double dummy = 0;
+            bool isCorrect = true;
+            if (!double.TryParse(bifurcationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
+            {
+                isCorrect = false;
+            }
+
+            if (isCorrect)
+            {
+                switch (e.ColumnIndex)
+                {
+                    case 1:
+                        data.Max = dummy;
+                        break;
+                    case 2:
+                        data.Min = dummy;
+                        break;
+                    case 3:
+                        data.Step = dummy;
+                        break;
+                }
+            }
+            else
+            {
+                switch (e.ColumnIndex)
+                {
+                    case 1:
+                        bifurcationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Max;
+                        break;
+                    case 2:
+                        bifurcationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Min;
+                        break;
+                    case 3:
+                        bifurcationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Step;
+                        break;
+                }
+            }
+
+        }
     }
 }
