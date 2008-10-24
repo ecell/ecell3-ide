@@ -304,7 +304,7 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             if (type == Constants.xpathParameters && key != Constants.xpathParameters)
             {
-                SetupSimulation(new Button(), new EventArgs());
+                ShowSetupSimulationDialog(key);
             }
         }
 
@@ -481,13 +481,7 @@ namespace Ecell.IDE.Plugins.Simulation
         }
         #endregion
 
-        #region Event
-        /// <summary>
-        /// The action of [Simulation] menu click.
-        /// </summary>
-        /// <param name="sender">object(ToolStripMenuItem)</param>
-        /// <param name="e">EventArgs</param>
-        public void SetupSimulation(object sender, EventArgs e)
+        private void ShowSetupSimulationDialog(string viewParamID)
         {
             Dictionary<string, SimulationParameterSet> sim = new Dictionary<string, SimulationParameterSet>();
             foreach (string paramID in m_dManager.GetSimulationParameterIDs())
@@ -496,7 +490,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 foreach (string modelID in m_dManager.GetModelList())
                 {
                     PerModelSimulationParameter pmsp = new PerModelSimulationParameter(modelID);
-                    foreach (KeyValuePair<string, double> pair in 
+                    foreach (KeyValuePair<string, double> pair in
                         m_dManager.GetInitialCondition(paramID, modelID))
                     {
                         pmsp.InitialConditions.Add(
@@ -524,6 +518,8 @@ namespace Ecell.IDE.Plugins.Simulation
             }
 
             SimulationConfigurationDialog win = new SimulationConfigurationDialog(this, sim.Values);
+            if (viewParamID != null)
+                win.ChangeParameterID(sim[viewParamID]);
             using (win)
             {
                 DialogResult r = win.ShowDialog();
@@ -599,6 +595,17 @@ namespace Ecell.IDE.Plugins.Simulation
                     m_dManager.CurrentProject.Info.SimulationParam = en.Current.Name;
                 }
             }
+        }
+
+        #region Event
+        /// <summary>
+        /// The action of [Simulation] menu click.
+        /// </summary>
+        /// <param name="sender">object(ToolStripMenuItem)</param>
+        /// <param name="e">EventArgs</param>
+        public void SetupSimulation(object sender, EventArgs e)
+        {
+            ShowSetupSimulationDialog(null);
         }
 
         /// <summary>

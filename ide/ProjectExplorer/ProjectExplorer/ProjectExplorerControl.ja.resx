@@ -266,4 +266,7 @@
   <data name="exportModelToolStripMenuItem.Text" xml:space="preserve">
     <value>出力...</value>
   </data>
+  <data name="configureSimulationSetToolStripMenuItem.Text" xml:space="preserve">
+    <value>設定...</value>
+  </data>
 </root>

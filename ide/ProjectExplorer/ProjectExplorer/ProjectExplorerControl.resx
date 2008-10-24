@@ -195,6 +195,24 @@
   <data name="toolStrip1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>None</value>
   </data>
+  <data name="toolStripButtonSortByType.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="toolStripButtonSortByType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 21</value>
+  </data>
+  <data name="toolStripButtonSortByType.Text" xml:space="preserve">
+    <value>Sort by Entity type</value>
+  </data>
+  <data name="toolStripButtonSortByName.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="toolStripButtonSortByName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 21</value>
+  </data>
+  <data name="toolStripButtonSortByName.Text" xml:space="preserve">
+    <value>Sort by name</value>
+  </data>
   <data name="toolStrip1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -221,24 +239,6 @@
   </data>
   <data name="&gt;&gt;toolStrip1.ZOrder" xml:space="preserve">
     <value>7</value>
-  </data>
-  <data name="toolStripButtonSortByType.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="toolStripButtonSortByType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 21</value>
-  </data>
-  <data name="toolStripButtonSortByType.Text" xml:space="preserve">
-    <value>Sort by Entity type</value>
-  </data>
-  <data name="toolStripButtonSortByName.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="toolStripButtonSortByName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 21</value>
-  </data>
-  <data name="toolStripButtonSortByName.Text" xml:space="preserve">
-    <value>Sort by name</value>
   </data>
   <data name="toolStripMenuItemAdd.Size" type="System.Drawing.Size, System.Drawing">
     <value>271, 22</value>
@@ -273,15 +273,6 @@
   <metadata name="contextMenuStripStdEntity.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>244, 18</value>
   </metadata>
-  <data name="contextMenuStripStdEntity.Size" type="System.Drawing.Size, System.Drawing">
-    <value>272, 170</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripStdEntity.Name" xml:space="preserve">
-    <value>contextMenuStripStdEntity</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripStdEntity.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="toolStripMenuItemMerge.Size" type="System.Drawing.Size, System.Drawing">
     <value>271, 22</value>
   </data>
@@ -296,6 +287,15 @@
   </data>
   <data name="toolStripMenuItemProperties.Text" xml:space="preserve">
     <value>Properties</value>
+  </data>
+  <data name="contextMenuStripStdEntity.Size" type="System.Drawing.Size, System.Drawing">
+    <value>272, 170</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripStdEntity.Name" xml:space="preserve">
+    <value>contextMenuStripStdEntity</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripStdEntity.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="treeView1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -316,7 +316,7 @@
     <value>treeView1</value>
   </data>
   <data name="&gt;&gt;treeView1.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView, ProjectExplorer, Version=1.1.1953.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView, ProjectExplorer, Version=1.1.1958.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;treeView1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -364,7 +364,7 @@
     <value>Create new revision</value>
   </data>
   <data name="contextMenuStripModel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 70</value>
+    <value>173, 48</value>
   </data>
   <data name="&gt;&gt;contextMenuStripModel.Name" xml:space="preserve">
     <value>contextMenuStripModel</value>
@@ -375,15 +375,6 @@
   <metadata name="contextMenuStripLog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>191, 57</value>
   </metadata>
-  <data name="contextMenuStripLog.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 76</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripLog.Name" xml:space="preserve">
-    <value>contextMenuStripLog</value>
-  </data>
-  <data name="&gt;&gt;contextMenuStripLog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="plotGraphToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>142, 22</value>
   </data>
@@ -405,9 +396,24 @@
   <data name="exportToolStripMenuItem.Text" xml:space="preserve">
     <value>Export...</value>
   </data>
+  <data name="contextMenuStripLog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 76</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripLog.Name" xml:space="preserve">
+    <value>contextMenuStripLog</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStripLog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <metadata name="contextMenuSimulationSetCollection.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>353, 57</value>
   </metadata>
+  <data name="addSimulationSetToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 22</value>
+  </data>
+  <data name="addSimulationSetToolStripMenuItem.Text" xml:space="preserve">
+    <value>Add...</value>
+  </data>
   <data name="contextMenuSimulationSetCollection.Size" type="System.Drawing.Size, System.Drawing">
     <value>97, 26</value>
   </data>
@@ -417,35 +423,38 @@
   <data name="&gt;&gt;contextMenuSimulationSetCollection.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="addSimulationSetToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 22</value>
-  </data>
-  <data name="addSimulationSetToolStripMenuItem.Text" xml:space="preserve">
-    <value>Add...</value>
-  </data>
   <metadata name="contextMenuStripSimulationSet.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 94</value>
   </metadata>
+  <data name="copySimulationSetToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="copySimulationSetToolStripMenuItem.Text" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="deleteSimulationSetToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="deleteSimulationSetToolStripMenuItem.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 6</value>
+  </data>
+  <data name="configureSimulationSetToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="configureSimulationSetToolStripMenuItem.Text" xml:space="preserve">
+    <value>Configure...</value>
+  </data>
   <data name="contextMenuStripSimulationSet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>104, 48</value>
+    <value>153, 98</value>
   </data>
   <data name="&gt;&gt;contextMenuStripSimulationSet.Name" xml:space="preserve">
     <value>contextMenuStripSimulationSet</value>
   </data>
   <data name="&gt;&gt;contextMenuStripSimulationSet.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="copySimulationSetToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 22</value>
-  </data>
-  <data name="copySimulationSetToolStripMenuItem.Text" xml:space="preserve">
-    <value>Copy</value>
-  </data>
-  <data name="deleteSimulationSetToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 22</value>
-  </data>
-  <data name="deleteSimulationSetToolStripMenuItem.Text" xml:space="preserve">
-    <value>Delete</value>
   </data>
   <metadata name="m_saveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>232, 94</value>
@@ -580,6 +589,18 @@
   <data name="&gt;&gt;toolStripMenuItemProperties.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;exportModelToolStripMenuItem.Name" xml:space="preserve">
+    <value>exportModelToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;exportModelToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;createNewRevisionToolStripMenuItem.Name" xml:space="preserve">
+    <value>createNewRevisionToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;createNewRevisionToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;plotGraphToolStripMenuItem.Name" xml:space="preserve">
     <value>plotGraphToolStripMenuItem</value>
   </data>
@@ -628,16 +649,16 @@
   <data name="&gt;&gt;m_saveFileDialog.Type" xml:space="preserve">
     <value>System.Windows.Forms.SaveFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;exportModelToolStripMenuItem.Name" xml:space="preserve">
-    <value>exportModelToolStripMenuItem</value>
+  <data name="&gt;&gt;toolStripSeparator3.Name" xml:space="preserve">
+    <value>toolStripSeparator3</value>
   </data>
-  <data name="&gt;&gt;exportModelToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;toolStripSeparator3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;createNewRevisionToolStripMenuItem.Name" xml:space="preserve">
-    <value>createNewRevisionToolStripMenuItem</value>
+  <data name="&gt;&gt;configureSimulationSetToolStripMenuItem.Name" xml:space="preserve">
+    <value>configureSimulationSetToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;createNewRevisionToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;configureSimulationSetToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

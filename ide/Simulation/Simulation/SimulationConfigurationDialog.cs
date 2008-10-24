@@ -184,23 +184,9 @@ namespace Ecell.IDE.Plugins.Simulation
         /// Redraw simulation setup window on changing parameter ID.
         /// </summary>
         /// <param name="param">parameter ID</param>
-        public void ChangeParameterID(string param)
+        public void ChangeParameterID(SimulationParameterSet paramSet)
         {
-            int j = 0;
-            string selectModelName = "";
-
-            modelCombo.Items.Clear();
-            List<string> modelList = m_owner.DataManager.GetModelList();
-            foreach (String modelName in modelList)
-            {
-                modelCombo.Items.Add(modelName);
-                if (j == 0)
-                {
-                    modelCombo.SelectedIndex = 0;
-                    selectModelName = modelName;
-                }
-                j++;
-            }
+            m_simParamSets.CurrencyManager.Position = m_simParamSets.IndexOf(paramSet);
         }
 
         #region Event

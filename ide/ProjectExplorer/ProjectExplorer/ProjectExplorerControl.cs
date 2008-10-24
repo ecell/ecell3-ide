@@ -1308,6 +1308,16 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             m_owner.DataManager.CreateNewRevision();
         }
+
+        private void TreeViewConfigureSimulationSet(object sender, EventArgs e)
+        {
+            if (m_lastSelectedNode == null) return;
+            if (m_paramNode == m_lastSelectedNode.Parent)
+            {
+                m_owner.Environment.PluginManager.SelectChanged(
+                    "", (string)m_lastSelectedNode.Tag, Constants.xpathParameters);
+            }
+        }
     }
 
     /// <summary>

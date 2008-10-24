@@ -56,6 +56,8 @@
             this.contextMenuStripDM = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStripDMCollection = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStripModel = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.exportModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createNewRevisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripLog = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.plotGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,8 +69,8 @@
             this.copySimulationSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSimulationSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.exportModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.createNewRevisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.configureSimulationSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             compileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             systemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -252,6 +254,18 @@
             this.contextMenuStripModel.Name = "contextMenuStripModel";
             resources.ApplyResources(this.contextMenuStripModel, "contextMenuStripModel");
             // 
+            // exportModelToolStripMenuItem
+            // 
+            this.exportModelToolStripMenuItem.Name = "exportModelToolStripMenuItem";
+            resources.ApplyResources(this.exportModelToolStripMenuItem, "exportModelToolStripMenuItem");
+            this.exportModelToolStripMenuItem.Click += new System.EventHandler(this.TreeViewExportModel);
+            // 
+            // createNewRevisionToolStripMenuItem
+            // 
+            this.createNewRevisionToolStripMenuItem.Name = "createNewRevisionToolStripMenuItem";
+            resources.ApplyResources(this.createNewRevisionToolStripMenuItem, "createNewRevisionToolStripMenuItem");
+            this.createNewRevisionToolStripMenuItem.Click += new System.EventHandler(this.TreeViewCreateNewRevision);
+            // 
             // contextMenuStripLog
             // 
             this.contextMenuStripLog.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -302,7 +316,9 @@
             // 
             this.contextMenuStripSimulationSet.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copySimulationSetToolStripMenuItem,
-            this.deleteSimulationSetToolStripMenuItem});
+            this.deleteSimulationSetToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.configureSimulationSetToolStripMenuItem});
             this.contextMenuStripSimulationSet.Name = "contextMenuStripSimulationSet";
             resources.ApplyResources(this.contextMenuStripSimulationSet, "contextMenuStripSimulationSet");
             // 
@@ -318,17 +334,16 @@
             resources.ApplyResources(this.deleteSimulationSetToolStripMenuItem, "deleteSimulationSetToolStripMenuItem");
             this.deleteSimulationSetToolStripMenuItem.Click += new System.EventHandler(this.TreeViewDeleteSimulationSet);
             // 
-            // exportModelToolStripMenuItem
+            // toolStripSeparator3
             // 
-            this.exportModelToolStripMenuItem.Name = "exportModelToolStripMenuItem";
-            resources.ApplyResources(this.exportModelToolStripMenuItem, "exportModelToolStripMenuItem");
-            this.exportModelToolStripMenuItem.Click += new System.EventHandler(this.TreeViewExportModel);
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
             // 
-            // createNewRevisionToolStripMenuItem
+            // configureSimulationSetToolStripMenuItem
             // 
-            this.createNewRevisionToolStripMenuItem.Name = "createNewRevisionToolStripMenuItem";
-            resources.ApplyResources(this.createNewRevisionToolStripMenuItem, "createNewRevisionToolStripMenuItem");
-            this.createNewRevisionToolStripMenuItem.Click += new System.EventHandler(this.TreeViewCreateNewRevision);
+            this.configureSimulationSetToolStripMenuItem.Name = "configureSimulationSetToolStripMenuItem";
+            resources.ApplyResources(this.configureSimulationSetToolStripMenuItem, "configureSimulationSetToolStripMenuItem");
+            this.configureSimulationSetToolStripMenuItem.Click += new System.EventHandler(this.TreeViewConfigureSimulationSet);
             // 
             // ProjectExplorerControl
             // 
@@ -382,6 +397,8 @@
         private System.Windows.Forms.ToolStripMenuItem deleteSimulationSetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportModelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createNewRevisionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem configureSimulationSetToolStripMenuItem;
 
     }
 }
