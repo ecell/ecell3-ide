@@ -77,10 +77,6 @@
     <DocumentationFile>bin\x86_64\Release\Formulator.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="IronMath">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(IRONPYTHONHOME)\IronMath.dll</HintPath>
@@ -305,7 +301,6 @@
     <Compile Include="EcellWebBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ZipUtil.cs" />
     <Compile Include="ProjectWizardWindow.cs">
       <SubType>Form</SubType>
     </Compile>

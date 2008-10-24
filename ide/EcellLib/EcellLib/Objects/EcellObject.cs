@@ -471,7 +471,7 @@ namespace Ecell.Objects
         {
             if (MODEL.Equals(type))
                 return new EcellModel(modelID, key, type, classname, data);
-            if (PROCESS.Equals(type))
+            else if (PROCESS.Equals(type))
                 return new EcellProcess(modelID, key, type, classname, data);
             else if (VARIABLE.Equals(type))
                 return new EcellVariable(modelID, key, type, classname, data);
