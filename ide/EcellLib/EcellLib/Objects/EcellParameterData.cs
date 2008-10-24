@@ -150,5 +150,10 @@ namespace Ecell.Objects
         {
             return base.GetHashCode();
         }
+
+        public EcellParameterData Copy()
+        {
+            return new EcellParameterData(m_key, m_max, m_min, m_step);
+        }
     }
 }

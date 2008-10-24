@@ -477,13 +477,18 @@ namespace Ecell.IDE.Plugins.Analysis
             using (dlg)
             {
                 DialogResult res = dlg.ShowDialog();
-                if (res == DialogResult.OK)
+                if (res == DialogResult.OK || res == DialogResult.Ignore)
                 {
                     m_estimationParameter = dlg.GetParameter();
+                    List<EcellParameterData> pList = dlg.GetParameterDataList();
+                    foreach (EcellParameterData p in pList)
+                    {
+                        DataManager.SetParameterData(p);
+                    }
+
                 }
-                else if (res == DialogResult.Ignore)
+                if (res == DialogResult.Ignore)
                 {
-                    m_estimationParameter = dlg.GetParameter();
                     ExecuteParameterEstimation(sender, e);
                 }
             }
@@ -498,13 +503,22 @@ namespace Ecell.IDE.Plugins.Analysis
             using (dlg)
             {
                 DialogResult res = dlg.ShowDialog();
-                if (res == DialogResult.OK)
+                if (res == DialogResult.OK || res == DialogResult.Ignore)
                 {
                     m_bifurcateParameter = dlg.GetParameter();
+                    List<EcellParameterData> pList = dlg.GetParameterDataList();
+                    List<EcellObservedData> oList = dlg.GetObservedDataList();
+                    foreach (EcellParameterData p in pList)
+                    {
+                        DataManager.SetParameterData(p);
+                    }
+                    foreach (EcellObservedData o in oList)
+                    {
+                        DataManager.SetObservedData(o);
+                    }
                 }
-                else if (res == DialogResult.Ignore)
+                if (res == DialogResult.Ignore)
                 {
-                    m_bifurcateParameter = dlg.GetParameter();
                     ExecuteBifurcationAnalysis(sender, e);
                 }
             }
@@ -518,14 +532,23 @@ namespace Ecell.IDE.Plugins.Analysis
             dlg.SetObservedDataList(m_observedList);
             using (dlg)
             {
-                DialogResult res = dlg.ShowDialog();               
-                if (res == DialogResult.OK)
+                DialogResult res = dlg.ShowDialog();
+                if (res == DialogResult.OK || res == DialogResult.Ignore)
                 {
                     m_robustParameter = dlg.GetParameter();
+                    List<EcellParameterData> pList = dlg.GetParameterDataList();
+                    List<EcellObservedData> oList = dlg.GetObservedDataList();
+                    foreach (EcellParameterData p in pList)
+                    {
+                        DataManager.SetParameterData(p);
+                    }
+                    foreach (EcellObservedData o in oList)
+                    {
+                        DataManager.SetObservedData(o);
+                    }
                 }
-                else if (res == DialogResult.Ignore)
+                if (res == DialogResult.Ignore)
                 {
-                    m_robustParameter = dlg.GetParameter();
                     ExecuteRobustAnalysis(sender, e);
                 }
             }

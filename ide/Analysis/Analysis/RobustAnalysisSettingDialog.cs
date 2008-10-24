@@ -36,6 +36,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="p">the parameter of robust analysis.</param>
         public void SetParameter(RobustAnalysisParameter p)
         {
+            m_param = p;
             robustAnalysisMaxSampleTextBox.Text = Convert.ToString(p.SampleNum);
             robustAnalysisSimulationTimeTextBox.Text = Convert.ToString(p.SimulationTime);
             robustAnalysisMaxSampleTextBox.Text = Convert.ToString(p.MaxData);
@@ -44,7 +45,6 @@ namespace Ecell.IDE.Plugins.Analysis
             robustAnalysisWindowSizeTextBox.Text = Convert.ToString(p.WinSize);
             if (p.IsRandomCheck) robustAnalysisRandomCheckBox.Checked = true;
             else robustAnalysisMatrixCheckBox.Checked = true;
-            m_param = p;
         }
 
         public void SetParameterDataList(Dictionary<string, EcellData> dic)
@@ -87,7 +87,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 r.Cells.Add(c4);
             }
 
-            r.Tag = data;
+            r.Tag = data.Copy();
 
             robustAnalysisParameterDataGrid.Rows.Add(r);
         }
@@ -115,7 +115,7 @@ namespace Ecell.IDE.Plugins.Analysis
             c5.Value = data.Rate;
             r.Cells.Add(c5);
 
-            r.Tag = data;
+            r.Tag = data.Copy();
             robustAnalysisObservedDataGrid.Rows.Add(r);
         }
 
@@ -303,6 +303,28 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             m_param.MinFreq = dummy;
+        }
+
+        public List<EcellObservedData> GetObservedDataList()
+        {
+            List<EcellObservedData> result = new List<EcellObservedData>();
+            for (int i = 0; i < robustAnalysisObservedDataGrid.Rows.Count; i++)
+            {
+                EcellObservedData data = robustAnalysisObservedDataGrid.Rows[i].Tag as EcellObservedData;
+                result.Add(data);
+            }
+            return result;
+        }
+
+        public List<EcellParameterData> GetParameterDataList()
+        {
+            List<EcellParameterData> result = new List<EcellParameterData>();
+            for (int i = 0; i < robustAnalysisParameterDataGrid.Rows.Count; i++)
+            {
+                EcellParameterData data = robustAnalysisParameterDataGrid.Rows[i].Tag as EcellParameterData;
+                result.Add(data);
+            }
+            return result;
         }
 
         private void ObservedDataChanged(object sender, DataGridViewCellEventArgs e)

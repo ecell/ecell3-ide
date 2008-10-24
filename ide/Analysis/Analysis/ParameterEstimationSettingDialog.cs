@@ -92,7 +92,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 r.Cells.Add(c4);
             }
 
-            r.Tag = data;
+            r.Tag = data.Copy();
 
             parameterEstimationParameterDataGrid.Rows.Add(r);
         }
@@ -143,6 +143,17 @@ namespace Ecell.IDE.Plugins.Analysis
                 type = EstimationFormulatorType.SumEqualZero;
             }
             return type;
+        }
+
+        public List<EcellParameterData> GetParameterDataList()
+        {
+            List<EcellParameterData> result = new List<EcellParameterData>();
+            for (int i = 0; i < parameterEstimationParameterDataGrid.Rows.Count; i++)
+            {
+                EcellParameterData data = parameterEstimationParameterDataGrid.Rows[i].Tag as EcellParameterData;
+                result.Add(data);
+            }
+            return result;
         }
 
 

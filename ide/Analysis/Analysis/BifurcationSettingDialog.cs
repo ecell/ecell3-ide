@@ -85,7 +85,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 r.Cells.Add(c4);
             }
 
-            r.Tag = data;
+            r.Tag = data.Copy();
 
             bifurcationParameterDataGrid.Rows.Add(r);
         }
@@ -113,8 +113,30 @@ namespace Ecell.IDE.Plugins.Analysis
             c5.Value = data.Rate;
             r.Cells.Add(c5);
 
-            r.Tag = data;
+            r.Tag = data.Copy();
             bifurcationObservedDataGrid.Rows.Add(r);
+        }
+
+        public List<EcellObservedData> GetObservedDataList()
+        {
+            List<EcellObservedData> result = new List<EcellObservedData>();
+            for (int i = 0; i < bifurcationObservedDataGrid.Rows.Count; i++)
+            {
+                EcellObservedData data = bifurcationObservedDataGrid.Rows[i].Tag as EcellObservedData;
+                result.Add(data);
+            }
+            return result;
+        }
+
+        public List<EcellParameterData> GetParameterDataList()
+        {
+            List<EcellParameterData> result = new List<EcellParameterData>();
+            for (int i = 0; i < bifurcationParameterDataGrid.Rows.Count; i++)
+            {
+                EcellParameterData data = bifurcationParameterDataGrid.Rows[i].Tag as EcellParameterData;
+                result.Add(data);
+            }
+            return result;
         }
 
         private void FormLoad(object sender, EventArgs e)

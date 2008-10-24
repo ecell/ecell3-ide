@@ -156,5 +156,10 @@ namespace Ecell.Objects
         {
             return base.GetHashCode();
         }
+
+        public EcellObservedData Copy()
+        {
+            return new EcellObservedData(m_key, m_max, m_min, m_differ, m_rate);
+        }
     }
 }
