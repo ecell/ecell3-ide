@@ -257,7 +257,13 @@
   <data name="copySimulationSetToolStripMenuItem.Text" xml:space="preserve">
     <value>コピー</value>
   </data>
+  <data name="createNewRevisionToolStripMenuItem.Text" xml:space="preserve">
+    <value>リビジョン作成</value>
+  </data>
   <data name="deleteSimulationSetToolStripMenuItem.Text" xml:space="preserve">
     <value>削除</value>
+  </data>
+  <data name="exportModelToolStripMenuItem.Text" xml:space="preserve">
+    <value>出力...</value>
   </data>
 </root>

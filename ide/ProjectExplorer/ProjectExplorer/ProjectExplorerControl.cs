@@ -733,7 +733,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     TagData tag = e.Node.Tag as TagData;
                     if (tag.m_type == Constants.xpathModel)
                     {
-                        treeView1.ContextMenuStrip = null;
+                        treeView1.ContextMenuStrip = contextMenuStripModel;
                     }
                     else if (tag.m_type == Constants.xpathSystem)
                     {
@@ -1281,6 +1281,32 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (String.IsNullOrEmpty(name)) return;
 
             m_owner.DataManager.DeleteSimulationParameter(name);
+        }
+
+        private void TreeViewExportModel(object sender, EventArgs e)
+        {
+            if (m_lastSelectedNode == null) return;
+            TagData tag = m_lastSelectedNode.Tag as TagData;
+            if (tag == null || tag.m_type != Constants.xpathModel) return;
+            String name = tag.m_modelID;
+            List<string> modelList = new List<string>();
+            modelList.Add(name);
+
+            if (m_saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string fileName = m_saveFileDialog.FileName;
+
+                m_owner.DataManager.ExportModel(modelList, fileName);
+            }
+        }
+
+        private void TreeViewCreateNewRevision(object sender, EventArgs e)
+        {
+            if (m_lastSelectedNode == null) return;
+            TagData tag = m_lastSelectedNode.Tag as TagData;
+            if (tag == null || tag.m_type != Constants.xpathModel) return;
+
+            m_owner.DataManager.CreateNewRevision();
         }
     }
 
