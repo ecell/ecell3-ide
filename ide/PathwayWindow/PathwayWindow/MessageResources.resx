@@ -276,45 +276,6 @@
   <data name="MenuItemFile" xml:space="preserve">
     <value>File</value>
   </data>
-  <data name="DialogTextAnimationSetting" xml:space="preserve">
-    <value>Animation setting</value>
-  </data>
-  <data name="DialogTextBackgroundBrush" xml:space="preserve">
-    <value>Background color</value>
-  </data>
-  <data name="DialogTextEdgeBrush" xml:space="preserve">
-    <value>Arrow color</value>
-  </data>
-  <data name="DialogTextEdgeWidth" xml:space="preserve">
-    <value>Arrow width</value>
-  </data>
-  <data name="DialogTextEditMode" xml:space="preserve">
-    <value>Edit mode</value>
-  </data>
-  <data name="DialogTextLogarithmic" xml:space="preserve">
-    <value>Logarithmic scale</value>
-  </data>
-  <data name="DialogTextMaxEdgeWidth" xml:space="preserve">
-    <value>Max arrow width</value>
-  </data>
-  <data name="DialogTextNGBrush" xml:space="preserve">
-    <value>Error color</value>
-  </data>
-  <data name="DialogTextNormalEdge" xml:space="preserve">
-    <value>Normal arrow color</value>
-  </data>
-  <data name="DialogTextThresholdHigh" xml:space="preserve">
-    <value>Upper threshold</value>
-  </data>
-  <data name="DialogTextThresholdLow" xml:space="preserve">
-    <value>Lower threshold</value>
-  </data>
-  <data name="DialogTextViewMode" xml:space="preserve">
-    <value>View mode</value>
-  </data>
-  <data name="DialogTextPropertyBrush" xml:space="preserve">
-    <value>Property color</value>
-  </data>
   <data name="ToolButtonCreateText" xml:space="preserve">
     <value>Create new text box.</value>
   </data>
@@ -326,27 +287,6 @@
   </data>
   <data name="WindowStencil" xml:space="preserve">
     <value>Stencil</value>
-  </data>
-  <data name="DialogTextCenterBrush" xml:space="preserve">
-    <value>Center color</value>
-  </data>
-  <data name="DialogTextFigure" xml:space="preserve">
-    <value>Shape</value>
-  </data>
-  <data name="DialogTextFillBrush" xml:space="preserve">
-    <value>Fill color</value>
-  </data>
-  <data name="DialogTextIconFile" xml:space="preserve">
-    <value>Icon file</value>
-  </data>
-  <data name="DialogTextIsGradation" xml:space="preserve">
-    <value>Gradation</value>
-  </data>
-  <data name="DialogTextLineBrush" xml:space="preserve">
-    <value>Line color</value>
-  </data>
-  <data name="DialogTextTextBrush" xml:space="preserve">
-    <value>Text color</value>
   </data>
   <data name="CanvasMenuBidirArrow" xml:space="preserve">
     <value>Set both directions</value>
@@ -369,12 +309,6 @@
   <data name="MenuToolTipFocus" xml:space="preserve">
     <value>Focus the selected object.</value>
   </data>
-  <data name="DialogTextComponentSetting" xml:space="preserve">
-    <value>Shape settings</value>
-  </data>
-  <data name="DialogTextPathwaySetting" xml:space="preserve">
-    <value>Diagram settings</value>
-  </data>
   <data name="MergeLayerDialogMessage" xml:space="preserve">
     <value>Please select the merged layer.</value>
   </data>
@@ -396,9 +330,6 @@
   <data name="MenuToolTipOverview" xml:space="preserve">
     <value>Change the visibility of Overview panel.</value>
   </data>
-  <data name="DialogTextAutoThreshold" xml:space="preserve">
-    <value>Auto Threshold</value>
-  </data>
   <data name="DialogTooltipAutoThreshold" xml:space="preserve">
     <value>Automatic setting of the threshold of Edge width.</value>
   </data>
@@ -407,5 +338,47 @@
   </data>
   <data name="ErrNoInput" xml:space="preserve">
     <value>Nothing is input in {0}</value>
+  </data>
+  <data name="DialogTextCenterBrush" xml:space="preserve">
+    <value>Center color</value>
+  </data>
+  <data name="DialogTextComponentSetting" xml:space="preserve">
+    <value>Shape settings</value>
+  </data>
+  <data name="DialogTextEdgeBrush" xml:space="preserve">
+    <value>Arrow color</value>
+  </data>
+  <data name="DialogTextEdgeWidth" xml:space="preserve">
+    <value>Arrow width</value>
+  </data>
+  <data name="DialogTextEditMode" xml:space="preserve">
+    <value>Edit mode</value>
+  </data>
+  <data name="DialogTextFigure" xml:space="preserve">
+    <value>Shape</value>
+  </data>
+  <data name="DialogTextFillBrush" xml:space="preserve">
+    <value>Fill color</value>
+  </data>
+  <data name="DialogTextIconFile" xml:space="preserve">
+    <value>Icon file</value>
+  </data>
+  <data name="DialogTextIsGradation" xml:space="preserve">
+    <value>Gradation</value>
+  </data>
+  <data name="DialogTextLineBrush" xml:space="preserve">
+    <value>Line color</value>
+  </data>
+  <data name="DialogTextNormalEdge" xml:space="preserve">
+    <value>Normal arrow color</value>
+  </data>
+  <data name="DialogTextPathwaySetting" xml:space="preserve">
+    <value>Diagram settings</value>
+  </data>
+  <data name="DialogTextPropertyBrush" xml:space="preserve">
+    <value>Property color</value>
+  </data>
+  <data name="DialogTextTextBrush" xml:space="preserve">
+    <value>Text color</value>
   </data>
 </root>

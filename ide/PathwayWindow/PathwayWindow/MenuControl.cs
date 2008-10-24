@@ -1417,6 +1417,63 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return ImageFormat.Bmp;
         }
         #endregion
+        #region EventHandler for PPathwayCanvas
 
+        /// <summary>
+        /// Event on mose wheel.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        internal void Canvas_MouseWheel(object sender, MouseEventArgs e)
+        {
+            CanvasControl canvas = m_con.Canvas;
+            if (canvas == null)
+                return;
+
+            if (Control.ModifierKeys == Keys.Shift)
+            {
+                canvas.PanCanvas(Direction.Horizontal, e.Delta);
+            }
+            else if (Control.ModifierKeys == Keys.Control || e.Button == MouseButtons.Right)
+            {
+                float zoomRate = (float)1.00 + (float)e.Delta / 1200;
+                Zoom(zoomRate);
+            }
+            else
+            {
+                canvas.PanCanvas(Direction.Vertical, e.Delta);
+            }
+        }
+
+        /// <summary>
+        /// Event on mouse down.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        internal void Canvas_MouseDown(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        internal void Canvas_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            CanvasControl canvas = m_con.Canvas;
+            if (canvas == null)
+                return;
+
+            if (e.KeyChar == (char)Keys.Right)
+            {
+            }
+            else if (e.KeyChar == (char)Keys.Left)
+            {
+            }
+            else if (e.KeyChar == (char)Keys.Up)
+            {
+            }
+            else if (e.KeyChar == (char)Keys.Down)
+            {
+            }
+        }
+        #endregion
     }
 }

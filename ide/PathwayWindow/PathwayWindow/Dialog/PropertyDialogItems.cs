@@ -34,36 +34,47 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
+using System.ComponentModel;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
 {
     /// <summary>
     /// UI class for PropertyDialog
     /// </summary>
-    public partial class PropertyDialogItem : Panel
+    public partial class PropertyDialogItem : UserControl
     {
         /// <summary>
         /// label to explain the DialogItem.
         /// </summary>
-        protected Label m_label;
+        protected Label label;
         
         /// <summary>
         /// position of itembox.
         /// </summary>
-        protected Point m_position = new Point(120, 5);
+        protected static Point POSITION = new Point(120, 5);
         
         /// <summary>
         /// size of the itembox.
         /// </summary>
-        protected Size m_size = new Size(100, 20);
+        protected static Size SIZE = new Size(100, 20);
 
         /// <summary>
         /// Accessor for m_label.
         /// </summary>
         public Label Label
         {
-            get { return m_label; }
-            set { m_label = value; }
+            get { return label; }
+            set { label = value; }
+        }
+
+        /// <summary>
+        /// Accessor for m_label.Text.
+        /// </summary>
+        [Localizable(true)]
+        public string LabelText
+        {
+            get { return label.Text; }
+            set { label.Text = value; }
         }
 
         /// <summary>
@@ -71,7 +82,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         /// </summary>
         public PropertyDialogItem()
         {
-            Initialize("");
+            InitializeComponent();
         }
 
         /// <summary>
@@ -80,32 +91,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         /// <param name="label"></param>
         public PropertyDialogItem(string label)
         {
-            Initialize(label);
+            InitializeComponent();
+            this.LabelText = label;
         }
 
-        private void Initialize(string label)
+        private void InitializeComponent()
         {
-
-            this.m_label = new Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyDialogItem));
+            this.label = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // Panel
+            // label
             // 
-            this.Anchor = (AnchorStyles)(AnchorStyles.Top | AnchorStyles.Left);
-            this.AutoSize = true;
-            this.Controls.Add(this.m_label);
-            this.TabStop = false;
-            this.Height = 25;
+            resources.ApplyResources(this.label, "label");
+            this.label.Name = "label";
             // 
-            // m_label
+            // PropertyDialogItem
             // 
-            this.m_label.AutoSize = true;
-            this.m_label.Location = new System.Drawing.Point(10, 9);
-            this.m_label.Size = new System.Drawing.Size(35, 12);
-            this.m_label.Text = label;
-
+            resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.label);
+            this.Name = "PropertyDialogItem";
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
     }
 
@@ -156,14 +164,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         /// <summary>
         /// Constructor
         /// </summary>
+        public PropertyComboboxItem()
+        {
+            InitializeComponent();
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
         /// <param name="label"></param>
         /// <param name="text"></param>
         /// <param name="itemList"></param>
         public PropertyComboboxItem(string label, string text, List<string> itemList)
         {
+            InitializeComponent();
             // set Brushes
-            this.m_label.Text = label;
+            this.LabelText = label;
+            this.m_comboBox.Text = text;
+            this.m_comboBox.Items.AddRange(itemList.ToArray());
+        }
 
+        private void InitializeComponent()
+        {
             this.m_comboBox = new ComboBox();
             this.SuspendLayout();
             this.Controls.Add(this.m_comboBox);
@@ -172,15 +193,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
             // m_comboBoxBrush
             // 
             this.m_comboBox.FormattingEnabled = true;
-            this.m_comboBox.Location = m_position;
-            this.m_comboBox.Size = m_size;
+            this.m_comboBox.Location = new Point(120, 5);
+            this.m_comboBox.Size = SIZE;
             this.m_comboBox.TabIndex = 0;
-            this.m_comboBox.Text = text;
-            this.m_comboBox.Items.AddRange(itemList.ToArray());
             this.m_comboBox.TextChanged += new EventHandler(ComboBox_TextChanged);
 
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         /// <summary>
@@ -200,8 +220,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
     /// </summary>
     public class PropertyBrushItem : PropertyDialogItem
     {
-        private ImageComboBox m_comboBoxBrush;
-        private Brush m_brush;
+        private ImageComboBox comboBoxBrush;
+        private Brush brush;
 
         #region EventHandler for BrushChange
         private EventHandler m_onBrushChange;
@@ -235,11 +255,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         /// </summary>
         public Brush Brush
         {
-            get { return m_brush; }
+            get { return brush; }
             set
             { 
-                m_brush = value;
-                m_comboBoxBrush.Text = BrushManager.ParseBrushToString(m_brush);
+                brush = value;
+                comboBoxBrush.Text = BrushManager.ParseBrushToString(brush);
                 RaiseBrushChange();
             }
         }
@@ -249,10 +269,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         /// </summary>
         public ComboBox ComboBox
         {
-            get { return m_comboBoxBrush; }
+            get { return comboBoxBrush; }
         }
         
         #endregion
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public PropertyBrushItem()
+        {
+            InitializeComponent();
+        }
 
         /// <summary>
         /// Constructor
@@ -261,29 +289,35 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         /// <param name="brush"></param>
         public PropertyBrushItem(string label, Brush brush)
         {
-            // set Brushes
-            this.m_brush = brush;
-            this.m_label.Text = label;
+            InitializeComponent();
+            this.LabelText = label;
+            this.brush = brush;
+        }
 
-            this.m_comboBoxBrush = new ImageComboBox();
+        private void InitializeComponent()
+        {
+            // set Brushes
+            this.brush = Brushes.Black;
+            this.comboBoxBrush = new ImageComboBox();
             this.SuspendLayout();
-            this.Controls.Add(this.m_comboBoxBrush);
-            
+            this.Controls.Add(this.comboBoxBrush);
+
             // 
             // m_comboBoxBrush
             // 
-            this.m_comboBoxBrush.FormattingEnabled = true;
-            this.m_comboBoxBrush.Location = m_position;
-            this.m_comboBoxBrush.Size = m_size;
-            this.m_comboBoxBrush.TabIndex = 0;
-            this.m_comboBoxBrush.Text = BrushManager.ParseBrushToString(m_brush);
-            this.m_comboBoxBrush.Items.AddRange(BrushManager.GetBrushNameList().ToArray());
-            this.m_comboBoxBrush.ImageList = BrushManager.GetBrushImageList();
-            this.m_comboBoxBrush.KeyDown += new KeyEventHandler(cBoxNomalBrush_KeyDown);
-            this.m_comboBoxBrush.SelectedIndexChanged += new EventHandler(cBoxBrush_SelectedIndexChanged);
+            this.comboBoxBrush.FormattingEnabled = true;
+            this.comboBoxBrush.Location = POSITION;
+            this.comboBoxBrush.Size = SIZE;
+            this.comboBoxBrush.TabIndex = 0;
+            this.comboBoxBrush.Text = BrushManager.ParseBrushToString(brush);
+            this.comboBoxBrush.Items.AddRange(BrushManager.GetBrushNameList().ToArray());
+            this.comboBoxBrush.ImageList = BrushManager.GetBrushImageList();
+            this.comboBoxBrush.KeyDown += new KeyEventHandler(cBoxNomalBrush_KeyDown);
+            this.comboBoxBrush.SelectedIndexChanged += new EventHandler(cBoxBrush_SelectedIndexChanged);
 
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         void cBoxBrush_SelectedIndexChanged(object sender, EventArgs e)
@@ -328,22 +362,36 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         /// <summary>
         /// Constructor
         /// </summary>
+        public PropertyLabelItem()
+        {
+            InitializeComponent();
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
         /// <param name="label"></param>
         /// <param name="text"></param>
         public PropertyLabelItem(string label, string text)
         {
-            this.m_label.Text = label;
+            InitializeComponent();
+            this.LabelText = label;
+            this.m_text.Text = text;
 
+
+        }
+
+        private void InitializeComponent()
+        {
             this.m_text = new Label();
             this.SuspendLayout();
             this.Controls.Add(this.m_text);
             // 
             // m_textBox
             // 
-            this.m_text.Location = m_position;
-            this.m_text.Size = m_size;
+            this.m_text.Location = POSITION;
+            this.m_text.Size = SIZE;
             this.m_text.TabIndex = 0;
-            this.m_text.Text = text;
 
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -355,15 +403,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
     /// </summary>
     public class PropertyTextItem : PropertyDialogItem
     {
-        private TextBox m_textBox;
+        private TextBox textBox;
         /// <summary>
         /// Get/Set m_textBox.Text
         /// </summary>
         public override string Text
         {
-            get { return m_textBox.Text; }
-            set { m_textBox.Text = value; }
+            get { return textBox.Text; }
+            set { textBox.Text = value; }
         }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public PropertyTextItem()
+        {
+            InitializeComponent();
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -371,18 +428,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         /// <param name="text"></param>
         public PropertyTextItem(string label, string text)
         {
-            this.m_label.Text = label;
+            InitializeComponent();
+            this.LabelText = label;
+            this.textBox.Text = text;
+        }
 
-            this.m_textBox = new TextBox();
+        private void InitializeComponent()
+        {
+            this.textBox = new TextBox();
             this.SuspendLayout();
-            this.Controls.Add(this.m_textBox);
+            this.Controls.Add(this.textBox);
             // 
             // m_textBox
             // 
-            this.m_textBox.Location = m_position;
-            this.m_textBox.Size = m_size;
-            this.m_textBox.TabIndex = 0;
-            this.m_textBox.Text = text;
+            this.textBox.Location = POSITION;
+            this.textBox.Size = SIZE;
+            this.textBox.TabIndex = 0;
 
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -424,7 +485,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
             get { return m_filterIndex; }
             set { m_filterIndex = value; }
         }
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public PropertyFileItem()
+        {
+            InitializeComponent();
+        }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -432,8 +499,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         /// <param name="filename"></param>
         public PropertyFileItem(string label, string filename)
         {
-            this.m_label.Text = label;
+            InitializeComponent();
+            this.LabelText = label;
+            this.m_textBox.Text = filename;
+        }
 
+        private void InitializeComponent()
+        {
             // Create New Object.
             this.m_textBox = new TextBox();
             this.m_button = new Button();
@@ -442,16 +514,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
             this.Controls.Add(this.m_button);
             this.Controls.Add(this.m_textBox);
             // 
-            this.m_textBox.Location = m_position;
-            this.m_textBox.Size = m_size;
+            this.m_textBox.Location = POSITION;
+            this.m_textBox.Size = SIZE;
             this.m_textBox.TabIndex = 0;
-            this.m_textBox.Text = filename;
 
             this.m_button.Text = "...";
             this.m_button.Top = m_textBox.Top;
             this.m_button.Left = m_textBox.Left + m_textBox.Width;
-            this.m_button.Height = m_size.Height;
-            this.m_button.Width = m_size.Height;
+            this.m_button.Height = SIZE.Height;
+            this.m_button.Width = SIZE.Height;
             this.m_button.Click += new EventHandler(m_button_Click);
 
             this.ResumeLayout(false);
@@ -479,15 +550,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
     /// </summary>
     public class PropertyCheckBoxItem : PropertyDialogItem
     {
-        private CheckBox m_checkBox;
+        private CheckBox checkBox;
 
         /// <summary>
         /// Get/Set m_checkBox.
         /// </summary>
         public CheckBox CheckBox
         {
-            get { return m_checkBox; }
-            set { m_checkBox = value; }
+            get { return checkBox; }
+            set { checkBox = value; }
         }
 
         /// <summary>
@@ -495,10 +566,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         /// </summary>
         public bool Checked
         {
-            get { return m_checkBox.Checked; }
+            get { return checkBox.Checked; }
             set 
             { 
-                m_checkBox.Checked = value;
+                checkBox.Checked = value;
                 RaiseCheckedChanged();
             }
         }
@@ -532,23 +603,35 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         /// <summary>
         /// Constructor
         /// </summary>
+        public PropertyCheckBoxItem()
+        {
+            InitializeComponent();
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
         /// <param name="label"></param>
         /// <param name="isChecked"></param>
         public PropertyCheckBoxItem(string label, bool isChecked)
         {
-            this.m_label.Text = label;
+            InitializeComponent();
+            this.LabelText = label;
+            this.Checked = isChecked;
+         }
 
-            this.m_checkBox = new CheckBox();
+        private void InitializeComponent()
+        {
+            this.checkBox = new CheckBox();
             this.SuspendLayout();
-            this.Controls.Add(this.m_checkBox);
+            this.Controls.Add(this.checkBox);
             // 
             // m_checkBox
             // 
-            this.m_checkBox.Location = m_position;
-            this.m_checkBox.Size = new Size(20,20);
-            this.m_checkBox.TabIndex = 0;
-            this.m_checkBox.Checked = isChecked;
-            this.m_checkBox.CheckedChanged += new EventHandler(m_checkBox_CheckedChanged);
+            this.checkBox.Location = POSITION;
+            this.checkBox.Size = new Size(20,20);
+            this.checkBox.TabIndex = 0;
+            this.checkBox.Checked = false;
+            this.checkBox.CheckedChanged += new EventHandler(m_checkBox_CheckedChanged);
             this.ResumeLayout(false);
             this.PerformLayout();
         }

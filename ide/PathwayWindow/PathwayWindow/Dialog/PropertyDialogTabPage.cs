@@ -45,13 +45,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         /// </summary>
         public PropertyDialogTabPage()
         {
-            this.AutoScroll = true;
+            InitializeComponent();
         }
         /// <summary>
         /// ApplyChange
         /// </summary>
         public virtual void ApplyChange()
         {
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // PropertyDialogTabPage
+            // 
+            this.AutoScroll = true;
+            this.ResumeLayout(false);
+
         }
     }
 }

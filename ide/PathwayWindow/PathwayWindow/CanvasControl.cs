@@ -363,6 +363,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             get { return m_lineHandler; }
         }
+
+        /// <summary>
+        /// Get Bitmap image of current canvas.
+        /// </summary>
+        public Bitmap Bitmap
+        {
+            get { return (Bitmap)m_pCanvas.Camera.ToImage(); }
+        }
         #endregion
 
         #region Constructor
@@ -1303,6 +1311,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (obj == null)
                 return;
 
+            m_focusNode = obj;
             if (type.Equals(EcellObject.SYSTEM))
             {
                 ResetSelect();
@@ -1507,6 +1516,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             ResetSelectedSystem();
             ResetSelectedNodes();
             ResetSelectedLine();
+            m_focusNode = null;
         }
 
         /// <summary>

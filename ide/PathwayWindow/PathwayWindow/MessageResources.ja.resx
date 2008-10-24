@@ -282,45 +282,6 @@
   <data name="MenuItemFile" xml:space="preserve">
     <value>ファイル</value>
   </data>
-  <data name="DialogTextAnimationSetting" xml:space="preserve">
-    <value>アニメーションの設定</value>
-  </data>
-  <data name="DialogTextBackgroundBrush" xml:space="preserve">
-    <value>背景色</value>
-  </data>
-  <data name="DialogTextEdgeBrush" xml:space="preserve">
-    <value>線の色</value>
-  </data>
-  <data name="DialogTextEdgeWidth" xml:space="preserve">
-    <value>線の太さ</value>
-  </data>
-  <data name="DialogTextEditMode" xml:space="preserve">
-    <value>編集モード</value>
-  </data>
-  <data name="DialogTextLogarithmic" xml:space="preserve">
-    <value>対数表示</value>
-  </data>
-  <data name="DialogTextMaxEdgeWidth" xml:space="preserve">
-    <value>線の最大の太さ</value>
-  </data>
-  <data name="DialogTextNGBrush" xml:space="preserve">
-    <value>エラー色</value>
-  </data>
-  <data name="DialogTextNormalEdge" xml:space="preserve">
-    <value>通常線</value>
-  </data>
-  <data name="DialogTextThresholdHigh" xml:space="preserve">
-    <value>しきい値最大</value>
-  </data>
-  <data name="DialogTextThresholdLow" xml:space="preserve">
-    <value>しきい値最小</value>
-  </data>
-  <data name="DialogTextViewMode" xml:space="preserve">
-    <value>表示モード</value>
-  </data>
-  <data name="DialogTextPropertyBrush" xml:space="preserve">
-    <value>プロパティ色</value>
-  </data>
   <data name="ToolButtonCreateText" xml:space="preserve">
     <value>テキストボックスを作成します。</value>
   </data>
@@ -332,27 +293,6 @@
   </data>
   <data name="WindowStencil" xml:space="preserve">
     <value>ステンシル</value>
-  </data>
-  <data name="DialogTextCenterBrush" xml:space="preserve">
-    <value>中央色</value>
-  </data>
-  <data name="DialogTextFigure" xml:space="preserve">
-    <value>形状</value>
-  </data>
-  <data name="DialogTextFillBrush" xml:space="preserve">
-    <value>塗りつぶし色</value>
-  </data>
-  <data name="DialogTextIconFile" xml:space="preserve">
-    <value>アイコンファイル</value>
-  </data>
-  <data name="DialogTextIsGradation" xml:space="preserve">
-    <value>グラデーション</value>
-  </data>
-  <data name="DialogTextLineBrush" xml:space="preserve">
-    <value>線の色</value>
-  </data>
-  <data name="DialogTextTextBrush" xml:space="preserve">
-    <value>文字色</value>
   </data>
   <data name="CanvasMenuBidirArrow" xml:space="preserve">
     <value>両方向にする</value>
@@ -371,12 +311,6 @@
   </data>
   <data name="MenuToolTipFocus" xml:space="preserve">
     <value>選択してエンティティをフォーカスする。</value>
-  </data>
-  <data name="DialogTextComponentSetting" xml:space="preserve">
-    <value>形状の設定</value>
-  </data>
-  <data name="DialogTextPathwaySetting" xml:space="preserve">
-    <value>ダイアグラムの設定</value>
   </data>
   <data name="MergeLayerDialogMessage" xml:space="preserve">
     <value>結合先のレイヤーを選択してください。</value>
@@ -399,9 +333,6 @@
   <data name="MenuToolTipOverview" xml:space="preserve">
     <value>オーバービューの表示切替</value>
   </data>
-  <data name="DialogTextAutoThreshold" xml:space="preserve">
-    <value>閾値の自動設定</value>
-  </data>
   <data name="DialogTooltipAutoThreshold" xml:space="preserve">
     <value>エッジのアニメーションの太さを自動設定します。</value>
   </data>
@@ -410,5 +341,47 @@
   </data>
   <data name="ErrNoInput" xml:space="preserve">
     <value>{0} が入力されていません</value>
+  </data>
+  <data name="DialogTextCenterBrush" xml:space="preserve">
+    <value>中央色</value>
+  </data>
+  <data name="DialogTextComponentSetting" xml:space="preserve">
+    <value>形状の設定</value>
+  </data>
+  <data name="DialogTextEdgeBrush" xml:space="preserve">
+    <value>線の色</value>
+  </data>
+  <data name="DialogTextEdgeWidth" xml:space="preserve">
+    <value>線の太さ</value>
+  </data>
+  <data name="DialogTextEditMode" xml:space="preserve">
+    <value>編集モード</value>
+  </data>
+  <data name="DialogTextFigure" xml:space="preserve">
+    <value>形状</value>
+  </data>
+  <data name="DialogTextFillBrush" xml:space="preserve">
+    <value>塗りつぶし色</value>
+  </data>
+  <data name="DialogTextIconFile" xml:space="preserve">
+    <value>アイコンファイル</value>
+  </data>
+  <data name="DialogTextIsGradation" xml:space="preserve">
+    <value>グラデーション</value>
+  </data>
+  <data name="DialogTextLineBrush" xml:space="preserve">
+    <value>線の色</value>
+  </data>
+  <data name="DialogTextNormalEdge" xml:space="preserve">
+    <value>通常線</value>
+  </data>
+  <data name="DialogTextPathwaySetting" xml:space="preserve">
+    <value>ダイアグラムの設定</value>
+  </data>
+  <data name="DialogTextPropertyBrush" xml:space="preserve">
+    <value>プロパティ色</value>
+  </data>
+  <data name="DialogTextTextBrush" xml:space="preserve">
+    <value>文字色</value>
   </data>
 </root>

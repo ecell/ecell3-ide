@@ -65,6 +65,10 @@
     <DocumentationFile>bin\x86_64\Release\Formulator.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AviFile, Version=1.0.3187.26464, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\AviFile.dll</HintPath>
+    </Reference>
     <Reference Include="EcellCoreLibCLR, Version=1.0.2562.29984, Culture=neutral, PublicKeyToken=1f43c6bc1b2ace5d, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\EcellCoreLibCLR.dll</HintPath>
@@ -93,8 +97,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animation\AnimationConstnts.cs" />
+    <Compile Include="Animation\AnimationItems.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Animation\EditModeItems.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Animation\ViewModeItems.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Handler\PathwayResizeHandler.cs" />
-    <Compile Include="AnimationControl.cs" />
+    <Compile Include="Animation\AnimationControl.cs" />
     <Compile Include="Dialog\PropertyDialogTabPage.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -206,7 +220,7 @@
       <DependentUpon>PropertyDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialog\PropertyDialogItems.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UIComponent\PToolBoxCanvas.cs">
       <SubType>Component</SubType>
@@ -222,6 +236,30 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Animation\AnimationItems.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AnimationItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Animation\AnimationItems.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AnimationItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Animation\EditModeItems.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditModeItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Animation\EditModeItems.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditModeItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Animation\ViewModeItems.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ViewModeItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Animation\ViewModeItems.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ViewModeItems.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialog\InputBoxDialog.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>InputBoxDialog.cs</DependentUpon>
@@ -229,6 +267,14 @@
     <EmbeddedResource Include="Dialog\PropertyDialog.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>PropertyDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\PropertyDialogItems.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PropertyDialogItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\PropertyDialogTabPage.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PropertyDialogTabPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialog\SelectBoxDialog.ja.resx">
       <SubType>Designer</SubType>

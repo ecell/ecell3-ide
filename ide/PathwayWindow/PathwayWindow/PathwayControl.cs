@@ -52,6 +52,7 @@ using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
+using Ecell.IDE.Plugins.PathwayWindow.Animation;
 using Ecell.Plugin;
 using Ecell.Objects;
 
