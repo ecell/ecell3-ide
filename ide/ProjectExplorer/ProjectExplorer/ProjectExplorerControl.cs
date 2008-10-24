@@ -1292,6 +1292,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             List<string> modelList = new List<string>();
             modelList.Add(name);
 
+            m_saveFileDialog.Filter = Constants.FilterEmlFile;
             if (m_saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string fileName = m_saveFileDialog.FileName;
