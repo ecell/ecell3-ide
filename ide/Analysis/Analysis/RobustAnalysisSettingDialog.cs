@@ -129,15 +129,19 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             if (robustAnalysisRandomCheckBox.Checked == true)
             {
-                robustAnalysisMatrixCheckBox.Checked = false;
-                robustAnalysisSampleNumberTextBox.ReadOnly = false;
-                m_param.IsRandomCheck = false;
+                if (robustAnalysisMatrixCheckBox.Checked == true)
+                {
+                    robustAnalysisMatrixCheckBox.Checked = false;
+                    robustAnalysisMaxSampleTextBox.ReadOnly = false;
+                }
             }
             else
             {
-                robustAnalysisMatrixCheckBox.Checked = true;
-                robustAnalysisSampleNumberTextBox.ReadOnly = true;
-                m_param.IsRandomCheck = true;
+                if (robustAnalysisMatrixCheckBox.Checked == false)
+                {
+                    robustAnalysisMatrixCheckBox.Checked = true;
+                    robustAnalysisMaxSampleTextBox.ReadOnly = true;
+                }
             }
         }
 
@@ -151,20 +155,15 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             if (robustAnalysisMatrixCheckBox.Checked == true)
             {
-                if (robustAnalysisRandomCheckBox.Checked == true)
-                {
-                    robustAnalysisRandomCheckBox.Checked = false;
-                    robustAnalysisMaxSampleTextBox.ReadOnly = true;
-                }
+                robustAnalysisRandomCheckBox.Checked = false;
+                robustAnalysisSampleNumberTextBox.ReadOnly = true;
+                m_param.IsRandomCheck = false;
             }
             else
             {
-                if (robustAnalysisRandomCheckBox.Checked == false)
-                {
-                    robustAnalysisRandomCheckBox.Checked = true;
-                    robustAnalysisMaxSampleTextBox.ReadOnly = false;
-                    
-                }
+                robustAnalysisRandomCheckBox.Checked = true;
+                robustAnalysisSampleNumberTextBox.ReadOnly = false;
+                m_param.IsRandomCheck = true;
             }
         }
 

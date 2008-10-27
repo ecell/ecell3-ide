@@ -111,6 +111,17 @@ namespace Ecell.Objects
                 this.m_fullID = m.Groups["id"].Value;
                 this.m_coeff = Convert.ToInt32(m.Groups["coe"].Value);
                 this.m_accessor = 1;
+                return;
+            }
+
+            reg = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\"");
+            m = reg.Match(str);
+            if (m.Success)
+            {
+                this.m_name = m.Groups["name"].Value;
+                this.m_fullID = m.Groups["id"].Value;
+                this.m_coeff = 0;
+                this.m_accessor = 1;
             }
         }
         /// <summary>
