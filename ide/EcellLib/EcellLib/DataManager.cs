@@ -3484,16 +3484,16 @@ namespace Ecell
 
         private void InitializeModel(EcellObject ecellObject)
         {
-            DataStorer.DataStored(
-                m_currentProject.Simulator,
-                ecellObject,
-                m_currentProject.InitialCondition[m_currentProject.Info.SimulationParam][ecellObject.ModelID]);
-            // Sets the "EcellObject".
-            string modelID = ecellObject.ModelID;
             string simParam = m_currentProject.Info.SimulationParam;
+            string modelID = ecellObject.ModelID;
+            // Sets the "EcellObject".
             if (ecellObject.Type.Equals(Constants.xpathModel))
             {
                 m_currentProject.ModelList.Add((EcellModel)ecellObject);
+                DataStorer.DataStored(
+                    m_currentProject.Simulator,
+                    ecellObject,
+                    m_currentProject.InitialCondition[simParam][modelID]);
             }
             else if (ecellObject.Type.Equals(Constants.xpathSystem))
             {
