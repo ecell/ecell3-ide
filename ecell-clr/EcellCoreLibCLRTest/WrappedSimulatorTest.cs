@@ -33,13 +33,10 @@ namespace EcellCoreLibCLRTest
         [Test]
         public void TestGetEntityList()
         {
-            WrappedPolymorph wp = s.GetEntityList("System", "");
-            Assert.That(wp.IsList(), Is.True);
-            List<WrappedPolymorph> l = wp.CastToList();
-            Assert.That(l, Is.Not.Null);
-            Assert.That(l, Has.Count(1));
-            Assert.That(l[0].IsString(), Is.True);
-            Assert.That(l[0].CastToString(), Is.EqualTo("/"));
+            IList<string> entities = s.GetEntityList("System", "");
+            Assert.That(entities, Is.Not.Null);
+            Assert.That(entities, Has.Count(1));
+            Assert.That(entities[0], Is.EqualTo("/"));
         }
 
         [Test]
@@ -48,29 +45,22 @@ namespace EcellCoreLibCLRTest
             s.CreateEntity("System", "System:/:TEST");
 
             {
-                WrappedPolymorph wp = s.GetEntityList("System", "/");
-                Assert.That(wp.IsList(), Is.True);
-                List<WrappedPolymorph> l = wp.CastToList();
-                Assert.That(l, Is.Not.Null);
-                Assert.That(l, Has.Count(1));
-                Assert.That(l[0].IsString(), Is.True);
-                Assert.That(l[0].CastToString(), Is.EqualTo("TEST"));
+                IList<string> entities = s.GetEntityList("System", "/");
+                Assert.That(entities, Is.Not.Null);
+                Assert.That(entities, Has.Count(1));
+                Assert.That(entities[0], Is.EqualTo("TEST"));
             }
 
             {
-                WrappedPolymorph wp = s.GetEntityList("Variable", "/");
-                Assert.That(wp.IsList(), Is.True);
-                List<WrappedPolymorph> l = wp.CastToList();
-                Assert.That(l, Is.Not.Null);
-                Assert.That(l, Has.Count(0));
+                IList<string> entities = s.GetEntityList("Variable", "/");
+                Assert.That(entities, Is.Not.Null);
+                Assert.That(entities, Has.Count(0));
             }
 
             {
-                WrappedPolymorph wp = s.GetEntityList("Process", "/");
-                Assert.That(wp.IsList(), Is.True);
-                List<WrappedPolymorph> l = wp.CastToList();
-                Assert.That(l, Is.Not.Null);
-                Assert.That(l, Has.Count(0));
+                IList<string> entities = s.GetEntityList("Process", "/");
+                Assert.That(entities, Is.Not.Null);
+                Assert.That(entities, Has.Count(0));
             }
         }
 
@@ -80,29 +70,22 @@ namespace EcellCoreLibCLRTest
             s.CreateEntity("Variable", "Variable:/:TEST");
 
             {
-                WrappedPolymorph wp = s.GetEntityList("Variable", "/");
-                Assert.That(wp.IsList(), Is.True);
-                List<WrappedPolymorph> l = wp.CastToList();
-                Assert.That(l, Is.Not.Null);
-                Assert.That(l, Has.Count(1));
-                Assert.That(l[0].IsString(), Is.True);
-                Assert.That(l[0].CastToString(), Is.EqualTo("TEST"));
+                IList<string> entities = s.GetEntityList("Variable", "/");
+                Assert.That(entities, Is.Not.Null);
+                Assert.That(entities, Has.Count(1));
+                Assert.That(entities[0], Is.EqualTo("TEST"));
             }
 
             {
-                WrappedPolymorph wp = s.GetEntityList("System", "/");
-                Assert.That(wp.IsList(), Is.True);
-                List<WrappedPolymorph> l = wp.CastToList();
-                Assert.That(l, Is.Not.Null);
-                Assert.That(l, Has.Count(0));
+                IList<string> entities = s.GetEntityList("System", "/");
+                Assert.That(entities, Is.Not.Null);
+                Assert.That(entities, Has.Count(0));
             }
 
             {
-                WrappedPolymorph wp = s.GetEntityList("Process", "/");
-                Assert.That(wp.IsList(), Is.True);
-                List<WrappedPolymorph> l = wp.CastToList();
-                Assert.That(l, Is.Not.Null);
-                Assert.That(l, Has.Count(0));
+                IList<string> entities = s.GetEntityList("Process", "/");
+                Assert.That(entities, Is.Not.Null);
+                Assert.That(entities, Has.Count(0));
             }
         }
 
@@ -112,29 +95,22 @@ namespace EcellCoreLibCLRTest
             s.CreateEntity("MassActionFluxProcess", "Process:/:TEST");
 
             {
-                WrappedPolymorph wp = s.GetEntityList("Process", "/");
-                Assert.That(wp.IsList(), Is.True);
-                List<WrappedPolymorph> l = wp.CastToList();
-                Assert.That(l, Is.Not.Null);
-                Assert.That(l, Has.Count(1));
-                Assert.That(l[0].IsString(), Is.True);
-                Assert.That(l[0].CastToString(), Is.EqualTo("TEST"));
+                IList<string> entities = s.GetEntityList("Process", "/");
+                Assert.That(entities, Is.Not.Null);
+                Assert.That(entities, Has.Count(1));
+                Assert.That(entities[0], Is.EqualTo("TEST"));
             }
 
             {
-                WrappedPolymorph wp = s.GetEntityList("System", "/");
-                Assert.That(wp.IsList(), Is.True);
-                List<WrappedPolymorph> l = wp.CastToList();
-                Assert.That(l, Is.Not.Null);
-                Assert.That(l, Has.Count(0));
+                IList<string> entities = s.GetEntityList("System", "/");
+                Assert.That(entities, Is.Not.Null);
+                Assert.That(entities, Has.Count(0));
             }
 
             {
-                WrappedPolymorph wp = s.GetEntityList("Variable", "/");
-                Assert.That(wp.IsList(), Is.True);
-                List<WrappedPolymorph> l = wp.CastToList();
-                Assert.That(l, Is.Not.Null);
-                Assert.That(l, Has.Count(0));
+                IList<string> entities = s.GetEntityList("Variable", "/");
+                Assert.That(entities, Is.Not.Null);
+                Assert.That(entities, Has.Count(0));
             }
         }
 
@@ -158,14 +134,13 @@ namespace EcellCoreLibCLRTest
             {
                 s.SetEntityProperty(
                     "System::/:StepperID",
-                    new WrappedPolymorph(stepperID));
-                WrappedPolymorph wp;
-                wp = s.GetEntityProperty("System::/:StepperID");
-                Assert.That(wp.IsString(), Is.True);
-                Assert.That(wp.CastToString(), Is.EqualTo(stepperID));
+                    stepperID);
+                object o = s.GetEntityProperty("System::/:StepperID");
+                Assert.That(o, Is.InstanceOfType(typeof(string)));
+                Assert.That(o, Is.EqualTo(stepperID));
                 try
                 {
-                    wp = s.GetEntityProperty("System::/:NonExistentProperty");
+                    s.GetEntityProperty("System::/:NonExistentProperty");
                     Assert.Fail();
                 }
                 catch (Exception e)
@@ -178,16 +153,13 @@ namespace EcellCoreLibCLRTest
             s.CreateEntity("Variable", variableFullID);
             {
                 double value = GenerateRandomDouble();
-                s.SetEntityProperty(
-                    variableFullID + ":Value",
-                    new WrappedPolymorph(value));
-                WrappedPolymorph wp;
-                wp = s.GetEntityProperty(variableFullID + ":Value");
-                Assert.That(wp.IsDouble(), Is.True);
-                Assert.That(wp.CastToDouble(), Is.EqualTo(value));
+                s.SetEntityProperty(variableFullID + ":Value", value);
+                object _value = s.GetEntityProperty(variableFullID + ":Value");
+                Assert.That(_value, Is.Not.Null);
+                Assert.That(_value, Is.EqualTo(value));
                 try
                 {
-                    wp = s.GetEntityProperty("INVALID:::::");
+                    s.GetEntityProperty("INVALID:::::");
                     Assert.Fail();
                 }
                 catch (Exception e)
@@ -197,7 +169,7 @@ namespace EcellCoreLibCLRTest
                 }
                 try
                 {
-                    wp = s.GetEntityProperty("Variable:INVALID:INVALID:BAD");
+                    s.GetEntityProperty("Variable:INVALID:INVALID:BAD");
                     Assert.Fail();
                 }
                 catch (Exception e)
@@ -207,7 +179,7 @@ namespace EcellCoreLibCLRTest
                 }
                 try
                 {
-                    wp = s.GetEntityProperty("Variable:/:");
+                    s.GetEntityProperty("Variable:/:");
                     Assert.Fail();
                 }
                 catch (Exception e)
@@ -217,7 +189,7 @@ namespace EcellCoreLibCLRTest
                 }
                 try
                 {
-                    wp = s.GetEntityProperty("Variable:/:NonExistent:Value");
+                    s.GetEntityProperty("Variable:/:NonExistent:Value");
                     Assert.Fail();
                 }
                 catch (Exception e)
@@ -227,7 +199,7 @@ namespace EcellCoreLibCLRTest
                 }
                 try
                 {
-                    wp = s.GetEntityProperty(variableFullID + ":NonExistentProperty");
+                    s.GetEntityProperty(variableFullID + ":NonExistentProperty");
                     Assert.Fail();
                 }
                 catch (Exception e)

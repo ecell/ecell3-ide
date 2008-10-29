@@ -66,7 +66,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="false"
 				AdditionalOptions=""
-				AdditionalDependencies="ecs.lib emc.lib"
+				AdditionalDependencies="ecs.lib ltdl.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\lib;$(LIB)"
 				GenerateDebugInformation="true"
@@ -148,7 +148,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="false"
 				AdditionalOptions=""
-				AdditionalDependencies="ecs.lib emc.lib"
+				AdditionalDependencies="ecs.lib ltdl.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\lib;$(LIB64)"
 				GenerateDebugInformation="true"
@@ -228,7 +228,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=""
-				AdditionalDependencies="ecs.lib emc.lib"
+				AdditionalDependencies="ecs.lib ltdl.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\lib;$(LIB)"
 				GenerateDebugInformation="true"
@@ -309,7 +309,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=""
-				AdditionalDependencies="ecs.lib emc.lib"
+				AdditionalDependencies="ecs.lib ltdl.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\lib;$(LIB64)"
 				GenerateDebugInformation="true"
@@ -380,14 +380,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\WrappedLibemc.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\WrappedPolymorph.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\WrappedSimulator.cpp"
 				>
 			</File>
@@ -407,18 +399,6 @@
 			</File>
 			<File
 				RelativePath=".\WrappedException.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\WrappedLibemc.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\WrappedPolymorph.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\WrappedSimulator.hpp"
 				>
 			</File>
 		</Filter>
