@@ -117,135 +117,89 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="commonContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="addModelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 22</value>
+  <data name="addSystemToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 22</value>
   </data>
-  <data name="addModelToolStripMenuItem.Text" xml:space="preserve">
-    <value>新規モデル</value>
+  <data name="addSystemToolStripMenuItem.Text" xml:space="preserve">
+    <value>System</value>
   </data>
-  <data name="byNameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+  <data name="addVariableToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 22</value>
   </data>
-  <data name="byNameToolStripMenuItem.Text" xml:space="preserve">
-    <value>名前順</value>
+  <data name="addVariableToolStripMenuItem.Text" xml:space="preserve">
+    <value>Variable</value>
   </data>
-  <data name="byTypeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+  <data name="addProcessToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 22</value>
   </data>
-  <data name="byTypeToolStripMenuItem.Text" xml:space="preserve">
-    <value>種類別</value>
+  <data name="addProcessToolStripMenuItem.Text" xml:space="preserve">
+    <value>Process</value>
   </data>
-  <data name="sortToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 22</value>
+  <data name="addToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 22</value>
   </data>
-  <data name="sortToolStripMenuItem.Text" xml:space="preserve">
-    <value>ソート</value>
+  <data name="addToolStripMenuItem.Text" xml:space="preserve">
+    <value>Add</value>
   </data>
-  <data name="compileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 22</value>
+  <data name="deleteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 22</value>
   </data>
-  <data name="compileToolStripMenuItem.Text" xml:space="preserve">
-    <value>DMのコンパイル</value>
+  <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
+    <value>Delete</value>
   </data>
-  <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 22</value>
+  <data name="mergeSystemToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 22</value>
   </data>
-  <data name="editToolStripMenuItem.Text" xml:space="preserve">
-    <value>編集...</value>
-  </data>
-  <data name="systemToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="variableToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="processToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
-  </data>
-  <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 6</value>
-  </data>
-  <data name="addADMToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
-  </data>
-  <data name="addADMToolStripMenuItem.Text" xml:space="preserve">
-    <value>新規DM...</value>
-  </data>
-  <data name="toolStripMenuItemAdd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
+  <data name="mergeSystemToolStripMenuItem.Text" xml:space="preserve">
+    <value>Merge to supersystem</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 6</value>
+    <value>268, 6</value>
   </data>
-  <data name="toolStripMenuItemDelete.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
+  <data name="loggingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 22</value>
   </data>
-  <data name="toolStripMenuItemLogging.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
+  <data name="loggingToolStripMenuItem.Text" xml:space="preserve">
+    <value>Mark the property as logging</value>
   </data>
-  <data name="toolStripMenuItemObservation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
+  <data name="observedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 22</value>
   </data>
-  <data name="toolStripMenuItemParameter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
+  <data name="observedToolStripMenuItem.Text" xml:space="preserve">
+    <value>Mark the analytic property as observed</value>
   </data>
-  <data name="toolStripMenuItemMerge.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 22</value>
+  <data name="parameterToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 22</value>
   </data>
-  <data name="contextMenuStripStdEntity.Size" type="System.Drawing.Size, System.Drawing">
-    <value>175, 142</value>
+  <data name="parameterToolStripMenuItem.Text" xml:space="preserve">
+    <value>Mark the analytic property as unknown</value>
   </data>
-  <data name="contextMenuStripProject.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 54</value>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>268, 6</value>
   </data>
-  <data name="contextMenuStripDM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 48</value>
+  <data name="propertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 22</value>
   </data>
-  <data name="contextMenuStripDMCollection.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 26</value>
+  <data name="propertyToolStripMenuItem.Text" xml:space="preserve">
+    <value>Properties</value>
   </data>
-  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAQwCyALIArABgAP8A/wH2AACSsgCgoKAA0JzOAADQ/wDXv/8Av/P/AP///wAAAAAAAAAAAAAA
-        AAAAAAAAAGAAAAAAAAAAYAAABVVQAABgAAAKiFAAAGAAZmuIUAAAYABgCqpQAABgAGAAAAAAAGACIiAA
-        AAAAYAdEIAAAAABma0QgAAAAAGAHdyAAAAAAYAAAAAAAAAEREAAAAAAACTMQAAAAAAALMxAAAAAAAAmZ
-        EAAAAAAAAAAAAAAAAACPhwAAjwMAAIwDAACIAwAAiAMAAIgHAACAPwAAgD8AAIA/AACAPwAAgH8AAAP/
-        AAAD/wAAA/8AAAP/AACH/wAA
-</value>
+  <data name="commonContextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>272, 170</value>
   </data>
-  <data name="toolStripButtonSortByName.Text" xml:space="preserve">
-    <value>名前でソート</value>
+  <data name="&gt;&gt;commonContextMenuStrip.Name" xml:space="preserve">
+    <value>commonContextMenuStrip</value>
   </data>
-  <data name="toolStripButtonSortByType.Text" xml:space="preserve">
-    <value>エンティティタイプでソート</value>
+  <data name="&gt;&gt;commonContextMenuStrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="editLogToolStripMenuItem.Text" xml:space="preserve">
-    <value>編集...</value>
-  </data>
-  <data name="exportToolStripMenuItem.Text" xml:space="preserve">
-    <value>出力...</value>
-  </data>
-  <data name="plotGraphToolStripMenuItem.Text" xml:space="preserve">
-    <value>グラフに表示...</value>
-  </data>
-  <data name="addSimulationSetToolStripMenuItem.Text" xml:space="preserve">
-    <value>追加...</value>
-  </data>
-  <data name="copySimulationSetToolStripMenuItem.Text" xml:space="preserve">
-    <value>コピー</value>
-  </data>
-  <data name="createNewRevisionToolStripMenuItem.Text" xml:space="preserve">
-    <value>リビジョン作成</value>
-  </data>
-  <data name="deleteSimulationSetToolStripMenuItem.Text" xml:space="preserve">
-    <value>削除</value>
-  </data>
-  <data name="exportModelToolStripMenuItem.Text" xml:space="preserve">
-    <value>出力...</value>
-  </data>
-  <data name="configureSimulationSetToolStripMenuItem.Text" xml:space="preserve">
-    <value>設定...</value>
-  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayLargeIcon" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
 </root>

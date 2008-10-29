@@ -152,9 +152,20 @@ namespace Ecell.IDE.Plugins.EntityList
 
         public void DataDelete(string modelID, string key, string type)
         {
-            DataGridViewRow r = SearchIndex(type, key);
-            if (r != null)
-                objectListDataGrid.Rows.Remove(r);
+            if (type == Constants.xpathSystem)
+            {
+                List<DataGridViewRow> res = SearchIndexInSystem(key);
+                foreach (DataGridViewRow r in res)
+                {
+                    objectListDataGrid.Rows.Remove(r);
+                }
+            }
+            else
+            {
+                DataGridViewRow r = SearchIndex(type, key);
+                if (r != null)
+                    objectListDataGrid.Rows.Remove(r);
+            }
         }
 
         public void ClearSelection()
@@ -193,6 +204,18 @@ namespace Ecell.IDE.Plugins.EntityList
                 }
             }
             return i;
+        }
+
+        private List<DataGridViewRow> SearchIndexInSystem(string id)
+        {
+            List<DataGridViewRow> result = new List<DataGridViewRow>();
+            foreach (DataGridViewRow r in objectListDataGrid.Rows)
+            {
+                EcellObject obj = r.Tag as EcellObject;
+                if (obj.Key.StartsWith(id))
+                    result.Add(r);
+            }
+            return result;
         }
 
         private DataGridViewRow SearchIndex(string type, string id)
@@ -301,10 +324,26 @@ namespace Ecell.IDE.Plugins.EntityList
         private void DataGridViewMouseDown(object sender, MouseEventArgs e)
         {
             DataGridView.HitTestInfo hti = objectListDataGrid.HitTest(e.X, e.Y);
-            if (hti.RowIndex <= 0)
-                return;
-            DataGridViewRow r = objectListDataGrid.Rows[hti.RowIndex];
-            m_dragObject = r.Tag as EcellObject;
+            if (e.Button == MouseButtons.Left)
+            {
+
+                if (hti.RowIndex <= 0)
+                    return;
+                DataGridViewRow r = objectListDataGrid.Rows[hti.RowIndex];
+                m_dragObject = r.Tag as EcellObject;
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                if (hti.Type != DataGridViewHitTestType.Cell)
+                {
+                    objectListDataGrid.ContextMenuStrip = null;
+                    return;
+                }
+                int rIndex = hti.RowIndex;
+                EcellObject obj = objectListDataGrid.Rows[rIndex].Tag as EcellObject;
+                CommonContextMenu m = new CommonContextMenu(obj, m_owner.Environment);
+                objectListDataGrid.ContextMenuStrip = m.Menu;
+            }
         }
 
         private void EnterDragMode(EcellObject obj)

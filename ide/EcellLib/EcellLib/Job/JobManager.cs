@@ -973,11 +973,6 @@ namespace Ecell.Job
                 s.DirName = res;
                 resList.Add(s);
             }
-            m_logList.Clear();
-            foreach (SaveLoggerProperty s in resList)
-            {
-                m_logList.Add(s);
-            }
         }
 
         /// <summary>

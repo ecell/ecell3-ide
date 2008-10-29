@@ -63,6 +63,12 @@
     <Compile Include="AddPropertyDialog.Designer.cs">
       <DependentUpon>AddPropertyDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="CommonContextMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CommonContextMenu.Designer.cs">
+      <DependentUpon>CommonContextMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="DMEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,6 +133,14 @@
     <EmbeddedResource Include="AddPropertyDialog.resx">
       <DependentUpon>AddPropertyDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CommonContextMenu.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CommonContextMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CommonContextMenu.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CommonContextMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DMEditor.ja.resx">
       <DependentUpon>DMEditor.cs</DependentUpon>
