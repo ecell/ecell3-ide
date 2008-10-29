@@ -193,7 +193,7 @@ namespace Ecell
                 m_env.DataManager.DataChanged(
                         s_modelID, changedKey, changedType, changedObject);
                 m_env.PluginManager.LoggerAdd(
-                        s_modelID, changedType, changedKey, fullPN);
+                        s_modelID, changedKey, changedType, fullPN);
             }
             else
             {

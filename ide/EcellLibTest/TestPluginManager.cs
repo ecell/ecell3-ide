@@ -214,7 +214,7 @@ namespace Ecell
             string type = null;
             string key = null;
             string path = null;
-            _unitUnderTest.LoggerAdd(modelID, type, key, path);
+            _unitUnderTest.LoggerAdd(modelID, key, type, path);
             Assert.Fail("Create or modify test(s).");
 
         }

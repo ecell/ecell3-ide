@@ -550,11 +550,11 @@ namespace Ecell
         /// <param name="key">The ID of object changed value.</param>
         /// <param name="type">The object type of object changed value.</param>
         /// <param name="path">The property name of object changed value.</param>
-        public void LoggerAdd(string modelID, string type, string key, string path)
+        public void LoggerAdd(string modelID, string key, string type, string path)
         {
             foreach (IDataHandler p in m_dataHandlerList)
             {
-                p.LoggerAdd(modelID, type, key, path);
+                p.LoggerAdd(modelID, key, type, path);
             }
         }
 

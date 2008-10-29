@@ -178,19 +178,49 @@
     <value>21, 20</value>
   </metadata>
   <data name="defineANewPropertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
+    <value>271, 22</value>
   </data>
   <data name="defineANewPropertyToolStripMenuItem.Text" xml:space="preserve">
     <value>New property</value>
   </data>
   <data name="deleteThisPropertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
+    <value>271, 22</value>
   </data>
   <data name="deleteThisPropertyToolStripMenuItem.Text" xml:space="preserve">
     <value>Delete this property</value>
   </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>268, 6</value>
+  </data>
+  <data name="loggingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 22</value>
+  </data>
+  <data name="loggingToolStripMenuItem.Text" xml:space="preserve">
+    <value>Mark the property as logging</value>
+  </data>
+  <data name="observedToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 22</value>
+  </data>
+  <data name="observedToolStripMenuItem.Text" xml:space="preserve">
+    <value>Mark the analytic property as observed</value>
+  </data>
+  <data name="parameterToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 22</value>
+  </data>
+  <data name="parameterToolStripMenuItem.Text" xml:space="preserve">
+    <value>Mark the analytic property as unknown</value>
+  </data>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>268, 6</value>
+  </data>
+  <data name="propertyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>271, 22</value>
+  </data>
+  <data name="propertyToolStripMenuItem.Text" xml:space="preserve">
+    <value>Properties</value>
+  </data>
   <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 48</value>
+    <value>272, 170</value>
   </data>
   <data name="&gt;&gt;contextMenuStrip1.Name" xml:space="preserve">
     <value>contextMenuStrip1</value>
@@ -322,23 +352,14 @@
         AH8AAAD/AAAB/wAAA/8AAAf/AAAP/wAAH/8=
 </value>
   </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="$this.TabText" xml:space="preserve">
     <value>Property</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Property</value>
-  </data>
-  <data name="&gt;&gt;nameColumn.Name" xml:space="preserve">
-    <value>nameColumn</value>
-  </data>
-  <data name="&gt;&gt;nameColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;valueColumn.Name" xml:space="preserve">
-    <value>valueColumn</value>
-  </data>
-  <data name="&gt;&gt;valueColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;defineANewPropertyToolStripMenuItem.Name" xml:space="preserve">
     <value>defineANewPropertyToolStripMenuItem</value>
@@ -352,6 +373,42 @@
   <data name="&gt;&gt;deleteThisPropertyToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
+    <value>toolStripSeparator1</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;loggingToolStripMenuItem.Name" xml:space="preserve">
+    <value>loggingToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;loggingToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;observedToolStripMenuItem.Name" xml:space="preserve">
+    <value>observedToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;observedToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;parameterToolStripMenuItem.Name" xml:space="preserve">
+    <value>parameterToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;parameterToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator2.Name" xml:space="preserve">
+    <value>toolStripSeparator2</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;propertyToolStripMenuItem.Name" xml:space="preserve">
+    <value>propertyToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;propertyToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn1.Name" xml:space="preserve">
     <value>dataGridViewTextBoxColumn1</value>
   </data>
@@ -362,6 +419,18 @@
     <value>dataGridViewTextBoxColumn2</value>
   </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;nameColumn.Name" xml:space="preserve">
+    <value>nameColumn</value>
+  </data>
+  <data name="&gt;&gt;nameColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;valueColumn.Name" xml:space="preserve">
+    <value>valueColumn</value>
+  </data>
+  <data name="&gt;&gt;valueColumn.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

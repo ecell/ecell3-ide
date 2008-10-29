@@ -20,6 +20,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// The displayed object.
         /// </summary>
         private EcellObject m_current = null;
+        private EcellData m_data = null;
         /// <summary>
         /// Variable Reference List.
         /// </summary>
@@ -899,7 +900,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         {
         }
 
-        public void LoggerAdd(string modelID, string type, string key, string path)
+        public void LoggerAdd(string modelID, string key, string type, string path)
         {
         }
 
@@ -1070,6 +1071,31 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             deleteThisPropertyToolStripMenuItem.Enabled =
                 m_propDic != null && tag is EcellData &&
                 !m_propDic.ContainsKey(((EcellData)tag).Name);
+
+            loggingToolStripMenuItem.Enabled =
+                tag is EcellData &&
+                ((EcellData)tag).Logable;
+            loggingToolStripMenuItem.Checked =
+                tag is EcellData &&
+                ((EcellData)tag).Logged;
+
+            observedToolStripMenuItem.Enabled =
+                tag is EcellData &&
+                ((EcellData)tag).Logable;
+            observedToolStripMenuItem.Checked =
+                tag is EcellData &&
+                m_env.DataManager.IsContainsObservedData(((EcellData)tag).EntityPath);
+
+            parameterToolStripMenuItem.Enabled =
+                tag is EcellData &&
+                ((EcellData)tag).Settable && ((EcellData)tag).Value.IsDouble;
+            parameterToolStripMenuItem.Checked =
+                tag is EcellData &&
+                m_env.DataManager.IsContainsParameterData(((EcellData)tag).EntityPath);
+
+
+            m_data = tag != null ? tag as EcellData : null;
+
         }
 
         private void m_dgv_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -1148,6 +1174,73 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     return;
                 }
             }
+        }
+
+        private void ClickLoggingMenu(object sender, EventArgs e)
+        {
+            if (m_data == null) return;
+            ToolStripMenuItem m = (ToolStripMenuItem)sender;
+            string prop = m_data.Name;
+
+            if (m.Checked)
+            {
+                m_current.GetEcellData(prop).Logged = false;
+            }
+            else
+            {
+                m_env.PluginManager.LoggerAdd(m_current.ModelID,
+                    m_current.Key, m_current.Type, m_data.EntityPath);
+                m_current.GetEcellData(prop).Logged = true;
+            }
+            m_env.DataManager.DataChanged(m_current.ModelID,
+                m_current.Key, m_current.Type, m_current);
+        }
+
+        private void ClickObservedDataMenu(object sender, EventArgs e)
+        {
+            if (m_data == null) return;
+            ToolStripMenuItem m = (ToolStripMenuItem)sender;
+            string prop = m_data.Name;
+
+            if (m.Checked)
+            {
+                m_env.DataManager.RemoveObservedData(
+                    new EcellObservedData(m_current.GetEcellData(prop).EntityPath, 0.0));
+            }
+            else
+            {
+                EcellData d = m_current.GetEcellData(prop);
+                m_env.DataManager.SetObservedData(
+                    new EcellObservedData(
+                        d.EntityPath,
+                        Convert.ToDouble(d.Value.ToString())));
+            }
+        }
+
+        private void ClickUnknownParameterMenu(object sender, EventArgs e)
+        {
+            if (m_data == null) return;
+            ToolStripMenuItem m = (ToolStripMenuItem)sender;
+            string prop = m_data.Name;
+
+            if (m.Checked)
+            {
+                m_env.DataManager.RemoveParameterData(
+                    new EcellParameterData(m_current.GetEcellData(prop).EntityPath, 0.0));
+            }
+            else
+            {
+                EcellData d = m_current.GetEcellData(prop);
+                m_env.DataManager.SetParameterData(
+                    new EcellParameterData(
+                        d.EntityPath,
+                        Convert.ToDouble(d.Value.ToString())));
+            }
+        }
+
+        private void ClickShowPropertyMenu(object sender, EventArgs e)
+        {
+            PropertyEditor.Show(m_env.DataManager, m_env.PluginManager, m_current);
         }
     }
 }

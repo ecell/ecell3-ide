@@ -145,4 +145,16 @@
   <data name="$this.TabText" xml:space="preserve">
     <value>プロパティ</value>
   </data>
+  <data name="loggingToolStripMenuItem.Text" xml:space="preserve">
+    <value>記録対象として設定</value>
+  </data>
+  <data name="observedToolStripMenuItem.Text" xml:space="preserve">
+    <value>観察パラメータとして設定</value>
+  </data>
+  <data name="parameterToolStripMenuItem.Text" xml:space="preserve">
+    <value>未知パラメータとして設定</value>
+  </data>
+  <data name="propertyToolStripMenuItem.Text" xml:space="preserve">
+    <value>プロパティ</value>
+  </data>
 </root>

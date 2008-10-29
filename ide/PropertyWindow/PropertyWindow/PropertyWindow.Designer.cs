@@ -30,17 +30,23 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyWindow));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.m_dgv = new System.Windows.Forms.DataGridView();
-            this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.valueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.defineANewPropertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteThisPropertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.loggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.observedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.parameterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.propertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.valueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -78,28 +84,17 @@
             this.m_dgv.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.m_dgv_EditingControlShowing);
             this.m_dgv.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CellClick);
             // 
-            // nameColumn
-            // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightYellow;
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightYellow;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.WindowText;
-            this.nameColumn.DefaultCellStyle = dataGridViewCellStyle1;
-            this.nameColumn.FillWeight = 50F;
-            resources.ApplyResources(this.nameColumn, "nameColumn");
-            this.nameColumn.Name = "nameColumn";
-            // 
-            // valueColumn
-            // 
-            this.valueColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            resources.ApplyResources(this.valueColumn, "valueColumn");
-            this.valueColumn.Name = "valueColumn";
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.defineANewPropertyToolStripMenuItem,
-            this.deleteThisPropertyToolStripMenuItem});
+            this.deleteThisPropertyToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.loggingToolStripMenuItem,
+            this.observedToolStripMenuItem,
+            this.parameterToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.propertyToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStrip1, "contextMenuStrip1");
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
@@ -116,6 +111,40 @@
             resources.ApplyResources(this.deleteThisPropertyToolStripMenuItem, "deleteThisPropertyToolStripMenuItem");
             this.deleteThisPropertyToolStripMenuItem.Click += new System.EventHandler(this.deleteThisPropertyToolStripMenuItem_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            // 
+            // loggingToolStripMenuItem
+            // 
+            this.loggingToolStripMenuItem.Name = "loggingToolStripMenuItem";
+            resources.ApplyResources(this.loggingToolStripMenuItem, "loggingToolStripMenuItem");
+            this.loggingToolStripMenuItem.Click += new System.EventHandler(this.ClickLoggingMenu);
+            // 
+            // observedToolStripMenuItem
+            // 
+            this.observedToolStripMenuItem.Name = "observedToolStripMenuItem";
+            resources.ApplyResources(this.observedToolStripMenuItem, "observedToolStripMenuItem");
+            this.observedToolStripMenuItem.Click += new System.EventHandler(this.ClickObservedDataMenu);
+            // 
+            // parameterToolStripMenuItem
+            // 
+            this.parameterToolStripMenuItem.Name = "parameterToolStripMenuItem";
+            resources.ApplyResources(this.parameterToolStripMenuItem, "parameterToolStripMenuItem");
+            this.parameterToolStripMenuItem.Click += new System.EventHandler(this.ClickUnknownParameterMenu);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+            // 
+            // propertyToolStripMenuItem
+            // 
+            this.propertyToolStripMenuItem.Name = "propertyToolStripMenuItem";
+            resources.ApplyResources(this.propertyToolStripMenuItem, "propertyToolStripMenuItem");
+            this.propertyToolStripMenuItem.Click += new System.EventHandler(this.ClickShowPropertyMenu);
+            // 
             // dataGridViewTextBoxColumn1
             // 
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightYellow;
@@ -130,6 +159,23 @@
             this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             resources.ApplyResources(this.dataGridViewTextBoxColumn2, "dataGridViewTextBoxColumn2");
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // nameColumn
+            // 
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightYellow;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightYellow;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            this.nameColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.nameColumn.FillWeight = 50F;
+            resources.ApplyResources(this.nameColumn, "nameColumn");
+            this.nameColumn.Name = "nameColumn";
+            // 
+            // valueColumn
+            // 
+            this.valueColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            resources.ApplyResources(this.valueColumn, "valueColumn");
+            this.valueColumn.Name = "valueColumn";
             // 
             // PropertyWindow
             // 
@@ -156,5 +202,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn valueColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem loggingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem observedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem parameterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem propertyToolStripMenuItem;
     }
 }

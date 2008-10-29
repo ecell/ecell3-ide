@@ -348,7 +348,7 @@ namespace Ecell.Plugin
         /// <param name="key">The ID.</param>
         /// <param name="type">The data type.</param>
         /// <param name="path">The path of entity.</param>
-        public virtual void LoggerAdd(string modelID, string type, string key, string path)
+        public virtual void LoggerAdd(string modelID, string key, string type, string path)
         {
             // do nothing
         }
