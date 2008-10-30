@@ -35,7 +35,7 @@ using ICSharpCode.SharpZipLib.Checksums;
 using ICSharpCode.SharpZipLib.Zip;
 using System.IO;
 
-namespace Ecell.IDE.MainWindow
+namespace Ecell.IDE
 {
     /// <summary>
     /// ZipUtil

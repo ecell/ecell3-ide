@@ -248,4 +248,13 @@
   <data name="configureSimulationSetToolStripMenuItem.Text" xml:space="preserve">
     <value>設定...</value>
   </data>
+  <data name="closeToolStripMenuItem.Text" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="createNewRevisionForProjectToolStripMenuItem.Text" xml:space="preserve">
+    <value>リビジョン作成</value>
+  </data>
+  <data name="zipToolStripMenuItem.Text" xml:space="preserve">
+    <value>Zip圧縮...</value>
+  </data>
 </root>

@@ -424,6 +424,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 {
                     treeView1.ContextMenuStrip = contextMenuStripDMCollection;
                 }
+                else if (e.Node == m_prjNode)
+                {
+                    treeView1.ContextMenuStrip = contextMenuStripProject;
+                }
                 else if (e.Node.Parent != null && e.Node.Parent == m_DMNode)
                 {
                     treeView1.ContextMenuStrip = contextMenuStripDM;
@@ -959,9 +963,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private void TreeViewCreateNewRevision(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null) return;
-            TagData tag = m_lastSelectedNode.Tag as TagData;
-            if (tag == null || tag.m_type != Constants.xpathModel) return;
-
             m_owner.DataManager.CreateNewRevision();
         }
 
@@ -973,6 +974,22 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 m_owner.Environment.PluginManager.SelectChanged(
                     "", (string)m_lastSelectedNode.Tag, Constants.xpathParameters);
             }
+        }
+
+        private void TreeViewCompressZip(object sender, EventArgs e)
+        {
+            m_saveFileDialog.Filter = Constants.FilterZipFile;
+            if (m_saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string fileName = m_saveFileDialog.FileName;
+                ZipUtil.ZipFolder(fileName,
+                m_owner.Environment.DataManager.CurrentProject.Info.ProjectPath);
+            }
+        }
+
+        private void TreeViewCloseProject(object sender, EventArgs e)
+        {
+            m_owner.Environment.DataManager.CloseProject();
         }
     }
 
