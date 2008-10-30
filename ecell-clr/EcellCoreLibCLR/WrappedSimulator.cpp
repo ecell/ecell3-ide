@@ -313,7 +313,7 @@ namespace EcellCoreLib {
         }
 
         WrappedSimulator(System::Collections::IEnumerable^ l_dmPath)
-            try: thePropertiedObjectMaker( new SharedModuleMaker< libecs::EcsObject >() ),
+            try: thePropertiedObjectMaker( libecs::createDefaultModuleMaker() ),
                  theModel( new libecs::Model( *thePropertiedObjectMaker ) ),
                  theEventCheckInterval(30)
         {
@@ -347,9 +347,20 @@ namespace EcellCoreLib {
 
         void CreateEntity(String^ l_classname, String^ l_fullIDString)
         {
-            theModel->createEntity(
-                WrappedCString(l_classname),
-                libecs::FullID(WrappedCString(l_fullIDString)));
+            try
+            {
+                theModel->createEntity(
+                    WrappedCString(l_classname),
+                    libecs::FullID(WrappedCString(l_fullIDString)));
+            }
+            catch (libecs::Exception const& e)
+            {
+                throw gcnew WrappedLibecsException(e);
+            }
+            catch (std::exception const& e)
+            {
+                throw gcnew WrappedStdException(e);
+            }
         }
 
         void CreateLogger(String ^ l_fullPNString)
@@ -1013,7 +1024,7 @@ namespace EcellCoreLib {
 
         libecs::Integer               theEventCheckInterval;
 
-        SharedModuleMaker<libecs::EcsObject> *thePropertiedObjectMaker;
+        StaticModuleMaker<libecs::EcsObject> *thePropertiedObjectMaker;
         libecs::Model                 *theModel;
 
         System::EventHandler^         theEventHandler;
