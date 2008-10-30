@@ -129,6 +129,9 @@
   <data name="ErrNoInput" xml:space="preserve">
     <value>{0} が入力されていません</value>
   </data>
+  <data name="ErrSameAxis" xml:space="preserve">
+    <value>同じパラメータをX軸とＹ軸に設定しています。</value>
+  </data>
   <data name="FinishSave" xml:space="preserve">
     <value>シミュレーションログを保存しました</value>
   </data>
@@ -144,6 +147,9 @@
   <data name="MenuItemLog" xml:space="preserve">
     <value>ログ目盛</value>
   </data>
+  <data name="MenuItemShowPlotText" xml:space="preserve">
+    <value>プロッターペインの表示(&amp;P)...</value>
+  </data>
   <data name="MenuItemShowSaveTraceText" xml:space="preserve">
     <value>シミュレーション結果の保存(&amp;R)...</value>
   </data>
@@ -155,6 +161,9 @@
   </data>
   <data name="NameEndTime" xml:space="preserve">
     <value>終了時間</value>
+  </data>
+  <data name="NamePlotData" xml:space="preserve">
+    <value>プロットデータ</value>
   </data>
   <data name="NamePlotNumber" xml:space="preserve">
     <value>プロット数</value>

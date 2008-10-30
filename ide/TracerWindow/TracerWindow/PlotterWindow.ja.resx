@@ -117,67 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmClose" xml:space="preserve">
-    <value>Do you want to close this window?</value>
+  <data name="$this.TabText" xml:space="preserve">
+    <value>プロッター</value>
   </data>
-  <data name="ErrInputData" xml:space="preserve">
-    <value>Non-numeric value is set.</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>プロッター</value>
   </data>
-  <data name="ErrInvalidValue" xml:space="preserve">
-    <value>Value is not valid.</value>
+  <data name="addToolStripMenuItem.Text" xml:space="preserve">
+    <value>追加...</value>
   </data>
-  <data name="ErrNoInput" xml:space="preserve">
-    <value>Nothing is input in {0}</value>
+  <data name="ColorColumn.HeaderText" xml:space="preserve">
+    <value>色</value>
   </data>
-  <data name="ErrSameAxis" xml:space="preserve">
-    <value>The same parameter is selected for X-axis and Y-axis.</value>
-  </data>
-  <data name="FinishSave" xml:space="preserve">
-    <value>The simulation results have been archived.</value>
-  </data>
-  <data name="MenuItemDeleteText" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="MenuItemImportData" xml:space="preserve">
-    <value>Log Import ...</value>
-  </data>
-  <data name="MenuItemLinear" xml:space="preserve">
-    <value>Linear Scale</value>
-  </data>
-  <data name="MenuItemLog" xml:space="preserve">
-    <value>Log Scale</value>
-  </data>
-  <data name="MenuItemShowPlotText" xml:space="preserve">
-    <value>Create new &amp;plotter...</value>
-  </data>
-  <data name="MenuItemShowSaveTraceText" xml:space="preserve">
-    <value>Archive simulation &amp;result...</value>
-  </data>
-  <data name="MenuItemShowTraceSetupText" xml:space="preserve">
-    <value>&amp;Graph setting...</value>
-  </data>
-  <data name="MenuItemShowTraceText" xml:space="preserve">
-    <value>Create new &amp;graph pane...</value>
-  </data>
-  <data name="NameEndTime" xml:space="preserve">
-    <value>End time</value>
-  </data>
-  <data name="NamePlotData" xml:space="preserve">
-    <value>Plot data</value>
-  </data>
-  <data name="NamePlotNumber" xml:space="preserve">
-    <value>Number of plots</value>
-  </data>
-  <data name="NameRedrawInterval" xml:space="preserve">
-    <value>Redraw interval</value>
-  </data>
-  <data name="NameStartTime" xml:space="preserve">
-    <value>Start time</value>
-  </data>
-  <data name="NameStepInterval" xml:space="preserve">
-    <value>Step count for dispatch</value>
-  </data>
-  <data name="TracerWindow" xml:space="preserve">
-    <value>Graph plotter</value>
+  <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
+    <value>削除</value>
   </data>
 </root>

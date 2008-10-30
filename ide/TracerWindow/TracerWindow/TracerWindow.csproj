@@ -91,6 +91,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="PlotterWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlotterWindow.designer.cs">
+      <DependentUpon>PlotterWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -101,6 +107,12 @@
     </Compile>
     <Compile Include="SaveTraceDialog.Designer.cs">
       <DependentUpon>SaveTraceDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectPlotDataDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectPlotDataDialog.designer.cs">
+      <DependentUpon>SelectPlotDataDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="TraceEntry.cs" />
     <Compile Include="TracerWindow.cs" />
@@ -135,6 +147,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MessageResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="PlotterWindow.ja.resx">
+      <DependentUpon>PlotterWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlotterWindow.resx">
+      <DependentUpon>PlotterWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
@@ -147,6 +167,14 @@
     <EmbeddedResource Include="SaveTraceDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SaveTraceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectPlotDataDialog.ja.resx">
+      <DependentUpon>SelectPlotDataDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectPlotDataDialog.resx">
+      <DependentUpon>SelectPlotDataDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TracerConfigurationDialog.ja.resx">
       <SubType>Designer</SubType>

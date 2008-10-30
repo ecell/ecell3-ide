@@ -60,6 +60,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// The menu item for [Show] -> [Show TraceWindow].
         /// </summary>
         ToolStripMenuItem m_showWin;
+        ToolStripMenuItem m_plotWin;
         /// <summary>
         /// The menu item for [Show] -> [Show Save Trace].
         /// </summary>
@@ -171,9 +172,17 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_showWin.Enabled = false;
             m_showWin.Click += new EventHandler(this.ShowTracerWindow);
 
+            m_plotWin = new ToolStripMenuItem();
+            m_plotWin.Text = MessageResources.MenuItemShowPlotText;
+            m_plotWin.Name = "MenuItemShowPlot";
+            m_plotWin.Size = new Size(96, 22);
+            m_plotWin.Enabled = false;
+            m_plotWin.Click += new EventHandler(this.ShowPlotWindow);
+
             ToolStripMenuItem view = new ToolStripMenuItem();
             view.DropDownItems.AddRange(new ToolStripItem[] {
-                m_showWin
+                m_showWin,
+                m_plotWin
             });
             view.Name = "MenuItemView";
             view.Size = new Size(36, 20);
@@ -394,6 +403,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 isStep = false;
                 m_showWin.Enabled = false;
+                m_plotWin.Enabled = false;
                 m_setupWin.Enabled = true;
                 m_showSaveWin.Enabled = false;
             }
@@ -408,6 +418,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_currentMax = 1.0;
                 isStep = false;
                 m_showWin.Enabled = true;
+                m_plotWin.Enabled = true;
                 m_setupWin.Enabled = false; 
                 m_showSaveWin.Enabled = true;
             }
@@ -426,6 +437,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 isStep = true;
                 UpdateGraphDelegate();
                 m_showWin.Enabled = true;
+                m_plotWin.Enabled = true;
                 m_setupWin.Enabled = false;
                 m_showSaveWin.Enabled = true;
             }
@@ -817,6 +829,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     Util.ShowNoticeDialog(MessageResources.FinishSave);
                 }
             }
+        }
+
+        void ShowPlotWindow(Object sender, EventArgs e)
+        {
+            PlotterWindow win = new PlotterWindow(this);
+            win.Show();
         }
 
         /// <summary>
