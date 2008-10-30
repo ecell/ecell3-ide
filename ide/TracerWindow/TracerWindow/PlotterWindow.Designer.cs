@@ -63,7 +63,7 @@
             this.displaySettingDataGrid.RowHeadersVisible = false;
             this.displaySettingDataGrid.RowTemplate.Height = 21;
             this.displaySettingDataGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CellDoubleClicked);
-            this.displaySettingDataGrid.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ClickMouseOnDataGridView);
+            this.displaySettingDataGrid.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.CellMouseClicked);
             // 
             // ColorColumn
             // 

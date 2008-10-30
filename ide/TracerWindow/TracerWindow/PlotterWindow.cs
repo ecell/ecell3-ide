@@ -173,19 +173,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 deleteToolStripMenuItem.Enabled = true;
         }
 
-        private void ClickMouseOnDataGridView(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                m_row = null;
-                DataGridView.HitTestInfo hti = displaySettingDataGrid.HitTest(e.X, e.Y);
-                if (hti.RowIndex >= 0)
-                {
-                    m_row = displaySettingDataGrid.Rows[hti.RowIndex];
-                }
-            }
-        }
-
         void CellDoubleClicked(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
@@ -217,6 +204,18 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_lineDic[index].Color = m_colorDialog.Color;
                 cell.Value = b;
                 m_zCnt.Refresh();
+            }
+        }
+
+        private void CellMouseClicked(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                m_row = null;
+                if (e.RowIndex >= 0)
+                {
+                    m_row = displaySettingDataGrid.Rows[e.RowIndex];
+                }
             }
         }
     }
