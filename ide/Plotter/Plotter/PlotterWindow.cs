@@ -38,14 +38,14 @@ using System.Windows.Forms;
 
 using ZedGraph;
 
-namespace Ecell.IDE.Plugins.TracerWindow
+namespace Ecell.IDE.Plugins.Plotter
 {
     public partial class PlotterWindow : EcellDockContent
     {
         /// <summary>
         /// The object managed this window.
         /// </summary
-        private TracerWindow m_owner;
+        private Plotter m_owner;
         /// <summary>
         /// Graph control for tracer.
         /// </summary>
@@ -54,7 +54,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private int m_entryNum = 0;
         private Dictionary<int, LineItem> m_lineDic = new Dictionary<int, LineItem>();
 
-        public PlotterWindow(TracerWindow control)
+        public PlotterWindow(Plotter control)
         {
             m_owner = control;
             m_isSavable = false;
@@ -159,8 +159,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (m_row.Tag == null) return;
             int index = (int)m_row.Tag;
 
+            m_zCnt.GraphPane.CurveList.Remove(m_lineDic[index]);
             displaySettingDataGrid.Rows.Remove(m_row);
             m_lineDic.Remove(index);
+            m_zCnt.Refresh();
         }
 
         private void OpeningContextMenu(object sender, CancelEventArgs e)
@@ -208,7 +210,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         private void CellMouseClicked(object sender, DataGridViewCellMouseEventArgs e)
-        {
+        {            
             if (e.Button == MouseButtons.Right)
             {
                 m_row = null;

@@ -277,12 +277,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
             int ind = dgv.Rows.Count;
             Bitmap b = new Bitmap(20, 20);
             Graphics g = Graphics.FromImage(b);
-            g.FillRectangle(ColorCreator.GetColorBlush(ind), 3, 3, 14, 14);
+            g.FillRectangle(Util.GetColorBlush(ind), 3, 3, 14, 14);
             g.ReleaseHdc(g.GetHdc());
 
             Bitmap b1 = new Bitmap(20, 20);
             Graphics g1 = Graphics.FromImage(b1);
-            Pen pen = new Pen(ColorCreator.GetColorBlush(ind), 2);
+            Pen pen = new Pen(Util.GetColorBlush(ind), 2);
             pen.DashStyle = LineCreator.GetLine(ind);
             g1.DrawLine(pen, 0, 10, 20, 10);
             g1.ReleaseHdc(g1.GetHdc());            
@@ -314,11 +314,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             c4.ReadOnly = true;
 
             LineItem i = m_zCnt.GraphPane.AddCurve(tag.M_path,
-                    new PointPairList(), ColorCreator.GetColor(ind), SymbolType.None);
+                    new PointPairList(), Util.GetColor(ind), SymbolType.None);
             i.Line.Width = 1;
             i.Line.Style = LineCreator.GetLine(ind);
             LineItem i1 = m_zCnt.GraphPane.AddCurve(tag.M_path,
-                    new PointPairList(), ColorCreator.GetColor(ind), SymbolType.None);
+                    new PointPairList(), Util.GetColor(ind), SymbolType.None);
             i1.Line.Width = 1;
             i1.Line.Style = LineCreator.GetLine(ind);
             m_entryDic.Add(tag.M_path, new TraceEntry(tag.M_path, i, i1, tag.IsContinue, tag.isLoaded));

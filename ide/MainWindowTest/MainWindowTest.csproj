@@ -79,7 +79,7 @@
     </Reference>
     <Reference Include="MainWindow, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\MainWindow.exe</HintPath>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\ecell-ide.exe</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

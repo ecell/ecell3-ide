@@ -34,6 +34,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Security.AccessControl;
+using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using System.Globalization;
@@ -1155,6 +1156,68 @@ namespace Ecell
         {
             FileAttributes fas = File.GetAttributes(dir);
             return ((fas & FileAttributes.Hidden) == FileAttributes.Hidden);
+        }
+
+        /// <summary>
+        /// Get the object of color.
+        /// </summary>
+        /// <param name="i">index.</param>
+        /// <returns>color object.</returns>
+        public static Color GetColor(int i)
+        {
+            int j = i % 3;
+            if (j == 0) return Color.OrangeRed;
+            else if (j == 1) return Color.LightSkyBlue;
+            else if (j == 2) return Color.LightGreen;
+            else if (j == 3) return Color.LightSalmon;
+            else if (j == 4) return Color.Gold;
+            else if (j == 5) return Color.LimeGreen;
+            else if (j == 6) return Color.Coral;
+            else if (j == 7) return Color.Navy;
+            else if (j == 8) return Color.Lime;
+            else if (j == 9) return Color.Purple;
+            else if (j == 10) return Color.SkyBlue;
+            else if (j == 11) return Color.Green;
+            else if (j == 12) return Color.Plum;
+            else if (j == 13) return Color.HotPink;
+            else if (j == 14) return Color.Orchid;
+            else if (j == 15) return Color.Tomato;
+            else if (j == 16) return Color.Orange;
+            else if (j == 17) return Color.Magenta;
+            else if (j == 18) return Color.Blue;
+            else if (j == 19) return Color.Red;
+            else return Color.Black;
+        }
+
+        /// <summary>
+        /// Get the brush of color.
+        /// </summary>
+        /// <param name="i">index.</param>
+        /// <returns>Brush.</returns>
+        public static Brush GetColorBlush(int i)
+        {
+            int j = i % 3;
+            if (j == 0) return Brushes.OrangeRed;
+            else if (j == 1) return Brushes.LightSkyBlue;
+            else if (j == 2) return Brushes.LightGreen;
+            else if (j == 3) return Brushes.LightSalmon;
+            else if (j == 4) return Brushes.Gold;
+            else if (j == 5) return Brushes.LimeGreen;
+            else if (j == 6) return Brushes.Coral;
+            else if (j == 7) return Brushes.Navy;
+            else if (j == 8) return Brushes.Lime;
+            else if (j == 9) return Brushes.Purple;
+            else if (j == 10) return Brushes.SkyBlue;
+            else if (j == 11) return Brushes.Green;
+            else if (j == 12) return Brushes.Plum;
+            else if (j == 13) return Brushes.HotPink;
+            else if (j == 14) return Brushes.Orchid;
+            else if (j == 15) return Brushes.Tomato;
+            else if (j == 16) return Brushes.Orange;
+            else if (j == 17) return Brushes.Magenta;
+            else if (j == 18) return Brushes.Blue;
+            else if (j == 19) return Brushes.Red;
+            else return Brushes.Black;
         }
     }
 }
