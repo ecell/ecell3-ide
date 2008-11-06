@@ -83,6 +83,20 @@ namespace Ecell.IDE.Plugins.Plotter
         }
 
         /// <summary>
+        /// Get the name of this plugin.
+        /// </summary>
+        /// <returns>"TracerWindow"</returns>
+        public override string GetPluginName()
+        {
+            return "Plotter";
+        }
+
+        public override String GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        }
+
+        /// <summary>
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">System status.</param>
