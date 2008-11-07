@@ -1004,6 +1004,9 @@ namespace Ecell
             string[] files = Directory.GetFiles(processDir);
             for (int i = 0; i < files.Length; i++)
             {
+                if (!files[i].EndsWith(Constants.xpathProcess) &&
+                    !files[i].EndsWith(Constants.xpathStepper))
+                    continue;
                 string name = Path.GetFileName(files[i]);
                 result.Add(name);
             }

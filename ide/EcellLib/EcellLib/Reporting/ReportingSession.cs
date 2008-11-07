@@ -46,13 +46,19 @@ namespace Ecell.Reporting
             get { return m_reports.Count; }
         }
 
+        public string Group
+        {
+            get { return m_group; }
+        }
+
         public bool IsReadOnly
         {
             get { return false; }
         }
 
-        public ReportingSession(ReportManager rm)
+        public ReportingSession(string group, ReportManager rm)
         {
+            m_group = group;
             m_man = rm;
             m_reports = new List<IReport>();
         }
@@ -128,6 +134,7 @@ namespace Ecell.Reporting
             m_man.OnSessionClosed();
         }
 
+        string m_group;
         ReportManager m_man;
         List<IReport> m_reports;
     }

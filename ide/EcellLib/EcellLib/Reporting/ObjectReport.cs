@@ -62,9 +62,10 @@ namespace Ecell.Reporting
         /// </summary>
         /// <param name="type">the type of message.</param>
         /// <param name="message">the message string.</param>
+        /// <param name="group">the group string.</param>
         /// <param name="obj">the object of message.</param>
-        public ObjectReport(MessageType type, String message, EcellObject obj)
-            : base(type, message)
+        public ObjectReport(MessageType type, String message, String group, EcellObject obj)
+            : base(type, message, group)
         {
             m_object = obj;
         }

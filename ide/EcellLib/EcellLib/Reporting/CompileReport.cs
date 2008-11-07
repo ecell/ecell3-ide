@@ -24,36 +24,30 @@
 //
 //END_HEADER
 //
-// written by Moriyoshi Koizumi <mozo@sfc.keio.ac.jp>.
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>.
 //
 
 using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Ecell.Reporting
 {
-    /// <summary>
-    /// Interface of the message entry.
-    /// </summary>
-    public interface IReport
+    class CompileReport : Report
     {
-        /// <summary>
-        /// Get the type of message.
-        /// </summary>
-        /// <returns>the type of message.</returns>
-        MessageType Type { get; }
-        /// <summary>
-        /// Get the location of message.
-        /// </summary>
-        /// <returns>the location of message.</returns>
-        string Location { get; }
-        /// <summary>
-        /// Get the message string.
-        /// </summary>
-        /// <returns>the message string</returns>
-        String Message { get; }
-        /// <summary>
-        /// Get the group string.
-        /// </summary>
-        String Group { get; }  
+        public override string Location
+        {
+            get
+            {
+                string[] ele = Message.Split(new string[] { ": " }, StringSplitOptions.RemoveEmptyEntries);
+//                string[] ele = Message.Split(new string[] { ": " });
+                return ele[0];
+            }
+        }
+
+        public CompileReport(MessageType type, string message, string group)
+            : base (type, message, group)
+        {
+        }
     }
 }

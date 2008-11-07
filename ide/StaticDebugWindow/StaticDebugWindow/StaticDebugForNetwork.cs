@@ -145,7 +145,8 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                         {
                             m_errorList.Add(new ObjectPropertyReport(
                                 MessageType.Error,
-                                MessageResources.ErrNoVariable,
+                                MessageResources.ErrNoVariable, 
+                                Constants.groupDebug,
                                 obj,
                                 d.Name
                             ));
@@ -175,7 +176,8 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                 {
                     m_errorList.Add(new ObjectReport(
                         MessageType.Warning,
-                        MessageResources.ErrNoConnect,
+                        MessageResources.ErrNoConnect, 
+                        Constants.groupDebug,
                         obj
                     ));
                     continue;
@@ -189,7 +191,8 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                     {
                         m_errorList.Add(new ObjectReport(
                             MessageType.Warning,
-                            MessageResources.ErrNoConnect,
+                            MessageResources.ErrNoConnect, 
+                            Constants.groupDebug,
                             obj
                         ));
                         break;
@@ -221,7 +224,8 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                 EcellObject obj = valDic[key];
                 m_errorList.Add(new ObjectReport(
                     MessageType.Warning,
-                    MessageResources.ErrNoConnect,
+                    MessageResources.ErrNoConnect, 
+                    Constants.groupDebug,
                     obj
                 ));
             }

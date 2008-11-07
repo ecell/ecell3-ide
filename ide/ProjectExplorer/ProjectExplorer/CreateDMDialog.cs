@@ -120,7 +120,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 TreeNode dNode = new TreeNode(name);
                 dNode.ImageIndex = m_env.PluginManager.GetImageIndex(Constants.xpathDM);
                 dNode.SelectedImageIndex = dNode.ImageIndex;
-                dNode.Tag = new TagData("", "", Constants.xpathDM);
+                dNode.Tag = name;
                 m_node.Nodes.Add(dNode);
                 m_path = filename;
             }
@@ -154,7 +154,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             string name = templateComboBox.SelectedItem.ToString();
 
             string temp = Util.GetProcessTemplate(name);
-            templateRichText.Text = temp;
+            templateRichText.Text = temp.Replace("XXXXX", INTextBox.Text);
         }
 
         private void InputName_Validating(object sender, CancelEventArgs e)

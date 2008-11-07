@@ -142,7 +142,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         {
             try
             {
-                ReportingSession rs = m_env.ReportManager.GetReportingSession();
+                ReportingSession rs = m_env.ReportManager.GetReportingSession(Constants.groupDebug);
                 using (rs)
                 {
                     List<string> mList = m_dManager.GetModelList();

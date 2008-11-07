@@ -35,7 +35,7 @@ namespace Ecell.Reporting
 {
     public class ReportingSessionEventArgs : EventArgs
     {
-        ReportingSession ReportingSession
+        public ReportingSession ReportingSession
         {
             get { return m_session; }
         }

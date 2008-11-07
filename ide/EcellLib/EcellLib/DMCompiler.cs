@@ -35,6 +35,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
+using Ecell.Reporting;
 using Ecell.Logging;
 
 namespace Ecell
@@ -47,6 +48,7 @@ namespace Ecell
         #region Fields
         private string m_sourceFile;
         private string m_outputFile;
+        private string m_dmFile;
         private string m_option;
         #endregion
 
@@ -88,6 +90,12 @@ namespace Ecell
             get { return this.m_option; }
             set { this.m_option = value; }
         }
+
+        public String DMFile
+        {
+            get { return this.m_dmFile; }
+            set { this.m_dmFile = value; }
+        }
         #endregion
 
         /// <summary>
@@ -110,97 +118,137 @@ namespace Ecell
                     new object[] { "Visual Studio" }));
                 return;
             }
-            ProcessStartInfo psi = new ProcessStartInfo();
-            psi.FileName = "cmd.exe";
-            psi.UseShellExecute = false;
-            psi.CreateNoWindow = true;
-            psi.WorkingDirectory = Path.GetDirectoryName(m_sourceFile);
-            psi.RedirectStandardError = true;
-            psi.RedirectStandardOutput = true;
-            psi.RedirectStandardInput = true;            
-
-            string arch1 = "Win32";
-            string arch2 = "X86";
-            if (IntPtr.Size == 8)
+            string groupname = Constants.groupCompile + ":" + m_sourceFile;
+            int maxCount = 10;
+            int count = 0;
+            ReportingSession rs = null;
+            while (rs == null)
             {
-                arch1 = "X64";
-                arch2 = "X64";
+                try
+                {
+                    rs = env.ReportManager.GetReportingSession(groupname);
+                }
+                catch (Exception)
+                {
+                    System.Threading.Thread.Sleep(100);
+                    if (maxCount < count)
+                    {
+                        Util.ShowErrorDialog(String.Format(MessageResources.ErrCompile, new object[] { m_sourceFile }));
+                        return;
+                    }
+                    count++;
+                }
             }
+            using (rs)
+            {
+                ProcessStartInfo psi = new ProcessStartInfo();
+                psi.FileName = "cmd.exe";
+                psi.UseShellExecute = false;
+                psi.CreateNoWindow = true;
+                psi.WorkingDirectory = Path.GetDirectoryName(m_sourceFile);
+                psi.RedirectStandardError = true;
+                psi.RedirectStandardOutput = true;
+                psi.RedirectStandardInput = true;
 
-            Process p = Process.Start(psi);
-            p.StandardInput.WriteLine("call \"" + VS80 + "\\vsvars32.bat\"");
+                string arch1 = "Win32";
+                string arch2 = "X86";
+                if (IntPtr.Size == 8)
+                {
+                    arch1 = "X64";
+                    arch2 = "X64";
+                }
 
-            string opt = "cl.exe /O2 /GL /I \"{0}\\Win32\\Release\\include\" /I \"{0}\\{3}\\Release\\include\\ecell-3.1\\libecs\" /D \"WIN32\" /D\"NODEBUG\" /D \"_WINDOWS\" /D \"_USRDLL\" /D \"GSL_DLL\" /D \"__STDC__=1\" /D \"_WINDLL\" /D \"_UNICODE\" /D \"UNICODE\" /FD /EHsc /MD /W3 /nologo /Wp64 /Zi /TP /errorReport:prompt \"{1}\" /link /OUT:\"{2}\" /LIBPATH:\"{0}\\{3}\\Release\\lib\" /INCREMENTAL:NO /NOLOGO  /DLL /MANIFEST /MANIFESTFILE:\"{2}.intermediate.manifest \" /DEBUG /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /MACHINE:{4} ecs.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib";
-            string cmd = String.Format(opt, new object[] {
+                Process p = Process.Start(psi);
+                p.StandardInput.WriteLine("call \"" + VS80 + "\\vsvars32.bat\"");
+
+                string opt = "cl.exe /O2 /GL /I \"{0}\\Win32\\Release\\include\" /I \"{0}\\{3}\\Release\\include\\ecell-3.1\\libecs\" /D \"WIN32\" /D\"NODEBUG\" /D \"_WINDOWS\" /D \"_USRDLL\" /D \"GSL_DLL\" /D \"__STDC__=1\" /D \"_WINDLL\" /D \"_UNICODE\" /D \"UNICODE\" /FD /EHsc /MD /W3 /nologo /Wp64 /Zi /TP /errorReport:prompt \"{1}\" /link /OUT:\"{2}\" /LIBPATH:\"{0}\\{3}\\Release\\lib\" /INCREMENTAL:NO /NOLOGO  /DLL /MANIFEST /MANIFESTFILE:\"{2}.intermediate.manifest \" /DEBUG /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /MACHINE:{4} ecs.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib";
+                string cmd = String.Format(opt, new object[] {
                 stageHome, m_sourceFile, m_outputFile, arch1, arch2
             });
 
-            p.StandardInput.WriteLine(cmd);
-            p.StandardInput.WriteLine("exit");
-            p.StandardInput.Close();
+                p.StandardInput.WriteLine(cmd);
+                p.StandardInput.WriteLine("exit");
+                p.StandardInput.Close();
 
 
-            string mes = p.StandardOutput.ReadToEnd();
-            env.Console.Write(mes);
-            if (mes.Contains(" error"))
-            {
-                string[] ele = mes.Split(new char[] { '\n' });
-                for (int i = 0; i < ele.Length; i++)
+                string mes = p.StandardOutput.ReadToEnd();
+                env.Console.Write(mes);
+                if (mes.Contains(" error"))
                 {
-                    if (ele[i].Contains(" error"))
+                    string[] ele = mes.Split(new char[] { '\n' });
+                    for (int i = 0; i < ele.Length; i++)
                     {
-                        env.LogManager.Append(new ApplicationLogEntry(MessageType.Error, ele[i], this));
+                        if (ele[i].Contains(" error"))
+                        {
+                            rs.Add(new CompileReport(MessageType.Error, ele[i], groupname));
+                            env.LogManager.Append(new ApplicationLogEntry(MessageType.Error, ele[i], this));
+                        }
                     }
+                    string errmes = string.Format(MessageResources.ErrCompile, new object[] { m_sourceFile });
+                    Util.ShowErrorDialog(errmes);
+                    p.StandardOutput.Close();
+                    p.WaitForExit();
+                    p.Close();
+                    return;
                 }
-                string errmes = string.Format(MessageResources.ErrCompile, new object[] { m_sourceFile });
-                Util.ShowErrorDialog(errmes);
+
                 p.StandardOutput.Close();
                 p.WaitForExit();
                 p.Close();
-                return;
-            }
 
-            p.StandardOutput.Close();
-            p.WaitForExit();
-            p.Close();
+                p = Process.Start(psi);
+                p.StandardInput.WriteLine("call \"" + VS80 + "\\vsvars32.bat\"");
 
-            p = Process.Start(psi);
-            p.StandardInput.WriteLine("call \"" + VS80 + "\\vsvars32.bat\"");
-
-            string mopt = "mt.exe /outputresource:\"{0};#2\" /manifest \"{0}.intermediate.manifest\" /nologo";
-            cmd = string.Format(mopt, new object[] {
+                string mopt = "mt.exe /outputresource:\"{0};#2\" /manifest \"{0}.intermediate.manifest\" /nologo";
+                cmd = string.Format(mopt, new object[] {
                 m_outputFile
             });
-            p.StandardInput.WriteLine(cmd);
-            p.StandardInput.WriteLine("exit");
-            p.StandardInput.Close();
+                p.StandardInput.WriteLine(cmd);
+                p.StandardInput.WriteLine("exit");
+                p.StandardInput.Close();
 
 
-            mes = p.StandardOutput.ReadToEnd();
-            env.Console.WriteLine(mes);
-            Console.WriteLine(mes);
+                mes = p.StandardOutput.ReadToEnd();
+                env.Console.WriteLine(mes);
+                Console.WriteLine(mes);
 
-            if (mes.Contains(" error"))
-            {
-                string[] ele = mes.Split(new char[] { '\n' });
-                for (int i = 0; i < ele.Length; i++)
+                if (mes.Contains(" error"))
                 {
-                    if (ele[i].Contains(" error"))
+                    string[] ele = mes.Split(new char[] { '\n' });
+                    for (int i = 0; i < ele.Length; i++)
                     {
-                        env.LogManager.Append(new ApplicationLogEntry(MessageType.Error, ele[i], this));
+                        if (ele[i].Contains(" error"))
+                        {
+                            rs.Add(new CompileReport(MessageType.Error, ele[i], groupname));
+                            env.LogManager.Append(new ApplicationLogEntry(MessageType.Error, ele[i], this));
+                        }
                     }
+                    string errmes = string.Format(MessageResources.ErrCompile, new object[] { m_sourceFile });
+                    Util.ShowErrorDialog(errmes);
+                    p.StandardOutput.Close();
+                    p.WaitForExit();
+                    p.Close();
+                    return;
                 }
-                string errmes = string.Format(MessageResources.ErrCompile, new object[] { m_sourceFile });
-                Util.ShowErrorDialog(errmes);
+
                 p.StandardOutput.Close();
                 p.WaitForExit();
                 p.Close();
-                return;
-            }
 
-            p.StandardOutput.Close();
-            p.WaitForExit();
-            p.Close();
+                try
+                {
+                    File.Move(OutputFile, DMFile);
+                    Util.ShowNoticeDialog(String.Format(MessageResources.InfoCompile,
+                        Path.GetFileNameWithoutExtension(DMFile)));
+                }
+                catch (Exception)
+                {
+                    // 移動先のDMがロードされているため移動できなかった。
+                    // よってこの例外は無視するものとする。
+                    Util.ShowNoticeDialog(String.Format(MessageResources.WarnMoveDM,
+                        DMFile, OutputFile));
+                }
+            }
         }
 
         /// <summary>
@@ -216,7 +264,9 @@ namespace Ecell
             if (!Directory.Exists(outdir))
                 Directory.CreateDirectory(outdir);
             string outfile = Path.Combine(outdir, Path.GetFileNameWithoutExtension(fileName) + Constants.FileExtDM);
+            string dmfile = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + Constants.FileExtDM);
             cm.OutputFile = outfile;
+            cm.DMFile = dmfile;
 
             cm.Compile(env);            
         }

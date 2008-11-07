@@ -47,7 +47,6 @@ namespace Ecell.IDE.Plugins.MessageListWindow
     public partial class MessageListWindowControl : EcellDockContent
     {
         private MessageListWindow m_owner;
-        private List<IReport> m_messages;
 
         /// <summary>
         /// Constructor.
@@ -56,7 +55,6 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         {
             m_owner = owner;
             base.m_isSavable = true;
-            this.m_messages = new List<IReport>();
             InitializeComponent();
             this.TabText = this.Text;
         }
@@ -64,9 +62,27 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         /// <summary>
         /// The event sequence on closing project.
         /// </summary>
-        public void Clear()
+        public void Clear(string group)
         {
-            MLWMessageDridView.Rows.Clear();
+            if (group == null)
+            {
+                MLWMessageDridView.Rows.Clear();
+                return;
+            }
+            List<DataGridViewRow> delList = new List<DataGridViewRow>();
+            foreach (DataGridViewRow r in MLWMessageDridView.Rows)
+            {
+                if (r.Tag == null) continue;
+                IReport rep = r.Tag as IReport;
+                if (rep == null) continue;
+
+                if (rep.Group.Equals(group)) delList.Add(r);
+            }
+
+            foreach (DataGridViewRow r in delList)
+            {
+                MLWMessageDridView.Rows.Remove(r);
+            }
         }
 
         /// <summary>
@@ -100,7 +116,6 @@ namespace Ecell.IDE.Plugins.MessageListWindow
             r.Tag = mes;
 
             MLWMessageDridView.Rows.Add(r);
-            m_messages.Add(mes);
         }
 
         private void MessageCellDoubleClick(object sender, DataGridViewCellEventArgs e)

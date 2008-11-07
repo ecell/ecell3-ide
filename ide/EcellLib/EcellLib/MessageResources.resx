@@ -294,4 +294,11 @@
   <data name="ErrChangeRoot" xml:space="preserve">
     <value>The ID of the root System cannot be changed. </value>
   </data>
+  <data name="InfoCompile" xml:space="preserve">
+    <value>Compile[{0}] is finished.</value>
+  </data>
+  <data name="WarnMoveDM" xml:space="preserve">
+    <value>{0} is loaded now. Please move the file from {1
+} to {0} after the model was closed.</value>
+  </data>
 </root>

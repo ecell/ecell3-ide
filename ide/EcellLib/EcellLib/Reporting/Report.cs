@@ -47,6 +47,10 @@ namespace Ecell.Reporting
         /// The message string.
         /// </summary>
         protected string m_message;
+        /// <summary>
+        /// The group string.
+        /// </summary>
+        protected string m_group;
         #endregion
 
         #region Accessors
@@ -67,6 +71,13 @@ namespace Ecell.Reporting
         /// <summary>
         /// 
         /// </summary>
+        public String Group
+        {
+            get { return m_group; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         public abstract string Location
         {
             get;
@@ -74,10 +85,11 @@ namespace Ecell.Reporting
         #endregion
 
         #region Constructor
-        public Report(MessageType type, string message)
+        public Report(MessageType type, string message, string group)
         {
             m_type = type;
             m_message = message;
+            m_group = group;
         }
         #endregion
 

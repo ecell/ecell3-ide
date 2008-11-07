@@ -42,6 +42,11 @@ namespace Ecell
     /// </summary>
     public class Constants
     {
+        #region Group name
+        public const string groupDebug = "debug";
+        public const string groupCompile = "compile";
+        #endregion
+
         #region Default Settings
         /// <summary>
         /// Reserved the name of file..

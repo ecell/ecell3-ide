@@ -294,4 +294,10 @@
   <data name="ErrChangeRoot" xml:space="preserve">
     <value>ルートSystemのIDは変更できません。</value>
   </data>
+  <data name="InfoCompile" xml:space="preserve">
+    <value>コンパイル[{0}]が正常に終了しました。</value>
+  </data>
+  <data name="WarnMoveDM" xml:space="preserve">
+    <value>{0}はロードされています。モデルを閉じた後に、{1}を{0}に移動させてください。</value>
+  </data>
 </root>

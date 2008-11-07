@@ -102,7 +102,7 @@ namespace Ecell.Reporting
                 Cleared(this, new EventArgs());
         }
 
-        public ReportingSession GetReportingSession()
+        public ReportingSession GetReportingSession(string group)
         {
             lock (this)
             {
@@ -110,7 +110,7 @@ namespace Ecell.Reporting
                 {
                     throw new InvalidOperationException();
                 }
-                m_rep = new ReportingSession(this);
+                m_rep = new ReportingSession(group, this);
             }
             Trace.WriteLine("ReportingSession acquired");
             if (ReportingSessionStarted != null)

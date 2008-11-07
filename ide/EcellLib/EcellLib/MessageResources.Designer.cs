@@ -457,6 +457,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   Compile[{0}] is finished. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoCompile {
+            get {
+                return ResourceManager.GetString("InfoCompile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Simulation parameter {0} was created. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoCreSim {
@@ -588,6 +597,16 @@ namespace Ecell {
         internal static string WarnLoadDM {
             get {
                 return ResourceManager.GetString("WarnLoadDM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} is loaded now. Please move the file from {1
+        ///} to {0} after the model was closed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WarnMoveDM {
+            get {
+                return ResourceManager.GetString("WarnMoveDM", resourceCulture);
             }
         }
     }

@@ -219,7 +219,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 if (Util.IsNGforSystemFullID(obj.Key))
                 {
-                    m_errorList.Add(new ObjectReport(MessageType.Error, MessageResources.ErrInvalidID, obj));
+                    m_errorList.Add(new ObjectReport(MessageType.Error, MessageResources.ErrInvalidID, Constants.groupDebug, obj));
                 }
             }
             else if (obj.Type == Constants.xpathProcess ||
@@ -227,7 +227,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 if (Util.IsNGforComponentFullID(obj.Key))
                 {
-                    m_errorList.Add(new ObjectReport(MessageType.Error, MessageResources.ErrInvalidID, obj));
+                    m_errorList.Add(new ObjectReport(MessageType.Error, MessageResources.ErrInvalidID, Constants.groupDebug, obj));
                 }
             }
         }
@@ -257,7 +257,8 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 m_errorList.Add(new ObjectReport(
                     MessageType.Error,
-                    string.Format(MessageResources.ErrNotExistStepper, l_stepperID),
+                    string.Format(MessageResources.ErrNotExistStepper, l_stepperID), 
+                    Constants.groupDebug,
                     o
                 ));
             }
@@ -276,7 +277,8 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 m_errorList.Add(new ObjectPropertyReport(
                     MessageType.Error,
-                    MessageResources.ErrNoSet,
+                    MessageResources.ErrNoSet, 
+                    Constants.groupDebug,
                     obj,
                     l_data.Name
                 ));
@@ -296,7 +298,8 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 m_errorList.Add(new ObjectPropertyReport(
                     MessageType.Error,
-                    MessageResources.ErrNoSet,
+                    MessageResources.ErrNoSet, 
+                    Constants.groupDebug,
                     obj,
                     l_data.Name
                 ));
@@ -307,7 +310,8 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 m_errorList.Add(new ObjectPropertyReport(
                     MessageType.Error,
-                    MessageResources.ErrPositive,
+                    MessageResources.ErrPositive, 
+                    Constants.groupDebug,
                     obj,
                     l_data.Name
                 ));
@@ -329,6 +333,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                 m_errorList.Add(new ObjectPropertyReport(
                     MessageType.Error,
                     MessageResources.ErrNoSet,
+                    Constants.groupDebug,
                     obj,
                     l_data.Name
                 ));
@@ -339,7 +344,8 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 m_errorList.Add(new ObjectPropertyReport(
                     MessageType.Error,
-                    MessageResources.ErrPositiveZero,
+                    MessageResources.ErrPositiveZero, 
+                    Constants.groupDebug,
                     obj,
                     l_data.Name
                 ));
@@ -363,7 +369,8 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 m_errorList.Add(new ObjectPropertyReport(
                     MessageType.Error,
-                    MessageResources.ErrMaxMin,
+                    MessageResources.ErrMaxMin, 
+                    Constants.groupDebug,
                     obj,
                     l_max.Name
                 ));
@@ -398,7 +405,8 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 m_errorList.Add(new ObjectPropertyReport(
                     MessageType.Error,
-                    MessageResources.ErrBrackets,
+                    MessageResources.ErrBrackets, 
+                    Constants.groupDebug,
                     obj,
                     l_data.Name
                 ));

@@ -68,9 +68,12 @@ namespace Ecell.Reporting
         /// </summary>
         /// <param name="type">the type of message.</param>
         /// <param name="message">the message string.</param>
+        /// <param name="group">the group string.</param>
         /// <param name="obj">the object of message.</param>
-        public ObjectPropertyReport(MessageType type, String message, EcellObject obj, string propertyName)
-            : base(type, message, obj)
+        /// <param name="propertyName">the proerty name.</param>
+        public ObjectPropertyReport(MessageType type, String message,
+            string group, EcellObject obj, string propertyName)
+            : base(type, message, group, obj)
         {
             m_propName = propertyName;
         }

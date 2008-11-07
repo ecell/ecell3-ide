@@ -59,6 +59,10 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         #endregion
 
         #region Inherited from PluginBase
+        public override void Clear()
+        {
+            m_control.Clear(null);
+        }        
         /// <summary>
         /// Get the window form for MessageListWindow plugin.
         /// </summary>
@@ -80,7 +84,7 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         /// </summary>
         public void ReportManager_ReportingSessionStarted(object obj, ReportingSessionEventArgs e)
         {
-            m_control.Clear();
+            m_control.Clear(e.ReportingSession.Group);
         }
 
         /// <summary>
