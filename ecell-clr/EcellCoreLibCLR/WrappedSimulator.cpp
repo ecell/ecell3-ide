@@ -71,7 +71,7 @@ namespace EcellCoreLib {
         }
         else if (dynamic_cast<int^>(obj) != nullptr)
         {
-            return libecs::Polymorph(safe_cast<int>(obj));
+            return libecs::Polymorph(safe_cast<long>(obj));
         }
         else if (dynamic_cast<long^>(obj) != nullptr)
         {
@@ -878,7 +878,7 @@ namespace EcellCoreLib {
             {
                 libecs::StepperPtr aStepperPtr(theModel->getStepper((std::string)WrappedCString(l_stepperID)));
                 setDirty();
-                aStepperPtr->loadProperty((std::string)WrappedCString(l_propName), ToPolymorph(l_value));
+                aStepperPtr->setProperty((std::string)WrappedCString(l_propName), ToPolymorph(l_value));
             }
             catch (libecs::Exception const& e)
             {
