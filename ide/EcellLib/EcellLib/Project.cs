@@ -33,6 +33,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -142,13 +143,12 @@ namespace Ecell
             {
                 SetDMList();
                 List<string> stepperList = new List<string>();
-                WrappedSimulator sim = CreateSimulatorInstance();
-                foreach (WrappedPolymorph polymorph in sim.GetDMInfo().CastToList())
+                WrappedSimulator sim =  new WrappedSimulator(Util.GetDMDirs(m_info.ProjectPath));
+                foreach (DMInfo dmInfo in sim.GetDMInfo())
                 {
-                    List<WrappedPolymorph> dmInfoList = polymorph.CastToList();
-                    if (dmInfoList[0].CastToString().Equals(Constants.xpathStepper))
+                    if (dmInfo.TypeName == Constants.xpathStepper)
                     {
-                        stepperList.Add(dmInfoList[1].CastToString());
+                        stepperList.Add(dmInfo.ModuleName);
                     }
                 }
                 if (m_dmDic != null)
@@ -306,17 +306,33 @@ namespace Ecell
         public Project(ProjectInfo info)
         {
             m_info = info;
-            SetDMList();
             m_loggerPolicyDic = new Dictionary<string, LoggerPolicy>();
             m_stepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
             m_modelList = new List<EcellModel>();
             m_systemDic = new Dictionary<string, List<EcellObject>>();
-            m_simulator = CreateSimulatorInstance();
+            ResetSimulator();
         }
+        #endregion
 
+        #region EventHandler
+        private void SimulationEventHandler(object sender, EventArgs e)
+        {
+            if (m_simulationStatus == SimulationStatus.Suspended
+                || m_simulationStatus == SimulationStatus.Wait)
+            {
+                ((WrappedSimulator)sender).Stop();
+            }
+        }
         #endregion
 
         #region Methods
+        public void ResetSimulator()
+        {
+            SetDMList();
+            m_simulator = new WrappedSimulator(Util.GetDMDirs(m_info.ProjectPath));
+            m_simulator.EventHandler = new EventHandler(SimulationEventHandler);
+        }
+
         /// <summary>
         /// Initialize objects.
         /// </summary>
@@ -339,16 +355,6 @@ namespace Ecell
             // Initialize
             Dictionary<string, List<string>> dmDic = Util.GetDmDic(m_info.ProjectPath);
             this.m_dmDic = dmDic;
-        }
-
-        /// <summary>
-        /// Create a new WrappedSimulator instance.
-        /// </summary>
-        internal WrappedSimulator CreateSimulatorInstance()
-        {
-            string[] dmpath = Util.GetDMDirs(m_info.ProjectPath);
-            Trace.WriteLine("Creating simulator (dmpath=" + string.Join(";", dmpath) + ")");
-            return new WrappedSimulator(dmpath);
         }
 
         /// <summary>
@@ -615,9 +621,8 @@ namespace Ecell
                 EcellObject ecellObject,
                 Dictionary<string, double> initialCondition)
         {
-            bool isCreated = true;
             string key = Constants.xpathProcess + Constants.delimiterColon + ecellObject.Key;
-            WrappedPolymorph wrappedPolymorph = null;
+            IList<string> wrappedPolymorph = null;
             try
             {
                 wrappedPolymorph = simulator.GetEntityPropertyList(key);
@@ -625,10 +630,6 @@ namespace Ecell
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                isCreated = false;
-            }
-            if (isCreated != false && !wrappedPolymorph.IsList())
-            {
                 return;
             }
             //
@@ -659,72 +660,66 @@ namespace Ecell
             //
             // Stores the "EcellData"
             //
-            if (isCreated)
+            foreach (string name in wrappedPolymorph)
             {
-                List<WrappedPolymorph> processAllPropertyList = wrappedPolymorph.CastToList();
-                for (int i = 0; i < processAllPropertyList.Count; i++)
+                string entityPath = Util.BuildFullPN(key, name);
+
+                PropertyAttributes flag = simulator.GetEntityPropertyAttributes(entityPath);
+                if (!flag.Gettable)
                 {
-                    Debug.Assert(!processAllPropertyList[i].IsString());
-                    string name = processAllPropertyList[i].CastToString();
-                    string entityPath = Util.BuildFullPN(key, name);
-
-                    List<bool> flag = simulator.GetEntityPropertyAttributes(entityPath);
-                    if (!flag[WrappedSimulator.s_flagGettable])
-                    {
-                        continue;
-                    }
-                    EcellValue value = null;
-
-                    if (name == Constants.xpathVRL)
-                    {
-                        // Won't restore the variable reference list from the simulator's corresponding
-                        // object.
-                        if (storedEcellDataDic.ContainsKey(name))
-                            value = storedEcellDataDic[name].Value;
-                        else
-                            value = new EcellValue(new List<EcellValue>());
-                    }
-                    else if (name == Constants.xpathActivity && name == Constants.xpathMolarActivity)
-                    {
-                        value = new EcellValue(0.0);
-                    }
-                    else
-                    {
-                        try
-                        {
-                            value = new EcellValue(simulator.GetEntityProperty(entityPath));
-                        }
-                        catch (WrappedException ex)
-                        {
-                            Trace.WriteLine(ex);
-                            value = new EcellValue("");
-                        }
-                    }
-
-                    EcellData ecellData = CreateEcellData(name, value, entityPath, flag);
-                    if (ecellData.Value != null)
-                    {
-                        if (ecellData.Value.IsDouble)
-                        {
-                            ecellData.Logable = ecellData.Settable == false || ecellData.Saveable == false;
-                        }
-                        try
-                        {
-                            if (ecellData.Settable)
-                                initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
-                        }
-                        catch
-                        {
-                            // non-numeric value
-                        }
-                    }
-                    if (storedEcellDataDic.ContainsKey(name))
-                    {
-                        ecellData.Logged = storedEcellDataDic[name].Logged;
-                        processEcellDataList.Remove(storedEcellDataDic[name]);
-                    }
-                    processEcellDataList.Add(ecellData);
+                    continue;
                 }
+                EcellValue value = null;
+
+                if (name == Constants.xpathVRL)
+                {
+                    // Won't restore the variable reference list from the simulator's corresponding
+                    // object.
+                    if (storedEcellDataDic.ContainsKey(name))
+                        value = storedEcellDataDic[name].Value;
+                    else
+                        value = new EcellValue(new List<EcellValue>());
+                }
+                else if (name == Constants.xpathActivity && name == Constants.xpathMolarActivity)
+                {
+                    value = new EcellValue(0.0);
+                }
+                else
+                {
+                    try
+                    {
+                        value = new EcellValue(simulator.GetEntityProperty(entityPath));
+                    }
+                    catch (WrappedException ex)
+                    {
+                        Trace.WriteLine(ex);
+                        value = new EcellValue("");
+                    }
+                }
+
+                EcellData ecellData = CreateEcellData(name, value, entityPath, flag.Settable, flag.Gettable, flag.Loadable, flag.Savable);
+                if (ecellData.Value != null)
+                {
+                    if (ecellData.Value.IsDouble)
+                    {
+                        ecellData.Logable = ecellData.Settable == false || ecellData.Saveable == false;
+                    }
+                    try
+                    {
+                        if (ecellData.Settable)
+                            initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
+                    }
+                    catch
+                    {
+                        // non-numeric value
+                    }
+                }
+                if (storedEcellDataDic.ContainsKey(name))
+                {
+                    ecellData.Logged = storedEcellDataDic[name].Logged;
+                    processEcellDataList.Remove(storedEcellDataDic[name]);
+                }
+                processEcellDataList.Add(ecellData);
             }
             ecellObject.SetEcellDatas(processEcellDataList);
         }
@@ -738,7 +733,7 @@ namespace Ecell
                 WrappedSimulator simulator, EcellObject ecellObject)
         {
             List<EcellData> stepperEcellDataList = new List<EcellData>();
-            WrappedPolymorph wrappedPolymorph = null;
+            IList<string> wrappedPolymorph = null;
             //
             // Property List
             //
@@ -749,10 +744,6 @@ namespace Ecell
             catch (Exception ex)
             {
                 ex.ToString();
-                return;
-            }
-            if (!wrappedPolymorph.IsList())
-            {
                 return;
             }
             //
@@ -777,31 +768,24 @@ namespace Ecell
             //
             // Stores the "EcellData"
             //
-            List<WrappedPolymorph> stepperAllPropertyList = wrappedPolymorph.CastToList();
-            for (int i = 0; i < stepperAllPropertyList.Count; i++)
+            foreach (string name in wrappedPolymorph)
             {
-                if (!(stepperAllPropertyList[i]).IsString())
-                {
-                    continue;
-                }
-                string name = (stepperAllPropertyList[i]).CastToString();
-                List<bool> flag = simulator.GetStepperPropertyAttributes(ecellObject.Key, name);
-                if (!flag[WrappedSimulator.s_flagGettable])
+                PropertyAttributes flags = simulator.GetStepperPropertyAttributes(ecellObject.Key, name);
+                if (!flags.Gettable)
                 {
                     continue;
                 }
                 EcellValue value = null;
                 try
                 {
-                    WrappedPolymorph property = simulator.GetStepperProperty(ecellObject.Key, name);
-                    value = new EcellValue(property);
+                    value = new EcellValue(simulator.GetStepperProperty(ecellObject.Key, name));
                 }
                 catch (Exception ex)
                 {
                     Trace.WriteLine(ex);
                     value = new EcellValue("");
                 }
-                EcellData ecellData = CreateEcellData(name, value, name, flag);
+                EcellData ecellData = CreateEcellData(name, value, name, flags.Settable, flags.Gettable, flags.Loadable, flags.Savable);
                 if (storedEcellDataDic.ContainsKey(name))
                 {
                     if (value.IsString && ((string)value).Equals(""))
@@ -836,11 +820,7 @@ namespace Ecell
                 parentPath + Constants.delimiterColon +
                 childPath;
             // Property List
-            WrappedPolymorph wrappedPolymorph = simulator.GetEntityPropertyList(key);
-            if (!wrappedPolymorph.IsList())
-            {
-                return;
-            }
+            IList<string> wrappedPolymorph = simulator.GetEntityPropertyList(key);
             //
             // Checks the stored "EcellData"
             //
@@ -868,52 +848,56 @@ namespace Ecell
                     }
                 }
             }
-            List<WrappedPolymorph> systemAllPropertyList = wrappedPolymorph.CastToList();
-            for (int i = 0; i < systemAllPropertyList.Count; i++)
+            foreach (string name in wrappedPolymorph)
             {
-                Debug.Assert(systemAllPropertyList[i].IsString());
-                string name = systemAllPropertyList[i].CastToString();
                 string entityPath = key + Constants.delimiterColon + name;
-                List<bool> flag = simulator.GetEntityPropertyAttributes(entityPath);
+                PropertyAttributes flags = simulator.GetEntityPropertyAttributes(entityPath);
 
-                if (!flag[WrappedSimulator.s_flagGettable])
+                if (!flags.Gettable)
                 {
                     continue;
                 }
 
-                EcellValue value = null;
+                object value = null;
                 if (name.Equals(Constants.xpathSize))
                 {
-                    value = new EcellValue(0.0);
+                    value = 0.0;
                 }
                 else
                 {
                     try
                     {
-                        value = new EcellValue(simulator.GetEntityProperty(entityPath));
+                        value = simulator.GetEntityProperty(entityPath);
                     }
                     catch (WrappedException ex)
                     {
                         Trace.WriteLine(ex);
                         if (storedEcellDataDic.ContainsKey(name))
                         {
-                            if (((List<EcellValue>)storedEcellDataDic[name].Value)[0].IsList)
+                            IEnumerable val = storedEcellDataDic[name].Value as IEnumerable;
+                            object firstItem = null;
                             {
-                                value = storedEcellDataDic[name].Value;
+                                IEnumerator i = val.GetEnumerator();
+                                if (i.MoveNext())
+                                    firstItem = i.Current;
+                            }
+                            if (firstItem is IEnumerable)
+                            {
+                                value = val;
                             }
                             else
                             {
-                                value = ((List<EcellValue>)storedEcellDataDic[name].Value)[0];
+                                value = firstItem;
                             }
                         }
                         else
                         {
-                            value = new EcellValue("");
+                            value = "";
                         }
                     }
                 }
 
-                EcellData ecellData = CreateEcellData(name, value, entityPath, flag);
+                EcellData ecellData = CreateEcellData(name, new EcellValue(value), entityPath, flags.Settable, flags.Gettable, flags.Loadable, flags.Savable);
                 if (ecellData.Value != null)
                 {
                     ecellData.Logable = ecellData.Value.IsDouble;
@@ -953,11 +937,7 @@ namespace Ecell
                 Dictionary<string, double> initialCondition)
         {
             string key = Constants.xpathVariable + Constants.delimiterColon + ecellObject.Key;
-            WrappedPolymorph wrappedPolymorph = simulator.GetEntityPropertyList(key);
-            if (!wrappedPolymorph.IsList())
-            {
-                return;
-            }
+            IList<string> wrappedPolymorph = simulator.GetEntityPropertyList(key);
             //
             // Checks the stored "EcellData"
             //
@@ -985,50 +965,50 @@ namespace Ecell
                     }
                 }
             }
-            List<WrappedPolymorph> variableAllPropertyList = wrappedPolymorph.CastToList();
-            for (int i = 0; i < variableAllPropertyList.Count; i++)
+            foreach (string name in wrappedPolymorph)
             {
-                if (!(variableAllPropertyList[i]).IsString())
-                {
-                    continue;
-                }
-                string name = (variableAllPropertyList[i]).CastToString();
                 string entityPath = key + Constants.delimiterColon + name;
-                List<bool> flag = simulator.GetEntityPropertyAttributes(entityPath);
-                if (!flag[WrappedSimulator.s_flagGettable])
+                PropertyAttributes flags = simulator.GetEntityPropertyAttributes(entityPath);
+                if (!flags.Gettable)
                 {
                     continue;
                 }
-                EcellValue value = null;
+                object value = null;
                 try
                 {
-                    WrappedPolymorph property = simulator.GetEntityProperty(entityPath);
-                    value = new EcellValue(property);
+                    value = simulator.GetEntityProperty(entityPath);
                 }
                 catch (Exception ex)
                 {
                     Trace.WriteLine(ex);
+                    IEnumerable val = (IEnumerable)storedEcellDataDic[name].Value;
+                    object firstItem = null;
+                    {
+                        IEnumerator i = val.GetEnumerator();
+                        if (i.MoveNext())
+                            firstItem = i.Current;
+                    }
                     if (storedEcellDataDic.ContainsKey(name))
                     {
-                        if (((List<EcellValue>)storedEcellDataDic[name].Value)[0].IsList)
+                        if (val is IEnumerable)
                         {
-                            value = storedEcellDataDic[name].Value;
+                            value = val;
                         }
                         else
                         {
-                            value = ((List<EcellValue>)storedEcellDataDic[name].Value)[0];
+                            value = firstItem; 
                         }
                     }
                     else if (name.Equals(Constants.xpathMolarConc) || name.Equals(Constants.xpathNumberConc))
                     {
-                        value = new EcellValue(0.0);
+                        value = 0.0;
                     }
                     else
                     {
-                        value = new EcellValue("");
+                        value = "";
                     }
                 }
-                EcellData ecellData = CreateEcellData(name, value, entityPath, flag);
+                EcellData ecellData = CreateEcellData(name, new EcellValue(value), entityPath, flags.Settable, flags.Gettable, flags.Loadable, flags.Savable);
                 if (ecellData.Value != null)
                 {
                     ecellData.Logable = ecellData.Value.IsDouble;
@@ -1061,15 +1041,14 @@ namespace Ecell
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <param name="entityPath"></param>
-        /// <param name="flags"></param>
         /// <returns></returns>
-        private static EcellData CreateEcellData(string name, EcellValue value, string entityPath, List<bool> flags)
+        private static EcellData CreateEcellData(string name, EcellValue value, string entityPath, bool settable, bool gettable, bool loadable, bool savable)
         {
             EcellData data = new EcellData(name, value, entityPath);
-            data.Settable = flags[WrappedSimulator.s_flagSettable];
-            data.Gettable = flags[WrappedSimulator.s_flagGettable];
-            data.Loadable = flags[WrappedSimulator.s_flagLoadable];
-            data.Saveable = flags[WrappedSimulator.s_flagSavable];
+            data.Settable = settable;
+            data.Gettable = gettable;
+            data.Loadable = loadable;
+            data.Saveable = savable;
             return data;
         }
 

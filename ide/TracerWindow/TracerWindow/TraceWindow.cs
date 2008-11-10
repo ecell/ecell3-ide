@@ -539,7 +539,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="maxAxis">max axis of x.</param>
         /// <param name="nextTime">current time of simulation.</param>
         /// <param name="data">the simulation data.</param>
-        public void AddPoints(double maxAxis, double nextTime, List<LogData> data)
+        public void AddPoints(double maxAxis, double nextTime, IEnumerable<LogData> data)
         {
             bool isAxis = false;
 
@@ -947,7 +947,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             double sx = m_zCnt.GraphPane.XAxis.Scale.Min;
             double ex = m_zCnt.GraphPane.XAxis.Scale.Max;
             double m_step = (ex - sx) / TracerWindow.s_count;
-            List<LogData> list;
+            IEnumerable<LogData> list;
             if (!m_zCnt.GraphPane.IsZoomed)
             {
                 double nextTime = m_owner.DataManager.GetCurrentSimulationTime();
@@ -971,9 +971,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
             UpdateGraphCallBack f = new UpdateGraphCallBack(UpdateGraph);
             this.Invoke(f, new object[] { isAxis });
-            list.Clear();
-            list = null;
-            
         }
 
         #endregion

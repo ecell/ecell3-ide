@@ -144,21 +144,21 @@ namespace Ecell
                     tmp = value.Attributes.GetNamedItem("value");
                     string valueData = tmp.InnerText;
 
-                    EcellValue v;
+                    object v;
                     if (vtype.Equals(typeof(string).ToString()))
-                        v = new EcellValue(valueData);
+                        v = valueData;
                     else if (vtype.Equals(typeof(double).ToString()))
                     {
                         if (valueData == "1.79769313486232E+308")
-                            v = new EcellValue(Double.MaxValue);
+                            v = Double.MaxValue;
                         else
-                            v = new EcellValue(Convert.ToDouble(valueData));
+                            v = Convert.ToDouble(valueData);
                     }
                     else if (vtype.Equals(typeof(int).ToString()))
-                        v = new EcellValue(Convert.ToInt32(valueData));
+                        v = Convert.ToInt32(valueData);
                     else
                         v = EcellValue.FromListString(valueData);
-                    d.Value = v;
+                    d.Value = new EcellValue(v);
                 }
 
                 list.Add(d);

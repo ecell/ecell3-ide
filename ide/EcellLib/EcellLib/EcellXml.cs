@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using Ecell.Objects;
@@ -68,7 +69,7 @@ namespace Ecell
                 if (isElement)
                 {
                     m_tx.WriteStartElement(Constants.xpathValue.ToLower());
-                    foreach (EcellValue childEcellValue in (List<EcellValue>)ecellValue)
+                    foreach (EcellValue childEcellValue in (IEnumerable)ecellValue.Value)
                     {
                         this.WriteValueElements(childEcellValue, true);
                     }
@@ -76,7 +77,7 @@ namespace Ecell
                 }
                 else
                 {
-                    foreach (EcellValue childEcellValue in (List<EcellValue>)ecellValue)
+                    foreach (EcellValue childEcellValue in (IEnumerable)ecellValue.Value)
                     {
                         this.WriteValueElements(childEcellValue, true);
                     }

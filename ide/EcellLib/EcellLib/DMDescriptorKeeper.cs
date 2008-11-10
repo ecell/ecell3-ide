@@ -107,15 +107,12 @@ namespace Ecell
                 modulesToLookup[dmPath] = perDirectoryModuleList;
 
                 WrappedSimulator sim = new WrappedSimulator(new string[] { });
-                foreach (WrappedPolymorph _entry in sim.GetDMInfo().CastToList())
+                foreach (DMInfo entry in sim.GetDMInfo())
                 {
-                    List<WrappedPolymorph> entry = _entry.CastToList();
-                    if (entry[2].IsString() && entry[2].CastToString() == "")
+                    if (entry.FileName == "")
                     {
-                        string moduleType = entry[0].CastToString();
-                        string moduleName = entry[1].CastToString();
-                        perDirectoryModuleList[moduleType].Add(
-                            new PathAndModuleNamePair(dmPath, moduleName));
+                        perDirectoryModuleList[entry.TypeName].Add(
+                            new PathAndModuleNamePair(dmPath, entry.ModuleName));
                     }
                 }
                 sim.Dispose();
@@ -188,7 +185,7 @@ namespace Ecell
                 WrappedSimulator sim = new WrappedSimulator(new string[] { kv.Key });
                 {
                     sim.CreateStepper("PassiveStepper", "tmp");
-                    sim.SetEntityProperty(Util.BuildFullPN(Constants.xpathSystem, "", "/", "StepperID"), new WrappedPolymorph("tmp"));
+                    sim.SetEntityProperty(Util.BuildFullPN(Constants.xpathSystem, "", "/", "StepperID"), "tmp");
                 }
                 Trace.WriteLine("Checking DMs in " + kv.Key);
 
@@ -199,24 +196,23 @@ namespace Ecell
                         new Dictionary<string, PropertyDescriptor>();
                     string id = Util.BuildFullID(Constants.xpathSystem, "/", pair.ModuleName);
                     sim.CreateEntity(pair.ModuleName, id);
-                    sim.SetEntityProperty(Util.BuildFullPN(id, "StepperID"), new WrappedPolymorph("tmp"));
+                    sim.SetEntityProperty(Util.BuildFullPN(id, "StepperID"), "tmp");
                     bool dynamic = true;
-                    foreach (WrappedPolymorph propNameVar in sim.GetEntityPropertyList(id).CastToList())
+                    foreach (string propName in sim.GetEntityPropertyList(id))
                     {
-                        string propName = propNameVar.CastToString();
                         string fullPN = Util.BuildFullPN(id, propName);
-                        List<bool> attrs = sim.GetEntityPropertyAttributes(fullPN);
+                        EcellCoreLib.PropertyAttributes attrs = sim.GetEntityPropertyAttributes(fullPN);
                         EcellValue defaultValue = null;
-                        if (attrs[1])
+                        if (attrs.Gettable)
                             defaultValue = new EcellValue(sim.GetEntityProperty(fullPN));
                         pdescs[propName] = new PropertyDescriptor(
                             propName,
-                            attrs[0], // settable
-                            attrs[1], // gettable
-                            attrs[2], // loadable
-                            attrs[3], // saveable
-                            false,    // dynamic
-                            attrs[1],
+                            attrs.Settable, // settable
+                            attrs.Gettable, // gettable
+                            attrs.Loadable, // loadable
+                            attrs.Savable,  // saveable
+                            attrs.Dynamic,  // dynamic
+                            attrs.Gettable,
                             defaultValue
                         );
                     }
@@ -228,7 +224,7 @@ namespace Ecell
                             randomID = Util.GenerateRandomID(32);
                         }
                         while (pdescs.ContainsKey(randomID));
-                        sim.SetEntityProperty(Util.BuildFullPN(id, randomID), new WrappedPolymorph(0.0));
+                        sim.SetEntityProperty(Util.BuildFullPN(id, randomID), 0.0);
                     }
                     catch (Exception)
                     {
@@ -246,13 +242,12 @@ namespace Ecell
                     string id = Util.BuildFullID(Constants.xpathProcess, "/", pair.ModuleName);
                     sim.CreateEntity(pair.ModuleName, id);
                     bool dynamic = true;
-                    foreach (WrappedPolymorph propNameVar in sim.GetEntityPropertyList(id).CastToList())
+                    foreach (string propName in sim.GetEntityPropertyList(id))
                     {
-                        string propName = propNameVar.CastToString();
                         string fullPN = Util.BuildFullPN(id, propName);
-                        List<bool> attrs = sim.GetEntityPropertyAttributes(fullPN);
+                        PropertyAttributes attrs = sim.GetEntityPropertyAttributes(fullPN);
                         EcellValue defaultValue = null;
-                        if (attrs[1])
+                        if (attrs.Gettable)
                         {
                             try
                             {
@@ -262,12 +257,12 @@ namespace Ecell
                         }
                         pdescs[propName] = new PropertyDescriptor(
                             propName,
-                            attrs[0], // settable
-                            attrs[1], // gettable
-                            attrs[2], // loadable
-                            attrs[3], // saveable
-                            false,    // dynamic
-                            attrs[1], // logable
+                            attrs.Settable, // settable
+                            attrs.Gettable, // gettable
+                            attrs.Loadable, // loadable
+                            attrs.Savable,  // saveable
+                            attrs.Dynamic,  // dynamic
+                            attrs.Gettable, // logable
                             defaultValue
                         );
                     }
@@ -279,7 +274,7 @@ namespace Ecell
                             randomID = Util.GenerateRandomID(32);
                         }
                         while (pdescs.ContainsKey(randomID));
-                        sim.SetEntityProperty(Util.BuildFullPN(id, randomID), new WrappedPolymorph(0.0));
+                        sim.SetEntityProperty(Util.BuildFullPN(id, randomID), 0.0);
                     }
                     catch (Exception)
                     {
@@ -297,13 +292,12 @@ namespace Ecell
                     string id = Util.BuildFullID(Constants.xpathVariable, "/", pair.ModuleName);
                     sim.CreateEntity(pair.ModuleName, id);
                     bool dynamic = true;
-                    foreach (WrappedPolymorph propNameVar in sim.GetEntityPropertyList(id).CastToList())
+                    foreach (string propName in sim.GetEntityPropertyList(id))
                     {
-                        string propName = propNameVar.CastToString();
                         string fullPN = Util.BuildFullPN(id, propName);
-                        List<bool> attrs = sim.GetEntityPropertyAttributes(fullPN);
+                        PropertyAttributes attrs = sim.GetEntityPropertyAttributes(fullPN);
                         EcellValue defaultValue = null;
-                        if (attrs[1])
+                        if (attrs.Gettable)
                         {
                             try
                             {
@@ -313,12 +307,12 @@ namespace Ecell
                         }
                         pdescs[propName] = new PropertyDescriptor(
                             propName,
-                            attrs[0], // settable
-                            attrs[1], // gettable
-                            attrs[2], // loadable
-                            attrs[3], // saveable
-                            false,    // dynamic
-                            attrs[1], // logable
+                            attrs.Settable, // settable
+                            attrs.Gettable, // gettable
+                            attrs.Loadable, // loadable
+                            attrs.Savable,  // saveable
+                            attrs.Dynamic,  // dynamic
+                            attrs.Gettable, // logable
                             defaultValue
                         );
                     }
@@ -330,7 +324,7 @@ namespace Ecell
                             randomID = Util.GenerateRandomID(32);
                         }
                         while (pdescs.ContainsKey(randomID));
-                        sim.SetEntityProperty(Util.BuildFullPN(id, randomID), new WrappedPolymorph(0.0));
+                        sim.SetEntityProperty(Util.BuildFullPN(id, randomID), 0.0);
                     }
                     catch (Exception)
                     {
@@ -347,12 +341,11 @@ namespace Ecell
                         new Dictionary<string, PropertyDescriptor>();
                     sim.CreateStepper(pair.ModuleName, pair.ModuleName);
                     bool dynamic = true;
-                    foreach (WrappedPolymorph propNameVar in sim.GetStepperPropertyList(pair.ModuleName).CastToList())
+                    foreach (string propName in sim.GetStepperPropertyList(pair.ModuleName))
                     {
-                        string propName = propNameVar.CastToString();
-                        List<bool> attrs = sim.GetStepperPropertyAttributes(pair.ModuleName, propName);
+                        PropertyAttributes attrs = sim.GetStepperPropertyAttributes(pair.ModuleName, propName);
                         EcellValue defaultValue = null;
-                        if (attrs[1])
+                        if (attrs.Gettable)
                         {
                             try
                             {
@@ -362,12 +355,12 @@ namespace Ecell
                         }
                         pdescs[propName] = new PropertyDescriptor(
                             propName,
-                            attrs[0], // settable
-                            attrs[1], // gettable
-                            attrs[2], // loadable
-                            attrs[3], // saveable
-                            false,    // dynamic
-                            attrs[1], // logable
+                            attrs.Settable, // settable
+                            attrs.Gettable, // gettable
+                            attrs.Loadable, // loadable
+                            attrs.Savable,  // saveable
+                            attrs.Dynamic,  // dynamic
+                            attrs.Gettable, // logable
                             defaultValue
                         );
                     }
@@ -379,7 +372,7 @@ namespace Ecell
                             randomID = Util.GenerateRandomID(32);
                         }
                         while (pdescs.ContainsKey(randomID));
-                        sim.SetStepperProperty(pair.ModuleName, randomID, new WrappedPolymorph(0.0));
+                        sim.SetStepperProperty(pair.ModuleName, randomID, 0.0);
                     }
                     catch (Exception)
                     {

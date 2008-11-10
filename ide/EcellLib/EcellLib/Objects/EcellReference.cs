@@ -128,17 +128,21 @@ namespace Ecell.Objects
         /// Constructor with initial parameter.
         /// </summary>
         /// <param name="value">EcellValue</param>
-        public EcellReference(EcellValue value)
+        public EcellReference(IEnumerable value)
         {
-            List<EcellValue> list = (List<EcellValue>)value;
-            this.m_name = (string)list[0];
-            this.m_fullID = (string)list[1];
+            IEnumerator i = value.GetEnumerator();
+            i.MoveNext();
+            this.m_name = (string)i.Current;
+            i.MoveNext();
+            this.m_fullID = (string)i.Current;
             this.m_coeff = 0;
             this.m_accessor = 1;
-            if (list.Count >= 3)
-                this.m_coeff = (int)list[2];
-            if (list.Count >= 4)
-                this.m_accessor = (int)list[3];
+            if (i.MoveNext())
+            {
+                this.m_coeff = (int)i.Current;
+                if (i.MoveNext())
+                    this.m_accessor = (int)i.Current;
+            }
         }
         #endregion
 
@@ -254,11 +258,8 @@ namespace Ecell.Objects
         /// <returns>the list of EcellReference.</returns>
         public static List<EcellReference> ConvertFromVarRefList(EcellValue varRef)
         {
-            List<EcellValue> varRefList = (List<EcellValue>)varRef;
             List<EcellReference> list = new List<EcellReference>();
-            if (varRefList == null || varRefList.Count == 0)
-                return list;
-            foreach (EcellValue value in varRefList)
+            foreach (IEnumerable value in (IEnumerable)varRef.Value)
             {
                 EcellReference er = new EcellReference(value);
                 list.Add(er);

@@ -28,6 +28,7 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -123,13 +124,19 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                 foreach (EcellData d in obj.Value)
                 {
                     if (d.Name != Constants.xpathVRL) continue;
-                    List<EcellValue> rList = (List<EcellValue>)d.Value;
+                    IEnumerable rList = (IEnumerable)d.Value.Value;
                     if (rList == null) continue;
-                    foreach (EcellValue v in rList)
+                    foreach (object v in rList)
                     {
                         string systemPath = "";
-                        List<EcellValue> vList = (List<EcellValue>)v;
-                        EcellValue vData = vList[1];
+                        IEnumerable vList = (IEnumerable)v;
+                        object vData = null;
+                        {
+                            IEnumerator i = vList.GetEnumerator();
+                            i.MoveNext();
+                            i.MoveNext();
+                            vData = i.Current;
+                        }
                         string[] data = vData.ToString().Split(new char[] { ':' });
                         if (data[1].Equals("."))
                         {
@@ -152,7 +159,6 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                             ));
                             break;
                         }
-
                     }
                 }
             }
@@ -185,9 +191,40 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                 foreach (EcellData d in obj.Value)
                 {
                     if (d.Name != Constants.xpathVRL) continue;
+                    int connections = 0;
+                    IEnumerable rList = (IEnumerable)d.Value.Value;
+                    if (rList != null)
+                    {
+                        foreach (object v in rList)
+                        {
+                            ++connections;
+                            string systemPath = "";
+                            IEnumerable vList = (IEnumerable)v;
+                            object vData = null;
+                            {
+                                IEnumerator i = vList.GetEnumerator();
+                                i.MoveNext();
+                                i.MoveNext();
+                                vData = i.Current;
+                            }
+                            string[] data = vData.ToString().Split(new char[] { ':' });
+                            if (data[1].Equals("."))
+                            {
+                                Util.GetNameFromPath(obj.Key, ref systemPath);
+                            }
+                            else
+                            {
+                                systemPath = data[1];
+                            }
+                            systemPath = Constants.xpathVariable + Constants.delimiterColon +
+                                systemPath + Constants.delimiterColon + data[2];
 
-                    List<EcellValue> rList = (List<EcellValue>)d.Value;
-                    if (rList == null || rList.Count <= 0)
+                            if (valDic.ContainsKey(systemPath))
+                                valDic.Remove(systemPath);
+                        }
+                    }
+
+                    if (connections == 0)
                     {
                         m_errorList.Add(new ObjectReport(
                             MessageType.Warning,
@@ -196,26 +233,6 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                             obj
                         ));
                         break;
-                    }
-                    foreach (EcellValue v in rList)
-                    {
-                        string systemPath = "";
-                        List<EcellValue> vList = (List<EcellValue>)v;
-                        EcellValue vData = vList[1];
-                        string[] data = vData.ToString().Split(new char[] { ':' });
-                        if (data[1].Equals("."))
-                        {
-                            Util.GetNameFromPath(obj.Key, ref systemPath);
-                        }
-                        else
-                        {
-                            systemPath = data[1];
-                        }
-                        systemPath = Constants.xpathVariable + Constants.delimiterColon +
-                            systemPath + Constants.delimiterColon + data[2];
-
-                        if (valDic.ContainsKey(systemPath))
-                            valDic.Remove(systemPath);
                     }
                 }
             }

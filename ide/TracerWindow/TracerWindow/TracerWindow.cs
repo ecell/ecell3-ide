@@ -554,7 +554,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         void UpdateGraphDelegate()
         {
-            List<LogData> list;
+            IEnumerable<LogData> list;
             double nextTime = m_dManager.GetCurrentSimulationTime();
 
             if (m_winList.Count == 0) return;
@@ -632,8 +632,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 if (t.IsDisposed) continue;
                     t.AddPoints(m_currentMax, nextTime, list);
             }
-            list.Clear();
-            list = null;
         }
 
         /// <summary>

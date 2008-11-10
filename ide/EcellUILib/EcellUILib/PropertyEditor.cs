@@ -1218,7 +1218,7 @@ namespace Ecell.IDE
                     {
                         EcellData data = new EcellData();
                         data.Name = (string)c.Tag;
-                        data.Value = EcellValue.FromListString(m_refStr);
+                        data.Value = new EcellValue(EcellValue.FromListString(m_refStr));
                         if (key.Contains(":"))
                         {
                             int ind = key.LastIndexOf(":");
@@ -1353,7 +1353,7 @@ namespace Ecell.IDE
                                 data.Value = new EcellValue(Convert.ToDouble(c.Text));
                         }
                         else if (m_propDict[data.Name].Value.IsList)
-                            data.Value = EcellValue.FromListString(c.Text);
+                            data.Value = new EcellValue(EcellValue.FromListString(c.Text));
                         else
                             data.Value = new EcellValue(c.Text);
 

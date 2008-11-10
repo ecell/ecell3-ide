@@ -291,7 +291,7 @@ namespace Ecell
 
         private string m_modelID;
 
-        private Dictionary<string, WrappedPolymorph> m_processPropertyDic;
+        private Dictionary<string, object> m_processPropertyDic;
 
         private bool m_isWarn = false;
 
@@ -304,7 +304,7 @@ namespace Ecell
             m_doc = doc;
             m_simulator = sim;
             m_modelID = modelID;
-            m_processPropertyDic = new Dictionary<string, WrappedPolymorph>();
+            m_processPropertyDic = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -368,15 +368,14 @@ namespace Ecell
                     systemID + Constants.delimiterColon +
                     nodeID.InnerText + Constants.delimiterColon +
                     nodePropertyName.InnerText;
-                WrappedPolymorph polymorph = ecellValue.ToWrappedPolymorph();
                 if (flag.Equals(Constants.xpathVariable))
                 {
                     if (isCreated == true)
-                        m_simulator.LoadEntityProperty(entityPath, polymorph);
+                        m_simulator.LoadEntityProperty(entityPath, ecellValue.Value);
                 }
                 else
                 {
-                    m_processPropertyDic[entityPath] = polymorph;
+                    m_processPropertyDic[entityPath] = ecellValue.Value;
                 }
                 EcellData ecellData = new EcellData(nodePropertyName.InnerText, ecellValue, entityPath);
                 ecellDataList.Add(ecellData);
@@ -508,7 +507,7 @@ namespace Ecell
                     m_simulator.LoadStepperProperty(
                         stepperID.InnerText,
                         propertyName.InnerText,
-                        ecellValue.ToWrappedPolymorph());
+                        ecellValue.Value);
                     EcellData ecellData = new EcellData(
                             propertyName.InnerText, ecellValue,
                             propertyName.InnerText);
@@ -627,7 +626,7 @@ namespace Ecell
                             systemPropertyName.InnerText;
                         m_simulator.LoadEntityProperty(
                                 entityPath,
-                                ecellValue.ToWrappedPolymorph());
+                                ecellValue.Value);
                         EcellData ecellData = new EcellData(
                                 systemPropertyName.InnerText,
                                 ecellValue,
@@ -669,7 +668,7 @@ namespace Ecell
             }
 
             List<string> removeList = new List<string>();
-            foreach (KeyValuePair<string, WrappedPolymorph> pair in m_processPropertyDic)
+            foreach (KeyValuePair<string, object> pair in m_processPropertyDic)
             {
                 try
                 {

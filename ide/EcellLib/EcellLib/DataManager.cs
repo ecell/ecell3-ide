@@ -399,8 +399,12 @@ namespace Ecell
                             if (!m_loggerEntry.Contains(srcEcellData.EntityPath))
                             {
                                 WrappedSimulator simulator = m_currentProject.Simulator;
-                                WrappedPolymorph loggerPolicy = this.GetCurrentLoggerPolicy();
-                                simulator.CreateLogger(srcEcellData.EntityPath, loggerPolicy);
+                                simulator.CreateLogger(srcEcellData.EntityPath,
+                                    m_currentProject.LoggerPolicy.ReloadStepCount,
+                                    m_currentProject.LoggerPolicy.ReloadInterval,
+                                    m_currentProject.LoggerPolicy.DiskFullAction == DiskFullAction.Overwrite,
+                                    m_currentProject.LoggerPolicy.MaxDiskSpace);
+
                                 m_loggerEntry.Add(srcEcellData.EntityPath);
                             }
                             updated = true;
@@ -536,11 +540,11 @@ namespace Ecell
             if (varList == null || varList.ToString().Length <= 0)
                 return changedFlag;
 
-            List<EcellValue> changedValue = new List<EcellValue>();
-            foreach (EcellValue ecellValue in (List<EcellValue>)varList)
+            List<object> changedValue = new List<object>();
+            foreach (EcellValue ecellValue in (IEnumerable)varList.Value)
             {
-                List<EcellValue> changedElements = new List<EcellValue>();
-                foreach (EcellValue element in (List<EcellValue>)ecellValue)
+                List<object> changedElements = new List<object>();
+                foreach (EcellValue element in (IEnumerable)ecellValue.Value)
                 {
                     if (element.IsString
                         && ((string)element).StartsWith(Constants.delimiterColon))
@@ -548,8 +552,7 @@ namespace Ecell
                         string oldKey = ((string)element).Substring(1);
                         if (variableDic.ContainsKey(oldKey))
                         {
-                            changedElements.Add(
-                                new EcellValue(Constants.delimiterColon + variableDic[oldKey]));
+                            changedElements.Add(Constants.delimiterColon + variableDic[oldKey]);
                             changedFlag = true;
                         }
                         else
@@ -562,7 +565,7 @@ namespace Ecell
                         changedElements.Add(element);
                     }
                 }
-                changedValue.Add(new EcellValue(changedElements));
+                changedValue.Add(changedElements);
             }
             dest.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).Value = new EcellValue(changedValue);
 
@@ -598,13 +601,13 @@ namespace Ecell
                         if (!ecellData.Name.Equals(Constants.xpathVRL))
                             continue;
 
-                        List<EcellValue> changedValue = new List<EcellValue>();
+                        List<object> changedValue = new List<object>();
                         if (ecellData.Value == null) continue;
                         if (ecellData.Value.ToString() == "") continue;
-                        foreach (EcellValue ecellValue in (List<EcellValue>)ecellData.Value)
+                        foreach (EcellValue ecellValue in (IEnumerable)ecellData.Value)
                         {
-                            List<EcellValue> changedElements = new List<EcellValue>();
-                            foreach (EcellValue element in (List<EcellValue>)ecellValue)
+                            List<object> changedElements = new List<object>();
+                            foreach (EcellValue element in (IEnumerable)ecellValue.Value)
                             {
                                 if (element.IsString
                                     && ((string)element).Equals(Constants.delimiterColon + oldKey))
@@ -1168,8 +1171,7 @@ namespace Ecell
                             if (!d.Name.Equals(d1.Name)) continue;
                             if (!d.Value.ToString().Equals(d1.Value.ToString()))
                             {
-                                WrappedPolymorph newValue = d1.Value.ToWrappedPolymorph();
-                                m_currentProject.Simulator.SetEntityProperty(d1.EntityPath, newValue);
+                                m_currentProject.Simulator.SetEntityProperty(d1.EntityPath, d1.Value);
                             }
                             break;
                         }
@@ -2244,21 +2246,6 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Returns the current logger policy.
-        /// </summary>
-        /// <returns>The current logger policy</returns>
-        private WrappedPolymorph GetCurrentLoggerPolicy()
-        {
-            List<WrappedPolymorph> policyList = new List<WrappedPolymorph>();
-            LoggerPolicy policy = m_currentProject.LoggerPolicy;
-            policyList.Add(new WrappedPolymorph(policy.ReloadStepCount));
-            policyList.Add(new WrappedPolymorph(policy.ReloadInterval));
-            policyList.Add(new WrappedPolymorph((int)policy.DiskFullAction));
-            policyList.Add(new WrappedPolymorph(policy.MaxDiskSpace));
-            return new WrappedPolymorph(policyList);
-        }
-
-        /// <summary>
         /// Returns the current simulation parameter ID.
         /// </summary>
         /// <returns>The current simulation parameter ID</returns>
@@ -2446,10 +2433,11 @@ namespace Ecell
             {
                 // Initialize
                 if (m_currentProject.Simulator == null)
-                    return null;
-                if (m_currentProject.LogableEntityPathDic == null ||
-                    m_currentProject.LogableEntityPathDic.Count == 0)
-                    return null;
+                {
+                    throw new Exception("Simulator is not initialized");
+                }
+                Debug.Assert(m_currentProject.LogableEntityPathDic != null &&
+                    m_currentProject.LogableEntityPathDic.Count > 0);
                 // GetLogData
                 return this.GetUniqueLogData(startTime, endTime, interval, fullID);
             }
@@ -2466,26 +2454,22 @@ namespace Ecell
         /// <param name="endTime">The end time</param>
         /// <param name="interval">The interval</param>
         /// <returns>The list of the "LogData"</returns>
-        public List<LogData> GetLogData(double startTime, double endTime, double interval)
+        public IEnumerable<LogData> GetLogData(double startTime, double endTime, double interval)
         {
+            if (m_currentProject.Simulator == null)
+            {
+                throw new Exception("Simulator is not initialized");
+            }
+            Debug.Assert(m_currentProject.LogableEntityPathDic != null &&
+                    m_currentProject.LogableEntityPathDic.Count > 0);
+
             List<LogData> logDataList = new List<LogData>();
             try
             {
-                // Initialize
-                if (m_currentProject.Simulator == null)
-                    return null;
-                if (m_currentProject.LogableEntityPathDic == null ||
-                    m_currentProject.LogableEntityPathDic.Count == 0)
-                    return null;
-
-                WrappedPolymorph loggerList = m_currentProject.Simulator.GetLoggerList();
-                if (!loggerList.IsList())
-                    return logDataList;
-
-                foreach (WrappedPolymorph logger in loggerList.CastToList())
+                IList<string> loggerList = m_currentProject.Simulator.GetLoggerList();
+                foreach (string logger in loggerList)
                 {
-                    logDataList.Add(
-                            this.GetUniqueLogData(startTime, endTime, interval, logger.CastToString()));
+                    logDataList.Add(this.GetUniqueLogData(startTime, endTime, interval, logger));
                 }
                 return logDataList;
             }
@@ -2607,26 +2591,9 @@ namespace Ecell
         /// Returns the list of the registred logger.
         /// </summary>
         /// <returns></returns>
-        public List<string> GetLoggerList()
+        public IList<string> GetLoggerList()
         {
-            List<string> loggerList = new List<string>();
-            try
-            {
-                WrappedPolymorph polymorphList = m_currentProject.Simulator.GetLoggerList();
-                if (polymorphList.IsList())
-                {
-                    foreach (WrappedPolymorph polymorph in polymorphList.CastToList())
-                    {
-                        loggerList.Add(polymorph.CastToString());
-                    }
-                }
-                return loggerList;
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-                return null;
-            }
+            return m_currentProject.Simulator.GetLoggerList();
         }
 
         /// <summary>
@@ -2643,15 +2610,14 @@ namespace Ecell
         /// Returns the next event.
         /// </summary>
         /// <returns>The current simulation time, The stepper</returns>
-        public ArrayList GetNextEvent()
+        public IList GetNextEvent()
         {
             try
             {
-                ArrayList list = new ArrayList();
-                List<WrappedPolymorph> polymorphList
-                        = m_currentProject.Simulator.GetNextEvent().CastToList();
-                list.Add(polymorphList[0].CastToDouble());
-                list.Add(polymorphList[1].CastToString());
+                ArrayList list = new ArrayList(2);
+                EcellCoreLib.EventDescriptor desc = m_currentProject.Simulator.GetNextEvent();
+                list.Add(desc.Time);
+                list.Add(desc.StepperID);
                 return list;
             }
             catch (Exception ex)
@@ -2774,9 +2740,12 @@ namespace Ecell
         public bool IsEnableAddProperty(string dmName)
         {
             bool isEnable = true;
+            WrappedSimulator sim = null;
             try
             {
-                WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
+                sim = new WrappedSimulator(
+                    Util.GetDMDirs(m_currentProject.Info.ProjectPath));
+
                 sim.CreateEntity(
                     dmName,
                     Constants.xpathProcess + Constants.delimiterColon +
@@ -2786,13 +2755,17 @@ namespace Ecell
                 string fullPath = Constants.xpathProcess + Constants.delimiterColon +
                 Constants.delimiterPath + Constants.delimiterColon +
                 Constants.xpathSize.ToUpper() + Constants.delimiterColon + "CheckProperty";
-                WrappedPolymorph newValue = new EcellValue(0.01).ToWrappedPolymorph();
-                sim.SetEntityProperty(fullPath, newValue);
+                sim.SetEntityProperty(fullPath, 0.01);
             }
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
                 return false;
+            }
+            finally
+            {
+                if (sim != null)
+                    sim.Dispose();
             }
             return isEnable;
         }
@@ -2805,15 +2778,18 @@ namespace Ecell
         public Dictionary<string, EcellData> GetProcessProperty(string dmName)
         {
             Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
+            WrappedSimulator sim = null;
             try
             {
-                WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
+                sim = new WrappedSimulator(
+                    Util.GetDMDirs(m_currentProject.Info.ProjectPath));
                 sim.CreateStepper("PassiveStepper", "tmp");
-                sim.SetEntityProperty(Util.BuildFullPN(Constants.xpathSystem, "", "/", "StepperID"), new WrappedPolymorph("tmp"));
+                sim.SetEntityProperty(Util.BuildFullPN(Constants.xpathSystem, "", "/", "StepperID"), "tmp");
                 sim.CreateEntity(dmName,
                     Constants.xpathProcess + Constants.delimiterColon +
                     Constants.delimiterPath + Constants.delimiterColon +
                     "tmp");
+                sim.SetEntityProperty(Util.BuildFullPN(Constants.xpathProcess, "/", "tmp", "StepperID"), "tmp");
                 string key = Constants.delimiterPath + Constants.delimiterColon + "tmp";
                 EcellObject dummyEcellObject = EcellObject.CreateObject("", key, "", "", null);
                 DataStorer.DataStored4Process(
@@ -2827,6 +2803,11 @@ namespace Ecell
                 throw new Exception(
                     String.Format(MessageResources.ErrGetProp,
                     new object[] { dmName }), ex);
+            }
+            finally
+            {
+                if (sim != null)
+                    sim.Dispose();
             }
             return dic;
         }
@@ -2965,9 +2946,11 @@ namespace Ecell
         {
             Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
             EcellObject dummyEcellObject = null;
+            WrappedSimulator sim = null;
             try
             {
-                WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
+                sim = new WrappedSimulator(
+                    Util.GetDMDirs(m_currentProject.Info.ProjectPath));
                 sim.CreateStepper(dmName, Constants.textKey);
                 dummyEcellObject = EcellObject.CreateObject("", Constants.textKey, "", "", null);
                 DataStorer.DataStored4Stepper(sim, dummyEcellObject);
@@ -2975,7 +2958,8 @@ namespace Ecell
             }
             finally
             {
-                dummyEcellObject = null;
+                if (sim != null)
+                    sim.Dispose();
             }
             return dic;
         }
@@ -3002,30 +2986,40 @@ namespace Ecell
         public Dictionary<string, EcellData> GetSystemProperty()
         {
             Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
-            WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
-            BuildDefaultSimulator(sim, null, null);
-            ArrayList list = new ArrayList();
-            list.Clear();
-            list.Add("");
-            sim.LoadEntityProperty(
-                Constants.xpathSystem + Constants.delimiterColon +
-                Constants.delimiterColon +
-                Constants.delimiterPath + Constants.delimiterColon +
-                Constants.xpathName,
-                list
-                );
-            EcellObject dummyEcellObject = EcellObject.CreateObject(
-                "",
-                Constants.delimiterPath,
-                "",
-                "",
-                null);
-            DataStorer.DataStored4System(
-                sim,
-                dummyEcellObject,
-                new Dictionary<string, double>());
-            SetPropertyList(dummyEcellObject, dic);
-            return dic;
+            WrappedSimulator sim = null;
+            try
+            {
+                sim = new WrappedSimulator(
+                    Util.GetDMDirs(m_currentProject.Info.ProjectPath));
+                BuildDefaultSimulator(sim, null, null);
+                ArrayList list = new ArrayList();
+                list.Clear();
+                list.Add("");
+                sim.LoadEntityProperty(
+                    Constants.xpathSystem + Constants.delimiterColon +
+                    Constants.delimiterColon +
+                    Constants.delimiterPath + Constants.delimiterColon +
+                    Constants.xpathName,
+                    list
+                    );
+                EcellObject dummyEcellObject = EcellObject.CreateObject(
+                    "",
+                    Constants.delimiterPath,
+                    "",
+                    "",
+                    null);
+                DataStorer.DataStored4System(
+                    sim,
+                    dummyEcellObject,
+                    new Dictionary<string, double>());
+                SetPropertyList(dummyEcellObject, dic);
+                return dic;
+            }
+            finally
+            {
+                if (sim != null)
+                    sim.Dispose();
+            }
         }
 
         /// <summary>
@@ -3047,12 +3041,13 @@ namespace Ecell
         public Dictionary<string, EcellData> GetVariableProperty()
         {
             Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
-            WrappedSimulator simulator = null;
+            WrappedSimulator sim = null;
             EcellObject dummyEcellObject = null;
             try
             {
-                simulator = m_currentProject.CreateSimulatorInstance();
-                BuildDefaultSimulator(simulator, null, null);
+                sim = new WrappedSimulator(
+                    Util.GetDMDirs(m_currentProject.Info.ProjectPath));
+                BuildDefaultSimulator(sim, null, null);
                 dummyEcellObject = EcellObject.CreateObject(
                     "",
                     Constants.delimiterPath + Constants.delimiterColon + Constants.xpathSize.ToUpper(),
@@ -3061,15 +3056,15 @@ namespace Ecell
                     null
                     );
                 DataStorer.DataStored4Variable(
-                        simulator,
+                        sim,
                         dummyEcellObject,
                         new Dictionary<string, double>());
                 SetPropertyList(dummyEcellObject, dic);
             }
             finally
             {
-                simulator = null;
-                dummyEcellObject = null;
+                if (sim != null)
+                    sim.Dispose();
             }
             return dic;
         }
@@ -3118,27 +3113,24 @@ namespace Ecell
         {
             string simParam = m_currentProject.Info.SimulationParam;
             Dictionary<string, List<EcellObject>> stepperList = m_currentProject.StepperDic[simParam];
-            WrappedSimulator simulator = null;
             Dictionary<string, Dictionary<string, double>> initialCondition = m_currentProject.InitialCondition[simParam];
 
-            simulator = m_currentProject.CreateSimulatorInstance();
+            m_currentProject.ResetSimulator();
+            WrappedSimulator simulator = m_currentProject.Simulator;
             //
             // Loads steppers on the simulator.
             //
             List<EcellObject> newStepperList = new List<EcellObject>();
             List<string> modelIDList = new List<string>();
-            Dictionary<string, Dictionary<string, WrappedPolymorph>> setStepperPropertyDic
-                = new Dictionary<string, Dictionary<string, WrappedPolymorph>>();
+            Dictionary<string, Dictionary<string, object>> setStepperPropertyDic
+                = new Dictionary<string, Dictionary<string, object>>();
             foreach (string modelID in stepperList.Keys)
             {
                 newStepperList.AddRange(stepperList[modelID]);
                 modelIDList.Add(modelID);
             }
             if (newStepperList.Count > 0)
-                LoadStepper(
-                simulator,
-                newStepperList,
-                setStepperPropertyDic);
+                LoadStepper(simulator, newStepperList, setStepperPropertyDic);
 
             //
             // Loads systems on the simulator.
@@ -3146,7 +3138,7 @@ namespace Ecell
             List<string> allLoggerList = new List<string>();
             List<EcellObject> systemList = new List<EcellObject>();
             m_currentProject.LogableEntityPathDic = new Dictionary<string, string>();
-            Dictionary<string, WrappedPolymorph> setSystemPropertyDic = new Dictionary<string, WrappedPolymorph>();
+            Dictionary<string, object> setSystemPropertyDic = new Dictionary<string, object>();
             foreach (string modelID in modelIDList)
             {
                 List<string> loggerList = new List<string>();
@@ -3217,16 +3209,14 @@ namespace Ecell
                 {
                     EcellValue storedValue = new EcellValue(simulator.GetEntityProperty(fullPN));
                     double initialValue = initialCondition[modelID][fullPN];
-                    WrappedPolymorph newValue = null;
                     if (storedValue.IsInt)
                     {
-                        newValue = new EcellValue((int)initialValue).ToWrappedPolymorph();
+                        simulator.SetEntityProperty(fullPN, (int)initialValue);
                     }
                     else
                     {
-                        newValue = new EcellValue((double)initialValue).ToWrappedPolymorph();
+                        simulator.SetEntityProperty(fullPN, (double)initialValue);
                     }
-                    simulator.SetEntityProperty(fullPN, newValue);
                 }
             }
             //
@@ -3239,10 +3229,13 @@ namespace Ecell
             m_loggerEntry.Clear();
             if (allLoggerList != null && allLoggerList.Count > 0)
             {
-                WrappedPolymorph loggerPolicy = this.GetCurrentLoggerPolicy();
                 foreach (string logger in allLoggerList)
                 {
-                    simulator.CreateLogger(logger, loggerPolicy);
+                    simulator.CreateLogger(logger,
+                        m_currentProject.LoggerPolicy.ReloadStepCount,
+                        m_currentProject.LoggerPolicy.ReloadInterval,
+                        m_currentProject.LoggerPolicy.DiskFullAction == DiskFullAction.Overwrite,
+                        m_currentProject.LoggerPolicy.MaxDiskSpace);
                     m_loggerEntry.Add(logger);
                 }
             }
@@ -3437,11 +3430,8 @@ namespace Ecell
                 {
                     m_currentProject.Info.FilePath = filename;
                 }
-                if (m_currentProject.Simulator == null)
-                {
-                    m_currentProject.SetDMList();
-                    m_currentProject.Simulator = m_currentProject.CreateSimulatorInstance();
-                }
+                m_currentProject.SetDMList();
+                m_currentProject.ResetSimulator();
                 EcellObject modelObj = EmlReader.Parse(filename, m_currentProject.Simulator);
                 NormalizeVariableReferences(modelObj);
                 modelID = modelObj.ModelID;
@@ -3675,7 +3665,7 @@ namespace Ecell
         private static void LoadStepper(
             WrappedSimulator simulator,
             List<EcellObject> stepperList,
-            Dictionary<string, Dictionary<string, WrappedPolymorph>> setStepperDic)
+            Dictionary<string, Dictionary<string, object>> setStepperDic)
         {
             Debug.Assert(stepperList != null && stepperList.Count > 0);
 
@@ -3719,15 +3709,15 @@ namespace Ecell
                         simulator.LoadStepperProperty(
                             stepper.Key,
                             ecellData.Name,
-                            value.ToWrappedPolymorph());
+                            value.Value);
                     }
                     else if (ecellData.Settable)
                     {
                         if (!setStepperDic.ContainsKey(stepper.Key))
                         {
-                            setStepperDic[stepper.Key] = new Dictionary<string, WrappedPolymorph>();
+                            setStepperDic[stepper.Key] = new Dictionary<string, object>();
                         }
-                        setStepperDic[stepper.Key][ecellData.Name] = value.ToWrappedPolymorph();
+                        setStepperDic[stepper.Key][ecellData.Name] = value.Value;
                     }
                 }
             }
@@ -3746,12 +3736,12 @@ namespace Ecell
             List<EcellObject> systemList,
             List<string> loggerList,
             Dictionary<string, double> initialCondition,
-            Dictionary<string, WrappedPolymorph> setPropertyDic)
+            Dictionary<string, object> setPropertyDic)
         {
             Debug.Assert(systemList != null && systemList.Count > 0);
 
             bool existSystem = false;
-            Dictionary<string, WrappedPolymorph> processPropertyDic = new Dictionary<string, WrappedPolymorph>();
+            Dictionary<string, object> processPropertyDic = new Dictionary<string, object>();
 
             foreach (EcellObject system in systemList)
             {
@@ -3784,11 +3774,11 @@ namespace Ecell
                     {
                         simulator.LoadEntityProperty(
                             ecellData.EntityPath,
-                            value.ToWrappedPolymorph());
+                            value.Value);
                     }
                     else if (ecellData.Settable)
                     {
-                        setPropertyDic[ecellData.EntityPath] = value.ToWrappedPolymorph();
+                        setPropertyDic[ecellData.EntityPath] = value.Value;
                     }
                     if (ecellData.Logged)
                     {
@@ -3843,9 +3833,9 @@ namespace Ecell
             WrappedSimulator simulator,
             List<EcellObject> entityList,
             List<string> loggerList,
-            Dictionary<string, WrappedPolymorph> processPropertyDic,
+            Dictionary<string, object> processPropertyDic,
             Dictionary<string, double> initialCondition,
-            Dictionary<string, WrappedPolymorph> setPropertyDic)
+            Dictionary<string, object> setPropertyDic)
         {
             if (entityList == null || entityList.Count <= 0)
                 return;
@@ -3884,7 +3874,7 @@ namespace Ecell
                     {
                         if (ecellData.EntityPath.EndsWith(Constants.xpathVRL))
                         {
-                            processPropertyDic[ecellData.EntityPath] = value.ToWrappedPolymorph();
+                            processPropertyDic[ecellData.EntityPath] = value.Value;
                         }
                         else
                         {
@@ -3892,12 +3882,12 @@ namespace Ecell
                                 continue;
                             simulator.LoadEntityProperty(
                                 ecellData.EntityPath,
-                                value.ToWrappedPolymorph());
+                                value.Value);
                         }
                     }
                     else if (ecellData.Settable)
                     {
-                        setPropertyDic[ecellData.EntityPath] = value.ToWrappedPolymorph();
+                        setPropertyDic[ecellData.EntityPath] = value.Value;
                     }
                 }
             }
@@ -4606,7 +4596,7 @@ namespace Ecell
             double startTime,
             double endTime,
             string savedType,
-            List<string> fullIDList
+            IEnumerable<string> fullIDList
             )
         {
             string message = null;
@@ -4618,10 +4608,6 @@ namespace Ecell
                 //
                 // Initializes.
                 //
-                if (fullIDList == null || fullIDList.Count <= 0)
-                {
-                    return;
-                }
                 string simulationDirName = null;
                 if (!string.IsNullOrEmpty(savedDirName))
                 {
@@ -4644,22 +4630,18 @@ namespace Ecell
                 //
                 // Saves the "LogData".
                 //
-                List<LogData> logDataList = this.GetLogData(
+                IEnumerable<LogData> logDataList = this.GetLogData(
                     startTime,
                     endTime,
                     m_currentProject.LoggerPolicy.ReloadInterval
                     );
-                if (logDataList == null || logDataList.Count <= 0)
-                {
-                    return;
-                }
                 foreach (LogData logData in logDataList)
                 {
                     string fullID =
                         logData.type + Constants.delimiterColon +
                         logData.key + Constants.delimiterColon +
                         logData.propName;
-                    if (fullIDList.Contains(fullID))
+                    if (Util.Contains(fullIDList, fullID))
                     {
                         if (savedType == null || savedType.Equals(Constants.xpathCsv) ||
                             savedType.Equals(Constants.xpathEcd))
@@ -4746,9 +4728,7 @@ namespace Ecell
             {
                 newValue = new EcellValue(value);
             }
-            m_currentProject.Simulator.LoadEntityProperty(
-                fullPN,
-                newValue.ToWrappedPolymorph());
+            m_currentProject.Simulator.LoadEntityProperty(fullPN, newValue.Value);
         }
 
         /// <summary>
@@ -5165,7 +5145,6 @@ namespace Ecell
         {
             try
             {
-                m_currentProject.Simulator.Suspend();
                 m_currentProject.SimulationStatus = SimulationStatus.Suspended;
                 m_env.LogManager.Append(new ApplicationLogEntry(
                     MessageType.Information,
@@ -5353,7 +5332,7 @@ namespace Ecell
                 List<EcellValue> newVrl = new List<EcellValue>();
                 string superSystemPath, localID;
                 Util.ParseEntityKey(m.Key, out superSystemPath, out localID);
-                foreach (EcellValue vr in (List<EcellValue>)dat.Value)
+                foreach (EcellValue vr in (IEnumerable)dat.Value)
                     newVrl.Add(Util.NormalizeVariableReference(vr, superSystemPath));
                 dat.Value = new EcellValue(newVrl);
             }

@@ -513,8 +513,8 @@ namespace Ecell
             double l_startTime = 0;
             double l_endTime = 0;
             double l_interval = 0;
-            System.Collections.Generic.List<Ecell.LogData> expectedList = null;
-            System.Collections.Generic.List<Ecell.LogData> resultList = null;
+            System.Collections.Generic.IEnumerable<Ecell.LogData> expectedList = null;
+            System.Collections.Generic.IEnumerable<Ecell.LogData> resultList = null;
             resultList = _unitUnderTest.GetLogData(l_startTime, l_endTime, l_interval);
             Assert.AreEqual(expectedList, resultList, "GetLogData method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -526,8 +526,8 @@ namespace Ecell
         [Test()]
         public void TestGetLoggerList()
         {
-            System.Collections.Generic.List<System.String> expectedList = null;
-            System.Collections.Generic.List<System.String> resultList = null;
+            System.Collections.Generic.IList<System.String> expectedList = null;
+            System.Collections.Generic.IList<System.String> resultList = null;
             resultList = _unitUnderTest.GetLoggerList();
             Assert.AreEqual(expectedList, resultList, "GetLoggerList method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -553,8 +553,8 @@ namespace Ecell
         [Test()]
         public void TestGetNextEvent()
         {
-            System.Collections.ArrayList expectedArrayList = null;
-            System.Collections.ArrayList resultArrayList = null;
+            System.Collections.IList expectedArrayList = null;
+            System.Collections.IList resultArrayList = null;
             resultArrayList = _unitUnderTest.GetNextEvent();
             Assert.AreEqual(expectedArrayList, resultArrayList, "GetNextEvent method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");

@@ -454,7 +454,7 @@ namespace Ecell
                     m_simulator.LoadStepperProperty(
                         stepperID.InnerText,
                         stepperPropertyName.InnerText,
-                        ecellValue.ToWrappedPolymorph());
+                        ecellValue.Value);
                     EcellData ecellData = new EcellData(
                             stepperPropertyName.InnerText, ecellValue, stepperPropertyName.InnerText);
                     ecellData.Gettable = true;

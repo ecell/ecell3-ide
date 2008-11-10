@@ -713,7 +713,7 @@ namespace Ecell
         /// Returns the next event.
         /// </summary>
         /// <returns>The next event</returns>
-        public ArrayList GetNextEvent()
+        public IList GetNextEvent()
         {
             return m_env.DataManager.GetNextEvent();
         }
@@ -1268,7 +1268,7 @@ namespace Ecell
                                 {
                                     // XXX: optimize
                                     List<EcellValue> newValue = new List<EcellValue>();
-                                    foreach (EcellValue vr in (List<EcellValue>)EcellValue.FromListString(value))
+                                    foreach (EcellValue vr in EcellValue.FromListString(value))
                                     {
                                         newValue.Add(Util.NormalizeVariableReference(vr, ele[1]));
                                     }

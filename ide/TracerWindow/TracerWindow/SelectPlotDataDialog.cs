@@ -54,7 +54,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             InitializeComponent();
 
-            List<string> resList = env.DataManager.GetLoggerList();
+            IList<string> resList = env.DataManager.GetLoggerList();
             foreach (String data in resList)
             {
                 XplotComboBox.Items.Add(data);

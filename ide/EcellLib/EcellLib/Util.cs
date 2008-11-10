@@ -30,6 +30,7 @@
 
 using System;
 using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -549,8 +550,10 @@ namespace Ecell
         {
             if (!val.IsList)
                 throw new ArgumentException();
-            List<EcellValue> newComps = new List<EcellValue>((List<EcellValue>)val);
-            if (!newComps[1].IsString)
+            ArrayList newComps = new ArrayList();
+            foreach (object i in (IEnumerable)val.Value)
+                newComps.Add(i);
+            if (!(newComps[1] is string))
                 throw new ArgumentException();
             string entityType, path, localID;
             ParseFullID((string)newComps[1], out entityType, out path, out localID);
@@ -569,6 +572,16 @@ namespace Ecell
                 sb.Append(usableCharacters[r.Next(0, usableCharacters.Length)]);
             }
             return sb.ToString();
+        }
+
+        public static bool Contains(System.Collections.IEnumerable i, object o)
+        {
+            foreach (object _o in i)
+            {
+                if (_o == o)
+                    return true;
+            }
+            return false;
         }
     }
 

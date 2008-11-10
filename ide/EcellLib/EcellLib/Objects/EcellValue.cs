@@ -68,60 +68,13 @@ namespace Ecell.Objects
             ; // do nothing
         }
 
-        /// <summary>
-        /// Creates a new "EcellValue" instance with a "int" argument.
-        /// </summary>
-        /// <param name="value">The "int" value</param>
-        public EcellValue(int value)
-        {
-            m_value = value;
-        }
-
-        /// <summary>
-        /// Creates a new "EcellValue" instance with a "double" argument.
-        /// </summary>
-        /// <param name="value">The "double" value</param>
-        public EcellValue(double value)
-        {
-            m_value = value;
-        }
-
-        /// <summary>
-        /// Creates a new "EcellValue" instance with a "string" argument.
-        /// </summary>
-        /// <param name="value">The "string" value</param>
-        public EcellValue(string value)
-        {
-            m_value = value;
-        }
-
-        /// <summary>
-        /// Creates a new "EcellValue" instance with a "List&lt;EcellValue&gt;" argument.
-        /// </summary>
-        /// <param name="value">The "List&lt;EcellValue&gt;" value</param>
-        public EcellValue(IEnumerable<EcellValue> value)
-        {
-            m_value = new List<EcellValue>(value);
-        }
-
         public EcellValue(EcellValue that): this(that.m_value)
         {
         }
 
         public EcellValue(object o)
         {
-            if ((o is int) || (o is double) || (o is string))
-            {
-                m_value = o;
-            }
-            else if (o is IEnumerable<EcellValue>)
-            {
-                m_value = new List<EcellValue>((IEnumerable<EcellValue>)o);
-            }
-            else
-            {
-                throw new ArgumentException();
-            }
+            m_value = Normalize(o);
         }
 
         /// <summary>
@@ -130,42 +83,7 @@ namespace Ecell.Objects
         /// <param name="er">The "List&lt;EcellValue&gt;" value</param>
         public EcellValue(EcellReference er)
         {
-            List<EcellValue> list = new List<EcellValue>();
-            EcellValue value1 = new EcellValue(er.Name);
-            EcellValue value2 = new EcellValue(er.FullID);
-            EcellValue value3 = new EcellValue(er.Coefficient);
-            EcellValue value4 = new EcellValue(er.IsAccessor);
-            list.Add(value1);
-            list.Add(value2);
-            list.Add(value3);
-            list.Add(value4);
-
-            m_value = list;
-        }
-
-        internal EcellValue(WrappedPolymorph value)
-        {
-            if (value.IsDouble())
-            {
-                m_value = value.CastToDouble();
-            }
-            else if (value.IsInt())
-            {
-                m_value = value.CastToInt();
-            }
-            else if (value.IsList())
-            {
-                List<EcellValue> ecellValueList = new List<EcellValue>();
-                foreach (WrappedPolymorph polymorph in value.CastToList())
-                {
-                    ecellValueList.Add(new EcellValue(polymorph));
-                }
-                m_value = ecellValueList;
-            }
-            else
-            {
-                m_value = value.CastToString();
-            }
+            m_value = new object[] { er.Name, er.FullID, er.Coefficient, er.IsAccessor };
         }
         #endregion
 
@@ -239,8 +157,10 @@ namespace Ecell.Objects
                 return (double)this == (double)obj;
             else if (obj is string)
                 return (string)this == (string)obj;
-            else if (obj is IEnumerable<EcellValue>)
-                return (List<EcellValue>)this == (IEnumerable<EcellValue>)obj;
+            else if (obj is IEnumerable)
+            {
+                return (IEnumerable)this.m_value == (IEnumerable<EcellValue>)obj;
+            }
             throw new InvalidOperationException();
         }
 
@@ -263,10 +183,10 @@ namespace Ecell.Objects
         /// </summary>
         /// <param name="str">string.</param>
         /// <returns>EcellValue.</returns>
-        public static EcellValue FromListString(string str)
+        public static List<object> FromListString(string str)
         {
-            List<EcellValue> list = new List<EcellValue>();
-            if (str == null || str == "") return new EcellValue(list);
+            List<object> list = new List<object>();
+            if (str == null || str == "") return list;
 
             string text = str.Substring(1);
             text = text.Substring(0, text.Length - 1);
@@ -278,9 +198,31 @@ namespace Ecell.Objects
             {
                 Match m1 = (Match)iter.Current;
                 string refStr = m1.Groups["refer"].Value;
-                list.Add(new EcellValue(refStr));
+                list.Add(refStr);
             }
-            return new EcellValue(list);
+            return list;
+        }
+
+        private static object Normalize(object o)
+        {
+            if ((o is int) || (o is double) || (o is string))
+            {
+                return o;
+            }
+            else if (o is EcellValue)
+            {
+                 return ((EcellValue)o).Value;
+            }
+            else if (o is IEnumerable)
+            {
+                List<object> val = new List<object>();
+                foreach (object i in (IEnumerable)o)
+                {
+                    val.Add(Normalize(i));
+                }
+                return val;
+            }
+            throw new ArgumentException();
         }
 
         /// <summary>
@@ -333,6 +275,11 @@ namespace Ecell.Objects
             return value;
         }
 
+        public override int GetHashCode()
+        {
+            return m_value.GetHashCode();
+        }
+
         public static implicit operator int(EcellValue val)
         {
             if (val.m_value is double)
@@ -373,11 +320,6 @@ namespace Ecell.Objects
             throw new InvalidCastException("Specified value is not a numeric type");
         }
 
-        public static explicit operator List<EcellValue>(EcellValue val)
-        {
-            return (List<EcellValue>)val.Value;
-        }
-
         public static implicit operator string(EcellValue val)
         {
             if (val.Value is string)
@@ -388,37 +330,6 @@ namespace Ecell.Objects
             {
                 return val.Value.ToString();
             }
-        }
-
-        /// <summary>
-        /// Returns the "WrappedPolymorph" casting value.
-        /// </summary>
-        /// <param name="ecellValue">The "EcellValue" value</param>
-        /// <returns>The "WrappedPolymorph" value</returns>
-        internal WrappedPolymorph ToWrappedPolymorph()
-        {
-            if (this.m_value is double)
-            {
-                return new WrappedPolymorph((double)this.m_value);
-            }
-            else if (this.m_value is int)
-            {
-                return new WrappedPolymorph((int)this.m_value);
-            }
-            else if (this.m_value is List<EcellValue>)
-            {
-                List<WrappedPolymorph> wrappedPolymorphList = new List<WrappedPolymorph>();
-                foreach (EcellValue childEcellValue in (List<EcellValue>)this.m_value)
-                {
-                    wrappedPolymorphList.Add(childEcellValue.ToWrappedPolymorph());
-                }
-                return new WrappedPolymorph(wrappedPolymorphList);
-            }
-            else if (this.m_value is string)
-            {
-                return new WrappedPolymorph((string)this.m_value);
-            }
-            throw new ArgumentException();
         }
     }
 }
