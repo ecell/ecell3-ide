@@ -552,7 +552,7 @@ namespace Ecell
                         string oldKey = ((string)element).Substring(1);
                         if (variableDic.ContainsKey(oldKey))
                         {
-                            changedElements.Add(Constants.delimiterColon + variableDic[oldKey]);
+                            changedElements.Add(Constants.xpathVariable + Constants.delimiterColon + variableDic[oldKey]);
                             changedFlag = true;
                         }
                         else
@@ -610,10 +610,11 @@ namespace Ecell
                             foreach (EcellValue element in (IEnumerable)ecellValue.Value)
                             {
                                 if (element.IsString
-                                    && ((string)element).Equals(Constants.delimiterColon + oldKey))
+                                    && (((string)element).Equals(Constants.xpathVariable + Constants.delimiterColon + oldKey) ||
+                                    ((string)element).Equals(Constants.delimiterColon + oldKey)))
                                 {
                                     changedElements.Add(
-                                        new EcellValue(Constants.delimiterColon + newKey));
+                                        new EcellValue(Constants.xpathVariable + Constants.delimiterColon + newKey));
                                     changedFlag = true;
                                 }
                                 else
