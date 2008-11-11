@@ -239,6 +239,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
             TagData tag = new TagData(log.model, log.key, Constants.xpathLog, propName, true);
             List<LogData> logList = new List<LogData>();
             tag.isLoaded = true;
+            if (m_logList.Contains(tag))
+                return;
             AddLoggerEntry(tag);
             m_logList.Add(tag);
 
@@ -810,6 +812,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 RemoveLoggerEntry(tag);
                 m_tagDic.Remove(tag.M_key);
+                if (m_logList.Contains(tag))
+                    m_logList.Remove(tag);
                 return;
             }
 
