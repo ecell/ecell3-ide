@@ -71,6 +71,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// The List of entity path on tracer.
         /// </summary>
         public List<TagData> m_entry;
+        private List<TagData> m_logList = new List<TagData>();
         private Dictionary<string, bool> m_tagDic = new Dictionary<string, bool>();
         private Dictionary<string, TraceEntry> m_entryDic = new Dictionary<string, TraceEntry>();
         /// <summary>
@@ -239,6 +240,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             List<LogData> logList = new List<LogData>();
             tag.isLoaded = true;
             AddLoggerEntry(tag);
+            m_logList.Add(tag);
 
             LogData newLog = new LogData(log.model, log.key, Constants.xpathLog, ele[ele.Length - 1], log.logValueList);
             newLog.IsLoaded = true;
@@ -262,9 +264,14 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         public void Clear()
         {
+            foreach (TagData t in m_logList)
+            {
+                RemoveLoggerEntry(t);
+            }
             m_tagDic.Clear();
             m_entry.Clear();
             m_entryDic.Clear();
+            m_logList.Clear();
         }
 
         /// <summary>
