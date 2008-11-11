@@ -844,6 +844,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             List<string> fileList = new List<string>();
             List<EcellObject> oList = new List<EcellObject>();
+            if (!this.treeView1.SelNodes.Contains((TreeNode)e.Item))
+            {
+                this.treeView1.ClearSelNode();
+                this.treeView1.SelectNodes((TreeNode)e.Item);
+                this.treeView1.Refresh();
+            }
             foreach (TreeNode node in this.treeView1.SelNodes)
             {
                 if (node.Tag != null && node.Tag is TagData)
