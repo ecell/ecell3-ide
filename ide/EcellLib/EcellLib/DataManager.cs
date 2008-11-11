@@ -560,6 +560,20 @@ namespace Ecell
                             changedElements.Add(element);
                         }
                     }
+                    else if (element.IsString
+                        && ((string)element).StartsWith(Constants.xpathVariable + Constants.delimiterColon))
+                    {
+                        string oldKey = ((string)element).Substring(9);
+                        if (variableDic.ContainsKey(oldKey))
+                        {
+                            changedElements.Add(Constants.xpathVariable + Constants.delimiterColon + variableDic[oldKey]);
+                            changedFlag = true;
+                        }
+                        else
+                        {
+                            changedElements.Add(element);
+                        }
+                    }
                     else
                     {
                         changedElements.Add(element);
