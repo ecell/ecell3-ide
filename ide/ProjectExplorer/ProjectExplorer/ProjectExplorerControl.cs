@@ -417,6 +417,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                         m_owner.Environment.PluginManager.SelectChanged(
                             tag.m_modelID, tag.m_key, tag.m_type);
                     }
+                    treeView1.ClearSelNode();
                     treeView1.SelectedNode = e.Node;
                 }
 
