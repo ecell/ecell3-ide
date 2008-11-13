@@ -822,7 +822,14 @@ namespace Ecell
         /// <returns>the working directory.</returns>
         public static string GetBaseDir()
         {
-            return GetRegistryValue(Constants.registryBaseDirKey);
+            string path = GetRegistryValue(Constants.registryBaseDirKey);
+            if (path == null)
+            {
+                path = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                path = Path.Combine(path, "My E-Cell Projects");
+                SetBaseDir(path);
+            }
+            return path;
         }
         /// <summary>
         /// 
