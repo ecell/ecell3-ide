@@ -1263,7 +1263,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 dialog.Text = MessageResources.DialogTextPathwaySetting;
                 PropertyDialogTabPage componentPage = m_con.ComponentManager.CreateTabPage();
-                PropertyDialogTabPage animationPage = m_con.Animation.CreateTabPage();
+                PropertyDialogTabPage animationPage = m_con.Animation.AnimationSettingsTabPage;
                 dialog.TabControl.Controls.Add(animationPage);
                 dialog.TabControl.Controls.Add(componentPage);
                 if (dialog.ShowDialog() != DialogResult.OK)
