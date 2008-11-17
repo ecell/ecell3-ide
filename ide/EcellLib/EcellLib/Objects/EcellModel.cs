@@ -47,9 +47,22 @@ namespace Ecell.Objects
     {
         #region Fields
         /// <summary>
-        /// Layer list of this model.
+        /// name of model file.
         /// </summary>
-        private List<string> m_layers = null;
+        private string m_modelFile;
+        /// <summary>
+        /// List of Layers in this model.
+        /// </summary>
+        private List<string> m_layers;
+        /// <summary>
+        /// List of EcellSystems in this model.
+        /// </summary>
+        private List<EcellObject> m_systems;
+        /// <summary>
+        /// Dictionary of stepper list in this model.
+        /// List with Simulation parameter.
+        /// </summary>
+        private Dictionary<string, List<EcellObject>> m_stepperDic;
         #endregion
 
         #region Constractors
@@ -66,16 +79,42 @@ namespace Ecell.Objects
             : base(modelID, key, type, classname, data)
         {
             m_layers = new List<string>();
+            m_systems = new List<EcellObject>();
+            m_stepperDic = new Dictionary<string, List<EcellObject>>();
         }
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// name of model file.
+        /// </summary>
+        public string ModelFile
+        {
+            get { return m_modelFile; }
+            set { m_modelFile = value; }
+        }
         /// <summary>
         /// Layer list of this model.
         /// </summary>
         public List<string> Layers
         {
             get { return m_layers; }
+        }
+        /// <summary>
+        /// List of EcellSystems int this model.
+        /// </summary>
+        public List<EcellObject> Systems
+        {
+            get { return m_systems; }
+        }
+        /// <summary>
+        /// Dictionary of stepper list in this model.
+        /// List with Simulation parameter.
+        /// </summary>
+        public Dictionary<string, List<EcellObject>> StepperDic
+        {
+            get { return m_stepperDic; }
+            set { m_stepperDic = value; }
         }
         #endregion
     }

@@ -72,8 +72,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             m_canvas = canvas;
             m_con = canvas.Control;
-            this.MouseWheel += new MouseEventHandler(m_con.Menu.Canvas_MouseWheel);
-            this.KeyPress += new KeyPressEventHandler(m_con.Menu.Canvas_KeyPress);
             // Preparing context menus.
             this.ContextMenuStrip = m_con.Menu.PopupMenu;
             this.AnimatingRenderQuality = RenderQuality.HighQuality;
@@ -87,6 +85,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.Camera.ScaleViewBy(0.7f);
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="e">MouseEventArgs.</param>
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            if (Control.ModifierKeys == Keys.Shift)
+            {
+                m_canvas.PanCanvas(Direction.Horizontal, e.Delta);
+            }
+            else if (Control.ModifierKeys == Keys.Control || e.Button == MouseButtons.Right)
+            {
+                float zoomRate = (float)1.00 + (float)e.Delta / 1200;
+                m_con.Menu.Zoom(zoomRate);
+            }
+            else
+            {
+                m_canvas.PanCanvas(Direction.Vertical, e.Delta);
+            }
+            base.OnMouseWheel(e);
+        }
         /// <summary>
         /// 
         /// </summary>

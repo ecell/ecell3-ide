@@ -49,11 +49,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private Mode m_mode;
 
         /// <summary>
-        /// ID of this handle
-        /// </summary>
-        private int m_handleID;
-
-        /// <summary>
         /// EventHandler
         /// </summary>
         private PBasicInputEventHandler m_handler = null;
@@ -78,13 +73,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             get { return this.m_mode; }
         }
 
-        /// <summary>
-        /// Accessor for ID.
-        /// </summary>
-        public int HandleID
-        {
-            get { return this.m_handleID; }
-        }
         /// <summary>
         /// EventHandler
         /// </summary>
@@ -117,25 +105,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Constructor
         /// </summary>
         /// <param name="mode">Mode of this handle (select, pan, etc.)</param>
-        /// <param name="handleID">ID of this handle</param>
         /// <param name="handler">PBasicInputEventHandler</param>
-        public Handle(Mode mode, int handleID, PBasicInputEventHandler handler)
+        public Handle(Mode mode, PBasicInputEventHandler handler)
         {
             this.m_mode = mode;
-            this.m_handleID = handleID;
             this.m_handler = handler;
         }
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="mode">Mode of this handle (select, pan, etc.)</param>
-        /// <param name="handleID">ID of this handle</param>
         /// <param name="handler">PBasicInputEventHandler</param>
         /// <param name="csID">ID of component setting</param>
-        public Handle(Mode mode, int handleID, PBasicInputEventHandler handler, ComponentType csID)
+        public Handle(Mode mode, PBasicInputEventHandler handler, ComponentType csID)
         {
             this.m_mode = mode;
-            this.m_handleID = handleID;
             this.m_cType = csID;
             this.m_handler = handler;
         }
@@ -143,12 +127,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Constructor
         /// </summary>
         /// <param name="mode">Mode of this handle (select, pan, etc.)</param>
-        /// <param name="handleID">ID of this handle</param>
         /// <param name="zoomingRate">Zooming rate</param>
-        public Handle(Mode mode, int handleID, float zoomingRate)
+        public Handle(Mode mode, float zoomingRate)
         {
             this.m_mode = mode;
-            this.m_handleID = handleID;
             this.m_zoomingRate = zoomingRate;
         }
         #endregion

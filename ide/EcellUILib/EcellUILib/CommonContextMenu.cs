@@ -7,68 +7,111 @@ using System.Text;
 using System.Windows.Forms;
 
 using Ecell.Objects;
+using Ecell.IDE;
 
 namespace Ecell.IDE
 {
     public partial class CommonContextMenu : Component
     {
-        private EcellObject m_object;
-        private ApplicationEnvironment m_env;
+        #region MyRegion
+        
+        #endregion
+        /// <summary>
+        /// Target object.
+        /// </summary>
+        protected EcellObject m_object;
+        /// <summary>
+        /// Environment manager.
+        /// </summary>
+        protected ApplicationEnvironment m_env;
 
+        #region Accessors
+        /// <summary>
+        /// ContextMenuStrip
+        /// </summary>
+        public ContextMenuStrip Menu
+        {
+            get { return commonContextMenuStrip; }
+        }
+
+        /// <summary>
+        /// Get/Set ApplicationEnvironment
+        /// </summary>
+        public ApplicationEnvironment Environment
+        {
+            get { return this.m_env; }
+            set { this.m_env = value; }
+        }
+
+        /// <summary>
+        /// Get/Set target object
+        /// </summary>
+        public EcellObject Object
+        {
+            get { return this.m_object; }
+            set
+            {
+                this.m_object = value;
+                SetLoggerMenus();
+            }
+        }
+        #endregion
+
+        #region Constructors
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public CommonContextMenu()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Constructor with parameter, EcellObject and ApplicationEnvironment.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="env"></param>
         public CommonContextMenu(EcellObject obj, ApplicationEnvironment env)
         {
             InitializeComponent();
             m_object = obj;
             m_env = env;
-            if (obj.Type == Constants.xpathSystem)
-            {
-                addToolStripMenuItem.Enabled = true;
-                addSystemToolStripMenuItem.Click += new EventHandler(ClickAddToolStripMenuItem);
-                addVariableToolStripMenuItem.Click += new EventHandler(ClickAddToolStripMenuItem);
-                addProcessToolStripMenuItem.Click += new EventHandler(ClickAddToolStripMenuItem);
 
-                string superSys = Util.GetSuperSystemPath(m_object.Key);
-                if (string.IsNullOrEmpty(superSys))
-                {
-                    mergeSystemToolStripMenuItem.Visible = false;
-                }
-                else
-                {
-                    mergeSystemToolStripMenuItem.Visible = true;
-                    mergeSystemToolStripMenuItem.Text = mergeSystemToolStripMenuItem.Text + "(" + superSys + ")";
-                }
-            }
-            else
-            {
-                addToolStripMenuItem.Visible = false;
-                mergeSystemToolStripMenuItem.Visible = false;
-            }
-            loggingToolStripMenuItem.DropDownItems.Clear();
-            loggingToolStripMenuItem.DropDownItems.AddRange(CreateLoggerPopupMenu(m_object));
-            observedToolStripMenuItem.DropDownItems.Clear();
-            observedToolStripMenuItem.DropDownItems.AddRange(CreateObservedPopupMenu(m_object));
-            parameterToolStripMenuItem.DropDownItems.Clear();
-            parameterToolStripMenuItem.DropDownItems.AddRange(CreateParameterPopupMenu(m_object));
-            deleteToolStripMenuItem.Click += new EventHandler(ClickDeleteToolStripMenuItem);
-            mergeSystemToolStripMenuItem.Click += new EventHandler(ClickMergeSystemToolStripMenuItem);
-            propertyToolStripMenuItem.Click += new EventHandler(ClickPropertyToolStripMenuItem);
+            bool isSystem = (obj is EcellSystem);
+            bool isParentSys = string.IsNullOrEmpty(obj.ParentSystemID);
+
+            addToolStripMenuItem.Visible = isSystem;
+            mergeSystemToolStripMenuItem.Visible = isSystem && isParentSys;
+            mergeSystemToolStripMenuItem.Text = mergeSystemToolStripMenuItem.Text + "(" + obj.ParentSystemID + ")";
+
         }
 
+        /// <summary>
+        /// Set Logger Menus;
+        /// </summary>
+        private void SetLoggerMenus()
+        {
+            loggingToolStripMenuItem.DropDownItems.Clear();
+            observedToolStripMenuItem.DropDownItems.Clear();
+            parameterToolStripMenuItem.DropDownItems.Clear();
+
+            if (m_object == null)
+                return;
+
+            loggingToolStripMenuItem.DropDownItems.AddRange(CreateLoggerPopupMenu(m_object));
+            observedToolStripMenuItem.DropDownItems.AddRange(CreateObservedPopupMenu(m_object));
+            parameterToolStripMenuItem.DropDownItems.AddRange(CreateParameterPopupMenu(m_object));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="container"></param>
         public CommonContextMenu(IContainer container)
         {
             container.Add(this);
 
             InitializeComponent();
-        }
-
-        public ContextMenuStrip Menu
-        {
-            get { return commonContextMenuStrip; }
         }
 
         /// <summary>
@@ -91,7 +134,11 @@ namespace Ecell.IDE
             }
             return retval.ToArray();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         private ToolStripItem[] CreateParameterPopupMenu(EcellObject obj)
         {
             List<ToolStripItem> retval = new List<ToolStripItem>();
@@ -107,7 +154,11 @@ namespace Ecell.IDE
             }
             return retval.ToArray();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         private ToolStripItem[] CreateObservedPopupMenu(EcellObject obj)
         {
             List<ToolStripItem> retval = new List<ToolStripItem>();
@@ -124,8 +175,9 @@ namespace Ecell.IDE
 
             return retval.ToArray();
         }
+        #endregion
 
-
+        #region Eventhandler
         /// <summary>
         /// The action of selecting [Create Logger] menu on popup menu.
         /// </summary>
@@ -202,28 +254,47 @@ namespace Ecell.IDE
                     new EcellObservedData(d.EntityPath, Convert.ToDouble(d.Value.ToString())));
             }
         }
-
-        void ClickAddToolStripMenuItem(object sender, EventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClickAddToolStripMenuItem(object sender, EventArgs e)
         {
             ToolStripMenuItem item = sender as ToolStripMenuItem;
             string type = item.Tag as string;
 
             m_env.DataManager.CreateDefaultObject(m_object.ModelID, m_object.Key, type, true);
         }
-
-        void ClickPropertyToolStripMenuItem(object sender, EventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClickPropertyToolStripMenuItem(object sender, EventArgs e)
         {
             PropertyEditor.Show(m_env.DataManager, m_env.PluginManager, m_object);
         }
-
-        void ClickDeleteToolStripMenuItem(object sender, EventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClickDeleteToolStripMenuItem(object sender, EventArgs e)
         {
             m_env.DataManager.DataDelete(m_object.ModelID, m_object.Key, m_object.Type);
         }
 
-        void ClickMergeSystemToolStripMenuItem(object sender, EventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClickMergeSystemToolStripMenuItem(object sender, EventArgs e)
         {
             m_env.DataManager.SystemDeleteAndMove(m_object.ModelID, m_object.Key);
         }
+        #endregion
+
     }
 }
