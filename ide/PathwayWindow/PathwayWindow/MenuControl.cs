@@ -564,7 +564,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // 
             this.toolMenuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolMenuExport});
-            this.toolMenuFile.Name = "toolMenuFile";
+            this.toolMenuFile.Name = "MenuItemFile";
             this.toolMenuFile.Size = new System.Drawing.Size(36, 25);
             this.toolMenuFile.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemFile;
             // 
@@ -581,7 +581,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // 
             this.toolMenuSetup.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolMenuSetupItem});
-            this.toolMenuSetup.Name = "toolMenuSetup";
+            this.toolMenuSetup.Name = "MenuItemSetup";
             this.toolMenuSetup.Size = new System.Drawing.Size(110, 25);
             this.toolMenuSetup.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemSetup;
             // 
@@ -599,7 +599,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolMenuFocusMode,
             this.toolMenuShowID,
             this.toolMenuViewMode});
-            this.toolMenuView.Name = "toolMenuView";
+            this.toolMenuView.Name = "MenuItemView";
             this.toolMenuView.Size = new System.Drawing.Size(42, 25);
             this.toolMenuView.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemView;
             // 
@@ -641,7 +641,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolMenuCopy,
             this.toolMenuPaste,
             this.toolMenuDelete});
-            this.toolMenuEdit.Name = "toolMenuEdit";
+            this.toolMenuEdit.Name = "MenuItemEdit";
             this.toolMenuEdit.Size = new System.Drawing.Size(37, 25);
             this.toolMenuEdit.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemEdit;
             // 

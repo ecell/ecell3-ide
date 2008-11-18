@@ -67,11 +67,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             get { return m_cs; }
             set
             {
+                if (m_cs != null)
+                    m_cs.PropertyChange -= this.cs_PropertyChange;
+                if (value != null)
+                    value.PropertyChange += new EventHandler(cs_PropertyChange);
+
                 m_cs = value;
-                m_cs.PropertyChange += new EventHandler(cs_PropertyChange);
             }
         }
         #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public PathwayToolStripButton()
+        {
+
+        }
 
         #region EventHandler
         private void cs_PropertyChange(object sender, EventArgs e)
