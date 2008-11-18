@@ -29,21 +29,27 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CommonContextMenu));
             this.commonContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addSystemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addVariableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mergeSystemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.observedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.parameterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.propertyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addSystemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addVariableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.commonContextMenuStrip.SuspendLayout();
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(toolStripSeparator1, "toolStripSeparator1");
             // 
             // commonContextMenuStrip
             // 
@@ -51,7 +57,7 @@
             this.addToolStripMenuItem,
             this.deleteToolStripMenuItem,
             this.mergeSystemToolStripMenuItem,
-            this.toolStripSeparator1,
+            toolStripSeparator1,
             this.loggingToolStripMenuItem,
             this.observedToolStripMenuItem,
             this.parameterToolStripMenuItem,
@@ -69,20 +75,38 @@
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
             resources.ApplyResources(this.addToolStripMenuItem, "addToolStripMenuItem");
             // 
+            // addSystemToolStripMenuItem
+            // 
+            this.addSystemToolStripMenuItem.Name = "addSystemToolStripMenuItem";
+            resources.ApplyResources(this.addSystemToolStripMenuItem, "addSystemToolStripMenuItem");
+            this.addSystemToolStripMenuItem.Tag = "System";
+            this.addSystemToolStripMenuItem.Click += new System.EventHandler(this.ClickAddToolStripMenuItem);
+            // 
+            // addVariableToolStripMenuItem
+            // 
+            this.addVariableToolStripMenuItem.Name = "addVariableToolStripMenuItem";
+            resources.ApplyResources(this.addVariableToolStripMenuItem, "addVariableToolStripMenuItem");
+            this.addVariableToolStripMenuItem.Tag = "Variable";
+            this.addVariableToolStripMenuItem.Click += new System.EventHandler(this.ClickAddToolStripMenuItem);
+            // 
+            // addProcessToolStripMenuItem
+            // 
+            this.addProcessToolStripMenuItem.Name = "addProcessToolStripMenuItem";
+            resources.ApplyResources(this.addProcessToolStripMenuItem, "addProcessToolStripMenuItem");
+            this.addProcessToolStripMenuItem.Tag = "Process";
+            this.addProcessToolStripMenuItem.Click += new System.EventHandler(this.ClickAddToolStripMenuItem);
+            // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             resources.ApplyResources(this.deleteToolStripMenuItem, "deleteToolStripMenuItem");
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.ClickDeleteToolStripMenuItem);
             // 
             // mergeSystemToolStripMenuItem
             // 
             this.mergeSystemToolStripMenuItem.Name = "mergeSystemToolStripMenuItem";
             resources.ApplyResources(this.mergeSystemToolStripMenuItem, "mergeSystemToolStripMenuItem");
+            this.mergeSystemToolStripMenuItem.Click += new System.EventHandler(this.ClickMergeSystemToolStripMenuItem);
             // 
             // loggingToolStripMenuItem
             // 
@@ -108,24 +132,7 @@
             // 
             this.propertyToolStripMenuItem.Name = "propertyToolStripMenuItem";
             resources.ApplyResources(this.propertyToolStripMenuItem, "propertyToolStripMenuItem");
-            // 
-            // addSystemToolStripMenuItem
-            // 
-            this.addSystemToolStripMenuItem.Name = "addSystemToolStripMenuItem";
-            resources.ApplyResources(this.addSystemToolStripMenuItem, "addSystemToolStripMenuItem");
-            this.addSystemToolStripMenuItem.Tag = "System";
-            // 
-            // addVariableToolStripMenuItem
-            // 
-            this.addVariableToolStripMenuItem.Name = "addVariableToolStripMenuItem";
-            resources.ApplyResources(this.addVariableToolStripMenuItem, "addVariableToolStripMenuItem");
-            this.addVariableToolStripMenuItem.Tag = "Variable";
-            // 
-            // addProcessToolStripMenuItem
-            // 
-            this.addProcessToolStripMenuItem.Name = "addProcessToolStripMenuItem";
-            resources.ApplyResources(this.addProcessToolStripMenuItem, "addProcessToolStripMenuItem");
-            this.addProcessToolStripMenuItem.Tag = "Process";
+            this.propertyToolStripMenuItem.Click += new System.EventHandler(this.ClickPropertyToolStripMenuItem);
             this.commonContextMenuStrip.ResumeLayout(false);
 
         }
@@ -133,17 +140,16 @@
         #endregion
 
         private System.Windows.Forms.ContextMenuStrip commonContextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem loggingToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem observedToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem parameterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem propertyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addSystemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addVariableToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addProcessToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mergeSystemToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem loggingToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem observedToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem parameterToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem propertyToolStripMenuItem;
     }
 }
