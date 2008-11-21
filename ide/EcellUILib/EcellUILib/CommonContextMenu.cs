@@ -74,8 +74,8 @@ namespace Ecell.IDE
         public CommonContextMenu(EcellObject obj, ApplicationEnvironment env)
         {
             InitializeComponent();
-            m_object = obj;
             m_env = env;
+            Object = obj;
 
             bool isSystem = (obj is EcellSystem);
             bool isParentSys = string.IsNullOrEmpty(obj.ParentSystemID);
