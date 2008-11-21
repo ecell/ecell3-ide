@@ -77,6 +77,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// The setup window for TracerWindow.
         /// </summary>
         private TracerConfigurationDialog m_setup = null;
+        private string m_dataformat = "G";
         /// <summary>
         /// The list of TracerWindow.
         /// </summary>
@@ -786,7 +787,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="e">EventArgs</param>
         void ShowSetupTracerWindow(Object sender, EventArgs e)
         {
-            m_setup = new TracerConfigurationDialog(TracerWindow.s_count, (double)(m_timespan / 1000.0), m_dManager.StepCount);
+            m_setup = new TracerConfigurationDialog(TracerWindow.s_count, (double)(m_timespan / 1000.0), m_dManager.StepCount, m_dataformat);
             using (m_setup)
             {
                 if (m_setup.ShowDialog() == DialogResult.OK)
@@ -794,6 +795,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     TracerWindow.s_count = m_setup.PlotNumber;
                     m_timespan = (int)(m_setup.IntervalSecond * 1000.0);
                     m_dManager.StepCount = m_setup.StepNumber;
+                    m_dataformat = m_setup.DataFormat;
+                    foreach (TraceWindow m in m_winList)
+                        m.DataFormat = m_dataformat;
                 }
             }
         }
@@ -850,6 +854,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_win.Text = MessageResources.TracerWindow + m_winCount;
             m_win.Name = MessageResources.TracerWindow + m_winCount;
             m_win.TabText = m_win.Text;
+            m_win.DataFormat = m_dataformat;
             m_winCount++;
 
             // Set Dock settings
@@ -1075,5 +1080,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
             else if (j == 3) return DashStyle.Dot;
             else return DashStyle.DashDotDot;
         }
+    }
+
+    public enum ValueDataFormat
+    {
+        Normal = 0,
+        Decimal = 1,
+        Exponential = 2
     }
 }

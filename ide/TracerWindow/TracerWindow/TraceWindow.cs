@@ -158,6 +158,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.Refresh();
         }
 
+        public string DataFormat
+        {
+            set { this.m_zCnt.PointValueFormat = value; }
+        }
+
         void dgv_DragEnter(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");

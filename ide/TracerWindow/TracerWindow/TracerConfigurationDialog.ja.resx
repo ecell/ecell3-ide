@@ -123,6 +123,9 @@
   <data name="label1.Text" xml:space="preserve">
     <value>プロット数(&amp;P)</value>
   </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>フォーマット(&amp;V)</value>
+  </data>
   <data name="label3.Text" xml:space="preserve">
     <value>再描画間隔(&amp;R)</value>
   </data>
@@ -134,5 +137,14 @@
   </data>
   <data name="TSCloseButton.Text" xml:space="preserve">
     <value>キャンセル</value>
+  </data>
+  <data name="valueFormatComboBox.Items" xml:space="preserve">
+    <value>標準</value>
+  </data>
+  <data name="valueFormatComboBox.Items1" xml:space="preserve">
+    <value>小数点4位</value>
+  </data>
+  <data name="valueFormatComboBox.Items2" xml:space="preserve">
+    <value>指数表示</value>
   </data>
 </root>

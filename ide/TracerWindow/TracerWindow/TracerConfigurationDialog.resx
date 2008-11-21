@@ -130,7 +130,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 10</value>
+    <value>12, 22</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 12</value>
@@ -154,7 +154,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <metadata name="label3.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -166,7 +166,7 @@
     <value>True</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 35</value>
+    <value>12, 47</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>85, 12</value>
@@ -187,7 +187,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <metadata name="label5.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -199,7 +199,7 @@
     <value>True</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 61</value>
+    <value>12, 73</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>125, 12</value>
@@ -220,37 +220,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="numberTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="numberTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>159, 10</value>
-  </data>
-  <data name="numberTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 19</value>
-  </data>
-  <data name="numberTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="numberTextBox.Text" xml:space="preserve">
-    <value>10000</value>
-  </data>
-  <data name="numberTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="&gt;&gt;numberTextBox.Name" xml:space="preserve">
-    <value>numberTextBox</value>
-  </data>
-  <data name="&gt;&gt;numberTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;numberTextBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;numberTextBox.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>5</value>
   </data>
   <metadata name="label4.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -262,7 +232,7 @@
     <value>True</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>244, 35</value>
+    <value>287, 47</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>23, 12</value>
@@ -283,91 +253,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="intervalTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Left, Right</value>
-  </data>
-  <data name="intervalTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>159, 35</value>
-  </data>
-  <data name="intervalTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 19</value>
-  </data>
-  <data name="intervalTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="intervalTextBox.Text" xml:space="preserve">
-    <value>0.1</value>
-  </data>
-  <data name="intervalTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Right</value>
-  </data>
-  <data name="&gt;&gt;intervalTextBox.Name" xml:space="preserve">
-    <value>intervalTextBox</value>
-  </data>
-  <data name="&gt;&gt;intervalTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;intervalTextBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;intervalTextBox.ZOrder" xml:space="preserve">
     <value>7</value>
-  </data>
-  <data name="TSApplyButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="TSApplyButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>122, 114</value>
-  </data>
-  <data name="TSApplyButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 24</value>
-  </data>
-  <data name="TSApplyButton.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="TSApplyButton.Text" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="&gt;&gt;TSApplyButton.Name" xml:space="preserve">
-    <value>TSApplyButton</value>
-  </data>
-  <data name="&gt;&gt;TSApplyButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TSApplyButton.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TSApplyButton.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="TSCloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="TSCloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>202, 114</value>
-  </data>
-  <data name="TSCloseButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 24</value>
-  </data>
-  <data name="TSCloseButton.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="TSCloseButton.Text" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="&gt;&gt;TSCloseButton.Name" xml:space="preserve">
-    <value>TSCloseButton</value>
-  </data>
-  <data name="&gt;&gt;TSCloseButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TSCloseButton.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TSCloseButton.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <metadata name="label6.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -379,7 +265,7 @@
     <value>True</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>244, 61</value>
+    <value>287, 73</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>27, 12</value>
@@ -400,16 +286,130 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
+  </data>
+  <data name="numberTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="numberTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>159, 22</value>
+  </data>
+  <data name="numberTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 19</value>
+  </data>
+  <data name="numberTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="numberTextBox.Text" xml:space="preserve">
+    <value>10000</value>
+  </data>
+  <data name="numberTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;numberTextBox.Name" xml:space="preserve">
+    <value>numberTextBox</value>
+  </data>
+  <data name="&gt;&gt;numberTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;numberTextBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;numberTextBox.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="intervalTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
+  <data name="intervalTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>159, 47</value>
+  </data>
+  <data name="intervalTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 19</value>
+  </data>
+  <data name="intervalTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="intervalTextBox.Text" xml:space="preserve">
+    <value>0.1</value>
+  </data>
+  <data name="intervalTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Right</value>
+  </data>
+  <data name="&gt;&gt;intervalTextBox.Name" xml:space="preserve">
+    <value>intervalTextBox</value>
+  </data>
+  <data name="&gt;&gt;intervalTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;intervalTextBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;intervalTextBox.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="TSApplyButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="TSApplyButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>165, 139</value>
+  </data>
+  <data name="TSApplyButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 24</value>
+  </data>
+  <data name="TSApplyButton.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="TSApplyButton.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="&gt;&gt;TSApplyButton.Name" xml:space="preserve">
+    <value>TSApplyButton</value>
+  </data>
+  <data name="&gt;&gt;TSApplyButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TSApplyButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TSApplyButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="TSCloseButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="TSCloseButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>245, 139</value>
+  </data>
+  <data name="TSCloseButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 24</value>
+  </data>
+  <data name="TSCloseButton.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="TSCloseButton.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="&gt;&gt;TSCloseButton.Name" xml:space="preserve">
+    <value>TSCloseButton</value>
+  </data>
+  <data name="&gt;&gt;TSCloseButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TSCloseButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TSCloseButton.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="stepCountTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Left, Right</value>
   </data>
   <data name="stepCountTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>159, 60</value>
+    <value>159, 72</value>
   </data>
   <data name="stepCountTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 19</value>
+    <value>122, 19</value>
   </data>
   <data name="stepCountTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -430,7 +430,67 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;stepCountTextBox.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
+  </data>
+  <metadata name="label2.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 105</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 12</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>&amp;Value format</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="valueFormatComboBox.Items" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="valueFormatComboBox.Items1" xml:space="preserve">
+    <value>Fourr places of decimals</value>
+  </data>
+  <data name="valueFormatComboBox.Items2" xml:space="preserve">
+    <value>Exponential display</value>
+  </data>
+  <data name="valueFormatComboBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>159, 102</value>
+  </data>
+  <data name="valueFormatComboBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 20</value>
+  </data>
+  <data name="valueFormatComboBox.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;valueFormatComboBox.Name" xml:space="preserve">
+    <value>valueFormatComboBox</value>
+  </data>
+  <data name="&gt;&gt;valueFormatComboBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;valueFormatComboBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;valueFormatComboBox.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -439,7 +499,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>288, 150</value>
+    <value>331, 175</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

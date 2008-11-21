@@ -13,6 +13,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private double m_plotNumber;
         private double m_intervalSecond;
         private int m_stepNumber;
+        private ValueDataFormat m_dataformat;
 
         public double PlotNumber
         {
@@ -29,10 +30,49 @@ namespace Ecell.IDE.Plugins.TracerWindow
             get { return m_stepNumber; }
         }
 
+        public string DataFormat
+        {
+            get
+            {
+                switch (m_dataformat)
+                {
+                    case ValueDataFormat.Normal:
+                        return "G";
+                    case ValueDataFormat.Decimal:
+                        return "f4";
+                    case ValueDataFormat.Exponential:
+                        return "e4";
+                    default:
+                        return "G";
+                }
+            }
+            set
+            {
+                switch (value)
+                {
+                    case "G":
+                        m_dataformat = ValueDataFormat.Normal;
+                        valueFormatComboBox.SelectedIndex = 0;
+                        break;
+                    case "f4":
+                        m_dataformat = ValueDataFormat.Decimal;
+                        valueFormatComboBox.SelectedIndex = 1;
+                        break;
+                    case "e4":
+                        m_dataformat = ValueDataFormat.Exponential;
+                        valueFormatComboBox.SelectedIndex = 2;
+                        break;
+                    default:
+                        m_dataformat = ValueDataFormat.Normal;
+                        break;
+                }
+            }
+        }
+
         /// <summary>
         /// Constructor.
         /// </summary>
-        public TracerConfigurationDialog(double number, double interval, int step)
+        public TracerConfigurationDialog(double number, double interval, int step, string format)
         {
             InitializeComponent();
             numberTextBox.Text = Convert.ToString(number);
@@ -41,6 +81,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_plotNumber = number;
             m_intervalSecond = interval;
             m_stepNumber = step;
+            DataFormat = format;
         }
 
         /// <summary>
@@ -133,5 +174,15 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_stepNumber = dummy;
         }
 
+        private void DataFormatChanged(object sender, EventArgs e)
+        {
+            int ind = valueFormatComboBox.SelectedIndex;
+            if (ind == 0)
+                m_dataformat = ValueDataFormat.Normal;
+            else if (ind == 1)
+                m_dataformat = ValueDataFormat.Decimal;
+            else if (ind == 2)
+                m_dataformat = ValueDataFormat.Exponential;
+        }
     }
 }

@@ -37,16 +37,19 @@
             System.Windows.Forms.Label label5;
             System.Windows.Forms.Label label4;
             System.Windows.Forms.Label label6;
+            System.Windows.Forms.Label label2;
             this.numberTextBox = new System.Windows.Forms.TextBox();
             this.intervalTextBox = new System.Windows.Forms.TextBox();
             this.TSApplyButton = new System.Windows.Forms.Button();
             this.TSCloseButton = new System.Windows.Forms.Button();
             this.stepCountTextBox = new System.Windows.Forms.TextBox();
+            this.valueFormatComboBox = new System.Windows.Forms.ComboBox();
             label1 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -64,17 +67,22 @@
             resources.ApplyResources(label5, "label5");
             label5.Name = "label5";
             // 
+            // label4
+            // 
+            resources.ApplyResources(label4, "label4");
+            label4.Name = "label4";
+            // 
+            // label6
+            // 
+            resources.ApplyResources(label6, "label6");
+            label6.Name = "label6";
+            // 
             // numberTextBox
             // 
             resources.ApplyResources(this.numberTextBox, "numberTextBox");
             this.numberTextBox.Name = "numberTextBox";
             this.numberTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
             this.numberTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.PlotNumber_Validating);
-            // 
-            // label4
-            // 
-            resources.ApplyResources(label4, "label4");
-            label4.Name = "label4";
             // 
             // intervalTextBox
             // 
@@ -96,16 +104,28 @@
             this.TSCloseButton.Name = "TSCloseButton";
             this.TSCloseButton.UseVisualStyleBackColor = true;
             // 
-            // label6
-            // 
-            resources.ApplyResources(label6, "label6");
-            label6.Name = "label6";
-            // 
             // stepCountTextBox
             // 
             resources.ApplyResources(this.stepCountTextBox, "stepCountTextBox");
             this.stepCountTextBox.Name = "stepCountTextBox";
             this.stepCountTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.StepCount_Validating);
+            // 
+            // label2
+            // 
+            resources.ApplyResources(label2, "label2");
+            label2.Name = "label2";
+            // 
+            // valueFormatComboBox
+            // 
+            this.valueFormatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.valueFormatComboBox.FormattingEnabled = true;
+            this.valueFormatComboBox.Items.AddRange(new object[] {
+            resources.GetString("valueFormatComboBox.Items"),
+            resources.GetString("valueFormatComboBox.Items1"),
+            resources.GetString("valueFormatComboBox.Items2")});
+            resources.ApplyResources(this.valueFormatComboBox, "valueFormatComboBox");
+            this.valueFormatComboBox.Name = "valueFormatComboBox";
+            this.valueFormatComboBox.SelectedIndexChanged += new System.EventHandler(this.DataFormatChanged);
             // 
             // TracerConfigurationDialog
             // 
@@ -113,6 +133,8 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.TSCloseButton;
+            this.Controls.Add(this.valueFormatComboBox);
+            this.Controls.Add(label2);
             this.Controls.Add(this.TSApplyButton);
             this.Controls.Add(label6);
             this.Controls.Add(this.TSCloseButton);
@@ -143,5 +165,6 @@
         private System.Windows.Forms.TextBox numberTextBox;
         private System.Windows.Forms.TextBox intervalTextBox;
         private System.Windows.Forms.TextBox stepCountTextBox;
+        private System.Windows.Forms.ComboBox valueFormatComboBox;
     }
 }
