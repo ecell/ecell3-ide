@@ -42,6 +42,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
     public class MultiSelectTreeView : System.Windows.Forms.TreeView
     {
         #region Fields
+        private Point ptMouseDown;
+        private TreeNode tnMouseDown = null;
         private bool m_isUpdate = false;
         private ApplicationEnvironment m_env;
         private List<TreeNode> m_selected = new List<TreeNode>();
@@ -240,16 +242,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="tn">the selected node.</param>
         private void BeforeSelectMethod(TreeNode tn)
         {
-            bool isSystem = false;
-            if (tn.Tag != null)
-            {
-                TagData td = tn.Tag as TagData;
-                if (td != null)
-                {
-                    if (td.m_type.Equals(Constants.xpathSystem))
-                        isSystem = true;
-                }
-            }
             if ((Control.ModifierKeys & Keys.Control) != 0 && !isSystem)
             {
                 if (IsTreeNodeSelected(tn))
@@ -261,10 +253,38 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     SelectNodes(tn);
                 }
             }
+            else if ((Control.ModifierKeys & Keys.Shift) != 0)
+            {
+            }
             else
             {
                 SelectNode(tn, false, false);
             }
+        }
+
+
+        private void SelectRange(TreeNode tn, bool bPrev)
+        {            
+            m_env.PluginManager.ResetSelect();
+            TreeNode tnTemp = tnMouseDown;
+            SelectNodes(tnTemp);
+            if (bPrev)
+            {
+                while (tnTemp.PrevVisibleNode != null && tnTemp != tn)
+                {
+                    SelectNodes(tnTemp.PrevVisibleNode);
+                    tnTemp = tnTemp.PrevVisibleNode;
+                }
+            }
+            else
+            {
+                while (tnTemp.NextVisibleNode != null && tnTemp != tn)
+                {
+                    SelectNodes(tnTemp.NextVisibleNode);
+                    tnTemp = tnTemp.NextVisibleNode;
+                }
+            }
+            this.Refresh();
         }
 
         #region Events
@@ -292,7 +312,34 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e"></param>
         protected override void OnMouseDown(MouseEventArgs e)
         {
+            if ((Control.ModifierKeys & Keys.Shift) != 0)
+            {
+                bool bStartPainting = Math.Abs(ptMouseDown.Y - e.Y) > this.ItemHeight;
+                TreeNode tn = this.GetNodeAt(e.X, e.Y);
+                bool bPrev = ptMouseDown.Y - e.Y > 0;
+                if (e.Button == MouseButtons.Left &&
+                    (bStartPainting || (tn != tnMouseDown && tn != null)))
+                {
+                    SelectRange(tn, bPrev);
+                }
+                return;
+            }
+            tnMouseDown = this.GetNodeAt(e.X, e.Y);
+            ptMouseDown = new Point(e.X, e.Y);
             base.OnMouseDown(e);
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            bool bStartPainting = Math.Abs(ptMouseDown.Y - e.Y) > this.ItemHeight;
+            TreeNode tn = this.GetNodeAt(e.X, e.Y);
+            bool bPrev = ptMouseDown.Y - e.Y > 0;
+            if (e.Button == MouseButtons.Left &&
+                (bStartPainting || (tn != tnMouseDown && tn != null)))
+            {
+                SelectRange(tn, bPrev);
+            }
+            base.OnMouseMove(e);
         }
         #endregion
     }
