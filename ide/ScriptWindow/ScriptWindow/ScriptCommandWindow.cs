@@ -153,7 +153,7 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         private Font m_defaultFont;
         private Color m_defaultTextColor;
         private StringBuilder m_statementBuffer;
-        private Color m_promptColor = Color.SkyBlue;
+        private Color m_promptColor = Color.RoyalBlue;
         private int m_currentPromptCharCount;
         private bool m_interactionContinued;
         private ScriptRunner m_scriptRunner;
@@ -236,7 +236,7 @@ namespace Ecell.IDE.Plugins.ScriptWindow
                     m_scriptRunnerThread.Join();
                 };
             m_scriptRunnerThread.Start();
-
+            WriteHeader();
         }
         #endregion
 
@@ -284,6 +284,12 @@ namespace Ecell.IDE.Plugins.ScriptWindow
                 sender.SelectionColor = sender.ForeColor;
             }
         }
+
+
+        private void ShownScriptCommandWindow(object sender, EventArgs e)
+        {
+            SWCommandText.Focus();
+        }
         #endregion
 
         private void ResetCommandLineControl()
@@ -312,6 +318,13 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         {
             m_engine.ExecuteFile(file);
             Flush();
+        }
+
+        private void WriteHeader()
+        {
+            WriteToConsole("<E-Cell IDE>\n");
+            WriteToConsole("Script window (Version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")\n\n");
+
         }
 
         private void ReportException(Exception e)

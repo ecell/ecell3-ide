@@ -49,7 +49,7 @@
             this.SWMessageText.Name = "SWMessageText";
             this.SWMessageText.ReadOnly = true;
             this.SWMessageText.ShortcutsEnabled = false;
-            this.SWMessageText.Size = new System.Drawing.Size(513, 415);
+            this.SWMessageText.Size = new System.Drawing.Size(513, 417);
             this.SWMessageText.TabIndex = 0;
             this.SWMessageText.Text = "";
             this.SWMessageText.WordWrap = false;
@@ -65,7 +65,7 @@
             this.SWCommandText.Location = new System.Drawing.Point(0, 0);
             this.SWCommandText.Margin = new System.Windows.Forms.Padding(0);
             this.SWCommandText.Name = "SWCommandText";
-            this.SWCommandText.Size = new System.Drawing.Size(513, 48);
+            this.SWCommandText.Size = new System.Drawing.Size(513, 46);
             this.SWCommandText.TabIndex = 1;
             this.SWCommandText.Text = "";
             this.SWCommandText.WordWrap = false;
@@ -93,7 +93,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.SWCommandText);
             this.splitContainer1.Panel2MinSize = 12;
             this.splitContainer1.Size = new System.Drawing.Size(513, 465);
-            this.splitContainer1.SplitterDistance = 415;
+            this.splitContainer1.SplitterDistance = 417;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -107,6 +107,7 @@
             this.Name = "ScriptCommandWindow";
             this.TabText = "Script";
             this.Text = "Script";
+            this.Shown += new System.EventHandler(this.ShownScriptCommandWindow);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
