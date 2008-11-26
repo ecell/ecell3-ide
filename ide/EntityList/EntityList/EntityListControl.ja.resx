@@ -133,4 +133,13 @@
   <data name="ObjectName.HeaderText" xml:space="preserve">
     <value>エンティティ名</value>
   </data>
+  <data name="classToolStripMenuItem.Text" xml:space="preserve">
+    <value>クラス</value>
+  </data>
+  <data name="nameToolStripMenuItem.Text" xml:space="preserve">
+    <value>エンティティ名</value>
+  </data>
+  <data name="typeToolStripMenuItem.Text" xml:space="preserve">
+    <value>種別</value>
+  </data>
 </root>

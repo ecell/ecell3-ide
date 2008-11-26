@@ -18,6 +18,10 @@ namespace Ecell.IDE.Plugins.EntityList
         protected ImageList m_icons;
         private EcellObject m_dragObject;
         protected bool m_intact = false;
+        private bool m_isShowType = true;
+        private bool m_isShowName = true;
+        private bool m_isShowClassName = true;
+        private bool m_isShowPathID = true;
 
         /// <summary>
         /// The reserved name for the type of object.
@@ -326,7 +330,6 @@ namespace Ecell.IDE.Plugins.EntityList
             DataGridView.HitTestInfo hti = objectListDataGrid.HitTest(e.X, e.Y);
             if (e.Button == MouseButtons.Left)
             {
-
                 if (hti.RowIndex <= 0)
                     return;
                 DataGridViewRow r = objectListDataGrid.Rows[hti.RowIndex];
@@ -334,6 +337,15 @@ namespace Ecell.IDE.Plugins.EntityList
             }
             else if (e.Button == MouseButtons.Right)
             {
+                if (hti.Type == DataGridViewHitTestType.ColumnHeader)
+                {
+                    typeToolStripMenuItem.Checked = m_isShowType;
+                    classToolStripMenuItem.Checked = m_isShowClassName;
+                    pathIDToolStripMenuItem.Checked = m_isShowPathID;
+                    nameToolStripMenuItem.Checked = m_isShowName;
+                    objectListDataGrid.ContextMenuStrip = titleContextMenuStrip;
+                    return;
+                }
                 if (hti.Type != DataGridViewHitTestType.Cell)
                 {
                     objectListDataGrid.ContextMenuStrip = null;
@@ -367,6 +379,38 @@ namespace Ecell.IDE.Plugins.EntityList
 
                 this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
                 return;
+            }
+        }
+
+        private void ClickShowColumnMenu(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            if (item == null) return;
+
+            String name = item.Tag as string;
+            if (name.Equals(s_indexType))
+            {
+                m_isShowType = !m_isShowType;
+                typeToolStripMenuItem.Checked = m_isShowType;
+                Type.Visible = m_isShowType;
+            }
+            else if (name.Equals(s_indexName))
+            {
+                m_isShowName = !m_isShowName;
+                nameToolStripMenuItem.Checked = m_isShowName;
+                ObjectName.Visible = m_isShowName;
+            }
+            else if (name.Equals(s_indexClass))
+            {
+                m_isShowClassName = !m_isShowClassName;
+                classToolStripMenuItem.Checked = m_isShowClassName;
+                ClassName.Visible = m_isShowClassName;
+            }
+            else if (name.Equals(s_indexID))
+            {
+                m_isShowPathID = !m_isShowPathID;
+                pathIDToolStripMenuItem.Checked = m_isShowPathID;
+                ID.Visible = m_isShowPathID;
             }
         }
     }

@@ -28,17 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityListControl));
             this.clearButton = new System.Windows.Forms.Button();
             this.objectListDataGrid = new System.Windows.Forms.DataGridView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.searchTextBox = new System.Windows.Forms.TextBox();
             this.Type = new System.Windows.Forms.DataGridViewImageColumn();
             this.ClassName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ObjectName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.searchTextBox = new System.Windows.Forms.TextBox();
+            this.titleContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.typeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.classToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pathIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.objectListDataGrid)).BeginInit();
             this.panel1.SuspendLayout();
+            this.titleContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // clearButton
@@ -67,23 +74,8 @@
             this.objectListDataGrid.RowTemplate.Height = 21;
             this.objectListDataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.objectListDataGrid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DataGridViewMouseDown);
-            this.objectListDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ClickObjectCell);
             this.objectListDataGrid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DataGridViewMouseMove);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.clearButton);
-            this.panel1.Controls.Add(this.searchTextBox);
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.Name = "panel1";
-            // 
-            // searchTextBox
-            // 
-            resources.ApplyResources(this.searchTextBox, "searchTextBox");
-            this.searchTextBox.Name = "searchTextBox";
-            this.searchTextBox.Enter += new System.EventHandler(this.searchTextBox_Enter);
-            this.searchTextBox.Leave += new System.EventHandler(this.searchTextBox_Leave);
-            this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
+            this.objectListDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ClickObjectCell);
             // 
             // Type
             // 
@@ -119,6 +111,55 @@
             this.ObjectName.Name = "ObjectName";
             this.ObjectName.ReadOnly = true;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.clearButton);
+            this.panel1.Controls.Add(this.searchTextBox);
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
+            // 
+            // searchTextBox
+            // 
+            resources.ApplyResources(this.searchTextBox, "searchTextBox");
+            this.searchTextBox.Name = "searchTextBox";
+            this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
+            this.searchTextBox.Leave += new System.EventHandler(this.searchTextBox_Leave);
+            this.searchTextBox.Enter += new System.EventHandler(this.searchTextBox_Enter);
+            // 
+            // titleContextMenuStrip
+            // 
+            this.titleContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.typeToolStripMenuItem,
+            this.classToolStripMenuItem,
+            this.pathIDToolStripMenuItem,
+            this.nameToolStripMenuItem});
+            this.titleContextMenuStrip.Name = "titleContextMenuStrip";
+            resources.ApplyResources(this.titleContextMenuStrip, "titleContextMenuStrip");
+            // 
+            // typeToolStripMenuItem
+            // 
+            this.typeToolStripMenuItem.Name = "typeToolStripMenuItem";
+            resources.ApplyResources(this.typeToolStripMenuItem, "typeToolStripMenuItem");
+            this.typeToolStripMenuItem.Click += new System.EventHandler(this.ClickShowColumnMenu);
+            // 
+            // classToolStripMenuItem
+            // 
+            this.classToolStripMenuItem.Name = "classToolStripMenuItem";
+            resources.ApplyResources(this.classToolStripMenuItem, "classToolStripMenuItem");
+            this.classToolStripMenuItem.Click += new System.EventHandler(this.ClickShowColumnMenu);
+            // 
+            // pathIDToolStripMenuItem
+            // 
+            this.pathIDToolStripMenuItem.Name = "pathIDToolStripMenuItem";
+            resources.ApplyResources(this.pathIDToolStripMenuItem, "pathIDToolStripMenuItem");
+            this.pathIDToolStripMenuItem.Click += new System.EventHandler(this.ClickShowColumnMenu);
+            // 
+            // nameToolStripMenuItem
+            // 
+            this.nameToolStripMenuItem.Name = "nameToolStripMenuItem";
+            resources.ApplyResources(this.nameToolStripMenuItem, "nameToolStripMenuItem");
+            this.nameToolStripMenuItem.Click += new System.EventHandler(this.ClickShowColumnMenu);
+            // 
             // EntityListControl
             // 
             resources.ApplyResources(this, "$this");
@@ -129,6 +170,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.objectListDataGrid)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.titleContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -143,5 +185,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ClassName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn ObjectName;
+        private System.Windows.Forms.ContextMenuStrip titleContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem typeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem classToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pathIDToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem nameToolStripMenuItem;
     }
 }
