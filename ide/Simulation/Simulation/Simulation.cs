@@ -412,7 +412,7 @@ namespace Ecell.IDE.Plugins.Simulation
             else if (type == ProjectStatus.Stepping)
             {
                 // Menu
-                m_runSim.Enabled = false;
+                m_runSim.Enabled = true;
                 m_stopSim.Enabled = true;
                 m_suspendSim.Enabled = true;
                 m_stepSim.Enabled = true;
@@ -616,7 +616,8 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="e">EventArgs</param>
         public void RunSimulation(object sender, EventArgs e)
         {
-            if (m_type == ProjectStatus.Running || m_type == ProjectStatus.Uninitialized) return;
+            if (m_type == ProjectStatus.Running || m_type == ProjectStatus.Uninitialized) 
+                return;
             ProjectStatus preType = m_type;
 
             try
@@ -681,7 +682,8 @@ namespace Ecell.IDE.Plugins.Simulation
                     if (timeCount < 0) return;
                     m_dManager.SimulationStartKeepSetting(timeCount); // m_dManager.SimulationStart(timeCount);
                 }
-                m_pManager.ChangeStatus(ProjectStatus.Stepping);
+                if (m_type != ProjectStatus.Loaded)
+                    m_pManager.ChangeStatus(ProjectStatus.Stepping);
             }
             catch (SimulationException ex)
             {
