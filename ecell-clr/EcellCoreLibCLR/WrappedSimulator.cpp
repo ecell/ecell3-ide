@@ -454,7 +454,7 @@ namespace EcellCoreLib {
                     {
                     case libecs::EntityType::VARIABLE:
                         {
-                            for (libecs::VariableMap::const_iterator
+                            for (libecs::System::VariableMap::const_iterator
                                     i = aSystemPtr->getVariableMap().begin(),
                                     end = aSystemPtr->getVariableMap().end();
                                  i != end; ++i)
@@ -466,7 +466,7 @@ namespace EcellCoreLib {
 
                     case libecs::EntityType::PROCESS:
                         {
-                            for (libecs::ProcessMap::const_iterator
+                            for (libecs::System::ProcessMap::const_iterator
                                     i = aSystemPtr->getProcessMap().begin(),
                                     end = aSystemPtr->getProcessMap().end();
                                  i != end; ++i)
@@ -477,7 +477,7 @@ namespace EcellCoreLib {
                         break;
                     case libecs::EntityType::SYSTEM:
                         {
-                            for (libecs::SystemMap::const_iterator
+                            for (libecs::System::SystemMap::const_iterator
                                     i = aSystemPtr->getSystemMap().begin(),
                                     end = aSystemPtr->getSystemMap().end();
                                  i != end; ++i)
@@ -661,12 +661,11 @@ namespace EcellCoreLib {
         {
             try
             {
-                libecs::LoggerBroker::LoggerMapCref aLoggerMap(
-                        theModel->getLoggerBroker().getLoggerMap());
-                
-                List<String^>^ retval = gcnew List<String^>(aLoggerMap.size());
-                for(libecs::LoggerBroker::LoggerMapConstIterator i(aLoggerMap.begin());
-                    i != aLoggerMap.end(); ++i)
+                List<String^>^ retval = gcnew List<String^>();
+                libecs::LoggerBroker const& loggerBroker(theModel->getLoggerBroker());
+                for (libecs::LoggerBroker::const_iterator
+                        i(loggerBroker.begin()), end(loggerBroker.end());
+                    i != end; ++i)
                 {
                     libecs::FullPNCref aFullPN( (*i).first );
                     retval->Add(FromCString(aFullPN.getString()));
@@ -700,10 +699,10 @@ namespace EcellCoreLib {
         {
             try
             {
-                libecs::StepperMapCref aStepperMap(theModel->getStepperMap());
+                libecs::Model::StepperMapCref aStepperMap(theModel->getStepperMap());
                 List<String^>^ retval = gcnew List<String^>(aStepperMap.size());
                
-                for(libecs::StepperMapConstIterator i( aStepperMap.begin() );
+                for(libecs::Model::StepperMap::const_iterator i( aStepperMap.begin() );
                      i != aStepperMap.end(); ++i)
                 {
                     retval->Add(FromCString(i->first));
