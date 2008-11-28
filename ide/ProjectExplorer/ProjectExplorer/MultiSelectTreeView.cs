@@ -242,7 +242,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="tn">the selected node.</param>
         private void BeforeSelectMethod(TreeNode tn)
         {
-            if ((Control.ModifierKeys & Keys.Control) != 0 && !isSystem)
+            if ((Control.ModifierKeys & Keys.Control) != 0)
             {
                 if (IsTreeNodeSelected(tn))
                 {
