@@ -49,11 +49,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// StepperID of current object.
         /// </summary>
         private String m_stepperID = "";
-
+        private DataGridViewComboBoxEditingControl m_combo = null;
         private List<string> m_nonDataProps;
-
         private List<string> m_procList = null;
-
         private DataGridViewComboBoxCell m_stepperIDComboBox;
 
         /// <summary>
@@ -269,6 +267,20 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             return m_env.DataManager.GetEcellObject(modelID, key, type);
         }
 
+        private void UpdateExpression(string express)
+        {
+            EcellObject obj = m_current.Copy();
+            foreach (EcellData data in obj.Value)
+            {
+                if (data.Name.Equals(Constants.xpathExpression))
+                {
+                    data.Value = new EcellValue(express);
+                    break;
+                }
+            }
+            NotifyDataChanged(m_current.ModelID, m_current.Key, obj);
+        }
+
         /// <summary>
         /// Add the property to PropertyWindow.
         /// </summary>
@@ -307,6 +319,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         if (retval != null)
                         {
                             c.Value = retval;
+                            UpdateExpression(retval);
                             return true;
                         }
                         return false;
@@ -1098,6 +1111,50 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
         }
 
+        private void combo_selectedIndexChanged(object sender, EventArgs e)
+        {
+            string newClassName = (string)((DataGridViewComboBoxEditingControl)sender).SelectedItem;
+            if (newClassName.Equals(m_current.Classname))
+            {
+                return;
+            }
+            List<EcellData> props = new List<EcellData>();
+            foreach (KeyValuePair<string, EcellData> pair in m_env.DataManager.GetProcessProperty(newClassName))
+            {
+                EcellData val = pair.Value;
+                if (pair.Value.Name == Constants.xpathStepperID)
+                {
+                    List<EcellObject> steppers = m_env.DataManager.GetStepper(null, m_current.ModelID);
+                    if (steppers.Count > 0)
+                    {
+                        val = new EcellData(pair.Value.Name,
+                            new EcellValue(steppers[0].Key),
+                            val.EntityPath);
+                    }
+                }
+                else if (pair.Value.Name == Constants.xpathVRL)
+                {
+                    val = m_current.GetEcellData(Constants.xpathVRL);
+                }
+                props.Add(val);
+            }
+            EcellObject obj = EcellObject.CreateObject(
+                m_current.ModelID, m_current.Key, m_current.Type,
+                newClassName, props);
+            NotifyDataChanged(obj.ModelID, obj.Key, obj);
+            m_current = obj;
+            ReloadProperties();
+        }
+
+        void m_dgv_CellEndEdit(object sender, System.Windows.Forms.DataGridViewCellEventArgs e)
+        {
+            if (m_combo != null)
+            {
+                m_combo.SelectedIndexChanged -= new System.EventHandler(combo_selectedIndexChanged);
+                m_combo = null;
+            }
+        }
+
         private void m_dgv_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             DataGridViewCell cell = m_dgv[1, m_dgv.CurrentCell.RowIndex];
@@ -1105,40 +1162,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             {
                 if ((string)cell.Tag == "ClassName" && cell is DataGridViewComboBoxCell)
                 {
-                    DataGridViewComboBoxEditingControl combo = (DataGridViewComboBoxEditingControl)e.Control;
-                    EventHandler hdlr = null;
-                    hdlr = delegate(object o, EventArgs _e)
-                    {
-                        string newClassName = (string)((DataGridViewComboBoxEditingControl)o).SelectedItem;
-                        List<EcellData> props = new List<EcellData>();
-                        foreach (KeyValuePair<string, EcellData> pair in m_env.DataManager.GetProcessProperty(newClassName))
-                        {
-                            EcellData val = pair.Value;
-                            if (pair.Value.Name == Constants.xpathStepperID)
-                            {
-                                List<EcellObject> steppers = m_env.DataManager.GetStepper(null, m_current.ModelID);
-                                if (steppers.Count > 0)
-                                {
-                                    val = new EcellData(pair.Value.Name,
-                                        new EcellValue(steppers[0].Key),
-                                        val.EntityPath);
-                                }
-                            }
-                            else if (pair.Value.Name == Constants.xpathVRL)
-                            {
-                                val = m_current.GetEcellData(Constants.xpathVRL);
-                            }
-                            props.Add(val);
-                        }
-                        EcellObject obj = EcellObject.CreateObject(
-                            m_current.ModelID, m_current.Key, m_current.Type,
-                            newClassName, props);
-                        NotifyDataChanged(obj.ModelID, obj.Key, obj);
-                        m_current = obj;
-                        ReloadProperties();
-                        combo.SelectedIndexChanged -= hdlr;
-                    };
-                    combo.SelectedIndexChanged += hdlr;
+                    m_combo = (DataGridViewComboBoxEditingControl)e.Control;
+                    m_combo.SelectedIndexChanged += new EventHandler(combo_selectedIndexChanged);
                 }
             }
         }

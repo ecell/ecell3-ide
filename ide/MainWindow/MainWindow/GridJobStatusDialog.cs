@@ -90,7 +90,7 @@ namespace Ecell.IDE.MainWindow
         void FireTimer(object sender, EventArgs e)
         {
             m_timer.Enabled = false;
-            DEWUpdateButton.PerformClick();
+            DEWUpdateButton_Click(null, new EventArgs());
             m_timer.Enabled = true;
         }
 

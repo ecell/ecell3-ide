@@ -267,6 +267,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {            
             m_env.PluginManager.ResetSelect();
             TreeNode tnTemp = tnMouseDown;
+            if (tnTemp == null) return;
             SelectNodes(tnTemp);
             if (bPrev)
             {

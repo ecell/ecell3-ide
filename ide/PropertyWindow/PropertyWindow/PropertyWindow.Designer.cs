@@ -82,6 +82,7 @@
             this.m_dgv.CellParsing += new System.Windows.Forms.DataGridViewCellParsingEventHandler(this.ChangeProperty);
             this.m_dgv.MouseLeave += new System.EventHandler(this.LeaveMouse);
             this.m_dgv.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.m_dgv_EditingControlShowing);
+            this.m_dgv.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_dgv_CellEndEdit);
             this.m_dgv.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CellClick);
             // 
             // contextMenuStrip1
