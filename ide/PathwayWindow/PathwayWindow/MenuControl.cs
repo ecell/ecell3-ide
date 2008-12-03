@@ -950,7 +950,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
                 MessageBox.Show(
                     "Name:" + obj.EcellObject.Key
-                    + "\nLayer:" + obj.EcellObject.LayerID
+                    + "\nLayer:" + obj.EcellObject.Layer
                     + "\nX:" + obj.X + "\nY:" + obj.Y
                     + "\nWidth:" + obj.Width + "\nHeight:" + obj.Height
                     + "\nOffsetX:" + obj.OffsetX + "\nOffsetY:" + obj.OffsetY 
