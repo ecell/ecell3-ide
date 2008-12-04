@@ -1660,7 +1660,6 @@ namespace Ecell.IDE.MainWindow
                     genericStatusText.Text = e.Text;
                     break;
                 case StatusBarMessageKind.QuickInspector:
-                    isExeDoEvents = !quickInspectorText.Text.Equals(e.Text);
                     quickInspectorText.Text = e.Text;
                     break;
             }
