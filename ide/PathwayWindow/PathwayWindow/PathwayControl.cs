@@ -356,7 +356,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 // Set layout.
                 SetLayout(data, modelId, isFirst);
                 if (isFirst)
+                {
                     Progress(mes, 100, 100);
+                    Window.Environment.ReportManager.SetStatus(StatusBarMessageKind.Generic, "");
+                }
             }
             catch (Exception e)
             {
