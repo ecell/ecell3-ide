@@ -1652,15 +1652,20 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private void ReportManager_StatusUpdated(object o, StatusUpdateEventArgs e)
         {
+            bool isExeDoEvents = false;
             switch (e.Type)
             {
                 case StatusBarMessageKind.Generic:
+                    isExeDoEvents = !genericStatusText.Text.Equals(e.Text);
                     genericStatusText.Text = e.Text;
                     break;
                 case StatusBarMessageKind.QuickInspector:
+                    isExeDoEvents = !quickInspectorText.Text.Equals(e.Text);
                     quickInspectorText.Text = e.Text;
                     break;
             }
+            if (isExeDoEvents)
+                Application.DoEvents();
         }
 
         /// <summary>
