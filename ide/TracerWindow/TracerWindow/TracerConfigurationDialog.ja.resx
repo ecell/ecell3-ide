@@ -124,7 +124,7 @@
     <value>プロット数(&amp;P)</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>フォーマット(&amp;V)</value>
+    <value>値の書式(&amp;F)</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>再描画間隔(&amp;R)</value>
@@ -139,12 +139,21 @@
     <value>キャンセル</value>
   </data>
   <data name="valueFormatComboBox.Items" xml:space="preserve">
-    <value>標準</value>
+    <value>全桁表示</value>
   </data>
   <data name="valueFormatComboBox.Items1" xml:space="preserve">
-    <value>小数点4位</value>
+    <value>指数表示（有効数字1桁）</value>
   </data>
   <data name="valueFormatComboBox.Items2" xml:space="preserve">
-    <value>指数表示</value>
+    <value>指数表示（有効数字2桁）</value>
+  </data>
+  <data name="valueFormatComboBox.Items3" xml:space="preserve">
+    <value>指数表示（有効数字3桁）</value>
+  </data>
+  <data name="valueFormatComboBox.Items4" xml:space="preserve">
+    <value>指数表示（有効数字4桁）</value>
+  </data>
+  <data name="valueFormatComboBox.Items5" xml:space="preserve">
+    <value>指数表示（有効数字5桁）</value>
   </data>
 </root>

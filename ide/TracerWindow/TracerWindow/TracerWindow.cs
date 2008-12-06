@@ -77,7 +77,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// The setup window for TracerWindow.
         /// </summary>
         private TracerConfigurationDialog m_setup = null;
-        private string m_dataformat = "G";
+        private string m_dataformat = "e4";
         /// <summary>
         /// The list of TracerWindow.
         /// </summary>
@@ -1085,7 +1085,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
     public enum ValueDataFormat
     {
         Normal = 0,
-        Decimal = 1,
-        Exponential = 2
+        Exponential1 = 1,
+        Exponential2 = 2,
+        Exponential3 = 3,
+        Exponential4 = 4,
+        Exponential5 = 5
     }
 }

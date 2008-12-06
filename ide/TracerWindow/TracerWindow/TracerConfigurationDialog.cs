@@ -38,10 +38,16 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 {
                     case ValueDataFormat.Normal:
                         return "G";
-                    case ValueDataFormat.Decimal:
-                        return "f4";
-                    case ValueDataFormat.Exponential:
+                    case ValueDataFormat.Exponential1:
+                        return "e1";
+                    case ValueDataFormat.Exponential2:
+                        return "e2";
+                    case ValueDataFormat.Exponential3:
+                        return "e3";
+                    case ValueDataFormat.Exponential4:
                         return "e4";
+                    case ValueDataFormat.Exponential5:
+                        return "e5";
                     default:
                         return "G";
                 }
@@ -54,13 +60,25 @@ namespace Ecell.IDE.Plugins.TracerWindow
                         m_dataformat = ValueDataFormat.Normal;
                         valueFormatComboBox.SelectedIndex = 0;
                         break;
-                    case "f4":
-                        m_dataformat = ValueDataFormat.Decimal;
+                    case "e1":
+                        m_dataformat = ValueDataFormat.Exponential1;
                         valueFormatComboBox.SelectedIndex = 1;
                         break;
-                    case "e4":
-                        m_dataformat = ValueDataFormat.Exponential;
+                    case "e2":
+                        m_dataformat = ValueDataFormat.Exponential2;
                         valueFormatComboBox.SelectedIndex = 2;
+                        break;
+                    case "e3":
+                        m_dataformat = ValueDataFormat.Exponential3;
+                        valueFormatComboBox.SelectedIndex = 3;
+                        break;
+                    case "e4":
+                        m_dataformat = ValueDataFormat.Exponential4;
+                        valueFormatComboBox.SelectedIndex = 4;
+                        break;
+                    case "e5":
+                        m_dataformat = ValueDataFormat.Exponential5;
+                        valueFormatComboBox.SelectedIndex = 5;
                         break;
                     default:
                         m_dataformat = ValueDataFormat.Normal;
