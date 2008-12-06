@@ -466,6 +466,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   Project {0} was created. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoCrePrj {
+            get {
+                return ResourceManager.GetString("InfoCrePrj", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Simulation parameter {0} was created. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoCreSim {
@@ -484,11 +493,66 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   Script file {0} was completed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoExecScript {
+            get {
+                return ResourceManager.GetString("InfoExecScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Model {0} was loaded. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoLoadModel {
+            get {
+                return ResourceManager.GetString("InfoLoadModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Loading plugin {0}... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoLoadPlugin {
             get {
                 return ResourceManager.GetString("InfoLoadPlugin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Project {0} was loaded. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoLoadPrj {
+            get {
+                return ResourceManager.GetString("InfoLoadPrj", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Simulation parameter {0} was loaded. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoLoadSim {
+            get {
+                return ResourceManager.GetString("InfoLoadSim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   New revision {0}:
+        ///New revision {0}:{1} was created. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoNewRev {
+            get {
+                return ResourceManager.GetString("InfoNewRev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Simulation parameter {0} was removed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoRemoveSim {
+            get {
+                return ResourceManager.GetString("InfoRemoveSim", resourceCulture);
             }
         }
         
@@ -516,6 +580,15 @@ namespace Ecell {
         internal static string InfoSavePrj {
             get {
                 return ResourceManager.GetString("InfoSavePrj", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Script {0} is saved. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoSaveScript {
+            get {
+                return ResourceManager.GetString("InfoSaveScript", resourceCulture);
             }
         }
         

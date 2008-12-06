@@ -300,4 +300,28 @@
   <data name="WarnMoveDM" xml:space="preserve">
     <value>{0}はロードされています。モデルを閉じた後に、{1}を{0}に移動させてください。</value>
   </data>
+  <data name="InfoCrePrj" xml:space="preserve">
+    <value>プロジェクト {0} を作成しました。</value>
+  </data>
+  <data name="InfoExecScript" xml:space="preserve">
+    <value>スクリプト {0} を実行しました。</value>
+  </data>
+  <data name="InfoLoadModel" xml:space="preserve">
+    <value>モデル {0} を読み込みました。</value>
+  </data>
+  <data name="InfoLoadPrj" xml:space="preserve">
+    <value>プロジェクト {0} を読み込みました。</value>
+  </data>
+  <data name="InfoLoadSim" xml:space="preserve">
+    <value>シミュレーションパラメータ {0} を読み込みました。</value>
+  </data>
+  <data name="InfoNewRev" xml:space="preserve">
+    <value>リビジョン {0}:{1} を作成しました。</value>
+  </data>
+  <data name="InfoRemoveSim" xml:space="preserve">
+    <value>シミュレーションパラメータ {0} を削除しました。</value>
+  </data>
+  <data name="InfoSaveScript" xml:space="preserve">
+    <value>スクリプト {0} を保存しました。</value>
+  </data>
 </root>

@@ -695,8 +695,9 @@ namespace Ecell
                 }
                 this.m_env.PluginManager.AdvancedTime(0);
                 this.m_env.PluginManager.Clear();
-                Trace.WriteLine(String.Format(MessageResources.InfoClose,
-                    new object[] { projectID }));
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoClose, projectID));
+                m_env.Console.Flush();
+                Trace.WriteLine(String.Format(MessageResources.InfoClose, projectID));
                 m_env.ActionManager.Clear();
                 m_env.ReportManager.Clear();
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
@@ -2076,6 +2077,8 @@ namespace Ecell
                     m_currentProject.Info.SimulationParam = null;
                 m_env.PluginManager.ParameterDelete(m_currentProject.Info.Name, parameterID);
                 MessageDeleteEntity("Simulation Parameter", message);
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoRemoveSim, parameterID));
+                m_env.Console.Flush();
 
                 if (isRecorded)
                     m_env.ActionManager.AddAction(new DeleteSimParamAction(parameterID, isAnchor));
@@ -3397,7 +3400,9 @@ namespace Ecell
                         }
                     }
                 }
-                Trace.WriteLine("Load project: " + message);
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoLoadPrj, projectID));
+                m_env.Console.Flush();
+                Trace.WriteLine(String.Format(MessageResources.InfoLoadPrj, projectID));
             }
             catch (Exception ex)
             {
@@ -3471,7 +3476,9 @@ namespace Ecell
                 {
                     m_currentProject.LoggerPolicyDic[simParam] = new LoggerPolicy();
                 }
-                Trace.WriteLine("Load Model: " + message);
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoLoadModel, modelID));
+                m_env.Console.Flush();
+                Trace.WriteLine(String.Format(MessageResources.InfoLoadModel, modelID));
                 if (isLogging)
                     m_env.ActionManager.AddAction(new ImportModelAction(filename));
                 if (m_currentProject.ModelFileDic.ContainsKey(modelID))
@@ -3636,6 +3643,8 @@ namespace Ecell
                 }
                 m_currentProject.LoggerPolicyDic[simParamID] = simParam.LoggerPolicy;
                 m_currentProject.InitialCondition[simParamID] = simParam.InitialConditions;
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoLoadSim, simParamID));
+                m_env.Console.Flush();
                 Trace.WriteLine("Load Simulation Parameter: " + message);
             }
             catch (Exception ex)
@@ -4148,7 +4157,9 @@ namespace Ecell
                 m_env.ActionManager.AddAction(new NewProjectAction(projectID, comment, projectPath));
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
 
-                Trace.WriteLine("Create Project: [" + projectID + "]");
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoCrePrj, projectID));
+                m_env.Console.Flush();
+                Trace.WriteLine(String.Format(MessageResources.InfoCrePrj, projectID));
             }
             catch (Exception ex)
             {
@@ -4215,6 +4226,8 @@ namespace Ecell
 
                 m_env.PluginManager.ParameterAdd(m_currentProject.Info.Name, newParameterID);
 
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoCreSim, newParameterID));
+                m_env.Console.Flush();
                 Trace.WriteLine(String.Format(MessageResources.InfoCreSim,
                     new object[] { newParameterID }));
                 //‚Ü‚¾copy‚ª‚È‚¢
@@ -4249,6 +4262,8 @@ namespace Ecell
             string[] files = Directory.GetFiles(sourceDir, "project.*");
             foreach (string file in files)
                 Util.CopyFile(file, targetDir);
+            m_env.Console.WriteLine(String.Format(MessageResources.InfoNewRev,
+                    m_currentProject.Info.Name, revNo));
         }
 
         /// <summary>
@@ -4299,6 +4314,8 @@ namespace Ecell
                 // Notify that a new parameter set is created.
                 m_env.PluginManager.ParameterAdd(m_currentProject.Info.Name, parameterID);
 
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoCreSim, parameterID));
+                m_env.Console.Flush();
                 Trace.WriteLine(String.Format(MessageResources.InfoCreSim,
                     new object[] { parameterID }));
                 if (isRecorded)
@@ -4453,6 +4470,9 @@ namespace Ecell
                 SaveSimulationResultDelegate dlg = m_env.PluginManager.GetDelegate("SaveSimulationResult") as SaveSimulationResultDelegate;
                 if (dlg != null)
                     dlg(logList);
+
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoSavePrj, m_currentProject.Info.Name));
+                m_env.Console.Flush();
             }
             catch (Exception ex)
             {
@@ -4471,6 +4491,8 @@ namespace Ecell
             {
                 ScriptWriter writer = new ScriptWriter(m_currentProject);
                 writer.SaveScript(fileName);
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoSaveScript, fileName));
+                m_env.Console.Flush();
             }
             catch (Exception ex)
             {
@@ -4501,6 +4523,10 @@ namespace Ecell
                 engine.Execute("session=Session()");
                 engine.ExecuteFile(scriptFile);
                 string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
+
+                m_env.Console.WriteLine(stdOut);
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoExecScript, fileName));
+                m_env.Console.Flush();
             }
             catch (Exception)
             {
@@ -5142,6 +5168,8 @@ namespace Ecell
                     MessageType.Information,
                     String.Format(MessageResources.InfoResetSim, m_currentProject.Simulator.GetCurrentTime()),
                     this));
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoResetSim, m_currentProject.Simulator.GetCurrentTime()));
+                m_env.Console.Flush();
             }
             catch (WrappedException ex)
             {
@@ -5166,6 +5194,8 @@ namespace Ecell
                     String.Format(MessageResources.InfoSuspend, m_currentProject.Simulator.GetCurrentTime()),
                     this));
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Suspended);
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoSuspend, m_currentProject.Simulator.GetCurrentTime()));
+                m_env.Console.Flush();
             }
             catch (WrappedException ex)
             {

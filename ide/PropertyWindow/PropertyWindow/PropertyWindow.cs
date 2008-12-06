@@ -884,7 +884,13 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
                             EcellObject p = m_current.Copy();
                             if (p.Type == Constants.xpathSystem)
-                                p.Key = p.ParentSystemID + Constants.delimiterPath + tmpID;
+                            {
+                                // ルートの場合、ルートの/とデミリタの/が2つ重なる
+                                if (p.ParentSystemID.Equals("/"))
+                                    p.Key = p.ParentSystemID + tmpID;
+                                else
+                                    p.Key = p.ParentSystemID + Constants.delimiterPath + tmpID;
+                            }
                             else
                                 p.Key = p.ParentSystemID + Constants.delimiterColon + tmpID;
                             NotifyDataChanged(m_current.ModelID, m_current.Key, p);

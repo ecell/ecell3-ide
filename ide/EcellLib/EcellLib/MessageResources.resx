@@ -301,4 +301,29 @@
     <value>{0} is loaded now. Please move the file from {1
 } to {0} after the model was closed.</value>
   </data>
+  <data name="InfoCrePrj" xml:space="preserve">
+    <value>Project {0} was created.</value>
+  </data>
+  <data name="InfoExecScript" xml:space="preserve">
+    <value>Script file {0} was completed.</value>
+  </data>
+  <data name="InfoLoadModel" xml:space="preserve">
+    <value>Model {0} was loaded.</value>
+  </data>
+  <data name="InfoLoadPrj" xml:space="preserve">
+    <value>Project {0} was loaded.</value>
+  </data>
+  <data name="InfoLoadSim" xml:space="preserve">
+    <value>Simulation parameter {0} was loaded.</value>
+  </data>
+  <data name="InfoNewRev" xml:space="preserve">
+    <value>New revision {0}:
+New revision {0}:{1} was created.</value>
+  </data>
+  <data name="InfoRemoveSim" xml:space="preserve">
+    <value>Simulation parameter {0} was removed.</value>
+  </data>
+  <data name="InfoSaveScript" xml:space="preserve">
+    <value>Script {0} is saved.</value>
+  </data>
 </root>
