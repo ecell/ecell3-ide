@@ -142,10 +142,10 @@
     <value>Log Import ...</value>
   </data>
   <data name="MenuItemLinear" xml:space="preserve">
-    <value>Linear Scale</value>
+    <value>Linear scale</value>
   </data>
   <data name="MenuItemLog" xml:space="preserve">
-    <value>Log Scale</value>
+    <value>Log scale</value>
   </data>
   <data name="MenuItemShowPlotText" xml:space="preserve">
     <value>Create new &amp;plotter...</value>

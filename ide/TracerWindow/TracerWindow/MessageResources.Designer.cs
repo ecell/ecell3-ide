@@ -133,7 +133,7 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
-        ///   Linear Scale に類似しているローカライズされた文字列を検索します。
+        ///   Linear scale に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemLinear {
             get {
@@ -142,7 +142,7 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
-        ///   Log Scale に類似しているローカライズされた文字列を検索します。
+        ///   Log scale に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemLog {
             get {

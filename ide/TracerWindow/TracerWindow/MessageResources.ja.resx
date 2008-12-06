@@ -142,10 +142,10 @@
     <value>ログインポート ...</value>
   </data>
   <data name="MenuItemLinear" xml:space="preserve">
-    <value>均等目盛</value>
+    <value>線形スケール</value>
   </data>
   <data name="MenuItemLog" xml:space="preserve">
-    <value>ログ目盛</value>
+    <value>対数スケール</value>
   </data>
   <data name="MenuItemShowPlotText" xml:space="preserve">
     <value>プロッターペインの表示(&amp;P)...</value>
