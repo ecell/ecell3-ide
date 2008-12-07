@@ -760,7 +760,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Set the working directory to set directiroy.
+        /// Set the working directory to set directory.
         /// </summary>
         /// <param name="basedir">set directory.</param>
         public static void SetBaseDir(string basedir)
