@@ -1089,6 +1089,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         Exponential2 = 2,
         Exponential3 = 3,
         Exponential4 = 4,
-        Exponential5 = 5
+        Exponential5 = 5,
     }
 }

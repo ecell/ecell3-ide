@@ -198,9 +198,15 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (ind == 0)
                 m_dataformat = ValueDataFormat.Normal;
             else if (ind == 1)
-                m_dataformat = ValueDataFormat.Decimal;
+                m_dataformat = ValueDataFormat.Exponential1;
             else if (ind == 2)
-                m_dataformat = ValueDataFormat.Exponential;
+                m_dataformat = ValueDataFormat.Exponential2;
+            else if (ind == 3)
+                m_dataformat = ValueDataFormat.Exponential3;
+            else if (ind == 4)
+                m_dataformat = ValueDataFormat.Exponential4;
+            else if (ind == 5)
+                m_dataformat = ValueDataFormat.Exponential5;
         }
     }
 }

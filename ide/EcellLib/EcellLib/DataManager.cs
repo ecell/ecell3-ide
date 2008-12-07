@@ -4252,6 +4252,7 @@ namespace Ecell
             SaveProject();
 
             string sourceDir = m_currentProject.Info.ProjectPath;
+            string revNo = Util.GetRevNo(sourceDir);
             string targetDir = Path.Combine(sourceDir, Util.GetRevNo(sourceDir));
             foreach (string dir in Util.IgnoredDirList)
             {
