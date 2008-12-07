@@ -432,6 +432,9 @@ namespace Ecell.IDE.MainWindow
         private void SaveRecentProject()
         {
             // Create xml file
+            if (!Directory.Exists(Util.GetUserDir()))
+                Directory.CreateDirectory(Util.GetUserDir());
+
             string filename = Path.Combine(Util.GetUserDir(), "RecentFile.xml");
 
             FileStream fs = null;
