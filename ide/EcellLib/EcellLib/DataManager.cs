@@ -2778,7 +2778,7 @@ namespace Ecell
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                return false;
+                isEnable = false;
             }
             finally
             {
@@ -4109,7 +4109,7 @@ namespace Ecell
             {
                 Trace.WriteLine(ex);
                 Util.ShowErrorDialog(ex.Message);
-                CloseProject(projectID);
+                CloseProject();
             }
 
         }
@@ -5369,22 +5369,20 @@ namespace Ecell
             }
         }
 
-        private static void NormalizeVariableReferences(EcellObject m)
+        private static void NormalizeVariableReferences(EcellObject eo)
         {
-            if (m.Type == EcellObject.PROCESS)
+            if (eo.Type == EcellObject.PROCESS)
             {
-                EcellData dat = m.GetEcellData(Constants.xpathVRL);
-                Debug.Assert(dat.Value.IsList);
-                List<EcellValue> newVrl = new List<EcellValue>();
-                string superSystemPath, localID;
-                Util.ParseEntityKey(m.Key, out superSystemPath, out localID);
-                foreach (EcellValue vr in (IEnumerable)dat.Value)
-                    newVrl.Add(Util.NormalizeVariableReference(vr, superSystemPath));
-                dat.Value = new EcellValue(newVrl);
+                EcellProcess process = (EcellProcess)eo;
+                List<EcellReference> list = process.ReferenceList;
+                string superSystemPath = process.ParentSystemID;
+                foreach (EcellReference vr in list)
+                    Util.NormalizeVariableReference(vr, superSystemPath);
+                process.ReferenceList = list;
             }
-            else if (m.Type == EcellObject.MODEL || m.Type == EcellObject.SYSTEM)
+            else if (eo.Type == EcellObject.MODEL || eo.Type == EcellObject.SYSTEM)
             {
-                foreach (EcellObject child in m.Children)
+                foreach (EcellObject child in eo.Children)
                     NormalizeVariableReferences(child);
             }
         }

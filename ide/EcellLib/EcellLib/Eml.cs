@@ -298,13 +298,17 @@ namespace Ecell
 
         /// <summary>
         /// Creates a new "Eml" instance with no argument.
-        /// </summary>
-        public EmlReader(XmlDocument doc, WrappedSimulator sim, string modelID)
+        /// </summary>        
+        /// <param name="filename"></param>
+        /// <param name="sim"></param>
+        public EmlReader(string filename, WrappedSimulator sim)
         {
-            m_doc = doc;
+            m_modelID = Path.GetFileNameWithoutExtension(filename);
+            m_doc = new XmlDocument();
             m_simulator = sim;
-            m_modelID = modelID;
             m_processPropertyDic = new Dictionary<string, object>();
+
+            m_doc.Load(filename);
         }
 
         /// <summary>
@@ -702,9 +706,7 @@ namespace Ecell
         /// <param name="sim">Simulator instance</param>
         public static EcellObject Parse(string fileName, WrappedSimulator sim)
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(fileName);
-            return new EmlReader(doc, sim, Path.GetFileNameWithoutExtension(fileName)).Parse();
+            return new EmlReader(fileName, sim).Parse();
         }
     }
 }

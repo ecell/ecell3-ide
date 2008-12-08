@@ -573,7 +573,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 {
                     if (!d.EntityPath.EndsWith(Constants.xpathVRL)) continue;
 
-                    List<EcellReference> refList = EcellReference.ConvertString(d.Value.ToString());
+                    List<EcellReference> refList = EcellReference.ConvertFromString(d.Value.ToString());
                     foreach (EcellReference r in refList)
                     {
                         int vIndex = -1;

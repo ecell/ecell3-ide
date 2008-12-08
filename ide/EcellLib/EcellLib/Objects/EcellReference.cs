@@ -48,6 +48,14 @@ namespace Ecell.Objects
     public class EcellReference
     {
         #region Fields
+        private static Regex parser1 = new Regex("\"(?<name>.+)\",(.+)\"(?<id>.+)\",(\"|.*)\\-(?<coe>\\d+)(\"|.*),(\"|.*)(?<fix>\\d+)(\"|.*)");
+        private static Regex parser2 = new Regex("\"(?<name>.+)\",(.+)\"(?<id>.+)\",(\"|.*)(?<coe>\\d+)(\"|.*),(\"|.*)(?<fix>\\d+)(\"|.*)");
+        private static Regex parser3 = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\", (\"|.*)\\-(?<coe>\\d+)(\"|.*)");
+        private static Regex parser4 = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\", (\"|.*)(?<coe>\\d+)(\"|.*)");
+        private static Regex parser5 = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\"");
+        #endregion
+
+        #region Fields
         private string m_name;
         private string m_fullID;
         private int m_coeff;
@@ -56,7 +64,7 @@ namespace Ecell.Objects
 
         #region Constractors
         /// <summary>
-        /// Constructor.
+        /// Constructor
         /// </summary>
         public EcellReference()
         {
@@ -68,9 +76,7 @@ namespace Ecell.Objects
         /// <param name="str">string.</param>
         public EcellReference(string str)
         {
-            Regex reg =
-                  new Regex("\"(?<name>.+)\",(.+)\"(?<id>.+)\",(\"|.*)\\-(?<coe>\\d+)(\"|.*),(\"|.*)(?<fix>\\d+)(\"|.*)");
-            Match m = reg.Match(str);
+            Match m = parser1.Match(str);
             if (m.Success)
             {
                 this.m_name = m.Groups["name"].Value;
@@ -79,9 +85,7 @@ namespace Ecell.Objects
                 this.m_accessor = Convert.ToInt32(m.Groups["fix"].Value);
                 return;
             }
-            reg =
-                new Regex("\"(?<name>.+)\",(.+)\"(?<id>.+)\",(\"|.*)(?<coe>\\d+)(\"|.*),(\"|.*)(?<fix>\\d+)(\"|.*)");
-            m = reg.Match(str);
+            m = parser2.Match(str);
             if (m.Success)
             {
                 this.m_name = m.Groups["name"].Value;
@@ -93,8 +97,7 @@ namespace Ecell.Objects
 
             // ロードしたモデルによってはAccessorが書かれていないものがあるため、
             // Accessorが書かれていないものにも対応できるようにした。
-            reg = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\", (\"|.*)\\-(?<coe>\\d+)(\"|.*)");
-            m = reg.Match(str);
+            m = parser3.Match(str);
             if (m.Success)
             {
                 this.m_name = m.Groups["name"].Value;
@@ -103,8 +106,8 @@ namespace Ecell.Objects
                 this.m_accessor = 1;
                 return;
             }
-            reg = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\", (\"|.*)(?<coe>\\d+)(\"|.*)");
-            m = reg.Match(str);
+
+            m = parser4.Match(str);
             if (m.Success)
             {
                 this.m_name = m.Groups["name"].Value;
@@ -114,34 +117,35 @@ namespace Ecell.Objects
                 return;
             }
 
-            reg = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\"");
-            m = reg.Match(str);
+            m = parser5.Match(str);
             if (m.Success)
             {
                 this.m_name = m.Groups["name"].Value;
                 this.m_fullID = m.Groups["id"].Value;
                 this.m_coeff = 0;
                 this.m_accessor = 1;
+                return;
             }
+
+            throw new Exception("EcellRefference parsing error:[" + str + "]");
         }
         /// <summary>
         /// Constructor with initial parameter.
         /// </summary>
-        /// <param name="value">EcellValue</param>
-        public EcellReference(IEnumerable value)
+        /// <param name="list">IEnumerator</param>
+        public EcellReference(IEnumerator list)
         {
-            IEnumerator i = value.GetEnumerator();
-            i.MoveNext();
-            this.m_name = (string)i.Current;
-            i.MoveNext();
-            this.m_fullID = (string)i.Current;
+            list.MoveNext();
+            this.m_name = Convert.ToString(list.Current);
+            list.MoveNext();
+            this.m_fullID = Convert.ToString(list.Current);
             this.m_coeff = 0;
             this.m_accessor = 1;
-            if (i.MoveNext())
+            if (list.MoveNext())
             {
-                this.m_coeff = (int)i.Current;
-                if (i.MoveNext())
-                    this.m_accessor = (int)i.Current;
+                this.m_coeff = Convert.ToInt32(list.Current);
+                if (list.MoveNext())
+                    this.m_accessor = Convert.ToInt32(list.Current);
             }
         }
         #endregion
@@ -232,7 +236,7 @@ namespace Ecell.Objects
         /// </summary>
         /// <param name="str">string.</param>
         /// <returns>the list of reference.</returns>
-        public static List<EcellReference> ConvertString(string str)
+        public static List<EcellReference> ConvertFromString(string str)
         {
             List<EcellReference> list = new List<EcellReference>();
             if (str == null || str == "") return list;
@@ -259,9 +263,9 @@ namespace Ecell.Objects
         public static List<EcellReference> ConvertFromVarRefList(EcellValue varRef)
         {
             List<EcellReference> list = new List<EcellReference>();
-            foreach (IEnumerable value in (IEnumerable)varRef.Value)
+            foreach (object value in (IEnumerable)varRef.Value)
             {
-                EcellReference er = new EcellReference(value);
+                EcellReference er = new EcellReference(((IEnumerable)value).GetEnumerator());
                 list.Add(er);
             }
             return list;
@@ -274,14 +278,13 @@ namespace Ecell.Objects
         /// <returns>the list of EcellReference.</returns>
         public static EcellValue ConvertToVarRefList(IEnumerable<EcellReference> refList)
         {
-            List<EcellValue> list = new List<EcellValue>();
+            List<object> list = new List<object>();
             if (refList == null)
                 return new EcellValue(list);
 
             foreach (EcellReference er in refList)
             {
-                EcellValue value = new EcellValue(er);
-                list.Add(value);
+                list.Add(new object[] { er.Name, er.FullID, er.Coefficient, er.IsAccessor });
             }
             return new EcellValue(list);
         }

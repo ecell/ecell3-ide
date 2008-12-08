@@ -77,14 +77,6 @@ namespace Ecell.Objects
             m_value = Normalize(o);
         }
 
-        /// <summary>
-        /// Creates a new "EcellValue" instance with a "List&lt;EcellValue&gt;" argument.
-        /// </summary>
-        /// <param name="er">The "List&lt;EcellValue&gt;" value</param>
-        public EcellValue(EcellReference er)
-        {
-            m_value = new object[] { er.Name, er.FullID, er.Coefficient, er.IsAccessor };
-        }
         #endregion
 
         #region Accessors

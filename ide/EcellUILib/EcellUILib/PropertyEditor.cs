@@ -1569,7 +1569,7 @@ namespace Ecell.IDE
                     str != EcellProcess.VARIABLEREFERENCELIST && str != EcellProcess.ISCONTINUOUS)
                     list.Add(str);
             }
-            List<EcellReference> tmpList = EcellReference.ConvertString(m_refStr);
+            List<EcellReference> tmpList = EcellReference.ConvertFromString(m_refStr);
             foreach (EcellReference r in tmpList)
             {
                 list.Add(r.Name + ".MolarConc");
@@ -1627,7 +1627,7 @@ namespace Ecell.IDE
         /// <param name="e">EventArgs</param>
         private void ShowVarRefWindow(object sender, EventArgs e)
         {
-            VariableReferenceEditDialog win = new VariableReferenceEditDialog(m_dManager, m_pManager, EcellReference.ConvertString(m_refStr));
+            VariableReferenceEditDialog win = new VariableReferenceEditDialog(m_dManager, m_pManager, EcellReference.ConvertFromString(m_refStr));
             using (win)
             {
                 DialogResult res = win.ShowDialog();

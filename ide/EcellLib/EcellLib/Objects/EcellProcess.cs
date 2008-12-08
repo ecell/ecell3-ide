@@ -197,7 +197,11 @@ namespace Ecell.Objects
         /// </summary>
         public List<EcellReference> ReferenceList
         {
-            get { return EcellReference.ConvertFromVarRefList(this.GetEcellValue(VARIABLEREFERENCELIST)); }
+            get 
+            {
+                EcellValue varRef = this.GetEcellValue(VARIABLEREFERENCELIST);
+                return EcellReference.ConvertFromVarRefList(varRef);
+            }
             set
             {
                 EcellValue varRef = EcellReference.ConvertToVarRefList(value);

@@ -562,6 +562,14 @@ namespace Ecell
             return new EcellValue(newComps);
         }
 
+        public static void NormalizeVariableReference(EcellReference er, string systemPath)
+        {
+
+            string entityType, path, localID;
+            ParseFullID((string)er.FullID, out entityType, out path, out localID);
+            er.FullID = BuildFullID(entityType, NormalizeSystemPath(path, systemPath), localID);
+        }
+
         public static string GenerateRandomID(int len)
         {
             StringBuilder sb = new StringBuilder();

@@ -546,15 +546,7 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private void CloseProject()
         {
-            CloseProject(m_env.DataManager.CurrentProjectID);
-        }
-        /// <summary>
-        /// Close the project.
-        /// </summary>
-        /// <param name="prjID"></param>
-        private void CloseProject(String prjID)
-        {
-            m_env.DataManager.CloseProject(prjID);
+            m_env.DataManager.CloseProject();
         }
 
         /// <summary>

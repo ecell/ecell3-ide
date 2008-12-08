@@ -208,7 +208,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         str != EcellProcess.VARIABLEREFERENCELIST && str != EcellProcess.ISCONTINUOUS)
                         list.Add(str);
                 }
-                List<EcellReference> tmpList = EcellReference.ConvertString(m_refStr);
+                List<EcellReference> tmpList = EcellReference.ConvertFromString(m_refStr);
                 foreach (EcellReference r in tmpList)
                 {
                     list.Add(r.Name + ".MolarConc");
@@ -732,7 +732,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     return;
                 EcellObject eo = m_current.Copy();
                 EcellData nd = eo.GetEcellData(((EcellData)c.Tag).Name);
-                nd.Value = EcellReference.ConvertToVarRefList(EcellReference.ConvertString(win.ReferenceString));
+                nd.Value = EcellReference.ConvertToVarRefList(EcellReference.ConvertFromString(win.ReferenceString));
                 c.Tag = nd;
                 m_current = eo;
                 try
