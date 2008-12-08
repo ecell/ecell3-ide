@@ -3453,7 +3453,6 @@ namespace Ecell
                 m_currentProject.SetDMList();
                 m_currentProject.ResetSimulator();
                 EcellObject modelObj = EmlReader.Parse(filename, m_currentProject.Simulator);
-                NormalizeVariableReferences(modelObj);
                 modelID = modelObj.ModelID;
 
                 //
@@ -5369,23 +5368,6 @@ namespace Ecell
             }
         }
 
-        private static void NormalizeVariableReferences(EcellObject eo)
-        {
-            if (eo.Type == EcellObject.PROCESS)
-            {
-                EcellProcess process = (EcellProcess)eo;
-                List<EcellReference> list = process.ReferenceList;
-                string superSystemPath = process.ParentSystemID;
-                foreach (EcellReference vr in list)
-                    Util.NormalizeVariableReference(vr, superSystemPath);
-                process.ReferenceList = list;
-            }
-            else if (eo.Type == EcellObject.MODEL || eo.Type == EcellObject.SYSTEM)
-            {
-                foreach (EcellObject child in eo.Children)
-                    NormalizeVariableReferences(child);
-            }
-        }
         #endregion
 
         #region Send Message

@@ -103,11 +103,11 @@ namespace Ecell
         /// <param name="fullPN">The logged full PN</param>
         public void CreateLogger(string fullPN)
         {
+            // FullID "":"systemID":"processName":"coefficient"
             string[] fullIDs = fullPN.Split(Constants.delimiterColon.ToCharArray());
             if (fullIDs.Length != 4)
-            {
                 throw new Exception(MessageResources.ErrInvalidID);
-            }
+
             List<EcellObject> systemObjectList
                     = m_env.DataManager.GetData(s_modelID, fullIDs[1]);
 
@@ -124,28 +124,25 @@ namespace Ecell
             EcellObject changedObject = null;
             foreach (EcellObject systemObject in systemObjectList)
             {
-                if (!systemObject.Type.Equals(Constants.xpathSystem))
-                {
+                if (!(systemObject is EcellSystem))
                     continue;
-                }
+
                 if (fullIDs[0].Equals(Constants.xpathSystem))
                 {
-                    if (systemObject.Key.Equals(fullIDs[2]))
+                    if (!systemObject.Key.Equals(fullIDs[2]))
+                        continue;
+                    if (systemObject.Value == null || systemObject.Value.Count <= 0)
+                        continue;
+
+                    foreach (EcellData systemData in systemObject.Value)
                     {
-                        if (systemObject.Value == null || systemObject.Value.Count <= 0)
+                        if (systemData.Logable && systemData.Name.Equals(fullIDs[3]))
                         {
-                            continue;
-                        }
-                        foreach (EcellData systemData in systemObject.Value)
-                        {
-                            if (systemData.Logable && systemData.Name.Equals(fullIDs[3]))
-                            {
-                                systemData.Logged = true;
-                                changedKey = fullIDs[2];
-                                changedType = fullIDs[0];
-                                changedObject = systemObject;
-                                break;
-                            }
+                            systemData.Logged = true;
+                            changedKey = fullIDs[2];
+                            changedType = fullIDs[0];
+                            changedObject = systemObject;
+                            break;
                         }
                     }
                 }

@@ -320,7 +320,7 @@ namespace Ecell
         private EcellObject ParseEntity(
             XmlNode node,
             string systemID,
-            string flag)
+            string type)
         {
             bool isCreated = true;
             XmlNode nodeClass = node.Attributes.GetNamedItem(Constants.xpathClass);
@@ -334,7 +334,7 @@ namespace Ecell
             {
                 m_simulator.CreateEntity(
                     nodeClass.InnerText,
-                    Util.BuildFullID(flag, systemID, nodeID.InnerText));
+                    Util.BuildFullID(type, systemID, nodeID.InnerText));
             }
             catch (Exception ex)
             {
@@ -368,11 +368,11 @@ namespace Ecell
 
                 // 4 "EcellCoreLib"
                 string entityPath =
-                    flag + Constants.delimiterColon +
+                    type + Constants.delimiterColon +
                     systemID + Constants.delimiterColon +
                     nodeID.InnerText + Constants.delimiterColon +
                     nodePropertyName.InnerText;
-                if (flag.Equals(Constants.xpathVariable))
+                if (type.Equals(Constants.xpathVariable))
                 {
                     if (isCreated == true)
                         m_simulator.LoadEntityProperty(entityPath, ecellValue.Value);
@@ -390,7 +390,7 @@ namespace Ecell
             return EcellObject.CreateObject(
                     m_modelID,
                     systemID + Constants.delimiterColon + nodeID.InnerText,
-                    flag,
+                    type,
                     nodeClass.InnerText,
                     ecellDataList);
         }
@@ -589,27 +589,28 @@ namespace Ecell
             {
                 if (systemProperty.Name.Equals(Constants.xpathVariable.ToLower()))
                 {
-                    childEcellObjectList.Add(
-                        this.ParseEntity(
+                    EcellObject variable = ParseEntity(
                             systemProperty,
                             systemID.InnerText,
-                            Constants.xpathVariable));
+                            Constants.xpathVariable);
+                    childEcellObjectList.Add(variable);
                 }
                 else if (systemProperty.Name.Equals(Constants.xpathProcess.ToLower()))
                 {
-                    childEcellObjectList.Add(
-                        this.ParseEntity(
+                    EcellObject process = ParseEntity(
                             systemProperty,
                             systemID.InnerText,
-                            Constants.xpathProcess));
+                            Constants.xpathProcess);
+                    NormalizeVariableReferences(process);
+                    childEcellObjectList.Add(process);
                 }
                 else if (systemProperty.Name.Equals(Constants.xpathText.ToLower()))
                 {
-                    childEcellObjectList.Add(
-                        this.ParseText(
+                    EcellObject text = ParseText(
                             systemProperty,
                             systemID.InnerText,
-                            Constants.xpathText));
+                            Constants.xpathText);
+                    childEcellObjectList.Add(text);
                 }
                 else if (systemProperty.Name.Equals(Constants.xpathProperty))
                 {
@@ -647,6 +648,20 @@ namespace Ecell
                 ecellDataList);
             ecellObject.Children = childEcellObjectList;
             return ecellObject;
+        }
+
+        /// <summary>
+        /// Normalize VariableReferences
+        /// </summary>
+        /// <param name="eo"></param>
+        private static void NormalizeVariableReferences(EcellObject eo)
+        {
+            EcellProcess process = (EcellProcess)eo;
+            List<EcellReference> list = process.ReferenceList;
+            string superSystemPath = process.ParentSystemID;
+            foreach (EcellReference vr in list)
+                Util.NormalizeVariableReference(vr, superSystemPath);
+            process.ReferenceList = list;
         }
 
         public EcellObject Parse()
