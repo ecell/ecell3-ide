@@ -164,6 +164,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             node.ImageIndex = m_owner.Environment.PluginManager.GetImageIndex(obj.Type);
             node.SelectedImageIndex = node.ImageIndex;
             node.Tag = new TagData(obj.ModelID, obj.Key, obj.Type);
+            node.Name = name;
             parent.Nodes.Add(node);
 
             return node;
@@ -307,12 +308,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 if (tag == null) continue;
                 if (tag.m_type == Constants.xpathSystem)
                 {
-                    IDChangeProvide(oldKey + "/" + t.Text,
-                        newKey + "/" + t.Text, t);
-                    tag.m_key = newKey + "/" + t.Text;
+                    IDChangeProvide(oldKey + "/" + t.Name,
+                        newKey + "/" + t.Name, t);
+                    tag.m_key = newKey + "/" + t.Name;
                     continue;
                 }
-                tag.m_key = newKey + ":" + t.Text;
+                tag.m_key = newKey + ":" + t.Name;
             }
         }
 
@@ -525,6 +526,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 if (target.Text != targetText)
                 {
                     target.Text = targetText;
+                    target.Name = targetText;
                 }
                 if (data.Logged)
                 {
