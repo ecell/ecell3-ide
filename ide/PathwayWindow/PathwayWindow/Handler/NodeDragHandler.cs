@@ -46,6 +46,7 @@ using System.Windows.Forms;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Util;
 using Ecell.Objects;
+using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
@@ -157,32 +158,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 return;
 
             base.OnDrag(sender, e);
-            PPathwayObject obj = e.PickedNode as PPathwayObject;
-            //SetShadeWithoutSystem(m_canvas.GetSurroundingSystemKey(obj.PointF));
-            // Move Nodes.
-            if (obj is PPathwaySystem)
+            PointF offset = e.PickedNode.Offset;
+            foreach (PPathwayObject obj in m_canvas.SelectedNodes)
             {
-                PPathwaySystem system = (PPathwaySystem)obj;
-                system.Refresh();
-                // Change color if the system overlaps other system
-                if (m_canvas.DoesSystemOverlaps(system) || !IsInsideRoot(system.Rect))
-                    system.IsInvalid = true;
-                else
-                    system.IsInvalid = false;
-                foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(system.EcellObject.Key))
+                obj.Offset = offset;
+                // Move Nodes.
+                if (obj is PPathwaySystem)
                 {
-                    child.Offset = obj.Offset;
-                    child.Refresh();
+                    PPathwaySystem system = (PPathwaySystem)obj;
+                    // Change color if the system overlaps other system
+                    if (m_canvas.DoesSystemOverlaps(system) || !IsInsideRoot(system.Rect))
+                        system.IsInvalid = true;
+                    else
+                        system.IsInvalid = false;
+                    foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(system.EcellObject.Key))
+                    {
+                        child.Offset = offset;
+                    }
                 }
-
-            }
-            else if (obj is PPathwayNode)
-            {
-                foreach (PPathwayObject child in m_canvas.SelectedNodes)
-                {
-                    child.Offset = obj.Offset;
-                    child.Refresh();
-                }
+                obj.Offset = offset;
+                obj.Refresh();
             }
         }
 
@@ -212,217 +207,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 
             if (e.PickedNode.OffsetX == 0 && e.PickedNode.OffsetY == 0)
                 return;
-            // Move Nodes
-            if (e.PickedNode is PPathwayNode)
-            {
-                TransferNodes(m_canvas.SelectedNodes);
-            }
-            // Move System.
-            else if (e.PickedNode is PPathwaySystem)
-            {
-                PPathwaySystem system = (PPathwaySystem)e.PickedNode;
-                string oldSysKey = system.EcellObject.Key;
-                string parentSysKey = m_canvas.GetSurroundingSystemKey(system.PointF, oldSysKey);
-                string newSysKey = null;
-                if (parentSysKey == null)
-                    newSysKey = "/";
-                else if (parentSysKey.Equals("/"))
-                    newSysKey = "/" + system.EcellObject.LocalID;
-                else
-                    newSysKey = parentSysKey + "/" + system.EcellObject.LocalID;
 
-                // Reset system movement when the system is overlapping other system or out of root.
-                if (m_canvas.DoesSystemOverlaps(system) || !IsInsideRoot(system.Rect))
-                {
-                    system.ResetPosition();
-                    system.IsInvalid = false;
-                }
-                // Reset if system is duplicated.
-                else if (!oldSysKey.Equals(newSysKey) && m_canvas.Systems.ContainsKey(newSysKey))
-                {
-                    Util.ShowErrorDialog(string.Format(
-                        MessageResources.ErrAlrExist,
-                        new object[] { newSysKey }));
-                    system.ResetPosition();
-                    system.IsInvalid = false;
-                }
-                // Transfer system.
-                else
-                {
-                    TransferSystemTo(newSysKey, oldSysKey, system);
-                }
-                system.RefreshView();
-            }
-            // Move Text
-            else if (e.PickedNode is PPathwayText)
-            {
-                PPathwayText text = (PPathwayText)e.PickedNode;
-                text.NotifyDataChanged();
-            }
-            // Move Text
-            else if (e.PickedNode is PPathwayAlias)
-            {
-                PPathwayAlias alias = (PPathwayAlias)e.PickedNode;
-                alias.NotifyDataChanged();
-            }
-            //SetBackToDefault();
-            m_canvas.PCanvas.Refresh();
-        }
+            m_canvas.NotifyMoveObjects();
 
-        /// <summary>
-        /// Transfer an system from one System/Layer to other System/Layer.
-        /// </summary>
-        /// <param name="nodeList">Transfered nodes</param>
-        private void TransferNodes(List<PPathwayObject> nodeList)
-        {
-            PointF newPosition;
-            string newSystem;
-            string newKey;
-            bool isError = false;
-            List<PPathwayObject> processList = new List<PPathwayObject>();
-            List<PPathwayObject> VariableList = new List<PPathwayObject>();
-
-            foreach (PPathwayObject node in nodeList)
-            {
-                m_canvas.SetLayer(node);
-                newPosition = new PointF(node.X + node.OffsetX, node.Y + node.OffsetY);
-                newSystem = m_canvas.GetSurroundingSystemKey(newPosition);
-                newKey = newSystem + ":" + node.EcellObject.LocalID;
-
-                // When node is out of root.
-                if (newSystem == null)
-                {
-                    Util.ShowErrorDialog(node.EcellObject.LocalID + ":" + MessageResources.ErrOutRoot);
-                    isError = true;
-                    continue;
-                }
-                // When node is duplicated.
-                else if (!newSystem.Equals(node.EcellObject.ParentSystemID)
-                    && m_canvas.GetSelectedObject(newKey, node.EcellObject.Type) != null)
-                {
-                    Util.ShowErrorDialog(string.Format(
-                        MessageResources.ErrAlrExist,
-                        new object[] { node.EcellObject.LocalID }));
-                    isError = true;
-                    continue;
-                }
-                // No error.
-                else
-                {
-                    node.PointF = newPosition;
-                    node.Offset = PointF.Empty;
-                }
-                // Set NodeList.
-                if (node is PPathwayProcess)
-                    processList.Add(node);
-                else if (node is PPathwayVariable)
-                    VariableList.Add(node);
-            }
-
-            // If error, reset node position.
-            if (isError)
-            {
-                foreach (PPathwayObject node in nodeList)
-                {
-                    node.ResetPosition();
-                }
-                return;
-            }
-
-            // Set Position
-            processList.AddRange(VariableList);
-            int i = 0;
-            foreach (PPathwayObject node in processList)
-            {
-                i++;
-                node.Refresh();
-                newSystem = m_canvas.GetSurroundingSystemKey(node.PointF);
-                newKey = newSystem + ":" + node.EcellObject.LocalID;
-                m_canvas.Control.NotifyDataChanged(
-                    node.EcellObject.Key,
-                    newKey,
-                    node,
-                    true,
-                    (i == nodeList.Count));
-            }
-            m_canvas.NotifyResetSelect();
-        }
-
-        /// <summary>
-        /// Transfer an system from one System/Layer to other System/Layer.
-        /// </summary>
-        /// <param name="newKey">new key of a system to be transfered</param>
-        /// <param name="oldKey">old key of a system to be transfered</param>
-        /// <param name="system">transfered system</param>
-        private void TransferSystemTo(string newKey, string oldKey, PPathwaySystem system)
-        {
-            if (Math.Abs(system.OffsetX) <= 5 && Math.Abs(system.OffsetY) <= 5)
-            {
-                system.RefreshView();
-                return;
-            }
-
-            // Move system position.
-            m_canvas.Control.NotifyDataChanged(
-                system.EcellObject.Key,
-                system.EcellObject.Key,
-                system,
-                true,
-                false);
-
-            // Move objects under this system.
-            // TODO: This process should be implemented in EcellLib.DataChanged().
-            foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(oldKey))
-            {
-                m_canvas.Control.NotifyDataChanged(
-                    obj.EcellObject.Key,
-                    obj.EcellObject.Key,
-                    obj,
-                    true,
-                    false);
-            }
-
-            // Move system path.
-            m_canvas.Control.NotifyDataChanged(
-                oldKey,
-                newKey,
-                system,
-                true,
-                false);
-
-            // Import Systems and Nodes
-            RectangleF rect = system.Rect;
-            string parentSystemName = system.EcellObject.ParentSystemID;
-            foreach (PPathwayObject obj in m_canvas.GetAllObjects())
-            {
-                if (obj == system)
-                    continue;
-                if (obj.EcellObject.ParentSystemID.StartsWith(newKey))
-                    continue;
-                if (obj is PPathwayText)
-                    continue;
-                if (obj is PPathwaySystem && !rect.Contains(obj.Rect))
-                    continue;
-                if (obj is PPathwayNode && !rect.Contains(obj.CenterPointF))
-                    continue;
-
-                string newNodeKey = PathUtil.GetMovedKey(obj.EcellObject.Key, parentSystemName, newKey);
-                m_canvas.Control.NotifyDataChanged(
-                    obj.EcellObject.Key,
-                    newNodeKey,
-                    obj,
-                    true,
-                    false);
-            }
-
-            // Refresh system.
-            m_canvas.Control.NotifyDataChanged(
-                newKey,
-                newKey,
-                system,
-                true,
-                true);
-            m_canvas.NotifyResetSelect();
         }
     }
 }

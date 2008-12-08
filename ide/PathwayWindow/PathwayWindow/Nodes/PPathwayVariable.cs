@@ -59,11 +59,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         private List<PPathwayAlias> m_aliases = new List<PPathwayAlias>();
         #endregion
 
-        /// <summary>
-        /// list of related processes.
-        /// </summary>
-        protected Dictionary<string, PPathwayProcess> m_relatedProcesses = new Dictionary<string, PPathwayProcess>();
-
         #region Accessors
         /// <summary>
         /// get/set the related element.
@@ -115,20 +110,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// reconstruct the list of related process by using the information of elements.
-        /// </summary>
-        public override void ValidateEdges()
-        {
-            Dictionary<string, PPathwayProcess> newProcesses = new Dictionary<string, PPathwayProcess>();
-            foreach (KeyValuePair<string, PPathwayProcess> process in m_relatedProcesses)
-            {
-                if (base.m_canvas.Processes.ContainsKey(process.Key))
-                    newProcesses.Add(process.Key, process.Value);
-            }
-            m_relatedProcesses = newProcesses;
-        }
-
-        /// <summary>
         /// Change View Mode.
         /// </summary>
         public override void RefreshView()
@@ -138,51 +119,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             else
                 m_pPropertyText.Visible = false;
             base.RefreshView();
-        }
-        /// <summary>
-        /// notify to add the related process to list.
-        /// </summary>
-        /// <param name="pro">the related process.</param>
-        public void NotifyAddRelatedProcess(PPathwayProcess pro)
-        {
-            if (!m_relatedProcesses.ContainsKey(pro.EcellObject.Key))
-                m_relatedProcesses.Add(pro.EcellObject.Key, pro);
-        }
-
-        /// <summary>
-        /// before it delete this variable,
-        /// notify to remove the related variable from list.
-        /// </summary>
-        public void NotifyRemoveToRelatedProcess()
-        {
-            foreach (PPathwayProcess process in m_relatedProcesses.Values)
-                process.DeleteEdge(this.EcellObject.Key);
-            m_relatedProcesses.Clear();
-        }
-
-        /// <summary>
-        /// notify to remove the related process from list.
-        /// </summary>
-        /// <param name="key"></param>
-        public void RemoveRelatedProcess(string key)
-        {
-            if (!m_relatedProcesses.ContainsKey(key))
-                return;
-
-            m_relatedProcesses.Remove(key);
-        }
-
-        /// <summary>
-        /// reconstruct the information of edge.
-        /// </summary>
-        public override void Refresh()
-        {
-            ValidateEdges();
-            foreach(PPathwayProcess process in m_relatedProcesses.Values)
-            {
-                process.RefreshEdges();
-            }
-            RefreshText();
         }
     }
 }

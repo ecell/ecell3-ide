@@ -160,12 +160,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             m_lineHandle4V = new LineHandle();
             m_lineHandle4V.ComponentType = ComponentType.Variable;
             m_lineHandle4V.MouseDrag += new PInputEventHandler(m_lineHandle_MouseDrag);
-            m_lineHandle4V.MouseUp += new PInputEventHandler(m_lineHandle_MouseUp);
+            m_lineHandle4V.MouseUp += new PInputEventHandler(LineHandle_MouseUp);
 
             m_lineHandle4P = new LineHandle();
             m_lineHandle4P.ComponentType = ComponentType.Process;
             m_lineHandle4P.MouseDrag += new PInputEventHandler(m_lineHandle_MouseDrag);
-            m_lineHandle4P.MouseUp += new PInputEventHandler(m_lineHandle_MouseUp);
+            m_lineHandle4P.MouseUp += new PInputEventHandler(LineHandle_MouseUp);
 
             m_line4reconnect = new PPathwayLine(m_canvas);
             m_line4reconnect.Brush = new SolidBrush(Color.FromArgb(200, Color.Orange));
@@ -200,7 +200,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             m_line4reconnect.Reset();
             m_line4reconnect.Pen = new Pen(LINE_BRUSH, line.Pen.Width);
             m_line4reconnect.Info.Direction = m_selectedLine.Info.Direction;
-            m_line4reconnect.Info.TypeOfLine = m_selectedLine.Info.TypeOfLine;
+            m_line4reconnect.Info.LineType = m_selectedLine.Info.LineType;
             m_line4reconnect.VarPoint = m_selectedLine.VarPoint;
             m_line4reconnect.ProPoint = m_selectedLine.ProPoint;
             m_line4reconnect.DrawLine();
@@ -278,7 +278,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void m_lineHandle_MouseUp(object sender, PInputEventArgs e)
+        void LineHandle_MouseUp(object sender, PInputEventArgs e)
         {
             // Check exception.
             PPathwayNode obj = m_canvas.GetPickedNode(e.Position);
@@ -288,46 +288,40 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 SetLineVisibility(false);
                 return;
             }
+            // Get EdgeInfo
+            EdgeInfo info = m_selectedLine.Info;
+            string processKey = info.ProcessKey;
+            string variableKey = info.VariableKey;
+            int coefficient = 0;
+            RefChangeType type = RefChangeType.BiDir;
 
-            string processKey = m_selectedLine.Info.ProcessKey;
-            string variableKey = m_selectedLine.Info.VariableKey;
+            // Remove  old edge.
+            m_con.NotifyVariableReferenceChanged(processKey, variableKey, RefChangeType.Delete, 0, false);
+
+            // Get new EdgeInfo.
             LineHandle handle = (LineHandle)sender;
             if (obj is PPathwayProcess && handle.ComponentType == ComponentType.Process)
             {
-                m_con.NotifyVariableReferenceChanged(processKey, variableKey, RefChangeType.Delete, 0, false);
-                if (m_selectedLine.Info.Direction == EdgeDirection.Bidirection)
-                {
-                    m_con.NotifyVariableReferenceChanged(obj.EcellObject.Key, variableKey, RefChangeType.BiDir, 0, true);
-                }
-                else
-                {
-                    int coefficient = m_selectedLine.Info.Coefficient;
-                    m_con.NotifyVariableReferenceChanged(
-                        obj.EcellObject.Key,
-                        variableKey,
-                        RefChangeType.SingleDir,
-                        coefficient,
-                        true);
-                }
+                processKey = obj.EcellObject.Key;
             }
             else if (obj is PPathwayVariable && handle.ComponentType == ComponentType.Variable)
             {
-                m_con.NotifyVariableReferenceChanged(processKey, variableKey, RefChangeType.Delete, 0, false);
-                if (m_selectedLine.Info.Direction == EdgeDirection.Bidirection)
-                {
-                    m_con.NotifyVariableReferenceChanged(processKey, obj.EcellObject.Key, RefChangeType.BiDir, 0, true);
-                }
-                else
-                {
-                    int coefficient = m_selectedLine.Info.Coefficient;
-                    m_con.NotifyVariableReferenceChanged(
-                        processKey,
-                        obj.EcellObject.Key,
-                        RefChangeType.SingleDir,
-                        coefficient,
-                        true);
-                }
+                variableKey = obj.EcellObject.Key;
             }
+            else
+            {
+                m_canvas.ResetSelectedLine();
+                ResetLinePosition();
+                return;
+            }
+
+            if (info.Direction != EdgeDirection.Bidirection)
+            {
+                type = RefChangeType.SingleDir;
+                coefficient = info.Coefficient;
+            }
+            m_con.NotifyVariableReferenceChanged(processKey, variableKey, type, coefficient, true);
+
             m_canvas.ResetSelectedLine();
             ResetLinePosition();
         }

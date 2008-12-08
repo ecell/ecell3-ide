@@ -41,6 +41,7 @@ using UMD.HCIL.Piccolo.Nodes;
 using System.Drawing;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
+using System.Drawing.Drawing2D;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
@@ -391,10 +392,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 this.AddInputEventListener(new ObjectDragHandler());
                 this.Brush = Brushes.DarkOrange;
                 this.Pen = new Pen(Brushes.DarkOliveGreen, 0);
-                this.AddRectangle(-1 * HALF_WIDTH,
+                GraphicsPath path = new GraphicsPath();
+                path.AddRectangle(new RectangleF(-1 * HALF_WIDTH,
                                     -1 * HALF_WIDTH,
                                     HALF_WIDTH * 2f,
-                                    HALF_WIDTH * 2f);
+                                    HALF_WIDTH * 2f));
+                this.AddPath(path, false);
             }
         }
         #endregion

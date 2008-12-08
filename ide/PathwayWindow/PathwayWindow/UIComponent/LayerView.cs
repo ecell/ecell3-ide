@@ -40,6 +40,7 @@ using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
 using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using System.Diagnostics;
+using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
@@ -235,7 +236,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).EndInit();
             this.ResumeLayout(false);
-
+            this.m_dgv.CommitEdit(DataGridViewDataErrorContexts.Commit);
         }
 
         /// <summary>
@@ -302,6 +303,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         void m_dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             CanvasControl canvas = m_con.Canvas;
+
             if (m_dgv[e.ColumnIndex, e.RowIndex] is DataGridViewCheckBoxCell)
                 return;
             m_dgv.Rows[e.RowIndex].Tag = m_dgv[e.ColumnIndex, e.RowIndex].Value.ToString();
@@ -314,6 +316,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             {
                 return;
             }
+
             string oldName = (string)m_dgv.Rows[e.RowIndex].Tag;
             string newName = m_dgv[e.ColumnIndex, e.RowIndex].Value.ToString();
 
@@ -396,7 +399,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         private void SelectNodesClick(object sender, EventArgs e)
         {
             CanvasControl canvas = m_con.Canvas;
-            canvas.SelectNodesUnderLayer(m_selectedLayer);
+            PPathwayLayer layer = canvas.Layers[m_selectedLayer];
+            if (layer == null)
+                return;
+            foreach (PPathwayObject obj in layer.GetNodes())
+            {
+                canvas.NotifyAddSelect(obj);
+            }
         }
 
         /// <summary>

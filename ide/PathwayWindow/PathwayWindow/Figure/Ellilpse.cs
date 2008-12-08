@@ -130,6 +130,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
                 float x2 = innerPoint.X + a;
                 x = (outerPoint.X <= innerPoint.X) ? x1 : x2;
             }
+            else if (Math.Pow((dx / a), 2) + Math.Pow((dy / b), 2) < 1)
+            {
+                x = innerPoint.X;
+                y = innerPoint.Y;
+            }
             else
             {
                 float delta = dy / dx;
@@ -137,7 +142,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Figure
                 float x1 = innerPoint.X - (float)Math.Sqrt(xx);
                 float x2 = innerPoint.X + (float)Math.Sqrt(xx);
                 x = (outerPoint.X <= innerPoint.X) ? x1 : x2;
-                float yy = b * b / (1 + (b * b) / (a * a) * (dx * dx) / (dy * dy) );
+                float yy = b * b / (1 + (b * b) / (a * a) * (dx * dx) / (dy * dy));
                 float y1 = innerPoint.Y - (float)Math.Sqrt(yy);
                 float y2 = innerPoint.Y + (float)Math.Sqrt(yy);
                 y = (outerPoint.Y <= innerPoint.Y) ? y1 : y2;

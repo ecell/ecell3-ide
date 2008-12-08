@@ -47,13 +47,15 @@ using UMD.HCIL.Piccolo.Event;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using Ecell.Objects;
 using Ecell.IDE.Plugins.PathwayWindow.Figure;
+using System.Windows.Forms;
+using Ecell.IDE.Plugins.PathwayWindow.Handler;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
     /// <summary>
     /// PPathwayObject is a super class for all component of PCanvas.
     /// </summary>
-    public abstract class PPathwayObject : PNode
+    public abstract class PPathwayObject : PNode, IDisposable
     {
         #region Enums
         /// <summary>
@@ -175,6 +177,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         protected static GraphicsPath m_tempPath = new GraphicsPath();
 
         /// <summary>
+        /// ResizeHandler
+        /// </summary>
+        protected PathwayResizeHandler m_resizeHandler;
+
+        /// <summary>
         /// tempolary region.
         /// </summary>
         protected static Region m_tempRegion = new Region();
@@ -266,12 +273,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// Parent object.
         /// </summary>
         protected PPathwaySystem m_parentSystem;
-
-        /// <summary>
-        /// ResourceManager for PathwayWindow.
-        /// </summary>
-        protected ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResources));
-
         #endregion
 
         #region Accessors
@@ -293,7 +294,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                     base.OffsetY = m_ecellObj.OffsetY;
                 }
                 MemorizePosition();
-                Refresh();
             }
         }
         /// <summary>
@@ -332,12 +332,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             {
                 if (m_setting != null)
                 {
-                    this.m_setting.PropertyChange -= m_setting_PropertyChange;
+                    this.m_setting.PropertyChange -= Setting_PropertyChange;
                 }
                 if (value != null)
                 {
                     this.m_setting = value;
-                    this.m_setting.PropertyChange += new EventHandler(m_setting_PropertyChange);
+                    this.m_setting.PropertyChange += new EventHandler(Setting_PropertyChange);
                     RefreshSettings();
                 }
             }
@@ -355,7 +355,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 m_path.Reset();
                 AddPath(m_figure.GraphicsPath, false);
                 ResetPosition();
-                RefreshView();
             }
         }
         /// <summary>
@@ -410,9 +409,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             {
                 this.m_isSelected = value;
                 if (value)
+                {
                     this.Brush = m_highLightBrush;
+                }
                 else
+                {
                     this.Brush = m_fillBrush;
+                    RefreshView();
+                }
             }
         }
 
@@ -540,6 +544,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public PPathwayObject()
         {
+            m_ecellObj = null;
+
             m_pen = DEFAULT_PEN;
             m_path = new GraphicsPath();
             m_pText = new PText();
@@ -669,20 +675,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             base.Width = this.m_originalWidth;
             base.Height = this.m_originalHeight;
             RefreshView();
-            // if system refresh children.
-            if (m_ecellObj == null || !(m_ecellObj is EcellSystem))
-                return;
-            foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(m_ecellObj.Key))
-            {
-                child.ResetPosition();
-            }
         }
         /// <summary>
         /// Set FillBrush
         /// </summary>
         private void SetFillBrush()
         {
-            if (m_setting.IsGradation)
+            if (m_isSelected)
+            {
+                this.Brush = m_highLightBrush;
+            }
+            else if (m_setting.IsGradation)
             {
                 PathGradientBrush pthGrBrush = new PathGradientBrush(m_path);
                 pthGrBrush.CenterColor = BrushManager.ParseBrushToColor(m_setting.CenterBrush);
@@ -834,6 +837,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             m_tempRegion.MakeInfinite();
             m_tempRegion.Intersect(m_tempPath);
         }
+
+        /// <summary>
+        /// Set Moving delta.
+        /// </summary>
+        /// <param name="delta"></param>
+        public void MovePosition(PointF delta)
+        {
+            this.OffsetX = this.OffsetX + delta.X;
+            this.OffsetY = this.OffsetY + delta.Y;
+        }
         #endregion
 
         #region Painting
@@ -915,23 +928,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void m_setting_PropertyChange(object sender, EventArgs e)
+        private void Setting_PropertyChange(object sender, EventArgs e)
         {
             RefreshSettings();
         }
 
         /// <summary>
-        /// event on mouse drag on this node.
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnMouseDrag(UMD.HCIL.Piccolo.Event.PInputEventArgs e)
-        {
-            base.OnMouseDrag(e);
-            Refresh();
-        }
-
-        /// <summary>
-        /// Called when the mouse leaves this object.
+        /// Event on mouse down.
+        /// Change the selected state of this object.
         /// </summary>
         /// <param name="e"></param>
         public override void OnMouseDown(PInputEventArgs e)
@@ -939,10 +943,33 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             base.OnMouseDown(e);
             if (m_canvas == null)
                 return;
+
+            bool isCtrl = (e.Modifiers == Keys.Control);
+            bool isLeft = (e.Button == MouseButtons.Left);
+
+            // Set IsSelect
+            if(!m_isSelected && ! isCtrl)
+                m_canvas.NotifySelectChanged(this);
+            else if(!m_isSelected && isCtrl)
+                m_canvas.NotifyAddSelect(this);
+            else if (m_isSelected && isCtrl && isLeft)
+                m_canvas.NotifyRemoveSelect(this);
+
+            // Set Focus
             m_canvas.FocusNode = this;
         }
 
         #endregion
+
+        #endregion
+
+        #region IDisposable ÉÅÉìÉo
+        /// <summary>
+        /// Event on Dispose
+        /// </summary>
+        public virtual void Dispose()
+        {
+        }
 
         #endregion
     }

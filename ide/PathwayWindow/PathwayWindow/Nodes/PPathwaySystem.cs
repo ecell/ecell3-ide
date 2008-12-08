@@ -101,11 +101,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         protected Brush m_backBrush = null; //Brushes.White;
 
-        /// <summary>
-        /// ResizeHandler for resizing a system.
-        /// </summary>
-        protected SystemResizeHandler m_resizeHandler;
-
         #endregion
 
         #region Accessors
@@ -126,6 +121,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                     base.Height = value.Height;
 
                 base.EcellObject = value;
+            }
+        }
+        /// <summary>
+        /// Offset
+        /// </summary>
+        public override PointF Offset
+        {
+            get
+            {
+                return base.Offset;
+            }
+            set
+            {
+                base.Offset = value;
+                m_resizeHandler.UpdateResizeHandle();
             }
         }
 
@@ -219,8 +229,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             foreach (PPathwayObject obj in m_canvas.GetAllObjectUnder(m_ecellObj.Key))
             {
                 obj.MoveToFront();
-                if (obj is PPathwayVariable)
-                    ((PPathwayVariable)obj).Refresh();
+                obj.Refresh();
             }
             base.Refresh();
         }
@@ -280,26 +289,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             this.Refresh();
         }
 
-        /// <summary>
-        /// the event sequence of selecting the PNode of system in PathwayEditor.
-        /// </summary>
-        /// <param name="e">PInputEventArgs</param>
-        public override void OnMouseDown(PInputEventArgs e)
-        {
-            if (m_canvas == null)
-                return;
-            m_canvas.NotifySelectChanged(this);
-            base.OnMouseDown(e);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnMouseDrag(PInputEventArgs e)
-        {
-            base.OnMouseDrag(e);
-            m_resizeHandler.UpdateResizeHandle();
-        }
         /// <summary>
         /// Check if this PSystem's region overlaps given rectangle
         /// </summary>

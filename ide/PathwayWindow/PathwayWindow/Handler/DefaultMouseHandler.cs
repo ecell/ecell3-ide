@@ -82,15 +82,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <param name="e"></param>
         public override void OnMouseDown(object sender, PInputEventArgs e)
         {
+            base.OnMouseDown(sender, e);
             // set mouse position
             m_startPoint = e.Position;
             m_con.MousePosition = e.Position;
 
             if (!(e.PickedNode is PCamera))
-            {
-                base.OnMouseDown(sender, e);
                 return;
-            }
+
             m_isDragged = true;
             CanvasControl canvas = m_con.Canvas;
             canvas.NotifyResetSelect();
@@ -134,30 +133,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             m_selectedPath.AddRectangle(rect.X, rect.Y, rect.Width, rect.Height);
 
             // Select object.
-            PNodeList newlySelectedList = new PNodeList();
-            foreach (PLayer layer in canvas.Layers.Values)
+            List<PPathwayObject> newlySelectedList = new List<PPathwayObject>();
+            foreach (PPathwayLayer layer in canvas.Layers.Values)
             {
                 if (!layer.Visible)
                     continue;
-                PNodeList list = new PNodeList();
-                layer.FindIntersectingNodes(rect, list);
-                newlySelectedList.AddRange(list);
+                newlySelectedList.AddRange(layer.GetNodes(rect));
             }
+
             // Add/Remove select for each object.
             List<PPathwayObject> objlist = new List<PPathwayObject>();
             objlist.AddRange(canvas.SelectedNodes);
             foreach (PPathwayObject obj in objlist)
             {
-                if (!(obj is PPathwayNode))
-                    continue;
                 if (!newlySelectedList.Contains(obj))
                     canvas.NotifyRemoveSelect(obj);
             }
             foreach (PNode obj in newlySelectedList)
             {
-                if (!(obj is PPathwayNode))
+                if (!(obj is PPathwayObject))
                     continue;
-                PPathwayNode node = (PPathwayNode)obj;
+                PPathwayObject node = (PPathwayObject)obj;
                 if(!canvas.SelectedNodes.Contains(node))
                     canvas.NotifyAddSelect(node);
             }

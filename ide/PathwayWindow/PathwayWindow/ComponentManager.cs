@@ -206,6 +206,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return list;
             }
         }
+
+        /// <summary>
+        /// Create TabPage for PathwaySettingDialog
+        /// </summary>
+        /// <returns></returns>
+        public PropertyDialogTabPage DialogTabPage
+        {
+            get { return new ComponentTabPage(this); }
+        }
         #endregion
 
         #region Constructor
@@ -418,36 +427,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 SetDefaultSetting(setting);
         }
 
-        /// <summary>
-        /// Show ComponentManagerDialog.
-        /// </summary>
-        public void ShowDialog()
-        {
-            PropertyDialog dialog = new PropertyDialog();
-            dialog.Text = "ComponentManagerDialog";
-            using (dialog)
-            {
-                PropertyDialogTabPage page = CreateTabPage();
-                using (page)
-                {
-                    dialog.TabControl.Controls.Add(page);
-                    if (dialog.ShowDialog() != DialogResult.OK)
-                        return;
-
-                    page.ApplyChange();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Create TabPage for PathwaySettingDialog
-        /// </summary>
-        /// <returns></returns>
-        public PropertyDialogTabPage CreateTabPage()
-        {
-            PropertyDialogTabPage page = new ComponentTabPage(this);
-            return page;
-        }
         #endregion
 
         #region Private Methods

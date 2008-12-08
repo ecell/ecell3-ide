@@ -64,7 +64,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
                 if (!(node is PPathwayLayer) || !node.Visible)
                     continue;
                 PPathwayLayer layer = (PPathwayLayer)node;
-                foreach(PPathwayObject obj in layer.NodeList)
+                foreach (PPathwayObject obj in layer.GetNodes())
                     writer.WriteLine(obj.CreateSVGObject());
             }
             // Close SVG file.

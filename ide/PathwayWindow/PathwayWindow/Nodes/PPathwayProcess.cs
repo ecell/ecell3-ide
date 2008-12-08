@@ -45,6 +45,7 @@ using Ecell.IDE.Plugins.PathwayWindow.Figure;
 using System.Drawing.Drawing2D;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using Ecell.Objects;
+using System.Diagnostics;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -58,21 +59,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 
         #region Fields
         /// <summary>
-        /// dictionary of Line. Key is node.EcellObject.key.
-        /// </summary>
-        protected Dictionary<string, List<PPathwayLine>> m_lines = new Dictionary<string, List<PPathwayLine>>();
-        /// <summary>
-        /// dictionary of related PPathwayVariable. Key is node.EcellObject.key.
-        /// </summary>
-        protected Dictionary<string, PPathwayVariable> m_relatedVariables = new Dictionary<string, PPathwayVariable>();
-
-        /// <summary>
         /// edge brush.
         /// </summary>
         private Brush m_edgeBrush = Brushes.Black;
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// get/set the related element.
+        /// </summary>
+        public override EcellObject EcellObject
+        {
+            get { return base.m_ecellObj; }
+            set
+            {
+                base.EcellObject = value;
+                ResetEdges();
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -82,13 +87,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set 
             {
                 m_edgeBrush = value;
-                foreach (List<PPathwayLine> list in m_lines.Values)
+                foreach (PPathwayLine line in m_relations)
                 {
-                    foreach (PPathwayLine line in list)
-                    {
-                        line.Pen.Brush = m_edgeBrush;
-                        line.Brush = m_edgeBrush;
-                    }
+                    line.Pen.Brush = m_edgeBrush;
+                    line.Brush = m_edgeBrush;
                 }
             }
         }
@@ -119,6 +121,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// Constructor
         /// </summary>
         public PPathwayProcess()
+            : base()
         {
         }
         /// <summary>
@@ -139,10 +142,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public override string CreateSVGObject()
         {
             string obj = "";
-            foreach (List<PPathwayLine> list in m_lines.Values)
-                foreach (PPathwayLine line in list)
-                    if(line.Visible)
-                        obj += line.CreateSVGObject();
+            foreach (PPathwayLine line in m_relations)
+                if(line.Visible)
+                    obj += line.CreateSVGObject();
 
             if (!m_isViewMode)
             {
@@ -158,111 +160,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// notify to add the related variable to list.
-        /// </summary>
-        /// <param name="var">the related variable.</param>
-        /// <param name="path">PPath of the related variable.</param>
-        private void AddRelatedVariable(PPathwayVariable var, PPathwayLine path)
-        {
-            string key = var.EcellObject.Key;
-            if (m_lines.ContainsKey(key))
-            {
-                m_lines[key].Add(path);
-            }
-            else
-            {
-                m_relatedVariables.Add(key, var);
-                List<PPathwayLine> ppaths = new List<PPathwayLine>();
-                ppaths.Add(path);
-                m_lines.Add(key, ppaths);
-            }
-        }
-
-        /// <summary>
-        /// create edge by using the information of element.
-        /// </summary>
-        public void CreateEdges()
-        {
-            // Error Check
-            EcellProcess process = (EcellProcess)m_ecellObj;
-            if (process == null || process.ReferenceList == null)
-                return;
-            List<EcellReference> list = process.ReferenceList;
-            // Check if this node is tarminal node or not.
-            bool isEndNode = true;
-            foreach (EcellReference er in list)
-            {
-                if (er.Coefficient != 1)
-                    continue;
-                isEndNode = false;
-                break;
-            }
-
-            try
-            {
-                foreach (EcellReference er in list)
-                {
-                    if (!base.m_canvas.Variables.ContainsKey(er.Key))
-                        continue;
-
-                    bool bidi = false;
-                    foreach (EcellReference er1 in list)
-                    {
-                        if (er.FullID == er1.FullID &&
-                            er.Coefficient != 0 &&
-                            er.Coefficient == -1 * er1.Coefficient)
-                        {
-                            bidi = true;
-                            break;
-                        }
-                    }
-                    PPathwayVariable var = base.m_canvas.Variables[er.Key];
-                    EdgeInfo edge;
-                    if (bidi)
-                        edge = new EdgeInfo(this.EcellObject.Key, er.Key, EdgeDirection.Bidirection);
-                    else                    
-                        edge = new EdgeInfo(this.EcellObject.Key, er);
-
-                    PPathwayLine path = new PPathwayLine(m_canvas, edge);
-                    
-                    path.Brush = m_edgeBrush;
-                    path.VarPoint = var.GetContactPoint(base.CenterPointF);
-                    path.ProPoint = base.GetContactPoint(path.VarPoint);
-                    path.SetLine();
-                    if (!m_isViewMode || isEndNode || er.Coefficient == 1)
-                        path.SetDirection();
-                    path.Pickable = (var.Visible && this.Visible);
-                    path.Visible = (var.Visible && this.Visible);
-                    
-                    m_layer.AddChild(path);
-                    this.AddRelatedVariable(var, path);
-                    var.NotifyAddRelatedProcess(this);
-                }
-            }catch(Exception e)
-            {
-                Console.WriteLine(" target is " + e.TargetSite);
-            }
-        }
-
-        /// <summary>
-        /// check whethet exist invalid process in list.
-        /// </summary>
-        public void RefreshEdges()
-        {
-            if (base.m_canvas == null || m_ecellObj == null  || m_layer == null)
-                return;
-            DeleteEdges();
-            CreateEdges();
-        }
-        /// <summary>
         /// Set Line Width.
         /// </summary>
         /// <param name="width"></param>
         public void SetLineWidth(float width)
         {
-            foreach (List<PPathwayLine> list in m_lines.Values)
-                foreach (PPathwayLine line in list)
-                    line.Pen.Width = width;
+            foreach (PPathwayLine line in m_relations)
+                line.Pen.Width = width;
         }
         /// <summary>
         /// 
@@ -292,24 +196,45 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// delete the specified related variable from list.
+        /// check whethet exist invalid process in list.
         /// </summary>
-        /// <param name="key">key that specifies the variable.</param>
-        public void DeleteEdge(string key)
+        public void ResetEdges()
         {
-            if (!m_lines.ContainsKey(key))
+            if (base.m_canvas == null || m_ecellObj == null || m_layer == null)
                 return;
-            List<PPathwayLine> pathList = m_lines[key];
+            DeleteEdges();
+            CreateEdges();
+        }
 
-            foreach (PPath path in pathList)
+        /// <summary>
+        /// create edge by using the information of element.
+        /// </summary>
+        public void CreateEdges()
+        {
+            // Error Check
+            EcellProcess process = (EcellProcess)m_ecellObj;
+            if (process == null || process.ReferenceList == null)
+                return;
+            List<EcellReference> list = process.ReferenceList;
+            // Check if this node is tarminal node or not.
+
+            try
             {
-                if (path.Parent != null)
+                foreach (EcellReference er in list)
                 {
-                    path.Parent.RemoveChild(path);
+                    if (!base.m_canvas.Variables.ContainsKey(er.Key))
+                        continue;
+
+                    PPathwayVariable var = base.m_canvas.Variables[er.Key];
+                    EdgeInfo edge = new EdgeInfo(process.Key, list, er);
+                    PPathwayLine line = new PPathwayLine(m_canvas, edge, this, var);
+                    m_layer.AddChild(line);
                 }
             }
-            m_lines.Remove(key);
-            m_relatedVariables.Remove(key);
+            catch (Exception e)
+            {
+                Console.WriteLine(" target is " + e.TargetSite);
+            }
         }
 
         /// <summary>
@@ -317,39 +242,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public void DeleteEdges()
         {
-            foreach (List<PPathwayLine> pathList in m_lines.Values)
+            foreach (PPathwayLine line in m_relations)
             {
-                foreach (PPathwayLine path in pathList)
-                {
-                    if (path.Parent != null)
-                        path.Parent.RemoveChild(path);
-                    else
-                        path.CloseAllFigures();
-                }
+                if (line.Parent != null)
+                    line.Parent.RemoveChild(line);
+                else
+                    line.CloseAllFigures();
+                line.Dispose();
             }
-            m_lines.Clear();
-            m_relatedVariables.Clear();
+            m_relations.Clear();
         }
-
         /// <summary>
-        /// notify to remove all related process from list.
+        /// Event on Dispose
         /// </summary>
-        public void NotifyRemoveToRelatedVariable()
+        public override void Dispose()
         {
-            foreach (PPathwayVariable var in m_relatedVariables.Values)
-            {
-                var.RemoveRelatedProcess(this.EcellObject.Key);
-            }
             DeleteEdges();
-        }
-
-        /// <summary>
-        /// refresh the information of edge.
-        /// </summary>
-        public override void Refresh()
-        {
-            RefreshEdges();
-            base.Refresh();
+            base.Dispose();
         }
 
         /// <summary>
@@ -363,224 +272,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 m_pText.Visible = false;
         }
 
-        #endregion
-    }
-
-    #region Enum
-    /// <summary>
-    /// Enumeration for a direction of a edge
-    /// </summary>
-    public enum EdgeDirection
-    {
-        /// <summary>
-        /// Outward direction
-        /// </summary>
-        Outward,
-        /// <summary>
-        /// Inward direction
-        /// </summary>
-        Inward,
-        /// <summary>
-        /// Outward and inward direction
-        /// </summary>
-        Bidirection,
-        /// <summary>
-        /// An edge has no direction
-        /// </summary>
-        None
-    }
-    /// <summary>
-    /// Enumeration of a type of a line.
-    /// </summary>
-    public enum LineType
-    {
-        /// <summary>
-        /// Unknown type
-        /// </summary>
-        Unknown,
-        /// <summary>
-        /// Solid line
-        /// </summary>
-        Solid,
-        /// <summary>
-        /// Dashed line
-        /// </summary>
-        Dashed
-    }
-    #endregion
-
-    /// <summary>
-    /// EdgeInfo contains all information for one edge.
-    /// </summary>
-    public class EdgeInfo
-    {
-
-        #region Fields
-
-        /// <summary>
-        /// Key of a process, an owner of this edge.
-        /// </summary>
-        protected string m_proKey;
-
-        /// <summary>
-        /// Key of a variable with which a process has an edge.
-        /// </summary>
-        protected string m_varKey;
-
-        /// <summary>
-        /// Direction of this edge.
-        /// </summary>
-        protected EdgeDirection m_direction = EdgeDirection.None;
-
-        /// <summary>
-        /// Type of a line of this edge.
-        /// </summary>
-        protected LineType m_type = LineType.Unknown;
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public EdgeInfo()
+        private static bool IsEndNode(List<EcellReference> list)
         {
-        }
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="proKey">key of process</param>
-        /// <param name="varKey">key of variable</param>
-        public EdgeInfo(string proKey, string varKey)
-        {
-            m_proKey = proKey;
-            m_varKey = varKey;
-        }
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="processKey">The key of process.</param>
-        /// <param name="er">The reference of EcellObject.</param>
-        public EdgeInfo(string processKey, EcellReference er)
-        {
-            m_proKey = processKey;
-            // Set Relation
-            int l_coef = er.Coefficient;
-            if (l_coef < 0)
+            bool isEndNode = true;
+            foreach (EcellReference er in list)
             {
-                m_direction = EdgeDirection.Inward;
-                m_type = LineType.Solid;
+                if (er.Coefficient != 1)
+                    continue;
+                isEndNode = false;
+                break;
             }
-            else if (l_coef == 0)
-            {
-                m_direction = EdgeDirection.None;
-                m_type = LineType.Dashed;
-            }
-            else
-            {
-                m_direction = EdgeDirection.Outward;
-                m_type = LineType.Solid;
-            }
-            m_varKey = er.Key;
+            return isEndNode;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="processKey"></param>
-        /// <param name="varKey"></param>
-        /// <param name="dir"></param>
-        public EdgeInfo(string processKey, string varKey, EdgeDirection dir)
-        {
-            m_proKey = processKey;
-            // Set Relation
-            if (dir == EdgeDirection.Inward)
-            {
-                m_direction = EdgeDirection.Inward;
-                m_type = LineType.Solid;
-            }
-            else if (dir == EdgeDirection.None)
-            {
-                m_direction = EdgeDirection.None;
-                m_type = LineType.Dashed;
-            }
-            else if (dir == EdgeDirection.Outward)
-            {
-                m_direction = EdgeDirection.Outward;
-                m_type = LineType.Solid;
-            }
-            else
-            {
-                m_direction = EdgeDirection.Bidirection;
-                m_type = LineType.Solid;
-            }
-            m_varKey = varKey;
-        }
-        #endregion
-
-        #region Accessors
-        /// <summary>
-        /// Accessor for m_varkey.
-        /// </summary>
-        public string EdgeKey
-        {
-            get { return m_varKey + ":" + m_direction.ToString(); }
-        }
-        /// <summary>
-        /// Accessor for m_varkey.
-        /// </summary>
-        public string VariableKey
-        {
-            get { return m_varKey; }
-            set { m_varKey = value; }
-        }
-        /// <summary>
-        /// Accessor for m_varkey.
-        /// </summary>
-        public string ProcessKey
-        {
-            get { return m_proKey; }
-            set { m_proKey = value; }
-        }
-        /// <summary>
-        /// Accessor for m_direction.
-        /// </summary>
-        public EdgeDirection Direction
-        {
-            get { return m_direction; }
-            set { m_direction = value; }
-        }
-        /// <summary>
-        /// Accessor for m_type.
-        /// </summary>
-        public LineType TypeOfLine
-        {
-            get { return m_type; }
-            set { m_type = value; }
-        }
-        /// <summary>
-        /// Accessor for m_type.
-        /// </summary>
-        public int Coefficient
-        {
-            get
-            {
-                int coefficient = 0;
-                switch (this.m_direction)
-                {
-                    case EdgeDirection.Inward:
-                        coefficient = -1;
-                        break;
-                    case EdgeDirection.None:
-                        coefficient = 0;
-                        break;
-                    case EdgeDirection.Outward:
-                        coefficient = 1;
-                        break;
-                }
-                return coefficient;
-            }
-        }
-
         #endregion
     }
 }

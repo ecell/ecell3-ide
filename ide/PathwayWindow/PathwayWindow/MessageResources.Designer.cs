@@ -178,6 +178,33 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Animation setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextAnimationSetting {
+            get {
+                return ResourceManager.GetString("DialogTextAnimationSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto Threshold に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextAutoThreshold {
+            get {
+                return ResourceManager.GetString("DialogTextAutoThreshold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Background color に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextBackgroundBrush {
+            get {
+                return ResourceManager.GetString("DialogTextBackgroundBrush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Center color に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextCenterBrush {
@@ -268,6 +295,33 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Logarithmic scale に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextLogarithmic {
+            get {
+                return ResourceManager.GetString("DialogTextLogarithmic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Max arrow width に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextMaxEdgeWidth {
+            get {
+                return ResourceManager.GetString("DialogTextMaxEdgeWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Error color に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextNGBrush {
+            get {
+                return ResourceManager.GetString("DialogTextNGBrush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Normal arrow color に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DialogTextNormalEdge {
@@ -300,6 +354,33 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string DialogTextTextBrush {
             get {
                 return ResourceManager.GetString("DialogTextTextBrush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Upper threshold に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextThresholdHigh {
+            get {
+                return ResourceManager.GetString("DialogTextThresholdHigh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Lower threshold に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextThresholdLow {
+            get {
+                return ResourceManager.GetString("DialogTextThresholdLow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextViewMode {
+            get {
+                return ResourceManager.GetString("DialogTextViewMode", resourceCulture);
             }
         }
         
@@ -372,6 +453,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string ErrNoInput {
             get {
                 return ResourceManager.GetString("ErrNoInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Entity {0} doesn&apos;t exist. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrNotFound {
+            get {
+                return ResourceManager.GetString("ErrNotFound", resourceCulture);
             }
         }
         

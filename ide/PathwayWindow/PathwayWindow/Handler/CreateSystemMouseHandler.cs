@@ -210,21 +210,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 // When a system could be created successfully if mouse is up.
                 m_selectedPath.Pen = m_validPen;
             }
-            
-            PNodeList newlySelectedList = new PNodeList();
+
             m_canvas.NotifyResetSelect();
-            foreach (PLayer layer in m_canvas.Layers.Values)
+            List<PPathwayObject> newlySelectedList = new List<PPathwayObject>();
+            foreach (PPathwayLayer layer in m_canvas.Layers.Values)
             {
-                PNodeList list = new PNodeList();
-                layer.FindIntersectingNodes(rect, list);
-                newlySelectedList.AddRange(list);
+                newlySelectedList.AddRange(layer.GetNodes(rect));
             }
 
-            foreach(PNode node in newlySelectedList)
+            foreach (PPathwayObject node in newlySelectedList)
             {
-                if (!(node is PPathwayNode))
-                    continue;
-                m_canvas.AddSelectedNode((PPathwayNode)node);
+                m_canvas.AddSelectedNode(node);
             }
         }
 
@@ -256,14 +252,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 }
 
                 List<PPathwayObject> newlySelectedList = new List<PPathwayObject>();
-
-                foreach (PLayer layer in m_canvas.Layers.Values)
+                foreach (PPathwayLayer layer in m_canvas.Layers.Values)
                 {
-                    PNodeList list = new PNodeList();
-                    layer.FindIntersectingNodes(m_rect, list);
-                    foreach (PNode node in list)
-                        if (node is PPathwayObject)
-                            newlySelectedList.Add((PPathwayObject)node);
+                    newlySelectedList.AddRange(layer.GetNodes(m_rect));
                 }
                 EcellObject eo = m_con.CreateDefaultObject(m_canvas.ModelID, m_surSystem, EcellObject.SYSTEM, false);
 

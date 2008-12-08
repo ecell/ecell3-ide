@@ -49,7 +49,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         #region Fields
         private TextBox m_tbox = new TextBox();
         private string m_name;
-        private PathwayResizeHandler m_resizeHandler;
         
         #endregion
 
@@ -87,6 +86,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 m_pText.TextAlignment = text.Alignment;
                 base.EcellObject = text;
                 RefreshView();
+            }
+        }
+        /// <summary>
+        /// Offset
+        /// </summary>
+        public override PointF Offset
+        {
+            get
+            {
+                return base.Offset;
+            }
+            set
+            {
+                base.Offset = value;
+                m_resizeHandler.UpdateResizeHandle();
             }
         }
 
@@ -219,28 +233,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             m_resizeHandler.UpdateResizeHandle();
         }
 
-        /// <summary>
-        /// the event sequence of selecting the PNode of process or variable in PathwayEditor.
-        /// </summary>
-        /// <param name="e">PInputEventArgs.</param>
-        public override void OnMouseDown(PInputEventArgs e)
-        {
-            if (e.Modifiers == Keys.Shift || m_isSelected)
-                m_canvas.NotifyAddSelect(this);
-            else
-                m_canvas.NotifySelectChanged(this);
-            base.OnMouseDown(e);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnMouseDrag(PInputEventArgs e)
-        {
-            base.OnMouseDrag(e);
-            m_resizeHandler.UpdateResizeHandle();
-        }
-
         private void m_tbox_LostFocus(object sender, EventArgs e)
         {
             SetText();
@@ -264,20 +256,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 ((EcellText)m_ecellObj).Comment = m_tbox.Text;
                 base.Width = m_pText.Width;
                 base.Height = m_pText.Height;
-                NotifyDataChanged();
+                m_canvas.Control.NotifyDataChanged(this, true);
             }
-        }
-        /// <summary>
-        /// NotifyDataChanged()
-        /// </summary>
-        public void NotifyDataChanged()
-        {
-            EcellObject eo = m_ecellObj.Copy();
-            eo.X = this.X + this.OffsetX;
-            eo.Y = this.Y + this.OffsetY;
-            eo.OffsetX = 0;
-            eo.OffsetY = 0;
-            m_canvas.Control.NotifyDataChanged(eo.Key, eo, true, true);
         }
     }
 }

@@ -54,7 +54,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// List of PNodes, which are currently surrounded by the system.
         /// </summary>
-        protected PNodeList m_surroundedBySystem = null;
+        protected List<PPathwayObject> m_surroundedBySystem = null;
 
         #endregion
 
@@ -119,20 +119,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         private void RefreshSurroundState()
         {
             ClearSurroundState();
-            m_surroundedBySystem = new PNodeList();
+            m_surroundedBySystem = new List<PPathwayObject>();
             RectangleF rect = m_obj.Rect;
-            foreach (PLayer layer in m_canvas.Layers.Values)
+            foreach (PPathwayLayer layer in m_canvas.Layers.Values)
             {
-                PNodeList list = new PNodeList();
-                layer.FindIntersectingNodes(rect, list);
-                m_surroundedBySystem.AddRange(list);
+                m_surroundedBySystem.AddRange(layer.GetNodes(rect));
             }
             if (m_surroundedBySystem.Contains(m_obj))
                 m_surroundedBySystem.Remove(m_obj);
-            foreach (PNode node in m_surroundedBySystem)
+            foreach (PPathwayObject obj in m_surroundedBySystem)
             {
-                if (node is PPathwayObject)
-                    ((PPathwayObject)node).IsHighLighted = true;
+                obj.IsHighLighted = true;
             }
         }
 
@@ -144,10 +141,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         {
             if (m_surroundedBySystem == null)
                 return;
-            foreach (PNode node in m_surroundedBySystem)
+            foreach (PPathwayObject obj in m_surroundedBySystem)
             {
-                if (node is PPathwayObject)
-                    ((PPathwayObject)node).IsHighLighted = false;
+                obj.IsHighLighted = false;
             }
             m_surroundedBySystem = null;
         }

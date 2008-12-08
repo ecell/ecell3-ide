@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UMD.HCIL.Piccolo;
+using System.Drawing;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -55,20 +56,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return this.m_name; }
             set { this.m_name = value; }
         }
-        /// <summary>
-        ///  get/set NodeList.
-        /// </summary>
-        public List<PPathwayObject> NodeList
-        {
-            get {
-                List<PPathwayObject> list = new List<PPathwayObject>();
-                foreach (PNode node in this.ChildrenReference)
-                    if (node is PPathwayObject)
-                        list.Add((PPathwayObject)node);
-                return list;
-            }
-        }
         #endregion
+
         #region Constructor
         /// <summary>
         /// Constructor
@@ -93,11 +82,55 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <param name="e"></param>
         void PPathwayLayer_VisibleChanged(object sender, UMD.HCIL.Piccolo.Event.PPropertyEventArgs e)
         {
-            foreach (PPathwayObject obj in this.NodeList)
+            foreach (PPathwayObject obj in this.GetNodes())
             {
                 obj.Visible = this.Visible;
                 obj.Pickable = this.Visible;
+                if (!(obj is PPathwayNode))
+                    continue;
+
+                PPathwayNode node = (PPathwayNode)obj;
+                foreach (PPathwayLine line in node.Relations)
+                {
+                    line.VisibleChange();
+                }
             }
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Get the list of PPathwayObject under this layer.
+        /// </summary>
+        /// <returns></returns>
+        public List<PPathwayObject> GetNodes()
+        {
+            List<PPathwayObject> list = new List<PPathwayObject>();
+            foreach (PNode node in this.ChildrenReference)
+            {
+                if (!(node is PPathwayObject))
+                    continue;
+                list.Add((PPathwayObject)node);
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// Get the list of PPathwayObject under this layer.
+        /// Especially
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <returns></returns>
+        public List<PPathwayObject> GetNodes(RectangleF rect)
+        {
+            List<PPathwayObject> list = new List<PPathwayObject>();
+            foreach (PPathwayObject obj in GetNodes())
+            {
+                if (!rect.Contains(obj.Rect))
+                    continue;
+                list.Add(obj);
+            }
+            return list;
         }
         #endregion
     }

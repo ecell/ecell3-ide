@@ -37,13 +37,15 @@ using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo.Event;
+using Ecell.Objects;
+using System.Drawing.Drawing2D;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
     /// <summary>
     /// Line
     /// </summary>
-    public class PPathwayLine : PPath
+    public class PPathwayLine : PPath, IDisposable
     {
         #region Constants
         /// <summary>
@@ -73,7 +75,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         ///  Arrow design settings
         /// </summary>        
-        private const float LINE_WIDTH = 3.0f;
+        private const float LINE_WIDTH = 2;
         #endregion
 
         #region Fields
@@ -96,6 +98,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// Coordinate of the process side end point in global coordinate system.
         /// </summary>
         private PointF m_proPoint;
+
+        private PPathwayVariable m_variable;
+
+        private PPathwayProcess m_process;
         #endregion
 
         #region Accessors
@@ -125,6 +131,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return m_proPoint; }
             set { this.m_proPoint = value; }
         }
+
+        /// <summary>
+        /// Accessor for m_process.
+        /// </summary>
+        public PPathwayProcess Process
+        {
+            get { return m_process; }
+            set { this.m_process = value; }
+        }
+
+        /// <summary>
+        /// Accessor for m_variable.
+        /// </summary>
+        public PPathwayVariable Variable
+        {
+            get { return m_variable; }
+            set { this.m_variable = value; }
+        }
         #endregion
 
         /// <summary>
@@ -147,56 +171,111 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="edgeInfo"></param>
+        /// <param name="process"></param>
+        /// <param name="variable"></param>
+        public PPathwayLine(CanvasControl canvas, EdgeInfo edgeInfo, PPathwayProcess process, PPathwayVariable variable)
+        {
+            m_canvas = canvas;
+            m_edgeInfo = edgeInfo;
+            m_variable = variable;
+            m_process = process;
+            m_variable.Relations.Add(this);
+            m_process.Relations.Add(this);
+
+            base.Brush = process.EdgeBrush;
+            base.Pickable = (variable.Visible && process.Visible);
+            base.Visible = (variable.Visible && process.Visible);
+
+            m_varPoint = variable.GetContactPoint(process.CenterPointF);
+            m_proPoint = process.GetContactPoint(m_varPoint);
+            this.DrawLine();
+            
+        }
+
+        /// <summary>
+        /// Refresh Line.
+        /// </summary>
+        public void Refresh()
+        {
+            if (m_variable == null || m_process == null)
+                return;
+            m_varPoint = m_variable.GetContactPoint(m_process.CenterPointF);
+            m_proPoint = m_process.GetContactPoint(m_varPoint);
+            DrawLine();
+        }
+
+        /// <summary>
+        /// Visible change
+        /// </summary>
+        public void VisibleChange()
+        {
+            bool visible = m_process.Visible && m_variable.Visible;
+            this.Visible = visible;
+            this.Pickable = visible;
+        }
+
+        /// <summary>
         /// Draw Line.
         /// </summary>
         public void DrawLine()
         {
-            SetLine();
-            SetDirection();
+            Reset();
+            if (m_proPoint == m_varPoint)
+                return;
+
+            //Set Pen
+            Pen = new Pen(Brush, LINE_WIDTH);
+
+            //Set line
+            GraphicsPath path = new GraphicsPath();
+            SetLine(path);
+            //Set Arrow
+            SetArrow(path);
+            this.AddPath(path, false);
         }
 
         /// <summary>
-        /// Draw Line
+        /// Set line
         /// </summary>
-        public void SetLine()
+        /// <param name="path"></param>
+        private void SetLine(GraphicsPath path)
         {
-            SetLine(LINE_WIDTH);
-        }
-
-        /// <summary>
-        /// Draw Line
-        /// </summary>
-        public void SetLine(float width)
-        {
-            base.Pen = new Pen(Brush, width);
-            switch (this.m_edgeInfo.TypeOfLine)
+            try
             {
-                case LineType.Solid:
-                case LineType.Unknown:
-                    AddLine(m_proPoint.X, m_proPoint.Y, m_varPoint.X, m_varPoint.Y);
-                    break;
-                case LineType.Dashed:
-                    AddDashedLine(m_proPoint.X, m_proPoint.Y, m_varPoint.X, m_varPoint.Y);
-                    break;
+                if (m_edgeInfo.LineType == LineType.Dashed)
+                    AddDashedLine(path, m_proPoint.X, m_proPoint.Y, m_varPoint.X, m_varPoint.Y);
+                else
+                    path.AddLine(m_proPoint.X, m_proPoint.Y, m_varPoint.X, m_varPoint.Y);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
             }
         }
 
         /// <summary>
-        /// Draw Line.
+        /// Set Arrow.
         /// </summary>
-        public void SetDirection()
+        /// <param name="path"></param>
+        private void SetArrow(GraphicsPath path)
         {
+            if (m_process != null && m_process.ViewMode && m_edgeInfo.Coefficient != 1 && !m_edgeInfo.IsEndNode)
+                return;
             switch (this.m_edgeInfo.Direction)
             {
                 case EdgeDirection.Bidirection:
-                    this.AddPolygon(GetArrowPoints(m_proPoint, m_varPoint));
-                    this.AddPolygon(GetArrowPoints(m_varPoint, m_proPoint));
+                    path.AddPolygon(GetArrowPoints(m_proPoint, m_varPoint));
+                    path.AddPolygon(GetArrowPoints(m_varPoint, m_proPoint));
                     break;
                 case EdgeDirection.Inward:
-                    this.AddPolygon(GetArrowPoints(m_proPoint, m_varPoint));
+                    path.AddPolygon(GetArrowPoints(m_proPoint, m_varPoint));
                     break;
                 case EdgeDirection.Outward:
-                    this.AddPolygon(GetArrowPoints(m_varPoint, m_proPoint));
+                    path.AddPolygon(GetArrowPoints(m_varPoint, m_proPoint));
                     break;
                 case EdgeDirection.None:
                     break;
@@ -206,30 +285,30 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// add the dash line to PPath.
         /// </summary>
+        /// <param name="path"></param>
         /// <param name="startX">the position of start.</param>
         /// <param name="startY">the position of start.</param>
         /// <param name="endX">the position of end.</param>
         /// <param name="endY">the position of end.</param>
-        private void AddDashedLine(float startX, float startY, float endX, float endY)
+        private void AddDashedLine(GraphicsPath path, float startX, float startY, float endX, float endY)
         {
             this.FillMode = System.Drawing.Drawing2D.FillMode.Winding;
-            float repeatNum = (float)Math.Sqrt((endX - startX) * (endX - startX) + (endY - startY) * (endY - startY)) / 6f;
-            float xFragment = (endX - startX) / repeatNum;
-            float yFragment = (endY - startY) / repeatNum;
+            float repeatNum = (float)Math.Sqrt(Math.Pow(endX - startX, 2) + Math.Pow(endY - startY, 2)) / 8f;
+
+            float xMovement = (endX - startX) / repeatNum;
+            float yMovement = (endY - startY) / repeatNum;
+            float xFragment = xMovement * 0.6f;
+            float yFragment = yMovement * 0.6f;
 
             float presentX = startX;
             float presentY = startY;
-            for (int i = 0; i + 2 < repeatNum; i++)
+            for (int i = 0; i < repeatNum; i++)
             {
-                presentX += xFragment;
-                presentY += yFragment;
+                path.AddLine(presentX, presentY, presentX + xFragment, presentY + yFragment);
+                path.CloseFigure();
 
-                if (i % 2 == 1)
-                {
-                    continue;
-                }
-                this.AddLine(presentX, presentY, presentX + xFragment, presentY + yFragment);
-                this.CloseFigure();
+                presentX += xMovement;
+                presentY += yMovement;
             }
         }
 
@@ -272,7 +351,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             string obj = "";
             string brush = BrushManager.ParseBrushToString(this.Brush);
             string width = this.Pen.Width.ToString();
-            switch (this.m_edgeInfo.TypeOfLine)
+            switch (this.m_edgeInfo.LineType)
             {
                 case LineType.Solid:
                 case LineType.Unknown:
@@ -316,5 +395,303 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
         #endregion
 
+
+        #region IDisposable ƒƒ“ƒo
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        public void Dispose()
+        {
+            m_variable.Relations.Remove(this);
+        }
+
+        #endregion
+    }
+
+    #region Enum
+    /// <summary>
+    /// Enumeration for a direction of a edge
+    /// </summary>
+    public enum EdgeDirection
+    {
+        /// <summary>
+        /// Outward direction
+        /// </summary>
+        Outward,
+        /// <summary>
+        /// Inward direction
+        /// </summary>
+        Inward,
+        /// <summary>
+        /// Outward and inward direction
+        /// </summary>
+        Bidirection,
+        /// <summary>
+        /// An edge has no direction
+        /// </summary>
+        None
+    }
+    /// <summary>
+    /// Enumeration of a type of a line.
+    /// </summary>
+    public enum LineType
+    {
+        /// <summary>
+        /// Unknown type
+        /// </summary>
+        Unknown,
+        /// <summary>
+        /// Solid line
+        /// </summary>
+        Solid,
+        /// <summary>
+        /// Dashed line
+        /// </summary>
+        Dashed
+    }
+    #endregion
+
+    /// <summary>
+    /// EdgeInfo contains all information for one edge.
+    /// </summary>
+    public class EdgeInfo
+    {
+
+        #region Fields
+
+        /// <summary>
+        /// Key of a process, an owner of this edge.
+        /// </summary>
+        protected string m_proKey;
+
+        /// <summary>
+        /// Key of a variable with which a process has an edge.
+        /// </summary>
+        protected string m_varKey;
+
+        private List<EcellReference> m_refList = null;
+
+        /// <summary>
+        /// Direction of this edge.
+        /// </summary>
+        protected EdgeDirection m_direction = EdgeDirection.None;
+
+        /// <summary>
+        /// Type of a line of this edge.
+        /// </summary>
+        protected LineType m_type = LineType.Unknown;
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public EdgeInfo()
+        {
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="processKey"></param>
+        /// <param name="list"></param>
+        /// <param name="er"></param>
+        public EdgeInfo(string processKey, List<EcellReference> list, EcellReference er)
+        {
+            m_refList = list;
+            bool bidir = CheckBidir(list, er);
+
+            m_proKey = processKey;
+            m_varKey = er.Key;
+            // Set Relation
+            int l_coef = er.Coefficient;
+            if (bidir)
+            {
+                m_direction = EdgeDirection.Bidirection;
+                m_type = LineType.Solid;
+            }
+            else if (l_coef < 0)
+            {
+                m_direction = EdgeDirection.Inward;
+                m_type = LineType.Solid;
+            }
+            else if (l_coef == 0)
+            {
+                m_direction = EdgeDirection.None;
+                m_type = LineType.Dashed;
+            }
+            else
+            {
+                m_direction = EdgeDirection.Outward;
+                m_type = LineType.Solid;
+            }
+
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="processKey">The key of process.</param>
+        /// <param name="er">The reference of EcellObject.</param>
+        public EdgeInfo(string processKey, EcellReference er)
+        {
+            m_proKey = processKey;
+            // Set Relation
+            int coef = er.Coefficient;
+            if (coef < 0)
+            {
+                m_direction = EdgeDirection.Inward;
+                m_type = LineType.Solid;
+            }
+            else if (coef == 0)
+            {
+                m_direction = EdgeDirection.None;
+                m_type = LineType.Dashed;
+            }
+            else
+            {
+                m_direction = EdgeDirection.Outward;
+                m_type = LineType.Solid;
+            }
+            m_varKey = er.Key;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="processKey"></param>
+        /// <param name="varKey"></param>
+        /// <param name="direction"></param>
+        public EdgeInfo(string processKey, string varKey, EdgeDirection direction)
+        {
+            m_proKey = processKey;
+            // Set Relation
+            if (direction == EdgeDirection.Inward)
+            {
+                m_direction = EdgeDirection.Inward;
+                m_type = LineType.Solid;
+            }
+            else if (direction == EdgeDirection.None)
+            {
+                m_direction = EdgeDirection.None;
+                m_type = LineType.Dashed;
+            }
+            else if (direction == EdgeDirection.Outward)
+            {
+                m_direction = EdgeDirection.Outward;
+                m_type = LineType.Solid;
+            }
+            else
+            {
+                m_direction = EdgeDirection.Bidirection;
+                m_type = LineType.Solid;
+            }
+            m_varKey = varKey;
+        }
+
+        #endregion
+
+        #region Accessors
+        /// <summary>
+        /// Accessor for m_varkey.
+        /// </summary>
+        public string EdgeKey
+        {
+            get { return m_varKey + ":" + m_direction.ToString(); }
+        }
+        /// <summary>
+        /// Accessor for m_varkey.
+        /// </summary>
+        public string VariableKey
+        {
+            get { return m_varKey; }
+            set { m_varKey = value; }
+        }
+        /// <summary>
+        /// Accessor for m_varkey.
+        /// </summary>
+        public string ProcessKey
+        {
+            get { return m_proKey; }
+            set { m_proKey = value; }
+        }
+        /// <summary>
+        /// Accessor for m_direction.
+        /// </summary>
+        public EdgeDirection Direction
+        {
+            get { return m_direction; }
+            set { m_direction = value; }
+        }
+        /// <summary>
+        /// Accessor for m_type.
+        /// </summary>
+        public LineType LineType
+        {
+            get { return m_type; }
+            set { m_type = value; }
+        }
+        /// <summary>
+        /// Accessor for m_type.
+        /// </summary>
+        public int Coefficient
+        {
+            get
+            {
+                int coefficient = 0;
+                switch (this.m_direction)
+                {
+                    case EdgeDirection.Inward:
+                        coefficient = -1;
+                        break;
+                    case EdgeDirection.None:
+                        coefficient = 0;
+                        break;
+                    case EdgeDirection.Outward:
+                        coefficient = 1;
+                        break;
+                }
+                return coefficient;
+            }
+        }
+
+        /// <summary>
+        /// IsEndNode
+        /// </summary>
+        public bool IsEndNode
+        {
+            get
+            {
+                return CheckEndNode(m_refList);
+            }
+        }
+        #endregion
+
+        private static bool CheckBidir(List<EcellReference> list, EcellReference er)
+        {
+            bool bidir = false;
+            foreach (EcellReference er1 in list)
+            {
+                if (er.FullID == er1.FullID &&
+                    er.Coefficient != 0 &&
+                    er.Coefficient == -1 * er1.Coefficient)
+                {
+                    bidir = true;
+                    break;
+                }
+            }
+            return bidir;
+        }
+
+        private static bool CheckEndNode(List<EcellReference> list)
+        {
+            bool isEndNode = true;
+            foreach (EcellReference er in list)
+            {
+                if (er.Coefficient != 1)
+                    continue;
+                isEndNode = false;
+                break;
+            }
+            return isEndNode;
+        }
     }
 }

@@ -26,12 +26,5 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             m_variable.OnMouseDown(e);
         }
-
-        internal void NotifyDataChanged()
-        {
-            m_ecellObj.X = this.X + this.OffsetX;
-            m_ecellObj.Y = this.Y + this.OffsetY;
-            m_variable.Canvas.Control.NotifyDataChanged(m_ecellObj.Key, m_variable.EcellObject, true, true);
-        }
     }
 }

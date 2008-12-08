@@ -397,7 +397,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public PPathwayObject CreateTemplate()
         {
             PPathwayObject obj = m_createMethod();
-            obj.AddPath(m_figure.GraphicsPath, false);
+            obj.AddPath(m_figure.GraphicsPath, false); 
             obj.Setting = this;
             return obj;
         }

@@ -129,15 +129,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             // Create Edge.
             if (mode == Mode.CreateConstant)
             {
-                this.CreateEdge(process, variable, 0);
+                this.CreateEdge(process, variable, RefChangeType.SingleDir, 0);
             }
             else if (mode == Mode.CreateOneWayReaction)
             {
-                this.CreateEdge(process, variable, coef);
+                this.CreateEdge(process, variable, RefChangeType.SingleDir, coef);
             }
             else if (mode == Mode.CreateMutualReaction)
             {
-                this.CreateEdge(process, variable, 2);
+                this.CreateEdge(process, variable, RefChangeType.BiDir, 0);
             }
             ResetStartNode();
             canvas.LineHandler.SetLineVisibility(false);
@@ -173,7 +173,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             // Set Line
             CanvasControl canvas = m_start.Canvas;
             PPathwayLine line = canvas.LineHandler.Line4Reconnect;
-            line.Info.TypeOfLine = type;
+            line.Info.LineType = type;
             line.Info.Direction = direction;
             canvas.LineHandler.VarPoint = e.Position;
             canvas.LineHandler.ProPoint = m_start.GetContactPoint(e.Position);
@@ -186,29 +186,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// Create VariableReferenceList of process.
         /// </summary>
-        /// <param name="process">For this process, VariableReferenceList will be created</param>
+        /// <param name="process">VariableReferenceList for this process will be created</param>
         /// <param name="variable">VariableReferenceList to this variable will be created</param>
-        /// <param name="coefficient">coefficient of VariableReferenceList of process</param>
-        private void CreateEdge(PPathwayProcess process, PPathwayVariable variable, int coefficient)
+        /// <param name="type">RefChangeType of this connection.</param>
+        /// <param name="coefficient">coefficient of connection.</param>
+        private void CreateEdge(PPathwayProcess process, PPathwayVariable variable, RefChangeType type, int coefficient)
         {
-            if (coefficient == 2)
-            {
-                m_con.NotifyVariableReferenceChanged(
-                    process.EcellObject.Key,
-                    variable.EcellObject.Key,
-                    RefChangeType.BiDir,
-                    0,
-                    true);
-            }
-            else
-            {
-                m_con.NotifyVariableReferenceChanged(
-                    process.EcellObject.Key,
-                    variable.EcellObject.Key,
-                    RefChangeType.SingleDir,
-                    coefficient,
-                    true);
-            }
+            m_con.NotifyVariableReferenceChanged(
+                process.EcellObject.Key,
+                variable.EcellObject.Key,
+                type,
+                coefficient,
+                true);
             m_con.Menu.SetDefaultEventHandler();
         }
 

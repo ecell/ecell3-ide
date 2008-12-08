@@ -74,6 +74,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             m_con = canvas.Control;
             // Preparing context menus.
             this.ContextMenuStrip = m_con.Menu.PopupMenu;
+            this.KeyDown += new KeyEventHandler(m_con.Menu.Canvas_KeyDown);
             this.AnimatingRenderQuality = RenderQuality.HighQuality;
             this.DefaultRenderQuality = RenderQuality.HighQuality;
             this.InteractingRenderQuality = RenderQuality.HighQuality;
@@ -117,5 +118,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             // Set popup menu visibility flags.
             m_con.Menu.SetPopupMenus();
         }
+
     }
 }

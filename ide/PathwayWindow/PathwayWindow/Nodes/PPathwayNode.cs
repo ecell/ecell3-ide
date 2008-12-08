@@ -74,19 +74,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         protected bool m_isToBeConnected = false;
 
         /// <summary>
-        /// Whether the mouse in on this node or not.
-        /// </summary>
-        protected bool m_isMouseOn = false;
-
-        /// <summary>
         /// PText for showing this object's ID.
         /// </summary>
         protected PText m_pPropertyText;
 
         /// <summary>
-        /// system have this node.
+        /// list of relations.
         /// </summary>
-        protected PPathwaySystem m_system;
+        protected List<PPathwayLine> m_relations = new List<PPathwayLine>();
 
         /// <summary>
         /// Figure List
@@ -112,21 +107,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
+        /// RelatedProcesses
+        /// </summary>
+        public List<PPathwayLine> Relations
+        {
+            get { return m_relations; }
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         public virtual PText PPropertyText
         {
             get { return m_pPropertyText; }
             set { m_pPropertyText = value; }
-        }
-
-        /// <summary>
-        /// get/set the parent system.
-        /// </summary>
-        public virtual PPathwaySystem ParentSystem
-        {
-            get { return m_system; }
-            set { m_system = value; }
         }
         #endregion
 
@@ -156,19 +150,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public void PPathwayNode_VisibleChanged(object sender, PPropertyEventArgs e)
         {
             Refresh();
-        }
-
-        /// <summary>
-        /// the event sequence of selecting the PNode of process or variable in PathwayEditor.
-        /// </summary>
-        /// <param name="e">PInputEventArgs.</param>
-        public override void OnMouseDown(PInputEventArgs e)
-        {
-            if (e.Modifiers == Keys.Shift || m_isSelected)
-                m_canvas.NotifyAddSelect(this);
-            else
-                m_canvas.NotifySelectChanged(this);
-            base.OnMouseDown(e);
         }
 
         /// <summary>
@@ -225,13 +206,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// reconstruct the information of edge.
-        /// </summary>
-        public virtual void ValidateEdges()
-        {            
-        }
-
-        /// <summary>
         /// String expression of this object.
         /// </summary>
         /// <returns></returns>
@@ -256,7 +230,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             }
             return obj;
         }
-
+        /// <summary>
+        /// Refresh
+        /// </summary>
+        public override void Refresh()
+        {
+            foreach (PPathwayLine line in m_relations)
+                line.Refresh();
+            base.Refresh();
+        }
         #endregion
     }
 }

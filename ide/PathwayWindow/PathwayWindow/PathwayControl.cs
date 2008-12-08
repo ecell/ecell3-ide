@@ -363,7 +363,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.StackTrace);
+                Console.WriteLine(e.StackTrace);
                 throw new PathwayException(MessageResources.ErrUnknowType, e);
             }
         }
@@ -818,6 +818,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_window.NotifySetPosition(eo);
         }
 
+        /// <summary>
+        /// Notify DataChanged event to outside (PathwayControl -> PathwayWindow -> DataManager)
+        /// To notify position or size change.
+        /// </summary>
+        /// <param name="obj">x coordinate of object.</param>
+        /// <param name="isAnchor">Whether this action is an anchor or not.</param>
+        public void NotifyDataChanged(PPathwayObject obj, bool isAnchor)
+        {
+            EcellObject eo = obj.EcellObject;
+            NotifyDataChanged(eo.Key, eo.Key, obj, true, isAnchor);
+        }
+
 
         /// <summary>
         /// Notify DataChanged event to outside (PathwayControl -> PathwayWindow -> DataManager)
@@ -1117,8 +1129,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         #endregion
 
         #region EventHandler for ProjectStatusChange
-        private EventHandler m_onProjectStatusChange
-            ;
+        private EventHandler m_onProjectStatusChange;
         /// <summary>
         /// Event on canvas change.
         /// </summary>
@@ -1220,13 +1231,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             List<EcellObject> copyNodes = new List<EcellObject>();
             // Copy System
-            PPathwaySystem system = Canvas.SelectedSystem;
+            EcellObject system;
             EcellObject eo;
-            if (system != null)
+            //Copy Systems
+            foreach (PPathwayObject obj in Canvas.SelectedNodes)
             {
-                eo = system.EcellObject;
-                copyNodes.Add(m_window.GetEcellObject(eo));
-                foreach (PPathwayObject child in Canvas.GetAllObjectUnder(system.EcellObject.Key))
+                if (!(obj is PPathwaySystem))
+                    continue;
+                system = obj.EcellObject;
+                copyNodes.Add(m_window.GetEcellObject(system));
+                foreach (PPathwayObject child in Canvas.GetAllObjectUnder(system.Key))
                 {
                     if (child is PPathwaySystem)
                     {
@@ -1234,22 +1248,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                         copyNodes.Add(m_window.GetEcellObject(eo));
                     }
                 }
+
             }
-            //Copy Variavles
-            foreach (PPathwayObject node in Canvas.SelectedNodes)
+            //Copy Variables
+            foreach (PPathwayObject obj in Canvas.SelectedNodes)
             {
-                if (node is PPathwayVariable)
+                if (obj is PPathwayVariable)
                 {
-                    eo = node.EcellObject;
+                    eo = obj.EcellObject;
                     copyNodes.Add(m_window.GetEcellObject(eo));
                 }
             }
             //Copy Processes
-            foreach (PPathwayObject node in Canvas.SelectedNodes)
+            foreach (PPathwayObject obj in Canvas.SelectedNodes)
             {
-                if (node is PPathwayProcess)
+                if (obj is PPathwayProcess)
                 {
-                    eo = node.EcellObject;
+                    eo = obj.EcellObject;
                     copyNodes.Add(m_window.GetEcellObject(eo));
                 }
             }

@@ -950,7 +950,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
                 MessageBox.Show(
                     "Name:" + obj.EcellObject.Key
-                    + "\nLayer:" + obj.EcellObject.Layer
+                    + "\nLayer:" + obj.EcellObject.LayerID
                     + "\nX:" + obj.X + "\nY:" + obj.Y
                     + "\nWidth:" + obj.Width + "\nHeight:" + obj.Height
                     + "\nOffsetX:" + obj.OffsetX + "\nOffsetY:" + obj.OffsetY 
@@ -972,13 +972,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             // Check exception.
             CanvasControl canvas = m_con.Canvas;
-            if (canvas == null || canvas.SelectedSystem == null)
+            if (canvas == null || commonMenu.Object == null)
                 return;
 
-            PPathwaySystem system = canvas.SelectedSystem;
-            m_con.Window.NotifyDataMerge(system.EcellObject.ModelID, system.EcellObject.Key);
-            if (system.IsHighLighted)
-                canvas.ResetSelectedSystem();
+            EcellObject system = commonMenu.Object;
+            m_con.Window.NotifyDataMerge(system.ModelID, system.Key);
+            canvas.NotifyResetSelect();
         }
 
         private void CreateAliasClick(object sender, EventArgs e)
@@ -1040,17 +1039,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     m_con.NotifyDataDelete(deleteNode, isAnchor);
                 }
             }
-            // Delete Selected System
-            PPathwaySystem system = canvas.SelectedSystem;
-            if (system != null)
-            {
-                // Return if system is null or root.
-                if (string.IsNullOrEmpty(system.EcellObject.Key))
-                    return;
-                // Delete sys.
-                m_con.NotifyDataDelete(system.EcellObject, true);
-                canvas.ResetSelectedSystem();
-            }
         }
 
         /// <summary>
@@ -1094,16 +1082,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 else
                     coefficient = -1;
             }
-            //if (item.Name == MenuConstants.CanvasMenuRightArrow)
-            //{
-            //    changeType = RefChangeType.SingleDir;
-            //    coefficient = 1;
-            //}
-            //else if (item.Name == MenuConstants.CanvasMenuLeftArrow)
-            //{
-            //    changeType = RefChangeType.SingleDir;
-            //    coefficient = -1;
-            //}
             else if (item.Name == MenuConstants.CanvasMenuBidirArrow)
             {
                 changeType = RefChangeType.BiDir;
@@ -1156,18 +1134,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Change layer of selected objects.
             PPathwayLayer layer = canvas.Layers[name];
             List<PPathwayObject> objList = canvas.SelectedNodes;
-            if (canvas.SelectedSystem != null)
-                objList.Add(canvas.SelectedSystem);
             int i = 0;
             foreach (PPathwayObject obj in objList)
             {
                 obj.Layer = layer;
                 i++;
                 m_con.NotifyDataChanged(
-                    obj.EcellObject.Key,
-                    obj.EcellObject.Key,
                     obj,
-                    true,
                     (i == objList.Count));
             }
         }
@@ -1262,8 +1235,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             using (dialog)
             {
                 dialog.Text = MessageResources.DialogTextPathwaySetting;
-                PropertyDialogTabPage componentPage = m_con.ComponentManager.CreateTabPage();
-                PropertyDialogTabPage animationPage = m_con.Animation.AnimationSettingsTabPage;
+                PropertyDialogTabPage componentPage = m_con.ComponentManager.DialogTabPage;
+                PropertyDialogTabPage animationPage = m_con.Animation.DialogTabPage;
                 dialog.TabControl.Controls.Add(animationPage);
                 dialog.TabControl.Controls.Add(componentPage);
                 if (dialog.ShowDialog() != DialogResult.OK)
@@ -1505,6 +1478,51 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             else
                 return ImageFormat.Bmp;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        internal void Canvas_OnKeyPress(object sender, KeyPressEventArgs e)
+        {
+            string key = "OnKeyPress = " + e.KeyChar + "\n" + (Control.ModifierKeys == Keys.ControlKey);
+
+            MessageBox.Show(key);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        internal void Canvas_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!m_con.Canvas.PCanvas.Focused)
+                return;
+            float moveLength = 10;
+            if (Control.ModifierKeys == Keys.Control)
+                moveLength = 1;
+            PointF delta = new PointF();
+            if (e.KeyCode == Keys.Left)
+                delta.X = delta.X - moveLength;
+            if (e.KeyCode == Keys.Right)
+                delta.X = delta.X + moveLength;
+            if (e.KeyCode == Keys.Up)
+                delta.Y = delta.Y - moveLength;
+            if (e.KeyCode == Keys.Down)
+                delta.Y = delta.Y + moveLength;
+
+
+            if (delta == PointF.Empty)
+                return;
+            foreach (PPathwayObject obj in m_con.Canvas.SelectedNodes)
+            {
+                obj.MovePosition(delta);
+            }
+            m_con.Canvas.NotifyMoveObjects();
+        }
+
         #endregion
 
     }
