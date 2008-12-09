@@ -264,7 +264,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="e">EventArgs</param>
         public void NewButtonClick(object sender, EventArgs e)
         {
-            InputParameterNameDialog newwin = new InputParameterNameDialog(this);
+            InputParameterNameDialog newwin = new InputParameterNameDialog(this, true);
             using (newwin) 
             {
                 if (newwin.ShowDialog() != DialogResult.OK)
@@ -338,7 +338,14 @@ namespace Ecell.IDE.Plugins.Simulation
                 return;
             }
 
-            steppersBindingSource.RemoveCurrent(); 
+            steppersBindingSource.RemoveCurrent();
+
+            // 削除した後にListBoxの順番が更新されていません。
+            // なにかいい方法があったらそちらに変更しましょう。
+            for (int i = 0; i < steppersBindingSource.Count; i++)
+            {
+                steppersBindingSource.ResetItem(i);
+            }
         }
 
         /// <summary>
@@ -348,7 +355,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="e">EventArgs</param>
         public void AddStepperClick(object sender, EventArgs e)
         {
-            InputParameterNameDialog newwin = new InputParameterNameDialog(this);
+            InputParameterNameDialog newwin = new InputParameterNameDialog(this, false);
             using (newwin)
             {
                 newwin.Text = MessageResources.NewStepperText;
@@ -359,6 +366,12 @@ namespace Ecell.IDE.Plugins.Simulation
                 sc.ClassName = m_stepperClasses[0];
                 ResetStepperProperties(sc);
                 steppersBindingSource.Add(sc);
+                // 追加した後にListBoxの順番が更新されていません。
+                // なにかいい方法があったらそちらに変更しましょう。
+                for (int i = 0; i < steppersBindingSource.Count; i++)
+                {
+                    steppersBindingSource.ResetItem(i);
+                }
             }
         }
 
@@ -375,6 +388,30 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
         #endregion
+
+        public bool IsExistStepper(string name)
+        {
+            for (int i = 0; i < steppersBindingSource.Count; i++)
+            {
+                if (((StepperConfiguration)steppersBindingSource[i]).Name.Equals(name))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IsExistParameterSet(string name)
+        {
+            for (int i = 0; i < m_simParamSets.Count; i++)
+            {
+                if (((SimulationParameterSet)m_simParamSets[i]).Name.Equals(name))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         private void ResetStepperProperties(StepperConfiguration sc)
         {

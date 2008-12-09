@@ -120,6 +120,9 @@
   <data name="ConfirmReset" xml:space="preserve">
     <value>シミュレーション実行をリセットしますか？　実行中に変更したパラメーターはすべてリセットされます。</value>
   </data>
+  <data name="ErrAlreadyExist" xml:space="preserve">
+    <value>{0} は既に存在します。</value>
+  </data>
   <data name="ErrDelParam" xml:space="preserve">
     <value>最後のパラメータは削除できません。</value>
   </data>

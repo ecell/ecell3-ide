@@ -46,6 +46,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// DataManager.
         /// </summary>
         SimulationConfigurationDialog m_owner;
+        private bool m_isParam;
         #endregion
 
 
@@ -57,9 +58,10 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <summary>
         /// Constructor for NewParameterWindow.
         /// </summary>
-        internal InputParameterNameDialog(SimulationConfigurationDialog owner)
+        internal InputParameterNameDialog(SimulationConfigurationDialog owner, bool isParam)
         {
             m_owner = owner;
+            m_isParam = isParam;
             InitializeComponent();
         }
 
@@ -89,6 +91,13 @@ namespace Ecell.IDE.Plugins.Simulation
             if (Util.IsNGforID(paramTextBox.Text))
             {
                 Util.ShowWarningDialog(MessageResources.ErrIDNG);
+                e.Cancel = true;
+                return;
+            }
+            if ((m_isParam && m_owner.IsExistParameterSet(paramTextBox.Text))
+                || (!m_isParam && m_owner.IsExistStepper(paramTextBox.Text)))
+            {
+                Util.ShowWarningDialog(String.Format(MessageResources.ErrAlreadyExist, paramTextBox.Text));
                 e.Cancel = true;
                 return;
             }

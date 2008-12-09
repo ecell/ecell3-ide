@@ -70,6 +70,15 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
+        ///   {0} is already exist. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrAlreadyExist {
+            get {
+                return ResourceManager.GetString("ErrAlreadyExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot delete the last parameter set. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrDelParam {
