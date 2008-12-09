@@ -618,6 +618,10 @@ namespace Ecell
                     foreach (Project prj in m_projectList)
                     {
                         tmpList.Add(prj.Info.Name);
+                        if (String.IsNullOrEmpty(closeProject))
+                            closeProject = prj.Info.Name;
+                        else
+                            closeProject = closeProject + "," + prj.Info.Name;
                     }
                 }
                 else

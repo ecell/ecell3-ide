@@ -81,7 +81,8 @@ namespace Ecell.IDE
             bool isParentSys = string.IsNullOrEmpty(obj.ParentSystemID);
 
             addToolStripMenuItem.Visible = isSystem;
-            mergeSystemToolStripMenuItem.Visible = isSystem && isParentSys;
+            deleteToolStripMenuItem.Visible = !isParentSys;
+            mergeSystemToolStripMenuItem.Visible = isSystem && !isParentSys;
             mergeSystemToolStripMenuItem.Text = mergeSystemToolStripMenuItem.Text + "(" + obj.ParentSystemID + ")";
 
         }
