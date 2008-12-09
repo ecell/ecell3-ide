@@ -66,21 +66,18 @@ namespace Ecell
             }
             else if (ecellValue.IsList)
             {
-                if (isElement)
+                foreach (object edge in (IEnumerable)ecellValue.Value)
                 {
                     m_tx.WriteStartElement(Constants.xpathValue.ToLower());
-                    foreach (EcellValue childEcellValue in (IEnumerable)ecellValue.Value)
+                    foreach (object value in (IEnumerable)edge)
                     {
-                        this.WriteValueElements(childEcellValue, true);
+                        //this.WriteValueElements(childEcellValue, true);
+                        m_tx.WriteElementString(
+                            Constants.xpathValue.ToLower(),
+                            null,
+                            value.ToString());
                     }
                     m_tx.WriteEndElement();
-                }
-                else
-                {
-                    foreach (EcellValue childEcellValue in (IEnumerable)ecellValue.Value)
-                    {
-                        this.WriteValueElements(childEcellValue, true);
-                    }
                 }
             }
             else
