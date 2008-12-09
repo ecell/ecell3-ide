@@ -612,6 +612,7 @@ namespace Ecell
         {
             try
             {
+                string closeProject = "";
                 List<string> tmpList = new List<string>();
                 if (projectID == null)
                 {
