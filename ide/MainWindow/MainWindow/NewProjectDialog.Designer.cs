@@ -90,7 +90,6 @@ namespace Ecell.IDE.MainWindow
             // 
             resources.ApplyResources(this.textComment, "textComment");
             this.textComment.Name = "textComment";
-            this.textComment.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EnterKeyPress);
             // 
             // label4
             // 
