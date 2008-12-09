@@ -47,7 +47,7 @@ namespace Ecell.Objects
     /// </summary>
     public class EcellReference
     {
-        #region Fields
+        #region Constant
         private static Regex parser1 = new Regex("\"(?<name>.+)\",(.+)\"(?<id>.+)\",(\"|.*)\\-(?<coe>\\d+)(\"|.*),(\"|.*)(?<fix>\\d+)(\"|.*)");
         private static Regex parser2 = new Regex("\"(?<name>.+)\",(.+)\"(?<id>.+)\",(\"|.*)(?<coe>\\d+)(\"|.*),(\"|.*)(?<fix>\\d+)(\"|.*)");
         private static Regex parser3 = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\", (\"|.*)\\-(?<coe>\\d+)(\"|.*)");

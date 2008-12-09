@@ -1780,6 +1780,7 @@ namespace Ecell.IDE.MainWindow
         private void feedbackToolStripMenuItem_Click(object sender, EventArgs e)
         {
             m_browser.Url = new Uri("http://chaperone.e-cell.org/services/feedback/");
+            m_browser.Activate();
         }
     }
 }
