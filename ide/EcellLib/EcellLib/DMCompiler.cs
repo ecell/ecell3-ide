@@ -240,6 +240,9 @@ namespace Ecell
                     File.Move(OutputFile, DMFile);
                     Util.ShowNoticeDialog(String.Format(MessageResources.InfoCompile,
                         Path.GetFileNameWithoutExtension(DMFile)));
+                    env.Console.WriteLine(String.Format(MessageResources.InfoCompile,
+                        Path.GetFileNameWithoutExtension(DMFile)));
+                    env.Console.Flush();
                 }
                 catch (Exception)
                 {
@@ -247,6 +250,9 @@ namespace Ecell
                     // ÇÊÇ¡ÇƒÇ±ÇÃó·äOÇÕñ≥éãÇ∑ÇÈÇ‡ÇÃÇ∆Ç∑ÇÈÅB
                     Util.ShowNoticeDialog(String.Format(MessageResources.WarnMoveDM,
                         DMFile, OutputFile));
+                    env.Console.WriteLine(String.Format(MessageResources.WarnMoveDM,
+                        DMFile, OutputFile));
+                    env.Console.Flush();
                 }
             }
         }
