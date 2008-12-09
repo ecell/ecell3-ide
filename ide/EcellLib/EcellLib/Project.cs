@@ -644,16 +644,17 @@ namespace Ecell
                 {
                     storedEcellDataDic[storedEcellData.Name] = storedEcellData;
                     processEcellDataList.Add(storedEcellData);
-                    if (storedEcellData.Settable)
+                    if (!storedEcellData.Settable)
+                        continue;
+                    if (!storedEcellData.Value.IsDouble)
+                        continue;
+                    try
                     {
-                        try
-                        {
-                            initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
-                        }
-                        catch (InvalidCastException)
-                        {
-                            // non-numeric value
-                        }
+                        initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
+                    }
+                    catch (InvalidCastException)
+                    {
+                        // non-numeric value
                     }
                 }
             }
@@ -678,7 +679,7 @@ namespace Ecell
                     if (storedEcellDataDic.ContainsKey(name))
                         value = storedEcellDataDic[name].Value;
                     else
-                        value = new EcellValue(new List<EcellValue>());
+                        value = new EcellValue(new List<object>());
                 }
                 else if (name == Constants.xpathActivity && name == Constants.xpathMolarActivity)
                 {
@@ -700,14 +701,14 @@ namespace Ecell
                 EcellData ecellData = CreateEcellData(name, value, entityPath, flag.Settable, flag.Gettable, flag.Loadable, flag.Savable);
                 if (ecellData.Value != null)
                 {
-                    if (ecellData.Value.IsDouble)
-                    {
-                        ecellData.Logable = ecellData.Settable == false || ecellData.Saveable == false;
-                    }
+                    if (!ecellData.Value.IsDouble)
+                        continue;
+                    ecellData.Logable = ecellData.Settable == false || ecellData.Saveable == false;
+                    if (ecellData.Settable)
+                        continue;
                     try
                     {
-                        if (ecellData.Settable)
-                            initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
+                        initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
                     }
                     catch
                     {
@@ -833,18 +834,19 @@ namespace Ecell
                 {
                     storedEcellDataDic[storedEcellData.Name] = storedEcellData;
                     systemEcellDataList.Add(storedEcellData);
-                    if (storedEcellData.Settable)
-                    {
-                        storedEcellData.Logable = storedEcellData.Value.IsDouble;
+                    if (!storedEcellData.Settable)
+                        continue;
+                    storedEcellData.Logable = storedEcellData.Value.IsDouble;
+                    if (!storedEcellData.Logable)
+                        continue;
 
-                        try
-                        {
-                            initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
-                        }
-                        catch (InvalidCastException)
-                        {
-                            // non-numeric value
-                        }
+                    try
+                    {
+                        initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
+                    }
+                    catch (InvalidCastException)
+                    {
+                        // non-numeric value
                     }
                 }
             }
@@ -900,18 +902,18 @@ namespace Ecell
                 EcellData ecellData = CreateEcellData(name, new EcellValue(value), entityPath, flags.Settable, flags.Gettable, flags.Loadable, flags.Savable);
                 if (ecellData.Value != null)
                 {
+                    if (!ecellData.Settable)
+                        continue;
                     ecellData.Logable = ecellData.Value.IsDouble;
-
-                    if (ecellData.Settable)
+                    if (!ecellData.Logable)
+                        continue;
+                    try
                     {
-                        try
-                        {
-                            initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
-                        }
-                        catch (InvalidCastException)
-                        {
-                            // non-numeric value
-                        }
+                        initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
+                    }
+                    catch (InvalidCastException)
+                    {
+                        // non-numeric value
                     }
                 }
                 if (storedEcellDataDic.ContainsKey(name))
@@ -950,18 +952,20 @@ namespace Ecell
                 {
                     storedEcellDataDic[storedEcellData.Name] = storedEcellData;
                     variableEcellDataList.Add(storedEcellData);
-                    if (storedEcellData.Settable)
-                    {
-                        storedEcellData.Logable = storedEcellData.Value.IsDouble;
 
-                        try
-                        {
-                            initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
-                        }
-                        catch (InvalidCastException)
-                        {
-                            // non-numeric value
-                        }
+                    if (!storedEcellData.Settable)
+                        continue;
+                    storedEcellData.Logable = storedEcellData.Value.IsDouble;
+                    if (!storedEcellData.Logable)
+                        continue;
+
+                    try
+                    {
+                        initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
+                    }
+                    catch (InvalidCastException)
+                    {
+                        // non-numeric value
                     }
                 }
             }
@@ -1011,18 +1015,19 @@ namespace Ecell
                 EcellData ecellData = CreateEcellData(name, new EcellValue(value), entityPath, flags.Settable, flags.Gettable, flags.Loadable, flags.Savable);
                 if (ecellData.Value != null)
                 {
+                    if (!ecellData.Settable)
+                        continue;
                     ecellData.Logable = ecellData.Value.IsDouble;
+                    if (!ecellData.Logable)
+                        continue;
 
-                    if (ecellData.Settable)
+                    try
                     {
-                        try
-                        {
-                            initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
-                        }
-                        catch (InvalidCastException)
-                        {
-                            // non-numeric value
-                        }
+                        initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
+                    }
+                    catch (InvalidCastException)
+                    {
+                        // non-numeric value
                     }
                 }
                 if (storedEcellDataDic.ContainsKey(name))

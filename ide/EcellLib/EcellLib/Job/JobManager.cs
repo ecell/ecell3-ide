@@ -772,7 +772,7 @@ namespace Ecell.Job
         {
             Project prj = m_env.DataManager.CurrentProject;
             ScriptWriter writer = new ScriptWriter(prj);
-            List<EcellObject> sysList = m_env.DataManager.GetData(modelName, null); 
+            List<EcellObject> sysList = m_env.DataManager.CurrentProject.SystemDic[modelName]; 
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
             foreach (int i in setparam.Keys)
             {
@@ -867,7 +867,7 @@ namespace Ecell.Job
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
             Project prj = m_env.DataManager.CurrentProject;
             ScriptWriter writer = new ScriptWriter(prj);
-            List<EcellObject> sysList = m_env.DataManager.GetData(modelName, null);
+            List<EcellObject> sysList = m_env.DataManager.CurrentProject.SystemDic[modelName];
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
             Random hRandom = new Random();
             for (int i = 0 ; i < num ; i++ )
@@ -1026,7 +1026,7 @@ namespace Ecell.Job
             m_parameterDic.Clear();
             Project prj = m_env.DataManager.CurrentProject;
             ScriptWriter writer = new ScriptWriter(prj);
-            List<EcellObject> sysList = m_env.DataManager.GetData(modelName, null);
+            List<EcellObject> sysList = m_env.DataManager.CurrentProject.SystemDic[modelName];
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
             if (m_paramList.Count != 2)
             {

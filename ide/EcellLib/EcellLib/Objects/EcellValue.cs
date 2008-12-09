@@ -134,7 +134,7 @@ namespace Ecell.Objects
         /// <returns>true if the type is the list of EcellValue; false otherwise</returns>
         public bool IsList
         {
-            get { return m_value is List<EcellValue>; }
+            get { return m_value is List<object>; }
         }
 
         #endregion
@@ -151,7 +151,7 @@ namespace Ecell.Objects
                 return (string)this == (string)obj;
             else if (obj is IEnumerable)
             {
-                return (IEnumerable)this.m_value == (IEnumerable<EcellValue>)obj;
+                return (IEnumerable)this.m_value == (IEnumerable<object>)obj;
             }
             throw new InvalidOperationException();
         }
@@ -244,13 +244,13 @@ namespace Ecell.Objects
             {
                 return "\"" + ((string)m_value).Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
             }
-            else if (m_value is List<EcellValue>)
+            else if (m_value is List<object>)
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append('(');
-                foreach (EcellValue ecellValue in (IEnumerable<EcellValue>)m_value)
+                foreach (object obj in (IEnumerable<object>)m_value)
                 {
-                    sb.Append(ecellValue.ToSerializedForm());
+                    sb.Append(obj.ToString());
                     sb.Append(", ");
                 }
                 if (sb.Length > 1)

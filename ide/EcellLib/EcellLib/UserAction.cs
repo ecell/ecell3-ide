@@ -281,7 +281,7 @@ namespace Ecell
         public override void Execute()
         {
             string modelID = m_env.DataManager.LoadModel(m_fileName, true);
-            m_env.PluginManager.DataAdd(m_env.DataManager.GetData(modelID, null));
+            m_env.PluginManager.DataAdd(m_env.DataManager.CurrentProject.SystemDic[modelID]);
             m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
         }
         /// <summary>

@@ -534,55 +534,23 @@ namespace Ecell
         private static bool CheckVariableReferenceList(
             EcellObject src, ref EcellObject dest, Dictionary<string, string> variableDic)
         {
-            bool changedFlag = false;
+
             dest = src.Copy();
-            EcellValue varList = dest.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST);
-            if (varList == null || varList.ToString().Length <= 0)
+            EcellProcess process = (EcellProcess)dest;
+            List<EcellReference> refList = process.ReferenceList;
+            bool changedFlag = false;
+            if (refList == null || refList.Count <= 0)
                 return changedFlag;
 
-            List<object> changedValue = new List<object>();
-            foreach (EcellValue ecellValue in (IEnumerable)varList.Value)
+            foreach (EcellReference er in refList)
             {
-                List<object> changedElements = new List<object>();
-                foreach (EcellValue element in (IEnumerable)ecellValue.Value)
-                {
-                    if (element.IsString
-                        && ((string)element).StartsWith(Constants.delimiterColon))
-                    {
-                        string oldKey = ((string)element).Substring(1);
-                        if (variableDic.ContainsKey(oldKey))
-                        {
-                            changedElements.Add(Constants.xpathVariable + Constants.delimiterColon + variableDic[oldKey]);
-                            changedFlag = true;
-                        }
-                        else
-                        {
-                            changedElements.Add(element);
-                        }
-                    }
-                    else if (element.IsString
-                        && ((string)element).StartsWith(Constants.xpathVariable + Constants.delimiterColon))
-                    {
-                        string oldKey = ((string)element).Substring(9);
-                        if (variableDic.ContainsKey(oldKey))
-                        {
-                            changedElements.Add(Constants.xpathVariable + Constants.delimiterColon + variableDic[oldKey]);
-                            changedFlag = true;
-                        }
-                        else
-                        {
-                            changedElements.Add(element);
-                        }
-                    }
-                    else
-                    {
-                        changedElements.Add(element);
-                    }
-                }
-                changedValue.Add(changedElements);
+                if (!variableDic.ContainsKey(er.Key))
+                    continue;
+                // if (variableDic.ContainsKey(er.Key))
+                er.Key = variableDic[er.Key];
+                changedFlag = true;
             }
-            dest.GetEcellData(EcellProcess.VARIABLEREFERENCELIST).Value = new EcellValue(changedValue);
-
+            process.ReferenceList = refList;
             return changedFlag;
         }
 
@@ -596,54 +564,34 @@ namespace Ecell
         private void CheckVariableReferenceList(
             string modelID, string newKey, string oldKey, List<EcellObject> changedList)
         {
-            foreach (EcellObject system in GetData(modelID, null))
+            foreach (EcellObject system in m_currentProject.SystemDic[modelID])
             {
                 if (system.Children == null || system.Children.Count <= 0)
                     continue;
 
                 foreach (EcellObject instance in system.Children)
                 {
-                    EcellObject entity = instance.Copy();
-                    if (!entity.Type.Equals(Constants.xpathProcess))
+                    if (!(instance is EcellProcess))
                         continue;
-                    else if (entity.Value == null || entity.Value.Count <= 0)
+                    else if (instance.Value == null || instance.Value.Count <= 0)
                         continue;
 
+                    EcellProcess entity = (EcellProcess)instance.Copy();
+                    List<EcellReference> refList = entity.ReferenceList;
                     bool changedFlag = false;
-                    foreach (EcellData ecellData in entity.Value)
+                    foreach (EcellReference er in refList)
                     {
-                        if (!ecellData.Name.Equals(Constants.xpathVRL))
+                        if (!er.Key.Equals(oldKey))
                             continue;
-
-                        List<object> changedValue = new List<object>();
-                        if (ecellData.Value == null) continue;
-                        if (ecellData.Value.ToString() == "") continue;
-                        foreach (EcellValue ecellValue in (IEnumerable)ecellData.Value)
-                        {
-                            List<object> changedElements = new List<object>();
-                            foreach (EcellValue element in (IEnumerable)ecellValue.Value)
-                            {
-                                if (element.IsString
-                                    && (((string)element).Equals(Constants.xpathVariable + Constants.delimiterColon + oldKey) ||
-                                    ((string)element).Equals(Constants.delimiterColon + oldKey)))
-                                {
-                                    changedElements.Add(
-                                        new EcellValue(Constants.xpathVariable + Constants.delimiterColon + newKey));
-                                    changedFlag = true;
-                                }
-                                else
-                                {
-                                    changedElements.Add(element);
-                                }
-                            }
-                            changedValue.Add(new EcellValue(changedElements));
-                        }
-                        ecellData.Value = new EcellValue(changedValue);
+                        er.Key = newKey;
+                        changedFlag = true;
                     }
-                    if (changedFlag)
-                    {
-                        changedList.Add(entity);
-                    }
+                    if (!changedFlag)
+                        continue;
+                    
+                    // Set changed refList
+                    entity.ReferenceList = refList;
+                    changedList.Add(entity);
                 }
             }
         }
@@ -1411,16 +1359,14 @@ namespace Ecell
                 instanceList.AddRange(system.Children);
                 foreach (EcellObject childObject in instanceList)
                 {
+                    // Check EcellProcess
                     if (!childObject.Type.Equals(Constants.xpathProcess))
                         continue;
 
-                    bool changedFlag = false;
                     // 4 VariableReferenceList
                     EcellObject dest = null;
-                    if (CheckVariableReferenceList(childObject, ref dest, variableKeyDic))
-                    {
-                        changedFlag = true;
-                    }
+                    bool changedFlag = CheckVariableReferenceList(childObject, ref dest, variableKeyDic);
+
                     // 4 key
                     string oldKey = dest.Key;
                     string keyName = oldKey.Split(Constants.delimiterColon.ToCharArray())[1];
@@ -4797,7 +4743,7 @@ namespace Ecell
             {
                 if (ecellData.Name.Equals(EcellProcess.VARIABLEREFERENCELIST))
                 {
-                    ecellData.Value = new EcellValue(new List<EcellValue>());
+                    ecellData.Value = new EcellValue(new List<object>());
                 }
                 dic[ecellData.Name] = ecellData;
             }

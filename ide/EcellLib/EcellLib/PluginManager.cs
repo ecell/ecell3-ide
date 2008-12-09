@@ -450,7 +450,7 @@ namespace Ecell
         /// <param name="modelID"></param>
         public void LoadData(string modelID)
         {
-            DataAdd(m_env.DataManager.GetData(modelID, null));
+            DataAdd(m_env.DataManager.CurrentProject.SystemDic[modelID]);
             string prjID = m_env.DataManager.CurrentProjectID;
             foreach (string paramID in m_env.DataManager.GetSimulationParameterIDs())
             {
