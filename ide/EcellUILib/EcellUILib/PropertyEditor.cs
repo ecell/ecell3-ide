@@ -91,6 +91,8 @@ namespace Ecell.IDE
         private FormulatorDialog m_fwin = null;
         private String m_title = null;
         private Dictionary<string, EcellParameterData> m_paramDic = new Dictionary<string, EcellParameterData>();
+        private string m_definedSize = "";
+        static private string DefinedSize = "DefinedSize";
         #endregion
 
         #region Constructor
@@ -585,11 +587,18 @@ namespace Ecell.IDE
             TextBox textBox = (TextBox)sender;
             string text = textBox.Text;
             string propName = (string)(textBox.Tag);
+            string preData = "";
+
+            if (propName.Equals(PropertyEditor.DefinedSize))
+                preData = m_definedSize;
+            else
+                preData = m_propDict[propName].Value.ToString();
 
             if (string.IsNullOrEmpty(text))
             {
+                if (propName.Equals(PropertyEditor.DefinedSize)) return;
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet, propName));
-                textBox.Text = m_propDict[propName].Value.ToString();
+                textBox.Text = preData;
                 e.Cancel = true;
                 return;
             }
@@ -597,7 +606,7 @@ namespace Ecell.IDE
             if (!Double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                textBox.Text = m_propDict[propName].Value.ToString();
+                textBox.Text = preData;
                 e.Cancel = true;
                 return;
             }
@@ -904,7 +913,8 @@ namespace Ecell.IDE
 
                 TextBox t = new TextBox();
                 t.Text = "";
-                t.Tag = "DefinedSize";
+                m_definedSize = "";
+                t.Tag = PropertyEditor.DefinedSize;
                 t.Dock = DockStyle.Fill;
                 t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                 t.Validating += new CancelEventHandler(DoubleInputTextValidating);
@@ -920,7 +930,8 @@ namespace Ecell.IDE
 
                 TextBox t = new TextBox();
                 t.Text = "";
-                t.Tag = "DefinedSize";
+                m_definedSize = "";
+                t.Tag = PropertyEditor.DefinedSize;
                 t.Dock = DockStyle.Fill;
                 t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                 t.Validating += new CancelEventHandler(DoubleInputTextValidating);
@@ -937,6 +948,7 @@ namespace Ecell.IDE
                                 if (d.EntityPath.EndsWith(":Value"))
                                 {
                                     t.Text = d.Value.ToString();
+                                    m_definedSize = d.Value.ToString();
                                 }
                             }
                         }

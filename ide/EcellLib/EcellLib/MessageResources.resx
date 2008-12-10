@@ -326,4 +326,7 @@ New revision {0}:{1} was created.</value>
   <data name="InfoSaveScript" xml:space="preserve">
     <value>Script {0} is saved.</value>
   </data>
+  <data name="ErrSuspend" xml:space="preserve">
+    <value>The simulation was suspended because the the simulation engine throw the exception.</value>
+  </data>
 </root>

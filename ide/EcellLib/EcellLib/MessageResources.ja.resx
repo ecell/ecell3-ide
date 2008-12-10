@@ -324,4 +324,7 @@
   <data name="InfoSaveScript" xml:space="preserve">
     <value>スクリプト {0} を保存しました。</value>
   </data>
+  <data name="ErrSuspend" xml:space="preserve">
+    <value>シミュレーションエンジンで例外が発生したため、シミュレーションを中断しました。</value>
+  </data>
 </root>

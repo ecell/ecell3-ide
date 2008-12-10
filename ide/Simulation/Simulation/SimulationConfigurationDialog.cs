@@ -119,6 +119,13 @@ namespace Ecell.IDE.Plugins.Simulation
             PerModelSimulationParameter p = (PerModelSimulationParameter)((BindingSource)sender).Current;
             steppersBindingSource.DataSource = p.Steppers;
             initialConditionsBindingSource.DataSource = p.InitialConditions;
+
+            // 設定した後にListBoxの順番が更新されていません。
+            // なにかいい方法があったらそちらに変更しましょう。
+            for (int i = 0; i < steppersBindingSource.Count; i++)
+            {
+                steppersBindingSource.ResetItem(i);
+            }
         }
 
         /// <summary>
@@ -318,11 +325,18 @@ namespace Ecell.IDE.Plugins.Simulation
                 if (sysObj.Children == null)
                     continue;
 
+                EcellData data = sysObj.GetEcellData(Constants.xpathStepperID);
+                if (data != null && data.Value.CastToString() == sc.Name)
+                {
+                    stillInUse = true;
+                    break;
+                }
+
                 foreach (EcellObject obj in sysObj.Children)
                 {
                     if (obj.Type == Constants.xpathProcess)
                     {
-                        EcellData data = obj.GetEcellData(Constants.xpathStepperID);
+                        data = obj.GetEcellData(Constants.xpathStepperID);
                         if (data != null && (string)data.Value == sc.Name)
                         {
                             stillInUse = true;

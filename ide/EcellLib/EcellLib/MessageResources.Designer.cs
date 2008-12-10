@@ -430,6 +430,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   The simulation was suspended because the the simulation engine throw the exception. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSuspend {
+            get {
+                return ResourceManager.GetString("ErrSuspend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot suspend the simulation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSuspendSim {
