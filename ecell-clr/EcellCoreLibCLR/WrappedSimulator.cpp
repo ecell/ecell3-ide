@@ -327,8 +327,8 @@ namespace EcellCoreLib {
         }
         catch ( std::exception const& )
         {
-            delete thePropertiedObjectMaker;
             delete theModel;
+            delete thePropertiedObjectMaker;
             throw;
         }
 
