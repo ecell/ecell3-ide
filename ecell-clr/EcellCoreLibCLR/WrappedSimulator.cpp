@@ -411,7 +411,7 @@ namespace EcellCoreLib {
 
         IList<DMInfo>^ GetDMInfo()
         {
-            typedef SharedModuleMaker<libecs::EcsObject>::ModuleMap ModuleMap;
+            typedef ModuleMaker<libecs::EcsObject>::ModuleMap ModuleMap;
             const ModuleMap& modules(thePropertiedObjectMaker->getModuleMap());
 
             System::Collections::Generic::List<DMInfo>^ retval = gcnew List<DMInfo>();
@@ -1023,7 +1023,7 @@ namespace EcellCoreLib {
 
         libecs::Integer               theEventCheckInterval;
 
-        StaticModuleMaker<libecs::EcsObject> *thePropertiedObjectMaker;
+        ModuleMaker<libecs::EcsObject> *thePropertiedObjectMaker;
         libecs::Model                 *theModel;
 
         System::EventHandler^         theEventHandler;
