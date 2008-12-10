@@ -1147,6 +1147,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             EcellObject obj = EcellObject.CreateObject(
                 m_current.ModelID, m_current.Key, m_current.Type,
                 newClassName, props);
+            obj.SetPosition(m_current);
             NotifyDataChanged(obj.ModelID, obj.Key, obj);
             m_current = obj;
             ReloadProperties();
