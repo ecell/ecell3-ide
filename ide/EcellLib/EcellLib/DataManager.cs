@@ -467,6 +467,50 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Get Process list to update VariableReference.
+        /// </summary>
+        /// <param name="variableDic">Dictionary of VariableReference changed."Dictionary<oldKey,newKey>"</param>
+        /// <returns></returns>
+        private List<EcellObject> GetUpdatedProcessList(Dictionary<string, string> variableDic)
+        {
+            // Get ProcessList
+            List<EcellProcess> list = new List<EcellProcess>();
+            foreach (EcellObject system in m_currentProject.SystemList)
+            {
+                if (system.Children == null || system.Children.Count <= 0)
+                    continue;
+
+                foreach (EcellObject child in system.Children)
+                {
+                    if (!(child is EcellProcess))
+                        continue;
+                    list.Add((EcellProcess)child.Copy());
+                }
+            }
+            // Check VariableReference
+            List<EcellObject> returnList = new List<EcellObject>();
+            bool changedFlag = false;
+            foreach (EcellProcess process in list)
+            {
+                changedFlag = false;
+                List<EcellReference> refList = process.ReferenceList;
+                foreach (EcellReference er in refList)
+                {
+                    if (!variableDic.ContainsKey(er.Key))
+                        continue;
+                    // Replace VariableReference
+                    er.Key = variableDic[er.Key];
+                    changedFlag = true;
+                }
+                if (!changedFlag)
+                    continue;
+                process.ReferenceList = refList;
+                returnList.Add(process);
+            }
+            return returnList;
+        }
+
+        /// <summary>
         /// Checks differences between the key and the entity path.
         /// </summary>
         /// <param name="ecellObject">The checked "EcellObject"</param>
@@ -1783,55 +1827,82 @@ namespace Ecell
         /// <param name="key">key of deleted system.</param>
         public void SystemDeleteAndMove(string modelID, string key)
         {
-            SystemDeleteAndMove(modelID, key, true, true);
-        }
-
-        /// <summary>
-        /// Move the component to the upper system, when system is deleted.
-        /// </summary>
-        /// <param name="modelID">modelID of deleted system.</param>
-        /// <param name="key">key of deleted system.</param>
-        /// <param name="isRecorded">whether this action will be recorded or not</param>
-        /// <param name="isAnchor">whether this action is an anchor or not</param>
-        public void SystemDeleteAndMove(string modelID, string key, bool isRecorded, bool isAnchor)
-        {
-            EcellObject system = GetEcellObject(modelID, key, EcellObject.SYSTEM);
+            EcellObject system = GetEcellObject(modelID, sysKey, EcellObject.SYSTEM);
+            if (system == null)
+                throw new Exception(String.Format(MessageResources.ErrFindEnt, new object[] { sysKey }));
+            // CheckRoot
             if (system.Key.Equals("/"))
-            {
                 throw new Exception(MessageResources.ErrDelRoot);
-            }
-            // Get objects under this system.
-            List<EcellObject> eoList = GetObjectUnder(modelID, key);
+            // Confirm system merge.
+            if (!Util.ShowYesNoDialog(MessageResources.ConfirmMerge))
+                return;
 
-            // Check Object duplication.
-            string sysKey = system.Key;
+            // Get objects under this system.
             string parentSysKey = system.ParentSystemID;
+            List<EcellObject> eoList = new List<EcellObject>(); ;
+            foreach (EcellObject sys in m_currentProject.SystemDic[modelID])
+            {
+                if (!sys.Key.StartsWith(sysKey))
+                    continue;
+                // Add System
+                if (!sys.Key.Equals(sysKey))
+                {
+                    eoList.Add(sys.Copy());
+                    continue;
+                }
+                // Add Nodes
+                foreach (EcellObject node in sys.Children)
+                {
+                    if (node.Key.EndsWith(":SIZE"))
+                        continue;
+                    eoList.Add(node.Copy());
+                }
+            }
+
+            // Check and replace object keys.
+            Dictionary<string, string> varDic = new Dictionary<string, string>();
+            string oldKey;
+            string newKey;
             foreach (EcellObject eo in eoList)
             {
-                string newKey = Util.GetMovedKey(eo.Key, sysKey, parentSysKey);
+                // Check Duplication
+                oldKey = eo.Key;
+                newKey = Util.GetMovedKey(oldKey, sysKey, parentSysKey);
                 if (GetEcellObject(modelID, newKey, eo.Type) != null)
                 {
                     throw new Exception(String.Format(MessageResources.ErrExistObj,
                         new object[] { newKey }));
                 }
+                eo.Key = newKey;
+                // Set varDic
+                if (eo is EcellVariable)
+                    varDic.Add(oldKey, newKey);
+
+                if (!(eo is EcellSystem))
+                    continue;
+                foreach (EcellObject child in eo.Children)
+                {
+                    oldKey = child.Key;
+                    newKey = Util.GetMovedKey(oldKey, sysKey, parentSysKey);
+                    child.Key = newKey;
+
+                    if (!(child is EcellVariable))
+                        continue;
+                    varDic.Add(oldKey, newKey);
+                }
+
             }
-            // Confirm system merge.
-            if (!Util.ShowYesNoDialog(MessageResources.ConfirmMerge))
-            {
-                return;
-            }
+
+            // Remove system.
+            DataDelete(system.ModelID, system.Key, system.Type, true, false);
 
             // Move systems and nodes under merged system.
             foreach (EcellObject eo in eoList)
-            {
-                string oldKey = eo.Key;
-                EcellObject obj = GetEcellObject(modelID, oldKey, eo.Type);
-                if (obj == null)
-                    continue;
-                obj.Key = Util.GetMovedKey(oldKey, sysKey, parentSysKey);
-                DataChanged(modelID, oldKey, eo.Type, obj, true, false);
-            }
-            DataDelete(modelID, sysKey, system.Type, true, true);
+                DataAdd(eo, true, false);
+
+            // Update VariableReferences
+            List<EcellObject> processes = GetUpdatedProcessList(varDic);
+            DataChanged(processes);
         }
         /// <summary>
         /// Get object list under the system.
