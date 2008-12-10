@@ -787,8 +787,7 @@ namespace Ecell
         [Test()]
         public void TestInitialize()
         {
-            bool l_flag = false;
-            _unitUnderTest.Initialize(l_flag);
+            _unitUnderTest.Initialize();
             Assert.Fail("Create or modify test(s).");
 
         }

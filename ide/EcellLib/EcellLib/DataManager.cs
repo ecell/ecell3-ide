@@ -1825,7 +1825,7 @@ namespace Ecell
         /// </summary>
         /// <param name="modelID">modelID of deleted system.</param>
         /// <param name="key">key of deleted system.</param>
-        public void SystemDeleteAndMove(string modelID, string key)
+        public void SystemDeleteAndMove(string modelID, string sysKey)
         {
             EcellObject system = GetEcellObject(modelID, sysKey, EcellObject.SYSTEM);
             if (system == null)
@@ -2003,14 +2003,12 @@ namespace Ecell
         private void DataDelete4System(string model, string key, bool messageFlag)
         {
             Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialCondition = m_currentProject.InitialCondition;
-            Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
+            List<EcellObject> sysList = m_currentProject.SystemDic[model];
 
             string message = "[" + model + "][" + key + "]";
             // Select systems for delete.
             List<EcellObject> delList = new List<EcellObject>();
-            if (!sysDic.ContainsKey(model))
-                return;
-            foreach (EcellObject obj in sysDic[model])
+            foreach (EcellObject obj in sysList)
             {
                 if (obj.Key.Equals(key) || obj.Key.StartsWith(key + "/"))
                     delList.Add(obj);
