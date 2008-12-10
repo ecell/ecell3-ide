@@ -365,6 +365,9 @@ namespace Ecell
                     if (!destEcellData.IsInitialized())
                         continue;
 
+                    if (!destEcellData.Loadable && !destEcellData.Settable)
+                        continue;
+
                     // GetValue
                     EcellValue value = destEcellData.Value;
                     double temp = (double)value;
@@ -436,6 +439,9 @@ namespace Ecell
                         EcellValue value = destEcellData.Value;
                         if (!srcEcellData.IsInitialized()
                             || srcEcellData.Value.Equals(value))
+                            continue;
+
+                        if (!srcEcellData.Loadable && !srcEcellData.Settable)
                             continue;
 
                         // GetValue
@@ -3196,10 +3202,6 @@ namespace Ecell
             }
 
             //
-            // Initializes
-            //
-            simulator.Initialize();
-            //
             // Sets the "Settable" and "Not Savable" properties
             //
             foreach (string key in setStepperPropertyDic.Keys)
@@ -3211,22 +3213,8 @@ namespace Ecell
             }
             foreach (string path in setSystemPropertyDic.Keys)
             {
-                try
-                {
-                    EcellValue storedEcellValue = new EcellValue(simulator.GetEntityProperty(path));
-                    EcellValue newEcellValue = new EcellValue(setSystemPropertyDic[path]);
-                    if (storedEcellValue.Type.Equals(newEcellValue.Type)
-                        && storedEcellValue.Value.Equals(newEcellValue.Value))
-                    {
-                        continue;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine(ex);
-                    // do nothing
-                }
-                simulator.SetEntityProperty(path, setSystemPropertyDic[path]);
+                if (simulator.GetEntityPropertyAttributes(path).Loadable)
+                    simulator.LoadEntityProperty(path, setSystemPropertyDic[path]);
             }
             //
             // Set the initial condition property.
@@ -3235,15 +3223,11 @@ namespace Ecell
             {
                 foreach (string fullPN in initialCondition[modelID].Keys)
                 {
-                    EcellValue storedValue = new EcellValue(simulator.GetEntityProperty(fullPN));
                     double initialValue = initialCondition[modelID][fullPN];
-                    simulator.SetEntityProperty(fullPN, initialValue);
+                    if (simulator.GetEntityPropertyAttributes(fullPN).Loadable)
+                        simulator.LoadEntityProperty(fullPN, initialValue);
                 }
             }
-            //
-            // Reinitializes
-            //
-            // this.m_simulatorDic[m_currentProject.Name].Initialize();
             //
             // Creates the "Logger" only after the initialization.
             //
@@ -3260,6 +3244,10 @@ namespace Ecell
                     m_loggerEntry.Add(logger);
                 }
             }
+            //
+            // Initializes
+            //
+            simulator.Initialize();
         }
 
         /// <summary>
