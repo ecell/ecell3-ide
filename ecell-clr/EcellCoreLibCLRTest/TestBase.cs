@@ -22,7 +22,7 @@ namespace EcellCoreLibCLRTest
 
         protected static string GetDMDirectory()
         {
-            return Path.Combine(GetStagingHomeDirectory(), "lib\\ecell-3.1\\dms");
+            return Path.Combine(GetStagingHomeDirectory(), "lib\\ecell-3.2\\dms");
         }
 
         protected double GenerateRandomDouble()
