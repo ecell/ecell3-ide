@@ -4875,14 +4875,6 @@ namespace Ecell
                 Trace.WriteLine(ex);
                 throw new Exception(MessageResources.ErrSetSimParam, ex);
             }
-            catch (Exception)
-            {
-                // ログの設定でシミュレーションを中断する設定にした場合に
-                // SHExceptionが来ている。そのため、ここでcatchして
-                // シミュレーションが中断したメッセージをthrowする。
-                m_currentProject.SimulationStatus = SimulationStatus.Wait;
-                throw new SimulationException(MessageResources.ErrSuspend, new WrappedException());
-            }
         }
 
         /// <summary>
