@@ -28,8 +28,7 @@ namespace Ecell
         /// Creates the "value" elements.
         /// </summary>
         /// <param name="ecellValue">The "EcellValue"</param>
-        /// <param name="isElement">The flag whether the "Value" element add</param>
-        protected void WriteValueElements(EcellValue ecellValue, bool isElement)
+        protected void WriteValueElements(EcellValue ecellValue)
         {
             Debug.Assert(ecellValue != null);
 

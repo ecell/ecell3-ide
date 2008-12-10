@@ -1946,9 +1946,10 @@ namespace Ecell
             }
 
             //
-            foreach (EcellObject obj in delList)
+            for (int i = delList.Count - 1; i >= 0; i--)
             {
-                sysDic[model].Remove(obj);
+                EcellObject obj = delList[i];
+                sysList.Remove(obj);
                 foreach (string keyParamID in initialCondition.Keys)
                 {
                     foreach (string delModel in initialCondition[keyParamID].Keys)
@@ -3078,7 +3079,7 @@ namespace Ecell
         /// <summary>
         /// Initialize the simulator before it starts.
         /// </summary>
-        public void Initialize(bool flag)
+        public void Initialize()
         {
             string simParam = m_currentProject.Info.SimulationParam;
             Dictionary<string, List<EcellObject>> stepperList = m_currentProject.StepperDic[simParam];
@@ -3111,24 +3112,13 @@ namespace Ecell
             foreach (string modelID in modelIDList)
             {
                 List<string> loggerList = new List<string>();
-                if (flag)
-                {
-                    LoadSystem(
-                        simulator,
-                        m_currentProject.SystemDic[modelID],
-                        loggerList,
-                        initialCondition[modelID],
-                        setSystemPropertyDic);
-                }
-                else
-                {
-                    LoadSystem(
-                        simulator,
-                        m_currentProject.SystemDic[modelID],
-                        loggerList,
-                        null,
-                        setSystemPropertyDic);
-                }
+                LoadSystem(
+                    simulator,
+                    m_currentProject.SystemDic[modelID],
+                    loggerList,
+                    initialCondition[modelID],
+                    setSystemPropertyDic);
+
                 foreach (string logger in loggerList)
                 {
                     m_currentProject.LogableEntityPathDic[logger] = modelID;
@@ -3178,14 +3168,7 @@ namespace Ecell
                 {
                     EcellValue storedValue = new EcellValue(simulator.GetEntityProperty(fullPN));
                     double initialValue = initialCondition[modelID][fullPN];
-                    if (storedValue.IsInt)
-                    {
-                        simulator.SetEntityProperty(fullPN, (int)initialValue);
-                    }
-                    else
-                    {
-                        simulator.SetEntityProperty(fullPN, (double)initialValue);
-                    }
+                    simulator.SetEntityProperty(fullPN, initialValue);
                 }
             }
             //
@@ -4837,7 +4820,7 @@ namespace Ecell
                         }
                     }
                     m_currentProject.Info.SimulationParam = parameterID;
-                    this.Initialize(true);
+                    this.Initialize();
                     foreach (string modelID
                         in m_currentProject.StepperDic[oldParameterID].Keys)
                     {
@@ -4889,7 +4872,7 @@ namespace Ecell
                 // Checks the simulator's status.
                 if (m_currentProject.SimulationStatus == SimulationStatus.Wait)
                 {
-                    this.Initialize(true);
+                    this.Initialize();
                     this.m_simulationStepLimit = stepLimit;
                     m_env.LogManager.Append(new ApplicationLogEntry(
                         MessageType.Information,
@@ -4981,7 +4964,7 @@ namespace Ecell
                 double startTime = 0.0;
                 if (m_currentProject.SimulationStatus == SimulationStatus.Wait)
                 {
-                    this.Initialize(true);
+                    this.Initialize();
                     this.m_simulationTimeLimit = timeLimit;
                     this.m_simulationStartTime = 0.0;
                     m_env.LogManager.Append(new ApplicationLogEntry(

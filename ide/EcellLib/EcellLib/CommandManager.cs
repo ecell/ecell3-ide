@@ -729,7 +729,7 @@ namespace Ecell
         /// </summary>
         public void Initialize()
         {
-            m_env.DataManager.Initialize(true);
+            m_env.DataManager.Initialize();
         }
 
         /// <summary>

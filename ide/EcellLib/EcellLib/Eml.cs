@@ -159,7 +159,7 @@ namespace Ecell
 
                 m_tx.WriteStartElement(Constants.xpathProperty.ToLower());
                 m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, ecellData.Name);
-                WriteValueElements(ecellData.Value, false);
+                WriteValueElements(ecellData.Value);
                 m_tx.WriteEndElement();
             }
         }
