@@ -815,17 +815,29 @@ namespace EcellCoreLib {
         {
             Start();
 
-            do
-            {
-                unsigned int aCounter = theEventCheckInterval;
+            libecs::Stepper const* aSystemStepper(theModel->getSystemStepper());
+            try
+            { 
                 do
                 {
-                    theModel->step();
-                    --aCounter;
-                }
-                while( aCounter != 0 );
-                HandleEvent();
-            } while( theRunningFlag );
+                    unsigned int aCounter = theEventCheckInterval;
+                    do
+                    {
+                        theModel->step();
+                        --aCounter;
+                    }
+                    while( aCounter != 0 );
+                    HandleEvent();
+                } while( theRunningFlag );
+            }
+            catch (libecs::Exception const& e)
+            {
+                throw gcnew WrappedLibecsException(e);
+            }
+            catch (std::exception const& e)
+            {
+                throw gcnew WrappedStdException(e);
+            }
         }
 
         void Run(Double aDuration)
@@ -842,14 +854,36 @@ namespace EcellCoreLib {
 
             // setup SystemStepper to step at aStopTime
 
-            libecs::StepperPtr aSystemStepper(theModel->getSystemStepper() );
+            libecs::Stepper * aSystemStepper(theModel->getSystemStepper() );
             aSystemStepper->setCurrentTime( aStopTime );
             aSystemStepper->setStepInterval( 0.0 );
 
             theModel->getScheduler().updateEvent( 0, aStopTime );
 
-            // runWithEvent();
-            runWithoutEvent();
+            try
+            {
+                for (;;)
+                {
+                    if (theModel->getTopEvent().getStepper() == aSystemStepper)
+                    {
+                        theModel->step();
+                        Stop();
+                        return;    // the only exit
+                    }
+                    else
+                    {
+                        theModel->step();
+                    }
+                }
+            }
+            catch (libecs::Exception const& e)
+            {
+                throw gcnew WrappedLibecsException(e);
+            }
+            catch (std::exception const& e)
+            {
+                throw gcnew WrappedStdException(e);
+            }
         }
 
         void SetEntityProperty(String ^ l_fullPNString, Object^ l_value)
@@ -901,27 +935,38 @@ namespace EcellCoreLib {
 
             libecs::Integer aCounter( aNumSteps );
             
-            for (;;)
-            {
-                theModel->step();
-                
-                --aCounter;
-                
-                if (aCounter == 0)
+            try
+            { 
+                for (;;)
                 {
-                    Stop();
-                    break;
-                }
-
-                if (aCounter % theEventCheckInterval == 0)
-                {
-                    HandleEvent();
-
-                    if (!theRunningFlag)
+                    theModel->step();
+                    
+                    --aCounter;
+                    
+                    if (aCounter == 0)
                     {
+                        Stop();
                         break;
                     }
+
+                    if (aCounter % theEventCheckInterval == 0)
+                    {
+                        HandleEvent();
+
+                        if (!theRunningFlag)
+                        {
+                            break;
+                        }
+                    }
                 }
+            }
+            catch (libecs::Exception const& e)
+            {
+                throw gcnew WrappedLibecsException(e);
+            }
+            catch (std::exception const& e)
+            {
+                throw gcnew WrappedStdException(e);
             }
         }
 
@@ -942,7 +987,7 @@ namespace EcellCoreLib {
             theDirtyFlag = true;
         }
 
-        const bool isDirty()
+        const bool IsDirty()
         {
             return theDirtyFlag;
         }
@@ -951,12 +996,12 @@ namespace EcellCoreLib {
         {
             if (theEventHandler != nullptr)
                 theEventHandler(this, nullptr);
-            clearDirty();
+            ClearDirty();
         }
 
-        void clearDirty()
+        void ClearDirty()
         {
-            if (isDirty())
+            if (IsDirty())
             {
                 Initialize();
                 // interruptAll();
@@ -966,54 +1011,8 @@ namespace EcellCoreLib {
 
         void Start()
         {
-            clearDirty();
+            ClearDirty();
             theRunningFlag = true;
-        }
-
-        void runWithEvent()
-        {
-            libecs::StepperCptr const aSystemStepper = theModel->getSystemStepper();
-            do
-            {
-                unsigned int aCounter(theEventCheckInterval);
-                do 
-                {
-                    if (theModel->getTopEvent().getStepper() == aSystemStepper)
-                    {
-                        theModel->step();
-                        Stop();
-                        return;
-                    }
-                    else
-                    {
-                        theModel->step();
-                    }
-
-                    --aCounter;
-                } while( aCounter != 0 );
-
-                HandleEvent();
-            }
-            while( theRunningFlag );
-        }
-
-        void runWithoutEvent()
-        {
-            libecs::StepperCptr const aSystemStepper = theModel->getSystemStepper();
-            do
-            {
-                if (theModel->getTopEvent().getStepper() == aSystemStepper)
-                {
-                    theModel->step();
-                    Stop();
-                    return;    // the only exit
-                }
-                else
-                {
-                    theModel->step();
-                }
-            }
-            while( 1 );
         }
 
     private:
