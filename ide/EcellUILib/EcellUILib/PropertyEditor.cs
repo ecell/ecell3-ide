@@ -582,6 +582,27 @@ namespace Ecell.IDE
             }
         }
 
+        private void PathIDInputTextValidating(object sender, CancelEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            string text = textBox.Text;
+
+            if (m_currentObj.Type != EcellObject.SYSTEM &&
+                m_currentObj.Type != EcellObject.PROCESS &&
+                m_currentObj.Type != EcellObject.VARIABLE)
+                return;
+
+            string parentSystemId = Util.GetSuperSystemPath(text);
+            EcellObject sysObj = m_dManager.CurrentProject.GetSystem(m_currentObj.ModelID, parentSystemId);
+            if (sysObj == null)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSystem, parentSystemId));
+                e.Cancel = true;
+                textBox.Text = m_currentObj.Key;
+                return;
+            }
+        }
+
         private void DoubleInputTextValidating(object sender, CancelEventArgs e)
         {
             TextBox textBox = (TextBox)sender;
@@ -721,6 +742,7 @@ namespace Ecell.IDE
                 }
             }
             m_idText = t2;
+            t2.Validating += new CancelEventHandler(PathIDInputTextValidating);
             t2.Dock = DockStyle.Fill;
             layoutPanel.Controls.Add(t2, 2, i);
             i++;

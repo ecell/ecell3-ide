@@ -153,6 +153,9 @@
   <data name="ErrNoSet" xml:space="preserve">
     <value>The {0} is not set.</value>
   </data>
+  <data name="ErrNoSystem" xml:space="preserve">
+    <value>Cannot found the set system {0}.</value>
+  </data>
   <data name="ErrReserved" xml:space="preserve">
     <value>{0} is the reserved name.</value>
   </data>

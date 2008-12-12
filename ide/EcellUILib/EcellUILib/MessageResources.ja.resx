@@ -153,6 +153,9 @@
   <data name="ErrNoSet" xml:space="preserve">
     <value>{0} が設定されていません。</value>
   </data>
+  <data name="ErrNoSystem" xml:space="preserve">
+    <value>指定したSystemが見つかりません {0}。</value>
+  </data>
   <data name="ErrReserved" xml:space="preserve">
     <value>{0} は予約名です。</value>
   </data>

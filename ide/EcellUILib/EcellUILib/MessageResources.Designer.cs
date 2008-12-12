@@ -169,6 +169,15 @@ namespace Ecell.IDE {
         }
         
         /// <summary>
+        ///   Cannot found the set system {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrNoSystem {
+            get {
+                return ResourceManager.GetString("ErrNoSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} is the reserved name. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrReserved {
