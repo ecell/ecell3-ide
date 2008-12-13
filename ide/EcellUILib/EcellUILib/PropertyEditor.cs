@@ -1335,20 +1335,16 @@ namespace Ecell.IDE
                                 bool isChange = false;
                                 foreach (EcellData d in target.Value)
                                 {
-                                    if (d.EntityPath.EndsWith(":Value"))
+                                    if (!d.EntityPath.EndsWith(":Value"))
+                                        continue;
+                                    if ((double)d.Value != Convert.ToDouble(c.Text))
                                     {
-                                        if ((double)d.Value == Convert.ToDouble(c.Text))
-                                        {
-                                        }
-                                        else
-                                        {
-                                            isChange = true;
-                                            target.Value.Remove(d);
-                                            d.Value = new EcellValue(Convert.ToDouble(c.Text));
-                                            target.Value.Add(d);
-                                        }
-                                        break;
+                                        isChange = true;
+                                        target.Value.Remove(d);
+                                        d.Value = new EcellValue(Convert.ToDouble(c.Text));
+                                        target.Value.Add(d);
                                     }
+                                    break;
                                 }
                                 if (isChange)
                                 {
@@ -1689,23 +1685,24 @@ namespace Ecell.IDE
             TextBox textBox = (TextBox)sender;
             string text = textBox.Text;
             string propName = (string)(textBox.Tag);
+            EcellParameterData param = m_paramDic[propName];
 
             if (string.IsNullOrEmpty(text))
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet, propName));
-                textBox.Text = Convert.ToString(m_paramDic[propName].Max);
+                textBox.Text = Convert.ToString(param.Max);
                 e.Cancel = true;
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy < m_paramDic[propName].Min)
+            if (!Double.TryParse(text, out dummy) || dummy < param.Min)
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                textBox.Text = Convert.ToString(m_paramDic[propName].Max);
+                textBox.Text = Convert.ToString(param.Max);
                 e.Cancel = true;
                 return;
             }
-            m_paramDic[propName].Max = dummy;
+            param.Max = dummy;
         }
 
         private void MinDataValidating(object sender, CancelEventArgs e)
@@ -1713,23 +1710,24 @@ namespace Ecell.IDE
             TextBox textBox = (TextBox)sender;
             string text = textBox.Text;
             string propName = (string)(textBox.Tag);
+            EcellParameterData param = m_paramDic[propName];
 
             if (string.IsNullOrEmpty(text))
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet, propName));
-                textBox.Text = Convert.ToString(m_paramDic[propName].Min);
+                textBox.Text = Convert.ToString(param.Min);
                 e.Cancel = true;
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy > m_paramDic[propName].Max)
+            if (!Double.TryParse(text, out dummy) || dummy > param.Max)
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                textBox.Text = Convert.ToString(m_paramDic[propName].Min);
+                textBox.Text = Convert.ToString(param.Min);
                 e.Cancel = true;
                 return;
             }
-            m_paramDic[propName].Min = dummy;
+            param.Min = dummy;
         }
 
         private void StepDataValidating(object sender, CancelEventArgs e)
@@ -1737,11 +1735,12 @@ namespace Ecell.IDE
             TextBox textBox = (TextBox)sender;
             string text = textBox.Text;
             string propName = (string)(textBox.Tag);
+            EcellParameterData param = m_paramDic[propName];
 
             if (string.IsNullOrEmpty(text))
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet, propName));
-                textBox.Text = Convert.ToString(m_paramDic[propName].Step);
+                textBox.Text = Convert.ToString(param.Step);
                 e.Cancel = true;
                 return;
             }
@@ -1749,11 +1748,11 @@ namespace Ecell.IDE
             if (!Double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                textBox.Text = Convert.ToString(m_paramDic[propName].Step);
+                textBox.Text = Convert.ToString(param.Step);
                 e.Cancel = true;
                 return;
             }
-            m_paramDic[propName].Step = dummy;
+            param.Step = dummy;
         }
 
         #endregion

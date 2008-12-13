@@ -108,10 +108,10 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Load the list of window setting.
         /// </summary>
-        private void LoadProjectTemplete()
+        private void LoadProjectTempletes()
         {
             // Load Projects
-            string path = Path.Combine(Util.GetWindowSettingDir(), "Templete");
+            string path = Path.Combine(Util.GetWindowSettingDir(), "Templetes");
             if (path == null || !Directory.Exists(path))
                 return;
             string[] dirs = Directory.GetDirectories(path);

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<prm>
+<model id="model">
+<stepper class="FixedODE1Stepper" id="DefaultStepper">
+<property name="MaxStepInterval">
+<value>INF</value>
+</property>
+<property name="MinStepInterval">
+<value>0</value>
+</property>
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepInterval">
+<value>0.001</value>
+</property>
+</stepper>
+<initialcondition>
+<system />
+<process />
+<variable />
+</initialcondition>
+</model>
+<loggerpolicy>
+<step>
+1
+</step>
+<interval>
+0
+</interval>
+<action>
+0
+</action>
+<space>
+0
+</space>
+</loggerpolicy>
+</prm>
