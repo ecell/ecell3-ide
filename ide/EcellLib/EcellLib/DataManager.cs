@@ -666,6 +666,8 @@ namespace Ecell
                 List<string> tmpList = new List<string>();
                 if (projectID == null)
                 {
+                    if (m_projectList.Count <= 0)
+                        return;
                     foreach (Project prj in m_projectList)
                     {
                         tmpList.Add(prj.Info.Name);

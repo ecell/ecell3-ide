@@ -356,7 +356,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         void LoadRecentProjectMenuClick(object sender, EventArgs e)
         {
-            if (!SaveConfirm())
+            if (!CloseConfirm())
                 return;
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             string filename = (string)item.Tag;
@@ -1060,7 +1060,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void NewProjectMenuClick(object sender, EventArgs e)
         {
-            if (!SaveConfirm())
+            if (!CloseConfirm())
                 return;
             NewProjectDialog npd = new NewProjectDialog();
             using (npd)
@@ -1078,7 +1078,7 @@ namespace Ecell.IDE.MainWindow
         /// It return true when the current project was closed successfully
         /// and returns false when SaveProject is canceled.
         /// </returns>
-        private bool SaveConfirm()
+        private bool CloseConfirm()
         {
             if (m_editCount > 0)
             {
@@ -1087,8 +1087,6 @@ namespace Ecell.IDE.MainWindow
                     // Save if answer is yes.
                     if (Util.ShowYesNoCancelDialog(MessageResources.SaveConfirm))
                         SaveProject();
-                    // Close project.
-                    CloseProject();
                 }
                 catch (Exception)
                 {
@@ -1096,6 +1094,8 @@ namespace Ecell.IDE.MainWindow
                     return false;
                 }
             }
+            // Close project.
+            CloseProject();
             // Return true when the current project was closed successfully.
             return true;
         }
@@ -1109,7 +1109,7 @@ namespace Ecell.IDE.MainWindow
         private void LoadProjectMenuClick(object sender, EventArgs e)
         {
             // Check the modification and confirm save.
-            if (!SaveConfirm())
+            if (!CloseConfirm())
                 return;
 
             ProjectExplorerDialog ped = new ProjectExplorerDialog(m_currentDir);
@@ -1162,9 +1162,8 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void CloseProjectMenuClick(object sender, EventArgs e)
         {
-            if (!SaveConfirm())
+            if (!CloseConfirm())
                 return;
-            CloseProject();
         }
 
         /// <summary>
@@ -1176,7 +1175,7 @@ namespace Ecell.IDE.MainWindow
         private void ImportModelMenuClick(object sender, EventArgs e)
         {
             // Check current project and save it.
-            if (!SaveConfirm())
+            if (!CloseConfirm())
                 return;
             // Show OpenFileDialog.
             try
@@ -1607,7 +1606,7 @@ namespace Ecell.IDE.MainWindow
                 Thread.Sleep(1000);
             }
 
-            if (!SaveConfirm())
+            if (!CloseConfirm())
                 e.Cancel = true;
 
             SaveRecentProject();
@@ -1676,7 +1675,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         private void ImportSBMLMenuItem_Click(object sender, EventArgs e)
         {
-            if (!SaveConfirm())
+            if (!CloseConfirm())
                 return;
             OpenFileDialog dialog = new OpenFileDialog();
             using (dialog)

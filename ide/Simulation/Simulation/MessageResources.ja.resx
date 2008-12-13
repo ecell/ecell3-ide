@@ -157,7 +157,7 @@
     <value>シミュレーションリセット(&amp;E)</value>
   </data>
   <data name="MenuItemSuspend" xml:space="preserve">
-    <value>シミュレーション一時停止(&amp;S)</value>
+    <value>シミュレーション停止(&amp;S)</value>
   </data>
   <data name="NameName" xml:space="preserve">
     <value>名称</value>

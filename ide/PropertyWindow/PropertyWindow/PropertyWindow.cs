@@ -877,7 +877,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                             String tmpID = (string)e.Value;
                             if (tmpID.Equals(m_current.Key))
                                 return;
-                            if (Util.IsReservedID(tmpID) || Util.IsNGforID(tmpID))
+                            if (String.IsNullOrEmpty(tmpID) || Util.IsReservedID(tmpID) ||
+                                Util.IsNGforID(tmpID))
                             {
                                 throw new Exception(MessageResources.ErrID);
                             }
