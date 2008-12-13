@@ -861,6 +861,7 @@ namespace Ecell.IDE
                     }
 
                     t.Text = m_propDict[key].Value.ToString();
+                    t.DropDownStyle = ComboBoxStyle.DropDownList;
                     t.Tag = key;
                     t.Dock = DockStyle.Fill;
                     t.KeyPress += new KeyPressEventHandler(EnterKeyPress);

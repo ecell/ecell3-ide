@@ -849,8 +849,10 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                                     {
                                         try
                                         {
-                                            if (d.Value.IsDouble || d.Value.IsInt)
+                                            if (d.Value.IsDouble) 
                                                 d.Value = new EcellValue(Convert.ToDouble(data));
+                                            else if (d.Value.IsInt)
+                                                d.Value = new EcellValue(Convert.ToInt32(data));
                                             else
                                                 d.Value = new EcellValue(data);
                                         }
