@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<prm>
+<model id="simple">
+<stepper class="FixedODE1Stepper" id="DE1">
+<property name="MaxStepInterval">
+<value>INF</value>
+</property>
+<property name="MinStepInterval">
+<value>0</value>
+</property>
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepInterval">
+<value>0.001</value>
+</property>
+</stepper>
+<initialcondition>
+<system />
+<process>
+<id name="Process:/:E:Activity">
+<value>0</value>
+</id>
+<id name="Process:/:E:KcF">
+<value>10</value>
+</id>
+<id name="Process:/:E:KcR">
+<value>0</value>
+</id>
+<id name="Process:/:E:KmP">
+<value>1</value>
+</id>
+<id name="Process:/:E:KmS">
+<value>1</value>
+</id>
+<id name="Process:/:E:Priority">
+<value>0</value>
+</id>
+</process>
+<variable>
+<id name="Variable:/:SIZE:DiffusionCoeff">
+<value>1.64064430285867E-306</value>
+</id>
+<id name="Variable:/:SIZE:Fixed">
+<value>0</value>
+</id>
+<id name="Variable:/:SIZE:MolarConc">
+<value>1.66054018667494E-24</value>
+</id>
+<id name="Variable:/:SIZE:NumberConc">
+<value>1</value>
+</id>
+<id name="Variable:/:SIZE:Value">
+<value>1E-18</value>
+</id>
+<id name="Variable:/:S:DiffusionCoeff">
+<value>0</value>
+</id>
+<id name="Variable:/:S:Fixed">
+<value>0</value>
+</id>
+<id name="Variable:/:S:MolarConc">
+<value>1.66054018667494</value>
+</id>
+<id name="Variable:/:S:NumberConc">
+<value>1E+24</value>
+</id>
+<id name="Variable:/:S:Value">
+<value>1000000</value>
+</id>
+<id name="Variable:/:P:DiffusionCoeff">
+<value>0</value>
+</id>
+<id name="Variable:/:P:Fixed">
+<value>0</value>
+</id>
+<id name="Variable:/:P:MolarConc">
+<value>0</value>
+</id>
+<id name="Variable:/:P:NumberConc">
+<value>0</value>
+</id>
+<id name="Variable:/:P:Value">
+<value>0</value>
+</id>
+<id name="Variable:/:E:DiffusionCoeff">
+<value>0</value>
+</id>
+<id name="Variable:/:E:Fixed">
+<value>0</value>
+</id>
+<id name="Variable:/:E:MolarConc">
+<value>0.00166054018667494</value>
+</id>
+<id name="Variable:/:E:NumberConc">
+<value>1E+21</value>
+</id>
+<id name="Variable:/:E:Value">
+<value>1000</value>
+</id>
+</variable>
+</initialcondition>
+</model>
+<loggerpolicy>
+<step>
+1
+</step>
+<interval>
+0
+</interval>
+<action>
+0
+</action>
+<space>
+0
+</space>
+</loggerpolicy>
+</prm>

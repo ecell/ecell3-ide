@@ -42,7 +42,6 @@ using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using System.IO;
 using System.Xml;
 using Ecell.Objects;
-using AviFile;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {

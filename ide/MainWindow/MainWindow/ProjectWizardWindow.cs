@@ -94,7 +94,7 @@ namespace Ecell.IDE.MainWindow
         {
             InitializeComponent();
             textBox1.Text = MessageResources.ProjectWizardSelectTemplete;
-            LoadProjectTemplete();
+            LoadProjectTemplates();
 
             MainLayoutPanel.Controls.Remove(DMLayoutPanel);
             MainLayoutPanel.Controls.Add(ProjectLayoutPanel, 0, 1);
@@ -108,10 +108,10 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Load the list of window setting.
         /// </summary>
-        private void LoadProjectTempletes()
+        private void LoadProjectTemplates()
         {
             // Load Projects
-            string path = Path.Combine(Util.GetWindowSettingDir(), "Templetes");
+            string path = Path.Combine(Util.GetWindowSettingDir(), "Templates");
             if (path == null || !Directory.Exists(path))
                 return;
             string[] dirs = Directory.GetDirectories(path);
