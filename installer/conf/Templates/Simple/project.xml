@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<!--ECell-IDE configuration file.-->
-<!--Automatically generated file. DO NOT modify!-->
-<ECellProject>
-  <Project>simple</Project>
-  <Date>2008/04/10 13:44:33</Date>
-  <Comment>simple example model.</Comment>
-  <SimulationParameter>DefaultParameter</SimulationParameter>
-</ECellProject>
