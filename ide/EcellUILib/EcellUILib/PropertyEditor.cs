@@ -312,20 +312,20 @@ namespace Ecell.IDE
                 {
                     continue;
                 }
-
+                EcellData data = m_propDict[key];
                 EcellParameterData param = m_dManager.GetParameterData(key);
                 if (param == null)
                 {
-                    if (m_propDict[key].Value.IsDouble)
-                        param = new EcellParameterData(key, (double)m_propDict[key].Value);
+                    if (data.Value.IsDouble)
+                        param = new EcellParameterData(key, (double)data.Value);
                     else
                         param = new EcellParameterData(key, 0.0);
                 }
                 commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                if (m_propDict[key].Settable && m_propDict[key].Value.IsDouble)
+                if (data.Settable && data.Value.IsDouble)
                 {
                     CheckBox c = new CheckBox();
-                    if (m_dManager.IsContainsParameterData(m_propDict[key].EntityPath))
+                    if (m_dManager.IsContainsParameterData(data.EntityPath))
                         c.Checked = false;
                     else c.Checked = true;
                     c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
@@ -356,7 +356,7 @@ namespace Ecell.IDE
 
                 t1.Dock = DockStyle.Fill;
                 t1.Tag = key;
-                if (!m_propDict[key].Settable || !m_propDict[key].Value.IsDouble)
+                if (!data.Settable || !data.Value.IsDouble)
                 {
                     t1.ReadOnly = true;
                     t1.Text = param.Max.ToString();
@@ -365,7 +365,7 @@ namespace Ecell.IDE
                 {
                     if (param.Max == 0.0)
                     {
-                        double d = (double)m_propDict[key].Value;
+                        double d = (double)data.Value;
                         if (d >= 0.0)
                             t1.Text = Convert.ToString(d * 1.5);
                         else
@@ -383,7 +383,7 @@ namespace Ecell.IDE
                 TextBox t2 = new TextBox();
                 t2.Dock = DockStyle.Fill;
                 t2.Tag = key;
-                if (!m_propDict[key].Settable || !m_propDict[key].Value.IsDouble)
+                if (!data.Settable || !data.Value.IsDouble)
                 {
                     t2.ReadOnly = true;
                     t2.Text = param.Min.ToString();
@@ -392,7 +392,7 @@ namespace Ecell.IDE
                 {
                     if (param.Min == 0.0)
                     {
-                        double d = (double)m_propDict[key].Value;
+                        double d = (double)data.Value;
                         if (d >= 0.0)
                             t2.Text = Convert.ToString(d * 0.5);
                         else
@@ -413,7 +413,7 @@ namespace Ecell.IDE
                 t3.Text = param.Step.ToString();
                 t3.Dock = DockStyle.Fill;
                 t3.Tag = key;
-                if (!m_propDict[key].Settable || !m_propDict[key].Value.IsDouble)
+                if (!data.Settable || !data.Value.IsDouble)
                 {
                     t3.ReadOnly = true;
                 }
@@ -1359,68 +1359,71 @@ namespace Ecell.IDE
                                 sizeData = Convert.ToDouble(c.Text);
                             }
                         }
-                        EcellData data = new EcellData();
-                        data.Name = "Size";
-                        data.Value = new EcellValue(sizeData);
-                        data.EntityPath = m_propDict[data.Name].EntityPath;
-                        data.Settable = m_propDict[data.Name].Settable;
-                        data.Saveable = m_propDict[data.Name].Saveable;
-                        data.Loadable = m_propDict[data.Name].Loadable;
-                        data.Gettable = m_propDict[data.Name].Gettable;
-                        data.Logable = m_propDict[data.Name].Logable;
-                        data.Logged = m_propDict[data.Name].Logged;
-                        GetCommitInfo(data);
+                        EcellData newData = new EcellData();
+                        newData.Name = "Size";
+                        newData.Value = new EcellValue(sizeData);
+                        EcellData oldData = m_propDict[newData.Name];
+                        newData.EntityPath = oldData.EntityPath;
+                        newData.Settable = oldData.Settable;
+                        newData.Saveable = oldData.Saveable;
+                        newData.Loadable = oldData.Loadable;
+                        newData.Gettable = oldData.Gettable;
+                        newData.Logable = oldData.Logable;
+                        newData.Logged = oldData.Logged;
+                        GetCommitInfo(newData);
 
-                        list.Add(data);
+                        list.Add(newData);
                     }
                     else
                     {
-                        EcellData data = new EcellData();
-                        data.Name = (string)c.Tag;
-                        if (m_propDict[data.Name].Value.IsInt)
-                            data.Value = new EcellValue(Convert.ToInt32(c.Text));
-                        else if (m_propDict[data.Name].Value.IsDouble)
+                        EcellData newData = new EcellData();
+                        newData.Name = (string)c.Tag;
+                        EcellData oldData = m_propDict[newData.Name];
+
+                        if (oldData.Value.IsInt)
+                            newData.Value = new EcellValue(Convert.ToInt32(c.Text));
+                        else if (oldData.Value.IsDouble)
                         {
                             if (c.Text == "1.79769313486232E+308")
-                                data.Value = new EcellValue(Double.MaxValue);
+                                newData.Value = new EcellValue(Double.MaxValue);
                             else
-                                data.Value = new EcellValue(Convert.ToDouble(c.Text));
+                                newData.Value = new EcellValue(Convert.ToDouble(c.Text));
                         }
-                        else if (m_propDict[data.Name].Value.IsList)
-                            data.Value = new EcellValue(EcellValue.FromListString(c.Text));
+                        else if (oldData.Value.IsList)
+                            newData.Value = new EcellValue(EcellValue.FromListString(c.Text));
                         else
-                            data.Value = new EcellValue(c.Text);
+                            newData.Value = new EcellValue(c.Text);
 
                         if (key.Contains(":"))
                         {
                             int ind = key.LastIndexOf(":");
-                            data.EntityPath = type + ":" + key.Substring(0, ind) +
+                            newData.EntityPath = type + ":" + key.Substring(0, ind) +
                                 ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
                         }
                         else
                         {
                             if (key == "/")
                             {
-                                data.EntityPath = type + ":" + "" +
+                                newData.EntityPath = type + ":" + "" +
                                     ":" + "/" + ":" + (string)c.Tag;
                             }
                             else
                             {
                                 int ind = key.LastIndexOf("/");
-                                data.EntityPath = type + ":" + key.Substring(0, ind) +
+                                newData.EntityPath = type + ":" + key.Substring(0, ind) +
                                     ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
                             }
                         }
 
-                        data.Settable = m_propDict[data.Name].Settable;
-                        data.Saveable = m_propDict[data.Name].Saveable;
-                        data.Loadable = m_propDict[data.Name].Loadable;
-                        data.Gettable = m_propDict[data.Name].Gettable;
-                        data.Logable = m_propDict[data.Name].Logable;
-                        GetCommitInfo(data);
-                        data.Logged = isLogger;
+                        newData.Settable = oldData.Settable;
+                        newData.Saveable = oldData.Saveable;
+                        newData.Loadable = oldData.Loadable;
+                        newData.Gettable = oldData.Gettable;
+                        newData.Logable = oldData.Logable;
+                        GetCommitInfo(newData);
+                        newData.Logged = isLogger;
 
-                        list.Add(data);
+                        list.Add(newData);
                     }
                 }
 

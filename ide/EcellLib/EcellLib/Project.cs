@@ -222,7 +222,7 @@ namespace Ecell
 
         public List<EcellObject> SystemList
         {
-            get { return m_systemDic[""];}
+            get { return m_systemDic[m_modelList[0].ModelID];}
         }
 
         /// <summary>

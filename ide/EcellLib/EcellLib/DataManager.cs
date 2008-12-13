@@ -1113,6 +1113,8 @@ namespace Ecell
                 {
                     if (!data.IsInitialized())
                         continue;
+                    if (!data.Value.IsDouble)
+                        continue;
 
                     initialCondition[data.EntityPath] = data.Value;
                 }
@@ -1135,8 +1137,14 @@ namespace Ecell
         /// <param name="isAnchor">The flag whether this action is anchor.</param>
         public void DataChanged(List<EcellObject> ecellObjectList, bool isRecorded, bool isAnchor)
         {
+            int i = 0;
+            int max = ecellObjectList.Count;
             foreach (EcellObject obj in ecellObjectList)
-                DataChanged(obj.ModelID, obj.Key, obj.Type, obj, isRecorded, isAnchor);
+            {
+                i++;
+                DataChanged(obj.ModelID, obj.Key, obj.Type, obj, isRecorded, isAnchor && (i == max));
+            }
+
         }
 
         /// <summary>

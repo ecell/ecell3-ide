@@ -759,7 +759,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             try
             {
                 value = m_dManager.GetEntityProperty(fullpath);
-                num = (float)value.Value;
+                num = (float)value;
             }
             catch (Exception e)
             {

@@ -283,20 +283,6 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
-        public void TestSystemDeleteAndMoveModelIDKeyIsRecordedIsAnchor()
-        {
-            string modelID = null;
-            string key = null;
-            bool isRecorded = false;
-            bool isAnchor = false;
-            _unitUnderTest.SystemDeleteAndMove(modelID, key, isRecorded, isAnchor);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestSystemAddAndMove()
         {
             string l_modelID = null;
