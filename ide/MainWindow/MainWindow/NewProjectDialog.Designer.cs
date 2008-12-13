@@ -88,6 +88,7 @@ namespace Ecell.IDE.MainWindow
             // 
             // textComment
             // 
+            this.textComment.AcceptsReturn = true;
             resources.ApplyResources(this.textComment, "textComment");
             this.textComment.Name = "textComment";
             // 
