@@ -70,10 +70,6 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         private AnalysisResultWindow m_rWin = null;
         /// <summary>
-        /// ResourceManager for AnalysisTemplate.
-        /// </summary>
-        static public ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResources));
-        /// <summary>
         /// Robust Analysis Class.
         /// </summary>
         private RobustAnalysis m_robustAnalysis;

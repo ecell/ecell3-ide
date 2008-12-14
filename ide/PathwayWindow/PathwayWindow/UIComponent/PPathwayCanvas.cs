@@ -59,10 +59,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// PathwayControl to control the PathwayView.
         /// </summary>
         protected PathwayControl m_con = null;
-        /// <summary>
-        /// ResourceManager
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResources));
 
         /// <summary>
         /// Constructor

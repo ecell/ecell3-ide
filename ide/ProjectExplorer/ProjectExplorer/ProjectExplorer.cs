@@ -56,10 +56,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// m_form (ProjectExplorerControl form) 
         /// </summary>
         private ProjectExplorerControl m_form = null;
-        /// <summary>
-        /// ComponentResourceManager for ProjectExplorer.
-        /// </summary>
-        static public ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
 
         #region Constructors

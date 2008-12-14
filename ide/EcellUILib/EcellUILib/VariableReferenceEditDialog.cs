@@ -58,10 +58,6 @@ namespace Ecell.IDE
         /// PluginManager.
         /// </summary>
         PluginManager m_pManager;
-        /// <summary>
-        /// ResourceManager for VariableRefWindow.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
 
         public string ReferenceString

@@ -97,11 +97,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// this will be used to reconnect edge.
         /// </summary>
         Stack<PPathwayObject> m_nodesUnderMouse = new Stack<PPathwayObject>();
-
-        /// <summary>
-        /// ResourceManager for PathwayWindow.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
 
         #region Accessor

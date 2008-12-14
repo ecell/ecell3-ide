@@ -388,11 +388,6 @@ namespace Ecell
     internal class Ecd
     {
         /// <summary>
-        /// ResourceManager for PropertyEditor.
-        /// </summary>
-        ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResources));
-
-        /// <summary>
         /// Creates a new "Ecd" instance with no argument.
         /// </summary>
         public Ecd()

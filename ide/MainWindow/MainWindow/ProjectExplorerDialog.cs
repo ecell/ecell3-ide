@@ -51,11 +51,6 @@ namespace Ecell.IDE.MainWindow
     {
         #region Fields
         /// <summary>
-        /// ResourceManager for MainWindow.
-        /// </summary>
-        private static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResources));
-
-        /// <summary>
         /// Selected Node.
         /// </summary>
         private ProjectTreeNode m_selectedNode = null;
@@ -310,7 +305,7 @@ namespace Ecell.IDE.MainWindow
             // SaveZip
             ToolStripItem savezip = new ToolStripMenuItem(PrjDlgConstants.MenuSaveZip);
             savezip.Name = PrjDlgConstants.MenuSaveZip;
-            savezip.Text = s_resources.GetString(PrjDlgConstants.MenuSaveZip);
+            savezip.Text = MessageResources.MenuSaveZip;
             savezip.Click += new EventHandler(SaveZipClick);
             menus.Items.Add(savezip);
             m_popMenuDict.Add(PrjDlgConstants.MenuSaveZip, savezip);
@@ -318,7 +313,7 @@ namespace Ecell.IDE.MainWindow
             // Delete
             ToolStripItem delete = new ToolStripMenuItem(PrjDlgConstants.MenuDelete);
             delete.Name = PrjDlgConstants.MenuDelete;
-            delete.Text = s_resources.GetString(PrjDlgConstants.MenuDelete);
+            delete.Text = MessageResources.MenuDelete;
             delete.Click += new EventHandler(DeleteClick);
             menus.Items.Add(delete);
             m_popMenuDict.Add(PrjDlgConstants.MenuDelete, delete);
@@ -326,7 +321,7 @@ namespace Ecell.IDE.MainWindow
             // CreateNewProject
             ToolStripItem createProject = new ToolStripMenuItem(PrjDlgConstants.MenuCreateNewProject);
             createProject.Name = PrjDlgConstants.MenuCreateNewProject;
-            createProject.Text = s_resources.GetString(PrjDlgConstants.MenuCreateNewProject);
+            createProject.Text = MessageResources.MenuCreateNewProject;
             createProject.Click += new EventHandler(CreateNewProjectClick);
             menus.Items.Add(createProject);
             m_popMenuDict.Add(PrjDlgConstants.MenuCreateNewProject, createProject);
@@ -334,7 +329,7 @@ namespace Ecell.IDE.MainWindow
             // CreateNewRevision
             ToolStripItem createRevision = new ToolStripMenuItem(PrjDlgConstants.MenuCreateNewRevision);
             createRevision.Name = PrjDlgConstants.MenuCreateNewRevision;
-            createRevision.Text = s_resources.GetString(PrjDlgConstants.MenuCreateNewRevision);
+            createRevision.Text = MessageResources.MenuCreateNewRevision;
             createRevision.Click += new EventHandler(CreateNewRevisionClick);
             menus.Items.Add(createRevision);
             m_popMenuDict.Add(PrjDlgConstants.MenuCreateNewRevision, createRevision);
@@ -342,7 +337,7 @@ namespace Ecell.IDE.MainWindow
             // Copy
             ToolStripItem copy = new ToolStripMenuItem(PrjDlgConstants.MenuCopy);
             copy.Name = PrjDlgConstants.MenuCopy;
-            copy.Text = s_resources.GetString(PrjDlgConstants.MenuCopy);
+            copy.Text = MessageResources.MenuCopy;
             copy.Click += new EventHandler(CopyClick);
             menus.Items.Add(copy);
             m_popMenuDict.Add(PrjDlgConstants.MenuCopy, copy);
@@ -350,7 +345,7 @@ namespace Ecell.IDE.MainWindow
             // Delete
             ToolStripItem paste = new ToolStripMenuItem(PrjDlgConstants.MenuPaste);
             paste.Name = PrjDlgConstants.MenuPaste;
-            paste.Text = s_resources.GetString(PrjDlgConstants.MenuPaste);
+            paste.Text = MessageResources.MenuPaste;
             paste.Click += new EventHandler(PasteClick);
             menus.Items.Add(paste);
             m_popMenuDict.Add(PrjDlgConstants.MenuPaste, paste);

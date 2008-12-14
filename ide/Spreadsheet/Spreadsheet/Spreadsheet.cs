@@ -182,11 +182,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             s_indexValue,
             s_indexMolarConc
         };
-
-        /// <summary>
-        /// ComponentResourceManager for Spreadsheet.
-        /// </summary>
-        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
 
         #region Constants

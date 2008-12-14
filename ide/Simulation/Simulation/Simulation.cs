@@ -94,10 +94,6 @@ namespace Ecell.IDE.Plugins.Simulation
         /// system status.
         /// </summary>
         private ProjectStatus m_type;
-        /// <summary>
-        /// ResourceManager for NewParameterWindow.
-        /// </summary>
-        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
 
         #region Inherited from PluginBase

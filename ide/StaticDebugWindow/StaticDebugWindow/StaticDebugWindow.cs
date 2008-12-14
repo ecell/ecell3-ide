@@ -63,10 +63,6 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// Word is the name of static debug. Data is the plugin of static debug.
         /// </summary>
         List<IStaticDebugPlugin> m_plugins = new List<IStaticDebugPlugin>();
-        /// <summary>
-        /// ResourceManager for StaticDebugWindow.
-        /// </summary>
-        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
 
         public StaticDebugWindow()

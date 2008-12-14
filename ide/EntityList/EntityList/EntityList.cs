@@ -53,10 +53,6 @@ namespace Ecell.IDE.Plugins.EntityList
     {
         #region Fields
         private EntityListControl m_control;
-        /// <summary>
-        /// ComponentResourceManager for ObjectList.
-        /// </summary>
-        public static ComponentResourceManager s_resources = new ComponentResourceManager(typeof(MessageResources));
         #endregion
 
         #region Constructor

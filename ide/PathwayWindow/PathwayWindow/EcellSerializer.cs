@@ -57,10 +57,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         /// Version of config file.
         /// </summary>
         private const string CONFIG_FILE_VERSION = "1.0";
-        /// <summary>
-        /// ResourceManager for PathwayWindow.
-        /// </summary>
-        private static ComponentResourceManager m_resources = new ComponentResourceManager(typeof(MessageResources));
 
         /// <summary>
         /// Save EcellObjects in LEML format.
