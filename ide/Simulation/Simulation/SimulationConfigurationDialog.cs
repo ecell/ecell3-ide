@@ -407,7 +407,7 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             for (int i = 0; i < steppersBindingSource.Count; i++)
             {
-                if (((StepperConfiguration)steppersBindingSource[i]).Name.Equals(name))
+                if (((StepperConfiguration)steppersBindingSource[i]).Name.ToUpper().Equals(name.ToUpper()))
                 {
                     return true;
                 }
@@ -419,7 +419,7 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             for (int i = 0; i < m_simParamSets.Count; i++)
             {
-                if (((SimulationParameterSet)m_simParamSets[i]).Name.Equals(name))
+                if (((SimulationParameterSet)m_simParamSets[i]).Name.ToUpper().Equals(name.ToUpper()))
                 {
                     return true;
                 }

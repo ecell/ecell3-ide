@@ -704,7 +704,7 @@ namespace Ecell
                     if (!ecellData.Value.IsDouble)
                         continue;
                     ecellData.Logable = ecellData.Settable == false || ecellData.Saveable == false;
-                    if (ecellData.Settable)
+                    if (!ecellData.Settable)
                         continue;
                     try
                     {
