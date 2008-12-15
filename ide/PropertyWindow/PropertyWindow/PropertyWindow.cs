@@ -239,6 +239,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             if (m_current == null || m_current.Value == null) return;
             foreach (EcellData d in m_current.Value)
             {
+                if (!d.Value.IsDouble) continue;
                 EcellValue e = m_env.DataManager.GetEntityProperty(d.EntityPath);
                 foreach (DataGridViewRow r in m_dgv.Rows)
                 {

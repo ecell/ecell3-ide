@@ -594,7 +594,7 @@ namespace Ecell.IDE
 
             string parentSystemId = Util.GetSuperSystemPath(text);
             EcellObject sysObj = m_dManager.CurrentProject.GetSystem(m_currentObj.ModelID, parentSystemId);
-            if (sysObj == null)
+            if (!text.Equals("/") && sysObj == null)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSystem, parentSystemId));
                 e.Cancel = true;
