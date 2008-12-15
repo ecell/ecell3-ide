@@ -142,7 +142,7 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
-        ///   Log scale に類似しているローカライズされた文字列を検索します。
+        ///   Logarithmic scale に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemLog {
             get {

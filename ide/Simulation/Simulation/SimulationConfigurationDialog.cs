@@ -436,8 +436,9 @@ namespace Ecell.IDE.Plugins.Simulation
             if (m_originalStepperConfigurations.TryGetValue(((SimulationParameterSet)m_simParamSets.Current).Name, out pmsc))
                 pmsc.TryGetValue(((PerModelSimulationParameter)perModelSimulationParameterBindingSource.Current).ModelID, out scs);
 
-            if (scs != null && scs.TryGetValue(((StepperConfiguration)steppersBindingSource.Current).Name, out original) &&
-                    original.ClassName == sc.ClassName)
+            if (scs != null && steppersBindingSource.Current != null &&
+                scs.TryGetValue(((StepperConfiguration)steppersBindingSource.Current).Name, out original) &&
+                original.ClassName == sc.ClassName)
             {
                 sc.Properties.AddRange(original.Properties);
             }

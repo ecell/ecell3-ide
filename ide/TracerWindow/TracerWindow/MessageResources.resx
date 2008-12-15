@@ -145,7 +145,7 @@
     <value>Linear scale</value>
   </data>
   <data name="MenuItemLog" xml:space="preserve">
-    <value>Log scale</value>
+    <value>Logarithmic scale</value>
   </data>
   <data name="MenuItemShowPlotText" xml:space="preserve">
     <value>Create new &amp;plotter...</value>
