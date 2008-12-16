@@ -187,11 +187,38 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
+        ///   Log file size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameMaxSize {
+            get {
+                return ResourceManager.GetString("NameMaxSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Name に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameName {
             get {
                 return ResourceManager.GetString("NameName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sec に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameSec {
+            get {
+                return ResourceManager.GetString("NameSec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Step に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameStep {
+            get {
+                return ResourceManager.GetString("NameStep", resourceCulture);
             }
         }
         

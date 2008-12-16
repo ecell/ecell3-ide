@@ -133,6 +133,7 @@
             this.initialParameters.Name = "initialParameters";
             this.initialParameters.RowHeadersVisible = false;
             this.initialParameters.RowTemplate.Height = 21;
+            this.initialParameters.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.InitialParameterDataError);
             // 
             // keyDataGridViewTextBoxColumn1
             // 

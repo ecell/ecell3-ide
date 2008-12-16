@@ -70,6 +70,7 @@ namespace Ecell.IDE.Plugins.Simulation
         private bool freqBySecTextBox_filledWithDefaultValue = false;
         private const int m_defaultStepCount = 1;
         private const double m_defaultInterval = 0.01;
+        private const int m_defaultMaxLogSize = 500;
         #endregion
 
         public IEnumerable<SimulationParameterSet> Result
@@ -546,6 +547,7 @@ namespace Ecell.IDE.Plugins.Simulation
                     freqByStepTextBox.Text = Convert.ToString(m_defaultStepCount);
                     freqByStepTextBox_filledWithDefaultValue = true;
                 }
+                freqByStepTextBox.Focus();
             }
             else
             {
@@ -560,11 +562,13 @@ namespace Ecell.IDE.Plugins.Simulation
                     freqBySecTextBox.Text = Convert.ToString(m_defaultInterval);
                     freqBySecTextBox_filledWithDefaultValue = true;
                 }
+                freqBySecTextBox.Focus();
             }
         }
 
         private void freqByStepTextBox_Validating(object sender, CancelEventArgs e)
         {
+            if (this.DialogResult == DialogResult.Cancel) return;
             string text = freqByStepTextBox.Text;
             int stepcount = ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.ReloadStepCount;
             if (stepcount <= 0) stepcount = m_defaultStepCount;
@@ -572,7 +576,7 @@ namespace Ecell.IDE.Plugins.Simulation
             {
                 if (string.IsNullOrEmpty(freqBySecTextBox.Text))
                 {
-                    Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameSec));
                     freqByStepTextBox.Text = Convert.ToString(stepcount);
                     e.Cancel = true;
                     return;
@@ -608,6 +612,7 @@ namespace Ecell.IDE.Plugins.Simulation
 
         private void freqBySecTextBox_Validating(object sender, CancelEventArgs e)
         {
+            if (this.DialogResult == DialogResult.Cancel) return;
             string text = freqBySecTextBox.Text;
             double interval = ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.ReloadInterval;
             if (interval <= 0.0) interval = m_defaultInterval;
@@ -615,7 +620,7 @@ namespace Ecell.IDE.Plugins.Simulation
             {
                 if (string.IsNullOrEmpty(freqByStepTextBox.Text))
                 {
-                    Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameStep));
                     freqBySecTextBox.Text = Convert.ToString(interval);
                     e.Cancel = true;
                     return;
@@ -659,6 +664,10 @@ namespace Ecell.IDE.Plugins.Simulation
             else
             {
                 maxKbTextBox.Enabled = true;
+                ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.MaxDiskSpace =
+                SimulationConfigurationDialog.m_defaultMaxLogSize;
+                maxKbTextBox.Text = SimulationConfigurationDialog.m_defaultMaxLogSize.ToString();
+                maxKbTextBox.Focus();
             }
         }
 
@@ -696,12 +705,13 @@ namespace Ecell.IDE.Plugins.Simulation
 
         private void maxKbTextBox_Validating(object sender, CancelEventArgs e)
         {
+            if (this.DialogResult == DialogResult.Cancel) return;
             if (maxSizeRadio.Checked)
             {
                 string text = maxKbTextBox.Text;
                 if (String.IsNullOrEmpty(text))
                 {
-                    Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameMaxSize));
                     maxKbTextBox.Text =
                         Convert.ToString(((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.MaxDiskSpace);
                     e.Cancel = true;
@@ -725,6 +735,12 @@ namespace Ecell.IDE.Plugins.Simulation
                     return;
                 }
             }
+        }
+
+        private void InitialParameterDataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+            initialConditionsBindingSource.ResetBindings(false);
         }
     }
 }

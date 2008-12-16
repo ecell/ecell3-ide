@@ -159,8 +159,17 @@
   <data name="MenuItemSuspend" xml:space="preserve">
     <value>&amp;Suspend</value>
   </data>
+  <data name="NameMaxSize" xml:space="preserve">
+    <value>Log file size</value>
+  </data>
   <data name="NameName" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="NameSec" xml:space="preserve">
+    <value>Sec</value>
+  </data>
+  <data name="NameStep" xml:space="preserve">
+    <value>Step</value>
   </data>
   <data name="NewStepperText" xml:space="preserve">
     <value>New Stepper</value>
