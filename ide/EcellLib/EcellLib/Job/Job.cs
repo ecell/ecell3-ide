@@ -288,8 +288,8 @@ namespace Ecell.Job
         /// <summary>
         /// Get the stream of StdOut for this process.
         /// </summary>
-        /// <returns>StreamReader.</returns>
-        public virtual System.IO.StreamReader GetStdOut()
+        /// <returns>string.</returns>
+        public virtual string GetStdOut()
         {
             return null;
         }
@@ -297,8 +297,8 @@ namespace Ecell.Job
         /// <summary>
         /// Get the stream of StdErr for this process.
         /// </summary>
-        /// <returns>StreamReader.</returns>
-        public virtual System.IO.StreamReader GetStdErr()
+        /// <returns>string.</returns>
+        public virtual string GetStdErr()
         {
             return null;
         }

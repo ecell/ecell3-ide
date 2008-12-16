@@ -168,6 +168,13 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 e.Cancel = true;
                 return;
             }
+            if (dummy > 3600)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrOverTime);
+                intervalTextBox.Text = Convert.ToString(m_intervalSecond);
+                e.Cancel = true;
+                return;
+            }
             m_intervalSecond = dummy;
         }
 

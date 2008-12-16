@@ -76,7 +76,7 @@ namespace Ecell.Job
             psi.Arguments = @Argument;
             psi.WorkingDirectory = Util.GetAnalysisDir();
             psi.RedirectStandardError = true;
-            psi.RedirectStandardOutput = true;
+            psi.RedirectStandardOutput = false;
             if (psi.EnvironmentVariables.ContainsKey("IRONPYTHONSTARTUP"))
             {
                 psi.EnvironmentVariables.Remove("IRONPYTHONSTARTUP");
@@ -108,7 +108,7 @@ namespace Ecell.Job
                     ex.ToString();
                     m_currentProcess.Kill();
                 }
-                this.StdErr = m_currentProcess.StandardOutput.ReadToEnd();
+                this.StdErr = "stop ...";
                 m_currentProcess = null;
             }
             if (Status == JobStatus.QUEUED || Status == JobStatus.RUNNING)
@@ -135,8 +135,8 @@ namespace Ecell.Job
                     else
                     {                       
                         this.Status = JobStatus.ERROR;
+                        this.StdErr = m_currentProcess.StandardError.ReadToEnd();
                     }
-                    this.StdErr = m_currentProcess.StandardOutput.ReadToEnd();
                     m_currentProcess = null;
                 }
             }
@@ -151,20 +151,18 @@ namespace Ecell.Job
         /// Get the stream of StdOut for this process.
         /// </summary>
         /// <returns>StreamReader.</returns>
-        public override System.IO.StreamReader GetStdOut()
+        public override string GetStdOut()
         {
-            if (m_currentProcess == null) return null;
-            return m_currentProcess.StandardOutput;
+            return "";
         }
 
         /// <summary>
         /// Get the stream of StdErr for this process.
         /// </summary>
         /// <returns>StreamReader.</returns>
-        public override System.IO.StreamReader GetStdErr()
+        public override string GetStdErr()
         {
-            if (m_currentProcess == null) return null;
-            return m_currentProcess.StandardError;
+            return this.StdErr;
         }
 
         /// <summary>

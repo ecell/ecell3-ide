@@ -278,9 +278,10 @@ namespace Ecell.IDE.Plugins.Simulation
                 if (newwin.ShowDialog() != DialogResult.OK)
                     return;
                 SimulationParameterSet sps = new SimulationParameterSet(newwin.InputText);
-                foreach (string modelID in m_owner.DataManager.GetModelList())
+                SimulationParameterSet sp = (SimulationParameterSet)m_simParamSets.Current;
+                for (int i = 0; i < sp.PerModelSimulationParameters.Count; i++)
                 {
-                    sps.PerModelSimulationParameters.Add(new PerModelSimulationParameter(modelID));
+                    sps.PerModelSimulationParameters.Add(new PerModelSimulationParameter(sp.PerModelSimulationParameters[i]));
                 }
                 m_simParamSets.Add(sps);
             }

@@ -669,8 +669,8 @@ namespace Ecell.Job
         /// Get the stream of StrOut.
         /// </summary>
         /// <param name="jobid">job id.</param>
-        /// <returns>StreamReader</returns>
-        public System.IO.StreamReader GetStdout(int jobid)
+        /// <returns>string</returns>
+        public string GetStdout(int jobid)
         {
             return m_sessionList[jobid].GetStdOut();
         }
@@ -679,8 +679,8 @@ namespace Ecell.Job
         /// Get the stream of StdErr.
         /// </summary>
         /// <param name="jobid">job id.</param>
-        /// <returns>StreamReader</returns>
-        public System.IO.StreamReader GetStderr(int jobid)
+        /// <returns>string</returns>
+        public string GetStderr(int jobid)
         {
             return m_sessionList[jobid].GetStdErr();
         }
