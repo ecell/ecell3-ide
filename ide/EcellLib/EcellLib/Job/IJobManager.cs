@@ -160,13 +160,13 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="jobid">job id.</param>
         /// <returns>StreamReader</returns>
-        System.IO.StreamReader GetStderr(int jobid);
+        string GetStderr(int jobid);
         /// <summary>
         /// Get the stream of StrOut.
         /// </summary>
         /// <param name="jobid">job id.</param>
         /// <returns>StreamReader</returns>
-        System.IO.StreamReader GetStdout(int jobid);
+        string GetStdout(int jobid);
         /// <summary>
         /// Check whther there are any error jobs.
         /// </summary>
