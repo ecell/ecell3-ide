@@ -117,6 +117,7 @@
             // 
             // valueFormatComboBox
             // 
+            resources.ApplyResources(this.valueFormatComboBox, "valueFormatComboBox");
             this.valueFormatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.valueFormatComboBox.FormattingEnabled = true;
             this.valueFormatComboBox.Items.AddRange(new object[] {
@@ -126,7 +127,6 @@
             resources.GetString("valueFormatComboBox.Items3"),
             resources.GetString("valueFormatComboBox.Items4"),
             resources.GetString("valueFormatComboBox.Items5")});
-            resources.ApplyResources(this.valueFormatComboBox, "valueFormatComboBox");
             this.valueFormatComboBox.Name = "valueFormatComboBox";
             this.valueFormatComboBox.SelectedIndexChanged += new System.EventHandler(this.DataFormatChanged);
             // 

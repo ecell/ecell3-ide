@@ -67,6 +67,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// The last time on drawing tracer.
         /// </summary>
         public double m_current;
+        private int m_entryCount = 0;
         /// <summary>
         /// The List of entity path on tracer.
         /// </summary>
@@ -288,7 +289,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="tag">logger entry</param>
         public void AddLoggerEntry(TagData tag)
         {
-            int ind = dgv.Rows.Count;
+            int ind = m_entryCount;
             Bitmap b = new Bitmap(20, 20);
             Graphics g = Graphics.FromImage(b);
             g.FillRectangle(Util.GetColorBlush(ind), 3, 3, 14, 14);
@@ -337,6 +338,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             i1.Line.Style = LineCreator.GetLine(ind);
             m_entryDic.Add(tag.M_path, new TraceEntry(tag.M_path, i, i1, tag.IsContinue, tag.isLoaded));
             m_tagDic.Add(tag.M_path, tag.IsContinue);
+            m_entryCount++;
         }
 
         /// <summary>

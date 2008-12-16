@@ -291,6 +291,9 @@
   <metadata name="label2.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
+  <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
+  </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -461,6 +464,9 @@
   </data>
   <data name="&gt;&gt;stepCountTextBox.ZOrder" xml:space="preserve">
     <value>6</value>
+  </data>
+  <data name="valueFormatComboBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Left, Right</value>
   </data>
   <data name="valueFormatComboBox.Items" xml:space="preserve">
     <value>All digits</value>
