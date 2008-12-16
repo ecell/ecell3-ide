@@ -97,6 +97,15 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
+        ///   Redraw interval is too large[0-3600]. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrOverTime {
+            get {
+                return ResourceManager.GetString("ErrOverTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   The same parameter is selected for X-axis and Y-axis. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSameAxis {

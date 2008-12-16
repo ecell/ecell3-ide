@@ -274,6 +274,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_stepText.Text = "1";
             m_stepText.Tag = 10;
             m_stepText.TextBoxTextAlign = HorizontalAlignment.Right;
+            m_stepText.TextChanged += new EventHandler(m_stepText_TextChanged);
             list.Items.Add(m_stepText);
 
             m_stepUnitCombo = new ToolStripComboBox();
@@ -729,6 +730,19 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_isChanged = true;
                 m_dManager.SetSimulationParameter(m_paramsCombo.Text,false,false);
                 m_isChanged = false;
+            }
+        }
+
+        private void m_stepText_TextChanged(object sender, EventArgs e)
+        {
+            ToolStripTextBox text = (ToolStripTextBox)sender;
+
+            double dummy;
+            if (!Double.TryParse(text.Text, out dummy) || dummy < 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                text.Text = "1";
+                return;
             }
         }
         #endregion

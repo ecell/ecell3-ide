@@ -84,9 +84,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_owner = owner;
             InitializeComponent();
             dirTextBox.Text = owner.DataManager.GetSimulationResultSaveDirectory();
-            endTextBox.Text = Convert.ToString(owner.DataManager.GetCurrentSimulationTime());
             m_start = 0.0;
             m_end = owner.DataManager.GetCurrentSimulationTime();
+            endTextBox.Text = m_end.ToString();
+            double dummy = 0.0;
+            if (double.TryParse(endTextBox.Text, out dummy))
+                m_end = dummy;
         }
 
         /// <summary>
@@ -145,10 +148,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             string text = startTextBox.Text;
             if (String.IsNullOrEmpty(text))
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameStartTime));
-                startTextBox.Text = Convert.ToString(m_start);
-                e.Cancel = true;
-                return;
+                text = "0.0";
             }
             double dummy;
             if (!Double.TryParse(text, out dummy) || dummy < 0.0 || m_end < dummy)
@@ -172,7 +172,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy < 0.0 || m_start > dummy)
+            if (!Double.TryParse(text, out dummy) || dummy < 0.0 || m_start > dummy || m_end < dummy)
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 endTextBox.Text = Convert.ToString(m_end);

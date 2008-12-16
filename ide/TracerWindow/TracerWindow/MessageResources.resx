@@ -129,6 +129,9 @@
   <data name="ErrNoInput" xml:space="preserve">
     <value>Nothing is input in {0}</value>
   </data>
+  <data name="ErrOverTime" xml:space="preserve">
+    <value>Redraw interval is too large[0-3600].</value>
+  </data>
   <data name="ErrSameAxis" xml:space="preserve">
     <value>The same parameter is selected for X-axis and Y-axis.</value>
   </data>
