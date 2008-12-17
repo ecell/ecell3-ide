@@ -304,6 +304,10 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 isCorrect = false;
             }
+            if (isCorrect && e.ColumnIndex == 3 && dummy < 0.0)
+            {
+                isCorrect = false;
+            }
 
             if (isCorrect)
             {
