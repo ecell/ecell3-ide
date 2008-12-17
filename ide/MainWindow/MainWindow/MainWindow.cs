@@ -815,6 +815,7 @@ namespace Ecell.IDE.MainWindow
         public void Clear()
         {
             this.Text = m_title;
+            m_editCount = 0;
         }
 
         /// <summary>
@@ -882,7 +883,7 @@ namespace Ecell.IDE.MainWindow
                 MenuItemLayout.Enabled = false;
             }
             // Reset edit count.
-            if (type == ProjectStatus.Uninitialized || type == ProjectStatus.Loaded)
+            if (type == ProjectStatus.Uninitialized)
                 m_editCount = 0;
             // Set recent Project.
             if (type == ProjectStatus.Loaded)

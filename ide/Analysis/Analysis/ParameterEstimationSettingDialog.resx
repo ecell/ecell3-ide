@@ -748,6 +748,12 @@
   <data name="$this.Text" xml:space="preserve">
     <value>ParameterEstimationSettingDialog</value>
   </data>
+  <data name="&gt;&gt;parameterEstimationToolTip.Name" xml:space="preserve">
+    <value>parameterEstimationToolTip</value>
+  </data>
+  <data name="&gt;&gt;parameterEstimationToolTip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn1.Name" xml:space="preserve">
     <value>dataGridViewTextBoxColumn1</value>
   </data>
@@ -765,12 +771,6 @@
   </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn3.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;parameterEstimationToolTip.Name" xml:space="preserve">
-    <value>parameterEstimationToolTip</value>
-  </data>
-  <data name="&gt;&gt;parameterEstimationToolTip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ParameterEstimationSettingDialog</value>

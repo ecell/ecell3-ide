@@ -313,7 +313,7 @@ namespace Ecell.IDE
                     continue;
                 }
                 EcellData data = m_propDict[key];
-                EcellParameterData param = m_dManager.GetParameterData(key);
+                EcellParameterData param = m_dManager.GetParameterData(data.EntityPath);
                 if (param == null)
                 {
                     if (data.Value.IsDouble)
@@ -322,9 +322,10 @@ namespace Ecell.IDE
                         param = new EcellParameterData(key, 0.0);
                 }
                 commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                CheckBox c;
                 if (data.Settable && data.Value.IsDouble)
                 {
-                    CheckBox c = new CheckBox();
+                    c = new CheckBox();
                     if (m_dManager.IsContainsParameterData(data.EntityPath))
                         c.Checked = false;
                     else c.Checked = true;
@@ -333,11 +334,12 @@ namespace Ecell.IDE
                     c.Tag = key;
                     c.AutoSize = true;
                     c.Enabled = true;
+                    c.CheckedChanged += new EventHandler(c_CheckedChanged);
                     commitLayoutPanel.Controls.Add(c, 0, i);
                 }
                 else
                 {
-                    CheckBox c = new CheckBox();
+                    c = new CheckBox();
                     c.Checked = true;
                     c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
                     c.Text = "";
@@ -421,6 +423,14 @@ namespace Ecell.IDE
                 t3.Validating += new CancelEventHandler(StepDataValidating);
                 commitLayoutPanel.Controls.Add(t3, 4, i);
                 i++;
+
+                t1.ReadOnly = c.Checked;
+                t2.ReadOnly = c.Checked;
+                t3.ReadOnly = c.Checked;
+
+                m_maxDic.Add(key, t1);
+                m_minDic.Add(key, t2);
+                m_stepDic.Add(key, t3);
             }
 
             if (m_currentObj == null && m_type.Equals(EcellObject.SYSTEM))
@@ -431,6 +441,7 @@ namespace Ecell.IDE
                 c.Text = "";
                 c.AutoSize = true;
                 c.Enabled = true;
+                c.CheckedChanged += new EventHandler(c_CheckedChanged);
                 c.Tag = "Size";
                 commitLayoutPanel.Controls.Add(c, 0, i);
 
@@ -462,6 +473,15 @@ namespace Ecell.IDE
                 t3.Tag = "Size";
                 commitLayoutPanel.Controls.Add(t3, 4, i);
                 i++;
+                m_maxDic.Add("Size", t1);
+                m_minDic.Add("Size", t2);
+                m_stepDic.Add("Size", t3);
+
+                t1.ReadOnly = c.Checked;
+                t2.ReadOnly = c.Checked;
+                t3.ReadOnly = c.Checked;
+
+
             }
             else if (m_currentObj != null && m_currentObj.Type.Equals(EcellObject.SYSTEM))
             {
@@ -474,6 +494,7 @@ namespace Ecell.IDE
                 c.Tag = "Size";
                 c.AutoSize = true;
                 c.Enabled = true;
+                c.CheckedChanged += new EventHandler(c_CheckedChanged);
                 commitLayoutPanel.Controls.Add(c, 0, i);
 
                 Label l = new Label();
@@ -499,6 +520,13 @@ namespace Ecell.IDE
                 t3.Tag = "Size";
                 commitLayoutPanel.Controls.Add(t3, 4, i);
 
+                m_maxDic.Add("Size", t1);
+                m_minDic.Add("Size", t2);
+                m_stepDic.Add("Size", t3);
+
+                t1.ReadOnly = c.Checked;
+                t2.ReadOnly = c.Checked;
+                t3.ReadOnly = c.Checked;
                 if (m_currentObj.Children != null)
                 {
                     foreach (EcellObject o in m_currentObj.Children)

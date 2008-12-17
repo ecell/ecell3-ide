@@ -332,7 +332,8 @@ namespace Ecell.IDE.Plugins.Analysis
             if (data == null) return;
             double dummy = 0;
             bool isCorrect = true;
-            if (!double.TryParse(robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
+            if (robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value == null ||
+                !double.TryParse(robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
             {
                 isCorrect = false;
             }
@@ -381,7 +382,8 @@ namespace Ecell.IDE.Plugins.Analysis
             if (data == null) return;
             double dummy = 0;
             bool isCorrect = true;
-            if (!double.TryParse(robustAnalysisParameterDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
+            if (robustAnalysisParameterDataGrid[e.ColumnIndex, e.RowIndex].Value == null ||
+                !double.TryParse(robustAnalysisParameterDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
             {
                 isCorrect = false;
             }

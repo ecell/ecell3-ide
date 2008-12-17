@@ -299,7 +299,8 @@ namespace Ecell.IDE.Plugins.Analysis
             if (data == null) return;
             double dummy = 0;
             bool isCorrect = true;
-            if (!double.TryParse(parameterEstimationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
+            if (parameterEstimationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value == null ||
+                !double.TryParse(parameterEstimationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
             {
                 isCorrect = false;
             }

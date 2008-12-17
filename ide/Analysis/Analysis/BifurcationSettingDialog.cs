@@ -261,7 +261,8 @@ namespace Ecell.IDE.Plugins.Analysis
             if (data == null) return;
             double dummy = 0;
             bool isCorrect = true;
-            if (!double.TryParse(bifurcationObservedDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
+            if (bifurcationObservedDataGrid[e.ColumnIndex, e.RowIndex].Value == null ||
+                !double.TryParse(bifurcationObservedDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
             {
                 isCorrect = false;
             }
@@ -310,7 +311,8 @@ namespace Ecell.IDE.Plugins.Analysis
             if (data == null) return;
             double dummy = 0;
             bool isCorrect = true;
-            if (!double.TryParse(bifurcationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
+            if (bifurcationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value ||
+                !double.TryParse(bifurcationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
             {
                 isCorrect = false;
             }

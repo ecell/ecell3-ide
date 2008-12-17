@@ -576,6 +576,27 @@ namespace Ecell.IDE.Plugins.Analysis
                 dlg();
         }
 
+        private bool IsRunningAnalysis()
+        {
+            if (m_robustAnalysis != null && m_robustAnalysis.IsRunning)
+                return true;
+            if (m_parameterEstimation != null && m_parameterEstimation.IsRunning)
+                return true;
+            if (m_sensitivityAnalysis != null && m_sensitivityAnalysis.IsRunning)
+                return true;
+            if (m_bifurcationAnalysis != null && m_bifurcationAnalysis.IsRunning)
+                return true;
+            return false;
+        }
+
+        private void StopAnalysis()
+        {
+            if (m_robustAnalysis != null) m_robustAnalysis.StopAnalysis();
+            if (m_parameterEstimation != null) m_parameterEstimation.StopAnalysis();
+            if (m_sensitivityAnalysis != null) m_sensitivityAnalysis.StopAnalysis();
+            if (m_bifurcationAnalysis != null) m_bifurcationAnalysis.StopAnalysis();
+        }
+
         /// <summary>
         /// Event when the menu to execute robust analysis is clicked.
         /// This program execute the program of robust analysis.
@@ -584,13 +605,11 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteRobustAnalysis(object sender, EventArgs e)
         {
-            if (m_robustAnalysis != null && m_robustAnalysis.IsRunning)
+            if (IsRunningAnalysis())
             {
                 if (Util.ShowYesNoDialog(MessageResources.ConfirmStopAnalysis))
-
-
                 {
-                    m_robustAnalysis.StopAnalysis();
+                    StopAnalysis();
                 }
                 return;
             }
@@ -608,13 +627,11 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteParameterEstimation(object sender, EventArgs e)
         {
-            if (m_parameterEstimation != null && m_parameterEstimation.IsRunning)
+            if (IsRunningAnalysis())
             {
                 if (Util.ShowYesNoDialog(MessageResources.ConfirmStopAnalysis))
-
-
                 {
-                    m_parameterEstimation.StopAnalysis();
+                    StopAnalysis();
                 }
                 return;
             }
@@ -632,13 +649,11 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteSensitivityAnalysis(object sender, EventArgs e)
         {
-            if (m_sensitivityAnalysis != null && m_sensitivityAnalysis.IsRunning)
+            if (IsRunningAnalysis())
             {
                 if (Util.ShowYesNoDialog(MessageResources.ConfirmStopAnalysis))
-
-
                 {
-                    m_sensitivityAnalysis.StopAnalysis();
+                    StopAnalysis();
                 }
                 return;
             }
@@ -656,13 +671,11 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteBifurcationAnalysis(object sender, EventArgs e)
         {
-            if (m_bifurcationAnalysis != null && m_bifurcationAnalysis.IsRunning)
+            if (IsRunningAnalysis())
             {
                 if (Util.ShowYesNoDialog(MessageResources.ConfirmStopAnalysis))
-
-
                 {
-                    m_bifurcationAnalysis.StopAnalysis();
+                    StopAnalysis();
                 }
                 return;
             }
