@@ -1774,7 +1774,7 @@ namespace Ecell.IDE
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy))
+            if (!Double.TryParse(text, out dummy) || dummy < 0.0)
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 textBox.Text = Convert.ToString(param.Step);

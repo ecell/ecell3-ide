@@ -285,6 +285,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_stepUnitCombo.Items.Add("Step");
             m_stepUnitCombo.Items.Add("Sec");
             m_stepUnitCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            m_stepUnitCombo.SelectedIndexChanged += new EventHandler(m_stepUnitCombo_SelectedIndexChanged);
             m_stepUnitCombo.SelectedIndex = 0;
             list.Items.Add(m_stepUnitCombo);
             list.Location = new Point(400, 0);
@@ -737,12 +738,37 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             ToolStripTextBox text = (ToolStripTextBox)sender;
 
-            double dummy;
-            if (!Double.TryParse(text.Text, out dummy) || dummy < 0.0)
+            if (m_stepUnitCombo.Text.Equals("Step"))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                text.Text = "1";
-                return;
+                int dummy;
+                if (!Int32.TryParse(text.Text, out dummy) || dummy < 0)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    text.Text = "1";
+                    return;
+                }
+            }
+            else
+            {
+                double dummy;
+                if (!Double.TryParse(text.Text, out dummy) || dummy < 0.0)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    text.Text = "1.0";
+                    return;
+                }
+            }
+        }
+
+        void m_stepUnitCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (m_stepUnitCombo.Text.Equals("Step"))
+            {
+                m_stepText.Text = "1";
+            }
+            else
+            {
+                m_stepText.Text = "1.0";
             }
         }
         #endregion
