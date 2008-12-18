@@ -412,15 +412,14 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         public void ClearTime()
         {
-            // Zoom中にデータをクリアすると問題あり。
-            if (m_zCnt.GraphPane.IsZoomed) return;
             foreach (string key in m_entryDic.Keys)
             {
                 if (m_entryDic[key].IsLoaded) continue;
                 m_entryDic[key].ClearPoint();
             }
             m_current = 0.0;
-            m_zCnt.GraphPane.XAxis.Scale.Max = m_MaxXAxis;
+            if (!m_zCnt.GraphPane.IsZoomed)
+                m_zCnt.GraphPane.XAxis.Scale.Max = m_MaxXAxis;
             m_zCnt.AxisChange();
             m_zCnt.Refresh();
         }
@@ -431,7 +430,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         public void StartSimulation()
         {
             Console.WriteLine(isSuspend);
-            if (!isSuspend)
+            if (!isSuspend || m_zCnt.GraphPane.IsZoomed)
             {
                 foreach (string key in m_entryDic.Keys)
                 {
@@ -458,7 +457,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     }
                 }
             }
-            m_MaxXAxis = max;
+//            m_MaxXAxis = max;
 
             if (this.InvokeRequired)
             {
@@ -486,7 +485,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             if (status == false)
             {
-                if (isSuspend == false)
+                if (isSuspend == false && !m_zCnt.GraphPane.IsZoomed)
                     m_zCnt.GraphPane.XAxis.Scale.Max = m_MaxXAxis;
                 m_zCnt.AxisChange();
                 m_zCnt.Refresh();
@@ -602,7 +601,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 if (!m_entryDic.ContainsKey(p)) continue;
                 if (m_entryDic[p].IsLoaded != d.IsLoaded) continue;
 
-                bool isRet = m_entryDic[p].AddPoint(d.logValueList, m_zCnt.GraphPane.YAxis.Scale.Max, m_zCnt.GraphPane.YAxis.Scale.Min);
+                bool isRet = m_entryDic[p].AddPoint(d.logValueList, 
+                    m_zCnt.GraphPane.XAxis.Scale.Max,
+                    m_zCnt.GraphPane.XAxis.Scale.Min,
+                    m_zCnt.GraphPane.YAxis.Scale.Max, 
+                    m_zCnt.GraphPane.YAxis.Scale.Min,
+                    m_zCnt.GraphPane.IsZoomed);
                 if (isAxis == false)
                 {
                     isAxis = isRet;
@@ -984,7 +988,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 string p = l.type + ":" + l.key + ":" + l.propName;
                 if (!m_entryDic.ContainsKey(p)) continue;
 
-                m_entryDic[p].AddPoint(l.logValueList, 0.0, 0.0);
+                m_entryDic[p].AddPoint(l.logValueList, 
+                    m_zCnt.GraphPane.XAxis.Scale.Max,
+                    m_zCnt.GraphPane.XAxis.Scale.Min,
+                    0.0, 0.0,
+                    m_zCnt.GraphPane.IsZoomed);
             }
 
             UpdateGraphCallBack f = new UpdateGraphCallBack(UpdateGraph);

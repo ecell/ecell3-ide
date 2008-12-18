@@ -883,7 +883,9 @@ namespace Ecell.IDE.MainWindow
                 MenuItemLayout.Enabled = false;
             }
             // Reset edit count.
-            if (type == ProjectStatus.Uninitialized)
+            if (type == ProjectStatus.Uninitialized ||
+                (m_type == ProjectStatus.Uninitialized &&
+                type == ProjectStatus.Loaded))
                 m_editCount = 0;
             // Set recent Project.
             if (type == ProjectStatus.Loaded)

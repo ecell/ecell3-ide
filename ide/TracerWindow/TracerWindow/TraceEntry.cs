@@ -87,16 +87,19 @@ namespace Ecell.IDE.Plugins.TracerWindow
             return false;
         }
 
-        public bool AddPoint(List<LogValue> data, double max, double min)
+        public bool AddPoint(List<LogValue> data, double xmax, double xmin, 
+            double ymax, double ymin, bool isZoom)
         {
             bool isAxis = false;
             
             foreach (LogValue v in data)
             {
+                if (isZoom && (v.time < xmin && v.time > xmax))
+                    continue;
                 if (isAxis == false)
                 {
-                    if (max < v.value) isAxis = true;
-                    if (min > v.value) isAxis = true;
+                    if (ymax < v.value) isAxis = true;
+                    if (ymin > v.value) isAxis = true;
                 }
                 if (IsContinuous)
                 {
