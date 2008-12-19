@@ -402,7 +402,7 @@ namespace Ecell
                             if (!m_loggerEntry.Contains(srcEcellData.EntityPath))
                             {
                                 WrappedSimulator simulator = m_currentProject.Simulator;
-                                simulator.CreateLogger(srcEcellData.EntityPath,
+                                CreateLogger(srcEcellData.EntityPath, simulator,
                                     m_currentProject.LoggerPolicy.ReloadStepCount,
                                     m_currentProject.LoggerPolicy.ReloadInterval,
                                     m_currentProject.LoggerPolicy.DiskFullAction == DiskFullAction.Overwrite,
@@ -3246,18 +3246,26 @@ namespace Ecell
             {
                 foreach (string logger in allLoggerList)
                 {
-                    simulator.CreateLogger(logger,
+                    CreateLogger(logger, sim, 
                         m_currentProject.LoggerPolicy.ReloadStepCount,
                         m_currentProject.LoggerPolicy.ReloadInterval,
                         m_currentProject.LoggerPolicy.DiskFullAction == DiskFullAction.Overwrite,
                         m_currentProject.LoggerPolicy.MaxDiskSpace);
-                    m_loggerEntry.Add(logger);
                 }
             }
             //
             // Initializes
             //
             simulator.Initialize();
+        }
+
+        private void CreateLogger(string fullPathID, WrappedSimulator sim,
+            int stepCount, double interval, bool action, double maxSpace)
+        {
+            if (m_loggerEntry.Contains(fullPathID)) return;
+
+            sim.CreateLogger(fullPathID, stepCount, interval, action, maxSpace);
+            m_loggerEntry.Add(fullPathID);
         }
 
         /// <summary>

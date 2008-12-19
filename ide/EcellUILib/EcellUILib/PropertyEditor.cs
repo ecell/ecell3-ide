@@ -1273,9 +1273,18 @@ namespace Ecell.IDE
                                 return;
                             }
                         }
+                        isLogger = false;
                     }
-                    else if ((string)c.Tag == "classname") classname = c.Text;
-                    else if ((string)c.Tag == "type") type = c.Text;
+                    else if ((string)c.Tag == "classname")
+                    {
+                        classname = c.Text;
+                        isLogger = false;
+                    }
+                    else if ((string)c.Tag == "type")
+                    {
+                        type = c.Text;
+                        isLogger = false;
+                    }
                     else if ((string)c.Tag == EcellProcess.VARIABLEREFERENCELIST)
                     {
                         EcellData data = new EcellData();
@@ -1301,7 +1310,7 @@ namespace Ecell.IDE
                                     ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
                             }
                         }
-
+                        isLogger = false;
                         list.Add(data);
                     }
                     else if ((string)c.Tag == "DefinedSize")
@@ -1395,7 +1404,7 @@ namespace Ecell.IDE
                         newData.Logable = oldData.Logable;
                         newData.Logged = oldData.Logged;
                         GetCommitInfo(newData);
-
+                        isLogger = false;
                         list.Add(newData);
                     }
                     else
@@ -1446,7 +1455,7 @@ namespace Ecell.IDE
                         newData.Logable = oldData.Logable;
                         GetCommitInfo(newData);
                         newData.Logged = isLogger;
-
+                        isLogger = false;
                         list.Add(newData);
                     }
                 }
