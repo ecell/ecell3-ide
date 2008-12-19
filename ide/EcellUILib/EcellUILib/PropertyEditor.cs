@@ -90,6 +90,9 @@ namespace Ecell.IDE
         /// </summary>
         private FormulatorDialog m_fwin = null;
         private String m_title = null;
+        private Dictionary<string, TextBox> m_maxDic = new Dictionary<string, TextBox>();
+        private Dictionary<string, TextBox> m_minDic = new Dictionary<string, TextBox>();
+        private Dictionary<string, TextBox> m_stepDic = new Dictionary<string, TextBox>();
         private Dictionary<string, EcellParameterData> m_paramDic = new Dictionary<string, EcellParameterData>();
         private string m_definedSize = "";
         static private string DefinedSize = "DefinedSize";
@@ -378,7 +381,6 @@ namespace Ecell.IDE
                         t1.Text = param.Max.ToString();
                     }
                 }
-                //                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                 t1.Validating += new CancelEventHandler(MaxDataValidating); 
                 commitLayoutPanel.Controls.Add(t1, 2, i);
 
@@ -406,8 +408,6 @@ namespace Ecell.IDE
                     }
                 }
 
-
-                //                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                 t2.Validating += new CancelEventHandler(MinDataValidating);                
                 commitLayoutPanel.Controls.Add(t2, 3, i);
 
@@ -419,7 +419,6 @@ namespace Ecell.IDE
                 {
                     t3.ReadOnly = true;
                 }
-                //                    t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                 t3.Validating += new CancelEventHandler(StepDataValidating);
                 commitLayoutPanel.Controls.Add(t3, 4, i);
                 i++;
@@ -428,9 +427,9 @@ namespace Ecell.IDE
                 t2.ReadOnly = c.Checked;
                 t3.ReadOnly = c.Checked;
 
-                m_maxDic.Add(key, t1);
-                m_minDic.Add(key, t2);
-                m_stepDic.Add(key, t3);
+                m_maxDic[key] = t1;
+                m_minDic[key] = t2;
+                m_stepDic[key] = t3;
             }
 
             if (m_currentObj == null && m_type.Equals(EcellObject.SYSTEM))
@@ -473,9 +472,9 @@ namespace Ecell.IDE
                 t3.Tag = "Size";
                 commitLayoutPanel.Controls.Add(t3, 4, i);
                 i++;
-                m_maxDic.Add("Size", t1);
-                m_minDic.Add("Size", t2);
-                m_stepDic.Add("Size", t3);
+                m_maxDic["Size"] = t1;
+                m_minDic["Size"] = t2;
+                m_stepDic["Size"] = t3;
 
                 t1.ReadOnly = c.Checked;
                 t2.ReadOnly = c.Checked;
@@ -520,9 +519,9 @@ namespace Ecell.IDE
                 t3.Tag = "Size";
                 commitLayoutPanel.Controls.Add(t3, 4, i);
 
-                m_maxDic.Add("Size", t1);
-                m_minDic.Add("Size", t2);
-                m_stepDic.Add("Size", t3);
+                m_maxDic["Size"] = t1;
+                m_minDic["Size"] = t2;
+                m_stepDic["Size"] = t3;
 
                 t1.ReadOnly = c.Checked;
                 t2.ReadOnly = c.Checked;
@@ -1783,6 +1782,24 @@ namespace Ecell.IDE
             }
             param.Step = dummy;
         }
+
+        void c_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox c = (CheckBox)sender;
+            if (c.Checked)
+            {
+                m_maxDic[(string)c.Tag].ReadOnly = true;
+                m_minDic[(string)c.Tag].ReadOnly = true;
+                m_stepDic[(string)c.Tag].ReadOnly = true;
+            }
+            else
+            {
+                m_maxDic[(string)c.Tag].ReadOnly = false;
+                m_minDic[(string)c.Tag].ReadOnly = false;
+                m_stepDic[(string)c.Tag].ReadOnly = false;
+            }
+        }
+
 
         #endregion
         #endregion
