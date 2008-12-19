@@ -186,6 +186,11 @@ namespace Ecell.IDE.MainWindow
             {
                 JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
             }
+            if (JobGridView.SortedColumn != null)
+                JobGridView.Sort(JobGridView.SortedColumn,
+                    (JobGridView.SortOrder == SortOrder.Ascending ?
+                    ListSortDirection.Ascending :
+                    ListSortDirection.Descending));
         }
 
         /// <summary>
