@@ -327,4 +327,7 @@
   <data name="ErrSuspend" xml:space="preserve">
     <value>シミュレーションエンジンで例外が発生したため、シミュレーションを中断しました。</value>
   </data>
+  <data name="WarnInvalidData" xml:space="preserve">
+    <value>エンティティのプロパティが不完全です。</value>
+  </data>
 </root>
