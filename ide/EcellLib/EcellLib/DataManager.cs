@@ -4715,7 +4715,7 @@ namespace Ecell
                             savedType.Equals(Constants.xpathEcd))
                         {
                             Ecd ecd = new Ecd();
-                            ecd.Create(simulationDirName, logData, savedType);
+                            ecd.Create(simulationDirName, logData, savedType, startTime, endTime);
                             message = "[" + fullID + "]";
                             Trace.WriteLine("Save Simulation Result: " + message);
                         }

@@ -400,7 +400,8 @@ namespace Ecell
         /// <param name="savedDirName">The saved directory name.</param>
         /// <param name="logData">The list of the "LogData"</param>
         /// <param name="saveType">The type of saved file.</param>
-        public void Create(string savedDirName, LogData logData, String saveType)
+        public void Create(string savedDirName, LogData logData, String saveType,
+            double startTime, double endTime)
         {
             string fileName = null;
             try
@@ -510,6 +511,11 @@ namespace Ecell
                         {
                             continue;
                         }
+                        double ltime;
+                        double.TryParse(logValue.time.ToString(), out ltime);
+                        if (startTime > ltime ||
+                            endTime < ltime)
+                            continue;
                         if (Double.IsNaN(logValue.avg) &&
                             Double.IsNaN(logValue.min) &&
                             Double.IsNaN(logValue.max)
