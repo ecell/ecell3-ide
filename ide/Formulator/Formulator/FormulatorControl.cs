@@ -438,7 +438,7 @@ namespace Ecell.UI.Components
         {
             if (m_isText == false) return;
             if (m_current == null) return;
-            f (String.IsNullOrEmpty(reserveBox.Text)) return;
+            if (String.IsNullOrEmpty(reserveBox.Text)) return;
 
             Graphics g = Graphics.FromImage(m_image);
             m_current.Type = FUtil.STRING;

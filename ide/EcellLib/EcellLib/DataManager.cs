@@ -475,7 +475,7 @@ namespace Ecell
         /// <summary>
         /// Get Process list to update VariableReference.
         /// </summary>
-        /// <param name="variableDic">Dictionary of VariableReference changed."Dictionary<oldKey,newKey>"</param>
+        /// <param name="variableDic">Dictionary of VariableReference changed."Dictionary[oldKey,newKey]"</param>
         /// <returns></returns>
         private List<EcellObject> GetUpdatedProcessList(Dictionary<string, string> variableDic)
         {
@@ -1840,7 +1840,7 @@ namespace Ecell
         /// Move the component to the upper system, when system is deleted.
         /// </summary>
         /// <param name="modelID">modelID of deleted system.</param>
-        /// <param name="key">key of deleted system.</param>
+        /// <param name="sysKey">key of deleted system.</param>
         public void SystemDeleteAndMove(string modelID, string sysKey)
         {
             EcellObject system = GetEcellObject(modelID, sysKey, EcellObject.SYSTEM);
@@ -2768,6 +2768,24 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Get the current value with fullPath.
+        /// This method is used to get numerical value of parameter while simulating.
+        /// </summary>
+        /// <param name="fullPN"></param>
+        /// <returns></returns>
+        public double GetPropertyValue(string fullPN)
+        {
+            try
+            {
+                return (double)m_currentProject.Simulator.GetEntityProperty(fullPN);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(String.Format(MessageResources.ErrPropData, new object[] { fullPN }), ex);
+            }
+        }
+
+        /// <summary>
         /// get model list loaded by this system now.
         /// </summary>
         /// <returns></returns>
@@ -3246,7 +3264,7 @@ namespace Ecell
             {
                 foreach (string logger in allLoggerList)
                 {
-                    CreateLogger(logger, sim, 
+                    CreateLogger(logger, simulator, 
                         m_currentProject.LoggerPolicy.ReloadStepCount,
                         m_currentProject.LoggerPolicy.ReloadInterval,
                         m_currentProject.LoggerPolicy.DiskFullAction == DiskFullAction.Overwrite,
@@ -3260,7 +3278,7 @@ namespace Ecell
         }
 
         private void CreateLogger(string fullPathID, WrappedSimulator sim,
-            int stepCount, double interval, bool action, double maxSpace)
+            int stepCount, double interval, bool action, int maxSpace)
         {
             if (m_loggerEntry.Contains(fullPathID)) return;
 
