@@ -273,7 +273,7 @@ namespace Ecell.IDE.Plugins.ScriptWindow
                     e.Handled = true;
                 }
             }
-            else if (e.KeyCode == Keys.Z && e.Control = true)
+            else if (e.KeyCode == Keys.Z && e.Control == true)
             {
                 sender.Text = "";
                 ResetCommandLineControl();

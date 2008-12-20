@@ -278,7 +278,7 @@ namespace Ecell.IDE.Plugins.Analysis
             dManager.SimulationStartKeepSetting(m_param.Step);
             foreach (SaveLoggerProperty p in m_saveList)
             {
-                double dV = dManager.GetPropertyValue(p.EntityPath);
+                double dV = dManager.GetPropertyValue(p.FullPath);
 
                 m_currentData.Add(p.FullPath, dV);
                 m_activityBuffer.Add(dV);

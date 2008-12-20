@@ -319,7 +319,7 @@ namespace Ecell.IDE.Plugins.Analysis
             if (data == null) return;
             double dummy = 0;
             bool isCorrect = true;
-            if (bifurcationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value ||
+            if (bifurcationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value == null ||
                 !double.TryParse(bifurcationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
             {
                 isCorrect = false;

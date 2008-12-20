@@ -178,6 +178,14 @@ namespace Ecell.Objects
         }
 
         /// <summary>
+        /// FullID
+        /// </summary>
+        public virtual string FullID
+        {
+            get { return m_type + Constants.delimiterColon + m_key; }
+        }
+
+        /// <summary>
         /// get parent system ID.
         /// </summary>
         public virtual string ParentSystemID
