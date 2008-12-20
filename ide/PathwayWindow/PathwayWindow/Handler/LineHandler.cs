@@ -346,7 +346,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             /// </summary>
             public LineHandle()
             {
-                base.AddInputEventListener(new ObjectDragHandler());
+                base.AddInputEventListener(new PDragEventHandler());
                 base.Brush = new SolidBrush(Color.FromArgb(125, Color.Orange));
                 base.Pen = new Pen(Brushes.DarkCyan, 1);
                 base.AddEllipse(

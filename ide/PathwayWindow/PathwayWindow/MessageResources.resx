@@ -268,7 +268,7 @@
     <value>Move to front</value>
   </data>
   <data name="MenuItemExport" xml:space="preserve">
-    <value>Export diagrams...</value>
+    <value>Export diagram image...</value>
   </data>
   <data name="MenuToolTipExport" xml:space="preserve">
     <value>Export diagrams</value>
@@ -359,9 +359,6 @@
   </data>
   <data name="MessageLoadModel" xml:space="preserve">
     <value>Now loading model ...</value>
-  </data>
-  <data name="MenuItemExportImage" xml:space="preserve">
-    <value>Export Image...</value>
   </data>
   <data name="MenuItemFocus" xml:space="preserve">
     <value>Auto Zoom</value>

@@ -52,9 +52,9 @@ using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using Ecell.IDE.Plugins.PathwayWindow.Exceptions;
-using Ecell.IDE.Plugins.PathwayWindow.Animation;
 using Ecell.Plugin;
 using Ecell.Objects;
+using Ecell.IDE.Plugins.PathwayWindow.Animation;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {
@@ -517,14 +517,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Select Canvas
             if (m_canvas == null)
                 return;
-            // If case SystemSize
-            if (type == Constants.xpathVariable)
-            {
-                string superSystemPath, localID;
-                Util.ParseEntityKey(oldKey, out superSystemPath, out localID);
-                if (localID == "SIZE")
-                    return;
-            }
 
             // Select changed object.
             PPathwayObject obj = m_canvas.GetSelectedObject(oldKey, type);
@@ -742,14 +734,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             else
                 nodeList = CopyNodes(m_copiedNodes);
             // Add objects.
-            int i = 0;
-            bool isAnchor;
-            foreach (EcellObject eo in nodeList)
-            {
-                i++;
-                isAnchor = (i == this.m_copiedNodes.Count);
-                NotifyDataAdd(eo, isAnchor);
-            }
+            NotifyDataAdd(nodeList);
         }
         /// <summary>
         /// Set NodeIconImages.
@@ -781,11 +766,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             // Set current layer.
             eo.Layer = m_layerView.SelectedLayer;
-            List<EcellObject> list = new List<EcellObject>();
-            list.Add(eo);
             try
             {
-                m_window.NotifyDataAdd(list, isAnchor);
+                m_window.NotifyDataAdd(eo, isAnchor);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+        /// <summary>
+        /// Notify DataAdd event to outside.
+        /// </summary>
+        /// <param name="list">Added EcellObject</param>
+        public void NotifyDataAdd(List<EcellObject> list)
+        {
+            try
+            {
+                m_window.NotifyDataAdd(list, true);
             }
             catch (Exception e)
             {
@@ -794,12 +792,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
         
         /// <summary>
-        /// 
+        /// NotifySetPosition
         /// </summary>
         /// <param name="obj"></param>
         public void NotifySetPosition(PPathwayObject obj)
         {
             EcellObject eo = obj.EcellObject;
+            eo.Layer = obj.Layer.Name;
             eo.X = obj.X + obj.OffsetX;
             eo.Y = obj.Y + obj.OffsetY;
             eo.Width = obj.Width;

@@ -41,8 +41,8 @@ using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using System.IO;
 using System.Xml;
-using AviFile;
 using Ecell.Objects;
+using AviFile;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -754,12 +754,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private float GetFloatValue(EcellObject eo ,string propName)
         {
             string fullpath = eo.Type + ":" + eo.Key + ":" + propName;
-            EcellValue value = null;
             float num = 0f;
             try
             {
-                value = m_dManager.GetEntityProperty(fullpath);
-                num = (float)value;
+                num = (float)m_dManager.GetPropertyValue(fullpath);
             }
             catch (Exception e)
             {

@@ -207,10 +207,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <param name="obj">node which is to be connected</param>
         public void SetStartNode(PPathwayNode obj)
         {
-            if (null != m_start)
-                m_start.IsToBeConnected = false;
             m_start = obj;
-            m_start.IsToBeConnected = true;
         }
 
         /// <summary>
@@ -219,8 +216,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         public void ResetStartNode()
         {
             if (m_start != null)
-                m_start.IsToBeConnected = false;
-            m_start = null;
+                m_start.RefreshView();
         }
 
         /// <summary>

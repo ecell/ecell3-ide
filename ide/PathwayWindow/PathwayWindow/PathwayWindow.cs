@@ -119,7 +119,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
-        /// Get menustrips for PathwayWindow plugin.
+        /// Return MenuStrips for Ecell IDE's MainMenu.
         /// </summary>
         /// <returns>the list of menu.</returns>
         public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
@@ -128,7 +128,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
-        /// Get toolbar buttons for PathwayWindow plugin.
+        /// Return ToolBar buttons for Ecell IDE's ToolBar.
         /// </summary>
         /// <returns>the list of ToolBarMenu.</returns>
         public override ToolStrip GetToolBarMenuStrip()
@@ -137,8 +137,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
-        /// Called by PluginManager for getting UseControl.
-        /// UseControl for pathway is created and configurated in the PathwayView instance actually.
+        /// Called by PluginManager for getting EcellDockContent.
+        /// EcellDockContent for pathway is created and configurated in the PathwayView instance actually.
         /// PathwayWindow get it and attach some delegates to them and pass it to PluginManager.
         /// </summary>
         /// <returns>UserControl with pathway canvases, etc.</returns>

@@ -181,7 +181,7 @@ namespace Ecell.Objects
                     
                 return result;
             }
-            set { this.m_fullID = Constants.delimiterColon + value; }
+            set { this.m_fullID = Constants.xpathVariable + Constants.delimiterColon + value; }
 
         }
 

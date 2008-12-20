@@ -117,12 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmDelete" xml:space="preserve">
-    <value>本当に削除しますか？</value>
-  </data>
-  <data name="ConfirmMerge" xml:space="preserve">
-    <value>システムの内容を上位システムにマージしますか？</value>
-  </data>
   <data name="ErrAlrExist" xml:space="preserve">
     <value>{0}という名前のエンティティはすでに存在します。</value>
   </data>
@@ -274,7 +268,7 @@
     <value>前面移動</value>
   </data>
   <data name="MenuItemExport" xml:space="preserve">
-    <value>ダイアグラム出力...</value>
+    <value>ダイアグラム画像の出力...</value>
   </data>
   <data name="MenuToolTipExport" xml:space="preserve">
     <value>ダイアグラムを出力します。</value>
@@ -400,7 +394,7 @@
     <value>オーバービューの表示切替</value>
   </data>
   <data name="DialogTextAutoThreshold" xml:space="preserve">
-    <value>閾値の自動設定</value>
+    <value>しきい値の自動設定</value>
   </data>
   <data name="DialogTooltipAutoThreshold" xml:space="preserve">
     <value>エッジのアニメーションの太さを自動設定します。</value>

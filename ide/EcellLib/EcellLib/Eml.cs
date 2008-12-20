@@ -316,7 +316,6 @@ namespace Ecell
         /// </summary>
         /// <param name="node">The "process" or "variable" element</param>
         /// <param name="systemID">The system ID of the parent "System" element</param>
-        /// <param name="flag">"Process" if this element is "Process" element; "Variable" otherwise</param>
         private EcellObject ParseEntity(
             XmlNode node,
             string systemID,

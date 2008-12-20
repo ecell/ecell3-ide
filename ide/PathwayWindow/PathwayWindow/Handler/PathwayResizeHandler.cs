@@ -389,7 +389,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             /// </summary>
             public ResizeHandle()
             {
-                this.AddInputEventListener(new ObjectDragHandler());
+                this.AddInputEventListener(new PDragEventHandler());
                 this.Brush = Brushes.DarkOrange;
                 this.Pen = new Pen(Brushes.DarkOliveGreen, 0);
                 GraphicsPath path = new GraphicsPath();

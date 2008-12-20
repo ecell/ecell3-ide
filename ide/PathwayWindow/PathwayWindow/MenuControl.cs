@@ -1244,8 +1244,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return;
 
-                componentPage.ApplyChange();
+                pathwayPage.ApplyChange();
                 animationPage.ApplyChange();
+                componentPage.ApplyChange();
                 m_con.ResetObjectSettings();
             }
         }
@@ -1505,23 +1506,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             float moveLength = 10;
             if (Control.ModifierKeys == Keys.Control)
                 moveLength = 1;
-            PointF delta = new PointF();
+            PointF offset = new PointF();
             if (e.KeyCode == Keys.Left)
-                delta.X = delta.X - moveLength;
+                offset.X = offset.X - moveLength;
             if (e.KeyCode == Keys.Right)
-                delta.X = delta.X + moveLength;
+                offset.X = offset.X + moveLength;
             if (e.KeyCode == Keys.Up)
-                delta.Y = delta.Y - moveLength;
+                offset.Y = offset.Y - moveLength;
             if (e.KeyCode == Keys.Down)
-                delta.Y = delta.Y + moveLength;
+                offset.Y = offset.Y + moveLength;
 
-
-            if (delta == PointF.Empty)
+            if (offset == PointF.Empty)
                 return;
-            foreach (PPathwayObject obj in m_con.Canvas.SelectedNodes)
-            {
-                obj.MovePosition(delta);
-            }
+
+            m_con.Canvas.MoveSelectedObjects(offset);
             m_con.Canvas.NotifyMoveObjects();
         }
 

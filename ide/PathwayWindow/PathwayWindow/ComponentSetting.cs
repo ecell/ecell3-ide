@@ -424,6 +424,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             Brush brush = GetFillBrush(gp);
             gra.FillPath(brush, gp);
             gra.DrawPath(new Pen(m_lineBrush, 0), gp);
+            if (m_componentType == ComponentType.Text)
+            {
+                Font font = new Font("Arial", 10);
+                gra.DrawString("T", font, m_textBrush, new PointF(2, 0));
+            }
             return icon;
         }
 

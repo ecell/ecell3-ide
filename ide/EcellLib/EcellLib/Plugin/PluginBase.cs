@@ -185,6 +185,15 @@ namespace Ecell.Plugin
         /// The event sequence to add the object at other plugin.
         /// </summary>
         /// <param name="data">The value of the adding object.</param>
+        public virtual void DataAdd(EcellObject data)
+        {
+            // do nothing
+        }
+
+        /// <summary>
+        /// The event sequence to add the object at other plugin.
+        /// </summary>
+        /// <param name="data">The value of the adding object.</param>
         public virtual void DataAdd(List<EcellObject> data)
         {
             // do nothing
@@ -473,6 +482,16 @@ namespace Ecell.Plugin
         #endregion
 
         #region Methods to notify changes from plugin to ECellLib
+        /// <summary>
+        /// Inform the adding of EcellOBject in PathwayEditor to DataManager.
+        /// </summary>
+        /// <param name="data">the list of added object.</param>
+        /// <param name="isAnchor">Whether this action is anchor or not.</param>
+        public void NotifyDataAdd(EcellObject data, bool isAnchor)
+        {
+            m_dManager.DataAdd(data, true, isAnchor);
+        }
+
         /// <summary>
         /// Inform the adding of EcellOBject in PathwayEditor to DataManager.
         /// </summary>

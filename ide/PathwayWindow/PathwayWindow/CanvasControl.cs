@@ -393,7 +393,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Preparing system layer
             m_sysLayer = new PPathwayLayer("SystemLayer");
-            m_sysLayer.AddInputEventListener(new NodeDragHandler(this));
             AddLayer(m_sysLayer);
             // Preparing control layer
             m_ctrlLayer = new PPathwayLayer("ControlLayer");
@@ -576,6 +575,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             obj.Canvas = this;
             obj.ShowingID = m_showingId;
             obj.ViewMode = m_isViewMode;
+            obj.AddInputEventListener(new NodeDragHandler(this));
 
             RegisterObjToSet(obj);
             if (obj is PPathwayNode)
@@ -707,7 +707,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
             }
             PPathwayLayer layer = new PPathwayLayer(name);
-            layer.AddInputEventListener(new NodeDragHandler(this));
             AddLayer(layer);
             AddLayer(m_ctrlLayer);
             m_layers.Add(layer.Name, layer);
@@ -1560,6 +1559,34 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
+        /// Move Selected Objects
+        /// </summary>
+        /// <param name="offset"></param>
+        internal void MoveSelectedObjects(PointF offset)
+        {
+            foreach (PPathwayObject obj in m_selectedNodes)
+            {
+                obj.Offset = offset;
+                // Move Nodes.
+                if (obj is PPathwaySystem)
+                {
+                    PPathwaySystem system = (PPathwaySystem)obj;
+                    // Change color if the system overlaps other system
+                    if (DoesSystemOverlaps(system) || !IsInsideRoot(system.Rect))
+                        system.IsInvalid = true;
+                    else
+                        system.IsInvalid = false;
+                    foreach (PPathwayObject child in GetAllObjectUnder(system.EcellObject.Key))
+                    {
+                        child.Offset = offset;
+                    }
+                }
+                obj.Refresh();
+            }
+
+        }
+
+        /// <summary>
         /// NotifyMoveObjects
         /// </summary>
         internal void NotifyMoveObjects()
@@ -1707,7 +1734,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 system,
                 true,
                 true && isLast);
-            NotifyResetSelect();
         }
 
         /// <summary>

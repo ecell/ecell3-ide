@@ -646,20 +646,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Export diagrams... に類似しているローカライズされた文字列を検索します。
+        ///   Export diagram image... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemExport {
             get {
                 return ResourceManager.GetString("MenuItemExport", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Export Image... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuItemExportImage {
-            get {
-                return ResourceManager.GetString("MenuItemExportImage", resourceCulture);
             }
         }
         

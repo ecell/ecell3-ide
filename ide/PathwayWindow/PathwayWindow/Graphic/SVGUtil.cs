@@ -43,7 +43,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
         /// <summary>
         /// 
         /// </summary>
-        public const string SVG_FONT_FAMILY = "PGothic;sans-serif";
+        public const string SVG_FONT_FAMILY = "Arial;sans-serif";
         /// <summary>
         /// 
         /// </summary>
