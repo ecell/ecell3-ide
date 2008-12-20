@@ -704,6 +704,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     }
                 }
             }
+            m_isExpland = false;
             treeView1.ExpandAll();
             treeView1.Sort();
         }
