@@ -205,6 +205,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
 
+            m_isRunning = true;
             Dictionary<EcellObject, int> varList = GetVariableList(m_model);
             Dictionary<EcellObject, int> proList = GetProcessList(m_model);
             m_vNum = varList.Count;
@@ -218,7 +219,6 @@ namespace Ecell.IDE.Plugins.Analysis
 
             CreateExecuteParameter(varList, proList);
 
-            m_isRunning = true;
             m_timer.Enabled = true;
         }
 

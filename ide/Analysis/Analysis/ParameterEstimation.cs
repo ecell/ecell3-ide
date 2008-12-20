@@ -179,6 +179,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
 
+            m_isRunning = true;
             m_owner.JobManager.SetParameterRange(m_paramList);
             m_saveList = m_owner.GetPEObservedDataList();
             if (m_saveList == null) return;
@@ -186,7 +187,6 @@ namespace Ecell.IDE.Plugins.Analysis
             m_owner.SetResultGraphSize(m_param.Generation, 0.0, 0.0, 1.0, false, true);
 
             m_generation = 0;
-            m_isRunning = true;
             m_timer.Enabled = true;
             m_timer.Start();  
         }

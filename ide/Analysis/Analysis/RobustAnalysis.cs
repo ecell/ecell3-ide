@@ -182,6 +182,7 @@ namespace Ecell.IDE.Plugins.Analysis
             List<SaveLoggerProperty> saveList = m_owner.GetRAObservedDataList();
             if (saveList == null) return;
 
+            m_isRunning = true;
             m_owner.JobManager.SetParameterRange(paramList);
             m_owner.JobManager.SetLoggerData(saveList);
             if (m_param.IsRandomCheck == true)
@@ -192,7 +193,6 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 m_paramDic = m_owner.JobManager.RunSimParameterMatrix(tmpDir, model, simTime, false);
             }
-            m_isRunning = true;
             m_timer.Enabled = true;
             m_timer.Start();
         }

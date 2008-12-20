@@ -179,6 +179,7 @@ namespace Ecell.IDE.Plugins.Analysis
             List<SaveLoggerProperty> saveList = m_owner.GetBAObservedDataList();
             if (saveList == null) return;
 
+            m_isRunning = true;
             int count = 0;
             for (int i = 0; i <= s_num; i++)
             {
@@ -251,7 +252,6 @@ namespace Ecell.IDE.Plugins.Analysis
             m_owner.JobManager.SetLoggerData(saveList);
             m_execParam = m_owner.JobManager.RunSimParameterSet(tmpDir, m_model, simTime, false, tmpDic);
             m_owner.ClearResult();
-            m_isRunning = true;
             m_timer.Enabled = true;
             m_timer.Start();
         }
