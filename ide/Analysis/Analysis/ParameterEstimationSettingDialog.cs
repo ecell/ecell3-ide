@@ -308,6 +308,14 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 isCorrect = false;
             }
+            if (isCorrect && e.ColumnIndex == 1 && dummy < data.Min)
+            {
+                isCorrect = false;
+            }
+            if (isCorrect && e.ColumnIndex == 2 && dummy > data.Max)
+            {
+                isCorrect = false;
+            }
 
             if (isCorrect)
             {

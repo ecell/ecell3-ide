@@ -266,6 +266,14 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 isCorrect = false;
             }
+            if (isCorrect && e.ColumnIndex == 1 && dummy < data.Min)
+            {
+                isCorrect = false;
+            }
+            if (isCorrect && e.ColumnIndex == 2 && dummy > data.Max)
+            {
+                isCorrect = false;
+            }
 
             if (isCorrect)
             {
@@ -317,6 +325,14 @@ namespace Ecell.IDE.Plugins.Analysis
                 isCorrect = false;
             }
             if (isCorrect && e.ColumnIndex == 4 && dummy < 0.0)
+            {
+                isCorrect = false;
+            }
+            if (isCorrect && e.ColumnIndex == 1 && dummy < data.Min)
+            {
+                isCorrect = false;
+            }
+            if (isCorrect && e.ColumnIndex == 2 && dummy > data.Max)
             {
                 isCorrect = false;
             }

@@ -103,7 +103,7 @@ namespace Ecell
         /// <returns>false if the element is null or empty; true otherise</returns>
         protected bool IsValidNode(XmlNode node)
         {
-            if (node == null || node.InnerText == null || node.InnerText.Length < 1)
+            if (node == null || node.InnerText == null)
             {
                 return false;
             }

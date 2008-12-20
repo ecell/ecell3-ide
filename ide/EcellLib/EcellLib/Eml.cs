@@ -151,15 +151,15 @@ namespace Ecell
         {
             foreach (EcellData ecellData in ecellObject.Value)
             {
-                if (ecellData == null || !ecellData.Saveable)
-                    continue;
-                if (ecellData.Value == null
-                    || (ecellData.Value.IsString && ((string)ecellData.Value).Length <= 0))
+                if (!ecellData.Saveable)
                     continue;
 
                 m_tx.WriteStartElement(Constants.xpathProperty.ToLower());
                 m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, ecellData.Name);
-                WriteValueElements(ecellData.Value);
+                if (ecellData.Value == null)
+                    WriteValueElements(new EcellValue(""));
+                else
+                    WriteValueElements(ecellData.Value);
                 m_tx.WriteEndElement();
             }
         }
