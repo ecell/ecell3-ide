@@ -44,7 +44,7 @@ namespace Ecell.Plugin
         /// The event sequence to add the object at other plugin.
         /// </summary>
         /// <param name="data">The value of the adding object.</param>
-        void DataAdd(EcellObject data);
+        //void DataAdd(EcellObject data);
 
         /// <summary>
         /// The event sequence to add the object at other plugin.

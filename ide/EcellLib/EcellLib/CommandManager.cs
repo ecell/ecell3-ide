@@ -533,7 +533,7 @@ namespace Ecell
             else
             {
                 EcellValue v = this.GetEntityPropertyFromSimulator(fullPN);
-                return this.GetEntityPropertyFromSimulator(fullPN);
+                return v;
             }
         }
 

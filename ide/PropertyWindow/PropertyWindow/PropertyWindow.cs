@@ -232,25 +232,26 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// </summary>
         void UpdatePropForSimulation()
         {
-            double l_time = m_env.DataManager.GetCurrentSimulationTime();
-            if (l_time == 0.0) return;
+            if (m_current == null || m_current.Value == null)
+                return;
             if (m_current is EcellText)
                 return;
-            if (m_current == null || m_current.Value == null) return;
+            double l_time = m_env.DataManager.GetCurrentSimulationTime();
+            if (l_time == 0.0)
+                return;
+
             foreach (EcellData d in m_current.Value)
             {
-                if (!d.Value.IsDouble) continue;
-                EcellValue e = m_env.DataManager.GetEntityProperty(d.EntityPath);
+                if (!d.Gettable || !d.Value.IsDouble)
+                    continue;
+                double value = m_env.DataManager.GetPropertyValue(d.EntityPath);
                 foreach (DataGridViewRow r in m_dgv.Rows)
                 {
-                    if ((string)r.Cells[0].Value == d.Name)
-                    {
-                        if (d.Gettable && (d.Value.IsDouble))
-                            r.Cells[1].Value = (string)e;
-                        if (d.Name == "FullID")
-                            r.Cells[1].ReadOnly = true;
-                        break;
-                    }
+                    if ((string)r.Cells[0].Value != d.Name)
+                        continue;
+
+                    r.Cells[1].Value = value.ToString();
+                    break;
                 }
             }
         }

@@ -244,8 +244,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 {
                     if (data.EntityPath.EndsWith(":Value"))
                     {
-                        EcellValue v = dManager.GetEntityProperty(data.EntityPath);
-                        double dV = Convert.ToDouble(v.Value);
+                        double dV = dManager.GetPropertyValue(data.EntityPath);
 
                         double pert = dV * m_param.RelativePerturbation + m_param.AbsolutePerturbation;
                         m_pertubateData.Add(data.EntityPath, pert);
@@ -279,16 +278,16 @@ namespace Ecell.IDE.Plugins.Analysis
             dManager.SimulationStartKeepSetting(m_param.Step);
             foreach (SaveLoggerProperty p in m_saveList)
             {
-                EcellValue v = dManager.GetEntityProperty(p.FullPath);
-                double dV = Convert.ToDouble(v.Value);
+                double dV = dManager.GetPropertyValue(p.EntityPath);
+
                 m_currentData.Add(p.FullPath, dV);
                 m_activityBuffer.Add(dV);
                 m_activityList.Add(p.FullPath);
             }
             foreach (string p in valueList)
             {
-                EcellValue v = dManager.GetEntityProperty(p);
-                double dV = Convert.ToDouble(v.Value);
+                double dV = dManager.GetPropertyValue(p);
+
                 m_valueBuffer.Add(dV);
                 m_valueList.Add(p);
             }
