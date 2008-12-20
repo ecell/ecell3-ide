@@ -1214,6 +1214,12 @@ namespace Ecell
                 return;
             }
 
+            if (key != ecellObject.Key &&
+                GetEcellObject(ecellObject.ModelID, ecellObject.Key, ecellObject.Type) != null)
+            {
+                throw new Exception(string.Format(MessageResources.ErrExistObj, ecellObject.Key));
+            }
+
             try
             {
                 // Record action
