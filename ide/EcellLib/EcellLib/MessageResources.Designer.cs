@@ -674,6 +674,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   Some properties of entity is incomplete. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WarnInvalidData {
+            get {
+                return ResourceManager.GetString("WarnInvalidData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Some Dynamic Modules (DM) cannot be loaded. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string WarnLoadDM {

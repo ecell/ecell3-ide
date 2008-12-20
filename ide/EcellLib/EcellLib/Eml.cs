@@ -153,13 +153,13 @@ namespace Ecell
             {
                 if (!ecellData.Saveable)
                     continue;
+                if (ecellData.Value == null ||
+                    (ecellData.Value.IsString && ecellData.Value.CastToString().Length <= 0))
+                    continue;
 
                 m_tx.WriteStartElement(Constants.xpathProperty.ToLower());
                 m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, ecellData.Name);
-                if (ecellData.Value == null)
-                    WriteValueElements(new EcellValue(""));
-                else
-                    WriteValueElements(ecellData.Value);
+                WriteValueElements(new EcellValue(""));
                 m_tx.WriteEndElement();
             }
         }

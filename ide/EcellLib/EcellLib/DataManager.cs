@@ -3498,7 +3498,21 @@ namespace Ecell
                 //
                 // Initialize
                 //
-                m_currentProject.Simulator.Initialize();
+                try
+                {
+                    m_currentProject.Simulator.Initialize();
+                }
+                catch (Exception)
+                {
+                    // Error Message
+                    // [VariableReference [S0] not found in this Process]
+                    // MichaelisUniUniFluxprocess
+                    // DecayFluxProcess
+                    // [Only first or second order scheme is allowed]
+                    // PingPongBiBiFluxProcess
+                    // TauLeapProcess
+                    Util.ShowWarningDialog(MessageResources.WarnInvalidData);
+                }
                 // Sets initial conditions.
                 m_currentProject.Initialize(modelID);
                 string simParam = m_currentProject.Info.SimulationParam;
