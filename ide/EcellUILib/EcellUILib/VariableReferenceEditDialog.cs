@@ -155,7 +155,7 @@ namespace Ecell.IDE
                             TreeNode childNode = new TreeNode(names[names.Length - 1]);
                             childNode.ImageIndex = m_pManager.GetImageIndex(eo.Type);
                             childNode.SelectedImageIndex = childNode.ImageIndex;
-                            childNode.Tag = eo.Key;
+                            childNode.Tag = eo.FullID;
                             node.Nodes.Add(childNode);
                         }
                     }
@@ -213,6 +213,18 @@ namespace Ecell.IDE
             else if (prefix.Equals("S"))
                 p = -1;
 
+            for (int i = 0; i < dgv.RowCount; i++)
+            {
+                if (((string)dgv[1, i].Value).EndsWith(key) &&
+                    (int)dgv[2, i].Value == p)
+                {
+                    Util.ShowWarningDialog(
+                       string.Format(MessageResources.ErrExistVariableRef,
+                                    key));
+                    return;
+                }
+            }
+
             string id;
             while (true)
             {
@@ -239,7 +251,6 @@ namespace Ecell.IDE
         public void AddReference(string name, string key, int coeff)
         {
             string id = key;
-            if (!key.StartsWith(":")) id = ":" + key;
             dgv.Rows.Add(new object[] { name, id, coeff });
         }
 

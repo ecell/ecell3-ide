@@ -97,7 +97,7 @@ namespace Ecell.IDE
                 return;
             }
 
-            string key = ":" + tag;
+            string key = tag;
             m_win.AddReference(key, "P");
         }
 
@@ -121,7 +121,7 @@ namespace Ecell.IDE
                 return;
             }
 
-            string key = ":" + tag;
+            string key = tag;
             m_win.AddReference(key, "S");
         }
 
@@ -146,7 +146,7 @@ namespace Ecell.IDE
                 return;
             }
 
-            string key = ":" + tag;
+            string key = tag;
             m_win.AddReference(key, "C");
         }
 
@@ -168,7 +168,7 @@ namespace Ecell.IDE
                 return;
             }
 
-            string key = ":" + tag;
+            string key = tag;
             m_win.AddReference(key, "P");
         }
     }

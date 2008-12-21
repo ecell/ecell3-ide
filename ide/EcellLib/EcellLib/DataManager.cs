@@ -1192,17 +1192,19 @@ namespace Ecell
                     if (!key.Equals(ecellObject.Key) ||
                         obj.Value.Count != ecellObject.Value.Count)
                         ConfirmReset("change", type);
-
-                    foreach (EcellData d in obj.Value)
+                    else
                     {
-                        foreach (EcellData d1 in ecellObject.Value)
+                        foreach (EcellData d in obj.Value)
                         {
-                            if (!d.Name.Equals(d1.Name)) continue;
-                            if (!d.Value.ToString().Equals(d1.Value.ToString()))
+                            foreach (EcellData d1 in ecellObject.Value)
                             {
-                                m_currentProject.Simulator.SetEntityProperty(d1.EntityPath, d1.Value);
+                                if (!d.Name.Equals(d1.Name)) continue;
+                                if (!d.Value.ToString().Equals(d1.Value.ToString()))
+                                {
+                                    m_currentProject.Simulator.SetEntityProperty(d1.EntityPath, d1.Value);
+                                }
+                                break;
                             }
-                            break;
                         }
                     }
                 }

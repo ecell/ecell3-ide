@@ -129,7 +129,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="formulatorButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>305, 41</value>
+    <value>530, 41</value>
   </data>
   <data name="formulatorButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 25</value>
@@ -160,7 +160,7 @@
     <value>6, 44</value>
   </data>
   <data name="estimationFormulatorTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>293, 19</value>
+    <value>518, 19</value>
   </data>
   <data name="estimationFormulatorTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -202,7 +202,7 @@
     <value>6, 18</value>
   </data>
   <data name="estimationTypeComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 20</value>
+    <value>385, 20</value>
   </data>
   <data name="estimationTypeComboBox.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -223,7 +223,7 @@
     <value>12, 181</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>355, 74</value>
+    <value>580, 74</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -352,7 +352,7 @@
     <value>Top, Bottom, Right</value>
   </data>
   <data name="advancedButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>248, 93</value>
+    <value>473, 93</value>
   </data>
   <data name="advancedButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>101, 23</value>
@@ -382,7 +382,7 @@
     <value>124, 43</value>
   </data>
   <data name="parameterEstimationPopulationTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 19</value>
+    <value>450, 19</value>
   </data>
   <data name="parameterEstimationPopulationTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -412,7 +412,7 @@
     <value>124, 18</value>
   </data>
   <data name="parameterEstimationSimulationTimeTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 19</value>
+    <value>450, 19</value>
   </data>
   <data name="parameterEstimationSimulationTimeTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -442,7 +442,7 @@
     <value>124, 68</value>
   </data>
   <data name="parameterEstimationGenerationTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>225, 19</value>
+    <value>450, 19</value>
   </data>
   <data name="parameterEstimationGenerationTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -469,7 +469,7 @@
     <value>12, 53</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>355, 122</value>
+    <value>580, 122</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -508,7 +508,7 @@
     <value>8, 18</value>
   </data>
   <data name="parameterEstimationParameterDataGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>341, 116</value>
+    <value>566, 205</value>
   </data>
   <data name="parameterEstimationParameterDataGrid.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -529,7 +529,7 @@
     <value>12, 261</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>355, 140</value>
+    <value>580, 229</value>
   </data>
   <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -553,7 +553,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="closeButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>292, 407</value>
+    <value>517, 496</value>
   </data>
   <data name="closeButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -580,7 +580,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="okButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>211, 407</value>
+    <value>436, 496</value>
   </data>
   <data name="okButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -607,7 +607,7 @@
     <value>Bottom, Left</value>
   </data>
   <data name="executeButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 407</value>
+    <value>12, 496</value>
   </data>
   <data name="executeButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -640,7 +640,7 @@
     <value>True</value>
   </data>
   <data name="abstractTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>355, 35</value>
+    <value>580, 35</value>
   </data>
   <data name="abstractTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -667,7 +667,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>379, 442</value>
+    <value>604, 531</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

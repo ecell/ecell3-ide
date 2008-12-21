@@ -199,7 +199,7 @@
     <value>194, 47</value>
   </data>
   <data name="robustAnalysisWindowSizeTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 19</value>
+    <value>416, 19</value>
   </data>
   <data name="robustAnalysisWindowSizeTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -229,7 +229,7 @@
     <value>194, 21</value>
   </data>
   <data name="robustAnalysisSimulationTimeTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 19</value>
+    <value>416, 19</value>
   </data>
   <data name="robustAnalysisSimulationTimeTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -253,10 +253,10 @@
     <value>2</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 91</value>
+    <value>12, 59</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>370, 75</value>
+    <value>616, 75</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -355,7 +355,7 @@
     <value>194, 43</value>
   </data>
   <data name="robustAnalysisSampleNumberTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 19</value>
+    <value>416, 19</value>
   </data>
   <data name="robustAnalysisSampleNumberTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -439,10 +439,10 @@
     <value>2</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 172</value>
+    <value>12, 140</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>370, 71</value>
+    <value>616, 71</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -574,7 +574,7 @@
     <value>194, 68</value>
   </data>
   <data name="robustAnalysisMinFrequencyTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 19</value>
+    <value>416, 19</value>
   </data>
   <data name="robustAnalysisMinFrequencyTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -604,7 +604,7 @@
     <value>194, 18</value>
   </data>
   <data name="robustAnalysisMaxSampleTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 19</value>
+    <value>416, 19</value>
   </data>
   <data name="robustAnalysisMaxSampleTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -634,7 +634,7 @@
     <value>194, 43</value>
   </data>
   <data name="robustAnalysisMaxFrequencyTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 19</value>
+    <value>416, 19</value>
   </data>
   <data name="robustAnalysisMaxFrequencyTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -658,10 +658,10 @@
     <value>3</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 249</value>
+    <value>12, 217</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>370, 97</value>
+    <value>616, 97</value>
   </data>
   <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -709,7 +709,7 @@
     <value>8, 18</value>
   </data>
   <data name="robustAnalysisObservedDataGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>356, 76</value>
+    <value>602, 111</value>
   </data>
   <data name="robustAnalysisObservedDataGrid.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -730,7 +730,7 @@
     <value>12, 457</value>
   </data>
   <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>370, 100</value>
+    <value>616, 135</value>
   </data>
   <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -757,7 +757,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>307, 563</value>
+    <value>553, 598</value>
   </data>
   <data name="cancelButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -787,7 +787,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="okButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>226, 563</value>
+    <value>472, 598</value>
   </data>
   <data name="okButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -817,7 +817,7 @@
     <value>Bottom, Left</value>
   </data>
   <data name="executeButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 563</value>
+    <value>12, 598</value>
   </data>
   <data name="executeButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -862,7 +862,7 @@
     <value>8, 18</value>
   </data>
   <data name="robustAnalysisParameterDataGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>356, 75</value>
+    <value>602, 107</value>
   </data>
   <data name="robustAnalysisParameterDataGrid.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -880,10 +880,10 @@
     <value>0</value>
   </data>
   <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 352</value>
+    <value>12, 320</value>
   </data>
   <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>370, 99</value>
+    <value>616, 131</value>
   </data>
   <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -910,7 +910,7 @@
     <value>True</value>
   </data>
   <data name="abstractTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>370, 73</value>
+    <value>616, 41</value>
   </data>
   <data name="abstractTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -940,7 +940,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>394, 598</value>
+    <value>640, 633</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

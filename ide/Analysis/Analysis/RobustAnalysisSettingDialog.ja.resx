@@ -121,9 +121,7 @@
     <value>ロバスト解析設定</value>
   </data>
   <data name="abstractTextBox.Text" xml:space="preserve">
-    <value>ロバスト解析は、特定のパラメータに関してシステムの安定性を
-評価する。パラメータの設定方法としてランダムに設定する方法と
-マトリックス状に設定する方法がある。</value>
+    <value>ロバスト解析は、特定のパラメータに関してシステムの安定性を評価する。パラメータの設定方法としてランダムに設定する方法とマトリックス状に設定する方法がある。</value>
   </data>
   <data name="cancelButton.Text" xml:space="preserve">
     <value>キャンセル</value>

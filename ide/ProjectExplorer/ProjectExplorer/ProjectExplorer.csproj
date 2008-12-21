@@ -101,7 +101,6 @@
       <DependentUpon>MessageResources.resx</DependentUpon>
     </Compile>
     <Compile Include="ProjectExplorerControl.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="ProjectExplorerControl.Designer.cs">
       <DependentUpon>ProjectExplorerControl.cs</DependentUpon>
