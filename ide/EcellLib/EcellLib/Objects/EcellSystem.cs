@@ -50,7 +50,11 @@ namespace Ecell.Objects
         /// <summary>
         /// Size name. The reserved name.
         /// </summary>
-        public const string SIZE = "Size";
+        public const string SIZE = "SIZE";
+        /// <summary>
+        /// Default size of system.
+        /// </summary>
+        public const double DefaultSize = 0.1d;
         #endregion
 
         #region Fields
@@ -93,14 +97,41 @@ namespace Ecell.Objects
         {
             get
             {
-                if (IsEcellValueExists(SIZE))
-                    return (double)GetEcellValue(SIZE);
-                else
-                    return 0.1d;
+                // Get size object.
+                foreach (EcellObject child in m_children)
+                {
+                    if (!child.LocalID.Equals(SIZE))
+                        continue;
+                    return (double)child.GetEcellValue(Constants.xpathValue);
+                }
+                // Get size parameter
+                if (IsEcellValueExists(Constants.xpathSize))
+                    return (double)GetEcellValue(Constants.xpathSize);
+
+                // return 1 when Size doesn't exist.
+                return DefaultSize;
             }
             set
             {
-                SetEcellValue(SIZE, new EcellValue(value));
+                // Set size object.
+                foreach (EcellObject child in m_children)
+                {
+                    if (!child.LocalID.Equals(SIZE))
+                        continue;
+                    child.GetEcellData(Constants.xpathValue).Value = new EcellValue(value);
+                    return;
+                }
+                // Set size parameter
+                if (IsEcellValueExists(Constants.xpathSize))
+                    GetEcellData(Constants.xpathSize).Value = new EcellValue(value);
+                else
+                    SetEcellValue(Constants.xpathSize, new EcellValue(value));
+
+                // Create Size object if "Size" does not exist.
+                string key = m_key + Constants.delimiterColon + SIZE;
+                EcellObject size = EcellObject.CreateObject(m_modelID, key, EcellObject.VARIABLE, EcellObject.VARIABLE, new List<EcellData>());
+                size.SetEcellValue(Constants.xpathValue, new EcellValue(value));
+                m_children.Add(size);
             }
         }
 
@@ -122,5 +153,6 @@ namespace Ecell.Objects
             }
         }
         #endregion
+
     }
 }

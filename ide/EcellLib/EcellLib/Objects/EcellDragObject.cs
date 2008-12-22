@@ -66,7 +66,7 @@ namespace Ecell.Objects
         /// <param name="path">the property path of this object.</param>
         /// <param name="isLogable">the flag whether this property is able to log.</param>
         /// <param name="isSettable">the flag whether this property is able to set.</param>
-        public EcellDragObject(string modelID, string key, string type,
+        public EcellDragObject(string modelID, string key, string type, 
             string path, bool isSettable, bool isLogable)
         {
             m_modelID = modelID;

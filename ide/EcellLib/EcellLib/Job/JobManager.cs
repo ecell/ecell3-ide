@@ -798,9 +798,10 @@ namespace Ecell.Job
                     Debug.Assert(sysObj.Value != null);
                     foreach (string path in paramDic.Keys)
                     {
+                        if (sysObj.Value == null) continue;
                         foreach (EcellData v in sysObj.Value)
                         {
-                            if (path != v.EntityPath)
+                            if (!path.Equals(v.EntityPath))
                                 continue;
                             v.Value = new EcellValue(paramDic[path]);
                             break;
@@ -820,10 +821,12 @@ namespace Ecell.Job
                             if (obj.Value == null) continue;
                             foreach (EcellData v in obj.Value)
                             {
-                                if (!path.Equals(v.EntityPath)) continue;
+                                if (!path.Equals(v.EntityPath))
+                                    continue;
                                 v.Value = new EcellValue(paramDic[path]);
                                 break;
                             }
+                            Application.DoEvents();
                         }
                     }
                     writer.WriteComponentEntry(fileName, enc, tmpObj);
@@ -909,7 +912,8 @@ namespace Ecell.Job
                         if (sysObj.Value == null) continue;
                         foreach (EcellData v in sysObj.Value)
                         {
-                            if (!path.Equals(v.EntityPath)) continue;
+                            if (!path.Equals(v.EntityPath))
+                                continue;
                             v.Value = new EcellValue(paramDic[path]);
                             break;
                         }
@@ -927,10 +931,12 @@ namespace Ecell.Job
                             if (obj.Value == null) continue;
                             foreach (EcellData v in obj.Value)
                             {
-                                if (!path.Equals(v.EntityPath)) continue;
+                                if (!path.Equals(v.EntityPath))
+                                    continue;
                                 v.Value = new EcellValue(paramDic[path]);
                                 break;
                             }
+                            Application.DoEvents();
                         }
                     }
                     writer.WriteComponentEntry(fileName, enc, sysObj);
@@ -1092,6 +1098,7 @@ namespace Ecell.Job
                                     paramDic.Add(y.Key, yd);
                                 }
                             }
+                            Application.DoEvents();
                         }
                         writer.WriteComponentEntry(fileName, enc, sysObj);
                         writer.WriteComponentProperty(fileName, enc, sysObj);

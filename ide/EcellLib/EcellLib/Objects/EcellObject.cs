@@ -55,46 +55,50 @@ namespace Ecell.Objects
         /// <summary>
         /// Type string of "Project".
         /// </summary>
-        public const string PROJECT = "Project";
+        public const string PROJECT = Constants.xpathProject;
         /// <summary>
         /// Type string of "Model".
         /// </summary>
-        public const string MODEL = "Model";
+        public const string MODEL = Constants.xpathModel;
         /// <summary>
         /// Type string of "Process".
         /// </summary>
-        public const string PROCESS = "Process";
+        public const string PROCESS = Constants.xpathProcess;
         /// <summary>
         /// Type string of "System".
         /// </summary>
-        public const string SYSTEM = "System";
+        public const string SYSTEM = Constants.xpathSystem;
         /// <summary>
         /// Type string of "Variable".
         /// </summary>
-        public const string VARIABLE = "Variable";
+        public const string VARIABLE = Constants.xpathVariable;
         /// <summary>
         /// Type string of "Variable".
         /// </summary>
-        public const string TEXT = "Text";
+        public const string TEXT = Constants.xpathText;
+        /// <summary>
+        /// Type string of "Variable".
+        /// </summary>
+        public const string STEPPER = Constants.xpathStepper;
         #endregion
 
         #region Fields
         /// <summary>
         /// The class
         /// </summary>
-        private string m_class;
+        protected string m_class;
         /// <summary>
         /// The model ID
         /// </summary>
-        private string m_modelID;
+        protected string m_modelID;
         /// <summary>
         /// The key
         /// </summary>
-        private string m_key;
+        protected string m_key;
         /// <summary>
         /// The type of object.
         /// </summary>
-        private string m_type;
+        protected string m_type;
         /// <summary>
         /// The layout struct of EcellObject.
         /// </summary>
@@ -110,7 +114,7 @@ namespace Ecell.Objects
         /// <summary>
         /// Fixed flag.
         /// </summary>
-        private bool m_isFixed = false;
+        protected bool m_isFixed = false;
         #endregion
 
         #region Constractor
@@ -167,7 +171,6 @@ namespace Ecell.Objects
                 return name;
             }
         }
-
         /// <summary>
         /// get/set m_keyID.
         /// </summary>
@@ -326,9 +329,9 @@ namespace Ecell.Objects
             get
             {
                 //return true if any Logger exists.
-                if (Value != null)
+                if (m_ecellDatas != null)
                 {
-                    foreach (EcellData d in Value)
+                    foreach (EcellData d in m_ecellDatas)
                         if ( d.Logable && d.Logged)
                             return true;
                 }
@@ -445,7 +448,6 @@ namespace Ecell.Objects
             }
             return list;
         }
-
         /// <summary>
         /// Copy coordinates of passed object.
         /// </summary>
@@ -477,16 +479,18 @@ namespace Ecell.Objects
         public static EcellObject CreateObject(string modelID, string key,
             string type, string classname, List<EcellData> data)
         {
-            if (MODEL.Equals(type))
+            if (type.Equals(MODEL))
                 return new EcellModel(modelID, key, type, classname, data);
-            else if (PROCESS.Equals(type))
+            else if (type.Equals(PROCESS))
                 return new EcellProcess(modelID, key, type, classname, data);
-            else if (VARIABLE.Equals(type))
+            else if (type.Equals(VARIABLE))
                 return new EcellVariable(modelID, key, type, classname, data);
-            else if (SYSTEM.Equals(type))
+            else if (type.Equals(SYSTEM))
                 return new EcellSystem(modelID, key, type, classname, data);
-            else if (TEXT.Equals(type))
+            else if (type.Equals(TEXT))
                 return new EcellText(modelID, key, type, classname, data);
+            else if (type.Equals(STEPPER))
+                return new EcellStepper(modelID, key, type, classname, data);
             else
                 return new EcellObject(modelID, key, type, classname, data);
         }
@@ -512,6 +516,21 @@ namespace Ecell.Objects
         public void AddValue(EcellData d)
         {
             this.m_ecellDatas.Add(d);
+        }
+
+        /// <summary>
+        /// Remove EcellData.
+        /// </summary>
+        /// <param name="name"></param>
+        public void RemoveValue(string name)
+        {
+            foreach (EcellData data in m_ecellDatas)
+            {
+                if (!data.Name.Equals(name))
+                    continue;
+                m_ecellDatas.Remove(data);
+                break;
+            }
         }
 
         /// <summary>
@@ -573,7 +592,12 @@ namespace Ecell.Objects
             return false;
         }
 
-        protected void SetEcellValue(string name, EcellValue value)
+        /// <summary>
+        /// Set EcellValue
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void SetEcellValue(string name, EcellValue value)
         {
             foreach (EcellData d in Value)
             {

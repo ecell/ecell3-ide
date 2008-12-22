@@ -119,6 +119,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Objects\EcellStepper.cs" />
     <Compile Include="Reporting\CompileReport.cs" />
     <Compile Include="ConsoleManager.cs" />
     <Compile Include="Constants.cs" />
