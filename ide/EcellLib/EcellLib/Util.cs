@@ -529,12 +529,13 @@ namespace Ecell
             Debug.Assert(currentSystemPath != null && currentSystemPath[0] == '/');
 
             List<string> retval = new List<string>(currentSystemPath.Split('/'));
+            retval.RemoveAt(0);
 
             foreach (string comp in systemPath.Split('/'))
             {
                 if (comp == "..")
                 {
-                    if (retval.Count > 1)
+                    if (retval.Count > 0)
                         retval.RemoveAt(retval.Count - 1);
                 }
                 else if (comp != ".")
@@ -543,7 +544,7 @@ namespace Ecell
                 }
             }
 
-            return string.Join("/", retval.ToArray());
+            return "/" + string.Join("/", retval.ToArray());
         }
 
         public static EcellValue NormalizeVariableReference(EcellValue val, string systemPath)
