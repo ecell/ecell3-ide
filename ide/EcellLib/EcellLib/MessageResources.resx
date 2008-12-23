@@ -332,4 +332,7 @@ New revision {0}:{1} was created.</value>
   <data name="WarnInvalidData" xml:space="preserve">
     <value>Some properties of entity is incomplete.</value>
   </data>
+  <data name="InfoDeleteSim" xml:space="preserve">
+    <value>{0} is used on the simulation . Do you want to stop the simulation?</value>
+  </data>
 </root>

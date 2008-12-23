@@ -4451,6 +4451,19 @@ namespace Ecell
             try
             {
                 Debug.Assert(!String.IsNullOrEmpty(parameterID));
+                if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
+                    m_currentProject.SimulationStatus == SimulationStatus.Suspended)
+                {
+                    if (parameterID.Equals(m_currentProject.Info.SimulationParam))
+                    {
+                        if (Util.ShowYesNoDialog(
+                            String.Format(MessageResources.InfoDeleteSim,
+                            parameterID)) == false)
+                            return;
+                        SimulationStop();
+                        m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
+                    }
+                }
                 message = "[" + parameterID + "]";
                 //
                 // Initializes.

@@ -502,6 +502,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   {0} is used on the simulation . Do you want to stop the simulation? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string InfoDeleteSim {
+            get {
+                return ResourceManager.GetString("InfoDeleteSim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Script file {0} was completed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string InfoExecScript {

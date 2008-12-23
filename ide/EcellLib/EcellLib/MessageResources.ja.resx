@@ -330,4 +330,7 @@
   <data name="WarnInvalidData" xml:space="preserve">
     <value>エンティティのプロパティが不完全です。</value>
   </data>
+  <data name="InfoDeleteSim" xml:space="preserve">
+    <value>{0} はシミュレーションで使用しています。シミュレーションをリセットしますか？</value>
+  </data>
 </root>
