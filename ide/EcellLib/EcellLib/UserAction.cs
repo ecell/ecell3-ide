@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using Ecell.Objects;
+using Ecell.Exceptions;
 
 namespace Ecell
 {
@@ -144,21 +145,21 @@ namespace Ecell
                     tmp = value.Attributes.GetNamedItem("value");
                     string valueData = tmp.InnerText;
 
-                    object v;
+                    EcellValue v;
                     if (vtype.Equals(typeof(string).ToString()))
-                        v = valueData;
+                        v = new EcellValue(valueData);
                     else if (vtype.Equals(typeof(double).ToString()))
                     {
                         if (valueData == "1.79769313486232E+308")
-                            v = Double.MaxValue;
+                            v = new EcellValue(Double.MaxValue);
                         else
-                            v = Convert.ToDouble(valueData);
+                            v = new EcellValue(Convert.ToDouble(valueData));
                     }
                     else if (vtype.Equals(typeof(int).ToString()))
-                        v = Convert.ToInt32(valueData);
+                        v = new EcellValue(Convert.ToInt32(valueData));
                     else
                         v = EcellValue.FromListString(valueData);
-                    d.Value = new EcellValue(v);
+                    d.Value = v;
                 }
 
                 list.Add(d);
@@ -438,10 +439,9 @@ namespace Ecell
         /// </summary>
         public override void Execute()
         {
-            if (m_obj == null) return;
-            List<EcellObject> list = new List<EcellObject>();
-            list.Add(m_obj);
-            m_env.DataManager.DataAdd(list, false, m_isAnchor);
+            if (m_obj == null) 
+                return;
+            m_env.DataManager.DataAdd(m_obj, false, m_isAnchor);
         }
         /// <summary>
         /// Unexecute this action.
@@ -449,7 +449,7 @@ namespace Ecell
         /// </summary>
         public override void UnExecute()
         {
-            m_env.DataManager.DataDelete(m_obj.ModelID, m_obj.Key, m_obj.Type, false, m_isAnchor);
+            m_env.DataManager.DataDelete(m_obj, false, m_isAnchor);
         }
     }
 
@@ -553,10 +553,9 @@ namespace Ecell
         /// </summary>
         public override void UnExecute()
         {
-            if (m_obj == null) return;
-            List<EcellObject> list = new List<EcellObject>();
-            list.Add(m_obj);
-            m_env.DataManager.DataAdd(list, false, m_isAnchor);
+            if (m_obj == null)
+                return;
+            m_env.DataManager.DataAdd(m_obj, false, m_isAnchor);
         }
     }
 
@@ -746,7 +745,7 @@ namespace Ecell
         /// </summary>
         public override void UnExecute()
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new EcellException("The method or operation is not implemented.");
         }
     }
 
@@ -1237,144 +1236,6 @@ namespace Ecell
         public override void UnExecute()
         {
             m_env.DataManager.SetSimulationParameter(m_oldParamID, false, m_isAnchor);
-        }
-    }
-
-    /// <summary>
-    /// Action class to merge a system with upper system.
-    /// </summary>
-    public class SystemMergeAction : UserAction
-    {
-        #region Fields
-        /// <summary>
-        /// Model ID.
-        /// </summary>
-        private string m_modelID;
-        /// <summary>
-        /// Merged system.
-        /// </summary>
-        private EcellObject m_obj;
-        /// <summary>
-        /// List of merged system's children systems.
-        /// </summary>
-        private List<EcellObject> m_sysList = new List<EcellObject>();
-        /// <summary>
-        /// List of merged system's children objects.
-        /// </summary>
-        private List<EcellObject> m_objList = new List<EcellObject>();
-        #endregion
-
-        /// <summary>
-        /// The constructor for SetSimParamAction.
-        /// </summary>
-        public SystemMergeAction()
-        {
-        }
-        /// <summary>
-        /// The constructor for SystemMergeAction with initial parameters.
-        /// </summary>
-        /// <param name="modelID">Model ID</param>
-        /// <param name="merged">Merged system</param>
-        /// <param name="sysList">Child systems of the merged system</param>
-        /// <param name="objList">Child objects of the merged system</param>
-        /// <param name="isAnchor">Whether this action is an anchor or not</param>
-        public SystemMergeAction(
-            string modelID,
-            EcellObject merged,
-            List<EcellObject> sysList,
-            List<EcellObject> objList,
-            bool isAnchor)
-        {
-            m_modelID = modelID;
-            m_obj = merged;
-            foreach (EcellObject sys in sysList)
-                m_sysList.Add(sys.Copy());
-            foreach (EcellObject obj in objList)
-                m_objList.Add(obj.Copy());
-            m_isAnchor = isAnchor;
-        }
-        /// <summary>
-        /// Write the information to set the simulation parameter to the xml file.
-        /// </summary>
-        /// <param name="writer">The object for writing the xml file.</param>
-        public override void SaveScript(XmlTextWriter writer)
-        {
-            writer.WriteStartElement("Action");
-            writer.WriteAttributeString("command", null, "SystemMerge");
-            writer.WriteAttributeString("modelID", null, m_modelID);
-            writer.WriteAttributeString("isAnchor", null, Convert.ToString(base.m_isAnchor));
-
-            writer.WriteStartElement("MergedSystem");
-            UserAction.WriteObject(writer, m_obj);
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("ChildSystems");
-            foreach (EcellObject child in m_sysList)
-            {
-                writer.WriteStartElement("System");
-                UserAction.WriteObject(writer, child);
-                writer.WriteEndElement();
-            }
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("ChildObjects");
-            foreach (EcellObject child in m_objList)
-            {
-                writer.WriteStartElement("Obj");
-                UserAction.WriteObject(writer, child);
-                writer.WriteEndElement();
-            }
-            writer.WriteEndElement();
-
-            writer.WriteEndElement();
-        }
-        /// <summary>
-        /// Load the information to set the simulation parameter.
-        /// </summary>
-        /// <param name="node">The xml node wrote the information.</param>
-        public override void LoadScript(XmlNode node)
-        {
-            XmlNode child = node.Attributes.GetNamedItem("modelID");
-            if (child == null) return;
-            m_modelID = child.InnerText;
-
-            child = node.Attributes.GetNamedItem("isAnchor");
-            if (child == null) return;
-            base.m_isAnchor = Convert.ToBoolean(child.InnerText);
-
-            XmlNodeList children = node.SelectNodes("MergedSystem");
-            if (children == null || children.Count == 0) return;
-            m_obj = UserAction.LoadObject(children[0]);
-
-            children = node.SelectNodes("ChildSystems/System");
-            if (children != null && children.Count != 0)
-            {
-                m_sysList = new List<EcellObject>();
-                foreach (XmlNode sys in children)
-                    m_sysList.Add(UserAction.LoadObject(sys));
-            }
-
-            children = node.SelectNodes("ChildObjects/Obj");
-            if (children != null && children.Count != 0)
-            {
-                m_objList = new List<EcellObject>();
-                foreach (XmlNode obj in children)
-                    m_objList.Add(UserAction.LoadObject(obj));
-            }
-        }
-        /// <summary>
-        /// Execute to set the simulation parameter using the information.
-        /// </summary>
-        public override void Execute()
-        {
-            m_env.DataManager.SystemDeleteAndMove(m_modelID, m_obj.Key);
-        }
-        /// <summary>
-        /// Unexecute this action.
-        /// </summary>
-        public override void UnExecute()
-        {
-            m_env.DataManager.SystemAddAndMove(m_modelID, m_obj, m_sysList, m_objList);
         }
     }
 }

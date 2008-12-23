@@ -6,6 +6,7 @@ using System.IO;
 
 using EcellCoreLib;
 using Ecell.Objects;
+using Ecell.Exceptions;
 
 namespace Ecell
 {
@@ -116,7 +117,7 @@ namespace Ecell
                 m_tx.WriteStartElement(Constants.xpathID.ToLower());
                 m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, key);
                 this.WriteValueElements(
-                    new EcellValue(initialCondition[key]));
+                    new EcellValue(initialCondition[key]), false);
                 m_tx.WriteEndElement();
             }
             m_tx.WriteEndElement();
@@ -144,7 +145,7 @@ namespace Ecell
                         continue;
                     m_tx.WriteStartElement(Constants.xpathProperty.ToLower());
                     m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, ecellData.Name);
-                    WriteValueElements(ecellData.Value);
+                    WriteValueElements(ecellData.Value, false);
                     m_tx.WriteEndElement();
                 }
             }
@@ -424,7 +425,7 @@ namespace Ecell
             }
             catch (Exception e)
             {
-                throw new Exception(
+                throw new EcellException(
                     String.Format(
                         "Could not create {0}",
                         new object[] { stepperClass.InnerText }),

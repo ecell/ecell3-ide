@@ -241,19 +241,6 @@ namespace Ecell
             Assert.Fail("Create or modify test(s).");
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestImageAdd()
-        {
-            string type = null;
-            int imageIndex = 0;
-            _unitUnderTest.ImageAdd(type, imageIndex);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
         /// 
         /// </summary>
         [Test()]

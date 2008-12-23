@@ -93,7 +93,6 @@
     <Compile Include="CommandManager.cs" />
     <Compile Include="DataManager.cs" />
     <Compile Include="Objects\EcellObject.cs" />
-    <Compile Include="IgnoreException.cs" />
     <Compile Include="Plugin\PluginBase.cs" />
     <Compile Include="PluginManager.cs">
     </Compile>
@@ -119,6 +118,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStorer.cs" />
+    <Compile Include="DynamicModuleManager.cs" />
+    <Compile Include="Exceptions\EcellException.cs" />
+    <Compile Include="Exceptions\IgnoreException.cs" />
+    <Compile Include="Exceptions\SimulationException.cs" />
     <Compile Include="Objects\EcellStepper.cs" />
     <Compile Include="Reporting\CompileReport.cs" />
     <Compile Include="ConsoleManager.cs" />
@@ -189,7 +193,6 @@
     <Compile Include="ScriptWriter.cs" />
     <Compile Include="Job\JobManager.cs" />
     <Compile Include="Job\Job.cs" />
-    <Compile Include="SimulationException.cs" />
     <Compile Include="SimulationParameter.cs" />
     <Compile Include="DataLogger.cs" />
     <Compile Include="Eml.cs" />

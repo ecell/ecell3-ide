@@ -160,6 +160,10 @@ namespace Ecell
         /// </summary>
         public const string FilterEmlFile = "E-Cell Model (*.eml)|*.eml|all(*.*)|*.*";
         /// <summary>
+        /// File Filter for the SBML file.
+        /// </summary>
+        public const string FilterSBMLFile = "SBML (*.sbml)|*.sbml|all(*.*)|*.*";
+        /// <summary>
         /// File Filter for the script file.
         /// </summary>
         public const string FilterEssFile = "E-Cell Script Files (*.ess)|*.ess|all(*.*)|*.*";
@@ -628,19 +632,27 @@ namespace Ecell
         /// <summary>
         /// Projct status (project is loaded with the simulation stopped)
         /// </summary>
-        Loaded = 1,
+        Loading = 1,
+        /// <summary>
+        /// Projct status (project is loaded with the simulation stopped)
+        /// </summary>
+        Loaded = 2,
         /// <summary>
         /// Project status (simulation is running).
         /// </summary>
-        Running = 2,
+        Running = 3,
         /// <summary>
         /// Project status (simulation is suspend).
         /// </summary>
-        Suspended = 3,
+        Suspended = 4,
         /// <summary>
         /// Project status (simulation is running in step mode).
         /// </summary>
-        Stepping = 4
+        Stepping = 5,
+        /// <summary>
+        /// Project status (Refresh).
+        /// </summary>
+        Refresh = 6
     }
 
     /// <summary>

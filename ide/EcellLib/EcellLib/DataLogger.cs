@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Diagnostics;
 using EcellCoreLib;
+using Ecell.Exceptions;
 
 namespace Ecell
 {
@@ -387,11 +388,101 @@ namespace Ecell
     /// </summary>
     internal class Ecd
     {
+        private double m_oldTime;
+        private StreamWriter m_writer = null;
         /// <summary>
         /// Creates a new "Ecd" instance with no argument.
         /// </summary>
         public Ecd()
         {
+            m_oldTime = -1.0;            
+        }
+
+        public void Close()
+        {
+            if (m_writer != null)
+                m_writer.Close();
+        }
+
+        public void Append(string savedDirName, LogData logData, String saveType,
+            double startTime, double endTime)
+        {
+            string fileName = null;
+            try
+            {
+                //
+                // Initializes.
+                //
+                if (savedDirName == null || savedDirName.Length <= 0)
+                {
+                    return;
+                }
+                else if (logData == null)
+                {
+                    return;
+                }
+
+                //
+                // Sets the file name.
+                //
+                fileName =
+                    logData.type + Constants.delimiterUnderbar +
+                    logData.key + Constants.delimiterUnderbar +
+                    logData.propName;
+                fileName = fileName.Replace(Constants.delimiterPath, Constants.delimiterUnderbar);
+                fileName = fileName.Replace(Constants.delimiterColon, Constants.delimiterUnderbar);
+                fileName = savedDirName + Constants.delimiterPath +
+                    fileName + Constants.delimiterPeriod + saveType;            
+
+
+
+                    //
+                    // Writes the "LogData".
+                    //
+                    foreach (LogValue logValue in logData.logValueList)
+                    {
+                        if (m_oldTime == logValue.time)
+                        {
+                            continue;
+                        }
+                        double ltime;
+                        double.TryParse(logValue.time.ToString(), out ltime);
+                        if (startTime > ltime ||
+                            endTime < ltime)
+                            continue;
+                        if (Double.IsNaN(logValue.avg) &&
+                            Double.IsNaN(logValue.min) &&
+                            Double.IsNaN(logValue.max)
+                            )
+                        {
+                            m_writer.WriteLine(
+                                logValue.time + Constants.delimiterTab +
+                                logValue.value
+                                );
+                        }
+                        else
+                        {
+                            m_writer.WriteLine(
+                                logValue.time + Constants.delimiterTab +
+                                logValue.value + Constants.delimiterTab +
+                                logValue.avg + Constants.delimiterTab +
+                                logValue.min + Constants.delimiterTab +
+                                logValue.max
+                                );
+                        }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                if (m_writer != null)
+                {
+                    m_writer.Close();
+                    m_writer = null;
+                }
+                throw new EcellException(String.Format(MessageResources.ErrCreFile,
+                    new object[] { fileName }), ex);
+            }
         }
 
         /// <summary>
@@ -447,15 +538,13 @@ namespace Ecell
                 //
                 // Saves the "LogData".
                 //
-                StreamWriter writer = null;
-                try
-                {
-                    writer = new StreamWriter(
+
+                    m_writer = new StreamWriter(
                             new FileStream(fileName, FileMode.CreateNew), System.Text.Encoding.UTF8);
                     //
                     // Writes the header.
                     //
-                    writer.WriteLine(
+                    m_writer.WriteLine(
                         Constants.delimiterSharp + Constants.headerData + Constants.delimiterColon + Constants.delimiterSpace +
                         logData.type + Constants.delimiterColon +
                         logData.key + Constants.delimiterColon +
@@ -473,12 +562,12 @@ namespace Ecell
                     {
                         headerColumn = 5;
                     }
-                    writer.WriteLine(
+                    m_writer.WriteLine(
                         Constants.delimiterSharp + Constants.headerSize + Constants.delimiterColon + Constants.delimiterSpace +
                         headerColumn + Constants.delimiterSpace +
                         logData.logValueList.Count
                         );
-                    writer.WriteLine(
+                    m_writer.WriteLine(
                         Constants.delimiterSharp + Constants.headerLabel + Constants.delimiterColon + Constants.delimiterSpace +
                         Constants.headerTime + Constants.delimiterTab +
                         Constants.headerValue + Constants.delimiterTab +
@@ -486,10 +575,10 @@ namespace Ecell
                         Constants.headerMinimum.ToLower() + Constants.delimiterTab +
                         Constants.headerMaximum.ToLower()
                         );
-                    writer.WriteLine(
+                    m_writer.WriteLine(
                         Constants.delimiterSharp + Constants.headerNote + Constants.delimiterColon + Constants.delimiterSpace
                         );
-                    writer.WriteLine(
+                    m_writer.WriteLine(
                         Constants.delimiterSharp
                         );
                     string separator = "";
@@ -497,17 +586,16 @@ namespace Ecell
                     {
                         separator += Constants.delimiterHyphen;
                     }
-                    writer.WriteLine(
+                    m_writer.WriteLine(
                         Constants.delimiterSharp + separator
                         );
-                    writer.Flush();
+                    m_writer.Flush();
                     //
                     // Writes the "LogData".
                     //
-                    double oldTime = -1.0;
                     foreach (LogValue logValue in logData.logValueList)
                     {
-                        if (oldTime == logValue.time)
+                        if (m_oldTime == logValue.time)
                         {
                             continue;
                         }
@@ -521,14 +609,14 @@ namespace Ecell
                             Double.IsNaN(logValue.max)
                             )
                         {
-                            writer.WriteLine(
+                            m_writer.WriteLine(
                                 logValue.time + Constants.delimiterTab +
                                 logValue.value
                                 );
                         }
                         else
                         {
-                            writer.WriteLine(
+                            m_writer.WriteLine(
                                 logValue.time + Constants.delimiterTab +
                                 logValue.value + Constants.delimiterTab +
                                 logValue.avg + Constants.delimiterTab +
@@ -536,20 +624,18 @@ namespace Ecell
                                 logValue.max
                                 );
                         }
-                        oldTime = logValue.time;
-                    }
-                }
-                finally
-                {
-                    if (writer != null)
-                    {
-                        writer.Close();
-                    }
+                        m_oldTime = logValue.time;
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(String.Format(MessageResources.ErrCreFile,
+                if (m_writer != null)
+                {
+                    m_writer.Close();
+                    m_writer = null;
+
+                }
+                throw new EcellException(String.Format(MessageResources.ErrCreFile,
                     new object[] { fileName }), ex);
             }
         }

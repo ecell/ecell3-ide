@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using Ecell.Objects;
+using System.Collections;
 
 namespace Ecell
 {
@@ -28,7 +28,8 @@ namespace Ecell
         /// Creates the "value" elements.
         /// </summary>
         /// <param name="ecellValue">The "EcellValue"</param>
-        protected void WriteValueElements(EcellValue ecellValue)
+        /// <param name="isElement">The flag whether the "Value" element add</param>
+        protected void WriteValueElements(EcellValue ecellValue, bool isElement)
         {
             Debug.Assert(ecellValue != null);
 
@@ -103,7 +104,7 @@ namespace Ecell
         /// <returns>false if the element is null or empty; true otherise</returns>
         protected bool IsValidNode(XmlNode node)
         {
-            if (node == null || node.InnerText == null || node.InnerText.Length < 1)
+            if (node == null || node.InnerText == null || node.InnerText.Length < 1 )
             {
                 return false;
             }

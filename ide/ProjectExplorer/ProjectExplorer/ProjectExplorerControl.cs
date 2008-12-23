@@ -956,17 +956,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             if (m_lastSelectedNode == null) return;
             TagData tag = m_lastSelectedNode.Tag as TagData;
-            if (tag == null || tag.m_type != Constants.xpathModel) return;
-            String name = tag.m_modelID;
-            List<string> modelList = new List<string>();
-            modelList.Add(name);
+            if (tag == null || tag.m_type != Constants.xpathModel)
+                return;
 
             m_saveFileDialog.Filter = Constants.FilterEmlFile;
             if (m_saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string fileName = m_saveFileDialog.FileName;
 
-                m_owner.DataManager.ExportModel(modelList, fileName);
+                m_owner.DataManager.ExportModel(fileName);
             }
         }
 

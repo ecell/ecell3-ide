@@ -27,6 +27,9 @@
 // written by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 
 using System;
 using System.Collections;
@@ -39,6 +42,7 @@ using System.Text;
 using System.Windows.Forms;
 using Ecell.UI.Components;
 using Ecell.Objects;
+using Ecell.Exceptions;
 
 namespace Ecell.IDE
 {
@@ -46,9 +50,9 @@ namespace Ecell.IDE
     {
         #region Fields
         /// <summary>
-        /// current variable reference list string.
+        /// current variable reference list.
         /// </summary>
-        public string m_refStr = "";
+        public List<EcellReference> m_refList = new List<EcellReference>();
         /// <summary>
         /// Data type displayed in PropertyEditor.
         /// </summary>
@@ -94,7 +98,6 @@ namespace Ecell.IDE
         private Dictionary<string, TextBox> m_minDic = new Dictionary<string, TextBox>();
         private Dictionary<string, TextBox> m_stepDic = new Dictionary<string, TextBox>();
         private Dictionary<string, EcellParameterData> m_paramDic = new Dictionary<string, EcellParameterData>();
-        private string m_definedSize = "";
         static private string DefinedSize = "DefinedSize";
         #endregion
 
@@ -121,6 +124,7 @@ namespace Ecell.IDE
         public static void Show(DataManager dManager, PluginManager pManager, EcellObject obj)
         {
             PropertyEditor editor = new PropertyEditor(dManager, pManager);
+            if (obj == null) return;
             try
             {
                 editor.layoutPanel.SuspendLayout();
@@ -172,7 +176,8 @@ namespace Ecell.IDE
             if (m_currentObj.Type.Equals(EcellObject.PROCESS))
             {
                 m_propName = m_currentObj.Classname;
-                m_refStr = m_currentObj.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).ToString();
+                EcellProcess process = (EcellProcess)obj;
+                m_refList = process.ReferenceList;
             }
         }
 
@@ -233,13 +238,19 @@ namespace Ecell.IDE
             }
             if (max < min)
             {
-                throw new Exception("Invalid parameter(MAX < Min).");
+                throw new EcellException("Invalid parameter(MAX < Min).");
             }
-            if (!isCheck)
-                m_dManager.SetParameterData(new EcellParameterData(d.EntityPath,
+            
+            string fullPath = d.EntityPath;
+            if (d.Name.Equals(Constants.xpathSize))
+            {
+                fullPath = Constants.xpathVariable + ":" + m_currentObj.Key + ":SIZE:Value";
+            }
+            if (!isCheck)            
+                m_dManager.SetParameterData(new EcellParameterData(fullPath,
                     max, min, step));
             else
-                m_dManager.RemoveParameterData(new EcellParameterData(d.EntityPath, 0.0));
+                m_dManager.RemoveParameterData(new EcellParameterData(fullPath, 0.0));
         }
 
         /// <summary>
@@ -315,21 +326,19 @@ namespace Ecell.IDE
                 {
                     continue;
                 }
-                EcellData data = m_propDict[key];
-                EcellParameterData param = m_dManager.GetParameterData(data.EntityPath);
+
+                EcellParameterData param = m_dManager.GetParameterData(m_propDict[key].EntityPath);
                 if (param == null)
                 {
-                    if (data.Value.IsDouble)
-                        param = new EcellParameterData(key, (double)data.Value);
-                    else
-                        param = new EcellParameterData(key, 0.0);
+                    param = new EcellParameterData(key, (double)m_propDict[key].Value);
                 }
-                commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                 CheckBox c;
-                if (data.Settable && data.Value.IsDouble)
+                commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                if (m_propDict[key].Settable &&
+                    m_propDict[key].Value.Type == EcellValueType.Double)
                 {
                     c = new CheckBox();
-                    if (m_dManager.IsContainsParameterData(data.EntityPath))
+                    if (m_dManager.IsContainsParameterData(m_propDict[key].EntityPath))
                         c.Checked = false;
                     else c.Checked = true;
                     c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
@@ -361,7 +370,8 @@ namespace Ecell.IDE
 
                 t1.Dock = DockStyle.Fill;
                 t1.Tag = key;
-                if (!data.Settable || !data.Value.IsDouble)
+                if (!m_propDict[key].Settable ||
+                    m_propDict[key].Value.Type != EcellValueType.Double)
                 {
                     t1.ReadOnly = true;
                     t1.Text = param.Max.ToString();
@@ -370,24 +380,26 @@ namespace Ecell.IDE
                 {
                     if (param.Max == 0.0)
                     {
-                        double d = (double)data.Value;
+                        double d = (double)m_propDict[key].Value;
                         if (d >= 0.0)
                             t1.Text = Convert.ToString(d * 1.5);
                         else
                             t1.Text = Convert.ToString(d * 0.5);
+                        param.Max = Convert.ToDouble(t1.Text);
                     }
                     else
                     {
                         t1.Text = param.Max.ToString();
                     }
                 }
-                t1.Validating += new CancelEventHandler(MaxDataValidating); 
+                t1.Validating += new CancelEventHandler(MaxDataValidating);
                 commitLayoutPanel.Controls.Add(t1, 2, i);
 
                 TextBox t2 = new TextBox();
                 t2.Dock = DockStyle.Fill;
                 t2.Tag = key;
-                if (!data.Settable || !data.Value.IsDouble)
+                if (!m_propDict[key].Settable ||
+                    m_propDict[key].Value.Type != EcellValueType.Double)
                 {
                     t2.ReadOnly = true;
                     t2.Text = param.Min.ToString();
@@ -396,26 +408,27 @@ namespace Ecell.IDE
                 {
                     if (param.Min == 0.0)
                     {
-                        double d = (double)data.Value;
+                        double d = (double)m_propDict[key].Value;
                         if (d >= 0.0)
                             t2.Text = Convert.ToString(d * 0.5);
                         else
                             t2.Text = Convert.ToString(d * 1.5);
+                        param.Min = Convert.ToDouble(t2.Text);
                     }
                     else
                     {
                         t2.Text = param.Min.ToString();
                     }
                 }
-
-                t2.Validating += new CancelEventHandler(MinDataValidating);                
+                t2.Validating += new CancelEventHandler(MinDataValidating);
                 commitLayoutPanel.Controls.Add(t2, 3, i);
 
                 TextBox t3 = new TextBox();
                 t3.Text = param.Step.ToString();
                 t3.Dock = DockStyle.Fill;
                 t3.Tag = key;
-                if (!data.Settable || !data.Value.IsDouble)
+                if (!m_propDict[key].Settable ||
+                    m_propDict[key].Value.Type != EcellValueType.Double)
                 {
                     t3.ReadOnly = true;
                 }
@@ -430,120 +443,142 @@ namespace Ecell.IDE
                 m_maxDic[key] = t1;
                 m_minDic[key] = t2;
                 m_stepDic[key] = t3;
+                m_paramDic.Add(key, param);
             }
 
-            if (m_currentObj == null && m_type.Equals(EcellObject.SYSTEM))
+            if (m_type.Equals(EcellObject.SYSTEM))
             {
-                CheckBox c = new CheckBox();
-                c.Checked = true;
-                c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                c.Text = "";
-                c.AutoSize = true;
-                c.Enabled = true;
-                c.CheckedChanged += new EventHandler(c_CheckedChanged);
-                c.Tag = "Size";
-                commitLayoutPanel.Controls.Add(c, 0, i);
-
-                commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                Label l = new Label();
-                l.Text = "Size";
-                l.Dock = DockStyle.Fill;
-                commitLayoutPanel.Controls.Add(l, 1, i);
-
-
-                TextBox t1 = new TextBox();
-                t1.Text = "";
-                t1.Dock = DockStyle.Fill;
-                t1.ReadOnly = true;
-                t1.Tag = "Size";
-                commitLayoutPanel.Controls.Add(t1, 2, i);
-
-                TextBox t2 = new TextBox();
-                t2.Text = "";
-                t2.Dock = DockStyle.Fill;
-                t2.ReadOnly = true;
-                t2.Tag = "Size";
-                commitLayoutPanel.Controls.Add(t2, 3, i);
-
-                TextBox t3 = new TextBox();
-                t3.Text = "";
-                t3.Dock = DockStyle.Fill;
-                t3.ReadOnly = true;
-                t3.Tag = "Size";
-                commitLayoutPanel.Controls.Add(t3, 4, i);
-                i++;
-                m_maxDic["Size"] = t1;
-                m_minDic["Size"] = t2;
-                m_stepDic["Size"] = t3;
-
-                t1.ReadOnly = c.Checked;
-                t2.ReadOnly = c.Checked;
-                t3.ReadOnly = c.Checked;
-
-
-            }
-            else if (m_currentObj != null && m_currentObj.Type.Equals(EcellObject.SYSTEM))
-            {
-                commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-
-                CheckBox c = new CheckBox();
-                c.Checked = true;
-                c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                c.Text = "";
-                c.Tag = "Size";
-                c.AutoSize = true;
-                c.Enabled = true;
-                c.CheckedChanged += new EventHandler(c_CheckedChanged);
-                commitLayoutPanel.Controls.Add(c, 0, i);
-
-                Label l = new Label();
-                l.Text = "Size";
-                l.Dock = DockStyle.Fill;
-                commitLayoutPanel.Controls.Add(l, 1, i);
-
-                TextBox t1 = new TextBox();
-                t1.Text = "";
-                t1.Dock = DockStyle.Fill;
-                t1.Tag = "Size";
-                commitLayoutPanel.Controls.Add(t1, 2, i);
-
-                TextBox t2 = new TextBox();
-                t2.Text = "";
-                t2.Dock = DockStyle.Fill;
-                t2.Tag = "Size";
-                commitLayoutPanel.Controls.Add(t2, 3, i);
-
-                TextBox t3 = new TextBox();
-                t3.Text = "";
-                t3.Dock = DockStyle.Fill;
-                t3.Tag = "Size";
-                commitLayoutPanel.Controls.Add(t3, 4, i);
-
-                m_maxDic["Size"] = t1;
-                m_minDic["Size"] = t2;
-                m_stepDic["Size"] = t3;
-
-                t1.ReadOnly = c.Checked;
-                t2.ReadOnly = c.Checked;
-                t3.ReadOnly = c.Checked;
-                if (m_currentObj.Children != null)
+                EcellObject sizeObj = null;
+                foreach (EcellObject obj in m_currentObj.Children)
                 {
-                    foreach (EcellObject o in m_currentObj.Children)
+                    if (!obj.LocalID.Equals("SIZE")) continue;
+                    sizeObj = obj;
+                    break;                    
+                }
+                if (sizeObj == null)
+                {
+                    CheckBox c = new CheckBox();
+                    c.Checked = true;
+                    c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                    c.Text = "";
+                    c.AutoSize = true;
+                    c.Enabled = true;
+                    c.Tag = "Size";
+                    c.CheckedChanged += new EventHandler(c_CheckedChanged);
+                    commitLayoutPanel.Controls.Add(c, 0, i);
+
+                    commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+                    Label l = new Label();
+                    l.Text = "Size";
+                    l.Dock = DockStyle.Fill;
+                    commitLayoutPanel.Controls.Add(l, 1, i);
+
+                    TextBox t1 = new TextBox();
+                    t1.Text = "0.15";
+                    t1.Dock = DockStyle.Fill;
+                    t1.ReadOnly = true;
+                    t1.Tag = "Size";
+                    commitLayoutPanel.Controls.Add(t1, 2, i);
+
+                    TextBox t2 = new TextBox();
+                    t2.Text = "0.05";
+                    t2.Dock = DockStyle.Fill;
+                    t2.ReadOnly = true;
+                    t2.Tag = "Size";
+                    commitLayoutPanel.Controls.Add(t2, 3, i);
+
+                    TextBox t3 = new TextBox();
+                    t3.Text = "0";
+                    t3.Dock = DockStyle.Fill;
+                    t3.ReadOnly = true;
+                    t3.Tag = "Size";
+                    commitLayoutPanel.Controls.Add(t3, 4, i);
+                    i++;
+
+                    m_maxDic["Size"] = t1;
+                    m_minDic["Size"] = t2;
+                    m_stepDic["Size"] = t3;
+
+                    t1.ReadOnly = c.Checked;
+                    t2.ReadOnly = c.Checked;
+                    t3.ReadOnly = c.Checked;
+                }
+                else 
+                {
+                    EcellParameterData param = null;
+                    string fullPath = Constants.xpathVariable + ":" + m_currentObj.Key + ":SIZE:Value";
+                    param = m_dManager.GetParameterData(fullPath);
+
+                    commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+
+                    CheckBox c = new CheckBox();
+                    c.Checked = (param == null);
+                    c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                    c.Text = "";
+                    c.Tag = "Size";
+                    c.AutoSize = true;
+                    c.Enabled = true;
+                    c.CheckedChanged += new EventHandler(c_CheckedChanged);
+                    commitLayoutPanel.Controls.Add(c, 0, i);
+
+                    Label l = new Label();
+                    l.Text = "Size";
+                    l.Dock = DockStyle.Fill;
+                    commitLayoutPanel.Controls.Add(l, 1, i);
+
+                    TextBox t1 = new TextBox();
+                    if (param == null)
+                        t1.Text = "";
+                    else
+                        t1.Text = param.Max.ToString();
+                    t1.Dock = DockStyle.Fill;
+                    t1.Tag = "Size";
+                    commitLayoutPanel.Controls.Add(t1, 2, i);
+
+                    TextBox t2 = new TextBox();
+                    if (param == null)
+                        t2.Text = "";
+                    else
+                        t2.Text = param.Min.ToString();
+                    t2.Dock = DockStyle.Fill;
+                    t2.Tag = "Size";
+                    commitLayoutPanel.Controls.Add(t2, 3, i);
+
+                    TextBox t3 = new TextBox();
+                    if (param == null)
+                        t3.Text = "";
+                    else
+                        t3.Text = param.Step.ToString();
+                    t3.Dock = DockStyle.Fill;
+                    t3.Tag = "Size";
+                    commitLayoutPanel.Controls.Add(t3, 4, i);
+
+                    m_maxDic["Size"] = t1;
+                    m_minDic["Size"] = t2;
+                    m_stepDic["Size"] = t3;
+                    t1.ReadOnly = c.Checked;
+                    t2.ReadOnly = c.Checked;
+                    t3.ReadOnly = c.Checked;
+
+                    if (m_currentObj.Children != null)
                     {
-                        if (o.Key.EndsWith(":SIZE"))
+                        foreach (EcellObject o in m_currentObj.Children)
                         {
-                            foreach (EcellData d in o.Value)
+                            if (o.Key.EndsWith(":SIZE"))
                             {
-                                if (d.EntityPath.EndsWith(":Value"))
+                                foreach (EcellData d in o.Value)
                                 {
-                                    EcellParameterData pvalue = m_dManager.GetParameterData(d.EntityPath);
-                                    if (pvalue == null)
+                                    if (d.EntityPath.EndsWith(":Value"))
                                     {
-                                        pvalue = new EcellParameterData(d.EntityPath, (double)d.Value);
+                                        EcellParameterData pvalue = m_dManager.GetParameterData(d.EntityPath);
+                                        if (pvalue == null)
+                                        {
+                                            pvalue = new EcellParameterData(d.EntityPath,(double)d.Value);
+                                        }
+                                        t1.Text = pvalue.Max.ToString();
+                                        t2.Text = pvalue.Min.ToString();
+                                        t3.Text = pvalue.Step.ToString();
                                     }
-                                    t1.Text = pvalue.Max.ToString();
-                                    t2.Text = pvalue.Min.ToString();
-                                    t3.Text = pvalue.Step.ToString();
                                 }
                             }
                         }
@@ -552,6 +587,23 @@ namespace Ecell.IDE
             }
 
             panel2.ClientSize = panel2.Size;
+        }
+
+        void c_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox c = (CheckBox)sender;
+            if (c.Checked)
+            {
+                m_maxDic[(string)c.Tag].ReadOnly = true;
+                m_minDic[(string)c.Tag].ReadOnly = true;
+                m_stepDic[(string)c.Tag].ReadOnly = true;
+            }
+            else
+            {
+                m_maxDic[(string)c.Tag].ReadOnly = false;
+                m_minDic[(string)c.Tag].ReadOnly = false;
+                m_stepDic[(string)c.Tag].ReadOnly = false;
+            }
         }
 
         /// <summary>
@@ -591,7 +643,7 @@ namespace Ecell.IDE
             TextBox textBox = (TextBox)sender;
             string text = textBox.Text;
             string propName = (string)(textBox.Tag);
-
+            
             if (string.IsNullOrEmpty(text))
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet, propName));
@@ -606,7 +658,7 @@ namespace Ecell.IDE
                 textBox.Text = m_propDict[propName].Value.ToString();
                 e.Cancel = true;
                 return;
-            }
+            }          
         }
 
         private void PathIDInputTextValidating(object sender, CancelEventArgs e)
@@ -638,13 +690,14 @@ namespace Ecell.IDE
             string preData = "";
 
             if (propName.Equals(PropertyEditor.DefinedSize))
-                preData = m_definedSize;
+                preData = ((EcellSystem)m_currentObj).SizeInVolume.ToString();
             else
                 preData = m_propDict[propName].Value.ToString();
-
+            
             if (string.IsNullOrEmpty(text))
             {
-                if (propName.Equals(PropertyEditor.DefinedSize)) return;
+                if (propName.Equals(PropertyEditor.DefinedSize))
+                    return;
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet, propName));
                 textBox.Text = preData;
                 e.Cancel = true;
@@ -768,8 +821,8 @@ namespace Ecell.IDE
                     t2.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                 }
             }
-            m_idText = t2;
             t2.Validating += new CancelEventHandler(PathIDInputTextValidating);
+            m_idText = t2;
             t2.Dock = DockStyle.Fill;
             layoutPanel.Controls.Add(t2, 2, i);
             i++;
@@ -860,6 +913,7 @@ namespace Ecell.IDE
                     c.Enabled = true;
                     layoutPanel.Controls.Add(c, 0, i);
                 }
+
 
                 Label l = new Label();
                 l.Text = key;
@@ -962,8 +1016,7 @@ namespace Ecell.IDE
                 layoutPanel.Controls.Add(l, 1, i);
 
                 TextBox t = new TextBox();
-                t.Text = "";
-                m_definedSize = "";
+                t.Text = "1";
                 t.Tag = PropertyEditor.DefinedSize;
                 t.Dock = DockStyle.Fill;
                 t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
@@ -979,31 +1032,12 @@ namespace Ecell.IDE
                 layoutPanel.Controls.Add(l, 1, i);
 
                 TextBox t = new TextBox();
-                t.Text = "";
-                m_definedSize = "";
+                t.Text = ((EcellSystem)m_currentObj).SizeInVolume.ToString();
                 t.Tag = PropertyEditor.DefinedSize;
                 t.Dock = DockStyle.Fill;
                 t.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                 t.Validating += new CancelEventHandler(DoubleInputTextValidating);
                 layoutPanel.Controls.Add(t, 2, i);
-
-                if (m_currentObj.Children != null)
-                {
-                    foreach (EcellObject o in m_currentObj.Children)
-                    {
-                        if (o.Key.EndsWith(":SIZE"))
-                        {
-                            foreach (EcellData d in o.Value)
-                            {
-                                if (d.EntityPath.EndsWith(":Value"))
-                                {
-                                    t.Text = d.Value.ToString();
-                                    m_definedSize = d.Value.ToString();
-                                }
-                            }
-                        }
-                    }
-                }
             }
 
             panel1.ClientSize = panel1.Size;
@@ -1022,6 +1056,7 @@ namespace Ecell.IDE
         {
             if (modelID == null || oldKey == null || eo.Key == null)
                 return;
+
             m_dManager.DataChanged(eo.ModelID, oldKey, eo.Type, eo, true, true);
         }
 
@@ -1233,9 +1268,18 @@ namespace Ecell.IDE
                         isLogger = chk.Checked;
                     }
                     if (pos.Column != 2) continue;
-
-                    if ((string)c.Tag == "Add Property") continue;
-                    if ((string)c.Tag == "modelID") modelID = c.Text;
+                    // Property
+                    if ((string)c.Tag == "Add Property")
+                    {
+                        continue;
+                    }
+                    // ModelID
+                    if ((string)c.Tag == "modelID")
+                    {
+                        modelID = c.Text;
+                        isLogger = false;
+                    }
+                    // ID
                     else if ((string)c.Tag == "id")
                     {
                         key = c.Text;
@@ -1243,24 +1287,28 @@ namespace Ecell.IDE
                         {
                             Util.ShowWarningDialog(String.Format(MessageResources.ErrNoSet,
                                 new object[] { "ID" }));
+                            e.Cancel = true;
                             return;
                         }
                         else if (Util.IsReservedID(c.Text))
                         {
                             Util.ShowWarningDialog(String.Format(MessageResources.ErrReserved,
                                 new object[] { c.Text }));
+                            e.Cancel = true;
                             return;
                         }
                         else if (m_currentObj.Type.Equals(EcellObject.SYSTEM) &&
                             Util.IsNGforSystemFullID(c.Text))
                         {
                             Util.ShowWarningDialog(MessageResources.ErrInvalidID);
+                            e.Cancel = true;
                             return;
                         }
                         else if (!m_currentObj.Type.Equals(EcellObject.SYSTEM) &&
                             Util.IsNGforComponentFullID(c.Text))
                         {
                             Util.ShowWarningDialog(MessageResources.ErrInvalidID);
+                            e.Cancel = true;
                             return;
                         }
                         else if (m_currentObj.Type.Equals(EcellObject.PROCESS) ||
@@ -1270,26 +1318,30 @@ namespace Ecell.IDE
                             if (kpos < 0 || kpos == c.Text.Length - 1)
                             {
                                 Util.ShowWarningDialog(MessageResources.ErrInvalidID);
+                                e.Cancel = true;
                                 return;
                             }
                         }
                         isLogger = false;
                     }
+                    // Classname
                     else if ((string)c.Tag == "classname")
                     {
-                        classname = c.Text;
                         isLogger = false;
+                        classname = c.Text;
                     }
+                    // Type
                     else if ((string)c.Tag == "type")
                     {
-                        type = c.Text;
                         isLogger = false;
+                        type = c.Text;
                     }
+                    // VariableReference
                     else if ((string)c.Tag == EcellProcess.VARIABLEREFERENCELIST)
                     {
                         EcellData data = new EcellData();
                         data.Name = (string)c.Tag;
-                        data.Value = new EcellValue(EcellValue.FromListString(m_refStr));
+                        data.Value = EcellReference.ConvertToEcellValue(m_refList);
                         if (key.Contains(":"))
                         {
                             int ind = key.LastIndexOf(":");
@@ -1313,157 +1365,77 @@ namespace Ecell.IDE
                         isLogger = false;
                         list.Add(data);
                     }
-                    else if ((string)c.Tag == "DefinedSize")
+                    // System size.
+                    else if ((string)c.Tag == PropertyEditor.DefinedSize)
                     {
-                        EcellObject target = null;
-                        Double sizeData = 0.1;
-                        if (m_currentObj.Children != null)
-                        {
-                            foreach (EcellObject o in m_currentObj.Children)
-                            {
-                                if (o.Key.EndsWith(":SIZE"))
-                                {
-                                    target = o;
-                                    break;
-                                }
-                            }
-                        }
+                        double sizeData = Convert.ToDouble(c.Text);
+                        EcellSystem system = (EcellSystem)m_currentObj;
+                        system.SizeInVolume = sizeData;
 
-                        if (target == null)
-                        {
-                            if (c.Text != "")
-                            {
-
-                                Dictionary<string, EcellData> plist = m_dManager.GetVariableProperty();
-                                List<EcellData> dlist = new List<EcellData>();
-                                foreach (string pname in plist.Keys)
-                                {
-                                    if (pname.Equals("Value"))
-                                    {
-                                        EcellData d = plist[pname];
-                                        d.Value = new EcellValue(Convert.ToDouble(c.Text));
-                                        dlist.Add(d);
-                                    }
-                                    else
-                                    {
-                                        dlist.Add(plist[pname]);
-                                    }
-                                }
-                                EcellObject obj = EcellObject.CreateObject(m_currentObj.ModelID,
-                                    m_currentObj.Key + ":SIZE", EcellObject.VARIABLE, EcellObject.VARIABLE, dlist);
-                                List<EcellObject> rList = new List<EcellObject>();
-                                rList.Add(obj);
-                                m_dManager.DataAdd(rList);
-                                if (m_currentObj.Children == null)
-                                    m_currentObj.Children = new List<EcellObject>();
-                                m_currentObj.Children.Add(obj);
-                                sizeData = Convert.ToDouble(c.Text);
-                            }
-                        }
-                        else
-                        {
-                            if (c.Text == "")
-                            {
-                                m_dManager.DataDelete(target.ModelID, target.Key, target.Type);
-                                m_currentObj.Children.Remove(target);
-                            }
-                            else
-                            {
-                                bool isChange = false;
-                                foreach (EcellData d in target.Value)
-                                {
-                                    if (!d.EntityPath.EndsWith(":Value"))
-                                        continue;
-                                    if ((double)d.Value != Convert.ToDouble(c.Text))
-                                    {
-                                        isChange = true;
-                                        target.Value.Remove(d);
-                                        d.Value = new EcellValue(Convert.ToDouble(c.Text));
-                                        target.Value.Add(d);
-                                    }
-                                    break;
-                                }
-                                if (isChange)
-                                {
-                                    NotifyDataChanged(target.ModelID, target.Key, target);
-                                }
-                                m_currentObj.Children.Remove(target);
-                                m_currentObj.Children.Add(target);
-                                sizeData = Convert.ToDouble(c.Text);
-                            }
-                        }
-                        EcellData newData = new EcellData();
-                        newData.Name = "Size";
-                        newData.Value = new EcellValue(sizeData);
-                        EcellData oldData = m_propDict[newData.Name];
-                        newData.EntityPath = oldData.EntityPath;
-                        newData.Settable = oldData.Settable;
-                        newData.Saveable = oldData.Saveable;
-                        newData.Loadable = oldData.Loadable;
-                        newData.Gettable = oldData.Gettable;
-                        newData.Logable = oldData.Logable;
-                        newData.Logged = oldData.Logged;
-                        GetCommitInfo(newData);
-                        isLogger = false;
-                        list.Add(newData);
+                        EcellData data = (EcellData)m_propDict["Size"].Clone();
+                        data.Value = new EcellValue(sizeData);
+                        GetCommitInfo(data);
+                        list.Add(data);
                     }
+                    // Property 
                     else
                     {
-                        EcellData newData = new EcellData();
-                        newData.Name = (string)c.Tag;
-                        EcellData oldData = m_propDict[newData.Name];
-
-                        if (oldData.Value.IsInt)
-                            newData.Value = new EcellValue(Convert.ToInt32(c.Text));
-                        else if (oldData.Value.IsDouble)
+                        EcellData data = new EcellData();
+                        data.Name = (string)c.Tag;
+                        if (m_propDict[data.Name].Value.Type == EcellValueType.Integer)
+                            data.Value = new EcellValue(Convert.ToInt32(c.Text));
+                        else if (m_propDict[data.Name].Value.Type == EcellValueType.Double)
                         {
                             if (c.Text == "1.79769313486232E+308")
-                                newData.Value = new EcellValue(Double.MaxValue);
+                                data.Value = new EcellValue(Double.MaxValue);
                             else
-                                newData.Value = new EcellValue(Convert.ToDouble(c.Text));
+                                data.Value = new EcellValue(Convert.ToDouble(c.Text));
                         }
-                        else if (oldData.Value.IsList)
-                            newData.Value = new EcellValue(EcellValue.FromListString(c.Text));
+                        else if (m_propDict[data.Name].Value.Type == EcellValueType.List)
+                            data.Value = new EcellValue(c.Text);
                         else
-                            newData.Value = new EcellValue(c.Text);
+                            data.Value = new EcellValue(c.Text);
 
                         if (key.Contains(":"))
                         {
                             int ind = key.LastIndexOf(":");
-                            newData.EntityPath = type + ":" + key.Substring(0, ind) +
+                            data.EntityPath = type + ":" + key.Substring(0, ind) +
                                 ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
                         }
                         else
                         {
                             if (key == "/")
                             {
-                                newData.EntityPath = type + ":" + "" +
+                                data.EntityPath = type + ":" + "" +
                                     ":" + "/" + ":" + (string)c.Tag;
                             }
                             else
                             {
                                 int ind = key.LastIndexOf("/");
-                                newData.EntityPath = type + ":" + key.Substring(0, ind) +
+                                data.EntityPath = type + ":" + key.Substring(0, ind) +
                                     ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
                             }
                         }
 
-                        newData.Settable = oldData.Settable;
-                        newData.Saveable = oldData.Saveable;
-                        newData.Loadable = oldData.Loadable;
-                        newData.Gettable = oldData.Gettable;
-                        newData.Logable = oldData.Logable;
-                        GetCommitInfo(newData);
-                        newData.Logged = isLogger;
+                        data.Settable = m_propDict[data.Name].Settable;
+                        data.Saveable = m_propDict[data.Name].Saveable;
+                        data.Loadable = m_propDict[data.Name].Loadable;
+                        data.Gettable = m_propDict[data.Name].Gettable;
+                        data.Logable = m_propDict[data.Name].Logable;
+                        GetCommitInfo(data);
+                        data.Logged = isLogger;
+                        if (isLogger != m_propDict[data.Name].Logged && isLogger)
+                            m_pManager.LoggerAdd(modelID, m_currentObj.Key, type, m_propDict[data.Name].EntityPath);
                         isLogger = false;
-                        list.Add(newData);
+
+                        list.Add(data);
                     }
                 }
 
                 EcellObject uobj = EcellObject.CreateObject(modelID, key, type, classname, list);
                 uobj.Children = m_currentObj.Children;
-                uobj.Layout = m_currentObj.Layout;
-                NotifyDataChanged(m_currentObj.ModelID, m_currentObj.Key, uobj);
+                uobj.SetPosition(m_currentObj);
+                NotifyDataChanged(m_currentObj.ModelID, m_currentObj.Key, uobj);              
             }
             catch (IgnoreException ex)
             {
@@ -1473,6 +1445,7 @@ namespace Ecell.IDE
             catch (Exception ex)
             {
                 Util.ShowErrorDialog(ex.Message);
+                e.Cancel = true;
                 return;
             }
 
@@ -1639,12 +1612,11 @@ namespace Ecell.IDE
                     str != EcellProcess.VARIABLEREFERENCELIST && str != EcellProcess.ISCONTINUOUS)
                     list.Add(str);
             }
-            List<EcellReference> tmpList = EcellReference.ConvertFromString(m_refStr);
-            foreach (EcellReference r in tmpList)
+            foreach (EcellReference r in m_refList)
             {
                 list.Add(r.Name + ".MolarConc");
             }
-            foreach (EcellReference r in tmpList)
+            foreach (EcellReference r in m_refList)
             {
                 list.Add(r.Name + ".Value");
             }
@@ -1697,13 +1669,13 @@ namespace Ecell.IDE
         /// <param name="e">EventArgs</param>
         private void ShowVarRefWindow(object sender, EventArgs e)
         {
-            VariableReferenceEditDialog win = new VariableReferenceEditDialog(m_dManager, m_pManager, EcellReference.ConvertFromString(m_refStr));
+            VariableReferenceEditDialog win = new VariableReferenceEditDialog(m_dManager, m_pManager, m_refList);
             using (win)
             {
                 DialogResult res = win.ShowDialog();
                 if (res == DialogResult.OK)
                 {
-                    m_refStr = win.ReferenceString;
+                    m_refList = win.ReferenceList;
 
                 }
             }
@@ -1722,24 +1694,23 @@ namespace Ecell.IDE
             TextBox textBox = (TextBox)sender;
             string text = textBox.Text;
             string propName = (string)(textBox.Tag);
-            EcellParameterData param = m_paramDic[propName];
 
             if (string.IsNullOrEmpty(text))
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet, propName));
-                textBox.Text = Convert.ToString(param.Max);
+                textBox.Text = Convert.ToString(m_paramDic[propName].Max);
                 e.Cancel = true;
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy < param.Min)
+            if (!Double.TryParse(text, out dummy) || dummy < m_paramDic[propName].Min)
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                textBox.Text = Convert.ToString(param.Max);
+                textBox.Text = Convert.ToString(m_paramDic[propName].Max);
                 e.Cancel = true;
                 return;
             }
-            param.Max = dummy;
+            m_paramDic[propName].Max = dummy;
         }
 
         private void MinDataValidating(object sender, CancelEventArgs e)
@@ -1747,24 +1718,23 @@ namespace Ecell.IDE
             TextBox textBox = (TextBox)sender;
             string text = textBox.Text;
             string propName = (string)(textBox.Tag);
-            EcellParameterData param = m_paramDic[propName];
 
             if (string.IsNullOrEmpty(text))
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet, propName));
-                textBox.Text = Convert.ToString(param.Min);
+                textBox.Text = Convert.ToString(m_paramDic[propName].Min);
                 e.Cancel = true;
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy > param.Max)
+            if (!Double.TryParse(text, out dummy) || dummy > m_paramDic[propName].Max)
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                textBox.Text = Convert.ToString(param.Min);
+                textBox.Text = Convert.ToString(m_paramDic[propName].Min);
                 e.Cancel = true;
                 return;
             }
-            param.Min = dummy;
+            m_paramDic[propName].Min = dummy;
         }
 
         private void StepDataValidating(object sender, CancelEventArgs e)
@@ -1772,12 +1742,11 @@ namespace Ecell.IDE
             TextBox textBox = (TextBox)sender;
             string text = textBox.Text;
             string propName = (string)(textBox.Tag);
-            EcellParameterData param = m_paramDic[propName];
 
             if (string.IsNullOrEmpty(text))
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet, propName));
-                textBox.Text = Convert.ToString(param.Step);
+                textBox.Text = Convert.ToString(m_paramDic[propName].Step);
                 e.Cancel = true;
                 return;
             }
@@ -1785,32 +1754,15 @@ namespace Ecell.IDE
             if (!Double.TryParse(text, out dummy) || dummy < 0.0)
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                textBox.Text = Convert.ToString(param.Step);
+                textBox.Text = Convert.ToString(m_paramDic[propName].Step);
                 e.Cancel = true;
                 return;
             }
-            param.Step = dummy;
+            m_paramDic[propName].Step = dummy;
         }
-
-        void c_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckBox c = (CheckBox)sender;
-            if (c.Checked)
-            {
-                m_maxDic[(string)c.Tag].ReadOnly = true;
-                m_minDic[(string)c.Tag].ReadOnly = true;
-                m_stepDic[(string)c.Tag].ReadOnly = true;
-            }
-            else
-            {
-                m_maxDic[(string)c.Tag].ReadOnly = false;
-                m_minDic[(string)c.Tag].ReadOnly = false;
-                m_stepDic[(string)c.Tag].ReadOnly = false;
-            }
-        }
-
 
         #endregion
+
         #endregion
     }
 }

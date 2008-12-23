@@ -93,7 +93,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <returns>LEML file name.</returns>
         public string GetLEMLFileName(string modelID)
         {
-            string filepath = m_dManager.GetEMLPath(modelID);
+            string filepath = m_dManager.CurrentProject.ModelFileDic[modelID];
             if (filepath == null)
                 return null;
             return filepath.Replace(Constants.FileExtEML, Constants.FileExtLEML);

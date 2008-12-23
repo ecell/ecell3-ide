@@ -239,7 +239,6 @@ namespace Ecell
                     else if (command.Equals("NewSimParam")) act = new NewSimParamAction();
                     else if (command.Equals("DeleteSimParam")) act = new DeleteSimParamAction();
                     else if (command.Equals("SetSimParam")) act = new SetSimParamAction();
-                    else if (command.Equals("SystemMerge")) act = new SystemMergeAction();
 
                     if (act == null)
                     {

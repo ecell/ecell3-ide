@@ -68,10 +68,19 @@ namespace Ecell.Objects
             ; // do nothing
         }
 
-        public EcellValue(EcellValue that): this(that.m_value)
+        /// <summary>
+        /// Creates a new "EcellValue" instance with EcellValue.
+        /// </summary>
+        /// <param name="that"></param>
+        public EcellValue(EcellValue that)
+            : this(that.m_value)
         {
         }
 
+        /// <summary>
+        /// Creates a new "EcellValue" instance with an object.
+        /// </summary>
+        /// <param name="o"></param>
         public EcellValue(object o)
         {
             m_value = Normalize(o);
@@ -175,24 +184,10 @@ namespace Ecell.Objects
         /// </summary>
         /// <param name="str">string.</param>
         /// <returns>EcellValue.</returns>
-        public static List<object> FromListString(string str)
+        public static EcellValue FromListString(string str)
         {
-            List<object> list = new List<object>();
-            if (str == null || str == "") return list;
-
-            string text = str.Substring(1);
-            text = text.Substring(0, text.Length - 1);
-            Regex reg = new Regex("\"(?<refer>.+?)\"");
-
-            MatchCollection coll = reg.Matches(text);
-            IEnumerator iter = coll.GetEnumerator();
-            while (iter.MoveNext())
-            {
-                Match m1 = (Match)iter.Current;
-                string refStr = m1.Groups["refer"].Value;
-                list.Add(refStr);
-            }
-            return list;
+            List<EcellReference> list = EcellReference.ConvertFromString(str);
+            return EcellReference.ConvertToEcellValue(list);
         }
 
         private static object Normalize(object o)

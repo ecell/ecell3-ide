@@ -40,6 +40,7 @@ using MathNet.Numerics.LinearAlgebra;
 using Ecell.Logging;
 using Ecell.Job;
 using Ecell.Objects;
+using Ecell.Exceptions;
 
 namespace Ecell.IDE.Plugins.Analysis
 {
@@ -212,7 +213,6 @@ namespace Ecell.IDE.Plugins.Analysis
             m_pNum = proList.Count;
             CreateStoichiomatryMatrix(varList, proList);
 
-
             m_currentData.Clear();
             m_pertubateData.Clear();
             m_saveList.Clear();
@@ -237,6 +237,7 @@ namespace Ecell.IDE.Plugins.Analysis
             int jobid = 0;
             List<string> valueList = new List<string>();
 
+            dManager.Initialize(true);
             Dictionary<int, ExecuteParameter> execDict = new Dictionary<int, ExecuteParameter>();
             foreach (EcellObject obj in varList.Keys)
             {
@@ -275,11 +276,11 @@ namespace Ecell.IDE.Plugins.Analysis
             m_valueList.Clear();
             m_valueBuffer.Clear();
             m_activityBuffer.Clear();
-            dManager.SimulationStartKeepSetting(m_param.Step);
+//            dManager.SimulationStartKeepSetting(m_param.Step);
+            dManager.StartStepSimulation(m_param.Step);
             foreach (SaveLoggerProperty p in m_saveList)
             {
                 double dV = dManager.GetPropertyValue(p.FullPath);
-
                 m_currentData.Add(p.FullPath, dV);
                 m_activityBuffer.Add(dV);
                 m_activityList.Add(p.FullPath);
@@ -287,7 +288,6 @@ namespace Ecell.IDE.Plugins.Analysis
             foreach (string p in valueList)
             {
                 double dV = dManager.GetPropertyValue(p);
-
                 m_valueBuffer.Add(dV);
                 m_valueList.Add(p);
             }
@@ -570,9 +570,9 @@ namespace Ecell.IDE.Plugins.Analysis
                 int pIndex = proList[obj];
                 foreach (EcellData d in obj.Value)
                 {
-                    if (!d.EntityPath.EndsWith(Constants.xpathVRL)) continue;
-
-                    List<EcellReference> refList = EcellReference.ConvertFromString(d.Value.ToString());
+                    if (!d.EntityPath.EndsWith(Constants.xpathVRL))
+                        continue;
+                    List<EcellReference> refList = EcellReference.ConvertFromEcellValue(d.Value);
                     foreach (EcellReference r in refList)
                     {
                         int vIndex = -1;
@@ -709,6 +709,13 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             try
             {
+                if (!m_isRunning)
+                {
+                    m_timer.Enabled = false;
+                    m_timer.Stop();
+                    return;
+                }
+
                 if (!m_owner.JobManager.IsFinished())
                 {
                     if (m_isRunning == false)

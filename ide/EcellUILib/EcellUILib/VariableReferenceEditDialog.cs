@@ -38,14 +38,17 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Ecell.Objects;
+using Ecell.Exceptions;
 
 namespace Ecell.IDE
 {
     public partial class VariableReferenceEditDialog : Form
     {
         #region Fields
-        private string m_refStr = "";
-        private string m_errMsg = "";
+        /// <summary>
+        /// Reference List.
+        /// </summary>
+        private List<EcellReference> m_refList = new List<EcellReference>();
         /// <summary>
         /// variable select window for VariableReferenceList.
         /// </summary>
@@ -59,26 +62,26 @@ namespace Ecell.IDE
         /// </summary>
         PluginManager m_pManager;
         #endregion
-
-        public string ReferenceString
+        /// <summary>
+        /// The List of EcellReference.
+        /// </summary>
+        public List<EcellReference> ReferenceList
         {
-            get { return m_refStr; }
-            set { this.m_refStr = value; }
+            get { return m_refList; }
         }
 
         /// <summary>
         /// Constructor for VariableRefWindow.
         /// </summary>
-        public VariableReferenceEditDialog(DataManager dManager, PluginManager pManager, IEnumerable<EcellReference> list)
+        public VariableReferenceEditDialog(DataManager dManager, PluginManager pManager, List<EcellReference> list)
         {
             m_dManager = dManager;
             m_pManager = pManager;
             InitializeComponent();
-            m_refStr = EcellReference.ConvertToVarRefList(list).ToString();
-            foreach (EcellReference v in list)
+            m_refList = list;
+            foreach (EcellReference er in list)
             {
-                DataGridViewRow row = new DataGridViewRow();
-                AddReference(v.Name, v.FullID, v.Coefficient);
+                AddReference(er);
             }
         }
 
@@ -138,6 +141,7 @@ namespace Ecell.IDE
                         foreach (EcellObject eo in obj.Children)
                         {
                             if (eo.Type != "Variable") continue;
+                            if (eo.LocalID == "SIZE") continue;
                             string[] names = eo.Key.Split(new char[] { ':' });
                             IEnumerator iter = node.Nodes.GetEnumerator();
                             bool isHit = false;
@@ -204,6 +208,11 @@ namespace Ecell.IDE
             return null;
         }
 
+        /// <summary>
+        /// Create new Reference from key and prefix. 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="prefix"></param>
         public void AddReference(string key, string prefix)
         {
             int j = 0;
@@ -219,8 +228,8 @@ namespace Ecell.IDE
                     (int)dgv[2, i].Value == p)
                 {
                     Util.ShowWarningDialog(
-                       string.Format(MessageResources.ErrExistVariableRef,
-                                    key));
+                        string.Format(MessageResources.ErrExistVariableRef,
+                        key));
                     return;
                 }
             }
@@ -245,13 +254,16 @@ namespace Ecell.IDE
                 j++;
             }
 
-            dgv.Rows.Add(new object[] { id, key, p , true });
+            dgv.Rows.Add(new object[] { id, key, p});
         }
 
-        public void AddReference(string name, string key, int coeff)
+        /// <summary>
+        /// Add new EcennReference.
+        /// </summary>
+        /// <param name="er"></param>
+        public void AddReference(EcellReference er)
         {
-            string id = key;
-            dgv.Rows.Add(new object[] { name, id, coeff });
+            dgv.Rows.Add(new object[] { er.Name, er.FullID, er.Coefficient });
         }
 
         #region Event
@@ -272,7 +284,7 @@ namespace Ecell.IDE
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void AddVarReference(object sender, EventArgs e)
+        public void AddVarButtonClick(object sender, EventArgs e)
         {
             m_selectWindow = new VariableSelectDialog(m_dManager, m_pManager);
             CopyTreeView();
@@ -283,62 +295,115 @@ namespace Ecell.IDE
                 m_selectWindow.ShowDialog();
             }
         }
-
+        /// <summary>
+        /// Event on DialogClosing.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void VariableReferenceEditDialogClosing(object sender, FormClosingEventArgs e)
         {
-            if (!String.IsNullOrEmpty(m_errMsg))
+            if (this.DialogResult != DialogResult.OK)
+                return;
+            // Validate EcellReferences.
+            try
             {
-                Util.ShowWarningDialog(m_errMsg);
+                ValidateReferences();
+            }
+            catch (EcellException ex)
+            {
+                Trace.WriteLine(ex);
+                Util.ShowWarningDialog(ex.Message);
                 e.Cancel = true;
-                m_errMsg = "";
             }
         }
 
-        private void OkButtonClick(object sender, EventArgs e)
+        #endregion
+
+        /// <summary>
+        /// Varidate Each EcellReference.
+        /// </summary>
+        private void ValidateReferences()
         {
             List<String> nameList = new List<string>();
-            string refStr = "(";
-
+            List<EcellReference> refList = new List<EcellReference>();
             for (int i = 0; i < this.dgv.RowCount; i++)
             {
-                EcellReference v = new EcellReference();
+                // Check Name.
                 string name = (string)this.dgv[0, i].Value;
+                if (string.IsNullOrEmpty(name))
+                {
+                    throw new EcellException(MessageResources.ErrInvalidID);
+                }
                 if (nameList.Contains(name))
                 {
-                    m_errMsg = String.Format(MessageResources.ErrExistVariableRef,
-                        new object[] { name });
-                    return;
+                    throw new EcellException(string.Format(MessageResources.ErrExistVariableRef,
+                        new object[] { name }));
                 }
                 nameList.Add(name);
-                v.Name = (string)this.dgv[0, i].Value;
-                v.FullID = (string)this.dgv[1, i].Value;
+
+                // Check FullID
+                string fullID = (string)this.dgv[1, i].Value;
+                if (string.IsNullOrEmpty(fullID))
+                {
+                    throw new EcellException(MessageResources.ErrInvalidID);
+                }
+
+                // Check Coefficient.
+                int coef;
                 try
                 {
-                    v.Coefficient = Convert.ToInt32(this.dgv[2, i].Value);
+                    coef = Convert.ToInt32(this.dgv[2, i].Value);
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine(ex);
-                    m_errMsg = MessageResources.ErrNoNumber;
-                    return;
-                }
-                if (v.Name == "")
-                {
-                    m_errMsg = MessageResources.ErrInvalidID;
-                    return;
-                }
-                if (v.FullID == "" || !v.FullID.StartsWith(":"))
-                {
-                    m_errMsg = MessageResources.ErrInvalidID;
-                    return;
+                    throw new EcellException(MessageResources.ErrNoNumber, ex);
                 }
 
-                if (i == 0) refStr = refStr + v.ToString();
-                else refStr = refStr + ", " + v.ToString();
+                // Create EcellReference.
+                EcellReference er = new EcellReference();
+                er.Name = name;
+                er.FullID = fullID;
+                er.Coefficient = coef;
+                refList.Add(er);
             }
-            refStr = refStr + ")";
-            m_refStr = refStr;
+            // Set new list.
+            this.m_refList = refList;
         }
-        #endregion
+
+        private void DataCellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (e.ColumnIndex == 1)
+            {
+                string key;
+                string fullID = (string)e.FormattedValue;
+                if (fullID.StartsWith(Constants.xpathVariable))
+                {
+                    int ind = fullID.IndexOf(':');
+                    key = fullID.Substring(ind + 1);
+                }
+                else 
+                {
+                    key = fullID;
+                }
+                //EcellObject obj = m_dManager.GetEcellObject(m_dManager.CurrentProject.Model.ModelID,
+                //    key,
+                //    EcellObject.VARIABLE);
+                //if (obj == null)
+                //{
+                //    e.Cancel = true;
+                //    dgv.CancelEdit();
+                //}
+            }
+            else if (e.ColumnIndex == 2)
+            {
+                DataGridViewCell c = (DataGridViewCell)dgv[e.ColumnIndex, e.RowIndex];
+                int dummy;
+                if (!Int32.TryParse((string)e.FormattedValue, out dummy))
+                {
+                    e.Cancel = true;
+                    dgv.CancelEdit();
+                }
+            }
+        }
     }
 }

@@ -1,16 +1,17 @@
 using System;
 using EcellCoreLib;
 
-namespace Ecell
+namespace Ecell.Exceptions
 {
-    public class SimulationException: Exception
+    public class SimulationException: EcellException
     {
         public new WrappedException InnerException
         {
             get { return (WrappedException)base.InnerException; }
         }
 
-        public SimulationException(string message, WrappedException e): base(message, e)
+        public SimulationException(string message, WrappedException e):
+            base(message, e)
         {
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Xml;
+using Ecell.Exceptions;
 
 namespace Ecell
 {
@@ -199,7 +200,7 @@ namespace Ecell
             else if (ext.Equals(Constants.FileExtEML))
                 project = LoadProjectFromEml(filepath);
             else
-                throw new Exception("Unknown file type");
+                throw new EcellException("Unknown file type");
             project.FilePath = filepath;
             project.ProjectPath = Path.GetDirectoryName(filepath);
             return project;
@@ -260,7 +261,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new Exception(MessageResources.ErrLoadPrj, ex);
+                throw new EcellException(MessageResources.ErrLoadPrj, ex);
             }
             project = new ProjectInfo(prjName, comment, time, param);
             return project;
@@ -362,7 +363,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new Exception(message + " {" + ex.ToString() + "}");
+                throw new EcellException(message + " {" + ex.ToString() + "}");
             }
         }
 

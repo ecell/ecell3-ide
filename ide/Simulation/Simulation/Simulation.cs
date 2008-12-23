@@ -41,6 +41,7 @@ using System.ComponentModel;
 using Ecell;
 using Ecell.Objects;
 using Ecell.Plugin;
+using Ecell.Exceptions;
 
 namespace Ecell.IDE.Plugins.Simulation
 {
@@ -83,7 +84,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         private ToolStripMenuItem m_stopSim;
         /// <summary>
-        /// the menu strip for Step ...]
+        /// the menu strip for [Step ...]
         /// </summary>
         private ToolStripMenuItem m_stepSim;
         /// <summary>
@@ -94,6 +95,8 @@ namespace Ecell.IDE.Plugins.Simulation
         /// system status.
         /// </summary>
         private ProjectStatus m_type;
+        private bool m_isStepping = false;
+        private bool m_isSuspend = false;
         #endregion
 
         #region Inherited from PluginBase
@@ -285,8 +288,8 @@ namespace Ecell.IDE.Plugins.Simulation
             m_stepUnitCombo.Items.Add("Step");
             m_stepUnitCombo.Items.Add("Sec");
             m_stepUnitCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-            m_stepUnitCombo.SelectedIndexChanged += new EventHandler(m_stepUnitCombo_SelectedIndexChanged);
             m_stepUnitCombo.SelectedIndex = 0;
+            m_stepUnitCombo.SelectedIndexChanged += new EventHandler(m_stepUnitCombo_SelectedIndexChanged);
             list.Items.Add(m_stepUnitCombo);
             list.Location = new Point(400, 0);
             return list;
@@ -410,16 +413,18 @@ namespace Ecell.IDE.Plugins.Simulation
             else if (type == ProjectStatus.Stepping)
             {
                 // Menu
-                m_runSim.Enabled = true;
+                m_runSim.Enabled = false;
                 m_stopSim.Enabled = true;
                 m_suspendSim.Enabled = true;
-                m_stepSim.Enabled = true;
+                m_stepSim.Enabled = false;
                 m_setupSim.Enabled = true;
 
                 // ToolBar
                 m_paramsCombo.Enabled = true;
                 m_timeText.Enabled = true;
                 m_timeText.ForeColor = Color.Black;
+                m_stepUnitCombo.Enabled = false;
+                m_stepText.Enabled = false;
             }
             else if (type == ProjectStatus.Running)
             {
@@ -448,7 +453,19 @@ namespace Ecell.IDE.Plugins.Simulation
 
                 // ToolBar
                 m_timeText.Enabled = true;
-                m_stepUnitCombo.Enabled = true;
+                if (m_isStepping)
+                {
+                    m_stepText.Enabled = false;
+                    m_stepUnitCombo.Enabled = false;
+                }
+                else
+                {
+                    m_stepText.Enabled = true;
+                    m_stepUnitCombo.Enabled = true;
+                }
+            }
+            else if (type == ProjectStatus.Refresh || type == ProjectStatus.Loading)
+            {
             }
             else
             {
@@ -459,6 +476,7 @@ namespace Ecell.IDE.Plugins.Simulation
             }
             m_type = type;
         }
+
 
         /// <summary>
         /// Get the name of this plugin.
@@ -488,7 +506,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 foreach (string modelID in m_dManager.GetModelList())
                 {
                     PerModelSimulationParameter pmsp = new PerModelSimulationParameter(modelID);
-                    foreach (KeyValuePair<string, double> pair in
+                    foreach (KeyValuePair<string, double> pair in 
                         m_dManager.GetInitialCondition(paramID, modelID))
                     {
                         pmsp.InitialConditions.Add(
@@ -620,8 +638,17 @@ namespace Ecell.IDE.Plugins.Simulation
 
             try
             {
-                m_pManager.ChangeStatus(ProjectStatus.Running);
-                m_dManager.SimulationStart(0.0, 0);
+                m_isSuspend = false;
+                if (m_isStepping)
+                {
+                    m_pManager.ChangeStatus(ProjectStatus.Stepping);
+                }
+                else
+                {
+                    m_pManager.ChangeStatus(ProjectStatus.Running);
+                }
+//                m_dManager.SimulationStart(0.0, 0);
+                m_dManager.StartSimulation(0.0);
             }
             catch (SimulationException ex)
             {
@@ -629,6 +656,12 @@ namespace Ecell.IDE.Plugins.Simulation
                 Util.ShowErrorDialog(ex.Message + "\r\n\r\n" + ex.InnerException.Message);
                 if (m_type != ProjectStatus.Uninitialized)
                     m_pManager.ChangeStatus(preType);
+            }
+            if (m_isStepping && !m_isSuspend)
+            {
+                m_isStepping = false;
+                if (m_type == ProjectStatus.Stepping)
+                    m_pManager.ChangeStatus(ProjectStatus.Suspended);
             }
         }
 
@@ -643,16 +676,17 @@ namespace Ecell.IDE.Plugins.Simulation
             if (m_type != ProjectStatus.Running && m_type != ProjectStatus.Stepping)
                 return;
             ProjectStatus preType = m_type;            
-            m_pManager.ChangeStatus(ProjectStatus.Suspended);
             try
             {
                 m_dManager.SimulationSuspend();
+                m_pManager.ChangeStatus(ProjectStatus.Suspended);
             }
             catch (SimulationException ex)
             {
                 Util.ShowErrorDialog(ex.Message);
                 m_pManager.ChangeStatus(preType);
             }
+            m_isSuspend = true;
         }
 
         /// <summary>
@@ -665,31 +699,40 @@ namespace Ecell.IDE.Plugins.Simulation
             if (m_type == ProjectStatus.Running) return;
             if (m_type == ProjectStatus.Uninitialized) return;
             ProjectStatus preType = m_type;
-            m_type = ProjectStatus.Running;
             try
             {
+                m_pManager.ChangeStatus(ProjectStatus.Stepping); 
+                m_isStepping = true;
+                m_isSuspend = false;
                 if (m_stepUnitCombo.Text == "Step")
                 {
                     int stepCount = Convert.ToInt32(m_stepText.Text);
                     if (stepCount < 0) return;
-                    m_dManager.SimulationStartKeepSetting(stepCount); // m_dManager.SimulationStart(stepCount);
+                    // m_dManager.SimulationStartKeepSetting(stepCount); 
+                    // m_dManager.SimulationStart(stepCount);
+                    m_dManager.StartStepSimulation(stepCount);
                 }
                 else
                 {
                     double timeCount = Convert.ToDouble(m_stepText.Text);
                     if (timeCount < 0) return;
-                    m_dManager.SimulationStartKeepSetting(timeCount); // m_dManager.SimulationStart(timeCount);
+                    // m_dManager.SimulationStartKeepSetting(timeCount); 
+                    // m_dManager.SimulationStart(timeCount);
+                    m_dManager.StartStepSimulation(timeCount);
                 }
-                if (m_type != ProjectStatus.Loaded)
-                    m_pManager.ChangeStatus(ProjectStatus.Stepping);
             }
             catch (SimulationException ex)
             {
                 Util.ShowErrorDialog(ex.Message + "\r\n\r\n" + ex.InnerException.Message);
                 m_pManager.ChangeStatus(preType);
             }
+            if (!m_isSuspend)
+            {
+                m_isStepping = false;
+                if (m_type == ProjectStatus.Stepping)
+                    m_pManager.ChangeStatus(ProjectStatus.Suspended);
+            }
         }
-
 
         /// <summary>
         /// The action of [stop ...] menu click.
@@ -709,6 +752,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_pManager.ChangeStatus(ProjectStatus.Loaded);
             try
             {
+                m_isSuspend = false;
                 m_dManager.SimulationStop();
             }
             catch (Exception ex)
@@ -741,7 +785,7 @@ namespace Ecell.IDE.Plugins.Simulation
             if (m_stepUnitCombo.Text.Equals("Step"))
             {
                 int dummy;
-                if (!Int32.TryParse(text.Text, out dummy) || dummy < 0)
+                if (!Int32.TryParse(text.Text, out dummy) || dummy <= 0)
                 {
                     Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                     text.Text = "1";
@@ -751,7 +795,7 @@ namespace Ecell.IDE.Plugins.Simulation
             else
             {
                 double dummy;
-                if (!Double.TryParse(text.Text, out dummy) || dummy < 0.0)
+                if (!Double.TryParse(text.Text, out dummy) || dummy <= 0.0)
                 {
                     Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                     text.Text = "1.0";

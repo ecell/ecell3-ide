@@ -159,7 +159,7 @@ namespace Ecell
 
                 m_tx.WriteStartElement(Constants.xpathProperty.ToLower());
                 m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, ecellData.Name);
-                WriteValueElements(new EcellValue(""));
+                WriteValueElements(ecellData.Value, false);
                 m_tx.WriteEndElement();
             }
         }
@@ -298,17 +298,16 @@ namespace Ecell
 
         /// <summary>
         /// Creates a new "Eml" instance with no argument.
-        /// </summary>        
+        /// </summary>
         /// <param name="filename"></param>
         /// <param name="sim"></param>
         public EmlReader(string filename, WrappedSimulator sim)
         {
-            m_modelID = Path.GetFileNameWithoutExtension(filename);
             m_doc = new XmlDocument();
-            m_simulator = sim;
-            m_processPropertyDic = new Dictionary<string, object>();
-
             m_doc.Load(filename);
+            m_simulator = sim;
+            m_modelID = Path.GetFileNameWithoutExtension(filename);
+            m_processPropertyDic = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -316,10 +315,11 @@ namespace Ecell
         /// </summary>
         /// <param name="node">The "process" or "variable" element</param>
         /// <param name="systemID">The system ID of the parent "System" element</param>
+        /// <param name="flag">"Process" if this element is "Process" element; "Variable" otherwise</param>
         private EcellObject ParseEntity(
             XmlNode node,
             string systemID,
-            string type)
+            string flag)
         {
             bool isCreated = true;
             XmlNode nodeClass = node.Attributes.GetNamedItem(Constants.xpathClass);
@@ -333,7 +333,7 @@ namespace Ecell
             {
                 m_simulator.CreateEntity(
                     nodeClass.InnerText,
-                    Util.BuildFullID(type, systemID, nodeID.InnerText));
+                    Util.BuildFullID(flag, systemID, nodeID.InnerText));
             }
             catch (Exception ex)
             {
@@ -367,11 +367,11 @@ namespace Ecell
 
                 // 4 "EcellCoreLib"
                 string entityPath =
-                    type + Constants.delimiterColon +
+                    flag + Constants.delimiterColon +
                     systemID + Constants.delimiterColon +
                     nodeID.InnerText + Constants.delimiterColon +
                     nodePropertyName.InnerText;
-                if (type.Equals(Constants.xpathVariable))
+                if (flag.Equals(Constants.xpathVariable))
                 {
                     if (isCreated == true)
                         m_simulator.LoadEntityProperty(entityPath, ecellValue.Value);
@@ -389,7 +389,7 @@ namespace Ecell
             return EcellObject.CreateObject(
                     m_modelID,
                     systemID + Constants.delimiterColon + nodeID.InnerText,
-                    type,
+                    flag,
                     nodeClass.InnerText,
                     ecellDataList);
         }
@@ -720,7 +720,8 @@ namespace Ecell
         /// <param name="sim">Simulator instance</param>
         public static EcellObject Parse(string fileName, WrappedSimulator sim)
         {
-            return new EmlReader(fileName, sim).Parse();
+            EmlReader reader = new EmlReader(fileName, sim);
+            return reader.Parse();
         }
     }
 }

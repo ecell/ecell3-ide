@@ -50,6 +50,7 @@ namespace Ecell
         private CommandManager m_cManager;
         private IJobManager m_jManager;
         private ConsoleManager m_console;
+        private DynamicModuleManager m_mManager;
 
         /// <summary>
         /// 
@@ -111,6 +112,13 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
+        public DynamicModuleManager DynamicModuleManager
+        {
+            get { return m_mManager; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         public ApplicationEnvironment()
         {
             m_dManager = new DataManager(this);
@@ -121,6 +129,7 @@ namespace Ecell
             m_rManager = new ReportManager(this);
             m_cManager = new CommandManager(this);
             m_console = new ConsoleManager(this);
+            m_mManager = new DynamicModuleManager(this);
         }
     }
 }

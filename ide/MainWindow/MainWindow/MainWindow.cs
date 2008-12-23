@@ -1210,21 +1210,13 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void ExportModelMenuClick(object sender, EventArgs e)
         {
-            //            List<SaveProjectDialog.ProjectItem> items = new List<SaveProjectDialog.ProjectItem>();
-            List<string> items = new List<string>();
-            {
-                foreach (string s in m_env.DataManager.GetModelList())
-                    items.Add(s);
-            }
-
-
             try
             {
                 saveFileDialog.RestoreDirectory = true;
                 saveFileDialog.Filter = Constants.FilterEmlFile;
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    m_env.DataManager.ExportModel(items, saveFileDialog.FileName);
+                    m_env.DataManager.ExportModel(saveFileDialog.FileName);
                 }
             }
             catch (Exception ex)
@@ -1424,7 +1416,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs.</param>
         private void UndoMenuClick(object sender, EventArgs e)
         {
-            m_env.DataManager.UndoAction();
+            m_env.ActionManager.UndoAction();
         }
 
         /// <summary>
@@ -1435,7 +1427,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs.</param>
         private void RedoMenuClick(object sender, EventArgs e)
         {
-            m_env.DataManager.RedoAction();
+            m_env.ActionManager.RedoAction();
         }
 
         /// <summary>

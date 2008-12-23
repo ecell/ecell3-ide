@@ -43,6 +43,7 @@ using System.Text;
 using System.Drawing;
 using EcellCoreLib;
 using System.Text.RegularExpressions;
+using Ecell.Exceptions;
 
 namespace Ecell.Objects
 {
@@ -399,6 +400,29 @@ namespace Ecell.Objects
             get { return m_isFixed; }
             set { this.m_isFixed = value; }
         }
+
+        /// <summary>
+        /// Tests whether the "EcellObject" is usable.
+        /// </summary>
+        public bool IsUsable
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(m_modelID))
+                    return false;
+                if (string.IsNullOrEmpty(m_type))
+                    return false;
+                // 4 "Process", "Stepper", "System" and "Variable"
+                if (!m_type.Equals(Constants.xpathProject) && !m_type.Equals(Constants.xpathModel))
+                {
+                    if (string.IsNullOrEmpty(m_key))
+                        return false;
+                    if (string.IsNullOrEmpty(m_class))
+                        return false;
+                }
+                return true;
+            }
+        }
         #endregion
 
         #region Methods
@@ -418,7 +442,7 @@ namespace Ecell.Objects
             }
             catch (Exception ex)
             {
-                throw new Exception(String.Format(MessageResources.ErrCopy,
+                throw new EcellException(String.Format(MessageResources.ErrCopy,
                     new object[] { this.Key }), ex);
             }
         }

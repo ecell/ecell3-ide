@@ -38,6 +38,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
+using Ecell.Exceptions;
 
 namespace Ecell.Objects
 {
@@ -53,6 +54,7 @@ namespace Ecell.Objects
         private static Regex parser3 = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\", (\"|.*)\\-(?<coe>\\d+)(\"|.*)");
         private static Regex parser4 = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\", (\"|.*)(?<coe>\\d+)(\"|.*)");
         private static Regex parser5 = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\"");
+        private static Regex stringParser = new Regex("\\((?<refer>.+?)\\)");
         #endregion
 
         #region Fields
@@ -64,10 +66,24 @@ namespace Ecell.Objects
 
         #region Constractors
         /// <summary>
-        /// Constructor
+        /// Constructor.
         /// </summary>
         public EcellReference()
         {
+        }
+        /// <summary>
+        /// Constructor with parameters.
+        /// </summary>
+        /// <param name="name">The name of EcellReference</param>
+        /// <param name="fullID">FullID of connecting variable</param>
+        /// <param name="coef"></param>
+        /// <param name="accessor"></param>
+        public EcellReference(string name, string fullID, int coef, int accessor)
+        {
+            this.m_name = name;
+            this.m_fullID = fullID;
+            this.Coefficient = coef;
+            this.m_accessor = accessor;
         }
 
         /// <summary>
@@ -127,7 +143,7 @@ namespace Ecell.Objects
                 return;
             }
 
-            throw new Exception("EcellRefference parsing error:[" + str + "]");
+            throw new EcellException("EcellRefference parsing error:[" + str + "]");
         }
         /// <summary>
         /// Constructor with initial parameter.
@@ -152,7 +168,7 @@ namespace Ecell.Objects
 
         #region Accessors
         /// <summary>
-        /// get / set name.
+        ///The name of this EcellReference.
         /// </summary>
         public string Name
         {
@@ -161,7 +177,7 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// get / set full ID.
+        /// The full ID of connecting variable.
         /// </summary>
         public string FullID
         {
@@ -170,7 +186,7 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// get / set full ID.
+        /// The key of connecting variable.
         /// </summary>
         public string Key
         {
@@ -211,8 +227,7 @@ namespace Ecell.Objects
         /// <returns></returns>
         public override string ToString()
         {
-            string str = "";
-            str = "(\"" + m_name + "\", \"" + m_fullID + "\", " + m_coeff + ", " + m_accessor + ")";
+            string str = "(\"" + m_name + "\", \"" + m_fullID + "\", " + m_coeff + ", " + m_accessor + ")";
             return str;
         }
 
@@ -239,18 +254,18 @@ namespace Ecell.Objects
         public static List<EcellReference> ConvertFromString(string str)
         {
             List<EcellReference> list = new List<EcellReference>();
-            if (str == null || str == "") return list;
+            if (str == null || str == "")
+                return list;
             string text = str.Substring(1);
             text = text.Substring(0, text.Length - 1);
-            Regex reg = new Regex("\\((?<refer>.+?)\\)");
+            MatchCollection coll = stringParser.Matches(text);
 
-            MatchCollection coll = reg.Matches(text);
             IEnumerator iter = coll.GetEnumerator();
             while (iter.MoveNext())
             {
-                Match m1 = (Match)iter.Current;
-                EcellReference v = new EcellReference(m1.Groups["refer"].Value);
-                list.Add(v);
+                Match match = (Match)iter.Current;
+                EcellReference er = new EcellReference(match.Groups["refer"].Value);
+                list.Add(er);
             }
             return list;
         }
@@ -260,7 +275,7 @@ namespace Ecell.Objects
         /// </summary>
         /// <param name="varRef">VariableReferenceList.</param>
         /// <returns>the list of EcellReference.</returns>
-        public static List<EcellReference> ConvertFromVarRefList(EcellValue varRef)
+        public static List<EcellReference> ConvertFromEcellValue(EcellValue varRef)
         {
             List<EcellReference> list = new List<EcellReference>();
             foreach (object value in (IEnumerable)varRef.Value)
@@ -276,7 +291,7 @@ namespace Ecell.Objects
         /// </summary>
         /// <param name="refList">VariableReferenceList.</param>
         /// <returns>the list of EcellReference.</returns>
-        public static EcellValue ConvertToVarRefList(IEnumerable<EcellReference> refList)
+        public static EcellValue ConvertToEcellValue(IEnumerable<EcellReference> refList)
         {
             List<object> list = new List<object>();
             if (refList == null)

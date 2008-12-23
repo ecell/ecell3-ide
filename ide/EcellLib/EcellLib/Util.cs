@@ -30,18 +30,18 @@
 
 using System;
 using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Security.AccessControl;
-using System.Drawing;
 using System.Threading;
+using System.Drawing;
 using System.Windows.Forms;
 using System.Globalization;
 using System.Diagnostics;
 using Microsoft.Win32;
 using Ecell.Objects;
+using Ecell.Exceptions;
 
 namespace Ecell
 {
@@ -441,7 +441,12 @@ namespace Ecell
                 i++;
             }
         }
-
+        /// <summary>
+        /// Split Entity Key to SystemPath and LocalID.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="systemPath"></param>
+        /// <param name="localID"></param>
         public static void ParseEntityKey(string str, out string systemPath, out string localID)
         {
             int idx = str.LastIndexOf(Constants.delimiterColon);
@@ -450,19 +455,24 @@ namespace Ecell
             systemPath = str.Substring(0, idx);
             localID = str.Substring(idx + 1);
         }
-
-        public static void SplitSystemPath(string str, out string parentSystemPath, out string localID)
+        /// <summary>
+        /// Split systemPath to ParentSystemPath and LocalID.
+        /// </summary>
+        /// <param name="systemKey"></param>
+        /// <param name="parentSystemPath"></param>
+        /// <param name="localID"></param>
+        public static void SplitSystemPath(string systemKey, out string parentSystemPath, out string localID)
         {
-            int idx = str.LastIndexOf(Constants.delimiterPath);
+            int idx = systemKey.LastIndexOf(Constants.delimiterPath);
             if (idx < 0)
             {
                 parentSystemPath = null;
-                localID = Constants.delimiterPath.ToString();
+                localID = Constants.delimiterPath;
                 return;
             }
             if (idx == 0)
             {
-                if (str.Length == 1)
+                if (systemKey.Length == 1)
                 {
                     parentSystemPath = "";
                     localID = "/";
@@ -472,31 +482,57 @@ namespace Ecell
             }
             else
             {
-                parentSystemPath = str.Substring(0, idx);
+                parentSystemPath = systemKey.Substring(0, idx);
             }
-            localID = str.Substring(idx + 1);
+            localID = systemKey.Substring(idx + 1);
         }
 
-        public static void ParseFullID(string str, out string type, out string systemPath, out string localID)
+        /// <summary>
+        /// Parse FullID to Type, SystemPath and LocalID.
+        /// </summary>
+        /// <param name="fullID"></param>
+        /// <param name="type"></param>
+        /// <param name="systemPath"></param>
+        /// <param name="localID"></param>
+        public static void ParseFullID(string fullID, out string type, out string systemPath, out string localID)
         {
-            string[] parts = str.Split(Constants.delimiterColon.ToCharArray(), 3);
+            string[] parts = fullID.Split(Constants.delimiterColon.ToCharArray(), 3);
             if (parts.Length != 3)
-                throw new ApplicationException("Malformed FullID: " + str);
+                throw new ApplicationException("Malformed FullID: " + fullID);
             type = parts[0];
             systemPath = parts[1];
             localID = parts[2];
         }
 
-        public static void ParseFullPN(string str, out string type, out string systemPath, out string localID, out string propName)
+        /// <summary>
+        /// Parse FullID to Type, SystemPath and LocalID.
+        /// </summary>
+        /// <param name="fullID"></param>
+        /// <param name="type"></param>
+        /// <param name="key"></param>
+        public static void ParseFullID(string fullID, out string type, out string key)
         {
-            string[] parts = str.Split(Constants.delimiterColon.ToCharArray(), 4);
+            int i = fullID.IndexOf(Constants.delimiterColon);
+            type = fullID.Substring(0, i);
+            key = fullID.Substring(i, fullID.Length - i);
+        }
+        /// <summary>
+        /// Parse FullPN to Type, SystemPath, LocalID and PropertyName.
+        /// </summary>
+        /// <param name="fullPN">Full Property Path.</param>
+        /// <param name="type">Type of entity.</param>
+        /// <param name="key">Key of entity</param>
+        /// <param name="propName">PropertyName</param>
+        public static void ParseFullPN(string fullPN, out string type, out string key, out string propName)
+        {
+            string[] parts = fullPN.Split(Constants.delimiterColon.ToCharArray(), 4);
             if (parts.Length != 4)
-                throw new ApplicationException("Malformed FullID: " + str);
+                throw new ApplicationException("Malformed FullID: " + fullPN);
             type = parts[0];
-            systemPath = parts[1];
-            localID = parts[2];
+            key = parts[1] + Constants.delimiterColon + parts[2];
             propName = parts[3];
         }
+
 
         public static string GetSuperSystemPath(string systemPath)
         {
@@ -546,23 +582,11 @@ namespace Ecell
 
             return "/" + string.Join("/", retval.ToArray());
         }
-
-        public static EcellValue NormalizeVariableReference(EcellValue val, string systemPath)
-        {
-            if (!val.IsList)
-                throw new ArgumentException();
-            ArrayList newComps = new ArrayList();
-            foreach (object i in (IEnumerable)val.Value)
-                newComps.Add(i);
-            if (!(newComps[1] is string))
-                throw new ArgumentException();
-            string entityType, path, localID;
-            ParseFullID((string)newComps[1], out entityType, out path, out localID);
-            newComps[1] = new EcellValue(
-                BuildFullID(entityType, NormalizeSystemPath(path, systemPath), localID));
-            return new EcellValue(newComps);
-        }
-
+        /// <summary>
+        /// Normalize VariableReference from EcellReference
+        /// </summary>
+        /// <param name="er"></param>
+        /// <param name="systemPath"></param>
         public static void NormalizeVariableReference(EcellReference er, string systemPath)
         {
 
@@ -581,16 +605,6 @@ namespace Ecell
                 sb.Append(usableCharacters[r.Next(0, usableCharacters.Length)]);
             }
             return sb.ToString();
-        }
-
-        public static bool Contains(System.Collections.IEnumerable i, object o)
-        {
-            foreach (object _o in i)
-            {
-                if (_o == o)
-                    return true;
-            }
-            return false;
         }
     }
 
@@ -690,7 +704,7 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        public class CancelException : Exception {}
+        public class CancelException : EcellException {}
         /// <summary>
         /// 
         /// </summary>
@@ -899,7 +913,7 @@ namespace Ecell
             string[] dmPathArray = GetDMDirs(dmDir);
             if (dmPathArray == null)
             {
-                throw new Exception("ErrFindDmDir");
+                throw new EcellException("ErrFindDmDir");
             }
             foreach (string dmPath in dmPathArray)
             {

@@ -126,33 +126,7 @@ namespace Ecell
         [Test()]
         public void TestCloseProject()
         {
-            string l_prj = null;
-            _unitUnderTest.CloseProject(l_prj);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestContainsModel()
-        {
-            string l_modelID = null;
-            bool expectedBoolean = false;
-            bool resultBoolean = false;
-            resultBoolean = _unitUnderTest.ContainsModel(l_modelID);
-            Assert.AreEqual(expectedBoolean, resultBoolean, "ContainsModel method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestDataAddL_ecellObjectList()
-        {
-            System.Collections.Generic.List<Ecell.Objects.EcellObject> l_ecellObjectList = null;
-            _unitUnderTest.DataAdd(l_ecellObjectList);
+            _unitUnderTest.CloseProject();
             Assert.Fail("Create or modify test(s).");
 
         }

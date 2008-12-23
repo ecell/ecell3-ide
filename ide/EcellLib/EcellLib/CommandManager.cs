@@ -43,6 +43,7 @@ using IronPython.Hosting;
 using IronPython.Runtime;
 using EcellCoreLib;
 using Ecell.Objects;
+using Ecell.Exceptions;
 
 namespace Ecell
 {
@@ -106,14 +107,15 @@ namespace Ecell
             // FullID "":"systemID":"processName":"coefficient"
             string[] fullIDs = fullPN.Split(Constants.delimiterColon.ToCharArray());
             if (fullIDs.Length != 4)
-                throw new Exception(MessageResources.ErrInvalidID);
-
+            {
+                throw new EcellException(MessageResources.ErrInvalidID);
+            }
             List<EcellObject> systemObjectList
                     = m_env.DataManager.GetData(s_modelID, fullIDs[1]);
 
             if (systemObjectList == null || systemObjectList.Count <= 0)
             {
-                throw new Exception(String.Format(MessageResources.ErrFindEnt,
+                throw new EcellException(String.Format(MessageResources.ErrFindEnt,
                     new object[] { fullPN }));
             }
             //
@@ -124,25 +126,28 @@ namespace Ecell
             EcellObject changedObject = null;
             foreach (EcellObject systemObject in systemObjectList)
             {
-                if (!(systemObject is EcellSystem))
+                if (!systemObject.Type.Equals(Constants.xpathSystem))
+                {
                     continue;
-
+                }
                 if (fullIDs[0].Equals(Constants.xpathSystem))
                 {
-                    if (!systemObject.Key.Equals(fullIDs[2]))
-                        continue;
-                    if (systemObject.Value == null || systemObject.Value.Count <= 0)
-                        continue;
-
-                    foreach (EcellData systemData in systemObject.Value)
+                    if (systemObject.Key.Equals(fullIDs[2]))
                     {
-                        if (systemData.Logable && systemData.Name.Equals(fullIDs[3]))
+                        if (systemObject.Value == null || systemObject.Value.Count <= 0)
                         {
-                            systemData.Logged = true;
-                            changedKey = fullIDs[2];
-                            changedType = fullIDs[0];
-                            changedObject = systemObject;
-                            break;
+                            continue;
+                        }
+                        foreach (EcellData systemData in systemObject.Value)
+                        {
+                            if (systemData.Logable && systemData.Name.Equals(fullIDs[3]))
+                            {
+                                systemData.Logged = true;
+                                changedKey = fullIDs[2];
+                                changedType = fullIDs[0];
+                                changedObject = systemObject;
+                                break;
+                            }
                         }
                     }
                 }
@@ -194,7 +199,7 @@ namespace Ecell
             }
             else
             {
-                throw new Exception(String.Format(MessageResources.ErrFindEnt,
+                throw new EcellException(String.Format(MessageResources.ErrFindEnt,
                     new object[] { fullPN }));
             }
         }
@@ -233,9 +238,8 @@ namespace Ecell
         /// <param name="modelID">the model ID</param>
         public void CreateModel(string modelID)
         {
-            List<EcellObject> list = new List<EcellObject>();
-            list.Add(EcellObject.CreateObject(modelID, null, Constants.xpathModel, null, null));
-            m_env.DataManager.DataAdd(list);
+            EcellObject model = EcellObject.CreateObject(modelID, null, Constants.xpathModel, null, null);
+            m_env.DataManager.DataAdd(model);
             m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
             s_modelID = modelID;
         }
@@ -301,13 +305,13 @@ namespace Ecell
             string[] fullPNDivs = fullPN.Split(Constants.delimiterColon.ToCharArray());
             if (fullPNDivs.Length != 4)
             {
-                throw new Exception(MessageResources.ErrInvalidID);
+                throw new EcellException(MessageResources.ErrInvalidID);
             }
             List<EcellObject> systemObjectList
                     = m_env.DataManager.GetData(s_modelID, fullPNDivs[1]);
             if (systemObjectList == null || systemObjectList.Count <= 0)
             {
-                throw new Exception(String.Format(MessageResources.ErrFindEnt,
+                throw new EcellException(String.Format(MessageResources.ErrFindEnt,
                     new object[] { fullPN }));
             }
             //
@@ -390,7 +394,7 @@ namespace Ecell
             }
             else
             {
-                throw new Exception(String.Format(MessageResources.ErrFindEnt,
+                throw new EcellException(String.Format(MessageResources.ErrFindEnt,
                     new object[] { fullPN }));
             }
 
@@ -415,7 +419,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new Exception(String.Format(MessageResources.ErrLoadFile,
+                throw new EcellException(String.Format(MessageResources.ErrLoadFile,
                     new object[] { execFileName }), ex);
             }
         }
@@ -729,7 +733,7 @@ namespace Ecell
         /// </summary>
         public void Initialize()
         {
-            m_env.DataManager.Initialize();
+            m_env.DataManager.Initialize(true);
         }
 
         /// <summary>
@@ -738,7 +742,7 @@ namespace Ecell
         /// <returns>true if the simulator is running; false otherwise</returns>
         public bool IsActive()
         {
-            return m_env.DataManager.IsActive();
+            return m_env.DataManager.IsActive;
         }
 
         /// <summary>
@@ -776,7 +780,8 @@ namespace Ecell
         public void Run(double interval)
         {
             m_env.PluginManager.ChangeStatus(ProjectStatus.Running);
-            m_env.DataManager.SimulationStartKeepSetting(interval);
+//            m_env.DataManager.SimulationStartKeepSetting(interval);
+            m_env.DataManager.StartStepSimulation(interval);
         }
 
         /// <summary>
@@ -786,7 +791,8 @@ namespace Ecell
         public void RunNotSuspend(double interval)
         {
             m_env.PluginManager.ChangeStatus(ProjectStatus.Running);
-            m_env.DataManager.SimulationStart(interval, 0);
+//            m_env.DataManager.SimulationStart(interval, 0);
+            m_env.DataManager.StartSimulation(interval);
         }
 
         /// <summary>
@@ -829,8 +835,9 @@ namespace Ecell
         /// <param name="count">The step limit of the simulator</param>
         public void Step(int count)
         {
-            m_env.PluginManager.ChangeStatus(ProjectStatus.Running);
-            m_env.DataManager.SimulationStartKeepSetting(count);
+            m_env.PluginManager.ChangeStatus(ProjectStatus.Running);           
+//            m_env.DataManager.SimulationStartKeepSetting(count);
+            m_env.DataManager.StartStepSimulation(count);
         }
 
         /// <summary>
@@ -840,7 +847,8 @@ namespace Ecell
         public void StepNotSuspend(int count)
         {
             m_env.PluginManager.ChangeStatus(ProjectStatus.Running);
-            m_env.DataManager.SimulationStart(count, 0);
+//            m_env.DataManager.SimulationStart(count, 0);
+            m_env.DataManager.StartStepSimulation(count);
         }
 
         /// <summary>
@@ -956,9 +964,7 @@ namespace Ecell
                 //
                 // Adds the "EcellObject" to the "DataManager". 
                 //
-                List<EcellObject> list = new List<EcellObject>();
-                list.Add(this.m_ecellObject);
-                m_cManager.DataManager.DataAdd(list);
+                m_cManager.DataManager.DataAdd(m_ecellObject);
             }
 
             /// <summary>
@@ -1057,7 +1063,10 @@ namespace Ecell
             /// <returns>true if the entity is loaded; false otherwise</returns>
             public bool Exists()
             {
-                return m_cManager.DataManager.Exists(CommandManager.s_modelID, this.m_fullID);
+                string key = null;
+                string type = null;
+                Util.ParseFullID(m_fullID, out type, out key);
+                return m_cManager.DataManager.IsDataExists(CommandManager.s_modelID, key, type);
             }
 
             /// <summary>
@@ -1246,70 +1255,62 @@ namespace Ecell
                 //
                 // Set.
                 //
-                if (this.m_ecellObject != null)
+                if (this.m_ecellObject == null)
+                    return;
+                if (this.m_ecellObject.Value == null || this.m_ecellObject.Value.Count <= 0)
+                    return;
+
+                EcellData data = m_ecellObject.GetEcellData(propertyName);
+                // Add new parameter.
+                if (data == null)
                 {
-                    if (this.m_ecellObject.Value != null && this.m_ecellObject.Value.Count > 0)
+                    EcellData newData
+                        = new EcellData(
+                            propertyName,
+                            new EcellValue(Convert.ToDouble(value)),
+                            fullPN);
+                    newData.Logable = true;
+                    this.m_ecellObject.Value.Add(newData);
+                }
+                // Update current parameter.
+                else if (data.EntityPath.Equals(fullPN))
+                {
+                    if (!data.Settable)
                     {
-                        bool findFlag = false;
-                        for (int i = 0; i < this.m_ecellObject.Value.Count; i++)
+                        throw new EcellException(String.Format(MessageResources.ErrSetProp,
+                            new object[] { fullPN }));
+                    }
+                    else if (data.Name.Equals(Constants.xpathVRL))
+                    {
+                        List<EcellReference> list = EcellReference.ConvertFromString(value);
+                        string path = this.m_fullID.Split(Constants.delimiterColon.ToCharArray())[1];
+                        // Normalize
+                        foreach (EcellReference er in list)
                         {
-                            EcellData data = this.m_ecellObject.Value[i];
-                            if (data.EntityPath.Equals(fullPN))
-                            {
-                                if (!data.Settable)
-                                {
-                                    throw new Exception(String.Format(MessageResources.ErrSetProp,
-                                        new object[] { fullPN }));
-                                }
-                                else if (data.Name.Equals(Constants.xpathVRL))
-                                {
-                                    // XXX: optimize
-                                    List<EcellValue> newValue = new List<EcellValue>();
-                                    foreach (EcellValue vr in EcellValue.FromListString(value))
-                                    {
-                                        newValue.Add(Util.NormalizeVariableReference(vr, ele[1]));
-                                    }
-                                    data.Value = new EcellValue(newValue);
-                                    findFlag = true;
-                                }
-                                else if (data.Value.IsDouble)
-                                {
-                                    data.Value = new EcellValue(XmlConvert.ToDouble(value));
-                                    findFlag = true;
-                                }
-                                else if (data.Value.IsInt)
-                                {
-                                    data.Value = new EcellValue(Convert.ToInt32(value));
-                                    findFlag = true;
-                                }
-                                else if (data.Value.IsString)
-                                {
-                                    data.Value = new EcellValue(value);
-                                    findFlag = true;
-                                }
-                            }
+                            Util.NormalizeVariableReference(er, path);
                         }
-                        if (!findFlag)
-                        {
-                            EcellData newData
-                                = new EcellData(
-                                    propertyName,
-                                    new EcellValue(Convert.ToDouble(value)),
-                                    fullPN);
-                            newData.Logable = true;
-                            this.m_ecellObject.Value.Add(newData);
-                            // throw new Exception("The property named [" + propertyName + "]" + "isn't found.");
-                        }
-                        m_cManager.DataManager.DataChanged(
-                                this.m_ecellObject.ModelID,
-                                this.m_ecellObject.Key,
-                                this.m_ecellObject.Type,
-                                this.m_ecellObject);
+                        data.Value = EcellReference.ConvertToEcellValue(list);
+                    }
+                    else if (data.Value.IsDouble)
+                    {
+                        data.Value = new EcellValue(XmlConvert.ToDouble(value));
+                    }
+                    else if (data.Value.IsInt)
+                    {
+                        data.Value = new EcellValue(Convert.ToInt32(value));
+                    }
+                    else if (data.Value.IsString)
+                    {
+                        data.Value = new EcellValue(value);
                     }
                 }
+                m_cManager.DataManager.DataChanged(
+                        this.m_ecellObject.ModelID,
+                        this.m_ecellObject.Key,
+                        this.m_ecellObject.Type,
+                            this.m_ecellObject);
             }
         }
-
 
         /// <summary>
         /// Operates the logger.
@@ -1949,7 +1950,7 @@ namespace Ecell
                             {
                                 if (!data.Settable)
                                 {
-                                    throw new Exception(String.Format(MessageResources.ErrSetProp,
+                                    throw new EcellException(String.Format(MessageResources.ErrSetProp,
                                         new object[] { propertyName }));
                                 }
                                 else if (data.Value.IsDouble)

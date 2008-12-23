@@ -1,3 +1,39 @@
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2006 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+// modified by Takeshi Yuasa <yuasa@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,9 +43,12 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Reflection;
+
 using Ecell;
 using Ecell.Objects;
 using Ecell.Plugin;
+using Ecell.IDE;
+using Ecell.Exceptions;
 
 namespace Ecell.IDE.Plugins.PropertyWindow
 {
@@ -24,7 +63,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <summary>
         /// Variable Reference List.
         /// </summary>
-        public String m_refStr = null;
+        private List<EcellReference> m_refList = new List<EcellReference>();
         /// <summary>
         /// Timer for executing redraw event at each 0.5 minutes.
         /// </summary>
@@ -42,16 +81,20 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// </summary>
         private bool m_isChanging = false;
         /// <summary>
-        /// Row index edited now.
+        /// 
         /// </summary>
-        private int m_editRow = -1;
-        /// <summary>
-        /// StepperID of current object.
-        /// </summary>
-        private String m_stepperID = "";
         private DataGridViewComboBoxEditingControl m_combo = null;
+        /// <summary>
+        /// 
+        /// </summary>
         private List<string> m_nonDataProps;
+        /// <summary>
+        /// 
+        /// </summary>
         private List<string> m_procList = null;
+        /// <summary>
+        /// 
+        /// </summary>
         private DataGridViewComboBoxCell m_stepperIDComboBox;
 
         /// <summary>
@@ -72,6 +115,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             set { m_env = value; }
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public PropertyWindow()
         {
             m_nonDataProps = new List<string>();
@@ -99,7 +145,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             try
             {
                 m_env.DataManager.DataChanged(modelID, key, obj.Type, obj);
-                m_current = obj;
             }
             finally
             {
@@ -131,64 +176,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         }
 
         /// <summary>
-        /// Update the size value.
-        /// If system do not have the size object, system create the size object.
-        /// </summary>
-        /// <param name="sysObj">system object.</param>
-        /// <param name="data">size value.</param>
-        private void UpdateSize(EcellObject sysObj, string data)
-        {
-            m_isChanging = true;
-            try
-            {
-                if (sysObj.Children != null)
-                {
-                    foreach (EcellObject o in sysObj.Children)
-                    {
-                        if (o.Key.EndsWith(":SIZE"))
-                        {
-                            EcellObject no = o.Copy();
-                            no.GetEcellData("Value").Value = new EcellValue(Convert.ToDouble(data));
-                            m_env.DataManager.DataChanged(o.ModelID, o.Key, o.Type, no);
-                            return;
-                        }
-                    }
-                }
-
-                {
-                    Dictionary<string, EcellData> plist = m_env.DataManager.GetVariableProperty();
-                    List<EcellData> dlist = new List<EcellData>();
-                    foreach (string pname in plist.Keys)
-                    {
-                        if (pname == Constants.xpathValue)
-                        {
-                            EcellData d = plist[pname];
-                            d.Value = new EcellValue(Convert.ToDouble(data));
-                            dlist.Add(d);
-                        }
-                        else
-                        {
-                            dlist.Add(plist[pname]);
-                        }
-                    }
-                    EcellObject obj = EcellObject.CreateObject(sysObj.ModelID,
-                        sysObj.Key + Constants.delimiterColon + "SIZE", Constants.xpathVariable,
-                        Constants.xpathVariable, dlist);
-                    List<EcellObject> rList = new List<EcellObject>();
-                    rList.Add(obj);
-                    m_env.DataManager.DataAdd(rList);
-                    if (sysObj.Children == null)
-                        sysObj.Children = new List<EcellObject>();
-                    sysObj.Children.Add(obj);
-                }
-            }
-            finally
-            {
-                m_isChanging = false;
-            }
-        }
-
-        /// <summary>
         /// Event of clicking the formulator button.
         /// Show the window to edit the formulator.
         /// </summary>
@@ -208,12 +195,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         str != EcellProcess.VARIABLEREFERENCELIST && str != EcellProcess.ISCONTINUOUS)
                         list.Add(str);
                 }
-                List<EcellReference> tmpList = EcellReference.ConvertFromString(m_refStr);
-                foreach (EcellReference r in tmpList)
+                foreach (EcellReference r in m_refList)
                 {
                     list.Add(r.Name + ".MolarConc");
                 }
-                foreach (EcellReference r in tmpList)
+                foreach (EcellReference r in m_refList)
                 {
                     list.Add(r.Name + ".Value");
                 }
@@ -232,25 +218,29 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// </summary>
         void UpdatePropForSimulation()
         {
-            if (m_current == null || m_current.Value == null)
-                return;
+            // Checker for update.
             if (m_current is EcellText)
+                return;
+            if (m_current == null || m_current.Value == null)
                 return;
             double l_time = m_env.DataManager.GetCurrentSimulationTime();
             if (l_time == 0.0)
                 return;
 
+            // Set current parameter.
             foreach (EcellData d in m_current.Value)
             {
-                if (!d.Gettable || !d.Value.IsDouble)
+                if (!d.Value.IsDouble || !d.Gettable)
                     continue;
                 double value = m_env.DataManager.GetPropertyValue(d.EntityPath);
-                foreach (DataGridViewRow r in m_dgv.Rows)
+                foreach (DataGridViewRow row in m_dgv.Rows)
                 {
-                    if ((string)r.Cells[0].Value != d.Name)
+                    if ((string)row.Cells[0].Value != d.Name)
                         continue;
 
-                    r.Cells[1].Value = value.ToString();
+                    row.Cells[1].Value = value.ToString();
+                    if (d.Name == "FullID")
+                        row.Cells[1].ReadOnly = true;
                     break;
                 }
             }
@@ -291,36 +281,36 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <returns>Row in DataGridView.</returns>
         DataGridViewRow AddProperty(EcellData d, string type)
         {
-            DataGridViewRow r = new DataGridViewRow();
-            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-            DataGridViewCell c2;
-            c1.Value = d.Name;
-            r.Cells.Add(c1);
+            DataGridViewRow row = new DataGridViewRow();
+            DataGridViewTextBoxCell propNameCell = new DataGridViewTextBoxCell();
+            DataGridViewCell propValueCell;
+            propNameCell.Value = d.Name;
+            row.Cells.Add(propNameCell);
             if (m_propDic == null || m_current.Type != Constants.xpathProcess
                 || m_propDic.ContainsKey(d.Name))
             {
-                c1.Style.BackColor = Color.LightGray;
-                c1.Style.SelectionBackColor = Color.LightGray;
-                c1.ReadOnly = true;
+                propNameCell.Style.BackColor = Color.LightGray;
+                propNameCell.Style.SelectionBackColor = Color.LightGray;
+                propNameCell.ReadOnly = true;
             }
             else
             {
-                c1.ReadOnly = false;
+                propNameCell.ReadOnly = false;
             }
 
             if (d.Value == null) return null;
 
             if (d.Name == Constants.xpathExpression)
             {
-                c2 = new DataGridViewOutOfPlaceEditableCell();
-                c2.Value = (string)d.Value;
-                ((DataGridViewOutOfPlaceEditableCell)c2).OnOutOfPlaceEditRequested =
+                propValueCell = new DataGridViewOutOfPlaceEditableCell();
+                propValueCell.Value = (string)d.Value;
+                ((DataGridViewOutOfPlaceEditableCell)propValueCell).OnOutOfPlaceEditRequested =
                     delegate(DataGridViewOutOfPlaceEditableCell c)
                     {
-                        string retval = ShowFormulatorDialog(c.Value == null ? "" : (string)c.Value);
+                        string retval = ShowFormulatorDialog(c.Value == null ? "" : c.Value.ToString());
                         if (retval != null)
                         {
-                            c.Value = retval;
+                            propValueCell.Value = retval;
                             UpdateExpression(retval);
                             return true;
                         }
@@ -329,99 +319,99 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
             else if (d.Name == Constants.xpathVRL)
             {
-                c2 = new DataGridViewLinkCell();
-                c2.Value = MessageResources.LabelEdit;
+                propValueCell = new DataGridViewLinkCell();
+                propValueCell.Value = MessageResources.LabelEdit;
             }
             else if (d.Name == Constants.xpathStepperID)
             {
-                c2 = new DataGridViewComboBoxCell();
+                propValueCell = new DataGridViewComboBoxCell();
                 foreach (EcellObject obj in m_env.DataManager.GetStepper(null, m_current.ModelID))
                 {
-                    ((DataGridViewComboBoxCell)c2).Items.Add(obj.Key);
+                    ((DataGridViewComboBoxCell)propValueCell).Items.Add(obj.Key);
                 }
-                c2.Value = (string)d.Value;
-                m_stepperIDComboBox = (DataGridViewComboBoxCell)c2;
+                propValueCell.Value = d.Value.ToString();
+                m_stepperIDComboBox = (DataGridViewComboBoxCell)propValueCell;
             }
             else
             {
-                c2 = new DataGridViewTextBoxCell();
-                c2.Value = (string)d.Value;
+                propValueCell = new DataGridViewTextBoxCell();
+                propValueCell.Value = (string)d.Value;
             }
-            r.Cells.Add(c2);
-            m_dgv.Rows.Add(r);
+            row.Cells.Add(propValueCell);
+            m_dgv.Rows.Add(row);
 
             if (d.Settable)
             {
-                c2.ReadOnly = false;
+                propValueCell.ReadOnly = false;
             }
             else
             {
-                c2.ReadOnly = true;
-                c2.Style.ForeColor = SystemColors.GrayText;
+                propValueCell.ReadOnly = true;
+                propValueCell.Style.ForeColor = SystemColors.GrayText;
             }
-            c2.Tag = d;
+            propValueCell.Tag = d;
 
-            return r;
+            return row;
         }
 
         DataGridViewRow AddNonDataProperty(string propName, string propValue, bool readOnly)
         {
-            DataGridViewRow r = new DataGridViewRow();
-            DataGridViewTextBoxCell c1 = new DataGridViewTextBoxCell();
-            DataGridViewCell c2 = null;
-            r.Cells.Add(c1);
-            c1.Style.BackColor = Color.LightGray;
-            c1.Style.SelectionBackColor = Color.LightGray;
-            c1.ReadOnly = true;
-            c1.Value = propName;
+            DataGridViewRow row = new DataGridViewRow();
+            DataGridViewTextBoxCell propNameCell = new DataGridViewTextBoxCell();
+            DataGridViewCell propValueCell = null;
+            row.Cells.Add(propNameCell);
+            propNameCell.Style.BackColor = Color.LightGray;
+            propNameCell.Style.SelectionBackColor = Color.LightGray;
+            propNameCell.ReadOnly = true;
+            propNameCell.Value = propName;
 
             if (propName == Constants.xpathClassName)
             {
                 if (m_current.Type == Constants.xpathSystem ||
                     m_current.Type == Constants.xpathVariable)
                 {
-                    c2 = new DataGridViewComboBoxCell();
-                    ((DataGridViewComboBoxCell)c2).Items.Add(propValue);
-                    c2.Value = propValue;
+                    propValueCell = new DataGridViewComboBoxCell();
+                    ((DataGridViewComboBoxCell)propValueCell).Items.Add(propValue);
+                    propValueCell.Value = propValue;
                 }
                 else if (m_current.Type == Constants.xpathText)
                 {
-                    c2 = new DataGridViewTextBoxCell();
-                    c2.Value = "Text";
+                    propValueCell = new DataGridViewTextBoxCell();
+                    propValueCell.Value = "Text";
                     readOnly = true; // forcefully marked as readonly
                 }
                 else
                 {
-                    c2 = new DataGridViewComboBoxCell();
+                    propValueCell = new DataGridViewComboBoxCell();
                     bool isHit = false;
                     foreach (string pName in m_procList)
                     {
-                        ((DataGridViewComboBoxCell)c2).Items.Add(pName);
+                        ((DataGridViewComboBoxCell)propValueCell).Items.Add(pName);
                         if (pName == propValue)
                             isHit = true;
                     }
 
                     if (!isHit)
                     {
-                        ((DataGridViewComboBoxCell)c2).Items.Add(propValue);
+                        ((DataGridViewComboBoxCell)propValueCell).Items.Add(propValue);
                     }
-                    c2.Value = propValue;
+                    propValueCell.Value = propValue;
                 }
             }
             else
             {
-                c2 = new DataGridViewTextBoxCell();
-                c2.Value = propValue;
+                propValueCell = new DataGridViewTextBoxCell();
+                propValueCell.Value = propValue;
             }
-            r.Cells.Add(c2);
-            c2.Tag = propName;
-            c2.ReadOnly = readOnly;
+            row.Cells.Add(propValueCell);
+            propValueCell.Tag = propName;
+            propValueCell.ReadOnly = readOnly;
             if (readOnly)
-                c2.Style.ForeColor = SystemColors.GrayText;
+                propValueCell.Style.ForeColor = SystemColors.GrayText;
 
-            m_dgv.Rows.Add(r);
+            m_dgv.Rows.Add(row);
             m_nonDataProps.Add(propName);
-            return r;
+            return row;
         }
 
         #region PluginBase
@@ -453,12 +443,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             if (m_current == null)
                 return;
 
-            string localID = null;
-            string parentSystemPath;
-            if (m_current.Type == Constants.xpathSystem)
-                Util.SplitSystemPath(m_current.Key, out parentSystemPath, out localID);
-            else
-                Util.ParseEntityKey(m_current.Key, out parentSystemPath, out localID);
+            string localID = m_current.LocalID;
+            string parentSystemPath = m_current.ParentSystemID;
 
             if (m_current.Type == Constants.xpathProcess &&
                     m_env.DataManager.IsEnableAddProperty(m_current.Classname))
@@ -486,31 +472,16 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
                 AddProperty(d, m_current.Type);
                 if (d.Name == EcellProcess.VARIABLEREFERENCELIST)
-                    m_refStr = (string)d.Value;
+                    m_refList = EcellReference.ConvertFromEcellValue(d.Value);
             }
 
             if (m_current.Type == Constants.xpathSystem)
             {
+                EcellSystem system = (EcellSystem)m_current;
                 EcellData dSize = new EcellData();
                 dSize.Name = Constants.xpathSize;
                 dSize.Settable = true;
-                dSize.Value = new EcellValue(0.1);
-                if (m_current.Children != null)
-                {
-                    foreach (EcellObject o in m_current.Children)
-                    {
-                        if (o.Key.EndsWith(":SIZE"))
-                        {
-                            foreach (EcellData d in o.Value)
-                            {
-                                if (d.Name == "Value")
-                                {
-                                    dSize.Value = new EcellValue((double)d.Value);
-                                }
-                            }
-                        }
-                    }
-                }
+                dSize.Value = new EcellValue(system.SizeInVolume);
                 AddProperty(dSize, m_current.Type);
             }
 
@@ -519,7 +490,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 UpdatePropForSimulation();
             }
 
-            label1.Text = Util.BuildFullID(m_current.Type, parentSystemPath, localID);
+            label1.Text = m_current.FullID;
         }
 
         /// <summary>
@@ -564,7 +535,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             if (m_current == null)
                 return;
             if (m_isChanging)
+            {
+                if (m_current.Key == key)
+                    m_current = data;
                 return;
+            }
             if (m_current.ModelID == modelID && m_current.Key == key && m_current.Type == type)
             {
                 m_current = data;
@@ -622,6 +597,10 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 m_time.Enabled = false;
                 m_time.Stop();
                 UpdatePropForSimulation();
+            }
+            else if (type == ProjectStatus.Loading)
+            {
+                m_procList = m_env.DataManager.CurrentProject.ProcessDmList;
             }
             else if (type == ProjectStatus.Loaded)
             {
@@ -726,7 +705,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         void VarRefListCellClicked(object o, EventArgs e)
         {
             DataGridViewCell c = o as DataGridViewCell;
-            List<EcellReference> list = EcellReference.ConvertFromVarRefList(((EcellData)c.Tag).Value);
+            List<EcellReference> list = EcellReference.ConvertFromEcellValue(((EcellData)c.Tag).Value);
             VariableReferenceEditDialog win = new VariableReferenceEditDialog(m_env.DataManager, m_env.PluginManager, list);
             using (win)
             {
@@ -734,7 +713,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     return;
                 EcellObject eo = m_current.Copy();
                 EcellData nd = eo.GetEcellData(((EcellData)c.Tag).Name);
-                nd.Value = EcellReference.ConvertToVarRefList(EcellReference.ConvertFromString(win.ReferenceString));
+                nd.Value = EcellReference.ConvertToEcellValue(win.ReferenceList);
                 c.Tag = nd;
                 m_current = eo;
                 try
@@ -763,179 +742,186 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 return;
             if (e.ColumnIndex < 0 || e.RowIndex < 0)
                 return;
+            if (m_isChanging)
+                return;
 
             DataGridViewCell editCell = m_dgv[e.ColumnIndex, e.RowIndex];
+            // Update the name of user defined Property.
             if (e.ColumnIndex == 0)
             {
-                // user-defined property
-                string propName = (string)e.Value;
+                string propName = e.Value.ToString();
+                string oldName = editCell.Value.ToString();
                 try
                 {
-                    if (propName == (string)editCell.Value)
+                    if (propName.Equals(oldName))
                         return;
-
-                    if (m_current.GetEcellData(propName) != null
+                    if (m_current.IsEcellValueExists(propName)
                             || m_nonDataProps.Contains(propName))
-                        throw new Exception(MessageResources.ErrSameProp);
+                        throw new EcellException(MessageResources.ErrSameProp);
 
+                    // Set value.
                     DataGridViewCell valueCell = m_dgv[1, e.RowIndex];
-
-                    string superSystemPath, localID;
-                    if (m_current.Type == Constants.xpathSystem)
-                        Util.SplitSystemPath(m_current.Key, out superSystemPath, out localID);
-                    else
-                        Util.ParseEntityKey(m_current.Key, out superSystemPath, out localID);
-
-                    if (valueCell.Tag == null)
+                    double value;
+                    if (valueCell.Tag == null || valueCell.Value.Equals(""))
                     {
-                        if (valueCell.Value == "")
-                            valueCell.Value = "0.0";
+                        value = 0.0d;
+                    }else{
+                        value = Convert.ToDouble(valueCell.Value);
                     }
-                    else
-                    {
-                        for (int i = m_current.Value.Count; --i >= 0; )
-                        {
-                            if (m_current.Value[i].Name == (string)editCell.Value)
-                            {
-                                m_current.Value.RemoveAt(i);
-                                break;
-                            }
-                        }
-                    }
-                    EcellData data = new EcellData(
-                        propName,
-                        new EcellValue(Convert.ToDouble(valueCell.Value)),
-                        Util.BuildFullPN(
-                            m_current.Type,
-                            superSystemPath,
-                            localID,
-                            propName));
-                    m_current.AddValue(data);
-                    valueCell.Tag = data;
+                    m_current.RemoveValue(oldName);
+                    m_current.SetEcellValue(propName, new EcellValue(value));
+                    valueCell.Tag = m_current.GetEcellData(propName);
                 }
                 catch (Exception ex)
                 {
-                    e.Value = editCell.Value;
+                    e.Value = oldName;
                     Trace.WriteLine(ex);
                     m_dgv.MouseLeave -= new EventHandler(this.LeaveMouse);
                     Util.ShowErrorDialog(ex.Message);
                     m_dgv.MouseLeave += new EventHandler(this.LeaveMouse);
+                }
+                return;
+            }
+            // Ignore invalid index.
+            if (e.ColumnIndex != 1)
+                return;
+            // Update property value.
+            try
+            {
+                // Update property.
+                if (editCell.Tag is EcellData)
+                {
+                    EcellData tag = editCell.Tag as EcellData;
+                    string data = e.Value.ToString();
+                    // DataManager.DataChangedでSetEntityPropertyを実行するので
+                    // ここで変更する必要がない。
+                    //// Update Simulation Parameter.
+                    ////if (m_env.PluginManager.Status == ProjectStatus.Running
+                    ////    || m_env.PluginManager.Status == ProjectStatus.Suspended)
+                    //if (false)
+                    //{
+                    //    m_env.DataManager.SetEntityProperty(tag.EntityPath, data);
+                    //    UpdatePropForSimulation(); // for calculated properties such as MolarConc, etc.
+                    //}
+                    //// Throw DataChange.
+                    //else
+                    //{
+                        EcellObject eo = m_current.Copy();
+                        EcellData d = eo.GetEcellData(tag.Name);
+                        EcellValue value;
+                        try{
+                            if (d.Value.IsDouble)
+                                value = new EcellValue(Convert.ToDouble(data));
+                            else if (d.Value.IsInt)
+                                value = new EcellValue(Convert.ToInt32(data));
+                            else
+                                value = new EcellValue(data);
+                            if (tag.Name == Constants.xpathSize)
+                            {
+                                EcellSystem system = (EcellSystem)eo;
+                                system.SizeInVolume = (double)value;
+                            }
+                            else
+                            {
+                                d.Value = value;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            e.Value = editCell.Value;
+                            Trace.WriteLine(ex);
+                            m_dgv.MouseLeave -= new EventHandler(this.LeaveMouse);
+                            Util.ShowErrorDialog(MessageResources.ErrFormat);
+                            m_dgv.MouseLeave += new EventHandler(this.LeaveMouse);
+                            return;
+                        }
+                        NotifyDataChanged(m_current.ModelID, m_current.Key, eo);
+                    //}
+                }
+                // Update ID.
+                else if (editCell.Tag is string)
+                {
+                    string propName = editCell.Tag as string;
+                    if (!propName.Equals("ID"))
+                        return;
+                    string tmpID = e.Value.ToString();
+                    // Error check.
+                    if (tmpID.Equals(m_current.Key))
+                        return;
+                    if (string.IsNullOrEmpty(tmpID) || Util.IsReservedID(tmpID) || Util.IsNGforID(tmpID))
+                        throw new EcellException(MessageResources.ErrID);
+
+                    EcellObject p = m_current.Copy();
+                    if (p.Type == Constants.xpathSystem)
+                    {
+                        // ルートの場合、ルートの/とデミリタの/が2つ重なる
+                        if (p.ParentSystemID.Equals("/"))
+                            p.Key = p.ParentSystemID + tmpID;
+                        else
+                            p.Key = p.ParentSystemID + Constants.delimiterPath + tmpID;
+                    }
+                    else
+                        p.Key = p.ParentSystemID + Constants.delimiterColon + tmpID;
+                    NotifyDataChanged(m_current.ModelID, m_current.Key, p);
                 }
             }
-            else if (e.ColumnIndex == 1)
+            catch (Exception ex)
             {
-                try
-                {
-                    if (editCell.Tag is EcellData)
-                    {
-                        EcellData tag = editCell.Tag as EcellData;
-                        if (tag.Name == Constants.xpathSize)
-                        {
-                            UpdateSize(m_current, (string)e.Value);
-                        }
-                        else
-                        {
-                            String data = (string)e.Value;
-                            if (m_env.PluginManager.Status == ProjectStatus.Running
-                                || m_env.PluginManager.Status == ProjectStatus.Suspended)
-                            {
-                                m_env.DataManager.SetEntityProperty(tag.EntityPath, data);
-                                UpdatePropForSimulation(); // for calculated properties such as MolarConc, etc.
-                            }
-                            else
-                            {
-                                EcellObject p = m_current.Copy();
-                                foreach (EcellData d in p.Value)
-                                {
-                                    if (d.Name == tag.Name)
-                                    {
-                                        try
-                                        {
-                                            if (d.Value.IsDouble) 
-                                                d.Value = new EcellValue(Convert.ToDouble(data));
-                                            else if (d.Value.IsInt)
-                                                d.Value = new EcellValue(Convert.ToInt32(data));
-                                            else
-                                                d.Value = new EcellValue(data);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            e.Value = editCell.Value;
-                                            Trace.WriteLine(ex);
-                                            m_dgv.MouseLeave -= new EventHandler(this.LeaveMouse);
-                                            Util.ShowErrorDialog(MessageResources.ErrFormat);
-                                            m_dgv.MouseLeave += new EventHandler(this.LeaveMouse);
-                                            return;
-                                        }
-                                    }
-                                }
-                                NotifyDataChanged(m_current.ModelID, m_current.Key, p);
-                            }
-                        }
-                    }
-                    else if (editCell.Tag is string)
-                    {
-                        string propName = editCell.Tag as string;
-                        if (propName == "ID")
-                        {
-                            String tmpID = (string)e.Value;
-                            if (tmpID.Equals(m_current.Key))
-                                return;
-                            if (String.IsNullOrEmpty(tmpID) || Util.IsReservedID(tmpID) ||
-                                Util.IsNGforID(tmpID))
-                            {
-                                throw new Exception(MessageResources.ErrID);
-                            }
-
-                            EcellObject p = m_current.Copy();
-                            if (p.Type == Constants.xpathSystem)
-                            {
-                                // ルートの場合、ルートの/とデミリタの/が2つ重なる
-                                if (p.ParentSystemID.Equals("/"))
-                                    p.Key = p.ParentSystemID + tmpID;
-                                else
-                                    p.Key = p.ParentSystemID + Constants.delimiterPath + tmpID;
-                            }
-                            else
-                                p.Key = p.ParentSystemID + Constants.delimiterColon + tmpID;
-                            NotifyDataChanged(m_current.ModelID, m_current.Key, p);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    e.Value = editCell.Value;
-                    Trace.WriteLine(ex);
-                    m_dgv.MouseLeave -= new EventHandler(this.LeaveMouse);
-                    Util.ShowErrorDialog(ex.Message);
-                    m_dgv.MouseLeave += new EventHandler(this.LeaveMouse);
-                }
+                e.Value = editCell.Value;
+                Trace.WriteLine(ex);
+                m_dgv.MouseLeave -= new EventHandler(this.LeaveMouse);
+                Util.ShowErrorDialog(ex.Message);
+                m_dgv.MouseLeave += new EventHandler(this.LeaveMouse);
             }
         }
         #endregion
 
         #region IDataHandler メンバ
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="time"></param>
         public void AdvancedTime(double time)
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
         public void ChangeUndoStatus(UndoStatus status)
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        /// <param name="path"></param>
         public void LoggerAdd(string modelID, string key, string type, string path)
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="parameterID"></param>
         public void ParameterAdd(string projectID, string parameterID)
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="parameterID"></param>
         public void ParameterDelete(string projectID, string parameterID)
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="parameterID"></param>
         public void ParameterUpdate(string projectID, string parameterID)
         {
             if (parameterID == m_env.DataManager.GetCurrentSimulationParameterID() &&
@@ -952,58 +938,96 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="parameterID"></param>
         public void ParameterSet(string projectID, string parameterID)
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         public void RemoveObservedData(EcellObservedData data)
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         public void RemoveParameterData(EcellParameterData data)
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
         public void RemoveSelect(string modelID, string key, string type)
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void ResetSelect()
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="directory"></param>
         public void SaveModel(string modelID, string directory)
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         public void SetObservedData(EcellObservedData data)
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         public void SetParameterData(EcellParameterData data)
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         public void SetPosition(EcellObject data)
         {
         }
         #endregion
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, Delegate> GetPublicDelegate()
         {
             return null;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Initialize()
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<EcellDockContent> GetWindowsForms()
         {
             return new EcellDockContent[] { this };
         }
-
+        
         private void defineANewPropertyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DataGridViewRow row = m_dgv.RowTemplate.Clone() as DataGridViewRow;
@@ -1119,7 +1143,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
 
             m_data = tag != null ? tag as EcellData : null;
-
         }
 
         private void combo_selectedIndexChanged(object sender, EventArgs e)
@@ -1154,7 +1177,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 newClassName, props);
             obj.SetPosition(m_current);
             NotifyDataChanged(obj.ModelID, obj.Key, obj);
-            m_current = obj;
             ReloadProperties();
         }
 
@@ -1179,6 +1201,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 }
             }
         }
+
 
         private void MouseMoveOnDataGridView(object sender, MouseEventArgs e)
         {

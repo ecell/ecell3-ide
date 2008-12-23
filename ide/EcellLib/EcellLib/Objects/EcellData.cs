@@ -36,6 +36,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Ecell.Exceptions;
 
 namespace Ecell.Objects
 {
@@ -90,7 +91,7 @@ namespace Ecell.Objects
         public EcellData()
         {
             this.m_name = null;
-            this.Value = null;
+            this.m_value = null;
             this.m_entityPath = null;
             this.m_isGettable = true;
             this.m_isSettable = true;
@@ -104,12 +105,12 @@ namespace Ecell.Objects
         /// Creates the new "EcellData" instance with some arguments.
         /// </summary>
         /// <param name="name">The property name</param>
-        /// <param name="data">The property value</param>
+        /// <param name="value">The property value</param>
         /// <param name="entityPath">The entity path</param>
-        public EcellData(string name, EcellValue data, string entityPath)
+        public EcellData(string name, EcellValue value, string entityPath)
         {
             this.m_name = name;
-            this.m_value = data;
+            this.m_value = value;
             this.m_entityPath = entityPath;
             this.m_isGettable = true;
             this.m_isSettable = true;
@@ -256,7 +257,7 @@ namespace Ecell.Objects
             {
                 return false;
             }
-            if (this.Value == null || (!this.Value.IsInt && !this.Value.IsDouble))
+            if (this.m_value == null || (!this.m_value.IsInt && !this.m_value.IsDouble))
             {
                 return false;
             }

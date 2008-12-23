@@ -483,7 +483,7 @@ namespace Ecell.Plugin
 
         #region Methods to notify changes from plugin to ECellLib
         /// <summary>
-        /// Inform the adding of EcellOBject in PathwayEditor to DataManager.
+        /// Inform the adding of EcellOBject in plugin to DataManager.
         /// </summary>
         /// <param name="data">the list of added object.</param>
         /// <param name="isAnchor">Whether this action is anchor or not.</param>
@@ -491,9 +491,8 @@ namespace Ecell.Plugin
         {
             m_dManager.DataAdd(data, true, isAnchor);
         }
-
         /// <summary>
-        /// Inform the adding of EcellOBject in PathwayEditor to DataManager.
+        /// Inform the adding of EcellOBject in plugin to DataManager.
         /// </summary>
         /// <param name="list">the list of added object.</param>
         /// <param name="isAnchor">Whether this action is anchor or not.</param>
@@ -503,7 +502,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// Inform the adding of logger in PathwayEditor to PluginManager.
+        /// Inform the adding of logger in plugin to PluginManager.
         /// </summary>
         /// <param name="modelID"></param>
         /// <param name="key"></param>
@@ -519,7 +518,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// Inform the changing of EcellObject in PathwayEditor to DataManager.
+        /// Inform the changing of EcellObject in plugin to DataManager.
         /// </summary>
         /// <param name="oldKey">the key of object before edit.</param>
         /// <param name="eo">The EcellObject changed the property.</param>
@@ -543,7 +542,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// Inform the deleting of EcellObject in PathwayEditor to DataManager.
+        /// Inform the deleting of EcellObject in plugin to DataManager.
         /// </summary>
         /// <param name="modelID"></param>
         /// <param name="key"></param>
@@ -555,7 +554,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// Inform the deleting of EcellObject in PathwayEditor to DataManager.
+        /// Inform the deleting of EcellObject in plugin to DataManager.
         /// </summary>
         /// <param name="modelID"></param>
         /// <param name="key"></param>
@@ -572,7 +571,7 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// Inform the selected EcellObject in PathwayEditor to PluginManager.
+        /// Inform the selected EcellObject in plugin to PluginManager.
         /// </summary>
         /// <param name="modelID">the modelID of selected object.</param>
         /// <param name="key">the key of selected object.</param>
@@ -583,7 +582,7 @@ namespace Ecell.Plugin
 
         }
         /// <summary>
-        /// Inform the unselected EcellObject in PathwayEditor to PluginManager.
+        /// Inform the unselected EcellObject in plugin to PluginManager.
         /// </summary>
         /// <param name="modelID">the modelID of selected object.</param>
         /// <param name="key">the key of selected object.</param>
@@ -593,7 +592,7 @@ namespace Ecell.Plugin
             m_pManager.AddSelect(modelID, key, type);
         }
         /// <summary>
-        /// Inform the selected EcellObject in PathwayEditor to PluginManager.
+        /// Inform the selected EcellObject in plugin to PluginManager.
         /// </summary>
         /// <param name="modelID">the modelID of selected object.</param>
         /// <param name="key">the key of selected object.</param>

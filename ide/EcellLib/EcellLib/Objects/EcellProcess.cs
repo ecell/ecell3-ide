@@ -200,11 +200,11 @@ namespace Ecell.Objects
             get 
             {
                 EcellValue varRef = this.GetEcellValue(VARIABLEREFERENCELIST);
-                return EcellReference.ConvertFromVarRefList(varRef);
+                return EcellReference.ConvertFromEcellValue(varRef);
             }
             set
             {
-                EcellValue varRef = EcellReference.ConvertToVarRefList(value);
+                EcellValue varRef = EcellReference.ConvertToEcellValue(value);
                 this.GetEcellData(VARIABLEREFERENCELIST).Value = varRef;
             }
         }

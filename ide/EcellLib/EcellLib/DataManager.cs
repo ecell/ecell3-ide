@@ -51,6 +51,7 @@ using IronPython.Runtime;
 using EcellCoreLib;
 using Ecell.Objects;
 using Ecell.Logging;
+using Ecell.Exceptions;
 
 namespace Ecell
 {
@@ -60,52 +61,61 @@ namespace Ecell
     public class DataManager
     {
         #region Fields
-        #region Managers
         /// <summary>
         /// The application environment associated to this object.
         /// </summary>
         private ApplicationEnvironment m_env;
-        #endregion
-
-        #region Project
-        /// <summary>
-        /// The list of "Project" with the project ID
-        /// </summary>
-        private List<Project> m_projectList = null;
         /// <summary>
         /// The current project
         /// </summary>
         private Project m_currentProject = null;
-        #endregion
+        /// <summary>
+        /// 
+        /// </summary>
+        private bool m_isStepStepping = false;
+        /// <summary>
+        /// ObservedDatas
+        /// </summary>
+        private Dictionary<string, EcellObservedData> m_observedList;
+        /// <summary>
+        /// ParameterDatas
+        /// </summary>
+        private Dictionary<string, EcellParameterData> m_parameterList;
+        /// <summary>
+        /// Logger list.
+        /// </summary>
+        private List<string> m_loggerEntry = new List<string>();
 
         /// <summary>
         /// The default directory
         /// </summary>
         private string m_defaultDir = null;
+
         /// <summary>
         /// The default count of the step 
         /// </summary>
         private int m_defaultStepCount = 10;
         /// <summary>
-        /// The step limit of the simulation
+        /// The default time 
         /// </summary>
-        private int m_simulationStepLimit = -1;
+        private double m_defaultTime = 1.0;
+        /// <summary>
+        /// 
+        /// </summary>
+        private int m_remainStep = 0;
+        /// <summary>
+        /// 
+        /// </summary>
+        private double m_remainTime = 0.0;
         /// <summary>
         /// The time limit of the simulation
         /// </summary>
         private double m_simulationTimeLimit = -1.0;
         /// <summary>
-        /// The start time of the simulation
+        /// 
         /// </summary>
-        private double m_simulationStartTime = 0.0;
-        /// <summary>
-        /// add action flag
-        /// </summary>
-        private bool m_isAdded = false;
+        private bool m_isTimeStepping = false;
 
-        private Dictionary<string, EcellObservedData> m_observedList;
-        private Dictionary<string, EcellParameterData> m_parameterList;
-        private List<string> m_loggerEntry = new List<string>();
         #endregion
 
         #region Constructor
@@ -116,14 +126,13 @@ namespace Ecell
         {
             this.m_env = env;
             this.m_defaultDir = Util.GetBaseDir();
-            this.m_projectList = new List<Project>();
             this.m_observedList = new Dictionary<string, EcellObservedData>();
             this.m_parameterList = new Dictionary<string, EcellParameterData>();
         }
+
         #endregion
 
-        #region Constructor
-
+        #region Accessors
         /// <summary>
         /// get / set StepCount
         /// </summary>
@@ -183,6 +192,21 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Checks whether the simulator is running.
+        /// </summary>
+        /// <returns>true if the simulator is running; false otherwise</returns>
+        public bool IsActive
+        {
+            get
+            {
+                bool runningFlag = (m_currentProject != null && m_currentProject.SimulationStatus == SimulationStatus.Run);
+                return runningFlag;
+            }
+        }
+        #endregion
+
+        #region Method for File I/O.
+        /// <summary>
         /// Save the user action to the set file.
         /// </summary>
         /// <param name="fileName">saved file name.</param>
@@ -195,12 +219,9 @@ namespace Ecell
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                throw new Exception(String.Format(MessageResources.ErrSaveAct, fileName), ex);
+                throw new EcellException(String.Format(MessageResources.ErrSaveAct, fileName), ex);
             }
         }
-        #endregion
-
-        #region Constructor
 
         /// <summary>
         /// Load the user action from the set file.
@@ -216,76 +237,1620 @@ namespace Ecell
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                throw new Exception(String.Format(MessageResources.ErrLoadFile,
+                throw new EcellException(String.Format(MessageResources.ErrLoadFile,
                     new object[] { filenName }), ex);
             }
         }
 
-
         /// <summary>
-        /// Adds the new "Stepper"
+        /// Saves the script.
         /// </summary>
-        /// <param name="parameterID">The parameter ID</param>
-        /// <param name="stepper">The "Stepper"</param>
-        public void AddStepperID(string parameterID, EcellObject stepper)
+        /// <param name="fileName"></param>
+        public void SaveScript(string fileName)
         {
-            AddStepperID(parameterID, stepper, true);
-        }
-
-        /// <summary>
-        /// Adds the new "Stepper"
-        /// </summary>
-        /// <param name="parameterID">The parameter ID</param>
-        /// <param name="stepper">The "Stepper"</param>
-        /// <param name="isRecorded">Whether this action is recorded</param>
-        public void AddStepperID(string parameterID, EcellObject stepper, bool isRecorded)
-        {
-            string message = null;
-            Dictionary<string, List<EcellObject>> stepperDic = null;
             try
             {
-                // Get stepperDic
-                message = "[" + parameterID + "][" + stepper.ModelID + "][" + stepper.Key + "]";
-                if (stepper == null || string.IsNullOrEmpty(parameterID) || string.IsNullOrEmpty(stepper.ModelID))
-                    throw new Exception();
-                if (!m_currentProject.StepperDic.ContainsKey(parameterID))
-                    m_currentProject.StepperDic[parameterID] = new Dictionary<string, List<EcellObject>>();
-                stepperDic = m_currentProject.StepperDic[parameterID];
-                if (!stepperDic.ContainsKey(stepper.ModelID))
-                    throw new Exception();
-
-                // Check duplication.
-                foreach (EcellObject storedStepper in stepperDic[stepper.ModelID])
-                {
-                    if (!stepper.Key.Equals(storedStepper.Key))
-                        continue;
-                    throw new Exception(
-                        string.Format(MessageResources.ErrExistStepper,
-                            new object[] { stepper.Key }
-                        )
-                    );
-                }
-                // Set Stteper.
-                stepperDic[stepper.ModelID].Add(stepper);
-                if (m_currentProject.Info.SimulationParam.Equals(parameterID))
-                {
-                    List<EcellObject> stepperList = new List<EcellObject>();
-                    stepperList.Add(stepper);
-                    m_env.PluginManager.DataAdd(stepperList);
-                }
-                MessageCreateEntity("Stepper", message);
-                if (isRecorded)
-                    m_env.ActionManager.AddAction(new AddStepperAction(parameterID, stepper));
+                ScriptWriter writer = new ScriptWriter(m_currentProject);
+                writer.SaveScript(fileName);
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoSaveScript, fileName));
+                m_env.Console.Flush();
             }
             catch (Exception ex)
             {
-                message = String.Format(MessageResources.ErrNotCreStepper,
-                    new object[] { stepper.Key });
-                Trace.WriteLine(message);
-                throw new Exception(message, ex);
+                Trace.WriteLine(ex);
+                throw new EcellException(String.Format(MessageResources.ErrSaveScript, fileName), ex);
             }
         }
 
+        /// <summary>
+        /// Compile the dm source file.
+        /// </summary>
+        /// <param name="fileName">the source file name.</param>
+        public void ExecuteScript(string fileName)
+        {
+            PythonEngine engine = new PythonEngine();
+
+            engine.AddToPath(Directory.GetCurrentDirectory());
+            engine.AddToPath(Util.GetAnalysisDir());
+            string scriptFile = fileName;
+
+            try
+            {
+                MemoryStream standardOutput = new MemoryStream();
+                engine.SetStandardOutput(standardOutput);
+                engine.Execute("from EcellIDE import *");
+                engine.Execute("import time");
+                engine.Execute("import System.Threading");
+                engine.Execute("session=Session()");
+                engine.ExecuteFile(scriptFile);
+                string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
+
+                m_env.Console.WriteLine(stdOut);
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoExecScript, fileName));
+                m_env.Console.Flush();
+            }
+            catch (Exception)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrLoadFile,
+                    new object[] { scriptFile }));
+            }
+        }
+
+        #endregion
+
+        #region Method for Load Project.
+        /// <summary>
+        /// Load project from project file.
+        /// </summary>
+        /// <param name="filename">Project file or EML file.</param>
+        public void LoadProject(string filename)
+        {
+            try
+            {
+                ProjectInfo info = ProjectInfoLoader.Load(filename);
+                LoadProject(info);
+            }
+            catch (Exception ex)
+            {
+                throw new EcellException(String.Format(MessageResources.ErrLoadPrj,
+                    new object[] { filename }), ex);
+            }
+        }
+
+        /// <summary>
+        /// LoadProject
+        /// </summary>
+        /// <param name="info"></param>
+        public void LoadProject(ProjectInfo info)
+        {
+            List<EcellObject> passList = new List<EcellObject>();
+            string[] parameters = new string[0];
+            string message = null;
+            string projectID = null;
+            Project project = null;
+
+            try
+            {
+                if (m_currentProject != null)
+                    CloseProject();
+                if (info == null)
+                    throw new EcellException(MessageResources.ErrLoadPrj);
+
+                // Initializes.
+                projectID = info.Name;
+                message = "[" + projectID + "]";
+                project = new Project(info);
+                m_currentProject = project;
+
+                m_env.PluginManager.ParameterSet(projectID, project.Info.SimulationParam);
+
+                List<EcellData> ecellDataList = new List<EcellData>();
+                ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(project.Info.Comment), null));
+                passList.Add(EcellObject.CreateObject(projectID, "", Constants.xpathProject, "", ecellDataList));
+
+                // Loads the model.
+                m_env.PluginManager.ChangeStatus(ProjectStatus.Loading);
+                string[] models;
+                string filepath = project.Info.FilePath;
+                if (filepath.EndsWith(Constants.FileExtEML))
+                {
+                    models = new string[] { filepath };
+                }
+                else
+                {
+                    string modelDirName = Path.Combine(project.Info.ProjectPath, Constants.xpathModel);
+                    Debug.Assert(Directory.Exists(modelDirName));
+
+                    models = Directory.GetFileSystemEntries(
+                        modelDirName,
+                        Constants.delimiterWildcard + Constants.FileExtEML
+                        );
+                    Debug.Assert(models != null && models.Length > 0);
+                }
+                foreach (string model in models)
+                {
+                    string fileName = Path.GetFileName(model);
+                    if (fileName.EndsWith(Constants.FileExtBackUp))
+                        continue;
+                    this.LoadModel(model, false);
+                }
+
+                // Prepare datas.
+                foreach (EcellObject model in m_currentProject.ModelList)
+                    passList.Add(model);
+                foreach (string storedModelID in m_currentProject.SystemDic.Keys)
+                {
+                    passList.AddRange(m_currentProject.SystemDic[storedModelID]);
+                }
+
+                // Loads the simulation parameter.
+                string simulationDirName = Path.Combine(project.Info.ProjectPath, Constants.xpathParameters);
+
+                if (Directory.Exists(simulationDirName))
+                {
+                    parameters = Directory.GetFileSystemEntries(
+                        simulationDirName,
+                        Constants.delimiterWildcard + Constants.FileExtXML);
+                    if (parameters != null && parameters.Length > 0)
+                    {
+                        foreach (string parameter in parameters)
+                        {
+                            string fileName = Path.GetFileName(parameter);
+                            if (fileName.IndexOf(Constants.delimiterUnderbar) != 0)
+                            {
+                                LoadSimulationParameter(parameter);
+                            }
+                        }
+                    }
+                }
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoLoadPrj, projectID));
+                m_env.Console.Flush();
+                Trace.WriteLine(string.Format(MessageResources.InfoLoadPrj, projectID));
+            }
+            catch (Exception ex)
+            {
+                passList = null;
+                CloseProject();
+                throw new EcellException(String.Format(MessageResources.ErrLoadPrj,
+                    new object[] { projectID }), ex);
+            }
+            finally
+            {
+                if (m_currentProject != null)
+                {
+                    if (passList != null && passList.Count > 0)
+                    {
+                        this.m_env.PluginManager.DataAdd(passList);
+                    }
+                    foreach (string paramID in this.GetSimulationParameterIDs())
+                    {
+                        this.m_env.PluginManager.ParameterAdd(projectID, paramID);
+                    }
+
+                    m_env.ActionManager.AddAction(new LoadProjectAction(projectID, project.Info.FilePath));
+                    m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads the eml formatted file and returns the model ID.
+        /// </summary>
+        /// <param name="filename">The eml formatted file name</param>
+        /// <param name="isLogging">The flag whether this function is in logging.</param>
+        /// <returns>The model ID</returns>
+        public string LoadModel(string filename, bool isLogging)
+        {
+            string message = null;
+            try
+            {
+                message = "[" + filename + "]";
+                //
+                // To load
+                //
+                string modelID = null;
+                if (m_currentProject.Info.FilePath == null)
+                {
+                    m_currentProject.Info.FilePath = filename;
+                }
+                if (m_currentProject.Simulator == null)
+                {
+                    m_currentProject.SetDMList();
+                    m_currentProject.Simulator = m_currentProject.CreateSimulatorInstance();
+                }
+                EcellObject modelObj = EmlReader.Parse(filename, m_currentProject.Simulator);
+                modelID = modelObj.ModelID;
+
+                //
+                // Checks the old model ID
+                //
+                foreach (EcellObject model in m_currentProject.ModelList)
+                {
+                    Debug.Assert(!model.ModelID.Equals(modelID));
+                }
+                //
+                // Initialize
+                //
+                try
+                {
+                    m_currentProject.Simulator.Initialize();
+                }
+                catch (Exception)
+                {
+                    // Error Message
+                    // [VariableReference [S0] not found in this Process]
+                    // MichaelisUniUniFluxprocess
+                    // DecayFluxProcess
+                    // [Only first or second order scheme is allowed]
+                    // PingPongBiBiFluxProcess
+                    // TauLeapProcess
+                    Util.ShowWarningDialog(MessageResources.WarnInvalidData);
+                }
+                // Sets initial conditions.
+                m_currentProject.Initialize(modelID);
+                InitializeModel(modelObj);
+
+                // Stores the "LoggerPolicy"
+                string simParam = m_currentProject.Info.SimulationParam;
+                if (!m_currentProject.LoggerPolicyDic.ContainsKey(simParam))
+                {
+                    m_currentProject.LoggerPolicyDic[simParam] = new LoggerPolicy();
+                }
+
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoLoadModel, modelID));
+                m_env.Console.Flush();
+                Trace.WriteLine(String.Format(MessageResources.InfoLoadModel, modelID));
+                if (isLogging)
+                    m_env.ActionManager.AddAction(new ImportModelAction(filename));
+                if (m_currentProject.ModelFileDic.ContainsKey(modelID))
+                    m_currentProject.ModelFileDic.Remove(modelID);
+                m_currentProject.ModelFileDic.Add(modelID, filename);
+
+                return modelID;
+            }
+            catch (Exception ex)
+            {
+                throw new EcellException(String.Format(MessageResources.ErrLoadModel,
+                    new object[] { filename }), ex);
+            }
+        }
+
+        /// <summary>
+        /// InitializeModel
+        /// </summary>
+        /// <param name="ecellObject"></param>
+        private void InitializeModel(EcellObject ecellObject)
+        {
+            // Sets the "EcellObject".
+            string modelID = ecellObject.ModelID;
+            string simParam = m_currentProject.Info.SimulationParam;
+            if (ecellObject.Type.Equals(Constants.xpathModel))
+            {
+                m_currentProject.ModelList.Add((EcellModel)ecellObject);
+                DataStorer.DataStored(
+                    m_currentProject.Simulator,
+                    m_env,
+                    ecellObject,
+                    m_currentProject.InitialCondition[simParam][modelID]);
+            }
+            else if (ecellObject.Type.Equals(Constants.xpathSystem))
+            {
+                if (!m_currentProject.SystemDic.ContainsKey(modelID))
+                {
+                    m_currentProject.SystemDic[modelID]
+                            = new List<EcellObject>();
+                }
+                m_currentProject.SystemDic[modelID].Add(ecellObject);
+            }
+            else if (ecellObject.Type.Equals(Constants.xpathStepper))
+            {
+                if (!m_currentProject.StepperDic.ContainsKey(simParam))
+                {
+                    m_currentProject.StepperDic[simParam] = new Dictionary<string, List<EcellObject>>();
+                }
+                if (!m_currentProject.StepperDic[simParam].ContainsKey(modelID))
+                {
+                    m_currentProject.StepperDic[simParam][modelID] = new List<EcellObject>();
+                }
+                m_currentProject.StepperDic[simParam][modelID].Add(ecellObject);
+            }
+            foreach (EcellObject childEcellObject in ecellObject.Children)
+            {
+                InitializeModel(childEcellObject);
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// Creates the new "Project" object.
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="comment"></param>
+        /// <param name="modelID"></param>
+        /// <param name="setDirList"></param>
+        public void CreateNewProject(string projectID, string comment, string modelID, IEnumerable<String> setDirList)
+        {
+            try
+            {
+                CreateProject(projectID, comment, modelID, setDirList);
+                EcellObject model = EcellObject.CreateObject(modelID, null, Constants.xpathModel, null, null);
+                DataAdd(model);
+                foreach (string paramID in GetSimulationParameterIDs())
+                {
+                    m_env.PluginManager.ParameterAdd(projectID, paramID);
+                }
+                m_env.PluginManager.ParameterSet(CurrentProjectID, GetCurrentSimulationParameterID());
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                Util.ShowErrorDialog(ex.Message);
+                CloseProject();
+            }
+
+        }
+
+        /// <summary>
+        /// Creates the new "Project" object.
+        /// </summary>
+        /// <param name="projectID">The "Project" ID</param>
+        /// <param name="comment">The comment</param>
+        /// <param name="projectPath">The project directory path to load the dm of this project.</param>
+        /// <param name="setDirList">The list of dm directory.</param>
+        public void CreateProject(string projectID, string comment, string projectPath,
+            IEnumerable<String> setDirList)
+        {
+            Project prj = null;
+            try
+            {
+                //
+                // Closes the current project.
+                //
+                if (m_currentProject != null)
+                {
+                    this.CloseProject();
+                }
+                //
+                // Initialize
+                //
+                ProjectInfo info = new ProjectInfo(projectID, comment, DateTime.Now.ToString());
+                prj = new Project(info);
+                m_currentProject = prj;
+                if (projectPath != null)
+                    m_currentProject.Info.ProjectPath = projectPath;
+
+                CreateProjectDir(projectID, setDirList);
+                //
+                // 4 PluginManager
+                //
+                List<EcellData> ecellDataList = new List<EcellData>();
+                ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(comment), null));
+                EcellObject ecellObject
+                        = EcellObject.CreateObject(projectID, "", Constants.xpathProject, "", ecellDataList);
+                List<EcellObject> ecellObjectList = new List<EcellObject>();
+                ecellObjectList.Add(ecellObject);
+                m_env.PluginManager.DataAdd(ecellObjectList);
+                m_env.ActionManager.AddAction(new NewProjectAction(projectID, comment, projectPath));
+                m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
+
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoCrePrj, projectID));
+                m_env.Console.Flush();
+                Trace.WriteLine(string.Format(MessageResources.InfoCrePrj, projectID));
+            }
+            catch (Exception ex)
+            {
+                m_currentProject = null;
+                string message = String.Format(
+                        MessageResources.ErrCrePrj,
+                        new object[] { projectID });
+                Trace.WriteLine(message);
+                throw new EcellException(message, ex);
+            }
+        }
+
+        /// <summary>
+        /// Create the project directory.
+        /// </summary>
+        /// <param name="projectID">Project ID.</param>
+        /// <param name="dmList">A list of DM.</param>
+        public void CreateProjectDir(string projectID, IEnumerable<string> dmList)
+        {
+            SetDefaultDir();
+            string baseDir = this.m_defaultDir + Constants.delimiterPath + projectID;
+            string modelDir = baseDir + Constants.delimiterPath + Constants.xpathModel;
+            string dmDir = baseDir + Constants.delimiterPath + Constants.DMDirName;
+            string paramDir = baseDir + Constants.delimiterPath + Constants.xpathParameters;
+
+            if (!Directory.Exists(baseDir))
+            {
+                Directory.CreateDirectory(baseDir);
+            }
+            if (!Directory.Exists(modelDir))
+            {
+                Directory.CreateDirectory(modelDir);
+            }
+            if (!Directory.Exists(dmDir))
+            {
+                Directory.CreateDirectory(dmDir);
+            }
+            foreach (string sourceDirName in dmList)
+            {
+                Util.CopyDirectory(sourceDirName, dmDir);
+            }
+        }
+
+        /// <summary>
+        /// Create new revision of current project.
+        /// </summary>
+        public void CreateNewRevision()
+        {
+            if (m_currentProject == null)
+                return;
+            SaveProject();
+
+            string sourceDir = m_currentProject.Info.ProjectPath;
+            string revNo = Util.GetRevNo(sourceDir);
+            string targetDir = Path.Combine(sourceDir, revNo);
+            foreach (string dir in Util.IgnoredDirList)
+            {
+                string tempdir = Path.Combine(sourceDir, dir);
+                if (Directory.Exists(tempdir))
+                    Util.CopyDirectory(tempdir, Path.Combine(targetDir, dir));
+            }
+            string[] files = Directory.GetFiles(sourceDir, "project.*");
+            foreach (string file in files)
+                Util.CopyFile(file, targetDir);
+            m_env.Console.WriteLine(String.Format(MessageResources.InfoNewRev,
+                m_currentProject.Info.Name, revNo));
+        }
+
+        /// <summary>
+        /// Saves the model using the model ID.
+        /// </summary>
+        /// <param name="modelID">The saved model ID</param>
+        internal void SaveModel(string modelID)
+        {
+            List<EcellObject> storedList = new List<EcellObject>();
+            string message = null;
+            try
+            {
+                message = String.Format(MessageResources.InfoSaveModel,
+                    new object[] { modelID });
+                //
+                // Initializes
+                //
+                Debug.Assert(!String.IsNullOrEmpty(modelID));
+                SetDefaultDir();
+
+                if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Info.Name))
+                {
+                    m_currentProject.Save();
+                }
+                string modelDirName
+                    = this.m_defaultDir + Constants.delimiterPath +
+                    m_currentProject.Info.Name + Constants.delimiterPath + Constants.xpathModel;
+                if (!Directory.Exists(modelDirName))
+                {
+                    Directory.CreateDirectory(modelDirName);
+                }
+                string modelFileName
+                    = modelDirName + Constants.delimiterPath + modelID + Constants.delimiterPeriod + Constants.xpathEml;
+                //
+                // Picks the "Stepper" up.
+                //
+                List<EcellObject> stepperList
+                    = m_currentProject.StepperDic[m_currentProject.Info.SimulationParam][modelID];
+                Debug.Assert(stepperList != null && stepperList.Count > 0);
+                storedList.AddRange(stepperList);
+                //
+                // Picks the "System" up.
+                //
+                List<EcellObject> systemList = m_currentProject.SystemDic[modelID];
+                Debug.Assert(systemList != null && systemList.Count > 0);
+                storedList.AddRange(systemList);
+                //
+                // Creates.
+                //
+                EmlWriter.Create(modelFileName, storedList, true);
+                Trace.WriteLine("Save Model: " + message);
+                m_env.PluginManager.SaveModel(modelID, modelDirName);
+            }
+            catch (Exception ex)
+            {
+                storedList = null;
+                message = String.Format(MessageResources.ErrSaveModel,
+                    new object[] { modelID });
+                Trace.WriteLine(message);
+                throw new EcellException(message, ex);
+            }
+        }
+
+        /// <summary>
+        /// Save current project.
+        /// </summary>
+        public void SaveProject()
+        {
+            SetDefaultDir();
+            try
+            {
+                m_currentProject.Save();
+                List<string> modelList = m_currentProject.GetSavableModel();
+                List<string> paramList = m_currentProject.GetSavableSimulationParameter();
+                List<string> logList = m_currentProject.GetSavableSimulationResult();
+
+                foreach (EcellObject model in m_currentProject.ModelList)
+                {
+                    SaveModel(model.ModelID);
+                }
+                foreach (string name in paramList)
+                {
+                    SaveSimulationParameter(name);
+                }
+
+                SaveSimulationResult();
+                SaveSimulationResultDelegate dlg = m_env.PluginManager.GetDelegate("SaveSimulationResult") as SaveSimulationResultDelegate;
+                if (dlg != null)
+                    dlg(logList);
+
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoSavePrj, m_currentProject.Info.Name));
+                m_env.Console.Flush();
+            }
+            catch (Exception ex)
+            {
+                String.Format(MessageResources.ErrSavePrj, m_currentProject.Info.Name);
+                Trace.WriteLine(ex);
+            }
+        }
+
+        /// <summary>
+        /// Exports the models to ths designated file.
+        /// </summary>
+        /// <param name="modelIDList">The list of the model ID</param>
+        /// <param name="fileName">The designated file</param>
+        public void ExportModel(string fileName)
+        {
+            string message = null;
+            try
+            {
+                message = "[" + fileName + "]";
+                //
+                // Initializes.
+                //
+                if (fileName == null || fileName.Length <= 0)
+                {
+                    return;
+                }
+                //
+                // Checks the parent directory.
+                //
+                string parentPath = Path.GetDirectoryName(fileName);
+                if (parentPath != null && parentPath.Length > 0 && !Directory.Exists(parentPath))
+                {
+                    Directory.CreateDirectory(parentPath);
+                }
+                //
+                // Searchs the "Stepper" & the "System".
+                //
+                List<EcellObject> storedStepperList = new List<EcellObject>();
+                List<EcellObject> storedSystemList = new List<EcellObject>();
+
+                Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
+                Dictionary<string, List<EcellObject>> stepperDic = m_currentProject.StepperDic[m_currentProject.Info.SimulationParam];
+
+                foreach (EcellObject model in m_currentProject.ModelList)
+                {
+                    storedStepperList.AddRange(stepperDic[model.ModelID]);
+                    storedSystemList.AddRange(sysDic[model.ModelID]);
+                }
+                Debug.Assert(storedStepperList != null && storedStepperList.Count > 0);
+                Debug.Assert(storedSystemList != null && storedSystemList.Count > 0);
+
+                //
+                // Exports.
+                //
+                storedStepperList.AddRange(storedSystemList);
+                EmlWriter.Create(fileName, storedStepperList, false);
+                Trace.WriteLine("Export Model: " + message);
+            }
+            catch (Exception ex)
+            {
+                throw new EcellException(String.Format(MessageResources.ErrCreFile,
+                    new object[] { fileName }), ex);
+            }
+        }
+
+        /// <summary>
+        /// Closes project without confirming save or no save.
+        /// </summary>
+        public void CloseProject()
+        {
+            string projectID = "";
+            try
+            {
+                if (m_currentProject != null)
+                {
+                    projectID = m_currentProject.Info.Name;
+                    m_currentProject.Simulator.Dispose();
+                    m_currentProject = null;
+                }
+                m_env.PluginManager.AdvancedTime(0);
+                m_env.PluginManager.Clear();
+
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoClose, projectID));
+                m_env.Console.Flush();
+
+                Trace.WriteLine(String.Format(MessageResources.InfoClose,
+                    new object[] { projectID }));
+                m_env.ActionManager.Clear();
+                m_env.ReportManager.Clear();
+                m_parameterList.Clear();
+                m_observedList.Clear();
+                m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
+                m_loggerEntry.Clear();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                String errmes = string.Format(MessageResources.ErrClosePrj,
+                    new object[] { projectID });
+                throw new EcellException(errmes, ex);
+            }
+        }
+
+        #region Method for DataAdd
+        /// <summary>
+        /// Adds the list of "EcellObject".
+        /// </summary>
+        /// <param name="ecellObjectList">The list of "EcellObject"</param>
+        /// <param name="isRecorded">Whether this action is recorded or not</param>
+        /// <param name="isAnchor">Whether this action is an anchor or not</param>
+        public void DataAdd(List<EcellObject> ecellObjectList, bool isRecorded, bool isAnchor)
+        {
+            int i = 0;
+            int max = ecellObjectList.Count;
+            foreach (EcellObject obj in ecellObjectList)
+            {
+                i++;
+                DataAdd(obj, isRecorded, isAnchor && (i == max));
+            }
+        }
+
+        /// <summary>
+        /// Adds the "EcellObject".
+        /// </summary>
+        /// <param name="ecellObject"></param>
+        public void DataAdd(EcellObject ecellObject)
+        {
+            DataAdd(ecellObject, true, true);
+        }
+
+        /// <summary>
+        /// Adds the "EcellObject".
+        /// </summary>
+        /// <param name="ecellObject">The "EcellObject"</param>
+        /// <param name="isRecorded">Whether this action is recorded or not</param>
+        /// <param name="isAnchor">Whether this action is an anchor or not</param>
+        public void DataAdd(EcellObject ecellObject, bool isRecorded, bool isAnchor)
+        {
+            List<EcellObject> usableList = new List<EcellObject>();
+            string type = null;
+
+            bool isUndoable = true; // Whether DataAdd action is undoable or not
+            try
+            {
+                if (!ecellObject.IsUsable)
+                    return;
+                type = ecellObject.Type;
+
+                ConfirmReset("add", type);
+
+                if (type.Equals(Constants.xpathProcess))
+                {
+                    DataAdd4Entity(ecellObject, true);
+                    usableList.Add(ecellObject);
+                }
+                else if (type.Equals(Constants.xpathVariable))
+                {
+                    DataAdd4Entity(ecellObject, true);
+                    usableList.Add(ecellObject);
+                }
+                else if (type.Equals(Constants.xpathText))
+                {
+                    DataAdd4Entity(ecellObject, true);
+                    usableList.Add(ecellObject);
+                }
+                else if (type.Equals(Constants.xpathSystem))
+                {
+                    DataAdd4System(ecellObject, true);
+                    if ("/".Equals(ecellObject.Key))
+                        isUndoable = false;
+                    usableList.Add(ecellObject);
+                }
+                else if (type.Equals(Constants.xpathStepper))
+                {
+                    // this.DataAdd4Stepper(ecellObject);
+                    // usableList.Add(ecellObject);
+                }
+                else if (type.Equals(Constants.xpathModel))
+                {
+                    isUndoable = false;
+                    DataAdd4Model(ecellObject, usableList);
+                }
+            }
+            catch (IgnoreException)
+            {
+                // CancelしたときにIgnoreExceptionが発生するが無視しないと
+                // Cancelしているのにエラーダイアログが表示されてしまう
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                usableList.Clear();
+                throw new EcellException(
+                   String.Format(MessageResources.ErrAdd,
+                    new object[] { type, ecellObject.Key }), ex);
+            }
+            finally
+            {
+                if (usableList.Count > 0)
+                {
+
+                    m_env.PluginManager.DataAdd(usableList);
+                    foreach (EcellObject obj in usableList)
+                    {
+                        if (isRecorded)
+                            m_env.ActionManager.AddAction(new DataAddAction(obj, isUndoable, isAnchor));
+                    }
+                    if (type.Equals(EcellObject.SYSTEM))
+                        m_env.PluginManager.RaiseRefreshEvent();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds the "Model"
+        /// </summary>
+        /// <param name="ecellObject">The "Model"</param>
+        /// <param name="usableList">The list of the added "EcellObject"</param>
+        private void DataAdd4Model(EcellObject ecellObject, List<EcellObject> usableList)
+        {
+            List<EcellModel> modelList = m_currentProject.ModelList;
+
+            string modelID = ecellObject.ModelID;
+
+            foreach (EcellObject model in modelList)
+            {
+                Debug.Assert(!model.ModelID.Equals(modelID));
+            }
+            //
+            // Sets the "Model".
+            //
+            modelList.Add((EcellModel)ecellObject);
+            usableList.Add(ecellObject);
+            //
+            // Sets the root "System".
+            //
+            if (m_currentProject.SystemDic == null)
+                m_currentProject.SystemDic = new Dictionary<string, List<EcellObject>>();
+            Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
+            if (!sysDic.ContainsKey(modelID))
+                sysDic[modelID] = new List<EcellObject>();
+
+            Dictionary<string, EcellObject> dic = GetDefaultSystem(modelID);
+            Debug.Assert(dic != null);
+            sysDic[modelID].Add(dic[Constants.xpathSystem]);
+            usableList.Add(dic[Constants.xpathSystem]);
+            //
+            // Sets the default parameter.
+            //
+            m_currentProject.Initialize(modelID);
+            foreach (string simParam in m_currentProject.InitialCondition.Keys)
+            {
+                // Sets initial conditions.
+                m_currentProject.StepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
+                m_currentProject.StepperDic[simParam] = new Dictionary<string, List<EcellObject>>();
+                m_currentProject.StepperDic[simParam][modelID] = new List<EcellObject>();
+                m_currentProject.StepperDic[simParam][modelID].Add(dic[Constants.xpathStepper]);
+                m_currentProject.LoggerPolicyDic = new Dictionary<string, LoggerPolicy>();
+                m_currentProject.LoggerPolicyDic[simParam] = new LoggerPolicy();
+            }
+            //
+            // Messages
+            //
+            string message = String.Format(MessageResources.InfoAdd,
+                new object[] { ecellObject.Type, modelID });
+            MessageCreateEntity(EcellObject.MODEL, message);
+            MessageCreateEntity(EcellObject.SYSTEM, message);
+        }
+
+        /// <summary>
+        /// Returns the dictionary of the default "System" and the "Stepper".
+        /// </summary>
+        /// <param name="modelID">The model ID</param>
+        /// <returns>The dictionary of the default "System" and the "Stepper"</returns>
+        private Dictionary<string, EcellObject> GetDefaultSystem(string modelID)
+        {
+            Dictionary<string, EcellObject> dic = new Dictionary<string, EcellObject>();
+            EcellObject systemEcellObject = null;
+            EcellObject stepperEcellObject = null;
+            WrappedSimulator simulator = m_currentProject.Simulator;
+            BuildDefaultSimulator(simulator, null, null);
+            systemEcellObject
+                    = EcellObject.CreateObject(
+                        modelID,
+                        Constants.delimiterPath,
+                        Constants.xpathSystem,
+                        Constants.xpathSystem,
+                        null);
+            DataStorer.DataStored4System(
+                    simulator,
+                    systemEcellObject,
+                    new Dictionary<string, double>());
+            stepperEcellObject
+                    = EcellObject.CreateObject(
+                        modelID,
+                        Constants.textKey,
+                        Constants.xpathStepper,
+                        "",
+                        null);
+            DataStorer.DataStored4Stepper(simulator, m_env, stepperEcellObject);
+            dic[Constants.xpathSystem] = systemEcellObject;
+            dic[Constants.xpathStepper] = stepperEcellObject;
+            return dic;
+        }
+
+        /// <summary>
+        /// Adds the "Stepper".
+        /// </summary>
+        /// <param name="ecellObject">The "Stepper"</param>
+        private void DataAdd4Stepper(EcellObject ecellObject)
+        {
+            // Bypasses now.
+        }
+
+        /// <summary>
+        /// Adds the "System".
+        /// </summary>
+        /// <param name="system">The System</param>
+        /// <param name="messageFlag">The flag of the messages</param>
+        private void DataAdd4System(EcellObject system, bool messageFlag)
+        {
+            string modelID = system.ModelID;
+            string type = system.Type;
+
+            Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
+
+            if (!sysDic.ContainsKey(modelID))
+                sysDic[modelID] = new List<EcellObject>();
+            // Check duplicated system.
+            foreach (EcellObject sys in sysDic[modelID])
+            {
+                if (!sys.Key.Equals(system.Key))
+                    continue;
+                throw new EcellException(String.Format(MessageResources.ErrAdd,
+                    new object[] { type, system.Key }));
+            }
+            CheckEntityPath(system);
+            m_currentProject.AddSystem(system);
+
+            // Show Message.
+            if (messageFlag)
+            {
+                MessageCreateEntity(EcellObject.SYSTEM,
+                    String.Format(MessageResources.InfoAdd,
+                    new object[] { type, system.Key }));
+            }
+            m_env.PluginManager.RaiseRefreshEvent();
+        }
+
+        /// <summary>
+        /// Adds the "Process" or the "Variable".
+        /// </summary>
+        /// <param name="entity">The "Variable"</param>
+        /// <param name="messageFlag">The flag of the messages</param>
+        private void DataAdd4Entity(EcellObject entity, bool messageFlag)
+        {
+            string modelID = entity.ModelID;
+            string key = entity.Key;
+            string type = entity.Type;
+            string systemKey = entity.ParentSystemID;
+
+            Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
+            Debug.Assert(sysDic != null && sysDic.Count > 0);
+            Debug.Assert(sysDic.ContainsKey(modelID));
+
+            // Add object.
+            bool findFlag = false;
+            foreach (EcellObject system in sysDic[modelID])
+            {
+                if (!system.ModelID.Equals(modelID) || !system.Key.Equals(systemKey))
+                    continue;
+                if (system.Children == null)
+                    system.Children = new List<EcellObject>();
+                // Check duplicated object.
+                foreach (EcellObject child in system.Children)
+                {
+                    if (!child.Key.Equals(key) || !child.Type.Equals(type))
+                        continue;
+                    throw new EcellException(
+                        string.Format(
+                            MessageResources.ErrExistObj,
+                            new object[] { key }
+                        )
+                    );
+                }
+                // Set object.
+                CheckEntityPath(entity);
+                system.Children.Add(entity.Copy());
+                findFlag = true;
+                break;
+            }
+
+            if (messageFlag)
+            {
+                MessageCreateEntity(type, String.Format(MessageResources.InfoAdd,
+                    new object[] { type, entity.Key }));
+            }
+            Debug.Assert(findFlag);
+
+            if (entity.Value == null || entity.Value.Count <= 0)
+                return;
+            if (entity is EcellText)
+                return;
+
+            // Set Simulation param
+            m_currentProject.AddSimulationParameter(entity);
+        }
+
+        #endregion
+
+        #region Method for Data Change
+        /// <summary>
+        /// Changes the "EcellObject".
+        /// </summary>
+        /// <param name="ecellObjectList">The changed "EcellObject"</param>
+        public void DataChanged(List<EcellObject> ecellObjectList)
+        {
+            DataChanged(ecellObjectList, true, true);
+        }
+        /// <summary>
+        /// Changes the "EcellObject".
+        /// </summary>
+        /// <param name="ecellObjectList">The changed "EcellObject"</param>
+        /// <param name="isRecorded">The flag whether this action is recorded.</param>
+        /// <param name="isAnchor">The flag whether this action is anchor.</param>
+        public void DataChanged(List<EcellObject> ecellObjectList, bool isRecorded, bool isAnchor)
+        {
+            int i = 0;
+            int max = ecellObjectList.Count;
+            foreach (EcellObject obj in ecellObjectList)
+            {
+                i++;
+                DataChanged(obj.ModelID, obj.Key, obj.Type, obj, isRecorded, isAnchor && (i == max));
+            }
+        }
+
+        /// <summary>
+        /// Changes the "EcellObject".
+        /// </summary>
+        /// <param name="modelID">The model ID</param>
+        /// <param name="key">The key</param>
+        /// <param name="type">The type of the "EcellObject"</param>
+        /// <param name="ecellObject">The changed "EcellObject"</param>
+        public void DataChanged(string modelID, string key, string type, EcellObject ecellObject)
+        {
+            DataChanged(modelID, key, type, ecellObject, true, true);
+        }
+
+        /// <summary>
+        /// Changes the "EcellObject".
+        /// </summary>
+        /// <param name="modelID">The model ID</param>
+        /// <param name="key">The key</param>
+        /// <param name="type">The type of the "EcellObject"</param>
+        /// <param name="ecellObject">The changed "EcellObject"</param>
+        /// <param name="isRecorded">Whether this action is recorded or not</param>
+        /// <param name="isAnchor">Whether this action is an anchor or not</param>
+        public void DataChanged(
+            string modelID,
+            string key,
+            string type,
+            EcellObject ecellObject,
+            bool isRecorded,
+            bool isAnchor)
+        {
+            Debug.Assert(!String.IsNullOrEmpty(modelID));
+            Debug.Assert(!String.IsNullOrEmpty(key));
+            Debug.Assert(!String.IsNullOrEmpty(type));
+
+            try
+            {
+                // StatusCheck
+                if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
+                    m_currentProject.SimulationStatus == SimulationStatus.Suspended)
+                {
+                    EcellObject obj = GetEcellObject(modelID, key, type);
+                    if (!key.Equals(ecellObject.Key) ||
+                        !obj.Classname.Equals(ecellObject.Classname) ||
+                        obj.Value.Count != ecellObject.Value.Count)
+                        ConfirmReset("change", type);
+                    else
+                    {
+                        if (ecellObject.Type == EcellObject.PROCESS ||
+                            ecellObject.Type == EcellObject.VARIABLE ||
+                            ecellObject.Type == EcellObject.SYSTEM)
+                        {
+                            foreach (EcellData d in obj.Value)
+                            {
+                                foreach (EcellData d1 in ecellObject.Value)
+                                {
+                                    if (!d.Name.Equals(d1.Name))
+                                        continue;
+                                    if (!d.Value.ToString().Equals(d1.Value.ToString()))
+                                    {
+                                        m_currentProject.Simulator.SetEntityProperty(d1.EntityPath, d1.Value.Value);
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (IgnoreException)
+            {
+                // CancelしたときにIgnoreExceptionが発生するが無視しないと
+                // Cancelしているのにエラーダイアログが表示されてしまう
+                return;
+            }
+
+            if (key != ecellObject.Key &&
+                GetEcellObject(ecellObject.ModelID, ecellObject.Key, ecellObject.Type) != null)
+            {
+                throw new EcellException(string.Format(MessageResources.ErrExistObj, ecellObject.Key));
+            }
+
+            try
+            {
+                // Record action
+                EcellObject oldObj = GetEcellObject(modelID, key, type);
+
+                // Searches the "System".
+                List<EcellObject> systemList = m_currentProject.SystemDic[modelID];
+                Debug.Assert(systemList != null && systemList.Count > 0);
+
+                // Checks the EcellObject
+                CheckEntityPath(ecellObject);
+
+                // 4 System & Entity
+                if (ecellObject.Type.Equals(Constants.xpathSystem))
+                {
+                    DataChanged4System(modelID, key, type, ecellObject);
+                }
+                else if (ecellObject.Type.Equals(Constants.xpathProcess))
+                {
+                    DataChanged4Entity(modelID, key, type, ecellObject);
+                }
+                else if (ecellObject.Type.Equals(Constants.xpathText))
+                {
+                    DataChanged4Entity(modelID, key, type, ecellObject);
+                }
+                else if (ecellObject.Type.Equals(Constants.xpathVariable))
+                {
+                    DataChanged4Entity(modelID, key, type, ecellObject);
+                }
+
+                if (key != ecellObject.Key)
+                    CheckParameterObservedData(oldObj, ecellObject.Key);
+
+                //if (!oldObj.IsPosSet)
+                //    m_env.PluginManager.SetPosition(oldObj);                
+                if (isRecorded)
+                    this.m_env.ActionManager.AddAction(new DataChangeAction(modelID, type, oldObj.Copy(), ecellObject.Copy(), isAnchor));
+
+            }
+            catch (Exception ex)
+            {
+                throw new EcellException(
+                    string.Format(
+                    MessageResources.ErrSetProp,
+                    new object[] { key }),
+                    ex);
+            }
+        }
+
+        /// <summary>
+        /// Changes the "Variable" or the "Process".
+        /// </summary>
+        /// <param name="modelID">The model ID</param>
+        /// <param name="key">The key</param>
+        /// <param name="type">The type</param>
+        /// <param name="ecellObject">The changed "Variable" or the "Process"</param>
+        private void DataChanged4Entity(
+            string modelID, string key, string type, EcellObject ecellObject)
+        {
+            // Get changed node.
+            EcellObject oldNode = m_currentProject.GetEcellObject(modelID, type, key);
+            EcellObject oldSystem = m_currentProject.GetSystem(modelID, Util.GetSuperSystemPath(key));
+            Debug.Assert(oldNode != null);
+            Debug.Assert(oldSystem != null);
+
+            this.CheckDifferences(oldNode, ecellObject, null);
+            if (modelID.Equals(ecellObject.ModelID)
+                && key.Equals(ecellObject.Key)
+                && type.Equals(ecellObject.Type))
+            {
+                oldSystem.Children.Remove(oldNode);
+                oldSystem.Children.Add(ecellObject);
+                m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
+                return;
+            }
+
+            // Get parent system.
+            // Add new object.
+            DataAdd4Entity(ecellObject.Copy(), false);
+            m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
+            if (type.Equals(Constants.xpathVariable))
+            {
+                List<EcellObject> list = CheckVariableReferenceChanges(key, ecellObject.Key);
+                DataChanged(list, false, false);
+            }
+            // Deletes the old object.
+            DataDelete4Node(modelID, key, type, false, true);
+            return;
+        }
+
+        /// <summary>
+        /// Changes the "System".
+        /// </summary>
+        /// <param name="modelID">The model ID</param>
+        /// <param name="key">The key</param>
+        /// <param name="type">The type</param>
+        /// <param name="ecellObject">The changed "System"</param>
+        private void DataChanged4System(string modelID, string key, string type, EcellObject ecellObject)
+        {
+            m_currentProject.SortSystems();
+            List<EcellObject> systemList = m_currentProject.SystemDic[modelID];
+
+            // When system path is not modified.
+            if (modelID.Equals(ecellObject.ModelID) && key.Equals(ecellObject.Key))
+            {
+                // Changes some properties.
+                for (int i = 0; i < systemList.Count; i++)
+                {
+                    if (!systemList[i].Key.Equals(key))
+                        continue;
+
+                    CheckDifferences(systemList[i], ecellObject, null);
+                    systemList[i] = ecellObject.Copy();
+                    m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
+                    break;
+                }
+                return;
+            }
+
+            // Check Root
+            if (key == Constants.delimiterPath)
+                throw new EcellException(MessageResources.ErrChangeRoot);
+
+            // Changes the object.
+            Dictionary<string, string> variableKeyDic = new Dictionary<string, string>();
+            Dictionary<string, string> oldKeyDic = new Dictionary<string, string>();
+            List<EcellObject> tempList = new List<EcellObject>();
+            tempList.AddRange(systemList);
+            foreach (EcellObject system in tempList)
+            {
+                if (!system.Key.Equals(key) && !system.Key.StartsWith(key + Constants.delimiterPath))
+                    continue;
+
+                // Adds the new "System" object.
+                string newKey = ecellObject.Key + system.Key.Substring(key.Length);
+                EcellSystem newSystem
+                    = (EcellSystem)EcellObject.CreateObject(modelID, newKey, system.Type, system.Classname, system.Value);
+                newSystem.SetPosition(system);
+                CheckEntityPath(newSystem);
+                CheckDifferences(system, newSystem, null);
+                CheckParameterObservedData(system, newSystem.Key);
+                m_currentProject.AddSystem(newSystem);
+                m_currentProject.DeleteSystem(system);
+
+                // Change Child
+                foreach (EcellObject child in system.Children)
+                {
+                    m_currentProject.DeleteEntity(child);
+                    EcellObject copy = child.Copy();
+                    copy.ParentSystemID = newKey;
+                    CheckEntityPath(copy);
+                    m_currentProject.AddEntity(copy);
+                    CheckParameterObservedData(child, copy.Key);
+
+                    oldKeyDic.Add(copy.Key, child.Key);
+                    if (copy.Type.Equals(Constants.xpathVariable))
+                        variableKeyDic.Add(child.Key, copy.Key);
+                }
+                // Throw DataChanged Event
+                m_env.PluginManager.DataChanged(modelID, system.Key, type, newSystem);
+                foreach (EcellObject child in newSystem.Children)
+                {
+                    m_env.PluginManager.DataChanged(modelID, oldKeyDic[child.Key], child.Type, child);
+                }
+            }
+
+            // Checks all processes.
+            m_currentProject.SortSystems();
+            List<EcellObject> processList = CheckVariableReferenceChanges(variableKeyDic);
+            DataChanged(processList, false, false);
+        }
+
+        /// <summary>
+        /// Set positions of all EcellObjects.
+        /// </summary>
+        /// <param name="modelID">Model ID</param>
+        public void SetPositions(string modelID)
+        {
+            if (null != modelID && m_currentProject.SystemDic.ContainsKey(modelID))
+            {
+                foreach (EcellObject eo in m_currentProject.SystemDic[modelID])
+                    m_env.PluginManager.SetPosition(eo);
+            }
+        }
+
+        /// <summary>
+        /// SetPosition
+        /// </summary>
+        /// <param name="eo"></param>
+        public void SetPosition(EcellObject eo)
+        {
+            EcellObject oldNode = m_currentProject.GetEcellObject(eo.ModelID, eo.Type, eo.Key);
+            oldNode.SetPosition(eo);
+            // not implement.
+            m_env.PluginManager.SetPosition(oldNode.Copy());
+        }
+
+        #endregion
+
+        #region Method for DataDelete
+        /// <summary>
+        /// Deletes the "EcellObject".
+        /// </summary>
+        /// <param name="eo"></param>
+        public void DataDelete(EcellObject eo)
+        {
+            DataDelete(eo.ModelID, eo.Key, eo.Type, true, true);
+        }
+
+        /// <summary>
+        /// Deletes the "EcellObject".
+        /// </summary>
+        /// <param name="eo"></param>
+        /// <param name="isRecorded">Whether this action is recorded or not</param>
+        /// <param name="isAnchor">Whether this action is an anchor or not</param>
+        public void DataDelete(EcellObject eo, bool isRecorded, bool isAnchor)
+        {
+            DataDelete(eo.ModelID, eo.Key, eo.Type, isRecorded, isAnchor);
+        }
+
+        /// <summary>
+        /// Deletes the "EcellObject" using the model ID and the key of the "EcellObject".
+        /// </summary>
+        /// <param name="modelID">The model ID</param>
+        /// <param name="key">The key of the "EcellObject"</param>
+        /// <param name="type">The type of the "EcellObject"</param>
+        public void DataDelete(string modelID, string key, string type)
+        {
+            DataDelete(modelID, key, type, true, true);
+        }
+
+        /// <summary>
+        /// Deletes the "EcellObject" using the model ID and the key of the "EcellObject".
+        /// </summary>
+        /// <param name="modelID">The model ID</param>
+        /// <param name="key">The key of the "EcellObject"</param>
+        /// <param name="type">The type of the "EcellObject"</param>
+        /// <param name="isRecorded">Whether this action is recorded or not</param>
+        /// <param name="isAnchor">Whether this action is an anchor or not</param>
+        public void DataDelete(string modelID, string key, string type, bool isRecorded, bool isAnchor)
+        {
+            try
+            {
+                ConfirmReset("delete", type);
+            }
+            catch (IgnoreException)
+            {
+                // CancelしたときにIgnoreExceptionが発生するが無視しないと
+                // Cancelしているのにエラーダイアログが表示されてしまう
+                return;
+            }
+
+            // Check root
+            if (key.Equals("/"))
+            {
+                Util.ShowErrorDialog(MessageResources.ErrDelRoot);
+                return;
+            }
+
+            EcellObject deleteObj = null;
+            try
+            {
+                if (string.IsNullOrEmpty(modelID))
+                    return;
+                deleteObj = GetEcellObject(modelID, key, type);
+
+                foreach (EcellData data in deleteObj.Value)
+                {
+                    if (GetParameterData(data.EntityPath) != null)
+                    {
+                        RemoveParameterData(new EcellParameterData(data.EntityPath, 0.0));
+                    }
+                    if (GetObservedData(data.EntityPath) != null)
+                    {
+                        RemoveObservedData(new EcellObservedData(data.EntityPath, 0.0));
+                    }
+                }
+
+                if (string.IsNullOrEmpty(key))
+                {
+                    DataDelete4Model(modelID);
+                }
+                else if (key.Contains(":"))
+                { // not system
+                    DataDelete4Node(modelID, key, type, true, isRecorded);
+                }
+                else
+                { // system
+                    DataDelete4System(modelID, key, true, isRecorded);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new EcellException(String.Format(MessageResources.ErrDelete,
+                    new object[] { key }), ex);
+            }
+            finally
+            {
+                m_env.PluginManager.DataDelete(modelID, key, type);
+                if (isRecorded)
+                    m_env.ActionManager.AddAction(new DataDeleteAction(modelID, key, type, deleteObj, isAnchor));
+                if (type.Equals(EcellObject.SYSTEM))
+                    m_env.PluginManager.RaiseRefreshEvent();
+            }
+        }
+
+        /// <summary>
+        /// Deletes the "Model" using the model ID.
+        /// </summary>
+        /// <param name="modelID">The model ID</param>
+        private void DataDelete4Model(string modelID)
+        {
+            string message = "[" + modelID + "]";
+            //
+            // Delete the "Model".
+            //
+            bool isDelete = false;
+            foreach (EcellObject obj in m_currentProject.ModelList)
+            {
+                if (obj.ModelID == modelID)
+                {
+                    m_currentProject.ModelList.Remove((EcellModel)obj);
+                    isDelete = true;
+                    break;
+                }
+            }
+            Debug.Assert(isDelete);
+
+            // Deletes "System"s.
+            if (m_currentProject.SystemDic.ContainsKey(modelID))
+            {
+                m_currentProject.SystemDic.Remove(modelID);
+            }
+            // Deletes "Stepper"s.
+            foreach (string param in m_currentProject.StepperDic.Keys)
+            {
+                if (m_currentProject.StepperDic[param].ContainsKey(modelID))
+                {
+                    m_currentProject.StepperDic[param].Remove(modelID);
+                }
+            }
+            MessageDeleteEntity(EcellObject.MODEL, message);
+        }
+
+        /// <summary>
+        /// Deletes the "Process" or the "Variable" using the model ID and the key of the "EcellObject".
+        /// </summary>
+        /// <param name="model">The model ID</param>
+        /// <param name="key">The key of the "EcellObject"</param>
+        /// <param name="type">The type of the "EcellObject"</param>
+        /// <param name="messageFlag">The flag of the message</param>
+        /// <param name="isRecorded">The flag whether this action is recorded.</param>
+        private void DataDelete4Node(
+            string model,
+            string key,
+            string type,
+            bool messageFlag,
+            bool isRecorded)
+        {
+            if (!m_currentProject.SystemDic.ContainsKey(model))
+                return;
+
+            // Show Message.
+            string message = "[" + model + "][" + key + "]";
+            if (messageFlag)
+                MessageDeleteEntity(type, message);
+
+            // Delete node.
+            EcellObject node = GetEcellObject(model, key, type);
+            if (node != null)
+                m_currentProject.DeleteEntity(node);
+
+            // Update VariableReference.
+            if (node is EcellVariable)
+            {
+                List<EcellObject> processList = CheckVariableReferenceChanges(key, null);
+                DataChanged(processList, isRecorded, false);
+            }
+        }
+
+        /// <summary>
+        /// Deletes the "System" using the model ID and the key of the "EcellObject".
+        /// </summary>
+        /// <param name="model">The model ID</param>
+        /// <param name="key">The key of the "EcellObject"</param>
+        /// <param name="messageFlag">The flag of the messages</param>
+        /// <param name="isRecorded">Whether this action is recorded or not</param>
+        private void DataDelete4System(string model, string key, bool messageFlag, bool isRecorded)
+        {
+            List<EcellObject> sysList = m_currentProject.SystemDic[model];
+
+            string message = "[" + model + "][" + key + "]";
+            // List up systems for delete.
+            List<EcellObject> delList = new List<EcellObject>();
+            foreach (EcellObject sys in sysList)
+            {
+                if (sys.Key.Equals(key) || sys.Key.StartsWith(key + "/"))
+                    delList.Add(sys);
+            }
+
+            // Delete system
+            Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialCondition = this.m_currentProject.InitialCondition;
+            Dictionary<string, string> varDic = new Dictionary<string, string>();
+            for (int i = delList.Count - 1; i >= 0; i--)
+            {
+                EcellObject sys = delList[i];
+                m_currentProject.DeleteSystem(sys);
+                // Record deletion of child system. 
+                if (!sys.Key.Equals(key))
+                    m_env.ActionManager.AddAction(new DataDeleteAction(sys.ModelID, sys.Key, sys.Type, sys, false));
+                if (messageFlag)
+                    MessageDeleteEntity(EcellObject.SYSTEM, message);
+
+                // Check VariableReferences to delete
+                foreach (EcellObject child in sys.Children)
+                {
+                    if (!child.Type.Equals(Constants.xpathVariable))
+                        continue;
+                    varDic.Add(child.Key, null);
+                }
+            }
+
+            // Update VariableReferences.
+            List<EcellObject> processlist = CheckVariableReferenceChanges(varDic);
+            DataChanged(processlist, isRecorded, false);
+        }
+
+        /// <summary>
+        /// Move the component to the upper system, when system is deleted.
+        /// </summary>
+        /// <param name="modelID">modelID of deleted system.</param>
+        /// <param name="sysKey">key of deleted system.</param>
+        public void SystemDeleteAndMove(string modelID, string sysKey)
+        {
+            // Check system.
+            EcellObject system = GetEcellObject(modelID, sysKey, EcellObject.SYSTEM);
+            if (system == null)
+                throw new EcellException(String.Format(MessageResources.ErrFindEnt, new object[] { sysKey }));
+            // CheckRoot
+            if (system.Key.Equals("/"))
+                throw new EcellException(MessageResources.ErrDelRoot);
+            // Confirm system merge.
+            if (!Util.ShowYesNoDialog(MessageResources.ConfirmMerge))
+                return;
+
+            // Get objects under this system.
+            string parentSysKey = system.ParentSystemID;
+            List<EcellObject> eoList = new List<EcellObject>(); ;
+            foreach (EcellObject sys in m_currentProject.SystemDic[modelID])
+            {
+                if (!sys.Key.StartsWith(sysKey + "/") && !sys.Key.Equals(sysKey))
+                    continue;
+                // Add System
+                if (!sys.Key.Equals(sysKey))
+                {
+                    eoList.Add(sys.Copy());
+                    continue;
+                }
+                // Add Nodes
+                foreach (EcellObject node in sys.Children)
+                {
+                    if (node.Key.EndsWith(":SIZE"))
+                        continue;
+                    eoList.Add(node.Copy());
+                }
+            }
+
+            // Check and replace object keys.
+            Dictionary<string, string> varDic = new Dictionary<string, string>();
+            List<EcellProcess> processList = new List<EcellProcess>();
+            string oldKey;
+            string newKey;
+            foreach (EcellObject eo in eoList)
+            {
+                // Check Duplication
+                oldKey = eo.Key;
+                newKey = Util.GetMovedKey(oldKey, sysKey, parentSysKey);
+                if (GetEcellObject(modelID, newKey, eo.Type) != null)
+                {
+                    throw new EcellException(String.Format(MessageResources.ErrExistObj,
+                        new object[] { newKey }));
+                }
+                CheckParameterObservedData(eo, newKey);
+                eo.Key = newKey;
+                // Set varDic
+                if (eo is EcellVariable)
+                    varDic.Add(oldKey, newKey);
+                else if (eo is EcellProcess)
+                    processList.Add((EcellProcess)eo);
+
+                if (!(eo is EcellSystem))
+                    continue;
+                foreach (EcellObject child in eo.Children)
+                {
+                    oldKey = child.Key;
+                    newKey = Util.GetMovedKey(oldKey, sysKey, parentSysKey);
+                    CheckParameterObservedData(child, newKey);
+                    child.Key = newKey;
+
+                    // Set varDic
+                    if (child is EcellVariable)
+                        varDic.Add(oldKey, newKey);
+                    else if (child is EcellProcess)
+                        processList.Add((EcellProcess)child);
+                }
+            }
+            // Update VariableReferences for new processes.
+            CheckVariableReferenceChanges(varDic, processList);
+
+            // Get Processes who's VariableReference will be removed in DataDelete Event.
+            processList.Clear();
+            foreach (EcellObject sys in m_currentProject.SystemDic[modelID])
+            {
+                if (sys.Key.StartsWith(sysKey + "/"))
+                    continue;
+                if (sys.Key.Equals(sysKey))
+                    continue;
+
+                // Add Nodes
+                foreach (EcellObject node in sys.Children)
+                {
+                    if (!(node is EcellProcess))
+                        continue;
+                    processList.Add((EcellProcess)node.Copy());
+                }
+            }
+            List<EcellObject> updatingProcesses = CheckVariableReferenceChanges(varDic, processList);
+
+            // Remove system.
+            DataDelete(system, true, false);
+
+            // Move systems and nodes under merged system.
+            DataAdd(eoList, true, (updatingProcesses.Count <= 0));
+
+            // Update VariableReferences
+            DataChanged(updatingProcesses, true, true);
+        }
+
+        #endregion
+
+        #region DataChecker
         /// <summary>
         /// Checks differences between the source "EcellObject" and the destination.
         /// </summary>
@@ -365,12 +1930,15 @@ namespace Ecell
                     if (!destEcellData.IsInitialized())
                         continue;
 
-                    if (!destEcellData.Loadable && !destEcellData.Settable)
-                        continue;
-
                     // GetValue
                     EcellValue value = destEcellData.Value;
-                    double temp = (double)value;
+                    double temp = 0;
+                    if (value.IsDouble)
+                        temp = (double)value;
+                    else if (value.IsInt)
+                        temp = (double)value;
+                    else
+                        continue;
 
                     if (!string.IsNullOrEmpty(parameterID))
                     {
@@ -399,23 +1967,15 @@ namespace Ecell
                         {
                             MessageCreateEntity("Logger", message + "[" + srcEcellData.Name + "]");
 
-                            if (!m_loggerEntry.Contains(srcEcellData.EntityPath))
-                            {
-                                WrappedSimulator simulator = m_currentProject.Simulator;
-                                CreateLogger(srcEcellData.EntityPath, simulator,
-                                    m_currentProject.LoggerPolicy.ReloadStepCount,
-                                    m_currentProject.LoggerPolicy.ReloadInterval,
-                                    m_currentProject.LoggerPolicy.DiskFullAction == DiskFullAction.Overwrite,
-                                    m_currentProject.LoggerPolicy.MaxDiskSpace);
-
-                                m_loggerEntry.Add(srcEcellData.EntityPath);
-                            }
+                            WrappedSimulator simulator = m_currentProject.Simulator;
+                            LoggerPolicy loggerPolicy = this.GetCurrentLoggerPolicy();
+                            CreateLogger(srcEcellData.EntityPath, false, simulator, loggerPolicy);
                             updated = true;
                         }
                         else if (srcEcellData.Logged && !destEcellData.Logged)
                         {
                             MessageDeleteEntity("Logger", message + "[" + srcEcellData.Name + "]");
-                            updated = true;                      
+                            updated = true;
                         }
                         if (!srcEcellData.Value.ToString()
                                 .Equals(destEcellData.Value.ToString()))
@@ -441,11 +2001,14 @@ namespace Ecell
                             || srcEcellData.Value.Equals(value))
                             continue;
 
-                        if (!srcEcellData.Loadable && !srcEcellData.Settable)
-                            continue;
-
                         // GetValue
-                        double temp = (double)value;
+                        double temp = 0;
+                        if (value.IsDouble)
+                            temp = (double)value;
+                        else if (value.IsInt)
+                            temp = (double)value;
+                        else
+                            continue;
 
                         if (!string.IsNullOrEmpty(parameterID))
                         {
@@ -470,50 +2033,6 @@ namespace Ecell
                 }
             }
             return updated;
-        }
-
-        /// <summary>
-        /// Get Process list to update VariableReference.
-        /// </summary>
-        /// <param name="variableDic">Dictionary of VariableReference changed."Dictionary[oldKey,newKey]"</param>
-        /// <returns></returns>
-        private List<EcellObject> GetUpdatedProcessList(Dictionary<string, string> variableDic)
-        {
-            // Get ProcessList
-            List<EcellProcess> list = new List<EcellProcess>();
-            foreach (EcellObject system in m_currentProject.SystemList)
-            {
-                if (system.Children == null || system.Children.Count <= 0)
-                    continue;
-
-                foreach (EcellObject child in system.Children)
-                {
-                    if (!(child is EcellProcess))
-                        continue;
-                    list.Add((EcellProcess)child.Copy());
-                }
-            }
-            // Check VariableReference
-            List<EcellObject> returnList = new List<EcellObject>();
-            bool changedFlag = false;
-            foreach (EcellProcess process in list)
-            {
-                changedFlag = false;
-                List<EcellReference> refList = process.ReferenceList;
-                foreach (EcellReference er in refList)
-                {
-                    if (!variableDic.ContainsKey(er.Key))
-                        continue;
-                    // Replace VariableReference
-                    er.Key = variableDic[er.Key];
-                    changedFlag = true;
-                }
-                if (!changedFlag)
-                    continue;
-                process.ReferenceList = refList;
-                returnList.Add(process);
-            }
-            return returnList;
         }
 
         /// <summary>
@@ -575,1245 +2094,479 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Checks whether the "VariableReferenceList" has available "Variable"s.
+        /// Get Process list to update VariableReference.
         /// </summary>
-        /// <param name="src">The checked "EcellObject"</param>
-        /// <param name="dest">The available "EcellObject"</param>
-        /// <param name="variableDic">The dictionary of the name of available "Variable"s</param>
-        /// <returns>true if it modified; false otherwise</returns>
-        private static bool CheckVariableReferenceList(
-            EcellObject src, ref EcellObject dest, Dictionary<string, string> variableDic)
+        /// <param name="oldKey"></param>
+        /// <param name="newKey"></param>
+        /// <returns></returns>
+        private List<EcellObject> CheckVariableReferenceChanges(string oldKey, string newKey)
         {
-
-            dest = src.Copy();
-            EcellProcess process = (EcellProcess)dest;
-            List<EcellReference> refList = process.ReferenceList;
-            bool changedFlag = false;
-            if (refList == null || refList.Count <= 0)
-                return changedFlag;
-
-            foreach (EcellReference er in refList)
-            {
-                if (!variableDic.ContainsKey(er.Key))
-                    continue;
-                // if (variableDic.ContainsKey(er.Key))
-                er.Key = variableDic[er.Key];
-                changedFlag = true;
-            }
-            process.ReferenceList = refList;
-            return changedFlag;
+            Dictionary<string, string> varDic = new Dictionary<string, string>();
+            varDic.Add(oldKey, newKey);
+            return CheckVariableReferenceChanges(varDic);
         }
-
         /// <summary>
-        /// Checks whether the "VariableReferenceList" has available "Variable"s.
+        /// Get Process list to update VariableReference.
         /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="newKey">The new key</param>
-        /// <param name="oldKey">The old key</param>
-        /// <param name="changedList">The list of the modified "ECekllObject"</param>
-        private void CheckVariableReferenceList(
-            string modelID, string newKey, string oldKey, List<EcellObject> changedList)
+        /// <param name="variableDic">Dictionary of VariableReference changed."Dictionary[oldKey,newKey]"</param>
+        /// <returns></returns>
+        private List<EcellObject> CheckVariableReferenceChanges(Dictionary<string, string> variableDic)
         {
-            foreach (EcellObject system in m_currentProject.SystemDic[modelID])
+            // Get ProcessList
+            List<EcellProcess> processList = new List<EcellProcess>();
+            foreach (EcellObject system in m_currentProject.SystemList)
             {
                 if (system.Children == null || system.Children.Count <= 0)
                     continue;
 
-                foreach (EcellObject instance in system.Children)
+                foreach (EcellObject child in system.Children)
                 {
-                    if (!(instance is EcellProcess))
+                    if (!(child is EcellProcess))
                         continue;
-                    else if (instance.Value == null || instance.Value.Count <= 0)
-                        continue;
-
-                    EcellProcess entity = (EcellProcess)instance.Copy();
-                    List<EcellReference> refList = entity.ReferenceList;
-                    bool changedFlag = false;
-                    foreach (EcellReference er in refList)
+                    processList.Add((EcellProcess)child.Copy());
+                }
+            }
+            // Check VariableReference
+            List<EcellObject> returnList = CheckVariableReferenceChanges(variableDic, processList);
+            return returnList;
+        }
+        /// <summary>
+        /// CheckVariableReferenceChanges.
+        /// </summary>
+        /// <param name="variableDic"></param>
+        /// <param name="processList"></param>
+        /// <returns></returns>
+        private static List<EcellObject> CheckVariableReferenceChanges(Dictionary<string, string> variableDic, List<EcellProcess> processList)
+        {
+            List<EcellObject> returnList = new List<EcellObject>();
+            bool changedFlag = false;
+            foreach (EcellProcess process in processList)
+            {
+                changedFlag = false;
+                List<EcellReference> refList = process.ReferenceList;
+                List<EcellReference> newList = new List<EcellReference>();
+                foreach (EcellReference er in refList)
+                {
+                    // in case er isn't changed
+                    if (!variableDic.ContainsKey(er.Key))
                     {
-                        if (!er.Key.Equals(oldKey))
-                            continue;
-                        er.Key = newKey;
-                        changedFlag = true;
-                    }
-                    if (!changedFlag)
+                        newList.Add(er);
                         continue;
-                    
-                    // Set changed refList
-                    entity.ReferenceList = refList;
-                    changedList.Add(entity);
+                    }
+                    changedFlag = true;
+                    string refKey = variableDic[er.Key];
+                    // in case er is removed.
+                    if (refKey == null)
+                        continue;
+                    // in case er is changed.
+                    er.Key = refKey;
+                    newList.Add(er);
+                }
+                if (!changedFlag)
+                    continue;
+                process.ReferenceList = newList;
+                returnList.Add(process);
+            }
+            return returnList;
+        }
+
+        /// <summary>
+        /// Check parameters.
+        /// </summary>
+        /// <param name="oldObj"></param>
+        /// <param name="newkey"></param>
+        private void CheckParameterObservedData(EcellObject oldObj, string newkey)
+        {
+            foreach (EcellData data in oldObj.Value)
+            {
+                EcellParameterData param = GetParameterData(data.EntityPath);
+                if (param != null)
+                {
+                    SetParameterData(new EcellParameterData(data.EntityPath.Replace(oldObj.Key, newkey),
+                        param.Max, param.Min, param.Step));
+                }
+                EcellObservedData observed = GetObservedData(data.EntityPath);
+                if (observed != null)
+                {
+                    SetObservedData(new EcellObservedData(data.EntityPath.Replace(oldObj.Key, newkey),
+                        observed.Max, observed.Min, observed.Differ, observed.Rate));
                 }
             }
         }
+        #endregion
 
+        #region Create Default Object.
         /// <summary>
-        /// Closes project without confirming save or no save.
+        /// Create the default object(Process, Variable and System).
         /// </summary>
-        public void CloseProject()
+        /// <param name="modelID">the model ID of created object.</param>
+        /// <param name="key">the system path of parent object.</param>
+        /// <param name="type">the type of created object.</param>
+        /// <param name="isProper">the flag whether the create object is propergated.</param>
+        /// <returns>the create object.</returns>
+        public EcellObject CreateDefaultObject(string modelID, string key, string type, bool isProper)
         {
-            CloseProject(null);
-        }
-
-        /// <summary>
-        /// Closes project without confirming save or no save.
-        /// </summary>
-        /// <param name="projectID">The project ID</param>
-        public void CloseProject(string projectID)
-        {
+            EcellObject obj = null;
             try
             {
-                string closeProject = "";
-                List<string> tmpList = new List<string>();
-                if (projectID == null)
+                if (type.Equals(Constants.xpathSystem))
                 {
-                    if (m_projectList.Count <= 0)
-                        return;
-                    foreach (Project prj in m_projectList)
-                    {
-                        tmpList.Add(prj.Info.Name);
-                        if (String.IsNullOrEmpty(closeProject))
-                            closeProject = prj.Info.Name;
-                        else
-                            closeProject = closeProject + "," + prj.Info.Name;
-                    }
+                    obj = CreateDefaultSystem(modelID, key);
                 }
-                else
+                else if (type.Equals(Constants.xpathProcess))
                 {
-                    tmpList.Add(projectID);
-                }
-
-                foreach (string str in tmpList)
-                {
-                    foreach (Project prj in m_projectList)
-                    {
-                        if (prj.Info.Name == str)
-                        {
-                            m_projectList.Remove(prj);
-                            break;
-                        }
-                    }
-                }
-                if (this.m_currentProject != null)
-                {
-                    this.m_currentProject.Simulator.Dispose();
-                    this.m_currentProject = null;
-                }
-                this.m_env.PluginManager.AdvancedTime(0);
-                this.m_env.PluginManager.Clear();
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoClose, projectID));
-                m_env.Console.Flush();
-                Trace.WriteLine(String.Format(MessageResources.InfoClose, projectID));
-                m_env.ActionManager.Clear();
-                m_env.ReportManager.Clear();
-                m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
-                m_loggerEntry.Clear();
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                String errmes = string.Format(MessageResources.ErrClosePrj,
-                    new object[] { projectID });
-                throw new Exception(errmes, ex);
-            }
-        }
-
-        /// <summary>
-        /// Checks whether the model ID exists in this project.
-        /// </summary>
-        /// <param name="modelID">The checked model ID</param>
-        /// <returns>true if the model ID exists; false otherwise</returns>
-        public bool ContainsModel(string modelID)
-        {
-            bool foundFlag = false;
-            foreach (EcellObject ecellObject in m_currentProject.ModelList)
-            {
-                if (ecellObject.ModelID.Equals(modelID))
-                {
-                    foundFlag = true;
-                    break;
-                }
-            }
-            return foundFlag;
-        }
-
-        /// <summary>
-        /// Creates the dummy simulator 4 property lists.
-        /// </summary>
-        /// <param name="simulator">The dummy simulator</param>
-        /// <param name="defaultProcess">The dm name of "Process"</param>
-        /// <param name="defaultStepper">The dm name of "Stepper"</param>
-        private static void BuildDefaultSimulator(
-                WrappedSimulator simulator, string defaultProcess, string defaultStepper)
-        {
-            try
-            {
-                bool processFlag = false;
-                bool stepperFlag = false;
-                if (defaultProcess != null)
-                {
-                    processFlag = true;
-                }
-                if (defaultStepper != null)
-                {
-                    stepperFlag = true;
-                }
-                if (!processFlag || !stepperFlag)
-                {
-                    // 4 Process
-                    //
-                    if (!processFlag)
-                    {
-                        defaultProcess = Constants.DefaultProcessName;
-                        processFlag = true;
-                    }
-                    //
-                    // 4 Stepper
-                    //
-                    if (!stepperFlag)
-                    {
-                        defaultStepper = Constants.DefaultStepperName;
-                        stepperFlag = true;
-                    }
-                }
-                simulator.CreateStepper(defaultStepper, Constants.textKey);
-                simulator.CreateEntity(
-                    Constants.xpathVariable,
-                    Constants.xpathVariable + Constants.delimiterColon +
-                    Constants.delimiterPath + Constants.delimiterColon +
-                    Constants.xpathSize.ToUpper()
-                    );
-                simulator.CreateEntity(
-                    defaultProcess,
-                    Constants.xpathProcess + Constants.delimiterColon +
-                    Constants.delimiterPath + Constants.delimiterColon +
-                    Constants.xpathSize.ToUpper()
-                );
-                simulator.LoadEntityProperty(
-                    Util.BuildFullPN(
-                        Constants.xpathSystem,
-                        "",
-                        Constants.delimiterPath,
-                        Constants.xpathStepperID
-                    ),
-                    new string[] { Constants.textKey }
-                );
-                simulator.LoadEntityProperty(
-                    Util.BuildFullPN(
-                        Constants.xpathVariable,
-                        Constants.delimiterPath,
-                        Constants.xpathSize.ToUpper(),
-                        Constants.xpathValue
-                    ),
-                    new string[] { "0.1" }
-                );
-                simulator.Initialize();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(
-                    MessageResources.ErrCombiStepProc, ex);
-            }
-        }
-
-        /// <summary>
-        /// ConfirmReset
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="type"></param>
-        private void ConfirmReset(string action, string type)
-        {
-            if (m_currentProject.SimulationStatus == SimulationStatus.Wait)
-                return;
-            if (EcellObject.TEXT.Equals(type))
-                return;
-
-            if (!Util.ShowOKCancelDialog(MessageResources.ConfirmReset))
-            {
-                throw new IgnoreException("Can't " + action + " the object.");
-            }
-            SimulationStop();
-            m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
-        }
-        /// <summary>
-        /// Adds the list of "EcellObject".
-        /// </summary>
-        /// <param name="ecellObjectList">The list of "EcellObject"</param>
-        public void DataAdd(List<EcellObject> ecellObjectList)
-        {
-            DataAdd(ecellObjectList, true, true);
-        }
-
-        /// <summary>
-        /// Adds the list of "EcellObject".
-        /// </summary>
-        /// <param name="ecellObjectList">The list of "EcellObject"</param>
-        /// <param name="isRecorded">Whether this action is recorded or not</param>
-        /// <param name="isAnchor">Whether this action is an anchor or not</param>
-        public void DataAdd(List<EcellObject> ecellObjectList, bool isRecorded, bool isAnchor)
-        {
-            foreach (EcellObject ecellObject in ecellObjectList)
-            {
-                DataAdd(ecellObject, isRecorded, isAnchor);
-            }
-        }
-
-        /// <summary>
-        /// Adds the "EcellObject".
-        /// </summary>
-        /// <param name="ecellObject">The "EcellObject"</param>
-        /// <param name="isRecorded">Whether this action is recorded or not</param>
-        /// <param name="isAnchor">Whether this action is an anchor or not</param>
-        public void DataAdd(EcellObject ecellObject, bool isRecorded, bool isAnchor)
-        {
-            List<EcellObject> usableList = new List<EcellObject>();
-            string type = null;
-
-            bool isUndoable = true; // Whether DataAdd action is undoable or not
-            try
-            {
-                if (!this.IsUsable(ecellObject))
-                    return;
-                type = ecellObject.Type;
-
-                ConfirmReset("add", type);
-
-                if (type.Equals(Constants.xpathProcess))
-                {
-                    this.DataAdd4Entity(ecellObject, true);
-                    usableList.Add(ecellObject);
+                    obj = CreateDefaultProcess(modelID, key);
                 }
                 else if (type.Equals(Constants.xpathVariable))
                 {
-                    this.DataAdd4Entity(ecellObject, true);
-                    HandleSizeVariable(ecellObject);
-                    usableList.Add(ecellObject);
+                    obj = CreateDefaultVariable(modelID, key);
                 }
                 else if (type.Equals(Constants.xpathText))
                 {
-                    this.DataAdd4Entity(ecellObject, true);
-                    usableList.Add(ecellObject);
+                    obj = CreateDefaultText(modelID);
                 }
-                else if (type.Equals(Constants.xpathSystem))
+                if (isProper)
                 {
-                    this.DataAdd4System(ecellObject, true);
-                    if ("/".Equals(ecellObject.Key))
-                        isUndoable = false;
-                    usableList.Add(ecellObject);
-                }
-                else if (type.Equals(Constants.xpathStepper))
-                {
-                    // this.DataAdd4Stepper(ecellObject);
-                    // usableList.Add(ecellObject);
-                }
-                else if (type.Equals(Constants.xpathModel))
-                {
-                    isUndoable = false;
-                    DataAdd4Model(ecellObject, usableList);
+                    DataAdd(obj);
+                    m_env.PluginManager.SelectChanged(obj);
                 }
             }
             catch (IgnoreException)
             {
-                // CancelしたときにIgnoreExceptionが発生するが無視しないと
-                // Cancelしているのにエラーダイアログが表示されてしまう
+                return null;
             }
             catch (Exception ex)
             {
-                Trace.WriteLine(ex);
-                usableList = null;
-                throw new Exception(
-                   String.Format(MessageResources.ErrAdd,
-                    new object[] { type, ecellObject.Key }), ex);
+                String message = String.Format(MessageResources.ErrAdd,
+                    new object[] { type, key });
+                throw new EcellException(message, ex);
             }
-            finally
+            return obj;
+        }
+
+        /// <summary>
+        /// Create the text with temporary ID.
+        /// </summary>
+        /// <param name="modelID">model ID of created object.</param>
+        /// <returns></returns>
+        private EcellObject CreateDefaultText(string modelID)
+        {
+            string nodeKey = GetTemporaryID(modelID, EcellObject.TEXT, "/");
+            EcellText text = new EcellText(modelID, nodeKey, EcellObject.TEXT, EcellObject.TEXT, new List<EcellData>());
+            text.Comment = text.LocalID;
+            return text;
+        }
+
+        /// <summary>
+        /// Create the process with temporary ID.
+        /// </summary>
+        /// <param name="modelID">model ID of created object.</param>
+        /// <param name="key">the key of parent system object.</param>
+        /// <returns>the create object.</returns>
+        private EcellObject CreateDefaultProcess(string modelID, string key)
+        {
+            String tmpID = GetTemporaryID(modelID, Constants.xpathProcess, key);
+
+            // Get Default StepperID.
+            EcellObject sysobj = GetEcellObject(modelID, key, Constants.xpathSystem);
+            if (sysobj == null)
+                return null;
+            String stepperID = "";
+            foreach (EcellData d in sysobj.Value)
             {
-                if (usableList != null && usableList.Count > 0)
+                if (!d.Name.Equals(Constants.xpathStepperID))
+                    continue;
+                stepperID = d.Value.ToString();
+            }
+
+            // Set Parameters.
+            Dictionary<string, EcellData> list = GetProcessProperty(Constants.DefaultProcessName);
+            List<EcellData> data = new List<EcellData>();
+            foreach (EcellData d in list.Values)
+            {
+                if (d.Name.Equals(Constants.xpathStepperID))
                 {
-                    m_isAdded = true;
-                    m_env.PluginManager.DataAdd(usableList);
-                    m_isAdded = false;
-                    foreach (EcellObject obj in usableList)
-                    {
-                        if (isRecorded)
-                            m_env.ActionManager.AddAction(new DataAddAction(obj, isUndoable, isAnchor));
-                    }
+                    d.Value = new EcellValue(stepperID);
                 }
-            }
-        }
-
-        /// <summary>
-        /// Adds the "Model"
-        /// </summary>
-        /// <param name="ecellObject">The "Model"</param>
-        /// <param name="usableList">The list of the added "EcellObject"</param>
-        private void DataAdd4Model(EcellObject ecellObject, List<EcellObject> usableList)
-        {
-            List<EcellModel> modelList = m_currentProject.ModelList;
-
-            string modelID = ecellObject.ModelID;
-
-            foreach (EcellModel model in modelList)
-            {
-                Debug.Assert(!model.ModelID.Equals(modelID));
-            }
-            //
-            // Sets the "Model".
-            //
-            if (modelList == null)
-            {
-                modelList = new List<EcellModel>();
-            }
-            modelList.Add((EcellModel)ecellObject);
-            usableList.Add(ecellObject);
-            //
-            // Sets the root "System".
-            //
-            if (m_currentProject.SystemDic == null)
-                m_currentProject.SystemDic = new Dictionary<string, List<EcellObject>>();
-            Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
-            if (!sysDic.ContainsKey(modelID))
-                sysDic[modelID] = new List<EcellObject>();
-
-            Dictionary<string, EcellObject> dic = GetDefaultSystem(modelID);
-            Debug.Assert(dic != null);
-            sysDic[modelID].Add(dic[Constants.xpathSystem]);
-            usableList.Add(dic[Constants.xpathSystem]);
-            //
-            // Sets the default parameter.
-            //
-            m_currentProject.Initialize(modelID);
-            foreach (string simParam in m_currentProject.InitialCondition.Keys)
-            {
-                // Sets initial conditions.
-                m_currentProject.StepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
-                m_currentProject.StepperDic[simParam] = new Dictionary<string, List<EcellObject>>();
-                m_currentProject.StepperDic[simParam][modelID] = new List<EcellObject>();
-                m_currentProject.StepperDic[simParam][modelID].Add(dic[Constants.xpathStepper]);
-                m_currentProject.LoggerPolicyDic = new Dictionary<string, LoggerPolicy>();
-                m_currentProject.LoggerPolicyDic[simParam] = new LoggerPolicy();
-            }
-            //
-            // Messages
-            //
-            string message = String.Format(MessageResources.InfoAdd,
-                new object[] { ecellObject.Type, modelID });
-            MessageCreateEntity(EcellObject.MODEL, message);
-            MessageCreateEntity(EcellObject.SYSTEM, message);
-        }
-
-        /// <summary>
-        /// Adds the "Stepper".
-        /// </summary>
-        /// <param name="ecellObject">The "Stepper"</param>
-        private void DataAdd4Stepper(EcellObject ecellObject)
-        {
-            // Bypasses now.
-        }
-
-        /// <summary>
-        /// Adds the "System".
-        /// </summary>
-        /// <param name="ecellObject">The System</param>
-        /// <param name="messageFlag">The flag of the messages</param>
-        private void DataAdd4System(EcellObject ecellObject, bool messageFlag)
-        {
-            string modelID = ecellObject.ModelID;
-            string type = ecellObject.Type;
-
-            Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
-
-            if (!sysDic.ContainsKey(modelID))
-                sysDic[modelID] = new List<EcellObject>();
-            // Check duplicated system.
-            foreach (EcellObject system in sysDic[modelID])
-            {
-                if (!system.Key.Equals(ecellObject.Key))
-                    continue;
-                throw new Exception(String.Format(MessageResources.ErrAdd,
-                    new object[] { type, ecellObject.Key })); 
-            }
-            CheckEntityPath(ecellObject);
-            sysDic[modelID].Add(ecellObject.Copy());
-
-            if (messageFlag)
-            {
-                MessageCreateEntity(EcellObject.SYSTEM,
-                    String.Format(MessageResources.InfoAdd,
-                    new object[] { type, ecellObject.Key }));
-            }
-
-            if (ecellObject.Value == null || ecellObject.Value.Count <= 0)
-                return;
-            // Set simulation parameter
-            SetSimulationParameter(ecellObject, modelID);
-        }
-
-        /// <summary>
-        /// Adds the "Process" or the "Variable".
-        /// </summary>
-        /// <param name="ecellObject">The "Variable"</param>
-        /// <param name="messageFlag">The flag of the messages</param>
-        private void DataAdd4Entity(EcellObject ecellObject, bool messageFlag)
-        {
-            string modelID = ecellObject.ModelID;
-            string key = ecellObject.Key;
-            string type = ecellObject.Type;
-            string systemKey = ecellObject.ParentSystemID;
-
-            Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
-            Debug.Assert(sysDic != null && sysDic.Count > 0);
-            Debug.Assert(sysDic.ContainsKey(modelID));
-
-            // Add object.
-            bool findFlag = false;
-            foreach (EcellObject system in sysDic[modelID])
-            {
-                if (!system.ModelID.Equals(modelID) || !system.Key.Equals(systemKey))
-                    continue;
-                if (system.Children == null)
-                    system.Children = new List<EcellObject>();
-                // Check duplicated object.
-                foreach (EcellObject child in system.Children)
+                if (d.Name.Equals(Constants.xpathVRL))
                 {
-                    if (!child.Key.Equals(key) || !child.Type.Equals(type))
-                        continue;
-                    throw new Exception(
-                        string.Format(
-                            MessageResources.ErrExistObj,
-                            new object[] { key }
-                        )
+                    d.Value = new EcellValue(new List<EcellValue>());
+                }
+                if (d.Name.Equals(Constants.xpathK))
+                {
+                    d.Value = new EcellValue(1);
+                }
+                data.Add(d);
+            }
+
+            EcellObject obj = EcellObject.CreateObject(modelID, tmpID,
+                Constants.xpathProcess, Constants.DefaultProcessName, data);
+            return obj;
+        }
+
+        /// <summary>
+        /// Create the variable with temporary ID.
+        /// </summary>
+        /// <param name="modelID">model ID of created object.</param>
+        /// <param name="key">the key of parent system object.</param>
+        /// <returns>the create object.</returns>
+        private EcellObject CreateDefaultVariable(string modelID, string key)
+        {
+            String tmpID = GetTemporaryID(modelID, Constants.xpathVariable, key);
+
+            Dictionary<string, EcellData> list = GetVariableProperty();
+            List<EcellData> data = new List<EcellData>();
+            foreach (EcellData d in list.Values)
+            {
+                data.Add(d);
+            }
+            EcellObject obj = EcellObject.CreateObject(modelID, tmpID,
+                Constants.xpathVariable, Constants.xpathVariable, data);
+            return obj;
+        }
+
+        /// <summary>
+        /// Create the system with temporary ID.
+        /// </summary>
+        /// <param name="modelID">model ID of created object.</param>
+        /// <param name="key">the key of parent system object.</param>
+        /// <returns>the create object.</returns>
+        private EcellObject CreateDefaultSystem(string modelID, string key)
+        {
+            String tmpID = GetTemporaryID(modelID, Constants.xpathSystem, key);
+
+            EcellObject sysobj = GetEcellObject(modelID, key, Constants.xpathSystem);
+            if (sysobj == null) return null;
+            String stepperID = "";
+            foreach (EcellData d in sysobj.Value)
+            {
+                if (!d.Name.Equals(Constants.xpathStepperID)) continue;
+                stepperID = d.Value.ToString();
+            }
+
+            Dictionary<string, EcellData> list = this.GetSystemProperty();
+            List<EcellData> data = new List<EcellData>();
+            foreach (EcellData d in list.Values)
+            {
+                if (d.Name.Equals(Constants.xpathStepperID))
+                {
+                    d.Value = new EcellValue(stepperID);
+                }
+                data.Add(d);
+            }
+            EcellObject obj = EcellObject.CreateObject(modelID, tmpID,
+                Constants.xpathSystem, Constants.xpathSystem, data);
+            return obj;
+        }
+
+        /// <summary>
+        /// Get the temporary id in projects.
+        /// </summary>
+        /// <param name="modelID">model ID.</param>
+        /// <param name="type">object type.</param>
+        /// <param name="systemID">ID of parent system.</param>
+        /// <returns>the temporary id.</returns>
+        public string GetTemporaryID(string modelID, string type, string systemID)
+        {
+            return m_currentProject.GetTemporaryID(modelID, type, systemID);
+        }
+
+        /// <summary>
+        /// Returns the list of the "System" property. 
+        /// </summary>
+        /// <returns>The dictionary of the "System" property</returns>
+        public Dictionary<string, EcellData> GetSystemProperty()
+        {
+            Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
+            WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
+            BuildDefaultSimulator(sim, null, null);
+            ArrayList list = new ArrayList();
+            list.Clear();
+            list.Add("");
+            sim.LoadEntityProperty(
+                Constants.xpathSystem + Constants.delimiterColon +
+                Constants.delimiterColon +
+                Constants.delimiterPath + Constants.delimiterColon +
+                Constants.xpathName,
+                list
+                );
+            EcellObject dummyEcellObject = EcellObject.CreateObject(
+                "",
+                Constants.delimiterPath,
+                "",
+                "",
+                null);
+            DataStorer.DataStored4System(
+                sim,
+                dummyEcellObject,
+                new Dictionary<string, double>());
+            SetPropertyList(dummyEcellObject, dic);
+            return dic;
+        }
+
+        /// <summary>
+        /// Returns the list of the "Variable" property. 
+        /// </summary>
+        /// <returns>The dictionary of the "Variable" property</returns>
+        public Dictionary<string, EcellData> GetVariableProperty()
+        {
+            Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
+            WrappedSimulator simulator = null;
+            EcellObject dummyEcellObject = null;
+            try
+            {
+                simulator = m_currentProject.CreateSimulatorInstance();
+                BuildDefaultSimulator(simulator, null, null);
+                dummyEcellObject = EcellObject.CreateObject(
+                    "",
+                    Constants.delimiterPath + Constants.delimiterColon + Constants.xpathSize.ToUpper(),
+                    "",
+                    "",
+                    null
                     );
-                }
-                // Set object.
-                CheckEntityPath(ecellObject);
-                system.Children.Add(ecellObject.Copy());
-                findFlag = true;
-                if (messageFlag)
-                {
-                    MessageCreateEntity(type, String.Format(MessageResources.InfoAdd,
-                        new object[] { type, ecellObject.Key }));
-                }
-                break;
-            }
-
-            Debug.Assert(findFlag);
-
-            if (ecellObject.Value == null || ecellObject.Value.Count <= 0)
-                return;
-            if (ecellObject is EcellText)
-                return;
-
-            // Set Simulation param
-            SetSimulationParameter(ecellObject, modelID);
-        }
-
-        private void SetSimulationParameter(EcellObject ecellObject, string modelID)
-        {
-            foreach (string keyParameterID in m_currentProject.InitialCondition.Keys)
-            {
-                Dictionary<string, double> initialCondition = m_currentProject.InitialCondition[keyParameterID][modelID];
-                foreach (EcellData data in ecellObject.Value)
-                {
-                    if (!data.IsInitialized())
-                        continue;
-                    if (!data.Value.IsDouble)
-                        continue;
-
-                    initialCondition[data.EntityPath] = data.Value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Changes the "EcellObject".
-        /// </summary>
-        /// <param name="ecellObjectList">The changed "EcellObject"</param>
-        public void DataChanged(List<EcellObject> ecellObjectList)
-        {
-            DataChanged(ecellObjectList, true, true);
-        }
-        /// <summary>
-        /// Changes the "EcellObject".
-        /// </summary>
-        /// <param name="ecellObjectList">The changed "EcellObject"</param>
-        /// <param name="isRecorded">The flag whether this action is recorded.</param>
-        /// <param name="isAnchor">The flag whether this action is anchor.</param>
-        public void DataChanged(List<EcellObject> ecellObjectList, bool isRecorded, bool isAnchor)
-        {
-            int i = 0;
-            int max = ecellObjectList.Count;
-            foreach (EcellObject obj in ecellObjectList)
-            {
-                i++;
-                DataChanged(obj.ModelID, obj.Key, obj.Type, obj, isRecorded, isAnchor && (i == max));
-            }
-
-        }
-
-        /// <summary>
-        /// Changes the "EcellObject".
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="key">The key</param>
-        /// <param name="type">The type of the "EcellObject"</param>
-        /// <param name="ecellObject">The changed "EcellObject"</param>
-        public void DataChanged(string modelID, string key, string type, EcellObject ecellObject)
-        {
-            DataChanged(modelID, key, type, ecellObject, true, true);
-        }
-
-        /// <summary>
-        /// Changes the "EcellObject".
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="key">The key</param>
-        /// <param name="type">The type of the "EcellObject"</param>
-        /// <param name="ecellObject">The changed "EcellObject"</param>
-        /// <param name="isRecorded">Whether this action is recorded or not</param>
-        /// <param name="isAnchor">Whether this action is an anchor or not</param>
-        public void DataChanged(
-            string modelID,
-            string key,
-            string type,
-            EcellObject ecellObject,
-            bool isRecorded,
-            bool isAnchor)
-        {
-            Debug.Assert(!String.IsNullOrEmpty(modelID));
-            Debug.Assert(!String.IsNullOrEmpty(key));
-            Debug.Assert(!String.IsNullOrEmpty(type));
-
-            try
-            {
-                // StatusCheck
-                if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
-                    m_currentProject.SimulationStatus == SimulationStatus.Suspended)
-                {
-                    EcellObject obj = GetEcellObject(modelID, key, type);
-                    if (!key.Equals(ecellObject.Key) ||
-                        obj.Value.Count != ecellObject.Value.Count)
-                        ConfirmReset("change", type);
-                    else
-                    {
-                        foreach (EcellData d in obj.Value)
-                        {
-                            foreach (EcellData d1 in ecellObject.Value)
-                            {
-                                if (!d.Name.Equals(d1.Name)) continue;
-                                if (!d.Value.ToString().Equals(d1.Value.ToString()))
-                                {
-                                    m_currentProject.Simulator.SetEntityProperty(d1.EntityPath, d1.Value);
-                                }
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (IgnoreException)
-            {
-                // CancelしたときにIgnoreExceptionが発生するが無視しないと
-                // Cancelしているのにエラーダイアログが表示されてしまう
-                return;
-            }
-
-            if (key != ecellObject.Key &&
-                GetEcellObject(ecellObject.ModelID, ecellObject.Key, ecellObject.Type) != null)
-            {
-                throw new Exception(string.Format(MessageResources.ErrExistObj, ecellObject.Key));
-            }
-
-            try
-            {
-                // Record action
-                EcellObject oldObj = GetEcellObject(modelID, key, type);
-
-                //if (!oldObj.IsPosSet)
-                //    m_env.PluginManager.SetPosition(oldObj);                
-                if (isRecorded && !m_isAdded)
-                    this.m_env.ActionManager.AddAction(new DataChangeAction(modelID, type, oldObj.Copy(), ecellObject.Copy(), isAnchor));
-
-                // Searches the "System".
-                List<EcellObject> systemList = m_currentProject.SystemDic[modelID];
-                Debug.Assert(systemList != null && systemList.Count > 0);
-
-                // Checks the EcellObject
-                CheckEntityPath(ecellObject);
-
-                // 4 System & Entity
-                if (ecellObject.Type.Equals(Constants.xpathSystem))
-                {
-                    DataChanged4System(modelID, key, type, ecellObject, isRecorded, isAnchor);
-                }
-                else if (ecellObject.Type.Equals(Constants.xpathProcess))
-                {
-                    DataChanged4Entity(modelID, key, type, ecellObject, isRecorded, isAnchor);
-                }
-                else if (ecellObject.Type.Equals(Constants.xpathText))
-                {
-                    DataChanged4Entity(modelID, key, type, ecellObject, isRecorded, isAnchor);
-                }
-                else if (ecellObject.Type.Equals(Constants.xpathVariable))
-                {
-                    DataChanged4Entity(modelID, key, type, ecellObject, isRecorded, isAnchor);
-                    HandleSizeVariable(ecellObject);
-
-                    if (!modelID.Equals(ecellObject.ModelID) || !key.Equals(ecellObject.Key))
-                    {
-                        List<EcellObject> changedProcessList = new List<EcellObject>();
-                        CheckVariableReferenceList(modelID, ecellObject.Key, key, changedProcessList);
-                        foreach (EcellObject changedProcess in changedProcessList)
-                        {
-                            this.DataChanged4Entity(
-                                changedProcess.ModelID, changedProcess.Key,
-                                changedProcess.Type, changedProcess, isRecorded, isAnchor);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(
-                    string.Format(
-                    MessageResources.ErrSetProp,
-                    new object[] { key }),
-                    ex);
-            }
-        }
-
-        /// <summary>
-        /// Changes the "Variable" or the "Process".
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="key">The key</param>
-        /// <param name="type">The type</param>
-        /// <param name="ecellObject">The changed "Variable" or the "Process"</param>
-        /// <param name="isRecorded">Whether this action is recorded or not</param>
-        /// <param name="isAnchor">Whether this action is an anchor or not</param>
-        private void DataChanged4Entity(
-            string modelID, string key, string type, EcellObject ecellObject, bool isRecorded, bool isAnchor)
-        {
-            List<EcellObject> changedProcessList = new List<EcellObject>();
-
-            // Get parent system.
-            EcellObject oldSystem = m_currentProject.GetSystem(modelID, Util.GetSuperSystemPath(key));
-            EcellObject newSystem = m_currentProject.GetSystem(ecellObject.ModelID, ecellObject.ParentSystemID);
-            Debug.Assert(oldSystem != null && newSystem != null);
-
-            // Get changed node.
-            EcellObject oldNode = m_currentProject.GetEcellObject(modelID, type, key);
-            Debug.Assert(oldNode != null);
-
-            this.CheckDifferences(oldNode, ecellObject, null);
-            if (modelID.Equals(ecellObject.ModelID)
-                && key.Equals(ecellObject.Key)
-                && type.Equals(ecellObject.Type))
-            {
-                newSystem.Children.Remove(oldNode);
-                newSystem.Children.Add(ecellObject);
-                this.m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
-            }
-            else
-            {
-                // Add new object.
-                this.DataAdd4Entity(ecellObject.Copy(), false);
-                this.m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
-                // Deletes the old object.
-                this.DataDelete4Node(modelID, key, type, false, isRecorded, isAnchor);
-            }
-
-            return;
-        }
-
-        /// <summary>
-        /// Changes the "System".
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="key">The key</param>
-        /// <param name="type">The type</param>
-        /// <param name="ecellObject">The changed "System"</param>
-        /// <param name="isRecorded">Whether this action is recorded or not</param>
-        /// <param name="isAnchor">Whether this action is an anchor or not</param>
-        private void DataChanged4System(string modelID, string key, string type, EcellObject ecellObject, bool isRecorded, bool isAnchor)
-        {
-            m_currentProject.SortSystems();
-            List<EcellObject> systemList = m_currentProject.SystemDic[modelID];
-
-            if (modelID.Equals(ecellObject.ModelID)
-                && key.Equals(ecellObject.Key)
-                && type.Equals(ecellObject.Type))
-            {
-                // Changes some properties.
-                for (int i = 0; i < systemList.Count; i++)
-                {
-                    if (!systemList[i].Key.Equals(key))
-                        continue;
-
-                    this.CheckDifferences(systemList[i], ecellObject, null);
-                    systemList[i] = ecellObject.Copy();
-                    this.m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
-                    break;
-                }
-                return;
-            }
-
-            if (key == Constants.delimiterPath)
-            {
-                throw new Exception(MessageResources.ErrChangeRoot);
-            }
-
-            // Changes the key.
-            Dictionary<string, string> variableKeyDic = new Dictionary<string, string>();
-            Dictionary<string, string> processKeyDic = new Dictionary<string, string>();
-            List<string> createdSystemKeyList = new List<string>();
-            List<string> deletedSystemKeyList = new List<string>();
-            List<EcellObject> tempList = new List<EcellObject>();
-            tempList.AddRange(systemList);
-
-            foreach (EcellObject system in tempList)
-            {
-                if (!system.Key.Equals(key) && !system.Key.StartsWith(key + Constants.delimiterPath))
-                    continue;
-
-                // Adds the new "System" object.
-                string newKey = ecellObject.Key + system.Key.Substring(key.Length);
-                EcellObject newSystem
-                    = EcellObject.CreateObject(modelID, newKey, system.Type, system.Classname, system.Value);
-                newSystem.SetPosition(system);
-                CheckEntityPath(newSystem);
-                DataAdd4System(newSystem, false);
-                CheckDifferences(system, newSystem, null);
-                m_env.PluginManager.DataChanged(modelID, system.Key, type, newSystem);
-                createdSystemKeyList.Add(newKey);
-
-                // Deletes the old "System" object.
-                deletedSystemKeyList.Add(system.Key);
-                // 4 Children
-                if (system.Children == null || system.Children.Count <= 0)
-                    continue;
-
-                List<EcellObject> instanceList = new List<EcellObject>();
-                instanceList.AddRange(system.Children);
-                foreach (EcellObject childObject in instanceList)
-                {
-                    EcellObject copy = childObject.Copy();
-                    string childKey = childObject.Key;
-                    string keyName = childObject.LocalID;
-                    if ((system.Key.Equals(key)))
-                    {
-                        copy.Key = ecellObject.Key + Constants.delimiterColon + keyName;
-                    }
-                    else
-                    {
-                        copy.Key = ecellObject.Key + copy.Key.Substring(key.Length);
-                    }
-                    CheckEntityPath(copy);
-                    if (copy.Type.Equals(Constants.xpathVariable))
-                    {
-                        variableKeyDic[childKey] = copy.Key;
-                        this.DataChanged4Entity(copy.ModelID, childKey, copy.Type, copy, isRecorded, isAnchor);
-                    }
-                    else
-                    {
-                        processKeyDic[childKey] = copy.Key;
-                    }
-                }
-            }
-            // Checks all processes.
-            m_currentProject.SortSystems();
-            systemList = m_currentProject.SystemDic[modelID];
-            foreach (EcellObject system in systemList)
-            {
-                if (createdSystemKeyList.Contains(system.Key))
-                    continue;
-                if (system.Children == null || system.Children.Count <= 0)
-                    continue;
-
-                List<EcellObject> instanceList = new List<EcellObject>();
-                instanceList.AddRange(system.Children);
-                foreach (EcellObject childObject in instanceList)
-                {
-                    // Check EcellProcess
-                    if (!childObject.Type.Equals(Constants.xpathProcess))
-                        continue;
-
-                    // 4 VariableReferenceList
-                    EcellObject dest = null;
-                    bool changedFlag = CheckVariableReferenceList(childObject, ref dest, variableKeyDic);
-
-                    // 4 key
-                    string oldKey = dest.Key;
-                    string keyName = oldKey.Split(Constants.delimiterColon.ToCharArray())[1];
-                    if (processKeyDic.ContainsKey(oldKey))
-                    {
-                        dest.Key = processKeyDic[oldKey];
-                        CheckEntityPath(dest);
-                        changedFlag = true;
-                    }
-                    if (changedFlag)
-                    {
-                        this.DataChanged4Entity(dest.ModelID, oldKey, dest.Type, dest, isRecorded, isAnchor);
-                    }
-                }
-            }
-            // Deletes old "System"s.
-            for (int i = deletedSystemKeyList.Count - 1; i >= 0; i--)
-            {
-                this.DataDelete4System(modelID, deletedSystemKeyList[i], false);
-            }
-        }
-
-        /// <summary>
-        /// Deletes the "EcellObject" using the model ID and the key of the "EcellObject".
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="key">The key of the "EcellObject"</param>
-        /// <param name="type">The type of the "EcellObject"</param>
-        public void DataDelete(string modelID, string key, string type)
-        {
-            DataDelete(modelID, key, type, true, true);
-        }
-
-        /// <summary>
-        /// Deletes the "EcellObject" using the model ID and the key of the "EcellObject".
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="key">The key of the "EcellObject"</param>
-        /// <param name="type">The type of the "EcellObject"</param>
-        /// <param name="isRecorded">Whether this action is recorded or not</param>
-        /// <param name="isAnchor">Whether this action is an anchor or not</param>
-        public void DataDelete(string modelID, string key, string type, bool isRecorded, bool isAnchor)
-        {
-            try
-            {
-                ConfirmReset("delete", type);
-            }
-            catch (IgnoreException)
-            {
-                // CancelしたときにIgnoreExceptionが発生するが無視しないと
-                // Cancelしているのにエラーダイアログが表示されてしまう
-                return;
-            }
-
-            // Check root
-            if (key.Equals("/"))
-            {
-                Util.ShowErrorDialog(MessageResources.ErrDelRoot);
-                return;
-            }
-
-            EcellObject deleteObj = null;
-            try
-            {
-                if (string.IsNullOrEmpty(modelID))
-                    return;
-                deleteObj = GetEcellObject(modelID, key, type);
-
-                if (string.IsNullOrEmpty(key))
-                {
-                    DataDelete4Model(modelID);
-                }
-                else if (key.Contains(":"))
-                { // not system
-                    DataDelete4Node(modelID, key, type, true, isRecorded, false);
-                }
-                else
-                { // system
-                    DataDelete4System(modelID, key, true);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(String.Format(MessageResources.ErrDelete,
-                    new object[] { key }), ex);
+                DataStorer.DataStored4Variable(
+                        simulator,
+                        dummyEcellObject,
+                        new Dictionary<string, double>());
+                SetPropertyList(dummyEcellObject, dic);
             }
             finally
             {
-                m_env.PluginManager.DataDelete(modelID, key, type);
-                if (isRecorded)
-                    m_env.ActionManager.AddAction(new DataDeleteAction(modelID, key, type, deleteObj, isAnchor));
+                simulator = null;
+                dummyEcellObject = null;
             }
+            return dic;
         }
 
         /// <summary>
-        /// Deletes the "Model" using the model ID.
+        /// Returns the list of the "Process" property. 
+        /// </summary>
+        /// <param name="dmName">The DM name</param>
+        /// <returns>The dictionary of the "Process" property</returns>
+        public Dictionary<string, EcellData> GetProcessProperty(string dmName)
+        {
+            Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
+            try
+            {
+                string key = Constants.delimiterPath + Constants.delimiterColon + "tmp";
+                WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
+                sim.CreateStepper("DAEStepper", "temporaryStepper");
+                sim.SetEntityProperty("System::/:StepperID", "temporaryStepper");
+                sim.CreateEntity(dmName,
+                    Constants.xpathProcess + Constants.delimiterColon + key);
+                EcellObject dummyEcellObject = EcellObject.CreateObject("", key, EcellObject.PROCESS, dmName, null);
+                DataStorer.DataStored4Process(
+                        sim,
+                        m_env,
+                        dummyEcellObject,
+                        new Dictionary<string, double>());
+                SetPropertyList(dummyEcellObject, dic);
+            }
+            catch (Exception ex)
+            {
+                throw new EcellException(
+                    String.Format(MessageResources.ErrGetProp,
+                    new object[] { dmName }), ex);
+            }
+            return dic;
+        }
+
+        /// <summary>
+        /// Returns the list of the "Stepper" property. 
+        /// </summary>
+        /// <param name="dmName">The DM name</param>
+        /// <returns>The dictionary of the "Stepper" property</returns>
+        public Dictionary<string, EcellData> GetStepperProperty(string dmName)
+        {
+            Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
+            EcellObject dummyEcellObject = null;
+            try
+            {
+                WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
+                sim.CreateStepper(dmName, Constants.textKey);
+                dummyEcellObject = EcellObject.CreateObject("", Constants.textKey, EcellObject.STEPPER, dmName, null);
+                DataStorer.DataStored4Stepper(sim, m_env, dummyEcellObject);
+                SetPropertyList(dummyEcellObject, dic);
+            }
+            finally
+            {
+                dummyEcellObject = null;
+            }
+            return dic;
+        }
+
+        #endregion
+
+        #region Method for Get EcellObject
+        /// <summary>
+        /// Returns the list of a "EcellObject" from "EcellCoreLib" using a model ID and a key .
         /// </summary>
         /// <param name="modelID">The model ID</param>
-        private void DataDelete4Model(string modelID)
+        /// <param name="key">The key</param>
+        /// <returns>The list of a "EcellObject"</returns>
+        public List<EcellObject> GetData(string modelID, string key)
         {
-            string message = "[" + modelID + "]";
-            //
-            // Delete the "Model".
-            //
-            bool isDelete = false;
-            foreach (EcellModel obj in m_currentProject.ModelList)
+            Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
+            List<EcellObject> ecellObjectList = new List<EcellObject>();
+            try
             {
-                if (obj.ModelID == modelID)
+                // Returns all stored "EcellObject".
+                if (string.IsNullOrEmpty(modelID))
                 {
-                    m_currentProject.ModelList.Remove(obj);
-                    isDelete = true;
-                    break;
+                    // Searches the model.
+                    foreach (EcellObject model in m_currentProject.ModelList)
+                        ecellObjectList.Add(model);
+                    // Searches the "System".
+                    m_currentProject.SortSystems();
+                    foreach (List<EcellObject> systemList in sysDic.Values)
+                        ecellObjectList.AddRange(systemList);
                 }
-            }
-            Debug.Assert(isDelete);
-
-            //
-            // Deletes "System"s.
-            //
-            if (m_currentProject.SystemDic.ContainsKey(modelID))
-            {
-                m_currentProject.SystemDic.Remove(modelID);
-            }
-            //
-            // Deletes "Stepper"s.
-            //
-            foreach (string param in m_currentProject.StepperDic.Keys)
-            {
-                if (m_currentProject.StepperDic[param].ContainsKey(modelID))
+                // Searches the model.
+                else if (string.IsNullOrEmpty(key))
                 {
-                    m_currentProject.StepperDic[param].Remove(modelID);
-                }
-            }
-            MessageDeleteEntity(EcellObject.MODEL, message);
-        }
-
-        /// <summary>
-        /// Deletes the "Process" or the "Variable" using the model ID and the key of the "EcellObject".
-        /// </summary>
-        /// <param name="model">The model ID</param>
-        /// <param name="key">The key of the "EcellObject"</param>
-        /// <param name="type">The type of the "EcellObject"</param>
-        /// <param name="messageFlag">The flag of the message</param>
-        /// <param name="isRecorded">The flag whether this action is recorded.</param>
-        /// <param name="isAnchor">The flag whether this action is anchor.</param>
-        private void DataDelete4Node(
-            string model,
-            string key,
-            string type,
-            bool messageFlag,
-            bool isRecorded,
-            bool isAnchor)
-        {
-            if (!m_currentProject.SystemDic.ContainsKey(model))
-                return;
-
-            Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialCondition = m_currentProject.InitialCondition;
-
-            string message = "[" + model + "][" + key + "]";
-            List<EcellObject> delList = new List<EcellObject>();
-
-            List<EcellObject> sysList = m_currentProject.SystemDic[model];
-            foreach (EcellObject system in sysList)
-            {
-                if (system.ModelID != model || system.Key != Util.GetSuperSystemPath(key))
-                    continue;
-                if (system.Children == null)
-                    continue;
-
-                foreach (EcellObject child in system.Children)
-                {
-                    if (child.Key == key && child.Type == type)
-                        delList.Add(child);
-                }
-                foreach (EcellObject child in delList)
-                {
-                    system.Children.Remove(child);
-                    if (messageFlag)
+                    foreach (EcellObject model in m_currentProject.ModelList)
                     {
-                        MessageDeleteEntity(type, message);
-                    }
-
-                    if (child.Value == null || child.Value.Count <= 0)
-                        continue;
-                    if (child is EcellText)
-                        continue;
-
-                    foreach (string keyParameterID in initialCondition.Keys)
-                    {
-                        Dictionary<string, double> condition = initialCondition[keyParameterID][child.ModelID];
-                        foreach (EcellData data in child.Value)
-                        {
-                            if (!data.Settable)
-                                continue;
-                            if (!condition.ContainsKey(data.EntityPath))
-                                continue;
-                            condition.Remove(data.EntityPath);
-                        }
-                    }
-                }
-                if (messageFlag)
-                {
-                    this.DataDelete4VariableReferenceList(delList, isRecorded, isAnchor);
-                }
-                delList.Clear();
-            }
-        }
-
-        /// <summary>
-        /// Deletes entries of the "VariableRefereceList".
-        /// </summary>
-        /// <param name="delList">The list of the deleted "Variable"</param>
-        /// <param name="isRecorded">The flag whether this action is recorded.</param>
-        /// <param name="isAnchor">The flag whether this action is anchor.</param>
-        private void DataDelete4VariableReferenceList(List<EcellObject> delList, bool isRecorded, bool isAnchor)
-        {
-            if (delList == null || delList.Count <= 0)
-                return;
-
-            foreach (EcellObject del in delList)
-            {
-                if (!del.Type.Equals(EcellObject.VARIABLE))
-                    continue;
-
-                string variableKey = del.Key;
-                foreach (EcellObject system in m_currentProject.SystemDic[del.ModelID])
-                {
-                    List<EcellObject> changeList = new List<EcellObject>();
-                    foreach (EcellObject child in system.Children)
-                    {
-                        bool changedFlag = false;
-                        if (!child.Type.Equals(EcellObject.PROCESS))
+                        if (!model.ModelID.Equals(modelID))
                             continue;
-
-                        EcellProcess process = (EcellProcess)child.Copy();
-                        List<EcellReference> erList = new List<EcellReference>();
-                        foreach (EcellReference er in process.ReferenceList)
-                        {
-                            if (er.Key.Equals(variableKey))
-                                changedFlag = true;
-                            else
-                                erList.Add(er);
-                        }
-                        process.ReferenceList = erList;
-
-                        if (changedFlag)
-                            changeList.Add(process);
+                        ecellObjectList.Add(model.Copy());
+                        break;
                     }
-                    foreach (EcellObject change in changeList)
+                    ecellObjectList.AddRange(sysDic[modelID]);
+                }
+                // Searches the "System".
+                else
+                {
+                    foreach (EcellObject system in sysDic[modelID])
                     {
-                        this.DataChanged(change.ModelID, change.Key, change.Type, change, isRecorded, isAnchor);
+                        if (!key.Equals(system.Key))
+                            continue;
+                        ecellObjectList.Add(system.Copy());
+                        break;
                     }
                 }
+                return ecellObjectList;
             }
-        }
-
-        /// <summary>
-        /// Check whether this key is included in observed data.
-        /// </summary>
-        /// <param name="key">the key of data.</param>
-        /// <returns>if this key is included, return true.</returns>
-        public bool IsContainsObservedData(string key)
-        {
-            return m_observedList.ContainsKey(key);
-        }
-
-        /// <summary>
-        /// The event sequence when the user set and change the observed data.
-        /// </summary>
-        /// <param name="data">The observed data.</param>
-        public void SetObservedData(EcellObservedData data)
-        {
-            if (m_observedList.ContainsKey(data.Key))
+            catch (Exception ex)
             {
-                m_observedList[data.Key] = data;
+                ex.ToString();
+                return null;
             }
+        }
+
+        /// <summary>
+        /// Get EcellObject from DataManager.
+        /// </summary>
+        /// <param name="modelId">the modelId of EcellObject.</param>
+        /// <param name="key">the key of EcellObject.</param>
+        /// <param name="type">the type of EcellObject.</param>
+        /// <returns>EcellObject</returns>
+        public EcellObject GetEcellObject(string modelId, string key, string type)
+        {
+            EcellObject obj = m_currentProject.GetEcellObject(modelId, type, key);
+            if (obj == null)
+                return obj;
             else
-                m_observedList.Add(data.Key, data);
-            m_env.PluginManager.SetObservedData(data);
-        }
-
-        /// <summary>
-        /// The event sequence when the user remove the data from the list of observed data.
-        /// </summary>
-        /// <param name="data">The removed observed data.</param>
-        public void RemoveObservedData(EcellObservedData data)
-        {
-            if (m_observedList.ContainsKey(data.Key))
-                m_observedList.Remove(data.Key);
-            m_env.PluginManager.RemoveObservedData(data);
-        }
-
-        /// <summary>
-        /// Check whether this key is included in parameter data.
-        /// </summary>
-        /// <param name="key">the key of data.</param>
-        /// <returns>if this key is included, return true.</returns>
-        public bool IsContainsParameterData(string key)
-        {
-            return m_parameterList.ContainsKey(key);
-        }
-
-        /// <summary>
-        /// The event sequence when the user set and change the prameter data.
-        /// </summary>
-        /// <param name="data">The observed data.</param>
-        public void SetParameterData(EcellParameterData data)
-        {
-            if (m_parameterList.ContainsKey(data.Key))
-            {
-                m_parameterList[data.Key] = data;
-            }
-            else
-                m_parameterList.Add(data.Key, data);
-            m_env.PluginManager.SetParameterData(data);
-        }
-
-        /// <summary>
-        /// Get the parameter data from the key. if the parameter data does not exist, return null.
-        /// </summary>
-        /// <param name="key">the key of parameter data.</param>
-        /// <returns>the parameter data.</returns>
-        public EcellParameterData GetParameterData(string key)
-        {
-            if (m_parameterList.ContainsKey(key))
-                return m_parameterList[key];
-            return null;
-        }
-
-        /// <summary>
-        /// Get the list of all parameter data.
-        /// </summary>
-        /// <returns>the list of parameter data.</returns>
-        public List<EcellParameterData> GetParameterData()
-        {
-            List<EcellParameterData> resList = new List<EcellParameterData>();
-            foreach (string key in m_parameterList.Keys)
-                resList.Add(m_parameterList[key]);
-            return resList;
-        }
-
-        /// <summary>
-        /// Get the observed data from the key, if the observed data does not exist, return null.
-        /// </summary>
-        /// <param name="key">the key of observed data.</param>
-        /// <returns>the observed data.</returns>
-        public EcellObservedData GetObservedData(string key)
-        {
-            if (m_observedList.ContainsKey(key))
-                return m_observedList[key];
-            return null;
-        }
-
-        /// <summary>
-        /// Get the list of all observed data.
-        /// </summary>
-        /// <returns>the list of observed data.</returns>
-        public List<EcellObservedData> GetObservedData()
-        {
-            List<EcellObservedData> resList = new List<EcellObservedData>();
-            foreach (string key in m_observedList.Keys)
-                resList.Add(m_observedList[key]);
-            return resList;
-        }
-
-        /// <summary>
-        /// The event sequence when the user remove the data from the list of parameter data.
-        /// </summary>
-        /// <param name="data">The removed observed data.</param>
-        public void RemoveParameterData(EcellParameterData data)
-        {
-            if (m_parameterList.ContainsKey(data.Key))
-                m_parameterList.Remove(data.Key);
-            m_env.PluginManager.RemoveParameterData(data);
+                return obj.Copy();
         }
 
         /// <summary>
@@ -1824,314 +2577,238 @@ namespace Ecell
         /// <param name="key">key of deleted system.</param>
         /// <param name="type">type of deleted system.</param>
         /// <returns>true if the key exists; false otherwise</returns>
-        public bool IsDataExists(string modelID, string key, string type)
+        internal bool IsDataExists(string modelID, string key, string type)
         {
-            List<EcellObject> list = m_currentProject.SystemDic[modelID];
-            foreach (EcellObject sys in list)
-            {
-                // Check systems.
-                if (key.Equals(sys.Key) && type.Equals(sys.Type))
-                    return true;
-                // Continue if system has no node.
-                if (sys.Children == null)
-                    continue;
-                // Check processes and variables
-                foreach (EcellObject subEo in sys.Children)
-                {
-                    if (key.Equals(subEo.Key) && type.Equals(subEo.Type))
-                        return true;
-                }
-            }
-            return false;
+            EcellObject obj = GetEcellObject(modelID, key, type);
+            return (obj != null);
         }
+
         /// <summary>
-        /// Move the component to the upper system, when system is deleted.
+        /// get model list loaded by this system now.
         /// </summary>
-        /// <param name="modelID">modelID of deleted system.</param>
-        /// <param name="sysKey">key of deleted system.</param>
-        public void SystemDeleteAndMove(string modelID, string sysKey)
-        {
-            EcellObject system = GetEcellObject(modelID, sysKey, EcellObject.SYSTEM);
-            if (system == null)
-                throw new Exception(String.Format(MessageResources.ErrFindEnt, new object[] { sysKey }));
-            // CheckRoot
-            if (system.Key.Equals("/"))
-                throw new Exception(MessageResources.ErrDelRoot);
-            // Confirm system merge.
-            if (!Util.ShowYesNoDialog(MessageResources.ConfirmMerge))
-                return;
-
-            // Get objects under this system.
-            string parentSysKey = system.ParentSystemID;
-            List<EcellObject> eoList = new List<EcellObject>(); ;
-            foreach (EcellObject sys in m_currentProject.SystemDic[modelID])
-            {
-                if (!sys.Key.StartsWith(sysKey))
-                    continue;
-                // Add System
-                if (!sys.Key.Equals(sysKey))
-                {
-                    eoList.Add(sys.Copy());
-                    continue;
-                }
-                // Add Nodes
-                foreach (EcellObject node in sys.Children)
-                {
-                    if (node.Key.EndsWith(":SIZE"))
-                        continue;
-                    eoList.Add(node.Copy());
-                }
-            }
-
-            // Check and replace object keys.
-            Dictionary<string, string> varDic = new Dictionary<string, string>();
-            string oldKey;
-            string newKey;
-            foreach (EcellObject eo in eoList)
-            {
-                // Check Duplication
-                oldKey = eo.Key;
-                newKey = Util.GetMovedKey(oldKey, sysKey, parentSysKey);
-                if (GetEcellObject(modelID, newKey, eo.Type) != null)
-                {
-                    throw new Exception(String.Format(MessageResources.ErrExistObj,
-                        new object[] { newKey }));
-                }
-                eo.Key = newKey;
-                // Set varDic
-                if (eo is EcellVariable)
-                    varDic.Add(oldKey, newKey);
-
-                if (!(eo is EcellSystem))
-                    continue;
-                foreach (EcellObject child in eo.Children)
-                {
-                    oldKey = child.Key;
-                    newKey = Util.GetMovedKey(oldKey, sysKey, parentSysKey);
-                    child.Key = newKey;
-
-                    if (!(child is EcellVariable))
-                        continue;
-                    varDic.Add(oldKey, newKey);
-                }
-
-            }
-
-            // Remove system.
-            DataDelete(system.ModelID, system.Key, system.Type, true, false);
-
-            // Move systems and nodes under merged system.
-            foreach (EcellObject eo in eoList)
-                DataAdd(eo, true, false);
-
-            // Update VariableReferences
-            List<EcellObject> processes = GetUpdatedProcessList(varDic);
-            DataChanged(processes);
-        }
-        /// <summary>
-        /// Get object list under the system.
-        /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
         /// <returns></returns>
-        private List<EcellObject> GetObjectUnder(string modelID, string key)
+        public List<string> GetModelList()
         {
-            List<EcellObject> eoList = new List<EcellObject>();
+            List<EcellModel> objList = m_currentProject.ModelList;
+            List<string> list = new List<string>();
 
-            foreach (EcellObject obj in m_currentProject.SystemDic[modelID])
+            if (objList != null)
             {
-                if (obj.ModelID != modelID || !obj.Key.StartsWith(key))
-                    continue;
-                if (!obj.Key.Equals(key))
-                    eoList.Add(obj.Copy());
-
-                foreach (EcellObject node in obj.Children)
+                foreach (EcellObject obj in objList)
                 {
-                    if (node.Key.EndsWith(":SIZE"))
-                        continue;
-                    eoList.Add(node.Copy());
+                    list.Add(obj.ModelID);
                 }
             }
-            return eoList;
+
+            return list;
         }
 
         /// <summary>
-        /// Used only to undo SystemDeleteAndMove. So, this method should be used only by ActionManager
+        /// Get the list of system in model.
         /// </summary>
-        /// <param name="modelID">Model id of an added system</param>
-        /// <param name="obj">An added system</param>
-        /// <param name="sysList">Child systems of added system</param>
-        /// <param name="nodeList">Child objects of added system</param>
-        public void SystemAddAndMove(string modelID,
-            EcellObject obj,
-            List<EcellObject> sysList,
-            List<EcellObject> nodeList)
+        /// <param name="modelID">model ID.</param>
+        /// <returns>the list of system.</returns>
+        public List<string> GetSystemList(string modelID)
         {
-            // Temporary delete objects to be moved into a new system.
-            foreach (EcellObject sys in sysList)
-                DataDelete(modelID, sys.Key, "System", false, false);
-
-            string[] el = obj.Key.Split(new char[] { '/' });
-            int delPoint = el.Length - 1;
-            List<EcellObject> list = new List<EcellObject>();
-            foreach (EcellObject sys in sysList)
+            List<string> systemList = new List<string>();
+            foreach (EcellObject system in m_currentProject.SystemDic[modelID])
             {
-                String orgKey = sys.Key;
-                String newKey = "";
-                string[] nel = orgKey.Split(new char[] { '/' });
-                for (int i = 0; i < nel.Length; i++)
-                {
-                    if (i == delPoint) continue;
-                    if (nel[i] == "") newKey = "";
-                    else newKey = newKey + "/" + nel[i];
-                }
-                DataDelete(modelID, newKey, "System", false, false);
+                systemList.Add(system.Key);
             }
-            foreach (EcellObject node in nodeList)
-            {
-                String iNewKey = "";
-                string[] iel = node.Key.Split(new char[] { '/' });
-                for (int j = 0; j < iel.Length; j++)
-                {
-                    if (j == delPoint)
-                    {
-                        if (j == 1) iNewKey = "/";
-                        iNewKey = iNewKey + iel[j].Substring(iel[j].LastIndexOf(":"));
-                    }
-                    else if (iel[j] == "") iNewKey = "";
-                    else iNewKey = iNewKey + "/" + iel[j];
-                }
-                DataDelete(modelID, iNewKey, node.Type, false, false);
-            }
-
-            // Add a system.
-            List<EcellObject> newlist = new List<EcellObject>();
-            newlist.Add(obj);
-
-            foreach (EcellObject sys in sysList)
-                newlist.Add(sys);
-
-            foreach (EcellObject node in nodeList)
-                newlist.Add(node);
-
-            DataAdd(newlist);
-
+            return systemList;
         }
 
         /// <summary>
-        /// Deletes the "System" using the model ID and the key of the "EcellObject".
+        /// Returns the entity name list of the model.
         /// </summary>
-        /// <param name="model">The model ID</param>
-        /// <param name="key">The key of the "EcellObject"</param>
-        /// <param name="messageFlag">The flag of the messages</param>
-        private void DataDelete4System(string model, string key, bool messageFlag)
+        /// <param name="modelID">The model ID</param>
+        /// <param name="entityName">The entity name</param>
+        /// <returns></returns>
+        public List<string> GetEntityList(string modelID, string entityName)
         {
-            Dictionary<string, Dictionary<string, Dictionary<string, double>>> initialCondition = m_currentProject.InitialCondition;
-            List<EcellObject> sysList = m_currentProject.SystemDic[model];
-
-            string message = "[" + model + "][" + key + "]";
-            // Select systems for delete.
-            List<EcellObject> delList = new List<EcellObject>();
-            foreach (EcellObject obj in sysList)
-            {
-                if (obj.Key.Equals(key) || obj.Key.StartsWith(key + "/"))
-                    delList.Add(obj);
-            }
-
-            //
-            for (int i = delList.Count - 1; i >= 0; i--)
-            {
-                EcellObject obj = delList[i];
-                sysList.Remove(obj);
-                foreach (string keyParamID in initialCondition.Keys)
-                {
-                    foreach (string delModel in initialCondition[keyParamID].Keys)
-                    {
-                        Debug.Assert(obj.Type == Constants.xpathSystem);
-                        String delKey = obj.Type + ":" + key;
-                        List<String> delKeyList = new List<string>();
-                        foreach (String entKey in initialCondition[keyParamID][delModel].Keys)
-                        {
-                            if (entKey.StartsWith(delKey))
-                                delKeyList.Add(entKey);
-                        }
-                        foreach (String entKey in delKeyList)
-                        {
-                            initialCondition[keyParamID][delModel].Remove(entKey);
-                        }
-                    }
-                }
-                // Record deletion of child system. 
-                if (!obj.Key.Equals(key))
-                    m_env.ActionManager.AddAction(new DataDeleteAction(obj.ModelID, obj.Key, obj.Type, obj, false));
-                if (messageFlag)
-                {
-                    MessageDeleteEntity(EcellObject.SYSTEM, message);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Deletes the parameter.
-        /// </summary>
-        /// <param name="parameterID"></param>
-        public void DeleteSimulationParameter(string parameterID)
-        {
-            DeleteSimulationParameter(parameterID, true, true);
-        }
-
-        /// <summary>
-        /// Deletes the parameter.
-        /// </summary>
-        /// <param name="parameterID"></param>
-        /// <param name="isRecorded">Whether this action is recorded or not</param>
-        /// <param name="isAnchor">Whether this action is an anchor or not</param>
-        public void DeleteSimulationParameter(string parameterID, bool isRecorded, bool isAnchor)
-        {
-            string message = null;
+            List<string> entityList = new List<string>();
             try
             {
-                Debug.Assert(!String.IsNullOrEmpty(parameterID));
-                message = "[" + parameterID + "]";
-                //
-                // Initializes.
-                //
-
-                SetDefaultDir();
-
-                Debug.Assert(m_currentProject.StepperDic.ContainsKey(parameterID));
-                m_currentProject.StepperDic.Remove(parameterID);
-                string simulationDirName
-                        = this.m_defaultDir + Constants.delimiterPath
-                        + m_currentProject.Info.Name + Constants.delimiterPath + Constants.xpathParameters;
-                string pattern
-                        = "_????_??_??_??_??_??_" + parameterID + Constants.FileExtXML;
-                if (Directory.Exists(simulationDirName))
+                foreach (EcellObject system in m_currentProject.SystemDic[modelID])
                 {
-                    foreach (string fileName in Directory.GetFiles(simulationDirName, pattern))
+                    if (entityName.Equals(Constants.xpathSystem))
                     {
-                        File.Delete(fileName);
+                        string parentPath = system.ParentSystemID;
+                        string childPath = system.LocalID;
+                        entityList.Add(
+                            Constants.xpathSystem + Constants.delimiterColon
+                            + parentPath + Constants.delimiterColon + childPath);
                     }
-                    string simulationFileName
-                            = simulationDirName + Constants.delimiterPath + parameterID + Constants.FileExtXML;
-                    File.Delete(simulationFileName);
+                    else
+                    {
+                        if (system.Children == null || system.Children.Count <= 0)
+                            continue;
+                        foreach (EcellObject entity in system.Children)
+                        {
+                            if (!entity.Type.Equals(entityName))
+                                continue;
+                            entityList.Add(entity.Type + Constants.delimiterColon + entity.Key);
+                        }
+                    }
                 }
-                m_currentProject.LoggerPolicyDic.Remove(parameterID);
-                Trace.WriteLine(m_currentProject.Info.SimulationParam + ":" + parameterID);
-                if (m_currentProject.Info.SimulationParam == parameterID)
-                    m_currentProject.Info.SimulationParam = null;
-                m_env.PluginManager.ParameterDelete(m_currentProject.Info.Name, parameterID);
-                MessageDeleteEntity("Simulation Parameter", message);
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoRemoveSim, parameterID));
-                m_env.Console.Flush();
-
-                if (isRecorded)
-                    m_env.ActionManager.AddAction(new DeleteSimParamAction(parameterID, isAnchor));
+                return entityList;
             }
             catch (Exception ex)
             {
-                throw new Exception(String.Format(MessageResources.ErrDelete,
-                    new object[] { parameterID }), ex);
+                entityList.Clear();
+                entityList = null;
+                throw new EcellException(String.Format(MessageResources.ErrFindEnt,
+                    new object[] { entityName }), ex);
+            }
+        }
+
+        #endregion
+
+        #region Methods for Stepper
+        /// <summary>
+        /// Adds the new "Stepper"
+        /// </summary>
+        /// <param name="parameterID">The parameter ID</param>
+        /// <param name="stepper">The "Stepper"</param>
+        public void AddStepperID(string parameterID, EcellObject stepper)
+        {
+            AddStepperID(parameterID, stepper, true);
+        }
+
+        /// <summary>
+        /// Adds the new "Stepper"
+        /// </summary>
+        /// <param name="parameterID">The parameter ID</param>
+        /// <param name="stepper">The "Stepper"</param>
+        /// <param name="isRecorded">Whether this action is recorded</param>
+        public void AddStepperID(string parameterID, EcellObject stepper, bool isRecorded)
+        {
+            string message = null;
+            Dictionary<string, List<EcellObject>> stepperDic = null;
+            try
+            {
+                // Get stepperDic
+                message = "[" + parameterID + "][" + stepper.ModelID + "][" + stepper.Key + "]";
+                if (stepper == null || string.IsNullOrEmpty(parameterID) || string.IsNullOrEmpty(stepper.ModelID))
+                    throw new EcellException();
+                if (!m_currentProject.StepperDic.ContainsKey(parameterID))
+                    m_currentProject.StepperDic[parameterID] = new Dictionary<string, List<EcellObject>>();
+                stepperDic = m_currentProject.StepperDic[parameterID];
+                if (!stepperDic.ContainsKey(stepper.ModelID))
+                    throw new EcellException();
+
+                // Check duplication.
+                foreach (EcellObject storedStepper in stepperDic[stepper.ModelID])
+                {
+                    if (!stepper.Key.Equals(storedStepper.Key))
+                        continue;
+                    throw new EcellException(
+                        string.Format(MessageResources.ErrExistStepper,
+                            new object[] { stepper.Key }
+                        )
+                    );
+                }
+                // Set Stteper.
+                stepperDic[stepper.ModelID].Add(stepper);
+                if (m_currentProject.Info.SimulationParam.Equals(parameterID))
+                {
+                    List<EcellObject> stepperList = new List<EcellObject>();
+                    stepperList.Add(stepper);
+                    m_env.PluginManager.DataAdd(stepperList);
+                }
+                MessageCreateEntity(Constants.xpathStepper, message);
+                if (isRecorded)
+                    m_env.ActionManager.AddAction(new AddStepperAction(parameterID, stepper));
+            }
+            catch (Exception ex)
+            {
+                message = String.Format(MessageResources.ErrNotCreStepper,
+                    new object[] { stepper.Key });
+                Trace.WriteLine(message);
+                throw new EcellException(message, ex);
+            }
+        }
+
+        /// <summary>
+        /// Updates the "Stepper".
+        /// </summary>
+        /// <param name="parameterID">The parameter ID</param>
+        /// <param name="stepperList">The list of the "Stepper"</param>
+        public void UpdateStepperID(string parameterID, List<EcellObject> stepperList)
+        {
+            UpdateStepperID(parameterID, stepperList, true);
+        }
+
+        /// <summary>
+        /// Updates the "Stepper".
+        /// </summary>
+        /// <param name="parameterID">The parameter ID</param>
+        /// <param name="stepperList">The list of the "Stepper"</param>
+        /// <param name="isRecorded">Whether this action is recorded or not</param>
+        public void UpdateStepperID(string parameterID, List<EcellObject> stepperList, bool isRecorded)
+        {
+            if (stepperList.Count == 0)
+                return;
+
+            string message = null;
+
+            try
+            {
+                List<EcellObject> addedStepperList = new List<EcellObject>();
+                List<EcellObject> removedStepperList = new List<EcellObject>();
+                List<EcellObject> updatedStepperList = new List<EcellObject>();
+                List<EcellObject> oldStepperList = new List<EcellObject>();
+                Dictionary<string, List<EcellObject>> perParameterStepperListDic = m_currentProject.StepperDic[parameterID];
+                foreach (EcellObject model in m_currentProject.ModelList)
+                {
+                    List<EcellObject> remainingStepperList = new List<EcellObject>();
+                    foreach (EcellObject stepper in perParameterStepperListDic[model.ModelID])
+                    {
+                        bool removed = true;
+                        oldStepperList.Add(stepper.Copy());
+                        foreach (EcellObject newStepper in stepperList)
+                        {
+                            if (stepper.Key == newStepper.Key)
+                            {
+                                remainingStepperList.Add(stepper);
+                                removed = false;
+                                break;
+                            }
+                        }
+                        if (removed)
+                            removedStepperList.Add(stepper);
+                    }
+                    perParameterStepperListDic[model.ModelID] = remainingStepperList;
+                }
+                foreach (EcellObject stepper in stepperList)
+                {
+                    message = stepper.Key;
+
+                    List<EcellObject> perModelStepperList = perParameterStepperListDic[stepper.ModelID];
+                    bool added = true;
+                    foreach (EcellObject oldStepper in perModelStepperList.ToArray())
+                    {
+                        if (oldStepper.Key.Equals(stepper.Key))
+                        {
+                            added = false;
+                            perModelStepperList.Remove(oldStepper);
+                            perModelStepperList.Add(stepper);
+                            updatedStepperList.Add(stepper);
+                            break;
+                        }
+                    }
+                    if (added)
+                    {
+                        addedStepperList.Add(stepper);
+                        perModelStepperList.Add(stepper);
+                    }
+                    if (isRecorded && addedStepperList.Count + removedStepperList.Count + updatedStepperList.Count > 0)
+                        m_env.ActionManager.AddAction(new UpdateStepperAction(parameterID, stepperList, oldStepperList));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new EcellException(MessageResources.ErrSetSimParam, ex);
             }
         }
 
@@ -2184,137 +2861,390 @@ namespace Ecell
                 String errmes = String.Format(MessageResources.ErrDelete,
                     new object[] { stepper.Key });
                 Trace.WriteLine(errmes);
-                throw new Exception(errmes, ex);
+                throw new EcellException(errmes, ex);
             }
+        }
+        #endregion
+
+        #region Method for ObservedData
+        /// <summary>
+        /// Check whether this key is included in observed data.
+        /// </summary>
+        /// <param name="key">the key of data.</param>
+        /// <returns>if this key is included, return true.</returns>
+        public bool IsContainsObservedData(string key)
+        {
+            return m_observedList.ContainsKey(key);
         }
 
         /// <summary>
-        /// Tests whether the full ID exists.
+        /// The event sequence when the user set and change the observed data.
         /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="fullID">The full ID</param>
-        /// <returns>true if the full ID exists; false otherwise</returns>
-        public bool Exists(string modelID, string fullID)
+        /// <param name="data">The observed data.</param>
+        public void SetObservedData(EcellObservedData data)
         {
-            string[] infos = fullID.Split(Constants.delimiterColon.ToCharArray());
-            Debug.Assert(infos.Length == 3, MessageResources.ErrInvalidID);
-            Debug.Assert(infos[0].Equals(Constants.xpathSystem)
-                    || infos[0].Equals(Constants.xpathProcess)
-                    || infos[0].Equals(Constants.xpathVariable), MessageResources.ErrInvalidID);
-
-            string key = null;
-            if (infos[1].Equals("") && infos[2].Equals(Constants.delimiterPath))
+            if (m_observedList.ContainsKey(data.Key))
             {
-                key = infos[2];
+                m_observedList[data.Key] = data;
             }
             else
+                m_observedList.Add(data.Key, data);
+            m_env.PluginManager.SetObservedData(data);
+        }
+
+        /// <summary>
+        /// Get the observed data from the key, if the observed data does not exist, return null.
+        /// </summary>
+        /// <param name="key">the key of observed data.</param>
+        /// <returns>the observed data.</returns>
+        public EcellObservedData GetObservedData(string key)
+        {
+            if (m_observedList.ContainsKey(key))
+                return m_observedList[key];
+            return null;
+        }
+
+        /// <summary>
+        /// Get the list of all observed data.
+        /// </summary>
+        /// <returns>the list of observed data.</returns>
+        public List<EcellObservedData> GetObservedData()
+        {
+            List<EcellObservedData> resList = new List<EcellObservedData>();
+            foreach (string key in m_observedList.Keys)
+                resList.Add(m_observedList[key]);
+            return resList;
+        }
+
+        /// <summary>
+        /// The event sequence when the user remove the data from the list of observed data.
+        /// </summary>
+        /// <param name="data">The removed observed data.</param>
+        public void RemoveObservedData(EcellObservedData data)
+        {
+            if (m_observedList.ContainsKey(data.Key))
+                m_observedList.Remove(data.Key);
+            m_env.PluginManager.RemoveObservedData(data);
+        }
+        #endregion
+
+        #region Method for ParameterData
+        /// <summary>
+        /// Check whether this key is included in parameter data.
+        /// </summary>
+        /// <param name="key">the key of data.</param>
+        /// <returns>if this key is included, return true.</returns>
+        public bool IsContainsParameterData(string key)
+        {
+            return m_parameterList.ContainsKey(key);
+        }
+
+        /// <summary>
+        /// The event sequence when the user set and change the prameter data.
+        /// </summary>
+        /// <param name="data">The observed data.</param>
+        public void SetParameterData(EcellParameterData data)
+        {
+            if (m_parameterList.ContainsKey(data.Key))
             {
-                key = infos[1] + Constants.delimiterColon + infos[2];
+                m_parameterList[data.Key] = data;
             }
-            //
-            // Checks the full ID.
-            //
-            List<EcellObject> systemList = m_currentProject.SystemDic[modelID];
-            if (systemList == null || systemList.Count <= 0)
+            else
+                m_parameterList.Add(data.Key, data);
+            m_env.PluginManager.SetParameterData(data);
+        }
+
+        /// <summary>
+        /// Get the parameter data from the key. if the parameter data does not exist, return null.
+        /// </summary>
+        /// <param name="key">the key of parameter data.</param>
+        /// <returns>the parameter data.</returns>
+        public EcellParameterData GetParameterData(string key)
+        {
+            if (m_parameterList.ContainsKey(key))
+                return m_parameterList[key];
+            return null;
+        }
+
+        /// <summary>
+        /// Get the list of all parameter data.
+        /// </summary>
+        /// <returns>the list of parameter data.</returns>
+        public List<EcellParameterData> GetParameterData()
+        {
+            List<EcellParameterData> resList = new List<EcellParameterData>();
+            foreach (string key in m_parameterList.Keys)
+                resList.Add(m_parameterList[key]);
+            return resList;
+        }
+
+        /// <summary>
+        /// The event sequence when the user remove the data from the list of parameter data.
+        /// </summary>
+        /// <param name="data">The removed observed data.</param>
+        public void RemoveParameterData(EcellParameterData data)
+        {
+            if (m_parameterList.ContainsKey(data.Key))
+                m_parameterList.Remove(data.Key);
+            m_env.PluginManager.RemoveParameterData(data);
+        }
+        #endregion
+
+        #region Method for Simulation Execution
+        /// <summary>
+        /// Start simulation.
+        /// </summary>
+        /// <param name="time"></param>
+        public void StartSimulation(double time)
+        {
+            if (m_isTimeStepping && m_remainTime > 0.0)
             {
-                return false;
+                StartStepSimulation(m_remainTime);
+                return;
             }
-            foreach (EcellObject system in systemList)
+            else if (m_isStepStepping && m_remainStep > 0)
             {
-                if (infos[0].Equals(Constants.xpathSystem))
+                StartStepSimulation(m_remainStep);
+                return;
+            }
+
+            try
+            {
+                int i = 0;
+                m_currentProject.SimulationStatus = SimulationStatus.Run;
+                if (m_currentProject.SimulationStatus != SimulationStatus.Suspended)
                 {
-                    if (system.Type.Equals(infos[0]) && system.Key.Equals(key))
-                    {
-                        return true;
-                    }
+                    this.Initialize(true);
+                    m_env.LogManager.Append(new ApplicationLogEntry(
+                            MessageType.Information,
+                            MessageResources.SimulationStarted,
+                            this));
                 }
                 else
                 {
-                    if (system.Children == null
-                            || system.Children.Count <= 0)
+                    m_env.LogManager.Append(new ApplicationLogEntry(
+                            MessageType.Information,
+                            MessageResources.SimulationRestarted,
+                            this));
+                }
+                while (m_currentProject.SimulationStatus == SimulationStatus.Run)
+                {
+                    if (i == 1000)
                     {
-                        continue;
+                        Thread.Sleep(1);
+                        i = 0;
                     }
-                    foreach (EcellObject entity in system.Children)
-                    {
-                        if (entity.Type.Equals(infos[0]) && entity.Key.Equals(key))
-                        {
-                            return true;
-                        }
-                    }
+                    m_currentProject.Simulator.Step(m_defaultStepCount);
+                    Application.DoEvents();
+                    double currentTime = m_currentProject.Simulator.GetCurrentTime();
+                    this.m_env.PluginManager.AdvancedTime(currentTime);
                 }
             }
-            return false;
+            catch (WrappedException ex)
+            {
+                m_currentProject.SimulationStatus = SimulationStatus.Wait;
+                throw new SimulationException(MessageResources.ErrRunSim, ex);
+            }
+            catch (Exception)
+            {
+                m_currentProject.SimulationStatus = SimulationStatus.Wait;
+                throw new SimulationException(MessageResources.ErrSuspend, new WrappedException());
+            }
+
         }
 
         /// <summary>
-        /// Exports the models to ths designated file.
+        /// Step Simulation with time.
         /// </summary>
-        /// <param name="modelIDList">The list of the model ID</param>
-        /// <param name="fileName">The designated file</param>
-        public void ExportModel(List<string> modelIDList, string fileName)
+        /// <param name="time"></param>
+        public void StartStepSimulation(double time)
         {
-            string message = null;
             try
             {
-                message = "[" + fileName + "]";
-                //
-                // Initializes.
-                //
-                if (modelIDList == null || modelIDList.Count <= 0)
+                if (m_currentProject.SimulationStatus != SimulationStatus.Suspended)
                 {
-                    return;
+                    this.Initialize(true);
                 }
-                else if (fileName == null || fileName.Length <= 0)
+                double cTime = m_currentProject.Simulator.GetCurrentTime();
+                double stoppedTime;
+                if (m_isTimeStepping && m_remainTime > 0.0)
                 {
-                    return;
-                }
-                //
-                // Checks the parent directory.
-                //
-                string parentPath = Path.GetDirectoryName(fileName);
-                if (parentPath != null && parentPath.Length > 0 && !Directory.Exists(parentPath))
-                {
-                    Directory.CreateDirectory(parentPath);
-                }
-                //
-                // Searchs the "Stepper" & the "System".
-                //
-                List<EcellObject> storedStepperList = new List<EcellObject>();
-                List<EcellObject> storedSystemList = new List<EcellObject>();
 
-                Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
-                Dictionary<string, List<EcellObject>> stepperDic = m_currentProject.StepperDic[m_currentProject.Info.SimulationParam];
-
-                foreach (string modelID in modelIDList)
-                {
-                    storedStepperList.AddRange(stepperDic[modelID]);
-                    storedSystemList.AddRange(sysDic[modelID]);
                 }
-                Debug.Assert(storedStepperList != null && storedStepperList.Count > 0);
-                Debug.Assert(storedSystemList != null && storedSystemList.Count > 0);
+                else
+                {
+                    m_isTimeStepping = true;
+                    m_remainTime = time;
+                }
+                stoppedTime = cTime + m_remainTime;
 
-                //
-                // Exports.
-                //
-                storedStepperList.AddRange(storedSystemList);
-                EmlWriter.Create(fileName, storedStepperList, false);
-                Trace.WriteLine("Export Model: " + message);
+                m_currentProject.SimulationStatus = SimulationStatus.Run;
+                while (m_currentProject.SimulationStatus == SimulationStatus.Run)
+                {
+                    lock (m_currentProject.Simulator)
+                    {
+                        if (m_remainTime < m_defaultTime)
+                        {
+                            m_currentProject.Simulator.Run(m_remainTime);
+                            // 一時停止したときに同じ時間が再度実行される
+                            if (cTime != m_currentProject.Simulator.GetCurrentTime())
+                                this.m_remainTime = 0.0;
+                        }
+                        else
+                        {
+                            m_currentProject.Simulator.Run(m_defaultTime);
+                            // 一時停止したときに同じ時間が再度実行される
+                            if (cTime != m_currentProject.Simulator.GetCurrentTime())
+                                this.m_remainTime = this.m_remainTime - m_defaultTime;
+                        }
+                    }
+                    Application.DoEvents();
+                    double currentTime = m_currentProject.Simulator.GetCurrentTime();
+                    this.m_env.PluginManager.AdvancedTime(currentTime);
+                    if (m_remainTime == 0.0)
+                    {
+                        m_currentProject.SimulationStatus = SimulationStatus.Suspended;
+                        m_isTimeStepping = false;
+                        break;
+                    }
+                }
+                if (m_currentProject.SimulationStatus == SimulationStatus.Suspended)
+                {
+                    double aTime = m_currentProject.Simulator.GetCurrentTime();
+                    m_remainTime = stoppedTime - aTime;
+                }
             }
-            catch (Exception ex)
+            catch (WrappedException ex)
             {
-                throw new Exception(String.Format(MessageResources.ErrCreFile,
-                    new object[] { fileName }), ex);
+                m_currentProject.SimulationStatus = SimulationStatus.Wait;
+                throw new SimulationException(MessageResources.ErrRunSim, ex);
+            }
+            catch (Exception)
+            {
+                m_currentProject.SimulationStatus = SimulationStatus.Wait;
+                throw new SimulationException(MessageResources.ErrSuspend, new WrappedException());
             }
         }
 
         /// <summary>
-        /// Returns the current simulation parameter ID.
+        /// Step simulation step.
         /// </summary>
-        /// <returns>The current simulation parameter ID</returns>
-        public string GetCurrentSimulationParameterID()
+        /// <param name="step"></param>
+        public void StartStepSimulation(int step)
         {
-            return m_currentProject.Info.SimulationParam;
+            try
+            {
+                if (m_currentProject.SimulationStatus != SimulationStatus.Suspended)
+                {
+                    this.Initialize(true);
+                }
+                double cTime = m_currentProject.Simulator.GetCurrentTime();
+                double stoppedTime;
+                if (m_isStepStepping && m_remainStep > 0)
+                {
+                    // nothing.
+                }
+                else
+                {
+                    m_isStepStepping = true;
+                    m_remainStep = step;
+                }
+                stoppedTime = cTime + m_remainTime;
+
+                m_currentProject.SimulationStatus = SimulationStatus.Run;
+                while (m_currentProject.SimulationStatus == SimulationStatus.Run)
+                {
+                    lock (m_currentProject.Simulator)
+                    {
+                        if (m_remainStep < m_defaultStepCount)
+                        {
+                            m_currentProject.Simulator.Step(m_remainStep);
+                            this.m_remainStep = 0;
+                        }
+                        else
+                        {
+                            m_currentProject.Simulator.Step(m_defaultStepCount);
+                            this.m_remainStep = this.m_remainStep - m_defaultStepCount;
+                        }
+                    }
+                    Application.DoEvents();
+                    double currentTime = m_currentProject.Simulator.GetCurrentTime();
+                    this.m_env.PluginManager.AdvancedTime(currentTime);
+                    if (m_remainStep == 0)
+                    {
+                        m_isStepStepping = false;
+                        m_currentProject.SimulationStatus = SimulationStatus.Suspended;
+                        break;
+                    }
+                }
+            }
+            catch (WrappedException ex)
+            {
+                m_currentProject.SimulationStatus = SimulationStatus.Wait;
+                throw new SimulationException(MessageResources.ErrRunSim, ex);
+            }
+            catch (Exception)
+            {
+                m_currentProject.SimulationStatus = SimulationStatus.Wait;
+                throw new SimulationException(MessageResources.ErrSuspend, new WrappedException());
+            }
+        }
+
+        /// <summary>
+        /// Suspends the simulation.
+        /// </summary>
+        public void SimulationSuspend()
+        {
+            try
+            {
+                //m_currentProject.Simulator.Suspend();
+                m_currentProject.SimulationStatus = SimulationStatus.Suspended;
+                m_env.LogManager.Append(new ApplicationLogEntry(
+                    MessageType.Information,
+                    String.Format(MessageResources.InfoSuspend, m_currentProject.Simulator.GetCurrentTime()),
+                    this));
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoSuspend, m_currentProject.Simulator.GetCurrentTime()));
+                m_env.Console.Flush();
+            }
+            catch (WrappedException ex)
+            {
+                throw new SimulationException(MessageResources.ErrSuspendSim, ex);
+            }
+        }
+
+        /// <summary>
+        /// Stops this simulation.
+        /// </summary>
+        public void SimulationStop()
+        {
+            try
+            {
+                Debug.Assert(m_currentProject.Simulator != null);
+
+                lock (m_currentProject.Simulator)
+                {
+                    m_currentProject.Simulator.Stop();
+                }
+                m_env.LogManager.Append(new ApplicationLogEntry(
+                    MessageType.Information,
+                    String.Format(MessageResources.InfoResetSim, m_currentProject.Simulator.GetCurrentTime()),
+                    this));
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoResetSim, m_currentProject.Simulator.GetCurrentTime()));
+                m_env.Console.Flush();
+
+                m_isTimeStepping = false;
+                m_isStepStepping = false;
+                m_remainTime = 0.0;
+                m_remainStep = 0;
+            }
+            catch (WrappedException ex)
+            {
+                throw new SimulationException(MessageResources.ErrResetSim, ex);
+            }
+            finally
+            {
+                m_currentProject.SimulationStatus = SimulationStatus.Wait;
+            }
         }
 
         /// <summary>
@@ -2332,156 +3262,9 @@ namespace Ecell
                 return double.NaN;
             }
         }
+        #endregion
 
-        /// <summary>
-        /// Returns the list of a "EcellObject" from "EcellCoreLib" using a model ID and a key .
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="key">The key</param>
-        /// <returns>The list of a "EcellObject"</returns>
-        public List<EcellObject> GetData(string modelID, string key)
-        {
-            Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
-            List<EcellObject> ecellObjectList = new List<EcellObject>();
-            try
-            {
-                // Returns all stored "EcellObject".
-                if (string.IsNullOrEmpty(modelID))
-                {
-                    // Searches the model.
-                    foreach (EcellObject model in m_currentProject.ModelList)
-                        ecellObjectList.Add(model);
-
-                    // Searches the "System".
-                    m_currentProject.SortSystems();
-                    foreach (List<EcellObject> systemList in sysDic.Values)
-                    {
-                        ecellObjectList.AddRange(systemList);
-                    }
-                }
-                // Searches the model.
-                else if (string.IsNullOrEmpty(key))
-                {
-                    foreach (EcellObject model in m_currentProject.ModelList)
-                    {
-                        if (!model.ModelID.Equals(modelID))
-                            continue;
-                        ecellObjectList.Add(model.Copy());
-                        break;
-                    }
-                    ecellObjectList.AddRange(sysDic[modelID]);
-                }
-                // Searches the "System".
-                else
-                {
-                    foreach (EcellObject system in sysDic[modelID])
-                    {
-                        if (!key.Equals(system.Key))
-                            continue;
-                        ecellObjectList.Add(system.Copy());
-                        break;
-                    }
-                }
-                return ecellObjectList;
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-                return null;
-            }
-        }
-        /// <summary>
-        /// Get EcellObject from DataManager.
-        /// </summary>
-        /// <param name="modelId">the modelId of EcellObject.</param>
-        /// <param name="key">the key of EcellObject.</param>
-        /// <param name="type">the type of EcellObject.</param>
-        /// <returns>EcellObject</returns>
-        public EcellObject GetEcellObject(string modelId, string key, string type)
-        {
-            EcellObject obj = m_currentProject.GetEcellObject(modelId, type, key);
-            if (obj == null)
-                return obj;
-            else
-                return obj.Copy();
-        }
-
-        /// <summary>
-        /// Call value of E-cell object.
-        /// </summary>
-        /// <param name="modelId">the modelId of EcellObject.</param>
-        /// <param name="key">key of EcellObject</param>
-        /// <param name="type">type of EcellObject</param>
-        /// <param name="name">name of EcellData</param>
-        /// <returns></returns>
-        public string GetEcellData(string modelId, string key, string type, string name)
-        {
-            if (name == null)
-                return null;
-
-            EcellObject obj = GetEcellObject(modelId, key, type);
-
-            if (obj == null)
-                return null;
-
-            foreach (EcellData ed in obj.Value)
-            {
-                if (ed.Name.Equals(name))
-                {
-                    return ed.Value.ToString();
-                }
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Returns the dictionary of the default "System" and the "Stepper".
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <returns>The dictionary of the default "System" and the "Stepper"</returns>
-        private Dictionary<string, EcellObject> GetDefaultSystem(string modelID)
-        {
-            Dictionary<string, EcellObject> dic = new Dictionary<string, EcellObject>();
-            EcellObject systemEcellObject = null;
-            EcellObject stepperEcellObject = null;
-            WrappedSimulator simulator = m_currentProject.Simulator;
-            BuildDefaultSimulator(simulator, null, null);
-            systemEcellObject
-                    = EcellObject.CreateObject(
-                        modelID,
-                        Constants.delimiterPath,
-                        Constants.xpathSystem,
-                        Constants.xpathSystem,
-                        null);
-            DataStorer.DataStored4System(
-                    simulator,
-                    systemEcellObject,
-                    new Dictionary<string, double>());
-            stepperEcellObject
-                    = EcellObject.CreateObject(
-                        modelID,
-                        Constants.textKey,
-                        Constants.xpathStepper,
-                        "",
-                        null);
-            DataStorer.DataStored4Stepper(simulator, stepperEcellObject);
-            dic[Constants.xpathSystem] = systemEcellObject;
-            dic[Constants.xpathStepper] = stepperEcellObject;
-            return dic;
-        }
-
-        /// <summary>
-        /// Returns the initial condition.
-        /// </summary>
-        /// <param name="paremterID">The parameter ID</param>
-        /// <param name="modelID">The model ID</param>
-        /// <returns>The initial condition</returns>
-        public Dictionary<string, double>
-                GetInitialCondition(string paremterID, string modelID)
-        {
-            return this.m_currentProject.InitialCondition[paremterID][modelID];
-        }
-
+        #region Method for SimulationLog
         /// <summary>
         /// 
         /// </summary>
@@ -2496,17 +3279,16 @@ namespace Ecell
             {
                 // Initialize
                 if (m_currentProject.Simulator == null)
-                {
-                    throw new Exception("Simulator is not initialized");
-                }
-                Debug.Assert(m_currentProject.LogableEntityPathDic != null &&
-                    m_currentProject.LogableEntityPathDic.Count > 0);
+                    return null;
+                if (m_currentProject.LogableEntityPathDic == null ||
+                    m_currentProject.LogableEntityPathDic.Count == 0)
+                    return null;
                 // GetLogData
                 return this.GetUniqueLogData(startTime, endTime, interval, fullID);
             }
             catch (Exception ex)
             {
-                throw new Exception(MessageResources.ErrGetLogData, ex);
+                throw new EcellException(MessageResources.ErrGetLogData, ex);
             }
         }
 
@@ -2517,29 +3299,30 @@ namespace Ecell
         /// <param name="endTime">The end time</param>
         /// <param name="interval">The interval</param>
         /// <returns>The list of the "LogData"</returns>
-        public IEnumerable<LogData> GetLogData(double startTime, double endTime, double interval)
+        public List<LogData> GetLogData(double startTime, double endTime, double interval)
         {
-            if (m_currentProject.Simulator == null)
-            {
-                throw new Exception("Simulator is not initialized");
-            }
-            Debug.Assert(m_currentProject.LogableEntityPathDic != null &&
-                    m_currentProject.LogableEntityPathDic.Count > 0);
-
             List<LogData> logDataList = new List<LogData>();
             try
             {
+                // Initialize
+                if (m_currentProject.Simulator == null)
+                    return null;
+                if (m_currentProject.LogableEntityPathDic == null ||
+                    m_currentProject.LogableEntityPathDic.Count == 0)
+                    return null;
+
                 IList<string> loggerList = m_currentProject.Simulator.GetLoggerList();
                 foreach (string logger in loggerList)
                 {
-                    logDataList.Add(this.GetUniqueLogData(startTime, endTime, interval, logger));
+                    logDataList.Add(
+                            this.GetUniqueLogData(startTime, endTime, interval, logger));
                 }
                 return logDataList;
             }
             catch (Exception ex)
             {
                 logDataList = null;
-                throw new Exception(MessageResources.ErrGetLogData, ex);
+                throw new EcellException(MessageResources.ErrGetLogData, ex);
             }
         }
 
@@ -2627,7 +3410,7 @@ namespace Ecell
             string key = null;
             string type = null;
             string propName = null;
-            this.Split4EntityPath(ref key, ref type, ref propName, fullID);
+            Util.ParseFullPN(fullID, out type, out key, out propName);
             if (logValueList.Count == 1 && logValueList[0].time == 0.0)
             {
                 LogValue logValue =
@@ -2647,6 +3430,7 @@ namespace Ecell
                 propName,
                 logValueList
                 );
+            dataPointVector.Dispose();
             return logData;
         }
 
@@ -2654,34 +3438,17 @@ namespace Ecell
         /// Returns the list of the registred logger.
         /// </summary>
         /// <returns></returns>
-        public IList<string> GetLoggerList()
+        public List<string> GetLoggerList()
         {
-            return m_currentProject.Simulator.GetLoggerList();
-        }
-
-        /// <summary>
-        /// Returns the "LoggerPolicy".
-        /// </summary>
-        /// <param name="parameterID">The parameter ID</param>
-        /// <returns>The "LoggerPolicy"</returns>
-        public LoggerPolicy GetLoggerPolicy(string parameterID)
-        {
-            return m_currentProject.LoggerPolicyDic[parameterID];
-        }
-
-        /// <summary>
-        /// Returns the next event.
-        /// </summary>
-        /// <returns>The current simulation time, The stepper</returns>
-        public IList GetNextEvent()
-        {
+            List<string> loggerList = new List<string>();
             try
             {
-                ArrayList list = new ArrayList(2);
-                EcellCoreLib.EventDescriptor desc = m_currentProject.Simulator.GetNextEvent();
-                list.Add(desc.Time);
-                list.Add(desc.StepperID);
-                return list;
+                IList<string> polymorphList = m_currentProject.Simulator.GetLoggerList();
+                foreach (string polymorph in polymorphList)
+                {
+                    loggerList.Add(polymorph);
+                }
+                return loggerList;
             }
             catch (Exception ex)
             {
@@ -2691,64 +3458,164 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Get the path of a directory which contains model-related files (ex: *.eml, *.leml)
+        /// Saves the simulation result.
         /// </summary>
-        /// <param name="modelName">a model name</param>
-        /// <returns>a directory path</returns>
-        public string GetEMLPath(string modelName)
+        public void SaveSimulationResult()
         {
-            if (m_currentProject == null || m_currentProject.ModelFileDic == null)
-                return null;
-
-            if (m_currentProject.ModelFileDic.ContainsKey(modelName))
-            {
-                return m_currentProject.ModelFileDic[modelName];
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Returns the entity name list of the model.
-        /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <param name="entityName">The entity name</param>
-        /// <returns></returns>
-        public List<string> GetEntityList(string modelID, string entityName)
-        {
-            List<string> entityList = new List<string>();
             try
             {
-                foreach (EcellObject system in m_currentProject.SystemDic[modelID])
-                {
-                    if (entityName.Equals(Constants.xpathSystem))
-                    {
-                        string parentPath = system.ParentSystemID;
-                        string childPath = system.LocalID;
-                        entityList.Add(
-                            Constants.xpathSystem + Constants.delimiterColon
-                            + parentPath + Constants.delimiterColon + childPath);
-                    }
-                    else
-                    {
-                        if (system.Children == null || system.Children.Count <= 0)
-                            continue;
-                        foreach (EcellObject entity in system.Children)
-                        {
-                            if (!entity.Type.Equals(entityName))
-                                continue;
-                            entityList.Add(entity.Type + Constants.delimiterColon + entity.Key);
-                        }
-                    }
-                }
-                return entityList;
+                SaveSimulationResult(null, 0.0, GetCurrentSimulationTime(), null, GetLoggerList());
             }
             catch (Exception ex)
             {
-                entityList.Clear();
-                entityList = null;
-                throw new Exception(String.Format(MessageResources.ErrFindEnt,
-                    new object[] { entityName }), ex);
+                throw new EcellException(String.Format(MessageResources.ErrSavePrj,
+                    new object[] { m_currentProject.Info.Name }), ex);
             }
+        }
+
+        /// <summary>
+        /// Load SimulationResult
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public LogData LoadSimulationResult(string fileName)
+        {
+            return Ecd.LoadSavedLogData(fileName);
+        }
+
+        /// <summary>
+        /// Saves the simulation result.
+        /// </summary>
+        /// <param name="savedDirName">The saved directory name</param>
+        /// <param name="startTime">The start time</param>
+        /// <param name="endTime">The end time</param>
+        /// <param name="savedType">The saved type (ECD or Binary)</param>
+        /// <param name="fullIDList">The list of the saved fullID</param>
+        public void SaveSimulationResult(
+            string savedDirName,
+            double startTime,
+            double endTime,
+            string savedType,
+            List<string> fullIDList
+            )
+        {
+            string message = null;
+            try
+            {
+                if (endTime == 0.0) endTime = m_currentProject.Simulator.GetCurrentTime();
+                string projectID = m_currentProject.Info.Name;
+                string simParam = m_currentProject.Info.SimulationParam;
+                message = "[" + projectID + "][" + simParam + "]";
+                //
+                // Initializes.
+                //
+                if (fullIDList == null || fullIDList.Count <= 0)
+                {
+                    return;
+                }
+                string simulationDirName = null;
+                if (!string.IsNullOrEmpty(savedDirName))
+                {
+                    simulationDirName = savedDirName;
+                }
+                else
+                {
+                    SetDefaultDir();
+
+                    if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + projectID))
+                    {
+                        m_currentProject.Save();
+                    }
+                    simulationDirName = GetSimulationResultSaveDirectory();
+                }
+                if (!Directory.Exists(simulationDirName))
+                {
+                    Directory.CreateDirectory(simulationDirName);
+                }
+
+                double reloadInterval = m_currentProject.LoggerPolicy.ReloadInterval;
+                double percent = 0.0;
+                foreach (string key in fullIDList)
+                {
+                    double basePercent = percent;
+                    double hitCount = 100.0 / (double)fullIDList.Count;
+                    Ecd ecd = new Ecd();
+                    double cTime = startTime;
+                    while (cTime < endTime)
+                    {
+                        double nextTime = cTime + reloadInterval * 100000;
+                        if (reloadInterval == 0.0) nextTime = endTime;
+                        if (nextTime > endTime) nextTime = endTime;
+                        LogData l = this.GetLogData(cTime, nextTime, reloadInterval, key);
+                        if (cTime == startTime)
+                        {
+                            ecd.Create(simulationDirName, l, savedType,
+                            cTime, nextTime);
+                        }
+                        else
+                        {
+                            ecd.Append(simulationDirName, l, savedType,
+                                cTime, nextTime);
+                        }
+                        m_env.ReportManager.SetProgress((int)(basePercent + hitCount * (nextTime / endTime)));
+                        Application.DoEvents();
+                        cTime = nextTime;
+                    }
+                    ecd.Close();
+                    message = "[" + key + "]";
+                    Trace.WriteLine("Save Simulation Result: " + message);
+                }
+            }
+            catch (Exception ex)
+            {
+                message = MessageResources.ErrSaveLog;
+                Trace.WriteLine(message);
+                throw new EcellException(message, ex);
+            }
+        }
+
+        /// <summary>
+        /// Get Directory to Save SimulationResult.
+        /// </summary>
+        /// <returns></returns>
+        public string GetSimulationResultSaveDirectory()
+        {
+            return this.m_defaultDir + "\\" +
+                        m_currentProject.Info.Name + "\\" + Constants.xpathParameters +
+                        "\\" + m_currentProject.Info.SimulationParam;
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// Check whether this dm is able to add the property.
+        /// </summary>
+        /// <param name="dmName">dm Name.</param>
+        /// <returns>if this dm is enable to add property, return true.</returns>
+        public bool IsEnableAddProperty(string dmName)
+        {
+            bool isEnable = true;
+            try
+            {
+                string path = Constants.xpathProcess + Constants.delimiterColon +
+                    Constants.delimiterPath + Constants.delimiterColon +
+                    Constants.xpathSize.ToUpper();
+                WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
+                sim.CreateEntity(
+                    dmName,
+                    path);
+
+                string fullPath = path + Constants.delimiterColon + "CheckProperty";
+                EcellValue newValue = new EcellValue(0.01);
+                sim.SetEntityProperty(fullPath, newValue.Value);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                return false;
+            }
+            return isEnable;
         }
 
         /// <summary>
@@ -2770,9 +3637,46 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new Exception(String.Format(MessageResources.ErrPropData,
+                throw new EcellException(String.Format(MessageResources.ErrPropData,
                     new object[] { fullPN }), ex);
             }
+        }
+
+        /// <summary>
+        /// Set the value to the full Path.
+        /// </summary>
+        /// <param name="fullPN">set full path.</param>
+        /// <param name="value">set value.</param>
+        public void SetEntityProperty(string fullPN, string value)
+        {
+            if (m_currentProject.Simulator == null
+                || this.GetCurrentSimulationTime() <= 0.0)
+            {
+                return;
+            }
+            EcellValue storedValue
+                = new EcellValue(m_currentProject.Simulator.GetEntityProperty(fullPN));
+            EcellValue newValue = null;
+            if (storedValue.IsDouble)
+            {
+                newValue = new EcellValue(XmlConvert.ToDouble(value));
+            }
+            else if (storedValue.IsInt)
+            {
+                newValue = new EcellValue(XmlConvert.ToInt32(value));
+            }
+            else if (storedValue.IsList)
+            {
+                // newValue = new EcellValue(value);
+                return;
+            }
+            else
+            {
+                newValue = new EcellValue(value);
+            }
+            m_currentProject.Simulator.LoadEntityProperty(
+                fullPN,
+                newValue.Value);
         }
 
         /// <summary>
@@ -2789,415 +3693,22 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new Exception(String.Format(MessageResources.ErrPropData, new object[] { fullPN }), ex);
+                throw new EcellException(String.Format(MessageResources.ErrPropData, new object[] { fullPN }), ex);
             }
-        }
-
-        /// <summary>
-        /// get model list loaded by this system now.
-        /// </summary>
-        /// <returns></returns>
-        public List<string> GetModelList()
-        {
-            List<EcellModel> objList = m_currentProject.ModelList;
-            List<string> list = new List<string>();
-
-            if (objList != null)
-            {
-                foreach (EcellModel obj in objList)
-                {
-                    list.Add(obj.ModelID);
-                }
-            }
-
-            return list;
-        }
-
-        /// <summary>
-        /// Check whether this dm is able to add the property.
-        /// </summary>
-        /// <param name="dmName">dm Name.</param>
-        /// <returns>if this dm is enable to add property, return true.</returns>
-        public bool IsEnableAddProperty(string dmName)
-        {
-            bool isEnable = true;
-            WrappedSimulator sim = null;
-            try
-            {
-                sim = new WrappedSimulator(
-                    Util.GetDMDirs(m_currentProject.Info.ProjectPath));
-
-                sim.CreateEntity(
-                    dmName,
-                    Constants.xpathProcess + Constants.delimiterColon +
-                    Constants.delimiterPath + Constants.delimiterColon +
-                    Constants.xpathSize.ToUpper());
-
-                string fullPath = Constants.xpathProcess + Constants.delimiterColon +
-                Constants.delimiterPath + Constants.delimiterColon +
-                Constants.xpathSize.ToUpper() + Constants.delimiterColon + "CheckProperty";
-                sim.SetEntityProperty(fullPath, 0.01);
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                isEnable = false;
-            }
-            finally
-            {
-                if (sim != null)
-                    sim.Dispose();
-            }
-            return isEnable;
-        }
-
-        /// <summary>
-        /// Returns the list of the "Process" property. 
-        /// </summary>
-        /// <param name="dmName">The DM name</param>
-        /// <returns>The dictionary of the "Process" property</returns>
-        public Dictionary<string, EcellData> GetProcessProperty(string dmName)
-        {
-            Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
-            WrappedSimulator sim = null;
-            try
-            {
-                sim = new WrappedSimulator(
-                    Util.GetDMDirs(m_currentProject.Info.ProjectPath));
-                sim.CreateStepper("PassiveStepper", "tmp");
-                sim.SetEntityProperty(Util.BuildFullPN(Constants.xpathSystem, "", "/", "StepperID"), "tmp");
-                sim.CreateEntity(dmName,
-                    Constants.xpathProcess + Constants.delimiterColon +
-                    Constants.delimiterPath + Constants.delimiterColon +
-                    "tmp");
-                sim.SetEntityProperty(Util.BuildFullPN(Constants.xpathProcess, "/", "tmp", "StepperID"), "tmp");
-                string key = Constants.delimiterPath + Constants.delimiterColon + "tmp";
-                EcellObject dummyEcellObject = EcellObject.CreateObject("", key, "", "", null);
-                DataStorer.DataStored4Process(
-                        sim,
-                        dummyEcellObject,
-                        new Dictionary<string, double>());
-                SetPropertyList(dummyEcellObject, dic);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(
-                    String.Format(MessageResources.ErrGetProp,
-                    new object[] { dmName }), ex);
-            }
-            finally
-            {
-                if (sim != null)
-                    sim.Dispose();
-            }
-            return dic;
-        }
-
-        /// <summary>
-        /// Returns the list of the "Stepper" with the parameter ID.
-        /// </summary>
-        /// <param name="parameterID">The parameter ID</param>
-        /// <param name="modelID"> model ID</param>
-        /// <returns>The list of the "Stepper"</returns>
-        public List<EcellObject> GetStepper(string parameterID, string modelID)
-        {
-            List<EcellObject> returnedStepper = new List<EcellObject>();
-            Debug.Assert(!string.IsNullOrEmpty(modelID));
-            if (string.IsNullOrEmpty(parameterID))
-                parameterID = m_currentProject.Info.SimulationParam;
-            if (string.IsNullOrEmpty(parameterID))
-                throw new Exception(String.Format(MessageResources.ErrNoSet,
-                    new object[] { MessageResources.NameSimParam }));
-
-            List<EcellObject> tempList = m_currentProject.StepperDic[parameterID][modelID];
-            foreach (EcellObject stepper in tempList)
-            {
-                returnedStepper.Add(stepper.Copy());
-            }
-            return returnedStepper;
-        }
-
-        /// <summary>
-        /// Returns the list of the parameter ID with the model ID.
-        /// </summary>
-        /// <returns>The list of parameter ID</returns>
-        public List<string> GetSimulationParameterIDs()
-        {
-            if (m_currentProject == null ||
-                m_currentProject.StepperDic == null)
-                return new List<string>();
-
-            return new List<string>(m_currentProject.StepperDic.Keys);
-        }
-
-        /// <summary>
-        /// Get the dm file and the source file for dm in the directory of current project.
-        /// </summary>
-        /// <returns>The list of dm in the directory of current project.</returns>
-        public List<string> GetDMDirData()
-        {
-            List<string> resultList = new List<string>();
-            string path = Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
-            if (!Directory.Exists(path))
-                return resultList;
-
-            string[] files = Directory.GetFiles(path, "*" + Constants.FileExtDM);
-            for (int i = 0; i < files.Length; i++)
-            {
-                string name = Path.GetFileNameWithoutExtension(files[i]);
-                if (!resultList.Contains(name))
-                    resultList.Add(name);
-            }
-            files = Directory.GetFiles(path, "*" + Constants.FileExtSource);
-            for (int i = 0; i < files.Length; i++)
-            {
-                string name = Path.GetFileNameWithoutExtension(files[i]);
-                if (!resultList.Contains(name))
-                    resultList.Add(name);
-            }
-            return resultList;
-        }
-
-        /// <summary>
-        /// Get the DM directory of current project.
-        /// </summary>
-        /// <returns></returns>
-        public string GetDMDir()
-        {
-            return Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
-        }
-
-        private string GetParameterDir()
-        {
-            return Path.Combine(Path.Combine(this.m_defaultDir, m_currentProject.Info.Name), Constants.ParameterDirName);
-        }
-
-        public List<string> GetLogDataList()
-        {
-            List<string> result = new List<string>();
-            string topDir = GetParameterDir();
-            if (!Directory.Exists(topDir)) return result;
-
-            string[] pdirs = Directory.GetDirectories(topDir);
-            for (int i = 0; i < pdirs.Length; i++)
-            {
-                string paramdir = pdirs[i];
-                string paramName = Path.GetFileName(paramdir);
-                string[] pfiles = Directory.GetFiles(paramdir, Constants.xpathProcess + "*");
-                string[] vfiles = Directory.GetFiles(paramdir, Constants.xpathVariable + "*");
-                for (int j = 0; j < pfiles.Length; j++)
-                {
-                    string logdata = paramName + Path.PathSeparator 
-                        + Path.GetFileName(pfiles[j])
-                        + Path.PathSeparator + pfiles[j];
-                    result.Add(logdata);
-                }
-
-                for (int j = 0; j < vfiles.Length; j++)
-                {
-                    string logdata = paramName + Path.PathSeparator 
-                        + Path.GetFileName(vfiles[j])
-                        + Path.PathSeparator + vfiles[j];
-                    result.Add(logdata);
-                }
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="indexName"></param>
-        /// <returns></returns>
-        public string GetDMFileName(string indexName)
-        {
-            string path = Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
-            path = Path.Combine(path, indexName + Constants.FileExtSource);
-            if (!File.Exists(path))
-                return null;
-            return path;
-        }
-
-        /// <summary>
-        /// Returns the list of the "Stepper" property. 
-        /// </summary>
-        /// <param name="dmName">The DM name</param>
-        /// <returns>The dictionary of the "Stepper" property</returns>
-        public Dictionary<string, EcellData> GetStepperProperty(string dmName)
-        {
-            Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
-            EcellObject dummyEcellObject = null;
-            WrappedSimulator sim = null;
-            try
-            {
-                sim = new WrappedSimulator(
-                    Util.GetDMDirs(m_currentProject.Info.ProjectPath));
-                sim.CreateStepper(dmName, Constants.textKey);
-                dummyEcellObject = EcellObject.CreateObject("", Constants.textKey, "", "", null);
-                DataStorer.DataStored4Stepper(sim, dummyEcellObject);
-                SetPropertyList(dummyEcellObject, dic);
-            }
-            finally
-            {
-                if (sim != null)
-                    sim.Dispose();
-            }
-            return dic;
-        }
-
-        /// <summary>
-        /// Get the list of system in model.
-        /// </summary>
-        /// <param name="modelID">model ID.</param>
-        /// <returns>the list of system.</returns>
-        public List<string> GetSystemList(string modelID)
-        {
-            List<string> systemList = new List<string>();
-            foreach (EcellObject system in m_currentProject.SystemDic[modelID])
-            {
-                systemList.Add(system.Key);
-            }
-            return systemList;
-        }
-
-        /// <summary>
-        /// Returns the list of the "System" property. 
-        /// </summary>
-        /// <returns>The dictionary of the "System" property</returns>
-        public Dictionary<string, EcellData> GetSystemProperty()
-        {
-            Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
-            WrappedSimulator sim = null;
-            try
-            {
-                sim = new WrappedSimulator(
-                    Util.GetDMDirs(m_currentProject.Info.ProjectPath));
-                BuildDefaultSimulator(sim, null, null);
-                ArrayList list = new ArrayList();
-                list.Clear();
-                list.Add("");
-                sim.LoadEntityProperty(
-                    Constants.xpathSystem + Constants.delimiterColon +
-                    Constants.delimiterColon +
-                    Constants.delimiterPath + Constants.delimiterColon +
-                    Constants.xpathName,
-                    list
-                    );
-                EcellObject dummyEcellObject = EcellObject.CreateObject(
-                    "",
-                    Constants.delimiterPath,
-                    "",
-                    "",
-                    null);
-                DataStorer.DataStored4System(
-                    sim,
-                    dummyEcellObject,
-                    new Dictionary<string, double>());
-                SetPropertyList(dummyEcellObject, dic);
-                return dic;
-            }
-            finally
-            {
-                if (sim != null)
-                    sim.Dispose();
-            }
-        }
-
-        /// <summary>
-        /// Get the temporary id in projects.
-        /// </summary>
-        /// <param name="modelID">model ID.</param>
-        /// <param name="type">object type.</param>
-        /// <param name="systemID">ID of parent system.</param>
-        /// <returns>the temporary id.</returns>
-        public string GetTemporaryID(string modelID, string type, string systemID)
-        {
-            return m_currentProject.GetTemporaryID(modelID, type, systemID);
-        }
-
-        /// <summary>
-        /// Returns the list of the "Variable" property. 
-        /// </summary>
-        /// <returns>The dictionary of the "Variable" property</returns>
-        public Dictionary<string, EcellData> GetVariableProperty()
-        {
-            Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
-            WrappedSimulator sim = null;
-            EcellObject dummyEcellObject = null;
-            try
-            {
-                sim = new WrappedSimulator(
-                    Util.GetDMDirs(m_currentProject.Info.ProjectPath));
-                BuildDefaultSimulator(sim, null, null);
-                dummyEcellObject = EcellObject.CreateObject(
-                    "",
-                    Constants.delimiterPath + Constants.delimiterColon + Constants.xpathSize.ToUpper(),
-                    "",
-                    "",
-                    null
-                    );
-                DataStorer.DataStored4Variable(
-                        sim,
-                        dummyEcellObject,
-                        new Dictionary<string, double>());
-                SetPropertyList(dummyEcellObject, dic);
-            }
-            finally
-            {
-                if (sim != null)
-                    sim.Dispose();
-            }
-            return dic;
-        }
-
-        /// <summary>
-        /// Tests whether the "EcellObject" is usable.
-        /// </summary>
-        /// <param name="ecellObject">The tested "EcellObject"</param>
-        /// <returns>true if the "EcellObject" is usable; false otherwise</returns>
-        private bool IsUsable(EcellObject ecellObject)
-        {
-            bool flag = false;
-            if (ecellObject == null)
-            {
-                return flag;
-            }
-            else if (ecellObject.ModelID == null || ecellObject.ModelID.Length < 0)
-            {
-                return flag;
-            }
-            else if (ecellObject.Type == null || ecellObject.Type.Length < 0)
-            {
-                return flag;
-            }
-            //
-            // 4 "Process", "Stepper", "System" and "Variable"
-            //
-            if (!ecellObject.Type.Equals(Constants.xpathProject) && !ecellObject.Type.Equals(Constants.xpathModel))
-            {
-                if (ecellObject.Key == null || ecellObject.Key.Length < 0)
-                {
-                    return flag;
-                }
-                else if (ecellObject.Classname == null || ecellObject.Classname.Length < 0)
-                {
-                    return flag;
-                }
-            }
-            return true;
         }
 
         /// <summary>
         /// Initialize the simulator before it starts.
         /// </summary>
-        public void Initialize()
+        public void Initialize(bool flag)
         {
             string simParam = m_currentProject.Info.SimulationParam;
             Dictionary<string, List<EcellObject>> stepperList = m_currentProject.StepperDic[simParam];
+            WrappedSimulator simulator = null;
             Dictionary<string, Dictionary<string, double>> initialCondition = m_currentProject.InitialCondition[simParam];
 
-            m_currentProject.ResetSimulator();
-            WrappedSimulator simulator = m_currentProject.Simulator;
+            m_currentProject.Simulator = m_currentProject.CreateSimulatorInstance();
+            simulator = m_currentProject.Simulator;
             //
             // Loads steppers on the simulator.
             //
@@ -3211,7 +3722,10 @@ namespace Ecell
                 modelIDList.Add(modelID);
             }
             if (newStepperList.Count > 0)
-                LoadStepper(simulator, newStepperList, setStepperPropertyDic);
+                LoadStepper(
+                simulator,
+                newStepperList,
+                setStepperPropertyDic);
 
             //
             // Loads systems on the simulator.
@@ -3223,13 +3737,24 @@ namespace Ecell
             foreach (string modelID in modelIDList)
             {
                 List<string> loggerList = new List<string>();
-                LoadSystem(
-                    simulator,
-                    m_currentProject.SystemDic[modelID],
-                    loggerList,
-                    initialCondition[modelID],
-                    setSystemPropertyDic);
-
+                if (flag)
+                {
+                    LoadSystem(
+                        simulator,
+                        m_currentProject.SystemDic[modelID],
+                        loggerList,
+                        initialCondition[modelID],
+                        setSystemPropertyDic);
+                }
+                else
+                {
+                    LoadSystem(
+                        simulator,
+                        m_currentProject.SystemDic[modelID],
+                        loggerList,
+                        null,
+                        setSystemPropertyDic);
+                }
                 foreach (string logger in loggerList)
                 {
                     m_currentProject.LogableEntityPathDic[logger] = modelID;
@@ -3237,6 +3762,10 @@ namespace Ecell
                 allLoggerList.AddRange(loggerList);
             }
 
+            //
+            // Initializes
+            //
+            simulator.Initialize();
             //
             // Sets the "Settable" and "Not Savable" properties
             //
@@ -3249,8 +3778,22 @@ namespace Ecell
             }
             foreach (string path in setSystemPropertyDic.Keys)
             {
-                if (simulator.GetEntityPropertyAttributes(path).Loadable)
-                    simulator.LoadEntityProperty(path, setSystemPropertyDic[path]);
+                try
+                {
+                    EcellValue storedEcellValue = new EcellValue(simulator.GetEntityProperty(path));
+                    EcellValue newEcellValue = new EcellValue(setSystemPropertyDic[path]);
+                    if (storedEcellValue.Type.Equals(newEcellValue.Type)
+                        && storedEcellValue.Value.Equals(newEcellValue.Value))
+                    {
+                        continue;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine(ex);
+                    // do nothing
+                }
+                simulator.SetEntityProperty(path, setSystemPropertyDic[path]);
             }
             //
             // Set the initial condition property.
@@ -3259,327 +3802,80 @@ namespace Ecell
             {
                 foreach (string fullPN in initialCondition[modelID].Keys)
                 {
+                    EcellValue storedValue = new EcellValue(simulator.GetEntityProperty(fullPN));
                     double initialValue = initialCondition[modelID][fullPN];
-                    if (simulator.GetEntityPropertyAttributes(fullPN).Loadable)
-                        simulator.LoadEntityProperty(fullPN, initialValue);
+                    object newValue = null;
+                    if (storedValue.IsInt)
+                    {
+                        int initialValueInt = Convert.ToInt32(initialValue);
+                        if (storedValue.Value.Equals(initialValueInt))
+                        {
+                            continue;
+                        }
+                        newValue = initialValueInt;
+                    }
+                    else
+                    {
+                        if (storedValue.Value.Equals(initialValue))
+                        {
+                            continue;
+                        }
+                        newValue = initialValue;
+                    }
+                    simulator.SetEntityProperty(fullPN, newValue);
                 }
             }
+            //
+            // Reinitializes
+            //
+            // this.m_simulatorDic[m_currentProject.Name].Initialize();
             //
             // Creates the "Logger" only after the initialization.
             //
             m_loggerEntry.Clear();
             if (allLoggerList != null && allLoggerList.Count > 0)
             {
+                LoggerPolicy loggerPolicy = this.GetCurrentLoggerPolicy();
                 foreach (string logger in allLoggerList)
                 {
-                    CreateLogger(logger, simulator, 
-                        m_currentProject.LoggerPolicy.ReloadStepCount,
-                        m_currentProject.LoggerPolicy.ReloadInterval,
-                        m_currentProject.LoggerPolicy.DiskFullAction == DiskFullAction.Overwrite,
-                        m_currentProject.LoggerPolicy.MaxDiskSpace);
-                }
-            }
-            //
-            // Initializes
-            //
-            simulator.Initialize();
-        }
-
-        private void CreateLogger(string fullPathID, WrappedSimulator sim,
-            int stepCount, double interval, bool action, int maxSpace)
-        {
-            if (m_loggerEntry.Contains(fullPathID)) return;
-
-            sim.CreateLogger(fullPathID, stepCount, interval, action, maxSpace);
-            m_loggerEntry.Add(fullPathID);
-        }
-
-        /// <summary>
-        /// Checks whether the simulator is running.
-        /// </summary>
-        /// <returns>true if the simulator is running; false otherwise</returns>
-        public bool IsActive()
-        {
-            bool runningFlag = false;
-            if (m_currentProject != null && m_currentProject.SimulationStatus == SimulationStatus.Run)
-                runningFlag = true;
-
-            return runningFlag;
-        }
-
-        /// <summary>
-        /// Tests whether the "EcellData" is usable.
-        /// </summary>
-        /// <param name="ecellData">The tested "EcellData"</param>
-        /// <returns>true if the "EcellData" is usable; false otherwise</returns>
-        private bool IsUsable(EcellData ecellData)
-        {
-            bool flag = false;
-            if (ecellData == null)
-            {
-                return flag;
-            }
-            else if (ecellData.Name == null || ecellData.Name.Length <= 0)
-            {
-                return flag;
-            }
-            else if (ecellData.Value == null)
-            {
-                return flag;
-            }
-            else if (ecellData.EntityPath == null || ecellData.EntityPath.Length <= 0)
-            {
-                return flag;
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Loads the project.
-        /// </summary>
-        /// <param name="filename">Project file or EML file.</param>
-        public void LoadProject(string filename)
-        {
-            try
-            {
-                ProjectInfo info = ProjectInfoLoader.Load(filename);
-                LoadProject(info);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(String.Format(MessageResources.ErrLoadPrj,
-                    new object[] { filename }), ex);
-            }
-
-        }
-
-        /// <summary>
-        /// LoadProject
-        /// </summary>
-        /// <param name="info"></param>
-        public void LoadProject(ProjectInfo info)
-        {
-            List<EcellObject> passList = new List<EcellObject>();
-            string[] parameters = new string[0];
-            string message = null;
-            string projectID = null;
-            Project project = null;
-            try
-            {
-                if (m_currentProject != null)
-                    CloseProject();
-
-                // Initializes.
-                message = "[" + info.Name + "]";
-                projectID = info.Name;
-
-                project = new Project(info);
-
-                m_projectList.Add(project);
-                m_currentProject = project;
-                m_env.PluginManager.ParameterSet(projectID, info.SimulationParam);
-
-                List<EcellData> ecellDataList = new List<EcellData>();
-                ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(info.Comment), null));
-                passList.Add(EcellObject.CreateObject(projectID, "", Constants.xpathProject, "", ecellDataList));
-
-                // Loads the model.
-                string[] models;
-                if (info.FilePath.EndsWith(Constants.FileExtEML))
-                {
-                    models = new string[] { info.FilePath };
-                }
-                else
-                {
-                    string modelDirName = Path.Combine(info.ProjectPath, Constants.xpathModel);
-                    Debug.Assert(Directory.Exists(modelDirName));
-
-                    models = Directory.GetFileSystemEntries(
-                        modelDirName,
-                        Constants.delimiterWildcard + Constants.FileExtEML
-                        );
-                    Debug.Assert(models != null && models.Length > 0);
-                }
-                foreach (string model in models)
-                {
-                    string fileName = Path.GetFileName(model);
-                    if (fileName.EndsWith(Constants.FileExtBackUp))
-                        continue;
-                    this.LoadModel(model, false);
-                }
-                foreach (EcellObject model in m_currentProject.ModelList)
-                    passList.Add(model);
-
-                foreach (string storedModelID in m_currentProject.SystemDic.Keys)
-                {
-                    passList.AddRange(m_currentProject.SystemDic[storedModelID]);
-                }
-
-                // Loads the simulation parameter.
-                string simulationDirName = Path.Combine(info.ProjectPath, Constants.xpathParameters);
-
-                if (Directory.Exists(simulationDirName))
-                {
-                    parameters = Directory.GetFileSystemEntries(
-                        simulationDirName,
-                        Constants.delimiterWildcard + Constants.FileExtXML);
-                    if (parameters != null && parameters.Length > 0)
-                    {
-                        foreach (string parameter in parameters)
-                        {
-                            string fileName = Path.GetFileName(parameter);
-                            if (fileName.IndexOf(Constants.delimiterUnderbar) != 0)
-                            {
-                                LoadSimulationParameter(parameter);
-                            }
-                        }
-                    }
-                }
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoLoadPrj, projectID));
-                m_env.Console.Flush();
-                Trace.WriteLine(String.Format(MessageResources.InfoLoadPrj, projectID));
-            }
-            catch (Exception ex)
-            {
-                passList = null;
-                CloseProject();
-                throw new Exception(String.Format(MessageResources.ErrLoadPrj,
-                    new object[] { projectID }), ex);
-            }
-            finally
-            {
-                if (m_currentProject != null)
-                {
-                    if (passList != null && passList.Count > 0)
-                    {
-                        this.m_env.PluginManager.DataAdd(passList);
-                    }
-                    foreach (string paramID in this.GetSimulationParameterIDs())
-                    {
-                        this.m_env.PluginManager.ParameterAdd(projectID, paramID);
-                    }
-
-                    m_env.ActionManager.AddAction(new LoadProjectAction(projectID, info.FilePath));
-                    m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
+                    CreateLogger(logger, true, simulator, loggerPolicy);
                 }
             }
         }
 
         /// <summary>
-        /// Loads the eml formatted file and returns the model ID.
+        /// Returns the initial condition.
         /// </summary>
-        /// <param name="filename">The eml formatted file name</param>
-        /// <param name="isLogging">The flag whether this function is in logging.</param>
-        /// <returns>The model ID</returns>
-        public string LoadModel(string filename, bool isLogging)
+        /// <param name="paremterID">The parameter ID</param>
+        /// <param name="modelID">The model ID</param>
+        /// <returns>The initial condition</returns>
+        public Dictionary<string, double>
+                GetInitialCondition(string paremterID, string modelID)
         {
-            string message = null;
-            try
-            {
-                message = "[" + filename + "]";
-                //
-                // To load
-                //
-                string modelID = null;
-                if (m_currentProject.Info.FilePath == null)
-                {
-                    m_currentProject.Info.FilePath = filename;
-                }
-                m_currentProject.SetDMList();
-                m_currentProject.ResetSimulator();
-                EcellObject modelObj = EmlReader.Parse(filename, m_currentProject.Simulator);
-                modelID = modelObj.ModelID;
-
-                //
-                // Checks the old model ID
-                //
-                foreach (EcellObject model in m_currentProject.ModelList)
-                {
-                    Debug.Assert(!model.ModelID.Equals(modelID));
-                }
-                //
-                // Initialize
-                //
-                try
-                {
-                    m_currentProject.Simulator.Initialize();
-                }
-                catch (Exception)
-                {
-                    // Error Message
-                    // [VariableReference [S0] not found in this Process]
-                    // MichaelisUniUniFluxprocess
-                    // DecayFluxProcess
-                    // [Only first or second order scheme is allowed]
-                    // PingPongBiBiFluxProcess
-                    // TauLeapProcess
-                    Util.ShowWarningDialog(MessageResources.WarnInvalidData);
-                }
-                // Sets initial conditions.
-                m_currentProject.Initialize(modelID);
-                string simParam = m_currentProject.Info.SimulationParam;
-                InitializeModel(modelObj);
-                // Stores the "LoggerPolicy"
-                if (!m_currentProject.LoggerPolicyDic.ContainsKey(simParam))
-                {
-                    m_currentProject.LoggerPolicyDic[simParam] = new LoggerPolicy();
-                }
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoLoadModel, modelID));
-                m_env.Console.Flush();
-                Trace.WriteLine(String.Format(MessageResources.InfoLoadModel, modelID));
-                if (isLogging)
-                    m_env.ActionManager.AddAction(new ImportModelAction(filename));
-                if (m_currentProject.ModelFileDic.ContainsKey(modelID))
-                    m_currentProject.ModelFileDic.Remove(modelID);
-                m_currentProject.ModelFileDic.Add(modelID, filename);
-
-                return modelID;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(String.Format(MessageResources.ErrLoadModel,
-                    new object[] { filename }), ex);
-            }
+            return this.m_currentProject.InitialCondition[paremterID][modelID];
         }
 
-        private void InitializeModel(EcellObject ecellObject)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parameterID"></param>
+        /// <param name="modelID"></param>
+        /// <param name="initialList"></param>
+        public void UpdateInitialCondition(
+                string parameterID, string modelID, Dictionary<string, double> initialList)
         {
-            string simParam = m_currentProject.Info.SimulationParam;
-            string modelID = ecellObject.ModelID;
-            // Sets the "EcellObject".
-            if (ecellObject.Type.Equals(Constants.xpathModel))
+            if (string.IsNullOrEmpty(parameterID))
+                parameterID = m_currentProject.Info.SimulationParam;
+
+            Dictionary<string, double> parameters = this.m_currentProject.InitialCondition[parameterID][modelID];
+            foreach (string key in initialList.Keys)
             {
-                m_currentProject.ModelList.Add((EcellModel)ecellObject);
-                DataStorer.DataStored(
-                    m_currentProject.Simulator,
-                    ecellObject,
-                    m_currentProject.InitialCondition[simParam][modelID]);
+                if (parameters.ContainsKey(key))
+                    parameters.Remove(key);
+
+                parameters[key] = initialList[key];
             }
-            else if (ecellObject.Type.Equals(Constants.xpathSystem))
-            {
-                if (!m_currentProject.SystemDic.ContainsKey(modelID))
-                {
-                    m_currentProject.SystemDic[modelID]
-                            = new List<EcellObject>();
-                }
-                m_currentProject.SystemDic[modelID].Add(ecellObject);
-            }
-            else if (ecellObject.Type.Equals(Constants.xpathStepper))
-            {
-                if (!m_currentProject.StepperDic.ContainsKey(simParam))
-                {
-                    m_currentProject.StepperDic[simParam] = new Dictionary<string, List<EcellObject>>();
-                }
-                if (!m_currentProject.StepperDic[simParam].ContainsKey(modelID))
-                {
-                    m_currentProject.StepperDic[simParam][modelID] = new List<EcellObject>();
-                }
-                m_currentProject.StepperDic[simParam][modelID].Add(ecellObject);
-            }
-            foreach (EcellObject childEcellObject in ecellObject.Children)
-            {
-                InitializeModel(childEcellObject);
-            }
+            Trace.WriteLine("Update Initial Condition: " + "(parameterName=" + parameterID + ", modelID=" + modelID + ")");
         }
 
         /// <summary>
@@ -3617,7 +3913,7 @@ namespace Ecell
                         }
                         foreach (EcellData data in stepper.Value)
                         {
-                            data.Value = GetEcellValue(data);
+                            data.Value = (EcellValue)data.Value.Clone();
                         }
                         m_currentProject.StepperDic[simParamID][stepper.ModelID].Add(stepper);
                     }
@@ -3657,7 +3953,7 @@ namespace Ecell
                                     if (storedData.Value.IsDouble)
                                     {
                                         // XXX: canonicalize the value
-                                        newData.Value = GetEcellValue(newData);
+                                        newData.Value = (EcellValue)newData.Value.Clone();
                                     }
                                     newData.Gettable = storedData.Gettable;
                                     newData.Loadable = storedData.Loadable;
@@ -3697,37 +3993,615 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new Exception(String.Format(MessageResources.ErrLoadPrj,
+                throw new EcellException(String.Format(MessageResources.ErrLoadPrj,
                     new object[] { projectID }), ex);
             }
         }
+
         /// <summary>
-        /// GetEcellValue
+        /// Copy SimulationParameter.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        private static EcellValue GetEcellValue(EcellData data)
+        /// <param name="newParameterID"></param>
+        /// <param name="srcParameterID"></param>
+        public void CopySimulationParameter(string newParameterID, string srcParameterID)
         {
-            double value = 0.0;
             try
             {
-                // Get new value.
-                string newValue = data.Value.ToString();
-                if (newValue.Equals(Double.PositiveInfinity.ToString()))
-                    value = Double.PositiveInfinity;
-                else if (newValue.Equals(Double.MaxValue.ToString()))
-                    value = Double.MaxValue;
-                else
-                    value = XmlConvert.ToDouble(newValue);
+                string message = null;
+
+                message = "[" + newParameterID + "]";
+                //
+                // 4 Stepper
+                //
+                if (m_currentProject.StepperDic.ContainsKey(newParameterID))
+                {
+                    throw new EcellException(
+                        String.Format(MessageResources.ErrExistObj,
+                        new object[] { newParameterID }));
+                }
+
+                m_currentProject.LoggerPolicyDic[newParameterID] =
+                    new LoggerPolicy(m_currentProject.LoggerPolicyDic[srcParameterID]);
+
+
+                Dictionary<string, List<EcellObject>> newStepperListSets = new Dictionary<string, List<EcellObject>>();
+                Dictionary<string, Dictionary<string, double>> newInitialCondSets = new Dictionary<string, Dictionary<string, double>>();
+                foreach (string name in m_currentProject.StepperDic[srcParameterID].Keys)
+                {
+                    List<EcellObject> tmpList = new List<EcellObject>();
+                    foreach (EcellObject sObj in m_currentProject.StepperDic[srcParameterID][name])
+                    {
+                        tmpList.Add(sObj.Copy());
+                    }
+                    newStepperListSets.Add(name, tmpList);
+                }
+                foreach (string name in m_currentProject.InitialCondition[srcParameterID].Keys)
+                {
+                    Dictionary<string, double> tmpDic = new Dictionary<string, double>();
+                    foreach (string path in m_currentProject.InitialCondition[srcParameterID][name].Keys)
+                    {
+                        tmpDic.Add(path, m_currentProject.InitialCondition[srcParameterID][name][path]);
+                    }
+                    newInitialCondSets.Add(name, tmpDic);
+                }
+
+                m_currentProject.StepperDic[newParameterID] = newStepperListSets;
+                m_currentProject.InitialCondition[newParameterID] = newInitialCondSets;
+
+                m_env.PluginManager.ParameterAdd(m_currentProject.Info.Name, newParameterID);
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoCreSim, newParameterID));
+                m_env.Console.Flush();
+
+                Trace.WriteLine(String.Format(MessageResources.InfoCreSim,
+                    new object[] { newParameterID }));
+                //まだcopyがない
+                //m_env.ActionManager.AddAction(new NewSimParamAction(parameterID, isAnchor));
             }
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                value = Double.PositiveInfinity;
+                string message = String.Format(MessageResources.ErrCreSimParam,
+                    new object[] { newParameterID });
+                throw new EcellException(message, ex);
             }
-            return new EcellValue(value);
         }
 
+        /// <summary>
+        /// Returns the list of the parameter ID with the model ID.
+        /// </summary>
+        /// <returns>The list of parameter ID</returns>
+        public List<string> GetSimulationParameterIDs()
+        {
+            if (m_currentProject == null ||
+                m_currentProject.StepperDic == null)
+                return new List<string>();
+
+            return new List<string>(m_currentProject.StepperDic.Keys);
+        }
+
+        /// <summary>
+        /// ConfirmReset
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="type"></param>
+        private void ConfirmReset(string action, string type)
+        {
+            if (m_currentProject.SimulationStatus == SimulationStatus.Wait)
+                return;
+            if (EcellObject.TEXT.Equals(type))
+                return;
+
+            if (!Util.ShowOKCancelDialog(MessageResources.ConfirmReset))
+            {
+                throw new IgnoreException("Can't " + action + " the object.");
+            }
+            SimulationStop();
+            m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
+        }
+
+        /// <summary>
+        /// Creates the dummy simulator 4 property lists.
+        /// </summary>
+        /// <param name="simulator">The dummy simulator</param>
+        /// <param name="defaultProcess">The dm name of "Process"</param>
+        /// <param name="defaultStepper">The dm name of "Stepper"</param>
+        private static void BuildDefaultSimulator(
+                WrappedSimulator simulator, string defaultProcess, string defaultStepper)
+        {
+            try
+            {
+                bool processFlag = false;
+                bool stepperFlag = false;
+                if (defaultProcess != null)
+                {
+                    processFlag = true;
+                }
+                if (defaultStepper != null)
+                {
+                    stepperFlag = true;
+                }
+                if (!processFlag || !stepperFlag)
+                {
+                    // 4 Process
+                    //
+                    if (!processFlag)
+                    {
+                        defaultProcess = Constants.DefaultProcessName;
+                        processFlag = true;
+                    }
+                    //
+                    // 4 Stepper
+                    //
+                    if (!stepperFlag)
+                    {
+                        defaultStepper = Constants.DefaultStepperName;
+                        stepperFlag = true;
+                    }
+                }
+                simulator.CreateStepper(defaultStepper, Constants.textKey);
+                simulator.CreateEntity(
+                    Constants.xpathVariable,
+                    Constants.xpathVariable + Constants.delimiterColon +
+                    Constants.delimiterPath + Constants.delimiterColon +
+                    Constants.xpathSize.ToUpper()
+                    );
+                simulator.CreateEntity(
+                    defaultProcess,
+                    Constants.xpathProcess + Constants.delimiterColon +
+                    Constants.delimiterPath + Constants.delimiterColon +
+                    Constants.xpathSize.ToUpper()
+                );
+                simulator.LoadEntityProperty(
+                    Util.BuildFullPN(
+                        Constants.xpathSystem,
+                        "",
+                        Constants.delimiterPath,
+                        Constants.xpathStepperID
+                    ),
+                    new string[] { Constants.textKey }
+                );
+                simulator.LoadEntityProperty(
+                    Util.BuildFullPN(
+                        Constants.xpathVariable,
+                        Constants.delimiterPath,
+                        Constants.xpathSize.ToUpper(),
+                        Constants.xpathValue
+                    ),
+                    new string[] { "0.1" }
+                );
+                simulator.Initialize();
+            }
+            catch (Exception ex)
+            {
+                throw new EcellException(
+                    MessageResources.ErrCombiStepProc, ex);
+            }
+        }
+
+        /// <summary>
+        /// Returns the current logger policy.
+        /// </summary>
+        /// <returns>The current logger policy</returns>
+        private LoggerPolicy GetCurrentLoggerPolicy()
+        {
+            string simParam = m_currentProject.Info.SimulationParam;
+            return m_currentProject.LoggerPolicyDic[simParam];
+        }
+
+        private void CreateLogger(string fullPathID, bool isInitalize, WrappedSimulator sim, LoggerPolicy loggerPolicy)
+        {
+            if (m_loggerEntry.Contains(fullPathID)) return;
+
+            if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
+                m_currentProject.SimulationStatus == SimulationStatus.Suspended ||
+                isInitalize)
+            {
+                sim.CreateLogger(fullPathID,
+                    loggerPolicy.ReloadStepCount,
+                    loggerPolicy.ReloadInterval,
+                    Convert.ToBoolean((int)loggerPolicy.DiskFullAction),
+                    loggerPolicy.MaxDiskSpace);
+            }
+            m_loggerEntry.Add(fullPathID);
+        }
+
+
+        /// <summary>
+        /// Sets the "LoggerPolicy".
+        /// </summary>
+        /// <param name="parameterID">The parameter ID</param>
+        /// <param name="loggerPolicy">The "LoggerPolicy"</param>
+        public void SetLoggerPolicy(string parameterID, LoggerPolicy loggerPolicy)
+        {
+            m_currentProject.LoggerPolicyDic[parameterID] = loggerPolicy;
+        }
+
+        /// <summary>
+        /// Returns the "LoggerPolicy".
+        /// </summary>
+        /// <param name="parameterID">The parameter ID</param>
+        /// <returns>The "LoggerPolicy"</returns>
+        public LoggerPolicy GetLoggerPolicy(string parameterID)
+        {
+            return m_currentProject.LoggerPolicyDic[parameterID];
+        }
+
+        /// <summary>
+        /// Sets the property list.
+        /// </summary>
+        /// <param name="ecellObject">The "EcellObject"</param>
+        /// <param name="dic">The dictionary of "EcellData"</param>
+        private static void SetPropertyList(EcellObject ecellObject, Dictionary<string, EcellData> dic)
+        {
+            if (ecellObject.Value == null || ecellObject.Value.Count <= 0)
+                return;
+            foreach (EcellData ecellData in ecellObject.Value)
+            {
+                if (ecellData.Name.Equals(EcellProcess.VARIABLEREFERENCELIST))
+                {
+                    ecellData.Value = new EcellValue(new List<EcellValue>());
+                }
+                dic[ecellData.Name] = ecellData;
+            }
+        }
+
+        /// <summary>
+        /// Returns the next event.
+        /// </summary>
+        /// <returns>The current simulation time, The stepper</returns>
+        public IList GetNextEvent()
+        {
+            try
+            {
+                ArrayList list = new ArrayList(2);
+                EcellCoreLib.EventDescriptor desc = m_currentProject.Simulator.GetNextEvent();
+                list.Add(desc.Time);
+                list.Add(desc.StepperID);
+                return list;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return null;
+            }
+        }
+
+        #region Method for SimulationParameter
+        /// <summary>
+        /// Creates the new simulation parameter.
+        /// </summary>
+        /// <param name="parameterID">The new parameter ID</param>
+        /// <returns>The new parameter</returns>
+        public void CreateSimulationParameter(string parameterID)
+        {
+            CreateSimulationParameter(parameterID, true, true);
+        }
+
+        /// <summary>
+        /// Creates the new simulation parameter.
+        /// </summary>
+        /// <param name="parameterID">The new parameter ID</param>
+        /// <param name="isRecorded">Whether this action is recorded or not</param>
+        /// <param name="isAnchor">Whether this action is an anchor or not</param>        
+        public void CreateSimulationParameter(string parameterID, bool isRecorded, bool isAnchor)
+        {
+            try
+            {
+                string message = null;
+
+                message = "[" + parameterID + "]";
+                //
+                // 4 Stepper
+                //
+                if (m_currentProject.StepperDic.ContainsKey(parameterID))
+                {
+                    throw new EcellException(
+                        String.Format(MessageResources.ErrExistObj,
+                        new object[] { parameterID }));
+                }
+
+                m_currentProject.LoggerPolicyDic[parameterID] = new LoggerPolicy();
+
+                Dictionary<string, List<EcellObject>> newStepperListSets = new Dictionary<string, List<EcellObject>>();
+                Dictionary<string, Dictionary<string, double>> newInitialCondSets = new Dictionary<string, Dictionary<string, double>>();
+                foreach (EcellObject model in m_currentProject.ModelList)
+                {
+                    newInitialCondSets[model.ModelID] = new Dictionary<string, double>();
+                    newStepperListSets[model.ModelID] = new List<EcellObject>();
+                }
+                m_currentProject.StepperDic[parameterID] = newStepperListSets;
+                m_currentProject.InitialCondition[parameterID] = newInitialCondSets;
+
+                // Notify that a new parameter set is created.
+                m_env.PluginManager.ParameterAdd(m_currentProject.Info.Name, parameterID);
+
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoCreSim, parameterID));
+                m_env.Console.Flush();
+                Trace.WriteLine(String.Format(MessageResources.InfoCreSim,
+                    new object[] { parameterID }));
+                if (isRecorded)
+                    m_env.ActionManager.AddAction(new NewSimParamAction(parameterID, isAnchor));
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                string message = String.Format(MessageResources.ErrCreSimParam,
+                    new object[] { parameterID });
+                throw new EcellException(message, ex);
+            }
+        }
+
+        /// <summary>
+        /// Sets the parameter of the simulator.
+        /// </summary>
+        /// <param name="parameterID">the set parameter ID</param>
+        public void SetSimulationParameter(string parameterID)
+        {
+            SetSimulationParameter(parameterID, true, true);
+        }
+
+        /// <summary>
+        /// Sets the parameter of the simulator.
+        /// </summary>
+        /// <param name="parameterID">the set parameter ID</param>
+        /// <param name="isRecorded">Whether this action is recorded or not</param>
+        /// <param name="isAnchor">Whether this action is an anchor or not</param>
+        public void SetSimulationParameter(string parameterID, bool isRecorded, bool isAnchor)
+        {
+            string message = null;
+            try
+            {
+                message = "[" + parameterID + "]";
+                string oldParameterID = m_currentProject.Info.SimulationParam;
+                if (oldParameterID != parameterID)
+                {
+                    foreach (string modelID in m_currentProject.StepperDic[oldParameterID].Keys)
+                    {
+                        if (!m_currentProject.StepperDic[parameterID].ContainsKey(modelID))
+                            continue;
+
+                        List<EcellObject> currentList
+                            = m_currentProject.StepperDic[oldParameterID][modelID];
+                        List<EcellObject> newList
+                            = m_currentProject.StepperDic[parameterID][modelID];
+                        foreach (EcellObject current in currentList)
+                        {
+                            foreach (EcellObject newObj in newList)
+                            {
+                                if (!current.Classname.Equals(newObj.Classname))
+                                    continue;
+
+                                foreach (EcellData currentData in current.Value)
+                                {
+                                    foreach (EcellData newData in newObj.Value)
+                                    {
+                                        if (currentData.Name.Equals(newData.Name)
+                                            && currentData.EntityPath.Equals(newData.EntityPath))
+                                        {
+                                            newData.Gettable = currentData.Gettable;
+                                            newData.Loadable = currentData.Loadable;
+                                            newData.Saveable = currentData.Saveable;
+                                            newData.Settable = currentData.Settable;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    m_currentProject.Info.SimulationParam = parameterID;
+                    this.Initialize(true);
+                    foreach (string modelID
+                        in m_currentProject.StepperDic[oldParameterID].Keys)
+                    {
+                        foreach (EcellObject old
+                            in m_currentProject.StepperDic[oldParameterID][modelID])
+                        {
+                            List<EcellData> delList = new List<EcellData>();
+                            foreach (EcellData oldData in old.Value)
+                            {
+                                if (oldData.Gettable
+                                    && !oldData.Loadable
+                                    && !oldData.Saveable
+                                    && !oldData.Settable)
+                                {
+                                    delList.Add(oldData);
+                                }
+                            }
+                            foreach (EcellData del in delList)
+                            {
+                                old.Value.Remove(del);
+                            }
+                        }
+                    }
+                }
+                m_env.PluginManager.ParameterSet(m_currentProject.Info.Name, parameterID);
+                m_env.LogManager.Append(new ApplicationLogEntry(
+                    MessageType.Information,
+                    string.Format(MessageResources.InfoSimParamSet, parameterID),
+                    this));
+                if (isRecorded)
+                    m_env.ActionManager.AddAction(new SetSimParamAction(parameterID, oldParameterID, isAnchor));
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                throw new EcellException(MessageResources.ErrSetSimParam, ex);
+            }
+        }
+
+        /// <summary>
+        /// Deletes the parameter.
+        /// </summary>
+        /// <param name="parameterID"></param>
+        public void DeleteSimulationParameter(string parameterID)
+        {
+            DeleteSimulationParameter(parameterID, true, true);
+        }
+
+        /// <summary>
+        /// Deletes the parameter.
+        /// </summary>
+        /// <param name="parameterID"></param>
+        /// <param name="isRecorded">Whether this action is recorded or not</param>
+        /// <param name="isAnchor">Whether this action is an anchor or not</param>
+        public void DeleteSimulationParameter(string parameterID, bool isRecorded, bool isAnchor)
+        {
+            string message = null;
+            try
+            {
+                Debug.Assert(!String.IsNullOrEmpty(parameterID));
+                message = "[" + parameterID + "]";
+                //
+                // Initializes.
+                //
+
+                this.SetDefaultDir();
+                if (string.IsNullOrEmpty(m_defaultDir))
+                {
+                    throw new EcellException(String.Format(MessageResources.ErrNoSet,
+                        new object[] { MessageResources.NameWorkDir }));
+                }
+
+                Debug.Assert(m_currentProject.StepperDic.ContainsKey(parameterID));
+                m_currentProject.StepperDic.Remove(parameterID);
+                string simulationDirName
+                        = this.m_defaultDir + Constants.delimiterPath
+                        + m_currentProject.Info.Name + Constants.delimiterPath + Constants.xpathParameters;
+                string pattern
+                        = "_????_??_??_??_??_??_" + parameterID + Constants.FileExtXML;
+                if (Directory.Exists(simulationDirName))
+                {
+                    foreach (string fileName in Directory.GetFiles(simulationDirName, pattern))
+                    {
+                        File.Delete(fileName);
+                    }
+                    string simulationFileName
+                            = simulationDirName + Constants.delimiterPath + parameterID + Constants.FileExtXML;
+                    File.Delete(simulationFileName);
+                }
+                m_currentProject.LoggerPolicyDic.Remove(parameterID);
+                Trace.WriteLine(m_currentProject.Info.SimulationParam + ":" + parameterID);
+                if (m_currentProject.Info.SimulationParam == parameterID)
+                    m_currentProject.Info.SimulationParam = null;
+                m_env.PluginManager.ParameterDelete(m_currentProject.Info.Name, parameterID);
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoRemoveSim, parameterID));
+                m_env.Console.Flush();
+                MessageDeleteEntity("Simulation Parameter", message);
+
+                if (isRecorded)
+                    m_env.ActionManager.AddAction(new DeleteSimParamAction(parameterID, isAnchor));
+            }
+            catch (Exception ex)
+            {
+                throw new EcellException(String.Format(MessageResources.ErrDelete,
+                    new object[] { parameterID }), ex);
+            }
+        }
+
+        /// <summary>
+        /// Saves the simulation parameter.
+        /// </summary>
+        /// <param name="paramID">The simulation parameter ID</param>
+        internal void SaveSimulationParameter(string paramID)
+        {
+            string message = null;
+            try
+            {
+                message = "[" + paramID + "]";
+                //
+                // Initializes.
+                //
+                Debug.Assert(!String.IsNullOrEmpty(paramID));
+                SetDefaultDir();
+
+                if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Info.Name))
+                {
+                    m_currentProject.Save();
+                }
+                string simulationDirName = Path.Combine(m_currentProject.Info.ProjectPath, Constants.xpathParameters);
+
+                if (!Directory.Exists(simulationDirName))
+                {
+                    Directory.CreateDirectory(simulationDirName);
+                }
+                string simulationFileName
+                    = simulationDirName + Constants.delimiterPath + paramID + Constants.FileExtXML;
+                //
+                // Picks the "Stepper" up.
+                //
+                List<EcellObject> stepperList = new List<EcellObject>();
+                foreach (string modelID in m_currentProject.StepperDic[paramID].Keys)
+                {
+                    stepperList.AddRange(m_currentProject.StepperDic[paramID][modelID]);
+                }
+                Debug.Assert(stepperList != null && stepperList.Count > 0);
+
+                //
+                // Picks the "LoggerPolicy" up.
+                //
+                LoggerPolicy loggerPolicy = m_currentProject.LoggerPolicyDic[paramID];
+                //
+                // Picks the "InitialCondition" up.
+                //
+                Dictionary<string, Dictionary<string, double>> initialCondition
+                        = this.m_currentProject.InitialCondition[paramID];
+                //
+                // Creates.
+                //
+                SimulationParameterWriter.Create(simulationFileName,
+                    new SimulationParameter(
+                        stepperList,
+                        initialCondition,
+                        loggerPolicy,
+                        paramID));
+                Trace.WriteLine("Save Simulation Parameter: " + message);
+            }
+            catch (Exception ex)
+            {
+                message = String.Format(MessageResources.ErrSavePrj,
+                    new object[] { m_currentProject.Info.Name });
+                Trace.WriteLine(message);
+                throw new EcellException(message, ex);
+            }
+        }
+
+        /// <summary>
+        /// Returns the current simulation parameter ID.
+        /// </summary>
+        /// <returns>The current simulation parameter ID</returns>
+        public string GetCurrentSimulationParameterID()
+        {
+            return m_currentProject.Info.SimulationParam;
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// Returns the list of the "Stepper" with the parameter ID.
+        /// </summary>
+        /// <param name="parameterID">The parameter ID</param>
+        /// <param name="modelID"> model ID</param>
+        /// <returns>The list of the "Stepper"</returns>
+        public List<EcellObject> GetStepper(string parameterID, string modelID)
+        {
+            List<EcellObject> returnedStepper = new List<EcellObject>();
+            Debug.Assert(!string.IsNullOrEmpty(modelID));
+            if (string.IsNullOrEmpty(parameterID))
+                parameterID = m_currentProject.Info.SimulationParam;
+            if (string.IsNullOrEmpty(parameterID))
+                throw new EcellException(String.Format(MessageResources.ErrNoSet,
+                    new object[] { MessageResources.NameSimParam }));
+
+            List<EcellObject> tempList = m_currentProject.StepperDic[parameterID][modelID];
+            foreach (EcellObject stepper in tempList)
+            {
+                // DataStored4Stepper(simulator, stepper);
+                returnedStepper.Add(stepper.Copy());
+            }
+            return returnedStepper;
+        }
         /// <summary>
         /// Loads the "Stepper" 2 the "EcellCoreLib".
         /// </summary>
@@ -3773,7 +4647,8 @@ namespace Ecell
                         continue;
                     }
 
-                    if (value.IsDouble && (Double.IsInfinity((double)value) || Double.IsNaN((double)value)))
+                    if (value.IsDouble
+                        && (Double.IsInfinity((double)value) || Double.IsNaN((double)value)))
                         continue;
 
                     if (ecellData.Saveable)
@@ -3965,798 +4840,79 @@ namespace Ecell
             }
         }
 
+
         /// <summary>
-        /// Create the default object(Process, Variable and System).
+        /// Get the dm file and the source file for dm in the directory of current project.
         /// </summary>
-        /// <param name="modelID">the model ID of created object.</param>
-        /// <param name="key">the system path of parent object.</param>
-        /// <param name="type">the type of created object.</param>
-        /// <param name="isProper">the flag whether the create object is propergated.</param>
-        /// <returns>the create object.</returns>
-        public EcellObject CreateDefaultObject(string modelID, string key, string type, bool isProper)
+        /// <returns>The list of dm in the directory of current project.</returns>
+        public List<string> GetDMDirData()
         {
-            try
+            List<string> resultList = new List<string>();
+            string path = Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
+            if (!Directory.Exists(path))
+                return resultList;
+
+            string[] files = Directory.GetFiles(path, "*" + Constants.FileExtDM);
+            for (int i = 0; i < files.Length; i++)
             {
-                if (type.Equals(Constants.xpathSystem))
-                {
-                    return CreateDefaultSystem(modelID, key, isProper);
-                }
-                else if (type.Equals(Constants.xpathProcess))
-                {
-                    return CreateDefaultProcess(modelID, key, isProper);
-                }
-                else if (type.Equals(Constants.xpathVariable))
-                {
-                    return CreateDefaultVariable(modelID, key, isProper);
-                }
-                else if (type.Equals(Constants.xpathText))
-                {
-                    string nodeKey = GetTemporaryID(modelID, EcellObject.TEXT, "/");
-                    EcellText text = new EcellText(modelID, nodeKey, EcellObject.TEXT, EcellObject.TEXT, new List<EcellData>());
-                    text.Comment = text.LocalID;
-                    return text;
-                }
-                return null;
+                string name = Path.GetFileNameWithoutExtension(files[i]);
+                if (!resultList.Contains(name))
+                    resultList.Add(name);
             }
-            catch (Exception ex)
+            files = Directory.GetFiles(path, "*" + Constants.FileExtSource);
+            for (int i = 0; i < files.Length; i++)
             {
-                String message = String.Format(MessageResources.ErrAdd,
-                    new object[] { type, key });
-                throw new Exception(message, ex);
+                string name = Path.GetFileNameWithoutExtension(files[i]);
+                if (!resultList.Contains(name))
+                    resultList.Add(name);
             }
+            return resultList;
         }
 
         /// <summary>
-        /// Create the process with temporary ID.
+        /// Get the DM directory of current project.
         /// </summary>
-        /// <param name="modelID">model ID of created object.</param>
-        /// <param name="key">the key of parent system object.</param>
-        /// <param name="isProper">the flag whether the create object is propergated.</param>
-        /// <returns>the create object.</returns>
-        private EcellObject CreateDefaultProcess(string modelID, string key, bool isProper)
+        /// <returns></returns>
+        public string GetDMDir()
         {
-            String tmpID = GetTemporaryID(modelID,
-                Constants.xpathProcess, key);
-            EcellObject sysobj = GetEcellObject(modelID, key, Constants.xpathSystem);
-            if (sysobj == null) return null;
-            String stepperID = "";
-            foreach (EcellData d in sysobj.Value)
-            {
-                if (!d.Name.Equals(Constants.xpathStepperID)) continue;
-                stepperID = d.Value.ToString();
-            }
-
-            Dictionary<string, EcellData> list = GetProcessProperty(Constants.DefaultProcessName);
-            List<EcellData> data = new List<EcellData>();
-            foreach (EcellData d in list.Values)
-            {
-                if (d.Name.Equals(Constants.xpathStepperID))
-                {
-                    d.Value = new EcellValue(stepperID);
-                }
-                if (d.Name.Equals(Constants.xpathVRL))
-                {
-                    d.Value = new EcellValue(new List<EcellValue>());
-                }
-                if (d.Name.Equals(Constants.xpathK))
-                {
-                    d.Value = new EcellValue(1);
-                }
-                data.Add(d);
-            }
-            EcellObject obj = EcellObject.CreateObject(modelID, tmpID,
-                Constants.xpathProcess, Constants.DefaultProcessName, data);
-
-            if (isProper)
-            {
-                List<EcellObject> rList = new List<EcellObject>();
-                rList.Add(obj);
-                DataAdd(rList);
-                m_env.PluginManager.SelectChanged(modelID, tmpID, Constants.xpathProcess);
-            }
-            return obj;
+            return Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
         }
 
-        /// <summary>
-        /// Create the variable with temporary ID.
-        /// </summary>
-        /// <param name="modelID">model ID of created object.</param>
-        /// <param name="key">the key of parent system object.</param>
-        /// <param name="isProper">the flag whether the create object is propergated.</param>
-        /// <returns>the create object.</returns>
-        private EcellObject CreateDefaultVariable(string modelID, string key, bool isProper)
+        private string GetParameterDir()
         {
-            String tmpID =
-                GetTemporaryID(modelID, Constants.xpathVariable, key);
-
-            Dictionary<string, EcellData> list = GetVariableProperty();
-            List<EcellData> data = new List<EcellData>();
-            foreach (EcellData d in list.Values)
-            {
-                data.Add(d);
-            }
-            EcellObject obj = EcellObject.CreateObject(modelID, tmpID,
-                Constants.xpathVariable, Constants.xpathVariable, data);
-
-            if (isProper)
-            {
-                List<EcellObject> rList = new List<EcellObject>();
-                rList.Add(obj);
-                DataAdd(rList);
-                m_env.PluginManager.SelectChanged(modelID, tmpID, Constants.xpathVariable);
-            }
-            return obj;
+            return Path.Combine(Path.Combine(this.m_defaultDir, m_currentProject.Info.Name), Constants.ParameterDirName);
         }
 
-        /// <summary>
-        /// Create the system with temporary ID.
-        /// </summary>
-        /// <param name="modelID">model ID of created object.</param>
-        /// <param name="key">the key of parent system object.</param>
-        /// <param name="isProper">the flag whether the create object is propergated.</param>
-        /// <returns>the create object.</returns>
-        private EcellObject CreateDefaultSystem(string modelID, string key, bool isProper)
+        public List<string> GetLogDataList()
         {
-            String tmpID =
-                GetTemporaryID(modelID, Constants.xpathSystem, key);
+            List<string> result = new List<string>();
+            string topDir = GetParameterDir();
+            if (!Directory.Exists(topDir)) return result;
 
-            EcellObject sysobj = GetEcellObject(modelID, key, Constants.xpathSystem);
-            if (sysobj == null) return null;
-            String stepperID = "";
-            foreach (EcellData d in sysobj.Value)
+            string[] pdirs = Directory.GetDirectories(topDir);
+            for (int i = 0; i < pdirs.Length; i++)
             {
-                if (!d.Name.Equals(Constants.xpathStepperID)) continue;
-                stepperID = d.Value.ToString();
-            }
-
-            Dictionary<string, EcellData> list = this.GetSystemProperty();
-            List<EcellData> data = new List<EcellData>();
-            foreach (EcellData d in list.Values)
-            {
-                if (d.Name.Equals(Constants.xpathStepperID))
+                string paramdir = pdirs[i];
+                string paramName = Path.GetFileName(paramdir);
+                string[] pfiles = Directory.GetFiles(paramdir, Constants.xpathProcess + "*");
+                string[] vfiles = Directory.GetFiles(paramdir, Constants.xpathVariable + "*");
+                for (int j = 0; j < pfiles.Length; j++)
                 {
-                    d.Value = new EcellValue(stepperID);
-                }
-                data.Add(d);
-            }
-            EcellObject obj = EcellObject.CreateObject(modelID, tmpID,
-                Constants.xpathSystem, Constants.xpathSystem, data);
-
-            if (isProper)
-            {
-                List<EcellObject> rList = new List<EcellObject>();
-                rList.Add(obj);
-                DataAdd(rList);
-                m_env.PluginManager.SelectChanged(modelID, tmpID, Constants.xpathSystem);
-            }
-            return obj;
-        }
-
-        /// <summary>
-        /// Creates the new "Project" object.
-        /// </summary>
-        /// <param name="projectID"></param>
-        /// <param name="modelID"></param>
-        /// <param name="comment"></param>
-        /// <param name="setDirList"></param>
-        public void CreateNewProject(string projectID, string modelID, string comment, IEnumerable<String> setDirList)
-        {
-            try
-            {
-                CreateProject(projectID, modelID, comment, setDirList);
-                List<EcellObject> list = new List<EcellObject>();
-                list.Add(EcellObject.CreateObject(modelID, null, Constants.xpathModel, null, null));
-                DataAdd(list);
-                foreach (string paramID in GetSimulationParameterIDs())
-                {
-                    m_env.PluginManager.ParameterAdd(projectID, paramID);
-                }
-                m_env.PluginManager.ParameterSet(CurrentProjectID, GetCurrentSimulationParameterID());
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                Util.ShowErrorDialog(ex.Message);
-                CloseProject();
-            }
-
-        }
-        /// <summary>
-        /// Creates the new "Project" object.
-        /// </summary>
-        /// <param name="projectID">The "Project" ID</param>
-        /// <param name="comment">The comment</param>
-        /// <param name="projectPath">The project directory path to load the dm of this project.</param>
-        /// <param name="setDirList">The list of dm directory.</param>
-        public void CreateProject(string projectID, string comment, string projectPath,
-            IEnumerable<String> setDirList)
-        {
-            Project prj = null;
-            try
-            {
-                //
-                // Closes the current project.
-                //
-                if (m_currentProject != null)
-                {
-                    this.CloseProject();
-                }
-                //
-                // Initialize
-                //
-                ProjectInfo info = new ProjectInfo(projectID, comment, DateTime.Now.ToString());
-                info.ProjectPath = projectPath;
-
-                CreateProjectDir(projectID, setDirList);
-                prj = new Project(info);
-                m_projectList.Add(prj);
-                m_currentProject = prj;
-
-                //
-                // 4 PluginManager
-                //
-                List<EcellData> ecellDataList = new List<EcellData>();
-                ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(comment), null));
-                EcellObject ecellObject
-                        = EcellObject.CreateObject(projectID, "", Constants.xpathProject, "", ecellDataList);
-                List<EcellObject> ecellObjectList = new List<EcellObject>();
-                ecellObjectList.Add(ecellObject);
-                m_env.PluginManager.DataAdd(ecellObjectList);
-                m_env.ActionManager.AddAction(new NewProjectAction(projectID, comment, projectPath));
-                m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
-
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoCrePrj, projectID));
-                m_env.Console.Flush();
-                Trace.WriteLine(String.Format(MessageResources.InfoCrePrj, projectID));
-            }
-            catch (Exception ex)
-            {
-                if (prj != null)
-                {
-                    if (this.m_projectList.Contains(prj))
-                    {
-                        this.m_projectList.Remove(prj);
-                        prj = null;
-                    }
-                }
-                string message = String.Format(
-                        MessageResources.ErrCrePrj,
-                        new object[] { projectID });
-                Trace.WriteLine(message);
-                throw new Exception(message, ex);
-            }
-        }
-
-        public void CopySimulationParameter(string newParameterID, string srcParameterID)
-        {
-            try
-            {
-                string message = null;
-
-                message = "[" + newParameterID + "]";
-                //
-                // 4 Stepper
-                //
-                if (m_currentProject.StepperDic.ContainsKey(newParameterID))
-                {
-                    throw new Exception(
-                        String.Format(MessageResources.ErrExistObj,
-                        new object[] { newParameterID }));
+                    string logdata = paramName + Path.PathSeparator
+                        + Path.GetFileName(pfiles[j])
+                        + Path.PathSeparator + pfiles[j];
+                    result.Add(logdata);
                 }
 
-                m_currentProject.LoggerPolicyDic[newParameterID] =
-                    new LoggerPolicy(m_currentProject.LoggerPolicyDic[srcParameterID]);
-
-
-                Dictionary<string, List<EcellObject>> newStepperListSets = new Dictionary<string, List<EcellObject>>();
-                Dictionary<string, Dictionary<string, double>> newInitialCondSets = new Dictionary<string, Dictionary<string, double>>();
-                foreach (string name in m_currentProject.StepperDic[srcParameterID].Keys)
+                for (int j = 0; j < vfiles.Length; j++)
                 {
-                    List<EcellObject> tmpList = new List<EcellObject>();
-                    foreach (EcellObject sObj in m_currentProject.StepperDic[srcParameterID][name])
-                    {
-                        tmpList.Add(sObj.Copy());
-                    }
-                    newStepperListSets.Add(name, tmpList);
-                }
-                foreach (string name in m_currentProject.InitialCondition[srcParameterID].Keys)
-                {
-                    Dictionary<string, double> tmpDic = new Dictionary<string, double>();
-                    foreach (string path in m_currentProject.InitialCondition[srcParameterID][name].Keys)
-                    {
-                        tmpDic.Add(path, m_currentProject.InitialCondition[srcParameterID][name][path]);
-                    }
-                    newInitialCondSets.Add(name, tmpDic);
-                }
-
-                m_currentProject.StepperDic[newParameterID] = newStepperListSets;
-                m_currentProject.InitialCondition[newParameterID] = newInitialCondSets;
-
-                m_env.PluginManager.ParameterAdd(m_currentProject.Info.Name, newParameterID);
-
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoCreSim, newParameterID));
-                m_env.Console.Flush();
-                Trace.WriteLine(String.Format(MessageResources.InfoCreSim,
-                    new object[] { newParameterID }));
-                //まだcopyがない
-                //m_env.ActionManager.AddAction(new NewSimParamAction(parameterID, isAnchor));
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                string message = String.Format(MessageResources.ErrCreSimParam,
-                    new object[] { newParameterID });
-                throw new Exception(message, ex);
-            }
-        }
-
-        /// <summary>
-        /// Create new revision of current project.
-        /// </summary>
-        public void CreateNewRevision()
-        {
-            if (m_currentProject == null)
-                return;
-            SaveProject();
-
-            string sourceDir = m_currentProject.Info.ProjectPath;
-            string revNo = Util.GetRevNo(sourceDir);
-            string targetDir = Path.Combine(sourceDir, Util.GetRevNo(sourceDir));
-            foreach (string dir in Util.IgnoredDirList)
-            {
-                string tempdir = Path.Combine(sourceDir, dir);
-                if (Directory.Exists(tempdir))
-                    Util.CopyDirectory(tempdir, Path.Combine(targetDir, dir));
-            }
-            string[] files = Directory.GetFiles(sourceDir, "project.*");
-            foreach (string file in files)
-                Util.CopyFile(file, targetDir);
-            m_env.Console.WriteLine(String.Format(MessageResources.InfoNewRev,
-                    m_currentProject.Info.Name, revNo));
-        }
-
-        /// <summary>
-        /// Creates the new simulation parameter.
-        /// </summary>
-        /// <param name="parameterID">The new parameter ID</param>
-        /// <returns>The new parameter</returns>
-        public void CreateSimulationParameter(string parameterID)
-        {
-            CreateSimulationParameter(parameterID, true, true);
-        }
-
-        /// <summary>
-        /// Creates the new simulation parameter.
-        /// </summary>
-        /// <param name="parameterID">The new parameter ID</param>
-        /// <param name="isRecorded">Whether this action is recorded or not</param>
-        /// <param name="isAnchor">Whether this action is an anchor or not</param>        
-        public void CreateSimulationParameter(string parameterID, bool isRecorded, bool isAnchor)
-        {
-            try
-            {
-                string message = null;
-
-                message = "[" + parameterID + "]";
-                //
-                // 4 Stepper
-                //
-                if (m_currentProject.StepperDic.ContainsKey(parameterID))
-                {
-                    throw new Exception(
-                        String.Format(MessageResources.ErrExistObj,
-                        new object[] { parameterID }));
-                }
-
-                m_currentProject.LoggerPolicyDic[parameterID] = new LoggerPolicy();
-
-                Dictionary<string, List<EcellObject>> newStepperListSets = new Dictionary<string, List<EcellObject>>();
-                Dictionary<string, Dictionary<string, double>> newInitialCondSets = new Dictionary<string, Dictionary<string, double>>();
-                foreach (EcellObject model in m_currentProject.ModelList)
-                {
-                    newInitialCondSets[model.ModelID] = new Dictionary<string, double>();
-                    newStepperListSets[model.ModelID] = new List<EcellObject>();
-                }
-                m_currentProject.StepperDic[parameterID] = newStepperListSets;
-                m_currentProject.InitialCondition[parameterID] = newInitialCondSets;
-
-                // Notify that a new parameter set is created.
-                m_env.PluginManager.ParameterAdd(m_currentProject.Info.Name, parameterID);
-
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoCreSim, parameterID));
-                m_env.Console.Flush();
-                Trace.WriteLine(String.Format(MessageResources.InfoCreSim,
-                    new object[] { parameterID }));
-                if (isRecorded)
-                    m_env.ActionManager.AddAction(new NewSimParamAction(parameterID, isAnchor));
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                string message = String.Format(MessageResources.ErrCreSimParam,
-                    new object[] { parameterID });
-                throw new Exception(message, ex);
-            }
-        }
-
-        /// <summary>
-        /// Copy the dm data from the set directory to the project directory.
-        /// </summary>
-        /// <param name="projectID">Project ID.</param>
-        /// <param name="dmList">The list of set dm directory.</param>
-        private void CopyDmData(string projectID, List<string> dmList)
-        {
-            string baseDir = this.m_defaultDir + Constants.delimiterPath + projectID;
-            string dmDir = baseDir + Constants.delimiterPath + Constants.DMDirName;
-
-            foreach (string dmPath in dmList)
-            {
-                string[] dmData = Directory.GetFiles(dmPath, "*.dll");
-                if (dmData == null) continue;
-                for (int i = 0; i < dmData.Length; i++)
-                {
-                    dmData[i].ToString();
+                    string logdata = paramName + Path.PathSeparator
+                        + Path.GetFileName(vfiles[j])
+                        + Path.PathSeparator + vfiles[j];
+                    result.Add(logdata);
                 }
             }
-        }
-
-        /// <summary>
-        /// Create the project directory.
-        /// </summary>
-        /// <param name="projectID">Project ID.</param>
-        /// <param name="dmList">A list of DM.</param>
-        public void CreateProjectDir(string projectID, IEnumerable<string> dmList)
-        {
-            SetDefaultDir();
-            string baseDir = this.m_defaultDir + Constants.delimiterPath + projectID;
-            string modelDir = baseDir + Constants.delimiterPath + Constants.xpathModel;
-            string dmDir = baseDir + Constants.delimiterPath + Constants.DMDirName;
-            string paramDir = baseDir + Constants.delimiterPath + Constants.xpathParameters;
-
-            if (!Directory.Exists(baseDir))
-            {
-                Directory.CreateDirectory(baseDir);
-            }
-            if (!Directory.Exists(modelDir))
-            {
-                Directory.CreateDirectory(modelDir);
-            }
-            if (!Directory.Exists(dmDir))
-            {
-                Directory.CreateDirectory(dmDir);
-            }
-            foreach (string sourceDirName in dmList)
-            {
-                Util.CopyDirectory(sourceDirName, dmDir);
-            }
-        }
-
-
-        /// <summary>
-        /// Saves the model using the model ID.
-        /// </summary>
-        /// <param name="modelID">The saved model ID</param>
-        internal void SaveModel(string modelID)
-        {
-            List<EcellObject> storedList = new List<EcellObject>();
-            string message = null;
-            try
-            {
-                message = String.Format(MessageResources.InfoSaveModel,
-                    new object[] { modelID });
-                //
-                // Initializes
-                //
-                Debug.Assert(!String.IsNullOrEmpty(modelID));
-                SetDefaultDir();
-
-                if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Info.Name))
-                {
-                    m_currentProject.Save();
-                }
-                string modelDirName
-                    = this.m_defaultDir + Constants.delimiterPath +
-                    m_currentProject.Info.Name + Constants.delimiterPath + Constants.xpathModel;
-                if (!Directory.Exists(modelDirName))
-                {
-                    Directory.CreateDirectory(modelDirName);
-                }
-                string modelFileName
-                    = modelDirName + Constants.delimiterPath + modelID + Constants.delimiterPeriod + Constants.xpathEml;
-                //
-                // Picks the "Stepper" up.
-                //
-                List<EcellObject> stepperList
-                    = m_currentProject.StepperDic[m_currentProject.Info.SimulationParam][modelID];
-                Debug.Assert(stepperList != null && stepperList.Count > 0);
-                storedList.AddRange(stepperList);
-                //
-                // Picks the "System" up.
-                //
-                List<EcellObject> systemList = m_currentProject.SystemDic[modelID];
-                Debug.Assert(systemList != null && systemList.Count > 0);
-                storedList.AddRange(systemList);
-                //
-                // Creates.
-                //
-                EmlWriter.Create(modelFileName, storedList, true);
-                Trace.WriteLine("Save Model: " + message);
-                m_env.PluginManager.SaveModel(modelID, modelDirName);
-            }
-            catch (Exception ex)
-            {
-                storedList = null;
-                message = String.Format(MessageResources.ErrSaveModel,
-                    new object[] { modelID });
-                Trace.WriteLine(message);
-                throw new Exception(message, ex);
-            }
-        }
-
-        /// <summary>
-        /// Save current project.
-        /// </summary>
-        public void SaveProject()
-        {
-            SetDefaultDir();
-            try
-            {
-                m_currentProject.Save();
-                List<string> modelList = m_currentProject.GetSavableModel();
-                List<string> paramList = m_currentProject.GetSavableSimulationParameter();
-                List<string> logList = m_currentProject.GetSavableSimulationResult();
-
-                foreach (EcellObject model in m_currentProject.ModelList)
-                {
-                    SaveModel(model.ModelID);
-                }
-                foreach (string name in paramList)
-                {
-                    SaveSimulationParameter(name);
-                }
-
-                SaveSimulationResult();
-                SaveSimulationResultDelegate dlg = m_env.PluginManager.GetDelegate("SaveSimulationResult") as SaveSimulationResultDelegate;
-                if (dlg != null)
-                    dlg(logList);
-
-                m_env.Console.WriteLine(string.Format(MessageResources.InfoSavePrj, m_currentProject.Info.Name));
-                m_env.Console.Flush();
-            }
-            catch (Exception ex)
-            {
-                String.Format(MessageResources.ErrSavePrj, m_currentProject.Info.Name);
-                Trace.WriteLine(ex);
-            }
-        }
-
-        /// <summary>
-        /// Saves the script.
-        /// </summary>
-        /// <param name="fileName"></param>
-        public void SaveScript(string fileName)
-        {
-            try
-            {
-                ScriptWriter writer = new ScriptWriter(m_currentProject);
-                writer.SaveScript(fileName);
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoSaveScript, fileName));
-                m_env.Console.Flush();
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                throw new Exception(String.Format( MessageResources.ErrSaveScript, fileName), ex);
-            }
-        }
-
-        /// <summary>
-        /// Compile the dm source file.
-        /// </summary>
-        /// <param name="fileName">the source file name.</param>
-        public void ExecuteScript(string fileName)
-        {
-            PythonEngine engine = new PythonEngine();
-
-            engine.AddToPath(Directory.GetCurrentDirectory());
-            engine.AddToPath(Util.GetAnalysisDir());
-            string scriptFile = fileName;
-
-            try
-            {
-                MemoryStream standardOutput = new MemoryStream();
-                engine.SetStandardOutput(standardOutput);
-                engine.Execute("from EcellIDE import *");
-                engine.Execute("import time");
-                engine.Execute("import System.Threading");
-                engine.Execute("session=Session()");
-                engine.ExecuteFile(scriptFile);
-                string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
-
-                m_env.Console.WriteLine(stdOut);
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoExecScript, fileName));
-                m_env.Console.Flush();
-            }
-            catch (Exception)
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrLoadFile,
-                    new object[] { scriptFile }));
-            }
-        }
-
-        /// <summary>
-        /// Saves the simulation parameter.
-        /// </summary>
-        /// <param name="paramID">The simulation parameter ID</param>
-        internal void SaveSimulationParameter(string paramID)
-        {
-            string message = null;
-            try
-            {
-                message = "[" + paramID + "]";
-                //
-                // Initializes.
-                //
-                Debug.Assert(!String.IsNullOrEmpty(paramID));
-                SetDefaultDir();
-
-                if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Info.Name))
-                {
-                    m_currentProject.Save();
-                }
-                string simulationDirName = Path.Combine(m_currentProject.Info.ProjectPath,Constants.xpathParameters);
-
-                if (!Directory.Exists(simulationDirName))
-                {
-                    Directory.CreateDirectory(simulationDirName);
-                }
-                string simulationFileName
-                    = simulationDirName + Constants.delimiterPath + paramID + Constants.FileExtXML;
-                //
-                // Picks the "Stepper" up.
-                //
-                List<EcellObject> stepperList = new List<EcellObject>();
-                foreach (string modelID in m_currentProject.StepperDic[paramID].Keys)
-                {
-                    stepperList.AddRange(m_currentProject.StepperDic[paramID][modelID]);
-                }
-                Debug.Assert(stepperList != null && stepperList.Count > 0);
-
-                //
-                // Picks the "LoggerPolicy" up.
-                //
-                LoggerPolicy loggerPolicy = m_currentProject.LoggerPolicyDic[paramID];
-                //
-                // Picks the "InitialCondition" up.
-                //
-                Dictionary<string, Dictionary<string, double>> initialCondition
-                        = this.m_currentProject.InitialCondition[paramID];
-                //
-                // Creates.
-                //
-                SimulationParameterWriter.Create(simulationFileName,
-                    new SimulationParameter(
-                        stepperList,
-                        initialCondition,
-                        loggerPolicy,
-                        paramID));
-                Trace.WriteLine("Save Simulation Parameter: " + message);
-            }
-            catch (Exception ex)
-            {
-                message = String.Format(MessageResources.ErrSavePrj,
-                    new object[] { m_currentProject.Info.Name });
-                Trace.WriteLine(message);
-                throw new Exception(message, ex);
-            }
-        }
-
-        public LogData LoadSimulationResult(string fileName)
-        {
-            return Ecd.LoadSavedLogData(fileName);
-        }
-
-        /// <summary>
-        /// Saves the simulation result.
-        /// </summary>
-        private void SaveSimulationResult()
-        {
-            try
-            {
-                SaveSimulationResult(null, 0.0, GetCurrentSimulationTime(), null, GetLoggerList());
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(String.Format(MessageResources.ErrSavePrj,
-                    new object[] { m_currentProject.Info.Name }), ex);
-            }
-        }
-
-
-        /// <summary>
-        /// Saves the simulation result.
-        /// </summary>
-        /// <param name="savedDirName">The saved directory name</param>
-        /// <param name="startTime">The start time</param>
-        /// <param name="endTime">The end time</param>
-        /// <param name="savedType">The saved type (ECD or Binary)</param>
-        /// <param name="fullIDList">The list of the saved fullID</param>
-        public void SaveSimulationResult(
-            string savedDirName,
-            double startTime,
-            double endTime,
-            string savedType,
-            IEnumerable<string> fullIDList
-            )
-        {
-            string message = null;
-            try
-            {
-                string projectID = m_currentProject.Info.Name;
-                string simParam = m_currentProject.Info.SimulationParam;
-                message = "[" + projectID + "][" + simParam + "]";
-                //
-                // Initializes.
-                //
-                string simulationDirName = null;
-                if (!string.IsNullOrEmpty(savedDirName))
-                {
-                    simulationDirName = savedDirName;
-                }
-                else
-                {
-                    SetDefaultDir();
-
-                    if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + projectID))
-                    {
-                        m_currentProject.Save();
-                    }
-                    simulationDirName = GetSimulationResultSaveDirectory();
-                }
-                if (!Directory.Exists(simulationDirName))
-                {
-                    Directory.CreateDirectory(simulationDirName);
-                }
-                //
-                // Saves the "LogData".
-                //
-                IEnumerable<LogData> logDataList = this.GetLogData(
-                    startTime,
-                    endTime,
-                    m_currentProject.LoggerPolicy.ReloadInterval
-                    );
-                foreach (LogData logData in logDataList)
-                {
-                    string fullID =
-                        logData.type + Constants.delimiterColon +
-                        logData.key + Constants.delimiterColon +
-                        logData.propName;
-                    if (Util.Contains(fullIDList, fullID))
-                    {
-                        if (savedType == null || savedType.Equals(Constants.xpathCsv) ||
-                            savedType.Equals(Constants.xpathEcd))
-                        {
-                            Ecd ecd = new Ecd();
-                            ecd.Create(simulationDirName, logData, savedType, startTime, endTime);
-                            message = "[" + fullID + "]";
-                            Trace.WriteLine("Save Simulation Result: " + message);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                message = MessageResources.ErrSaveLog;
-                Trace.WriteLine(message);
-                throw new Exception(message, ex);
-            }
-        }
-
-        public string GetSimulationResultSaveDirectory()
-        {
-            return this.m_defaultDir + "\\" +
-                        m_currentProject.Info.Name + "\\" + Constants.xpathParameters +
-                        "\\" + m_currentProject.Info.SimulationParam;
+            return result;
         }
 
         /// <summary>
@@ -4764,668 +4920,37 @@ namespace Ecell
         /// </summary>
         private void SetDefaultDir()
         {
-            if (!string.IsNullOrEmpty(m_defaultDir))
-                return;
-            
-            string baseDirs = Util.GetBaseDir();
-            if (string.IsNullOrEmpty(baseDirs))
-                return;
-
-            foreach (string baseDir in baseDirs.Split(Path.PathSeparator))
+            if (this.m_defaultDir == null || this.m_defaultDir.Length <= 0)
             {
-                if (Directory.Exists(baseDir))
+                string baseDirs = Util.GetBaseDir();
+                if (baseDirs == null || baseDirs.Length <= 0)
                 {
-                    this.m_defaultDir = baseDir;
-                    break;
+                    return;
                 }
-            }
-            if (String.IsNullOrEmpty(m_defaultDir))
-            {
-                throw new Exception(String.Format(MessageResources.ErrNoSet,
-                    new object[] { MessageResources.NameWorkDir }));
-            }
-        }
-
-        /// <summary>
-        /// Set the value to the full Path.
-        /// </summary>
-        /// <param name="fullPN">set full path.</param>
-        /// <param name="value">set value.</param>
-        public void SetEntityProperty(string fullPN, string value)
-        {
-            if (m_currentProject.Simulator == null
-                || this.GetCurrentSimulationTime() <= 0.0)
-            {
-                return;
-            }
-            EcellValue storedValue
-                = new EcellValue(m_currentProject.Simulator.GetEntityProperty(fullPN));
-            EcellValue newValue = null;
-            if (storedValue.IsDouble)
-            {
-                newValue = new EcellValue(XmlConvert.ToDouble(value));
-            }
-            else if (storedValue.IsInt)
-            {
-                newValue = new EcellValue(XmlConvert.ToInt32(value));
-            }
-            else if (storedValue.IsList)
-            {
-                // newValue = new EcellValue(value);
-                return;
-            }
-            else
-            {
-                newValue = new EcellValue(value);
-            }
-            m_currentProject.Simulator.LoadEntityProperty(fullPN, newValue.Value);
-        }
-
-        /// <summary>
-        /// Sets the "LoggerPolicy".
-        /// </summary>
-        /// <param name="parameterID">The parameter ID</param>
-        /// <param name="loggerPolicy">The "LoggerPolicy"</param>
-        public void SetLoggerPolicy(string parameterID, LoggerPolicy loggerPolicy)
-        {
-            m_currentProject.LoggerPolicyDic[parameterID] = loggerPolicy;
-        }
-
-        /// <summary>
-        /// Sets the property list.
-        /// </summary>
-        /// <param name="ecellObject">The "EcellObject"</param>
-        /// <param name="dic">The dictionary of "EcellData"</param>
-        private static void SetPropertyList(EcellObject ecellObject, Dictionary<string, EcellData> dic)
-        {
-            if (ecellObject.Value == null || ecellObject.Value.Count <= 0)
-            {
-                return;
-            }
-            foreach (EcellData ecellData in ecellObject.Value)
-            {
-                if (ecellData.Name.Equals(EcellProcess.VARIABLEREFERENCELIST))
+                foreach (string baseDir in baseDirs.Split(Path.PathSeparator))
                 {
-                    ecellData.Value = new EcellValue(new List<object>());
-                }
-                dic[ecellData.Name] = ecellData;
-            }
-        }
-
-        /// <summary>
-        /// Set positions of all EcellObjects.
-        /// </summary>
-        /// <param name="modelID">Model ID</param>
-        public void SetPositions(string modelID)
-        {
-            if (null != modelID && m_currentProject.SystemDic.ContainsKey(modelID))
-            {
-                foreach (EcellObject eo in m_currentProject.SystemDic[modelID])
-                    m_env.PluginManager.SetPosition(eo);
-            }
-        }
-        /// <summary>
-        /// SetPosition
-        /// </summary>
-        /// <param name="eo"></param>
-        public void SetPosition(EcellObject eo)
-        {
-            EcellObject oldNode = m_currentProject.GetEcellObject(eo.ModelID, eo.Type, eo.Key);
-            oldNode.SetPosition(eo);
-            // not implement.
-            m_env.PluginManager.SetPosition(oldNode.Copy());
-        }
-
-        /// <summary>
-        /// Sets the parameter of the simulator.
-        /// </summary>
-        /// <param name="parameterID">the set parameter ID</param>
-        public void SetSimulationParameter(string parameterID)
-        {
-            SetSimulationParameter(parameterID, true, true);
-        }
-
-        /// <summary>
-        /// Sets the parameter of the simulator.
-        /// </summary>
-        /// <param name="parameterID">the set parameter ID</param>
-        /// <param name="isRecorded">Whether this action is recorded or not</param>
-        /// <param name="isAnchor">Whether this action is an anchor or not</param>
-        public void SetSimulationParameter(string parameterID, bool isRecorded, bool isAnchor)
-        {
-            string message = null;
-            try
-            {
-                message = "[" + parameterID + "]";
-                string oldParameterID = m_currentProject.Info.SimulationParam;
-                if (oldParameterID != parameterID)
-                {
-                    foreach (string modelID in m_currentProject.StepperDic[oldParameterID].Keys)
+                    if (Directory.Exists(baseDir))
                     {
-                        if (!m_currentProject.StepperDic[parameterID].ContainsKey(modelID))
-                            continue;
-
-                        List<EcellObject> currentList
-                            = m_currentProject.StepperDic[oldParameterID][modelID];
-                        List<EcellObject> newList
-                            = m_currentProject.StepperDic[parameterID][modelID];
-                        foreach (EcellObject current in currentList)
-                        {
-                            foreach (EcellObject newObj in newList)
-                            {
-                                if (!current.Classname.Equals(newObj.Classname))
-                                    continue;
-
-                                foreach (EcellData currentData in current.Value)
-                                {
-                                    foreach (EcellData newData in newObj.Value)
-                                    {
-                                        if (currentData.Name.Equals(newData.Name)
-                                            && currentData.EntityPath.Equals(newData.EntityPath))
-                                        {
-                                            newData.Gettable = currentData.Gettable;
-                                            newData.Loadable = currentData.Loadable;
-                                            newData.Saveable = currentData.Saveable;
-                                            newData.Settable = currentData.Settable;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    m_currentProject.Info.SimulationParam = parameterID;
-                    this.Initialize();
-                    foreach (string modelID
-                        in m_currentProject.StepperDic[oldParameterID].Keys)
-                    {
-                        foreach (EcellObject old
-                            in m_currentProject.StepperDic[oldParameterID][modelID])
-                        {
-                            List<EcellData> delList = new List<EcellData>();
-                            foreach (EcellData oldData in old.Value)
-                            {
-                                if (oldData.Gettable
-                                    && !oldData.Loadable
-                                    && !oldData.Saveable
-                                    && !oldData.Settable)
-                                {
-                                    delList.Add(oldData);
-                                }
-                            }
-                            foreach (EcellData del in delList)
-                            {
-                                old.Value.Remove(del);
-                            }
-                        }
-                    }
-                }
-                m_env.PluginManager.ParameterSet(m_currentProject.Info.Name, parameterID);
-                m_env.LogManager.Append(new ApplicationLogEntry(
-                    MessageType.Information,
-                    string.Format(MessageResources.InfoSimParamSet, parameterID),
-                    this));
-                if (isRecorded)
-                    m_env.ActionManager.AddAction(new SetSimParamAction(parameterID, oldParameterID, isAnchor));
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                throw new Exception(MessageResources.ErrSetSimParam, ex);
-            }
-        }
-
-        /// <summary>
-        /// Starts this simulation with the step limit.
-        /// </summary>
-        /// <param name="stepLimit">The step limit</param>
-        /// <param name="statusNum">simulation status.</param>
-        public void SimulationStart(int stepLimit, int statusNum)
-        {
-            try
-            {
-                // Checks the simulator's status.
-                if (m_currentProject.SimulationStatus == SimulationStatus.Wait)
-                {
-                    this.Initialize();
-                    this.m_simulationStepLimit = stepLimit;
-                    m_env.LogManager.Append(new ApplicationLogEntry(
-                        MessageType.Information,
-                        MessageResources.SimulationStarted,
-                        this));
-                }
-                else if (m_currentProject.SimulationStatus == SimulationStatus.Suspended)
-                {
-                    if (this.m_simulationStepLimit == -1)
-                    {
-                        this.m_simulationStepLimit = stepLimit;
-                    }
-                    Trace.WriteLine("Restart Simulator: [" + m_currentProject.Simulator.GetCurrentTime() + "]");
-                }
-
-                // Debug
-                // this.LookIntoSimulator(m_currentProject.Simulator);
-                // Selects the type of the simulation and Starts.
-                m_currentProject.SimulationStatus = SimulationStatus.Run;
-                if (this.m_simulationStepLimit > 0)
-                {
-                    while (m_currentProject.SimulationStatus == SimulationStatus.Run)
-                    {
-                        if (this.m_simulationStepLimit <= m_defaultStepCount)
-                        {
-                            m_currentProject.Simulator.Step(this.m_simulationStepLimit);
-                            Application.DoEvents();
-                            double currentTime = m_currentProject.Simulator.GetCurrentTime();
-                            if (statusNum == (int)SimulationStatus.Suspended)
-                            {
-                                m_currentProject.SimulationStatus = SimulationStatus.Suspended;
-                            }
-                            else
-                            {
-                                m_currentProject.SimulationStatus = SimulationStatus.Wait;
-                            }
-                            this.m_env.PluginManager.AdvancedTime(currentTime);
-                            this.m_simulationStepLimit = -1;
-                            break;
-                        }
-                        else
-                        {
-                            m_currentProject.Simulator.Step(m_defaultStepCount);
-                            Application.DoEvents();
-                            double currentTime = m_currentProject.Simulator.GetCurrentTime();
-                            this.m_env.PluginManager.AdvancedTime(currentTime);
-                            this.m_simulationStepLimit = this.m_simulationStepLimit - m_defaultStepCount;
-                        }
-                    }
-                }
-                else
-                {
-                    while (m_currentProject.SimulationStatus == SimulationStatus.Run)
-                    {
-                        m_currentProject.Simulator.Step(m_defaultStepCount);
-                        Application.DoEvents();
-                        double currentTime = m_currentProject.Simulator.GetCurrentTime();
-                        this.m_env.PluginManager.AdvancedTime(currentTime);
+                        this.m_defaultDir = baseDir;
+                        break;
                     }
                 }
             }
-            catch (WrappedException ex)
-            {
-                m_currentProject.SimulationStatus = SimulationStatus.Wait;
-                throw new SimulationException(MessageResources.ErrRunSim, ex);
-            }
-            catch (Exception)
-            {
-                // ログの設定でシミュレーションを中断する設定にした場合に
-                // SHExceptionが来ている。そのため、ここでcatchして
-                // シミュレーションが中断したメッセージをthrowする。
-                m_currentProject.SimulationStatus = SimulationStatus.Wait;
-                throw new SimulationException(MessageResources.ErrSuspend, new WrappedException());
-            }
-        }
-
-        /// <summary>
-        /// Starts this simulation with the time limit.
-        /// </summary>
-        /// <param name="timeLimit">The time limit</param>
-        /// <param name="statusNum">Simulation status./</param>
-        public void SimulationStart(double timeLimit, int statusNum)
-        {
-            try
-            {
-                //
-                // Checks the simulator's status.
-                //
-                double startTime = 0.0;
-                if (m_currentProject.SimulationStatus == SimulationStatus.Wait)
-                {
-                    this.Initialize();
-                    this.m_simulationTimeLimit = timeLimit;
-                    this.m_simulationStartTime = 0.0;
-                    m_env.LogManager.Append(new ApplicationLogEntry(
-                        MessageType.Information,
-                        MessageResources.SimulationStarted,
-                        this));
-                }
-                else if (m_currentProject.SimulationStatus == SimulationStatus.Suspended)
-                {
-                    if (this.m_simulationTimeLimit == -1.0 || this.m_simulationTimeLimit == 0.0)
-                    {
-                        this.m_simulationTimeLimit = timeLimit;
-                        this.m_simulationStartTime = m_currentProject.Simulator.GetCurrentTime();
-                    }
-                    m_env.LogManager.Append(new ApplicationLogEntry(
-                        MessageType.Information,
-                        MessageResources.SimulationRestarted,
-                        this));
-                }
-
-                //
-                // Selects the type of the simulation and Starts.
-                //
-                m_currentProject.SimulationStatus = SimulationStatus.Run;
-                if (this.m_simulationTimeLimit > 0.0)
-                {
-                    startTime = m_currentProject.Simulator.GetCurrentTime();
-                    Thread thread = new Thread(new ThreadStart(SimulationStartByThreadWithLimit));
-                    thread.Start();
-                    int i = 0;
-                    while (m_currentProject.SimulationStatus == SimulationStatus.Run)
-                    {
-                        i++;
-                        if (i == 1000)
-                        {
-                            Thread.Sleep(1);
-                            i = 0;
-                        }
-                        Application.DoEvents();
-                        double currentTime = m_currentProject.Simulator.GetCurrentTime();
-                        this.m_env.PluginManager.AdvancedTime(currentTime);
-                        if (currentTime >= (this.m_simulationStartTime + this.m_simulationTimeLimit))
-                        {
-                            if (statusNum == (int)SimulationStatus.Suspended)
-                            {
-                                m_currentProject.SimulationStatus = SimulationStatus.Suspended;
-                            }
-                            else
-                            {
-                                m_currentProject.SimulationStatus = SimulationStatus.Wait;
-                            }
-                            currentTime = m_currentProject.Simulator.GetCurrentTime();
-                            this.m_env.PluginManager.AdvancedTime(currentTime);
-                            this.m_simulationTimeLimit = -1.0;
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    int i = 0;
-                    while (m_currentProject.SimulationStatus == SimulationStatus.Run)
-                    {
-                        if (i == 1000)
-                        {
-                            Thread.Sleep(1);
-                            i = 0;
-                        }
-                        m_currentProject.Simulator.Step(m_defaultStepCount);
-                        Application.DoEvents();
-                        double currentTime = m_currentProject.Simulator.GetCurrentTime();
-                        this.m_env.PluginManager.AdvancedTime(currentTime);
-                    }
-                }
-            }
-            catch (WrappedException ex)
-            {
-                m_currentProject.SimulationStatus = SimulationStatus.Wait;
-                throw new SimulationException(MessageResources.ErrRunSim, ex);
-            }
-        }
-
-        /// <summary>
-        /// Starts this simulation without the time limit by the thread.
-        /// </summary>
-        void SimulationStartByThread()
-        {
-            Util.InitialLanguage();
-            m_currentProject.Simulator.Run();
-        }
-
-        /// <summary>
-        /// Starts this simulation with the time limit by the thread.
-        /// </summary>
-        void SimulationStartByThreadWithLimit()
-        {
-            Util.InitialLanguage();
-            m_currentProject.Simulator.Run(this.m_simulationTimeLimit);
-        }
-
-        /// <summary>
-        /// Starts this simulation with the step limit.
-        /// </summary>
-        /// <param name="stepLimit">The step limit</param>
-        public void SimulationStartKeepSetting(int stepLimit)
-        {
-            if (m_currentProject.SimulationStatus == SimulationStatus.Run)
-            {
-                throw new Exception(MessageResources.ErrRunning);
-            }
-
-            this.SimulationStart(stepLimit, (int)SimulationStatus.Suspended);
-        }
-
-        /// <summary>
-        /// Starts this simulation with the time limit.
-        /// </summary>
-        /// <param name="timeLimit">The time limit</param>
-        public void SimulationStartKeepSetting(double timeLimit)
-        {
-            if (m_currentProject.SimulationStatus == SimulationStatus.Run)
-            {
-                throw new Exception(MessageResources.ErrRunning);
-            }
-
-            this.SimulationStart(timeLimit, (int)SimulationStatus.Suspended);
-        }
-
-        /// <summary>
-        /// Stops this simulation.
-        /// </summary>
-        public void SimulationStop()
-        {
-            try
-            {
-                Debug.Assert(m_currentProject.Simulator != null);
-
-                lock (m_currentProject.Simulator)
-                {
-                    m_currentProject.Simulator.Stop();
-                }
-                m_env.LogManager.Append(new ApplicationLogEntry(
-                    MessageType.Information,
-                    String.Format(MessageResources.InfoResetSim, m_currentProject.Simulator.GetCurrentTime()),
-                    this));
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoResetSim, m_currentProject.Simulator.GetCurrentTime()));
-                m_env.Console.Flush();
-            }
-            catch (WrappedException ex)
-            {
-                throw new SimulationException(MessageResources.ErrResetSim, ex);
-            }
-            finally
-            {
-                m_currentProject.SimulationStatus = SimulationStatus.Wait;
-            }
-        }
-
-        /// <summary>
-        /// Suspends the simulation.
-        /// </summary>
-        public void SimulationSuspend()
-        {
-            try
-            {
-                m_currentProject.SimulationStatus = SimulationStatus.Suspended;
-                m_env.LogManager.Append(new ApplicationLogEntry(
-                    MessageType.Information,
-                    String.Format(MessageResources.InfoSuspend, m_currentProject.Simulator.GetCurrentTime()),
-                    this));
-                m_env.PluginManager.ChangeStatus(ProjectStatus.Suspended);
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoSuspend, m_currentProject.Simulator.GetCurrentTime()));
-                m_env.Console.Flush();
-            }
-            catch (WrappedException ex)
-            {
-                throw new SimulationException(MessageResources.ErrSuspendSim, ex);
-            }
-        }
-
-        /// <summary>
-        /// Splits the entity path.
-        /// </summary>
-        /// <param name="key">The key of the "EcellObject"</param>
-        /// <param name="type">The type of the "EcellObject"</param>
-        /// <param name="propName">The property name of the "ECellObject"</param>
-        /// <param name="entityPath"></param>
-        private void Split4EntityPath(ref string key, ref string type, ref string propName, string entityPath)
-        {
-            string[] data = entityPath.Split(Constants.delimiterColon.ToCharArray());
-            if (data.Length < 4)
-            {
-                return;
-            }
-            key = data[1] + Constants.delimiterColon + data[2];
-            type = data[0];
-            propName = data[3];
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="parameterID"></param>
-        /// <param name="modelID"></param>
-        /// <param name="initialList"></param>
-        public void UpdateInitialCondition(
-                string parameterID, string modelID, Dictionary<string, double> initialList)
+        /// <param name="indexName"></param>
+        /// <returns></returns>
+        public string GetDMFileName(string indexName)
         {
-            if (string.IsNullOrEmpty(parameterID))
-                parameterID = m_currentProject.Info.SimulationParam;
-
-            Dictionary<string, double> parameters = this.m_currentProject.InitialCondition[parameterID][modelID];
-            foreach (string key in initialList.Keys)
-            {
-                if (parameters.ContainsKey(key))
-                    parameters.Remove(key);
-
-                parameters[key] = initialList[key];
-            }
-            Trace.WriteLine("Update Initial Condition: " + "(parameterName=" + parameterID + ", modelID=" + modelID + ")");
+            string path = Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
+            path = Path.Combine(path, indexName + Constants.FileExtSource);
+            if (!File.Exists(path))
+                return null;
+            return path;
         }
-
-        /// <summary>
-        /// Updates the "Stepper".
-        /// </summary>
-        /// <param name="parameterID">The parameter ID</param>
-        /// <param name="stepperList">The list of the "Stepper"</param>
-        public void UpdateStepperID(string parameterID, List<EcellObject> stepperList)
-        {
-            UpdateStepperID(parameterID, stepperList, true);
-        }
-
-        /// <summary>
-        /// Updates the "Stepper".
-        /// </summary>
-        /// <param name="parameterID">The parameter ID</param>
-        /// <param name="stepperList">The list of the "Stepper"</param>
-        /// <param name="isRecorded">Whether this action is recorded or not</param>
-        public void UpdateStepperID(string parameterID, List<EcellObject> stepperList, bool isRecorded)
-        {
-            if (stepperList.Count == 0)
-                return;
-
-            string message = null;
-
-            try
-            {
-                List<EcellObject> addedStepperList = new List<EcellObject>();
-                List<EcellObject> removedStepperList = new List<EcellObject>();
-                List<EcellObject> updatedStepperList = new List<EcellObject>();
-                List<EcellObject> oldStepperList = new List<EcellObject>();
-                Dictionary<string, List<EcellObject>> perParameterStepperListDic = m_currentProject.StepperDic[parameterID];
-                foreach (EcellObject model in m_currentProject.ModelList)
-                {
-                    List<EcellObject> remainingStepperList = new List<EcellObject>();
-                    foreach (EcellObject stepper in perParameterStepperListDic[model.ModelID])
-                    {
-                        bool removed = true;
-                        oldStepperList.Add(stepper.Copy());
-                        foreach (EcellObject newStepper in stepperList)
-                        {
-                            if (stepper.Key == newStepper.Key)
-                            {
-                                remainingStepperList.Add(stepper);
-                                removed = false;
-                                break;
-                            }
-                        }
-                        if (removed)
-                            removedStepperList.Add(stepper);
-                    }
-                    perParameterStepperListDic[model.ModelID] = remainingStepperList;
-                }
-                foreach (EcellObject stepper in stepperList)
-                {
-                    message = stepper.Key;
-
-                    List<EcellObject> perModelStepperList = perParameterStepperListDic[stepper.ModelID];
-                    bool added = true;
-                    foreach (EcellObject oldStepper in perModelStepperList.ToArray())
-                    {
-                        if (oldStepper.Key.Equals(stepper.Key))
-                        {
-                            added = false;
-                            perModelStepperList.Remove(oldStepper);
-                            perModelStepperList.Add(stepper);
-                            updatedStepperList.Add(stepper);
-                            break;
-                        }
-                    }
-                    if (added)
-                    {
-                        addedStepperList.Add(stepper);
-                        perModelStepperList.Add(stepper);
-                    }
-                    if (isRecorded && addedStepperList.Count + removedStepperList.Count + updatedStepperList.Count > 0)
-                        m_env.ActionManager.AddAction(new UpdateStepperAction(parameterID, stepperList, oldStepperList));
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(MessageResources.ErrSetSimParam, ex);
-            }
-        }
-
-        /// <summary>
-        /// Undo action.
-        /// </summary>
-        public void UndoAction()
-        {
-            m_env.ActionManager.UndoAction();
-        }
-
-        /// <summary>
-        /// Redo action.
-        /// </summary>
-        public void RedoAction()
-        {
-            m_env.ActionManager.RedoAction();
-        }
-
-        private void HandleSizeVariable(EcellObject ecellObject)
-        {
-            string superSystemPath, localID;
-            Util.ParseEntityKey(ecellObject.Key, out superSystemPath, out localID);
-            if (localID == "SIZE")
-            {
-                EcellObject superSystem = GetEcellObject(
-                        ecellObject.ModelID, superSystemPath, Constants.xpathSystem);
-                EcellObject newSuperSystem = superSystem.Copy();
-                EcellData data = newSuperSystem.GetEcellData(Constants.xpathSize);
-                if (data == null)
-                {
-                    string supersuperSystemPath, superSystemLocalID;
-                    Util.SplitSystemPath(superSystemPath, out supersuperSystemPath, out superSystemLocalID);
-                    data = new EcellData(Constants.xpathSize, new EcellValue(0.0),
-                        Util.BuildFullPN(Constants.xpathSystem, supersuperSystemPath, superSystemLocalID,
-                        Constants.xpathSize));
-                    newSuperSystem.AddValue(data);
-                }
-                data.Value = ecellObject.GetEcellValue(Constants.xpathValue);
-                DataChanged(ecellObject.ModelID, superSystem.Key, superSystem.Type, newSuperSystem, false, false);
-            }
-        }
-
-        #endregion
 
         #region Send Message
         /// <summary>

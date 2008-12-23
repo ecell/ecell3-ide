@@ -33,7 +33,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -143,7 +142,7 @@ namespace Ecell
             {
                 SetDMList();
                 List<string> stepperList = new List<string>();
-                WrappedSimulator sim =  new WrappedSimulator(Util.GetDMDirs(m_info.ProjectPath));
+                WrappedSimulator sim = CreateSimulatorInstance();
                 foreach (DMInfo dmInfo in sim.GetDMInfo())
                 {
                     if (dmInfo.TypeName == Constants.xpathStepper)
@@ -222,7 +221,7 @@ namespace Ecell
 
         public List<EcellObject> SystemList
         {
-            get { return m_systemDic[m_modelList[0].ModelID];}
+            get { return m_systemDic[m_modelList[0].ModelID]; }
         }
 
         /// <summary>
@@ -306,33 +305,17 @@ namespace Ecell
         public Project(ProjectInfo info)
         {
             m_info = info;
+            SetDMList();
             m_loggerPolicyDic = new Dictionary<string, LoggerPolicy>();
             m_stepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
             m_modelList = new List<EcellModel>();
             m_systemDic = new Dictionary<string, List<EcellObject>>();
-            ResetSimulator();
+            m_simulator = CreateSimulatorInstance();
         }
-        #endregion
 
-        #region EventHandler
-        private void SimulationEventHandler(object sender, EventArgs e)
-        {
-            if (m_simulationStatus == SimulationStatus.Suspended
-                || m_simulationStatus == SimulationStatus.Wait)
-            {
-                ((WrappedSimulator)sender).Stop();
-            }
-        }
         #endregion
 
         #region Methods
-        public void ResetSimulator()
-        {
-            SetDMList();
-            m_simulator = new WrappedSimulator(Util.GetDMDirs(m_info.ProjectPath));
-            m_simulator.EventHandler = new EventHandler(SimulationEventHandler);
-        }
-
         /// <summary>
         /// Initialize objects.
         /// </summary>
@@ -355,6 +338,16 @@ namespace Ecell
             // Initialize
             Dictionary<string, List<string>> dmDic = Util.GetDmDic(m_info.ProjectPath);
             this.m_dmDic = dmDic;
+        }
+
+        /// <summary>
+        /// Create a new WrappedSimulator instance.
+        /// </summary>
+        internal WrappedSimulator CreateSimulatorInstance()
+        {
+            string[] dmpath = Util.GetDMDirs(m_info.ProjectPath);
+            Trace.WriteLine("Creating simulator (dmpath=" + string.Join(";", dmpath) + ")");
+            return new WrappedSimulator(dmpath);
         }
 
         /// <summary>
@@ -554,508 +547,138 @@ namespace Ecell
 
         #endregion
 
+        #region Add Object
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="system"></param>
+        public void AddSystem(EcellObject system)
+        {
+            m_systemDic[system.ModelID].Add(system);
+            AddSimulationParameter(system);
+            foreach (EcellObject child in system.Children)
+            {
+                AddSimulationParameter(child);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
+        public void AddEntity(EcellObject entity)
+        {
+            EcellObject system = GetSystem(entity.ModelID, entity.ParentSystemID);
+            system.Children.Add(entity);
+            AddSimulationParameter(entity);
+        }
         #endregion
 
-    }
-
-    /// <summary>
-    /// DataStorer
-    /// </summary>
-    internal class DataStorer
-    {
-        #region DataStored
+        #region Delete Object
         /// <summary>
-        /// Stores the "EcellObject"
+        /// Delete System.
         /// </summary>
-        /// <param name="simulator">The "simulator"</param>
-        /// <param name="ecellObject">The stored "EcellObject"</param>
-        /// <param name="initialCondition">The initial condition.</param>
-        internal static void DataStored(
-                WrappedSimulator simulator,
-                EcellObject ecellObject,
-                Dictionary<string, double> initialCondition)
+        /// <param name="system"></param>
+        public void DeleteSystem(EcellObject system)
         {
-            if (ecellObject.Type.Equals(Constants.xpathStepper))
+            m_systemDic[system.ModelID].Remove(system);
+            // Delete Simulation parameter.
+            foreach (string keyParamID in m_initialCondition.Keys)
             {
-                DataStored4Stepper(simulator, ecellObject);
-            }
-            else if (ecellObject.Type.Equals(Constants.xpathSystem))
-            {
-                DataStored4System(
-                        simulator,
-                        ecellObject,
-                        initialCondition);
-            }
-            else if (ecellObject.Type.Equals(Constants.xpathProcess))
-            {
-                DataStored4Process(
-                        simulator,
-                        ecellObject,
-                        initialCondition);
-            }
-            else if (ecellObject.Type.Equals(Constants.xpathVariable))
-            {
-                DataStored4Variable(
-                        simulator,
-                        ecellObject,
-                        initialCondition);
-            }
-            //
-            // 4 children
-            //
-            if (ecellObject.Children != null)
-            {
-                foreach (EcellObject childEcellObject in ecellObject.Children)
-                    DataStored(simulator, childEcellObject, initialCondition);
-            }
-        }
-
-        /// <summary>
-        /// Stores the "EcellObject" 4 the "Process".
-        /// </summary>
-        /// <param name="simulator">The simulator</param>
-        /// <param name="ecellObject">The stored "Process"</param>
-        /// <param name="initialCondition">The initial condition.</param>
-        internal static void DataStored4Process(
-                WrappedSimulator simulator,
-                EcellObject ecellObject,
-                Dictionary<string, double> initialCondition)
-        {
-            string key = Constants.xpathProcess + Constants.delimiterColon + ecellObject.Key;
-            IList<string> wrappedPolymorph = null;
-            try
-            {
-                wrappedPolymorph = simulator.GetEntityPropertyList(key);
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                return;
-            }
-            //
-            // Checks the stored "EcellData"
-            //
-            List<EcellData> processEcellDataList = new List<EcellData>();
-            Dictionary<string, EcellData> storedEcellDataDic
-                    = new Dictionary<string, EcellData>();
-            if (ecellObject.Value != null && ecellObject.Value.Count > 0)
-            {
-                foreach (EcellData storedEcellData in ecellObject.Value)
+                foreach (string delModel in m_initialCondition[keyParamID].Keys)
                 {
-                    storedEcellDataDic[storedEcellData.Name] = storedEcellData;
-                    processEcellDataList.Add(storedEcellData);
-                    if (!storedEcellData.Settable)
-                        continue;
-                    if (!storedEcellData.Value.IsDouble)
-                        continue;
-                    try
+                    Debug.Assert(system.Type == Constants.xpathSystem);
+                    String delKey = system.Key;
+                    List<String> delKeyList = new List<string>();
+                    foreach (String entKey in m_initialCondition[keyParamID][delModel].Keys)
                     {
-                        initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
+                        if (entKey.Contains(delKey))
+                            delKeyList.Add(entKey);
                     }
-                    catch (InvalidCastException)
+                    foreach (String entKey in delKeyList)
                     {
-                        // non-numeric value
+                        m_initialCondition[keyParamID][delModel].Remove(entKey);
                     }
                 }
             }
-            //
-            // Stores the "EcellData"
-            //
-            foreach (string name in wrappedPolymorph)
+        }
+        /// <summary>
+        /// Delete Entity.
+        /// </summary>
+        /// <param name="entity"></param>
+        public void DeleteEntity(EcellObject entity)
+        {
+            // set param
+            string model = entity.ModelID;
+            string key = entity.Key;
+            string sysKey = entity.ParentSystemID;
+            string type = entity.Type;
+            // delete entity
+            foreach (EcellObject system in m_systemDic[entity.ModelID])
             {
-                string entityPath = Util.BuildFullPN(key, name);
-
-                PropertyAttributes flag = simulator.GetEntityPropertyAttributes(entityPath);
-                if (!flag.Gettable)
-                {
+                if (!system.Key.Equals(sysKey))
                     continue;
-                }
-                EcellValue value = null;
-
-                if (name == Constants.xpathVRL)
+                foreach (EcellObject child in system.Children)
                 {
-                    // Won't restore the variable reference list from the simulator's corresponding
-                    // object.
-                    if (storedEcellDataDic.ContainsKey(name))
-                        value = storedEcellDataDic[name].Value;
-                    else
-                        value = new EcellValue(new List<object>());
-                }
-                else if (name == Constants.xpathActivity && name == Constants.xpathMolarActivity)
-                {
-                    value = new EcellValue(0.0);
-                }
-                else
-                {
-                    try
-                    {
-                        value = new EcellValue(simulator.GetEntityProperty(entityPath));
-                    }
-                    catch (WrappedException ex)
-                    {
-                        Trace.WriteLine(ex);
-                        value = new EcellValue("");
-                    }
-                }
-
-                EcellData ecellData = CreateEcellData(name, value, entityPath, flag.Settable, flag.Gettable, flag.Loadable, flag.Savable);
-                if (ecellData.Value != null)
-                {
-                    if (!ecellData.Value.IsDouble)
+                    if (!child.Key.Equals(key) || !child.Type.Equals(type))
                         continue;
-                    ecellData.Logable = ecellData.Settable == false || ecellData.Saveable == false;
-                    if (!ecellData.Settable)
-                        continue;
-                    try
-                    {
-                        initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
-                    }
-                    catch
-                    {
-                        // non-numeric value
-                    }
+                    system.Children.Remove(child);
+                    break;
                 }
-                if (storedEcellDataDic.ContainsKey(name))
-                {
-                    ecellData.Logged = storedEcellDataDic[name].Logged;
-                    processEcellDataList.Remove(storedEcellDataDic[name]);
-                }
-                processEcellDataList.Add(ecellData);
             }
-            ecellObject.SetEcellDatas(processEcellDataList);
+
+            // Delete Simulation parameter.
+            foreach (string keyParameterID in m_initialCondition.Keys)
+            {
+                Dictionary<string, double> condition = m_initialCondition[keyParameterID][model];
+                foreach (EcellData data in entity.Value)
+                {
+                    if (!data.Settable)
+                        continue;
+                    if (!condition.ContainsKey(data.EntityPath))
+                        continue;
+                    condition.Remove(data.EntityPath);
+                }
+            }
+
+        }
+        #endregion
+
+        #region SimulationParameter
+        /// <summary>
+        /// Add SimulationParameter
+        /// </summary>
+        /// <param name="eo"></param>
+        public void AddSimulationParameter(EcellObject eo)
+        {
+            foreach (string keyParameterID in m_initialCondition.Keys)
+            {
+                Dictionary<string, double> initialCondition = m_initialCondition[keyParameterID][eo.ModelID];
+                foreach (EcellData data in eo.Value)
+                {
+                    if (!data.IsInitialized())
+                        continue;
+
+                    double value = 0;
+                    if (data.Value.IsDouble)
+                        value = (double)data.Value;
+                    else if (data.Value.IsInt)
+                        value = (double)data.Value;
+
+                    initialCondition[data.EntityPath] = value;
+                }
+            }
         }
 
         /// <summary>
-        /// Stores the "EcellObject" 4 the "Stepper".
+        /// Delete SimulationParameter
         /// </summary>
-        /// <param name="simulator">The simulator</param>
-        /// <param name="ecellObject">The stored "Stepper"</param>
-        internal static void DataStored4Stepper(
-                WrappedSimulator simulator, EcellObject ecellObject)
+        /// <param name="eo"></param>
+        public void DeleteSimulationParameter(EcellObject eo)
         {
-            List<EcellData> stepperEcellDataList = new List<EcellData>();
-            IList<string> wrappedPolymorph = null;
-            //
-            // Property List
-            //
-            try
-            {
-                wrappedPolymorph = simulator.GetStepperPropertyList(ecellObject.Key);
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-                return;
-            }
-            //
-            // Sets the class name.
-            //
-            if (string.IsNullOrEmpty(ecellObject.Classname))
-            {
-                ecellObject.Classname = simulator.GetStepperClassName(ecellObject.Key);
-            }
-            //
-            // Checks the stored "EcellData"
-            //
-            Dictionary<string, EcellData> storedEcellDataDic = new Dictionary<string, EcellData>();
-            if (ecellObject.Value != null && ecellObject.Value.Count > 0)
-            {
-                foreach (EcellData storedEcellData in ecellObject.Value)
-                {
-                    storedEcellDataDic[storedEcellData.Name] = storedEcellData;
-                    stepperEcellDataList.Add(storedEcellData);
-                }
-            }
-            //
-            // Stores the "EcellData"
-            //
-            foreach (string name in wrappedPolymorph)
-            {
-                PropertyAttributes flags = simulator.GetStepperPropertyAttributes(ecellObject.Key, name);
-                if (!flags.Gettable)
-                {
-                    continue;
-                }
-                EcellValue value = null;
-                try
-                {
-                    value = new EcellValue(simulator.GetStepperProperty(ecellObject.Key, name));
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine(ex);
-                    value = new EcellValue("");
-                }
-                EcellData ecellData = CreateEcellData(name, value, name, flags.Settable, flags.Gettable, flags.Loadable, flags.Savable);
-                if (storedEcellDataDic.ContainsKey(name))
-                {
-                    if (value.IsString && ((string)value).Equals(""))
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        stepperEcellDataList.Remove(storedEcellDataDic[name]);
-                    }
-                }
-                stepperEcellDataList.Add(ecellData);
-            }
-            ecellObject.SetEcellDatas(stepperEcellDataList);
+
         }
-
-        /// <summary>
-        /// Stores the "EcellObject" 4 the "System".
-        /// </summary>
-        /// <param name="simulator">The simulator</param>
-        /// <param name="ecellObject">The stored "System"</param>
-        /// <param name="initialCondition">The initial condition.</param>
-        internal static void DataStored4System(
-                WrappedSimulator simulator,
-                EcellObject ecellObject,
-                Dictionary<string, double> initialCondition)
-        {
-            // Creates an entityPath.
-            string parentPath = ecellObject.ParentSystemID;
-            string childPath = ecellObject.LocalID;
-            string key = Constants.xpathSystem + Constants.delimiterColon +
-                parentPath + Constants.delimiterColon +
-                childPath;
-            // Property List
-            IList<string> wrappedPolymorph = simulator.GetEntityPropertyList(key);
-            //
-            // Checks the stored "EcellData"
-            //
-            List<EcellData> systemEcellDataList = new List<EcellData>();
-            Dictionary<string, EcellData> storedEcellDataDic
-                    = new Dictionary<string, EcellData>();
-            if (ecellObject.Value != null && ecellObject.Value.Count > 0)
-            {
-                foreach (EcellData storedEcellData in ecellObject.Value)
-                {
-                    storedEcellDataDic[storedEcellData.Name] = storedEcellData;
-                    systemEcellDataList.Add(storedEcellData);
-                    if (!storedEcellData.Settable)
-                        continue;
-                    storedEcellData.Logable = storedEcellData.Value.IsDouble;
-                    if (!storedEcellData.Logable)
-                        continue;
-
-                    try
-                    {
-                        initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
-                    }
-                    catch (InvalidCastException)
-                    {
-                        // non-numeric value
-                    }
-                }
-            }
-            foreach (string name in wrappedPolymorph)
-            {
-                string entityPath = key + Constants.delimiterColon + name;
-                PropertyAttributes flags = simulator.GetEntityPropertyAttributes(entityPath);
-
-                if (!flags.Gettable)
-                {
-                    continue;
-                }
-
-                object value = null;
-                if (name.Equals(Constants.xpathSize))
-                {
-                    value = 0.0;
-                }
-                else
-                {
-                    try
-                    {
-                        value = simulator.GetEntityProperty(entityPath);
-                    }
-                    catch (WrappedException ex)
-                    {
-                        Trace.WriteLine(ex);
-                        if (storedEcellDataDic.ContainsKey(name))
-                        {
-                            IEnumerable val = storedEcellDataDic[name].Value as IEnumerable;
-                            object firstItem = null;
-                            {
-                                IEnumerator i = val.GetEnumerator();
-                                if (i.MoveNext())
-                                    firstItem = i.Current;
-                            }
-                            if (firstItem is IEnumerable)
-                            {
-                                value = val;
-                            }
-                            else
-                            {
-                                value = firstItem;
-                            }
-                        }
-                        else
-                        {
-                            value = "";
-                        }
-                    }
-                }
-
-                EcellData ecellData = CreateEcellData(name, new EcellValue(value), entityPath, flags.Settable, flags.Gettable, flags.Loadable, flags.Savable);
-                if (ecellData.Value != null)
-                {
-                    if (!ecellData.Settable)
-                        continue;
-                    ecellData.Logable = ecellData.Value.IsDouble;
-                    if (!ecellData.Logable)
-                        continue;
-                    try
-                    {
-                        initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
-                    }
-                    catch (InvalidCastException)
-                    {
-                        // non-numeric value
-                    }
-                }
-                if (storedEcellDataDic.ContainsKey(name))
-                {
-                    ecellData.Logged = storedEcellDataDic[name].Logged;
-                    systemEcellDataList.Remove(storedEcellDataDic[name]);
-                }
-                systemEcellDataList.Add(ecellData);
-            }
-
-            ecellObject.SetEcellDatas(systemEcellDataList);
-        }
-
-        /// <summary>
-        /// Stores the "EcellObject" 4 the "Variable".
-        /// </summary>
-        /// <param name="simulator">The simulator</param>
-        /// <param name="ecellObject">The stored "Variable"</param>
-        /// <param name="initialCondition">The initial condition.</param>
-        internal static void DataStored4Variable(
-                WrappedSimulator simulator,
-                EcellObject ecellObject,
-                Dictionary<string, double> initialCondition)
-        {
-            string key = Constants.xpathVariable + Constants.delimiterColon + ecellObject.Key;
-            IList<string> wrappedPolymorph = simulator.GetEntityPropertyList(key);
-            //
-            // Checks the stored "EcellData"
-            //
-            List<EcellData> variableEcellDataList = new List<EcellData>();
-            Dictionary<string, EcellData> storedEcellDataDic
-                    = new Dictionary<string, EcellData>();
-            if (ecellObject.Value != null && ecellObject.Value.Count > 0)
-            {
-                foreach (EcellData storedEcellData in ecellObject.Value)
-                {
-                    storedEcellDataDic[storedEcellData.Name] = storedEcellData;
-                    variableEcellDataList.Add(storedEcellData);
-
-                    if (!storedEcellData.Settable)
-                        continue;
-                    storedEcellData.Logable = storedEcellData.Value.IsDouble;
-                    if (!storedEcellData.Logable)
-                        continue;
-
-                    try
-                    {
-                        initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
-                    }
-                    catch (InvalidCastException)
-                    {
-                        // non-numeric value
-                    }
-                }
-            }
-            foreach (string name in wrappedPolymorph)
-            {
-                string entityPath = key + Constants.delimiterColon + name;
-                PropertyAttributes flags = simulator.GetEntityPropertyAttributes(entityPath);
-                if (!flags.Gettable)
-                {
-                    continue;
-                }
-                object value = null;
-                try
-                {
-                    value = simulator.GetEntityProperty(entityPath);
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine(ex);
-                    IEnumerable val = (IEnumerable)storedEcellDataDic[name].Value;
-                    object firstItem = null;
-                    {
-                        IEnumerator i = val.GetEnumerator();
-                        if (i.MoveNext())
-                            firstItem = i.Current;
-                    }
-                    if (storedEcellDataDic.ContainsKey(name))
-                    {
-                        if (val is IEnumerable)
-                        {
-                            value = val;
-                        }
-                        else
-                        {
-                            value = firstItem; 
-                        }
-                    }
-                    else if (name.Equals(Constants.xpathMolarConc) || name.Equals(Constants.xpathNumberConc))
-                    {
-                        value = 0.0;
-                    }
-                    else
-                    {
-                        value = "";
-                    }
-                }
-                EcellData ecellData = CreateEcellData(name, new EcellValue(value), entityPath, flags.Settable, flags.Gettable, flags.Loadable, flags.Savable);
-                if (ecellData.Value != null)
-                {
-                    if (!ecellData.Settable)
-                        continue;
-                    ecellData.Logable = ecellData.Value.IsDouble;
-                    if (!ecellData.Logable)
-                        continue;
-
-                    try
-                    {
-                        initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
-                    }
-                    catch (InvalidCastException)
-                    {
-                        // non-numeric value
-                    }
-                }
-                if (storedEcellDataDic.ContainsKey(name))
-                {
-                    ecellData.Logged = storedEcellDataDic[name].Logged;
-                    variableEcellDataList.Remove(storedEcellDataDic[name]);
-                }
-                variableEcellDataList.Add(ecellData);
-            }
-            ecellObject.SetEcellDatas(variableEcellDataList);
-        }
-
-        /// <summary>
-        /// Create new EcellData.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        /// <param name="entityPath"></param>
-        /// <returns></returns>
-        private static EcellData CreateEcellData(string name, EcellValue value, string entityPath, bool settable, bool gettable, bool loadable, bool savable)
-        {
-            EcellData data = new EcellData(name, value, entityPath);
-            data.Settable = settable;
-            data.Gettable = gettable;
-            data.Loadable = loadable;
-            data.Saveable = savable;
-            return data;
-        }
+        #endregion
 
         #endregion
 

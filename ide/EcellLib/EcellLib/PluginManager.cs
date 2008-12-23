@@ -46,6 +46,7 @@ using System.ComponentModel;
 using Ecell.Logging;
 using Ecell.Plugin;
 using Ecell.Objects;
+using Ecell.Exceptions;
 
 namespace Ecell
 {
@@ -244,6 +245,21 @@ namespace Ecell
         public void FocusClear()
         {
             this.m_pluginDic.Clear();
+        }
+
+        /// <summary>
+        /// event sequence on changing selected object at other plugin.
+        /// </summary>
+        /// <param name="obj">selected object</param>
+        public void SelectChanged(EcellObject obj)
+        {
+            foreach (IDataHandler p in m_dataHandlerList)
+            {
+                p.SelectChanged(obj.ModelID, obj.Key, obj.Type);
+            }
+            m_env.ReportManager.SetStatus(
+                StatusBarMessageKind.Generic,
+                obj.Key);
         }
 
         /// <summary>
@@ -469,7 +485,7 @@ namespace Ecell
             {
                 if (m_dockOwner != null)
                 {
-                    throw new Exception(String.Format(MessageResources.ErrAdd,
+                    throw new EcellException(String.Format(MessageResources.ErrAdd,
                         new object[] { p.GetPluginName(), "Plugin" }));
                 }
                 m_dockOwner = (IDockOwner)p;
@@ -479,7 +495,7 @@ namespace Ecell
             {
                 if (m_diagramEditor != null)
                 {
-                    throw new Exception(String.Format(MessageResources.ErrAdd,
+                    throw new EcellException(String.Format(MessageResources.ErrAdd,
                         new object[] { p.GetPluginName(), "Plugin" }));
                 }
                 m_diagramEditor = (IDiagramEditor)p;
@@ -489,7 +505,7 @@ namespace Ecell
             {
                 if (m_rootMenuProvider != null)
                 {
-                    throw new Exception(String.Format(MessageResources.ErrAdd,
+                    throw new EcellException(String.Format(MessageResources.ErrAdd,
                         new object[] { p.GetPluginName(), "Plugin" }));
                 }
                 m_rootMenuProvider = (IRootMenuProvider)p;
@@ -586,10 +602,16 @@ namespace Ecell
         /// <summary>
         /// add new data type to image index.
         /// </summary>
-        /// <param name="type">data type</param>
-        /// <param name="imageIndex">image type</param>
-        public void ImageAdd(string type, int imageIndex)
+        /// <param name="key">data type</param>
+        /// <param name="image">image type</param>
+        /// <param name="eventFrag">image type</param>
+        public void SetIconImage(string key, Image image, bool eventFrag)
         {
+            m_imageList.Images.RemoveByKey(key);
+            m_imageList.Images.Add(key, image);
+
+            if (eventFrag)
+                RaiseNodeImageListChange();
         }
 
         /// <summary>
@@ -599,11 +621,9 @@ namespace Ecell
         /// <returns>image index</returns>
         public int GetImageIndex(string type)
         {
-            int i = m_imageList.Images.IndexOfKey(type);
+            int i = -1;
             if (m_imageList.Images.ContainsKey(type))
                 i = m_imageList.Images.IndexOfKey(type);
-            else
-                i = -1;
             return i;
         }
 
@@ -631,7 +651,7 @@ namespace Ecell
                 Type aType = handle.GetType(className);
                 if (aType == null)
                 {
-                    throw new Exception(String.Format(MessageResources.ErrLoadFile,
+                    throw new EcellException(String.Format(MessageResources.ErrLoadFile,
                         new object[] { path }));
                 }
                 pb = RegisterPlugin(aType);
@@ -764,6 +784,65 @@ namespace Ecell
                 p.SetPosition(data);
             }
         }
+
+
+        #region EventHandler for NodeImageListChange
+        private EventHandler m_onNodeImageListChange;
+        /// <summary>
+        /// Event on NodeImageList change.
+        /// </summary>
+        public event EventHandler NodeImageListChange
+        {
+            add { m_onNodeImageListChange += value; }
+            remove { m_onNodeImageListChange -= value; }
+        }
+        /// <summary>
+        /// Event on NodeImageList change.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnNodeImageListChange(EventArgs e)
+        {
+            if (m_onNodeImageListChange != null)
+                m_onNodeImageListChange(this, e);
+        }
+        /// <summary>
+        /// Raise NodeImageListChange event.
+        /// </summary>
+        protected void RaiseNodeImageListChange()
+        {
+            EventArgs e = new EventArgs();
+            OnNodeImageListChange(e);
+        }
+        #endregion
+
+        #region EventHandler for Refresh
+        private EventHandler m_onRefresh;
+        /// <summary>
+        /// Event on NodeImageList change.
+        /// </summary>
+        public event EventHandler Refresh
+        {
+            add { m_onRefresh += value; }
+            remove { m_onRefresh -= value; }
+        }
+        /// <summary>
+        /// Event on NodeImageList change.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnRefresh(EventArgs e)
+        {
+            if (m_onRefresh != null)
+                m_onRefresh(this, e);
+        }
+        /// <summary>
+        /// Raise NodeImageListChange event.
+        /// </summary>
+        internal void RaiseRefreshEvent()
+        {
+            EventArgs e = new EventArgs();
+            OnRefresh(e);
+        }
+        #endregion
     }
 
     /// <summary>
