@@ -93,10 +93,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <returns>LEML file name.</returns>
         public string GetLEMLFileName(string modelID)
         {
-            string filepath = m_dManager.CurrentProject.ModelFileDic[modelID];
-            if (filepath == null)
-                return null;
-            return filepath.Replace(Constants.FileExtEML, Constants.FileExtLEML);
+            string eml = null;
+            Project project = m_dManager.CurrentProject;
+            if (project == null || project.ModelFileDic == null)
+                return eml;
+
+            if (!project.ModelFileDic.ContainsKey(modelID))
+                return eml;
+            eml = project.ModelFileDic[modelID];
+            return eml.Replace(Constants.FileExtEML, Constants.FileExtLEML);
         }
 
         #region Inherited from IEcellPlugin

@@ -4110,34 +4110,14 @@ namespace Ecell
         {
             try
             {
-                bool processFlag = false;
-                bool stepperFlag = false;
-                if (defaultProcess != null)
-                {
-                    processFlag = true;
-                }
-                if (defaultStepper != null)
-                {
-                    stepperFlag = true;
-                }
-                if (!processFlag || !stepperFlag)
-                {
-                    // 4 Process
-                    //
-                    if (!processFlag)
-                    {
-                        defaultProcess = Constants.DefaultProcessName;
-                        processFlag = true;
-                    }
-                    //
-                    // 4 Stepper
-                    //
-                    if (!stepperFlag)
-                    {
-                        defaultStepper = Constants.DefaultStepperName;
-                        stepperFlag = true;
-                    }
-                }
+                // Set DefaultProcess if null
+                if (defaultProcess == null)
+                    defaultProcess = Constants.DefaultProcessName;
+                // Set DefaultStepper if null
+                if (defaultStepper == null)
+                    defaultStepper = Constants.DefaultStepperName;
+
+                //
                 simulator.CreateStepper(defaultStepper, Constants.textKey);
                 simulator.CreateEntity(
                     Constants.xpathVariable,

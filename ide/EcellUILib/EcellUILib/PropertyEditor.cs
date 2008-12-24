@@ -70,10 +70,6 @@ namespace Ecell.IDE
         /// </summary>
         private EcellObject m_currentObj;
         /// <summary>
-        /// parent object to add object.
-        /// </summary>
-        private EcellObject m_parentObj;
-        /// <summary>
         /// DataManager.
         /// </summary>
         DataManager m_dManager;
@@ -127,11 +123,7 @@ namespace Ecell.IDE
             if (obj == null) return;
             try
             {
-                editor.layoutPanel.SuspendLayout();
                 editor.SetCurrentObject(obj);
-                editor.SetDataType(obj.Type);
-                editor.LayoutPropertyEditor();
-                editor.layoutPanel.ResumeLayout(false);
                 if (editor.ShowDialog() == DialogResult.OK)
                 {
                 }
@@ -156,38 +148,20 @@ namespace Ecell.IDE
 
         #region Private Methods
         /// <summary>
-        /// Set the object to parent object.
-        /// </summary>
-        /// <param name="obj">the parent object to add.</param>
-        private void SetParentObject(EcellObject obj)
-        {
-            m_parentObj = obj;
-            m_currentObj = null;
-        }
-
-        /// <summary>
         /// Set the object to current selected object.
         /// </summary>
         /// <param name="obj">EcellObject</param>
         private void SetCurrentObject(EcellObject obj)
         {
             m_currentObj = obj;
-            m_parentObj = null;
+            m_type = obj.Type;
             if (m_currentObj.Type.Equals(EcellObject.PROCESS))
             {
                 m_propName = m_currentObj.Classname;
                 EcellProcess process = (EcellProcess)obj;
                 m_refList = process.ReferenceList;
             }
-        }
-
-        /// <summary>
-        /// Set data type displayed in PropertyEditor.
-        /// </summary>
-        /// <param name="type">data type of object.</param>
-        private void SetDataType(string type)
-        {
-            m_type = type;
+            LayoutPropertyEditor();
         }
 
         /// <summary>
@@ -258,6 +232,7 @@ namespace Ecell.IDE
         /// </summary>
         private void LayoutPropertyEditor()
         {
+            layoutPanel.SuspendLayout();
             if (m_type.Equals("Model"))
             {
                 LayoutModelPropertyEditor();
@@ -271,6 +246,7 @@ namespace Ecell.IDE
                 LayoutNodePropertyEditor();
                 LayoutNodeCommit();
             }
+            layoutPanel.ResumeLayout();
         }
 
         /// <summary>
@@ -332,34 +308,28 @@ namespace Ecell.IDE
                 {
                     param = new EcellParameterData(key, (double)m_propDict[key].Value);
                 }
-                CheckBox c;
+                CheckBox c = new CheckBox();
                 commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                 if (m_propDict[key].Settable &&
                     m_propDict[key].Value.Type == EcellValueType.Double)
                 {
-                    c = new CheckBox();
                     if (m_dManager.IsContainsParameterData(m_propDict[key].EntityPath))
                         c.Checked = false;
-                    else c.Checked = true;
-                    c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                    c.Text = "";
-                    c.Tag = key;
-                    c.AutoSize = true;
+                    else 
+                        c.Checked = true;
                     c.Enabled = true;
                     c.CheckedChanged += new EventHandler(c_CheckedChanged);
-                    commitLayoutPanel.Controls.Add(c, 0, i);
                 }
                 else
                 {
-                    c = new CheckBox();
                     c.Checked = true;
-                    c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                    c.Text = "";
-                    c.Tag = key;
-                    c.AutoSize = true;
                     c.Enabled = false;
-                    commitLayoutPanel.Controls.Add(c, 0, i);
                 }
+                c.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                c.Text = "";
+                c.Tag = key;
+                c.AutoSize = true;
+                commitLayoutPanel.Controls.Add(c, 0, i);
 
                 Label l = new Label();
                 l.Text = key;
@@ -367,7 +337,6 @@ namespace Ecell.IDE
                 commitLayoutPanel.Controls.Add(l, 1, i);
 
                 TextBox t1 = new TextBox();
-
                 t1.Dock = DockStyle.Fill;
                 t1.Tag = key;
                 if (!m_propDict[key].Settable ||
@@ -790,8 +759,7 @@ namespace Ecell.IDE
             t1.Tag = "modelID";
             t1.Dock = DockStyle.Fill;
             t1.KeyPress += new KeyPressEventHandler(EnterKeyPress);
-            if (m_currentObj != null) t1.Text = m_currentObj.ModelID;
-            else t1.Text = m_parentObj.ModelID;
+            t1.Text = m_currentObj.ModelID;
             t1.ReadOnly = true;
             layoutPanel.Controls.Add(t1, 2, i);
             i++;
@@ -1059,182 +1027,6 @@ namespace Ecell.IDE
 
             m_dManager.DataChanged(eo.ModelID, oldKey, eo.Type, eo, true, true);
         }
-
-        ///// <summary>
-        ///// Get the object from the property in PropertyEditor.
-        ///// </summary>
-        ///// <returns></returns>
-        //public EcellObject Collect()
-        //{
-        //    string id = "";
-        //    string modelID = "";
-        //    string key = "";
-        //    string classname = "";
-        //    string type = "";
-        //    bool isLogger = false;
-        //    EcellObject sizeObj = null;
-        //    List<EcellData> list = new List<EcellData>();
-
-        //    try
-        //    {
-        //        IEnumerator iter = layoutPanel.Controls.GetEnumerator();
-        //        while (iter.MoveNext())
-        //        {
-        //            Control c = (Control)iter.Current;
-        //            if (c == null) continue;
-        //            TableLayoutPanelCellPosition pos =
-        //                layoutPanel.GetPositionFromControl(c);
-        //            if (pos.Column == 0)
-        //            {
-        //                CheckBox chk = c as CheckBox;
-        //                if (chk == null)
-        //                {
-        //                    isLogger = false;
-        //                    continue;
-        //                }
-        //                isLogger = chk.Checked;
-        //                continue;
-
-        //            }
-        //            if (pos.Column != 2) continue;
-        //            if ((string)c.Tag == "Add Property") continue;
-
-        //            if ((string)c.Tag == "modelID") modelID = c.Text;
-        //            else if ((string)c.Tag == "id")
-        //            {
-        //                id = c.Text;
-        //                if (c.Text == "")
-        //                {
-        //                    String errmes = MessageResources.ErrNoInput;
-        //                    Util.ShowWarningDialog(errmes + "(ID)");
-        //                    return null;
-        //                }
-        //                else if (Util.IsNGforID(c.Text))
-        //                //                        else if (c.Text.Contains("/") || c.Text.Contains(":"))
-        //                {
-        //                    Util.ShowWarningDialog(MessageResources.ErrInvalidID);
-
-        //                    return null;
-        //                }
-        //                else if (c.Text.ToUpper() == "SIZE")
-        //                {
-        //                    Util.ShowWarningDialog(MessageResources.ErrReserveSize);
-
-        //                    return null;
-        //                }
-        //                else if (m_currentObj != null)
-        //                {
-        //                    if (m_currentObj.Type == EcellObject.SYSTEM && Util.IsNGforSystemFullID(c.Text))
-        //                    {
-        //                        Util.ShowWarningDialog(MessageResources.ErrInvalidID);
-
-        //                        return null;
-        //                    }
-        //                    if (m_currentObj.Type != "System" && Util.IsNGforComponentFullID(c.Text))
-        //                    {
-        //                        Util.ShowWarningDialog(MessageResources.ErrInvalidID);
-
-        //                        return null;
-        //                    }
-        //                }
-
-        //                if (!m_type.Equals(EcellObject.SYSTEM))
-        //                {
-        //                    if (m_parentObj.Key == "") key = c.Text;
-        //                    else if (m_parentObj.Key == "/") key = "/:" + c.Text;
-        //                    else key = m_parentObj.Key + ":" + c.Text;
-        //                }
-        //                else
-        //                {
-        //                    if (m_parentObj.Key == "") key = c.Text;
-        //                    else if (m_parentObj.Key == "/") key = "/" + c.Text;
-        //                    else key = m_parentObj.Key + "/" + c.Text;
-
-        //                }
-        //            }
-        //            else if ((string)c.Tag == "classname") classname = c.Text;
-        //            else if ((string)c.Tag == "type") type = c.Text;
-        //            else if ((string)c.Tag == EcellProcess.VARIABLEREFERENCELIST)
-        //            {
-        //                EcellData data = new EcellData();
-        //                data.Name = (string)c.Tag;
-        //                data.Value = EcellValue.ToVariableReferenceList(m_refStr);
-        //                data.EntityPath = type + ":" + m_parentObj.Key +
-        //                    ":" + id + ":" + (string)c.Tag;
-        //                data.Settable = m_propDict[data.Name].Settable;
-        //                data.Saveable = m_propDict[data.Name].Saveable;
-        //                data.Loadable = m_propDict[data.Name].Loadable;
-        //                data.Gettable = m_propDict[data.Name].Gettable;
-        //                data.Logable = m_propDict[data.Name].Logable;
-        //                data.Logged = m_propDict[data.Name].Logged;
-
-        //                list.Add(data);
-        //            }
-        //            else if ((string)c.Tag == "DefinedSize")
-        //            {
-        //                if (c.Text == "") continue;
-        //                List<EcellData> dList = new List<EcellData>();
-        //                Dictionary<string, EcellData> sList = m_dManager.GetVariableProperty();
-        //                foreach (string p in sList.Keys)
-        //                {
-        //                    EcellData d = sList[p];
-        //                    if (p == "Value")
-        //                    {
-        //                        d.Value = new EcellValue(Convert.ToDouble(c.Text));
-        //                    }
-        //                    dList.Add(d);
-        //                }
-        //                sizeObj = EcellObject.CreateObject(modelID, key + ":SIZE", EcellObject.VARIABLE, EcellObject.VARIABLE, dList);
-        //            }
-        //            else
-        //            {
-        //                EcellData data = new EcellData();
-        //                try
-        //                {
-        //                    data.Name = (string)c.Tag;
-        //                    if (m_propDict[data.Name].Value.Type == typeof(int))
-        //                        data.Value = new EcellValue(Convert.ToInt32(c.Text));
-        //                    else if (m_propDict[data.Name].Value.Type == typeof(double))
-        //                    {
-        //                        if (c.Text == "1.79769313486232E+308")
-        //                            data.Value = new EcellValue(Double.MaxValue);
-        //                        else
-        //                            data.Value = new EcellValue(Convert.ToDouble(c.Text));
-        //                    }
-        //                    else if (m_propDict[data.Name].Value.Type == typeof(List<EcellValue>))
-        //                        data.Value = EcellValue.ToList(c.Text);
-        //                    else
-        //                        data.Value = new EcellValue(c.Text);
-        //                    data.EntityPath = type + ":" + m_parentObj.Key +
-        //                        ":" + id + ":" + (string)c.Tag;
-        //                    data.Settable = m_propDict[data.Name].Settable;
-        //                    data.Saveable = m_propDict[data.Name].Saveable;
-        //                    data.Loadable = m_propDict[data.Name].Loadable;
-        //                    data.Gettable = m_propDict[data.Name].Gettable;
-        //                    data.Logable = m_propDict[data.Name].Logable;
-        //                    //                            data.Logged = m_propDict[data.Name].Logged;
-        //                    data.Logged = isLogger;
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    Trace.WriteLine(ex);
-        //                    return null;
-        //                }
-        //                list.Add(data);
-        //            }
-        //        }
-
-        //        EcellObject obj = EcellObject.CreateObject(modelID, key, type, classname, list);
-        //        obj.Children = new List<EcellObject>();
-        //        if (sizeObj != null) obj.Children.Add(sizeObj);
-
-        //        return obj;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return null;
-        //    }
-        //}
 
         /// <summary>
         /// Update property of the selected TreeNode.
