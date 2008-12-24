@@ -135,6 +135,13 @@ namespace Ecell.IDE.Plugins.TracerWindow
                         m_saveList.Add(SaveEntrySelectView[1, i].Value.ToString());
                     }
                 }
+                if (m_saveList.Count <= 0)
+                {
+                    if (Util.ShowYesNoDialog(MessageResources.ConfirmNoSaveLog) == false)
+                    {
+                        e.Cancel = true;
+                    }
+                }
             }
             catch (Exception)
             {

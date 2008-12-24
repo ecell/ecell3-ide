@@ -120,6 +120,9 @@
   <data name="ConfirmClose" xml:space="preserve">
     <value>Do you want to close this window?</value>
   </data>
+  <data name="ConfirmNoSaveLog" xml:space="preserve">
+    <value>Saved log is not set. Do you want to close this dialog?</value>
+  </data>
   <data name="ErrInputData" xml:space="preserve">
     <value>Non-numeric value is set.</value>
   </data>

@@ -70,6 +70,15 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
+        ///   Saved log is not set. Do you want to close this dialog? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmNoSaveLog {
+            get {
+                return ResourceManager.GetString("ConfirmNoSaveLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Non-numeric value is set. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrInputData {
