@@ -109,6 +109,7 @@ namespace Ecell
         /// <returns>if contain, return true.</returns>
         static public bool IsNGforID(string key)
         {
+            if (key.Length > 128) return true;
             for (int i = 0; i < key.Length; i++)
             {
                 if (Char.IsLetterOrDigit(key[i]) ||
@@ -125,6 +126,7 @@ namespace Ecell
         /// <returns>if contain, return true.</returns>
         static public bool IsNGforIDonWindows(string key)
         {
+            if (key.Length > 128) return true;
             for (int i = 0; i < key.Length; i++)
             {
                 if (key[i] == '\\' || key[i] == '/'

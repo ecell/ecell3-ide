@@ -316,7 +316,7 @@
     <value>6, 6, 6, 6</value>
   </data>
   <data name="dgv.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 154</value>
+    <value>223, 150</value>
   </data>
   <data name="dgv.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -379,7 +379,7 @@
     <value>6, 6, 6, 6</value>
   </data>
   <data name="stepCombo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 20</value>
+    <value>223, 20</value>
   </data>
   <data name="stepCombo.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -1417,18 +1417,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Simulation Configuration</value>
   </data>
-  <data name="&gt;&gt;keyDataGridViewTextBoxColumn1.Name" xml:space="preserve">
-    <value>keyDataGridViewTextBoxColumn1</value>
-  </data>
-  <data name="&gt;&gt;keyDataGridViewTextBoxColumn1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;valueDataGridViewTextBoxColumn1.Name" xml:space="preserve">
-    <value>valueDataGridViewTextBoxColumn1</value>
-  </data>
-  <data name="&gt;&gt;valueDataGridViewTextBoxColumn1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;initialConditionsBindingSource.Name" xml:space="preserve">
     <value>initialConditionsBindingSource</value>
   </data>
@@ -1476,6 +1464,18 @@
   </data>
   <data name="&gt;&gt;m_simParamSets.Type" xml:space="preserve">
     <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;keyDataGridViewTextBoxColumn1.Name" xml:space="preserve">
+    <value>keyDataGridViewTextBoxColumn1</value>
+  </data>
+  <data name="&gt;&gt;keyDataGridViewTextBoxColumn1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;valueDataGridViewTextBoxColumn1.Name" xml:space="preserve">
+    <value>valueDataGridViewTextBoxColumn1</value>
+  </data>
+  <data name="&gt;&gt;valueDataGridViewTextBoxColumn1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SimulationConfigurationDialog</value>

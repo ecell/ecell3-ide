@@ -573,33 +573,26 @@ namespace Ecell.IDE.Plugins.Simulation
             string text = freqByStepTextBox.Text;
             int stepcount = ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.ReloadStepCount;
             if (stepcount <= 0) stepcount = m_defaultStepCount;
+            string errMsg = "";
+            int dummy;
             if (string.IsNullOrEmpty(text))
             {
-                if (string.IsNullOrEmpty(freqBySecTextBox.Text))
-                {
-                    Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameSec));
-                    freqByStepTextBox.Text = Convert.ToString(stepcount);
-                    e.Cancel = true;
-                    return;
-                }
+                errMsg = String.Format(MessageResources.ErrNoInput, MessageResources.NameSec);
             }
-            else
+            else if (!Int32.TryParse(text, out dummy))
             {
-                int dummy;
-                if (!Int32.TryParse(text, out dummy))
-                {
-                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                    freqByStepTextBox.Text = Convert.ToString(stepcount);
-                    e.Cancel = true;
-                    return;
-                }
-                if (dummy <= 0)
-                {
-                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                    freqByStepTextBox.Text = Convert.ToString(stepcount);
-                    e.Cancel = true;
-                    return;
-                }
+                errMsg = MessageResources.ErrInvalidValue;
+            }
+            else if (dummy <= 0)
+            {
+                errMsg = MessageResources.ErrInvalidValue;
+            }
+            if (!string.IsNullOrEmpty(errMsg))
+            {
+                Util.ShowErrorDialog(errMsg);
+                freqByStepTextBox.Text = Convert.ToString(stepcount);
+                e.Cancel = true;
+                loggingPage.Focus();
             }
         }
 
@@ -617,33 +610,27 @@ namespace Ecell.IDE.Plugins.Simulation
             string text = freqBySecTextBox.Text;
             double interval = ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.ReloadInterval;
             if (interval <= 0.0) interval = m_defaultInterval;
+            double dummy;
+            string errMsg = "";
+
             if (string.IsNullOrEmpty(text))
             {
-                if (string.IsNullOrEmpty(freqByStepTextBox.Text))
-                {
-                    Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameStep));
-                    freqBySecTextBox.Text = Convert.ToString(interval);
-                    e.Cancel = true;
-                    return;
-                }
+                errMsg = String.Format(MessageResources.ErrNoInput, MessageResources.NameStep);
             }
-            else
+            else if (!Double.TryParse(text, out dummy))
             {
-                double dummy;
-                if (!Double.TryParse(text, out dummy))
-                {
-                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                    freqBySecTextBox.Text = Convert.ToString(interval);
-                    e.Cancel = true;
-                    return;
-                }
-                if (dummy <= 0.0)
-                {
-                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                    freqBySecTextBox.Text = Convert.ToString(interval);
-                    e.Cancel = true;
-                    return;
-                }
+                errMsg = MessageResources.ErrInvalidValue;
+            }
+            else if (dummy <= 0.0)
+            {
+                errMsg = MessageResources.ErrInvalidValue;
+            }
+            if (String.IsNullOrEmpty(errMsg))
+            {
+                Util.ShowErrorDialog(errMsg);
+                freqBySecTextBox.Text = Convert.ToString(interval);
+                loggingPage.Focus();
+                e.Cancel = true;                
             }
         }
 
@@ -665,8 +652,11 @@ namespace Ecell.IDE.Plugins.Simulation
             else
             {
                 maxKbTextBox.Enabled = true;
-                ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.MaxDiskSpace =
-                SimulationConfigurationDialog.m_defaultMaxLogSize;
+                if (((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.MaxDiskSpace == 0)
+                {
+                    ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.MaxDiskSpace =
+                    SimulationConfigurationDialog.m_defaultMaxLogSize;
+                }
                 maxKbTextBox.Text = SimulationConfigurationDialog.m_defaultMaxLogSize.ToString();
                 maxKbTextBox.Focus();
             }
@@ -685,11 +675,13 @@ namespace Ecell.IDE.Plugins.Simulation
         private void initialConditionsBindingSource_DataError(object sender, BindingManagerDataErrorEventArgs e)
         {
             Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+            tabControl1.Focus();
         }
 
         private void propertiesBindingSource_DataError(object sender, BindingManagerDataErrorEventArgs e)
         {
             Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+            tabControl1.Focus();
         }
 
         private void maxKbTextBox_Validated(object sender, EventArgs e)
@@ -709,30 +701,29 @@ namespace Ecell.IDE.Plugins.Simulation
             if (this.DialogResult == DialogResult.Cancel) return;
             if (maxSizeRadio.Checked)
             {
+                int dummy;
+                string errMsg = "";
                 string text = maxKbTextBox.Text;
+                
                 if (String.IsNullOrEmpty(text))
                 {
-                    Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameMaxSize));
-                    maxKbTextBox.Text =
-                        Convert.ToString(((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.MaxDiskSpace);
-                    e.Cancel = true;
-                    return;
+                    errMsg = String.Format(MessageResources.ErrNoInput, MessageResources.NameMaxSize);
                 }
-                int dummy;
-                if (!Int32.TryParse(text, out dummy))
+                else if (!Int32.TryParse(text, out dummy))
                 {
-                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                    maxKbTextBox.Text =
-                        Convert.ToString(((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.MaxDiskSpace);
-                    e.Cancel = true;
-                    return;
+                    errMsg = MessageResources.ErrInvalidValue;
                 }
-                if (dummy <= 0)
+                else if (dummy <= 0)
                 {
-                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    errMsg = MessageResources.ErrInvalidValue;
+                }
+                if (!String.IsNullOrEmpty(errMsg))
+                {
+                    Util.ShowErrorDialog(errMsg);
                     maxKbTextBox.Text =
                         Convert.ToString(((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.MaxDiskSpace);
                     e.Cancel = true;
+                    loggingPage.Focus();
                     return;
                 }
             }

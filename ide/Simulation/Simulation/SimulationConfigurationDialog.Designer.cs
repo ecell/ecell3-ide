@@ -43,8 +43,6 @@
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label4;
             this.initialParameters = new System.Windows.Forms.DataGridView();
-            this.keyDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.valueDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.initialConditionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -79,6 +77,8 @@
             this.freqByStepRadio = new System.Windows.Forms.RadioButton();
             this.freqByStepTextBox = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.keyDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.valueDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             initialParametersPage = new System.Windows.Forms.TabPage();
             perModelSimulationParametersPage = new System.Windows.Forms.TabPage();
             stepperDefinitionsPage = new System.Windows.Forms.TabPage();
@@ -134,21 +134,6 @@
             this.initialParameters.RowHeadersVisible = false;
             this.initialParameters.RowTemplate.Height = 21;
             this.initialParameters.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.InitialParameterDataError);
-            // 
-            // keyDataGridViewTextBoxColumn1
-            // 
-            this.keyDataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.keyDataGridViewTextBoxColumn1.DataPropertyName = "Key";
-            this.keyDataGridViewTextBoxColumn1.FillWeight = 80F;
-            resources.ApplyResources(this.keyDataGridViewTextBoxColumn1, "keyDataGridViewTextBoxColumn1");
-            this.keyDataGridViewTextBoxColumn1.Name = "keyDataGridViewTextBoxColumn1";
-            // 
-            // valueDataGridViewTextBoxColumn1
-            // 
-            this.valueDataGridViewTextBoxColumn1.DataPropertyName = "Value";
-            this.valueDataGridViewTextBoxColumn1.FillWeight = 20F;
-            resources.ApplyResources(this.valueDataGridViewTextBoxColumn1, "valueDataGridViewTextBoxColumn1");
-            this.valueDataGridViewTextBoxColumn1.Name = "valueDataGridViewTextBoxColumn1";
             // 
             // initialConditionsBindingSource
             // 
@@ -451,9 +436,9 @@
             // 
             resources.ApplyResources(this.freqBySecTextBox, "freqBySecTextBox");
             this.freqBySecTextBox.Name = "freqBySecTextBox";
+            this.freqBySecTextBox.TextChanged += new System.EventHandler(this.freqBySecTextBox_TextChanged);
             this.freqBySecTextBox.Validated += new System.EventHandler(this.freqBySecTextBox_Validated);
             this.freqBySecTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.freqBySecTextBox_Validating);
-            this.freqBySecTextBox.TextChanged += new System.EventHandler(this.freqBySecTextBox_TextChanged);
             // 
             // freqByStepRadio
             // 
@@ -468,9 +453,9 @@
             // 
             resources.ApplyResources(this.freqByStepTextBox, "freqByStepTextBox");
             this.freqByStepTextBox.Name = "freqByStepTextBox";
+            this.freqByStepTextBox.TextChanged += new System.EventHandler(this.freqByStepTextBox_TextChanged);
             this.freqByStepTextBox.Validated += new System.EventHandler(this.freqByStepTextBox_Validated);
             this.freqByStepTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.freqByStepTextBox_Validating);
-            this.freqByStepTextBox.TextChanged += new System.EventHandler(this.freqByStepTextBox_TextChanged);
             // 
             // tabControl1
             // 
@@ -479,6 +464,22 @@
             this.tabControl1.Controls.Add(this.loggingPage);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
+            // 
+            // keyDataGridViewTextBoxColumn1
+            // 
+            this.keyDataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.keyDataGridViewTextBoxColumn1.DataPropertyName = "Key";
+            this.keyDataGridViewTextBoxColumn1.FillWeight = 80F;
+            resources.ApplyResources(this.keyDataGridViewTextBoxColumn1, "keyDataGridViewTextBoxColumn1");
+            this.keyDataGridViewTextBoxColumn1.Name = "keyDataGridViewTextBoxColumn1";
+            this.keyDataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // valueDataGridViewTextBoxColumn1
+            // 
+            this.valueDataGridViewTextBoxColumn1.DataPropertyName = "Value";
+            this.valueDataGridViewTextBoxColumn1.FillWeight = 20F;
+            resources.ApplyResources(this.valueDataGridViewTextBoxColumn1, "valueDataGridViewTextBoxColumn1");
+            this.valueDataGridViewTextBoxColumn1.Name = "valueDataGridViewTextBoxColumn1";
             // 
             // SimulationConfigurationDialog
             // 
