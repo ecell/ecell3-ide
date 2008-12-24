@@ -134,6 +134,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.GraphPane.XAxis.Title.Text = "Time(sec)";
             m_zCnt.GraphPane.YAxis.Title.IsVisible = false;
             m_zCnt.GraphPane.Legend.IsVisible = false;
+            m_zCnt.GraphPane.YAxis.Scale.Format = "G";
             m_zCnt.GraphPane.XAxis.Scale.Max = 100;
             m_zCnt.GraphPane.XAxis.Scale.MaxAuto = false;
             m_zCnt.GraphPane.XAxis.Scale.Min = 0;
@@ -532,6 +533,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (isAxis)
             {
                 m_zCnt.AxisChange();
+                if (m_zCnt.GraphPane.YAxis.Scale.Min > 0)
+                    m_zCnt.GraphPane.YAxis.Scale.Min = 0;
+                if (m_zCnt.GraphPane.YAxis.Scale.Max > 1000)
+                    m_zCnt.GraphPane.YAxis.Scale.Format = "e1";
                 m_zCnt.Refresh();
             }
             else
