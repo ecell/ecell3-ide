@@ -578,14 +578,30 @@ namespace Ecell.IDE.Plugins.Analysis
 
         private bool IsRunningAnalysis()
         {
+            string message = "";
             if (m_robustAnalysis != null && m_robustAnalysis.IsRunning)
-                return true;
+            {
+                message = String.Format(MessageResources.ConfirmStopAnalysis, MessageResources.NameRobustAnalysis);
+            }
             if (m_parameterEstimation != null && m_parameterEstimation.IsRunning)
-                return true;
+            {
+                message = String.Format(MessageResources.ConfirmStopAnalysis, MessageResources.NameParameterEstimate);
+            }
             if (m_sensitivityAnalysis != null && m_sensitivityAnalysis.IsRunning)
-                return true;
+            {
+                message = String.Format(MessageResources.ConfirmStopAnalysis, MessageResources.NameSensAnalysis);
+            }
             if (m_bifurcationAnalysis != null && m_bifurcationAnalysis.IsRunning)
+            {
+                message = String.Format(MessageResources.ConfirmStopAnalysis, MessageResources.NameBifurcation);
+            }
+            if (String.IsNullOrEmpty(message))
                 return true;
+            if (Util.ShowYesNoDialog(message))
+            {
+                StopAnalysis();
+                return true;
+            }
             return false;
         }
 
@@ -605,12 +621,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteRobustAnalysis(object sender, EventArgs e)
         {
-            if (IsRunningAnalysis())
+            if (!IsRunningAnalysis())
             {
-                if (Util.ShowYesNoDialog(MessageResources.ConfirmStopAnalysis))
-                {
-                    StopAnalysis();
-                }
                 return;
             }
             ShowGridStatusDialog();
@@ -627,12 +639,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteParameterEstimation(object sender, EventArgs e)
         {
-            if (IsRunningAnalysis())
+            if (!IsRunningAnalysis())
             {
-                if (Util.ShowYesNoDialog(MessageResources.ConfirmStopAnalysis))
-                {
-                    StopAnalysis();
-                }
                 return;
             }
             ShowGridStatusDialog();
@@ -649,12 +657,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteSensitivityAnalysis(object sender, EventArgs e)
         {
-            if (IsRunningAnalysis())
+            if (!IsRunningAnalysis())
             {
-                if (Util.ShowYesNoDialog(MessageResources.ConfirmStopAnalysis))
-                {
-                    StopAnalysis();
-                }
                 return;
             }
             ShowGridStatusDialog();
@@ -671,12 +675,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void ExecuteBifurcationAnalysis(object sender, EventArgs e)
         {
-            if (IsRunningAnalysis())
+            if (!IsRunningAnalysis())
             {
-                if (Util.ShowYesNoDialog(MessageResources.ConfirmStopAnalysis))
-                {
-                    StopAnalysis();
-                }
                 return;
             }
             ShowGridStatusDialog();
@@ -884,11 +884,11 @@ namespace Ecell.IDE.Plugins.Analysis
                             if (d.EntityPath == null) continue;
                             if (m_env.DataManager.IsContainsParameterData(d.EntityPath))
                             {
-                                m_paramList.Add(d.EntityPath, d);
+                                m_paramList[d.EntityPath] = d;
                             }
                             if (m_env.DataManager.IsContainsObservedData(d.EntityPath))
                             {
-                                m_observedList.Add(d.EntityPath, d);
+                                m_observedList[d.EntityPath] = d;
                             }
                         }
                         
@@ -901,11 +901,11 @@ namespace Ecell.IDE.Plugins.Analysis
                     if (d.EntityPath == null) continue;
                     if (m_env.DataManager.IsContainsParameterData(d.EntityPath))
                     {
-                        m_paramList.Add(d.EntityPath, d);
+                        m_paramList[d.EntityPath] = d;
                     }
                     if (m_env.DataManager.IsContainsObservedData(d.EntityPath))
                     {
-                        m_observedList.Add(d.EntityPath, d);
+                        m_observedList[d.EntityPath] = d;
                     }
                 }
             }

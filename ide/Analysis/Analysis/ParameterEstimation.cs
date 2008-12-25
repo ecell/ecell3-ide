@@ -267,6 +267,12 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         void FireTimer(object sender, EventArgs e)
         {
+            if (!m_isRunning)
+            {
+                m_timer.Enabled = false;
+                m_timer.Stop();
+                return;
+            }
             String tmpDir = m_owner.JobManager.TmpRootDir;
             if (!m_owner.JobManager.IsFinished())
             {

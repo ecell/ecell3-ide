@@ -175,7 +175,9 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             else if (sInputData[iCount[0]] == '+' || sInputData[iCount[0]] == '-')	
             {
-                if (sInputData[iCount[1]] == '+' || sInputData[iCount[1]] == '-' || sInputData[iCount[1]] == ')' || iCaseflag == NOTFOUND)
+                if ((sInputData[iCount[0] - 1] != 'e' && sInputData[iCount[0] - 1] != 'E') &&
+                    (sInputData[iCount[1]] == '+' || sInputData[iCount[1]] == '-' 
+                    || sInputData[iCount[1]] == ')' || iCaseflag == NOTFOUND))
                     CalculateSubData(ref sInputData, iStart, iCount[0], iEnd);
                 else
                     CalculateData(ref sInputData, iCount[0]);	

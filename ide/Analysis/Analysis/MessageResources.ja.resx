@@ -121,7 +121,7 @@
     <value>エラーの発生したパラメータがあります。結果を表示しますか？</value>
   </data>
   <data name="ConfirmStopAnalysis" xml:space="preserve">
-    <value>この解析を中断しますか？</value>
+    <value>この解析を中断しますか[ {0} ]？</value>
   </data>
   <data name="ErrExecute" xml:space="preserve">
     <value>{0} の実行に失敗しました。</value>
@@ -308,5 +308,8 @@
   </data>
   <data name="ToopTipEstimation" xml:space="preserve">
     <value>最適値を検索するための評価式を入力してください。</value>
+  </data>
+  <data name="WarnNoBifurcation" xml:space="preserve">
+    <value>分岐したデータがありません。</value>
   </data>
 </root>

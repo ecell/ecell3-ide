@@ -70,7 +70,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   Are you sure to abort this analysis? に類似しているローカライズされた文字列を検索します。
+        ///   Are you sure to abort this analysis[ {0} ]? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmStopAnalysis {
             get {
@@ -633,6 +633,15 @@ namespace Ecell.IDE.Plugins.Analysis {
         internal static string ToopTipEstimation {
             get {
                 return ResourceManager.GetString("ToopTipEstimation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bifurcation data is not found. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WarnNoBifurcation {
+            get {
+                return ResourceManager.GetString("WarnNoBifurcation", resourceCulture);
             }
         }
     }

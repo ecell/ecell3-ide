@@ -119,6 +119,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         private static int s_skip =10;
         private bool m_isDone = false;
+        private int m_resultPoint = 0;
         #endregion
 
         /// <summary>
@@ -153,6 +154,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public void ExecuteAnalysis()
         {
             m_param = m_owner.GetBifurcationAnalysisPrameter();
+            m_resultPoint = 0;
             String tmpDir = m_owner.JobManager.TmpRootDir;
             double simTime = m_param.SimulationTime;
             m_isDone = false;
@@ -315,6 +317,7 @@ namespace Ecell.IDE.Plugins.Analysis
                         count++;
                     }
                     m_result[i, j] = BifurcationResult.FindOk;
+                    m_resultPoint++;
                 }
             }
             if (count == 0 && m_isDone == false)
@@ -376,7 +379,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     else if (ncount == acount)
                     {
                         int resX = i / s_skip;
-                        int resY = i / s_skip;
+                        int resY = j / s_skip;
 
                         bool isEnableEdge = false;
                         if (resX != 0)
@@ -590,6 +593,12 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         void FireTimer(object sender, EventArgs e)
         {
+            if (!m_isRunning)
+            {
+                m_timer.Enabled = false;
+                m_timer.Stop();
+                return;
+            }
             if (!m_owner.JobManager.IsFinished())
             {
                 if (m_isRunning == false)
@@ -606,8 +615,6 @@ namespace Ecell.IDE.Plugins.Analysis
             if (m_owner.JobManager.IsError())
             {
                 if (!Util.ShowYesNoDialog(MessageResources.ConfirmFindErrorJob))
-
-
                 {
                     return;
                 }
@@ -620,9 +627,13 @@ namespace Ecell.IDE.Plugins.Analysis
                 PrintResultData();
                 m_isRunning = false;
                 m_owner.StopBifurcationAnalysis();
-                Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
-                    new object[] { MessageResources.NameBifurcation }));
                 m_owner.ActivateResultWindow();
+
+                if (m_resultPoint <= 0)
+                    Util.ShowWarningDialog(MessageResources.WarnNoBifurcation);
+                else
+                    Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
+                            new object[] { MessageResources.NameBifurcation }));
 
                 return;
             }

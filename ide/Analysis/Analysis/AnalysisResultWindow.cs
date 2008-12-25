@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Ecell;
 using Ecell.Objects;
 using Ecell.Job;
+using Ecell.Exceptions;
 using ZedGraph;
 
 namespace Ecell.IDE.Plugins.Analysis
@@ -32,6 +33,8 @@ namespace Ecell.IDE.Plugins.Analysis
         private LineItem m_line;
 
         private Color m_headerColor;
+        private int x_index = 0;
+        private int y_index = 0;
         #endregion
 
         #region Constructor
@@ -339,7 +342,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public void ChangeAxisIndex()
         {
             if (RAXComboBox.Text.Equals(RAYComboBox.Text))
-                return;
+                throw new IgnoreException("");
 
             string xPath = RAXComboBox.Text;
             string yPath = RAYComboBox.Text;
@@ -355,6 +358,12 @@ namespace Ecell.IDE.Plugins.Analysis
 
                 DrawPoint(xd, yd, m_jobList[jobid]);
             }
+            m_zCnt.GraphPane.XAxis.Scale.MinAuto = true;
+            m_zCnt.GraphPane.XAxis.Scale.MaxAuto = true;
+            m_zCnt.GraphPane.YAxis.Scale.MinAuto = true;
+            m_zCnt.GraphPane.YAxis.Scale.MaxAuto = true;
+            m_zCnt.AxisChange();
+            m_zCnt.Refresh();           
         }
 
         /// <summary>
@@ -367,8 +376,26 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             RAXComboBox.Items.Add(name);
             RAYComboBox.Items.Add(name);
-            if (isX) RAXComboBox.SelectedText = name;
-            if (isY) RAYComboBox.SelectedText = name;
+            if (isX)
+            {
+                for (int i = 0; i < RAXComboBox.Items.Count; i++)
+                {
+                    if (RAXComboBox.Items[i].Equals(name))
+                    {
+                        RAXComboBox.SelectedIndex = i;
+                    }
+                }
+            }
+            if (isY)
+            {
+                for (int i = 0; i < RAYComboBox.Items.Count; i++)
+                {
+                    if (RAYComboBox.Items[i].Equals(name))
+                    {
+                        RAYComboBox.SelectedIndex = i;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -815,7 +842,15 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void XSelectedIndexChanged(object sender, EventArgs e)
         {
-            ChangeAxisIndex();
+            try
+            {
+                ChangeAxisIndex();
+                x_index = RAXComboBox.SelectedIndex;
+            }
+            catch (IgnoreException)
+            {
+                RAXComboBox.SelectedIndex = x_index;
+            }
         }
 
         /// <summary>
@@ -825,7 +860,15 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void YSelectedIndexChanged(object sender, EventArgs e)
         {
-            ChangeAxisIndex();
+            try
+            {
+                ChangeAxisIndex();
+                y_index = RAYComboBox.SelectedIndex;
+            }
+            catch (IgnoreException)
+            {
+                RAYComboBox.SelectedIndex = y_index;
+            }
         }
 
         /// <summary>

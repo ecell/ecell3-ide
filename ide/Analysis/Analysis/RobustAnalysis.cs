@@ -101,6 +101,12 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         void FireTimer(object sender, EventArgs e)
         {
+            if (!m_isRunning)
+            {
+                m_timer.Enabled = false;
+                m_timer.Stop();
+                return;
+            }
             if (!m_owner.JobManager.IsFinished())
             {
                 if (m_isRunning == false)
@@ -249,6 +255,17 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_owner.SetResultEntryBox(r.Key, isX, isY);
                 count++;
             }
+            if (xmax == xmin)
+            {
+                xmax = xmin + 1.0;
+                xmin = xmin - 1.0;
+            }
+            if (ymax == ymin)
+            {
+                ymax = ymax + 1.0;
+                ymin = ymin - 1.0;
+            }
+
             m_owner.SetResultGraphSize(xmax, xmin, ymax, ymin, false, false);
 
             List<EcellObservedData> judgeList = m_owner.DataManager.GetObservedData();

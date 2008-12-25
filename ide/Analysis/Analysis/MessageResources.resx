@@ -121,7 +121,7 @@
     <value>Some errors occurred in the parameters. Do you want to proceed to the result?</value>
   </data>
   <data name="ConfirmStopAnalysis" xml:space="preserve">
-    <value>Are you sure to abort this analysis?</value>
+    <value>Are you sure to abort this analysis[ {0} ]?</value>
   </data>
   <data name="ErrExecute" xml:space="preserve">
     <value>Execution of {0} failed.</value>
@@ -308,5 +308,8 @@
   </data>
   <data name="ToopTipEstimation" xml:space="preserve">
     <value>Input the estimation formulator used in the judgement.</value>
+  </data>
+  <data name="WarnNoBifurcation" xml:space="preserve">
+    <value>Bifurcation data is not found.</value>
   </data>
 </root>
