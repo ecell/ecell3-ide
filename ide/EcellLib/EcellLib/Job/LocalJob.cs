@@ -190,11 +190,16 @@ namespace Ecell.Job
                 if (!System.IO.File.Exists(extFileName)) return result;
                 System.IO.StreamReader hReader =
                     new System.IO.StreamReader(extFileName, System.Text.Encoding.UTF8);
+                char splitter = '\t';
+                string ext = System.IO.Path.GetExtension(extFileName);
+                if (!String.IsNullOrEmpty(ext) || ext.ToLower().Equals(".csv"))
+                    splitter = ',';
+
                 while (!hReader.EndOfStream)
                 {
                     string line = hReader.ReadLine();
                     if (line.StartsWith("#")) continue;
-                    string[] ele = line.Split(new char[] { '\t' });
+                    string[] ele = line.Split(new char[] { splitter });
                     if (ele.Length >= 2)
                     {
                         double time = Convert.ToDouble(ele[0]);
