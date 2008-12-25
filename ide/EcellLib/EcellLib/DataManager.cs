@@ -3506,6 +3506,11 @@ namespace Ecell
                 string projectID = m_currentProject.Info.Name;
                 string simParam = m_currentProject.Info.SimulationParam;
                 message = "[" + projectID + "][" + simParam + "]";
+
+                SaveType saveFileType = SaveType.ECD;
+                if (savedType.Equals("csv") || savedType.Equals("CSV"))
+                    saveFileType = SaveType.CSV;
+
                 //
                 // Initializes.
                 //
@@ -3549,12 +3554,12 @@ namespace Ecell
                         LogData l = this.GetLogData(cTime, nextTime, reloadInterval, key);
                         if (cTime == startTime)
                         {
-                            ecd.Create(simulationDirName, l, savedType,
+                            ecd.Create(simulationDirName, l, saveFileType,
                             cTime, nextTime);
                         }
                         else
                         {
-                            ecd.Append(simulationDirName, l, savedType,
+                            ecd.Append(simulationDirName, l, saveFileType,
                                 cTime, nextTime);
                         }
                         m_env.ReportManager.SetProgress((int)(basePercent + hitCount * (nextTime / endTime)));

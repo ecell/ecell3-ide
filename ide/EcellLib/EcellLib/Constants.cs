@@ -188,6 +188,10 @@ namespace Ecell
 
         #region Delimiters
         /// <summary>
+        /// Reserved char for comma.
+        /// </summary>
+        public const string delimiterComma = ",";
+        /// <summary>
         /// Reserved char for colon.
         /// </summary>
         public const string delimiterColon = ":";

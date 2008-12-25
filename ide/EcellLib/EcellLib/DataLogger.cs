@@ -404,10 +404,24 @@ namespace Ecell
                 m_writer.Close();
         }
 
-        public void Append(string savedDirName, LogData logData, String saveType,
+        public void Append(string savedDirName, LogData logData, SaveType saveType,
             double startTime, double endTime)
         {
             string fileName = null;
+            string fileExtension = "";
+            string splitter = "";
+
+            if (saveType == SaveType.CSV)
+            {
+                fileExtension = ".csv";
+                splitter = Constants.delimiterComma;
+            }
+            else
+            {
+                fileExtension = ".ecd";
+                splitter = Constants.delimiterTab;
+            }
+
             try
             {
                 //
@@ -432,7 +446,7 @@ namespace Ecell
                 fileName = fileName.Replace(Constants.delimiterPath, Constants.delimiterUnderbar);
                 fileName = fileName.Replace(Constants.delimiterColon, Constants.delimiterUnderbar);
                 fileName = savedDirName + Constants.delimiterPath +
-                    fileName + Constants.delimiterPeriod + saveType;            
+                    fileName + fileExtension;            
 
 
 
@@ -456,17 +470,17 @@ namespace Ecell
                             )
                         {
                             m_writer.WriteLine(
-                                logValue.time + Constants.delimiterTab +
+                                logValue.time + splitter +
                                 logValue.value
                                 );
                         }
                         else
                         {
                             m_writer.WriteLine(
-                                logValue.time + Constants.delimiterTab +
-                                logValue.value + Constants.delimiterTab +
-                                logValue.avg + Constants.delimiterTab +
-                                logValue.min + Constants.delimiterTab +
+                                logValue.time + splitter +
+                                logValue.value + splitter +
+                                logValue.avg + splitter +
+                                logValue.min + splitter +
                                 logValue.max
                                 );
                         }
@@ -491,10 +505,24 @@ namespace Ecell
         /// <param name="savedDirName">The saved directory name.</param>
         /// <param name="logData">The list of the "LogData"</param>
         /// <param name="saveType">The type of saved file.</param>
-        public void Create(string savedDirName, LogData logData, String saveType,
+        public void Create(string savedDirName, LogData logData, SaveType saveType,
             double startTime, double endTime)
         {
             string fileName = null;
+            string fileExtension = "";
+            string splitter = "";
+
+            if (saveType == SaveType.CSV)
+            {
+                fileExtension = ".csv";
+                splitter = Constants.delimiterComma;
+            }
+            else
+            {
+                fileExtension = ".ecd";
+                splitter = Constants.delimiterTab;
+            }
+
             try
             {
                 //
@@ -519,7 +547,7 @@ namespace Ecell
                 fileName = fileName.Replace(Constants.delimiterPath, Constants.delimiterUnderbar);
                 fileName = fileName.Replace(Constants.delimiterColon, Constants.delimiterUnderbar);
                 fileName = savedDirName + Constants.delimiterPath +
-                    fileName + Constants.delimiterPeriod + saveType;
+                    fileName + fileExtension;
                 //
                 // Checks the old model file.
                 //
@@ -569,10 +597,10 @@ namespace Ecell
                         );
                     m_writer.WriteLine(
                         Constants.delimiterSharp + Constants.headerLabel + Constants.delimiterColon + Constants.delimiterSpace +
-                        Constants.headerTime + Constants.delimiterTab +
-                        Constants.headerValue + Constants.delimiterTab +
-                        Constants.headerAverage + Constants.delimiterTab +
-                        Constants.headerMinimum.ToLower() + Constants.delimiterTab +
+                        Constants.headerTime + splitter +
+                        Constants.headerValue + splitter +
+                        Constants.headerAverage + splitter +
+                        Constants.headerMinimum.ToLower() + splitter +
                         Constants.headerMaximum.ToLower()
                         );
                     m_writer.WriteLine(
@@ -610,17 +638,17 @@ namespace Ecell
                             )
                         {
                             m_writer.WriteLine(
-                                logValue.time + Constants.delimiterTab +
+                                logValue.time + splitter +
                                 logValue.value
                                 );
                         }
                         else
                         {
                             m_writer.WriteLine(
-                                logValue.time + Constants.delimiterTab +
-                                logValue.value + Constants.delimiterTab +
-                                logValue.avg + Constants.delimiterTab +
-                                logValue.min + Constants.delimiterTab +
+                                logValue.time + splitter +
+                                logValue.value + splitter +
+                                logValue.avg + splitter +
+                                logValue.min + splitter +
                                 logValue.max
                                 );
                         }
@@ -646,8 +674,14 @@ namespace Ecell
             string key = "";
             string prop = "";
             string line = "";
+            char splitter = '\t';
             List<LogValue> valueList = new List<LogValue>();
             StreamReader strread = new StreamReader(fileName);
+            string ext = Path.GetExtension(fileName);
+            if (!String.IsNullOrEmpty(ext) && ext.ToLower().Equals(".csv"))
+            {
+                splitter = ',';
+            }
 
             while ((line = strread.ReadLine()) != null)
             {
@@ -663,7 +697,7 @@ namespace Ecell
                     continue;
                 }
 
-                string[] points = line.Split(new char[] { '\t' });
+                string[] points = line.Split(new char[] { splitter });
                 double time = Convert.ToDouble(points[0]);
                 double value = Convert.ToDouble(points[1]);
                 double ave = Convert.ToDouble(points[2]);
@@ -678,5 +712,11 @@ namespace Ecell
 
             return d;
         }
+    }
+
+    public enum SaveType
+    {
+        ECD = 0,
+        CSV = 1
     }
 }
