@@ -373,16 +373,16 @@ namespace Ecell.IDE.Plugins.Analysis
                 switch (e.ColumnIndex)
                 {
                     case 1:
-                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Max;
+                        robustAnalysisParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Max;
                         break;
                     case 2:
-                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Min;
+                        robustAnalysisParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Min;
                         break;
                     case 3:
-                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Differ;
+                        robustAnalysisParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Differ;
                         break;
                     case 4:
-                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Rate;
+                        robustAnalysisParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Rate;
                         break;
                 }
             }
