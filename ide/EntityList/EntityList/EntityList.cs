@@ -125,7 +125,7 @@ namespace Ecell.IDE.Plugins.EntityList
             if (modelID == null)
                 return;
 
-            m_control.AddSelection(modelID, key, type);
+            m_control.AddSelect(modelID, key, type);
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Ecell.IDE.Plugins.EntityList
             if (modelID == null)
                 return;
 
-            m_control.RemoveSelection(modelID, key, type);
+            m_control.RemoveSelect(modelID, key, type);
 
         }
 
@@ -148,7 +148,7 @@ namespace Ecell.IDE.Plugins.EntityList
         /// </summary>
         public override void ResetSelect()
         {
-            m_control.ClearSelection();
+            m_control.ResetSelect();
         }
 
         /// <summary>

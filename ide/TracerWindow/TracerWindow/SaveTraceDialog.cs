@@ -48,6 +48,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private string m_directoryName;
         private double m_start;
         private double m_end;
+        private double m_simTime;
         private string m_fileType;
         private List<string> m_saveList;
 
@@ -90,6 +91,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             double dummy = 0.0;
             if (double.TryParse(endTextBox.Text, out dummy))
                 m_end = dummy;
+            m_simTime = m_end;
         }
 
         /// <summary>
@@ -158,7 +160,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 text = "0.0";
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy < 0.0 || m_end < dummy)
+            if (!Double.TryParse(text, out dummy) || dummy < 0.0 || m_end <= dummy || m_simTime < dummy)
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 startTextBox.Text = Convert.ToString(m_start);
@@ -179,7 +181,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy < 0.0 || m_start > dummy || m_end < dummy)
+            if (!Double.TryParse(text, out dummy) || dummy < 0.0 || m_start > dummy || m_end <= dummy || m_simTime < dummy)
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 endTextBox.Text = Convert.ToString(m_end);

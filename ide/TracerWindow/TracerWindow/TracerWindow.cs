@@ -129,6 +129,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         bool isStep = false;
         bool isLogAdding = false;
         int m_winCount = 1;
+        private List<TagData> m_isContiuousList = new List<TagData>();
         #endregion
 
         #region Constructor
@@ -429,6 +430,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 {
                     m_current = 0.0;
                     m_currentMax = 1.0;
+                    m_step = m_currentMax / (double)TracerWindow.s_count;
                     foreach (TraceWindow t in m_winList)
                     {
                         t.ClearTime();
@@ -698,32 +700,30 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (!isSuspend)
             {
                 m_current = 0.0;
+                m_isContiuousList.Clear();
 
                 Dictionary<TagData, bool> tagDic = new Dictionary<TagData, bool>();
                 foreach (TagData t in m_tagList.Values)
                 {
-                    bool isHit = false;
-                    if (t.Type != EcellObject.PROCESS) continue;
-                    foreach (TagData ct in tagDic.Keys)
+                    try
                     {
-                        if (t.M_modelID == ct.M_modelID &&
-                            t.M_key == ct.M_key)
+                        EcellValue v = IsContinuous(t);
+                        if (v == null)
+                            continue;
+                        bool isCont = false;
+                        if (v.IsList && (int)v.Value == 1)
+                            isCont = true;
+
+                        foreach (TraceWindow win in m_winList)
                         {
-                            isHit = true;
-                            break;
+                            win.SetIsContinuous(t.M_path, isCont);
                         }
                     }
-                    if (isHit) continue;
-                    string FullPN = t.Type + Constants.delimiterColon + t.M_key +
-                        Constants.delimiterColon + EcellProcess.ISCONTINUOUS;
-                    EcellValue v = m_dManager.GetEntityProperty(FullPN);
-                    if (v == null) continue;
-                    bool isCont = false;
-                    isCont = (int)v != 0;
-                    tagDic.Add(t, isCont);
-                    foreach (TraceWindow win in m_winList)
+                    catch (Exception)
                     {
-                        win.SetIsContinuous(t.M_path, isCont);
+                        // まだ準備ができていなデータをチェックしていた。
+                        m_isContiuousList.Add(t);
+                        continue;
                     }
                 }
             }
@@ -737,6 +737,14 @@ namespace Ecell.IDE.Plugins.TracerWindow
             isSuspend = false;
             m_time.Enabled = true;
             m_time.Start();
+        }
+
+        private EcellValue IsContinuous(TagData t)
+        {
+            string FullPN = t.Type + Constants.delimiterColon + t.M_key +
+                Constants.delimiterColon + EcellProcess.ISCONTINUOUS;
+            EcellValue v = m_dManager.GetEntityProperty(FullPN);
+            return v;
         }
 
         /// <summary>
@@ -776,6 +784,32 @@ namespace Ecell.IDE.Plugins.TracerWindow
         void TimerFire(object sender, EventArgs e)
         {
             m_time.Enabled = false;
+            List<TagData> removeList = new List<TagData>();
+            foreach (TagData tag in m_isContiuousList)
+            {
+                try
+                {
+                    EcellValue v = IsContinuous(tag);
+                    if (v == null)
+                        continue;
+                    bool isCont = false;
+                    if (v.IsInt && (int)v.Value == 1)
+                        isCont = true;
+
+                    foreach (TraceWindow win in m_winList)
+                    {
+                        win.SetIsContinuous(tag.M_path, isCont);
+                    }
+                    removeList.Add(tag);
+                }
+                catch (Exception)
+                {
+                }
+            }
+            foreach (TagData tag in removeList)
+            {
+                m_isContiuousList.Remove(tag);
+            }
             UpdateGraphDelegate();
             m_time.Enabled = true;
         }
@@ -817,20 +851,27 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="e"></param>
         void ShowSaveTracerWindow(Object sender, EventArgs e)
         {
-            SaveTraceDialog win = new SaveTraceDialog(this);
-            win.AddEntry(m_entry);
-            using (win)
+            try
             {
-                if (win.ShowDialog() == DialogResult.OK)
+                SaveTraceDialog win = new SaveTraceDialog(this);
+                win.AddEntry(m_entry);
+                using (win)
                 {
-                    if (win.SaveList.Count <= 0) return;
-                    m_env.DataManager.SaveSimulationResult(win.DirectoryName,
-                        win.Start, win.End, win.FileType, win.SaveList);
-                    SaveSimulationResultDelegate dlg = m_env.PluginManager.GetDelegate("SaveSimulationResult") as SaveSimulationResultDelegate;
-                    if (dlg != null)
-                        dlg(win.SaveList);
-                    Util.ShowNoticeDialog(MessageResources.FinishSave);
+                    if (win.ShowDialog() == DialogResult.OK)
+                    {
+                        if (win.SaveList.Count <= 0) return;
+                        m_env.DataManager.SaveSimulationResult(win.DirectoryName,
+                            win.Start, win.End, win.FileType, win.SaveList);
+                        SaveSimulationResultDelegate dlg = m_env.PluginManager.GetDelegate("SaveSimulationResult") as SaveSimulationResultDelegate;
+                        if (dlg != null)
+                            dlg(win.SaveList);
+                        Util.ShowNoticeDialog(MessageResources.FinishSave);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
             }
         }
 

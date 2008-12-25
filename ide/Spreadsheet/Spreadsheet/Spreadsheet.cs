@@ -106,7 +106,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// The ID of the selected Model now.
         /// </summary>
         private string m_currentModelID = null;
-        protected ImageList m_icons;
         /// <summary>
         /// The status of selected Model now.
         /// </summary>
@@ -115,7 +114,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// Dictionary of entity path and DataGridViewCell displayed the property of entity path.
         /// </summary>
         private Dictionary<string, DataGridViewCell> m_propDic = new Dictionary<string, DataGridViewCell>();
-        private static int s_Type = 0;
         private static int s_ID = 1;
         #endregion
 
@@ -253,8 +251,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         public override void Initialize()
         {
             InitializeComponents();
-            m_icons = m_env.PluginManager.NodeImageList;
-
         }
         #endregion
 
@@ -386,27 +382,50 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         }
 
         /// <summary>
-        /// Search the position of header by type.
+        /// Search the index of the inserted object.
         /// </summary>
-        /// <param name="type">Type to searched header.</param>
-        /// <returns>The position index of header.</returns>
-        private int SearchHeaderPos(string type)
+        /// <param name="type">The header position.</param>
+        /// <param name="key">The ID of inserted object.</param>
+        /// <returns>The position index of inserted object.</returns>
+        private int SearchInsertIndex(string type, string key)
         {
+            int startPos = 0;
             int typeNum = 0;
             for (int i = 0; i < m_gridView.Rows.Count; i++)
             {
+                startPos = i + 1;
                 if (m_gridView.Rows[i].Tag != null)
                     continue;
 
                 if (type == Constants.xpathSystem && typeNum == 0)
-                    return i;
+                    break;
                 else if (type == Constants.xpathVariable && typeNum == 1)
-                    return i;
+                    break;
                 else if (type == Constants.xpathProcess && typeNum == 2)
-                    return i;
+                    break;
                 typeNum++;
             }
-            return -1;
+
+
+
+            if (startPos == m_gridView.Rows.Count)
+                return startPos;
+            for (int i = startPos; i < m_gridView.Rows.Count; i++)
+            {
+                startPos = m_gridView.Rows[i].Index;
+                if (m_gridView.Rows[i].Tag == null)
+                {
+                    return startPos;
+                }
+                if (m_gridView[s_ID, i].Value.ToString().CompareTo(key) == 0)
+                    return -1;
+                if (m_gridView[s_ID, i].Value.ToString().CompareTo(key) > 0)
+                {
+                    return startPos;
+                }
+            }
+
+            return ++startPos;
         }
 
         /// <summary>
@@ -684,37 +703,59 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <summary>
         /// Add the object to DataGridView.
         /// </summary>
-        /// <param name="obj">The added object.</param>
+        /// <param name="data">The added object.</param>
         public override void DataAdd(List<EcellObject> data)
         {
-            if (data == null) return;
-            
+            if (data == null)
+                return;
             foreach (EcellObject obj in data)
             {
-                if (obj.Type != EcellObject.VARIABLE &&
-                    obj.Type != EcellObject.PROCESS &&
-                    obj.Type != EcellObject.SYSTEM)
-                    continue;
-
-                int pos = SearchHeaderPos(obj.Type);
-                if (pos == -1)
-                    return;
-                int ind = SearchInsertIndex(pos, obj.Key);
-                if (obj.Type.Equals(Constants.xpathSystem))
-                {
-                    AddSystem(ind, obj);
-                    DataAdd(obj.Children);
-                }
-                else if (obj.Type.Equals(Constants.xpathProcess))
-                {
-                    AddProcess(ind, obj);
-                }
-                else if (obj.Type.Equals(Constants.xpathVariable))
-                {
-                    AddVariable(ind, obj);
-                }
-                m_currentModelID = obj.ModelID;
+                DataAdd(obj);
             }
+        }
+        /// <summary>
+        /// Add the object to DataGridView.
+        /// </summary>
+        /// <param name="obj"></param>
+        public void DataAdd(EcellObject obj)
+        {
+            if (obj.Type != EcellObject.VARIABLE &&
+                obj.Type != EcellObject.PROCESS &&
+                obj.Type != EcellObject.SYSTEM)
+                return;
+
+            int ind = SearchInsertIndex(obj.Type, obj.Key);
+            if (ind == -1)
+                return;
+            if (obj.Type.Equals(Constants.xpathSystem))
+            {
+                AddSystem(ind, obj);
+                DataAdd(obj.Children);
+            }
+            else if (obj.Type.Equals(Constants.xpathProcess))
+            {
+                AddProcess(ind, obj);
+            }
+            else if (obj.Type.Equals(Constants.xpathVariable))
+            {
+                AddVariable(ind, obj);
+            }
+            m_currentModelID = obj.ModelID;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type1"></param>
+        /// <param name="type2"></param>
+        /// <returns></returns>
+        private int TypeConverter(string type1, string type2)
+        {
+            if (type1 == type2) return 0;
+            if (type1 == EcellObject.SYSTEM) return 1;
+            if (type2 == EcellObject.SYSTEM) return -1;
+            if (type1 == EcellObject.VARIABLE) return -1;
+            return 1;
         }
 
         /// <summary>
@@ -888,12 +929,14 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <param name="type">Type of the selected object.</param>
         public override void AddSelect(string modelID, string key, string type)
         {
-            int ind = SearchObjectIndex(key, type);
-            if (ind < 0 || ind >= m_gridView.RowCount)
-                return;
-            m_gridView.Rows[ind].Selected = true;
-            if (!m_isSelected)
-                m_gridView.FirstDisplayedScrollingRowIndex = ind;
+            DataGridViewRow row = SearchIndex(type, key);
+            if (row != null)
+                row.Selected = true;
+            for (int i = 0; i < m_gridView.Rows.Count; i++)
+            {
+                if (m_gridView.Rows[i] == row)
+                    m_gridView.FirstDisplayedScrollingRowIndex = i;
+            }
         }
 
         /// <summary>
@@ -904,51 +947,52 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <param name="type">Type of the removed object.</param>
         public override void RemoveSelect(string modelID, string key, string type)
         {
-            int ind = SearchObjectIndex(key, type);
-            if (ind < 0 || ind >= m_gridView.RowCount)
-                return;
-            m_gridView.Rows[ind].Selected = false;
-            if (!m_isSelected)
-                m_gridView.FirstDisplayedScrollingRowIndex = ind;
+            DataGridViewRow row = SearchIndex(type, key);
+            if (row != null)
+                row.Selected = false;
         }
 
         /// <summary>
         /// Event when object is selected.
         /// </summary>
         /// <param name="modelID">ModelID of the selected object.</param>
-        /// <param name="id">ID of the selected object.</param>
+        /// <param name="key">ID of the selected object.</param>
         /// <param name="type">Type of the selected object.</param>
-        public override void SelectChanged(string modelID, string id, string type)
+        public override void SelectChanged(string modelID, string key, string type)
         {
-            if (m_isSelected) return;
-            ResetSelect();
-            int ind = SearchObjectIndex(id, type);
-            if (ind < 0 || ind > m_gridView.RowCount - 1)
+            if (m_isSelected)
                 return;
-            if (!m_gridView.Rows[ind].Visible || m_gridView.Rows[ind].Frozen)
-                return;
-            m_gridView[s_Type, ind].Selected = true;
-            m_gridView.FirstDisplayedScrollingRowIndex = ind;
+            m_gridView.ClearSelection();
+            AddSelect(modelID, key, type);
+
+
         }
 
         /// <summary>
         /// Event when the property of object is changed.
         /// </summary>
         /// <param name="modelID">ModelID of the changed object.</param>
-        /// <param name="id">ID of the changed object.</param>
+        /// <param name="key">ID of the changed object.</param>
         /// <param name="type">Type of the changed object.</param>
         /// <param name="obj">The changed object.</param>
-        public override void DataChanged(string modelID, string id, string type, EcellObject obj)
+        public override void DataChanged(string modelID, string key, string type, EcellObject obj)
         {
-            DataDelete(modelID, id, type, true);
-            DataAdd(new List<EcellObject>(new EcellObject[] { obj }));
-            int ind = SearchObjectIndex(obj.Key, obj.Type);
-            if (ind < 0 || ind > m_gridView.RowCount - 1)
-                return;
-            if (!m_gridView.Rows[ind].Visible || m_gridView.Rows[ind].Frozen) 
-                return;
-            m_gridView.Rows[ind].Selected = true;
-            m_gridView.FirstDisplayedScrollingRowIndex = ind;
+            DataDelete(modelID, key, type, !obj.Key.Equals(key));
+            DataAdd(obj);
+            AddSelect(obj.ModelID, obj.Key, obj.Type);
+        }
+
+        private DataGridViewRow SearchIndex(string type, string key)
+        {
+            foreach (DataGridViewRow r in m_gridView.Rows)
+            {
+                EcellObject obj = r.Tag as EcellObject;
+                if (obj == null)
+                    continue;
+                if (obj.Type == type && obj.Key == key)
+                    return r;
+            }
+            return null;
         }
 
         /// <summary>
@@ -971,10 +1015,12 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <param name="isChanged">whether id is changed.</param>
         public void DataDelete(string modelID, string id, string type, bool isChanged)
         {
-            if (type.Equals(Constants.xpathStepper)) return;
+            if (type.Equals(Constants.xpathStepper)) 
+                return;
 
             int ind = SearchObjectIndex(id, type);
-            if (ind < 0) return;
+            if (ind < 0) 
+                return;
             if (type.Equals(Constants.xpathSystem))
             {
                 int len = m_gridView.Rows.Count;
@@ -985,14 +1031,11 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                         DeleteDictionary(i);
                         m_gridView.Rows.RemoveAt(i);
                     }
-                    if (isChanged)
-                    {
                         if (((string)m_gridView[s_ID, i].Value).StartsWith(id))
                         {
                             DeleteDictionary(i);
                             m_gridView.Rows.RemoveAt(i);
                         }
-                    }
                 }
             }
             else
@@ -1104,8 +1147,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
 
         public override void ResetSelect()
         {
-            foreach (DataGridViewRow r in m_gridView.Rows)
-                r.Selected = false;
+            m_gridView.ClearSelection();
         }
 
         /// <summary>

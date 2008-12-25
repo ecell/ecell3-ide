@@ -291,6 +291,7 @@ namespace Ecell.UI.Components
                 int baseY = y - num - 1;
                 foreach (FNode n in m_Numerator)
                 {
+                    if (baseX < 0 || baseY < 0) continue;
                     n.Mapping(baseX, baseY, array);
                     int tmp = n.GetLength();
                     baseX = baseX + tmp;

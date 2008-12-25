@@ -806,9 +806,18 @@ namespace Ecell.UI.Components
                     if (cStr.Length >= 1)
                     {
                         FNode ic = CreateStrFNode(cStr);
-                        p1.Next = ic;
-                        p2 = p1;
-                        p1 = ic;
+                        if (p1 == null)
+                        {
+                            result.Next = ic;
+                            p2 = p1;
+                            p1 = ic;
+                        }
+                        else
+                        {
+                            p1.Next = ic;
+                            p2 = p1;
+                            p1 = ic;
+                        }
 
                         inOpe = false;
                         cStr = "";
@@ -839,15 +848,16 @@ namespace Ecell.UI.Components
                         FNode p = CreateStrFNode(cStr);
                         if (p.IsFunction1() || p.IsFunction2())
                         {
-                            if (p1 == null) result.Next = p;
-                            else p1.Next = p;
-                            p1 = p;
-                            cStr = "";
-                            c = new FNode(FUtil.LEFT, "");
-                            i = ConvertToFNode(text, i + 1, c);
+                            c = p;
+
+                            FNode d = new FNode(FUtil.LEFT, "");
+                            i = ConvertToFNode(text, i + 1, d);
+                            c.Next = d;
+
                             if (isDemoni == false) isParent = true;
 
                             inOpe = true;
+                            cStr = "";
                         }
                         else
                         {
@@ -998,6 +1008,7 @@ namespace Ecell.UI.Components
                                 m = m.Next;
                             }
                         }
+                        c = null;
                         isDemoni = false;
                     }
                     else

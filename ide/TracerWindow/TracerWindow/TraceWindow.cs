@@ -918,6 +918,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_zCnt.GraphPane.YAxis.Type = AxisType.Log;
             else
                 m_zCnt.GraphPane.YAxis.Type = AxisType.Linear;
+            m_zCnt.AxisChange();
             m_zCnt.Refresh();
         }
 
@@ -988,6 +989,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 }
             }
             list = m_owner.DataManager.GetLogData(sx, ex, m_step);
+            if (list == null) return;
             foreach (LogData l in list)
             {
                 string p = l.type + ":" + l.key + ":" + l.propName;
@@ -1000,8 +1002,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     m_zCnt.GraphPane.IsZoomed);
             }
 
-            UpdateGraphCallBack f = new UpdateGraphCallBack(UpdateGraph);
-            this.Invoke(f, new object[] { isAxis });
+            UpdateGraph(true);
+            //UpdateGraphCallBack f = new UpdateGraphCallBack(UpdateGraph);
+            //this.Invoke(f, new object[] { isAxis });            
+            list = null;
         }
 
         #endregion
