@@ -238,8 +238,15 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 c = new DataGridViewTextBoxColumn();
                 c.Name = key;
-                string[] ele = key.Split(new char[] { ':' });
-                c.HeaderText = ele[ele.Length - 2];
+                if (key.Contains(":"))
+                {
+                    string[] ele = key.Split(new char[] { ':' });
+                    c.HeaderText = ele[ele.Length - 2];
+                }
+                else
+                {
+                    c.HeaderText = key;
+                }
                 gridView.Columns.Add(c);
             }
 
@@ -254,8 +261,12 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 c1 = new DataGridViewTextBoxCell();
                 c1.Style.BackColor = m_headerColor;
-                string[] ele = key.Split(new char[] { ':' });
-                c1.Value = ele[ele.Length - 2];
+                if (key.Contains(":"))
+                {
+                    string[] ele = key.Split(new char[] { ':' });
+                    c1.Value = ele[ele.Length - 2];
+                }
+                c1.Value = key;
                 r.Cells.Add(c1);
                 c1.ReadOnly = true;
             }
@@ -273,8 +284,13 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             DataGridViewRow r = new DataGridViewRow();
             DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-            string[] ele = key.Split(new char[] { ':' });
-            c.Value = ele[ele.Length - 2];
+            if (key.Contains(":"))
+            {
+                string[] ele = key.Split(new char[] { ':' });
+                c.Value = ele[ele.Length - 2];
+            }
+            else
+                c.Value = key;
             c.Style.BackColor = m_headerColor;
             r.Cells.Add(c);
             c.ReadOnly = true;
@@ -299,8 +315,13 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             DataGridViewRow r = new DataGridViewRow();
             DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-            string[] ele = key.Split(new char[] { ':' });
-            c.Value = ele[ele.Length - 2];
+            if (key.Contains(":"))
+            {
+                string[] ele = key.Split(new char[] { ':' });
+                c.Value = ele[ele.Length - 2];
+            }
+            else
+                c.Value = key;
             c.Style.BackColor = m_headerColor;
             r.Cells.Add(c);
             c.ReadOnly = true;
