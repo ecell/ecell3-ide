@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 using System.Windows.Forms;
 
 using Ecell.Objects;
@@ -421,6 +422,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         private void PrintResultData()
         {
+            int count = 0;
             m_owner.ClearResult();
             for (int i = 0; i <= s_num; i++)
             {
@@ -446,7 +448,88 @@ namespace Ecell.IDE.Plugins.Analysis
                             }
                     }
                     if (isEdge)
-                        m_owner.AddJudgementDataForBifurcation(m_xList[i], m_yList[j]);
+                    {
+                        for (int m = -1; m <= 1; m++)
+                        {
+                            for (int n = -1; n <= 1; n++)
+                            {
+                                if (m == 0 && n == 0) continue;
+                                if (i + m < 0 || i + m > s_num) continue;
+                                if (j + n < 0 || j + n > s_num) continue;
+                                if (m_result[i + m, j + n] != BifurcationResult.OK &&
+                                    m_result[i + m, j + n] != BifurcationResult.FindOk)
+                                    continue;
+                                if (m == 0)
+                                {
+                                    if (i - 1 >= 0)
+                                    {
+                                        if (m_result[i - 1, j + n] == BifurcationResult.NG)
+                                        {
+                                            List<PointF> list = new List<PointF>();
+                                            list.Add(new PointF((float)m_xList[i], (float)m_yList[j]));
+                                            list.Add(new PointF((float)m_xList[i + m], (float)m_yList[j + n]));
+                                            m_owner.AddJudgementDataForBifurcation(list);
+                                        }
+                                    }
+                                    if (i + 1 <= s_num)
+                                    {
+                                        if (m_result[i + 1, j + n] == BifurcationResult.NG)
+                                        {
+                                            List<PointF> list = new List<PointF>();
+                                            list.Add(new PointF((float)m_xList[i], (float)m_yList[j]));
+                                            list.Add(new PointF((float)m_xList[i + m], (float)m_yList[j + n]));
+                                            m_owner.AddJudgementDataForBifurcation(list);
+                                        }
+                                    }
+                                }
+                                else if (n == 0)
+                                {
+                                    if (j - 1 >= 0)
+                                    {
+                                        if (m_result[i + m, j - 1] == BifurcationResult.NG)
+                                        {
+                                            List<PointF> list = new List<PointF>();
+                                            list.Add(new PointF((float)m_xList[i], (float)m_yList[j]));
+                                            list.Add(new PointF((float)m_xList[i + m], (float)m_yList[j + n]));
+                                            m_owner.AddJudgementDataForBifurcation(list);
+                                        }
+                                    }
+                                    if (j + 1 <= s_num)
+                                    {
+                                        if (m_result[i + m, j + 1] == BifurcationResult.NG)
+                                        {
+                                            List<PointF> list = new List<PointF>();
+                                            list.Add(new PointF((float)m_xList[i], (float)m_yList[j]));
+                                            list.Add(new PointF((float)m_xList[i + m], (float)m_yList[j + n]));
+                                            m_owner.AddJudgementDataForBifurcation(list);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (m_result[i, j + n] == BifurcationResult.NG)
+                                    {
+                                        List<PointF> list = new List<PointF>();
+                                        list.Add(new PointF((float)m_xList[i], (float)m_yList[j]));
+                                        list.Add(new PointF((float)m_xList[i + m], (float)m_yList[j + n]));
+                                        m_owner.AddJudgementDataForBifurcation(list);
+                                    }
+                                    else if (m_result[i + m, j] == BifurcationResult.NG)
+                                    {
+                                        List<PointF> list = new List<PointF>();
+                                        list.Add(new PointF((float)m_xList[i], (float)m_yList[j]));
+                                        list.Add(new PointF((float)m_xList[i + m], (float)m_yList[j + n]));
+                                        m_owner.AddJudgementDataForBifurcation(list);
+                                    }
+                                }
+                            }
+                        }
+
+                        List<PointF> plist = new List<PointF>();
+                        plist.Add(new PointF((float)m_xList[i], (float)m_yList[j]));
+                        m_owner.AddJudgementDataForBifurcation(plist);
+                        count++;
+                    }
                 }
             }
         }

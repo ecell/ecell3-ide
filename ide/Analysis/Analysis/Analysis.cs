@@ -248,10 +248,10 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         /// <param name="x">the value of parameter.</param>
         /// <param name="y">the value of parameter.</param>
-        public void AddJudgementDataForBifurcation(double x, double y)
-        {
+        public void AddJudgementDataForBifurcation(List<PointF> list)
+        {          
             if (m_rWin != null)
-                m_rWin.AddJudgementDataForBifurcation(x, y);
+                m_rWin.AddJudgementDataForBifurcation(list);
         }
 
         /// <summary>

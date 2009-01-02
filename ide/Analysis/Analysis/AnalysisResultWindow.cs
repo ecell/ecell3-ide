@@ -79,6 +79,34 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Draw the result point on graph view,
         /// </summary>
+        private void DrawLine(List<PointF> list)
+        {
+            LineItem line = null;
+            Color drawColor = Color.Blue;
+            Color styleColor = Color.White;
+
+            line = m_zCnt.GraphPane.AddCurve(
+                "Result",
+                new PointPairList(),
+                drawColor,
+                SymbolType.Circle);
+
+            Fill f = new Fill(drawColor);
+            line.Symbol.Fill = f;
+
+            line.Line.Width = 5;
+            foreach (PointF p in list)
+            {
+                line.AddPoint(new PointPair(p.X, p.Y));
+            }
+
+            m_zCnt.AxisChange();
+            m_zCnt.Refresh();
+        }
+
+        /// <summary>
+        /// Draw the result point on graph view,
+        /// </summary>
         /// <param name="x">the position of X.</param>
         /// <param name="y">the position of Y.</param>
         /// <param name="isOK">The flag whether this data is ok.</param>
@@ -130,12 +158,12 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         /// <param name="x">the value of parameter.</param>
         /// <param name="y">the value of parameter.</param>
-        public void AddJudgementDataForBifurcation(double x, double y)
+        public void AddJudgementDataForBifurcation(List<PointF> list)
         {
             RAXComboBox.Enabled = false;
             RAYComboBox.Enabled = false;
-            
-            DrawPoint(x, y, true);
+
+            DrawLine(list);
         }
 
         /// <summary>
@@ -461,10 +489,20 @@ namespace Ecell.IDE.Plugins.Analysis
 
         private void LoadBifurcationResult(StreamReader reader)
         {
+            List<PointF> list = new List<PointF>();
             string line;
             while ((line = reader.ReadLine()) != null)
             {
                 if (line.StartsWith("#")) continue;
+                if (line[0] == '\n' || line[0] == '\r')
+                {
+                    if (list.Count > 0)
+                    {
+                        AddJudgementDataForBifurcation(list);
+                    }
+                    list.Clear();
+                    continue;
+                }
                 string[] ele = line.Split(new char[] { ',' });
                 AddJudgementDataForBifurcation(Convert.ToDouble(ele[0]),
                     Convert.ToDouble(ele[1]));
@@ -644,6 +682,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     {
                         writer.WriteLine(c[i].X + "," + c[i].Y);
                     }
+                    writer.WriteLine("");
                 }
             }
             catch (Exception)
