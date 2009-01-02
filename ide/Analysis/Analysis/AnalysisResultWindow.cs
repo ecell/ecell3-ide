@@ -504,8 +504,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     continue;
                 }
                 string[] ele = line.Split(new char[] { ',' });
-                AddJudgementDataForBifurcation(Convert.ToDouble(ele[0]),
-                    Convert.ToDouble(ele[1]));
+                list.Add(new PointF((float)Convert.ToDouble(ele[0]), (float)Convert.ToDouble(ele[1])));
             }
         }
 
