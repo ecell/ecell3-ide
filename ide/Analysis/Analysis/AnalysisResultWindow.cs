@@ -491,10 +491,12 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             List<PointF> list = new List<PointF>();
             string line;
+            m_zCnt.GraphPane.XAxis.Scale.MaxAuto = true;
+            m_zCnt.GraphPane.YAxis.Scale.MaxAuto = true;
             while ((line = reader.ReadLine()) != null)
             {
                 if (line.StartsWith("#")) continue;
-                if (line[0] == '\n' || line[0] == '\r')
+                if (String.IsNullOrEmpty(line) || line[0] == '\n' || line[0] == '\r')
                 {
                     if (list.Count > 0)
                     {
@@ -506,6 +508,10 @@ namespace Ecell.IDE.Plugins.Analysis
                 string[] ele = line.Split(new char[] { ',' });
                 list.Add(new PointF((float)Convert.ToDouble(ele[0]), (float)Convert.ToDouble(ele[1])));
             }
+            m_zCnt.AxisChange();
+            m_zCnt.Refresh();
+            m_zCnt.GraphPane.XAxis.Scale.MaxAuto = false;
+            m_zCnt.GraphPane.YAxis.Scale.MaxAuto = false;
         }
 
         private void LoadParameterEstimationResult(StreamReader reader)
