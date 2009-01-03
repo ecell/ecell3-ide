@@ -27,6 +27,9 @@
 // written by Takeshi Yuasa <yuasa@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 
 using System;
 using System.IO;
@@ -597,6 +600,19 @@ namespace Ecell
             er.FullID = BuildFullID(entityType, NormalizeSystemPath(path, systemPath), localID);
         }
 
+        /// <summary>
+        /// Is there any difference or not between two processes.
+        /// </summary>
+        /// <param name="oldObj"></param>
+        /// <param name="newObj"></param>
+        /// <returns></returns>
+        public static bool DoesVariableReferenceChange(EcellObject oldObj, EcellObject newObj)
+        {
+            string varRef1 = oldObj.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).ToString();
+            string varRef2 = newObj.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).ToString();
+            return !varRef1.Equals(varRef2);
+        }
+
         public static string GenerateRandomID(int len)
         {
             StringBuilder sb = new StringBuilder();
@@ -869,13 +885,13 @@ namespace Ecell
         /// Get the DM direcory from register.
         /// </summary>
         /// <returns>DM directory.</returns>
-        public static string[] GetDMDirs(String projectPath)
+        public static string[] GetDMDirs(String currentProjectPath)
         {
             List<string> dmDirs = new List<string>();
             List<string> candidates = new List<string>();
-            if (projectPath != null)
+            if (currentProjectPath != null)
             {
-                candidates.Add(Path.Combine(projectPath, Constants.DMDirName));
+                candidates.Add(Path.Combine(currentProjectPath, Constants.DMDirName));
             }
             candidates.AddRange(s_extraDMDirs);
             if (!s_noDefaultPaths)
@@ -896,7 +912,7 @@ namespace Ecell
         public static Dictionary<string, List<string>> GetDmDic(string dmDir)
         {
             Dictionary<string, List<string>> dmDic = new Dictionary<string, List<string>>();
-
+            dmDic = new Dictionary<string, List<string>>();
             // 4 Process
             dmDic.Add(Constants.xpathProcess, new List<string>());
             // 4 Stepper

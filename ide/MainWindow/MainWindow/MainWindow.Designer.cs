@@ -55,9 +55,6 @@ namespace Ecell.IDE.MainWindow
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.saveScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.importActionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveActionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.saveWindowSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadWindowSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,8 +68,6 @@ namespace Ecell.IDE.MainWindow
             this.MenuItemSetup = new System.Windows.Forms.ToolStripMenuItem();
             this.modelEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setIDEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.distributedEnvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemLayout = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.showWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -184,9 +179,6 @@ namespace Ecell.IDE.MainWindow
             this.toolStripSeparator2,
             this.saveScriptToolStripMenuItem,
             this.toolStripSeparator5,
-            this.importActionMenuItem,
-            this.saveActionMenuItem,
-            this.toolStripSeparator9,
             this.toolStripSeparator6,
             this.saveWindowSettingsToolStripMenuItem,
             this.loadWindowSettingsToolStripMenuItem,
@@ -210,7 +202,7 @@ namespace Ecell.IDE.MainWindow
             this.projectWizardMenuItem.Name = "projectWizardMenuItem";
             resources.ApplyResources(this.projectWizardMenuItem, "projectWizardMenuItem");
             this.projectWizardMenuItem.Tag = "2";
-            this.projectWizardMenuItem.Click += new System.EventHandler(this.ProjectWizardMenuClick);
+            this.projectWizardMenuItem.Click += new System.EventHandler(this.LoadProjectWizardMenuClick);
             // 
             // openProjectToolStripMenuItem
             // 
@@ -289,26 +281,6 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
             this.toolStripSeparator5.Tag = "30";
             // 
-            // importActionMenuItem
-            // 
-            this.importActionMenuItem.Name = "importActionMenuItem";
-            resources.ApplyResources(this.importActionMenuItem, "importActionMenuItem");
-            this.importActionMenuItem.Tag = "31";
-            this.importActionMenuItem.Click += new System.EventHandler(this.ImportActionMenuClick);
-            // 
-            // saveActionMenuItem
-            // 
-            this.saveActionMenuItem.Name = "saveActionMenuItem";
-            resources.ApplyResources(this.saveActionMenuItem, "saveActionMenuItem");
-            this.saveActionMenuItem.Tag = "32";
-            this.saveActionMenuItem.Click += new System.EventHandler(this.SaveActionMenuClick);
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            resources.ApplyResources(this.toolStripSeparator9, "toolStripSeparator9");
-            this.toolStripSeparator9.Tag = "35";
-            // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
@@ -381,9 +353,7 @@ namespace Ecell.IDE.MainWindow
             // 
             this.MenuItemSetup.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.modelEditorToolStripMenuItem,
-            this.setIDEToolStripMenuItem,
-            this.toolStripSeparator7,
-            this.distributedEnvToolStripMenuItem});
+            this.setIDEToolStripMenuItem});
             this.MenuItemSetup.Name = "MenuItemSetup";
             resources.ApplyResources(this.MenuItemSetup, "MenuItemSetup");
             // 
@@ -399,17 +369,6 @@ namespace Ecell.IDE.MainWindow
             this.setIDEToolStripMenuItem.Name = "setIDEToolStripMenuItem";
             resources.ApplyResources(this.setIDEToolStripMenuItem, "setIDEToolStripMenuItem");
             this.setIDEToolStripMenuItem.Click += new System.EventHandler(this.SetupIDEMenuClick);
-            // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            resources.ApplyResources(this.toolStripSeparator7, "toolStripSeparator7");
-            // 
-            // distributedEnvToolStripMenuItem
-            // 
-            this.distributedEnvToolStripMenuItem.Name = "distributedEnvToolStripMenuItem";
-            resources.ApplyResources(this.distributedEnvToolStripMenuItem, "distributedEnvToolStripMenuItem");
-            this.distributedEnvToolStripMenuItem.Click += new System.EventHandler(this.ClickDistributedEnvMenu);
             // 
             // MenuItemLayout
             // 
@@ -583,14 +542,6 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.OpenFileDialog openScriptDialog;
         private System.Windows.Forms.ToolStripMenuItem MenuItemEdit;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        /// <summary>
-        /// MenuItem to import action.
-        /// </summary>
-        public System.Windows.Forms.ToolStripMenuItem importActionMenuItem;
-        /// <summary>
-        /// MenuItem to save action.
-        /// </summary>
-        public System.Windows.Forms.ToolStripMenuItem saveActionMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MenuItemTools;
         private System.Windows.Forms.ToolStripMenuItem MenuItemLayout;
         /// <summary>
@@ -604,11 +555,6 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.ToolStripMenuItem setIDEToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
-        /// <summary>
-        /// MenuItem to display the setup dialog to set distributed environment.
-        /// </summary>
-        public System.Windows.Forms.ToolStripMenuItem distributedEnvToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem projectWizardMenuItem;
         private System.Windows.Forms.StatusStrip MWstatusStrip;
         private System.Windows.Forms.ToolStripStatusLabel genericStatusText;
@@ -616,7 +562,6 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.ToolStripStatusLabel quickInspectorText;
         private System.Windows.Forms.ToolStripMenuItem scriptEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutIDEToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripMenuItem importSBMLMenuItem;
         private System.Windows.Forms.ToolStripMenuItem recentProejctToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem importScriptToolStripMenuItem;

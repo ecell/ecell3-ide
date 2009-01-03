@@ -61,7 +61,7 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
-        ///   The simulation is running. Do you really want to close this application? に類似しているローカライズされた文字列を検索します。
+        ///   The simulation is running. Do you really want to close this application?  に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmClose {
             get {
@@ -93,6 +93,15 @@ namespace Ecell.IDE.MainWindow {
         internal static string DockPreparing {
             get {
                 return ResourceManager.GetString("DockPreparing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to parse {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrFailedToParse {
+            get {
+                return ResourceManager.GetString("ErrFailedToParse", resourceCulture);
             }
         }
         

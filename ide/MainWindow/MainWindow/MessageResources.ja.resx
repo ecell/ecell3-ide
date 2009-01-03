@@ -129,6 +129,9 @@
   <data name="DockPreparing" xml:space="preserve">
     <value>ドッカブルペイン {0} を準備しています...</value>
   </data>
+  <data name="ErrFailedToParse" xml:space="preserve">
+    <value>{{0}のパースに失敗しました。</value>
+  </data>
   <data name="ErrIDNG" xml:space="preserve">
     <value>{0} に不正な文字列が含まれています。</value>
   </data>

@@ -55,11 +55,6 @@ namespace Ecell.Objects
         /// Layer
         /// </summary>
         private string m_layer;
-        /// <summary>
-        /// Default layer name.
-        /// </summary>
-        public static readonly string DefaultLayer = "Layer0";
-    		 
 	    #endregion
 
         #region Constructors
@@ -71,7 +66,7 @@ namespace Ecell.Objects
         {
             m_rect = RectangleF.Empty;
             m_offset = PointF.Empty;
-            m_layer = DefaultLayer;
+            m_layer = "";
             m_rect.Location = location;
         }
 
@@ -83,7 +78,7 @@ namespace Ecell.Objects
         {
             m_rect = rect;
             m_offset = PointF.Empty;
-            m_layer = DefaultLayer;
+            m_layer = "";
         }
         /// <summary>
         /// 
@@ -96,7 +91,7 @@ namespace Ecell.Objects
         {
             m_rect = new RectangleF(x, y, width, height);
             m_offset = new PointF();
-            m_layer = DefaultLayer;
+            m_layer = "";
         }
         #endregion
 

@@ -331,48 +331,35 @@ namespace Ecell
 
             try
             {
-                if (m_currentProject != null)
-                    CloseProject();
                 if (info == null)
                     throw new EcellException(MessageResources.ErrLoadPrj);
+                if (m_currentProject != null)
+                    CloseProject();
 
                 // Initializes.
                 projectID = info.Name;
                 message = "[" + projectID + "]";
                 project = new Project(info);
+
                 m_currentProject = project;
 
                 m_env.PluginManager.ParameterSet(projectID, project.Info.SimulationParam);
 
+                // Create EcellProject.
                 List<EcellData> ecellDataList = new List<EcellData>();
                 ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(project.Info.Comment), null));
                 passList.Add(EcellObject.CreateObject(projectID, "", Constants.xpathProject, "", ecellDataList));
 
                 // Loads the model.
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Loading);
-                string[] models;
-                string filepath = project.Info.FilePath;
-                if (filepath.EndsWith(Constants.FileExtEML))
+                if (project.Info.ProjectPath != null)
                 {
-                    models = new string[] { filepath };
+                    project.Info.FindModels();
+                    project.Info.FindDMs();
                 }
-                else
+                foreach (string model in project.Info.Models)
                 {
-                    string modelDirName = Path.Combine(project.Info.ProjectPath, Constants.xpathModel);
-                    Debug.Assert(Directory.Exists(modelDirName));
-
-                    models = Directory.GetFileSystemEntries(
-                        modelDirName,
-                        Constants.delimiterWildcard + Constants.FileExtEML
-                        );
-                    Debug.Assert(models != null && models.Length > 0);
-                }
-                foreach (string model in models)
-                {
-                    string fileName = Path.GetFileName(model);
-                    if (fileName.EndsWith(Constants.FileExtBackUp))
-                        continue;
-                    this.LoadModel(model, false);
+                    this.LoadModel(model);
                 }
 
                 // Prepare datas.
@@ -384,8 +371,9 @@ namespace Ecell
                 }
 
                 // Loads the simulation parameter.
-                string simulationDirName = Path.Combine(project.Info.ProjectPath, Constants.xpathParameters);
-
+                string simulationDirName = null;
+                if (project.Info.ProjectPath != null)
+                    simulationDirName = Path.Combine(project.Info.ProjectPath, Constants.xpathParameters);
                 if (Directory.Exists(simulationDirName))
                 {
                     parameters = Directory.GetFileSystemEntries(
@@ -411,8 +399,7 @@ namespace Ecell
             {
                 passList = null;
                 CloseProject();
-                throw new EcellException(String.Format(MessageResources.ErrLoadPrj,
-                    new object[] { projectID }), ex);
+                throw new EcellException(String.Format(MessageResources.ErrLoadPrj, projectID), ex);
             }
             finally
             {
@@ -427,7 +414,7 @@ namespace Ecell
                         this.m_env.PluginManager.ParameterAdd(projectID, paramID);
                     }
 
-                    m_env.ActionManager.AddAction(new LoadProjectAction(projectID, project.Info.FilePath));
+                    m_env.ActionManager.AddAction(new LoadProjectAction(projectID, project.Info.ProjectFile));
                     m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
                 }
             }
@@ -437,9 +424,8 @@ namespace Ecell
         /// Loads the eml formatted file and returns the model ID.
         /// </summary>
         /// <param name="filename">The eml formatted file name</param>
-        /// <param name="isLogging">The flag whether this function is in logging.</param>
         /// <returns>The model ID</returns>
-        public string LoadModel(string filename, bool isLogging)
+        public string LoadModel(string filename)
         {
             string message = null;
             try
@@ -449,10 +435,6 @@ namespace Ecell
                 // To load
                 //
                 string modelID = null;
-                if (m_currentProject.Info.FilePath == null)
-                {
-                    m_currentProject.Info.FilePath = filename;
-                }
                 if (m_currentProject.Simulator == null)
                 {
                     m_currentProject.SetDMList();
@@ -500,8 +482,6 @@ namespace Ecell
                 m_env.Console.WriteLine(String.Format(MessageResources.InfoLoadModel, modelID));
                 m_env.Console.Flush();
                 Trace.WriteLine(String.Format(MessageResources.InfoLoadModel, modelID));
-                if (isLogging)
-                    m_env.ActionManager.AddAction(new ImportModelAction(filename));
                 if (m_currentProject.ModelFileDic.ContainsKey(modelID))
                     m_currentProject.ModelFileDic.Remove(modelID);
                 m_currentProject.ModelFileDic.Add(modelID, filename);
@@ -807,7 +787,7 @@ namespace Ecell
         /// </summary>
         /// <param name="modelIDList">The list of the model ID</param>
         /// <param name="fileName">The designated file</param>
-        public void ExportModel(string fileName)
+        public void ExportModel(List<string> modelIDList, string fileName)
         {
             string message = null;
             try
@@ -816,7 +796,11 @@ namespace Ecell
                 //
                 // Initializes.
                 //
-                if (fileName == null || fileName.Length <= 0)
+                if (modelIDList == null || modelIDList.Count <= 0)
+                {
+                    return;
+                }
+                else if (fileName == null || fileName.Length <= 0)
                 {
                     return;
                 }
@@ -837,10 +821,10 @@ namespace Ecell
                 Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
                 Dictionary<string, List<EcellObject>> stepperDic = m_currentProject.StepperDic[m_currentProject.Info.SimulationParam];
 
-                foreach (EcellObject model in m_currentProject.ModelList)
+                foreach (string modelID in modelIDList)
                 {
-                    storedStepperList.AddRange(stepperDic[model.ModelID]);
-                    storedSystemList.AddRange(sysDic[model.ModelID]);
+                    storedStepperList.AddRange(stepperDic[modelID]);
+                    storedSystemList.AddRange(sysDic[modelID]);
                 }
                 Debug.Assert(storedStepperList != null && storedStepperList.Count > 0);
                 Debug.Assert(storedSystemList != null && storedSystemList.Count > 0);
@@ -1181,7 +1165,7 @@ namespace Ecell
                 }
                 // Set object.
                 CheckEntityPath(entity);
-                system.Children.Add(entity.Copy());
+                system.Children.Add(entity.Clone());
                 findFlag = true;
                 break;
             }
@@ -1346,7 +1330,7 @@ namespace Ecell
                 //if (!oldObj.IsPosSet)
                 //    m_env.PluginManager.SetPosition(oldObj);                
                 if (isRecorded)
-                    this.m_env.ActionManager.AddAction(new DataChangeAction(modelID, type, oldObj.Copy(), ecellObject.Copy(), isAnchor));
+                    this.m_env.ActionManager.AddAction(new DataChangeAction(modelID, type, oldObj.Clone(), ecellObject.Clone(), isAnchor));
 
             }
             catch (Exception ex)
@@ -1388,7 +1372,7 @@ namespace Ecell
 
             // Get parent system.
             // Add new object.
-            DataAdd4Entity(ecellObject.Copy(), false);
+            DataAdd4Entity(ecellObject.Clone(), false);
             m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
             if (type.Equals(Constants.xpathVariable))
             {
@@ -1422,7 +1406,7 @@ namespace Ecell
                         continue;
 
                     CheckDifferences(systemList[i], ecellObject, null);
-                    systemList[i] = ecellObject.Copy();
+                    systemList[i] = ecellObject.Clone();
                     m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
                     break;
                 }
@@ -1458,7 +1442,7 @@ namespace Ecell
                 foreach (EcellObject child in system.Children)
                 {
                     m_currentProject.DeleteEntity(child);
-                    EcellObject copy = child.Copy();
+                    EcellObject copy = child.Clone();
                     copy.ParentSystemID = newKey;
                     CheckEntityPath(copy);
                     m_currentProject.AddEntity(copy);
@@ -1504,7 +1488,7 @@ namespace Ecell
             EcellObject oldNode = m_currentProject.GetEcellObject(eo.ModelID, eo.Type, eo.Key);
             oldNode.SetPosition(eo);
             // not implement.
-            m_env.PluginManager.SetPosition(oldNode.Copy());
+            m_env.PluginManager.SetPosition(oldNode.Clone());
         }
 
         #endregion
@@ -1765,7 +1749,7 @@ namespace Ecell
                 // Add System
                 if (!sys.Key.Equals(sysKey))
                 {
-                    eoList.Add(sys.Copy());
+                    eoList.Add(sys.Clone());
                     continue;
                 }
                 // Add Nodes
@@ -1773,7 +1757,7 @@ namespace Ecell
                 {
                     if (node.Key.EndsWith(":SIZE"))
                         continue;
-                    eoList.Add(node.Copy());
+                    eoList.Add(node.Clone());
                 }
             }
 
@@ -1833,7 +1817,7 @@ namespace Ecell
                 {
                     if (!(node is EcellProcess))
                         continue;
-                    processList.Add((EcellProcess)node.Copy());
+                    processList.Add((EcellProcess)node.Clone());
                 }
             }
             List<EcellObject> updatingProcesses = CheckVariableReferenceChanges(varDic, processList);
@@ -2123,7 +2107,7 @@ namespace Ecell
                 {
                     if (!(child is EcellProcess))
                         continue;
-                    processList.Add((EcellProcess)child.Copy());
+                    processList.Add((EcellProcess)child.Clone());
                 }
             }
             // Check VariableReference
@@ -2528,7 +2512,7 @@ namespace Ecell
                     {
                         if (!model.ModelID.Equals(modelID))
                             continue;
-                        ecellObjectList.Add(model.Copy());
+                        ecellObjectList.Add(model.Clone());
                         break;
                     }
                     ecellObjectList.AddRange(sysDic[modelID]);
@@ -2540,7 +2524,7 @@ namespace Ecell
                     {
                         if (!key.Equals(system.Key))
                             continue;
-                        ecellObjectList.Add(system.Copy());
+                        ecellObjectList.Add(system.Clone());
                         break;
                     }
                 }
@@ -2566,7 +2550,7 @@ namespace Ecell
             if (obj == null)
                 return obj;
             else
-                return obj.Copy();
+                return obj.Clone();
         }
 
         /// <summary>
@@ -2765,7 +2749,7 @@ namespace Ecell
                     foreach (EcellObject stepper in perParameterStepperListDic[model.ModelID])
                     {
                         bool removed = true;
-                        oldStepperList.Add(stepper.Copy());
+                        oldStepperList.Add(stepper.Clone());
                         foreach (EcellObject newStepper in stepperList)
                         {
                             if (stepper.Key == newStepper.Key)
@@ -4037,7 +4021,7 @@ namespace Ecell
                     List<EcellObject> tmpList = new List<EcellObject>();
                     foreach (EcellObject sObj in m_currentProject.StepperDic[srcParameterID][name])
                     {
-                        tmpList.Add(sObj.Copy());
+                        tmpList.Add(sObj.Clone());
                     }
                     newStepperListSets.Add(name, tmpList);
                 }
@@ -4235,7 +4219,7 @@ namespace Ecell
         /// Returns the next event.
         /// </summary>
         /// <returns>The current simulation time, The stepper</returns>
-        public IList GetNextEvent()
+        public ArrayList GetNextEvent()
         {
             try
             {
@@ -4597,7 +4581,7 @@ namespace Ecell
             foreach (EcellObject stepper in tempList)
             {
                 // DataStored4Stepper(simulator, stepper);
-                returnedStepper.Add(stepper.Copy());
+                returnedStepper.Add(stepper.Clone());
             }
             return returnedStepper;
         }
@@ -4839,18 +4823,29 @@ namespace Ecell
             }
         }
 
-
         /// <summary>
         /// Get the dm file and the source file for dm in the directory of current project.
         /// </summary>
         /// <returns>The list of dm in the directory of current project.</returns>
-        public List<string> GetDMDirData()
+        public List<string> GetDMNameList()
         {
             List<string> resultList = new List<string>();
-            string path = Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
+            // Add DMs from additional DMs
+            foreach (string dm in m_currentProject.Info.DMList)
+            {
+                string name = Path.GetFileNameWithoutExtension(dm);
+                if (!resultList.Contains(name))
+                    resultList.Add(name);
+            }
+
+            // Get DM directory for this project.
+            string path = null;
+            if (m_currentProject.Info.ProjectPath != null)
+                path = Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
             if (!Directory.Exists(path))
                 return resultList;
 
+            // Add DMs in DM directory.
             string[] files = Directory.GetFiles(path, "*" + Constants.FileExtDM);
             for (int i = 0; i < files.Length; i++)
             {
@@ -4858,6 +4853,9 @@ namespace Ecell
                 if (!resultList.Contains(name))
                     resultList.Add(name);
             }
+
+            // 
+            // Get DM sources.
             files = Directory.GetFiles(path, "*" + Constants.FileExtSource);
             for (int i = 0; i < files.Length; i++)
             {

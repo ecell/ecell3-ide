@@ -50,7 +50,7 @@ namespace Ecell.Objects
     /// <summary>
     /// The base class of E-CELL model editor.
     /// </summary>
-    public class EcellObject
+    public class EcellObject : ICloneable
     {
         #region Constant
         /// <summary>
@@ -103,7 +103,7 @@ namespace Ecell.Objects
         /// <summary>
         /// The layout struct of EcellObject.
         /// </summary>
-        protected EcellLayout m_leyout;
+        protected EcellLayout m_layout;
         /// <summary>
         /// The value
         /// </summary>
@@ -143,6 +143,7 @@ namespace Ecell.Objects
             this.m_type = type;
             this.m_class = classname;
             this.m_ecellDatas = data;
+            this.m_layout = new EcellLayout();
         }
         #endregion
 
@@ -229,8 +230,8 @@ namespace Ecell.Objects
         /// </summary>
         public virtual EcellLayout Layout
         {
-            get { return m_leyout; }
-            set { m_leyout = value; }
+            get { return m_layout; }
+            set { m_layout = value; }
         }
 
         /// <summary>
@@ -238,8 +239,8 @@ namespace Ecell.Objects
         /// </summary>
         public virtual string Layer
         {
-            get { return m_leyout.Layer; }
-            set { m_leyout.Layer = value; }
+            get { return m_layout.Layer; }
+            set { m_layout.Layer = value; }
         }
 
         /// <summary>
@@ -247,8 +248,8 @@ namespace Ecell.Objects
         /// </summary>
         public virtual PointF PointF
         {
-            get { return m_leyout.Location; }
-            set { m_leyout.Location = value; }
+            get { return m_layout.Location; }
+            set { m_layout.Location = value; }
         }
 
         /// <summary>
@@ -256,8 +257,8 @@ namespace Ecell.Objects
         /// </summary>
         public PointF CenterPointF
         {
-            get { return m_leyout.Center; }
-            set { m_leyout.Center = value; }
+            get { return m_layout.Center; }
+            set { m_layout.Center = value; }
         }
 
         /// <summary>
@@ -265,7 +266,7 @@ namespace Ecell.Objects
         /// </summary>
         public virtual RectangleF Rect
         {
-            get { return m_leyout.Rect; }
+            get { return m_layout.Rect; }
         }
 
         /// <summary>
@@ -273,8 +274,8 @@ namespace Ecell.Objects
         /// </summary>
         public virtual float X
         {
-            get { return m_leyout.X; }
-            set { m_leyout.X = value; }
+            get { return m_layout.X; }
+            set { m_layout.X = value; }
         }
 
         /// <summary>
@@ -282,8 +283,8 @@ namespace Ecell.Objects
         /// </summary>
         public virtual float Y
         {
-            get { return m_leyout.Y; }
-            set { m_leyout.Y = value; }
+            get { return m_layout.Y; }
+            set { m_layout.Y = value; }
         }
 
         /// <summary>
@@ -291,8 +292,8 @@ namespace Ecell.Objects
         /// </summary>
         public virtual float OffsetX
         {
-            get { return m_leyout.OffsetX; }
-            set { m_leyout.OffsetX = value; }
+            get { return m_layout.OffsetX; }
+            set { m_layout.OffsetX = value; }
         }
 
         /// <summary>
@@ -300,8 +301,8 @@ namespace Ecell.Objects
         /// </summary>
         public virtual float OffsetY
         {
-            get { return m_leyout.OffsetY; }
-            set { m_leyout.OffsetY = value; }
+            get { return m_layout.OffsetY; }
+            set { m_layout.OffsetY = value; }
         }
 
         /// <summary>
@@ -309,8 +310,8 @@ namespace Ecell.Objects
         /// </summary>
         public virtual float Width
         {
-            get { return m_leyout.Width; }
-            set { m_leyout.Width = value; }
+            get { return m_layout.Width; }
+            set { m_layout.Width = value; }
         }
 
         /// <summary>
@@ -318,8 +319,8 @@ namespace Ecell.Objects
         /// </summary>
         public virtual float Height
         {
-            get { return m_leyout.Height; }
-            set { m_leyout.Height = value; }
+            get { return m_layout.Height; }
+            set { m_layout.Height = value; }
         }
 
         /// <summary>
@@ -427,58 +428,12 @@ namespace Ecell.Objects
 
         #region Methods
         /// <summary>
-        /// Create the copy "EcellObject".
-        /// </summary>
-        /// <returns>The copy "EcellObject"</returns>
-        public virtual EcellObject Copy()
-        {
-            try
-            {
-                EcellObject newEcellObject =
-                    CreateObject(this.m_modelID, this.m_key, this.m_type, this.m_class, this.CopyValueList());
-                newEcellObject.Layout = this.m_leyout;
-                newEcellObject.Children = this.CopyChildren();
-                return newEcellObject;
-            }
-            catch (Exception ex)
-            {
-                throw new EcellException(String.Format(MessageResources.ErrCopy,
-                    new object[] { this.Key }), ex);
-            }
-        }
-
-        private List<EcellData> CopyValueList()
-        {
-            List<EcellData> copyValueList = null;
-            if (this.m_ecellDatas != null)
-            {
-                copyValueList = new List<EcellData>();
-                if (this.m_ecellDatas.Count > 0)
-                {
-                    foreach (EcellData value in this.m_ecellDatas)
-                    {
-                        copyValueList.Add((EcellData)value.Clone());
-                    }
-                }
-            }
-            return copyValueList;
-        }
-        private List<EcellObject> CopyChildren()
-        {
-            List<EcellObject> list = new List<EcellObject>();
-            foreach (EcellObject ecellObject in this.m_children)
-            {
-                list.Add(ecellObject.Copy());
-            }
-            return list;
-        }
-        /// <summary>
         /// Copy coordinates of passed object.
         /// </summary>
         /// <param name="obj">EcellObject</param>
         public void SetPosition(EcellObject obj)
         {
-            m_leyout = obj.Layout;
+            m_layout = obj.Layout;
         }
 
         /// <summary>
@@ -645,7 +600,7 @@ namespace Ecell.Objects
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(Type);
-            sb.Append("(localID=" + LocalID + ")" + "(Location="+ m_leyout.Rect.ToString()+ ")");
+            sb.Append("(localID=" + LocalID + ")" + "(Location="+ m_layout.Rect.ToString()+ ")");
             if (Children.Count > 0)
             {
                 sb.Append("{");
@@ -664,6 +619,65 @@ namespace Ecell.Objects
             return sb.ToString();
         }
 
+        #endregion
+
+        #region ICloneable ÉÅÉìÉo
+        /// <summary>
+        /// Create a copy of this EcellObject.
+        /// </summary>
+        /// <returns></returns>
+        object ICloneable.Clone()
+        {
+            return this.Clone();
+        }
+
+        /// <summary>
+        /// Create a copy of this EcellObject.
+        /// </summary>
+        /// <returns>The copy "EcellObject"</returns>
+        public virtual EcellObject Clone()
+        {
+            try
+            {
+                EcellObject newEcellObject =
+                    CreateObject(this.m_modelID, this.m_key, this.m_type, this.m_class, this.CopyValueList());
+                newEcellObject.Layout = this.m_layout;
+                newEcellObject.Children = this.CopyChildren();
+                return newEcellObject;
+            }
+            catch (Exception ex)
+            {
+                throw new EcellException(String.Format(MessageResources.ErrCopy,
+                    new object[] { this.Key }), ex);
+            }
+        }
+
+        private List<EcellData> CopyValueList()
+        {
+            List<EcellData> copyValueList = null;
+            if (this.m_ecellDatas != null)
+            {
+                copyValueList = new List<EcellData>();
+                if (this.m_ecellDatas.Count > 0)
+                {
+                    foreach (EcellData data in this.m_ecellDatas)
+                    {
+                        copyValueList.Add((EcellData)data.Clone());
+                    }
+                }
+            }
+            return copyValueList;
+        }
+
+        private List<EcellObject> CopyChildren()
+        {
+            List<EcellObject> list = new List<EcellObject>();
+            foreach (EcellObject ecellObject in this.m_children)
+            {
+                list.Add(ecellObject.Clone());
+            }
+            return list;
+        }
         #endregion
     }
 }

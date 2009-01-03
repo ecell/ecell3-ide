@@ -63,14 +63,22 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="TestApplicationEnvironment.cs" />
     <Compile Include="TestDataManager.cs" />
+    <Compile Include="TestDMManager.cs" />
+    <Compile Include="TestEcellObject.cs" />
     <Compile Include="TestPluginData.cs" />
     <Compile Include="TestPluginManager.cs" />
+    <Compile Include="TestProjectInfo.cs" />
+    <Compile Include="TestTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="nunit.framework" />
     <Reference Include="EcellLib" />
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TestData\" />
   </ItemGroup>
 </Project>

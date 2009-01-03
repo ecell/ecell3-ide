@@ -299,7 +299,7 @@
   </data>
   <data name="WarnMoveDM" xml:space="preserve">
     <value>{0} is loaded now. Please move the file from {1
-} to {0} after the model was closed.</value>
+} to {0} after the model was closed. </value>
   </data>
   <data name="InfoCrePrj" xml:space="preserve">
     <value>Project {0} was created.</value>
@@ -334,5 +334,8 @@ New revision {0}:{1} was created.</value>
   </data>
   <data name="InfoDeleteSim" xml:space="preserve">
     <value>{0} is used on the simulation . Do you want to stop the simulation?</value>
+  </data>
+  <data name="ErrLoadProjectInfo" xml:space="preserve">
+    <value>Failed to load ProjectInfo.</value>
   </data>
 </root>

@@ -50,6 +50,9 @@ namespace Ecell.Objects
         List = 4
     }
 
+    /// <summary>
+    /// The polymorphism 4 the "EcellData".
+    /// </summary>
     public class EcellValue: ICloneable, IComparable
     {
         #region Fields

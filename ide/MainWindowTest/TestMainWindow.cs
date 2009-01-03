@@ -64,18 +64,6 @@ namespace Ecell.IDE.MainWindow
         /// 
         /// </summary>
         [Test()]
-        public void TestCheckWindowMenu()
-        {
-            string name = null;
-            bool bChecked = false;
-            _unitUnderTest.CheckWindowMenu(name, bChecked);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestGetMenuStripItems()
         {
             System.Collections.Generic.List<System.Windows.Forms.ToolStripMenuItem> expectedList = null;
@@ -283,17 +271,7 @@ namespace Ecell.IDE.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestChangeUndoStatus()
-        {
-            Ecell.UndoStatus status = UndoStatus.NOTHING;
-            _unitUnderTest.ChangeUndoStatus(status);
-            Assert.Fail("Create or modify test(s).");
 
-        }
         /// <summary>
         /// 
         /// </summary>

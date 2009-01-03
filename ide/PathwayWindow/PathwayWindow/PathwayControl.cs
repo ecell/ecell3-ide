@@ -1291,7 +1291,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             for (int i = 0; i < nodeList.Count; i++)
             {
                 //Create new EcellObject
-                EcellObject eo = nodeList[i].Copy();
+                EcellObject eo = nodeList[i].Clone();
                 string nodeKey = eo.Key;
                 // Check parent system
                 eo.ModelID = canvas.ModelID;
@@ -1377,7 +1377,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             for (int i = 0; i < systemList.Count; i++)
             {
                 //Create new EcellObject
-                EcellObject system = systemList[i].Copy();
+                EcellObject system = systemList[i].Clone();
                 // Check system position
                 system.MovePosition(diff);
                 if (canvas.DoesSystemOverlaps(newSysKey, system.Rect))

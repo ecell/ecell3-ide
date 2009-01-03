@@ -261,7 +261,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
         private void UpdateExpression(string express)
         {
-            EcellObject obj = m_current.Copy();
+            EcellObject obj = m_current.Clone();
             foreach (EcellData data in obj.Value)
             {
                 if (data.Name.Equals(Constants.xpathExpression))
@@ -718,7 +718,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             {
                 if (win.ShowDialog() != DialogResult.OK)
                     return;
-                EcellObject eo = m_current.Copy();
+                EcellObject eo = m_current.Clone();
                 EcellData nd = eo.GetEcellData(((EcellData)c.Tag).Name);
                 nd.Value = EcellReference.ConvertToEcellValue(win.ReferenceList);
                 c.Tag = nd;
@@ -809,7 +809,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     }
                     else
                     {
-                        EcellObject eo = m_current.Copy();
+                        EcellObject eo = m_current.Clone();
                         EcellData d = eo.GetEcellData(tag.Name);
                         EcellValue value;
                         try{
@@ -854,7 +854,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     if (string.IsNullOrEmpty(tmpID) || Util.IsReservedID(tmpID) || Util.IsNGforID(tmpID))
                         throw new EcellException(MessageResources.ErrID);
 
-                    EcellObject p = m_current.Copy();
+                    EcellObject p = m_current.Clone();
                     if (p.Type == Constants.xpathSystem)
                     {
                         // ルートの場合、ルートの/とデミリタの/が2つ重なる
@@ -1094,7 +1094,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
             if (!m_propDic.ContainsKey(data.Name))
             {
-                EcellObject p = m_current.Copy();
+                EcellObject p = m_current.Clone();
                 foreach (EcellData d in p.Value)
                 {
                     if (d.Name == data.Name)

@@ -295,6 +295,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   Failed to load ProjectInfo. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrLoadProjectInfo {
+            get {
+                return ResourceManager.GetString("ErrLoadProjectInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} is not set. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNoSet {
@@ -702,7 +711,7 @@ namespace Ecell {
         
         /// <summary>
         ///   {0} is loaded now. Please move the file from {1
-        ///} to {0} after the model was closed. に類似しているローカライズされた文字列を検索します。
+        ///} to {0} after the model was closed.  に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string WarnMoveDM {
             get {

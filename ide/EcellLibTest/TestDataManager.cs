@@ -18,7 +18,7 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        [TestFixtureSetUp()]
+        [SetUp()]
         public void TestFixtureSetUp()
         {
             _unitUnderTest = new ApplicationEnvironment().DataManager;
@@ -26,7 +26,7 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        [TestFixtureTearDown()]
+        [TearDown()]
         public void TestFixtureTearDown()
         {
             _unitUnderTest = null;
@@ -35,15 +35,39 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
-        public void TestPath()
+        public void TestLoadProject()
         {
-            string dir1 = "c:\\temp";
-            string dir2 = "c:\\temp\\";
-            string name = "sample";
-            Assert.AreEqual("c:\\temp\\sample", Path.Combine(dir1, name));
-            Debug.Print(Path.Combine(dir1, name));
-            Assert.AreEqual("c:\\temp\\sample", Path.Combine(dir2, name));
-            Debug.Print(Path.Combine(dir2, name));
+            // Load null
+            string filename = null;
+            try
+            {
+                _unitUnderTest.LoadProject(filename);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+            }
+            // Load null
+            try
+            {
+                filename = "";
+                _unitUnderTest.LoadProject(filename);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+            }
+            // Load incorrect file
+            try
+            {
+                filename = "c:\\hoge\\hoge.eml";
+                _unitUnderTest.LoadProject(filename);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+            }
+
         }
         /// <summary>
         /// 
@@ -67,8 +91,8 @@ namespace Ecell
             }
             catch (Exception ex)
             {
+                Trace.WriteLine("Null error.");
                 Trace.WriteLine(ex);
-                Debug.WriteLine("Null error.");
             }
             // Test empty.
             try
@@ -77,8 +101,8 @@ namespace Ecell
             }
             catch (Exception ex)
             {
+                Trace.WriteLine("Empty error.");
                 Trace.WriteLine(ex);
-                Debug.WriteLine("Empty error.");
             }
             
             // Test uncorrect file
@@ -89,7 +113,7 @@ namespace Ecell
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Debug.WriteLine("");
+                Trace.WriteLine("");
             }
 
             // Test correct file.
@@ -223,24 +247,8 @@ namespace Ecell
             bool l_isAnchor = false;
             _unitUnderTest.DataDelete(l_modelID, l_key, l_type, l_isRecorded, l_isAnchor);
             Assert.Fail("Create or modify test(s).");
-
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestIsDataExists()
-        {
-            string modelID = null;
-            string key = null;
-            string type = null;
-            bool expectedBoolean = false;
-            bool resultBoolean = false;
-            resultBoolean = _unitUnderTest.IsDataExists(modelID, key, type);
-            Assert.AreEqual(expectedBoolean, resultBoolean, "IsDataExists method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -250,20 +258,6 @@ namespace Ecell
             string modelID = null;
             string key = null;
             _unitUnderTest.SystemDeleteAndMove(modelID, key);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestSystemAddAndMove()
-        {
-            string l_modelID = null;
-            Ecell.Objects.EcellObject l_obj = null;
-            System.Collections.Generic.List<Ecell.Objects.EcellObject> l_sysList = null;
-            System.Collections.Generic.List<Ecell.Objects.EcellObject> l_objList = null;
-            _unitUnderTest.SystemAddAndMove(l_modelID, l_obj, l_sysList, l_objList);
             Assert.Fail("Create or modify test(s).");
 
         }
@@ -313,21 +307,6 @@ namespace Ecell
             Ecell.Objects.EcellObject l_stepper = null;
             bool l_isRecorded = false;
             _unitUnderTest.DeleteStepperID(l_parameterID, l_stepper, l_isRecorded);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestExists()
-        {
-            string l_modelID = null;
-            string l_fullID = null;
-            bool expectedBoolean = false;
-            bool resultBoolean = false;
-            resultBoolean = _unitUnderTest.Exists(l_modelID, l_fullID);
-            Assert.AreEqual(expectedBoolean, resultBoolean, "Exists method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
         }
@@ -404,23 +383,6 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
-        public void TestGetEcellData()
-        {
-            string modelId = null;
-            string key = null;
-            string type = null;
-            string name = null;
-            string expectedString = null;
-            string resultString = null;
-            resultString = _unitUnderTest.GetEcellData(modelId, key, type, name);
-            Assert.AreEqual(expectedString, resultString, "GetEcellData method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestGetLogDataL_startTimeL_endTimeL_intervalL_fullID()
         {
             double l_startTime = 0;
@@ -473,8 +435,8 @@ namespace Ecell
             double l_startTime = 0;
             double l_endTime = 0;
             double l_interval = 0;
-            System.Collections.Generic.IEnumerable<Ecell.LogData> expectedList = null;
-            System.Collections.Generic.IEnumerable<Ecell.LogData> resultList = null;
+            System.Collections.Generic.List<Ecell.LogData> expectedList = null;
+            System.Collections.Generic.List<Ecell.LogData> resultList = null;
             resultList = _unitUnderTest.GetLogData(l_startTime, l_endTime, l_interval);
             Assert.AreEqual(expectedList, resultList, "GetLogData method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -486,8 +448,8 @@ namespace Ecell
         [Test()]
         public void TestGetLoggerList()
         {
-            System.Collections.Generic.IList<System.String> expectedList = null;
-            System.Collections.Generic.IList<System.String> resultList = null;
+            System.Collections.Generic.List<System.String> expectedList = null;
+            System.Collections.Generic.List<System.String> resultList = null;
             resultList = _unitUnderTest.GetLoggerList();
             Assert.AreEqual(expectedList, resultList, "GetLoggerList method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -513,8 +475,8 @@ namespace Ecell
         [Test()]
         public void TestGetNextEvent()
         {
-            System.Collections.IList expectedArrayList = null;
-            System.Collections.IList resultArrayList = null;
+            System.Collections.ArrayList expectedArrayList = null;
+            System.Collections.ArrayList resultArrayList = null;
             resultArrayList = _unitUnderTest.GetNextEvent();
             Assert.AreEqual(expectedArrayList, resultArrayList, "GetNextEvent method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
@@ -559,19 +521,6 @@ namespace Ecell
             System.Collections.Generic.List<System.String> resultList = null;
             resultList = _unitUnderTest.GetModelList();
             Assert.AreEqual(expectedList, resultList, "GetModelList method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetProcessList()
-        {
-            System.Collections.Generic.List<System.String> expectedList = null;
-            System.Collections.Generic.List<System.String> resultList = null;
-            resultList = _unitUnderTest.CurrentProject.ProcessDmList;
-            Assert.AreEqual(expectedList, resultList, "GetProcessList method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
         }
@@ -636,19 +585,6 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
-        public void TestGetStepperList()
-        {
-            System.Collections.Generic.List<System.String> expectedList = null;
-            System.Collections.Generic.List<System.String> resultList = null;
-            resultList = _unitUnderTest.CurrentProject.StepperDmList;
-            Assert.AreEqual(expectedList, resultList, "GetStepperList method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestGetStepperProperty()
         {
             string l_dmName = null;
@@ -656,33 +592,6 @@ namespace Ecell
             System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> resultDictionary = null;
             resultDictionary = _unitUnderTest.GetStepperProperty(l_dmName);
             Assert.AreEqual(expectedDictionary, resultDictionary, "GetStepperProperty method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetSystemList()
-        {
-            System.Collections.Generic.List<System.String> expectedList = null;
-            System.Collections.Generic.List<System.String> resultList = null;
-            resultList = _unitUnderTest.CurrentProject.SystemDmList;
-            Assert.AreEqual(expectedList, resultList, "GetSystemList method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetSystemListL_modelID()
-        {
-            string l_modelID = null;
-            System.Collections.Generic.List<System.String> expectedList = null;
-            System.Collections.Generic.List<System.String> resultList = null;
-            resultList = _unitUnderTest.GetSystemList(l_modelID);
-            Assert.AreEqual(expectedList, resultList, "GetSystemList method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
         }
@@ -703,19 +612,6 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
-        public void TestGetVariableList()
-        {
-            System.Collections.Generic.List<System.String> expectedList = null;
-            System.Collections.Generic.List<System.String> resultList = null;
-            resultList = _unitUnderTest.CurrentProject.VariableDmList;
-            Assert.AreEqual(expectedList, resultList, "GetVariableList method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestGetTemporaryID()
         {
             string modelID = null;
@@ -728,42 +624,19 @@ namespace Ecell
             Assert.Fail("Create or modify test(s).");
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetVariableProperty()
-        {
-            System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> resultDictionary = null;
-            resultDictionary = _unitUnderTest.GetVariableProperty();
-            Assert.AreEqual(expectedDictionary, resultDictionary, "GetVariableProperty method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
-        }
         /// <summary>
         /// 
         /// </summary>
         [Test()]
         public void TestInitialize()
         {
-            _unitUnderTest.Initialize();
+            bool l_flag = false;
+            _unitUnderTest.Initialize(l_flag);
             Assert.Fail("Create or modify test(s).");
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestIsActive()
-        {
-            bool expectedBoolean = false;
-            bool resultBoolean = false;
-            resultBoolean = _unitUnderTest.IsActive();
-            Assert.AreEqual(expectedBoolean, resultBoolean, "IsActive method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -771,22 +644,10 @@ namespace Ecell
         public void TestLoadModel()
         {
             string l_filename = "C:\\Documents and Settings\\c1901\\My Documents\\My E-Cell Projects\\sample\\simple.eml";
-            bool isLogging = false;
             string expectedString = "";
             string resultString = "";
-            resultString = _unitUnderTest.LoadModel(l_filename, isLogging);
+            resultString = _unitUnderTest.LoadModel(l_filename);
             Assert.AreEqual(expectedString, resultString, "LoadModel method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestLoadProject()
-        {
-            string l_prjFile = null;
-            _unitUnderTest.LoadProject(l_prjFile);
             Assert.Fail("Create or modify test(s).");
 
         }
@@ -828,7 +689,7 @@ namespace Ecell
             string l_comment = null;
             string l_projectPath = null;
             System.Collections.Generic.List<System.String> l_setDirList = null;
-            _unitUnderTest.CreateNewProject(l_prjID, l_comment, l_projectPath, l_setDirList);
+            _unitUnderTest.CreateProject(l_prjID, l_comment, l_projectPath, l_setDirList);
             Assert.Fail("Create or modify test(s).");
 
         }
@@ -856,7 +717,6 @@ namespace Ecell
             Assert.Fail("Create or modify test(s).");
 
         }
-        
         /// <summary>
         /// 
         /// </summary>
@@ -869,6 +729,21 @@ namespace Ecell
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestSaveSimulationResult()
+        {
+            string l_savedDirName = null;
+            double l_startTime = 0;
+            double l_endTime = 0;
+            string l_savedType = null;
+            System.Collections.Generic.List<System.String> l_fullIDList = null;
+            _unitUnderTest.SaveSimulationResult(l_savedDirName, l_startTime, l_endTime, l_savedType, l_fullIDList);
+            Assert.Fail("Create or modify test(s).");
+
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -930,52 +805,90 @@ namespace Ecell
             Assert.Fail("Create or modify test(s).");
 
         }
+
         /// <summary>
         /// 
         /// </summary>
         [Test()]
-        public void TestSimulationStartL_stepLimitL_statusNum()
+        public void TestStartSimulation()
         {
-            int l_stepLimit = 0;
-            int l_statusNum = 0;
-            _unitUnderTest.SimulationStart(l_stepLimit, l_statusNum);
-            Assert.Fail("Create or modify test(s).");
-
+            double l_time = 1.0;
+            _unitUnderTest.StartSimulation(l_time);
+            Assert.Fail("Can not start the simulation.");
         }
         /// <summary>
         /// 
         /// </summary>
         [Test()]
-        public void TestSimulationStartL_timeLimitL_statusNum()
+        public void TestStartStepSimulation_Step()
         {
-            double l_timeLimit = 0;
-            int l_statusNum = 0;
-            _unitUnderTest.SimulationStart(l_timeLimit, l_statusNum);
-            Assert.Fail("Create or modify test(s).");
+            int l_step1 = 1;
+            _unitUnderTest.StartStepSimulation(l_step1);
+            Assert.Fail("Error step simulation by step[1].");
 
+            int l_step10 = 10;
+            _unitUnderTest.StartStepSimulation(l_step10);
+            Assert.Fail("Error step simulation by step[10].");
+
+            int l_step100 = 100;
+            _unitUnderTest.StartStepSimulation(l_step100);
+            Assert.Fail("Error step simulation by step[100].");
         }
         /// <summary>
         /// 
         /// </summary>
         [Test()]
-        public void TestSimulationStartKeepSettingL_stepLimit()
+        public void TestStartStepSimulation_Sec()
         {
-            int l_stepLimit = 0;
-            _unitUnderTest.SimulationStartKeepSetting(l_stepLimit);
-            Assert.Fail("Create or modify test(s).");
+            double l_sec1 = 0.5;
+            _unitUnderTest.StartStepSimulation(l_sec1);
+            Assert.Fail("Error step simulation by sec[0.5].");
 
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestSimulationStartKeepSettingL_timeLimit()
-        {
-            double l_timeLimit = 0;
-            _unitUnderTest.SimulationStartKeepSetting(l_timeLimit);
-            Assert.Fail("Create or modify test(s).");
+            double l_sec2 = 1.0;
+            _unitUnderTest.StartStepSimulation(l_sec2);
+            Assert.Fail("Error step simulation by sec[1.0].");
 
+            double l_sec3 = 5.0;
+            _unitUnderTest.StartStepSimulation(l_sec3);
+            Assert.Fail("Error step simulation by sec[5.0].");
         }
+
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[Test()]
+        //public void TestSimulationStartL_timeLimitL_statusNum()
+        //{
+        //    double l_timeLimit = 0;
+        //    int l_statusNum = 0;
+            
+        //    _unitUnderTest.SimulationStart(l_timeLimit, l_statusNum);
+        //    Assert.Fail("Create or modify test(s).");
+
+        //}
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[Test()]
+        //public void TestSimulationStartKeepSettingL_stepLimit()
+        //{
+        //    int l_stepLimit = 0;
+        //    _unitUnderTest.SimulationStartKeepSetting(l_stepLimit);
+        //    Assert.Fail("Create or modify test(s).");
+
+        //}
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        //[Test()]
+        //public void TestSimulationStartKeepSettingL_timeLimit()
+        //{
+        //    double l_timeLimit = 0;
+        //    _unitUnderTest.SimulationStartKeepSetting(l_timeLimit);
+        //    Assert.Fail("Create or modify test(s).");
+
+        //}
         /// <summary>
         /// 
         /// </summary>
@@ -1031,26 +944,6 @@ namespace Ecell
             System.Collections.Generic.List<Ecell.Objects.EcellObject> l_stepperList = null;
             bool l_isRecorded = false;
             _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList, l_isRecorded);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestUndoAction()
-        {
-            _unitUnderTest.UndoAction();
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestRedoAction()
-        {
-            _unitUnderTest.RedoAction();
             Assert.Fail("Create or modify test(s).");
 
         }

@@ -333,4 +333,7 @@
   <data name="InfoDeleteSim" xml:space="preserve">
     <value>{0} はシミュレーションで使用しています。シミュレーションをリセットしますか？</value>
   </data>
+  <data name="ErrLoadProjectInfo" xml:space="preserve">
+    <value>プロジェクト情報の読み込みに失敗しました。</value>
+  </data>
 </root>

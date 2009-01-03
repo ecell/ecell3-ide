@@ -150,7 +150,7 @@ namespace Ecell
                         {
                             if (env.DynamicModuleManager.ModuleDic[ecellObject.Classname].Property.ContainsKey(name))
                             {
-                                DymoduleModuleProperty prop = env.DynamicModuleManager.ModuleDic[ecellObject.Classname].Property[name];
+                                DynamicModuleProperty prop = env.DynamicModuleManager.ModuleDic[ecellObject.Classname].Property[name];
                                 if (prop.Type == typeof(int))
                                     value = new EcellValue((int)prop.DefaultData);
                                 else if (prop.Type == typeof(double))
@@ -263,7 +263,7 @@ namespace Ecell
                     {
                         if (env.DynamicModuleManager.ModuleDic[ecellObject.Classname].Property.ContainsKey(name))
                         {
-                            DymoduleModuleProperty prop = env.DynamicModuleManager.ModuleDic[ecellObject.Classname].Property[name];
+                            DynamicModuleProperty prop = env.DynamicModuleManager.ModuleDic[ecellObject.Classname].Property[name];
                             if (prop.Type == typeof(int))
                                 value = new EcellValue((int)prop.DefaultData);
                             else if (prop.Type == typeof(double))

@@ -62,6 +62,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 using IronPython.Hosting;
 using IronPython.Runtime;
+using Ecell.IDE.MainWindow.UIComponents;
 
 namespace Ecell.IDE.MainWindow
 {
@@ -75,10 +76,6 @@ namespace Ecell.IDE.MainWindow
         /// m_entityListDock (DockContent)
         /// </summary>
         private Dictionary<string, EcellDockContent> m_dockWindowDic;
-        /// <summary>
-        /// m_entityListDock (DockContent)
-        /// </summary>
-        private Dictionary<string, ToolStripMenuItem> m_dockMenuDic;
         /// <summary>
         /// defaultWindowSettingPath (string)
         /// </summary>
@@ -159,7 +156,6 @@ namespace Ecell.IDE.MainWindow
         public MainWindow()
         {
             m_dockWindowDic = new Dictionary<string, EcellDockContent>();
-            m_dockMenuDic = new Dictionary<string, ToolStripMenuItem>();
         }
         #endregion
 
@@ -362,7 +358,7 @@ namespace Ecell.IDE.MainWindow
             string filename = (string)item.Tag;
             try
             {
-                m_env.DataManager.LoadProject((string)filename);
+                m_env.DataManager.LoadProject(filename);
             }
             catch(Exception ex)
             {
@@ -546,7 +542,14 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private void CloseProject()
         {
-            m_env.DataManager.CloseProject();
+            try
+            {
+                m_env.DataManager.CloseProject();
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
+            }
         }
 
         /// <summary>
@@ -555,8 +558,6 @@ namespace Ecell.IDE.MainWindow
         internal void SetStartUpWindow()
         {
             EcellWebBrowser content = new EcellWebBrowser(m_env, m_recentProjects);
-            content.Name = "StartUpWindow";
-            content.Text = "StartUpWindow";
             content.DockHandler.DockPanel = this.dockPanel;
             SetDockContent(content);
             m_browser = content;
@@ -582,29 +583,12 @@ namespace Ecell.IDE.MainWindow
             content.FormClosing += new FormClosingEventHandler(this.DockContent_Closing);
 
             //Create DockWindow Menu
-            SetDockContentMenu(content);
+            DockToolStripMenuItem item = new DockToolStripMenuItem(content);
+            this.showWindowToolStripMenuItem.DropDown.Items.Add(item);
+
             m_dockWindowDic.Add(content.Name, content);
             content.ResumeLayout();
             content.Show(this.dockPanel, DockState.Document);
-        }
-        /// <summary>
-        /// set Window Menu
-        /// </summary>
-        private void SetDockContentMenu(DockContent content)
-        {
-            ToolStripMenuItem item = new ToolStripMenuItem(
-                content.TabText,
-                (System.Drawing.Image)
-                TypeDescriptor.GetConverter(content.Icon)
-                    .ConvertTo(content.Icon,
-                        typeof(System.Drawing.Image)),
-                new System.EventHandler(DockWindowMenuClick),
-                content.Name);
-            item.Tag = content.Name;
-            item.Checked = true;
-            item.Tag = content.Name;
-            this.showWindowToolStripMenuItem.DropDown.Items.Add(item);
-            m_dockMenuDic.Add(content.Name, item);
         }
 
         /// <summary>
@@ -628,24 +612,12 @@ namespace Ecell.IDE.MainWindow
             {
                 // hide dock window
                 ((DockContent)sender).Hide();
-                // uncheck dock window menu
-                CheckWindowMenu(((DockContent)sender).Name, false);
                 e.Cancel = true;
             }
             else
             {
                 ((Form)sender).Controls.Clear();
             }
-        }
-
-        /// <summary>
-        /// Set the check information of window menu.
-        /// </summary>
-        /// <param name="name">window menu name.</param>
-        /// <param name="bChecked">input data.</param>
-        public void CheckWindowMenu(String name, bool bChecked)
-        {
-            m_dockMenuDic[name].Checked = bChecked;
         }
 
         #region PluginBase
@@ -838,8 +810,8 @@ namespace Ecell.IDE.MainWindow
                 newProjectToolStripMenuItem.Enabled = true;
                 openProjectToolStripMenuItem.Enabled = true;
                 saveProjectToolStripMenuItem.Enabled = false;
-                projectWizardMenuItem.Enabled = true;
                 recentProejctToolStripMenuItem.Enabled = true;
+                projectWizardMenuItem.Enabled = true;
                 closeProjectToolStripMenuItem.Enabled = false;
                 exportModelToolStripMenuItem.Enabled = false;
                 importModelToolStripMenuItem.Enabled = true;
@@ -853,8 +825,8 @@ namespace Ecell.IDE.MainWindow
             {
                 newProjectToolStripMenuItem.Enabled = true;
                 openProjectToolStripMenuItem.Enabled = true;
-                recentProejctToolStripMenuItem.Enabled = true;
                 saveProjectToolStripMenuItem.Enabled = true;
+                recentProejctToolStripMenuItem.Enabled = true;
                 projectWizardMenuItem.Enabled = true;
                 closeProjectToolStripMenuItem.Enabled = true;
                 exportModelToolStripMenuItem.Enabled = true;
@@ -870,8 +842,8 @@ namespace Ecell.IDE.MainWindow
                 newProjectToolStripMenuItem.Enabled = false;
                 openProjectToolStripMenuItem.Enabled = false;
                 saveProjectToolStripMenuItem.Enabled = false;
-                projectWizardMenuItem.Enabled = false;
                 recentProejctToolStripMenuItem.Enabled = false;
+                projectWizardMenuItem.Enabled = false;
                 closeProjectToolStripMenuItem.Enabled = false;
                 exportModelToolStripMenuItem.Enabled = false;
                 importModelToolStripMenuItem.Enabled = false;
@@ -883,16 +855,16 @@ namespace Ecell.IDE.MainWindow
                 MenuItemLayout.Enabled = false;
             }
             // Reset edit count.
-            if (type == ProjectStatus.Uninitialized ||
-                (m_type == ProjectStatus.Uninitialized &&
-                type == ProjectStatus.Loaded))
+            if (type == ProjectStatus.Uninitialized || 
+                (m_type == ProjectStatus.Uninitialized && type == ProjectStatus.Loaded))
                 m_editCount = 0;
             // Set recent Project.
             if (type == ProjectStatus.Loaded)
             {
-                ProjectInfo info = m_env.DataManager.CurrentProject.Info;
-                this.Text = info.Name + " - " + m_title;
-                CheckAndReplaceRecentProject(info);
+                string projectID = m_env.DataManager.CurrentProjectID;
+                this.Text = projectID + " - " + m_title;
+                string filename = m_env.DataManager.CurrentProject.Info.ProjectFile;
+                CheckAndReplaceRecentProject(projectID, filename);
                 ResetRecentProjectMenu();                
             }
             else if (type == ProjectStatus.Uninitialized)
@@ -903,10 +875,8 @@ namespace Ecell.IDE.MainWindow
             m_type = type;
         }
 
-        private void CheckAndReplaceRecentProject(ProjectInfo info)
+        private void CheckAndReplaceRecentProject(string projectID, string filename)
         {
-            string projectID = info.Name;
-            string filename = info.ProjectFile;
             KeyValuePair<string, string> oldProject = new KeyValuePair<string,string>();
             foreach (KeyValuePair<string, string> project in m_recentProjects)
             {
@@ -1070,7 +1040,7 @@ namespace Ecell.IDE.MainWindow
             {
                 if (npd.ShowDialog() != DialogResult.OK)
                     return;
-                m_env.DataManager.CreateNewProject(npd.ProjectName, npd.ProjectName, npd.Comment, npd.DMList);
+                m_env.DataManager.CreateNewProject(npd.ProjectName, npd.Comment, npd.ProjectName, npd.DMList);
             }
         }
 
@@ -1099,6 +1069,7 @@ namespace Ecell.IDE.MainWindow
             }
             // Close project.
             CloseProject();
+
             // Return true when the current project was closed successfully.
             return true;
         }
@@ -1120,9 +1091,6 @@ namespace Ecell.IDE.MainWindow
             {
                 if (ped.ShowDialog() != DialogResult.OK)
                     return;
-                // Close current project.
-                if (!string.IsNullOrEmpty(m_env.DataManager.CurrentProjectID))
-                    CloseProject();
                 try
                 {
                     m_env.DataManager.LoadProject(ped.Project);
@@ -1132,6 +1100,29 @@ namespace Ecell.IDE.MainWindow
                     Trace.WriteLine(ex);
                     Util.ShowErrorDialog(ex.Message);
                 }            
+            }
+        }
+
+        /// <summary>
+        /// Event when setup IDE button is clicked.
+        /// </summary>
+        /// <param name="sender">MenuItem</param>
+        /// <param name="e">EventArgs</param>
+        private void LoadProjectWizardMenuClick(object sender, EventArgs e)
+        {
+            // Check the modification and confirm save.
+            if (!CloseConfirm())
+                return;
+
+            ProjectWizardWindow win = new ProjectWizardWindow();
+            if (win.ShowDialog() == DialogResult.OK && win.SelectedProject != null)
+            {
+                ProjectInfo info = win.SelectedProject;
+                info.FindModels();
+                info.FindDMs();
+                info.DMList.AddRange(win.DMList);
+                info.ProjectPath = null;
+                m_env.DataManager.LoadProject(info);
             }
         }
 
@@ -1152,8 +1143,8 @@ namespace Ecell.IDE.MainWindow
         private void SaveProject()
         {
             m_env.DataManager.SaveProject();
-            ProjectInfo Info = m_env.DataManager.CurrentProject.Info;
-            CheckAndReplaceRecentProject(Info);
+            Project project = m_env.DataManager.CurrentProject;
+            CheckAndReplaceRecentProject(project.Info.Name, project.Info.ProjectFile);
             m_editCount = 0;
         }
 
@@ -1210,13 +1201,21 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">EventArgs</param>
         private void ExportModelMenuClick(object sender, EventArgs e)
         {
+            //            List<SaveProjectDialog.ProjectItem> items = new List<SaveProjectDialog.ProjectItem>();
+            List<string> items = new List<string>();
+            {
+                foreach (string s in m_env.DataManager.GetModelList())
+                    items.Add(s);
+            }
+
+
             try
             {
                 saveFileDialog.RestoreDirectory = true;
                 saveFileDialog.Filter = Constants.FilterEmlFile;
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    m_env.DataManager.ExportModel(saveFileDialog.FileName);
+                    m_env.DataManager.ExportModel(items, saveFileDialog.FileName);
                 }
             }
             catch (Exception ex)
@@ -1469,14 +1468,7 @@ namespace Ecell.IDE.MainWindow
 
         private void ShowGridStatusDialog()
         {
-            if (m_dockMenuDic.ContainsKey(m_statusDialog.Name))
-            {
-                if (!m_dockMenuDic[m_statusDialog.Name].Checked)
-                {
-                    m_statusDialog.Show();
-                    m_dockMenuDic[m_statusDialog.Name].Checked = true;
-                }
-            }
+            m_statusDialog.Activate();
         }
 
         private void ShowScriptEditor()
@@ -1526,29 +1518,6 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// Event when docking window menu is clicked.
-        /// </summary>
-        /// <param name="sender">MenuItem</param>
-        /// <param name="e">EventArgs</param>
-        private void DockWindowMenuClick(object sender, EventArgs e)
-        {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            if (item.Checked)
-            {
-                //Hide EntityList
-                m_dockWindowDic[(string)item.Tag].Hide();
-                item.Checked = false;
-            }
-            else
-            {
-                //Show EntityList
-                Debug.Assert(m_dockWindowDic[(string)item.Tag].Pane != null);
-                m_dockWindowDic[(string)item.Tag].Show();
-                item.Checked = true;
-            }
-        }
-
-        /// <summary>
         /// Event when setup IDE button is clicked.
         /// </summary>
         /// <param name="sender">MenuItem</param>
@@ -1562,22 +1531,7 @@ namespace Ecell.IDE.MainWindow
                     return;
                 Util.SetLanguage(ipd.Language);
                 LoadWindowSetting(ipd.FilePath);
-                Util.ShowNoticeDialog(MessageResources.ResourceManager.GetString("ConfirmRestart", ipd.Language));
-            }
-        }
-
-        /// <summary>
-        /// Event when setup IDE button is clicked.
-        /// </summary>
-        /// <param name="sender">MenuItem</param>
-        /// <param name="e">EventArgs</param>
-        private void ProjectWizardMenuClick(object sender, EventArgs e)
-        {
-            ProjectWizardWindow win = new ProjectWizardWindow();
-            if (win.ShowDialog() == DialogResult.OK && win.SelectedProject != null)
-            {
-                ProjectInfo info = win.SelectedProject;
-                m_env.DataManager.LoadProject(info);
+                Util.ShowNoticeDialog(MessageResources.ConfirmRestart);
             }
         }
 
@@ -1673,6 +1627,7 @@ namespace Ecell.IDE.MainWindow
             if (!CloseConfirm())
                 return;
             OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = Constants.FilterSBMLFile;
             using (dialog)
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
@@ -1774,7 +1729,6 @@ namespace Ecell.IDE.MainWindow
         private void feedbackToolStripMenuItem_Click(object sender, EventArgs e)
         {
             m_browser.Url = new Uri("http://chaperone.e-cell.org/services/feedback/");
-            m_browser.Activate();
         }
     }
 }

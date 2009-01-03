@@ -230,7 +230,6 @@ namespace Ecell
                     if (command.Equals("DataAdd")) act = new DataAddAction();
                     else if (command.Equals("DataDelete")) act = new DataDeleteAction();
                     else if (command.Equals("DataChanged")) act = new DataChangeAction();
-                    else if (command.Equals("ImportModel")) act = new ImportModelAction();
                     else if (command.Equals("NewProject")) act = new NewProjectAction();
                     else if (command.Equals("LoadProject")) act = new LoadProjectAction();
                     else if (command.Equals("AddStepper")) act = new AddStepperAction();

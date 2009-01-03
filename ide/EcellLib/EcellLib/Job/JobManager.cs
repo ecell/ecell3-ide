@@ -813,7 +813,7 @@ namespace Ecell.Job
                 Application.DoEvents();
                 foreach (EcellObject sysObj in sysList)
                 {
-                    EcellObject tmpObj = sysObj.Copy();
+                    EcellObject tmpObj = sysObj.Clone();
                     foreach (string path in paramDic.Keys)
                     {
                         foreach (EcellObject obj in tmpObj.Children)

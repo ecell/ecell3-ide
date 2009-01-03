@@ -307,6 +307,9 @@
     <Compile Include="ProjectWizardWindow.Designer.cs">
       <DependentUpon>ProjectWizardWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="UIComponent\DockToolStripMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\banner.bmp" />

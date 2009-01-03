@@ -183,13 +183,16 @@ namespace Ecell.IDE.MainWindow
             dateText.Text = prj.UpdateTime;
             commentText.Text = prj.Comment;
 
-            string filepath = Path.Combine(prj.ProjectPath, "model.png");
-            if (File.Exists(filepath))
-                pictureBox1.Image = Image.FromFile(filepath);
-            else if (pictureBox1.Image != null)
+            if (pictureBox1.Image != null)
             {
                 pictureBox1.Image.Dispose();
                 pictureBox1.Image = null;
+            }
+            if (prj.ProjectPath != null)
+            {
+                string filepath = Path.Combine(prj.ProjectPath, "model.png");
+                if (File.Exists(filepath))
+                    pictureBox1.Image = Image.FromFile(filepath);
             }
 
             projectNameText.BackColor = Color.White;
@@ -617,7 +620,7 @@ namespace Ecell.IDE.MainWindow
                     this.Text = m_project.Name;
                 }
                 else 
-                    this.Text = Path.GetFileNameWithoutExtension(filepath);
+                    this.Text = Path.GetFileName(filepath);
                 
                 this.ImageIndex = (int)m_nodeType;
                 this.SelectedImageIndex = ImageIndex;

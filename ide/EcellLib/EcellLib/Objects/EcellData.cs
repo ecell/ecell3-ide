@@ -43,7 +43,7 @@ namespace Ecell.Objects
     /// <summary>
     /// Stores the property data.
     /// </summary>
-    public class EcellData: ICloneable
+    public class EcellData : ICloneable
     {
         #region Fields
         /// <summary>
@@ -119,7 +119,7 @@ namespace Ecell.Objects
             this.m_isLogable = false;
             this.m_isLogger = false;
         }
-
+        
         public EcellData(EcellData that)
             : this(that.m_name, (EcellValue)that.m_value.Clone(), that.m_entityPath)
         {
@@ -224,14 +224,6 @@ namespace Ecell.Objects
         {
             return m_entityPath;
         }
-        /// <summary>
-        /// Create the copy "EcellData".
-        /// </summary>
-        /// <returns>The copy "EcellData"</returns>
-        public object Clone()
-        {
-            return new EcellData(this);
-        }
 
         /// <summary>
         /// override equal method on EcellData.
@@ -263,6 +255,34 @@ namespace Ecell.Objects
             }
             return true;
         }
+        #endregion
+
+        #region ICloneable メンバ
+        /// <summary>
+        /// Create a copy of this EcellData object.
+        /// </summary>
+        /// <returns></returns>
+        object ICloneable.Clone()
+        {
+            return this.Clone();
+        }
+        /// <summary>
+        /// Create a copy of this EcellData object.
+        /// </summary>
+        /// <returns>The copy "EcellData"</returns>
+        public EcellData Clone()
+        {
+            try
+            {
+                EcellData newData = new EcellData(this);
+                return newData;
+            }
+            catch (Exception ex)
+            {
+                throw new EcellException("Can't copy the \"EcellData\". {" + ex.ToString() + "}");
+            }
+        }
+
         #endregion
     }
 }

@@ -437,7 +437,6 @@ namespace Ecell
         public Dictionary<string, DynamicModule> ModuleDic
         {
             get { return this.m_moduleDic; }
-            set { this.m_moduleDic = value; }
         }
     }
 
@@ -448,7 +447,7 @@ namespace Ecell
         private string m_path;
         private bool m_isProjectDM;
         private string m_description;
-        private Dictionary<string, DymoduleModuleProperty> m_propertyDic = new Dictionary<string, DymoduleModuleProperty>();
+        private Dictionary<string, DynamicModuleProperty> m_propertyDic = new Dictionary<string, DynamicModuleProperty>();
         #endregion
 
         #region Constructors
@@ -488,7 +487,7 @@ namespace Ecell
             get { return this.m_description; }
         }
 
-        public Dictionary<string, DymoduleModuleProperty> Property
+        public Dictionary<string, DynamicModuleProperty> Property
         {
             get { return this.m_propertyDic; }
         }
@@ -498,12 +497,12 @@ namespace Ecell
             bool isLoadable, bool isSavable, object defaultobj, Type typedata)
         {
             this.m_propertyDic.Add(name, 
-                new DymoduleModuleProperty(name, isSettable, isGettable,
+                new DynamicModuleProperty(name, isSettable, isGettable,
                 isLoadable, isSavable, defaultobj, typedata));
         }
     }
 
-    public class DymoduleModuleProperty
+    public class DynamicModuleProperty
     {
         #region Fields
         private string m_name;
@@ -515,7 +514,7 @@ namespace Ecell
         private Type m_type;
         #endregion
 
-        public DymoduleModuleProperty(string name, bool isSettable, bool isGettable,
+        public DynamicModuleProperty(string name, bool isSettable, bool isGettable,
             bool isLoadable, bool isSavable, object defaultobj, Type typedata)
         {
             m_name = name;

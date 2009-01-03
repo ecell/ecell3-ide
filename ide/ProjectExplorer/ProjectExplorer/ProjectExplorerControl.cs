@@ -7,6 +7,8 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
+
+using Ecell.IDE;
 using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.ProjectExplorer
@@ -114,6 +116,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     break;
                 }
             }
+            // 1Ç¬Ç‡Process, VariableÇ™ë∂ç›ÇµÇ»Ç¢Ç∆Ç´
             if (dobj == null && fileList.Count <= 0) return;
             if (dobj == null)
             {
@@ -608,7 +611,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     m_modelNodeDic.Add(obj.ModelID, modelNode);
                     m_paramNode = paramNode;
 
-                    List<string> fileList = m_owner.Environment.DataManager.GetDMDirData();
+                    List<string> fileList = m_owner.Environment.DataManager.GetDMNameList();
                     foreach (string d in fileList)
                     {
                         if (!Util.IsDMFile(d)) continue;
@@ -867,7 +870,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 EcellObject obj = GetObjectFromNode(node);
                 if (obj == null) continue;
                 oList.Add(obj);
-            }
+            }            
             EnterDragMode(oList, fileList);
         }
 
@@ -916,7 +919,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (m_lastSelectedNode == null) return;
             TagData tag = m_lastSelectedNode.Tag as TagData;
             if (tag == null || tag.m_type != Constants.xpathLog) return;
-
+     
             ShowGraphDelegate dlg = m_owner.PluginManager.GetDelegate("ShowGraphWithLog") as ShowGraphDelegate;
 
             dlg(tag.m_key, true);
@@ -956,15 +959,17 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             if (m_lastSelectedNode == null) return;
             TagData tag = m_lastSelectedNode.Tag as TagData;
-            if (tag == null || tag.m_type != Constants.xpathModel)
-                return;
+            if (tag == null || tag.m_type != Constants.xpathModel) return;
+            String name = tag.m_modelID;
+            List<string> modelList = new List<string>();
+            modelList.Add(name);
 
             m_saveFileDialog.Filter = Constants.FilterEmlFile;
             if (m_saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string fileName = m_saveFileDialog.FileName;
 
-                m_owner.DataManager.ExportModel(fileName);
+                m_owner.DataManager.ExportModel(modelList, fileName);
             }
         }
 
