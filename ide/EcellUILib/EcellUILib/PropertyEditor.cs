@@ -977,6 +977,20 @@ namespace Ecell.IDE
 
             if (m_currentObj == null && m_type.Equals(EcellObject.SYSTEM))
             {
+                CheckBox c = new CheckBox();
+                if (m_propDict["Size"].Logged)
+                {
+                    c.Checked = true;
+                }
+                else
+                {
+                    c.Checked = false;
+                }
+                c.Text = "";
+                c.AutoSize = true;
+                c.Enabled = true;
+                layoutPanel.Controls.Add(c, 0, i);
+
                 layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                 Label l = new Label();
                 l.Text = "Size";
@@ -1167,7 +1181,12 @@ namespace Ecell.IDE
                         EcellData data = (EcellData)m_propDict["Size"].Clone();
                         data.Value = new EcellValue(sizeData);
                         GetCommitInfo(data);
+                        if (isLogger != m_propDict["Size"].Logged && isLogger)
+                            m_pManager.LoggerAdd(modelID, m_currentObj.Key, type, m_propDict[data.Name].EntityPath);
+                        data.Logged = isLogger;
                         list.Add(data);
+
+                        isLogger = false;
                     }
                     // Property 
                     else

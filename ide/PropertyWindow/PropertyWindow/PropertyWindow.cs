@@ -465,10 +465,14 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 AddNonDataProperty("ClassName", m_current.Classname, false);
             }
 
+            EcellData sizeData = null;
             foreach (EcellData d in m_current.Value)
             {
                 if (d.Name == Constants.xpathSize)
+                {
+                    sizeData = d;
                     continue;
+                }
 
                 AddProperty(d, m_current.Type);
                 if (d.Name == EcellProcess.VARIABLEREFERENCELIST)
@@ -479,8 +483,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             {
                 EcellSystem system = (EcellSystem)m_current;
                 EcellData dSize = new EcellData();
+                dSize.EntityPath = sizeData.EntityPath;
                 dSize.Name = Constants.xpathSize;
                 dSize.Settable = true;
+                dSize.Logable = sizeData.Logable;
+                dSize.Logged = sizeData.Logged;
                 dSize.Value = new EcellValue(system.SizeInVolume);
                 AddProperty(dSize, m_current.Type);
             }
@@ -1133,10 +1140,18 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             parameterToolStripMenuItem.Enabled =
                 tag is EcellData &&
                 ((EcellData)tag).Settable && ((EcellData)tag).Value.IsDouble;
-            parameterToolStripMenuItem.Checked =
-                tag is EcellData &&
-                m_env.DataManager.IsContainsParameterData(((EcellData)tag).EntityPath);
-
+            if (tag is EcellData && ((EcellData)tag).Name.Equals(Constants.xpathSize))
+            {
+                string entityPath = Constants.xpathVariable + ":" + m_current.Key + ":SIZE:Value";
+                parameterToolStripMenuItem.Checked =
+                    m_env.DataManager.IsContainsParameterData(entityPath);
+            }
+            else
+            {
+                parameterToolStripMenuItem.Checked =
+                    tag is EcellData &&
+                    m_env.DataManager.IsContainsParameterData(((EcellData)tag).EntityPath);
+            }
 
             m_data = tag != null ? tag as EcellData : null;
         }
@@ -1278,18 +1293,29 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             if (m_data == null) return;
             ToolStripMenuItem m = (ToolStripMenuItem)sender;
             string prop = m_data.Name;
+            string entityPath = "";
+
+            if (prop.Equals(Constants.xpathSize))
+            {
+                entityPath = Constants.xpathVariable + ":" + m_current.Key + ":SIZE:Value";
+            }
+            else
+            {
+                EcellData d = m_current.GetEcellData(prop);
+                entityPath = d.EntityPath;
+            }
 
             if (m.Checked)
             {
                 m_env.DataManager.RemoveParameterData(
-                    new EcellParameterData(m_current.GetEcellData(prop).EntityPath, 0.0));
+                    new EcellParameterData(entityPath, 0.0));
             }
             else
             {
                 EcellData d = m_current.GetEcellData(prop);
                 m_env.DataManager.SetParameterData(
                     new EcellParameterData(
-                        d.EntityPath,
+                        entityPath,
                         Convert.ToDouble(d.Value.ToString())));
             }
         }
