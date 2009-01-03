@@ -3011,9 +3011,9 @@ namespace Ecell
             try
             {
                 int i = 0;
-                m_currentProject.SimulationStatus = SimulationStatus.Run;
                 if (m_currentProject.SimulationStatus != SimulationStatus.Suspended)
                 {
+                    m_currentProject.SimulationStatus = SimulationStatus.Run;
                     this.Initialize(true);
                     m_env.LogManager.Append(new ApplicationLogEntry(
                             MessageType.Information,
@@ -3022,6 +3022,7 @@ namespace Ecell
                 }
                 else
                 {
+                    m_currentProject.SimulationStatus = SimulationStatus.Run;
                     m_env.LogManager.Append(new ApplicationLogEntry(
                             MessageType.Information,
                             MessageResources.SimulationRestarted,
