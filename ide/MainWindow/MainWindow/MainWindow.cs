@@ -906,7 +906,7 @@ namespace Ecell.IDE.MainWindow
         private void CheckAndReplaceRecentProject(ProjectInfo info)
         {
             string projectID = info.Name;
-            string filename = info.FilePath;
+            string filename = info.ProjectFile;
             KeyValuePair<string, string> oldProject = new KeyValuePair<string,string>();
             foreach (KeyValuePair<string, string> project in m_recentProjects)
             {

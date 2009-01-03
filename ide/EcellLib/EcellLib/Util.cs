@@ -869,13 +869,13 @@ namespace Ecell
         /// Get the DM direcory from register.
         /// </summary>
         /// <returns>DM directory.</returns>
-        public static string[] GetDMDirs(String currentProjectPath)
+        public static string[] GetDMDirs(String projectPath)
         {
             List<string> dmDirs = new List<string>();
             List<string> candidates = new List<string>();
-            if (currentProjectPath != null)
+            if (projectPath != null)
             {
-                candidates.Add(Path.Combine(currentProjectPath, Constants.DMDirName));
+                candidates.Add(Path.Combine(projectPath, Constants.DMDirName));
             }
             candidates.AddRange(s_extraDMDirs);
             if (!s_noDefaultPaths)
@@ -896,7 +896,7 @@ namespace Ecell
         public static Dictionary<string, List<string>> GetDmDic(string dmDir)
         {
             Dictionary<string, List<string>> dmDic = new Dictionary<string, List<string>>();
-            dmDic = new Dictionary<string, List<string>>();
+
             // 4 Process
             dmDic.Add(Constants.xpathProcess, new List<string>());
             // 4 Stepper

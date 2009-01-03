@@ -931,11 +931,10 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         {
             DataGridViewRow row = SearchIndex(type, key);
             if (row != null)
-                row.Selected = true;
-            for (int i = 0; i < m_gridView.Rows.Count; i++)
             {
-                if (m_gridView.Rows[i] == row)
-                    m_gridView.FirstDisplayedScrollingRowIndex = i;
+                row.Selected = true;
+                if (m_gridView.FirstDisplayedScrollingRowIndex >= 0)
+                    m_gridView.FirstDisplayedScrollingRowIndex = row.Index;
             }
         }
 

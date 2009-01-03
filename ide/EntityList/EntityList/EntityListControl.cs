@@ -141,16 +141,11 @@ namespace Ecell.IDE.Plugins.EntityList
         public void AddSelect(string modelID, string key, string type)
         {
             DataGridViewRow row = SearchIndex(type, key);
-            if (row != null)
-                row.Selected = true;
-            for (int i = 0; i < objectListDataGrid.Rows.Count; i++)
+            if (row != null && objectListDataGrid.FirstDisplayedScrollingRowIndex != 0xffffffff)
             {
-                if (objectListDataGrid.Rows[i] == row)
-                    objectListDataGrid.FirstDisplayedScrollingRowIndex = i;
-
-
-
-
+                row.Selected = true;
+                if (objectListDataGrid.FirstDisplayedScrollingRowIndex >= 0)
+                    objectListDataGrid.FirstDisplayedScrollingRowIndex = row.Index;
             }
         }
         /// <summary>
