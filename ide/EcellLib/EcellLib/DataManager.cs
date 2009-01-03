@@ -98,7 +98,7 @@ namespace Ecell
         /// <summary>
         /// The default time 
         /// </summary>
-        private double m_defaultTime = 1.0;
+        private double m_defaultTime = 10.0;
         /// <summary>
         /// 
         /// </summary>

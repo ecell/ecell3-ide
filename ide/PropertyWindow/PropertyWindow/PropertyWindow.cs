@@ -793,19 +793,15 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 {
                     EcellData tag = editCell.Tag as EcellData;
                     string data = e.Value.ToString();
-                    // DataManager.DataChangedでSetEntityPropertyを実行するので
-                    // ここで変更する必要がない。
-                    //// Update Simulation Parameter.
-                    ////if (m_env.PluginManager.Status == ProjectStatus.Running
-                    ////    || m_env.PluginManager.Status == ProjectStatus.Suspended)
-                    //if (false)
-                    //{
-                    //    m_env.DataManager.SetEntityProperty(tag.EntityPath, data);
-                    //    UpdatePropForSimulation(); // for calculated properties such as MolarConc, etc.
-                    //}
-                    //// Throw DataChange.
-                    //else
-                    //{
+                    if (m_env.PluginManager.Status == ProjectStatus.Running ||
+                        m_env.PluginManager.Status == ProjectStatus.Stepping ||
+                        m_env.PluginManager.Status == ProjectStatus.Suspended)
+                    {
+                        m_env.DataManager.SetEntityProperty(tag.EntityPath, data);
+                        UpdatePropForSimulation();
+                    }
+                    else
+                    {
                         EcellObject eo = m_current.Copy();
                         EcellData d = eo.GetEcellData(tag.Name);
                         EcellValue value;
@@ -836,7 +832,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                             return;
                         }
                         NotifyDataChanged(m_current.ModelID, m_current.Key, eo);
-                    //}
+                    }
                 }
                 // Update ID.
                 else if (editCell.Tag is string)
