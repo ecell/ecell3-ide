@@ -409,7 +409,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_setupWin.Enabled = true;
                 m_showSaveWin.Enabled = false;
             }
-            else if (type == ProjectStatus.Loaded)
+            else if (type == ProjectStatus.Loaded ||
+                type == ProjectStatus.Loading)
             {
                 isStep = false;
                 m_showWin.Enabled = true;
