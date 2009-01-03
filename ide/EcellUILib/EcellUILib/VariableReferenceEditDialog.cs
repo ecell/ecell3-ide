@@ -405,5 +405,18 @@ namespace Ecell.IDE
                 }
             }
         }
+
+        private void DataCellValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 2)
+            {
+                DataGridViewCell c = (DataGridViewCell)dgv[e.ColumnIndex, e.RowIndex];
+                int dummy;
+                if (Int32.TryParse(c.Value.ToString(), out dummy))
+                {
+                    c.Value = dummy;
+                }
+            }
+        }
     }
 }
