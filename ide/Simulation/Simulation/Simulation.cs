@@ -328,7 +328,11 @@ namespace Ecell.IDE.Plugins.Simulation
         public override void ParameterDelete(string projectID, string parameterID)
         {
             if (m_paramsCombo.Items.Contains(parameterID))
-                m_paramsCombo.Items.Remove(parameterID);
+            {
+                int index = m_paramsCombo.Items.IndexOf(parameterID);
+                m_paramsCombo.Items.RemoveAt(index);
+                m_paramsCombo.SelectedIndex = 0;
+            }
         }
 
 
