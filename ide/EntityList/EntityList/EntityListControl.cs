@@ -563,5 +563,18 @@ namespace Ecell.IDE.Plugins.EntityList
                 ID.Visible = m_isShowPathID;
             }
         }
+
+        private void TypeSortCompare(object sender, DataGridViewSortCompareEventArgs e)
+        {
+            if (e.Column is DataGridViewImageColumn)
+            {
+                EcellObject obj1 = (EcellObject)objectListDataGrid.Rows[e.RowIndex1].Tag;
+                EcellObject obj2 = (EcellObject)objectListDataGrid.Rows[e.RowIndex2].Tag;
+
+                e.SortResult = TypeConverter(obj1.Type, obj2.Type);
+
+                e.Handled = true;
+            }
+        }
     }
 }

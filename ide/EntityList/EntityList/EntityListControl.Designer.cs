@@ -74,6 +74,7 @@
             this.objectListDataGrid.RowTemplate.Height = 21;
             this.objectListDataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.objectListDataGrid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DataGridViewMouseDown);
+            this.objectListDataGrid.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.TypeSortCompare);
             this.objectListDataGrid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DataGridViewMouseMove);
             this.objectListDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ClickObjectCell);
             // 

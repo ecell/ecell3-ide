@@ -153,44 +153,8 @@
   <data name="&gt;&gt;clearButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="Type.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="ClassName.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="ID.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="ObjectName.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <data name="objectListDataGrid.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="objectListDataGrid.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 25</value>
-  </data>
-  <data name="objectListDataGrid.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="objectListDataGrid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>344, 236</value>
-  </data>
-  <data name="objectListDataGrid.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;objectListDataGrid.Name" xml:space="preserve">
-    <value>objectListDataGrid</value>
-  </data>
-  <data name="&gt;&gt;objectListDataGrid.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;objectListDataGrid.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;objectListDataGrid.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <metadata name="Type.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -221,6 +185,45 @@
   </metadata>
   <data name="ObjectName.HeaderText" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="objectListDataGrid.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 25</value>
+  </data>
+  <data name="objectListDataGrid.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="objectListDataGrid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>344, 236</value>
+  </data>
+  <data name="objectListDataGrid.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;objectListDataGrid.Name" xml:space="preserve">
+    <value>objectListDataGrid</value>
+  </data>
+  <data name="&gt;&gt;objectListDataGrid.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;objectListDataGrid.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;objectListDataGrid.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="searchTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="searchTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="searchTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 0, 0</value>
+  </data>
+  <data name="searchTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>274, 19</value>
+  </data>
+  <data name="searchTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
   <data name="&gt;&gt;searchTextBox.Name" xml:space="preserve">
     <value>searchTextBox</value>
@@ -261,62 +264,35 @@
   <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="searchTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="searchTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="searchTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 0, 0</value>
-  </data>
-  <data name="searchTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>274, 19</value>
-  </data>
-  <data name="searchTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;searchTextBox.Name" xml:space="preserve">
-    <value>searchTextBox</value>
-  </data>
-  <data name="&gt;&gt;searchTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;searchTextBox.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;searchTextBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <metadata name="titleContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <data name="typeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>106, 22</value>
   </data>
   <data name="typeToolStripMenuItem.Text" xml:space="preserve">
     <value>Type</value>
   </data>
   <data name="classToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>106, 22</value>
   </data>
   <data name="classToolStripMenuItem.Text" xml:space="preserve">
     <value>Class</value>
   </data>
   <data name="pathIDToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>106, 22</value>
   </data>
   <data name="pathIDToolStripMenuItem.Text" xml:space="preserve">
     <value>Path:ID</value>
   </data>
   <data name="nameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>106, 22</value>
   </data>
   <data name="nameToolStripMenuItem.Text" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="titleContextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 114</value>
+    <value>107, 92</value>
   </data>
   <data name="&gt;&gt;titleContextMenuStrip.Name" xml:space="preserve">
     <value>titleContextMenuStrip</value>
