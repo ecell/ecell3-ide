@@ -473,7 +473,7 @@ namespace Ecell.IDE.Plugins.EntityList
             DataGridView.HitTestInfo hti = objectListDataGrid.HitTest(e.X, e.Y);
             if (e.Button == MouseButtons.Left)
             {
-                if (hti.RowIndex <= 0)
+                if (hti.RowIndex < 0)
                     return;
                 DataGridViewRow r = objectListDataGrid.Rows[hti.RowIndex];
                 m_dragObject = r.Tag as EcellObject;
