@@ -517,7 +517,10 @@ namespace Ecell.IDE.Plugins.Analysis
         private void LoadParameterEstimationResult(StreamReader reader)
         {
             int readPos = 0;
+            int maxGene = 0;
             string line;
+
+            ExecuteParameter param = new ExecuteParameter();
             while ((line = reader.ReadLine()) != null)
             {
                 if (line.StartsWith("#GENERATION"))
@@ -540,11 +543,12 @@ namespace Ecell.IDE.Plugins.Analysis
                     continue;
                 }
 
-                ExecuteParameter param = new ExecuteParameter();
                 if (readPos == 1)
                 {
                     string[] ele = line.Split(new char[] { ',' });
-                    AddEstimationData(Convert.ToInt32(ele[0]), Convert.ToDouble(ele[1]));
+                    int g = Convert.ToInt32(ele[0]);
+                    if (g > maxGene) maxGene = g;
+                    AddEstimationData(g, Convert.ToDouble(ele[1]));
                 }
                 else if (readPos == 2)
                 {
@@ -555,7 +559,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 {
                     string[] ele = line.Split(new char[] { ',' });
                     double v = Convert.ToDouble(ele[0]);
-                    AddEstimateParameter(param, v, 10);
+                    AddEstimateParameter(param, v, maxGene);
                 }
             }
         }
@@ -753,16 +757,16 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 writer = new StreamWriter(fileName, false, Encoding.ASCII);
 
+                writer.WriteLine("#ROBUST");
                 List<string> paramList = new List<string>();
-                writer.Write(",");
                 for (int ind = 0; ind < RAXComboBox.Items.Count; ind++)
                 {
                     string name = RAXComboBox.Items[ind] as string;
                     writer.Write("," + name);
+                    paramList.Add(name);
                 }
                 writer.WriteLine("");
 
-                writer.WriteLine("#ROBUST");
                 foreach (int jobid in m_jobList.Keys)
                 {
                     writer.Write(m_jobList[jobid]);

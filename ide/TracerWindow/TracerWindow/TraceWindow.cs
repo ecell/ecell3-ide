@@ -453,7 +453,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 }
                 m_current = 0.0;
             }
-            m_zCnt.IsShowContextMenu = false;
             double max = 0.0;
             double plotCount = TracerWindow.s_count;
             List<EcellObject> stepperList = m_owner.DataManager.GetStepper(m_owner.DataManager.GetCurrentSimulationParameterID(),
@@ -471,7 +470,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     }
                 }
             }
-//            m_MaxXAxis = max;
 
             if (this.InvokeRequired)
             {
@@ -518,7 +516,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             //    this.Invoke(f, new object[] { true });
             //}
             ChangeStatus(true);
-            m_zCnt.IsShowContextMenu = true;
             isSuspend = false;
         }
 
@@ -528,7 +525,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         public void SuspendSimulation()
         {
-            m_zCnt.IsShowContextMenu = true;
             if (this.InvokeRequired)
             {
                 ChangeStatusCallBack f = new ChangeStatusCallBack(ChangeStatus);
