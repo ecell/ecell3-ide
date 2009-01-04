@@ -94,7 +94,7 @@ namespace Ecell
 
             tmp = new DynamicModule("ExpressionFluxProcess", "", false, "ExpressionFluxProcess");
             tmp.AddProperty("Activity", true, true, false, false, (double)0.0, typeof(double));
-            tmp.AddProperty("IsContinuous", false, true, false, false, 0, typeof(int));
+            tmp.AddProperty("IsContinuous", false, true, false, false, 1, typeof(int));
             tmp.AddProperty("Name", true, true, true, true, "", typeof(string));
             tmp.AddProperty("Priority", true, true, true, true, 0, typeof(int));
             tmp.AddProperty("StepperID", true, true, true, true, "", typeof(string));
@@ -118,7 +118,7 @@ namespace Ecell
 
             tmp = new DynamicModule("GMAProcess", "", false, "GMAProcess");
             tmp.AddProperty("Activity", true, true, false, false, (double)0.0, typeof(double));
-            tmp.AddProperty("IsContinuous", false, true, false, false, 0, typeof(int));
+            tmp.AddProperty("IsContinuous", false, true, false, false, 1, typeof(int));
             tmp.AddProperty("Name", true, true, true, true, "", typeof(string));
             tmp.AddProperty("Priority", true, true, true, true, 0, typeof(int));
             tmp.AddProperty("StepperID", true, true, true, true, "", typeof(string));
