@@ -507,12 +507,14 @@ namespace Ecell.IDE.Plugins.EntityList
         private void EnterDragMode(EcellObject obj)
         {
             if (!obj.Type.Equals(EcellObject.PROCESS) &&
-                !obj.Type.Equals(EcellObject.VARIABLE)) return;
+                !obj.Type.Equals(EcellObject.VARIABLE) &&
+                !obj.Type.Equals(EcellObject.SYSTEM)) return;
 
             foreach (EcellData v in obj.Value)
             {
                 if (!v.Name.Equals(Constants.xpathActivity) &&
-                    !v.Name.Equals(Constants.xpathMolarConc))
+                    !v.Name.Equals(Constants.xpathMolarConc) &&
+                    !v.Name.Equals(Constants.xpathSize))
                     continue;
 
                 EcellDragObject dobj = new EcellDragObject(
