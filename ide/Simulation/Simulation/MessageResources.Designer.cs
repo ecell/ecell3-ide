@@ -79,7 +79,7 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
-        ///   Cannot delete the last parameter set. に類似しているローカライズされた文字列を検索します。
+        ///   At least one parameter set is required in the project. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrDelParam {
             get {

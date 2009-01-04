@@ -124,7 +124,7 @@
     <value>{0} is already exist.</value>
   </data>
   <data name="ErrDelParam" xml:space="preserve">
-    <value>Cannot delete the last parameter set.</value>
+    <value>At least one parameter set is required in the project.</value>
   </data>
   <data name="ErrDelStep" xml:space="preserve">
     <value>At least one Stepper is required in the model.</value>

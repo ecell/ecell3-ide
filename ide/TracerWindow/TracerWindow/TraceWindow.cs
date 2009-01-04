@@ -1021,6 +1021,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     0.0, 0.0,
                     m_zCnt.GraphPane.IsZoomed);
             }
+            if (m_zCnt.GraphPane.IsZoomed)
+                m_zCnt.GraphPane.YAxis.Scale.MaxAuto = false;
+            else
+                m_zCnt.GraphPane.YAxis.Scale.MaxAuto = true;
 
             UpdateGraph(true);
             //UpdateGraphCallBack f = new UpdateGraphCallBack(UpdateGraph);

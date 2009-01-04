@@ -532,6 +532,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 win.ChangeParameterID(sim[viewParamID]);
             using (win)
             {
+                List<string> delList = new List<string>();
                 DialogResult r = win.ShowDialog();
                 if (r != DialogResult.OK)
                     return;
@@ -549,61 +550,68 @@ namespace Ecell.IDE.Plugins.Simulation
 
                     if (deleted)
                     {
-                        m_dManager.DeleteSimulationParameter(sps.Name);
+                        delList.Add(sps.Name);
+//                        m_dManager.DeleteSimulationParameter(sps.Name);
                     }
                 }
 
-                foreach (SimulationParameterSet sps in win.Result)
+                try
                 {
-                    if (!sim.ContainsKey(sps.Name))
-                        m_dManager.CreateSimulationParameter(sps.Name);
-
-                    m_dManager.SetLoggerPolicy(sps.Name, sps.LoggerPolicy);
-
-                    List<EcellObject> steppers = new List<EcellObject>();
-                    foreach (PerModelSimulationParameter pmsp in sps.PerModelSimulationParameters)
+                    foreach (SimulationParameterSet sps in win.Result)
                     {
+                        if (!sim.ContainsKey(sps.Name))
+                            m_dManager.CreateSimulationParameter(sps.Name);
+
+                        m_dManager.SetLoggerPolicy(sps.Name, sps.LoggerPolicy);
+
+
+                        List<EcellObject> steppers = new List<EcellObject>();
+                        foreach (PerModelSimulationParameter pmsp in sps.PerModelSimulationParameters)
                         {
-                            Dictionary<string, double> pairs = new Dictionary<string, double>(pmsp.InitialConditions.Count);
-                            foreach (MutableKeyValuePair<string, double> pair in pmsp.InitialConditions)
-                                pairs.Add(pair.Key, pair.Value);
-                            m_dManager.UpdateInitialCondition(sps.Name, pmsp.ModelID, pairs);
-                        }
-                        foreach (StepperConfiguration sc in pmsp.Steppers)
-                        {
-                            Dictionary<string, EcellData> propDict = m_dManager.GetStepperProperty(sc.ClassName);
-                            foreach (MutableKeyValuePair<string, string> pair in sc.Properties)
                             {
-                                EcellData d = propDict[pair.Key];
-                                if (d.Value.IsDouble)
-                                {
-                                    d.Value = new EcellValue(Convert.ToDouble(pair.Value));
-                                }
-                                else if (d.Value.IsInt)
-                                {
-                                    d.Value = new EcellValue(Convert.ToInt32(pair.Value));
-                                }
-                                else if (d.Value.IsString)
-                                {
-                                    d.Value = new EcellValue(pair.Value);
-                                }
-                                Trace.WriteLine(d.Name + ":" + d.Value.Value);
+                                Dictionary<string, double> pairs = new Dictionary<string, double>(pmsp.InitialConditions.Count);
+                                foreach (MutableKeyValuePair<string, double> pair in pmsp.InitialConditions)
+                                    pairs.Add(pair.Key, pair.Value);
+                                m_dManager.UpdateInitialCondition(sps.Name, pmsp.ModelID, pairs);
                             }
-                            steppers.Add(EcellObject.CreateObject(pmsp.ModelID, sc.Name, Constants.xpathStepper, sc.ClassName, new List<EcellData>(propDict.Values)));
+                            foreach (StepperConfiguration sc in pmsp.Steppers)
+                            {
+                                Dictionary<string, EcellData> propDict = m_dManager.GetStepperProperty(sc.ClassName);
+                                foreach (MutableKeyValuePair<string, string> pair in sc.Properties)
+                                {
+                                    EcellData d = propDict[pair.Key];
+                                    if (d.Value.IsDouble)
+                                    {
+                                        d.Value = new EcellValue(Convert.ToDouble(pair.Value));
+                                    }
+                                    else if (d.Value.IsInt)
+                                    {
+                                        d.Value = new EcellValue(Convert.ToInt32(pair.Value));
+                                    }
+                                    else if (d.Value.IsString)
+                                    {
+                                        d.Value = new EcellValue(pair.Value);
+                                    }
+                                    Trace.WriteLine(d.Name + ":" + d.Value.Value);
+                                }
+                                steppers.Add(EcellObject.CreateObject(pmsp.ModelID, sc.Name, Constants.xpathStepper, sc.ClassName, new List<EcellData>(propDict.Values)));
+                            }
                         }
+
+                        foreach (String key in delList)
+                        {
+                            m_dManager.DeleteSimulationParameter(key);
+                        }
+
+                        m_dManager.UpdateStepperID(sps.Name, steppers);
+                        m_env.PluginManager.ParameterUpdate(
+                            m_env.DataManager.CurrentProjectID, sps.Name);
                     }
-
-                    m_dManager.UpdateStepperID(sps.Name, steppers);
-                    m_env.PluginManager.ParameterUpdate(
-                        m_env.DataManager.CurrentProjectID, sps.Name);
                 }
-
-                if (m_dManager.CurrentProject.Info.SimulationParam == null)
+                catch (Exception ex)
                 {
-                    IEnumerator<SimulationParameterSet> en = win.Result.GetEnumerator();
-                    en.MoveNext();
-                    m_dManager.CurrentProject.Info.SimulationParam = en.Current.Name;
-                }
+                    Util.ShowErrorDialog(ex.Message);
+                }            
             }
         }
 

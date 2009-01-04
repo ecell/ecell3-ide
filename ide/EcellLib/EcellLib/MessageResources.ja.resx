@@ -336,4 +336,7 @@
   <data name="ErrLoadProjectInfo" xml:space="preserve">
     <value>プロジェクト情報の読み込みに失敗しました。</value>
   </data>
+  <data name="ErrDelParam" xml:space="preserve">
+    <value>少なくともプロジェクトには１つのシミュレーションパラメータが必要です。</value>
+  </data>
 </root>

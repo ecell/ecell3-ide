@@ -338,4 +338,7 @@ New revision {0}:{1} was created.</value>
   <data name="ErrLoadProjectInfo" xml:space="preserve">
     <value>Failed to load ProjectInfo.</value>
   </data>
+  <data name="ErrDelParam" xml:space="preserve">
+    <value>At least one parameter set is required in the project.</value>
+  </data>
 </root>

@@ -952,7 +952,14 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             String name = m_lastSelectedNode.Tag as string;
             if (String.IsNullOrEmpty(name)) return;
 
-            m_owner.DataManager.DeleteSimulationParameter(name);
+            try
+            {
+                m_owner.DataManager.DeleteSimulationParameter(name);
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
+            }
         }
 
         private void TreeViewExportModel(object sender, EventArgs e)

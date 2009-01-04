@@ -169,6 +169,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   At least one parameter set is required in the project. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrDelParam {
+            get {
+                return ResourceManager.GetString("ErrDelParam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot delete the root system. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrDelRoot {

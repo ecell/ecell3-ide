@@ -4418,6 +4418,11 @@ namespace Ecell
         public void DeleteSimulationParameter(string parameterID, bool isRecorded, bool isAnchor)
         {
             string message = null;
+
+            if (m_currentProject.StepperDic.Keys.Count <= 1)
+            {
+                throw new EcellException(String.Format(MessageResources.ErrDelParam));
+            }
             try
             {
                 Debug.Assert(!String.IsNullOrEmpty(parameterID));
@@ -4466,7 +4471,14 @@ namespace Ecell
                 m_currentProject.LoggerPolicyDic.Remove(parameterID);
                 Trace.WriteLine(m_currentProject.Info.SimulationParam + ":" + parameterID);
                 if (m_currentProject.Info.SimulationParam == parameterID)
-                    m_currentProject.Info.SimulationParam = null;
+                {
+                    foreach (string key in m_currentProject.StepperDic.Keys)
+                    {
+                        m_currentProject.Info.SimulationParam = key;
+                        m_env.PluginManager.ParameterSet(m_currentProject.Info.Name, key);
+                        break;
+                    }
+                }
                 m_env.PluginManager.ParameterDelete(m_currentProject.Info.Name, parameterID);
                 m_env.Console.WriteLine(String.Format(MessageResources.InfoRemoveSim, parameterID));
                 m_env.Console.Flush();

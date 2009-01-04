@@ -124,7 +124,7 @@
     <value>{0} は既に存在します。</value>
   </data>
   <data name="ErrDelParam" xml:space="preserve">
-    <value>最後のパラメータは削除できません。</value>
+    <value>少なくともプロジェクトには１つのシミュレーションパラメータが必要です。</value>
   </data>
   <data name="ErrDelStep" xml:space="preserve">
     <value>少なくともモデルには１つのステッパーが必要です。</value>
