@@ -142,7 +142,7 @@
     <value>The simulation results have been archived.</value>
   </data>
   <data name="MenuItemDeleteText" xml:space="preserve">
-    <value>Delete</value>
+    <value>&amp;Delete</value>
   </data>
   <data name="MenuItemImportData" xml:space="preserve">
     <value>Log Import ...</value>

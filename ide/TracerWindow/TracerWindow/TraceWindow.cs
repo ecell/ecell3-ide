@@ -284,6 +284,16 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_logList.Clear();
         }
 
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if ((int)keyData == (int)Keys.Control + (int)Keys.D)
+            {
+                DeleteTraceItem(null, new EventArgs());
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         /// <summary>
         /// Add logger entry to DataGridView and ZedGraphControl.
         /// Added logger entry is registed to m_paneDic.
@@ -322,7 +332,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             ContextMenuStrip contextStrip = new ContextMenuStrip();
             ToolStripMenuItem it = new ToolStripMenuItem();
             it.Text = MessageResources.MenuItemDeleteText;
-            it.ShortcutKeys = Keys.Control | Keys.D;
             it.Click += new EventHandler(DeleteTraceItem);
             it.Tag = r;
             contextStrip.Items.AddRange(new ToolStripItem[] { it });
@@ -860,12 +869,21 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="e"></param>
         void DeleteTraceItem(object sender, EventArgs e)
         {
-            DataGridViewRow r = ((ToolStripMenuItem)sender).Tag as DataGridViewRow;
-            if (r == null) return;
-            TagData tag = r.Tag as TagData;
-            if (tag == null) return;
+            List<DataGridViewRow> delList = new List<DataGridViewRow>();
+            foreach (DataGridViewCell c in dgv.SelectedCells)
+            {
+                if (!delList.Contains(dgv.Rows[c.RowIndex]))
+                    delList.Add(dgv.Rows[c.RowIndex]);
+            }
 
-            DeleteTraceEntry(tag);
+            foreach (DataGridViewRow r in delList)
+            {
+                if (r == null) return;
+                TagData tag = r.Tag as TagData;
+                if (tag == null) return;
+
+                DeleteTraceEntry(tag);
+            }
         }
 
         /// <summary>
@@ -1013,7 +1031,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             //this.Invoke(f, new object[] { isAxis });            
             list = null;
         }
-
         #endregion
     }
 }
