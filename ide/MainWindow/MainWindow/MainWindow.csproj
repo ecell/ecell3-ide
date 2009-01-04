@@ -138,6 +138,12 @@
     <Compile Include="InitialPreferencesDialog.designer.cs">
       <DependentUpon>InitialPreferencesDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="JobMessageDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JobMessageDialog.designer.cs">
+      <DependentUpon>JobMessageDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -223,6 +229,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InitialPreferencesDialog.resx">
       <DependentUpon>InitialPreferencesDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JobMessageDialog.ja.resx">
+      <DependentUpon>JobMessageDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JobMessageDialog.resx">
+      <DependentUpon>JobMessageDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.ja.resx">

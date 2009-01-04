@@ -53,20 +53,20 @@
             this.bifurcationMinFrequencyTextBox = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.bifurcationParameterDataGrid = new System.Windows.Forms.DataGridView();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.bifurcationObservedDataGrid = new System.Windows.Forms.DataGridView();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.bifurcationToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.abstractTextBox = new System.Windows.Forms.TextBox();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.bifurcationObservedDataGrid = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.bifurcationToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.abstractTextBox = new System.Windows.Forms.TextBox();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
@@ -198,46 +198,6 @@
             this.bifurcationParameterDataGrid.RowTemplate.Height = 21;
             this.bifurcationParameterDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ParameterDataChanged);
             // 
-            // groupBox3
-            // 
-            resources.ApplyResources(this.groupBox3, "groupBox3");
-            this.groupBox3.Controls.Add(this.bifurcationParameterDataGrid);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.TabStop = false;
-            // 
-            // bifurcationObservedDataGrid
-            // 
-            this.bifurcationObservedDataGrid.AllowUserToAddRows = false;
-            this.bifurcationObservedDataGrid.AllowUserToDeleteRows = false;
-            resources.ApplyResources(this.bifurcationObservedDataGrid, "bifurcationObservedDataGrid");
-            this.bifurcationObservedDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.bifurcationObservedDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.bifurcationObservedDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn5,
-            this.dataGridViewTextBoxColumn6,
-            this.dataGridViewTextBoxColumn7,
-            this.dataGridViewTextBoxColumn8,
-            this.dataGridViewTextBoxColumn9});
-            this.bifurcationObservedDataGrid.Name = "bifurcationObservedDataGrid";
-            this.bifurcationObservedDataGrid.RowHeadersVisible = false;
-            this.bifurcationObservedDataGrid.RowTemplate.Height = 21;
-            this.bifurcationObservedDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ObservedDataChanged);
-            // 
-            // groupBox4
-            // 
-            resources.ApplyResources(this.groupBox4, "groupBox4");
-            this.groupBox4.Controls.Add(this.bifurcationObservedDataGrid);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.TabStop = false;
-            // 
-            // abstractTextBox
-            // 
-            this.abstractTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            resources.ApplyResources(this.abstractTextBox, "abstractTextBox");
-            this.abstractTextBox.Name = "abstractTextBox";
-            this.abstractTextBox.ReadOnly = true;
-            this.abstractTextBox.TabStop = false;
-            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.FillWeight = 80F;
@@ -268,6 +228,31 @@
             this.dataGridViewTextBoxColumn4.FillWeight = 30F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn4, "dataGridViewTextBoxColumn4");
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            // 
+            // groupBox3
+            // 
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Controls.Add(this.bifurcationParameterDataGrid);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
+            // 
+            // bifurcationObservedDataGrid
+            // 
+            this.bifurcationObservedDataGrid.AllowUserToAddRows = false;
+            this.bifurcationObservedDataGrid.AllowUserToDeleteRows = false;
+            resources.ApplyResources(this.bifurcationObservedDataGrid, "bifurcationObservedDataGrid");
+            this.bifurcationObservedDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.bifurcationObservedDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.bifurcationObservedDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn5,
+            this.dataGridViewTextBoxColumn6,
+            this.dataGridViewTextBoxColumn7,
+            this.dataGridViewTextBoxColumn8,
+            this.dataGridViewTextBoxColumn9});
+            this.bifurcationObservedDataGrid.Name = "bifurcationObservedDataGrid";
+            this.bifurcationObservedDataGrid.RowHeadersVisible = false;
+            this.bifurcationObservedDataGrid.RowTemplate.Height = 21;
+            this.bifurcationObservedDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ObservedDataChanged);
             // 
             // dataGridViewTextBoxColumn5
             // 
@@ -307,6 +292,21 @@
             this.dataGridViewTextBoxColumn9.FillWeight = 30F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn9, "dataGridViewTextBoxColumn9");
             this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            // 
+            // groupBox4
+            // 
+            resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Controls.Add(this.bifurcationObservedDataGrid);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.TabStop = false;
+            // 
+            // abstractTextBox
+            // 
+            resources.ApplyResources(this.abstractTextBox, "abstractTextBox");
+            this.abstractTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.abstractTextBox.Name = "abstractTextBox";
+            this.abstractTextBox.ReadOnly = true;
+            this.abstractTextBox.TabStop = false;
             // 
             // BifurcationSettingDialog
             // 

@@ -105,8 +105,8 @@
             // 
             // abstractTextBox
             // 
-            this.abstractTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             resources.ApplyResources(this.abstractTextBox, "abstractTextBox");
+            this.abstractTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.abstractTextBox.Name = "abstractTextBox";
             this.abstractTextBox.ReadOnly = true;
             this.abstractTextBox.TabStop = false;
