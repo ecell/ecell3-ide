@@ -51,52 +51,277 @@ namespace Ecell.IDE.Plugins.Simulation
     public class Simulation : PluginBase
     {
         #region Fields
+        #region Buttons
+        /// <summary>
+        /// ToolButtons.
+        /// </summary>
+        private ToolStrip ButtonList;
+        /// <summary>
+        /// Button to start simulation.
+        /// </summary>
+        private ToolStripButton m_runButton;
+        /// <summary>
+        /// Button to suspend simulation.
+        /// </summary>
+        private ToolStripButton m_suspendButton;
+        /// <summary>
+        /// Button to stop simulation.
+        /// </summary>
+        private ToolStripButton m_stopButton;
+        /// <summary>
+        /// Button to step simulation.
+        /// </summary>
+        private ToolStripButton m_stepButton;
+        /// <summary>
+        /// TextBox of displaying simulation time.
+        /// </summary>
+        private ToolStripTextBox m_timeText;
+        /// <summary>
+        /// TextBoxt to set the step interval.
+        /// </summary>
+        private ToolStripTextBox m_stepText;
+        /// <summary>
+        /// ComboBox to set the parameter set of simulation.
+        /// </summary>
+        private ToolStripComboBox m_paramsCombo;
+        /// <summary>
+        /// ComboBox to set the unit of step.
+        /// </summary>
+        private ToolStripComboBox m_stepUnitCombo;
+        #endregion
+
+        #region Menus
+        /// <summary>
+        /// Simulation Menu.
+        /// </summary>
+        private ToolStripMenuItem MenuItemRun;
+        /// <summary>
+        /// Setup Menu.
+        /// </summary>
+        private ToolStripMenuItem MenuItemSetup;
+        /// <summary>
+        /// the menu strip for [Run ...]
+        /// </summary>
+        private ToolStripMenuItem menuRunSim;
+        /// <summary>
+        /// the menu strip for [Suspend ... ]
+        /// </summary>
+        private ToolStripMenuItem menuSuspendSim;
+        /// <summary>
+        /// the menu strip for [Stop ...]
+        /// </summary>
+        private ToolStripMenuItem menuStopSim;
+        /// <summary>
+        /// the menu strip for [Step ...]
+        /// </summary>
+        private ToolStripMenuItem menuStepSim;
+        /// <summary>
+        /// the menu strip for [Setup ...]
+        /// </summary>
+        private ToolStripMenuItem menuSetupSim;
+        #endregion
+
+        /// <summary>
+        /// system status.
+        /// </summary>
+        private ProjectStatus m_type;
         /// <summary>
         /// The flag whether m_paramsCombo is changed.
         /// </summary>
         private bool m_isChanged = false;
         /// <summary>
-        /// TextBox of displaying simulation time.
+        /// 
         /// </summary>
-        private ToolStripTextBox m_timeText = null;
-        /// <summary>
-        /// TextBoxt to set the step interval.
-        /// </summary>
-        private ToolStripTextBox m_stepText = null;
-        /// <summary>
-        /// ComboBox to set the parameter set of simulation.
-        /// </summary>
-        private ToolStripComboBox m_paramsCombo = null;
-        /// <summary>
-        /// ComboBox to set the unit of step.
-        /// </summary>
-        private ToolStripComboBox m_stepUnitCombo = null;
-        /// <summary>
-        /// the menu strip for [Run ...]
-        /// </summary>
-        private ToolStripMenuItem m_runSim;
-        /// <summary>
-        /// the menu strip for [Suspend ... ]
-        /// </summary>
-        private ToolStripMenuItem m_suspendSim;
-        /// <summary>
-        /// the menu strip for [Stop ...]
-        /// </summary>
-        private ToolStripMenuItem m_stopSim;
-        /// <summary>
-        /// the menu strip for [Step ...]
-        /// </summary>
-        private ToolStripMenuItem m_stepSim;
-        /// <summary>
-        /// the menu strip for [Setup ...]
-        /// </summary>
-        private ToolStripMenuItem m_setupSim;
-        /// <summary>
-        /// system status.
-        /// </summary>
-        private ProjectStatus m_type;
         private bool m_isStepping = false;
+        /// <summary>
+        /// 
+        /// </summary>
         private bool m_isSuspend = false;
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public Simulation()
+        {
+            InitializeComponent();
+        }
+
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Simulation));
+            menuRunSim = new ToolStripMenuItem();
+            menuRunSim.Name = "MenuItemRunSimulation";
+            menuRunSim.Size = new Size(96, 22);
+            menuRunSim.Image = (Image)resources.GetObject("media_play_green");
+            menuRunSim.Text = MessageResources.MenuItemRun;
+            menuRunSim.Tag = 10;
+            menuRunSim.Enabled = false;
+            menuRunSim.Click += new EventHandler(this.RunSimulation);
+
+            menuSuspendSim = new ToolStripMenuItem();
+            menuSuspendSim.Name = "MenuItemSuspendSimulation";
+            menuSuspendSim.Size = new Size(96, 22);
+            menuSuspendSim.Text = MessageResources.MenuItemSuspend;
+            menuSuspendSim.Tag = 20;
+            menuSuspendSim.Image = (Image)resources.GetObject("media_pause"); 
+            menuSuspendSim.Enabled = false;
+            menuSuspendSim.Click += new EventHandler(this.SuspendSimulation);
+
+            menuStopSim = new ToolStripMenuItem();
+            menuStopSim.Name = "MenuItemStopSimulation";
+            menuStopSim.Size = new Size(96, 22);
+            menuStopSim.Image = (Image)resources.GetObject("media_stop_red");
+            menuStopSim.Text = MessageResources.MenuItemStop;
+            menuStopSim.Tag = 30;
+            menuStopSim.Enabled = false;
+            menuStopSim.Click += new EventHandler(this.ResetSimulation);
+
+            menuStepSim = new ToolStripMenuItem();
+            menuStepSim.Name = "MenuItemStepSimulation";
+            menuStepSim.Size = new Size(96, 22);
+            menuStepSim.Image = (Image)resources.GetObject("media_step_forward");
+            menuStepSim.Text = MessageResources.MenuItemStep;
+            menuStepSim.Tag = 30;
+            menuStepSim.Enabled = false;
+            menuStepSim.Click += new EventHandler(this.Step);
+
+            MenuItemRun = new ToolStripMenuItem();
+            MenuItemRun.Name = "MenuItemRun";
+            MenuItemRun.Size = new Size(36, 20);
+            MenuItemRun.Text = "Run";
+            MenuItemRun.DropDownItems.AddRange(new ToolStripItem[] {
+                menuRunSim,
+                menuSuspendSim,
+                menuStopSim,
+                menuStepSim
+            });
+
+            menuSetupSim = new ToolStripMenuItem();
+            menuSetupSim.Name = "MenuItemSetupSimulation";
+            menuSetupSim.Size = new Size(96, 22);
+            menuSetupSim.Text = MessageResources.MenuItemSetupSim;
+            menuSetupSim.Tag = 10;
+            menuSetupSim.Enabled = false;
+            menuSetupSim.Click += new EventHandler(this.SetupSimulation);
+
+            MenuItemSetup = new ToolStripMenuItem();
+            MenuItemSetup.Name = "MenuItemSetup";
+            MenuItemSetup.Size = new Size(36, 20);
+            MenuItemSetup.Text = "Setup";
+            MenuItemSetup.DropDownItems.AddRange(new ToolStripItem[] {
+                menuSetupSim
+            });
+
+            m_paramsCombo = new ToolStripComboBox();
+            m_paramsCombo.Name = "SimulationParameter";
+            m_paramsCombo.Size = new System.Drawing.Size(150, 25);
+            m_paramsCombo.AutoSize = false;
+            m_paramsCombo.MaxLength = 0;
+            m_paramsCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            m_paramsCombo.SelectedIndexChanged += new EventHandler(ParameterSelectedIndexChanged);
+            m_paramsCombo.Tag = 1;
+
+            m_runButton = new ToolStripButton();
+            m_runButton.Image = (Image)resources.GetObject("media_play_green");
+            m_runButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            m_runButton.Tag = 2;
+            m_runButton.Name = "RunSimulation";
+            m_runButton.Size = new System.Drawing.Size(23, 22);
+            m_runButton.Text = "";
+            m_runButton.ToolTipText = MessageResources.ToolTipRun;
+            m_runButton.Click += new System.EventHandler(this.RunSimulation);
+
+            m_suspendButton = new ToolStripButton();
+            m_suspendButton.Image = (Image)resources.GetObject("media_pause");
+            m_suspendButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            m_suspendButton.Name = "SuspendSimulation";
+            m_suspendButton.Size = new System.Drawing.Size(23, 22);
+            m_suspendButton.Tag = 3;
+            m_suspendButton.Text = "";
+            m_suspendButton.ToolTipText = MessageResources.ToolTipSuspend;
+            m_suspendButton.Click += new System.EventHandler(this.SuspendSimulation);
+
+            m_stopButton = new ToolStripButton();
+            m_stopButton.Image = (Image)resources.GetObject("media_stop_red");
+            m_stopButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            m_stopButton.Name = "StopSimulation";
+            m_stopButton.Size = new System.Drawing.Size(23, 22);
+            m_stopButton.Text = "";
+            m_stopButton.Tag = 4;
+            m_stopButton.ToolTipText = MessageResources.ToolTipStop;
+            m_stopButton.Click += new System.EventHandler(this.ResetSimulation);
+
+            ToolStripLabel timeLabel = new ToolStripLabel();
+            timeLabel.Name = "TimeLabel";
+            timeLabel.Size = new System.Drawing.Size(81, 22);
+            timeLabel.Text = " Time: ";
+            timeLabel.Tag = 5;
+
+            m_timeText = new ToolStripTextBox();
+            m_timeText.Name = "TimeText";
+            m_timeText.Size = new System.Drawing.Size(80, 25);
+            m_timeText.Text = "0";
+            m_timeText.ReadOnly = true;
+            m_timeText.Tag = 6;
+            m_timeText.TextBoxTextAlign = HorizontalAlignment.Right;
+
+            ToolStripLabel secLabel = new ToolStripLabel();
+            secLabel.Name = "SecLabel";
+            secLabel.Size = new System.Drawing.Size(50, 22);
+            secLabel.Text = "sec";
+            secLabel.Tag = 7;
+
+            ToolStripSeparator sep = new ToolStripSeparator();
+            sep.Tag = 8;
+
+            m_stepButton = new ToolStripButton();
+            m_stepButton.Image = (Image)resources.GetObject("media_step_forward");
+            m_stepButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            m_stepButton.Name = "StepSimulation";
+            m_stepButton.Size = new System.Drawing.Size(23, 22);
+            m_stepButton.Text = "";
+            m_stepButton.Tag = 9;
+            m_stepButton.ToolTipText = MessageResources.ToolTipStep;
+            m_stepButton.Click += new System.EventHandler(this.Step);
+
+            m_stepText = new ToolStripTextBox();
+            m_stepText.Name = "StepText";
+            m_stepText.Size = new System.Drawing.Size(60, 25);
+            m_stepText.Text = "1";
+            m_stepText.Tag = 10;
+            m_stepText.TextBoxTextAlign = HorizontalAlignment.Right;
+            m_stepText.TextChanged += new EventHandler(m_stepText_TextChanged);
+
+            m_stepUnitCombo = new ToolStripComboBox();
+            m_stepUnitCombo.Name = "StepCourse";
+            m_stepUnitCombo.Size = new System.Drawing.Size(50, 25);
+            m_stepUnitCombo.AutoSize = false;
+            m_stepUnitCombo.Tag = 11;
+            m_stepUnitCombo.Items.Add("Step");
+            m_stepUnitCombo.Items.Add("Sec");
+            m_stepUnitCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            m_stepUnitCombo.SelectedIndex = 0;
+            m_stepUnitCombo.SelectedIndexChanged += new EventHandler(m_stepUnitCombo_SelectedIndexChanged);
+
+            ButtonList = new ToolStrip();
+
+            ButtonList.Items.AddRange( new ToolStripItem[] {
+                m_paramsCombo,
+                m_runButton,
+                m_suspendButton,
+                m_stopButton,
+                timeLabel,
+                m_timeText,
+                secLabel,
+                sep,
+                m_stepButton,
+                m_stepText,
+                m_stepUnitCombo});
+            ButtonList.Location = new Point(400, 0);
+
+        }
         #endregion
 
         #region Inherited from PluginBase
@@ -110,75 +335,10 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <returns>MenuStripItems</returns>
         public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Simulation));
-            List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();
-
-            m_runSim = new ToolStripMenuItem();
-            m_runSim.Name = "MenuItemRunSimulation";
-            m_runSim.Size = new Size(96, 22);
-            m_runSim.Image = (Image)resources.GetObject("media_play_green");
-            m_runSim.Text = MessageResources.MenuItemRun;
-            m_runSim.Tag = 10;
-            m_runSim.Enabled = false;
-            m_runSim.Click += new EventHandler(this.RunSimulation);
-
-            m_suspendSim = new ToolStripMenuItem();
-            m_suspendSim.Name = "MenuItemSuspendSimulation";
-            m_suspendSim.Size = new Size(96, 22);
-            m_suspendSim.Text = MessageResources.MenuItemSuspend;
-            m_suspendSim.Tag = 20;
-            m_suspendSim.Image = (Image)resources.GetObject("media_pause"); 
-            m_suspendSim.Enabled = false;
-            m_suspendSim.Click += new EventHandler(this.SuspendSimulation);
-
-            m_stopSim = new ToolStripMenuItem();
-            m_stopSim.Name = "MenuItemStopSimulation";
-            m_stopSim.Size = new Size(96, 22);
-            m_stopSim.Image = (Image)resources.GetObject("media_stop_red");
-            m_stopSim.Text = MessageResources.MenuItemStop;
-            m_stopSim.Tag = 30;
-            m_stopSim.Enabled = false;
-            m_stopSim.Click += new EventHandler(this.ResetSimulation);
-
-            m_stepSim = new ToolStripMenuItem();
-            m_stepSim.Name = "MenuItemStepSimulation";
-            m_stepSim.Size = new Size(96, 22);
-            m_stepSim.Image = (Image)resources.GetObject("media_step_forward");
-            m_stepSim.Text = MessageResources.MenuItemStep;
-            m_stepSim.Tag = 30;
-            m_stepSim.Enabled = false;
-            m_stepSim.Click += new EventHandler(this.Step);
-
-            ToolStripMenuItem run = new ToolStripMenuItem();
-            run.DropDownItems.AddRange(new ToolStripItem[] {
-                m_runSim,
-                m_suspendSim,
-                m_stopSim,
-                m_stepSim
-            });
-            run.Name = "MenuItemRun";
-            run.Size = new Size(36, 20);
-            run.Text = "Run";
-            tmp.Add(run);
-
-            m_setupSim = new ToolStripMenuItem();
-            m_setupSim.Name = "MenuItemSetupSimulation";
-            m_setupSim.Size = new Size(96, 22);
-            m_setupSim.Text = MessageResources.MenuItemSetupSim;
-            m_setupSim.Tag = 10;
-            m_setupSim.Enabled = false;
-            m_setupSim.Click += new EventHandler(this.SetupSimulation);
-
-            ToolStripMenuItem setup = new ToolStripMenuItem();
-            setup.DropDownItems.AddRange(new ToolStripItem[] {
-                m_setupSim
-            });
-            setup.Name = "MenuItemSetup";
-            setup.Size = new Size(36, 20);
-            setup.Text = "Setup";
-            tmp.Add(setup);
-
-            return tmp;
+            List<ToolStripMenuItem> menuList = new List<ToolStripMenuItem>();
+            menuList.Add(MenuItemRun);
+            menuList.Add(MenuItemSetup);
+            return menuList;
         }
 
         /// <summary>
@@ -187,112 +347,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <returns>List of ToolStripItem.</returns>
         public override ToolStrip GetToolBarMenuStrip()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Simulation));
-            ToolStrip list = new ToolStrip();
-
-            m_paramsCombo = new ToolStripComboBox();
-            m_paramsCombo.Name = "SimulationParameter";
-            m_paramsCombo.Size = new System.Drawing.Size(150, 25);
-            m_paramsCombo.AutoSize = false;
-            m_paramsCombo.MaxLength = 0;
-            m_paramsCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-            m_paramsCombo.SelectedIndexChanged += new EventHandler(ParameterSelectedIndexChanged);
-            m_paramsCombo.Tag = 1;
-            list.Items.Add(m_paramsCombo);
-
-            ToolStripButton button1 = new ToolStripButton();
-            button1.Image = (Image)resources.GetObject("media_play_green");
-            button1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            button1.Tag = 2;
-            button1.Name = "RunSimulation";
-            button1.Size = new System.Drawing.Size(23, 22);
-            button1.Text = "";
-            button1.ToolTipText = MessageResources.ToolTipRun;
-            button1.Click += new System.EventHandler(this.RunSimulation);
-            list.Items.Add(button1);
-
-            ToolStripButton button3 = new ToolStripButton();
-            button3.Image = (Image)resources.GetObject("media_pause");
-            button3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            button3.Name = "SuspendSimulation";
-            button3.Size = new System.Drawing.Size(23, 22);
-            button3.Tag = 3;
-            button3.Text = "";
-            button3.ToolTipText = MessageResources.ToolTipSuspend;
-            button3.Click += new System.EventHandler(this.SuspendSimulation);
-            list.Items.Add(button3);
-
-            ToolStripButton button2 = new ToolStripButton();
-            button2.Image = (Image)resources.GetObject("media_stop_red");
-            button2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            button2.Name = "StopSimulation";
-            button2.Size = new System.Drawing.Size(23, 22);
-            button2.Text = "";
-            button2.Tag = 4;
-            button2.ToolTipText = MessageResources.ToolTipStop;
-            button2.Click += new System.EventHandler(this.ResetSimulation);
-            list.Items.Add(button2);
-
-            ToolStripLabel label1 = new ToolStripLabel();
-            label1.Name = "TimeLabel";
-            label1.Size = new System.Drawing.Size(81, 22);
-            label1.Text = " Time: ";
-            label1.Tag = 5;
-            list.Items.Add(label1);
-
-            m_timeText = new ToolStripTextBox();
-            m_timeText.Name = "TimeText";
-            m_timeText.Size = new System.Drawing.Size(80, 25);
-            m_timeText.Text = "0";
-            m_timeText.ReadOnly = true;
-            m_timeText.Tag = 6;
-            m_timeText.TextBoxTextAlign =  HorizontalAlignment.Right;
-            list.Items.Add(m_timeText);
-
-            ToolStripLabel label2 = new ToolStripLabel();
-            label2.Name = "SecLabel";
-            label2.Size = new System.Drawing.Size(50, 22);
-            label2.Text = "sec";
-            label2.Tag = 7;
-            list.Items.Add(label2);
-
-            ToolStripSeparator sep = new ToolStripSeparator();
-            sep.Tag = 8;
-            list.Items.Add(sep);
-
-            ToolStripButton button4 = new ToolStripButton();
-            button4.Image = (Image)resources.GetObject("media_step_forward");
-            button4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            button4.Name = "StepSimulation";
-            button4.Size = new System.Drawing.Size(23, 22);
-            button4.Text = "";
-            button4.Tag = 9;
-            button4.ToolTipText = MessageResources.ToolTipStep;
-            button4.Click += new System.EventHandler(this.Step);
-            list.Items.Add(button4);
-
-            m_stepText = new ToolStripTextBox();
-            m_stepText.Name = "StepText";
-            m_stepText.Size = new System.Drawing.Size(60, 25);
-            m_stepText.Text = "1";
-            m_stepText.Tag = 10;
-            m_stepText.TextBoxTextAlign = HorizontalAlignment.Right;
-            m_stepText.Validating += new CancelEventHandler(m_stepText_Validating);
-            list.Items.Add(m_stepText);
-
-            m_stepUnitCombo = new ToolStripComboBox();
-            m_stepUnitCombo.Name = "StepCourse";
-            m_stepUnitCombo.Size = new System.Drawing.Size(50, 25);
-            m_stepUnitCombo.AutoSize = false;
-            m_stepUnitCombo.Tag = 11;
-            m_stepUnitCombo.Items.Add("Step");
-            m_stepUnitCombo.Items.Add("Sec");
-            m_stepUnitCombo.DropDownStyle = ComboBoxStyle.DropDownList;
-            m_stepUnitCombo.SelectedIndex = 0;
-            m_stepUnitCombo.SelectedIndexChanged += new EventHandler(m_stepUnitCombo_SelectedIndexChanged);
-            list.Items.Add(m_stepUnitCombo);
-            list.Location = new Point(400, 0);
-            return list;
+            return this.ButtonList;
         }
 
         /// <summary>
@@ -380,104 +435,39 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="type">System status.</param>
         public override void ChangeStatus(ProjectStatus type)
         {
-            if (type == ProjectStatus.Uninitialized)
-            {
-                // Menu
-                m_runSim.Enabled = false;
-                m_stopSim.Enabled = false;
-                m_suspendSim.Enabled = false;
-                m_stepSim.Enabled = false;
-                m_setupSim.Enabled = false;
+            bool isUninitialized = type == ProjectStatus.Uninitialized;
+            bool isLoaded = type == ProjectStatus.Loaded;
+            bool isRunning = type == ProjectStatus.Running;
+            bool isStepping = type == ProjectStatus.Stepping;
+            bool isSuspended = type == ProjectStatus.Suspended;
 
-                // ToolBar
+            // Set Menu Enabled.
+            menuRunSim.Enabled = isLoaded || isSuspended;
+            menuSuspendSim.Enabled = isRunning || isStepping;
+            menuStopSim.Enabled = isStepping || isRunning || isSuspended;
+            menuStepSim.Enabled = isLoaded || isStepping || isSuspended;
+            menuSetupSim.Enabled = isLoaded || isStepping || isRunning || isSuspended;
+
+            menuRunSim.Checked = isRunning;
+            menuSuspendSim.Checked = isSuspended;
+
+            // Set Button Enabled.
+            m_runButton.Enabled = isLoaded || isSuspended;
+            m_suspendButton.Enabled = isRunning || isStepping;
+            m_stopButton.Enabled = isStepping || isRunning || isSuspended;
+            m_stepButton.Enabled = isLoaded || isStepping || isSuspended;
+
+            m_runButton.Checked = isRunning;
+            m_suspendButton.Checked = isSuspended;
+
+            // Set ComboBox for Params.
+            m_timeText.Enabled = isLoaded || isStepping || isRunning || isSuspended;
+            if (isUninitialized || isLoaded)
                 m_timeText.Text = "0";
-                m_timeText.Enabled = false;
-                m_timeText.ForeColor = Color.Black;
-                m_paramsCombo.Enabled = false;
-                m_stepUnitCombo.Enabled = false;
-                m_stepText.Enabled = false;
-            }
-            else if (type == ProjectStatus.Loaded)
-            {
-                // Menu
-                m_runSim.Enabled = true;
-                m_stopSim.Enabled = false;
-                m_suspendSim.Enabled = false;
-                m_stepSim.Enabled = true;
-                m_setupSim.Enabled = true;
+            m_stepText.Enabled = isLoaded || (isSuspended && !m_isStepping);
+            m_stepUnitCombo.Enabled = isLoaded || (isSuspended && !m_isStepping);
+            m_paramsCombo.Enabled = isLoaded;
 
-                // ToolBar
-                m_timeText.Text = "0";
-                m_timeText.Enabled = true;
-                m_timeText.ForeColor = Color.Black;
-                m_paramsCombo.Enabled = true;
-                m_stepUnitCombo.Enabled = true;
-                m_stepText.Enabled = true;
-            }
-            else if (type == ProjectStatus.Stepping)
-            {
-                // Menu
-                m_runSim.Enabled = false;
-                m_stopSim.Enabled = true;
-                m_suspendSim.Enabled = true;
-                m_stepSim.Enabled = false;
-                m_setupSim.Enabled = true;
-
-                // ToolBar
-                m_paramsCombo.Enabled = true;
-                m_timeText.Enabled = true;
-                m_timeText.ForeColor = Color.Black;
-                m_stepUnitCombo.Enabled = false;
-                m_stepText.Enabled = false;
-            }
-            else if (type == ProjectStatus.Running)
-            {
-                // Menu
-                m_runSim.Enabled = false;
-                m_stopSim.Enabled = true;
-                m_suspendSim.Enabled = true;
-                m_stepSim.Enabled = false;
-                m_setupSim.Enabled = true;
-
-                // ToolBar
-                m_paramsCombo.Enabled = false;
-                m_stepText.Enabled = false;
-                m_stepUnitCombo.Enabled = false;
-                m_timeText.Enabled = true;
-                m_timeText.ForeColor = Color.Black;
-            }
-            else if (type == ProjectStatus.Suspended)
-            {
-                // Menu
-                m_runSim.Enabled = true;
-                m_stopSim.Enabled = true;
-                m_suspendSim.Enabled = false;
-                m_stepSim.Enabled = true;
-                m_setupSim.Enabled = true;
-
-                // ToolBar
-                m_timeText.Enabled = true;
-                if (m_isStepping)
-                {
-                    m_stepText.Enabled = false;
-                    m_stepUnitCombo.Enabled = false;
-                }
-                else
-                {
-                    m_stepText.Enabled = true;
-                    m_stepUnitCombo.Enabled = true;
-                }
-            }
-            else if (type == ProjectStatus.Refresh || type == ProjectStatus.Loading)
-            {
-            }
-            else
-            {
-                m_runSim.Enabled = false;
-                m_stopSim.Enabled = false;
-                m_suspendSim.Enabled = false;
-                m_setupSim.Enabled = false;
-            }
             m_type = type;
         }
 
@@ -782,19 +772,7 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
 
-        void m_stepUnitCombo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (m_stepUnitCombo.Text.Equals("Step"))
-            {
-                m_stepText.Text = "1";
-            }
-            else
-            {
-                m_stepText.Text = "1.0";
-            }
-        }
-
-        void m_stepText_Validating(object sender, CancelEventArgs e)
+        private void m_stepText_TextChanged(object sender, EventArgs e)
         {
             ToolStripTextBox text = (ToolStripTextBox)sender;
 
@@ -817,6 +795,18 @@ namespace Ecell.IDE.Plugins.Simulation
                     text.Text = "1.0";
                     return;
                 }
+            }
+        }
+
+        void m_stepUnitCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (m_stepUnitCombo.Text.Equals("Step"))
+            {
+                m_stepText.Text = "1";
+            }
+            else
+            {
+                m_stepText.Text = "1.0";
             }
         }
         #endregion

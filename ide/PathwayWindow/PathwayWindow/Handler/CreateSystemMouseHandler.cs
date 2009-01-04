@@ -256,7 +256,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 {
                     newlySelectedList.AddRange(layer.GetNodes(m_rect));
                 }
-                EcellObject eo = m_con.CreateDefaultObject(m_canvas.ModelID, m_surSystem, EcellObject.SYSTEM, false);
+                EcellObject eo = m_con.CreateDefaultObject(m_canvas.ModelID, m_surSystem, EcellObject.SYSTEM);
 
                 eo.X = m_rect.X;
                 eo.Y = m_rect.Y;
@@ -301,7 +301,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             {
                 if (obj.EcellObject.ParentSystemID.StartsWith(systemName))
                     continue;
-                if (!m_canvas.DoesSystemContains(systemName, obj.Rect))
+                if (!m_canvas.DoesSystemContains(systemName, obj.CenterPointF))
                     continue;
 
                 newKey = PathUtil.GetMovedKey(obj.EcellObject.Key, system.EcellObject.ParentSystemID, systemName);

@@ -239,9 +239,27 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public override void RefreshView()
         {
-            base.m_path = m_figure.CreatePath(X, Y, Width, Height);
+            SetNewPath();
             base.RefreshView();
             m_resizeHandler.UpdateResizeHandle();
+        }
+
+        private void SetNewPath()
+        {
+            if (m_path.PathPoints == null || m_path.PathPoints.Length < 1)
+                return;
+            float minX = m_path.PathPoints[0].X;
+            float minY = m_path.PathPoints[0].Y;
+            float maxX = minX;
+            float maxY = minY;
+            foreach (PointF point in m_path.PathPoints)
+            {
+                minX = Math.Min(minX, point.X);
+                minY = Math.Min(minY, point.Y);
+                maxX = Math.Max(maxX, point.X);
+                maxY = Math.Max(maxY, point.Y);
+            }
+            base.m_path = m_figure.CreatePath(minX, minY, maxX - minX, maxY - minY);
         }
         /// <summary>
         /// Refresh Text contents of this object.

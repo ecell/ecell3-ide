@@ -136,30 +136,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 
         #region Methods
         /// <summary>
-        /// Create SVG object.
-        /// </summary>
-        /// <returns></returns>
-        public override string CreateSVGObject()
-        {
-            string obj = "";
-            foreach (PPathwayLine line in m_relations)
-                if(line.Visible)
-                    obj += line.CreateSVGObject();
-
-            if (!m_isViewMode)
-            {
-                obj += base.CreateSVGObject();
-            }
-            else
-            {
-                string lineBrush = BrushManager.ParseBrushToString(m_setting.LineBrush);
-                string fillBrush = "url(#" + m_setting.Name + ")";
-                obj += m_tempFigure.CreateSVGObject(this.Rect, lineBrush, fillBrush);
-            }
-            return obj;
-        }
-
-        /// <summary>
         /// Set Line Width.
         /// </summary>
         /// <param name="width"></param>
@@ -229,6 +205,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                     EdgeInfo edge = new EdgeInfo(process.Key, list, er);
                     PPathwayLine line = new PPathwayLine(m_canvas, edge, this, var);
                     m_layer.AddChild(line);
+                    line.Visible = this.Visible && var.Visible;
+                    line.Pickable = line.Visible;
                 }
             }
             catch (Exception e)

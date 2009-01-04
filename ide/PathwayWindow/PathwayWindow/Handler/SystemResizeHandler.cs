@@ -66,6 +66,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         public SystemResizeHandler(PPathwayObject obj)
             : base(obj)
         {
+            m_minWidth = PPathwaySystem.MIN_WIDTH;
+            m_minHeight = PPathwaySystem.MIN_HEIGHT;
         }
         /// <summary>
         /// GetCursor
@@ -97,6 +99,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             // Resizing is aborted
             m_obj.ResetPosition();
             ValidateSystem();
+            m_obj.RefreshView();
             UpdateResizeHandle();
             m_canvas.NotifyResetSelect();
             ClearSurroundState();
@@ -239,31 +242,38 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             }
 
             // Move objects.
-            foreach (PPathwayObject obj in currentDict.Values)
+            try
             {
-                if (obj is PPathwayText)
-                    continue;
-                string oldKey = obj.EcellObject.Key;
-                string newKey = PathUtil.GetMovedKey(oldKey, parentKey, systemName);
-                // Set node change
-                m_canvas.Control.NotifyDataChanged(oldKey, newKey, obj, true, false);
+                foreach (PPathwayObject obj in currentDict.Values)
+                {
+                    if (obj is PPathwayText)
+                        continue;
+                    string oldKey = obj.EcellObject.Key;
+                    string newKey = PathUtil.GetMovedKey(oldKey, parentKey, systemName);
+                    // Set node change
+                    m_canvas.Control.NotifyDataChanged(oldKey, newKey, obj, true, false);
+                }
+                foreach (PPathwayObject obj in beforeDict.Values)
+                {
+                    if (obj is PPathwayText)
+                        continue;
+                    string oldKey = obj.EcellObject.Key;
+                    string newKey = PathUtil.GetMovedKey(oldKey, systemName, parentKey);
+                    // Set node change
+                    m_canvas.Control.NotifyDataChanged(oldKey, newKey, obj, true, false);
+                }
+
+                // Fire DataChanged for child in system.!
+                UpdateResizeHandle();
+                m_canvas.NotifyResetSelect();
+                ClearSurroundState();
+
+                base.ResizeHandle_MouseUp(sender, e);
             }
-            foreach (PPathwayObject obj in beforeDict.Values)
+            catch (Exception)
             {
-                if (obj is PPathwayText)
-                    continue;
-                string oldKey = obj.EcellObject.Key;
-                string newKey = PathUtil.GetMovedKey(oldKey, systemName, parentKey);
-                // Set node change
-                m_canvas.Control.NotifyDataChanged(oldKey, newKey, obj, true, false);
+                ResetSystemResize();
             }
-
-            // Fire DataChanged for child in system.!
-            UpdateResizeHandle();
-            m_canvas.NotifyResetSelect();
-            ClearSurroundState();
-
-            base.ResizeHandle_MouseUp(sender, e);
         }
 
         /// <summary>
@@ -276,21 +286,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             RefreshSurroundState();
             base.ResizeHandle_MouseDrag(sender, e);
             ValidateSystem();
-        }
-        /// <summary>
-        /// ResizeObject
-        /// </summary>
-        protected override void ResizeObject(float x, float y, float width, float height)
-        {
-            // Resize System
-            if (width >= PPathwaySystem.MIN_WIDTH && height >= PPathwaySystem.MIN_HEIGHT)
-            {
-                m_obj.X = x;
-                m_obj.Y = y;
-                m_obj.Width = width;
-                m_obj.Height = height;
-                m_obj.RefreshView();
-            }
         }
         #endregion
     }

@@ -98,12 +98,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         private readonly int LAYER_SHOWCOLUMN_WIDTH = 50;
 
+        private readonly int LAYER_CHECK_COLUMN = 1;
         /// <summary>
         /// The PathwayControl, from which this class gets messages from the E-cell core and through which this class
         /// sends messages to the E-cell core.
         /// </summary>
-        protected PathwayControl m_con;
-
+        protected PathwayControl m_con = null;
+        /// <summary>
+        /// The current CanvasControl.
+        /// </summary>
+        protected CanvasControl m_canvas = null;
         /// <summary>
         /// Every time when m_dgv.CurrentCellDirtyStateChanged event occurs, 
         /// m_dgv_CurrentCellDirtyStateChanged delegate will be called twice.
@@ -115,6 +119,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// DetaGridView
         /// </summary>
         private DataGridView m_dgv;
+        private DataGridViewCheckBoxColumn CheckBoxColumn;
+        private DataGridViewTextBoxColumn LayerNameColumn;
         /// <summary>
         /// PPath to show main pathway area in the overview.
         /// Normally, this node is colored in red.
@@ -130,21 +136,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         private string m_selectedLayer = null;
         #endregion
 
-        #region MyRegion
+        #region Accessor
         /// <summary>
         /// A name of selected layer.
         /// </summary>
-        public string SelectedLayer
+        public string CurrentLayer
         {
-            get { return m_selectedLayer; }
-            set { 
-                m_selectedLayer = value;
-                for (int i = 0; i < m_dgv.RowCount; i++)
-                {
-                    if (m_selectedLayer.Equals(m_dgv[1, i].FormattedValue))
-                        m_dgv.Rows[i].Selected = true;
-                }
-            }
+            get { return GetCurrentLayerID(); }
         }
 
         #endregion
@@ -157,7 +155,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         {
             base.m_isSavable = true;
             this.m_con = control;
-            this.m_con.CanvasChange += new EventHandler(m_con_CanvasChange);
+            control.CanvasChange += new EventHandler(OnCanvasChange);
+            control.ProjectStatusChange += new EventHandler(OnProjectStatusChange);
             InitializeComponent();
             // Preparing context menus.
             m_dgv.ContextMenuStrip = CreatePopUpMenus();
@@ -165,16 +164,43 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.TabText = this.Text;
         }
 
-        void m_con_CanvasChange(object sender, EventArgs e)
+        void OnProjectStatusChange(object sender, EventArgs e)
         {
-            m_dgv.DataSource = null;
+            if (m_con.ProjectStatus == ProjectStatus.Uninitialized)
+                m_dgv.Rows.Clear();
+        }
+
+        void OnCanvasChange(object sender, EventArgs e)
+        {
+            if (m_canvas != null)
+                m_canvas.LayerChange -= this.OnLayerChange;
             if (m_con.Canvas == null)
                 return;
-            m_dgv.DataSource = m_con.Canvas.LayerTable;
+            m_canvas = m_con.Canvas;
+            m_canvas.LayerChange += new EventHandler(OnLayerChange);
         }
-        #endregion
 
-        #region Accessor
+        void OnLayerChange(object sender, EventArgs e)
+        {
+            RefreshLayerTable();
+        }
+        /// <summary>
+        /// Refresh 
+        /// </summary>
+        private void RefreshLayerTable()
+        {
+            m_dgv.Rows.Clear();
+            foreach (PNode obj in m_canvas.PCanvas.Root.ChildrenReference)
+            {
+                if (!(obj is PPathwayLayer))
+                    continue;
+                PPathwayLayer layer = (PPathwayLayer)obj;
+                if (string.IsNullOrEmpty(layer.Name))
+                    continue;
+                LayerGridRow row = new LayerGridRow(layer);
+                m_dgv.Rows.Add(row);
+            }
+        }
         #endregion
 
         #region Methods
@@ -187,6 +213,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LayerView));
             this.panel = new System.Windows.Forms.Panel();
             this.m_dgv = new System.Windows.Forms.DataGridView();
+            this.CheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.LayerNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).BeginInit();
             this.SuspendLayout();
@@ -212,18 +240,32 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.m_dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.m_dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.m_dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.CheckBoxColumn,
+            this.LayerNameColumn});
             resources.ApplyResources(this.m_dgv, "m_dgv");
             this.m_dgv.MultiSelect = false;
             this.m_dgv.Name = "m_dgv";
             this.m_dgv.RowHeadersVisible = false;
             this.m_dgv.RowTemplate.Height = 21;
             this.m_dgv.MouseDown += new System.Windows.Forms.MouseEventHandler(this.m_dgv_MouseDown);
+            this.m_dgv.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_dgv_CellValidated);
             this.m_dgv.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_dgv_CellMouseDown);
             this.m_dgv.CurrentCellDirtyStateChanged += new System.EventHandler(this.m_dgv_CurrentCellDirtyStateChanged);
-            this.m_dgv.CellBeginEdit += new DataGridViewCellCancelEventHandler(m_dgv_CellBeginEdit);
-            this.m_dgv.CellValidated += new DataGridViewCellEventHandler(m_dgv_CellValidated);
             this.m_dgv.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgv_DataBindingComplete);
             this.m_dgv.VisibleChanged += new System.EventHandler(this.m_dgv_VisibleChanged);
+            // 
+            // CheckBoxColumn
+            // 
+            this.CheckBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.CheckBoxColumn.HeaderText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerColumnShow;
+            this.CheckBoxColumn.Name = "CheckBoxColumn";
+            resources.ApplyResources(this.CheckBoxColumn, "CheckBoxColumn");
+            // 
+            // LayerNameColumn
+            // 
+            this.LayerNameColumn.HeaderText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerColumnName;
+            this.LayerNameColumn.Name = "LayerNameColumn";
             // 
             // LayerView
             // 
@@ -236,7 +278,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).EndInit();
             this.ResumeLayout(false);
-            this.m_dgv.CommitEdit(DataGridViewDataErrorContexts.Commit);
+
         }
 
         /// <summary>
@@ -300,35 +342,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         #endregion
 
         #region Event sequences
-        void m_dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            CanvasControl canvas = m_con.Canvas;
-
-            if (m_dgv[e.ColumnIndex, e.RowIndex] is DataGridViewCheckBoxCell)
-                return;
-            m_dgv.Rows[e.RowIndex].Tag = m_dgv[e.ColumnIndex, e.RowIndex].Value.ToString();
-        }
-
         void m_dgv_CellValidated(object sender, DataGridViewCellEventArgs e)
         {
-            CanvasControl canvas = m_con.Canvas;
-            if (e.ColumnIndex == 0)
-            {
+            if (e.ColumnIndex <= 0)
                 return;
-            }
+            LayerGridRow row = (LayerGridRow)m_dgv.Rows[e.RowIndex];
+            string oldName = row.Layer.Name;
+            string newName = row.Name;
+            if (oldName.Equals(newName))
+                return;
 
-            string oldName = (string)m_dgv.Rows[e.RowIndex].Tag;
-            string newName = m_dgv[e.ColumnIndex, e.RowIndex].Value.ToString();
-
-            if (oldName == null) return;
-            if (oldName.Equals(newName)) return;
-            if (canvas.Layers.ContainsKey(newName))
+            if (m_canvas.Layers.ContainsKey(newName))
             {
                 Util.ShowNoticeDialog(string.Format(MessageResources.ErrAlrExist, newName));
-                canvas.RefreshLayerTable();
+                row.Name = row.Layer.Name;
                 return;
             }
-            canvas.RenameLayer(oldName, newName);
+            row.Layer.Name = row.Name;
+            m_canvas.RenameLayer(oldName, newName);
         }
 
         /// <summary>
@@ -338,14 +369,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void m_dgv_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            if (m_dgv.CurrentCell is DataGridViewTextBoxCell) return;
+            if (m_dgv.CurrentCell is DataGridViewTextBoxCell)
+                return;
             if (!m_dirtyEventProcessed)
             {
-                CanvasControl canvas = m_con.Canvas;
-                bool show = !(bool)((DataGridView)sender).CurrentRow.Cells[MessageResources.LayerColumnShow].Value;
-                string layerName = (string)((DataGridView)sender).CurrentRow.Cells[MessageResources.LayerColumnName].Value;
-
-                canvas.ChangeLayerVisibility(layerName, show);
+                LayerGridRow row = (LayerGridRow)((DataGridView)sender).CurrentRow;
+                row.Layer.Visible = row.Checked;
                 m_dirtyEventProcessed = true;
             }
             else
@@ -369,7 +398,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Resizable = DataGridViewTriState.False;
                 ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Frozen = true;
                 ((DataGridView)sender).Columns[MessageResources.LayerColumnName].SortMode = DataGridViewColumnSortMode.NotSortable;
-//                ((DataGridView)sender).Columns[MessageResources.LayerColumnName].ReadOnly = true;
             }
         }
 
@@ -387,7 +415,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Resizable = DataGridViewTriState.False;
                 ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Frozen = true;
                 ((DataGridView)sender).Columns[MessageResources.LayerColumnName].SortMode = DataGridViewColumnSortMode.Automatic;
-//                ((DataGridView)sender).Columns[MessageResources.LayerColumnName].ReadOnly = true;
             }
         }
 
@@ -398,13 +425,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void SelectNodesClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.Canvas;
-            PPathwayLayer layer = canvas.Layers[m_selectedLayer];
+            PPathwayLayer layer = m_canvas.Layers[m_selectedLayer];
             if (layer == null)
                 return;
             foreach (PPathwayObject obj in layer.GetNodes())
             {
-                canvas.NotifyAddSelect(obj);
+                m_canvas.NotifyAddSelect(obj);
             }
         }
 
@@ -415,9 +441,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void MoveFrontClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.Canvas;
-            PLayer layer = canvas.Layers[m_selectedLayer];
-            canvas.LayerMoveToFront(layer);
+            m_canvas.LayerMoveToFront(m_selectedLayer);
         }
 
         /// <summary>
@@ -427,9 +451,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void MoveBackClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.Canvas;
-            PLayer layer = canvas.Layers[m_selectedLayer];
-            canvas.LayerMoveToBack(layer);
+            m_canvas.LayerMoveToBack(m_selectedLayer);
         }
 
         /// <summary>
@@ -439,7 +461,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void CreateLayerClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.Canvas;
+            string name = GetNewLayerID(m_canvas);
+            m_canvas.AddLayer(name);
+        }
+
+        /// <summary>
+        /// Get new LayerID.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <returns></returns>
+        private static string GetNewLayerID(CanvasControl canvas)
+        {
             int i = 0;
             string name = null;
             do
@@ -456,7 +488,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 i++;
             }
             while (name == null);
-            canvas.AddLayer(name);
+            return name;
+        }
+
+        /// <summary>
+        /// Get new LayerID.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <returns></returns>
+        private string GetCurrentLayerID()
+        {
+            string name = null;
+            foreach (DataGridViewRow row in m_dgv.Rows)
+            {
+                if ((bool)row.Cells[0].FormattedValue)
+                {
+                    name = (string)row.Cells[1].FormattedValue;
+                    break;
+                }
+            }
+
+            if (name == null)
+                name = GetNewLayerID(m_canvas);
+            return name;
         }
 
         /// <summary>
@@ -466,8 +520,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void RemoveLayerClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.Canvas;
-            canvas.RemoveLayer(m_selectedLayer);
+            m_canvas.RemoveLayer(m_selectedLayer);
         }
 
         /// <summary>
@@ -487,14 +540,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void MergeLayerClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.Canvas;
-            List<string> list = canvas.GetLayerNameList();
+            List<string> list = m_canvas.GetLayerNameList();
             string newName = SelectBoxDialog.Show(MessageResources.MergeLayerDialogMessage, MessageResources.MergeLayerDialogText, m_selectedLayer, list); 
-            if (newName == null || newName.Equals(""))
+            if (string.IsNullOrEmpty(newName))
                 return;
-            Debug.Assert(!canvas.Layers.ContainsKey(newName));
+            Debug.Assert(!m_canvas.Layers.ContainsKey(newName));
 
-            canvas.MergeLayer(m_selectedLayer, newName);
+            m_canvas.MergeLayer(m_selectedLayer, newName);
         }
 
         /// <summary>
@@ -507,10 +559,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             int index = e.RowIndex;
             if (index < 0)
                 return;
-
-            m_selectedLayer = (string)m_dgv.Rows[index].Cells[1].FormattedValue;
+            LayerGridRow row = (LayerGridRow)m_dgv.Rows[index];
+            m_selectedLayer = row.Name;
             m_dgv.ClearSelection();
-            m_dgv.Rows[index].Selected = true;
+            row.Selected = true;
 
             m_cMenuDict[MenuSelectNode].Visible = true;
             m_cMenuDict[MenuMoveFront].Visible = true;
@@ -533,11 +585,64 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             m_cMenuDict[MenuMoveFront].Visible = false;
             m_cMenuDict[MenuMoveBack].Visible = false;
             m_cMenuDict[MenuSepalator].Visible = false;
-            m_cMenuDict[MenuCreate].Visible = (m_con.Canvas != null);
+            m_cMenuDict[MenuCreate].Visible = (m_canvas != null);
             m_cMenuDict[MenuRename].Visible = false;
             m_cMenuDict[MenuMerge].Visible = false;
             m_cMenuDict[MenuDelete].Visible = false;
         }
         #endregion
+    }
+
+    internal class LayerGridRow : DataGridViewRow
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        private PPathwayLayer m_layer;
+        /// <summary>
+        /// 
+        /// </summary>
+        private DataGridViewCheckBoxCell checkBox;
+        /// <summary>
+        /// 
+        /// </summary>
+        private DataGridViewTextBoxCell textBox;
+        /// <summary>
+        /// 
+        /// </summary>
+        public PPathwayLayer Layer
+        {
+            get { return m_layer; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool Checked
+        {
+            get { return !(bool)checkBox.Value; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Name
+        {
+            get { return (string)textBox.Value; }
+            set { textBox.Value = value; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="layer"></param>
+        public LayerGridRow(PPathwayLayer layer)
+        {
+            m_layer = layer;
+            checkBox = new DataGridViewCheckBoxCell();
+            checkBox.Value = layer.Visible;
+            this.Cells.Add(checkBox);
+
+            textBox = new DataGridViewTextBoxCell();
+            textBox.Value = layer.Name;
+            this.Cells.Add(textBox);
+        }
     }
 }

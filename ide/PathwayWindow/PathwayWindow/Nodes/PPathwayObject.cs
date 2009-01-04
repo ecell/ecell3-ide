@@ -49,6 +49,7 @@ using Ecell.Objects;
 using Ecell.IDE.Plugins.PathwayWindow.Figure;
 using System.Windows.Forms;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
+using System.IO;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
@@ -459,7 +460,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public virtual PPathwayLayer Layer
         {
             get { return this.m_layer; }
-            set { this.m_layer = value; }
+            set 
+            { 
+                this.m_layer = value;
+                this.m_layer.AddChild(this);
+                this.Visible = value.Visible;
+                this.Pickable = this.Visible;
+            }
         }
         /// <summary>
         /// Accessor for an instance of CanvasViewComponentSet which this instance belongs.
@@ -550,7 +557,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             m_path = new GraphicsPath();
             m_pText = new PText();
             m_pText.Pickable = false;
-            m_pText.Font = new Font("Gothics", FONT_SIZE, FontStyle.Bold);
+            m_pText.Font = new Font("Arial", FONT_SIZE, FontStyle.Bold);
             this.AddChild(m_pText);
         }
         #endregion
@@ -626,29 +633,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             else
                 m_pText.Visible = false;
         }
-
-        /// <summary>
-        /// Create SVG object.
-        /// </summary>
-        /// <returns></returns>
-        public virtual string CreateSVGObject()
-        {
-            string svgObj = "<!--" + this.m_ecellObj.Key + "-->\n";
-            if (!base.Visible)
-                return svgObj;
-            // Create object
-            string textBrush = BrushManager.ParseBrushToString(m_setting.TextBrush);
-            string lineBrush = BrushManager.ParseBrushToString(m_setting.LineBrush);
-            string fillBrush = "url(#" + m_setting.Name + ")";
-            svgObj += m_figure.CreateSVGObject(this.Rect, lineBrush, fillBrush);
-            // Create Text
-            if (m_showingId)
-            {
-                PointF textPos = new PointF(m_pText.X, m_pText.Y + SVGUtil.SVG_FONT_SIZE);
-                svgObj += SVGUtil.Text(textPos, m_pText.Text, textBrush);
-            }
-            return svgObj;
-        }
         #endregion
 
         /// <summary>
@@ -674,18 +658,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             base.OffsetY = this.m_originalOffsetY;
             base.Width = this.m_originalWidth;
             base.Height = this.m_originalHeight;
-            RefreshView();
         }
         /// <summary>
         /// Set FillBrush
         /// </summary>
         private void SetFillBrush()
         {
-            if (m_isSelected)
-            {
-                this.Brush = m_highLightBrush;
-            }
-            else if (m_setting.IsGradation)
+            // Create and set FillBrush.
+            if (m_setting.IsGradation)
             {
                 PathGradientBrush pthGrBrush = new PathGradientBrush(m_path);
                 pthGrBrush.CenterColor = BrushManager.ParseBrushToColor(m_setting.CenterBrush);
@@ -696,6 +676,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             {
                 this.FillBrush = m_setting.FillBrush;
             }
+            // If Highlighted, set Hightlighted Brush.
+            if (m_isSelected)
+                this.Brush = m_highLightBrush;
         }
         /// <summary>
         /// Refresh ComponentSetting.
@@ -705,6 +688,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             this.PText.TextBrush = m_setting.TextBrush;
             this.LineBrush = m_setting.LineBrush;
             this.Figure = m_setting.Figure;
+            if (File.Exists(m_setting.IconFileName))
+            {
+            }
+            RefreshView();
         }
 
         #region Methods to control Bounds
@@ -969,6 +956,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public virtual void Dispose()
         {
+            Setting = null;
         }
 
         #endregion

@@ -408,4 +408,13 @@
   <data name="ErrNotFound" xml:space="preserve">
     <value>Entity {0} doesn't exist.</value>
   </data>
+  <data name="CanvasMenuOnewayArrow" xml:space="preserve">
+    <value>Set oneway direction</value>
+  </data>
+  <data name="DialogTextConfirmReset" xml:space="preserve">
+    <value>Reset Diagram settings.</value>
+  </data>
+  <data name="ErrCreateEdge" xml:space="preserve">
+    <value>Failed to create edge.</value>
+  </data>
 </root>

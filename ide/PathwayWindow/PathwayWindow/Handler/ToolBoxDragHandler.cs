@@ -92,6 +92,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             m_object.CenterPointF = m_canvas.SystemPosToCanvasPos(systemPos);
             m_object.RefreshView();
             m_canvas.ControlLayer.AddChild(m_object);
+
+            if (!(m_object is PPathwaySystem))
+                return;
+            PPathwaySystem system = (PPathwaySystem)m_object;
+            RectangleF rect = system.Rect;
+            system.IsInvalid = m_canvas.DoesSystemOverlaps(rect) || !m_canvas.IsInsideRoot(rect);
+
         }
 
         /// <summary>
@@ -172,16 +179,48 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <param name="e"></param>
         private void AddObject(PInputEventArgs e)
         {
-            string systemKey = m_canvas.GetSurroundingSystemKey(m_object.PointF);
+            string systemKey = m_canvas.GetSurroundingSystemKey(m_object.CenterPointF);
             if (string.IsNullOrEmpty(systemKey))
                 return;
+            if (m_object is PPathwaySystem
+                && ((PPathwaySystem)m_object).IsInvalid)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrOverSystem);
+                return;
+            }
             string type = GetType(m_object);
-            EcellObject eo = m_con.CreateDefaultObject(m_canvas.ModelID, systemKey, type, false);
+            bool isSystem = m_object is PPathwaySystem;
+            EcellObject eo = m_con.CreateDefaultObject(m_canvas.ModelID, systemKey, type);
             eo.X = m_object.X;
             eo.Y = m_object.Y;
             eo.Width = m_object.Width;
             eo.Height = m_object.Height;
-            m_canvas.Control.NotifyDataAdd(eo, true);
+            m_canvas.Control.NotifyDataAdd(eo, !isSystem);
+
+            // Update System 
+            if (!isSystem)
+                return;
+            PPathwayObject system = m_canvas.GetSelectedObject(eo.Key, eo.Type);
+            if (system == null)
+                return;
+            // Move Object under new system.
+            foreach (PPathwayObject obj in m_canvas.GetNodeList())
+            {
+                if (obj.EcellObject.ParentSystemID.StartsWith(eo.Key))
+                    continue;
+                if (!m_canvas.DoesSystemContains(eo.Key, obj.CenterPointF))
+                    continue;
+
+                string newKey = PathUtil.GetMovedKey(obj.EcellObject.Key, eo.ParentSystemID, eo.Key);
+                m_con.NotifyDataChanged(
+                    obj.EcellObject.Key,
+                    newKey,
+                    obj,
+                    true,
+                    false);
+            }
+            m_canvas.Control.NotifyDataChanged(system, true);
+
         }
 
         /// <summary>
@@ -197,6 +236,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 return EcellObject.PROCESS;
             else if (obj is PPathwayVariable)
                 return EcellObject.VARIABLE;
+            else if (obj is PPathwayText)
+                return EcellObject.TEXT;
             else
                 return null;
         }

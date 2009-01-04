@@ -46,22 +46,49 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
     /// </summary>
     public class PPathwayText : PPathwayObject
     {
+        #region Constants
+        /// <summary>
+        /// 
+        /// </summary>
+        public const float MIN_WIDTH = 80;
+        /// <summary>
+        /// 
+        /// </summary>
+        public const float MIN_HEIGHT = 40;
+        /// <summary>
+        /// 
+        /// </summary>
+        public const float TEXT_MARGIN = 10;
+        #endregion
+
         #region Fields
+        /// <summary>
+        /// TextBox for EcellText.Comment.
+        /// </summary>
         private TextBox m_tbox = new TextBox();
-        private string m_name;
         
         #endregion
 
-        #region Accessors
+        #region Constructors
         /// <summary>
-        /// Name
+        /// Constructor
         /// </summary>
-        public string Name
+        public PPathwayText()
         {
-            get { return m_name; }
-            set { m_name = value; }
+            base.m_pText.Text = "Text";
+            base.m_pText.ConstrainWidthToTextWidth = false;
+            base.LineBrush = Brushes.Black;
+            base.FillBrush = Brushes.White;
+            this.m_tbox.LostFocus += new EventHandler(m_tbox_LostFocus);
+            this.m_tbox.KeyPress += new KeyPressEventHandler(m_tbox_KeyPress);
+            this.m_tbox.Multiline = true;
+            this.m_resizeHandler = new PathwayResizeHandler(this);
+            this.m_resizeHandler.MinHeight = 40;
+            this.m_resizeHandler.MinWidth = 80;
         }
+        #endregion
 
+        #region Accessors
         /// <summary>
         /// EcellObject
         /// </summary>
@@ -71,18 +98,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             set
             {
                 EcellText text = (EcellText)value;
-                this.m_name = text.LocalID;
-                base.m_pText.Text = text.Comment;
-                if (text.Width != 0 && text.Height != 0)
-                {
-                    base.Width = text.Width;
-                    base.Height = text.Height;
-                }
-                else
-                {
-                    base.Width = m_pText.Width;
-                    base.Height = m_pText.Height;
-                }
+                m_pText.Text = text.Comment;
+                base.X = text.X;
+                base.Y = text.Y;
+                base.Width = Math.Max(text.Width, MIN_WIDTH);
+                base.Height = m_pText.Height + TEXT_MARGIN;
+                this.m_resizeHandler.MinWidth = Math.Min(base.Width, MIN_WIDTH);
+                this.m_resizeHandler.MinHeight = Math.Min(base.Height, MIN_HEIGHT);
+
                 m_pText.TextAlignment = text.Alignment;
                 base.EcellObject = text;
                 RefreshView();
@@ -142,24 +165,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
         #endregion
 
-        #region Constructors
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public PPathwayText()
-        {
-            base.m_pText.Text = "Text";
-            base.m_pText.ConstrainWidthToTextWidth = false;
-            base.LineBrush = Brushes.Black;
-            base.FillBrush = Brushes.White;
-            this.m_name = "Text";
-            this.m_tbox.LostFocus += new EventHandler(m_tbox_LostFocus);
-            this.m_tbox.KeyPress += new KeyPressEventHandler(m_tbox_KeyPress);
-            this.m_tbox.Multiline = true;
-            this.m_resizeHandler = new PathwayResizeHandler(this);
-        }
-        #endregion
-
         /// <summary>
         /// Refresh Text contents of this object.
         /// </summary>
@@ -181,29 +186,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public override PPathwayObject CreateNewObject()
         {
             return new PPathwayText();
-        }
-
-        /// <summary>
-        /// Create SVG object.
-        /// </summary>
-        /// <returns></returns>
-        public override string CreateSVGObject()
-        {
-            string svgObj = "<!--" + this.m_ecellObj.Key + "-->\n";
-            if (!base.Visible)
-                return svgObj;
-            // Create object
-            string textBrush = BrushManager.ParseBrushToString(m_setting.TextBrush);
-            string lineBrush = BrushManager.ParseBrushToString(m_setting.LineBrush);
-            string fillBrush = "url(#" + m_setting.Name + ")";
-            svgObj += m_figure.CreateSVGObject(this.Rect, lineBrush, fillBrush);
-            // Create Text
-            if (m_showingId)
-            {
-                PointF textPos = new PointF(m_pText.X, m_pText.Y + 16);
-                svgObj += SVGUtil.Text(textPos, m_pText.Text, textBrush, "", m_pText.Font.Size);
-            }
-            return svgObj;
         }
 
         /// <summary>
@@ -241,7 +223,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         private void m_tbox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if(e.KeyChar == (char)Keys.Enter)
-                SetText();
+                m_canvas.PCanvas.Controls.Remove(m_tbox);
         }
 
         private void SetText()
@@ -254,9 +236,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             else if (!m_tbox.Text.Equals(((EcellText)m_ecellObj).Comment))
             {
                 ((EcellText)m_ecellObj).Comment = m_tbox.Text;
+                m_pText.Text = m_tbox.Text;
                 base.Width = m_pText.Width;
-                base.Height = m_pText.Height;
-                m_canvas.Control.NotifyDataChanged(this, true);
+                base.Height = m_pText.Height + TEXT_MARGIN;
+
+                m_ecellObj.Layer = this.Layer.Name;
+                m_ecellObj.X = this.X + this.OffsetX;
+                m_ecellObj.Y = this.Y + this.OffsetY;
+                m_ecellObj.Width = this.Width;
+                m_ecellObj.Height = this.Height;
+                m_ecellObj.OffsetX = 0f;
+                m_ecellObj.OffsetY = 0f;
+
+                m_canvas.Control.NotifyDataChanged(m_ecellObj.Key, m_ecellObj, true, true);
             }
         }
     }

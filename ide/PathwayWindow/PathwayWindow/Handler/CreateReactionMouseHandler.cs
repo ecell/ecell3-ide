@@ -42,6 +42,7 @@ using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
+using Ecell.Exceptions;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
@@ -192,12 +193,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <param name="coefficient">coefficient of connection.</param>
         private void CreateEdge(PPathwayProcess process, PPathwayVariable variable, RefChangeType type, int coefficient)
         {
-            m_con.NotifyVariableReferenceChanged(
-                process.EcellObject.Key,
-                variable.EcellObject.Key,
-                type,
-                coefficient,
-                true);
+            try
+            {
+                m_con.NotifyVariableReferenceChanged(
+                    process.EcellObject.Key,
+                    variable.EcellObject.Key,
+                    type,
+                    coefficient,
+                    true);
+            }
+            catch (EcellException e)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrCreateEdge);
+            }
             m_con.Menu.SetDefaultEventHandler();
         }
 
@@ -217,6 +225,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         {
             if (m_start != null)
                 m_start.RefreshView();
+            m_start = null;
         }
 
         /// <summary>

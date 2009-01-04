@@ -34,6 +34,8 @@ using System.IO;
 using System.Text;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo;
+using UMD.HCIL.Piccolo.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.Figure;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
 {
@@ -65,12 +67,99 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
                     continue;
                 PPathwayLayer layer = (PPathwayLayer)node;
                 foreach (PPathwayObject obj in layer.GetNodes())
-                    writer.WriteLine(obj.CreateSVGObject());
+                    writer.WriteLine(CreateSVGObject(obj));
             }
             // Close SVG file.
             writer.WriteLine(SVG_FOOTER);
             writer.Flush();
             writer.Close();
+        }
+
+        private static string CreateSVGObject(PPathwayObject obj)
+        {
+            string svgObj = "<!--" + obj.EcellObject.Key + "-->\n";
+            // Check Visibility.
+            if (!obj.Visible)
+                return svgObj;
+
+            // Create object brush.
+            string textBrush = BrushManager.ParseBrushToString(obj.Setting.TextBrush);
+            string lineBrush = BrushManager.ParseBrushToString(obj.Setting.LineBrush);
+            string fillBrush = "url(#" + obj.Setting.Name + ")";
+
+            // Create Process
+            if (obj is PPathwayProcess)
+            {
+                PPathwayProcess process = (PPathwayProcess)obj;
+                foreach (PPathwayLine line in process.Relations)
+                    if (line.Visible)
+                        svgObj += CreateSVGLine(line);
+                if (process.ViewMode)
+                {
+                    svgObj += SVGUtil.Ellipse(process.Rect, lineBrush, fillBrush);
+                    return svgObj;
+                }
+            }
+
+            svgObj += obj.Figure.CreateSVGObject(obj.Rect, lineBrush, fillBrush);
+            
+            // Create NodeText
+            if (obj.ShowingID)
+            {
+                PText text = obj.PText;
+                PointF textPos = new PointF(text.X, text.Y + SVGUtil.SVG_FONT_SIZE);
+                if (obj is PPathwayText)
+                    svgObj += SVGUtil.Text(textPos, text.Text, textBrush, "", text.Font.Size);
+                else
+                    svgObj += SVGUtil.Text(textPos, text.Text, textBrush);
+            }
+
+            // Create Node Parameter.
+            if (obj is PPathwayNode)
+            {
+                PText propText = ((PPathwayNode)obj).PPropertyText;
+                if (propText.Visible && !string.IsNullOrEmpty(propText.Text))
+                {
+                    PointF pos = new PointF(propText.X, propText.Y + SVGUtil.SVG_FONT_SIZE);
+                    svgObj += SVGUtil.Text(pos, propText.Text, BrushManager.ParseBrushToString(propText.TextBrush), "", SVGUtil.SVG_FONT_SIZE);
+                }
+            }
+            return svgObj;
+        }
+
+        private static string CreateSVGLine(PPathwayLine line)
+        {
+            string obj = "";
+            string brush = BrushManager.ParseBrushToString(line.Brush);
+            string width = line.Pen.Width.ToString();
+            PointF proPoint = line.ProPoint;
+            PointF varPoint = line.VarPoint;
+            switch (line.Info.LineType)
+            {
+                case LineType.Solid:
+                case LineType.Unknown:
+                    obj += SVGUtil.Line(proPoint, varPoint, brush, width);
+                    break;
+                case LineType.Dashed:
+                    obj += SVGUtil.DashedLine(proPoint, varPoint, brush, width);
+                    break;
+            }
+            switch (line.Info.Direction)
+            {
+                case EdgeDirection.Bidirection:
+                    obj += SVGUtil.Polygon(PPathwayLine.GetArrowPoints(proPoint, varPoint), brush, width);
+                    obj += SVGUtil.Polygon(PPathwayLine.GetArrowPoints(varPoint, proPoint), brush, width);
+                    break;
+                case EdgeDirection.Inward:
+                    obj += SVGUtil.Polygon(PPathwayLine.GetArrowPoints(proPoint, varPoint), brush, width);
+                    break;
+                case EdgeDirection.Outward:
+                    obj += SVGUtil.Polygon(PPathwayLine.GetArrowPoints(proPoint, varPoint), brush, width);
+                    break;
+                case EdgeDirection.None:
+                    break;
+            }
+            return obj;
         }
 
         private static string CreateSVGHeader(CanvasControl canvas)

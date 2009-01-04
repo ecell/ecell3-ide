@@ -218,6 +218,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
                     canvas.AddLayer(name);
                 canvas.ChangeLayerVisibility(name, bool.Parse(visible));
             }
+            canvas.RaiseLayerChange();
         }
 
         /// <summary>

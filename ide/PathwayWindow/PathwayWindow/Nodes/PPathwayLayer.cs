@@ -56,6 +56,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return this.m_name; }
             set { this.m_name = value; }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        public override bool Visible
+        {
+            get { return base.Visible; }
+            set
+            {
+                base.Visible = value;
+                this.Pickable = value;
+            }
+        }
         #endregion
 
         #region Constructor
@@ -126,9 +138,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             List<PPathwayObject> list = new List<PPathwayObject>();
             foreach (PPathwayObject obj in GetNodes())
             {
-                if (!rect.Contains(obj.Rect))
-                    continue;
-                list.Add(obj);
+                if (obj is PPathwayNode && rect.Contains(obj.CenterPointF))
+                    list.Add(obj);
+                else if (rect.Contains(obj.Rect))
+                    list.Add(obj);
             }
             return list;
         }

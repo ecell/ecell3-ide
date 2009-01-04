@@ -131,24 +131,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return m_proPoint; }
             set { this.m_proPoint = value; }
         }
-
-        /// <summary>
-        /// Accessor for m_process.
-        /// </summary>
-        public PPathwayProcess Process
-        {
-            get { return m_process; }
-            set { this.m_process = value; }
-        }
-
-        /// <summary>
-        /// Accessor for m_variable.
-        /// </summary>
-        public PPathwayVariable Variable
-        {
-            get { return m_variable; }
-            set { this.m_variable = value; }
-        }
         #endregion
 
         /// <summary>
@@ -206,6 +188,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             m_varPoint = m_variable.GetContactPoint(m_process.CenterPointF);
             m_proPoint = m_process.GetContactPoint(m_varPoint);
             DrawLine();
+            this.Visible = m_process.Visible && m_variable.Visible;
+            this.Pickable = this.Visible;
         }
 
         /// <summary>
@@ -318,7 +302,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <param name="arrowApex">an apex of an arrow</param>
         /// <param name="guidePoint">an arrow line goes direction from arrowApex to guidePoint</param>
         /// <returns></returns>
-        private static PointF[] GetArrowPoints(PointF arrowApex, PointF guidePoint)
+        internal static PointF[] GetArrowPoints(PointF arrowApex, PointF guidePoint)
         {
             guidePoint.X = guidePoint.X - arrowApex.X;
             guidePoint.Y = guidePoint.Y - arrowApex.Y;
@@ -340,43 +324,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             arrowPointB.Y = arrowPointB.Y * ARROW_LENGTH + arrowApex.Y;
 
             return new PointF[] { arrowApex, arrowPointA, arrowPointB };
-        }
-
-        /// <summary>
-        /// Create SVG object.
-        /// </summary>
-        /// <returns></returns>
-        public string CreateSVGObject()
-        {
-            string obj = "";
-            string brush = BrushManager.ParseBrushToString(this.Brush);
-            string width = this.Pen.Width.ToString();
-            switch (this.m_edgeInfo.LineType)
-            {
-                case LineType.Solid:
-                case LineType.Unknown:
-                    obj += SVGUtil.Line(m_proPoint, m_varPoint, brush, width);
-                    break;
-                case LineType.Dashed:
-                    obj += SVGUtil.DashedLine(m_proPoint, m_varPoint, brush, width);
-                    break;
-            }
-            switch (this.m_edgeInfo.Direction)
-            {
-                case EdgeDirection.Bidirection:
-                    obj += SVGUtil.Polygon(GetArrowPoints(m_proPoint, m_varPoint), brush, width);
-                    obj += SVGUtil.Polygon(GetArrowPoints(m_varPoint, m_proPoint), brush, width);
-                    break;
-                case EdgeDirection.Inward:
-                    obj += SVGUtil.Polygon(GetArrowPoints(m_proPoint, m_varPoint), brush, width);
-                    break;
-                case EdgeDirection.Outward:
-                    obj += SVGUtil.Polygon(GetArrowPoints(m_proPoint, m_varPoint), brush, width);
-                    break;
-                case EdgeDirection.None:
-                    break;
-            }
-            return obj;
         }
 
         #region EventHandlers
@@ -402,7 +349,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public void Dispose()
         {
-            m_variable.Relations.Remove(this);
         }
 
         #endregion
@@ -670,7 +616,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             bool bidir = false;
             foreach (EcellReference er1 in list)
             {
-                if (er.FullID == er1.FullID &&
+                if (er.Key.Equals(er1.Key) &&
                     er.Coefficient != 0 &&
                     er.Coefficient == -1 * er1.Coefficient)
                 {

@@ -97,14 +97,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
         private ToolStrip toolMenu;
         private ToolStripMenuItem toolMenuExport;
-        private ToolStripMenuItem toolMenuFile;
+        private ToolStripMenuItem MenuItemFile;
         private ToolStripMenuItem toolMenuSetupItem;
-        private ToolStripMenuItem toolMenuSetup;
+        private ToolStripMenuItem MenuItemSetup;
         private ToolStripMenuItem toolMenuFocusMode;
         private ToolStripMenuItem toolMenuShowID;
         private ToolStripMenuItem toolMenuViewMode;
-        private ToolStripMenuItem toolMenuView;
-        private ToolStripMenuItem toolMenuEdit;
+        private ToolStripMenuItem MenuItemView;
+        private ToolStripMenuItem MenuItemEdit;
         private ToolStripMenuItem toolMenuDelete;
         private ToolStripMenuItem toolMenuCut;
         private ToolStripMenuItem toolMenuCopy;
@@ -121,13 +121,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private ToolStripMenuItem toolStripCopy;
         private ToolStripMenuItem toolStripPaste;
         private ToolStripMenuItem toolStripDelete;
-        private ToolStripMenuItem toolStripMerge;
         private ToolStripMenuItem toolStripAlias;
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripMenuItem toolStripChangeLayer;
         private ToolStripMenuItem toolStripMoveFront;
         private ToolStripMenuItem toolStripMoveBack;
         private ToolStripSeparator toolStripSeparator3;
+        private ToolStripMenuItem toolStripOneWayArrow;
+        private ToolStripMenuItem toolStripProperty;
 
         private CommonContextMenu commonMenu;
         #endregion
@@ -157,10 +158,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             get 
             {
                 List<ToolStripMenuItem> menuList = new List<ToolStripMenuItem>();
-                menuList.Add(toolMenuFile);
-                menuList.Add(toolMenuSetup);
-                menuList.Add(toolMenuView);
-                menuList.Add(toolMenuEdit);
+                menuList.Add(MenuItemFile);
+                menuList.Add(MenuItemSetup);
+                menuList.Add(MenuItemView);
+                menuList.Add(MenuItemEdit);
                 return menuList;
             }
         }
@@ -198,14 +199,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public MenuControl(PathwayControl control)
         {
             m_con = control;
+            m_con.ProjectStatusChange += new EventHandler(OnProjectStatusChange);
             InitializeComponent();
             commonMenu.Environment = m_con.Window.Environment;
-            popupMenu.Items.AddRange(new ToolStripItem[] {
-                commonMenu.addToolStripMenuItem,
-                commonMenu.loggingToolStripMenuItem,
-                commonMenu.observedToolStripMenuItem,
-                commonMenu.parameterToolStripMenuItem});
             CreateToolButtons();
+        }
+
+        void OnProjectStatusChange(object sender, EventArgs e)
+        {
+            bool menuFlag = m_con.ProjectStatus == ProjectStatus.Loaded;
+
+            toolMenuCut.Enabled = menuFlag;
+            toolMenuCopy.Enabled = menuFlag;
+            toolMenuPaste.Enabled = menuFlag;
+            toolMenuDelete.Enabled = menuFlag;
         }
 
         private void InitializeComponent()
@@ -215,21 +222,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.popupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripIdShow = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripOneWayArrow = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAnotherArrow = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripBidirArrow = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripConstant = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDeleteArrow = new System.Windows.Forms.ToolStripMenuItem();
+            this.commonMenu = new Ecell.IDE.CommonContextMenu(this.components);
             this.toolStripCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMerge = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAlias = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripChangeLayer = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMoveFront = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMoveBack = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripProperty = new System.Windows.Forms.ToolStripMenuItem();
             this.toolButton = new System.Windows.Forms.ToolStrip();
             this.toolButtonHand = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PathwayToolStripButton();
             this.toolButtonSelect = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PathwayToolStripButton();
@@ -244,20 +253,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolButtonBidirArrow = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PathwayToolStripButton();
             this.toolButtonConst = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PathwayToolStripButton();
             this.toolMenu = new System.Windows.Forms.ToolStrip();
-            this.toolMenuFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuExport = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolMenuSetup = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItemSetup = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuSetupItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolMenuView = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuFocusMode = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuShowID = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuViewMode = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolMenuEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.commonMenu = new Ecell.IDE.CommonContextMenu(this.components);
             this.popupMenu.SuspendLayout();
             this.toolButton.SuspendLayout();
             this.toolMenu.SuspendLayout();
@@ -267,134 +275,151 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.popupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripIdShow,
             this.toolStripSeparator1,
+            this.toolStripOneWayArrow,
             this.toolStripAnotherArrow,
             this.toolStripBidirArrow,
             this.toolStripConstant,
             this.toolStripDeleteArrow,
+            this.commonMenu.addToolStripMenuItem,
             this.toolStripCut,
             this.toolStripCopy,
             this.toolStripPaste,
             this.toolStripDelete,
-            this.toolStripMerge,
+            this.commonMenu.mergeSystemToolStripMenuItem,
             this.toolStripAlias,
             this.toolStripSeparator2,
             this.toolStripChangeLayer,
             this.toolStripMoveFront,
             this.toolStripMoveBack,
-            this.toolStripSeparator3});
+            this.toolStripSeparator3,
+            this.commonMenu.loggingToolStripMenuItem,
+            this.commonMenu.observedToolStripMenuItem,
+            this.commonMenu.parameterToolStripMenuItem,
+            this.commonMenu.propertyToolStripMenuItem});
             this.popupMenu.Name = "popupMenu";
-            this.popupMenu.Size = new System.Drawing.Size(218, 380);
+            this.popupMenu.Size = new System.Drawing.Size(272, 462);
             // 
             // toolStripIdShow
             // 
             this.toolStripIdShow.Name = "toolStripIdShow";
-            this.toolStripIdShow.Size = new System.Drawing.Size(217, 22);
+            this.toolStripIdShow.Size = new System.Drawing.Size(271, 22);
             this.toolStripIdShow.Click += new System.EventHandler(this.ShowPropertyDialogClick);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(214, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(268, 6);
+            // 
+            // toolStripOneWayArrow
+            // 
+            this.toolStripOneWayArrow.Name = "toolStripOneWayArrow";
+            this.toolStripOneWayArrow.Size = new System.Drawing.Size(271, 22);
+            this.toolStripOneWayArrow.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuOnewayArrow;
+            this.toolStripOneWayArrow.Click += new System.EventHandler(this.ChangeLineClick);
             // 
             // toolStripAnotherArrow
             // 
             this.toolStripAnotherArrow.Name = "toolStripAnotherArrow";
-            this.toolStripAnotherArrow.Size = new System.Drawing.Size(217, 22);
+            this.toolStripAnotherArrow.Size = new System.Drawing.Size(271, 22);
             this.toolStripAnotherArrow.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuAnotherArrow;
             this.toolStripAnotherArrow.Click += new System.EventHandler(this.ChangeLineClick);
             // 
             // toolStripBidirArrow
             // 
             this.toolStripBidirArrow.Name = "toolStripBidirArrow";
-            this.toolStripBidirArrow.Size = new System.Drawing.Size(217, 22);
+            this.toolStripBidirArrow.Size = new System.Drawing.Size(271, 22);
             this.toolStripBidirArrow.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuBidirArrow;
             this.toolStripBidirArrow.Click += new System.EventHandler(this.ChangeLineClick);
             // 
             // toolStripConstant
             // 
             this.toolStripConstant.Name = "toolStripConstant";
-            this.toolStripConstant.Size = new System.Drawing.Size(217, 22);
+            this.toolStripConstant.Size = new System.Drawing.Size(271, 22);
             this.toolStripConstant.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuConstantLine;
             this.toolStripConstant.Click += new System.EventHandler(this.ChangeLineClick);
             // 
             // toolStripDeleteArrow
             // 
             this.toolStripDeleteArrow.Name = "toolStripDeleteArrow";
-            this.toolStripDeleteArrow.Size = new System.Drawing.Size(217, 22);
+            this.toolStripDeleteArrow.Size = new System.Drawing.Size(271, 22);
             this.toolStripDeleteArrow.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuDelete;
             this.toolStripDeleteArrow.Click += new System.EventHandler(this.ChangeLineClick);
+            // 
+            // commonMenu
+            // 
+            this.commonMenu.Environment = null;
+            this.commonMenu.Object = null;
             // 
             // toolStripCut
             // 
             this.toolStripCut.Name = "toolStripCut";
-            this.toolStripCut.Size = new System.Drawing.Size(217, 22);
+            this.toolStripCut.Size = new System.Drawing.Size(271, 22);
             this.toolStripCut.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuCut;
             this.toolStripCut.Click += new System.EventHandler(this.CutClick);
             // 
             // toolStripCopy
             // 
             this.toolStripCopy.Name = "toolStripCopy";
-            this.toolStripCopy.Size = new System.Drawing.Size(217, 22);
+            this.toolStripCopy.Size = new System.Drawing.Size(271, 22);
             this.toolStripCopy.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuCopy;
             this.toolStripCopy.Click += new System.EventHandler(this.CopyClick);
             // 
             // toolStripPaste
             // 
             this.toolStripPaste.Name = "toolStripPaste";
-            this.toolStripPaste.Size = new System.Drawing.Size(217, 22);
+            this.toolStripPaste.Size = new System.Drawing.Size(271, 22);
             this.toolStripPaste.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuPaste;
             this.toolStripPaste.Click += new System.EventHandler(this.PasteClick);
             // 
             // toolStripDelete
             // 
             this.toolStripDelete.Name = "toolStripDelete";
-            this.toolStripDelete.Size = new System.Drawing.Size(217, 22);
+            this.toolStripDelete.Size = new System.Drawing.Size(271, 22);
             this.toolStripDelete.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuDelete;
             this.toolStripDelete.Click += new System.EventHandler(this.DeleteClick);
-            // 
-            // toolStripMerge
-            // 
-            this.toolStripMerge.Name = "toolStripMerge";
-            this.toolStripMerge.Size = new System.Drawing.Size(217, 22);
-            this.toolStripMerge.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuMerge;
-            this.toolStripMerge.Click += new System.EventHandler(this.MergeClick);
             // 
             // toolStripAlias
             // 
             this.toolStripAlias.Name = "toolStripAlias";
-            this.toolStripAlias.Size = new System.Drawing.Size(217, 22);
+            this.toolStripAlias.Size = new System.Drawing.Size(271, 22);
             this.toolStripAlias.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuAlias;
             this.toolStripAlias.Click += new System.EventHandler(this.CreateAliasClick);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(214, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(268, 6);
             // 
             // toolStripChangeLayer
             // 
             this.toolStripChangeLayer.Name = "toolStripChangeLayer";
-            this.toolStripChangeLayer.Size = new System.Drawing.Size(217, 22);
+            this.toolStripChangeLayer.Size = new System.Drawing.Size(271, 22);
             this.toolStripChangeLayer.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuChangeLayer;
             // 
             // toolStripMoveFront
             // 
             this.toolStripMoveFront.Name = "toolStripMoveFront";
-            this.toolStripMoveFront.Size = new System.Drawing.Size(217, 22);
+            this.toolStripMoveFront.Size = new System.Drawing.Size(271, 22);
             this.toolStripMoveFront.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerMenuMoveFront;
             this.toolStripMoveFront.Click += new System.EventHandler(this.MoveToFrontClick);
             // 
             // toolStripMoveBack
             // 
             this.toolStripMoveBack.Name = "toolStripMoveBack";
-            this.toolStripMoveBack.Size = new System.Drawing.Size(217, 22);
+            this.toolStripMoveBack.Size = new System.Drawing.Size(271, 22);
             this.toolStripMoveBack.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerMenuMoveBack;
             this.toolStripMoveBack.Click += new System.EventHandler(this.MoveToBackClick);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(214, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(268, 6);
+            // 
+            // toolStripProperty
+            // 
+            this.toolStripProperty.Name = "toolStripProperty";
+            this.toolStripProperty.Size = new System.Drawing.Size(182, 22);
+            this.toolStripProperty.Text = "toolStripMenuItem1";
             // 
             // toolButton
             // 
@@ -551,39 +576,39 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // toolMenu
             // 
             this.toolMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolMenuFile,
-            this.toolMenuSetup,
-            this.toolMenuView,
-            this.toolMenuEdit});
+            this.MenuItemFile,
+            this.MenuItemSetup,
+            this.MenuItemView,
+            this.MenuItemEdit});
             this.toolMenu.Location = new System.Drawing.Point(0, 0);
             this.toolMenu.Name = "toolMenu";
             this.toolMenu.Size = new System.Drawing.Size(100, 25);
             this.toolMenu.TabIndex = 0;
             // 
-            // toolMenuFile
+            // MenuItemFile
             // 
-            this.toolMenuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolMenuExport});
-            this.toolMenuFile.Name = "MenuItemFile";
-            this.toolMenuFile.Size = new System.Drawing.Size(36, 25);
-            this.toolMenuFile.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemFile;
+            this.MenuItemFile.Name = "MenuItemFile";
+            this.MenuItemFile.Size = new System.Drawing.Size(36, 25);
+            this.MenuItemFile.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemFile;
             // 
             // toolMenuExport
             // 
             this.toolMenuExport.Name = "toolMenuExport";
-            this.toolMenuExport.Size = new System.Drawing.Size(159, 22);
+            this.toolMenuExport.Size = new System.Drawing.Size(187, 22);
             this.toolMenuExport.Tag = 17;
             this.toolMenuExport.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemExport;
             this.toolMenuExport.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuToolTipExport;
             this.toolMenuExport.Click += new System.EventHandler(this.ExportImage);
             // 
-            // toolMenuSetup
+            // MenuItemSetup
             // 
-            this.toolMenuSetup.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuItemSetup.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolMenuSetupItem});
-            this.toolMenuSetup.Name = "MenuItemSetup";
-            this.toolMenuSetup.Size = new System.Drawing.Size(110, 25);
-            this.toolMenuSetup.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemSetup;
+            this.MenuItemSetup.Name = "MenuItemSetup";
+            this.MenuItemSetup.Size = new System.Drawing.Size(110, 25);
+            this.MenuItemSetup.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemSetup;
             // 
             // toolMenuSetupItem
             // 
@@ -593,15 +618,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolMenuSetupItem.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuToolTipSetup;
             this.toolMenuSetupItem.Click += new System.EventHandler(this.ShowDialogClick);
             // 
-            // toolMenuView
+            // MenuItemView
             // 
-            this.toolMenuView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolMenuFocusMode,
             this.toolMenuShowID,
             this.toolMenuViewMode});
-            this.toolMenuView.Name = "MenuItemView";
-            this.toolMenuView.Size = new System.Drawing.Size(42, 25);
-            this.toolMenuView.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemView;
+            this.MenuItemView.Name = "MenuItemView";
+            this.MenuItemView.Size = new System.Drawing.Size(42, 25);
+            this.MenuItemView.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemView;
             // 
             // toolMenuFocusMode
             // 
@@ -634,16 +659,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolMenuViewMode.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuToolTipViewMode;
             this.toolMenuViewMode.Click += new System.EventHandler(this.ViewModeItemClick);
             // 
-            // toolMenuEdit
+            // MenuItemEdit
             // 
-            this.toolMenuEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuItemEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolMenuCut,
             this.toolMenuCopy,
             this.toolMenuPaste,
             this.toolMenuDelete});
-            this.toolMenuEdit.Name = "MenuItemEdit";
-            this.toolMenuEdit.Size = new System.Drawing.Size(37, 25);
-            this.toolMenuEdit.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemEdit;
+            this.MenuItemEdit.Name = "MenuItemEdit";
+            this.MenuItemEdit.Size = new System.Drawing.Size(37, 25);
+            this.MenuItemEdit.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemEdit;
             // 
             // toolMenuCut
             // 
@@ -676,11 +701,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolMenuDelete.Size = new System.Drawing.Size(137, 22);
             this.toolMenuDelete.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuDelete;
             this.toolMenuDelete.Click += new System.EventHandler(this.DeleteClick);
-            // 
-            // commonMenu
-            // 
-            this.commonMenu.Environment = null;
-            this.commonMenu.Object = null;
             this.popupMenu.ResumeLayout(false);
             this.toolButton.ResumeLayout(false);
             this.toolButton.PerformLayout();
@@ -756,6 +776,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             bool isPPathwayText = (node is PPathwayText);
             bool isRoot = false;
             bool isLine = (node is PPathwayLine);
+            bool isOneway = true;
+            bool isEffector = false;
             bool isCopiedObject = (m_con.CopiedNodes.Count > 0);
             bool isInsideRoot = m_con.Canvas.Systems["/"].Rect.Contains(m_con.MousePosition);
             // Set popup menu text.
@@ -765,11 +787,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 commonMenu.Object = obj;
                 toolStripIdShow.Text = obj.Key;
                 SetLayerManu(obj);
-                if (isPPathwaySystem)
-                {
-                    toolStripMerge.Text =
-                        MessageResources.CanvasMenuMerge + "(" + obj.ParentSystemID + ")";
-                }
                 if (obj.Key.Equals("/"))
                     isRoot = true;
             }
@@ -777,21 +794,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 PPathwayLine line = (PPathwayLine)node;
                 SetLineMenu(line);
+                isOneway = line.Info.Coefficient != 0;
+                isEffector = line.Info.Direction == EdgeDirection.None;
             }
             // Show ObjectID(key).
             toolStripIdShow.Visible = isPPathwayObject;
             toolStripSeparator1.Visible = isPPathwayObject;
             // Show Line menus.
-            toolStripAnotherArrow.Visible = isLine;
-            toolStripBidirArrow.Visible = isLine;
-            toolStripConstant.Visible = isLine;
+            toolStripOneWayArrow.Visible = isLine && !isOneway;
+            toolStripAnotherArrow.Visible = isLine && isOneway;
+            toolStripBidirArrow.Visible = isLine && (isOneway || isEffector);
+            toolStripConstant.Visible = isLine && !isEffector;
             toolStripDeleteArrow.Visible = isLine;
             // Show Node / System edit menus.
             toolStripCut.Visible = isPPathwayObject && !isRoot;
             toolStripCopy.Visible = isPPathwayObject && !isRoot;
             toolStripPaste.Visible = isCopiedObject && isInsideRoot;
             toolStripDelete.Visible = (isPPathwayObject && !isRoot) || isPPathwayText;
-            toolStripMerge.Visible = isPPathwaySystem && !isRoot;
             toolStripAlias.Visible = isPPathwayVariable;
             toolStripSeparator2.Visible = isPPathwayObject && !isRoot;
             // Show Layer menu.
@@ -801,9 +820,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripSeparator3.Visible = isPPathwayObject && !isRoot && !isPPathwayText;
             // Show Logger menu.
             commonMenu.addToolStripMenuItem.Visible = isPPathwaySystem;
-            commonMenu.loggingToolStripMenuItem.Visible = isPPathwayObject;
-            commonMenu.observedToolStripMenuItem.Visible = isPPathwayObject;
-            commonMenu.parameterToolStripMenuItem.Visible = isPPathwayObject;
+            commonMenu.mergeSystemToolStripMenuItem.Visible = isPPathwaySystem && !isRoot;
+            commonMenu.loggingToolStripMenuItem.Visible = isPPathwayObject && !isPPathwayText;
+            commonMenu.observedToolStripMenuItem.Visible = isPPathwayObject && !isPPathwayText;
+            commonMenu.parameterToolStripMenuItem.Visible = isPPathwayObject && !isPPathwayText;
+            commonMenu.propertyToolStripMenuItem.Visible = isPPathwayObject;
         }
 
         /// <summary>
@@ -838,17 +859,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (line.Info.Direction == EdgeDirection.Bidirection)
             {
                 toolStripAnotherArrow.Enabled = false;
+                toolStripOneWayArrow.Enabled = true;
                 toolStripBidirArrow.Enabled = false;
                 toolStripConstant.Enabled = true;
             }
             else if (line.Info.Direction == EdgeDirection.None)
             {
+                toolStripOneWayArrow.Enabled = true;
                 toolStripAnotherArrow.Enabled = false;
                 toolStripBidirArrow.Enabled = true;
                 toolStripConstant.Enabled = false;
             }
             else
             {
+                toolStripOneWayArrow.Enabled = false;
                 toolStripAnotherArrow.Enabled = true;
                 toolStripBidirArrow.Enabled = true;
                 toolStripConstant.Enabled = true;
@@ -1062,42 +1086,60 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
             canvas.ResetSelectedLine();
 
-            // Delete old edge.
-            m_con.NotifyVariableReferenceChanged(
-                line.Info.ProcessKey,
-                line.Info.VariableKey,
-                RefChangeType.Delete,
-                0,
-                false);
-            if (item.Name == MenuConstants.CanvasMenuDeleteArrow)
-                return;
-            // Create new edgeInfo.
-            RefChangeType changeType = RefChangeType.SingleDir;
-            int coefficient = 0;
-            if (item.Name == MenuConstants.CanvasMenuAnotherArrow)
+            try
             {
-                changeType = RefChangeType.SingleDir;
-                if (line.Info.Direction == EdgeDirection.Inward)
+                // Delete old edge.
+                m_con.NotifyVariableReferenceChanged(
+                    line.Info.ProcessKey,
+                    line.Info.VariableKey,
+                    RefChangeType.Delete,
+                    0,
+                    false);
+                if (item.Text == MessageResources.CanvasMenuDelete)
+                    return;
+
+                // Create new edgeInfo.
+                RefChangeType changeType = RefChangeType.SingleDir;
+                int coefficient = 0;
+                // Anothor Direction.
+                if (item.Text == MessageResources.CanvasMenuAnotherArrow)
+                {
+                    changeType = RefChangeType.SingleDir;
+                    if (line.Info.Direction == EdgeDirection.Inward)
+                        coefficient = 1;
+                    else
+                        coefficient = -1;
+                }
+                // Bidir
+                else if (item.Text == MessageResources.CanvasMenuBidirArrow)
+                {
+                    changeType = RefChangeType.BiDir;
+                    coefficient = 0;
+                }
+                // Oneway
+                else if (item.Text == MessageResources.CanvasMenuOnewayArrow)
+                {
+                    changeType = RefChangeType.SingleDir;
                     coefficient = 1;
+                }
+                // Effector
                 else
-                    coefficient = -1;
+                {
+                    changeType = RefChangeType.SingleDir;
+                    coefficient = 0;
+                }
+                // Throw DataChange Event.
+                m_con.NotifyVariableReferenceChanged(
+                    line.Info.ProcessKey,
+                    line.Info.VariableKey,
+                    changeType,
+                    coefficient,
+                    true);
             }
-            else if (item.Name == MenuConstants.CanvasMenuBidirArrow)
+            catch (Exception ex)
             {
-                changeType = RefChangeType.BiDir;
-                coefficient = 0;
+                Util.ShowErrorDialog(MessageResources.ErrCreateEdge);
             }
-            else
-            {
-                changeType = RefChangeType.SingleDir;
-                coefficient = 0;
-            }
-            m_con.NotifyVariableReferenceChanged(
-                line.Info.ProcessKey,
-                line.Info.VariableKey,
-                changeType,
-                coefficient,
-                true);
         }
 
         /// <summary>
@@ -1121,7 +1163,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 List<string> layerList = canvas.GetLayerNameList();
                 string title = MessageResources.LayerMenuCreate;
                 name = SelectBoxDialog.Show(title, title, name, layerList);
-                if (name == null || name.Equals(""))
+                if (string.IsNullOrEmpty(name))
                     return;
                 if (!canvas.Layers.ContainsKey(name))
                     canvas.AddLayer(name);
@@ -1231,22 +1273,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e">EventArgs.</param>
         private void ShowDialogClick(object sender, EventArgs e)
         {
-            PropertyDialog dialog = new PropertyDialog();
+            PropertyDialog dialog = new PropertyDialog(m_con);
             using (dialog)
             {
-                dialog.Text = MessageResources.DialogTextPathwaySetting;
-                PropertyDialogTabPage pathwayPage = m_con.Animation.PathwayDialogTabPage;
-                PropertyDialogTabPage animationPage = m_con.Animation.AnimationDialogTabPage;
-                PropertyDialogTabPage componentPage = m_con.ComponentManager.DialogTabPage;
-                dialog.TabControl.Controls.Add(pathwayPage);
-                dialog.TabControl.Controls.Add(animationPage);
-                dialog.TabControl.Controls.Add(componentPage);
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return;
 
-                pathwayPage.ApplyChange();
-                animationPage.ApplyChange();
-                componentPage.ApplyChange();
+                dialog.ApplyChanges();
                 m_con.ResetObjectSettings();
             }
         }

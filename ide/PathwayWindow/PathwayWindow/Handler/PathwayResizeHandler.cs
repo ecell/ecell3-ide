@@ -70,7 +70,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// Cursor
         /// </summary>
         protected Cursor m_cursor;
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        protected float m_minWidth = 60;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected float m_minHeight = 40;
         #endregion
 
         #region Accessor
@@ -85,7 +92,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 m_canvas = value;
             }
         }
-        
+
+        /// <summary>
+        /// Accessor for Minimum Width of Object.
+        /// </summary>
+        public virtual float MinWidth
+        {
+            get { return m_minWidth; }
+            set { m_minWidth = value; }
+        }
+
+        /// <summary>
+        /// Accessor for Minimum Height of Object.
+        /// </summary>
+        public virtual float MinHeight
+        {
+            get { return m_minHeight; }
+            set { m_minHeight = value; }
+        }
         #endregion
 
         #region Constructor
@@ -184,7 +208,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// </summary>
         protected virtual void ResizeObject(float x, float y, float width, float height)
         {
-            if (width >= PPathwayNode.DEFAULT_WIDTH && height >= PPathwayNode.DEFAULT_HEIGHT)
+            if (width >= m_minWidth && height >= m_minHeight)
             {
                 m_obj.X = x;
                 m_obj.Y = y;
@@ -193,7 +217,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 m_obj.RefreshView();
             }
         }
-
         #endregion
 
         #region Event Handlers

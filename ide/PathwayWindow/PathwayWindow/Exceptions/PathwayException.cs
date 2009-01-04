@@ -31,13 +31,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Ecell.Exceptions;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Exceptions
 {
     /// <summary>
     /// Exception for PathwayWindow.
     /// </summary>
-    public class PathwayException : Exception
+    public class PathwayException : EcellException
     {
         /// <summary>
         /// Constructor

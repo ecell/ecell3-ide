@@ -146,10 +146,10 @@
         public System.Windows.Forms.ToolStripMenuItem observedToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem parameterToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem propertyToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem propertyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addSystemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addVariableToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addProcessToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem mergeSystemToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem mergeSystemToolStripMenuItem;
     }
 }

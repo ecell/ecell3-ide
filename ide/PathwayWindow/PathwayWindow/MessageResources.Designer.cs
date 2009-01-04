@@ -169,6 +169,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Set oneway direction に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CanvasMenuOnewayArrow {
+            get {
+                return ResourceManager.GetString("CanvasMenuOnewayArrow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   &amp;Paste に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuPaste {
@@ -219,6 +228,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string DialogTextComponentSetting {
             get {
                 return ResourceManager.GetString("DialogTextComponentSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reset Diagram settings. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogTextConfirmReset {
+            get {
+                return ResourceManager.GetString("DialogTextConfirmReset", resourceCulture);
             }
         }
         
@@ -417,6 +435,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string ErrCreateComponent {
             get {
                 return ResourceManager.GetString("ErrCreateComponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to create edge. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrCreateEdge {
+            get {
+                return ResourceManager.GetString("ErrCreateEdge", resourceCulture);
             }
         }
         

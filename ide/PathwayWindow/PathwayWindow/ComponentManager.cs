@@ -206,15 +206,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return list;
             }
         }
-
-        /// <summary>
-        /// Create TabPage for PathwaySettingDialog
-        /// </summary>
-        /// <returns></returns>
-        public PropertyDialogTabPage DialogTabPage
-        {
-            get { return new ComponentTabPage(this); }
-        }
         #endregion
 
         #region Constructor
@@ -427,6 +418,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 SetDefaultSetting(setting);
         }
 
+        /// <summary>
+        /// Create TabPage for PathwaySettingDialog
+        /// </summary>
+        /// <returns></returns>
+        public PropertyDialogTabPage ComponentTabPage
+        {
+            get { return new ComponentTabPage(this);}
+        }
         #endregion
 
         #region Private Methods
@@ -479,7 +478,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             defTextCs.Name = PathwayConstants.NameOfDefaultText;
             defTextCs.Class = PathwayConstants.ClassPPathwayText;
             defTextCs.IsDefault = true;
-            defTextCs.Figure = FigureManager.CreateFigure("Rectangle", "0,0,100,80");
+            defTextCs.Figure = FigureManager.CreateFigure("Rectangle", "0,0,80,60");
             defTextCs.TextBrush = Brushes.Black;
             defTextCs.LineBrush = Brushes.Black;
             defTextCs.CenterBrush = Brushes.White;
@@ -737,42 +736,42 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
         }
         #endregion
+    }
 
-        /// <summary>
-        /// private class for ComponentSettingDialog
-        /// </summary>
-        internal class ComponentTabPage : PropertyDialogTabPage
+    /// <summary>
+    /// private class for ComponentSettingDialog
+    /// </summary>
+    internal class ComponentTabPage : PropertyDialogTabPage
+    {
+        ComponentManager m_manager = null;
+
+        public ComponentTabPage(ComponentManager manager)
         {
-            ComponentManager m_manager = null;
+            m_manager = manager;
 
-            public ComponentTabPage(ComponentManager manager)
+            this.Text = MessageResources.DialogTextComponentSetting;
+            this.SuspendLayout();
+            int top = 0;
+            foreach (ComponentSetting cs in m_manager.ComponentSettings)
             {
-                m_manager = manager;
-
-                this.Text = MessageResources.DialogTextComponentSetting;
-                this.SuspendLayout();
-                int top = 0;
-                foreach (ComponentSetting cs in m_manager.ComponentSettings)
-                {
-                    ComponentSetting.ComponentItem item = new ComponentSetting.ComponentItem(cs);
-                    item.Top = top;
-                    item.SuspendLayout();
-                    this.Controls.Add(item);
-                    item.ResumeLayout();
-                    item.PerformLayout();
-                    top += item.Height;
-                }
-                this.ResumeLayout();
+                ComponentSetting.ComponentItem item = new ComponentSetting.ComponentItem(cs);
+                item.Top = top;
+                item.SuspendLayout();
+                this.Controls.Add(item);
+                item.ResumeLayout();
+                item.PerformLayout();
+                top += item.Height;
             }
-            public override void ApplyChange()
+            this.ResumeLayout();
+        }
+        public override void ApplyChange()
+        {
+            base.ApplyChange();
+            foreach (ComponentSetting.ComponentItem item in this.Controls)
             {
-                base.ApplyChange();
-                foreach (ComponentSetting.ComponentItem item in this.Controls)
-                {
-                    item.ApplyChange();
-                }
-                m_manager.SaveComponentSettings();
+                item.ApplyChange();
             }
+            m_manager.SaveComponentSettings();
         }
     }
 }

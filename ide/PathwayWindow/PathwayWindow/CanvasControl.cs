@@ -83,11 +83,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Maximum scale
         /// </summary>
         private const float MAX_SCALE = 5;
-
-        /// <summary>
-        /// Default LayerID
-        /// </summary>
-        private const string DEFAULT_LAYERID = "Layer0";
         #endregion
 
         #region Fields
@@ -126,11 +121,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// The dictionary for all comments
         /// </summary>
         protected SortedDictionary<string, PPathwayText> m_texts = new SortedDictionary<string, PPathwayText>();
-
-        /// <summary>
-        /// DataTable for DataGridView displayed layer list.
-        /// </summary>
-        protected DataTable m_table;
 
         /// <summary>
         /// The dictionary for all layers.
@@ -262,14 +252,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
-        /// Accessor for m_table.
-        /// </summary>
-        public DataTable LayerTable
-        {
-            get { return m_table; }
-        }
-
-        /// <summary>
         /// Accessor for m_systems.
         /// </summary>
         public SortedDictionary<string, PPathwaySystem> Systems
@@ -360,6 +342,32 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
         #endregion
 
+        #region EventHandler for LayerChange
+        private EventHandler m_onLayerChange;
+        /// <summary>
+        /// Event on layer change.
+        /// </summary>
+        public event EventHandler LayerChange
+        {
+            add { m_onLayerChange += value; }
+            remove { m_onLayerChange -= value; }
+        }
+        /// <summary>
+        /// Event on layer change.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnLayerChange(EventArgs e)
+        {
+            if (m_onLayerChange != null)
+                m_onLayerChange(this, e);
+        }
+        internal void RaiseLayerChange()
+        {
+            EventArgs e = new EventArgs();
+            OnLayerChange(e);
+        }
+        #endregion
+
         #region Constructor
         /// <summary>
         /// the constructor with initial parameters.
@@ -369,6 +377,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public CanvasControl(PathwayControl control, string modelID)
         {
             m_con = control;
+
+            m_con.ViewModeChange += new EventHandler(Control_ViewModeChange);
+            m_con.Window.PluginManager.Refresh += new EventHandler(pManager_Refresh);
+
             m_modelId = modelID;
 
             // Preparing PathwayViewCanvas
@@ -379,23 +391,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_pCanvas.Camera.ViewTransformChanged += new PPropertyEventHandler(Camera_ViewChanged);
             m_pCanvas.Camera.BoundsChanged += new PPropertyEventHandler(Camera_ViewChanged);
 
-            // Preparing DataTable
-            m_table = new DataTable(modelID);
-            DataColumn dc = new DataColumn(MessageResources.LayerColumnShow);
-            dc.DataType = typeof(bool);
-            m_table.Columns.Add(dc);
-            DataColumn dc2 = new DataColumn(MessageResources.LayerColumnName);
-            dc2.DataType = typeof(string);
-            dc2.ReadOnly = false;
-            m_table.Columns.Add(dc2);
             // Preparing layer list
             m_layers = new Dictionary<string, PPathwayLayer>();
 
             // Preparing system layer
-            m_sysLayer = new PPathwayLayer("SystemLayer");
+            m_sysLayer = new PPathwayLayer("");
             AddLayer(m_sysLayer);
             // Preparing control layer
-            m_ctrlLayer = new PPathwayLayer("ControlLayer");
+            m_ctrlLayer = new PPathwayLayer("");
             m_pCanvas.Root.AddChild(m_ctrlLayer);
             m_pCanvas.Camera.AddLayer(m_ctrlLayer);
 
@@ -407,8 +410,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_showingId = m_con.ShowingID;
             m_focusMode = m_con.FocusMode;
             ResetObjectSettings();
+        }
 
-            m_con.ViewModeChange += new EventHandler(Control_ViewModeChange);
+        void pManager_Refresh(object sender, EventArgs e)
+        {
+            foreach (PPathwayProcess process in m_processes.Values)
+            {
+                process.ResetEdges();
+            }
         }
 
         /// <summary>
@@ -526,8 +535,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 if (key.StartsWith(system.EcellObject.Key))
                     contains = contains & system.Rect.Contains(rect);
-                else if(!key.Equals(system.EcellObject.Key))
+                else if (!key.Equals(system.EcellObject.Key))
                     contains = contains & !system.Rect.Contains(rect);
+            }
+            return contains;
+        }
+        /// <summary>
+        /// Check if any system of this canvas overlaps given rectangle.
+        /// </summary>
+        /// <param name="key">key of EcellObject</param>
+        /// <param name="point">RectangleF to be checked</param>
+        /// <returns>True if there is a system which overlaps rectangle of argument, otherwise false</returns>
+        public bool DoesSystemContains(string key, PointF point)
+        {
+            bool contains = true;
+            foreach (PPathwaySystem system in m_systems.Values)
+            {
+                if (key.StartsWith(system.EcellObject.Key))
+                    contains = contains & system.Rect.Contains(point);
+                else if (!key.Equals(system.EcellObject.Key))
+                    contains = contains & !system.Rect.Contains(point);
             }
             return contains;
         }
@@ -571,11 +598,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public void DataAdd(string sysKey, PPathwayObject obj, bool hasCoords, bool isFirst)
         {
             // Set Layer
-            SetLayer(obj);
             obj.Canvas = this;
             obj.ShowingID = m_showingId;
             obj.ViewMode = m_isViewMode;
             obj.AddInputEventListener(new NodeDragHandler(this));
+            SetLayer(obj);
 
             RegisterObjToSet(obj);
             if (obj is PPathwayNode)
@@ -596,9 +623,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (obj is PPathwayNode)
             {
                 if (!hasCoords)
-                    obj.PointF = GetVacantPoint(sysKey);
-                else if (!system.Rect.Contains(obj.PointF))
-                    obj.PointF = GetVacantPoint(sysKey, obj.Rect);
+                    obj.CenterPointF = GetVacantPoint(sysKey);
+                else if (!system.Rect.Contains(obj.CenterPointF))
+                    obj.CenterPointF = GetVacantPoint(sysKey, obj.CenterPointF);
             }
             if (obj is PPathwaySystem)
             {
@@ -710,7 +737,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             AddLayer(layer);
             AddLayer(m_ctrlLayer);
             m_layers.Add(layer.Name, layer);
-            RefreshLayerTable();
+            RaiseLayerChange();
         }
 
         /// <summary>
@@ -746,7 +773,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             AddLayer(layer);
             AddLayer(m_ctrlLayer);
-            RefreshLayerTable();
+            RaiseLayerChange();
             m_con.Canvas.OverviewCanvas.Refresh();
         }
 
@@ -773,7 +800,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (obj != layer)
                     AddLayer(obj);
             AddLayer(m_ctrlLayer);
-            RefreshLayerTable();
+            RaiseLayerChange();
         }
 
         /// <summary>
@@ -791,40 +818,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
             }
             else if (string.IsNullOrEmpty(layerID))
-                layerID = DEFAULT_LAYERID;
+                layerID = m_con.LayerView.CurrentLayer;
             if (!m_layers.ContainsKey(layerID))
             {
                 AddLayer(layerID);
             }
             obj.Layer = m_layers[layerID];
-            obj.Layer.AddChild(obj);
-            if (!m_layers[layerID].Visible)
-            {
-                ChangeLayerVisibility(layerID, true);
-                RefreshLayerTable();
-                m_con.LayerView.SelectedLayer = layerID;
-            }
-        }
-
-        /// <summary>
-        /// Refresh Layer table.
-        /// </summary>
-        public void RefreshLayerTable()
-        {
-            m_table.Clear();
-            foreach (PNode obj in m_pCanvas.Root.ChildrenReference)
-            {
-                if (!(obj is PPathwayLayer))
-                    continue;
-                PPathwayLayer layer = (PPathwayLayer)obj;
-                if (layer == m_ctrlLayer || layer == m_sysLayer)
-                    continue;
-
-                DataRow dr = m_table.NewRow();
-                dr[MessageResources.LayerColumnShow] = layer.Visible;
-                dr[MessageResources.LayerColumnName] = layer.Name;
-                m_table.Rows.Add(dr);
-            }
         }
 
         /// <summary>
@@ -834,12 +833,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public void RemoveLayer(string name)
         {
             PPathwayLayer layer = m_layers[name];
-            m_layers.Remove(name);
-            m_overviewCanvas.RemoveObservedLayer(layer);
-            m_pCanvas.Camera.RemoveLayer(layer);
-            m_pCanvas.Root.RemoveChild(layer);
-
-            RefreshLayerTable();
 
             // Delete Nodes under this layer
             List<PPathwayObject> list = layer.GetNodes();
@@ -849,6 +842,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 i++;
                 m_con.NotifyDataDelete(obj, (i == list.Count));
             }
+
+            // Delete Layer.
+            m_layers.Remove(name);
+            m_overviewCanvas.RemoveObservedLayer(layer);
+            m_pCanvas.Camera.RemoveLayer(layer);
+            m_pCanvas.Root.RemoveChild(layer);
+
+            RaiseLayerChange();
         }
 
         /// <summary>
@@ -875,8 +876,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     true,
                     (i == list.Count));
             }
-
-            RefreshLayerTable();
         }
 
         /// <summary>
@@ -934,7 +933,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     (i == list.Count));
             }
             RemoveLayer(oldName);
-            RefreshLayerTable();
+            RaiseLayerChange();
         }
         #endregion
 
@@ -1183,8 +1182,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 if (obj is PPathwayNode)
                 {
-                    obj.PointF = GetVacantPoint(sysKey);
-
+                    obj.CenterPointF = GetVacantPoint(sysKey, obj.CenterPointF);
+                    m_con.NotifySetPosition(obj);
                 }
                 else
                 {
@@ -1359,7 +1358,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
             }
             // Move camera view.
-            if (m_focusMode)
+            if (m_focusMode && obj.Visible)
             {
                 RectangleF centerBounds = PathUtil.GetFocusBound(obj.Rect, m_pCanvas.Camera.ViewBounds);
                 m_pCanvas.Camera.AnimateViewToCenterBounds(centerBounds,
@@ -1507,16 +1506,40 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             PPathwaySystem sys = m_systems[sysKey];
             Random hRandom = new Random();
-            RectangleF basePos = new RectangleF(
+            PointF basePos = new PointF(
                 (float)hRandom.Next((int)sys.X, (int)(sys.X + sys.Width)),
-                (float)hRandom.Next((int)sys.Y, (int)(sys.Y + sys.Height)),
-                30,
-                20);
+                (float)hRandom.Next((int)sys.Y, (int)(sys.Y + sys.Height)));
             return GetVacantPoint(sysKey, basePos);
         }
 
         /// <summary>
-        /// Return nearest vacant point of EcellSystem.
+        /// Return nearest vacant point for node.
+        /// </summary>
+        /// <param name="sysKey"></param>
+        /// <param name="point"></param>
+        public PointF GetVacantPoint(string sysKey, PointF point)
+        {
+            if (string.IsNullOrEmpty(sysKey))
+                sysKey = "/";
+            PPathwaySystem sys = m_systems[sysKey];
+            PointF basePos = new PointF(point.X, point.Y);
+            double rad = Math.PI * 0.25f;
+            float r = 0f;
+
+            do
+            {
+                // Check 
+                if (DoesSystemContains(sysKey, point))
+                    return new PointF(point.X, point.Y);
+                r += 1f;
+                point.X = basePos.X + r * (float)Math.Cos(rad * r);
+                point.Y = basePos.Y + r * (float)Math.Sin(rad * r);
+            } while (r < sys.Width || r < sys.Height);
+            // if there si no vacant point, return basePos.
+            return basePos;
+        }
+        /// <summary>
+        /// Return nearest vacant point for system.
         /// </summary>
         /// <param name="sysKey">The key of system.</param>
         /// <param name="rectF">Target position.</param>
@@ -1533,7 +1556,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             do
             {
                 // Check 
-                if (DoesSystemContains(sysKey, rectF) && sys.Rect.Contains(rectF))
+                if (DoesSystemContains(sysKey, rectF) && !sys.Overlaps(rectF))
                     return new PointF(rectF.X, rectF.Y);
                 r += 1f;
                 rectF.X = basePos.X + r * (float)Math.Cos(rad * r);
@@ -1647,7 +1670,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (node is PPathwayText)
                 newKey = node.EcellObject.Key;
             else
-                newKey = GetSurroundingSystemKey(node.PointF) + ":" + node.EcellObject.LocalID;
+                newKey = GetSurroundingSystemKey(node.CenterPointF) + ":" + node.EcellObject.LocalID;
 
             m_con.NotifyDataChanged(
                 node.EcellObject.Key,
@@ -1775,7 +1798,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             else if (obj is PPathwayNode)
             {
-                newSysKey = GetSurroundingSystemKey(obj.PointF);
+                newSysKey = GetSurroundingSystemKey(obj.CenterPointF);
                 newKey = newSysKey + ":" + obj.EcellObject.LocalID;
 
                 // When node is out of root.
@@ -1801,7 +1824,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <returns>True, if the given rectangle is inside the root system.
         ///          False, if the given rectangle is outside the root system.
         /// </returns>
-        private bool IsInsideRoot(RectangleF rectF)
+        public bool IsInsideRoot(RectangleF rectF)
         {
             RectangleF rootRect = m_systems["/"].Rect;
             return rootRect.Contains(rectF);

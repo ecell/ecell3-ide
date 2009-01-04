@@ -92,7 +92,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.Camera.AddLayer(canvas.PCanvas.Layer);
             this.RemoveInputEventListener(this.PanEventHandler);
             this.RemoveInputEventListener(this.ZoomEventHandler);
-            this.Camera.AddInputEventListener(new AreaDragHandler(canvas.PCanvas.Camera));
+            this.Camera.AddInputEventListener(new AreaDragEventHandler(canvas.PCanvas.Camera));
             this.Camera.ScaleViewBy(REDUCTION_SCALE);
             this.Camera.TranslateViewBy(500, 500);
             this.Layer.AddChild(m_transparentNode);
@@ -187,7 +187,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <summary>
         /// Handler for an overview.
         /// </summary>
-        public class AreaDragHandler : PDragEventHandler
+        internal class AreaDragEventHandler : PDragEventHandler
         {
             /// <summary>
             /// PCamera of a main pathway canvas. When a displayed area in an overview window
@@ -196,15 +196,31 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             /// camera by this object (PDisplayedArea instance).
             /// </summary>
             private PCamera m_mainCamera;
-            private PointF prevPoint;
+            private PointF m_prevPoint;
 
             /// <summary>
             /// Constructor
             /// </summary>
             /// <param name="mainCamera"></param>
-            public AreaDragHandler(PCamera mainCamera)
+            public AreaDragEventHandler(PCamera mainCamera)
             {
                 this.m_mainCamera = mainCamera;
+            }
+
+            /// <summary>
+            /// Event on DoubleClick.
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
+            public override void OnDoubleClick(object sender, PInputEventArgs e)
+            {
+                base.OnDoubleClick(sender, e);
+                PointF offset = new PointF(
+                    m_mainCamera.ViewBounds.X + m_mainCamera.ViewBounds.Width / 2 - e.Position.X,
+                    m_mainCamera.ViewBounds.Y + m_mainCamera.ViewBounds.Height / 2 - e.Position.Y);
+
+                m_mainCamera.TranslateViewBy(offset.X, offset.Y);
+                m_mainCamera.Canvas.Refresh();
             }
 
             /// <summary>
@@ -220,9 +236,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 }
                 base.OnDrag(sender, e);
                 PointF newPoint = e.PickedNode.Offset;
-                m_mainCamera.TranslateViewBy(prevPoint.X - newPoint.X, prevPoint.Y - newPoint.Y);
+                m_mainCamera.TranslateViewBy(m_prevPoint.X - newPoint.X, m_prevPoint.Y - newPoint.Y);
                 m_mainCamera.Canvas.Refresh();
-                prevPoint = e.PickedNode.Offset;
+                m_prevPoint = e.PickedNode.Offset;
             }
 
             /// <summary>
@@ -233,7 +249,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             public override void OnMouseDown(object sender, PInputEventArgs e)
             {
                 base.OnMouseDown(sender, e);
-                prevPoint = e.PickedNode.Offset;
+                m_prevPoint = e.PickedNode.Offset;
             }
         }
     }

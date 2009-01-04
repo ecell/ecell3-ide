@@ -102,10 +102,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
             foreach (ComponentSetting c in m_con.ComponentManager.ComponentSettings)
             {
-                // XXX: FIXME
-                if (c.ComponentType == ComponentType.Text)
-                    continue;
-
                 PToolBoxCanvas pCanvas = new PToolBoxCanvas();
                 pCanvas.AllowDrop = true;
                 pCanvas.Anchor = (System.Windows.Forms.AnchorStyles)

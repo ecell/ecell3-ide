@@ -359,6 +359,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 {
                     Progress(mes, 100, 100);
                     Window.Environment.ReportManager.SetStatus(StatusBarMessageKind.Generic, "");
+                    m_canvas.RefreshOverView();
                 }
             }
             catch (Exception e)
@@ -518,8 +519,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (m_canvas == null)
                 return;
 
+            PPathwayObject obj;
+            // If case SystemSize
+            if (type == Constants.xpathVariable)
+            {
+                if (eo.LocalID == "SIZE")
+                {
+                    obj = m_canvas.Systems[eo.ParentSystemID];
+                    ((EcellSystem)obj.EcellObject).SizeInVolume = (double)eo.GetEcellValue("Value");
+                    obj.Refresh();
+                }
+            }
+
             // Select changed object.
-            PPathwayObject obj = m_canvas.GetSelectedObject(oldKey, type);
+            obj = m_canvas.GetSelectedObject(oldKey, type);
             if (obj == null)
                 return;
 
@@ -700,11 +713,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="model"></param>
         /// <param name="system"></param>
         /// <param name="type"></param>
-        /// <param name="isRecorded"></param>
         /// <returns></returns>
-        internal EcellObject CreateDefaultObject(string model, string system, string type, bool isRecorded)
+        internal EcellObject CreateDefaultObject(string model, string system, string type)
         {
-            EcellObject eo = m_window.DataManager.CreateDefaultObject(model, system, type, isRecorded);
+            EcellObject eo = m_window.DataManager.CreateDefaultObject(model, system, type, false);
             return eo;
         }
         /// <summary>
@@ -741,17 +753,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         internal void SetNodeIcons()
         {
-            ImageList list = m_window.PluginManager.NodeImageList;
-
-            list.Images.RemoveByKey(Constants.xpathSystem);
-            list.Images.RemoveByKey(Constants.xpathProcess);
-            list.Images.RemoveByKey(Constants.xpathVariable);
-            list.Images.RemoveByKey(Constants.xpathText);
-
-            list.Images.Add(Constants.xpathSystem, m_csManager.DefaultSystemSetting.IconImage);
-            list.Images.Add(Constants.xpathProcess, m_csManager.DefaultProcessSetting.IconImage);
-            list.Images.Add(Constants.xpathVariable, m_csManager.DefaultVariableSetting.IconImage);
-            list.Images.Add(Constants.xpathText, m_csManager.DefaultTextSetting.IconImage);
+            m_window.PluginManager.SetIconImage(Constants.xpathSystem, m_csManager.DefaultSystemSetting.IconImage, false);
+            m_window.PluginManager.SetIconImage(Constants.xpathProcess, m_csManager.DefaultProcessSetting.IconImage, false);
+            m_window.PluginManager.SetIconImage(Constants.xpathVariable, m_csManager.DefaultVariableSetting.IconImage, false);
+            m_window.PluginManager.SetIconImage(Constants.xpathText, m_csManager.DefaultTextSetting.IconImage, true);
         }
 
         #endregion
@@ -765,7 +770,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public void NotifyDataAdd(EcellObject eo, bool isAnchor)
         {
             // Set current layer.
-            eo.Layer = m_layerView.SelectedLayer;
+            eo.Layer = m_layerView.CurrentLayer;
             try
             {
                 m_window.NotifyDataAdd(eo, isAnchor);
@@ -846,8 +851,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             bool isRecorded,
             bool isAnchor)
         {
-            obj.ViewMode = false;
-            EcellObject eo = m_window.GetEcellObject(this.Canvas.ModelID, oldKey, obj.EcellObject.Type);
+            EcellObject eo = m_window.GetEcellObject(obj.EcellObject);
             try
             {
                 eo.Key = newKey;
@@ -859,15 +863,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 eo.OffsetX = 0f;
                 eo.OffsetY = 0f;
 
-                obj.ViewMode = m_isViewMode;
                 NotifyDataChanged(oldKey, eo, isRecorded, isAnchor);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                DataChanged(eo.ModelID, oldKey, eo.Type, obj.EcellObject);
+                DataChanged(obj.EcellObject.ModelID, obj.EcellObject.Key, obj.EcellObject.Type, obj.EcellObject);
                 if (m_isViewMode)
                     m_animCon.UpdatePropForSimulation();
+                throw new PathwayException("Error DataChange.", e);
             }
         }
 
@@ -1032,6 +1036,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
+                throw new PathwayException(MessageResources.ErrCreateEdge);
             }
 
         }
@@ -1300,12 +1305,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (sysKey == null)
                     sysKey = canvas.GetSurroundingSystemKey(this.m_mousePos);
                 if (sysKey == null)
-                    throw new Exception(MessageResources.ErrOutRoot);
+                    throw new PathwayException(MessageResources.ErrOutRoot);
                 if (eo.ParentSystemID != sysKey)
                     eo.ParentSystemID = sysKey;
                 // Check Position
                 if (!canvas.CheckNodePosition(eo.ParentSystemID, eo.PointF))
-                    eo.PointF = canvas.GetVacantPoint(sysKey, eo.Rect);
+                    eo.CenterPointF = canvas.GetVacantPoint(sysKey, eo.CenterPointF);
                 // Check duplicated object.
                 if (canvas.GetSelectedObject(eo.Key, eo.Type) != null)
                     eo.Key = canvas.GetTemporaryID(eo.Type, sysKey);

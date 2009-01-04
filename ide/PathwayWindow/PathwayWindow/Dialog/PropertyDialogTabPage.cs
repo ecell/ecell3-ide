@@ -45,7 +45,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         /// </summary>
         public PropertyDialogTabPage()
         {
-            InitializeComponent();
+            this.AutoScroll = true;
         }
         /// <summary>
         /// ApplyChange
@@ -54,16 +54,5 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         {
         }
 
-        private void InitializeComponent()
-        {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyDialogTabPage));
-            this.SuspendLayout();
-            // 
-            // PropertyDialogTabPage
-            // 
-            resources.ApplyResources(this, "$this");
-            this.ResumeLayout(false);
-
-        }
     }
 }

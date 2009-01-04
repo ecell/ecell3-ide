@@ -64,16 +64,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 
         #region Fields
         /// <summary>
-        /// Object will be painted with this Brush when object is to be connected.
-        /// </summary>
-        protected Brush m_toBeConnectedBrush = Brushes.Orange;
-
-        /// <summary>
-        /// Whether this object is to be connected or not.
-        /// </summary>
-        protected bool m_isToBeConnected = false;
-
-        /// <summary>
         /// PText for showing this object's ID.
         /// </summary>
         protected PText m_pPropertyText;
@@ -90,22 +80,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         #endregion
 
         #region Accessors
-        /// <summary>
-        /// Accessor for status whether this object is ready to be connected.
-        /// </summary>
-        public virtual bool IsToBeConnected
-        {
-            get { return this.m_isToBeConnected; }
-            set
-            {
-                this.m_isToBeConnected = value;
-                if (value)
-                    this.Brush = m_toBeConnectedBrush;
-                else
-                    this.Brush = m_fillBrush;
-            }
-        }
-
         /// <summary>
         /// RelatedProcesses
         /// </summary>
@@ -215,21 +189,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 + ", Text.OffsetX:" + PText.OffsetX + ", Text.OffsetY:" + PText.OffsetY;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override string CreateSVGObject()
-        {
-            string obj = base.CreateSVGObject();
-            PText text = m_pPropertyText;
-            if (!string.IsNullOrEmpty(text.Text) && text.Visible)
-            {
-                PointF pos = new PointF(text.X, text.Y + SVGUtil.SVG_FONT_SIZE);
-                obj += SVGUtil.Text(pos, text.Text, BrushManager.ParseBrushToString(text.TextBrush), "", SVGUtil.SVG_FONT_SIZE);
-            }
-            return obj;
-        }
         /// <summary>
         /// Refresh
         /// </summary>

@@ -120,5 +120,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 m_pPropertyText.Visible = false;
             base.RefreshView();
         }
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        public override void Dispose()
+        {
+            foreach (PPathwayLine line in m_relations)
+            {
+                if (line.Parent != null)
+                    line.Parent.RemoveChild(line);
+                else
+                    line.CloseAllFigures();
+                line.Dispose();
+            }
+            m_relations.Clear();
+            base.Dispose();
+        }
     }
 }

@@ -123,7 +123,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            PNode node = m_con.Canvas.FocusNode;
             ReportManager rman = m_con.Window.Environment.ReportManager;
             Point systemPos = GetDesktopLocation(m_con.Canvas.PCanvas);
             PointF pos = m_con.Canvas.SystemPosToCanvasPos(new Point(e.Location.X + systemPos.X,e.Location.Y + systemPos.Y));

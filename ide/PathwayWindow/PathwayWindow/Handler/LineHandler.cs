@@ -287,36 +287,41 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             EdgeInfo info = m_selectedLine.Info;
             string processKey = info.ProcessKey;
             string variableKey = info.VariableKey;
-            int coefficient = 0;
-            RefChangeType type = RefChangeType.BiDir;
+            int coefficient = info.Coefficient;
+            RefChangeType type = RefChangeType.SingleDir;
 
-            // Remove  old edge.
-            m_con.NotifyVariableReferenceChanged(processKey, variableKey, RefChangeType.Delete, 0, false);
+            try
+            {
+                // Remove  old edge.
+                m_con.NotifyVariableReferenceChanged(processKey, variableKey, RefChangeType.Delete, 0, false);
 
-            // Get new EdgeInfo.
-            LineHandle handle = (LineHandle)sender;
-            if (obj is PPathwayProcess && handle.ComponentType == ComponentType.Process)
-            {
-                processKey = obj.EcellObject.Key;
-            }
-            else if (obj is PPathwayVariable && handle.ComponentType == ComponentType.Variable)
-            {
-                variableKey = obj.EcellObject.Key;
-            }
-            else
-            {
-                m_canvas.ResetSelectedLine();
-                ResetLinePosition();
-                return;
-            }
+                // Get new EdgeInfo.
+                LineHandle handle = (LineHandle)sender;
+                if (obj is PPathwayProcess && handle.ComponentType == ComponentType.Process)
+                {
+                    processKey = obj.EcellObject.Key;
+                }
+                else if (obj is PPathwayVariable && handle.ComponentType == ComponentType.Variable)
+                {
+                    variableKey = obj.EcellObject.Key;
+                }
+                else
+                {
+                    m_canvas.ResetSelectedLine();
+                    ResetLinePosition();
+                    return;
+                }
+                if (info.Direction == EdgeDirection.Bidirection)
+                {
+                    type = RefChangeType.BiDir;
+                }
 
-            if (info.Direction != EdgeDirection.Bidirection)
-            {
-                type = RefChangeType.SingleDir;
-                coefficient = info.Coefficient;
+                m_con.NotifyVariableReferenceChanged(processKey, variableKey, type, coefficient, true);
             }
-            m_con.NotifyVariableReferenceChanged(processKey, variableKey, type, coefficient, true);
-
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrCreateEdge);
+            }
             m_canvas.ResetSelectedLine();
             ResetLinePosition();
         }

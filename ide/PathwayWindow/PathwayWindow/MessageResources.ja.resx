@@ -408,4 +408,13 @@
   <data name="ErrNotFound" xml:space="preserve">
     <value>{0}という名前のエンティティは存在しません。</value>
   </data>
+  <data name="CanvasMenuOnewayArrow" xml:space="preserve">
+    <value>片方向にする</value>
+  </data>
+  <data name="DialogTextConfirmReset" xml:space="preserve">
+    <value>ダイアグラム設定を初期値に戻します。よろしいですか？</value>
+  </data>
+  <data name="ErrCreateEdge" xml:space="preserve">
+    <value>エッジの作成に失敗しました。</value>
+  </data>
 </root>

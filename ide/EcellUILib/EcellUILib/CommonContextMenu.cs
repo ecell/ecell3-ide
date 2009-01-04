@@ -145,11 +145,19 @@ namespace Ecell.IDE
             List<ToolStripItem> retval = new List<ToolStripItem>();
             foreach (EcellData d in obj.Value)
             {
-                if (!d.Settable || !d.Value.IsDouble)
+                if (!d.Settable || !d.Value.IsDouble || d.Name.Equals(Constants.xpathSize))
                     continue;
                 ToolStripMenuItem item = new ToolStripMenuItem(d.Name);
                 item.Tag = d.Name;
                 item.Checked = m_env.DataManager.IsContainsParameterData(d.EntityPath);
+                item.Click += new EventHandler(ClickCreateParameterData);
+                retval.Add(item);
+            }
+            if (obj.Type.Equals(EcellObject.SYSTEM))
+            {
+                ToolStripMenuItem item = new ToolStripMenuItem(Constants.xpathSize);
+                item.Tag = Constants.xpathSize;
+                item.Checked = m_env.DataManager.IsContainsParameterData(Constants.xpathVariable + ":" + obj.Key + ":SIZE:Value");
                 item.Click += new EventHandler(ClickCreateParameterData);
                 retval.Add(item);
             }
@@ -173,7 +181,6 @@ namespace Ecell.IDE
                 item.Click += new EventHandler(ClickCreateObservedData);
                 retval.Add(item);
             }
-
             return retval.ToArray();
         }
         #endregion
@@ -216,19 +223,30 @@ namespace Ecell.IDE
         {
             ToolStripMenuItem m = sender as ToolStripMenuItem;
             string key = m.Tag as string;
+            EcellData d = null;
+            string fullID = null;
+
+            if (key.Equals(Constants.xpathSize))
+            {
+                fullID = Constants.xpathVariable + ":" + m_object.Key + ":SIZE:Value";
+                d = new EcellData(Constants.xpathValue, new EcellValue(((EcellSystem)m_object).SizeInVolume),
+                    "");
+            }
+            else
+            {
+                d = m_object.GetEcellData(key);
+                fullID = d.EntityPath;
+            }
 
             if (m.Checked)
             {
                 m_env.DataManager.RemoveParameterData(
-                    new EcellParameterData(m_object.GetEcellData(key).EntityPath, 0.0));
+                    new EcellParameterData(fullID, 0.0));
             }
             else
             {
-                EcellData d = m_object.GetEcellData(key);
                 m_env.DataManager.SetParameterData(
-                    new EcellParameterData(
-                        d.EntityPath,
-                        Convert.ToDouble(d.Value.ToString())));
+                    new EcellParameterData(fullID, Convert.ToDouble(d.Value.ToString())));
             }
         }
 
@@ -241,18 +259,21 @@ namespace Ecell.IDE
         {
             ToolStripMenuItem m = sender as ToolStripMenuItem;
             string key = m.Tag as string;
+            EcellData d = null;;
+            string fullID = null;
+
+                d = m_object.GetEcellData(key);
+                fullID = d.EntityPath;
 
             if (m.Checked)
             {
                 m_env.DataManager.RemoveObservedData(
-                    new EcellObservedData(m_object.GetEcellData(key).EntityPath, 0.0));
+                    new EcellObservedData(fullID, 0.0));
             }
             else
             {
-                EcellData d = m_object.GetEcellData(key);
-                Debug.Assert(d != null);
                 m_env.DataManager.SetObservedData(
-                    new EcellObservedData(d.EntityPath, Convert.ToDouble(d.Value.ToString())));
+                    new EcellObservedData(fullID, Convert.ToDouble(d.Value.ToString())));
             }
         }
         /// <summary>
@@ -283,7 +304,7 @@ namespace Ecell.IDE
         /// <param name="e"></param>
         private void ClickDeleteToolStripMenuItem(object sender, EventArgs e)
         {
-            m_env.DataManager.DataDelete(m_object.ModelID, m_object.Key, m_object.Type);
+            m_env.DataManager.DataDelete(m_object);
         }
 
         /// <summary>

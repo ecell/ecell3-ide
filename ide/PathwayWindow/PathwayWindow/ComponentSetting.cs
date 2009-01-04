@@ -140,7 +140,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             set 
             { 
                 this.m_componentType = value;
-                RaisePropertyChange();
             }
         }
 
@@ -175,7 +174,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             set 
             { 
                 m_isDefault = value;
-                RaisePropertyChange();
             }
         }
 
@@ -188,7 +186,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             set 
             { 
                 m_isGradation = value;
-                RaisePropertyChange();
             }
         }
 
@@ -200,7 +197,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             get { return this.m_centerBrush; }
             set { 
                 this.m_centerBrush = value;
-                RaisePropertyChange();
             }
         }
 
@@ -213,7 +209,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             set 
             { 
                 this.m_fillBrush = value;
-                RaisePropertyChange();
             }
         }
 
@@ -226,7 +221,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             set 
             { 
                 this.m_textBrush = value;
-                RaisePropertyChange();
             }
         }
         /// <summary>
@@ -238,7 +232,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             set
             {
                 this.m_lineBrush = value;
-                RaisePropertyChange();
             }
         }
         /// <summary>
@@ -250,7 +243,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             set 
             { 
                 this.m_highlightBrush = value;
-                RaisePropertyChange();
             }
         }
         /// <summary>
@@ -262,7 +254,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             set
             { 
                 this.m_figure = value;
-                RaisePropertyChange();
             }
         }
         /// <summary>
@@ -274,7 +265,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             set 
             {
                 m_iconFileName =  value;
-                RaisePropertyChange();
             }
         }
         /// <summary>

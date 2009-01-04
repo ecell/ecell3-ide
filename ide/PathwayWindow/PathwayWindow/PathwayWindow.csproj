@@ -133,7 +133,9 @@
     <Compile Include="CanvasControl.cs" />
     <Compile Include="ComponentSetting.cs">
     </Compile>
-    <Compile Include="ComponentManager.cs" />
+    <Compile Include="ComponentManager.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Handler\CreateNodeMouseHandler.cs" />
     <Compile Include="Handler\DefaultMouseHandler.cs" />
     <Compile Include="Figure\Ellilpse.cs" />

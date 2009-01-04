@@ -43,12 +43,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
     /// </summary>
     public partial class PropertyDialog : PathwayDialog
     {
+        private PathwayControl m_con;
         /// <summary>
         /// Constructor
         /// </summary>
-        public PropertyDialog()
+        public PropertyDialog(PathwayControl control)
         {
             InitializeComponent();
+            m_con = control;
+            PropertyDialogTabPage diagramPage = m_con.Animation.PathwayDialogTabPage;
+            PropertyDialogTabPage animationPage = m_con.Animation.AnimationDialogTabPage;
+            PropertyDialogTabPage componentPage = m_con.ComponentManager.ComponentTabPage;
+            tabControl.Controls.Add(diagramPage);
+            tabControl.Controls.Add(animationPage);
+            tabControl.Controls.Add(componentPage);
+
         }
         /// <summary>
         /// Get tabControl.
@@ -56,6 +65,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         public TabControl TabControl
         {
             get { return this.tabControl; }
+        }
+        /// <summary>
+        /// Apply changes for Pathway settings.
+        /// </summary>
+        public void ApplyChanges()
+        {
+            foreach (PropertyDialogTabPage tabPage in tabControl.TabPages)
+                tabPage.ApplyChange();
+        }
+
+        private void buttonDefault_Click(object sender, EventArgs e)
+        {
+            if (!Util.ShowOKCancelDialog(MessageResources.DialogTextConfirmReset))
+                return;
+
         }
     }
 }
