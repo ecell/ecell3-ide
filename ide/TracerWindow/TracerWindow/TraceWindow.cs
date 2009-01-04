@@ -68,6 +68,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         public double m_current;
         private int m_entryCount = 0;
+        private int m_logCount = 0;
         /// <summary>
         /// The List of entity path on tracer.
         /// </summary>
@@ -254,7 +255,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             LogData newLog = new LogData(log.model, log.key, Constants.xpathLog, ele[ele.Length - 1], log.logValueList);
             newLog.IsLoaded = true;
             logList.Add(newLog);
-            AddPoints(log.logValueList[log.logValueList.Count - 1].time, log.logValueList[log.logValueList.Count - 1].time, logList);
+            AddPoints(log.logValueList[log.logValueList.Count - 1].time, log.logValueList[log.logValueList.Count - 1].time, logList, true);
         }
 
         /// <summary>
@@ -339,6 +340,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             i1.Line.Style = LineCreator.GetLine(ind);
             m_entryDic.Add(tag.M_path, new TraceEntry(tag.M_path, i, i1, tag.IsContinue, tag.isLoaded));
             m_tagDic.Add(tag.M_path, tag.IsContinue);
+            if (!tag.isLoaded) m_logCount++;
             m_entryCount++;
         }
 
@@ -395,6 +397,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
             if (m_entryDic.ContainsKey(tag.M_path))
             {
+                if (!m_entryDic[tag.M_path].IsLoaded) m_logCount--;
                 string path = tag.M_path;
                 m_entryDic[path].ClearPoint();
                 m_zCnt.GraphPane.CurveList.Remove(m_entryDic[path].CurrentLineItem);
@@ -430,6 +433,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         public void StartSimulation()
         {
+            if (m_logCount <= 0) return;
             Console.WriteLine(isSuspend);
             if (!isSuspend || m_zCnt.GraphPane.IsZoomed)
             {
@@ -559,9 +563,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="maxAxis">max axis of x.</param>
         /// <param name="nextTime">current time of simulation.</param>
         /// <param name="data">the simulation data.</param>
-        public void AddPoints(double maxAxis, double nextTime, IEnumerable<LogData> data)
+        public void AddPoints(double maxAxis, double nextTime, IEnumerable<LogData> data, bool isLoaded)
         {
             bool isAxis = false;
+
+            if (!isLoaded && m_logCount <= 0) return;
 
             if (m_zCnt.GraphPane.IsZoomed)
             {

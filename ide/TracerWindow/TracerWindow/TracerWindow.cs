@@ -634,7 +634,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             foreach (TraceWindow t in m_winList)
             {
                 if (t.IsDisposed) continue;
-                    t.AddPoints(m_currentMax, nextTime, list);
+                    t.AddPoints(m_currentMax, nextTime, list, false);
             }
         }
 
