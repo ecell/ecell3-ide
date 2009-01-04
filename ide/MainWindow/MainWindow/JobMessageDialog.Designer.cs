@@ -28,31 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JobMessageDialog));
             System.Windows.Forms.Label label1;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JobMessageDialog));
             this.MOKButton = new System.Windows.Forms.Button();
             this.MRichTextBox = new System.Windows.Forms.RichTextBox();
             label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
+            // label1
+            // 
+            resources.ApplyResources(label1, "label1");
+            label1.Name = "label1";
+            // 
             // MOKButton
             // 
-            this.MOKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.MOKButton, "MOKButton");
+            this.MOKButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.MOKButton.Name = "MOKButton";
             this.MOKButton.UseVisualStyleBackColor = true;
             // 
             // MRichTextBox
             // 
-            this.MRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             resources.ApplyResources(this.MRichTextBox, "MRichTextBox");
+            this.MRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.MRichTextBox.Name = "MRichTextBox";
             this.MRichTextBox.ReadOnly = true;
-            // 
-            // label1
-            // 
-            resources.ApplyResources(label1, "label1");
-            label1.Name = "label1";
             // 
             // JobMessageDialog
             // 
