@@ -636,7 +636,6 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             if (m_type == ProjectStatus.Running || m_type == ProjectStatus.Uninitialized) 
                 return;
-            ProjectStatus preType = m_type;
 
             try
             {
@@ -657,7 +656,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_env.Console.WriteLine(ex);
                 Util.ShowErrorDialog(ex.Message + "\r\n\r\n" + ex.InnerException.Message);
                 if (m_type != ProjectStatus.Uninitialized)
-                    m_pManager.ChangeStatus(preType);
+                    m_pManager.ChangeStatus(ProjectStatus.Loaded);
             }
             if (m_isStepping && !m_isSuspend)
             {

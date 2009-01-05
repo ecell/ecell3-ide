@@ -603,7 +603,17 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 m_dgv.Enabled = true;
                 m_time.Enabled = false;
                 m_time.Stop();
-                UpdatePropForSimulation();
+                try
+                {
+                    UpdatePropForSimulation();
+                }
+                catch (Exception)
+                {
+                    // 他のプラグインでデータを編集したか
+                    // シミュレーションが異常終了したがデータを取得できなかったため。
+                    // 他のプラグインでエラーメッセージが表示されるので
+                    // ここでは出さないようにする。
+                }
             }
             else if (type == ProjectStatus.Loading)
             {
@@ -628,7 +638,17 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             else if (type == ProjectStatus.Stepping)
             {
                 m_dgv.Enabled = true;
-                UpdatePropForSimulation();
+                try
+                {
+                    UpdatePropForSimulation();
+                }
+                catch (Exception)
+                {
+                    // 他のプラグインでデータを編集したか
+                    // シミュレーションが異常終了したがデータを取得できなかったため。
+                    // 他のプラグインでエラーメッセージが表示されるので
+                    // ここでは出さないようにする。
+                }
             }
             m_type = type;
         }
@@ -679,7 +699,17 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         void FireTimer(object sender, EventArgs e)
         {
             m_time.Enabled = false;
-            UpdatePropForSimulation();
+            try
+            {
+                UpdatePropForSimulation();
+            }
+            catch (Exception)
+            {
+                // 他のプラグインでデータを編集したか
+                // シミュレーションが異常終了したがデータを取得できなかったため。
+                // 他のプラグインでエラーメッセージが表示されるので
+                // ここでは出さないようにする。
+            }
             m_time.Enabled = true;
         }
 

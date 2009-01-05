@@ -363,11 +363,21 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             double ctime = DataManager.GetCurrentSimulationTime();
             if (ctime == 0.0) return;
 
-            foreach (string entPath in m_propDic.Keys)
+            try
             {
-                EcellValue v = DataManager.GetEntityProperty(entPath);
-                if (v == null) continue;
-                m_propDic[entPath].Value = (string)v;
+                foreach (string entPath in m_propDic.Keys)
+                {
+                    EcellValue v = DataManager.GetEntityProperty(entPath);
+                    if (v == null) continue;
+                    m_propDic[entPath].Value = (string)v;
+                }
+            }
+            catch (Exception)
+            {
+                // 他のプラグインでデータを編集したか
+                // シミュレーションが異常終了したがデータを取得できなかったため。
+                // 他のプラグインでエラーメッセージが表示されるので
+                // ここでは出さないようにする。
             }
         }
 
