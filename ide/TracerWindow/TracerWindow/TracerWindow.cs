@@ -453,7 +453,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_showSaveWin.Enabled = true;
             }
 
-            if (type == ProjectStatus.Running)
+            if (type == ProjectStatus.Running || type == ProjectStatus.Stepping)
             {
                 this.StartSimulation();
             }

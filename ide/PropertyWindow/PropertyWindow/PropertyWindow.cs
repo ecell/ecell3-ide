@@ -1063,12 +1063,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         
         private void defineANewPropertyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DataGridViewRow row = m_dgv.RowTemplate.Clone() as DataGridViewRow;
-            DataGridViewCell nameCell = nameColumn.CellTemplate.Clone() as DataGridViewCell;
-            DataGridViewCell valueCell = valueColumn.CellTemplate.Clone() as DataGridViewCell;
-            row.Cells.Add(nameCell);
-            row.Cells.Add(valueCell);
-
             List<int> existingPropsIndices = new List<int>();
             foreach (DataGridViewRow r in m_dgv.Rows)
             {
@@ -1106,12 +1100,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     propName));
             m_current.AddValue(data);
 
-            nameCell.Value = propName;
-            valueCell.Value = propValue;
-            valueCell.Tag = data;
-
-            m_dgv.Rows.Add(row);
-            valueCell.Selected = true;
+            m_env.DataManager.DataChanged(m_current.ModelID, m_current.Key, m_current.Type,
+                m_current);
         }
 
         private void deleteThisPropertyToolStripMenuItem_Click(object sender, EventArgs e)
