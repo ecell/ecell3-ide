@@ -156,7 +156,7 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             m_param = m_owner.GetBifurcationAnalysisPrameter();
             m_resultPoint = 0;
-            String tmpDir = m_owner.JobManager.TmpRootDir;
+            String tmpDir = m_owner.JobManager.TmpDir;
             double simTime = m_param.SimulationTime;
             m_isDone = false;
 
@@ -722,7 +722,7 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             PrintResultData();
             m_owner.JobManager.ClearFinishedJobs();
-            String tmpDir = m_owner.JobManager.TmpRootDir;
+            String tmpDir = m_owner.JobManager.TmpDir;
             m_execParam = m_owner.JobManager.RunSimParameterSet(tmpDir, m_model, m_param.SimulationTime, false, paramList);
 
             m_timer.Enabled = true;

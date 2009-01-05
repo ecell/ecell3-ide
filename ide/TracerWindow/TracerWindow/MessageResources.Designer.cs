@@ -142,7 +142,7 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
-        ///   Log Import ... に類似しているローカライズされた文字列を検索します。
+        ///   Log &amp;Import ... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemImportData {
             get {

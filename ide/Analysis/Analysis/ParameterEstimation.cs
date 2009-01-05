@@ -273,7 +273,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_timer.Stop();
                 return;
             }
-            String tmpDir = m_owner.JobManager.TmpRootDir;
+            String tmpDir = m_owner.JobManager.TmpDir;
             if (!m_owner.JobManager.IsFinished())
             {
                 if (m_isRunning == false)

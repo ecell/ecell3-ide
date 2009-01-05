@@ -150,7 +150,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public void ExecuteAnalysis()
         {
             m_param = m_owner.GetRobustAnalysisParameter();
-            String tmpDir = m_owner.JobManager.TmpRootDir;
+            String tmpDir = m_owner.JobManager.TmpDir;
             int num = m_param.SampleNum;
             double simTime = m_param.SimulationTime; ;
             int maxSize = Convert.ToInt32(m_param.MaxData);

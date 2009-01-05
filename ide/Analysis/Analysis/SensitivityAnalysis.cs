@@ -231,7 +231,7 @@ namespace Ecell.IDE.Plugins.Analysis
             Dictionary<EcellObject, int> proList)
         {
             DataManager dManager = m_owner.DataManager;
-            string tmpDir = m_owner.JobManager.TmpRootDir;
+            string tmpDir = m_owner.JobManager.TmpDir;
             double start = 0.0;
             double end = 0.0;
             int jobid = 0;

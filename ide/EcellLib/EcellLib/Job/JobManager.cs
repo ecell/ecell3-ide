@@ -80,7 +80,7 @@ namespace Ecell.Job
             p.Manager = this;
             m_proxyList.Add(p.Name, p);
             SetCurrentEnvironment(p.Name);
-            m_tmpRootDir = Util.GetTmpDir();
+            TmpRootDir = Util.GetTmpDir();
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Ecell.Job
             set {
                 this.m_tmpRootDir = value;
                 Process p = Process.GetCurrentProcess();
-                this.m_tmpDir = m_tmpDir + "/" + p.Id;
+                this.m_tmpDir = m_tmpRootDir + "/" + p.Id;
             }
         }
 
@@ -290,7 +290,7 @@ namespace Ecell.Job
             s.Argument = arg;
             s.ExtraFileList = extFile;
             // search dmpath
-            s.JobDirectory = TmpRootDir + "/" + s.JobID;
+            s.JobDirectory = TmpDir + "/" + s.JobID;
             m_sessionList.Add(s.JobID, s);
 
             return s.JobID;

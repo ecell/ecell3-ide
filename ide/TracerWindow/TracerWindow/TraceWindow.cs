@@ -287,10 +287,20 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if ((int)keyData == (int)Keys.Control + (int)Keys.D)
+            if ((int)keyData == (int)Keys.Control + (int)Keys.D ||
+                (int)keyData == (int)Keys.Delete)
             {
                 DeleteTraceItem(null, new EventArgs());
             }
+            if ((int)keyData == (int)Keys.Control + (int)Keys.I)
+            {
+                ImportDataItem(null, new EventArgs());
+            }
+            if ((int)keyData == (int)Keys.Control + (int)Keys.G)
+            {
+                ShowSetupWindow(null, new EventArgs());
+            }
+
             return base.ProcessCmdKey(ref msg, keyData);
         }
 

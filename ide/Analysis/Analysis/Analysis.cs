@@ -65,6 +65,8 @@ namespace Ecell.IDE.Plugins.Analysis
         /// MenuItem to display the window for robust analysis.
         /// </summary>
         private ToolStripMenuItem m_showSensitiveAnalysisSetupItem;
+        private ToolStripMenuItem m_saveAnalysisResultItem;
+        private ToolStripMenuItem m_loadAnalysisResultItem;
         /// <summary>
         /// For to display the result of analysis.
         /// </summary>
@@ -249,9 +251,12 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="x">the value of parameter.</param>
         /// <param name="y">the value of parameter.</param>
         public void AddJudgementDataForBifurcation(List<PointF> list)
-        {          
+        {
             if (m_rWin != null)
+            {
                 m_rWin.AddJudgementDataForBifurcation(list);
+                m_saveAnalysisResultItem.Enabled = true;
+            }
         }
 
         /// <summary>
@@ -264,7 +269,10 @@ namespace Ecell.IDE.Plugins.Analysis
         public void AddJudgementData(int jobid, double x, double y, bool isOK)
         {
             if (m_rWin != null)
+            {
                 m_rWin.AddJudgementData(jobid, x, y, isOK);
+                m_saveAnalysisResultItem.Enabled = true;
+            }
         }
 
         /// <summary>
@@ -275,7 +283,10 @@ namespace Ecell.IDE.Plugins.Analysis
         public void AddEstimationData(int x, double y)
         {
             if (m_rWin != null)
+            {
                 m_rWin.AddEstimationData(x, y);
+                m_saveAnalysisResultItem.Enabled = true;
+            }
         }
 
         /// <summary>
@@ -302,7 +313,10 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             m_cccResult.Add(name, result);
             if (m_rWin != null)
+            {
                 m_rWin.AddSensitivityDataOfCCC(name, result);
+                m_saveAnalysisResultItem.Enabled = true;
+            }
         }
 
         /// <summary>
@@ -314,7 +328,10 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             m_fccResult.Add(name, result);
             if (m_rWin != null)
+            {
                 m_rWin.AddSensitivityDataOfFCC(name, result);
+                m_saveAnalysisResultItem.Enabled = true;
+            }
         }
 
         /// <summary>
@@ -759,26 +776,26 @@ namespace Ecell.IDE.Plugins.Analysis
             ToolStripSeparator sep2 = new ToolStripSeparator();
             sep2.Tag = 120;
 
-            ToolStripMenuItem saveAnalysisResultItem = new ToolStripMenuItem();
-            saveAnalysisResultItem.Text = MessageResources.MenuItemSaveAnalysisResult;
-            saveAnalysisResultItem.ToolTipText = MessageResources.MenuToolTipSaveAnalysisResult;
-            saveAnalysisResultItem.Tag = 150;
-            saveAnalysisResultItem.Enabled = true;
-            saveAnalysisResultItem.Click += new EventHandler(SaveAnalysisResult);
+            m_saveAnalysisResultItem = new ToolStripMenuItem();
+            m_saveAnalysisResultItem.Text = MessageResources.MenuItemSaveAnalysisResult;
+            m_saveAnalysisResultItem.ToolTipText = MessageResources.MenuToolTipSaveAnalysisResult;
+            m_saveAnalysisResultItem.Tag = 150;
+            m_saveAnalysisResultItem.Enabled = false;
+            m_saveAnalysisResultItem.Click += new EventHandler(SaveAnalysisResult);
 
-            ToolStripMenuItem loadAnalysisResultItem = new ToolStripMenuItem();
-            loadAnalysisResultItem.Text = MessageResources.MenuItemLoadAnalysisResult;
-            loadAnalysisResultItem.ToolTipText = MessageResources.MenuToolTipLoadAnalysisResult;
-            loadAnalysisResultItem.Tag = 160;
-            loadAnalysisResultItem.Enabled = true;
-            loadAnalysisResultItem.Click += new EventHandler(LoadAnalysisResult);
+            m_loadAnalysisResultItem = new ToolStripMenuItem();
+            m_loadAnalysisResultItem.Text = MessageResources.MenuItemLoadAnalysisResult;
+            m_loadAnalysisResultItem.ToolTipText = MessageResources.MenuToolTipLoadAnalysisResult;
+            m_loadAnalysisResultItem.Tag = 160;
+            m_loadAnalysisResultItem.Enabled = true;
+            m_loadAnalysisResultItem.Click += new EventHandler(LoadAnalysisResult);
 
             ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
             analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { 
                 m_showRobustAnalysisSetupItem, m_showParameterEstimationSetupItem,
                 m_showSensitiveAnalysisSetupItem, m_showBifurcationSetupItem, sep1, 
                 stopAnalysisItem, sep2,
-                saveAnalysisResultItem, loadAnalysisResultItem
+                m_saveAnalysisResultItem, m_loadAnalysisResultItem
             });
             analysisMenu.Text = "Analysis";
             analysisMenu.Name = MenuConstants.MenuItemTools;
@@ -844,7 +861,8 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_showBifurcationSetupItem.Enabled = true;
                 m_showParameterEstimationSetupItem.Enabled = true;
                 m_showRobustAnalysisSetupItem.Enabled = true;
-                m_showSensitiveAnalysisSetupItem.Enabled = true;               
+                m_showSensitiveAnalysisSetupItem.Enabled = true;
+                m_loadAnalysisResultItem.Enabled = true;
             }
             else
             {
@@ -852,6 +870,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_showParameterEstimationSetupItem.Enabled = false;
                 m_showRobustAnalysisSetupItem.Enabled = false;
                 m_showSensitiveAnalysisSetupItem.Enabled = false;
+                m_loadAnalysisResultItem.Enabled = false;
             }
         }
 
@@ -863,6 +882,8 @@ namespace Ecell.IDE.Plugins.Analysis
             m_paramList.Clear();
             m_observedList.Clear();
             ClearResult();
+            m_currentAnalysus = null;
+            m_saveAnalysisResultItem.Enabled = false;
         }
 
         /// <summary>
