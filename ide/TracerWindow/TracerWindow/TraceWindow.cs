@@ -641,6 +641,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 {
                     if (m_entryDic[key].IsLoaded) continue;
                     if (m_entryDic[key].CurrentLineItem.Line.IsSmooth) continue;
+                    if (m_zCnt.GraphPane.IsZoomed) continue;
                     if (!m_entryDic[key].IsSmoothing(m_zCnt.GraphPane.XAxis.Scale.Max,
                         m_zCnt.GraphPane.XAxis.Scale.Min,
                         m_zCnt.GraphPane.YAxis.Scale.Max,
@@ -1008,6 +1009,18 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     isAxis = true;
                 }
             }
+            if (m_zCnt.GraphPane.IsZoomed)
+            {
+                m_zCnt.GraphPane.YAxis.Scale.MaxAuto = false;
+                foreach (string key in m_entryDic.Keys)
+                {
+                    m_entryDic[key].CurrentLineItem.Line.IsSmooth = false;
+                    m_entryDic[key].TmpLineItem.Line.IsSmooth = false;
+                }
+            }
+            else
+                m_zCnt.GraphPane.YAxis.Scale.MaxAuto = true;
+
             list = m_owner.DataManager.GetLogData(sx, ex, m_step);
             if (list == null) return;
             foreach (LogData l in list)
@@ -1021,10 +1034,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     0.0, 0.0,
                     m_zCnt.GraphPane.IsZoomed);
             }
-            if (m_zCnt.GraphPane.IsZoomed)
-                m_zCnt.GraphPane.YAxis.Scale.MaxAuto = false;
-            else
-                m_zCnt.GraphPane.YAxis.Scale.MaxAuto = true;
 
             UpdateGraph(true);
             //UpdateGraphCallBack f = new UpdateGraphCallBack(UpdateGraph);
