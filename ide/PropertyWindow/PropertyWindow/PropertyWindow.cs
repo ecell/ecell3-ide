@@ -296,6 +296,10 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             else
             {
                 propNameCell.ReadOnly = false;
+                propNameCell.Style.BackColor = SystemColors.Window;
+                propNameCell.Style.ForeColor = SystemColors.WindowText;
+                propNameCell.Style.SelectionBackColor = SystemColors.Highlight;
+                propNameCell.Style.SelectionForeColor = SystemColors.HighlightText; 
             }
 
             if (d.Value == null) return null;
@@ -687,8 +691,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             DataGridView.HitTestInfo hti = v.HitTest(e.X, e.Y);
             if (hti.RowIndex <= 0)
                 return;
-
-            m_dgv[1, hti.RowIndex].Selected = true;
         }
 
         /// <summary>
