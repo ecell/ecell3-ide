@@ -460,7 +460,7 @@ namespace Ecell.IDE.Plugins.EntityList
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left)
                 return;
             if (m_dragObject == null) return;
-            EnterDragMode(m_dragObject);
+            EnterDragMode();
             m_dragObject = null;
         }
         /// <summary>
@@ -504,30 +504,47 @@ namespace Ecell.IDE.Plugins.EntityList
         /// 
         /// </summary>
         /// <param name="obj"></param>
-        private void EnterDragMode(EcellObject obj)
+        private void EnterDragMode()
         {
-            if (!obj.Type.Equals(EcellObject.PROCESS) &&
-                !obj.Type.Equals(EcellObject.VARIABLE) &&
-                !obj.Type.Equals(EcellObject.SYSTEM)) return;
+            EcellDragObject dobj = null;
+            if (objectListDataGrid.SelectedRows.Count <= 0) return;
 
-            foreach (EcellData v in obj.Value)
+            foreach (DataGridViewRow r in objectListDataGrid.SelectedRows)
             {
-                if (!v.Name.Equals(Constants.xpathActivity) &&
-                    !v.Name.Equals(Constants.xpathMolarConc) &&
-                    !v.Name.Equals(Constants.xpathSize))
-                    continue;
+                EcellObject obj = r.Tag as EcellObject;
 
-                EcellDragObject dobj = new EcellDragObject(
-                    obj.ModelID,
-                    obj.Key,
-                    obj.Type,
-                    v.EntityPath,
-                    v.Settable,
-                    v.Logable);
+                foreach (EcellData v in obj.Value)
+                {
+                    if (!v.Name.Equals(Constants.xpathActivity) &&
+                        !v.Name.Equals(Constants.xpathMolarConc) &&
+                        !v.Name.Equals(Constants.xpathSize))
+                        continue;
 
-                this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
-                return;
+                    if (dobj == null)
+                    {
+                        dobj = new EcellDragObject(
+                            obj.ModelID,
+                            obj.Key,
+                            obj.Type,
+                            v.EntityPath,
+                            v.Settable,
+                            v.Logable);
+                    }
+                    else
+                    {
+                        dobj.Entries.Add(new EcellDragEntry(
+                            obj.Key,
+                            obj.Type,
+                            v.EntityPath,
+                            v.Settable,
+                            v.Logable));
+                    }
+                    if (objectListDataGrid.SelectedRows.Count == 1)
+                        m_owner.PluginManager.SelectChanged(obj);
+                }
             }
+            if (dobj != null)            
+                this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);            
         }
         /// <summary>
         /// 
