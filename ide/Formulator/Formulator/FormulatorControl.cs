@@ -751,6 +751,20 @@ namespace Ecell.UI.Components
                 }
             }
 
+            int index = 0;
+            for (int i = result.Length - 1; i >= 0; i--)
+            {
+                if (result[i] == ' ')
+                {
+                    index++;
+                }
+                else
+                {
+                    result = result.Substring(0, result.Length - index);
+                    break;
+                }
+            }
+
             return result;
         }
 

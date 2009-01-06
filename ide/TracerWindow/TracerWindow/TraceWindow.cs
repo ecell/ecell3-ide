@@ -549,7 +549,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="isAxis">the flag whether process execute AxisChange function.</param>
         public void UpdateGraph(bool isAxis)
         {
-            if (isAxis)
+            if (isAxis && !m_zCnt.GraphPane.IsZoomed)
             {
                 m_zCnt.AxisChange();
                 if (m_zCnt.GraphPane.YAxis.Scale.Min > 0)

@@ -774,6 +774,10 @@ namespace Ecell.Job
             ScriptWriter writer = new ScriptWriter(prj);
             List<EcellObject> sysList = m_env.DataManager.CurrentProject.SystemDic[modelName]; 
             Dictionary<int, ExecuteParameter> resList = new Dictionary<int, ExecuteParameter>();
+            if (!Directory.Exists(topDir))
+            {
+                Directory.CreateDirectory(topDir);
+            }
             foreach (int i in setparam.Keys)
             {
                 Dictionary<string, double> paramDic = setparam[i].ParamDic;
@@ -873,6 +877,10 @@ namespace Ecell.Job
             List<EcellObject> sysList = m_env.DataManager.CurrentProject.SystemDic[modelName];
             Dictionary<string, double> paramDic = new Dictionary<string, double>();
             Random hRandom = new Random();
+            if (!Directory.Exists(topDir))
+            {
+                Directory.CreateDirectory(topDir);
+            }
             for (int i = 0 ; i < num ; i++ )
             {
                 paramDic.Clear();
@@ -1041,6 +1049,10 @@ namespace Ecell.Job
             }
             EcellParameterData x = m_paramList[0];
             EcellParameterData y = m_paramList[1];
+            if (!Directory.Exists(topDir))
+            {
+                Directory.CreateDirectory(topDir);
+            }
             int i = 0;
             for (double xd = x.Min ; xd <= x.Max; xd += x.Step)
             {
