@@ -321,24 +321,32 @@ namespace Ecell.IDE.Plugins.ScriptWindow
                 string pastetext = Clipboard.GetText();
                 if (!String.IsNullOrEmpty(pastetext))
                 {
-                    SWCommandText.Text = SWCommandText.Text + pastetext;
+                    SWCommandText.Text =
+                        SWCommandText.Text.Insert(SWCommandText.SelectionStart + SWCommandText.SelectionLength,
+                        pastetext);
                 }
                 return true;
             }
             if ((int)keyData == (int)Keys.Control + (int)Keys.X)
             {
                 string copytext;
+                string data;
                 if (!string.IsNullOrEmpty(SWCommandText.SelectedText))
                 {
+                    data = SWCommandText.Text;
+                    data = data.Substring(0, SWCommandText.SelectionStart)
+                    + data.Substring(SWCommandText.SelectionStart + SWCommandText.SelectionLength);
                     copytext = SWCommandText.SelectedText;
                 }
                 else
                 {
+                    data = "";
                     copytext = SWCommandText.Text;
                 }
                 if (!string.IsNullOrEmpty(copytext))
                 {
                     Clipboard.SetText(copytext);
+                    ResetCommandLineControl();                   
                 }
                 return true;
             }
