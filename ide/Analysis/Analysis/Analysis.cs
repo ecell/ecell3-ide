@@ -255,7 +255,6 @@ namespace Ecell.IDE.Plugins.Analysis
             if (m_rWin != null)
             {
                 m_rWin.AddJudgementDataForBifurcation(list);
-                m_saveAnalysisResultItem.Enabled = true;
             }
         }
 
@@ -271,7 +270,6 @@ namespace Ecell.IDE.Plugins.Analysis
             if (m_rWin != null)
             {
                 m_rWin.AddJudgementData(jobid, x, y, isOK);
-                m_saveAnalysisResultItem.Enabled = true;
             }
         }
 
@@ -285,7 +283,6 @@ namespace Ecell.IDE.Plugins.Analysis
             if (m_rWin != null)
             {
                 m_rWin.AddEstimationData(x, y);
-                m_saveAnalysisResultItem.Enabled = true;
             }
         }
 
@@ -315,7 +312,6 @@ namespace Ecell.IDE.Plugins.Analysis
             if (m_rWin != null)
             {
                 m_rWin.AddSensitivityDataOfCCC(name, result);
-                m_saveAnalysisResultItem.Enabled = true;
             }
         }
 
@@ -330,7 +326,6 @@ namespace Ecell.IDE.Plugins.Analysis
             if (m_rWin != null)
             {
                 m_rWin.AddSensitivityDataOfFCC(name, result);
-                m_saveAnalysisResultItem.Enabled = true;
             }
         }
 
@@ -351,6 +346,15 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             if (m_rWin != null)
                 m_rWin.ClearResult();
+            m_saveAnalysisResultItem.Enabled = false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void FinishedAnalysis()
+        {
+            m_saveAnalysisResultItem.Enabled = true;
         }
 
         /// <summary>
@@ -883,7 +887,6 @@ namespace Ecell.IDE.Plugins.Analysis
             m_observedList.Clear();
             ClearResult();
             m_currentAnalysus = null;
-            m_saveAnalysisResultItem.Enabled = false;
         }
 
         /// <summary>

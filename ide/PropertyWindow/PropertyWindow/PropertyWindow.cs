@@ -329,11 +329,19 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             else if (d.Name == Constants.xpathStepperID)
             {
                 propValueCell = new DataGridViewComboBoxCell();
+                bool isexist = false;
+                string stepperName = d.Value.ToString();
                 foreach (EcellObject obj in m_env.DataManager.GetStepper(null, m_current.ModelID))
                 {
+                    if (!string.IsNullOrEmpty(stepperName) &&
+                        stepperName.Equals(obj.Key))
+                    {
+                        isexist = true;
+                    }
                     ((DataGridViewComboBoxCell)propValueCell).Items.Add(obj.Key);
                 }
-                propValueCell.Value = d.Value.ToString();
+                if (isexist)
+                    propValueCell.Value = d.Value.ToString();
                 m_stepperIDComboBox = (DataGridViewComboBoxCell)propValueCell;
             }
             else
@@ -1345,6 +1353,46 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         private void ClickShowPropertyMenu(object sender, EventArgs e)
         {
             PropertyEditor.Show(m_env.DataManager, m_env.PluginManager, m_current);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="keyData"></param>
+        /// <returns></returns>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if ((int)keyData == (int)Keys.Control + (int)Keys.C)
+            {
+                if (m_dgv.CurrentCell != null && m_dgv.CurrentCell.Value != null)
+                {
+                    string copytext = m_dgv.CurrentCell.Value.ToString();
+                    Clipboard.SetText(copytext);
+                }
+                return true;
+            }
+            if ((int)keyData == (int)Keys.Control + (int)Keys.V)
+            {
+                string pastetext = Clipboard.GetText();
+                if (!String.IsNullOrEmpty(pastetext) && m_dgv.CurrentCell != null &&
+                    m_dgv.CurrentCell.ReadOnly == false)
+                {
+                    m_dgv.CurrentCell.Value = pastetext;
+                }
+                return true;
+            }
+            if ((int)keyData == (int)Keys.Control + (int)Keys.X)
+            {
+                if (m_dgv.CurrentCell != null && m_dgv.CurrentCell.Value != null &&
+                    m_dgv.CurrentCell.ReadOnly == false)
+                {
+                    string cuttext = m_dgv.CurrentCell.Value.ToString();
+                    Clipboard.SetText(cuttext);
+                    m_dgv.CurrentCell.Value = "";
+                }
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }

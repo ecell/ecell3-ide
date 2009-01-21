@@ -139,7 +139,7 @@
     <value>{0} が入力されていません。</value>
   </data>
   <data name="ErrStepperStillInUse" xml:space="preserve">
-    <value>Stepper {0} を参照するProcessが少なくとも1つ存在します。</value>
+    <value>Stepper {0} を参照するエンティティが少なくとも1つ存在します。</value>
   </data>
   <data name="ErrUpdatELog" xml:space="preserve">
     <value>シミュレーションパラメータを更新できません。</value>

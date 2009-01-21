@@ -698,6 +698,7 @@ namespace Ecell
                 }
 
                 string[] points = line.Split(new char[] { splitter });
+                if (points.Length < 5) continue;
                 double time = Convert.ToDouble(points[0]);
                 double value = Convert.ToDouble(points[1]);
                 double ave = Convert.ToDouble(points[2]);

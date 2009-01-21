@@ -124,7 +124,7 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
-        ///   There is at least one Process that refers to the Stepper {0} に類似しているローカライズされた文字列を検索します。
+        ///   There is at least one Entity that refers to the Stepper {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrStepperStillInUse {
             get {

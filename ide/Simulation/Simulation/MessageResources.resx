@@ -139,7 +139,7 @@
     <value>Nothing is input in {0}</value>
   </data>
   <data name="ErrStepperStillInUse" xml:space="preserve">
-    <value>There is at least one Process that refers to the Stepper {0}</value>
+    <value>There is at least one Entity that refers to the Stepper {0}</value>
   </data>
   <data name="ErrUpdateLog" xml:space="preserve">
     <value>Cannot update the simulation parameters.</value>

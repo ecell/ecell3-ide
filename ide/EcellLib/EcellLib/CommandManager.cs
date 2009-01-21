@@ -251,7 +251,7 @@ namespace Ecell
         /// <param name="comment">The comment of the project</param>
         public void CreateProject(string projectID, string comment)
         {
-            m_env.DataManager.CreateProject(projectID, comment, null, new List<string>());
+            m_env.DataManager.CreateNewProject(projectID, comment, null, new List<string>());
         }
 
         /// <summary>

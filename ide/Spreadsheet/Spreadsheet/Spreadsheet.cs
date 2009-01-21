@@ -82,6 +82,9 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// The flag whether the select change start in this plugin.
         /// </summary>
         private bool m_isSelected = false;
+        private bool m_isSelectionChanged = false;
+        private DataGridViewRow m_selectedRow = null;
+
         /// <summary>
         /// DataGridView to display the property of model.
         /// </summary>
@@ -190,7 +193,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <summary>
         /// The reserved name for ID of object.
         /// </summary>
-        private const string s_indexID = "FullID";
+        private const string s_indexID = "Path:ID";
         /// <summary>
         /// The reserved name for the Model ID of object.
         /// </summary>
@@ -291,6 +294,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_gridView.ColumnHeadersVisible = true;
             m_gridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             m_gridView.CellClick += new DataGridViewCellEventHandler(ClickObjectCell);
+            m_gridView.SelectionChanged += new EventHandler(m_gridView_SelectionChanged);
             m_gridView.RowTemplate.DefaultHeaderCellType = typeof(DataGridViewNumberedRowHeaderCell);
             foreach (char c in s_columnChars)
             {
@@ -1115,6 +1119,17 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             }
         }
 
+        void m_gridView_SelectionChanged(object sender, EventArgs e)
+        {
+            if (m_isSelected && !m_isSelectionChanged)
+            {
+                m_isSelectionChanged = true;
+                m_gridView.ClearSelection();
+                m_selectedRow.Selected = true;
+                m_isSelectionChanged = false;
+            }
+        }
+
         /// <summary>
         /// Event when the cell is clicked.
         /// </summary>
@@ -1127,6 +1142,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             EcellObject obj = m_gridView.Rows[ind].Tag as EcellObject;
             if (obj == null) return;
             m_isSelected = true;
+            m_selectedRow = m_gridView.Rows[ind];
             if (m_gridView.Rows[ind].Selected)
             {
                 if (m_gridView.SelectedRows.Count <= 1)
@@ -1152,6 +1168,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 PluginManager.RemoveSelect(obj.ModelID, obj.Key, obj.Type);                                
             }
             m_isSelected = false;
+            m_selectedRow = null;
         }
 
         public override void ResetSelect()

@@ -77,6 +77,7 @@
             this.objectListDataGrid.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.TypeSortCompare);
             this.objectListDataGrid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DataGridViewMouseMove);
             this.objectListDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ClickObjectCell);
+            this.objectListDataGrid.SelectionChanged += new System.EventHandler(this.EntSelectionChanged);
             // 
             // Type
             // 

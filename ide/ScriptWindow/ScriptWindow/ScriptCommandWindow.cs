@@ -299,6 +299,52 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         }
         #endregion
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if ((int)keyData == (int)Keys.Control + (int)Keys.C)
+            {
+                string copytext;
+                if (!string.IsNullOrEmpty(SWCommandText.SelectedText))
+                {
+                    copytext = SWCommandText.SelectedText;
+                }
+                else
+                {
+                    copytext = SWCommandText.Text;
+                }
+                if (!string.IsNullOrEmpty(copytext))
+                    Clipboard.SetText(copytext);
+                return true;
+            }
+            if ((int)keyData == (int)Keys.Control + (int)Keys.V)
+            {
+                string pastetext = Clipboard.GetText();
+                if (!String.IsNullOrEmpty(pastetext))
+                {
+                    SWCommandText.Text = SWCommandText.Text + pastetext;
+                }
+                return true;
+            }
+            if ((int)keyData == (int)Keys.Control + (int)Keys.X)
+            {
+                string copytext;
+                if (!string.IsNullOrEmpty(SWCommandText.SelectedText))
+                {
+                    copytext = SWCommandText.SelectedText;
+                }
+                else
+                {
+                    copytext = SWCommandText.Text;
+                }
+                if (!string.IsNullOrEmpty(copytext))
+                {
+                    Clipboard.SetText(copytext);
+                }
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         private void ResetCommandLineControl()
         {
             string prompt = GetCurrentPrompt();

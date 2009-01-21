@@ -302,7 +302,7 @@ namespace Ecell
         /// </summary>
         public override void Execute()
         {
-            m_env.DataManager.CreateProject(m_prjName, m_comment, m_prjPath, new List<string>());
+            m_env.DataManager.CreateNewProject(m_prjName, m_comment, m_prjPath, new List<string>());
             m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
         }
         /// <summary>

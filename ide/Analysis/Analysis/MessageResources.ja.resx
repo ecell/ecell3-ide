@@ -184,10 +184,10 @@
     <value>分岐解析を実行します</value>
   </data>
   <data name="MenuToolTipLoadAnalysisCond" xml:space="preserve">
-    <value>解析の設定を保存します</value>
+    <value>解析の設定を読み込みます</value>
   </data>
   <data name="MenuToolTipLoadAnalysisResult" xml:space="preserve">
-    <value>解析の結果を保存します</value>
+    <value>解析の結果を読み込みます</value>
   </data>
   <data name="MenuToolTipParameterEstimation" xml:space="preserve">
     <value>パラメータ推定を実行します</value>

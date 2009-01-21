@@ -182,6 +182,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public void ExecuteAnalysis()
         {
             DataManager dManager = m_owner.DataManager;
+            m_owner.ClearResult();
             m_param = m_owner.GetSensitivityAnalysisParameter();
             m_model = "";
             List<string> modelList = m_owner.DataManager.GetModelList();
@@ -759,6 +760,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
                     new object[] { MessageResources.NameSensAnalysis }));
                 m_owner.ActivateResultWindow();
+                m_owner.FinishedAnalysis();
             }
             catch (IgnoreException ex)
             {

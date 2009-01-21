@@ -133,14 +133,13 @@ namespace Ecell.IDE.Plugins.Analysis
                 if (!Util.ShowYesNoDialog(MessageResources.ConfirmFindErrorJob))
                 {
                     return;
-                }
-                
+                }                
             }
             JudgeRobustAnalysis();
             Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
                 new object[] { MessageResources.NameRobustAnalysis }));
             m_owner.ActivateResultWindow();
-
+            m_owner.FinishedAnalysis();
         }
         #endregion
 
@@ -150,6 +149,7 @@ namespace Ecell.IDE.Plugins.Analysis
         public void ExecuteAnalysis()
         {
             m_param = m_owner.GetRobustAnalysisParameter();
+            m_owner.ClearResult();
             String tmpDir = m_owner.JobManager.TmpDir;
             int num = m_param.SampleNum;
             double simTime = m_param.SimulationTime; ;
@@ -182,6 +182,12 @@ namespace Ecell.IDE.Plugins.Analysis
             if (paramList.Count < 2)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumberMore,
+                    new object[] { MessageResources.NameParameterData, 2 }));
+                return;
+            }
+            if (!m_param.IsRandomCheck && paramList.Count != 2)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
                     new object[] { MessageResources.NameParameterData, 2 }));
                 return;
             }
@@ -218,7 +224,6 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         private void JudgeRobustAnalysis()
         {
-            m_owner.ClearResult();
             string xPath = "";
             string yPath = "";
             double xmax = 0.0;

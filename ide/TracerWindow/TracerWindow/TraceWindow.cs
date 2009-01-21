@@ -139,6 +139,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.GraphPane.XAxis.Scale.Max = 100;
             m_zCnt.GraphPane.XAxis.Scale.MaxAuto = false;
             m_zCnt.GraphPane.XAxis.Scale.Min = 0;
+            m_zCnt.IsEnableWheelZoom = false;
+            m_zCnt.IsEnableHPan = false;
+            m_zCnt.IsEnableVPan = false;
             m_zCnt.ZoomEvent += new ZedGraphControl.ZoomEventHandler(ZcntZoomEvent);
             m_zCnt.ContextMenuBuilder += new ZedGraphControl.ContextMenuBuilderEventHandler(ZedControlContextMenuBuilder);
             dgv.CellDoubleClick += new DataGridViewCellEventHandler(CellDoubleClicked);

@@ -30,6 +30,14 @@ namespace Ecell.IDE.Plugins.EntityList
         /// </summary>
         private bool m_isSelected = false;
         /// <summary>
+        /// Set true when SelectionChanged is executed.
+        /// </summary>
+        private bool m_isSelectionChanged = false;
+        /// <summary>
+        /// Selected row.
+        /// </summary>
+        private DataGridViewRow m_selectedRow = null;
+        /// <summary>
         /// 
         /// </summary>
         private bool m_intact = false;
@@ -144,7 +152,8 @@ namespace Ecell.IDE.Plugins.EntityList
             if (row != null && objectListDataGrid.FirstDisplayedScrollingRowIndex != 0xffffffff)
             {
                 row.Selected = true;
-                if (objectListDataGrid.FirstDisplayedScrollingRowIndex >= 0)
+                if (objectListDataGrid.FirstDisplayedScrollingRowIndex >= 0 &&
+                    row.Visible)
                     objectListDataGrid.FirstDisplayedScrollingRowIndex = row.Index;
             }
         }
@@ -174,9 +183,15 @@ namespace Ecell.IDE.Plugins.EntityList
             if (obj.Key.EndsWith(":SIZE")) return;
             int ind = SearchInsertPosition(obj.Key, obj.Type);
 
-
             DataGridViewRow rs = CreateRow(obj);
             objectListDataGrid.Rows.Insert(ind, rs);
+            if (!m_intact)
+            {
+                string searchCnd = searchTextBox.Text;
+                rs.Visible =
+                    ((string)rs.Cells[IndexID].Value).ToLower().Contains(searchCnd.ToLower())
+                    || ((string)rs.Cells[IndexName].Value).ToLower().Contains(searchCnd.ToLower());
+            }
         }
 
         private DataGridViewRow CreateRow(EcellObject obj)
@@ -361,7 +376,9 @@ namespace Ecell.IDE.Plugins.EntityList
             if (ind < 0) return;
             EcellObject obj = objectListDataGrid.Rows[ind].Tag as EcellObject;
             if (obj == null) return;
-            m_isSelected = true;            
+            m_isSelected = true;
+            m_selectedRow = objectListDataGrid.Rows[ind];
+            m_dragObject = null;
             if (objectListDataGrid.Rows[ind].Selected)
             {
                 if (objectListDataGrid.SelectedRows.Count <= 1)
@@ -385,6 +402,7 @@ namespace Ecell.IDE.Plugins.EntityList
                 m_owner.PluginManager.RemoveSelect(obj.ModelID, obj.Key, obj.Type);
             }
             m_isSelected = false;
+            m_selectedRow = null;
         }
         /// <summary>
         /// 
@@ -593,6 +611,17 @@ namespace Ecell.IDE.Plugins.EntityList
                 e.SortResult = TypeConverter(obj1.Type, obj2.Type);
 
                 e.Handled = true;
+            }
+        }
+
+        private void EntSelectionChanged(object sender, EventArgs e)
+        {
+            if (m_isSelected && !m_isSelectionChanged)
+            {
+                m_isSelectionChanged = true;
+                objectListDataGrid.ClearSelection();
+                m_selectedRow.Selected = true;
+                m_isSelectionChanged = false;
             }
         }
     }

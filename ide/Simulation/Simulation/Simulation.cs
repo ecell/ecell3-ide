@@ -607,6 +607,7 @@ namespace Ecell.IDE.Plugins.Simulation
                         m_env.PluginManager.ParameterUpdate(
                             m_env.DataManager.CurrentProjectID, sps.Name);
                     }
+                    m_env.DataManager.SetSimulationParameter(win.CurrentParameterID);
                 }
                 catch (Exception ex)
                 {
@@ -771,11 +772,20 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="e">EventArgs</param>
         void ParameterSelectedIndexChanged(object sender, EventArgs e)
         {
-            if (m_paramsCombo.Text != "")
+            string preParam = m_dManager.CurrentProject.Info.SimulationParam;
+            try
             {
-                m_isChanged = true;
-                m_dManager.SetSimulationParameter(m_paramsCombo.Text,false,false);
-                m_isChanged = false;
+                if (m_paramsCombo.Text != "")
+                {
+                    m_isChanged = true;
+                    m_dManager.SetSimulationParameter(m_paramsCombo.Text, false, false);
+                    m_isChanged = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
+                m_paramsCombo.Text = preParam;
             }
         }
 

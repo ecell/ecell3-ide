@@ -297,6 +297,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 Util.ShowNoticeDialog(String.Format(MessageResources.InfoFinishExecute,
                     new object[] { MessageResources.NameParameterEstimate }));
                 m_owner.ActivateResultWindow();
+                m_owner.FinishedAnalysis();
                 return;
             }
 

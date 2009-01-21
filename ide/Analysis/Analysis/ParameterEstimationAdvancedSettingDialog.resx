@@ -286,10 +286,10 @@
     <value>1</value>
   </data>
   <data name="PEAApplyButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom</value>
+    <value>Bottom, Right</value>
   </data>
   <data name="PEAApplyButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>36, 219</value>
+    <value>67, 219</value>
   </data>
   <data name="PEAApplyButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 25</value>
@@ -316,7 +316,7 @@
     <value>Bottom, Right</value>
   </data>
   <data name="PEACloseButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>116, 219</value>
+    <value>147, 219</value>
   </data>
   <data name="PEACloseButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 25</value>
@@ -343,10 +343,10 @@
     <value>Left, Right</value>
   </data>
   <data name="PEUpsilonTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>69, 48</value>
+    <value>107, 48</value>
   </data>
   <data name="PEUpsilonTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 19</value>
+    <value>96, 19</value>
   </data>
   <data name="PEUpsilonTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -373,10 +373,10 @@
     <value>Left, Right</value>
   </data>
   <data name="PEMTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>69, 20</value>
+    <value>107, 20</value>
   </data>
   <data name="PEMTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 19</value>
+    <value>96, 19</value>
   </data>
   <data name="PEMTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -403,7 +403,7 @@
     <value>12, 12</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>178, 84</value>
+    <value>209, 84</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -427,10 +427,10 @@
     <value>Left, Right</value>
   </data>
   <data name="PEMaxRateTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>69, 74</value>
+    <value>107, 74</value>
   </data>
   <data name="PEMaxRateTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 19</value>
+    <value>96, 19</value>
   </data>
   <data name="PEMaxRateTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -457,10 +457,10 @@
     <value>Left, Right</value>
   </data>
   <data name="PEKTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>69, 49</value>
+    <value>107, 49</value>
   </data>
   <data name="PEKTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 19</value>
+    <value>96, 19</value>
   </data>
   <data name="PEKTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -487,10 +487,10 @@
     <value>Left, Right</value>
   </data>
   <data name="PEM0TextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>69, 24</value>
+    <value>107, 24</value>
   </data>
   <data name="PEM0TextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 19</value>
+    <value>96, 19</value>
   </data>
   <data name="PEM0TextBox.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -517,7 +517,7 @@
     <value>12, 102</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>178, 106</value>
+    <value>209, 106</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -544,7 +544,7 @@
     <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>202, 256</value>
+    <value>233, 256</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

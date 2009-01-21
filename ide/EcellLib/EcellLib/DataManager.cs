@@ -577,7 +577,7 @@ namespace Ecell
         /// <param name="comment">The comment</param>
         /// <param name="projectPath">The project directory path to load the dm of this project.</param>
         /// <param name="setDirList">The list of dm directory.</param>
-        public void CreateProject(string projectID, string comment, string projectPath,
+        private void CreateProject(string projectID, string comment, string projectPath,
             IEnumerable<String> setDirList)
         {
             Project prj = null;

@@ -120,6 +120,7 @@ namespace Ecell.IDE.Plugins.MessageListWindow
 
         private void MessageCellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0) return;
             if (MLWMessageDridView.Rows[e.RowIndex].Tag == null) return;
             ObjectReport mes = MLWMessageDridView.Rows[e.RowIndex].Tag as ObjectReport;
             if (mes == null) return;

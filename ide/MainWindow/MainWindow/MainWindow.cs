@@ -1263,13 +1263,19 @@ namespace Ecell.IDE.MainWindow
             if (result == DialogResult.OK)
             {
                 PrintDocument pd = new PrintDocument();
-                pd.PrintPage += delegate(object o, PrintPageEventArgs pe)
+                PrintDialog pdlg = new PrintDialog();
+                pdlg.Document = pd;
+                pdlg.AllowSomePages = true;
+                if (pdlg.ShowDialog() == DialogResult.OK)
                 {
-                    Bitmap bmp = d.SelectedItem.Plugin.Print(d.SelectedItem.Portion);
-                    pe.Graphics.DrawImage(bmp, new Point(0, 0));
-                    bmp.Dispose();
-                };
-                pd.Print();
+                    pd.PrintPage += delegate(object o, PrintPageEventArgs pe)
+                    {
+                        Bitmap bmp = d.SelectedItem.Plugin.Print(d.SelectedItem.Portion);
+                        pe.Graphics.DrawImage(bmp, new Point(0, 0));
+                        bmp.Dispose();
+                    };
+                    pd.Print();
+                }
                 pd.Dispose();
             }
         }

@@ -84,6 +84,15 @@ namespace Ecell.IDE.Plugins.Simulation
             }
         }
 
+        public String CurrentParameterID
+        {
+            get
+            {
+                SimulationParameterSet sps = (SimulationParameterSet)m_simParamSets.Current;
+                return sps.Name;
+            }
+        }
+
         /// <summary>
         /// Constructor for SimulationSetup.
         /// </summary>
@@ -97,6 +106,9 @@ namespace Ecell.IDE.Plugins.Simulation
             perModelSimulationParameterBindingSource.CurrentChanged += new EventHandler(perModelSimulationParameterBindingSource_CurrentChanged);
             perModelSimulationParameterBindingSource.MoveFirst();
             m_simParamSets.SuspendBinding();
+
+            string currentParam = m_owner.DataManager.CurrentProject.Info.SimulationParam;
+            SimulationParameterSet current = null;
             foreach (SimulationParameterSet i in simParamSets)
             {
                 Dictionary<string, Dictionary<string, StepperConfiguration>> pmsc = new Dictionary<string,Dictionary<string,StepperConfiguration>>();
@@ -111,8 +123,12 @@ namespace Ecell.IDE.Plugins.Simulation
                     }
                 }
                 m_simParamSets.Add(i);
+                if (i.Name.Equals(currentParam))
+                    current = i;
             }
             m_simParamSets.ResumeBinding();
+            if (current != null)
+                ChangeParameterID(current);
         }
 
         void perModelSimulationParameterBindingSource_CurrentChanged(object sender, EventArgs e)
@@ -191,7 +207,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <summary>
         /// Redraw simulation setup window on changing parameter ID.
         /// </summary>
-        /// <param name="param">parameter ID</param>
+        /// <param name="paramSet">parameter ID</param>
         public void ChangeParameterID(SimulationParameterSet paramSet)
         {
             m_simParamSets.CurrencyManager.Position = m_simParamSets.IndexOf(paramSet);
