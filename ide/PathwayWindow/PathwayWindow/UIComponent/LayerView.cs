@@ -49,56 +49,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
     /// </summary>
     public class LayerView: EcellDockContent
     {
-        #region Static Fields
-        /// <summary>
-        /// PopupMenu to create layer.
-        /// </summary>
-        private const string MenuCreate = "LayerMenuCreate";
-        /// <summary>
-        /// PopupMenu to delete layer.
-        /// </summary>
-        private const string MenuDelete = "LayerMenuDelete";
-        /// <summary>
-        /// PopupMenu to merge layer.
-        /// </summary>
-        private const string MenuMerge = "LayerMenuMerge";
-        /// <summary>
-        /// PopupMenu to rename layer.
-        /// </summary>
-        private const string MenuRename = "LayerMenuRename";
-        /// <summary>
-        /// PopupMenu to select nodes under the layer.
-        /// </summary>
-        private const string MenuSelectNode = "LayerMenuSelectNodes";
-        /// <summary>
-        /// PopupMenu to move layer.
-        /// </summary>
-        private const string MenuMoveFront = "LayerMenuMoveFront";
-        /// <summary>
-        /// PopupMenu to move layer.
-        /// </summary>
-        private const string MenuMoveBack = "LayerMenuMoveBack";
-        /// <summary>
-        /// PopupMenu Sepalator.
-        /// </summary>
-        private const string MenuSepalator = "Sepalator";
-        /// <summary>
-        /// Dialog title.
-        /// </summary>
-        private const string DialogTitle = "LayerDialogTitle";
-        /// <summary>
-        /// Dialog message.
-        /// </summary>
-        private const string DialogMessage = "LayerDialogMessage";
-        #endregion
-
         #region Fields
         /// <summary>
         /// Width of "Show" column of layer DataGridView.
         /// </summary>
         private readonly int LAYER_SHOWCOLUMN_WIDTH = 50;
 
-        private readonly int LAYER_CHECK_COLUMN = 1;
         /// <summary>
         /// The PathwayControl, from which this class gets messages from the E-cell core and through which this class
         /// sends messages to the E-cell core.
@@ -109,6 +65,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         protected CanvasControl m_canvas = null;
         /// <summary>
+        /// A name of selected layer.
+        /// </summary>
+        private string m_selectedLayer = null;
+        /// <summary>
         /// Every time when m_dgv.CurrentCellDirtyStateChanged event occurs, 
         /// m_dgv_CurrentCellDirtyStateChanged delegate will be called twice.
         /// This flag is used for neglecting one of two delagate calling.
@@ -118,22 +78,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <summary>
         /// DetaGridView
         /// </summary>
-        private DataGridView m_dgv;
-        private DataGridViewCheckBoxColumn CheckBoxColumn;
-        private DataGridViewTextBoxColumn LayerNameColumn;
-        /// <summary>
-        /// PPath to show main pathway area in the overview.
-        /// Normally, this node is colored in red.
-        /// </summary>
+        private DataGridView dataGridView;
         private Panel panel;
-        /// <summary>
-        /// List of ToolStripMenuItems for ContextMenu
-        /// </summary>
-        private Dictionary<string, ToolStripItem> m_cMenuDict = new Dictionary<string, ToolStripItem>();
-        /// <summary>
-        /// A name of selected layer.
-        /// </summary>
-        private string m_selectedLayer = null;
+        private DataGridViewCheckBoxColumn checkBoxColumn;
+        private DataGridViewTextBoxColumn layerNameColumn;
+        private IContainer components;
+
+        #region Menu Items
+        private ContextMenuStrip popupMenu;
+        private ToolStripMenuItem menuCreateLayer;
+        private ToolStripMenuItem menuRenameLayer;
+        private ToolStripMenuItem menuMergeLayer;
+        private ToolStripMenuItem menuRemoveLayer;
+        private ToolStripSeparator separator1;
+        private ToolStripMenuItem menuSelectNodes;
+        private ToolStripSeparator separator2;
+        private ToolStripMenuItem menuMoveFront;
+        private ToolStripMenuItem menuMoveBack;
+        #endregion
         #endregion
 
         #region Accessor
@@ -158,16 +120,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             control.CanvasChange += new EventHandler(OnCanvasChange);
             control.ProjectStatusChange += new EventHandler(OnProjectStatusChange);
             InitializeComponent();
+
             // Preparing context menus.
-            m_dgv.ContextMenuStrip = CreatePopUpMenus();
-            this.Text = MessageResources.WindowLayer;
-            this.TabText = this.Text;
         }
 
         void OnProjectStatusChange(object sender, EventArgs e)
         {
             if (m_con.ProjectStatus == ProjectStatus.Uninitialized)
-                m_dgv.Rows.Clear();
+                dataGridView.Rows.Clear();
         }
 
         void OnCanvasChange(object sender, EventArgs e)
@@ -180,27 +140,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             m_canvas.LayerChange += new EventHandler(OnLayerChange);
         }
 
-        void OnLayerChange(object sender, EventArgs e)
-        {
-            RefreshLayerTable();
-        }
-        /// <summary>
-        /// Refresh 
-        /// </summary>
-        private void RefreshLayerTable()
-        {
-            m_dgv.Rows.Clear();
-            foreach (PNode obj in m_canvas.PCanvas.Root.ChildrenReference)
-            {
-                if (!(obj is PPathwayLayer))
-                    continue;
-                PPathwayLayer layer = (PPathwayLayer)obj;
-                if (string.IsNullOrEmpty(layer.Name))
-                    continue;
-                LayerGridRow row = new LayerGridRow(layer);
-                m_dgv.Rows.Add(row);
-            }
-        }
         #endregion
 
         #region Methods
@@ -209,28 +148,40 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LayerView));
             this.panel = new System.Windows.Forms.Panel();
-            this.m_dgv = new System.Windows.Forms.DataGridView();
-            this.CheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.LayerNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.checkBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.layerNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.popupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuCreateLayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuRenameLayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuMergeLayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuRemoveLayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.separator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuSelectNodes = new System.Windows.Forms.ToolStripMenuItem();
+            this.separator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuMoveFront = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuMoveBack = new System.Windows.Forms.ToolStripMenuItem();
             this.panel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            this.popupMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel
             // 
-            this.panel.Controls.Add(this.m_dgv);
+            this.panel.Controls.Add(this.dataGridView);
             resources.ApplyResources(this.panel, "panel");
             this.panel.Name = "panel";
             // 
             // m_dgv
             // 
-            this.m_dgv.AllowUserToAddRows = false;
-            this.m_dgv.AllowUserToDeleteRows = false;
-            this.m_dgv.AllowUserToResizeRows = false;
-            this.m_dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView.AllowUserToAddRows = false;
+            this.dataGridView.AllowUserToDeleteRows = false;
+            this.dataGridView.AllowUserToResizeRows = false;
+            this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -238,34 +189,109 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.m_dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.m_dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.m_dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.CheckBoxColumn,
-            this.LayerNameColumn});
-            resources.ApplyResources(this.m_dgv, "m_dgv");
-            this.m_dgv.MultiSelect = false;
-            this.m_dgv.Name = "m_dgv";
-            this.m_dgv.RowHeadersVisible = false;
-            this.m_dgv.RowTemplate.Height = 21;
-            this.m_dgv.MouseDown += new System.Windows.Forms.MouseEventHandler(this.m_dgv_MouseDown);
-            this.m_dgv.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_dgv_CellValidated);
-            this.m_dgv.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_dgv_CellMouseDown);
-            this.m_dgv.CurrentCellDirtyStateChanged += new System.EventHandler(this.m_dgv_CurrentCellDirtyStateChanged);
-            this.m_dgv.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgv_DataBindingComplete);
-            this.m_dgv.VisibleChanged += new System.EventHandler(this.m_dgv_VisibleChanged);
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.checkBoxColumn,
+            this.layerNameColumn});
+            this.dataGridView.ContextMenuStrip = this.popupMenu;
+            resources.ApplyResources(this.dataGridView, "m_dgv");
+            this.dataGridView.MultiSelect = false;
+            this.dataGridView.Name = "m_dgv";
+            this.dataGridView.RowHeadersVisible = false;
+            this.dataGridView.RowTemplate.Height = 21;
+            this.dataGridView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.m_dgv_MouseDown);
+            this.dataGridView.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_dgv_CellValidated);
+            this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_dgv_CellMouseDown);
+            this.dataGridView.CurrentCellDirtyStateChanged += new System.EventHandler(this.m_dgv_CurrentCellDirtyStateChanged);
+            this.dataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgv_DataBindingComplete);
+            this.dataGridView.VisibleChanged += new System.EventHandler(this.m_dgv_VisibleChanged);
             // 
             // CheckBoxColumn
             // 
-            this.CheckBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.CheckBoxColumn.HeaderText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerColumnShow;
-            this.CheckBoxColumn.Name = "CheckBoxColumn";
-            resources.ApplyResources(this.CheckBoxColumn, "CheckBoxColumn");
+            this.checkBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.checkBoxColumn.HeaderText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerColumnShow;
+            this.checkBoxColumn.Name = "CheckBoxColumn";
+            resources.ApplyResources(this.checkBoxColumn, "CheckBoxColumn");
             // 
             // LayerNameColumn
             // 
-            this.LayerNameColumn.HeaderText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerColumnName;
-            this.LayerNameColumn.Name = "LayerNameColumn";
+            this.layerNameColumn.HeaderText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerColumnName;
+            this.layerNameColumn.Name = "LayerNameColumn";
+            // 
+            // popupMenu
+            // 
+            this.popupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuCreateLayer,
+            this.menuRenameLayer,
+            this.menuMergeLayer,
+            this.menuRemoveLayer,
+            this.separator1,
+            this.menuSelectNodes,
+            this.separator2,
+            this.menuMoveFront,
+            this.menuMoveBack});
+            this.popupMenu.Name = "popupMenu";
+            resources.ApplyResources(this.popupMenu, "popupMenu");
+            // 
+            // menuCreateLayer
+            // 
+            this.menuCreateLayer.Name = "menuCreateLayer";
+            resources.ApplyResources(this.menuCreateLayer, "menuCreateLayer");
+            this.menuCreateLayer.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerMenuCreate;
+            this.menuCreateLayer.Click += new System.EventHandler(this.CreateLayerClick);
+            // 
+            // menuRenameLayer
+            // 
+            this.menuRenameLayer.Name = "menuRenameLayer";
+            resources.ApplyResources(this.menuRenameLayer, "menuRenameLayer");
+            this.menuRenameLayer.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerMenuRename;
+            this.menuRenameLayer.Click += new System.EventHandler(this.RenameLayerClick);
+            // 
+            // menuMergeLayer
+            // 
+            this.menuMergeLayer.Name = "menuMergeLayer";
+            resources.ApplyResources(this.menuMergeLayer, "menuMergeLayer");
+            this.menuMergeLayer.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerMenuMerge;
+            this.menuMergeLayer.Click += new System.EventHandler(this.MergeLayerClick);
+            // 
+            // menuRemoveLayer
+            // 
+            this.menuRemoveLayer.Name = "menuRemoveLayer";
+            resources.ApplyResources(this.menuRemoveLayer, "menuRemoveLayer");
+            this.menuRemoveLayer.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerMenuDelete;
+            this.menuRemoveLayer.Click += new System.EventHandler(this.RemoveLayerClick);
+            // 
+            // separator1
+            // 
+            this.separator1.Name = "separator1";
+            resources.ApplyResources(this.separator1, "separator1");
+            // 
+            // menuSelectNodes
+            // 
+            this.menuSelectNodes.Name = "menuSelectNodes";
+            resources.ApplyResources(this.menuSelectNodes, "menuSelectNodes");
+            this.menuSelectNodes.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerMenuSelectNodes;
+            this.menuSelectNodes.Click += new System.EventHandler(this.SelectNodesClick);
+            // 
+            // separator2
+            // 
+            this.separator2.Name = "separator2";
+            resources.ApplyResources(this.separator2, "separator2");
+            // 
+            // menuMoveFront
+            // 
+            this.menuMoveFront.Name = "menuMoveFront";
+            resources.ApplyResources(this.menuMoveFront, "menuMoveFront");
+            this.menuMoveFront.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerMenuMoveFront;
+            this.menuMoveFront.Click += new System.EventHandler(this.MoveFrontClick);
+            // 
+            // menuMoveBack
+            // 
+            this.menuMoveBack.Name = "menuMoveBack";
+            resources.ApplyResources(this.menuMoveBack, "menuMoveBack");
+            this.menuMoveBack.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerMenuMoveBack;
+            this.menuMoveBack.Click += new System.EventHandler(this.MoveBackClick);
             // 
             // LayerView
             // 
@@ -273,80 +299,46 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.Controls.Add(this.panel);
             this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_LayerView;
             this.Name = "LayerView";
-            this.TabText = this.Name;
-            this.Text = this.Name;
+            this.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.WindowLayer;
+            this.TabText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.WindowLayer;
             this.panel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.m_dgv)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            this.popupMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         /// <summary>
-        /// Get Popup Menus.
+        /// Refresh 
         /// </summary>
-        ///<returns>ContextMenu.</returns>
-        private ContextMenuStrip CreatePopUpMenus()
+        private void RefreshLayerTable()
         {
-            // Preparing a context menu.
-            ContextMenuStrip nodeMenu = new ContextMenuStrip();
-
-            ToolStripItem menuSelectNodes = new ToolStripMenuItem(MenuSelectNode);
-            menuSelectNodes.Text = MessageResources.LayerMenuSelectNodes;
-            menuSelectNodes.Click += new EventHandler(SelectNodesClick);
-            nodeMenu.Items.Add(menuSelectNodes);
-            m_cMenuDict.Add(MenuSelectNode, menuSelectNodes);
-
-            ToolStripItem menuMoveFront = new ToolStripMenuItem(MenuMoveFront);
-            menuMoveFront.Text = MessageResources.LayerMenuMoveFront;
-            menuMoveFront.Click += new EventHandler(MoveFrontClick);
-            nodeMenu.Items.Add(menuMoveFront);
-            m_cMenuDict.Add(MenuMoveFront, menuMoveFront);
-
-            ToolStripItem menuMoveBack = new ToolStripMenuItem(MenuMoveBack);
-            menuMoveBack.Text = MessageResources.LayerMenuMoveBack;
-            menuMoveBack.Click += new EventHandler(MoveBackClick);
-            nodeMenu.Items.Add(menuMoveBack);
-            m_cMenuDict.Add(MenuMoveBack, menuMoveBack);
-
-            ToolStripSeparator separator = new ToolStripSeparator();
-            m_cMenuDict.Add(MenuSepalator, separator);
-            nodeMenu.Items.Add(separator);
-
-            ToolStripItem menuCreateLayer = new ToolStripMenuItem(MenuCreate);
-            menuCreateLayer.Text = MessageResources.LayerMenuCreate;
-            menuCreateLayer.Click += new EventHandler(CreateLayerClick);
-            nodeMenu.Items.Add(menuCreateLayer);
-            m_cMenuDict.Add(MenuCreate, menuCreateLayer);
-
-            ToolStripItem menuRenameLayer = new ToolStripMenuItem(MenuRename);
-            menuRenameLayer.Text = MessageResources.LayerMenuRename;
-            menuRenameLayer.Click += new EventHandler(RenameLayerClick);
-            nodeMenu.Items.Add(menuRenameLayer);
-            m_cMenuDict.Add(MenuRename, menuRenameLayer);
-
-            ToolStripItem menuMergeLayer = new ToolStripMenuItem(MenuMerge);
-            menuMergeLayer.Text = MessageResources.LayerMenuMerge;
-            menuMergeLayer.Click += new EventHandler(MergeLayerClick);
-            nodeMenu.Items.Add(menuMergeLayer);
-            m_cMenuDict.Add(MenuMerge, menuMergeLayer);
-
-            ToolStripItem menuRemoveLayer = new ToolStripMenuItem(MenuDelete);
-            menuRemoveLayer.Text = MessageResources.LayerMenuDelete;
-            menuRemoveLayer.Click += new EventHandler(RemoveLayerClick);
-            nodeMenu.Items.Add(menuRemoveLayer);
-            m_cMenuDict.Add(MenuDelete, menuRemoveLayer);
-
-            return nodeMenu;
+            dataGridView.Rows.Clear();
+            foreach (PNode obj in m_canvas.PCanvas.Root.ChildrenReference)
+            {
+                if (!(obj is PPathwayLayer))
+                    continue;
+                PPathwayLayer layer = (PPathwayLayer)obj;
+                if (string.IsNullOrEmpty(layer.Name))
+                    continue;
+                LayerGridRow row = new LayerGridRow(layer);
+                dataGridView.Rows.Add(row);
+            }
         }
 
         #endregion
 
         #region Event sequences
+        void OnLayerChange(object sender, EventArgs e)
+        {
+            RefreshLayerTable();
+        }
+
         void m_dgv_CellValidated(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex <= 0)
                 return;
-            LayerGridRow row = (LayerGridRow)m_dgv.Rows[e.RowIndex];
+            LayerGridRow row = (LayerGridRow)dataGridView.Rows[e.RowIndex];
             string oldName = row.Layer.Name;
             string newName = row.Name;
             if (oldName.Equals(newName))
@@ -369,7 +361,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void m_dgv_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            if (m_dgv.CurrentCell is DataGridViewTextBoxCell)
+            if (dataGridView.CurrentCell is DataGridViewTextBoxCell)
                 return;
             if (!m_dirtyEventProcessed)
             {
@@ -492,14 +484,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         }
 
         /// <summary>
-        /// Get new LayerID.
+        /// Get current LayerID.
         /// </summary>
-        /// <param name="canvas"></param>
-        /// <returns></returns>
         private string GetCurrentLayerID()
         {
             string name = null;
-            foreach (DataGridViewRow row in m_dgv.Rows)
+            foreach (DataGridViewRow row in dataGridView.Rows)
             {
                 if ((bool)row.Cells[0].FormattedValue)
                 {
@@ -530,7 +520,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void RenameLayerClick(object sender, EventArgs e)
         {
-            m_dgv.BeginEdit(false);
+            dataGridView.BeginEdit(false);
         }
 
         /// <summary>
@@ -559,19 +549,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             int index = e.RowIndex;
             if (index < 0)
                 return;
-            LayerGridRow row = (LayerGridRow)m_dgv.Rows[index];
+            LayerGridRow row = (LayerGridRow)dataGridView.Rows[index];
             m_selectedLayer = row.Name;
-            m_dgv.ClearSelection();
+            dataGridView.ClearSelection();
             row.Selected = true;
 
-            m_cMenuDict[MenuSelectNode].Visible = true;
-            m_cMenuDict[MenuMoveFront].Visible = true;
-            m_cMenuDict[MenuMoveBack].Visible = true;
-            m_cMenuDict[MenuSepalator].Visible = true;
-            m_cMenuDict[MenuCreate].Visible = true;
-            m_cMenuDict[MenuRename].Visible = true;
-            m_cMenuDict[MenuMerge].Visible = true;
-            m_cMenuDict[MenuDelete].Visible = true;
+            menuCreateLayer.Visible = true;
+            menuRenameLayer.Visible = true;
+            menuMergeLayer.Visible = true;
+            menuRemoveLayer.Visible = true;
+            separator1.Visible = true;
+            menuSelectNodes.Visible = true;
+            separator2.Visible = true;
+            menuMoveFront.Visible = true;
+            menuMoveBack.Visible = true;
         }
 
         /// <summary>
@@ -581,14 +572,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void m_dgv_MouseDown(object sender, MouseEventArgs e)
         {
-            m_cMenuDict[MenuSelectNode].Visible = false;
-            m_cMenuDict[MenuMoveFront].Visible = false;
-            m_cMenuDict[MenuMoveBack].Visible = false;
-            m_cMenuDict[MenuSepalator].Visible = false;
-            m_cMenuDict[MenuCreate].Visible = (m_canvas != null);
-            m_cMenuDict[MenuRename].Visible = false;
-            m_cMenuDict[MenuMerge].Visible = false;
-            m_cMenuDict[MenuDelete].Visible = false;
+            menuCreateLayer.Visible = (m_canvas != null);
+            menuRenameLayer.Visible = false;
+            menuMergeLayer.Visible = false;
+            menuRemoveLayer.Visible = false;
+            separator1.Visible = false;
+            menuSelectNodes.Visible = false;
+            separator2.Visible = false;
+            menuMoveFront.Visible = false;
+            menuMoveBack.Visible = false;
         }
         #endregion
     }

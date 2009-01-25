@@ -960,5 +960,33 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         #endregion
+
+
+        #region EventHandler for HighLightChanged
+        private PPropertyEventHandler m_onHighLightChanged;
+        /// <summary>
+        /// Event on layer change.
+        /// </summary>
+        public event PPropertyEventHandler HighLightChanged
+        {
+            add { m_onHighLightChanged += value; }
+            remove { m_onHighLightChanged
+                -= value; }
+        }
+        /// <summary>
+        /// Event on layer change.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnHightLightChanged(PPropertyEventArgs e)
+        {
+            if (m_onHighLightChanged != null)
+                m_onHighLightChanged(this, e);
+        }
+        internal void RaiseHightLightChanged()
+        {
+            PPropertyEventArgs e = new PPropertyEventArgs(!this.m_isSelected, this.m_isSelected);
+            OnHightLightChanged(e);
+        }
+        #endregion
     }
 }

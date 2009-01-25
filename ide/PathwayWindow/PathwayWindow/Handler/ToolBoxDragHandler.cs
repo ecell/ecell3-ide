@@ -165,8 +165,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             rect.X = CanvasPos.X;
             rect.Y = CanvasPos.Y;
             // Add new object and reset EventHandler.
-            if (rect.Contains(systemPos))
-                AddObject(e);
+            if (rect.Contains(systemPos) || m_object is PPathwayText)
+                AddObject();
 
             ResetEventHandler();
        }
@@ -176,8 +176,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// Add new Object.
         /// </summary>
-        /// <param name="e"></param>
-        private void AddObject(PInputEventArgs e)
+        private void AddObject()
         {
             string systemKey = m_canvas.GetSurroundingSystemKey(m_object.CenterPointF);
             if (string.IsNullOrEmpty(systemKey))

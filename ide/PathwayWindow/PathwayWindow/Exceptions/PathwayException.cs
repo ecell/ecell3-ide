@@ -43,6 +43,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Exceptions
         /// <summary>
         /// Constructor
         /// </summary>
+        public PathwayException()
+            : base()
+        {
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
         /// <param name="message"></param>
         public PathwayException(string message)
             : base(message)

@@ -75,8 +75,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public PPathwayText()
         {
-            base.m_pText.Text = "Text";
-            base.m_pText.ConstrainWidthToTextWidth = false;
             base.LineBrush = Brushes.Black;
             base.FillBrush = Brushes.White;
             this.m_tbox.LostFocus += new EventHandler(m_tbox_LostFocus);
@@ -85,6 +83,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             this.m_resizeHandler = new PathwayResizeHandler(this);
             this.m_resizeHandler.MinHeight = 40;
             this.m_resizeHandler.MinWidth = 80;
+
+            base.m_pText.Text = "Text";
+            base.m_pText.ConstrainWidthToTextWidth = false;
+            base.Height = m_pText.Height + TEXT_MARGIN;
         }
         #endregion
 
@@ -99,6 +101,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             {
                 EcellText text = (EcellText)value;
                 m_pText.Text = text.Comment;
+                m_pText.TextAlignment = text.Alignment;
+
                 base.X = text.X;
                 base.Y = text.Y;
                 base.Width = Math.Max(text.Width, MIN_WIDTH);
@@ -106,11 +110,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 this.m_resizeHandler.MinWidth = Math.Min(base.Width, MIN_WIDTH);
                 this.m_resizeHandler.MinHeight = Math.Min(base.Height, MIN_HEIGHT);
 
-                m_pText.TextAlignment = text.Alignment;
                 base.EcellObject = text;
                 RefreshView();
             }
         }
+
         /// <summary>
         /// Offset
         /// </summary>
@@ -154,13 +158,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 if (value)
                 {
                     this.Brush = m_highLightBrush;
-                    this.m_resizeHandler.ShowResizeHandles();
                 }
                 else
                 {
                     this.Brush = m_fillBrush;
-                    this.m_resizeHandler.HideResizeHandles();
                 }
+                RaiseHightLightChanged();
             }
         }
         #endregion
@@ -235,21 +238,30 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             }
             else if (!m_tbox.Text.Equals(((EcellText)m_ecellObj).Comment))
             {
-                ((EcellText)m_ecellObj).Comment = m_tbox.Text;
                 m_pText.Text = m_tbox.Text;
-                base.Width = m_pText.Width;
-                base.Height = m_pText.Height + TEXT_MARGIN;
-
-                m_ecellObj.Layer = this.Layer.Name;
-                m_ecellObj.X = this.X + this.OffsetX;
-                m_ecellObj.Y = this.Y + this.OffsetY;
-                m_ecellObj.Width = this.Width;
-                m_ecellObj.Height = this.Height;
-                m_ecellObj.OffsetX = 0f;
-                m_ecellObj.OffsetY = 0f;
-
-                m_canvas.Control.NotifyDataChanged(m_ecellObj.Key, m_ecellObj, true, true);
+                NotifyDataChanged();
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void NotifyDataChanged()
+        {
+            ((EcellText)m_ecellObj).Comment = m_pText.Text;
+            ((EcellText)m_ecellObj).Alignment = m_pText.TextAlignment;
+            base.Width = m_pText.Width;
+            base.Height = m_pText.Height + TEXT_MARGIN;
+
+            m_ecellObj.Layer = this.Layer.Name;
+            m_ecellObj.X = this.X + this.OffsetX;
+            m_ecellObj.Y = this.Y + this.OffsetY;
+            m_ecellObj.Width = this.Width;
+            m_ecellObj.Height = this.Height;
+            m_ecellObj.OffsetX = 0f;
+            m_ecellObj.OffsetY = 0f;
+
+            m_canvas.Control.NotifyDataChanged(m_ecellObj.Key, m_ecellObj, true, true);
         }
     }
 }

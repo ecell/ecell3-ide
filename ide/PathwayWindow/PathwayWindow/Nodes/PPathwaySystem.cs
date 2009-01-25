@@ -167,13 +167,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 if (value)
                 {
                     this.Brush = m_highLightBrush;
-                    this.m_resizeHandler.ShowResizeHandles();
                 }
                 else
                 {
                     this.Brush = m_fillBrush;
-                    this.m_resizeHandler.HideResizeHandles();
                 }
+                RaiseHightLightChanged();
             }
         }
 

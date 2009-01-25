@@ -45,7 +45,6 @@ using Ecell;
 using Ecell.Plugin;
 using Ecell.Objects;
 
-using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace Ecell.IDE.Plugins.Spreadsheet
@@ -365,7 +364,8 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         private void UpdatePropForSimulation()
         {
             double ctime = DataManager.GetCurrentSimulationTime();
-            if (ctime == 0.0) return;
+            if (ctime == 0.0)
+                return;
 
             try
             {
@@ -420,8 +420,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 typeNum++;
             }
 
-
-
             if (startPos == m_gridView.Rows.Count)
                 return startPos;
             for (int i = startPos; i < m_gridView.Rows.Count; i++)
@@ -440,26 +438,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             }
 
             return ++startPos;
-        }
-
-        /// <summary>
-        /// Search the index of the inserted object.
-        /// </summary>
-        /// <param name="startpos">The header position.</param>
-        /// <param name="id">The ID of inserted object.</param>
-        /// <returns>The position index of inserted object.</returns>
-        private int SearchInsertIndex(int startpos, string id)
-        {
-            int preIndex = startpos + 1;
-            for (int i = startpos + 1; i < m_gridView.Rows.Count; i++)
-            {
-                if (m_gridView.Rows[i].Tag == null) 
-                    return m_gridView.Rows[i].Index;
-                if (((IComparable)m_gridView[s_ID, i].Value).CompareTo(id) > 0) 
-                    return m_gridView.Rows[i].Index;
-                preIndex = m_gridView.Rows[i].Index;
-            }
-            return preIndex;
         }
 
         /// <summary>
@@ -820,7 +798,12 @@ namespace Ecell.IDE.Plugins.Spreadsheet
 
             return "";
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public bool IsNumeric(string name, EcellObject obj)
         {
             if (name.Equals(s_indexType))
@@ -977,8 +960,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 return;
             m_gridView.ClearSelection();
             AddSelect(modelID, key, type);
-
-
         }
 
         /// <summary>
@@ -1028,11 +1009,11 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <param name="isChanged">whether id is changed.</param>
         public void DataDelete(string modelID, string id, string type, bool isChanged)
         {
-            if (type.Equals(Constants.xpathStepper)) 
+            if (type.Equals(Constants.xpathStepper))
                 return;
 
             int ind = SearchObjectIndex(id, type);
-            if (ind < 0) 
+            if (ind < 0)
                 return;
             if (type.Equals(Constants.xpathSystem))
             {
@@ -1170,7 +1151,9 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_isSelected = false;
             m_selectedRow = null;
         }
-
+        /// <summary>
+        /// ResetSelect
+        /// </summary>
         public override void ResetSelect()
         {
             m_gridView.ClearSelection();

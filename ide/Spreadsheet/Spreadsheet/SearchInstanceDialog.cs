@@ -40,7 +40,10 @@ namespace Ecell.IDE.Plugins.Spreadsheet
 {
     public partial class SearchInstanceDialog : Form
     {
-        public String SearchText
+        /// <summary>
+        /// SearchText
+        /// </summary>
+        public string SearchText
         {
             get { return searchText.Text; }
         }

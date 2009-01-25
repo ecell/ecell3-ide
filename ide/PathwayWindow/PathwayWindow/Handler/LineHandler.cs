@@ -318,7 +318,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 
                 m_con.NotifyVariableReferenceChanged(processKey, variableKey, type, coefficient, true);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Util.ShowErrorDialog(MessageResources.ErrCreateEdge);
             }

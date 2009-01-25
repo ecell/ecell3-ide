@@ -127,16 +127,55 @@
   <metadata name="LayerNameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="popupMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="menuCreateLayer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 22</value>
+  </data>
+  <data name="menuRenameLayer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 22</value>
+  </data>
+  <data name="menuMergeLayer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 22</value>
+  </data>
+  <data name="menuRemoveLayer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 22</value>
+  </data>
+  <data name="separator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>201, 6</value>
+  </data>
+  <data name="menuSelectNodes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 22</value>
+  </data>
+  <data name="separator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>201, 6</value>
+  </data>
+  <data name="menuMoveFront.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 22</value>
+  </data>
+  <data name="menuMoveBack.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 22</value>
+  </data>
+  <data name="popupMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 170</value>
+  </data>
+  <data name="&gt;&gt;popupMenu.Name" xml:space="preserve">
+    <value>popupMenu</value>
+  </data>
+  <data name="&gt;&gt;popupMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="m_dgv.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="m_dgv.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
   <data name="m_dgv.Size" type="System.Drawing.Size, System.Drawing">
-    <value>281, 243</value>
+    <value>285, 250</value>
   </data>
   <data name="m_dgv.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -160,7 +199,7 @@
     <value>0, 0</value>
   </data>
   <data name="panel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>281, 243</value>
+    <value>285, 250</value>
   </data>
   <data name="panel.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -175,13 +214,16 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>281, 243</value>
+    <value>285, 250</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Layer</value>
   </data>
   <data name="&gt;&gt;CheckBoxColumn.Name" xml:space="preserve">
     <value>CheckBoxColumn</value>
@@ -194,6 +236,60 @@
   </data>
   <data name="&gt;&gt;LayerNameColumn.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuCreateLayer.Name" xml:space="preserve">
+    <value>menuCreateLayer</value>
+  </data>
+  <data name="&gt;&gt;menuCreateLayer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuRenameLayer.Name" xml:space="preserve">
+    <value>menuRenameLayer</value>
+  </data>
+  <data name="&gt;&gt;menuRenameLayer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuMergeLayer.Name" xml:space="preserve">
+    <value>menuMergeLayer</value>
+  </data>
+  <data name="&gt;&gt;menuMergeLayer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuRemoveLayer.Name" xml:space="preserve">
+    <value>menuRemoveLayer</value>
+  </data>
+  <data name="&gt;&gt;menuRemoveLayer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;separator1.Name" xml:space="preserve">
+    <value>separator1</value>
+  </data>
+  <data name="&gt;&gt;separator1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuSelectNodes.Name" xml:space="preserve">
+    <value>menuSelectNodes</value>
+  </data>
+  <data name="&gt;&gt;menuSelectNodes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;separator2.Name" xml:space="preserve">
+    <value>separator2</value>
+  </data>
+  <data name="&gt;&gt;separator2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuMoveFront.Name" xml:space="preserve">
+    <value>menuMoveFront</value>
+  </data>
+  <data name="&gt;&gt;menuMoveFront.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;menuMoveBack.Name" xml:space="preserve">
+    <value>menuMoveBack</value>
+  </data>
+  <data name="&gt;&gt;menuMoveBack.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>LayerView</value>

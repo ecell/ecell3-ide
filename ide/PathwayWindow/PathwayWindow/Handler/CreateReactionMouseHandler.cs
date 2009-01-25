@@ -172,7 +172,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 direction = EdgeDirection.None;
 
             // Set Line
-            CanvasControl canvas = m_start.Canvas;
+            CanvasControl canvas = m_con.Canvas;
             PPathwayLine line = canvas.LineHandler.Line4Reconnect;
             line.Info.LineType = type;
             line.Info.Direction = direction;
@@ -202,7 +202,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                     coefficient,
                     true);
             }
-            catch (EcellException e)
+            catch (EcellException)
             {
                 Util.ShowErrorDialog(MessageResources.ErrCreateEdge);
             }

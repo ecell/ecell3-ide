@@ -120,7 +120,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         public PathwayResizeHandler(PPathwayObject obj)
         {
             this.m_obj = obj;
-            this.m_obj.VisibleChanged += new PPropertyEventHandler(m_obj_VisibleChanged);
+            this.m_obj.VisibleChanged += new PPropertyEventHandler(Object_VisibleChanged);
+            this.m_obj.HighLightChanged += new PPropertyEventHandler(Object_VisibleChanged);
             this.m_canvas = obj.Canvas;
 
             for (int i = 0; i < 8; i++)
@@ -161,7 +162,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// Show resize handles for resizing system.
         /// </summary>
-        public void ShowResizeHandles()
+        private void ShowResizeHandles()
         {
             UpdateResizeHandle();
             foreach (PNode node in m_resizeHandles)
@@ -171,7 +172,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <summary>
         /// Hide resize handles for resizing system.
         /// </summary>
-        public void HideResizeHandles()
+        private void HideResizeHandles()
         {
             foreach (PNode handle in m_resizeHandles)
                 if (handle.Parent == m_canvas.ControlLayer)
@@ -183,24 +184,30 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// </summary>
         public void UpdateResizeHandle()
         {
-            PointF gP = m_obj.PointF;
+            PointF gp = m_obj.PointF;
+            float x = gp.X;
+            float y = gp.Y;
+            float width = m_obj.Width;
+            float height = m_obj.Height;
+            float half_width = width / 2f;
+            float half_height = height / 2f;
 
-            m_resizeHandles[ResizeHandle.NW].OffsetX = gP.X;
-            m_resizeHandles[ResizeHandle.NW].OffsetY =  gP.Y;
-            m_resizeHandles[ResizeHandle.N].OffsetX = gP.X + m_obj.Width / 2f;
-            m_resizeHandles[ResizeHandle.N].OffsetY = gP.Y;
-            m_resizeHandles[ResizeHandle.NE].OffsetX = gP.X + m_obj.Width;
-            m_resizeHandles[ResizeHandle.NE].OffsetY = gP.Y;
-            m_resizeHandles[ResizeHandle.E].OffsetX = gP.X + m_obj.Width;
-            m_resizeHandles[ResizeHandle.E].OffsetY = gP.Y + m_obj.Height / 2f;
-            m_resizeHandles[ResizeHandle.SE].OffsetX = gP.X + m_obj.Width;
-            m_resizeHandles[ResizeHandle.SE].OffsetY = gP.Y + m_obj.Height;
-            m_resizeHandles[ResizeHandle.S].OffsetX = gP.X + m_obj.Width / 2f;
-            m_resizeHandles[ResizeHandle.S].OffsetY = gP.Y + m_obj.Height;
-            m_resizeHandles[ResizeHandle.SW].OffsetX = gP.X;
-            m_resizeHandles[ResizeHandle.SW].OffsetY =  gP.Y + m_obj.Height;
-            m_resizeHandles[ResizeHandle.W].OffsetX = gP.X;
-            m_resizeHandles[ResizeHandle.W].OffsetY = gP.Y + m_obj.Height / 2f;
+            m_resizeHandles[ResizeHandle.NW].OffsetX = x;
+            m_resizeHandles[ResizeHandle.NW].OffsetY = y;
+            m_resizeHandles[ResizeHandle.N].OffsetX = x + half_width;
+            m_resizeHandles[ResizeHandle.N].OffsetY = y;
+            m_resizeHandles[ResizeHandle.NE].OffsetX = x + width;
+            m_resizeHandles[ResizeHandle.NE].OffsetY = y;
+            m_resizeHandles[ResizeHandle.E].OffsetX = x + width;
+            m_resizeHandles[ResizeHandle.E].OffsetY = y + half_height;
+            m_resizeHandles[ResizeHandle.SE].OffsetX = x + width;
+            m_resizeHandles[ResizeHandle.SE].OffsetY = y + height;
+            m_resizeHandles[ResizeHandle.S].OffsetX = x + half_width;
+            m_resizeHandles[ResizeHandle.S].OffsetY = y + height;
+            m_resizeHandles[ResizeHandle.SW].OffsetX = x;
+            m_resizeHandles[ResizeHandle.SW].OffsetY = y + height;
+            m_resizeHandles[ResizeHandle.W].OffsetX = x;
+            m_resizeHandles[ResizeHandle.W].OffsetY = y + half_height;
         }
 
         /// <summary>
@@ -319,7 +326,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void m_obj_VisibleChanged(object sender, PPropertyEventArgs e)
+        void Object_VisibleChanged(object sender, PPropertyEventArgs e)
         {
             if (m_obj.Visible && m_obj.IsHighLighted)
                 ShowResizeHandles();

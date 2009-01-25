@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using Ecell.Objects;
+using Ecell.IDE;
 
 namespace Ecell.IDE.Plugins.EntityList
 {
@@ -104,23 +105,11 @@ namespace Ecell.IDE.Plugins.EntityList
 
         void PluginManager_NodeImageListChange(object sender, EventArgs e)
         {
-
-
-
-
-
-
-
             for (int i = 0; i < objectListDataGrid.Rows.Count; i++)
             {
                 EcellObject obj = (EcellObject)objectListDataGrid.Rows[i].Tag;
                 Image image = m_iconList.Images[obj.Type];
                 objectListDataGrid.Rows[i].Cells[0].Value = image;
-
-
-
-
-
             }
         }
         
