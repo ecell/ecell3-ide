@@ -481,7 +481,8 @@ namespace Ecell.Objects
         /// <returns>if equal, return true.</returns>
         public bool Equals(EcellObject obj)
         {
-            if (this.m_modelID == obj.m_modelID && this.m_key == obj.m_key)
+            if (this.m_modelID == obj.m_modelID && this.m_key == obj.m_key &&
+                this.Type == obj.Type)
             {
                 return true;
             }

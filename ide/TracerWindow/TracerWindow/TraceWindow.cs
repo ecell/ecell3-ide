@@ -653,6 +653,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 foreach (string key in m_entryDic.Keys)
                 {
                     if (m_entryDic[key].IsLoaded) continue;
+                    if (m_isLog) continue;
                     if (m_entryDic[key].CurrentLineItem.Line.IsSmooth) continue;
                     if (m_zCnt.GraphPane.IsZoomed) continue;
                     if (!m_entryDic[key].IsSmoothing(m_zCnt.GraphPane.XAxis.Scale.Max,
@@ -949,7 +950,14 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             m_isLog = !m_isLog;
             if (m_isLog)
+            {
                 m_zCnt.GraphPane.YAxis.Type = AxisType.Log;
+                foreach (string key in m_entryDic.Keys)
+                {
+                    m_entryDic[key].CurrentLineItem.Line.IsSmooth = false;
+                    m_entryDic[key].TmpLineItem.Line.IsSmooth = false;
+                }
+            }
             else
                 m_zCnt.GraphPane.YAxis.Type = AxisType.Linear;
             m_zCnt.AxisChange();
@@ -1032,7 +1040,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 }
             }
             else
+            {
                 m_zCnt.GraphPane.YAxis.Scale.MaxAuto = true;
+                m_zCnt.GraphPane.YAxis.Scale.MinAuto = true;
+            }
 
             list = m_owner.DataManager.GetLogData(sx, ex, m_step);
             if (list == null) return;

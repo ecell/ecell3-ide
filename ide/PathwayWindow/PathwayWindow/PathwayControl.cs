@@ -748,6 +748,73 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Add objects.
             NotifyDataAdd(nodeList);
         }
+
+        /// <summary>
+        /// DeteleNodes
+        /// </summary>
+        internal void DeteleNodes()
+        {
+            // Delete Selected Line
+            PPathwayLine line = m_canvas.LineHandler.SelectedLine;
+            if (line != null)
+            {
+                NotifyVariableReferenceChanged(
+                    line.Info.ProcessKey,
+                    line.Info.VariableKey,
+                    RefChangeType.Delete,
+                    line.Info.Coefficient,
+                    true);
+                m_canvas.ResetSelectedLine();
+            }
+
+            // Delete Selected Nodes
+            List<EcellObject> slist = new List<EcellObject>();
+            foreach (PPathwayObject node in m_canvas.SelectedNodes)
+            {
+                if (!m_canvas.SelectedNodes.Contains(node.ParentObject))
+                    slist.Add(node.EcellObject);
+            }
+            int i = 0;
+            foreach (EcellObject deleteNode in slist)
+            {
+                i++;
+                bool isAnchor = (i == slist.Count);
+                NotifyDataDelete(deleteNode, isAnchor);
+            }
+        }
+
+        /// <summary>
+        /// CutNodes
+        /// </summary>
+        internal void CutNodes()
+        {
+            CopyNodes();
+
+            int i = 0;
+            bool isAnchor;
+            foreach (EcellObject eo in m_copiedNodes)
+            {
+                i++;
+                isAnchor = (i == m_copiedNodes.Count);
+                NotifyDataDelete(eo, isAnchor);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void Undo()
+        {
+            m_window.Environment.ActionManager.UndoAction();
+
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        internal void Redo()
+        {
+            m_window.Environment.ActionManager.RedoAction();
+        }
+
         /// <summary>
         /// Set NodeIconImages.
         /// </summary>

@@ -599,7 +599,7 @@ namespace Ecell.IDE.Plugins.Simulation
             {
                 errMsg = MessageResources.ErrInvalidValue;
             }
-            else if (dummy <= 0)
+            else if (dummy <= 0 || Double.IsInfinity(dummy))
             {
                 errMsg = MessageResources.ErrInvalidValue;
             }
@@ -637,7 +637,7 @@ namespace Ecell.IDE.Plugins.Simulation
             {
                 errMsg = MessageResources.ErrInvalidValue;
             }
-            else if (dummy <= 0.0)
+            else if (dummy <= 0.0 || Double.IsInfinity(dummy))
             {
                 errMsg = MessageResources.ErrInvalidValue;
             }

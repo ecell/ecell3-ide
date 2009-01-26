@@ -167,6 +167,47 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.PerformLayout();
         }
 
+        /// <summary>
+        /// ProcessCmdKey
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="keyData"></param>
+        /// <returns></returns>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if ((int)this.DockState != 1)
+                return base.ProcessCmdKey(ref msg, keyData);
+
+            if ((int)keyData == (int)Keys.Control + (int)Keys.C)
+            {
+                m_con.CopyNodes();
+                return true;
+            }
+            else if ((int)keyData == (int)Keys.Control + (int)Keys.V)
+            {
+                m_con.PasteNodes();
+                return true;
+            }
+            else if ((int)keyData == (int)Keys.Control + (int)Keys.X)
+            {
+                m_con.CutNodes();
+            }
+            else if ((int)keyData == (int)Keys.Delete ||
+                      (int)keyData == (int)Keys.Control + (int)Keys.D)
+            {
+                m_con.DeteleNodes();
+            }
+            else if ((int)keyData == (int)Keys.Control + (int)Keys.Z)
+            {
+                m_con.Undo();
+            }
+            else if ((int)keyData == (int)Keys.Control + (int)Keys.Y)
+            {
+                m_con.Redo();
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+
+        }
         #endregion
     }
 }

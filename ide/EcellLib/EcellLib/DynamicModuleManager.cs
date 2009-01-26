@@ -134,7 +134,7 @@ namespace Ecell
             tmp.AddProperty("Priority", true, true, true, true, 0, typeof(int));
             tmp.AddProperty("StepperID", true, true, true, true, "", typeof(string));
             tmp.AddProperty("VariableReferenceList", true, true, true, true, "", typeof(List<EcellValue>));
-            tmp.AddProperty("k", true, true, true, true, (double)0.0, typeof(double));
+            tmp.AddProperty("k", true, true, true, true, (double)1.0, typeof(double));
             this.m_moduleDic.Add(tmp.Name, tmp);
 
             tmp = new DynamicModule("MichaelisUniUniFluxProcess", "", false, "MichaelisUniUniFluxProcess");

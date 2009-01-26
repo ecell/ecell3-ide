@@ -169,6 +169,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.objectListDataGrid);
             this.Name = "EntityListControl";
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DataGridViewMouseUp);
             ((System.ComponentModel.ISupportInitialize)(this.objectListDataGrid)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

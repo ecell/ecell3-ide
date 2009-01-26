@@ -279,6 +279,7 @@ namespace Ecell.IDE.Plugins.EntityList
         public void Clear()
         {
             objectListDataGrid.Rows.Clear();
+            m_selectedRow = null;
         }
 
         #endregion
@@ -374,16 +375,7 @@ namespace Ecell.IDE.Plugins.EntityList
                     m_owner.PluginManager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
                 else
                 {
-                    if (obj.Type.Equals(Constants.xpathSystem))
-                    {
-                        objectListDataGrid.ClearSelection();
-                        objectListDataGrid.Rows[ind].Selected = true;
-                        m_owner.PluginManager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
-                    }
-                    else
-                    {
-                        m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
-                    }
+                    m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
                 }
             }
             else
@@ -475,6 +467,15 @@ namespace Ecell.IDE.Plugins.EntityList
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        private void DataGridViewMouseUp(object sender, MouseEventArgs e)
+        {
+            m_selectedRow = null;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DataGridViewMouseDown(object sender, MouseEventArgs e)
         {
             DataGridView.HitTestInfo hti = objectListDataGrid.HitTest(e.X, e.Y);
@@ -483,6 +484,8 @@ namespace Ecell.IDE.Plugins.EntityList
                 if (hti.RowIndex < 0)
                     return;
                 DataGridViewRow r = objectListDataGrid.Rows[hti.RowIndex];
+                if (Control.ModifierKeys != Keys.Shift)
+                    m_selectedRow = r;
                 m_dragObject = r.Tag as EcellObject;
             }
             else if (e.Button == MouseButtons.Right)
@@ -605,13 +608,50 @@ namespace Ecell.IDE.Plugins.EntityList
 
         private void EntSelectionChanged(object sender, EventArgs e)
         {
-            if (m_isSelected && !m_isSelectionChanged)
+            if (m_selectedRow != null && m_selectedRow.Index != -1 && !m_isSelectionChanged)
             {
                 m_isSelectionChanged = true;
                 objectListDataGrid.ClearSelection();
                 m_selectedRow.Selected = true;
                 m_isSelectionChanged = false;
             }
+            else if (objectListDataGrid.SelectedRows.Count >= 2)
+            {
+                m_isSelected = true;
+                foreach (DataGridViewRow r in objectListDataGrid.SelectedRows)
+                {
+                    EcellObject obj = r.Tag as EcellObject;
+                    m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                }
+                m_isSelected = false;
+            }
+        }
+
+        private void DeletedSelectionRow()
+        {
+            List<DataGridViewRow> delrows = new List<DataGridViewRow>();
+            foreach (DataGridViewRow r in objectListDataGrid.SelectedRows)
+            {
+                delrows.Add(r);
+            }
+
+            foreach (DataGridViewRow r in delrows)
+            {
+                if (r.Tag == null) continue;
+                EcellObject obj = r.Tag as EcellObject;
+                m_owner.DataManager.DataDelete(obj);
+            }
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if ((int)keyData == (int)Keys.Control + (int)Keys.D ||
+                (int)keyData == (int)Keys.Delete)
+            {
+                DeletedSelectionRow();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }

@@ -655,7 +655,7 @@ namespace Ecell.IDE.Plugins.Simulation
             catch (SimulationException ex)
             {
                 m_env.Console.WriteLine(ex);
-                Util.ShowErrorDialog(ex.Message + "\r\n\r\n" + ex.InnerException.Message);
+                Util.ShowErrorDialog(ex.Message);
                 if (m_type != ProjectStatus.Uninitialized)
                     m_pManager.ChangeStatus(ProjectStatus.Loaded);
             }

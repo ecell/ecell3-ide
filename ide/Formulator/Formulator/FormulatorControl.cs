@@ -480,7 +480,7 @@ namespace Ecell.UI.Components
 
                 if (m_current.m_parentD != null || m_current.m_parentN != null)
                 {
-                    if (m_current.Next.IsOperator() || m_current.Next.Type == FUtil.OINPUT)
+                    if (m_current.Next != null && (m_current.Next.IsOperator() || m_current.Next.Type == FUtil.OINPUT))
                     {
                         List<FNode> list = new List<FNode>();
                         if (m_current.Next.Type != FUtil.OINPUT) list.Add(m_current);
@@ -981,6 +981,21 @@ namespace Ecell.UI.Components
                 }
                 else if (text[i] == '/' && IsExpression)
                 {
+                    if (cStr.Length >= 1)
+                    {
+                        c = CreateStrFNode(cStr);
+                        if (c.IsFunction1() || c.IsFunction2())
+                            inOpe = false;
+                        else
+                            inOpe = true;
+                        cStr = "";
+                        if (p1 == null) result.Next = c;
+                        else p1.Next = c;
+                        p2 = p1;
+                        p1 = c;
+                        c = null;
+                    }
+
                     FNode tmp = new FNode(FUtil.SPLIT, "");
 
                     if (p2 != null) p2.Next = tmp;

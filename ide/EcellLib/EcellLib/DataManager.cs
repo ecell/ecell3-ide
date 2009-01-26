@@ -2278,7 +2278,7 @@ namespace Ecell
                 }
                 if (d.Name.Equals(Constants.xpathK))
                 {
-                    d.Value = new EcellValue(1);
+                    d.Value = new EcellValue(1.0);
                 }
                 data.Add(d);
             }

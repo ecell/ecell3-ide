@@ -143,6 +143,16 @@ namespace Ecell
                     try
                     {
                         value = new EcellValue(simulator.GetEntityProperty(entityPath));
+                        if (env.DynamicModuleManager.ModuleDic.ContainsKey(ecellObject.Classname))
+                        {
+                            if (env.DynamicModuleManager.ModuleDic[ecellObject.Classname].Property.ContainsKey(name))
+                            {
+                                DynamicModuleProperty prop = env.DynamicModuleManager.ModuleDic[ecellObject.Classname].Property[name];
+                                if (prop.Type == typeof(List<EcellValue>) &&
+                                    !value.IsList)
+                                    value = new EcellValue(new List<EcellValue>());
+                            }
+                        }
                     }
                     catch (WrappedException ex)
                     {
@@ -155,6 +165,8 @@ namespace Ecell
                                     value = new EcellValue((int)prop.DefaultData);
                                 else if (prop.Type == typeof(double))
                                     value = new EcellValue((double)prop.DefaultData);
+                                else if (prop.Type == typeof(List<EcellValue>))
+                                    value = new EcellValue(new List<EcellValue>());
                                 else
                                     value = new EcellValue((string)prop.DefaultData);
                             }
@@ -268,6 +280,8 @@ namespace Ecell
                                 value = new EcellValue((int)prop.DefaultData);
                             else if (prop.Type == typeof(double))
                                 value = new EcellValue((double)prop.DefaultData);
+                            else if (prop.Type == typeof(List<EcellValue>))
+                                value = new EcellValue(new List<EcellValue>());
                             else
                                 value = new EcellValue((string)prop.DefaultData);
                         }

@@ -1011,6 +1011,35 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             m_owner.Environment.DataManager.CloseProject();
         }
+
+        #region ShortCuts
+        private void DeletedSelectionRow()
+        {
+            List<TagData> delList = new List<TagData>();
+            foreach (TreeNode node in treeView1.SelNodes)
+            {
+                if (node.Tag == null) continue;
+                TagData obj = node.Tag as TagData;
+                if (obj != null) delList.Add(obj);
+            }
+
+            foreach (TagData obj in delList)
+            {
+                m_owner.DataManager.DataDelete(obj.m_modelID, obj.m_key, obj.m_type);
+            }
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if ((int)keyData == (int)Keys.Control + (int)Keys.D ||
+                (int)keyData == (int)Keys.Delete)
+            {
+                DeletedSelectionRow();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+        #endregion
     }
 
     /// <summary>
