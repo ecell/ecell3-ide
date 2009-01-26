@@ -721,6 +721,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void StopAnalysis(object sender, EventArgs e)
         {
+            IsRunningAnalysis();
             if (m_bifurcationAnalysis != null)
                 m_bifurcationAnalysis.StopAnalysis();
             if (m_parameterEstimation != null)

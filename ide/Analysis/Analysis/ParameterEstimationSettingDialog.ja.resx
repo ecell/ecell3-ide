@@ -163,7 +163,7 @@
     <value>全般</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
-    <value>パラメータ</value>
+    <value>観察パラメータ</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>世代数(&amp;G):</value>

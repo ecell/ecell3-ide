@@ -160,10 +160,10 @@
     <value>高速フーリエ変換</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
-    <value>パラメータ</value>
+    <value>未知パラメータ</value>
   </data>
   <data name="groupBox5.Text" xml:space="preserve">
-    <value>評価パラメータ</value>
+    <value>観察パラメータ</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>ウインドウサイズ(&amp;W):</value>

@@ -96,7 +96,8 @@ namespace Ecell.Job
         /// </summary>
         public override void stop()
         {
-            if (this.Status != JobStatus.RUNNING && this.Status != JobStatus.QUEUED)
+            if (this.Status != JobStatus.RUNNING && this.Status != JobStatus.QUEUED
+                && this.Status != JobStatus.NONE)
                 return;
             if (m_currentProcess != null)
             {
@@ -111,7 +112,8 @@ namespace Ecell.Job
                 this.StdErr = "stop ...";
                 m_currentProcess = null;
             }
-            if (Status == JobStatus.QUEUED || Status == JobStatus.RUNNING)
+            if (Status == JobStatus.QUEUED || Status == JobStatus.RUNNING
+                || Status == JobStatus.NONE)
             {
                 Status = JobStatus.STOPPED;
             }
