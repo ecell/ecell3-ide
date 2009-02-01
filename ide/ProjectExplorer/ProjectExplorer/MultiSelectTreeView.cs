@@ -125,21 +125,24 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// Add the selected node.
         /// </summary>
         /// <param name="tn">the selected node.</param>
-        public void SelectNodes(TreeNode tn)
+        public void SelectNodes(TreeNode tn, bool isdispatch)
         {
             if (m_isUpdate) return;
             if (!this.SelNodes.Contains(tn))
                 this.SelNodes.Add(tn);
 
             HighLight(tn);
-            if (tn.Tag != null)
+            if (isdispatch)
             {
-                TagData t = tn.Tag as TagData;
-                if (t != null)
+                if (tn.Tag != null)
                 {
-                    m_isUpdate = true;
-                    m_env.PluginManager.AddSelect(t.m_modelID, t.m_key, t.m_type);
-                    m_isUpdate = false;
+                    TagData t = tn.Tag as TagData;
+                    if (t != null)
+                    {
+                        m_isUpdate = true;
+                        m_env.PluginManager.AddSelect(t.m_modelID, t.m_key, t.m_type);
+                        m_isUpdate = false;
+                    }
                 }
             }
         }
@@ -178,21 +181,24 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// Deselect the selected node.
         /// </summary>
         /// <param name="tn">the selected node.</param>
-        public void DeselectNode(TreeNode tn)
+        public void DeselectNode(TreeNode tn, bool isdispath)
         {
             if (m_isUpdate) return;
             if (this.SelNodes.Contains(tn))
                 this.SelNodes.Remove(tn);
             LowlightNode(tn);
 
-            if (tn.Tag != null)
+            if (isdispath)
             {
-                TagData t = tn.Tag as TagData;
-                if (t != null)
+                if (tn.Tag != null)
                 {
-                    m_isUpdate = true;
-                    m_env.PluginManager.RemoveSelect(t.m_modelID, t.m_key, t.m_type);
-                    m_isUpdate = false;
+                    TagData t = tn.Tag as TagData;
+                    if (t != null)
+                    {
+                        m_isUpdate = true;
+                        m_env.PluginManager.RemoveSelect(t.m_modelID, t.m_key, t.m_type);
+                        m_isUpdate = false;
+                    }
                 }
             }
 
@@ -211,7 +217,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 {
                     foreach (TreeNode tn in this.SelNodes)
                     {
-                        SelectNodes(tn);
+                        SelectNodes(tn, true);
                         break;
                     }
                 }
@@ -246,11 +252,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             {
                 if (IsTreeNodeSelected(tn))
                 {
-                    DeselectNode(tn);
+                    DeselectNode(tn, true);
                 }
                 else
                 {
-                    SelectNodes(tn);
+                    SelectNodes(tn, true);
                 }
             }
             else if ((Control.ModifierKeys & Keys.Shift) != 0)
@@ -268,12 +274,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_env.PluginManager.ResetSelect();
             TreeNode tnTemp = tnMouseDown;
             if (tnTemp == null) return;
-            SelectNodes(tnTemp);
+            SelectNodes(tnTemp, true);
             if (bPrev)
             {
                 while (tnTemp.PrevVisibleNode != null && tnTemp != tn)
                 {
-                    SelectNodes(tnTemp.PrevVisibleNode);
+                    SelectNodes(tnTemp.PrevVisibleNode, true);
                     tnTemp = tnTemp.PrevVisibleNode;
                 }
             }
@@ -281,7 +287,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             {
                 while (tnTemp.NextVisibleNode != null && tnTemp != tn)
                 {
-                    SelectNodes(tnTemp.NextVisibleNode);
+                    SelectNodes(tnTemp.NextVisibleNode, true);
                     tnTemp = tnTemp.NextVisibleNode;
                 }
             }
@@ -327,7 +333,41 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             tnMouseDown = this.GetNodeAt(e.X, e.Y);
             ptMouseDown = new Point(e.X, e.Y);
+            m_isCollapse = false;
+            m_isExpand = false;
             base.OnMouseDown(e);
+        }
+
+        private bool m_isCollapse = false;
+        private bool m_isExpand = false;
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            m_isExpand = false;
+            m_isCollapse = false;
+            base.OnMouseUp(e);
+        }
+
+        protected override void OnBeforeCollapse(TreeViewCancelEventArgs e)
+        {
+            m_isCollapse = true; ;
+            base.OnBeforeCollapse(e);
+        }
+
+        protected override void OnAfterCollapse(TreeViewEventArgs e)
+        {
+            base.OnAfterCollapse(e);
+        }
+
+        protected override void OnBeforeExpand(TreeViewCancelEventArgs e)
+        {
+            m_isExpand = true;
+            base.OnBeforeExpand(e);
+        }
+
+        protected override void OnAfterExpand(TreeViewEventArgs e)
+        {
+            base.OnAfterExpand(e);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -335,10 +375,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             bool bStartPainting = Math.Abs(ptMouseDown.Y - e.Y) > this.ItemHeight;
             TreeNode tn = this.GetNodeAt(e.X, e.Y);
             bool bPrev = ptMouseDown.Y - e.Y > 0;
+
             if (e.Button == MouseButtons.Left &&
                 (bStartPainting || (tn != tnMouseDown && tn != null)))
             {
-                SelectRange(tn, bPrev);
+                if (!m_isExpand && !m_isCollapse)
+                    SelectRange(tn, bPrev);
             }
             base.OnMouseMove(e);
         }

@@ -90,8 +90,9 @@ namespace Ecell.IDE
         protected override void DMECompileButtonClick(object sender, EventArgs e)
         {
             DMESaveButtonClick(DMESaveButton, e);
-
+            DMEComileButton.Enabled = false;
             m_env.DataManager.ExecuteScript(m_path);
+            DMEComileButton.Enabled = true;
         }
     }
 }

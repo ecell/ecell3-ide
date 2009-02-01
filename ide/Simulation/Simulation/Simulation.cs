@@ -292,7 +292,6 @@ namespace Ecell.IDE.Plugins.Simulation
             m_stepText.Text = "1";
             m_stepText.Tag = 10;
             m_stepText.TextBoxTextAlign = HorizontalAlignment.Right;
-            m_stepText.TextChanged += new EventHandler(m_stepText_TextChanged);
 
             m_stepUnitCombo = new ToolStripComboBox();
             m_stepUnitCombo.Name = "StepCourse";
@@ -703,6 +702,35 @@ namespace Ecell.IDE.Plugins.Simulation
             ProjectStatus preType = m_type;
             try
             {
+                if (m_stepUnitCombo.Text == "Step")
+                {
+                    int stepCount = Convert.ToInt32(m_stepText.Text);
+                    if (stepCount < 0)
+                        throw new EcellException(MessageResources.ErrInvalidValue);
+                }
+                else
+                {
+                    double timeCount = Convert.ToDouble(m_stepText.Text);
+                    if (timeCount < 0)
+                        throw new EcellException(MessageResources.ErrInvalidValue);
+                }
+            }
+            catch (Exception)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                if (m_stepUnitCombo.Text == "Step")
+                {
+                    m_stepText.Text = "1";
+                }
+                else
+                {
+                    m_stepText.Text = "1.0";
+                }
+                return;
+            }
+
+            try
+            {
                 m_pManager.ChangeStatus(ProjectStatus.Stepping); 
                 m_isStepping = true;
                 m_isSuspend = false;
@@ -786,32 +814,6 @@ namespace Ecell.IDE.Plugins.Simulation
             {
                 Util.ShowErrorDialog(ex.Message);
                 m_paramsCombo.Text = preParam;
-            }
-        }
-
-        private void m_stepText_TextChanged(object sender, EventArgs e)
-        {
-            ToolStripTextBox text = (ToolStripTextBox)sender;
-
-            if (m_stepUnitCombo.Text.Equals("Step"))
-            {
-                int dummy;
-                if (!Int32.TryParse(text.Text, out dummy) || dummy <= 0)
-                {
-                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                    text.Text = "1";
-                    return;
-                }
-            }
-            else
-            {
-                double dummy;
-                if (!Double.TryParse(text.Text, out dummy) || dummy <= 0.0)
-                {
-                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                    text.Text = "1.0";
-                    return;
-                }
             }
         }
 

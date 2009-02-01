@@ -288,6 +288,26 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     }
                 }
 
+                foreach (EcellData d in data.Value)
+                {
+                    if (!d.Logable) continue;
+                    if (!d.Logged) continue;
+                    bool ishit = false;
+                    foreach (TagData t in m_entry.Keys)
+                    {
+                        if (t.M_modelID != data.ModelID ||
+                            t.M_key != data.Key ||
+                            t.Type != data.Type)
+                            continue;
+                        if (!t.M_path.EndsWith(":" + d.Name))
+                            continue;
+                        ishit = true;
+                    }
+                    if (ishit) continue;
+
+                    LoggerAdd(data.ModelID, data.Key, data.Type, d.EntityPath);
+                }
+
                 return;
             }
 
@@ -321,6 +341,26 @@ namespace Ecell.IDE.Plugins.TracerWindow
             foreach (TagData t in tagList)
             {
                 RemoveFromEntry(t);
+            }
+
+            foreach (EcellData d in data.Value)
+            {
+                if (!d.Logable) continue;
+                if (!d.Logged) continue;
+                bool ishit = false;
+                foreach (TagData t in m_entry.Keys)
+                {
+                    if (t.M_modelID != data.ModelID ||
+                        t.M_key != data.Key ||
+                        t.Type != data.Type)
+                        continue;
+                    if (!t.M_path.EndsWith(":" + d.Name))
+                        continue;
+                    ishit = true;
+                }
+                if (ishit) continue;
+
+                LoggerAdd(data.ModelID, data.Key, data.Type, d.EntityPath);
             }
         }
 
@@ -444,6 +484,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_plotWin.Enabled = true;
                 m_setupWin.Enabled = false;
                 m_showSaveWin.Enabled = true;
+            }
+            else if (type == ProjectStatus.Analysis)
+            {
+                isStep = false;
+                m_showWin.Enabled = false;
+                m_setupWin.Enabled = false;
             }
             else
             {

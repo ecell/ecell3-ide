@@ -295,6 +295,10 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_gridView.CellClick += new DataGridViewCellEventHandler(ClickObjectCell);
             m_gridView.SelectionChanged += new EventHandler(m_gridView_SelectionChanged);
             m_gridView.RowTemplate.DefaultHeaderCellType = typeof(DataGridViewNumberedRowHeaderCell);
+            m_gridView.MouseMove += new MouseEventHandler(m_gridView_MouseMove);
+            m_gridView.MouseDown += new MouseEventHandler(m_gridView_MouseDown);
+            m_gridView.MouseUp += new MouseEventHandler(m_gridView_MouseUp);
+            m_gridView.MouseLeave += new EventHandler(m_gridView_MouseLeave);
             foreach (char c in s_columnChars)
             {
                 DataGridViewColumn col = new DataGridViewTextBoxColumn();
@@ -540,6 +544,20 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_gridView.Rows.Add(rs);
         }
 
+        private void UpdateSystem(int index, EcellObject obj)
+        {
+            int len = m_systemProp.Length;
+            for (int i = 0; i < len; i++)
+            {
+                string data = GetData(m_processProp[i], obj);
+                string value = m_gridView[i, index].Value.ToString();
+                if (data.Equals(value)) continue;
+                m_gridView[i, index].Value = data;
+            }
+
+            m_gridView.Rows[index].Tag = obj;
+        }
+
         /// <summary>
         /// Insert the object at the set position index.
         /// </summary>
@@ -587,6 +605,20 @@ namespace Ecell.IDE.Plugins.Spreadsheet
 
             rs.Tag = obj;
             m_gridView.Rows.Insert(index, rs);
+        }
+
+        private void UpdateVariable(int index, EcellObject obj)
+        {
+            int len = m_variableProp.Length;
+            for (int i = 0; i < len; i++)
+            {
+                string data = GetData(m_processProp[i], obj);
+                string value = m_gridView[i, index].Value.ToString();
+                if (data.Equals(value)) continue;
+                m_gridView[i, index].Value = data;
+            }
+
+            m_gridView.Rows[index].Tag = obj;
         }
 
         /// <summary>
@@ -638,6 +670,21 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             }
             rs.Tag = obj;
             m_gridView.Rows.Insert(index, rs);
+        }
+
+
+        private void UpdateProcess(int index, EcellObject obj)
+        {
+            int len = m_processProp.Length;
+            for (int i = 0; i < len; i++)
+            {
+                string data = GetData(m_processProp[i], obj);
+                string value = m_gridView[i, index].Value.ToString();
+                if (data.Equals(value)) continue;
+                m_gridView[i, index].Value = data;
+            }
+
+            m_gridView.Rows[index].Tag = obj;
         }
 
         /// <summary>
@@ -959,6 +1006,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             if (m_isSelected)
                 return;
             m_gridView.ClearSelection();
+            m_selectedRow = null;
             AddSelect(modelID, key, type);
         }
 
@@ -971,9 +1019,34 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// <param name="obj">The changed object.</param>
         public override void DataChanged(string modelID, string key, string type, EcellObject obj)
         {
-            DataDelete(modelID, key, type, !obj.Key.Equals(key));
-            DataAdd(obj);
-            AddSelect(obj.ModelID, obj.Key, obj.Type);
+            if (key != obj.Key)
+            {
+                DataDelete(modelID, key, type, !obj.Key.Equals(key));
+                DataAdd(obj);
+                AddSelect(obj.ModelID, obj.Key, obj.Type);
+            }
+            else
+            {
+                DataGridViewRow r = SearchIndex(type, key);
+                if (r == null)
+                {
+                    DataAdd(obj);
+                    return;
+                }
+                if (obj.Type.Equals(Constants.xpathSystem))
+                {
+                    UpdateSystem(r.Index, obj);
+                }
+                else if (obj.Type.Equals(Constants.xpathProcess))
+                {
+                    UpdateProcess(r.Index, obj);
+                }
+                else if (obj.Type.Equals(Constants.xpathVariable))
+                {
+                    UpdateVariable(r.Index, obj);
+                }
+            }
+
         }
 
         private DataGridViewRow SearchIndex(string type, string key)
@@ -1102,7 +1175,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
 
         void m_gridView_SelectionChanged(object sender, EventArgs e)
         {
-            if (m_isSelected && !m_isSelectionChanged)
+            if (m_isSelected && !m_isSelectionChanged && m_selectedRow != null)
             {
                 m_isSelectionChanged = true;
                 m_gridView.ClearSelection();
@@ -1169,6 +1242,37 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_time.Enabled = false;
             UpdatePropForSimulation();
             m_time.Enabled = true;
+        }
+
+        void m_gridView_MouseLeave(object sender, EventArgs e)
+        {
+            m_isSelected = false;
+        }
+
+        void m_gridView_MouseUp(object sender, MouseEventArgs e)
+        {
+            m_isSelected = false;
+        }
+
+        void m_gridView_MouseDown(object sender, MouseEventArgs e)
+        {
+            DataGridView.HitTestInfo hti = m_gridView.HitTest(e.X, e.Y);
+            if (e.Button == MouseButtons.Left)
+            {
+                if (hti.RowIndex < 0)
+                    return;
+                DataGridViewRow r = m_gridView.Rows[hti.RowIndex];
+                if (Control.ModifierKeys != Keys.Shift)
+                    m_selectedRow = r;
+            }
+        }
+
+        void m_gridView_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) != MouseButtons.Left)
+                return;
+
+            m_isSelected = true;
         }
         #endregion
     }

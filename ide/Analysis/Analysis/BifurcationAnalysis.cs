@@ -164,6 +164,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NameSimulationTime, 0.0 }));
+                m_owner.FinishedAnalysisByError();
                 return;
             }
 
@@ -177,13 +178,15 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
                     new object[] { MessageResources.NameParameterData, 2 }));
+                m_owner.FinishedAnalysisByError();
                 return;
             }
             List<SaveLoggerProperty> saveList = m_owner.GetBAObservedDataList();
             if (saveList == null) return;
-
             m_isRunning = true;
+
             int count = 0;
+            m_owner.ClearResult();
             for (int i = 0; i <= s_num; i++)
             {
                 for (int j = 0; j <= s_num; j++)
@@ -236,6 +239,16 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_owner.SetResultEntryBox(p.Key, isX, isY);
                 count++;
             }
+            if (m_xMax == m_xMin)
+            {
+                m_xMax = m_xMin + 1.0;
+                m_xMin = m_xMin - 1.0;
+            }
+            if (m_yMax == m_yMin)
+            {
+                m_yMax = m_yMin + 1.0;
+                m_yMin = m_yMin - 1.0;
+            }
             m_owner.SetResultGraphSize(m_xMax, m_xMin, m_yMax, m_yMin, false, false);
 
             for (int i = 0; i <= s_num; i = i + s_skip)
@@ -254,9 +267,11 @@ namespace Ecell.IDE.Plugins.Analysis
 
             m_owner.JobManager.SetLoggerData(saveList);
             m_execParam = m_owner.JobManager.RunSimParameterSet(tmpDir, m_model, simTime, false, tmpDic);
-            m_owner.ClearResult();
-            m_timer.Enabled = true;
-            m_timer.Start();
+            if (m_isRunning)
+            {
+                m_timer.Enabled = true;
+                m_timer.Start();
+            }
         }
 
         /// <summary>

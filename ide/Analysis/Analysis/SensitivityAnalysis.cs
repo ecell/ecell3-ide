@@ -192,18 +192,21 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NameStepNum, 0 }));
+                m_owner.FinishedAnalysisByError();
                 return;
             }
             if (m_param.AbsolutePerturbation <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
-                    new object[] { MessageResources.NameAbsolutePert, 0.0 }));                
+                    new object[] { MessageResources.NameAbsolutePert, 0.0 }));
+                m_owner.FinishedAnalysisByError();
                 return;
             }
             if (m_param.RelativePerturbation <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                    new object[] { MessageResources.NameRelativePert, 0.0 }));
+                m_owner.FinishedAnalysisByError();
                 return;
             }
 
@@ -220,7 +223,11 @@ namespace Ecell.IDE.Plugins.Analysis
 
             CreateExecuteParameter(varList, proList);
 
-            m_timer.Enabled = true;
+            if (m_isRunning)
+            {
+                m_timer.Enabled = true;
+                m_timer.Start();
+            }
         }
 
         /// <summary>

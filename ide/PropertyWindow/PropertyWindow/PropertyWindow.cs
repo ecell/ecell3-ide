@@ -1148,6 +1148,12 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
+            if (m_dgv.CurrentRow == null ||
+                            m_dgv.CurrentRow.Cells[1].Tag == null)
+            {
+                e.Cancel = true;
+                return;
+            }
             object tag = m_dgv.CurrentRow.Cells[1].Tag;
             deleteThisPropertyToolStripMenuItem.Enabled =
                 m_propDic != null && tag is EcellData &&

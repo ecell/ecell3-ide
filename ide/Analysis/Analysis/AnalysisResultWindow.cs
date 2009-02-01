@@ -56,6 +56,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_zCnt.GraphPane.XAxis.Scale.Min = 0;
             m_zCnt.GraphPane.YAxis.Scale.Max = 100;
             m_zCnt.GraphPane.YAxis.Scale.Min = 0;
+            m_zCnt.ContextMenuBuilder += new ZedGraphControl.ContextMenuBuilderEventHandler(ZedControlContextMenuBuilder);
             RAAnalysisTableLayout.Controls.Add(m_zCnt, 0, 0);
             m_zCnt.AxisChange();
             m_zCnt.Refresh();
@@ -456,6 +457,7 @@ namespace Ecell.IDE.Plugins.Analysis
             StreamReader reader = null;
             try
             {
+                ClearResult();
                 reader = new StreamReader(filename, Encoding.ASCII);
 
                 string header = reader.ReadLine();
@@ -482,6 +484,7 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             finally
             {
+                m_owner.PluginManager.ChangeStatus(ProjectStatus.Loaded);
                 if (reader != null)
                     reader.Close();
             }
@@ -937,6 +940,36 @@ namespace Ecell.IDE.Plugins.Analysis
             catch (IgnoreException)
             {
                 RAYComboBox.SelectedIndex = y_index;
+            }
+        }
+
+        // ZedGraphでContextMenuを表示するたびに作り直しているので、
+        // このイベントでも毎回メニューの削除、追加をする必要がある
+        private void ZedControlContextMenuBuilder(ZedGraphControl sender, ContextMenuStrip menuStrip, Point mousePt, ZedGraphControl.ContextMenuObjectState objState)
+        {
+            foreach (ToolStripMenuItem m in menuStrip.Items)
+            {
+                if (m.Name.Contains("copy"))
+                {
+                    menuStrip.Items.Remove(m);
+                    break;
+                }
+            }
+            foreach (ToolStripMenuItem m in menuStrip.Items)
+            {
+                if (m.Name.Contains("save_as"))
+                {
+                    menuStrip.Items.Remove(m);
+                    break;
+                }
+            }
+            foreach (ToolStripMenuItem m in menuStrip.Items)
+            {
+                if (m.Name.Contains("set_default"))
+                {
+                    menuStrip.Items.Remove(m);
+                    break;
+                }
             }
         }
 

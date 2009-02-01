@@ -70,7 +70,7 @@ namespace Ecell.IDE.MainWindow
 
         public void ChangeStatus(ProjectStatus status)
         {
-            if (status == ProjectStatus.Loaded)
+            if (status == ProjectStatus.Analysis)
             {
                 m_timer.Enabled = true;
                 m_timer.Start();
@@ -79,6 +79,7 @@ namespace Ecell.IDE.MainWindow
             {
                 m_timer.Enabled = false;
                 m_timer.Stop();
+                DEWUpdateButton_Click(null, new EventArgs());
             }
         }
 

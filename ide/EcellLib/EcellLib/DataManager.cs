@@ -925,7 +925,7 @@ namespace Ecell
                 if (!ecellObject.IsUsable)
                     return;
                 type = ecellObject.Type;
-
+                ConfirmAnalysisReset("add", type);
                 ConfirmReset("add", type);
 
                 if (type.Equals(Constants.xpathProcess))
@@ -1249,6 +1249,18 @@ namespace Ecell
 
             try
             {
+                if (m_env.PluginManager.Status == ProjectStatus.Analysis)
+                {
+                    EcellObject obj = GetEcellObject(modelID, key, type);
+                    if (!key.Equals(ecellObject.Key) ||
+                        !obj.Classname.Equals(ecellObject.Classname) ||
+                        obj.Value.Count != ecellObject.Value.Count ||
+                        (obj is EcellProcess && Util.DoesVariableReferenceChange(obj, ecellObject)))
+                    {
+                        ConfirmAnalysisReset("change", type);
+                    }
+                }
+
                 // StatusCheck
                 if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
                     m_currentProject.SimulationStatus == SimulationStatus.Suspended)
@@ -1537,6 +1549,7 @@ namespace Ecell
         {
             try
             {
+                ConfirmAnalysisReset("delete", type);
                 ConfirmReset("delete", type);
             }
             catch (IgnoreException)
@@ -4086,6 +4099,20 @@ namespace Ecell
                 throw new IgnoreException("Can't " + action + " the object.");
             }
             SimulationStop();
+            m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
+        }
+
+        private void ConfirmAnalysisReset(string action, string type)
+        {
+            if (m_env.PluginManager.Status != ProjectStatus.Analysis)
+                return;
+            if (EcellObject.TEXT.Equals(type))
+                return;
+
+            if (!Util.ShowOKCancelDialog(MessageResources.ConfirmAnalysisReset))
+            {
+                throw new IgnoreException("Can't " + action + " the object.");
+            }
             m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
         }
 

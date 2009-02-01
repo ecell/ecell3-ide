@@ -140,7 +140,9 @@ namespace Ecell.IDE.Plugins.EntityList
             DataGridViewRow row = SearchIndex(type, key);
             if (row != null && objectListDataGrid.FirstDisplayedScrollingRowIndex != 0xffffffff)
             {
+                m_isSelected = true;
                 row.Selected = true;
+                m_isSelected = false;
                 if (objectListDataGrid.FirstDisplayedScrollingRowIndex >= 0 &&
                     row.Visible)
                     objectListDataGrid.FirstDisplayedScrollingRowIndex = row.Index;
@@ -615,7 +617,7 @@ namespace Ecell.IDE.Plugins.EntityList
                 m_selectedRow.Selected = true;
                 m_isSelectionChanged = false;
             }
-            else if (objectListDataGrid.SelectedRows.Count >= 2)
+            else if ((!m_isSelected && objectListDataGrid.SelectedRows.Count >= 2))
             {
                 m_isSelected = true;
                 foreach (DataGridViewRow r in objectListDataGrid.SelectedRows)

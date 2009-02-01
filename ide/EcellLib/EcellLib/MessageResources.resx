@@ -341,4 +341,7 @@ New revision {0}:{1} was created.</value>
   <data name="ErrDelParam" xml:space="preserve">
     <value>At least one parameter set is required in the project.</value>
   </data>
+  <data name="ConfirmAnalysisReset" xml:space="preserve">
+    <value>Change to a property that cannot be set during  analysis is attempted. Do you want to stop the analysis?</value>
+  </data>
 </root>

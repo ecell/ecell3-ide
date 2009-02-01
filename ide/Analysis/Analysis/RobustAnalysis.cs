@@ -158,18 +158,21 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NameMaxSample, 0 }));
+                m_owner.FinishedAnalysisByError();
                 return;
             }
             if (simTime <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NameSimulationTime, 0.0 }));
+                m_owner.FinishedAnalysisByError();
                 return;
             }
             if (maxSize > MaxSize)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrSmaller,
                     new object[] { MessageResources.NameMaxSample, MaxSize }));
+                m_owner.FinishedAnalysisByError();
                 return;
             }
 
@@ -183,12 +186,14 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumberMore,
                     new object[] { MessageResources.NameParameterData, 2 }));
+                m_owner.FinishedAnalysisByError();
                 return;
             }
             if (!m_param.IsRandomCheck && paramList.Count != 2)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
                     new object[] { MessageResources.NameParameterData, 2 }));
+                m_owner.FinishedAnalysisByError();
                 return;
             }
             List<SaveLoggerProperty> saveList = m_owner.GetRAObservedDataList();
@@ -205,8 +210,11 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 m_paramDic = m_owner.JobManager.RunSimParameterMatrix(tmpDir, model, simTime, false);
             }
-            m_timer.Enabled = true;
-            m_timer.Start();
+            if (m_isRunning)
+            {
+                m_timer.Enabled = true;
+                m_timer.Start();
+            }
         }
 
         /// <summary>

@@ -142,19 +142,21 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NamePopulation, 0 }));
+                m_owner.FinishedAnalysisByError();
                 return;
             }
             if (m_param.Generation <= 0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NameGenerationNum, 0 }));
-
+                m_owner.FinishedAnalysisByError();
                 return;
             }
             if (m_param.SimulationTime <= 0.0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NameSimulationTime, 0.0 }));
+                m_owner.FinishedAnalysisByError();
                 return;
             }
             if (m_param.EstimationFormulator == null ||
@@ -162,6 +164,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(string.Format(MessageResources.ErrSetNumber,
                     new object[] { MessageResources.NameEstimationForm, 1 }));
+                m_owner.FinishedAnalysisByError();
 
                 return;
             }
@@ -176,6 +179,8 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrSetNumber,
                     new object[] { MessageResources.NameParameterData, 1 }));
+                m_owner.FinishedAnalysisByError();
+
                 return;
             }
 
@@ -186,9 +191,12 @@ namespace Ecell.IDE.Plugins.Analysis
             m_owner.JobManager.SetLoggerData(m_saveList);
             m_owner.SetResultGraphSize(m_param.Generation, 0.0, 0.0, 1.0, false, true);
 
-            m_generation = 0;
-            m_timer.Enabled = true;
-            m_timer.Start();  
+            if (m_isRunning)
+            {
+                m_generation = 0;
+                m_timer.Enabled = true;
+                m_timer.Start();
+            } 
         }
 
 

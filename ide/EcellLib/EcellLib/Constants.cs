@@ -656,7 +656,11 @@ namespace Ecell
         /// <summary>
         /// Project status (Refresh).
         /// </summary>
-        Refresh = 6
+        Refresh = 6,
+        /// <summary>
+        /// Project status(project is in analysis).
+        /// </summary>
+        Analysis = 7
     }
 
     /// <summary>

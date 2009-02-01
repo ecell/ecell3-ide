@@ -45,6 +45,7 @@ namespace Ecell.Job
     {
         private ApplicationEnvironment m_env;
         private bool m_tmpDirRemovable = false;
+        private bool m_isEnableRegist = false;
         private string m_tmpRootDir = null;
         private string m_tmpDir = null;
         private int m_conc = -1;
@@ -621,7 +622,8 @@ namespace Ecell.Job
             foreach (int id in m_sessionList.Keys)
             {
                 if (m_sessionList[id].Status == JobStatus.QUEUED ||
-                    m_sessionList[id].Status == JobStatus.RUNNING)
+                    m_sessionList[id].Status == JobStatus.RUNNING ||
+                    m_sessionList[id].Status == JobStatus.NONE)
                 {
                     m_sessionList[id].stop();
                 }
@@ -850,6 +852,8 @@ namespace Ecell.Job
                     writer.WriteSimulationForTime(fileName, count, enc);
                 writer.WriteLoggerSaveEntry(fileName, enc, m_logList);
                 List<string> extFileList = ExtractExtFileList(m_logList);
+                if (m_env.PluginManager.Status != ProjectStatus.Analysis)
+                    return new Dictionary<int, ExecuteParameter>();
                 int job = RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
                 m_parameterDic.Add(job, new ExecuteParameter(paramDic));
                 resList.Add(job, new ExecuteParameter(paramDic));
@@ -964,6 +968,8 @@ namespace Ecell.Job
                     writer.WriteSimulationForTime(fileName, count, enc);
                 writer.WriteLoggerSaveEntry(fileName, enc, m_logList);
                 List<string> extFileList = ExtractExtFileList(m_logList);
+                if (m_env.PluginManager.Status != ProjectStatus.Analysis)
+                    return new Dictionary<int, ExecuteParameter>();
                 int job = RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
                 m_parameterDic.Add(job, new ExecuteParameter(paramDic));
                 resList.Add(job, new ExecuteParameter(paramDic));
@@ -1129,6 +1135,8 @@ namespace Ecell.Job
                         writer.WriteSimulationForTime(fileName, count, enc);
                     writer.WriteLoggerSaveEntry(fileName, enc, m_logList);
                     List<string> extFileList = ExtractExtFileList(m_logList);
+                    if (m_env.PluginManager.Status != ProjectStatus.Analysis)
+                        return new Dictionary<int, ExecuteParameter>();
                     int job = RegisterJob(m_proxy.GetDefaultScript(), "\"" + fileName + "\"", extFileList);
                     m_parameterDic.Add(job, new ExecuteParameter(paramDic));
                     resList.Add(job, new ExecuteParameter(paramDic));

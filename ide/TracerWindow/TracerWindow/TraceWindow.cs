@@ -820,7 +820,18 @@ namespace Ecell.IDE.Plugins.TracerWindow
             DataGridViewRow r = dgv.Rows[e.RowIndex];
             TagData t = (TagData)r.Tag;
             m_entryDic[t.M_path].SetVisible((bool)cell.Value);
+            if (!m_zCnt.GraphPane.IsZoomed && IsExistShowData())
+                m_zCnt.AxisChange();
             m_zCnt.Refresh();
+        }
+
+        private bool IsExistShowData()
+        {
+            foreach (TraceEntry ent in m_entryDic.Values)
+            {
+                if (ent.CurrentLineItem.IsVisible) return true;
+            }
+            return false;
         }
 
         /// <summary>

@@ -69,22 +69,29 @@ namespace Ecell.Job
         /// </summary>
         public override void run()
         {
-            ProcessStartInfo psi = new ProcessStartInfo();
-            psi.FileName = ScriptFile;
-            psi.UseShellExecute = false;
-            psi.CreateNoWindow = true;
-            psi.Arguments = @Argument;
-            psi.WorkingDirectory = Util.GetAnalysisDir();
-            psi.RedirectStandardError = true;
-            psi.RedirectStandardOutput = false;
-            if (psi.EnvironmentVariables.ContainsKey("IRONPYTHONSTARTUP"))
+            try
             {
-                psi.EnvironmentVariables.Remove("IRONPYTHONSTARTUP");
+                ProcessStartInfo psi = new ProcessStartInfo();
+                psi.FileName = ScriptFile;
+                psi.UseShellExecute = false;
+                psi.CreateNoWindow = true;
+                psi.Arguments = @Argument;
+                psi.WorkingDirectory = Util.GetAnalysisDir();
+                psi.RedirectStandardError = true;
+                psi.RedirectStandardOutput = false;
+                if (psi.EnvironmentVariables.ContainsKey("IRONPYTHONSTARTUP"))
+                {
+                    psi.EnvironmentVariables.Remove("IRONPYTHONSTARTUP");
+                }
+                psi.EnvironmentVariables.Add("IRONPYTHONSTARTUP", Util.GetStartupFile());
+                this.Status = JobStatus.RUNNING;
+                m_currentProcess = Process.Start(psi);
+                ProcessID = m_currentProcess.Id;
             }
-            psi.EnvironmentVariables.Add("IRONPYTHONSTARTUP", Util.GetStartupFile());
-            this.Status = JobStatus.RUNNING;
-            m_currentProcess = Process.Start(psi);
-            ProcessID = m_currentProcess.Id;
+            catch (Exception)
+            {
+                this.Status = JobStatus.ERROR;
+            }
 /*
             Process p = Process.Start("dir");
             p.WaitForExit();

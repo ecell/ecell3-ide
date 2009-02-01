@@ -339,4 +339,7 @@
   <data name="ErrDelParam" xml:space="preserve">
     <value>少なくともプロジェクトには１つのシミュレーションパラメータが必要です。</value>
   </data>
+  <data name="ConfirmAnalysisReset" xml:space="preserve">
+    <value>解析実行中に設定できないプロパティを変更しようとしています。解析を中断しますか？</value>
+  </data>
 </root>

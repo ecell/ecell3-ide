@@ -565,7 +565,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             TreeNode target = GetTargetTreeNode(current, key, type);
             if (target != null)
             {
-                treeView1.SelectNodes(target);
+                treeView1.SelectNodes(target, false);
             }
         }
 
@@ -575,13 +575,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (current == null) return;
             if (key == "")
             {
-                treeView1.DeselectNode(current);
+                treeView1.DeselectNode(current, false);
                 return;
             }
             TreeNode target = GetTargetTreeNode(current, key, type);
             if (target != null)
             {
-                treeView1.DeselectNode(target);
+                treeView1.DeselectNode(target, false);
                 return;
             }
         }
@@ -854,7 +854,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (!this.treeView1.SelNodes.Contains((TreeNode)e.Item))
             {
                 this.treeView1.ClearSelNode();
-                this.treeView1.SelectNodes((TreeNode)e.Item);
+                this.treeView1.SelectNode((TreeNode)e.Item, false, false);
                 this.treeView1.Refresh();
             }
             foreach (TreeNode node in this.treeView1.SelNodes)
