@@ -136,12 +136,12 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.TSCloseButton;
+            this.Controls.Add(this.TSApplyButton);
+            this.Controls.Add(this.TSCloseButton);
+            this.Controls.Add(label6);
+            this.Controls.Add(label5);
             this.Controls.Add(this.valueFormatComboBox);
             this.Controls.Add(label2);
-            this.Controls.Add(this.TSApplyButton);
-            this.Controls.Add(label6);
-            this.Controls.Add(this.TSCloseButton);
-            this.Controls.Add(label5);
             this.Controls.Add(this.stepCountTextBox);
             this.Controls.Add(label4);
             this.Controls.Add(label3);

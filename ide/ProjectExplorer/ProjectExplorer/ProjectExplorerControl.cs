@@ -90,29 +90,26 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             foreach (EcellObject obj in oList)
             {
                 if (!obj.Type.Equals(EcellObject.PROCESS) &&
-                    !obj.Type.Equals(EcellObject.VARIABLE)) continue;
-
+                    !obj.Type.Equals(EcellObject.VARIABLE) &&
+                    !obj.Type.Equals(EcellObject.SYSTEM)) 
+                    continue;
+                // Create new EcellDragObject.
+                if (dobj == null)
+                    dobj = new EcellDragObject(obj.ModelID);
                 foreach (EcellData v in obj.Value)
                 {
                     if (!v.Name.Equals(Constants.xpathActivity) &&
-                        !v.Name.Equals(Constants.xpathMolarConc))
+                        !v.Name.Equals(Constants.xpathMolarConc) &&
+                        !v.Name.Equals(Constants.xpathSize))
                         continue;
 
-                    if (dobj == null)
-                        dobj = new EcellDragObject(
-                            obj.ModelID,
-                            obj.Key,
-                            obj.Type,
-                            v.EntityPath,
-                            v.Settable,
-                            v.Logable);
-                    else
-                        dobj.Entries.Add(new EcellDragEntry(
-                            obj.Key,
-                            obj.Type,
-                            v.EntityPath,
-                            v.Settable,
-                            v.Logable));
+                    // Add new EcellDragEntry.
+                    dobj.Entries.Add(new EcellDragEntry(
+                        obj.Key,
+                        obj.Type,
+                        v.EntityPath,
+                        v.Settable,
+                        v.Logable));
                     break;
                 }
             }
@@ -1023,10 +1020,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 if (obj != null) delList.Add(obj);
             }
 
-            foreach (TagData obj in delList)
+            for (int i = 0; i < delList.Count; i++)
             {
-                m_owner.DataManager.DataDelete(obj.m_modelID, obj.m_key, obj.m_type);
+                TagData obj = delList[i];
+                if (i == delList.Count - 1)
+                    m_owner.DataManager.DataDelete(obj.m_modelID, obj.m_key, obj.m_type, true, true);
+                else
+                    m_owner.DataManager.DataDelete(obj.m_modelID, obj.m_key, obj.m_type, true, false);
             }
+
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

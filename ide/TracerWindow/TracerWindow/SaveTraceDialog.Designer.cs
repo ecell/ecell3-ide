@@ -69,11 +69,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.endTextBox = new System.Windows.Forms.TextBox();
             this.typeComboBox = new System.Windows.Forms.ComboBox();
             this.SaveEntrySelectView = new System.Windows.Forms.DataGridView();
-            this.SaveEntryColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.STSaveButton = new System.Windows.Forms.Button();
             this.STCloseButton = new System.Windows.Forms.Button();
             this.m_folderDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.SaveEntryColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
@@ -160,18 +160,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.SaveEntrySelectView.RowTemplate.Height = 21;
             this.SaveEntrySelectView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             // 
-            // SaveEntryColumn
-            // 
-            this.SaveEntryColumn.FillWeight = 10F;
-            resources.ApplyResources(this.SaveEntryColumn, "SaveEntryColumn");
-            this.SaveEntryColumn.Name = "SaveEntryColumn";
-            // 
-            // IDColumn
-            // 
-            this.IDColumn.FillWeight = 79.69543F;
-            resources.ApplyResources(this.IDColumn, "IDColumn");
-            this.IDColumn.Name = "IDColumn";
-            // 
             // STSaveButton
             // 
             resources.ApplyResources(this.STSaveButton, "STSaveButton");
@@ -185,6 +173,19 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.STCloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.STCloseButton.Name = "STCloseButton";
             this.STCloseButton.UseVisualStyleBackColor = true;
+            // 
+            // SaveEntryColumn
+            // 
+            this.SaveEntryColumn.FillWeight = 10F;
+            resources.ApplyResources(this.SaveEntryColumn, "SaveEntryColumn");
+            this.SaveEntryColumn.Name = "SaveEntryColumn";
+            // 
+            // IDColumn
+            // 
+            this.IDColumn.FillWeight = 79.69543F;
+            resources.ApplyResources(this.IDColumn, "IDColumn");
+            this.IDColumn.Name = "IDColumn";
+            this.IDColumn.ReadOnly = true;
             // 
             // SaveTraceDialog
             // 

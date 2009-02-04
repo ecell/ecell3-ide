@@ -596,6 +596,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         {
             m_current = null;
             ReloadProperties();
+            label1.Text = "";
         }
 
         /// <summary>
@@ -606,13 +607,13 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         {
             if (type == ProjectStatus.Running)
             {
-                m_dgv.Enabled = false;
+                m_dgv.ReadOnly = true;
                 m_time.Enabled = true;
                 m_time.Start();
             }
             else if (type == ProjectStatus.Suspended)
             {
-                m_dgv.Enabled = true;
+                m_dgv.Enabled = false;
                 m_time.Enabled = false;
                 m_time.Stop();
                 try
@@ -633,7 +634,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
             else if (type == ProjectStatus.Loaded)
             {
-                m_dgv.Enabled = true;
+                m_dgv.ReadOnly = false;
                 m_procList = m_env.DataManager.CurrentProject.ProcessDmList;
                 if (m_type == ProjectStatus.Running || m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Stepping)
                 {
@@ -644,12 +645,12 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
             else if (type == ProjectStatus.Uninitialized)
             {
-                m_dgv.Enabled = false;
+                m_dgv.ReadOnly = true;
                 m_procList = null;
             }
             else if (type == ProjectStatus.Stepping)
             {
-                m_dgv.Enabled = true;
+                m_dgv.ReadOnly = false;
                 try
                 {
                     UpdatePropForSimulation();
@@ -1142,7 +1143,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     Trace.WriteLine(ex);
                     Util.ShowErrorDialog(ex.Message);
                 }
-                m_dgv.Rows.RemoveAt(row.Index);
+                ReloadProperties();
             }
         }
 
@@ -1258,29 +1259,36 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             if (hti.RowIndex <= 0)
                 return;
 
-            if (e.Button == MouseButtons.Left)
-            {
-                string s = v[0, hti.RowIndex].Value as string;
-                if (s == null) return;
-                foreach (EcellData d in m_current.Value)
-                {
-                    if (d.Name != s)
-                        continue;
-                    if (!d.Logable && !d.Settable)
-                        break;
-                    if (!d.Value.IsDouble)
-                        break;
-                    EcellDragObject dobj = new EcellDragObject(m_current.ModelID,
-                        m_current.Key,
-                        m_current.Type,
-                        d.EntityPath,
-                        d.Settable,
-                        d.Logable);
+            if (e.Button != MouseButtons.Left)
+                return;
 
-                    v.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
-                    return;
-                }
-            }
+            string name = v[0, hti.RowIndex].Value as string;
+            if (string.IsNullOrEmpty(name))
+                return;
+
+            // Get EcellData.
+            EcellData data = m_current.GetEcellData(name);
+            if (data == null)
+                return;
+            if (!data.Logable && !data.Settable)
+                return;
+            if (!data.Value.IsDouble)
+                return;
+
+            // Create new EcellDragObject.
+            EcellDragObject dobj = new EcellDragObject(m_current.ModelID);
+
+            // Add Entry.
+            dobj.Entries.Add(new EcellDragEntry(
+                m_current.Key,
+                m_current.Type,
+                data.EntityPath,
+                data.Settable,
+                data.Logable));
+
+            // Drag & Drop Event.
+            v.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
+
         }
 
         private void ClickLoggingMenu(object sender, EventArgs e)

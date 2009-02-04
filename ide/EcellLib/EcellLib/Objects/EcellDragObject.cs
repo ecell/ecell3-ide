@@ -53,24 +53,19 @@ namespace Ecell.Objects
         /// Constructor without initial parameters.
         /// </summary>
         public EcellDragObject()
+            : this("")
         {
-            m_modelID = "";
         }
 
         /// <summary>
         /// Constructor with initial parameters.
         /// </summary>
         /// <param name="modelID">the model ID.</param>
-        /// <param name="key">the key of this object.</param>
-        /// <param name="type">the type of this object.</param>
-        /// <param name="path">the property path of this object.</param>
-        /// <param name="isLogable">the flag whether this property is able to log.</param>
-        /// <param name="isSettable">the flag whether this property is able to set.</param>
-        public EcellDragObject(string modelID, string key, string type, 
-            string path, bool isSettable, bool isLogable)
+        public EcellDragObject(string modelID)
         {
             m_modelID = modelID;
-            m_entries.Add(new EcellDragEntry(key, type, path, isSettable, isLogable));
+            m_entries = new List<EcellDragEntry>();
+            m_loglist = new List<string>();
         }
 
         /// <summary>

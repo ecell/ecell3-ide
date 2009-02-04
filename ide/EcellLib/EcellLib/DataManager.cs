@@ -3497,6 +3497,10 @@ namespace Ecell
             List<string> fullIDList
             )
         {
+            string errMsg = "";
+            if (fullIDList == null || fullIDList.Count <= 0)
+                return;
+
             string message = null;
             try
             {
@@ -3512,10 +3516,6 @@ namespace Ecell
                 //
                 // Initializes.
                 //
-                if (fullIDList == null || fullIDList.Count <= 0)
-                {
-                    return;
-                }
                 string simulationDirName = null;
                 if (!string.IsNullOrEmpty(savedDirName))
                 {
@@ -3540,33 +3540,51 @@ namespace Ecell
                 double percent = 0.0;
                 foreach (string key in fullIDList)
                 {
-                    double basePercent = percent;
-                    double hitCount = 100.0 / (double)fullIDList.Count;
-                    Ecd ecd = new Ecd();
-                    double cTime = startTime;
-                    while (cTime < endTime)
+                    try
                     {
-                        double nextTime = cTime + reloadInterval * 100000;
-                        if (reloadInterval == 0.0) nextTime = endTime;
-                        if (nextTime > endTime) nextTime = endTime;
-                        LogData l = this.GetLogData(cTime, nextTime, reloadInterval, key);
-                        if (cTime == startTime)
+                        double basePercent = percent;
+                        double hitCount = 100.0 / (double)fullIDList.Count;
+                        Ecd ecd = new Ecd();
+                        double cTime = startTime;
+                        while (cTime < endTime)
                         {
-                            ecd.Create(simulationDirName, l, saveFileType,
-                            cTime, nextTime);
+                            double nextTime = cTime + reloadInterval * 100000;
+                            if (reloadInterval == 0.0) nextTime = endTime;
+                            if (nextTime > endTime) nextTime = endTime;
+                            LogData l = this.GetLogData(cTime, nextTime, reloadInterval, key);
+                            if (cTime == startTime)
+                            {
+                                ecd.Create(simulationDirName, l, saveFileType,
+                                cTime, nextTime);
+                            }
+                            else
+                            {
+                                ecd.Append(simulationDirName, l, saveFileType,
+                                    cTime, nextTime);
+                            }
+                            m_env.ReportManager.SetProgress((int)(basePercent + hitCount * (nextTime / endTime)));
+                            Application.DoEvents();
+                            cTime = nextTime;
+                        }
+                        ecd.Close();
+                        message = "[" + key + "]";
+                        Trace.WriteLine("Save Simulation Result: " + message);
+                    }
+                    catch (Exception)
+                    {
+                        if (string.IsNullOrEmpty(errMsg))
+                        {
+                            errMsg = key;
                         }
                         else
                         {
-                            ecd.Append(simulationDirName, l, saveFileType,
-                                cTime, nextTime);
+                            errMsg = errMsg + "," + key;
                         }
-                        m_env.ReportManager.SetProgress((int)(basePercent + hitCount * (nextTime / endTime)));
-                        Application.DoEvents();
-                        cTime = nextTime;
                     }
-                    ecd.Close();
-                    message = "[" + key + "]";
-                    Trace.WriteLine("Save Simulation Result: " + message);
+                }
+                if (!string.IsNullOrEmpty(errMsg))
+                {
+                    throw new Exception(errMsg);
                 }
             }
             catch (Exception ex)
@@ -4316,8 +4334,8 @@ namespace Ecell
                 m_env.Console.Flush();
                 Trace.WriteLine(String.Format(MessageResources.InfoCreSim,
                     new object[] { parameterID }));
-                if (isRecorded)
-                    m_env.ActionManager.AddAction(new NewSimParamAction(parameterID, isAnchor));
+//                if (isRecorded)
+//                    m_env.ActionManager.AddAction(new NewSimParamAction(parameterID, isAnchor));
             }
             catch (Exception ex)
             {
@@ -4511,8 +4529,8 @@ namespace Ecell
                 m_env.Console.Flush();
                 MessageDeleteEntity("Simulation Parameter", message);
 
-                if (isRecorded)
-                    m_env.ActionManager.AddAction(new DeleteSimParamAction(parameterID, isAnchor));
+//                if (isRecorded)
+//                    m_env.ActionManager.AddAction(new DeleteSimParamAction(parameterID, isAnchor));
             }
             catch (Exception ex)
             {

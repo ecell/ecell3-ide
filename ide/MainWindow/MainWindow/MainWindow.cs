@@ -821,6 +821,7 @@ namespace Ecell.IDE.MainWindow
                 exitToolStripMenuItem.Enabled = true;
                 MenuItemLayout.Enabled = false;
                 importSBMLMenuItem.Enabled = true;
+                scriptEditorToolStripMenuItem.Enabled = true;
             }
             else if (type == ProjectStatus.Loaded)
             {
@@ -838,6 +839,7 @@ namespace Ecell.IDE.MainWindow
                 exitToolStripMenuItem.Enabled = true;
                 MenuItemLayout.Enabled = true;
                 importSBMLMenuItem.Enabled = true;
+                scriptEditorToolStripMenuItem.Enabled = true;
             }
             else
             {
@@ -856,6 +858,7 @@ namespace Ecell.IDE.MainWindow
                 exitToolStripMenuItem.Enabled = true;
                 MenuItemLayout.Enabled = false;
                 importSBMLMenuItem.Enabled = false;
+                scriptEditorToolStripMenuItem.Enabled = false;
             }
             // Reset edit count.
             if (type == ProjectStatus.Uninitialized || 

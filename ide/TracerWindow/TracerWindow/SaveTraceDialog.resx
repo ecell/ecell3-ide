@@ -396,14 +396,23 @@
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="SaveEntrySelectView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
   <metadata name="SaveEntryColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="SaveEntryColumn.HeaderText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SaveEntryColumn.MinimumWidth" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
   <metadata name="IDColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="SaveEntrySelectView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
+  <data name="IDColumn.HeaderText" xml:space="preserve">
+    <value>FullPN</value>
   </data>
   <data name="SaveEntrySelectView.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 12</value>
@@ -425,21 +434,6 @@
   </data>
   <data name="&gt;&gt;SaveEntrySelectView.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <metadata name="SaveEntryColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="SaveEntryColumn.HeaderText" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SaveEntryColumn.MinimumWidth" type="System.Int32, mscorlib">
-    <value>30</value>
-  </data>
-  <metadata name="IDColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="IDColumn.HeaderText" xml:space="preserve">
-    <value>FullPN</value>
   </data>
   <data name="STSaveButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -510,6 +504,12 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Select the archived entries.</value>
   </data>
+  <data name="&gt;&gt;m_folderDialog.Name" xml:space="preserve">
+    <value>m_folderDialog</value>
+  </data>
+  <data name="&gt;&gt;m_folderDialog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;SaveEntryColumn.Name" xml:space="preserve">
     <value>SaveEntryColumn</value>
   </data>
@@ -521,12 +521,6 @@
   </data>
   <data name="&gt;&gt;IDColumn.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;m_folderDialog.Name" xml:space="preserve">
-    <value>m_folderDialog</value>
-  </data>
-  <data name="&gt;&gt;m_folderDialog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SaveTraceDialog</value>

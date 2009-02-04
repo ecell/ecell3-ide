@@ -753,7 +753,7 @@ namespace Ecell.IDE.Plugins.Simulation
             }
             catch (SimulationException ex)
             {
-                Util.ShowErrorDialog(ex.Message + "\r\n\r\n" + ex.InnerException.Message);
+                Util.ShowErrorDialog(ex.Message);
                 m_pManager.ChangeStatus(preType);
             }
             if (!m_isSuspend)

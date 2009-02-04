@@ -92,6 +92,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// Popup menu.
         /// </summary>
         private ContextMenuStrip m_contextMenu;
+        private EcellObject m_dragObject;
         /// <summary>
         /// Color of header.
         /// </summary>
@@ -549,7 +550,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             int len = m_systemProp.Length;
             for (int i = 0; i < len; i++)
             {
-                string data = GetData(m_processProp[i], obj);
+                string data = GetData(m_systemProp[i], obj);
                 string value = m_gridView[i, index].Value.ToString();
                 if (data.Equals(value)) continue;
                 m_gridView[i, index].Value = data;
@@ -612,7 +613,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             int len = m_variableProp.Length;
             for (int i = 0; i < len; i++)
             {
-                string data = GetData(m_processProp[i], obj);
+                string data = GetData(m_variableProp[i], obj);
                 string value = m_gridView[i, index].Value.ToString();
                 if (data.Equals(value)) continue;
                 m_gridView[i, index].Value = data;
@@ -834,7 +835,12 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                         return (string)d.Value;
                 }
             }
-            else 
+            else if (name.Equals(s_indexSize))
+            {
+                EcellSystem data = obj as EcellSystem;
+                return data.SizeInVolume.ToString();
+            }
+            else
             {
                 foreach (EcellData d in obj.Value)
                 {
@@ -942,7 +948,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     if (!m_gridView.Rows[i].Visible || m_gridView.Rows[i].Frozen)
                         continue;
                     m_gridView.Rows[i].Selected = true;
-                    m_gridView.FirstDisplayedScrollingRowIndex = i;
                     EcellObject obj = m_gridView.Rows[i].Tag as EcellObject;
                     if (obj == null)
                         return;
@@ -963,6 +968,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             CreateVariableHeader();
             CreateProcessHeader();
             m_currentModelID = null;
+            m_lastSelected = null;
         }
 
         /// <summary>
@@ -976,7 +982,9 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             DataGridViewRow row = SearchIndex(type, key);
             if (row != null)
             {
+                m_isSelected = true;
                 row.Selected = true;
+                m_isSelected = false;
                 if (m_gridView.FirstDisplayedScrollingRowIndex >= 0)
                     m_gridView.FirstDisplayedScrollingRowIndex = row.Index;
             }
@@ -1096,19 +1104,25 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     if (m_gridView[s_ID, i].Value.Equals(id))
                     {
                         DeleteDictionary(i);
+                        m_isSelected = true;
                         m_gridView.Rows.RemoveAt(i);
+                        m_isSelected = false;
                     }
                         if (((string)m_gridView[s_ID, i].Value).StartsWith(id))
                         {
                             DeleteDictionary(i);
+                            m_isSelected = true;
                             m_gridView.Rows.RemoveAt(i);
+                            m_isSelected = false;
                         }
                 }
             }
             else
             {
                 DeleteDictionary(ind);
+                m_isSelected = true;
                 m_gridView.Rows.RemoveAt(ind);
+                m_isSelected = false;
             }
         }
 
@@ -1182,6 +1196,17 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 m_selectedRow.Selected = true;
                 m_isSelectionChanged = false;
             }
+            else if (!m_isSelected && m_gridView.SelectedRows.Count >= 2)
+            {
+                m_isSelected = true;
+                foreach (DataGridViewRow r in m_gridView.SelectedRows)
+                {
+                    EcellObject obj = r.Tag as EcellObject;
+                    if (obj != null)
+                        m_env.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                }
+                m_isSelected = false;
+            }
         }
 
         /// <summary>
@@ -1197,6 +1222,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             if (obj == null) return;
             m_isSelected = true;
             m_selectedRow = m_gridView.Rows[ind];
+            m_dragObject = null;
             if (m_gridView.Rows[ind].Selected)
             {
                 if (m_gridView.SelectedRows.Count <= 1)
@@ -1205,16 +1231,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 }
                 else
                 {
-                    if (obj.Type.Equals(Constants.xpathSystem))
-                    {
-                        ResetSelect();
-                        m_gridView.Rows[ind].Selected = true;
-                        PluginManager.SelectChanged(obj.ModelID, obj.Key, obj.Type);
-                    }
-                    else
-                    {
-                        PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
-                    }
+                    PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
                 }
             }
             else
@@ -1254,6 +1271,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_isSelected = false;
         }
 
+        private DataGridViewRow m_lastSelected = null;
         void m_gridView_MouseDown(object sender, MouseEventArgs e)
         {
             DataGridView.HitTestInfo hti = m_gridView.HitTest(e.X, e.Y);
@@ -1263,16 +1281,105 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     return;
                 DataGridViewRow r = m_gridView.Rows[hti.RowIndex];
                 if (Control.ModifierKeys != Keys.Shift)
+                {
                     m_selectedRow = r;
+                    m_lastSelected = r;
+                }
+                else
+                {
+                    if (m_lastSelected != null)
+                    {
+                        int startindex, endindex;
+                        if (hti.RowIndex > m_lastSelected.Index)
+                        {
+                            endindex = hti.RowIndex;
+                            startindex = m_lastSelected.Index;
+                        }
+                        else
+                        {
+                            startindex = hti.RowIndex;
+                            endindex = m_lastSelected.Index;
+                        }
+                        m_isSelected = true;
+                        foreach (DataGridViewRow r1 in m_gridView.Rows)
+                        {
+                            EcellObject obj = r1.Tag as EcellObject;
+                            if (obj == null) continue;
+                            if (r1.Index >= startindex && r1.Index <= endindex)
+                            {
+                                if (!r1.Selected)
+                                    m_env.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
+                            else
+                            {
+                                if (r1.Selected)
+                                    m_env.PluginManager.RemoveSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
+                        }
+                        m_isSelected = false;
+                    }
+                }
+                m_dragObject = r.Tag as EcellObject;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void EnterDragMode()
+        {
+            EcellDragObject dobj = null;
+            if (m_gridView.SelectedRows.Count <= 0)
+                return;
+
+            foreach (DataGridViewRow r in m_gridView.SelectedRows)
+            {
+                EcellObject obj = r.Tag as EcellObject;
+                if (obj == null)
+                    continue;
+
+                // Create new EcellDragObject.
+                if (dobj == null)
+                    dobj = new EcellDragObject(obj.ModelID);
+
+                foreach (EcellData v in obj.Value)
+                {
+                    if (!v.Name.Equals(Constants.xpathActivity) &&
+                        !v.Name.Equals(Constants.xpathMolarConc) &&
+                        !v.Name.Equals(Constants.xpathSize))
+                        continue;
+
+                    // Add new EcellDragEntry.
+                    dobj.Entries.Add(new EcellDragEntry(
+                                                obj.Key,
+                                                obj.Type,
+                                                v.EntityPath,
+                                                v.Settable,
+                                                v.Logable));
+                    break;
+
+                }
+                if (m_gridView.SelectedRows.Count == 1)
+                {
+                    m_isSelected = true;
+                    m_env.PluginManager.SelectChanged(obj);
+                    m_isSelected = false;
+                }
+            }
+            // Drag & Drop Event.
+            if (dobj != null)
+                m_gridView.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
+        }
+
 
         void m_gridView_MouseMove(object sender, MouseEventArgs e)
         {
             if ((e.Button & MouseButtons.Left) != MouseButtons.Left)
                 return;
 
-            m_isSelected = true;
+            if (m_dragObject == null) return;
+            EnterDragMode();
+            m_dragObject = null;
         }
         #endregion
     }
