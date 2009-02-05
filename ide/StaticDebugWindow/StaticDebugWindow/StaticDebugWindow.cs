@@ -204,7 +204,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 m_timer.Enabled = true;
             }
-            else if (type == ProjectStatus.Uninitialized)
+            else
             {
                 m_timer.Enabled = false;
             }

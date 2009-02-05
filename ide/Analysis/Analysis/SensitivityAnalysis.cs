@@ -221,7 +221,15 @@ namespace Ecell.IDE.Plugins.Analysis
             m_pertubateData.Clear();
             m_saveList.Clear();
 
-            CreateExecuteParameter(varList, proList);
+            try
+            {
+                CreateExecuteParameter(varList, proList);
+            }
+            catch (Exception)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute, MessageResources.NameSensAnalysis));
+                return;
+            }
 
             if (m_isRunning)
             {

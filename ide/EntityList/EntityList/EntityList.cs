@@ -158,22 +158,30 @@ namespace Ecell.IDE.Plugins.EntityList
         public override void DataAdd(List<EcellObject> data)
         {
             if (data == null) return;
-            
+
             foreach (EcellObject obj in data)
             {
-                if (obj.Type != EcellObject.VARIABLE &&
-                    obj.Type != EcellObject.PROCESS &&
-                    obj.Type != EcellObject.SYSTEM &&
-                    obj.Type != EcellObject.TEXT)
-                    continue;
-                m_control.DataAdd(obj);
-                if (obj.Children == null) continue;
-                foreach (EcellObject cobj in obj.Children)
-                {
-                    m_control.DataAdd(cobj);
-                }
+                DataAdd(obj);
             }
-            return;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        public override void DataAdd(EcellObject obj)
+        {
+            if (obj.Type != EcellObject.VARIABLE &&
+                obj.Type != EcellObject.PROCESS &&
+                obj.Type != EcellObject.SYSTEM &&
+                obj.Type != EcellObject.TEXT)
+                return;
+            m_control.DataAdd(obj);
+            if (obj.Children == null)
+                return;
+            foreach (EcellObject cobj in obj.Children)
+            {
+                m_control.DataAdd(cobj);
+            }
         }
 
         /// <summary>
@@ -183,11 +191,18 @@ namespace Ecell.IDE.Plugins.EntityList
         /// <param name="key">The ID before value change.</param>
         /// <param name="type">The data type before value change.</param>
         /// <param name="data">Changed value of object.</param>        
-        public override void DataChanged(string modelID, string key, string type, EcellObject data)
+        public override void DataChanged(string modelID, string key, string type, EcellObject obj)
         {
-            m_control.DataChanged(modelID, key, type, data);
-
-            return;
+            if (key != obj.Key)
+            {
+                DataDelete(modelID, key, type);
+                DataAdd(obj);
+                AddSelect(obj.ModelID, obj.Key, obj.Type);
+            }
+            else
+            {
+                m_control.DataChanged(modelID, key, type, obj);
+            }
         }
 
         /// <summary>
