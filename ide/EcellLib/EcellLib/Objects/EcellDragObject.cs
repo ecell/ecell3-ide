@@ -45,9 +45,18 @@ namespace Ecell.Objects
     /// </summary>
     public class EcellDragObject
     {
+        /// <summary>
+        /// 
+        /// </summary>
         private string m_modelID;
-        private List<EcellDragEntry> m_entries = new List<EcellDragEntry>();
-        private List<string> m_loglist = new List<string>();
+        /// <summary>
+        /// 
+        /// </summary>
+        private List<EcellDragEntry> m_entries;
+        /// <summary>
+        /// 
+        /// </summary>
+        private List<string> m_loglist;
 
         /// <summary>
         /// Constructor without initial parameters.
@@ -74,15 +83,17 @@ namespace Ecell.Objects
         public String ModelID
         {
             get { return this.m_modelID; }
-            set { this.m_modelID = value; }
         }
-
+        /// <summary>
+        /// A list of EcellDragEntry.
+        /// </summary>
         public List<EcellDragEntry> Entries
         {
             get { return this.m_entries; }
-            set { this.m_entries = value; }
         }
-
+        /// <summary>
+        /// A list of Log filenames.
+        /// </summary>
         public List<string> LogList
         {
             get { return this.m_loglist; }
@@ -90,6 +101,9 @@ namespace Ecell.Objects
         }
     }
 
+    /// <summary>
+    /// EcellDragEntry
+    /// </summary>
     public class EcellDragEntry
     {
         string m_key;
@@ -97,24 +111,33 @@ namespace Ecell.Objects
         string m_path;
         bool m_isSettable;
         bool m_isLogable;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public EcellDragEntry()
         {
             m_key = "";
             m_type = "";
             m_path = "";
-            m_isLogable = false;
             m_isSettable = false;
+            m_isLogable = false;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        /// <param name="path"></param>
+        /// <param name="isSettable"></param>
+        /// <param name="isLogable"></param>
         public EcellDragEntry(string key, string type,
             string path, bool isSettable, bool isLogable)
         {
             m_key = key;
             m_type = type;
             m_path = path;
-            m_isLogable = IsLogable;
             m_isSettable = isSettable;
+            m_isLogable = isLogable;
         }
 
         /// <summary>
@@ -123,7 +146,6 @@ namespace Ecell.Objects
         public String Key
         {
             get { return this.m_key; }
-            set { this.m_key = value; }
         }
 
         /// <summary>
@@ -132,7 +154,6 @@ namespace Ecell.Objects
         public String Type
         {
             get { return this.m_type; }
-            set { this.m_type = value; }
         }
 
         /// <summary>
@@ -141,7 +162,6 @@ namespace Ecell.Objects
         public String Path
         {
             get { return this.m_path; }
-            set { this.m_path = value; }
         }
 
         /// <summary>
@@ -150,7 +170,6 @@ namespace Ecell.Objects
         public bool IsSettable
         {
             get { return this.m_isSettable; }
-            set { this.m_isSettable = value; }
         }
 
         /// <summary>
@@ -159,7 +178,6 @@ namespace Ecell.Objects
         public bool IsLogable
         {
             get { return this.m_isLogable; }
-            set { this.m_isLogable = value; }
         }
     }
 }

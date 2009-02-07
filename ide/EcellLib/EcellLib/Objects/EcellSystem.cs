@@ -66,13 +66,6 @@ namespace Ecell.Objects
 
         #region Constractors
         /// <summary>
-        /// Constructor.
-        /// </summary>
-        public EcellSystem()
-        {
-        }
-
-        /// <summary>
         /// Constructor with initial parameter.
         /// </summary>
         /// <param name="modelID">model ID.</param>
@@ -113,19 +106,18 @@ namespace Ecell.Objects
             }
             set
             {
+                // Set size parameter
+                SetEcellValue(Constants.xpathSize, new EcellValue(value));
+
                 // Set size object.
                 foreach (EcellObject child in m_children)
                 {
                     if (!child.LocalID.Equals(SIZE))
                         continue;
-                    child.GetEcellData(Constants.xpathValue).Value = new EcellValue(value);
+
+                    child.SetEcellValue(Constants.xpathValue, new EcellValue(value));
                     return;
                 }
-                // Set size parameter
-                if (IsEcellValueExists(Constants.xpathSize))
-                    GetEcellData(Constants.xpathSize).Value = new EcellValue(value);
-                else
-                    SetEcellValue(Constants.xpathSize, new EcellValue(value));
 
                 // Create Size object if "Size" does not exist.
                 string key = m_key + Constants.delimiterColon + SIZE;

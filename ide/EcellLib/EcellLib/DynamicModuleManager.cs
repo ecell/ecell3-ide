@@ -42,6 +42,9 @@ using Ecell.Objects;
 
 namespace Ecell
 {
+    /// <summary>
+    /// DynamicModuleManager
+    /// </summary>
     public class DynamicModuleManager
     {
         #region Fields
@@ -113,7 +116,7 @@ namespace Ecell
             tmp.AddProperty("DependentProcessList", false, true, false, true, "", typeof(List<EcellValue>));
             tmp.AddProperty("Order", false, true, false, false, 0, typeof(int));
             tmp.AddProperty("StepInterval", false, true, false, false, (double)0.0, typeof(double));
-            tmp.AddProperty("k", true, true, true, true, (double)0.0, typeof(double));
+            tmp.AddProperty("k", true, true, true, true, (double)1.0, typeof(double));
             this.m_moduleDic.Add(tmp.Name, tmp);
 
             tmp = new DynamicModule("GMAProcess", "", false, "GMAProcess");
@@ -433,13 +436,17 @@ namespace Ecell
             tmp.AddProperty("WriteVariableList", false, true, false, false, "", typeof(List<EcellValue>));
             this.m_moduleDic.Add(tmp.Name, tmp);
         }
-
+        /// <summary>
+        /// ModuleDic
+        /// </summary>
         public Dictionary<string, DynamicModule> ModuleDic
         {
             get { return this.m_moduleDic; }
         }
     }
-
+    /// <summary>
+    /// DynamicModule
+    /// </summary>
     public class DynamicModule
     {
         #region Fields
@@ -471,28 +478,45 @@ namespace Ecell
         {
             get { return this.m_name; }
         }
-
+        /// <summary>
+        /// Path
+        /// </summary>
         public String Path
         {
             get { return this.m_path; }
         }
-
+        /// <summary>
+        /// IsProjectDM
+        /// </summary>
         public bool IsProjectDM
         {
             get { return this.m_isProjectDM; }
         }
-
+        /// <summary>
+        /// Description
+        /// </summary>
         public String Description
         {
             get { return this.m_description; }
         }
-
+        /// <summary>
+        /// Property
+        /// </summary>
         public Dictionary<string, DynamicModuleProperty> Property
         {
             get { return this.m_propertyDic; }
         }
         #endregion
-
+        /// <summary>
+        /// AddProperty
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="isSettable"></param>
+        /// <param name="isGettable"></param>
+        /// <param name="isLoadable"></param>
+        /// <param name="isSavable"></param>
+        /// <param name="defaultobj"></param>
+        /// <param name="typedata"></param>
         public void AddProperty(string name, bool isSettable, bool isGettable,
             bool isLoadable, bool isSavable, object defaultobj, Type typedata)
         {
@@ -501,7 +525,9 @@ namespace Ecell
                 isLoadable, isSavable, defaultobj, typedata));
         }
     }
-
+    /// <summary>
+    /// DynamicModuleProperty
+    /// </summary>
     public class DynamicModuleProperty
     {
         #region Fields
@@ -513,7 +539,16 @@ namespace Ecell
         private object m_default;
         private Type m_type;
         #endregion
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="isSettable"></param>
+        /// <param name="isGettable"></param>
+        /// <param name="isLoadable"></param>
+        /// <param name="isSavable"></param>
+        /// <param name="defaultobj"></param>
+        /// <param name="typedata"></param>
         public DynamicModuleProperty(string name, bool isSettable, bool isGettable,
             bool isLoadable, bool isSavable, object defaultobj, Type typedata)
         {
@@ -525,37 +560,51 @@ namespace Ecell
             m_default = defaultobj;
             m_type = typedata;
         }
-
+        /// <summary>
+        /// Name
+        /// </summary>
         public string Name
         {
             get { return this.m_name; }
         }
-
+        /// <summary>
+        /// IsSettable
+        /// </summary>
         public bool IsSettable
         {
             get { return m_isSettable; }
         }
-
+        /// <summary>
+        /// IsGettable
+        /// </summary>
         public bool IsGettable
         {
             get { return m_isGettable; }
         }
-
+        /// <summary>
+        /// IsLoadable
+        /// </summary>
         public bool IsLoadable
         {
             get { return m_isLoadable; }
         }
-
+        /// <summary>
+        /// IsSavable
+        /// </summary>
         public bool IsSavable
         {
             get { return m_isSavable; }
         }
-
+        /// <summary>
+        /// DefaultData
+        /// </summary>
         public object DefaultData
         {
             get { return m_default; }
         }
-
+        /// <summary>
+        /// Type
+        /// </summary>
         public Type Type
         {
             get { return m_type; }

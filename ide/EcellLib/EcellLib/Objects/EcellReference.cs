@@ -42,11 +42,10 @@ using Ecell.Exceptions;
 
 namespace Ecell.Objects
 {
-
     /// <summary>
     /// Object class for Reference.
     /// </summary>
-    public class EcellReference
+    public class EcellReference : ICloneable
     {
         #region Constant
         private static Regex parser1 = new Regex("\"(?<name>.+)\",(.+)\"(?<id>.+)\",(\"|.*)\\-(?<coe>\\d+)(\"|.*),(\"|.*)(?<fix>\\d+)(\"|.*)");
@@ -70,19 +69,23 @@ namespace Ecell.Objects
         /// </summary>
         public EcellReference()
         {
+            this.m_name = null;
+            this.m_fullID = null;
+            this.m_coeff = 0;
+            this.m_accessor = 0;
         }
         /// <summary>
         /// Constructor with parameters.
         /// </summary>
         /// <param name="name">The name of EcellReference</param>
-        /// <param name="fullID">FullID of connecting variable</param>
-        /// <param name="coef"></param>
-        /// <param name="accessor"></param>
+        /// <param name="fullID">FullID of connecting Variable</param>
+        /// <param name="coef">Coefficient of this VariableReference. It takes 1, 0 or -1.</param>
+        /// <param name="accessor">IsAccessor</param>
         public EcellReference(string name, string fullID, int coef, int accessor)
         {
             this.m_name = name;
             this.m_fullID = fullID;
-            this.Coefficient = coef;
+            this.m_coeff = coef;
             this.m_accessor = accessor;
         }
 
@@ -92,6 +95,10 @@ namespace Ecell.Objects
         /// <param name="str">string.</param>
         public EcellReference(string str)
         {
+            // Check null.
+            if (string.IsNullOrEmpty(str))
+                throw new EcellException("EcellRefference Constructor does not arrow empty string");
+
             Match m = parser1.Match(str);
             if (m.Success)
             {
@@ -145,6 +152,7 @@ namespace Ecell.Objects
 
             throw new EcellException("EcellRefference parsing error:[" + str + "]");
         }
+
         /// <summary>
         /// Constructor with initial parameter.
         /// </summary>
@@ -169,6 +177,7 @@ namespace Ecell.Objects
         #region Accessors
         /// <summary>
         ///The name of this EcellReference.
+        /// get / set.
         /// </summary>
         public string Name
         {
@@ -178,6 +187,7 @@ namespace Ecell.Objects
 
         /// <summary>
         /// The full ID of connecting variable.
+        /// get / set.
         /// </summary>
         public string FullID
         {
@@ -187,12 +197,17 @@ namespace Ecell.Objects
 
         /// <summary>
         /// The key of connecting variable.
+        /// get / set.
         /// </summary>
         public string Key
         {
             get {
-                string path = this.m_fullID;
-                string[] ele = path.Split(new char[] { ':' });
+                if (string.IsNullOrEmpty(m_fullID))
+                    return null;
+
+                string[] ele = m_fullID.Split(':');
+                if (ele.Length < 2)
+                    throw new EcellException(MessageResources.ErrInvalidID);
                 string result = ele[ele.Length - 2] + Constants.delimiterColon + ele[ele.Length - 1];
                     
                 return result;
@@ -202,7 +217,8 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// get / set coefficient.
+        /// Coefficient of this VariableReference. It takes 1, 0 or -1.
+        /// get / set.
         /// </summary>
         public int Coefficient
         {
@@ -211,7 +227,8 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// get / set whether this properties is accessor.
+        /// Whether this properties is accessor or not.
+        /// get / set .
         /// </summary>
         public int IsAccessor
         {
@@ -221,31 +238,6 @@ namespace Ecell.Objects
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Get string of object.
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            string str = "(\"" + m_name + "\", \"" + m_fullID + "\", " + m_coeff + ", " + m_accessor + ")";
-            return str;
-        }
-
-        /// <summary>
-        /// Copy EcellReference.
-        /// </summary>
-        /// <returns></returns>
-        public EcellReference Copy()
-        {
-            EcellReference er = new EcellReference();
-            er.m_name = this.m_name;
-            er.m_fullID = this.m_fullID;
-            er.m_coeff = this.m_coeff;
-            er.m_accessor = this.m_accessor;
-
-            return er;
-        }
-
         /// <summary>
         /// Get the list of reference from string.
         /// </summary>
@@ -278,6 +270,8 @@ namespace Ecell.Objects
         public static List<EcellReference> ConvertFromEcellValue(EcellValue varRef)
         {
             List<EcellReference> list = new List<EcellReference>();
+            if (varRef == null || !varRef.IsList)
+                return list;
             foreach (object value in (IEnumerable)varRef.Value)
             {
                 EcellReference er = new EcellReference(((IEnumerable)value).GetEnumerator());
@@ -302,6 +296,76 @@ namespace Ecell.Objects
                 list.Add(new object[] { er.Name, er.FullID, er.Coefficient, er.IsAccessor });
             }
             return new EcellValue(list);
+        }
+        #endregion
+
+        #region ICloneable メンバ
+        /// <summary>
+        /// Create a copy of this EcellReference.
+        /// </summary>
+        /// <returns>object</returns>
+        object ICloneable.Clone()
+        {
+            return this.Clone();
+        }
+
+        /// <summary>
+        /// Create a copy of this EcellReference.
+        /// </summary>
+        /// <returns>EcellValue</returns>
+        public EcellReference Clone()
+        {
+            EcellReference er = new EcellReference(
+                this.Name,
+                this.FullID,
+                this.Coefficient,
+                this.IsAccessor);
+
+            return er;
+        }
+        #endregion
+
+        #region Inherited Method
+        /// <summary>
+        /// Compare to another EcellReference.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is EcellReference))
+                return false;
+
+            EcellReference er = (EcellReference)obj;
+            if (!er.Name.Equals(m_name))
+                return false;
+            if (!er.FullID.Equals(m_fullID))
+                return false;
+            if (!er.Coefficient.Equals(m_coeff))
+                return false;
+            if (!er.IsAccessor.Equals(m_accessor))
+                return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Get Hash code.
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return m_name.GetHashCode() ^ m_fullID.GetHashCode() ^ m_coeff.GetHashCode() ^ m_accessor.GetHashCode();
+        }
+
+        /// <summary>
+        /// Get string of object.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            string str = "(\"" + m_name + "\", \"" + m_fullID + "\", " + m_coeff + ", " + m_accessor + ")";
+            return str;
         }
         #endregion
     }

@@ -90,7 +90,9 @@ namespace Ecell
             get { return this.m_option; }
             set { this.m_option = value; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public String DMFile
         {
             get { return this.m_dmFile; }
@@ -170,7 +172,6 @@ namespace Ecell
                 p.StandardInput.WriteLine("exit");
                 p.StandardInput.Close();
 
-
                 string mes = p.StandardOutput.ReadToEnd();
                 env.Console.Write(mes);
                 if (mes.Contains(" error"))
@@ -184,6 +185,7 @@ namespace Ecell
                             env.LogManager.Append(new ApplicationLogEntry(MessageType.Error, ele[i], this));
                         }
                     }
+
                     string errmes = string.Format(MessageResources.ErrCompile, new object[] { m_sourceFile });
                     Util.ShowErrorDialog(errmes);
                     p.StandardOutput.Close();
@@ -238,7 +240,7 @@ namespace Ecell
                 try
                 {
                     File.Move(OutputFile, DMFile);
-                    Util.ShowNoticeDialog(String.Format(MessageResources.InfoCompile,
+                    Util.ShowNoticeDialog(String.Format(MessageResources.InfoCompile, 
                         Path.GetFileNameWithoutExtension(DMFile)));
                     env.Console.WriteLine(String.Format(MessageResources.InfoCompile,
                         Path.GetFileNameWithoutExtension(DMFile)));
@@ -255,6 +257,7 @@ namespace Ecell
                     env.Console.Flush();
                 }
             }
+        
         }
 
         /// <summary>

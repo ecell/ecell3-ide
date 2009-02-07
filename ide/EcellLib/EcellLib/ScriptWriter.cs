@@ -86,7 +86,7 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        private Project m_project = null;
+        private Project m_currentProject = null;
 
         /// <summary>
         /// Constructor.
@@ -94,7 +94,7 @@ namespace Ecell
         /// <param name="project"></param>
         public ScriptWriter(Project project)
         {
-            m_project = project;
+            m_currentProject = project;
         }
         /// <summary>
         /// Saves the script.
@@ -106,18 +106,18 @@ namespace Ecell
             Encoding enc = Encoding.GetEncoding(932);
             File.WriteAllText(fileName, "", enc);
 //            WritePrefix(fileName, enc);
-            foreach (EcellObject modelObj in m_project.ModelList)
+            foreach (EcellObject modelObj in m_currentProject.ModelList)
             {
                 String modelName = modelObj.ModelID;
 //                WriteModelEntry(fileName, enc, modelName);
 //                WriteModelProperty(fileName, enc, modelName);
                 File.AppendAllText(fileName, "\n# System\n", enc);
-                foreach (EcellObject sysObj in m_project.SystemDic[modelName])
+                foreach (EcellObject sysObj in m_currentProject.SystemDic[modelName])
                 {
                     WriteSystemEntry(fileName, enc, modelName, sysObj);
                     WriteSystemProperty(fileName, enc, modelName, sysObj);
                 }
-                foreach (EcellObject sysObj in m_project.SystemDic[modelName])
+                foreach (EcellObject sysObj in m_currentProject.SystemDic[modelName])
                 {
                     WriteComponentEntry(fileName, enc, sysObj);
                     WriteComponentProperty(fileName, enc, sysObj);
@@ -157,7 +157,7 @@ namespace Ecell
 
             File.AppendAllText(fileName, "count = 1000\n", enc);
             File.AppendAllText(fileName, "session=Session()\n", enc);
-            File.AppendAllText(fileName, "session.createProject(\"" + m_project.Info.Name + "\",\"" + timeStr + "\")\n\n", enc);
+            File.AppendAllText(fileName, "session.createProject(\"" + m_currentProject.Info.Name + "\",\"" + timeStr + "\")\n\n", enc);
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace Ecell
             File.AppendAllText(fileName, "session.createModel(\"" + modelName + "\")\n\n", enc);
             File.AppendAllText(fileName, "# Stepper\n", enc);
             foreach (EcellObject stepObj in
-                m_project.StepperDic[m_project.Info.SimulationParam][modelName])
+                m_currentProject.StepperDic[m_currentProject.Info.SimulationParam][modelName])
             {
                 File.AppendAllText(fileName, "stepperStub" + m_stepperCount + "=session.createStepperStub(\"" + stepObj.Key + "\")\n", enc);
                 File.AppendAllText(fileName, "stepperStub" + m_stepperCount + ".create(\"" + stepObj.Classname + "\")\n", enc);
@@ -219,7 +219,7 @@ namespace Ecell
         {
             File.AppendAllText(fileName, "\n# Stepper\n", enc);
             foreach (EcellObject stepObj in
-                m_project.StepperDic[m_project.Info.SimulationParam][modelName])
+                m_currentProject.StepperDic[m_currentProject.Info.SimulationParam][modelName])
             {
                 int count = m_exportStepper[stepObj.Key];
                 foreach (EcellData d in stepObj.Value)
@@ -306,10 +306,10 @@ namespace Ecell
         /// <param name="logList">Logger list.</param>
         public void WriteLoggerProperty(string fileName, Encoding enc, List<string> logList)
         {
-            string curParam = m_project.Info.SimulationParam;
+            string curParam = m_currentProject.Info.SimulationParam;
             if (curParam == null)
                 return;
-            LoggerPolicy l = m_project.LoggerPolicyDic[curParam];
+            LoggerPolicy l = m_currentProject.LoggerPolicyDic[curParam];
             File.AppendAllText(fileName, "\n# Logger Policy\n");
             if (logList == null)
                 return;

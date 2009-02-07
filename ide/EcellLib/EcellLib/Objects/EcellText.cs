@@ -60,6 +60,8 @@ namespace Ecell.Objects
             string type, string classname, List<EcellData> data)
             : base(modelID, key, type, classname, data)
         {
+            if (string.IsNullOrEmpty(this.Comment))
+                this.Comment = this.LocalID;
         }
 
         #region Accessors
@@ -87,14 +89,22 @@ namespace Ecell.Objects
         {
             get
             {
+                int align = 0;
                 if (IsEcellValueExists(ALIGN))
-                    return (StringAlignment)(int)GetEcellValue(ALIGN);
+                    align = (int)GetEcellValue(ALIGN);
+                if (align == 0 || align == 1 || align == 2)
+                {
+                    return (StringAlignment)align;
+                }
                 else
+                {
+                    this.Alignment = StringAlignment.Near;
                     return StringAlignment.Near;
+                }
             }
             set
             {
-                SetEcellValue(ALIGN, new EcellValue(value));
+                SetEcellValue(ALIGN, new EcellValue((int)value));
             }
         }
         #endregion

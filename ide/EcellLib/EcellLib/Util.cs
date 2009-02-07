@@ -48,6 +48,10 @@ using Ecell.Exceptions;
 
 namespace Ecell
 {
+    /// <summary>
+    /// partial class for Util.
+    /// method to control registory.
+    /// </summary>
     public partial class Util
     {
         /// <summary>
@@ -112,11 +116,15 @@ namespace Ecell
         /// <returns>if contain, return true.</returns>
         static public bool IsNGforID(string key)
         {
-            if (key.Length > 128) return true;
+            if (string.IsNullOrEmpty(key))
+                return true;
+            if (key.Length > 128)
+                return true;
+
             for (int i = 0; i < key.Length; i++)
             {
-                if (Char.IsLetterOrDigit(key[i]) ||
-                    key[i] == '_') continue;
+                if (Char.IsLetterOrDigit(key[i]) || key[i] == '_')
+                    continue;
                 return true;
             }
             return false;
@@ -129,7 +137,11 @@ namespace Ecell
         /// <returns>if contain, return true.</returns>
         static public bool IsNGforIDonWindows(string key)
         {
-            if (key.Length > 128) return true;
+            if (string.IsNullOrEmpty(key))
+                return true;
+            if (key.Length > 128)
+                return true;
+
             for (int i = 0; i < key.Length; i++)
             {
                 if (key[i] == '\\' || key[i] == '/'
@@ -143,8 +155,15 @@ namespace Ecell
             return false;
         }
 
+        /// <summary>
+        /// Check if this key is Reserved or not.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         static public bool IsReservedID(string key)
         {
+            if (string.IsNullOrEmpty(key))
+                return false;
             string ID = key.ToUpper();
             if (ID.EndsWith(":SIZE") || ID.Equals("SIZE"))
                 return true;
@@ -152,32 +171,105 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Check if this type is NG or not.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsNGforType(string type)
+        {
+            if (string.IsNullOrEmpty(type))
+                return true;
+            else if (type.Equals(EcellObject.SYSTEM))
+                return false;
+            else if (type.Equals(EcellObject.PROCESS))
+                return false;
+            else if (type.Equals(EcellObject.VARIABLE))
+                return false;
+            else if (type.Equals(EcellObject.TEXT))
+                return false;
+            else if (type.Equals(EcellObject.STEPPER))
+                return false;
+            else if (type.Equals(EcellObject.MODEL))
+                return false;
+            else if (type.Equals(EcellObject.PROJECT))
+                return false;
+            else
+                return true;
+        }
+
+        /// <summary>
+        /// Check if this fullPN is NG or not.
+        /// </summary>
+        /// <param name="fullPN"></param>
+        /// <returns></returns>
+        public static bool IsNGforFullPN(string fullPN)
+        {
+            if (string.IsNullOrEmpty(fullPN) || !fullPN.Contains(":"))
+                return true;
+            int i = fullPN.LastIndexOf(':');
+            string fullID = fullPN.Substring(0, i);
+            string param = fullPN.Substring(i + 1);
+            if (IsNGforID(param))
+                return true;
+            return IsNGforFullID(fullID);
+        }
+
+        /// <summary>
+        /// Check if this fullID is NG or not.
+        /// </summary>
+        /// <param name="fullID"></param>
+        /// <returns></returns>
+        public static bool IsNGforFullID(string fullID)
+        {
+            if (string.IsNullOrEmpty(fullID))
+                return true;
+            if (!fullID.Contains(Constants.delimiterColon))
+                return true;
+
+            string type = fullID.Split(':')[0];
+            if (IsNGforType(type))
+                return true;
+
+            string key = fullID.Substring(type.Length + 1);
+            if (type.Equals(EcellObject.SYSTEM))
+                return IsNGforSystemKey(key);
+            else if (type.Equals(EcellObject.PROCESS) || type.Equals(EcellObject.VARIABLE) || type.Equals(EcellObject.TEXT))
+                return IsNGforEntityKey(key);
+            else
+                return false;
+        }
+
+        /// <summary>
         /// Check whether this id of system is NG.
         /// </summary>
         /// <param name="key">the system id.</param>
         /// <returns>correct is false.</returns>
-        static public bool IsNGforSystemFullID(string key)
+        static public bool IsNGforSystemKey(string key)
         {
-            int delCount = 0;
+            if (string.IsNullOrEmpty(key))
+                return true;
+            if (key[0] != '/')
+                return true;
+
             bool isDel = false;
             for (int i = 0; i < key.Length; i++)
             {
-                if (!Char.IsLetterOrDigit(key[i]) &&
-                    key[i] != '_' &&
-                    key[i] != '/' &&
-                    key[i] != ':') return true;
+                if (!Char.IsLetterOrDigit(key[i])
+                    && key[i] != '_'
+                    && key[i] != '/')
+                    return true;
+
                 if (key[i] == '/')
                 {
-                    if (isDel == true) return true;
+                    if (isDel == true) 
+                        return true;
                     isDel = true;
                 }
                 else
                 {
                     isDel = false;
                 }
-                if (key[i] == ':') delCount++;
             }
-            if (delCount > 0) return true;
             return false;
         }
 
@@ -186,29 +278,24 @@ namespace Ecell
         /// </summary>
         /// <param name="key">the component id.</param>
         /// <returns>correct is false.</returns>
-        static public bool IsNGforComponentFullID(string key)
+        static public bool IsNGforEntityKey(string key)
         {
-            int delCount = 0;
-            bool isDel = false;
-            for (int i = 0; i < key.Length; i++)
-            {
-                if (!Char.IsLetterOrDigit(key[i]) &&
-                    key[i] != '_' &&
-                    key[i] != '/' &&
-                    key[i] != ':') return true;
-                if (key[i] == '/')
-                {
-                    if (isDel == true) return true;
-                    isDel = true;
-                }
-                else
-                {
-                    isDel = false;
-                }
-                if (key[i] == ':') delCount++;
-            }
-            if (delCount > 1) return true;
-            if (delCount <= 0) return true;
+            if (string.IsNullOrEmpty(key))
+                return true;
+            if (key[0] != '/')
+                return true;
+            if (!key.Contains(":"))
+                return true;
+
+            int i = key.LastIndexOf(Constants.delimiterColon);
+            string systemPath = key.Substring(0, i);
+            string localID = key.Substring(i + 1);
+
+            if (IsNGforSystemKey(systemPath))
+                return true;
+            if (IsNGforID(localID))
+                return true;
+
             return false;
         }
 
@@ -220,6 +307,11 @@ namespace Ecell
         /// <returns>full path.</returns>
         static public string ConvertSystemEntityPath(string key, string prop)
         {
+            if (IsNGforSystemKey(key))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "key"));
+            if (IsNGforID(prop))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "prop"));
+
             string dir = "";
             string id = "";
 
@@ -254,11 +346,30 @@ namespace Ecell
         /// <returns>The full ID.</returns>
         public static string BuildFullID(string type, string systemPath, string localID)
         {
-            return type + Constants.delimiterColon + systemPath + Constants.delimiterColon + localID;
-        }
+            if (IsNGforType(type))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "type"));
+            if (IsNGforSystemKey(systemPath))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "systemPath"));
+            if (IsNGforID(localID))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "localID"));
 
+            string delimiter = Constants.delimiterColon;
+            if (type.Equals(EcellObject.SYSTEM))
+                delimiter = Constants.delimiterPath;
+            return type + Constants.delimiterColon + systemPath + delimiter + localID;
+        }
+        /// <summary>
+        /// Build the full PN from the information of components.
+        /// </summary>
+        /// <param name="fullID"></param>
+        /// <param name="propName"></param>
+        /// <returns></returns>
         public static string BuildFullPN(string fullID, string propName)
         {
+            if (IsNGforFullID(fullID))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "fullID"));
+            if (IsNGforID(propName))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "propName"));
             return fullID + Constants.delimiterColon + propName;
         }
 
@@ -276,88 +387,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Strip the string with white spaces.
-        /// </summary>
-        /// <param name="val">the string data before split.</param>
-        /// <returns>the string data after split.</returns>
-        public static string StripWhitespaces(string val)
-        {
-            int startIdx = 0, len = val.Length, endIdx = len;
-
-            for (; startIdx < len; ++startIdx)
-            {
-                if (!Char.IsWhiteSpace(val[startIdx]))
-                    break;
-            }
-
-            while (--endIdx >= 0)
-            {
-                if (!Char.IsWhiteSpace(val[endIdx]))
-                    break;
-            }
-
-            return val.Substring(startIdx, endIdx - startIdx + 1);
-        }
-        
-        /// <summary>
-        /// Copy File
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <param name="targetDir"></param>
-        public static void CopyFile(string filename, string targetDir)
-        {
-            File.Copy(filename, Path.Combine(targetDir, Path.GetFileName(filename)), true);
-        }
-
-        /// <summary>
-        /// Copy Directory.
-        /// </summary>
-        /// <param name="sourceDir"></param>
-        /// <param name="targetDir"></param>
-        public static void CopyDirectory(string sourceDir, string targetDir)
-        {
-            if (sourceDir.Equals(targetDir))
-                targetDir = GetNewDir(targetDir);
-            else if (Directory.Exists(targetDir))
-                targetDir = GetNewDir(targetDir);
-
-            // List up directories and files.
-            string[] dirs = System.IO.Directory.GetDirectories(sourceDir, "*.*", SearchOption.AllDirectories);
-            string[] files = Directory.GetFiles(sourceDir, "*.*", SearchOption.AllDirectories);
-
-            // Create directory if necessary.
-            if (!Directory.Exists(targetDir))
-            {
-                Directory.CreateDirectory(targetDir);
-                File.SetAttributes(targetDir, File.GetAttributes(sourceDir));
-            }
-            // Copy directories.
-            foreach (string dir in dirs)
-                Directory.CreateDirectory(dir.Replace(sourceDir, targetDir));
-            // Copy Files.
-            foreach (string file in files)
-                File.Copy(file, file.Replace(sourceDir, targetDir));
-        }
-
-        /// <summary>
-        /// Get New Directory name.
-        /// </summary>
-        /// <param name="targetDir"></param>
-        /// <returns></returns>
-        public static string GetNewDir(string targetDir)
-        {
-            int revNo = 0;
-            string newDir = "";
-            do
-            {
-                revNo++;
-                newDir = targetDir + revNo.ToString();
-            } while (Directory.Exists(newDir));
-            return newDir;
-        }
-
-        /// <summary>
-        /// 
+        /// Get new Revision No.
         /// </summary>
         /// <param name="sourceDir"></param>
         /// <returns></returns>
@@ -374,42 +404,6 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Get the name and the parent path from the full object path.
-        /// </summary>
-        /// <param name="fullPath">the input full path.</param>
-        /// <param name="path">the parent path.</param>
-        /// <returns>the name of object.</returns>
-        public static string GetNameFromPath(string fullPath, ref string path)
-        {
-            string result = "";
-            string[] elements;
-            if (fullPath.Contains(":"))
-            {
-                elements = fullPath.Split(new char[] { ':' });
-                path = elements[0];
-                result = elements[elements.Length - 1];
-            }
-            else
-            {
-                if (fullPath == "/")
-                {
-                    path = "/";
-                    result = "/";
-                }
-                else
-                {
-                    elements = fullPath.Split(new char[] { '/' });
-                    for (int i = 1; i < elements.Length - 1; i++)
-                    {
-                        path = path + "/" + elements[i];
-                    }
-                    result = elements[elements.Length - 1];
-                }
-            }
-            return result;
-        }
-
-        /// <summary>
         /// Get key moved to another system.
         /// </summary>
         /// <param name="originalKey"></param>
@@ -418,18 +412,29 @@ namespace Ecell
         /// <returns></returns>
         public static string GetMovedKey(string originalKey, string originalSystemKey, string newSystemKey)
         {
-            if (null == originalKey || null == originalSystemKey || null == newSystemKey)
-                return null;
+            if (IsNGforSystemKey(originalSystemKey))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "originalSystemKey"));
+            if (IsNGforSystemKey(newSystemKey))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "newSystemKey"));
+            if (IsNGforSystemKey(originalKey) && IsNGforEntityKey(originalKey))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "originalKey"));
+
             string newKey;
-            if (originalSystemKey.Equals("/") && !newSystemKey.Equals("/"))
-                newKey = newSystemKey + originalKey.Substring(1);
-            else if (!originalSystemKey.Equals("/") && newSystemKey.Equals("/"))
-                newKey = originalKey.Replace(originalSystemKey, "/");
+            if (originalSystemKey.Equals(Constants.delimiterPath) && newSystemKey.Equals(Constants.delimiterPath))
+                newKey = originalKey;
+            else if (originalSystemKey.Equals(Constants.delimiterPath) && !newSystemKey.Equals(Constants.delimiterPath))
+                newKey = newSystemKey + originalKey.Replace("/:", ":");
+            else if (!originalSystemKey.Equals(Constants.delimiterPath) && newSystemKey.Equals(Constants.delimiterPath))
+                newKey = originalKey.Replace(originalSystemKey, Constants.delimiterPath);
             else
-                newKey = originalKey.Replace(originalSystemKey, newSystemKey);
+                newKey = newSystemKey + originalKey.Substring(originalSystemKey.Length).Replace("/:", ":");
             return newKey.Replace("//", "/");
         }
 
+        /// <summary>
+        /// GetNewProjectName
+        /// </summary>
+        /// <returns></returns>
         public static string GetNewProjectName()
         {
             string baseDir = Util.GetBaseDir();
@@ -446,50 +451,66 @@ namespace Ecell
                 i++;
             }
         }
+
+        /// <summary>
+        /// Split Object Key to SystemPath and LocalID.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="systemPath"></param>
+        /// <param name="localID"></param>
+        public static void ParseKey(string key, out string systemPath, out string localID)
+        {
+            if (string.IsNullOrEmpty(key))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "key"));
+            if (!key.Contains(":"))
+                ParseSystemKey(key, out systemPath, out localID);
+            else
+                ParseEntityKey(key, out systemPath, out localID);
+        }
+
         /// <summary>
         /// Split Entity Key to SystemPath and LocalID.
         /// </summary>
-        /// <param name="str"></param>
+        /// <param name="key"></param>
         /// <param name="systemPath"></param>
         /// <param name="localID"></param>
-        public static void ParseEntityKey(string str, out string systemPath, out string localID)
+        public static void ParseEntityKey(string key, out string systemPath, out string localID)
         {
-            int idx = str.LastIndexOf(Constants.delimiterColon);
-            if (idx < 0)
-                throw new ApplicationException("Malformed entity key: " + str);
-            systemPath = str.Substring(0, idx);
-            localID = str.Substring(idx + 1);
+            if (IsNGforEntityKey(key))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "key"));
+
+            int i = key.LastIndexOf(Constants.delimiterColon);
+            systemPath = key.Substring(0, i);
+            localID = key.Substring(i + 1);
         }
+
         /// <summary>
         /// Split systemPath to ParentSystemPath and LocalID.
         /// </summary>
         /// <param name="systemKey"></param>
         /// <param name="parentSystemPath"></param>
         /// <param name="localID"></param>
-        public static void SplitSystemPath(string systemKey, out string parentSystemPath, out string localID)
+        public static void ParseSystemKey(string systemKey, out string parentSystemPath, out string localID)
         {
-            int idx = systemKey.LastIndexOf(Constants.delimiterPath);
-            if (idx < 0)
+            if (IsNGforSystemKey(systemKey))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "systemKey"));
+            if (systemKey.Equals("/"))
             {
-                parentSystemPath = null;
+                parentSystemPath = "";
                 localID = Constants.delimiterPath;
                 return;
             }
-            if (idx == 0)
+            int i = systemKey.LastIndexOf(Constants.delimiterPath);
+            if (i == 0)
             {
-                if (systemKey.Length == 1)
-                {
-                    parentSystemPath = "";
-                    localID = "/";
-                    return;
-                }
-                parentSystemPath = "/";
+                parentSystemPath = Constants.delimiterPath;
             }
             else
             {
-                parentSystemPath = systemKey.Substring(0, idx);
+                parentSystemPath = systemKey.Substring(0, i);
             }
-            localID = systemKey.Substring(idx + 1);
+            localID = systemKey.Substring(i + 1);
+
         }
 
         /// <summary>
@@ -501,12 +522,13 @@ namespace Ecell
         /// <param name="localID"></param>
         public static void ParseFullID(string fullID, out string type, out string systemPath, out string localID)
         {
-            string[] parts = fullID.Split(Constants.delimiterColon.ToCharArray(), 3);
-            if (parts.Length != 3)
-                throw new ApplicationException("Malformed FullID: " + fullID);
-            type = parts[0];
-            systemPath = parts[1];
-            localID = parts[2];
+            string key;
+            ParseFullID(fullID, out type, out key);
+
+            if (type.Equals(EcellObject.SYSTEM))
+                ParseSystemKey(key, out systemPath, out localID);
+            else
+                ParseEntityKey(key, out systemPath, out localID);
         }
 
         /// <summary>
@@ -517,9 +539,12 @@ namespace Ecell
         /// <param name="key"></param>
         public static void ParseFullID(string fullID, out string type, out string key)
         {
+            if (IsNGforFullID(fullID))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "fullID"));
+
             int i = fullID.IndexOf(Constants.delimiterColon);
             type = fullID.Substring(0, i);
-            key = fullID.Substring(i, fullID.Length - i);
+            key = fullID.Substring(i + 1);
         }
         /// <summary>
         /// Parse FullPN to Type, SystemPath, LocalID and PropertyName.
@@ -530,20 +555,47 @@ namespace Ecell
         /// <param name="propName">PropertyName</param>
         public static void ParseFullPN(string fullPN, out string type, out string key, out string propName)
         {
-            string[] parts = fullPN.Split(Constants.delimiterColon.ToCharArray(), 4);
-            if (parts.Length != 4)
-                throw new ApplicationException("Malformed FullID: " + fullPN);
-            type = parts[0];
-            key = parts[1] + Constants.delimiterColon + parts[2];
-            propName = parts[3];
+            if (IsNGforFullPN(fullPN))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "fullPN"));
+            int i = fullPN.LastIndexOf(':');
+            propName = fullPN.Substring(i + 1);
+            string fullID = fullPN.Substring(0,i);
+            ParseFullID(fullID, out type, out key);
         }
 
+        /// <summary>
+        /// idParser
+        /// </summary>
+        private static Regex idParser = new Regex("[A-Za-z_]+(\\d+)$");
+        /// <summary>
+        /// Get temporary id from localID.
+        /// </summary>
+        /// <param name="localID"></param>
+        /// <returns></returns>
+        public static int ParseTemporaryID(string localID)
+        {
+            int i = 0;
+            if (string.IsNullOrEmpty(localID))
+                return i;
 
+            Match match = idParser.Match(localID);
+            if (match.Success)
+            {
+                string num = match.Groups[1].Value;
+                i = int.Parse(num);
+            }
+            return i;
+        }
+
+        /// <summary>
+        /// GetSuperSystemPath
+        /// </summary>
+        /// <param name="systemPath"></param>
+        /// <returns></returns>
         public static string GetSuperSystemPath(string systemPath)
         {
             Regex postColonRegex = new Regex(":\\w*$");
-            Regex postSlashRegex = new Regex("/\\w*$");
-            if (systemPath == null || systemPath.Equals("") || systemPath.Equals("/"))
+            if (string.IsNullOrEmpty(systemPath) || systemPath.Equals(Constants.delimiterPath))
                 return "";
             else if (systemPath.Contains(":"))
             {
@@ -551,27 +603,35 @@ namespace Ecell
             }
             else
             {
-                string retval = postSlashRegex.Replace(systemPath, "");
-                if (retval.Equals(""))
-                    return "/";
-                else
-                    return retval;
+                string parentSys;
+                string localID;
+                ParseSystemKey(systemPath, out parentSys, out localID);
+                return parentSys;
             }
         }
-
+        /// <summary>
+        /// NormalizeSystemPath
+        /// </summary>
+        /// <param name="systemPath"></param>
+        /// <param name="currentSystemPath"></param>
+        /// <returns></returns>
         public static string NormalizeSystemPath(string systemPath, string currentSystemPath)
         {
+            if (string.IsNullOrEmpty(systemPath))
+                return currentSystemPath;
+
             if (systemPath[0] == '/')
                 return systemPath;
 
-            if (systemPath.Length == 0)
-                return currentSystemPath;
-
-            Debug.Assert(currentSystemPath != null && currentSystemPath[0] == '/');
+            if (string.IsNullOrEmpty(currentSystemPath) || currentSystemPath[0] != '/')
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "currentSystemPath"));
 
             List<string> retval = new List<string>(currentSystemPath.Split('/'));
+            //
             retval.RemoveAt(0);
-
+            if (retval[retval.Count - 1].Equals(""))
+                retval.RemoveAt(retval.Count - 1);
+            //
             foreach (string comp in systemPath.Split('/'))
             {
                 if (comp == "..")
@@ -594,10 +654,11 @@ namespace Ecell
         /// <param name="systemPath"></param>
         public static void NormalizeVariableReference(EcellReference er, string systemPath)
         {
-
-            string entityType, path, localID;
-            ParseFullID((string)er.FullID, out entityType, out path, out localID);
-            er.FullID = BuildFullID(entityType, NormalizeSystemPath(path, systemPath), localID);
+            string path, localID;
+            int i = er.Key.LastIndexOf(Constants.delimiterColon);
+            path = er.Key.Substring(0, i);
+            localID = er.Key.Substring(i + 1);
+            er.Key = NormalizeSystemPath(path, systemPath) + Constants.delimiterColon + localID;
         }
 
         /// <summary>
@@ -608,11 +669,27 @@ namespace Ecell
         /// <returns></returns>
         public static bool DoesVariableReferenceChange(EcellObject oldObj, EcellObject newObj)
         {
-            string varRef1 = oldObj.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).ToString();
-            string varRef2 = newObj.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST).ToString();
-            return !varRef1.Equals(varRef2);
+            if (oldObj == null || !(oldObj is EcellProcess))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "oldObj"));
+            if (newObj == null || !(newObj is EcellProcess))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "newObj"));
+
+            EcellValue varRef1 = oldObj.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST);
+            EcellValue varRef2 = newObj.GetEcellValue(EcellProcess.VARIABLEREFERENCELIST);
+
+            if (varRef1 == null && varRef2 == null)
+                return false;
+            else if (varRef1 == null)
+                return true;
+            else 
+                return !varRef1.Equals(varRef2);
         }
 
+        /// <summary>
+        /// Generate Random ID
+        /// </summary>
+        /// <param name="len"></param>
+        /// <returns></returns>
         public static string GenerateRandomID(int len)
         {
             StringBuilder sb = new StringBuilder();
@@ -625,7 +702,10 @@ namespace Ecell
             return sb.ToString();
         }
     }
-
+    /// <summary>
+    /// partial class for Util.
+    /// methods for language settings.
+    /// </summary>
     public partial class Util
     {
         /// <summary>
@@ -677,7 +757,8 @@ namespace Ecell
         }
     }
     /// <summary>
-    /// 
+    /// partial class for Util.
+    /// Methods to Show dialogs.
     /// </summary>
     public partial class Util
     {
@@ -754,7 +835,8 @@ namespace Ecell
         }
     }
     /// <summary>
-    /// 
+    /// partial class for Util.
+    /// Methods to control folders or files.
     /// </summary>
     public partial class Util
     {
@@ -852,6 +934,10 @@ namespace Ecell
             return s_windowSettingDir;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dir"></param>
         public static void SetWindowSettingDir(string dir)
         {
             s_windowSettingDir = dir;
@@ -1053,7 +1139,10 @@ namespace Ecell
                 return true;
             return false;
         }
-
+        /// <summary>
+        /// Get a list of Process Templates.
+        /// </summary>
+        /// <returns></returns>
         static public List<string> GetProcessTemplateList()
         {
             List<string> result = new List<string>();
@@ -1061,7 +1150,8 @@ namespace Ecell
             string confDir = Util.GetWindowSettingDir();
             string processDir = confDir + Constants.delimiterPath + Constants.xpathProcess;
 
-            if (!Directory.Exists(processDir)) return result;
+            if (!Directory.Exists(processDir))
+                return result;
             string[] files = Directory.GetFiles(processDir);
             for (int i = 0; i < files.Length; i++)
             {
@@ -1073,7 +1163,11 @@ namespace Ecell
             }
             return result;
         }
-
+        /// <summary>
+        /// Get a Process Template.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         static public string GetProcessTemplate(string name)
         {
             string result = "";
@@ -1081,7 +1175,8 @@ namespace Ecell
             string confDir = Util.GetWindowSettingDir();
             string processFile = confDir + Constants.delimiterPath + Constants.xpathProcess +
                 Constants.delimiterPath + name;
-            if (!File.Exists(processFile)) return result;
+            if (!File.Exists(processFile))
+                return result;
 
             TextReader l_reader = new StreamReader(processFile);
             while ((line = l_reader.ReadLine()) != null)
@@ -1211,6 +1306,97 @@ namespace Ecell
             }
             return ignored;
         }
+
+        /// <summary>
+        /// Does project "projectName" already exist or not.
+        /// </summary>
+        /// <param name="projectName"></param>
+        /// <returns></returns>
+        public static bool IsExistProject(string projectName)
+        {
+            if (string.IsNullOrEmpty(projectName))
+                return false;
+
+            string dir = Path.Combine(GetBaseDir(),projectName);
+            return Directory.Exists(dir);
+        }
+        /// <summary>
+        /// Copy File
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="targetDir"></param>
+        public static void CopyFile(string filename, string targetDir)
+        {
+            if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
+                throw new EcellException(string.Format(MessageResources.ErrFindFile, filename));
+            if (string.IsNullOrEmpty(targetDir) || !Directory.Exists(targetDir))
+                throw new EcellException(string.Format(MessageResources.ErrFindDir, targetDir));
+            File.Copy(filename, Path.Combine(targetDir, Path.GetFileName(filename)), true);
+        }
+
+        /// <summary>
+        /// Copy Directory.
+        /// </summary>
+        /// <param name="sourceDir"></param>
+        /// <param name="targetDir"></param>
+        public static void CopyDirectory(string sourceDir, string targetDir)
+        {
+            CopyDirectory(sourceDir, targetDir, false);
+        }
+
+        /// <summary>
+        /// Copy Directory.
+        /// </summary>
+        /// <param name="sourceDir"></param>
+        /// <param name="targetDir"></param>
+        /// <param name="overWrite"></param>
+        public static void CopyDirectory(string sourceDir, string targetDir, bool overWrite)
+        {
+            if (string.IsNullOrEmpty(sourceDir) || !Directory.Exists(sourceDir))
+                throw new EcellException(string.Format(MessageResources.ErrFindDir, sourceDir));
+            if (string.IsNullOrEmpty(targetDir))
+                throw new EcellException(string.Format(MessageResources.ErrFindDir, targetDir));
+
+            if (sourceDir.Equals(targetDir))
+                targetDir = GetNewDir(targetDir);
+            else if (Directory.Exists(targetDir) && !overWrite)
+                targetDir = GetNewDir(targetDir);
+
+            // List up directories and files.
+            string[] dirs = System.IO.Directory.GetDirectories(sourceDir, "*.*", SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(sourceDir, "*.*", SearchOption.AllDirectories);
+
+            // Create directory if necessary.
+            if (!Directory.Exists(targetDir))
+            {
+                Directory.CreateDirectory(targetDir);
+                File.SetAttributes(targetDir, File.GetAttributes(sourceDir));
+            }
+            // Copy directories.
+            foreach (string dir in dirs)
+                Directory.CreateDirectory(dir.Replace(sourceDir, targetDir));
+            // Copy Files.
+            foreach (string file in files)
+                File.Copy(file, file.Replace(sourceDir, targetDir));
+        }
+
+        /// <summary>
+        /// Get New Directory name.
+        /// </summary>
+        /// <param name="targetDir"></param>
+        /// <returns></returns>
+        public static string GetNewDir(string targetDir)
+        {
+            int revNo = 0;
+            string newDir = "";
+            do
+            {
+                revNo++;
+                newDir = targetDir + revNo.ToString();
+            } while (Directory.Exists(newDir));
+            return newDir;
+        }
+
         /// <summary>
         /// IsHidden
         /// </summary>
@@ -1233,23 +1419,23 @@ namespace Ecell
             if (j == 0) return Color.OrangeRed;
             else if (j == 1) return Color.LightSkyBlue;
             else if (j == 2) return Color.LightGreen;
-            else if (j == 3) return Color.LightSalmon;
-            else if (j == 4) return Color.Gold;
-            else if (j == 5) return Color.LimeGreen;
-            else if (j == 6) return Color.Coral;
-            else if (j == 7) return Color.Navy;
-            else if (j == 8) return Color.Lime;
-            else if (j == 9) return Color.Purple;
-            else if (j == 10) return Color.SkyBlue;
-            else if (j == 11) return Color.Green;
-            else if (j == 12) return Color.Plum;
-            else if (j == 13) return Color.HotPink;
-            else if (j == 14) return Color.Orchid;
-            else if (j == 15) return Color.Tomato;
-            else if (j == 16) return Color.Orange;
-            else if (j == 17) return Color.Magenta;
-            else if (j == 18) return Color.Blue;
-            else if (j == 19) return Color.Red;
+            //else if (j == 3) return Color.LightSalmon;
+            //else if (j == 4) return Color.Gold;
+            //else if (j == 5) return Color.LimeGreen;
+            //else if (j == 6) return Color.Coral;
+            //else if (j == 7) return Color.Navy;
+            //else if (j == 8) return Color.Lime;
+            //else if (j == 9) return Color.Purple;
+            //else if (j == 10) return Color.SkyBlue;
+            //else if (j == 11) return Color.Green;
+            //else if (j == 12) return Color.Plum;
+            //else if (j == 13) return Color.HotPink;
+            //else if (j == 14) return Color.Orchid;
+            //else if (j == 15) return Color.Tomato;
+            //else if (j == 16) return Color.Orange;
+            //else if (j == 17) return Color.Magenta;
+            //else if (j == 18) return Color.Blue;
+            //else if (j == 19) return Color.Red;
             else return Color.Black;
         }
 
@@ -1264,23 +1450,23 @@ namespace Ecell
             if (j == 0) return Brushes.OrangeRed;
             else if (j == 1) return Brushes.LightSkyBlue;
             else if (j == 2) return Brushes.LightGreen;
-            else if (j == 3) return Brushes.LightSalmon;
-            else if (j == 4) return Brushes.Gold;
-            else if (j == 5) return Brushes.LimeGreen;
-            else if (j == 6) return Brushes.Coral;
-            else if (j == 7) return Brushes.Navy;
-            else if (j == 8) return Brushes.Lime;
-            else if (j == 9) return Brushes.Purple;
-            else if (j == 10) return Brushes.SkyBlue;
-            else if (j == 11) return Brushes.Green;
-            else if (j == 12) return Brushes.Plum;
-            else if (j == 13) return Brushes.HotPink;
-            else if (j == 14) return Brushes.Orchid;
-            else if (j == 15) return Brushes.Tomato;
-            else if (j == 16) return Brushes.Orange;
-            else if (j == 17) return Brushes.Magenta;
-            else if (j == 18) return Brushes.Blue;
-            else if (j == 19) return Brushes.Red;
+            //else if (j == 3) return Brushes.LightSalmon;
+            //else if (j == 4) return Brushes.Gold;
+            //else if (j == 5) return Brushes.LimeGreen;
+            //else if (j == 6) return Brushes.Coral;
+            //else if (j == 7) return Brushes.Navy;
+            //else if (j == 8) return Brushes.Lime;
+            //else if (j == 9) return Brushes.Purple;
+            //else if (j == 10) return Brushes.SkyBlue;
+            //else if (j == 11) return Brushes.Green;
+            //else if (j == 12) return Brushes.Plum;
+            //else if (j == 13) return Brushes.HotPink;
+            //else if (j == 14) return Brushes.Orchid;
+            //else if (j == 15) return Brushes.Tomato;
+            //else if (j == 16) return Brushes.Orange;
+            //else if (j == 17) return Brushes.Magenta;
+            //else if (j == 18) return Brushes.Blue;
+            //else if (j == 19) return Brushes.Red;
             else return Brushes.Black;
         }
     }

@@ -544,7 +544,7 @@ namespace Ecell
             {
                 throw new EmlParseException("Invalid system node found");
             }
-            if (Util.IsNGforSystemFullID(systemID.InnerText))
+            if (Util.IsNGforSystemKey(systemID.InnerText))
             {
                 throw new EmlParseException("Invalid system ID");
             }
@@ -667,7 +667,7 @@ namespace Ecell
         {
             m_isWarn = false;
             EcellObject modelObject = EcellObject.CreateObject(
-                    m_modelID, "", Constants.xpathModel, "", null);
+                    m_modelID, "", Constants.xpathModel, "", new List<EcellData>());
 
             // Parse Steppers
             XmlNodeList stepperListNode = m_doc.SelectNodes(
@@ -721,7 +721,19 @@ namespace Ecell
         public static EcellObject Parse(string fileName, WrappedSimulator sim)
         {
             EmlReader reader = new EmlReader(fileName, sim);
-            return reader.Parse();
+            EcellModel model = (EcellModel)reader.Parse();
+
+            try
+            {
+                string leml = fileName.Replace(Constants.FileExtEML, Constants.FileExtLEML);
+                Leml.LoadLEML(model, leml);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.StackTrace);
+            }
+
+            return model;
         }
     }
 }

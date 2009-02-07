@@ -60,7 +60,7 @@ namespace Ecell
         /// <summary>
         /// Whether duaring load the actions or others.
         /// </summary>
-        private bool isLoadAction = false;
+        private bool m_isLoadAction = false;
         #endregion
 
         #region Constructors
@@ -82,6 +82,29 @@ namespace Ecell
         public int Count
         {
             get { return m_list.Count; }
+        }
+        /// <summary>
+        /// UndoStatus
+        /// </summary>
+        public UndoStatus UndoStatus
+        {
+            get
+            {
+                bool undoable = this.Undoable;
+                bool redoable = this.Redoable;
+                // Set status.
+                UndoStatus status;
+                if (undoable && redoable)
+                    status = UndoStatus.UNDO_REDO;
+                else if (undoable)
+                    status = UndoStatus.UNDO_ONLY;
+                else if (redoable)
+                    status = UndoStatus.REDO_ONLY;
+                else
+                    status = UndoStatus.NOTHING;
+
+                return status;
+            }
         }
 
         /// <summary>
@@ -111,6 +134,14 @@ namespace Ecell
                     return false;
 
             }
+        }
+
+        /// <summary>
+        /// Whether duaring load the actions or others.
+        /// </summary>
+        public bool IsLoadAction
+        {
+            get { return m_isLoadAction; }
         }
         #endregion
 
@@ -172,7 +203,7 @@ namespace Ecell
         /// <param name="u">The adding UserAction.</param>
         public void AddAction(UserAction u)
         {
-            if (isLoadAction == true) return;
+            if (m_isLoadAction == true) return;
 
             u.Environment = m_env;
 
@@ -212,7 +243,7 @@ namespace Ecell
         /// <param name="fileName">File name of UserActions.</param>
         public void LoadActionFile(string fileName)
         {
-            isLoadAction = true;
+            m_isLoadAction = true;
             XmlDocument doc = new XmlDocument();
             doc.Load(fileName);
 
@@ -238,6 +269,7 @@ namespace Ecell
                     else if (command.Equals("NewSimParam")) act = new NewSimParamAction();
                     else if (command.Equals("DeleteSimParam")) act = new DeleteSimParamAction();
                     else if (command.Equals("SetSimParam")) act = new SetSimParamAction();
+                    else if (command.Equals("Anchor")) act = new AnchorAction();
 
                     if (act == null)
                     {
@@ -253,7 +285,7 @@ namespace Ecell
 
             foreach (UserAction u in m_list)
                 u.Execute();
-            isLoadAction = false;
+            m_isLoadAction = false;
 
             m_listIndex = m_list.Count;
         }
@@ -285,6 +317,8 @@ namespace Ecell
         {
             if (m_listIndex == 0 || !m_list[m_listIndex - 1].IsUndoable)
                 return;
+            m_isLoadAction = true;
+            NotifyStatus();
             do
             {
                 m_list[m_listIndex - 1].UnExecute();
@@ -292,6 +326,7 @@ namespace Ecell
                 m_listIndex--;
 
             } while (0 < m_listIndex && !m_list[m_listIndex - 1].IsAnchor);
+            m_isLoadAction = false;
             NotifyStatus();
         }
 
@@ -302,6 +337,8 @@ namespace Ecell
         {
             if (m_list.Count <= m_listIndex)
                 return;
+            m_isLoadAction = true;
+            NotifyStatus();
             do
             {
                 m_list[m_listIndex].Execute();
@@ -309,6 +346,7 @@ namespace Ecell
                 m_listIndex++;
 
             } while (m_listIndex < m_list.Count && !m_list[m_listIndex - 1].IsAnchor);
+            m_isLoadAction = false;
             NotifyStatus();
         }
 
@@ -317,21 +355,9 @@ namespace Ecell
         /// </summary>
         private void NotifyStatus()
         {
-            bool undoable = Undoable;
-            bool redoable = Redoable;
-
-            if (undoable && redoable)
-                m_env.PluginManager.ChangeUndoStatus(UndoStatus.UNDO_REDO);
-            else if (undoable)
-                m_env.PluginManager.ChangeUndoStatus(UndoStatus.UNDO_ONLY);
-            else if (redoable)
-                m_env.PluginManager.ChangeUndoStatus(UndoStatus.REDO_ONLY);
-            else
-                m_env.PluginManager.ChangeUndoStatus(UndoStatus.NOTHING);
-
+            m_env.PluginManager.ChangeUndoStatus(this.UndoStatus);
             RaiseUndoableChange();
             RaiseRedoableChange();
-
         }
     }
 }

@@ -158,7 +158,7 @@ namespace Ecell
                     else if (vtype.Equals(typeof(int).ToString()))
                         v = new EcellValue(Convert.ToInt32(valueData));
                     else
-                        v = EcellValue.FromListString(valueData);
+                        v = EcellValue.ConvertFromListString(valueData);
                     d.Value = v;
                 }
 
@@ -226,7 +226,63 @@ namespace Ecell
         }
         #endregion
     }
-
+    /// <summary>
+    /// Action class to set Undo Anchor.
+    /// </summary>
+    public class AnchorAction : UserAction
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public AnchorAction()
+        {
+            m_isAnchor = true;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "AnchorAction:" + m_isAnchor.ToString();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void Execute()
+        {
+            m_env.PluginManager.RaiseRefreshEvent();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void UnExecute()
+        {
+            m_env.PluginManager.RaiseRefreshEvent();
+        }
+        /// <summary>
+        /// Write the information to add the object to the xml file.
+        /// </summary>
+        /// <param name="writer">The object for writing the xml file.</param>
+        public override void SaveScript(XmlTextWriter writer)
+        {
+            writer.WriteStartElement("Action");
+            writer.WriteAttributeString("command", null, "Anchor");
+            writer.WriteAttributeString("isAnchor", null, Convert.ToString(base.m_isAnchor));
+            writer.WriteEndElement();
+        }
+        /// <summary>
+        /// Load the information to add the object.
+        /// </summary>
+        /// <param name="node">The xml node wrote the information.</param>
+        public override void LoadScript(XmlNode node)
+        {
+            XmlNode child = node.Attributes.GetNamedItem("isAnchor");
+            if (child == null)
+                return;
+            base.m_isAnchor = Convert.ToBoolean(child.InnerText);
+        }
+    }
     /// <summary>
     /// Action class to create the project.
     /// </summary>
@@ -251,6 +307,15 @@ namespace Ecell
         {
             m_isUndoable = false;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "NewProjectAction:" + m_prjName;
+        }
+
         /// <summary>
         /// The constructor for NewProjectAction with initial parameters.
         /// </summary>
@@ -333,6 +398,15 @@ namespace Ecell
             m_obj = null;
         }
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "DataAddAction:" + m_isAnchor.ToString() + ", " + m_obj.ToString();
+        }
+
+        /// <summary>
         /// The constructor for DataAddAction with initial parameters.
         /// </summary>
         /// <param name="obj"></param>
@@ -340,7 +414,8 @@ namespace Ecell
         /// <param name="isAnchor">Whether this action is an anchor or not</param>
         public DataAddAction(EcellObject obj, bool isUndoable, bool isAnchor)
         {
-            m_obj = obj;
+            m_obj = obj.Clone();
+            m_obj.isFixed = true;
             m_isUndoable = isUndoable;
             m_isAnchor = isAnchor;
         }
@@ -375,7 +450,7 @@ namespace Ecell
         {
             if (m_obj == null) 
                 return;
-            m_env.DataManager.DataAdd(m_obj, false, m_isAnchor);
+            m_env.DataManager.DataAdd(m_obj.Clone(), false, m_isAnchor);
         }
         /// <summary>
         /// Unexecute this action.
@@ -383,7 +458,7 @@ namespace Ecell
         /// </summary>
         public override void UnExecute()
         {
-            m_env.DataManager.DataDelete(m_obj, false, m_isAnchor);
+            m_env.DataManager.DataDelete(m_obj.Clone(), false, m_isAnchor);
         }
     }
 
@@ -418,6 +493,15 @@ namespace Ecell
         {
         }
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "DataDeleteAction:" + m_isAnchor.ToString() + ", " + m_obj.ToString();
+        }
+
+        /// <summary>
         /// The constructor for DataDeleteAction with initial parameters.
         /// </summary>
         /// <param name="modelID">The modelID of deleted object.</param>
@@ -430,7 +514,7 @@ namespace Ecell
             m_modelID = modelID;
             m_key = key;
             m_type = type;
-            m_obj = obj;
+            m_obj = obj.Clone();
             m_isAnchor = isAnchor;
         }
         /// <summary>
@@ -489,7 +573,7 @@ namespace Ecell
         {
             if (m_obj == null)
                 return;
-            m_env.DataManager.DataAdd(m_obj, false, m_isAnchor);
+            m_env.DataManager.DataAdd(m_obj.Clone(), false, m_isAnchor);
         }
     }
 
@@ -524,6 +608,15 @@ namespace Ecell
         {
         }
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "DataChangeAction:" + m_isAnchor.ToString() + ", " + m_oldObj.ToString() + ", " + m_newObj.ToString();
+        }
+
+        /// <summary>
         /// The constructor for DataChangeAction with initial parameters.
         /// </summary>
         /// <param name="modelID">The modelID of changed object.</param>
@@ -535,8 +628,8 @@ namespace Ecell
         {
             m_modelID = modelID;
             m_type = type;
-            m_oldObj = oldObj;
-            m_newObj = newObj;
+            m_oldObj = oldObj.Clone();
+            m_newObj = newObj.Clone();
             m_isAnchor = isAnchor;
         }
         /// <summary>
@@ -592,7 +685,7 @@ namespace Ecell
         /// </summary>
         public override void Execute()
         {
-            m_env.DataManager.DataChanged(m_modelID, m_oldObj.Key, m_type, m_newObj, false, m_isAnchor);
+            m_env.DataManager.DataChanged(m_modelID, m_oldObj.Key, m_type, m_newObj.Clone(), false, m_isAnchor);
         }
         /// <summary>
         /// Unexecute this action.
@@ -600,7 +693,7 @@ namespace Ecell
         /// </summary>
         public override void UnExecute()
         {
-            m_env.DataManager.DataChanged(m_modelID, m_newObj.Key, m_type, m_oldObj, false, m_isAnchor);
+            m_env.DataManager.DataChanged(m_modelID, m_newObj.Key, m_type, m_oldObj.Clone(), false, m_isAnchor);
         }
     }
 
@@ -627,6 +720,15 @@ namespace Ecell
         {
             m_isUndoable = false;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "LoadProjectAction:" + m_prjFile;
+        }
+
         /// <summary>
         /// The constructor for LoadProjectAction with initial parameters.
         /// </summary>
@@ -704,6 +806,14 @@ namespace Ecell
         /// </summary>
         public AddStepperAction()
         {
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "AddStepperAction:" + m_isAnchor.ToString() + ", " + m_paramID;
         }
         /// <summary>
         /// The constructor for AddStepperAction with initial parameters.
@@ -788,6 +898,15 @@ namespace Ecell
         public DeleteStepperAction()
         {
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "DeleteStepperAction:" + m_paramID;
+        }
+
         /// <summary>
         /// The constructor for DeleteStepperAction with initial parameters.
         /// </summary>
@@ -877,6 +996,15 @@ namespace Ecell
             m_newStepperList = new List<EcellObject>();
             m_oldStepperList = new List<EcellObject>();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "UpdateStepperAction:" + m_isAnchor.ToString() + ", " + m_paramID;
+        }
+
         /// <summary>
         /// The constructor for UpdateStepperAction with initial parameters.
         /// </summary>
@@ -973,6 +1101,15 @@ namespace Ecell
         {
         }
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "NewSimParamAction:" + m_paramID;
+        }
+
+        /// <summary>
         /// The constructor for NewSimParamAction with initial parameters.
         /// </summary>
         /// <param name="paramID">The created paramter ID.</param>
@@ -1042,6 +1179,15 @@ namespace Ecell
         public DeleteSimParamAction()
         {
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "DeleteSimParamAction:" + m_isAnchor.ToString() + ", " + m_paramID;
+        }
+
         /// <summary>
         /// The constructor for DeleteSimParamAction with initial parameters.
         /// </summary>
@@ -1115,6 +1261,14 @@ namespace Ecell
         /// </summary>
         public SetSimParamAction()
         {
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "NewSimParamAction:" + m_isAnchor.ToString() + ", " + m_oldParamID + ", " + m_newParamID;
         }
         /// <summary>
         /// The constructor for SetSimParamAction with initial parameters.

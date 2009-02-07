@@ -339,6 +339,21 @@
   <data name="ErrDelParam" xml:space="preserve">
     <value>少なくともプロジェクトには１つのシミュレーションパラメータが必要です。</value>
   </data>
+  <data name="ErrInvalidParam" xml:space="preserve">
+    <value>パラメータ[{0}]が不正です。</value>
+  </data>
+  <data name="ErrSaveZip" xml:space="preserve">
+    <value>Zipファイル{0}を保存できません。</value>
+  </data>
+  <data name="ErrFindDir" xml:space="preserve">
+    <value>ディレクトリ {0} が見つかりません。</value>
+  </data>
+  <data name="ErrLoadSimParam" xml:space="preserve">
+    <value>シミュレーションパラメータ {0} を開けません。</value>
+  </data>
+  <data name="ErrSaveFile" xml:space="preserve">
+    <value>ファイル {0} を保存できません。</value>
+  </data>
   <data name="ConfirmAnalysisReset" xml:space="preserve">
     <value>解析実行中に設定できないプロパティを変更しようとしています。解析を中断しますか？</value>
   </data>

@@ -53,7 +53,7 @@ namespace Ecell.Objects
     /// <summary>
     /// The polymorphism 4 the "EcellData".
     /// </summary>
-    public class EcellValue: ICloneable, IComparable
+    public class EcellValue: ICloneable
     {
         #region Fields
         /// <summary>
@@ -151,48 +151,25 @@ namespace Ecell.Objects
 
         #endregion
 
-        public override bool Equals(object obj)
-        {
-            if (obj is EcellValue)
-                return Equals(((EcellValue)obj).m_value);
-            else if (obj is int)
-                return (int)this == (int)obj;
-            else if (obj is double)
-                return (double)this == (double)obj;
-            else if (obj is string)
-                return (string)this == (string)obj;
-            else if (obj is IEnumerable)
-            {
-                return (IEnumerable)this.m_value == (IEnumerable<object>)obj;
-            }
-            throw new InvalidOperationException();
-        }
-
-        public int CompareTo(object obj)
-        {
-            if (obj is EcellValue)
-                return CompareTo(((EcellValue)obj).m_value);
-            else if (obj is int)
-                return ((int)this).CompareTo((int)obj);
-            else if (obj is double)
-                return ((double)this).CompareTo((double)obj);
-            else if (obj is string)
-                return ((string)this).CompareTo((string)obj);
-            throw new InvalidOperationException();
-        }
-
-
+        #region Methods
         /// <summary>
         /// Convert to EcellValue from string.
         /// </summary>
         /// <param name="str">string.</param>
         /// <returns>EcellValue.</returns>
-        public static EcellValue FromListString(string str)
+        public static EcellValue ConvertFromListString(string str)
         {
-            List<EcellReference> list = EcellReference.ConvertFromString(str);
-            return EcellReference.ConvertToEcellValue(list);
-        }
+            if (string.IsNullOrEmpty(str))
+                return new EcellValue(new List<EcellValue>());
 
+            List<EcellReference> refList = EcellReference.ConvertFromString(str);
+            return EcellReference.ConvertToEcellValue(refList);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns></returns>
         private static object Normalize(object o)
         {
             if ((o is int) || (o is double) || (o is string))
@@ -201,7 +178,7 @@ namespace Ecell.Objects
             }
             else if (o is EcellValue)
             {
-                 return ((EcellValue)o).Value;
+                return ((EcellValue)o).Value;
             }
             else if (o is IEnumerable)
             {
@@ -214,28 +191,11 @@ namespace Ecell.Objects
             }
             throw new ArgumentException();
         }
-
         /// <summary>
-        /// Casts the value to "string".
+        /// 
         /// </summary>
-        /// <returns>The "string" value</returns>
-        public override string ToString()
-        {
-            if (m_value is string)
-                return (string)m_value;
-            return ToSerializedForm();
-        }
-
-        /// <summary>
-        /// Copy EcellValue.
-        /// </summary>
-        /// <returns>EcellValue</returns>
-        public object Clone()
-        {
-            return new EcellValue(this);
-        }
-
-        public string ToSerializedForm()
+        /// <returns></returns>
+        private string ToSerializedForm()
         {
             string value = "";
             if (m_value is string)
@@ -264,12 +224,11 @@ namespace Ecell.Objects
             }
             return value;
         }
-
-        public override int GetHashCode()
-        {
-            return m_value.GetHashCode();
-        }
-
+        /// <summary>
+        /// To int
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public static implicit operator int(EcellValue val)
         {
             if (val.m_value is double)
@@ -289,7 +248,11 @@ namespace Ecell.Objects
             }
             throw new InvalidCastException("Specified value is not a numeric type");
         }
-
+        /// <summary>
+        /// To double.
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public static implicit operator double(EcellValue val)
         {
             if (val.m_value is double)
@@ -309,7 +272,11 @@ namespace Ecell.Objects
             }
             throw new InvalidCastException("Specified value is not a numeric type");
         }
-
+        /// <summary>
+        /// To string.
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public static implicit operator string(EcellValue val)
         {
             if (val.Value is string)
@@ -321,5 +288,76 @@ namespace Ecell.Objects
                 return val.Value.ToString();
             }
         }
+        #endregion
+
+        #region ICloneable メンバ
+        /// <summary>
+        /// Create a copy of this EcellValue.
+        /// </summary>
+        /// <returns>object</returns>
+        object ICloneable.Clone()
+        {
+            return this.Clone();
+        }
+
+        /// <summary>
+        /// Copy EcellValue.
+        /// </summary>
+        /// <returns>EcellValue</returns>
+        public EcellValue Clone()
+        {
+            return new EcellValue(this);
+        }
+
+        #endregion
+
+        #region Inherited Method
+        /// <summary>
+        /// Get Hash code.
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            if (m_value == null)
+                return base.GetHashCode();
+            else
+                return m_value.ToString().GetHashCode();
+        }
+
+        /// <summary>
+        /// Compare to another EcellValue.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is EcellValue)
+                return Equals(((EcellValue)obj).m_value);
+            else if (obj is int)
+                return (int)this == (int)obj;
+            else if (obj is double)
+                return (double)this == (double)obj;
+            else if (obj is string)
+                return (string)this == (string)obj;
+            else if (obj is IEnumerable)
+            {
+                return (IEnumerable)this.m_value == (IEnumerable<object>)obj;
+            }
+            throw new InvalidOperationException();
+        }
+
+        /// <summary>
+        /// Casts the value to "string".
+        /// </summary>
+        /// <returns>The "string" value</returns>
+        public override string ToString()
+        {
+            if (m_value is string)
+                return (string)m_value;
+            else
+                return ToSerializedForm();
+        }
+        #endregion
+
     }
 }

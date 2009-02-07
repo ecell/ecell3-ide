@@ -1,3 +1,33 @@
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2006 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+
 namespace Ecell
 {
     using System;
@@ -16,7 +46,7 @@ namespace Ecell
 
         private DataManager _unitUnderTest;
         /// <summary>
-        /// 
+        /// TestFixtureSetUp
         /// </summary>
         [SetUp()]
         public void TestFixtureSetUp()
@@ -24,15 +54,16 @@ namespace Ecell
             _unitUnderTest = new ApplicationEnvironment().DataManager;
         }
         /// <summary>
-        /// 
+        /// TestFixtureTearDown
         /// </summary>
         [TearDown()]
         public void TestFixtureTearDown()
         {
             _unitUnderTest = null;
         }
+
         /// <summary>
-        /// 
+        /// TestLoadProject
         /// </summary>
         [Test()]
         public void TestLoadProject()
@@ -67,10 +98,13 @@ namespace Ecell
             {
                 Trace.WriteLine(ex);
             }
-
+            // Load RBC
+            filename = "c:\\temp\\rbc.eml";
+            _unitUnderTest.LoadProject(filename);
         }
+
         /// <summary>
-        /// 
+        /// TestSaveUserAction
         /// </summary>
         [Test()]
         public void TestSaveUserAction()
@@ -79,7 +113,7 @@ namespace Ecell
             _unitUnderTest.SaveUserAction(fileName);
         }
         /// <summary>
-        /// 
+        /// TestLoadUserActionFile
         /// </summary>
         [Test()]
         public void TestLoadUserActionFile()
@@ -120,7 +154,7 @@ namespace Ecell
             _unitUnderTest.LoadUserActionFile(ActionFile);
         }
         /// <summary>
-        /// 
+        /// TestAddStepperIDL_parameterIDL_stepper
         /// </summary>
         [Test()]
         public void TestAddStepperIDL_parameterIDL_stepper()
@@ -132,7 +166,7 @@ namespace Ecell
 
         }
         /// <summary>
-        /// 
+        /// TestAddStepperIDL_parameterIDL_stepperL_isRecorded
         /// </summary>
         [Test()]
         public void TestAddStepperIDL_parameterIDL_stepperL_isRecorded()
@@ -253,11 +287,11 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
-        public void TestSystemDeleteAndMoveModelIDKey()
+        public void TestDataMerge()
         {
             string modelID = null;
             string key = null;
-            _unitUnderTest.SystemDeleteAndMove(modelID, key);
+            _unitUnderTest.DataMerge(modelID, key);
             Assert.Fail("Create or modify test(s).");
 
         }
@@ -641,20 +675,6 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
-        public void TestLoadModel()
-        {
-            string l_filename = "C:\\Documents and Settings\\c1901\\My Documents\\My E-Cell Projects\\sample\\simple.eml";
-            string expectedString = "";
-            string resultString = "";
-            resultString = _unitUnderTest.LoadModel(l_filename);
-            Assert.AreEqual(expectedString, resultString, "LoadModel method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestLoadSimulationParameter()
         {
             string l_fileName = null;
@@ -671,10 +691,9 @@ namespace Ecell
             string modelID = null;
             string key = null;
             string type = null;
-            bool isProper = false;
             Ecell.Objects.EcellObject expectedEcellObject = null;
             Ecell.Objects.EcellObject resultEcellObject = null;
-            resultEcellObject = _unitUnderTest.CreateDefaultObject(modelID, key, type, isProper);
+            resultEcellObject = _unitUnderTest.CreateDefaultObject(modelID, key, type);
             Assert.AreEqual(expectedEcellObject, resultEcellObject, "CreateDefaultObject method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
@@ -683,7 +702,7 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
-        public void TestCreateProject()
+        public void TestCreateNewProject()
         {
             string l_prjID = null;
             string l_comment = null;
@@ -767,17 +786,6 @@ namespace Ecell
             Ecell.LoggerPolicy expectedl_loggerPolicy = new LoggerPolicy();
             _unitUnderTest.SetLoggerPolicy(l_parameterID, l_loggerPolicy);
             Assert.AreEqual(expectedl_loggerPolicy, l_loggerPolicy, "l_loggerPolicy ref parameter has unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestSetPositions()
-        {
-            string l_modelID = null;
-            _unitUnderTest.SetPositions(l_modelID);
             Assert.Fail("Create or modify test(s).");
 
         }

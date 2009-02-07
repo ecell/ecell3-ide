@@ -3,11 +3,12 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Xml;
 using Ecell.Objects;
+using Ecell.Exceptions;
 using System.Collections;
 
 namespace Ecell
 {
-    internal class EcellXmlReaderException: ApplicationException
+    internal class EcellXmlReaderException: EcellException
     {
         public EcellXmlReaderException(string msg)
             : base(msg)
@@ -129,7 +130,7 @@ namespace Ecell
                 switch (childNode.NodeType)
                 {
                 case XmlNodeType.Text:
-                    string value = Util.StripWhitespaces(childNode.Value);
+                    string value = childNode.Value.Trim();
                     if (value.Equals(XmlConvert.ToString(Double.PositiveInfinity)))
                     {
                         ecellValueList.Add(new EcellValue(Double.PositiveInfinity));

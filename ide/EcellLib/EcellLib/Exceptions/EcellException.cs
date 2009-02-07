@@ -61,7 +61,7 @@ namespace Ecell.Exceptions
         /// <param name="message"></param>
         /// <param name="e"></param>
         public EcellException(string message, Exception e)
-            : base(message, e)
+            : base(message + "\n" + e.Message, e)
         {
         }
     }

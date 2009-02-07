@@ -43,7 +43,13 @@ namespace Ecell
     public class Constants
     {
         #region Group name
+        /// <summary>
+        /// 
+        /// </summary>
         public const string groupDebug = "debug";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string groupCompile = "compile";
         #endregion
 
@@ -150,7 +156,11 @@ namespace Ecell
         /// <summary>
         /// File Filter for the csv file.
         /// </summary>
-        public const string FileExtCSV = "CSV File (*.csv)|*.csv|all(*.*)|*.*";
+        public const string FilterCSVFile = "CSV File (*.csv)|*.csv|all(*.*)|*.*";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string FilterECDFile = "Log File(*.ecd)|*.ecs|all(*.*)|*.*";
         /// <summary>
         /// File Filter for the window setting file.
         /// </summary>
@@ -178,11 +188,11 @@ namespace Ecell
         /// <summary>
         /// File Filter for the zip file.
         /// </summary>
-        public const string FilterSVGFile = "SVG - Scalable Vector Graphics (*.svg)|*.svg";
+        public const string FilterSVGFile = "SVG File - Scalable Vector Graphics (*.svg)|*.svg";
         /// <summary>
         /// File Filter for the zip file.
         /// </summary>
-        public const string FilterImageFile = "BMP - Windows Bitmap (*.bmp)|*.bmp|JPEG File(*.jpg)|*.jpg|GIF File(*.gif)|*.gif|PNG File(*.png)|*.png";
+        public const string FilterImageFile = "BMP File - Windows Bitmap (*.bmp)|*.bmp|JPEG File(*.jpg)|*.jpg|GIF File(*.gif)|*.gif|PNG File(*.png)|*.png";
 
         #endregion
 
@@ -460,6 +470,10 @@ namespace Ecell
         /// </summary>
         public const string xpathSystem = "System";
         /// <summary>
+        /// Reserved XML path name for Type.
+        /// </summary>
+        public const string xpathType = "Type";
+        /// <summary>
         /// Reserved XML path name for Value.
         /// </summary>
         public const string xpathValue = "Value";
@@ -706,9 +720,21 @@ namespace Ecell
     /// </summary>
     public enum MessageType
     {
+        /// <summary>
+        /// 
+        /// </summary>
         Debug = 0,
+        /// <summary>
+        /// 
+        /// </summary>
         Information = 1,
+        /// <summary>
+        /// 
+        /// </summary>
         Warning = 2,
+        /// <summary>
+        /// 
+        /// </summary>
         Error = 3
     }
 
@@ -726,16 +752,42 @@ namespace Ecell
         /// </summary>
         QuickInspector
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
     public class MenuConstants
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public const string MenuItemFile = "MenuItemFile";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string MenuItemEdit = "MenuItemEdit";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string MenuItemLayout = "MenuItemLayout";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string MenuItemView = "MenuItemView";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string MenuItemRun = "MenuItemRun";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string MenuItemSetup = "MenuItemSetup";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string MenuItemTools = "MenuItemTools";
+        /// <summary>
+        /// 
+        /// </summary>
         public const string MenuItemHelp = "MenuItemHelp";
     }
 }

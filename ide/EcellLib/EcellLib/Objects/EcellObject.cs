@@ -54,6 +54,10 @@ namespace Ecell.Objects
     {
         #region Constant
         /// <summary>
+        /// TYPE.
+        /// </summary>
+        public const string TYPE = Constants.xpathType;
+        /// <summary>
         /// Type string of "Project".
         /// </summary>
         public const string PROJECT = Constants.xpathProject;
@@ -85,25 +89,21 @@ namespace Ecell.Objects
 
         #region Fields
         /// <summary>
-        /// The class
+        /// The type of object.
         /// </summary>
-        protected string m_class;
+        protected string m_type;
         /// <summary>
         /// The model ID
         /// </summary>
         protected string m_modelID;
         /// <summary>
+        /// The class
+        /// </summary>
+        protected string m_class;
+        /// <summary>
         /// The key
         /// </summary>
         protected string m_key;
-        /// <summary>
-        /// The type of object.
-        /// </summary>
-        protected string m_type;
-        /// <summary>
-        /// The layout struct of EcellObject.
-        /// </summary>
-        protected EcellLayout m_layout;
         /// <summary>
         /// The value
         /// </summary>
@@ -112,6 +112,10 @@ namespace Ecell.Objects
         /// The children of this
         /// </summary>
         protected List<EcellObject> m_children;
+        /// <summary>
+        /// The layout struct of EcellObject.
+        /// </summary>
+        protected EcellLayout m_layout;
         /// <summary>
         /// Fixed flag.
         /// </summary>
@@ -124,7 +128,8 @@ namespace Ecell.Objects
         /// </summary>
         protected EcellObject()
         {
-            m_children = new List<EcellObject>();
+            this.m_children = new List<EcellObject>();
+            this.m_layout = new EcellLayout();
         }
 
         /// <summary>
@@ -143,11 +148,20 @@ namespace Ecell.Objects
             this.m_type = type;
             this.m_class = classname;
             this.m_ecellDatas = data;
-            this.m_layout = new EcellLayout();
         }
         #endregion
 
         #region Accessors
+
+        #region Accessors for Class
+        /// <summary>
+        /// get/set m_type.
+        /// </summary>
+        public virtual string Type
+        {
+            get { return m_type; }
+        }
+
         /// <summary>
         /// get/set m_modelID.
         /// </summary>
@@ -158,21 +172,14 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// get / set name.
+        /// get/set m_class.
         /// </summary>
-        public virtual string LocalID
+        public virtual string Classname
         {
-            get {
-                string name;
-                if (string.IsNullOrEmpty(m_key) || m_key.Equals("/"))
-                    name = "/";
-                else if (m_key.Contains(":"))
-                    name = m_key.Substring(m_key.LastIndexOf(":") + 1);
-                else
-                    name = m_key.Substring(m_key.LastIndexOf("/") + 1);
-                return name;
-            }
+            get { return m_class; }
+            set { this.m_class = value; }
         }
+
         /// <summary>
         /// get/set m_keyID.
         /// </summary>
@@ -180,14 +187,6 @@ namespace Ecell.Objects
         {
             get { return m_key; }
             set { m_key = value; }
-        }
-
-        /// <summary>
-        /// FullID
-        /// </summary>
-        public virtual string FullID
-        {
-            get { return m_type + Constants.delimiterColon + m_key; }
         }
 
         /// <summary>
@@ -203,8 +202,10 @@ namespace Ecell.Objects
                     this.m_key = value + ":" + this.LocalID;
                     return;
                 }
-                else if (m_key == null || m_key.Equals("/"))
+                else if ((string.IsNullOrEmpty(m_key) || m_key.Equals("/")) && value.Equals("/"))
                     this.m_key = "/";
+                else if (string.IsNullOrEmpty(m_key) || m_key.Equals("/"))
+                    this.m_key = value;
                 else if (value.Equals("/"))
                     this.m_key = value + this.LocalID;
                 else
@@ -217,137 +218,26 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// get/set m_class.
+        /// get / set name.
         /// </summary>
-        public virtual string Classname
+        public virtual string LocalID
         {
-            get { return m_class; }
-            set { this.m_class = value; }
-        }
+            get {
+                if (string.IsNullOrEmpty(m_key))
+                    return "";
 
-        /// <summary>
-        /// get/set the EcellLayout.
-        /// </summary>
-        public virtual EcellLayout Layout
-        {
-            get { return m_layout; }
-            set { m_layout = value; }
-        }
-
-        /// <summary>
-        /// PointF
-        /// </summary>
-        public virtual string Layer
-        {
-            get { return m_layout.Layer; }
-            set { m_layout.Layer = value; }
-        }
-
-        /// <summary>
-        /// PointF
-        /// </summary>
-        public virtual PointF PointF
-        {
-            get { return m_layout.Location; }
-            set { m_layout.Location = value; }
-        }
-
-        /// <summary>
-        /// Accessor for CenterPointF.
-        /// </summary>
-        public PointF CenterPointF
-        {
-            get { return m_layout.Center; }
-            set { m_layout.Center = value; }
-        }
-
-        /// <summary>
-        /// PointF
-        /// </summary>
-        public virtual RectangleF Rect
-        {
-            get { return m_layout.Rect; }
-        }
-
-        /// <summary>
-        /// X coordinate
-        /// </summary>
-        public virtual float X
-        {
-            get { return m_layout.X; }
-            set { m_layout.X = value; }
-        }
-
-        /// <summary>
-        /// Y coordinate
-        /// </summary>
-        public virtual float Y
-        {
-            get { return m_layout.Y; }
-            set { m_layout.Y = value; }
-        }
-
-        /// <summary>
-        /// X offset
-        /// </summary>
-        public virtual float OffsetX
-        {
-            get { return m_layout.OffsetX; }
-            set { m_layout.OffsetX = value; }
-        }
-
-        /// <summary>
-        /// Y offset
-        /// </summary>
-        public virtual float OffsetY
-        {
-            get { return m_layout.OffsetY; }
-            set { m_layout.OffsetY = value; }
-        }
-
-        /// <summary>
-        /// Width
-        /// </summary>
-        public virtual float Width
-        {
-            get { return m_layout.Width; }
-            set { m_layout.Width = value; }
-        }
-
-        /// <summary>
-        /// Height
-        /// </summary>
-        public virtual float Height
-        {
-            get { return m_layout.Height; }
-            set { m_layout.Height = value; }
-        }
-
-        /// <summary>
-        /// get isLogger.
-        /// </summary>
-        public virtual bool Logged
-        {
-            get
-            {
-                //return true if any Logger exists.
-                if (m_ecellDatas != null)
-                {
-                    foreach (EcellData d in m_ecellDatas)
-                        if ( d.Logable && d.Logged)
-                            return true;
-                }
-                return false;
+                string parentSysKey, localID;
+                Util.ParseKey(m_key, out parentSysKey, out localID);
+                return localID;
             }
         }
 
         /// <summary>
-        /// get/set m_type.
+        /// FullID
         /// </summary>
-        public virtual string Type
+        public virtual string FullID
         {
-            get { return m_type; }
-            set { this.m_type = value; }
+            get { return m_type + Constants.delimiterColon + m_key; }
         }
 
         /// <summary>
@@ -377,29 +267,21 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// Whether position for this object has been set or not.
+        /// get isLogger.
         /// </summary>
-        public virtual bool IsPosSet
+        public virtual bool Logged
         {
             get
             {
-                if (this.X != 0 || this.Y != 0)
-                    return true;
-                if (this.Width != 0 || this.Y != Height)
-                    return true;
-                if (this.OffsetX != 0 || this.OffsetY != 0)
-                    return true;
+                //return true if any Logger exists.
+                if (m_ecellDatas != null)
+                {
+                    foreach (EcellData d in m_ecellDatas)
+                        if (d.Logable && d.Logged)
+                            return true;
+                }
                 return false;
             }
-        }
-
-        /// <summary>
-        /// get / set whether this parameter is fix.
-        /// </summary>
-        public virtual bool isFixed
-        {
-            get { return m_isFixed; }
-            set { this.m_isFixed = value; }
         }
 
         /// <summary>
@@ -410,8 +292,6 @@ namespace Ecell.Objects
             get
             {
                 if (string.IsNullOrEmpty(m_modelID))
-                    return false;
-                if (string.IsNullOrEmpty(m_type))
                     return false;
                 // 4 "Process", "Stepper", "System" and "Variable"
                 if (!m_type.Equals(Constants.xpathProject) && !m_type.Equals(Constants.xpathModel))
@@ -424,6 +304,126 @@ namespace Ecell.Objects
                 return true;
             }
         }
+
+        /// <summary>
+        /// get / set whether this parameter is fix.
+        /// </summary>
+        public virtual bool isFixed
+        {
+            get { return m_isFixed; }
+            set { this.m_isFixed = value; }
+        }
+        #endregion
+
+        #region Accessors for Layout
+        /// <summary>
+        /// get/set the EcellLayout.
+        /// </summary>
+        public virtual EcellLayout Layout
+        {
+            get { return m_layout; }
+            set { m_layout = value; }
+        }
+
+        /// <summary>
+        /// PointF
+        /// </summary>
+        public virtual string Layer
+        {
+            get { return m_layout.Layer; }
+            set { m_layout.Layer = value; }
+        }
+
+        /// <summary>
+        /// PointF
+        /// </summary>
+        public virtual PointF PointF
+        {
+            get { return m_layout.Location; }
+            set { m_layout.Location = value; }
+        }
+
+        /// <summary>
+        /// PointF
+        /// </summary>
+        public virtual RectangleF Rect
+        {
+            get { return m_layout.Rect; }
+        }
+
+        /// <summary>
+        /// Accessor for CenterPointF.
+        /// </summary>
+        public PointF CenterPointF
+        {
+            get { return m_layout.Center; }
+            set { m_layout.Center = value; }
+        }
+
+        /// <summary>
+        /// X coordinate
+        /// </summary>
+        public virtual float X
+        {
+            get { return m_layout.X; }
+            set { m_layout.X = value; }
+        }
+
+        /// <summary>
+        /// Y coordinate
+        /// </summary>
+        public virtual float Y
+        {
+            get { return m_layout.Y; }
+            set { m_layout.Y = value; }
+        }
+
+        /// <summary>
+        /// Width
+        /// </summary>
+        public virtual float Width
+        {
+            get { return m_layout.Width; }
+            set { m_layout.Width = value; }
+        }
+
+        /// <summary>
+        /// Height
+        /// </summary>
+        public virtual float Height
+        {
+            get { return m_layout.Height; }
+            set { m_layout.Height = value; }
+        }
+
+        /// <summary>
+        /// X offset
+        /// </summary>
+        public virtual float OffsetX
+        {
+            get { return m_layout.OffsetX; }
+            set { m_layout.OffsetX = value; }
+        }
+
+        /// <summary>
+        /// Y offset
+        /// </summary>
+        public virtual float OffsetY
+        {
+            get { return m_layout.OffsetY; }
+            set { m_layout.OffsetY = value; }
+        }
+
+        /// <summary>
+        /// Whether position for this object has been set or not.
+        /// </summary>
+        public virtual bool IsPosSet
+        {
+            get { return !m_layout.IsEmpty; }
+        }
+
+        #endregion
+
         #endregion
 
         #region Methods
@@ -458,6 +458,11 @@ namespace Ecell.Objects
         public static EcellObject CreateObject(string modelID, string key,
             string type, string classname, List<EcellData> data)
         {
+            //if (string.IsNullOrEmpty(modelID))
+            //    throw new EcellException(string.Format(MessageResources.ErrInvalidParam, MODEL));
+            if (Util.IsNGforType(type))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "Type"));
+
             if (type.Equals(MODEL))
                 return new EcellModel(modelID, key, type, classname, data);
             else if (type.Equals(PROCESS))
@@ -470,58 +475,14 @@ namespace Ecell.Objects
                 return new EcellText(modelID, key, type, classname, data);
             else if (type.Equals(STEPPER))
                 return new EcellStepper(modelID, key, type, classname, data);
+            else if (type.Equals(PROJECT))
+                return new EcellProject(modelID, key, type, classname, data);
             else
-                return new EcellObject(modelID, key, type, classname, data);
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, TYPE));
         }
 
-        /// <summary>
-        /// override the equal method on EcellObject.
-        /// </summary>
-        /// <param name="obj">the comparing data</param>
-        /// <returns>if equal, return true.</returns>
-        public bool Equals(EcellObject obj)
-        {
-            if (this.m_modelID == obj.m_modelID && this.m_key == obj.m_key &&
-                this.Type == obj.Type)
-            {
-                return true;
-            }
-            return false;
-        }
 
-        /// <summary>
-        /// add the data to Value.
-        /// </summary>
-        /// <param name="d">EcellData.</param>
-        public void AddValue(EcellData d)
-        {
-            this.m_ecellDatas.Add(d);
-        }
-
-        /// <summary>
-        /// Remove EcellData.
-        /// </summary>
-        /// <param name="name"></param>
-        public void RemoveValue(string name)
-        {
-            foreach (EcellData data in m_ecellDatas)
-            {
-                if (!data.Name.Equals(name))
-                    continue;
-                m_ecellDatas.Remove(data);
-                break;
-            }
-        }
-
-        /// <summary>
-        /// Set value from the list of EcellData.
-        /// </summary>
-        /// <param name="list">the list of EcellData.</param>
-        public void SetEcellDatas(List<EcellData> list)
-        {
-            this.m_ecellDatas = list;
-        }
-
+        #region Methods to control EcellData
         /// <summary>
         /// get EcellData from the list of EcellData.
         /// </summary>
@@ -539,6 +500,16 @@ namespace Ecell.Objects
             }
             return null;
         }
+
+        /// <summary>
+        /// Set value from the list of EcellData.
+        /// </summary>
+        /// <param name="list">the list of EcellData.</param>
+        public void SetEcellDatas(List<EcellData> list)
+        {
+            this.m_ecellDatas = list;
+        }
+
         /// <summary>
         /// get EcellValue from the list of EcellData.
         /// </summary>
@@ -558,21 +529,6 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// get isEcellValueExists.
-        /// </summary>
-        public bool IsEcellValueExists(string name)
-        {
-            // Check List.
-            if (Value == null)
-                return false;
-            //return true if EcellValue exists.
-            foreach (EcellData d in Value)
-                if (d.Name == name)
-                    return true;
-            return false;
-        }
-
-        /// <summary>
         /// Set EcellValue
         /// </summary>
         /// <param name="name"></param>
@@ -589,7 +545,67 @@ namespace Ecell.Objects
             }
             string entytyPath = this.m_type + ":" + this.m_key + ":" + name;
             EcellData data = new EcellData(name, value, entytyPath);
-            AddValue(data);
+            m_ecellDatas.Add(data);
+        }
+
+        /// <summary>
+        /// Remove EcellData.
+        /// </summary>
+        /// <param name="name"></param>
+        public void RemoveEcellValue(string name)
+        {
+            foreach (EcellData data in m_ecellDatas)
+            {
+                if (!data.Name.Equals(name))
+                    continue;
+                m_ecellDatas.Remove(data);
+                break;
+            }
+        }
+
+        /// <summary>
+        /// get isEcellValueExists.
+        /// </summary>
+        public bool IsEcellValueExists(string name)
+        {
+            // Check List.
+            if (Value == null)
+                return false;
+            //return true if EcellValue exists.
+            foreach (EcellData d in Value)
+                if (d.Name == name)
+                    return true;
+            return false;
+        }
+
+        #endregion
+
+        #region Inherited Methods
+        /// <summary>
+        /// override the equal method on EcellObject.
+        /// </summary>
+        /// <param name="obj">the comparing data</param>
+        /// <returns>if equal, return true.</returns>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is EcellObject))
+                return false;
+            EcellObject eo = (EcellObject)obj;
+            if (this.m_modelID == eo.m_modelID && this.m_key == eo.m_key &&
+                this.Type == eo.Type)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         /// <summary>
@@ -622,6 +638,8 @@ namespace Ecell.Objects
 
         #endregion
 
+        #endregion
+
         #region ICloneable ÉÅÉìÉo
         /// <summary>
         /// Create a copy of this EcellObject.
@@ -644,6 +662,7 @@ namespace Ecell.Objects
                     CreateObject(this.m_modelID, this.m_key, this.m_type, this.m_class, this.CopyValueList());
                 newEcellObject.Layout = this.m_layout;
                 newEcellObject.Children = this.CopyChildren();
+                newEcellObject.isFixed = m_isFixed;
                 return newEcellObject;
             }
             catch (Exception ex)

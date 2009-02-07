@@ -73,7 +73,7 @@ namespace Ecell.Objects
         /// <summary>
         /// The flag of logger
         /// </summary>
-        private bool m_isLogger;
+        private bool m_isLogged;
         /// <summary>
         /// The flag of savable
         /// </summary>
@@ -98,7 +98,7 @@ namespace Ecell.Objects
             this.m_isLoadable = true;
             this.m_isSavable = true;
             this.m_isLogable = false;
-            this.m_isLogger = false;
+            this.m_isLogged = false;
         }
 
         /// <summary>
@@ -117,19 +117,9 @@ namespace Ecell.Objects
             this.m_isLoadable = true;
             this.m_isSavable = true;
             this.m_isLogable = false;
-            this.m_isLogger = false;
+            this.m_isLogged = false;
         }
-        
-        public EcellData(EcellData that)
-            : this(that.m_name, (EcellValue)that.m_value.Clone(), that.m_entityPath)
-        {
-            m_isGettable = that.m_isGettable;
-            m_isLoadable = that.m_isLoadable;
-            m_isLogable = that.m_isLogable;
-            m_isLogger = that.m_isLogger;
-            m_isSavable = that.m_isSavable;
-            m_isSettable = that.m_isSettable;
-        }
+
         #endregion
 
         #region Accessors
@@ -192,8 +182,8 @@ namespace Ecell.Objects
         /// </summary>
         public bool Logged
         {
-            get { return this.m_isLogger; }
-            set { this.m_isLogger = value; }
+            get { return this.m_isLogged; }
+            set { this.m_isLogged = value; }
         }
 
         /// <summary>
@@ -222,7 +212,12 @@ namespace Ecell.Objects
         /// <returns></returns>
         public override string ToString()
         {
-            return m_entityPath;
+            string str = "";
+            if (m_entityPath != null)
+                str += m_entityPath;
+            if (m_value != null)
+                str += ", " + m_value.ToString();
+            return str;
         }
 
         /// <summary>
@@ -230,13 +225,60 @@ namespace Ecell.Objects
         /// </summary>
         /// <param name="obj">the comparing object</param>
         /// <returns>if equal, return true</returns>
-        public bool Equals(EcellData obj)
+        public override bool Equals(object obj)
         {
-            if (this.m_name == obj.m_name && this.Value == obj.Value)
-            {
-                return true;
-            }
-            return false;
+            if (!(obj is EcellData))
+                return false;
+            EcellData data = (EcellData)obj;
+
+            if (this.m_name != data.Name)
+                return false;
+            if (this.m_entityPath != data.EntityPath)
+                return false;
+            if ((this.m_value != null && data.Value == null)
+                || (this.m_value == null && data.Value != null))
+                return false;
+            if ((this.m_value != null && data.Value != null)
+                && !this.m_value.Equals(data.Value))
+                return false;
+
+            if ((this.m_isGettable != data.Gettable))
+                return false;
+            if ((this.m_isLoadable != data.Loadable))
+                return false;
+            if ((this.m_isLogable != data.Logable))
+                return false;
+            if ((this.m_isLogged != data.Logged))
+                return false;
+            if ((this.m_isSavable != data.Saveable))
+                return false;
+            if ((this.m_isSettable != data.Settable))
+                return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            int hash = m_isGettable.GetHashCode()
+                ^ m_isLoadable.GetHashCode()
+                ^ m_isLogable.GetHashCode()
+                ^ m_isLogged.GetHashCode()
+                ^ m_isSavable.GetHashCode()
+                ^ m_isSettable.GetHashCode();
+
+            if (m_name != null)
+                hash = hash ^ m_name.GetHashCode();
+            if (m_entityPath != null)
+                hash = hash ^ m_entityPath.GetHashCode();
+            if (m_value != null)
+                hash = hash ^ m_value.GetHashCode();
+
+            return hash;
         }
 
         /// <summary>
@@ -266,21 +308,30 @@ namespace Ecell.Objects
         {
             return this.Clone();
         }
+
         /// <summary>
         /// Create a copy of this EcellData object.
         /// </summary>
         /// <returns>The copy "EcellData"</returns>
         public EcellData Clone()
         {
-            try
-            {
-                EcellData newData = new EcellData(this);
-                return newData;
-            }
-            catch (Exception ex)
-            {
-                throw new EcellException("Can't copy the \"EcellData\". {" + ex.ToString() + "}");
-            }
+            EcellData newData = new EcellData();
+
+            newData.Name = this.m_name;
+            newData.EntityPath = this.m_entityPath;
+            if (m_value == null)
+                newData.Value = null;
+            else
+                newData.Value = this.m_value.Clone();
+
+            newData.Gettable = this.m_isGettable;
+            newData.Loadable = this.m_isLoadable;
+            newData.Logable = this.m_isLogable;
+            newData.Logged = this.m_isLogged;
+            newData.Saveable = this.m_isSavable;
+            newData.Settable = this.m_isSettable;
+
+            return newData;
         }
 
         #endregion

@@ -59,43 +59,50 @@ namespace Ecell.Objects
 
         #region Constructors
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="location"></param>
-        public EcellLayout(PointF location)
-        {
-            m_rect = RectangleF.Empty;
-            m_offset = PointF.Empty;
-            m_layer = "";
-            m_rect.Location = location;
-        }
-
-        /// <summary>
-        /// 
+        /// Constructor with RectangleF.
         /// </summary>
         /// <param name="rect"></param>
         public EcellLayout(RectangleF rect)
         {
             m_rect = rect;
             m_offset = PointF.Empty;
-            m_layer = "";
+            m_layer = null;
         }
+
         /// <summary>
-        /// 
+        /// Constructor with x, y, width, and height.
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
         public EcellLayout(float x, float y, float width, float height)
+            : this(new RectangleF(x, y, width, height))
         {
-            m_rect = new RectangleF(x, y, width, height);
-            m_offset = new PointF();
-            m_layer = "";
         }
+
+        /// <summary>
+        /// Constructor with PointF.
+        /// </summary>
+        /// <param name="location"></param>
+        public EcellLayout(PointF location)
+            : this(RectangleF.Empty)
+        {
+            m_rect.Location = location;
+        }
+
+
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// get empty EcellLayout.
+        /// </summary>
+        public static EcellLayout Empty
+        {
+            get { return new EcellLayout(); }
+        }
+
         /// <summary>
         /// get/set the layer property.
         /// </summary>
@@ -253,11 +260,19 @@ namespace Ecell.Objects
         /// <summary>
         /// Right
         /// </summary>
-        public float Right 
-        { 
-            get { return m_rect.Right; } 
+        public float Right
+        {
+            get { return m_rect.Right; }
         }
-	    #endregion
+
+        /// <summary>
+        /// IsEmpty
+        /// </summary>
+        public bool IsEmpty
+        {
+            get { return this.Location.IsEmpty && m_rect.IsEmpty && m_offset.IsEmpty; }
+        }
+        #endregion
 
         #region Method
         /// <summary>
@@ -296,8 +311,12 @@ namespace Ecell.Objects
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            int hash = m_rect.GetHashCode() ^ m_offset.GetHashCode();
+            if(m_layer != null)
+                hash = hash ^ m_layer.GetHashCode();
+            return hash;
         }
+
         /// <summary>
         /// Get information of this struct.
         /// </summary>

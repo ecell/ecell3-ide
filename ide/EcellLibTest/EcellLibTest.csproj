@@ -63,21 +63,62 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="Exceptions\TestEcellException.cs" />
+    <Compile Include="Job\TestExecuteParameter.cs" />
+    <Compile Include="Job\TestJob.cs" />
+    <Compile Include="Job\TestJobManager.cs" />
+    <Compile Include="Job\TestJobProxy.cs" />
+    <Compile Include="Job\TestLocalJob.cs" />
+    <Compile Include="Job\TestLocalJobProxy.cs" />
+    <Compile Include="Logging\TestLogEntry.cs" />
+    <Compile Include="Objects\TestEcellDragObject.cs" />
+    <Compile Include="Objects\TestEcellLayer.cs" />
+    <Compile Include="Objects\TestEcellObservedData.cs" />
+    <Compile Include="Objects\TestEcellParameterData.cs" />
+    <Compile Include="Reporting\TestObjectPropertyReport.cs" />
+    <Compile Include="Reporting\TestObjectReport.cs" />
+    <Compile Include="Reporting\TestProgressReportEventArgs.cs" />
+    <Compile Include="Reporting\TestReportEventArgs.cs" />
+    <Compile Include="Reporting\TestReportingSession.cs" />
+    <Compile Include="Reporting\TestReportingSessionEventArgs.cs" />
+    <Compile Include="Reporting\TestReportManager.cs" />
+    <Compile Include="Reporting\TestStatusUpdateEventArgs.cs" />
+    <Compile Include="TestActionManager.cs" />
     <Compile Include="TestApplicationEnvironment.cs" />
+    <Compile Include="TestConsoleDataAvailableEventArgs.cs" />
+    <Compile Include="TestConsoleManager.cs" />
     <Compile Include="TestDataManager.cs" />
     <Compile Include="TestDMManager.cs" />
-    <Compile Include="TestEcellObject.cs" />
-    <Compile Include="TestPluginData.cs" />
+    <Compile Include="Objects\TestEcellData.cs" />
+    <Compile Include="Objects\TestEcellLayout.cs" />
+    <Compile Include="Objects\TestEcellObject.cs" />
+    <Compile Include="Objects\TestEcellReference.cs" />
+    <Compile Include="Objects\TestEcellValue.cs" />
+    <Compile Include="Logging\TestLogEntryEventArgs.cs" />
+    <Compile Include="Logging\TestLogManager.cs" />
     <Compile Include="TestPluginManager.cs" />
     <Compile Include="TestProjectInfo.cs" />
     <Compile Include="TestTemplate.cs" />
+    <Compile Include="TestUtil.cs" />
+    <Compile Include="TestZipUtil.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="EcellCoreLibCLR">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\EcellCoreLibCLR.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework" />
     <Reference Include="EcellLib" />
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Folder Include="TestData\" />
   </ItemGroup>

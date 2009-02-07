@@ -34,6 +34,7 @@ using System.Text;
 using ICSharpCode.SharpZipLib.Checksums;
 using ICSharpCode.SharpZipLib.Zip;
 using System.IO;
+using Ecell.Exceptions;
 
 namespace Ecell.IDE
 {
@@ -49,8 +50,6 @@ namespace Ecell.IDE
         /// <param name="filePath"></param>
         public static void ZipFile(string zipname, string filePath)
         {
-            if (!File.Exists(filePath))
-                return;
             string[] filePaths = {filePath};
             ZipFiles(zipname, filePaths);
         }
@@ -80,7 +79,7 @@ namespace Ecell.IDE
                 foreach (string filePath in filePaths)
                 {
                     if (!File.Exists(filePath))
-                        return;
+                        continue;
 
                     string filename = Path.GetFileName(filePath);
                     ZipEntry ze = new ZipEntry(filename);
@@ -104,6 +103,10 @@ namespace Ecell.IDE
                     zos.Write(buffer, 0, buffer.Length);
                 }
             }
+            catch (Exception e)
+            {
+                throw new EcellException(string.Format(MessageResources.ErrSaveZip, zipname), e);
+            }
             finally
             {
                 if(zos != null)
@@ -121,15 +124,16 @@ namespace Ecell.IDE
         public static void ZipFolder(string zipname, string folderPath)
         {
             FastZip fz = new FastZip();
-            fz.CreateZip(zipname, folderPath, true, "", "");
+            Crc32 crc = new Crc32();
             FileStream zipwriter = null;
             ZipOutputStream zos = null;
-            Crc32 crc = new Crc32();
 
-            string[] filePaths = Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories);
-            folderPath = Path.GetDirectoryName(folderPath);
             try
             {
+                fz.CreateZip(zipname, folderPath, true, "", "");
+                string[] filePaths = Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories);
+                folderPath = Path.GetDirectoryName(folderPath);
+
                 zipwriter = new FileStream(
                      zipname,
                      FileMode.Create,
@@ -142,7 +146,7 @@ namespace Ecell.IDE
                 foreach (string filePath in filePaths)
                 {
                     if (!File.Exists(filePath))
-                        return;
+                        continue;
 
                     string filename = filePath.Replace(folderPath, "");
                     ZipEntry ze = new ZipEntry(filename);
@@ -165,6 +169,10 @@ namespace Ecell.IDE
                     zos.PutNextEntry(ze);
                     zos.Write(buffer, 0, buffer.Length);
                 }
+            }
+            catch (Exception e)
+            {
+                throw new EcellException(string.Format(MessageResources.ErrSaveZip, zipname), e);
             }
             finally
             {

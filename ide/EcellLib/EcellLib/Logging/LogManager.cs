@@ -5,23 +5,6 @@ using System.Diagnostics;
 
 namespace Ecell.Logging
 {
-    public class LogEntryEventArgs: EventArgs
-    {
-        private ILogEntry m_entry;
-
-        public ILogEntry LogEntry
-        {
-            get { return m_entry; }
-        }
-
-        public LogEntryEventArgs(ILogEntry entry)
-        {
-            m_entry = entry;
-        }
-    }
-
-    public delegate void LogEntryAppendedEventHandler(object o, LogEntryEventArgs e);
-
     /// <summary>
     /// Class to manage the error message.
     /// </summary>
@@ -30,7 +13,9 @@ namespace Ecell.Logging
         private ApplicationEnvironment m_env;
 
         private List<ILogEntry> m_entries;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public event LogEntryAppendedEventHandler LogEntryAppended;
 
         #region Accessors

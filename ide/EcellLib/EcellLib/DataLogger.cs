@@ -187,10 +187,18 @@ namespace Ecell
             set { this.m_isLoaded = value; }
         }
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
     public enum DiskFullAction
     {
+        /// <summary>
+        /// 
+        /// </summary>
         Terminate = 0,
+        /// <summary>
+        /// 
+        /// </summary>
         Overwrite = 1
     }
 
@@ -215,31 +223,42 @@ namespace Ecell
         /// The reload step count
         /// </summary>
         private int m_reloadStepCount = 1;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public DiskFullAction DiskFullAction
         {
             get { return m_diskFullAction; }
             set { m_diskFullAction = value; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public int MaxDiskSpace
         {
             get { return m_maxDiskSpace; }
             set { m_maxDiskSpace = value; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public double ReloadInterval
         {
             get { return m_reloadInterval; }
             set { m_reloadInterval = value; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public int ReloadStepCount
         {
             get { return m_reloadStepCount; }
             set { m_reloadStepCount = value; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
             return new LoggerPolicy(this);
@@ -269,7 +288,10 @@ namespace Ecell
             this.m_diskFullAction = diskFullAction;
             this.m_maxDiskSpace = maxDiskSpace;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rhs"></param>
         public LoggerPolicy(LoggerPolicy rhs)
         {
             this.m_reloadStepCount = rhs.m_reloadStepCount;
@@ -277,7 +299,9 @@ namespace Ecell
             this.m_diskFullAction = rhs.m_diskFullAction;
             this.m_maxDiskSpace = rhs.m_maxDiskSpace;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public LoggerPolicy() { }
     }
 
@@ -448,8 +472,6 @@ namespace Ecell
                 fileName = savedDirName + Constants.delimiterPath +
                     fileName + fileExtension;            
 
-
-
                     //
                     // Writes the "LogData".
                     //
@@ -505,6 +527,8 @@ namespace Ecell
         /// <param name="savedDirName">The saved directory name.</param>
         /// <param name="logData">The list of the "LogData"</param>
         /// <param name="saveType">The type of saved file.</param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
         public void Create(string savedDirName, LogData logData, SaveType saveType,
             double startTime, double endTime)
         {
@@ -714,10 +738,18 @@ namespace Ecell
             return d;
         }
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
     public enum SaveType
     {
+        /// <summary>
+        /// 
+        /// </summary>
         ECD = 0,
+        /// <summary>
+        /// 
+        /// </summary>
         CSV = 1
     }
 }

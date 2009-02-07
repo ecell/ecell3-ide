@@ -48,11 +48,8 @@ namespace Ecell.Objects
         /// Constructor.
         /// </summary>
         public EcellParameterData()
+            : this("", 100.0, 0.0, 0.0)
         {
-            m_key = "";
-            m_max = 100.0;
-            m_min = 0.0;
-            m_step = 0.0;
         }
 
         /// <summary>
@@ -63,16 +60,8 @@ namespace Ecell.Objects
         public EcellParameterData(string key, double current)
         {
             m_key = key;
-            if (current >= 0.0)
-            {
-                m_max = current * (1.0 + s_multi);
-                m_min = current * (1.0 - s_multi);
-            }
-            else
-            {
-                m_max = current * (1.0 - s_multi);
-                m_min = current * (1.0 + s_multi);
-            }
+            m_max = current + Math.Abs(current * s_multi);
+            m_min = current - Math.Abs(current * s_multi);
             m_step = 0.0;
         }
 
@@ -134,12 +123,11 @@ namespace Ecell.Objects
         /// <returns>if this object is same, return true.</returns>
         public override bool Equals(object obj)
         {
-            bool res = base.Equals(obj);
-            if (res) return true;
-            EcellParameterData p = obj as EcellParameterData;
-            if (p.Key == this.Key)
-                return true;
-            return false;
+            if (!(obj is EcellParameterData))
+                return false;
+
+            EcellParameterData data = obj as EcellParameterData;
+            return (data.Key == this.Key);
         }
 
         /// <summary>
@@ -150,7 +138,10 @@ namespace Ecell.Objects
         {
             return base.GetHashCode();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public EcellParameterData Copy()
         {
             return new EcellParameterData(m_key, m_max, m_min, m_step);

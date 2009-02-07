@@ -78,6 +78,7 @@
     </Reference>
     <Reference Include="IronMath" />
     <Reference Include="IronPython" />
+    <Reference Include="libsbmlcsP, Version=3.2.0.0, Culture=neutral" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -123,6 +124,11 @@
     <Compile Include="Exceptions\EcellException.cs" />
     <Compile Include="Exceptions\IgnoreException.cs" />
     <Compile Include="Exceptions\SimulationException.cs" />
+    <Compile Include="Job\ExecuteParameter.cs" />
+    <Compile Include="Leml.cs" />
+    <Compile Include="Logging\LogEntryEventArgs.cs" />
+    <Compile Include="Objects\EcellLayer.cs" />
+    <Compile Include="Objects\EcellProject.cs" />
     <Compile Include="Objects\EcellStepper.cs" />
     <Compile Include="Reporting\CompileReport.cs" />
     <Compile Include="ConsoleManager.cs" />
@@ -190,6 +196,16 @@
     <Compile Include="Reporting\ReportingSessionEventArgs.cs" />
     <Compile Include="Reporting\ReportManager.cs" />
     <Compile Include="Reporting\StatusUpdateEventArgs.cs" />
+    <Compile Include="SBML\EML2SBML.cs" />
+    <Compile Include="SBML\SBML2EML.cs" />
+    <Compile Include="SBML\SbmlFunctions.cs" />
+    <Compile Include="SBML\SBML_Compartment.cs" />
+    <Compile Include="SBML\SBML_Event.cs" />
+    <Compile Include="SBML\SBML_Model.cs" />
+    <Compile Include="SBML\SBML_Parameter.cs" />
+    <Compile Include="SBML\SBML_Reaction.cs" />
+    <Compile Include="SBML\SBML_Rule.cs" />
+    <Compile Include="SBML\SBML_Species.cs" />
     <Compile Include="ScriptWriter.cs" />
     <Compile Include="Job\JobManager.cs" />
     <Compile Include="Job\Job.cs" />

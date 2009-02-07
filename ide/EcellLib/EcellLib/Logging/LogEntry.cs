@@ -104,8 +104,13 @@ namespace Ecell.Logging
         /// <param name="time">the date time of message.</param>
         public LogEntry(MessageType type, string message, DateTime time)
         {
+            // Set MessageType.
             m_type = type;
+            // Set Message.
             m_message = message;
+            if (m_message == null)
+                m_message = "";
+            // Set Time.
             m_time = time;
         }
         #endregion
@@ -118,7 +123,11 @@ namespace Ecell.Logging
         {
             return "[" + Timestamp + "] " + Type + ": " + Message + "(location: " + Location + ")";
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (obj == null || !(obj is LogEntry))
@@ -128,7 +137,10 @@ namespace Ecell.Logging
                 ent.m_time == this.m_time &&
                 ent.m_message == this.m_message;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return m_type.GetHashCode() ^ m_time.GetHashCode() ^ m_message.GetHashCode();

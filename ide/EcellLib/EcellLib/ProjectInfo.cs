@@ -38,9 +38,13 @@ using System.Diagnostics;
 
 namespace Ecell
 {
+    /// <summary>
+    /// ProjectInfo
+    /// </summary>
     public class ProjectInfo
     {
         #region Field
+        private ProjectType m_type;
         /// <summary>
         /// Project Folder Path.
         /// This field contains noll when This Project is created from EML or ProjectTemplate
@@ -130,10 +134,19 @@ namespace Ecell
             this.m_prjPath = null;
             this.m_dmList = new List<string>();
             this.m_modelList = new List<string>();
+            this.m_type = ProjectType.NewProject;
         }
         #endregion
 
         #region Accessor
+        /// <summary>
+        /// The ProjectType of this project.
+        /// </summary>
+        public ProjectType ProjectType
+        {
+            get { return m_type; }
+            set { this.m_type = value; }
+        }
         /// <summary>
         /// The name of this project.
         /// </summary>
@@ -216,9 +229,9 @@ namespace Ecell
         }
 
         /// <summary>
-        /// The list of Additional DMs.
+        /// The list of Additional DMDirs.
         /// </summary>
-        public List<string> DMList
+        public List<string> DMDirList
         {
             get { return m_dmList; }
         }
@@ -266,70 +279,6 @@ namespace Ecell
                 m_modelList.Add(model);
             }
         }
-
-        /// <summary>
-        /// Find Additional DMs on this project.
-        /// </summary>
-        public void FindDMs()
-        {
-            if (m_prjPath == null)
-                return;
-
-            string dmDirName = Path.Combine(m_prjPath, Constants.DMDirName);
-            if (!Directory.Exists(dmDirName))
-                return;
-            string[] dms = Directory.GetFileSystemEntries(
-                dmDirName,
-                Constants.delimiterWildcard + Constants.FileExtDM
-                );
-            foreach (string dm in dms)
-            {
-                string fileName = Path.GetFileName(dm);
-                if (fileName.EndsWith(Constants.FileExtBackUp))
-                    continue;
-                m_dmList.Add(dm);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public Dictionary<string, List<string>> GetDMDic()
-        {
-            Dictionary<string, List<string>> dmDic = new Dictionary<string, List<string>>();
-            // 4 System
-            List<string> systemList = new List<string>();
-            systemList.Add(Constants.xpathSystem);
-            dmDic.Add(Constants.xpathSystem, systemList);
-
-            // 4 Variable
-            List<string> variableList = new List<string>();
-            variableList.Add(Constants.xpathVariable);
-            dmDic.Add(Constants.xpathVariable, variableList);
-
-            // 4 Process
-            List<string> processList = new List<string>();
-            dmDic.Add(Constants.xpathProcess, processList);
-
-            // 4 Stepper
-            List<string> stepperList = new List<string>();
-            dmDic.Add(Constants.xpathStepper, stepperList);
-
-            foreach (string dmFile in m_dmList)
-            {
-                if (!File.Exists(dmFile))
-                    continue;
-                if (dmFile.EndsWith(Constants.xpathProcess + Constants.FileExtDM))
-                    processList.Add(dmFile);
-                if (dmFile.EndsWith(Constants.xpathStepper + Constants.FileExtDM))
-                    stepperList.Add(dmFile);
-                if (dmFile.EndsWith(Constants.xpathSystem + Constants.FileExtDM))
-                    systemList.Add(dmFile);
-                if (dmFile.EndsWith(Constants.xpathVariable + Constants.FileExtDM))
-                    variableList.Add(dmFile);
-            }
-            return dmDic;
-        }
         #endregion
 
     }
@@ -358,7 +307,7 @@ namespace Ecell
                 else if (ext.Equals(Constants.FileExtEML))
                     project = LoadProjectFromEml(filepath);
                 else
-                    throw new EcellException("Unknown file type");
+                    throw new EcellException("Unknown file type :" + filepath);
                 project.ProjectFile = filepath;
             }
             catch (Exception e)
@@ -383,7 +332,7 @@ namespace Ecell
             string comment = "";
             string time = "";
             string param = "";
-
+            ProjectType type = ProjectType.Project;
             try
             {
                 // Load XML file
@@ -420,9 +369,13 @@ namespace Ecell
                         case Constants.textParameter:
                             param = setting.InnerText;
                             break;
+                        case Constants.xpathType:
+                            type = (ProjectType)Convert.ToInt32(setting.InnerText);
+                            break;
                     }
                 }
                 project = new ProjectInfo(prjName, comment, time, param);
+                project.ProjectType = type;
                 project.ProjectPath = dirPath;
             }
             catch (Exception ex)
@@ -470,6 +423,7 @@ namespace Ecell
             reader.Close();
             project = new ProjectInfo(prjName, comment, time, simParam);
             project.ProjectPath = dirPath;
+            project.ProjectType = ProjectType.Project;
             return project;
         }
 
@@ -506,6 +460,7 @@ namespace Ecell
             string time = File.GetLastWriteTime(filepath).ToString();
             project = new ProjectInfo(name, comment, time, Constants.defaultSimParam);
             project.Models.Add(filepath);
+            project.ProjectType = ProjectType.Model;
             return project;
         }
     }
@@ -522,7 +477,6 @@ namespace Ecell
         /// <param name="filepath"></param>
         public static void Save(ProjectInfo project, string filepath)
         {
-            string message = "[" + project.Name + "]";
             // Get Saving Directory.
             string saveDir = GetSaveDir(project, filepath);
             if (!Directory.Exists(saveDir))
@@ -535,13 +489,14 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new EcellException(message + " {" + ex.ToString() + "}");
+                throw new EcellException(ex.Message);
             }
         }
 
         /// <summary>
         /// GetSaveDir
         /// </summary>
+        /// <param name="info"></param>
         /// <param name="filepath"></param>
         /// <returns></returns>
         private static string GetSaveDir( ProjectInfo info, string filepath)
@@ -620,6 +575,8 @@ namespace Ecell
                 xmlOut.WriteEndElement();
                 xmlOut.WriteEndDocument();
                 project.ProjectPath = saveDir;
+                project.ProjectFile = projectXML;
+                project.ProjectType = ProjectType.Project;
             }
             finally
             {
@@ -629,6 +586,29 @@ namespace Ecell
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public enum ProjectType
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        Project = 0,
+        /// <summary>
+        /// 
+        /// </summary>
+        Model = 1,
+        /// <summary>
+        /// 
+        /// </summary>
+        Template = 2,
+        /// <summary>
+        /// 
+        /// </summary>
+        NewProject = 3
     }
 
 }

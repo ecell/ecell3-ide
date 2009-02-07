@@ -336,13 +336,21 @@ namespace Ecell
                 if (m_currentProject != null)
                     CloseProject();
 
+
                 // Initializes.
                 projectID = info.Name;
                 message = "[" + projectID + "]";
                 project = new Project(info);
 
-                m_currentProject = project;
+                // If this project is not model.
+                if (project.Info.ProjectType != ProjectType.Model)
+                    project.Info.FindModels();
+                // If this project is Template.
+                if (project.Info.ProjectType == ProjectType.Template)
+                    project.CopyDMDirs(info.DMDirList);
 
+                // Set current project.
+                m_currentProject = project;
                 m_env.PluginManager.ParameterSet(projectID, project.Info.SimulationParam);
 
                 // Create EcellProject.
@@ -352,15 +360,7 @@ namespace Ecell
 
                 // Loads the model.
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Loading);
-                if (project.Info.ProjectPath != null)
-                {
-                    project.Info.FindModels();
-                    project.Info.FindDMs();
-                }
-                foreach (string model in project.Info.Models)
-                {
-                    this.LoadModel(model);
-                }
+                LoadModel(project.Info.Models);
 
                 // Prepare datas.
                 foreach (EcellObject model in m_currentProject.ModelList)
@@ -386,7 +386,8 @@ namespace Ecell
                             string fileName = Path.GetFileName(parameter);
                             if (fileName.IndexOf(Constants.delimiterUnderbar) != 0)
                             {
-                                LoadSimulationParameter(parameter);
+                                SimulationParameter simParam = LoadSimulationParameter(parameter);
+                                SetSimulationParameter(simParam);
                             }
                         }
                     }
@@ -423,54 +424,75 @@ namespace Ecell
         /// <summary>
         /// Loads the eml formatted file and returns the model ID.
         /// </summary>
-        /// <param name="filename">The eml formatted file name</param>
+        /// <param name="files">The eml formatted file name</param>
         /// <returns>The model ID</returns>
-        public string LoadModel(string filename)
+        private void LoadModel(List<string> files)
         {
-            string message = null;
+            string modelID = null;
             try
             {
-                message = "[" + filename + "]";
-                //
                 // To load
-                //
-                string modelID = null;
                 if (m_currentProject.Simulator == null)
                 {
                     m_currentProject.SetDMList();
                     m_currentProject.Simulator = m_currentProject.CreateSimulatorInstance();
                 }
-                EcellObject modelObj = EmlReader.Parse(filename, m_currentProject.Simulator);
-                modelID = modelObj.ModelID;
+                foreach (string filename in files)
+                {
+                    // Load model
+                    EcellObject modelObj = null;
+                    try
+                    {
+                        modelObj = EmlReader.Parse(filename, m_currentProject.Simulator);
+                    }
+                    catch (EcellException e)
+                    {
+                        throw new EcellException(string.Format(MessageResources.ErrLoadModel, filename), e);
+                    }
+                    catch (Exception e)
+                    {
+                        string msg = string.Format(MessageResources.ErrLoadModel, filename) + "\n" + e.Message;
+                        Util.ShowErrorDialog(msg);
+                        continue;
+                    }
 
-                //
-                // Checks the old model ID
-                //
-                foreach (EcellObject model in m_currentProject.ModelList)
-                {
-                    Debug.Assert(!model.ModelID.Equals(modelID));
+                    // If file is not Eml, return.
+                    if (modelObj.Children == null || modelObj.Children.Count <= 0)
+                        continue;
+                    // If this project is template.
+                    if (m_currentProject.Info.ProjectType == ProjectType.Template)
+                        modelObj.ModelID = m_currentProject.Info.Name;
+                    modelID = modelObj.ModelID;
+
+                    // Initialize
+                    try
+                    {
+                        m_currentProject.Simulator.Initialize();
+                    }
+                    catch (Exception e)
+                    {
+                        // Error Message
+                        // [VariableReference [S0] not found in this Process]
+                        // MichaelisUniUniFluxprocess
+                        // DecayFluxProcess
+                        // [Only first or second order scheme is allowed]
+                        // PingPongBiBiFluxProcess
+                        // TauLeapProcess
+                        Util.ShowWarningDialog(MessageResources.WarnInvalidData + "\n" + e.Message);
+                    }
+
+                    // Sets initial conditions.
+                    m_currentProject.Initialize(modelObj.ModelID);
+                    InitializeModel(modelObj);
+
+                    Trace.WriteLine(String.Format(MessageResources.InfoLoadModel, modelID));
+                    m_env.Console.WriteLine(String.Format(MessageResources.InfoLoadModel, modelID));
+                    m_env.Console.Flush();
                 }
-                //
-                // Initialize
-                //
-                try
-                {
-                    m_currentProject.Simulator.Initialize();
-                }
-                catch (Exception)
-                {
-                    // Error Message
-                    // [VariableReference [S0] not found in this Process]
-                    // MichaelisUniUniFluxprocess
-                    // DecayFluxProcess
-                    // [Only first or second order scheme is allowed]
-                    // PingPongBiBiFluxProcess
-                    // TauLeapProcess
-                    Util.ShowWarningDialog(MessageResources.WarnInvalidData);
-                }
-                // Sets initial conditions.
-                m_currentProject.Initialize(modelID);
-                InitializeModel(modelObj);
+
+                // If this project has no model.
+                if (m_currentProject.ModelList.Count <= 0)
+                    throw new EcellException(string.Format(MessageResources.ErrNoSet, "Model"));
 
                 // Stores the "LoggerPolicy"
                 string simParam = m_currentProject.Info.SimulationParam;
@@ -478,20 +500,10 @@ namespace Ecell
                 {
                     m_currentProject.LoggerPolicyDic[simParam] = new LoggerPolicy();
                 }
-
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoLoadModel, modelID));
-                m_env.Console.Flush();
-                Trace.WriteLine(String.Format(MessageResources.InfoLoadModel, modelID));
-                if (m_currentProject.ModelFileDic.ContainsKey(modelID))
-                    m_currentProject.ModelFileDic.Remove(modelID);
-                m_currentProject.ModelFileDic.Add(modelID, filename);
-
-                return modelID;
             }
             catch (Exception ex)
             {
-                throw new EcellException(String.Format(MessageResources.ErrLoadModel,
-                    new object[] { filename }), ex);
+                throw new EcellException(string.Format(MessageResources.ErrLoadModel, files.ToString()), ex);
             }
         }
 
@@ -3900,126 +3912,6 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Loads the simulation parameter.
-        /// </summary>
-        /// <param name="fileName">The simulation parameter file name</param>
-        public void LoadSimulationParameter(string fileName)
-        {
-            string message = null;
-            string projectID = m_currentProject.Info.Name;
-            try
-            {
-                message = "[" + fileName + "]";
-                // Initializes
-                Debug.Assert(!string.IsNullOrEmpty(fileName));
-                // Parses the simulation parameter.
-                SimulationParameter simParam = SimulationParameterReader.Parse(
-                        fileName, m_currentProject.Simulator);
-                string simParamID = simParam.ID;
-                // Stores the simulation parameter.
-                if (!m_currentProject.Info.SimulationParam.Equals(simParamID))
-                {
-                    if (!m_currentProject.StepperDic.ContainsKey(simParamID))
-                    {
-                        m_currentProject.StepperDic[simParamID]
-                            = new Dictionary<string, List<EcellObject>>();
-                    }
-                    foreach (EcellObject stepper in simParam.Steppers)
-                    {
-                        if (!m_currentProject.StepperDic[simParamID]
-                            .ContainsKey(stepper.ModelID))
-                        {
-                            m_currentProject.StepperDic[simParamID][stepper.ModelID]
-                                = new List<EcellObject>();
-                        }
-                        foreach (EcellData data in stepper.Value)
-                        {
-                            data.Value = (EcellValue)data.Value.Clone();
-                        }
-                        m_currentProject.StepperDic[simParamID][stepper.ModelID].Add(stepper);
-                    }
-                }
-                else
-                {
-                    foreach (EcellObject stepper in simParam.Steppers)
-                    {
-                        bool matchFlag = false;
-                        if (!m_currentProject.StepperDic[simParamID].ContainsKey(stepper.ModelID))
-                        {
-                            m_currentProject.StepperDic[simParamID][stepper.ModelID]
-                                = new List<EcellObject>();
-                        }
-                        for (int j = 0;
-                            j < m_currentProject.StepperDic[simParamID][stepper.ModelID].Count;
-                            j++)
-                        {
-                            EcellObject storedStepper
-                                = m_currentProject.StepperDic[simParamID][stepper.ModelID][j];
-                            if (!storedStepper.Classname.Equals(stepper.Classname)
-                                || !storedStepper.Key.Equals(stepper.Key)
-                                || !storedStepper.ModelID.Equals(stepper.ModelID)
-                                || !storedStepper.Type.Equals(stepper.Type))
-                                continue;
-
-                            List<EcellData> newDataList = new List<EcellData>();
-                            foreach (EcellData storedData in storedStepper.Value)
-                            {
-                                bool existFlag = false;
-                                foreach (EcellData newData in stepper.Value)
-                                {
-                                    if (!storedData.Name.Equals(newData.Name)
-                                        || !storedData.EntityPath.Equals(newData.EntityPath))
-                                        continue;
-
-                                    if (storedData.Value.IsDouble)
-                                    {
-                                        // XXX: canonicalize the value
-                                        newData.Value = (EcellValue)newData.Value.Clone();
-                                    }
-                                    newData.Gettable = storedData.Gettable;
-                                    newData.Loadable = storedData.Loadable;
-                                    newData.Saveable = storedData.Saveable;
-                                    newData.Settable = storedData.Settable;
-                                    newDataList.Add(newData);
-                                    existFlag = true;
-                                    break;
-                                }
-                                if (!existFlag)
-                                {
-                                    newDataList.Add(storedData);
-                                }
-                            }
-                            m_currentProject.StepperDic[simParamID][stepper.ModelID][j]
-                                = EcellObject.CreateObject(
-                                    stepper.ModelID,
-                                    stepper.Key,
-                                    stepper.Type,
-                                    stepper.Classname,
-                                    newDataList);
-                            matchFlag = true;
-                            break;
-                        }
-                        if (!matchFlag)
-                        {
-                            m_currentProject.StepperDic[simParamID][stepper.ModelID]
-                                .Add(stepper);
-                        }
-                    }
-                }
-                m_currentProject.LoggerPolicyDic[simParamID] = simParam.LoggerPolicy;
-                m_currentProject.InitialCondition[simParamID] = simParam.InitialConditions;
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoLoadSim, simParamID));
-                m_env.Console.Flush();
-                Trace.WriteLine("Load Simulation Parameter: " + message);
-            }
-            catch (Exception ex)
-            {
-                throw new EcellException(String.Format(MessageResources.ErrLoadPrj,
-                    new object[] { projectID }), ex);
-            }
-        }
-
-        /// <summary>
         /// Copy SimulationParameter.
         /// </summary>
         /// <param name="newParameterID"></param>
@@ -4344,6 +4236,169 @@ namespace Ecell
                     new object[] { parameterID });
                 throw new EcellException(message, ex);
             }
+        }
+
+        /// <summary>
+        /// Loads the simulation parameter.
+        /// </summary>
+        /// <param name="fileName">The simulation parameter file name</param>
+        /// <returns></returns>
+        public SimulationParameter LoadSimulationParameter(string fileName)
+        {
+            string message = null;
+            SimulationParameter simParam = null;
+            string projectID = m_currentProject.Info.Name;
+            try
+            {
+                message = "[" + fileName + "]";
+                // Initializes
+                Debug.Assert(!string.IsNullOrEmpty(fileName));
+                // Parses the simulation parameter.
+                simParam = SimulationParameterReader.Parse(fileName, m_currentProject.Simulator);
+            }
+            catch (Exception ex)
+            {
+                throw new EcellException(String.Format(MessageResources.ErrLoadSimParam,
+                    fileName), ex);
+            }
+            Trace.WriteLine("Load Simulation Parameter: " + message);
+            return simParam;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="simParam"></param>
+        internal void SetSimulationParameter(SimulationParameter simParam)
+        {
+            try
+            {
+                string simParamID = simParam.ID;
+                // Stores the simulation parameter.
+                if (!m_currentProject.Info.SimulationParam.Equals(simParamID))
+                {
+                    if (!m_currentProject.StepperDic.ContainsKey(simParamID))
+                    {
+                        m_currentProject.StepperDic[simParamID]
+                            = new Dictionary<string, List<EcellObject>>();
+                    }
+                    foreach (EcellObject stepper in simParam.Steppers)
+                    {
+                        if (!m_currentProject.StepperDic[simParamID]
+                            .ContainsKey(stepper.ModelID))
+                        {
+                            m_currentProject.StepperDic[simParamID][stepper.ModelID]
+                                = new List<EcellObject>();
+                        }
+                        foreach (EcellData data in stepper.Value)
+                        {
+                            data.Value = GetEcellValue(data);
+                        }
+                        m_currentProject.StepperDic[simParamID][stepper.ModelID].Add(stepper);
+                    }
+                }
+                else
+                {
+                    foreach (EcellObject stepper in simParam.Steppers)
+                    {
+                        bool matchFlag = false;
+                        if (!m_currentProject.StepperDic[simParamID].ContainsKey(stepper.ModelID))
+                        {
+                            m_currentProject.StepperDic[simParamID][stepper.ModelID]
+                                = new List<EcellObject>();
+                        }
+                        for (int j = 0;
+                            j < m_currentProject.StepperDic[simParamID][stepper.ModelID].Count;
+                            j++)
+                        {
+                            EcellObject storedStepper
+                                = m_currentProject.StepperDic[simParamID][stepper.ModelID][j];
+                            if (!storedStepper.Classname.Equals(stepper.Classname)
+                                || !storedStepper.Key.Equals(stepper.Key)
+                                || !storedStepper.ModelID.Equals(stepper.ModelID)
+                                || !storedStepper.Type.Equals(stepper.Type))
+                                continue;
+
+                            List<EcellData> newDataList = new List<EcellData>();
+                            foreach (EcellData storedData in storedStepper.Value)
+                            {
+                                bool existFlag = false;
+                                foreach (EcellData newData in stepper.Value)
+                                {
+                                    if (!storedData.Name.Equals(newData.Name)
+                                        || !storedData.EntityPath.Equals(newData.EntityPath))
+                                        continue;
+
+                                    if (storedData.Value.IsDouble)
+                                    {
+                                        // XXX: canonicalize the value
+                                        newData.Value = GetEcellValue(newData);
+                                    }
+                                    newData.Gettable = storedData.Gettable;
+                                    newData.Loadable = storedData.Loadable;
+                                    newData.Saveable = storedData.Saveable;
+                                    newData.Settable = storedData.Settable;
+                                    newDataList.Add(newData);
+                                    existFlag = true;
+                                    break;
+                                }
+                                if (!existFlag)
+                                {
+                                    newDataList.Add(storedData);
+                                }
+                            }
+                            m_currentProject.StepperDic[simParamID][stepper.ModelID][j]
+                                = EcellObject.CreateObject(
+                                    stepper.ModelID,
+                                    stepper.Key,
+                                    stepper.Type,
+                                    stepper.Classname,
+                                    newDataList);
+                            matchFlag = true;
+                            break;
+                        }
+                        if (!matchFlag)
+                        {
+                            m_currentProject.StepperDic[simParamID][stepper.ModelID]
+                                .Add(stepper);
+                        }
+                    }
+                }
+                m_currentProject.LoggerPolicyDic[simParamID] = simParam.LoggerPolicy;
+                m_currentProject.InitialCondition[simParamID] = simParam.InitialConditions;
+                m_env.Console.WriteLine(String.Format(MessageResources.InfoLoadSim, simParamID));
+                m_env.Console.Flush();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        /// <summary>
+        /// GetEcellValue
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private static EcellValue GetEcellValue(EcellData data)
+        {
+            double value = 0.0;
+            try
+            {
+                // Get new value.
+                string newValue = data.Value.ToString();
+                if (newValue.Equals(Double.PositiveInfinity.ToString()))
+                    value = Double.PositiveInfinity;
+                else if (newValue.Equals(Double.MaxValue.ToString()))
+                    value = Double.MaxValue;
+                else
+                    value = XmlConvert.ToDouble(newValue);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                value = Double.PositiveInfinity;
+            }
+            return new EcellValue(value);
         }
 
         /// <summary>
@@ -4887,14 +4942,6 @@ namespace Ecell
         public List<string> GetDMNameList()
         {
             List<string> resultList = new List<string>();
-            // Add DMs from additional DMs
-            foreach (string dm in m_currentProject.Info.DMList)
-            {
-                string name = Path.GetFileNameWithoutExtension(dm);
-                if (!resultList.Contains(name))
-                    resultList.Add(name);
-            }
-
             // Get DM directory for this project.
             string path = null;
             if (m_currentProject.Info.ProjectPath != null)

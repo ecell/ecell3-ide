@@ -40,6 +40,8 @@ using System.Xml;
 using System.Windows.Forms;
 using EcellCoreLib;
 using Ecell.Objects;
+using Ecell.Exceptions;
+using System.Text.RegularExpressions;
 
 namespace Ecell
 {
@@ -96,22 +98,6 @@ namespace Ecell
         /// The executed flag of Simulator.
         /// </summary>
         private SimulationStatus m_simulationStatus = 0;
-        /// <summary>
-        /// 
-        /// </summary>
-        private int m_processNumbering = 0;
-        /// <summary>
-        /// 
-        /// </summary>
-        private int m_systemNumbering = 0;
-        /// <summary>
-        /// 
-        /// </summary>
-        private int m_variableNumbering = 0;
-        /// <summary>
-        /// 
-        /// </summary>
-        private int m_textNumbering = 0;
 
         #endregion
 
@@ -218,19 +204,79 @@ namespace Ecell
             get { return m_systemDic; }
             set { m_systemDic = value; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public List<EcellObject> SystemList
         {
-            get { return m_systemDic[m_modelList[0].ModelID]; }
+            get 
+            {
+                return m_systemDic[m_modelList[0].ModelID]; 
+            }
         }
-
         /// <summary>
-        /// The List of the Model
+        /// 
         /// </summary>
-        public Dictionary<string, string> ModelFileDic
+        public List<EcellObject> ProcessList
         {
-            get { return m_modelFileList; }
-            set { m_modelFileList = value; }
+            get
+            {
+                List<EcellObject> list = new List<EcellObject>();
+                foreach (EcellObject system in this.SystemList)
+                {
+                    foreach (EcellObject obj in system.Children)
+                    {
+                        if (!(obj is EcellProcess))
+                            continue;
+                        list.Add(obj);
+                    }
+                }
+                return list;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<EcellObject> VariableList
+        {
+            get
+            {
+                List<EcellObject> list = new List<EcellObject>();
+                foreach (EcellObject system in this.SystemList)
+                {
+                    foreach (EcellObject obj in system.Children)
+                    {
+                        if (!(obj is EcellVariable))
+                            continue;
+                        else if (obj.LocalID.Equals(EcellSystem.SIZE))
+                            continue;
+                        list.Add(obj);
+                    }
+                }
+                return list;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<EcellObject> TextList
+        {
+            get
+            {
+                List<EcellObject> list = new List<EcellObject>();
+                foreach (EcellObject system in this.SystemList)
+                {
+                    foreach (EcellObject obj in system.Children)
+                    {
+                        if (!(obj is EcellText))
+                            continue;
+                        else if (obj.LocalID.Equals(EcellSystem.SIZE))
+                            continue;
+                        list.Add(obj);
+                    }
+                }
+                return list;
+            }
         }
 
         /// <summary>
@@ -369,7 +415,40 @@ namespace Ecell
             }
         }
 
-        #region Saver
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Close()
+        {
+            // Delete empty project.
+            string prjPath = Path.Combine(Util.GetBaseDir(), m_info.Name);
+            string[] files = Directory.GetFiles(prjPath, "project.xml");
+            if (files.Length <= 0)
+                Directory.Delete(prjPath, true);
+        }
+
+        /// <summary>
+        /// Copy additional dms.
+        /// </summary>
+        /// <param name="dmDirs"></param>
+        public void CopyDMDirs(List<string> dmDirs)
+        {
+            string baseDir = Path.Combine(Util.GetBaseDir(), m_info.Name);
+            string dmDir = Path.Combine(baseDir, Constants.DMDirName);
+
+            if (!Directory.Exists(baseDir))
+                Directory.CreateDirectory(baseDir);
+            if (!Directory.Exists(dmDir))
+                Directory.CreateDirectory(dmDir);
+
+            foreach (string dir in dmDirs)
+                Util.CopyDirectory(dir, dmDir, true);
+        }
+
+        #region Methods for Save
+        /// <summary>
+        /// 
+        /// </summary>
         public void Save()
         {
             m_info.ProjectPath = Path.Combine(Util.GetBaseDir(), m_info.Name);
@@ -436,7 +515,7 @@ namespace Ecell
 
         #region Getter
         /// <summary>
-        /// Get the temporary id in projects.
+        /// Get a temporary id in this project.
         /// </summary>
         /// <param name="modelID">model ID.</param>
         /// <param name="type">object type.</param>
@@ -445,39 +524,108 @@ namespace Ecell
         public string GetTemporaryID(string modelID, string type, string systemID)
         {
             // Set Preface
-            string pref = "";
-            int i = 0;
+            string localID;
+            string key;
             if (type.Equals(EcellObject.PROCESS))
             {
-                pref = systemID + ":P";
-                i = m_processNumbering;
-                m_processNumbering++;
+                localID = GetTemporaryID(ProcessList, "P");
+                key = systemID + ":" + localID;
             }
             else if (type.Equals(EcellObject.VARIABLE))
             {
-                pref = systemID + ":V";
-                i = m_variableNumbering;
-                m_variableNumbering++;
+                localID = GetTemporaryID(VariableList, "V");
+                key = systemID + ":" + localID;
             }
             else if (type.Equals(EcellObject.TEXT))
             {
-                pref = systemID + ":Text";
-                i = m_textNumbering;
-                m_textNumbering++;
+                localID = GetTemporaryID(TextList, "Text");
+                key = systemID + ":" + localID;
             }
-            else
+            else if (type.Equals(EcellObject.SYSTEM))
             {
                 if (systemID == null || systemID == "/")
                     systemID = "";
-                pref = systemID + "/S";
-                i = m_systemNumbering;
-                m_systemNumbering++;
+                localID = GetTemporaryID(SystemList, "S");
+                key = systemID + "/" + localID;
             }
-            while (GetEcellObject(modelID, type, pref + i.ToString()) != null)
+            else
             {
-                i++;
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "type"));
             }
-            return pref + i.ToString();
+            return key;
+        }
+
+        /// <summary>
+        /// Get a copied key in this project.
+        /// </summary>
+        /// <param name="modelID">model ID.</param>
+        /// <param name="type">object type.</param>
+        /// <param name="key">ID of parent system.</param>
+        /// <returns>the copied id.</returns>
+        public string GetCopiedID(string modelID, string type, string key)
+        {
+            // Get LocalID
+            string oldLocalID;
+            string systemID;
+            Util.ParseKey(key, out systemID, out oldLocalID);
+
+            if(oldLocalID.Contains("_copy"))
+                oldLocalID = oldLocalID.Substring(0, oldLocalID.IndexOf("_copy"));
+            oldLocalID = oldLocalID + "_copy";
+
+            // Set Preface
+            string localID;
+            string newKey;
+            if (type.Equals(EcellObject.PROCESS))
+            {
+                localID = GetTemporaryID(ProcessList, oldLocalID);
+                newKey = systemID + ":" + localID;
+            }
+            else if (type.Equals(EcellObject.VARIABLE))
+            {
+                localID = GetTemporaryID(VariableList, oldLocalID);
+                newKey = systemID + ":" + localID;
+            }
+            else if (type.Equals(EcellObject.TEXT))
+            {
+                localID = GetTemporaryID(TextList, oldLocalID);
+                newKey = "/:" + localID;
+            }
+            else if (type.Equals(EcellObject.SYSTEM))
+            {
+                if (systemID == null || systemID == "/")
+                    systemID = "";
+                localID = GetTemporaryID(SystemList, oldLocalID);
+                newKey = systemID + "/" + localID;
+            }
+            else
+            {
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "type"));
+            }
+            return newKey;
+        }
+
+        /// <summary>
+        /// GetTemporaryID
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="pref"></param>
+        /// <returns></returns>
+        private static string GetTemporaryID(List<EcellObject> list, string pref)
+        {
+            int i = 0, max = 0;
+            string tempID;
+            foreach (EcellObject obj in list)
+            {
+                i = Util.ParseTemporaryID(obj.LocalID);
+                tempID = pref + i.ToString();
+
+                if (!tempID.Equals(obj.LocalID))
+                    continue;
+                if (i + 1 > max)
+                    max = i + 1;
+            }
+            return pref + max.ToString();
         }
 
         /// <summary>
@@ -493,6 +641,8 @@ namespace Ecell
                 return m_modelList[0];
             if (type.Equals(EcellObject.SYSTEM))
                 return GetSystem(model, key);
+            if (type.Equals(EcellObject.STEPPER))
+                return null;
             else 
                 return GetEntity(model, key, type);
         }
@@ -581,6 +731,7 @@ namespace Ecell
         /// <param name="system"></param>
         public void DeleteSystem(EcellObject system)
         {
+            string type, ekey, param;
             m_systemDic[system.ModelID].Remove(system);
             // Delete Simulation parameter.
             foreach (string keyParamID in m_initialCondition.Keys)
@@ -592,7 +743,8 @@ namespace Ecell
                     List<String> delKeyList = new List<string>();
                     foreach (String entKey in m_initialCondition[keyParamID][delModel].Keys)
                     {
-                        if (entKey.Contains(delKey))
+                        Util.ParseFullPN(entKey, out type, out ekey, out param);
+                        if (ekey.Equals(delKey) || ekey.StartsWith(delKey + "/") || ekey.StartsWith(delKey + ":"))
                             delKeyList.Add(entKey);
                     }
                     foreach (String entKey in delKeyList)

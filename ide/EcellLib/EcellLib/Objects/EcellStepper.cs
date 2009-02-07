@@ -34,7 +34,10 @@ using System.Text;
 
 namespace Ecell.Objects
 {
-    class EcellStepper : EcellObject
+    /// <summary>
+    /// EcellStepper
+    /// </summary>
+    public class EcellStepper : EcellObject
     {
         /// <summary>
         /// Constructor with initial parameter.

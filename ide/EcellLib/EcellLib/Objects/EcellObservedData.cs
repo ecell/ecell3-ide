@@ -49,12 +49,8 @@ namespace Ecell.Objects
         /// Construcotor.
         /// </summary>
         public EcellObservedData()
+            : this("", 100.0, 0.0, 100.0, s_multi)
         {
-            m_key = "";
-            m_max = 100.0;
-            m_min = 0.0;
-            m_differ = 100.0;
-            m_rate = 0.5;
         }
 
         /// <summary>
@@ -65,10 +61,10 @@ namespace Ecell.Objects
         public EcellObservedData(string key, double current)
         {
             m_key = key;
-            m_max = current * (1.0 + s_multi);
-            m_min = current * (1.0 - s_multi);
+            m_max = current + Math.Abs(current * s_multi);
+            m_min = current - Math.Abs(current * s_multi);
             m_differ = m_max - m_min;
-            m_rate = 0.5;
+            m_rate = s_multi;
         }
 
         /// <summary>
@@ -141,11 +137,10 @@ namespace Ecell.Objects
         /// <returns>if this object is same, return true.</returns>
         public override bool Equals(object obj)
         {
-            bool res = base.Equals(obj);
-            if (res) return res;
-            EcellObservedData d = obj as EcellObservedData;
-            if (d.Key == this.Key) return true;
-            return false;
+            if (!(obj is EcellObservedData))
+                return false;
+            EcellObservedData data = obj as EcellObservedData;
+            return data.Key == this.Key;
         }
 
         /// <summary>
@@ -156,7 +151,10 @@ namespace Ecell.Objects
         {
             return base.GetHashCode();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public EcellObservedData Copy()
         {
             return new EcellObservedData(m_key, m_max, m_min, m_differ, m_rate);

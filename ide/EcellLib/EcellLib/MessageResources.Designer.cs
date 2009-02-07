@@ -223,6 +223,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   Cannot find the directory {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrFindDir {
+            get {
+                return ResourceManager.GetString("ErrFindDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot find Entity {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrFindEnt {
@@ -277,6 +286,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   Parameter [{0}] is invalid. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrInvalidParam {
+            get {
+                return ResourceManager.GetString("ErrInvalidParam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot load the file {0}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLoadFile {
@@ -318,6 +336,15 @@ namespace Ecell {
         internal static string ErrLoadProjectInfo {
             get {
                 return ResourceManager.GetString("ErrLoadProjectInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cannot load the simulation parameter {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrLoadSimParam {
+            get {
+                return ResourceManager.GetString("ErrLoadSimParam", resourceCulture);
             }
         }
         
@@ -394,6 +421,15 @@ namespace Ecell {
         }
         
         /// <summary>
+        ///   Cannot save the file {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSaveFile {
+            get {
+                return ResourceManager.GetString("ErrSaveFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot save the log. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrSaveLog {
@@ -426,6 +462,15 @@ namespace Ecell {
         internal static string ErrSaveScript {
             get {
                 return ResourceManager.GetString("ErrSaveScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cannot save the zip file {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrSaveZip {
+            get {
+                return ResourceManager.GetString("ErrSaveZip", resourceCulture);
             }
         }
         

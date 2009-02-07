@@ -50,12 +50,6 @@ namespace Ecell.Objects
 
         #region Constractors
         /// <summary>
-        /// Constructor.
-        /// </summary>
-        public EcellVariable()
-        {
-        }
-        /// <summary>
         /// Constructor with initial parameter.
         /// </summary>
         /// <param name="modelID">model ID.</param>

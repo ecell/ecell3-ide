@@ -81,12 +81,6 @@ namespace Ecell.Objects
 
         #region Constractors
         /// <summary>
-        /// Constructor.
-        /// </summary>
-        public EcellProcess()
-        {
-        }
-        /// <summary>
         /// Constructor with initial parameter.
         /// </summary>
         /// <param name="modelID">model ID.</param>
@@ -205,7 +199,7 @@ namespace Ecell.Objects
             set
             {
                 EcellValue varRef = EcellReference.ConvertToEcellValue(value);
-                this.GetEcellData(VARIABLEREFERENCELIST).Value = varRef;
+                SetEcellValue(VARIABLEREFERENCELIST, varRef);
             }
         }
         #endregion

@@ -341,6 +341,21 @@ New revision {0}:{1} was created.</value>
   <data name="ErrDelParam" xml:space="preserve">
     <value>At least one parameter set is required in the project.</value>
   </data>
+  <data name="ErrInvalidParam" xml:space="preserve">
+    <value>Parameter [{0}] is invalid.</value>
+  </data>
+  <data name="ErrSaveZip" xml:space="preserve">
+    <value>Cannot save the zip file {0}.</value>
+  </data>
+  <data name="ErrFindDir" xml:space="preserve">
+    <value>Cannot find the directory {0}.</value>
+  </data>
+  <data name="ErrLoadSimParam" xml:space="preserve">
+    <value>Cannot load the simulation parameter {0}.</value>
+  </data>
+  <data name="ErrSaveFile" xml:space="preserve">
+    <value>Cannot save the file {0}.</value>
+  </data>
   <data name="ConfirmAnalysisReset" xml:space="preserve">
     <value>Change to a property that cannot be set during  analysis is attempted. Do you want to stop the analysis?</value>
   </data>

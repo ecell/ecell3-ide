@@ -36,48 +36,73 @@ using System.Diagnostics;
 
 namespace Ecell
 {
+    /// <summary>
+    /// ConsoleDataAvailableEventArgs
+    /// </summary>
     public class ConsoleDataAvailableEventArgs: EventArgs
     {
         private string m_str;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public string Data
         {
             get { return m_str; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
         public ConsoleDataAvailableEventArgs(string str)
         {
             m_str = str;
         }
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="o"></param>
+    /// <param name="e"></param>
     public delegate void ConsoleDataAvailableEventHandler(object o, ConsoleDataAvailableEventArgs e);
-
+    /// <summary>
+    /// 
+    /// </summary>
     public class ConsoleManager: TextWriter
     {
         private ApplicationEnvironment m_env;
         private StringBuilder m_buf;
         private int m_state;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public event ConsoleDataAvailableEventHandler ConsoleDataAvailable; 
-
+        /// <summary>
+        /// 
+        /// </summary>
         public override Encoding Encoding
         {
             get { return Encoding.UTF8; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public ApplicationEnvironment Environment
         {
             get { return m_env; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="env"></param>
         public ConsoleManager(ApplicationEnvironment env)
         {
             m_env = env;
             m_buf = new StringBuilder();
             m_state = 0;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Flush()
         {
             lock (this) { _Flush(); }
@@ -89,7 +114,10 @@ namespace Ecell
                 ConsoleDataAvailable(this, new ConsoleDataAvailableEventArgs(m_buf.ToString()));
             m_buf.Length = 0;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="c"></param>
         public override void Write(char c)
         {
             lock (this)
@@ -109,7 +137,12 @@ namespace Ecell
                 m_buf.Append(c);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="index"></param>
+        /// <param name="count"></param>
         public override void Write(char[] buf, int index, int count)
         {
             int e = index + count;

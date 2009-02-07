@@ -51,10 +51,6 @@ namespace Ecell.Objects
         /// </summary>
         private string m_modelFile;
         /// <summary>
-        /// List of Layers in this model.
-        /// </summary>
-        private List<string> m_layers;
-        /// <summary>
         /// List of EcellSystems in this model.
         /// </summary>
         private List<EcellObject> m_systems;
@@ -78,13 +74,29 @@ namespace Ecell.Objects
              string type, string classname, List<EcellData> data)
             : base(modelID, key, type, classname, data)
         {
-            m_layers = new List<string>();
             m_systems = new List<EcellObject>();
             m_stepperDic = new Dictionary<string, List<EcellObject>>();
+            if (!IsEcellValueExists(EcellLayer.Layers))
+                this.Layers = new List<EcellLayer>();
         }
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// ModelID
+        /// </summary>
+        public override string ModelID
+        {
+            get
+            {
+                return base.ModelID;
+            }
+            set
+            {
+                base.ModelID = value;
+                ChangeModelIDforChildren(this);
+            }
+        }
         /// <summary>
         /// name of model file.
         /// </summary>
@@ -96,9 +108,19 @@ namespace Ecell.Objects
         /// <summary>
         /// Layer list of this model.
         /// </summary>
-        public List<string> Layers
+        public List<EcellLayer> Layers
         {
-            get { return m_layers; }
+            get
+            {
+                EcellValue layers = this.GetEcellValue(EcellLayer.Layers);
+                return EcellLayer.ConvertFromEcellValue(layers);
+            }
+            set
+            {
+                EcellValue layers = EcellLayer.ConvertToEcellValue(value);
+                SetEcellValue(EcellLayer.Layers, layers);
+                GetEcellData(EcellLayer.Layers).Settable = false;
+            }
         }
         /// <summary>
         /// List of EcellSystems int this model.
@@ -114,8 +136,23 @@ namespace Ecell.Objects
         public Dictionary<string, List<EcellObject>> StepperDic
         {
             get { return m_stepperDic; }
-            set { m_stepperDic = value; }
         }
         #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        private void ChangeModelIDforChildren(EcellObject obj)
+        {
+            if (obj.Children == null || obj.Children.Count <= 0)
+                return;
+            foreach (EcellObject child in obj.Children)
+            {
+                child.ModelID = obj.ModelID;
+                ChangeModelIDforChildren(child);
+            }
+        }
+
     }
 }
