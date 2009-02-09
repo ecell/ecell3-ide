@@ -195,9 +195,6 @@
   <data name="CanvasMenuDeleteLogger" xml:space="preserve">
     <value>Delete logger</value>
   </data>
-  <data name="CanvasMenuMerge" xml:space="preserve">
-    <value>Merge to supersystem</value>
-  </data>
   <data name="CanvasMenuLayout" xml:space="preserve">
     <value>Layout</value>
   </data>
@@ -276,45 +273,6 @@
   <data name="MenuItemFile" xml:space="preserve">
     <value>File</value>
   </data>
-  <data name="DialogTextAnimationSetting" xml:space="preserve">
-    <value>Animation setting</value>
-  </data>
-  <data name="DialogTextBackgroundBrush" xml:space="preserve">
-    <value>Background color</value>
-  </data>
-  <data name="DialogTextEdgeBrush" xml:space="preserve">
-    <value>Arrow color</value>
-  </data>
-  <data name="DialogTextEdgeWidth" xml:space="preserve">
-    <value>Arrow width</value>
-  </data>
-  <data name="DialogTextEditMode" xml:space="preserve">
-    <value>Edit mode</value>
-  </data>
-  <data name="DialogTextLogarithmic" xml:space="preserve">
-    <value>Logarithmic scale</value>
-  </data>
-  <data name="DialogTextMaxEdgeWidth" xml:space="preserve">
-    <value>Max arrow width</value>
-  </data>
-  <data name="DialogTextNGBrush" xml:space="preserve">
-    <value>Error color</value>
-  </data>
-  <data name="DialogTextNormalEdge" xml:space="preserve">
-    <value>Normal arrow color</value>
-  </data>
-  <data name="DialogTextThresholdHigh" xml:space="preserve">
-    <value>Upper threshold</value>
-  </data>
-  <data name="DialogTextThresholdLow" xml:space="preserve">
-    <value>Lower threshold</value>
-  </data>
-  <data name="DialogTextViewMode" xml:space="preserve">
-    <value>View mode</value>
-  </data>
-  <data name="DialogTextPropertyBrush" xml:space="preserve">
-    <value>Property color</value>
-  </data>
   <data name="ToolButtonCreateText" xml:space="preserve">
     <value>Create new text box.</value>
   </data>
@@ -326,27 +284,6 @@
   </data>
   <data name="WindowStencil" xml:space="preserve">
     <value>Stencil</value>
-  </data>
-  <data name="DialogTextCenterBrush" xml:space="preserve">
-    <value>Center color</value>
-  </data>
-  <data name="DialogTextFigure" xml:space="preserve">
-    <value>Shape</value>
-  </data>
-  <data name="DialogTextFillBrush" xml:space="preserve">
-    <value>Fill color</value>
-  </data>
-  <data name="DialogTextIconFile" xml:space="preserve">
-    <value>Icon file</value>
-  </data>
-  <data name="DialogTextIsGradation" xml:space="preserve">
-    <value>Gradation</value>
-  </data>
-  <data name="DialogTextLineBrush" xml:space="preserve">
-    <value>Line color</value>
-  </data>
-  <data name="DialogTextTextBrush" xml:space="preserve">
-    <value>Text color</value>
   </data>
   <data name="CanvasMenuBidirArrow" xml:space="preserve">
     <value>Set both directions</value>
@@ -365,12 +302,6 @@
   </data>
   <data name="MenuToolTipFocus" xml:space="preserve">
     <value>Focus the selected object.</value>
-  </data>
-  <data name="DialogTextComponentSetting" xml:space="preserve">
-    <value>Shape settings</value>
-  </data>
-  <data name="DialogTextPathwaySetting" xml:space="preserve">
-    <value>Diagram settings</value>
   </data>
   <data name="MergeLayerDialogMessage" xml:space="preserve">
     <value>Please select the merged layer.</value>
@@ -393,12 +324,6 @@
   <data name="MenuToolTipOverview" xml:space="preserve">
     <value>Change the visibility of Overview panel.</value>
   </data>
-  <data name="DialogTextAutoThreshold" xml:space="preserve">
-    <value>Auto Threshold</value>
-  </data>
-  <data name="DialogTooltipAutoThreshold" xml:space="preserve">
-    <value>Automatic setting of the threshold of Edge width.</value>
-  </data>
   <data name="ErrInvalidValue" xml:space="preserve">
     <value>Value is not valid.</value>
   </data>
@@ -411,10 +336,28 @@
   <data name="CanvasMenuOnewayArrow" xml:space="preserve">
     <value>Set oneway direction</value>
   </data>
+  <data name="ErrCreateEdge" xml:space="preserve">
+    <value>Failed to create edge.</value>
+  </data>
+  <data name="CanvasMenuAlignCenter" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="CanvasMenuAlignLeft" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="CanvasMenuAlignRight" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="CanvasMenuTextAlign" xml:space="preserve">
+    <value>Alignment</value>
+  </data>
   <data name="DialogTextConfirmReset" xml:space="preserve">
     <value>Reset Diagram settings.</value>
   </data>
-  <data name="ErrCreateEdge" xml:space="preserve">
-    <value>Failed to create edge.</value>
+  <data name="DialogTooltipAutoThreshold" xml:space="preserve">
+    <value>Automatic setting of the threshold of Edge width.</value>
+  </data>
+  <data name="ErrCreateAvi" xml:space="preserve">
+    <value>Failed to create movie file.</value>
   </data>
 </root>

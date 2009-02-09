@@ -97,7 +97,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 return;
             PPathwaySystem system = (PPathwaySystem)m_object;
             RectangleF rect = system.Rect;
-            system.IsInvalid = m_canvas.DoesSystemOverlaps(rect) || !m_canvas.IsInsideRoot(rect);
+            system.Invalid = m_canvas.DoesSystemOverlaps(rect) || !m_canvas.IsInsideRoot(rect);
 
         }
 
@@ -153,23 +153,41 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected override void OnEndDrag(object sender, PInputEventArgs e)
+        public override void OnMouseUp(object sender, PInputEventArgs e)
         {
-            base.OnEndDrag(sender, e);
+            base.OnMouseUp(sender, e);
             if (m_canvas == null)
                 return;
 
             Point systemPos = GetSystemPos(e);
-            Point CanvasPos = m_con.PathwayView.GetDesktopLocation();
-            Rectangle rect = m_canvas.PCanvas.Bounds;
-            rect.X = CanvasPos.X;
-            rect.Y = CanvasPos.Y;
+
+            // If ToolBox window contains the systemPos, return.
+            Rectangle rect = m_con.ToolBox.Bounds;
+            rect.Location = m_con.ToolBox.GetDesktopLocation();
+            if (rect.Contains(systemPos))
+            {
+                ResetEventHandler();
+                return;
+            }
+            // If PathwayView window contains the systemPos, add new object.
+            rect = m_canvas.PCanvas.Bounds;
+            rect.Location = m_con.PathwayView.GetDesktopLocation();
             // Add new object and reset EventHandler.
-            if (rect.Contains(systemPos) || m_object is PPathwayText)
+            if (rect.Contains(systemPos))
                 AddObject();
 
             ResetEventHandler();
-       }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public override bool DoesAcceptEvent(PInputEventArgs e)
+        {
+            return true;
+        }
+
         #endregion
 
         #region private Methods
@@ -179,10 +197,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         private void AddObject()
         {
             string systemKey = m_canvas.GetSurroundingSystemKey(m_object.CenterPointF);
-            if (string.IsNullOrEmpty(systemKey))
+            if (!(m_object is PPathwayText) && string.IsNullOrEmpty(systemKey))
                 return;
-            if (m_object is PPathwaySystem
-                && ((PPathwaySystem)m_object).IsInvalid)
+            if (m_object is PPathwaySystem && m_canvas.DoesSystemOverlaps(m_object.Rect))
             {
                 Util.ShowErrorDialog(MessageResources.ErrOverSystem);
                 return;
@@ -194,12 +211,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             eo.Y = m_object.Y;
             eo.Width = m_object.Width;
             eo.Height = m_object.Height;
+            eo.isFixed = true;
             m_canvas.Control.NotifyDataAdd(eo, !isSystem);
+            PPathwayObject temp = m_canvas.GetObject(eo.Key, eo.Type);
+            if (temp != null)
+                m_con.Canvas.NotifySelectChanged(temp);
 
             // Update System 
             if (!isSystem)
                 return;
-            PPathwayObject system = m_canvas.GetSelectedObject(eo.Key, eo.Type);
+            PPathwayObject system = m_canvas.GetObject(eo.Key, eo.Type);
             if (system == null)
                 return;
             // Move Object under new system.
@@ -219,7 +240,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                     false);
             }
             m_canvas.Control.NotifyDataChanged(system, true);
-
         }
 
         /// <summary>

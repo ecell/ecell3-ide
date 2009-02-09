@@ -41,6 +41,7 @@ using UMD.HCIL.Piccolo.Event;
 using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using System.Diagnostics;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
@@ -98,17 +99,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         #endregion
         #endregion
 
-        #region Accessor
-        /// <summary>
-        /// A name of selected layer.
-        /// </summary>
-        public string CurrentLayer
-        {
-            get { return GetCurrentLayerID(); }
-        }
-
-        #endregion
-
         #region Constructor
         /// <summary>
         /// Constructor
@@ -132,12 +122,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         void OnCanvasChange(object sender, EventArgs e)
         {
-            if (m_canvas != null)
-                m_canvas.LayerChange -= this.OnLayerChange;
             if (m_con.Canvas == null)
                 return;
             m_canvas = m_con.Canvas;
-            m_canvas.LayerChange += new EventHandler(OnLayerChange);
         }
 
         #endregion
@@ -201,7 +188,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.RowTemplate.Height = 21;
             this.dataGridView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.m_dgv_MouseDown);
-            this.dataGridView.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_dgv_CellValidated);
+            this.dataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_dgv_CellEndEdit);
             this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_dgv_CellMouseDown);
             this.dataGridView.CurrentCellDirtyStateChanged += new System.EventHandler(this.m_dgv_CurrentCellDirtyStateChanged);
             this.dataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgv_DataBindingComplete);
@@ -309,32 +296,39 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         }
 
         /// <summary>
-        /// Refresh 
+        /// ResetLayers
         /// </summary>
-        private void RefreshLayerTable()
+        /// <param name="list"></param>
+        internal void ResetLayers(List<EcellLayer> list)
         {
             dataGridView.Rows.Clear();
-            foreach (PNode obj in m_canvas.PCanvas.Root.ChildrenReference)
+
+            List<PPathwayLayer> layers = new List<PPathwayLayer>();
+            foreach (EcellLayer el in list)
             {
-                if (!(obj is PPathwayLayer))
-                    continue;
-                PPathwayLayer layer = (PPathwayLayer)obj;
-                if (string.IsNullOrEmpty(layer.Name))
-                    continue;
+                if (!m_canvas.Layers.ContainsKey(el.Name))
+                    m_canvas.AddLayer(el.Name, el.Visible);
+                PPathwayLayer layer = m_canvas.Layers[el.Name];
+                layer.Visible = el.Visible;
                 LayerGridRow row = new LayerGridRow(layer);
                 dataGridView.Rows.Add(row);
+                layers.Add(layer);
+            }
+
+            List<PPathwayLayer> tempList = new List<PPathwayLayer>();
+            tempList.AddRange(m_canvas.Layers.Values);
+            foreach (PPathwayLayer layer in tempList)
+            {
+                if (!layers.Contains(layer))
+                    m_canvas.RemoveLayer(layer.Name);
             }
         }
 
         #endregion
 
         #region Event sequences
-        void OnLayerChange(object sender, EventArgs e)
-        {
-            RefreshLayerTable();
-        }
 
-        void m_dgv_CellValidated(object sender, DataGridViewCellEventArgs e)
+        void m_dgv_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex <= 0)
                 return;
@@ -343,15 +337,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             string newName = row.Name;
             if (oldName.Equals(newName))
                 return;
-
+            // Check Errors.
+            if (string.IsNullOrEmpty(newName))
+            {
+                Util.ShowNoticeDialog(string.Format(MessageResources.ErrInvalidValue, newName));
+                row.Name = row.Layer.Name;
+                return;
+            }
             if (m_canvas.Layers.ContainsKey(newName))
             {
                 Util.ShowNoticeDialog(string.Format(MessageResources.ErrAlrExist, newName));
                 row.Name = row.Layer.Name;
                 return;
             }
-            row.Layer.Name = row.Name;
-            m_canvas.RenameLayer(oldName, newName);
+            m_canvas.NotifyRenameLayer(oldName, newName);
         }
 
         /// <summary>
@@ -366,8 +365,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             if (!m_dirtyEventProcessed)
             {
                 LayerGridRow row = (LayerGridRow)((DataGridView)sender).CurrentRow;
-                row.Layer.Visible = row.Checked;
+                // row.Layer.Visible = row.Checked;
                 m_dirtyEventProcessed = true;
+                m_canvas.ChangeLayerVisibility(row.Layer.Name, row.Checked);
             }
             else
             {
@@ -454,7 +454,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         private void CreateLayerClick(object sender, EventArgs e)
         {
             string name = GetNewLayerID(m_canvas);
-            m_canvas.AddLayer(name);
+            m_canvas.NotifyAddLayer(name, true);
         }
 
         /// <summary>
@@ -484,33 +484,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         }
 
         /// <summary>
-        /// Get current LayerID.
-        /// </summary>
-        private string GetCurrentLayerID()
-        {
-            string name = null;
-            foreach (DataGridViewRow row in dataGridView.Rows)
-            {
-                if ((bool)row.Cells[0].FormattedValue)
-                {
-                    name = (string)row.Cells[1].FormattedValue;
-                    break;
-                }
-            }
-
-            if (name == null)
-                name = GetNewLayerID(m_canvas);
-            return name;
-        }
-
-        /// <summary>
         /// when click menu "Delete Layer"
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void RemoveLayerClick(object sender, EventArgs e)
         {
-            m_canvas.RemoveLayer(m_selectedLayer);
+            m_canvas.NotifyRemoveLayer(m_selectedLayer, true);
         }
 
         /// <summary>
@@ -536,7 +516,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 return;
             Debug.Assert(!m_canvas.Layers.ContainsKey(newName));
 
-            m_canvas.MergeLayer(m_selectedLayer, newName);
+            m_canvas.NotifyMergeLayer(m_selectedLayer, newName);
         }
 
         /// <summary>

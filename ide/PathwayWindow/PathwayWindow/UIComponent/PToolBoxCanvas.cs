@@ -34,6 +34,7 @@ using System.Text;
 using System.Drawing;
 using UMD.HCIL.Piccolo;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
+using Ecell.IDE.Plugins.PathwayWindow.Components;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {

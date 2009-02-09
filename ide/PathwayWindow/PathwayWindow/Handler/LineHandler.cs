@@ -40,6 +40,7 @@ using UMD.HCIL.Piccolo.Event;
 using UMD.HCIL.Piccolo.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using System.ComponentModel;
+using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
@@ -153,12 +154,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 
             // Prepare line handles
             m_lineHandle4V = new LineHandle();
-            m_lineHandle4V.ComponentType = ComponentType.Variable;
+            m_lineHandle4V.ComponentType = EcellObject.VARIABLE;
             m_lineHandle4V.MouseDrag += new PInputEventHandler(m_lineHandle_MouseDrag);
             m_lineHandle4V.MouseUp += new PInputEventHandler(LineHandle_MouseUp);
 
             m_lineHandle4P = new LineHandle();
-            m_lineHandle4P.ComponentType = ComponentType.Process;
+            m_lineHandle4P.ComponentType = EcellObject.PROCESS;
             m_lineHandle4P.MouseDrag += new PInputEventHandler(m_lineHandle_MouseDrag);
             m_lineHandle4P.MouseUp += new PInputEventHandler(LineHandle_MouseUp);
 
@@ -292,16 +293,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 
             try
             {
-                // Remove  old edge.
-                m_con.NotifyVariableReferenceChanged(processKey, variableKey, RefChangeType.Delete, 0, false);
 
                 // Get new EdgeInfo.
                 LineHandle handle = (LineHandle)sender;
-                if (obj is PPathwayProcess && handle.ComponentType == ComponentType.Process)
+                if (obj is PPathwayProcess && handle.ComponentType == EcellObject.PROCESS)
                 {
                     processKey = obj.EcellObject.Key;
                 }
-                else if (obj is PPathwayVariable && handle.ComponentType == ComponentType.Variable)
+                else if (obj is PPathwayVariable && handle.ComponentType == EcellObject.VARIABLE)
                 {
                     variableKey = obj.EcellObject.Key;
                 }
@@ -316,6 +315,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                     type = RefChangeType.BiDir;
                 }
 
+                // Remove old edge.
+                m_con.NotifyVariableReferenceChanged(info.ProcessKey, info.VariableKey, RefChangeType.Delete, 0, false);
+                // Add new edge.
                 m_con.NotifyVariableReferenceChanged(processKey, variableKey, type, coefficient, true);
             }
             catch (Exception)
@@ -337,14 +339,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             /// <summary>
             /// ComponentType
             /// </summary>
-            private ComponentType m_cType;
+            private string m_type;
             /// <summary>
             /// Accessor for m_cType
             /// </summary>
-            public ComponentType ComponentType
+            public string ComponentType
             {
-                get { return m_cType; }
-                set { m_cType = value; }
+                get { return m_type; }
+                set { m_type = value; }
             }
             /// <summary>
             /// Constructor

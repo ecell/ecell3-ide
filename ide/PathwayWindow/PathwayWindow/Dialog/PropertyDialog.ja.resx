@@ -120,7 +120,7 @@
   <data name="buttonCancel.Text" xml:space="preserve">
     <value>キャンセル</value>
   </data>
-  <data name="buttonOK.Text" xml:space="preserve">
-    <value>適用</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>ダイアグラム設定</value>
   </data>
 </root>

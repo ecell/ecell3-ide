@@ -85,59 +85,38 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             // 
             // groupBox
             // 
-            this.groupBox.AccessibleDescription = null;
-            this.groupBox.AccessibleName = null;
             resources.ApplyResources(this.groupBox, "groupBox");
-            this.groupBox.BackgroundImage = null;
             this.groupBox.Controls.Add(this.bgBrushItem);
             this.groupBox.Controls.Add(this.edgeBrushItem);
             this.groupBox.Controls.Add(this.edgeWidth);
-            this.groupBox.Font = null;
             this.groupBox.Name = "groupBox";
             this.groupBox.TabStop = false;
             // 
             // bgBrushItem
             // 
-            this.bgBrushItem.AccessibleDescription = null;
-            this.bgBrushItem.AccessibleName = null;
             resources.ApplyResources(this.bgBrushItem, "bgBrushItem");
-            this.bgBrushItem.BackgroundImage = null;
-            this.bgBrushItem.Font = null;
             this.bgBrushItem.Name = "bgBrushItem";
             // 
             // edgeBrushItem
             // 
-            this.edgeBrushItem.AccessibleDescription = null;
-            this.edgeBrushItem.AccessibleName = null;
             resources.ApplyResources(this.edgeBrushItem, "edgeBrushItem");
-            this.edgeBrushItem.BackgroundImage = null;
-            this.edgeBrushItem.Font = null;
             this.edgeBrushItem.Name = "edgeBrushItem";
             // 
             // edgeWidth
             // 
-            this.edgeWidth.AccessibleDescription = null;
-            this.edgeWidth.AccessibleName = null;
             resources.ApplyResources(this.edgeWidth, "edgeWidth");
-            this.edgeWidth.BackgroundImage = null;
-            this.edgeWidth.Font = null;
             this.edgeWidth.Name = "edgeWidth";
             this.edgeWidth.Validating += new System.ComponentModel.CancelEventHandler(this.EdgeWidthValidating);
             // 
             // EditModeItems
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
-            this.AutoSize = true;
-            this.Anchor = (AnchorStyles)((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right);
-            this.BackgroundImage = null;
             this.Controls.Add(this.groupBox);
-            this.Font = null;
             this.Name = "EditModeItems";
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -146,13 +125,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             string text = edgeWidth.Text;
             if (String.IsNullOrEmpty(text))
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.DialogTextEdgeWidth));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, edgeWidth.LabelText));
                 edgeWidth.Text = Convert.ToString(m_control.EdgeWidth);
                 e.Cancel = true;
                 return;
             }
+            // 0 < EdgeWidth <= 100
             float dummy;
-            if (!float.TryParse(text, out dummy) || dummy < 0)
+            if (!float.TryParse(text, out dummy) || dummy < 0 || dummy > 100)
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 edgeWidth.Text = Convert.ToString(m_control.EdgeWidth);

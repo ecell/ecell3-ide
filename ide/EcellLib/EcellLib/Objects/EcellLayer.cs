@@ -82,7 +82,7 @@ namespace Ecell.Objects
         /// <summary>
         /// Constructor with initial parameter.
         /// </summary>
-        /// <param name="value">EcellValue</param>
+        /// <param name="obj">EcellValue</param>
         public EcellLayer(object obj)
         {
             if (obj == null)

@@ -328,7 +328,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <param name="e"></param>
         void Object_VisibleChanged(object sender, PPropertyEventArgs e)
         {
-            if (m_obj.Visible && m_obj.IsHighLighted)
+            if (m_obj.Visible && m_obj.Selected)
                 ShowResizeHandles();
             else
                 HideResizeHandles();
@@ -417,7 +417,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             /// <summary>
             /// Constructor
             /// </summary>
-            public ResizeHandle()
+            internal ResizeHandle()
             {
                 this.AddInputEventListener(new PDragEventHandler());
                 this.Brush = Brushes.DarkOrange;

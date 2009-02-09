@@ -72,11 +72,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         protected PPath m_selectedPath;
 
         /// <summary>
-        /// Rectangle, surrounded by mouse.
-        /// </summary>
-        protected RectangleF m_rect;
-
-        /// <summary>
         /// A system, which surrounds the position where the mouse was pressed down.
         /// </summary>
         protected string m_surSystem;
@@ -86,23 +81,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// If surrounding area is too small to create new system, this pen will be used.
         /// Otherwise, m_validPen will be used.
         /// </summary>
-        protected Pen m_invalidPen = new Pen(Brushes.Black,1);
+        private readonly Pen InvalidPen = new Pen(Brushes.Black, 1);
 
         /// <summary>
         /// m_validPen is used for writing rectangle in which new system will be created.
         /// If surrounding area has enough size for creating new system, this pen will be used.
         /// Otherwise, m_invalidPen will be used.
         /// </summary>
-        protected Pen m_validPen = new Pen(Brushes.Blue, 5);
+        private readonly Pen ValidPen = new Pen(Brushes.Blue, 5);
 
         /// <summary>
         /// m_overlapPen is used for writing rectangle in which new system will be created.
         /// If surrounding area has enough size for creating new system but is overlapping other
         /// systems, m_overlapPen will be used.
         /// </summary>
-        protected Pen m_overlapPen = new Pen(Brushes.Red, 5);
-
-        bool m_isNode = false;
+        private readonly Pen OverlapPen = new Pen(Brushes.Red, 5);
 
         #endregion
 
@@ -113,6 +106,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         public CreateSystemMouseHandler(PathwayControl control)
             : base(control)
         {
+            m_selectedPath = new PPath();
         }
 
         public override void Initialize()
@@ -131,6 +125,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             if (m_con.Canvas == null)
                 return;
             m_con.Canvas.PCanvas.Cursor = Cursors.Arrow;
+            m_selectedPath.Reset();
         }
 
         /// <summary>
@@ -140,8 +135,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         /// <returns>The judgement whether this action is acceped.</returns>
         public override bool DoesAcceptEvent(PInputEventArgs e)
         {
-            return e.Button != MouseButtons.Right;
+            return true;
         }
+
         /// <summary>
         /// Called when the mouse is down on the pathway canvas
         /// </summary>
@@ -150,7 +146,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         public override void OnMouseDown(object sender, PInputEventArgs e)
         {            
             base.OnMouseDown(sender, e);
+            // if Button != MouseButtons.Left, return.
+            if (e.Button != MouseButtons.Left)
+                return;
+            // if PickedNode 
+            if (e.PickedNode is PPathwayObject || e.PickedNode is PPathwayLine)
+                return;
+
             m_canvas = m_con.Canvas;
+            m_selectedPath.Reset();
 
             if (e.PickedNode is PCamera)
             {
@@ -163,13 +167,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 }
 
                 m_startPoint = e.Position;
-                m_selectedPath = new PPath();
                 e.Canvas.Layer.AddChild(m_selectedPath);
-                m_isNode = false;
-            }
-            else
-            {
-                m_isNode = true;
             }
         }
         
@@ -181,25 +179,23 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         public override void OnMouseDrag(object sender, PInputEventArgs e)
         {
             base.OnMouseDrag(sender, e);
-            if (m_isNode)
+            if (string.IsNullOrEmpty(m_surSystem))
                 return;
-            if (m_selectedPath == null)
-                return;
-
 
             m_selectedPath.Reset();
             
             RectangleF rect = PathUtil.GetRectangle(m_startPoint, e.Position);
             m_selectedPath.AddRectangle(rect.X, rect.Y, rect.Width, rect.Height);
+            // Set pen.
             if (rect.Width < PPathwaySystem.MIN_WIDTH || rect.Height < PPathwaySystem.MIN_HEIGHT)
             {
                 // When mouse surrounding region is smaller than minimum.
-                m_selectedPath.Pen = m_invalidPen;
+                m_selectedPath.Pen = InvalidPen;
             }
             else if (m_canvas.DoesSystemOverlaps(rect))
             {
                 // When mouse surrounding region overlaps other system
-                m_selectedPath.Pen = m_overlapPen;
+                m_selectedPath.Pen = OverlapPen;
                 m_selectedPath.CloseFigure();
                 m_selectedPath.AddLine(rect.X, rect.Y, rect.X + rect.Width, rect.Y + rect.Height);
                 m_selectedPath.CloseFigure();
@@ -208,63 +204,61 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             else
             {
                 // When a system could be created successfully if mouse is up.
-                m_selectedPath.Pen = m_validPen;
+                m_selectedPath.Pen = ValidPen;
             }
 
-            m_canvas.NotifyResetSelect();
-            List<PPathwayObject> newlySelectedList = new List<PPathwayObject>();
-            foreach (PPathwayLayer layer in m_canvas.Layers.Values)
-            {
-                newlySelectedList.AddRange(layer.GetNodes(rect));
-            }
-
+            // Set Highlight.
+            m_canvas.ResetSelect();
+            List<PPathwayObject> newlySelectedList = m_canvas.GetSurroundedObject(rect);
             foreach (PPathwayObject node in newlySelectedList)
-            {
-                m_canvas.AddSelectedNode(node);
-            }
+                m_canvas.AddSelect(node);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public override void OnMouseUp(object sender, PInputEventArgs e)
         {
-            if (m_isNode)
-                return;
             base.OnMouseUp(sender, e);
+            if (string.IsNullOrEmpty(m_surSystem))
+                return;
 
-            if (m_startPoint == PointF.Empty || m_selectedPath == null)
+            if (m_selectedPath.Parent != null)
+                m_selectedPath.Parent.RemoveChild(m_selectedPath);
+            m_selectedPath.Reset();
+
+            RectangleF rect = PathUtil.GetRectangle(m_startPoint, e.Position);
+            if (m_canvas.DoesSystemOverlaps(rect))
             {
-                m_startPoint = PointF.Empty;
+                Util.ShowErrorDialog(MessageResources.ErrOverSystem);
                 return;
             }
 
-            m_selectedPath.Reset();
-            if(m_selectedPath != null && m_selectedPath.Parent != null)
+            if (rect.Width >= PPathwaySystem.MIN_WIDTH && rect.Height >= PPathwaySystem.MIN_HEIGHT)
             {
-                m_selectedPath.Parent.RemoveChild(m_selectedPath);
-            }
-            m_rect = PathUtil.GetRectangle(m_startPoint, e.Position);
 
-            if (m_rect.Width >= PPathwaySystem.MIN_WIDTH && m_rect.Height >= PPathwaySystem.MIN_HEIGHT)
-            {
-                if (m_canvas.DoesSystemOverlaps(m_rect))
-                {
-                    Util.ShowErrorDialog(MessageResources.ErrOverSystem);
-                    return;
-                }
-
-                List<PPathwayObject> newlySelectedList = new List<PPathwayObject>();
-                foreach (PPathwayLayer layer in m_canvas.Layers.Values)
-                {
-                    newlySelectedList.AddRange(layer.GetNodes(m_rect));
-                }
                 EcellObject eo = m_con.CreateDefaultObject(m_canvas.ModelID, m_surSystem, EcellObject.SYSTEM);
 
-                eo.X = m_rect.X;
-                eo.Y = m_rect.Y;
-                eo.Width = m_rect.Width;
-                eo.Height = m_rect.Height;
+                eo.X = rect.X;
+                eo.Y = rect.Y;
+                eo.Width = rect.Width;
+                eo.Height = rect.Height;
+                eo.isFixed = true;
 
+                m_canvas.ResetSelect();
+                // Add system.
                 m_con.NotifyDataAdd(eo, false);
-                TransferNodeToByCreate(eo.Key);
+                // Move Children.
+                m_canvas.NotifyMoveObjects(false);
+                // Reset System.
+                PPathwayObject obj = m_canvas.GetObject(eo.Key, eo.Type);
+                if (obj != null)
+                {
+                    m_con.NotifyDataChanged(obj, true);
+                    m_con.Canvas.NotifySelectChanged(obj);
+                }
                 m_con.Menu.SetDefaultEventHandler();
             }
             else
@@ -272,48 +266,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 m_canvas.NotifyResetSelect();
             }
             m_startPoint = PointF.Empty;
-        }
-        /// <summary>
-        /// Transfer an object from one System/Layer to other System/Layer.
-        /// </summary>
-        /// <param name="systemName">The name of the system to which object is transfered. If null, obj is
-        /// transfered to layer itself</param>
-        public void TransferNodeToByCreate(string systemName)
-        {
-            PPathwaySystem system = m_canvas.Systems[systemName];
-            string newKey = null;
-            foreach (PPathwayObject obj in m_canvas.GetSystemList())
-            {
-                if (obj.EcellObject.ParentSystemID.StartsWith(systemName))
-                    continue;
-                if (obj == system || !system.Rect.Contains(obj.Rect))
-                    continue;
-
-                newKey = PathUtil.GetMovedKey(obj.EcellObject.Key, system.EcellObject.ParentSystemID, systemName);
-                m_con.NotifyDataChanged(
-                    obj.EcellObject.Key,
-                    newKey,
-                    obj,
-                    true,
-                    false);
-            }
-            foreach (PPathwayObject obj in m_canvas.GetNodeList())
-            {
-                if (obj.EcellObject.ParentSystemID.StartsWith(systemName))
-                    continue;
-                if (!m_canvas.DoesSystemContains(systemName, obj.CenterPointF))
-                    continue;
-
-                newKey = PathUtil.GetMovedKey(obj.EcellObject.Key, system.EcellObject.ParentSystemID, systemName);
-                m_con.NotifyDataChanged(
-                    obj.EcellObject.Key,
-                    newKey,
-                    obj,
-                    true,
-                    false);
-            }
-            m_con.NotifyDataChanged(systemName, systemName, system, true, true);
-
+            m_surSystem = null;
         }
     }
 }

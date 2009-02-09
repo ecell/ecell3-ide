@@ -117,8 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="aviOutputCheckBox.LabelText" xml:space="preserve">
-    <value>動画出力</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="edgeLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="edgeLabel.Text" xml:space="preserve">
+    <value>ProcessのMolerActivityに最大、最小のしきい値を設定してください。しきい値を超えたProcessのエッジは色が変わります。</value>
   </data>
   <data name="edgeHighBrush.LabelText" xml:space="preserve">
     <value>矢印の色</value>
@@ -127,7 +131,7 @@
     <value>矢印の色</value>
   </data>
   <data name="autoThresholdCheckBox.LabelText" xml:space="preserve">
-    <value>閾値の自動設定</value>
+    <value>しきい値の自動設定</value>
   </data>
   <data name="thresholdHigh.LabelText" xml:space="preserve">
     <value>上限値</value>
@@ -138,6 +142,12 @@
   <data name="edgeNGBrush.LabelText" xml:space="preserve">
     <value>エラー色</value>
   </data>
+  <data name="edgeBox.Text" xml:space="preserve">
+    <value>エッジのアニメーション</value>
+  </data>
+  <data name="aviOutputCheckBox.LabelText" xml:space="preserve">
+    <value>動画出力を行う。</value>
+  </data>
   <data name="propertyBrush.LabelText" xml:space="preserve">
     <value>プロパティ色</value>
   </data>
@@ -147,7 +157,16 @@
   <data name="aviFileName.LabelText" xml:space="preserve">
     <value>動画ファイル名</value>
   </data>
-  <data name="groupBox.Text" xml:space="preserve">
-    <value>アニメーション設定</value>
+  <data name="outputBox.Text" xml:space="preserve">
+    <value>アニメーション動画出力</value>
+  </data>
+  <data name="variableLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="variableLabel.Text" xml:space="preserve">
+    <value>VariableのMolerConcの変化をリアルタイム表示します。ラベルの色を設定してください。</value>
+  </data>
+  <data name="variableBox.Text" xml:space="preserve">
+    <value>Variableのアニメーション</value>
   </data>
 </root>

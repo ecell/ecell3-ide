@@ -17,7 +17,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private ViewModeItems m_viewModeItems;
 
         public PathwayTabPage(AnimationControl control)
+            : base()
         {
+            InitializeComponent();
             m_con = control;
             m_editModeItems = new EditModeItems(control);
             m_viewModeItems = new ViewModeItems(control);

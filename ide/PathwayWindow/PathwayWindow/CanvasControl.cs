@@ -156,7 +156,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// SelectChange flag.
         /// </summary>
-        bool m_isSelectChanged = false;
+        bool m_isOwner = false;
 
         /// <summary>
         /// ViewMode flag.
@@ -332,40 +332,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             get { return m_lineHandler; }
         }
-
-        /// <summary>
-        /// Get Bitmap image of current canvas.
-        /// </summary>
-        public Bitmap Bitmap
-        {
-            get { return (Bitmap)m_pCanvas.Camera.ToImage(); }
-        }
-        #endregion
-
-        #region EventHandler for LayerChange
-        private EventHandler m_onLayerChange;
-        /// <summary>
-        /// Event on layer change.
-        /// </summary>
-        public event EventHandler LayerChange
-        {
-            add { m_onLayerChange += value; }
-            remove { m_onLayerChange -= value; }
-        }
-        /// <summary>
-        /// Event on layer change.
-        /// </summary>
-        /// <param name="e"></param>
-        protected virtual void OnLayerChange(EventArgs e)
-        {
-            if (m_onLayerChange != null)
-                m_onLayerChange(this, e);
-        }
-        internal void RaiseLayerChange()
-        {
-            EventArgs e = new EventArgs();
-            OnLayerChange(e);
-        }
         #endregion
 
         #region Constructor
@@ -377,9 +343,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public CanvasControl(PathwayControl control, string modelID)
         {
             m_con = control;
-
             m_con.ViewModeChange += new EventHandler(Control_ViewModeChange);
-            m_con.Window.PluginManager.Refresh += new EventHandler(pManager_Refresh);
 
             m_modelId = modelID;
 
@@ -390,6 +354,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_pCanvas.Camera.RemoveLayer(m_pCanvas.Layer);
             m_pCanvas.Camera.ViewTransformChanged += new PPropertyEventHandler(Camera_ViewChanged);
             m_pCanvas.Camera.BoundsChanged += new PPropertyEventHandler(Camera_ViewChanged);
+            m_pCanvas.BackColor = BrushManager.ParseBrushToColor(m_bgBrush);
 
             // Preparing layer list
             m_layers = new Dictionary<string, PPathwayLayer>();
@@ -412,7 +377,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             ResetObjectSettings();
         }
 
-        void pManager_Refresh(object sender, EventArgs e)
+        /// <summary>
+        /// RefreshEdges
+        /// </summary>
+        internal void RefreshEdges()
         {
             foreach (PPathwayProcess process in m_processes.Values)
             {
@@ -441,7 +409,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             if (obj.EcellObject == null)
                 return;
-            m_isSelectChanged = true;
+            m_isOwner = true;
             m_con.Window.NotifySelectChanged(
                 this.m_modelId, 
                 obj.EcellObject.Key, 
@@ -604,7 +572,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             obj.AddInputEventListener(new NodeDragHandler(this));
             SetLayer(obj);
 
-            RegisterObjToSet(obj);
+            RegisterObject(obj);
             if (obj is PPathwayNode)
                 ((PPathwayNode)obj).ShowingID = this.m_showingId;
             // Set Root System
@@ -613,19 +581,31 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (!hasCoords)
                     SetSystemSize(obj);
                 obj.Layer.AddChild(obj);
+                obj.RefreshView();
                 return;
             }
 
-            // Set Child object.
+            // Set ParentObject.
             PPathwaySystem system = m_systems[sysKey];
             obj.ParentObject = system;
             // If obj hasn't coordinate, it will be settled. 
             if (obj is PPathwayNode)
             {
-                if (!hasCoords)
+                if (m_con.Window.IsLoading)
+                {
+                }
+                else if (!hasCoords)
+                {
                     obj.CenterPointF = GetVacantPoint(sysKey);
-                else if (!system.Rect.Contains(obj.CenterPointF))
+                }
+                else if (!obj.EcellObject.isFixed)
+                {
+                    MakeSpace(system, obj, !isFirst);
+                }
+                else if (!DoesSystemContains(sysKey, obj.CenterPointF))
+                {
                     obj.CenterPointF = GetVacantPoint(sysKey, obj.CenterPointF);
+                }
             }
             if (obj is PPathwaySystem)
             {
@@ -646,37 +626,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     obj.X = maxX + PPathwaySystem.SYSTEM_MARGIN;
                     obj.Y = system.Y + PPathwaySystem.SYSTEM_MARGIN;
                     SetSystemSize(obj);
-                    system.MakeSpace(obj, !isFirst);
                 }
+                if (!obj.EcellObject.isFixed)
+                    MakeSpace(system, obj, !isFirst);
             }
             obj.Refresh();
-        }
-
-        /// <summary>
-        /// Set the system size.
-        /// </summary>
-        /// <param name="system">The system object.</param>
-        private void SetSystemSize(PPathwayObject system)
-        {
-            int length = 200 * (int)Math.Sqrt(system.EcellObject.Children.Count);
-            if (length > PPathwaySystem.DEFAULT_WIDTH)
-            {
-                system.Width = length;
-                system.Height = length;
-            }
-            else
-            {
-                system.Width = PPathwaySystem.DEFAULT_WIDTH;
-                system.Height = PPathwaySystem.DEFAULT_HEIGHT;
-            }
-
+            // Refresh OverView.
+            RefreshOverView();
         }
 
         /// <summary>
         /// register the object to this set.
         /// </summary>
         /// <param name="obj">the registered object.</param>
-        public void RegisterObjToSet(PPathwayObject obj)
+        private void RegisterObject(PPathwayObject obj)
         {
             if (obj is PPathwaySystem)
             {
@@ -718,30 +681,144 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 obj.Canvas = this;
         }
 
-        #region Methods to control Layer.
         /// <summary>
-        /// add the selected layer.
+        /// Set the system size.
         /// </summary>
-        /// <param name="name">the added layer.</param>
-        public void AddLayer(string name)
+        /// <param name="system">The system object.</param>
+        private static void SetSystemSize(PPathwayObject system)
         {
-            // Error check.
-            if (string.IsNullOrEmpty(name))
-                return;
-            if (m_layers.ContainsKey(name))
+            int length = 200 * (int)Math.Sqrt(system.EcellObject.Children.Count);
+            if (length > PPathwaySystem.DEFAULT_WIDTH)
             {
-                Util.ShowNoticeDialog(name + MessageResources.ErrAlrExist);
-                return;
+                system.Width = length;
+                system.Height = length;
             }
-            PPathwayLayer layer = new PPathwayLayer(name);
-            AddLayer(layer);
-            AddLayer(m_ctrlLayer);
-            m_layers.Add(layer.Name, layer);
-            RaiseLayerChange();
+            else
+            {
+                system.Width = PPathwaySystem.DEFAULT_WIDTH;
+                system.Height = PPathwaySystem.DEFAULT_HEIGHT;
+            }
+
         }
 
         /// <summary>
         /// 
+        /// </summary>
+        /// <param name="system"></param>
+        /// <param name="obj"></param>
+        /// <param name="isFirst"></param>
+        private void MakeSpace(PPathwaySystem system, PPathwayObject obj, bool isFirst)
+        {
+            // Offset position of given object.
+            PointF offset = PointF.Empty;
+            //if (obj.X <= system.Left + PPathwaySystem.SYSTEM_MARGIN)
+            //    obj.OffsetX = system.Left + PPathwaySystem.SYSTEM_MARGIN - obj.X;
+            //if (obj.Y <= system.Top + PPathwaySystem.SYSTEM_MARGIN)
+            //    obj.OffsetY = system.Top + PPathwaySystem.SYSTEM_MARGIN - obj.Y;
+
+            // Enlarge this system
+            //if (system.Right < obj.Right + PPathwaySystem.SYSTEM_MARGIN)
+            //    system.Width = obj.Right + PPathwaySystem.SYSTEM_MARGIN - system.X;
+            //if (system.Bottom < obj.Bottom + PPathwaySystem.SYSTEM_MARGIN)
+            //    system.Height = obj.Bottom + PPathwaySystem.SYSTEM_MARGIN - system.Y;
+            if (system.Right < obj.Right)
+                system.Width = obj.Right - system.X + 1;
+            if (system.Bottom < obj.Bottom)
+                system.Height = obj.Bottom - system.Y + 1;
+
+            // Check Intersecting objects.
+            List<PPathwayObject> list = GetAllObjectUnder(system.EcellObject.Key);
+            bool enlargeFlag = false;
+            float offsetx = 0;
+            RectangleF rect = obj.Rect;
+            foreach (PPathwayObject child in list)
+            {
+                if (child is PPathwayText)
+                    continue;
+                if (child.EcellObject.Key.Equals(obj.EcellObject.Key))
+                    continue;
+                if (!child.EcellObject.ParentSystemID.Equals(system.EcellObject.Key))
+                    continue;
+
+                if (rect.IntersectsWith(child.Rect) || rect.Contains(child.Rect) || child.Rect.Contains(rect))
+                {
+                    enlargeFlag = true;
+                    offsetx = obj.Right + PPathwaySystem.SYSTEM_MARGIN - child.X;
+                    if (offsetx > offset.X)
+                        offset.X = offsetx;
+                }
+            }
+            // Make new space.
+            if (enlargeFlag)
+            {
+                foreach (PPathwayObject child in list)
+                {
+                    if (child is PPathwayText)
+                        continue;
+                    if (child.EcellObject.Key.Equals(obj.EcellObject.Key))
+                        continue;
+                    if (!child.EcellObject.ParentSystemID.Equals(system.EcellObject.Key))
+                        continue;
+
+                    if (child.X >= obj.X || rect.IntersectsWith(child.Rect) || rect.Contains(child.Rect) || child.Rect.Contains(rect))
+                        child.OffsetX = offset.X;
+
+                    if (child.OffsetX == 0 && child.OffsetY == 0)
+                        continue;
+
+                    offset = child.Offset;
+                    m_con.NotifyDataChanged(child, false);
+
+                    // Enlarge this system
+                    //if (system.Right < child.Right + PPathwaySystem.SYSTEM_MARGIN)
+                    //    system.Width = child.Right + PPathwaySystem.SYSTEM_MARGIN - system.X;
+                    //if (system.Bottom < child.Bottom + PPathwaySystem.SYSTEM_MARGIN)
+                    //    system.Height = child.Bottom + PPathwaySystem.SYSTEM_MARGIN - system.Y;
+                    if (system.Right < child.Right)
+                        system.Width = child.Right - system.X + 1;
+                    if (system.Bottom < child.Bottom)
+                        system.Height = child.Bottom - system.Y + 1;
+
+                    // Move system's children.
+                    if (!(child is PPathwaySystem))
+                        continue;
+                    foreach (PPathwayObject grandchild in GetAllObjectUnder(child.EcellObject.Key))
+                    {
+                        grandchild.Offset = offset;
+                        m_con.NotifyDataChanged(grandchild, false);
+                    }
+                }
+            }
+            m_con.NotifyDataChanged(system, false);
+
+            // Make parent system create space for this system.
+            if (system.ParentObject != null)
+                MakeSpace(system.ParentObject, system, isFirst);
+        }
+
+        #region Methods to control Layer.
+        /// <summary>
+        /// add the selected layer.
+        /// </summary>
+        /// <param name="name">the name of layer.</param>
+        /// <param name="visible">the visibility of layer.</param>
+        public void AddLayer(string name, bool visible)
+        {
+            // Error check.
+            if (string.IsNullOrEmpty(name))
+                throw new PathwayException("Error null string.");
+            if (m_layers.ContainsKey(name))
+                throw new PathwayException(string.Format(MessageResources.ErrAlrExist, name));
+
+            PPathwayLayer layer = new PPathwayLayer(name);
+            layer.Visible = visible;
+            AddLayer(layer);
+            AddLayer(m_ctrlLayer);
+            m_layers.Add(layer.Name, layer);
+        }
+
+        /// <summary>
+        /// Add new layer.
         /// </summary>
         /// <param name="layer"></param>
         private void AddLayer(PLayer layer)
@@ -751,6 +828,65 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 m_pCanvas.Camera.RemoveLayer(layer);
             m_pCanvas.Camera.AddLayer(layer);
             m_overviewCanvas.AddObservedLayer(layer);
+        }
+
+        /// <summary>
+        /// Delete selected layer.
+        /// </summary>
+        /// <param name="name"></param>
+        public void RemoveLayer(string name)
+        {
+            PPathwayLayer layer = m_layers[name];
+
+            // Delete Nodes under this layer
+            List<PPathwayObject> list = layer.GetNodes();
+            m_selectedNodes.Clear();
+            m_selectedNodes.AddRange(list);
+            m_con.DeteleNodes();
+
+            // Delete Layer.
+            m_layers.Remove(name);
+            m_overviewCanvas.RemoveObservedLayer(layer);
+            m_pCanvas.Camera.RemoveLayer(layer);
+            m_pCanvas.Root.RemoveChild(layer);
+        }
+
+        /// <summary>
+        /// 
+        /// Set Layer Visibility.
+        /// </summary>
+        /// <param name="layerName"></param>
+        /// <param name="isShown"></param>
+        public void ChangeLayerVisibility(string layerName, bool isShown)
+        {
+            if (!m_layers.ContainsKey(layerName))
+                return;
+            PPathwayLayer layer = m_layers[layerName];
+            // Set Visibility.
+            layer.Visible = isShown;
+            NotifyLayerChange(true);
+        }
+
+        /// <summary>
+        /// Set Layer.
+        /// </summary>
+        /// <param name="obj"></param>
+        public void SetLayer(PPathwayObject obj)
+        {
+            // if obj is root system or layerID is null.
+            PPathwayLayer layer = m_sysLayer;
+            string layerID = obj.EcellObject.Layer;
+            if (obj.EcellObject.Key.Equals("/") || string.IsNullOrEmpty(layerID))
+            {
+                obj.Layer = layer;
+                obj.Layer.AddChild(obj);
+                return;
+            }
+
+            // Set new layer.
+            if (m_layers.ContainsKey(layerID))
+                layer = m_layers[layerID]; //throw new PathwayException(string.Format("Layer [{0}] not found.", layerID));
+            obj.Layer = layer;
         }
 
         /// <summary>
@@ -773,8 +909,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             AddLayer(layer);
             AddLayer(m_ctrlLayer);
-            RaiseLayerChange();
+            NotifyLayerChange(true);
             m_con.Canvas.OverviewCanvas.Refresh();
+            NotifyLayerChange(true);
         }
 
         /// <summary>
@@ -800,97 +937,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (obj != layer)
                     AddLayer(obj);
             AddLayer(m_ctrlLayer);
-            RaiseLayerChange();
-        }
-
-        /// <summary>
-        /// Set Layer.
-        /// </summary>
-        /// <param name="obj"></param>
-        public void SetLayer(PPathwayObject obj)
-        {
-            string layerID = obj.EcellObject.Layer;
-            // rule out root system
-            if (obj.EcellObject.Key.Equals("/"))
-            {
-                obj.Layer = m_sysLayer;
-                obj.Layer.AddChild(obj);
-                return;
-            }
-            else if (string.IsNullOrEmpty(layerID))
-                layerID = m_con.LayerView.CurrentLayer;
-            if (!m_layers.ContainsKey(layerID))
-            {
-                AddLayer(layerID);
-            }
-            obj.Layer = m_layers[layerID];
-        }
-
-        /// <summary>
-        /// Delete selected layer.
-        /// </summary>
-        /// <param name="name"></param>
-        public void RemoveLayer(string name)
-        {
-            PPathwayLayer layer = m_layers[name];
-
-            // Delete Nodes under this layer
-            List<PPathwayObject> list = layer.GetNodes();
-            int i = 0;
-            foreach (PPathwayObject obj in list)
-            {
-                i++;
-                m_con.NotifyDataDelete(obj, (i == list.Count));
-            }
-
-            // Delete Layer.
-            m_layers.Remove(name);
-            m_overviewCanvas.RemoveObservedLayer(layer);
-            m_pCanvas.Camera.RemoveLayer(layer);
-            m_pCanvas.Root.RemoveChild(layer);
-
-            RaiseLayerChange();
-        }
-
-        /// <summary>
-        /// Rename selected layer.
-        /// </summary>
-        /// <param name="oldName"></param>
-        /// <param name="newName"></param>
-        public void RenameLayer(string oldName, string newName)
-        {
-            PPathwayLayer layer = m_layers[oldName];
-            layer.Name = newName;
-            m_layers.Remove(oldName);
-            m_layers.Add(newName, layer);
-            // Change Nodes under this layer
-            List<PPathwayObject> list = layer.GetNodes();
-            int i = 0;
-            foreach (PPathwayObject obj in list)
-            {
-                i++;
-                m_con.NotifyDataChanged(
-                    obj.EcellObject.Key,
-                    obj.EcellObject.Key,
-                    obj,
-                    true,
-                    (i == list.Count));
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// Set Layer Visibility.
-        /// </summary>
-        /// <param name="layerName"></param>
-        /// <param name="isShown"></param>
-        public void ChangeLayerVisibility(string layerName, bool isShown)
-        {
-            if (!m_layers.ContainsKey(layerName))
-                return;
-            PPathwayLayer layer = m_layers[layerName];
-            // Set Visibility.
-            layer.Visible = isShown;
+            NotifyLayerChange(true);
         }
 
         /// <summary>
@@ -907,11 +954,88 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="isAnchored"></param>
+        internal void NotifyAddLayer(string name, bool isAnchored)
+        {
+            // Error check.
+            if (string.IsNullOrEmpty(name))
+                return;
+            if (m_layers.ContainsKey(name))
+            {
+                Util.ShowNoticeDialog(name + MessageResources.ErrAlrExist);
+                return;
+            }
+            PPathwayLayer layer = new PPathwayLayer(name);
+            AddLayer(layer);
+            AddLayer(m_ctrlLayer);
+            m_layers.Add(layer.Name, layer);
+            NotifyLayerChange(isAnchored);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="isAnchored"></param>
+        internal void NotifyRemoveLayer(string name, bool isAnchored)
+        {
+            PPathwayLayer layer = m_layers[name];
+
+            // Delete Nodes under this layer
+            List<PPathwayObject> list = layer.GetNodes();
+            foreach (PPathwayObject obj in list)
+            {
+                obj.Layer = m_sysLayer;
+                m_con.NotifyDataChanged(
+                    obj.EcellObject.Key,
+                    obj.EcellObject.Key,
+                    obj,
+                    true,
+                    false);
+            }
+
+            // Delete Layer.
+            m_layers.Remove(name);
+            m_overviewCanvas.RemoveObservedLayer(layer);
+            m_pCanvas.Camera.RemoveLayer(layer);
+            m_pCanvas.Root.RemoveChild(layer);
+            NotifyLayerChange(isAnchored);
+        }
+
+        /// <summary>
+        /// Rename selected layer.
+        /// </summary>
+        /// <param name="oldName"></param>
+        /// <param name="newName"></param>
+        public void NotifyRenameLayer(string oldName, string newName)
+        {
+            NotifyAddLayer(newName, false);
+            PPathwayLayer oldlayer = m_layers[oldName];
+            PPathwayLayer newlayer = m_layers[newName];
+            // Change Nodes under this layer
+            List<PPathwayObject> list = oldlayer.GetNodes();
+            foreach (PPathwayObject obj in list)
+            {
+                obj.Layer = newlayer;
+                m_con.NotifyDataChanged(
+                    obj.EcellObject.Key,
+                    obj.EcellObject.Key,
+                    obj,
+                    true,
+                    false);
+            }
+            NotifyRemoveLayer(oldName, true);
+        }
+
+        /// <summary>
         /// Merge two layers
         /// </summary>
         /// <param name="oldName"></param>
         /// <param name="newName"></param>
-        internal void MergeLayer(string oldName, string newName)
+        internal void NotifyMergeLayer(string oldName, string newName)
         {
             if (oldName.Equals(newName))
                 return;
@@ -920,33 +1044,37 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             PPathwayLayer newlayer = m_layers[newName];
             // Change Nodes under this layer
             List<PPathwayObject> list = oldlayer.GetNodes();
-            int i = 0;
             foreach (PPathwayObject obj in list)
             {
-                i++;
                 obj.Layer = newlayer;
                 m_con.NotifyDataChanged(
                     obj.EcellObject.Key,
                     obj.EcellObject.Key,
                     obj,
                     true,
-                    (i == list.Count));
+                    false);
             }
-            RemoveLayer(oldName);
-            RaiseLayerChange();
+            NotifyRemoveLayer(oldName, true);
         }
-        #endregion
 
         /// <summary>
-        /// Get a temporary key of EcellObject.
+        /// 
         /// </summary>
-        /// <param name="type">The data type of EcellObject.</param>
-        /// <param name="systemID">The ID of parent system.</param>
-        /// <returns>"TemporaryID"</returns> 
-        public string GetTemporaryID(string type, string systemID)
+        internal void NotifyLayerChange(bool isAnchored)
         {
-            return this.Control.Window.GetTemporaryID(m_modelId, type, systemID);
+            List<PPathwayLayer> layers = new List<PPathwayLayer>();
+            foreach (PNode obj in m_pCanvas.Root.ChildrenReference)
+            {
+                if (!(obj is PPathwayLayer))
+                    continue;
+                PPathwayLayer layer = (PPathwayLayer)obj;
+                if (string.IsNullOrEmpty(layer.Name))
+                    continue;
+                layers.Add(layer);
+            }
+            m_con.NotifyLayerChanged(this.m_modelId, layers, isAnchored);
         }
+        #endregion
         /// <summary>
         /// Return a system which surrounds a given point.
         /// If more than one system surround a given point, smallest system will be returned.
@@ -997,7 +1125,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             if (!m_selectedNodes.Contains(obj))
                 m_selectedNodes.Add(obj);
-            obj.IsHighLighted = true;
+            obj.Selected = true;
         }
 
         /// <summary>
@@ -1008,7 +1136,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public PPathwayNode GetPickedNode(PointF pointF)
         {
             PPathwayNode pickedObj = null;
-            foreach (PPathwayLayer layer in m_layers.Values)
+            List<PPathwayLayer> layers = new List<PPathwayLayer>();
+            layers.Add(m_sysLayer);
+            layers.AddRange(m_layers.Values);
+
+            foreach (PPathwayLayer layer in layers)
             {
                 foreach (PPathwayObject obj in layer.GetNodes())
                 {
@@ -1028,7 +1160,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="key">The key of selected object.</param>
         /// <param name="type">The type of selected object.</param>
         /// <returns>A list which contains all PathwayElements of this object</returns>
-        public PPathwayObject GetSelectedObject(string key, string type)
+        public PPathwayObject GetObject(string key, string type)
         {
             if (key == null || type == null)
                 return null;
@@ -1042,6 +1174,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return m_texts[key];
             return null;
         }
+
+        /// <summary>
+        /// GetSurroundedObject
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <returns></returns>
+        internal List<PPathwayObject> GetSurroundedObject(RectangleF rect)
+        {
+            List<PPathwayObject> list = new List<PPathwayObject>();
+            list.AddRange(m_sysLayer.GetNodes(rect));
+            list.Remove(m_systems["/"]);
+            foreach (PPathwayLayer layer in m_layers.Values)
+                list.AddRange(layer.GetNodes(rect));
+            return list;
+        }
+
         /// <summary>
         /// Get all PPathwayObject of this canvas.
         /// </summary>
@@ -1065,7 +1213,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             List<PPathwayObject> returnList = new List<PPathwayObject>();
             foreach (PPathwayObject obj in this.GetAllObjects())
             {
-                if (obj.EcellObject.Key.StartsWith(systemKey) && !obj.EcellObject.Key.Equals(systemKey))
+                if (systemKey.Equals("/") && !obj.EcellObject.Key.Equals("/"))
+                    returnList.Add(obj);
+                else if (obj.EcellObject.Key.StartsWith(systemKey + "/") || obj.EcellObject.Key.StartsWith(systemKey + ":"))
                     returnList.Add(obj);
             }
             return returnList;
@@ -1089,10 +1239,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public List<PPathwayObject> GetNodeList()
         {
             List<PPathwayObject> returnList = new List<PPathwayObject>();
-            foreach (PPathwayProcess process in this.m_processes.Values)
-                returnList.Add(process);
             foreach (PPathwayVariable variable in this.m_variables.Values)
                 returnList.Add(variable);
+            foreach (PPathwayProcess process in this.m_processes.Values)
+                returnList.Add(process);
 
             return returnList;
         }
@@ -1129,10 +1279,33 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <returns></returns>
         public Bitmap ToImage()
         {
-            //PPathwaySystem root = m_systems["/"];
-            Bitmap image = new Bitmap(m_pCanvas.Bounds.Width, m_pCanvas.Bounds.Height);
-            m_pCanvas.DrawToBitmap(image, m_pCanvas.Bounds);
+            Bitmap image = m_overviewCanvas.ToImage();
             return image;
+        }
+        
+        /// <summary>
+        /// The event sequence on changing value of data at other plugin.
+        /// </summary>
+        /// <param name="oldKey">The ID before value change.</param>
+        /// <param name="newKey">The data type before value change.</param>
+        /// <param name="obj">Changed value of object.</param>
+        /// <param name="oldRect">oldRect.</param>
+        public void DataChanged(string oldKey, string newKey, PPathwayObject obj, RectangleF oldRect)
+        {
+            if (!oldKey.Equals(newKey))
+            {
+                UpdateDictionaryKey(oldKey, newKey, obj);
+                if( !m_con.Window.IsLoading)
+                    MoveObject(oldKey, newKey, obj, oldRect);
+                RefreshEdges();
+            }
+            // Set Layer
+            SetLayer(obj);
+            // Set visibility
+            obj.RefreshView();
+            // If this obj is root system, Refresh OverView.
+            if (newKey.Equals(Constants.delimiterPath))
+                RefreshOverView();
         }
 
         /// <summary>
@@ -1141,7 +1314,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="oldkey">The old key.</param>
         /// <param name="newkey">The new key.</param>
         /// <param name="obj">The transfered EcellObject.</param>
-        public void TransferObject(string oldkey, string newkey, PPathwayObject obj)
+        private void UpdateDictionaryKey(string oldkey, string newkey, PPathwayObject obj)
         {
             // Change Path
             PPathwaySystem system = m_systems[obj.EcellObject.ParentSystemID];
@@ -1152,6 +1325,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     throw new PathwayException(String.Format(MessageResources.ErrNotFound, oldkey));
                 m_systems.Remove(oldkey);
                 m_systems.Add(newkey, (PPathwaySystem)obj);
+                foreach (PPathwayObject child in GetAllObjectUnder(oldkey))
+                {
+                    if (child.EcellObject.ParentSystemID != oldkey)
+                        continue;
+                    string oldChildKey = child.EcellObject.Key;
+                    child.EcellObject.Key = Util.GetMovedKey(oldChildKey, oldkey, newkey);
+                    UpdateDictionaryKey(oldChildKey, child.EcellObject.Key, child);
+                }
             }
             else if (obj is PPathwayVariable)
             {
@@ -1175,61 +1356,35 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 m_texts.Add(newkey, (PPathwayText)obj);
             }
 
-            //Check and Move Position.
-            // If obj hasn't coordinate, it will be settled. 
-            string sysKey = system.EcellObject.Key;
-            if (!DoesSystemContains(newkey, obj.Rect))
-            {
-                if (obj is PPathwayNode)
-                {
-                    obj.CenterPointF = GetVacantPoint(sysKey, obj.CenterPointF);
-                    m_con.NotifySetPosition(obj);
-                }
-                else
-                {
-                    float maxX = system.X;
-                    float x = 0f;
-                    List<PPathwayObject> list = GetAllObjectUnder(sysKey);
-                    foreach (PPathwayObject child in list)
-                    {
-                        if (child == obj)
-                            continue;
-                        x = child.X + child.OffsetX + child.Width;
-                        if (maxX < x)
-                            maxX = x;
-                    }
-                    // Set obj's coordinate
-                    PointF offset = new PointF(
-                        maxX + PPathwaySystem.SYSTEM_MARGIN - obj.X,
-                        system.Y + PPathwaySystem.SYSTEM_MARGIN - obj.Y);
-                    obj.Offset = offset;
-                    m_con.NotifySetPosition(obj);
-                    system.MakeSpace(obj, false);
-                    // Move child nodes position.
-                    foreach (PPathwayObject child in GetAllObjectUnder(oldkey))
-                    {
-                        child.Offset = offset;
-                        m_con.NotifySetPosition(child);
-                    }
-
-                }
-            }
         }
-        
+
         /// <summary>
-        /// The event sequence on changing value of data at other plugin.
+        /// Check and Move Position.
         /// </summary>
-        /// <param name="oldKey">The ID before value change.</param>
-        /// <param name="newKey">The data type before value change.</param>
-        /// <param name="obj">Changed value of object.</param>
-        public void DataChanged(string oldKey, string newKey, PPathwayObject obj)
+        /// <param name="oldkey"></param>
+        /// <param name="newkey"></param>
+        /// <param name="obj"></param>
+        /// <param name="oldRect"></param>
+        private void MoveObject(string oldkey, string newkey, PPathwayObject obj, RectangleF oldRect)
         {
-            if (!oldKey.Equals(newKey))
-                TransferObject(oldKey, newKey, obj);
-            // Set Layer
-            SetLayer(obj);
-            // Set visibility
-            obj.RefreshView();
+            PPathwaySystem system = m_systems[obj.EcellObject.ParentSystemID];
+            string sysKey = system.EcellObject.Key;
+
+            // Move Node.
+            if (obj is PPathwayNode)
+            {
+                if (DoesSystemContains(newkey, obj.Rect))
+                    return;
+
+                obj.CenterPointF = GetVacantPoint(sysKey, obj.CenterPointF);
+                m_con.NotifyDataChanged(obj, false);
+            }
+            // Move System.
+            else if( obj is PPathwaySystem && !m_isOwner)
+            {
+                // Set Object Position.
+                MakeSpace(system, obj, false);
+            }
         }
 
         /// <summary>
@@ -1252,7 +1407,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="type">the type of deleted object.</param>
         public void DataDelete(string key, string type)
         {
-            PPathwayObject obj = GetSelectedObject(key, type);
+            PPathwayObject obj = GetObject(key, type);
             if (obj == null)
                 return;
 
@@ -1307,10 +1462,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="type">the type of selected object.</param>
         public void AddSelect(string key, string type)
         {
-            PPathwayObject obj = GetSelectedObject(key, type);
+            PPathwayObject obj = GetObject(key, type);
             if (obj == null)
                 return;
 
+            AddSelect(obj);
+        }
+        /// <summary>
+        /// event sequence of changing the information of object.
+        /// </summary>
+        /// <param name="obj"></param>
+        public void AddSelect(PPathwayObject obj)
+        {
             ResetSelectedLine();
             AddSelectedNode(obj);
         }
@@ -1322,7 +1485,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="type">the type of selected object.</param>
         public void RemoveSelect(string key, string type)
         {
-            PPathwayObject obj = GetSelectedObject(key, type);
+            PPathwayObject obj = GetObject(key, type);
             if (obj == null)
                 return;
 
@@ -1330,7 +1493,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 m_focusNode = null;
             if (m_selectedNodes.Contains(obj))
                 m_selectedNodes.Remove(obj);
-            obj.IsHighLighted = false;
+            obj.Selected = false;
         }
 
         /// <summary>
@@ -1343,7 +1506,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Error check.
             if (key == null || type == null)
                 return;
-            PPathwayObject obj = GetSelectedObject(key, type);
+            PPathwayObject obj = GetObject(key, type);
             m_focusNode = obj;
             if (obj == null)
                 return;
@@ -1352,9 +1515,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             AddSelectedNode(obj);
 
             // Exit if the event came from this plugin.
-            if (m_isSelectChanged)
+            if (m_isOwner)
             {
-                m_isSelectChanged = false;
+                m_isOwner = false;
                 return;
             }
             // Move camera view.
@@ -1388,11 +1551,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e"></param>
         void Camera_ViewChanged(object sender, PPropertyEventArgs e)
         {
+            // Refresh OverView.
             RefreshOverView();
         }
 
         /// <summary>
-        /// 
+        /// Refresh OverView.
         /// </summary>
         internal void RefreshOverView()
         {
@@ -1448,7 +1612,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (m_selectedNodes.Count == 0)
                 return;
             foreach (PPathwayObject obj in m_selectedNodes)
-                GetSelectedObject(obj.EcellObject.Key, obj.EcellObject.Type).IsHighLighted = false;
+                GetObject(obj.EcellObject.Key, obj.EcellObject.Type).Selected = false;
             lock (this)
                 m_selectedNodes.Clear();
         }
@@ -1596,9 +1760,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     PPathwaySystem system = (PPathwaySystem)obj;
                     // Change color if the system overlaps other system
                     if (DoesSystemOverlaps(system) || !IsInsideRoot(system.Rect))
-                        system.IsInvalid = true;
+                        system.Invalid = true;
                     else
-                        system.IsInvalid = false;
+                        system.Invalid = false;
                     foreach (PPathwayObject child in GetAllObjectUnder(system.EcellObject.Key))
                     {
                         child.Offset = offset;
@@ -1612,50 +1776,69 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// NotifyMoveObjects
         /// </summary>
-        internal void NotifyMoveObjects()
+        /// <param name="isAnchored"></param>
+        internal void NotifyMoveObjects(bool isAnchored)
         {
+            m_isOwner = true;
             List<PPathwayObject> objList = new List<PPathwayObject>();
             // Check 
             try
             {
+                // Check KeyChange.
                 foreach (PPathwayObject obj in GetAllObjects())
                 {
-                    if (obj.Offset.IsEmpty)
+                    if (CheckMoveErrorAndKeyChange(obj))
+                        objList.Add(obj);
+                }
+                // Check Moved Object.
+                foreach (PPathwayObject obj in GetAllObjects())
+                {
+                    if (obj.OffsetX != 0.0 && obj.OffsetY != 0.0 && !objList.Contains(obj))
+                        objList.Add(obj);
+                }
+                // Move Objects.
+                bool isLast = false;
+                int i = 0;
+                // MoveSystems
+                foreach (PPathwayObject obj in objList)
+                {
+                    if (!(obj is PPathwaySystem))
                         continue;
-                    CheckMoveError(obj);
-                    objList.Add(obj);
+                    i++;
+                    isLast = (i == objList.Count);
+                    NotifyMoveSystem(obj, isLast && isAnchored);
+                }
+                // Move Processes
+                foreach (PPathwayObject obj in objList)
+                {
+                    if (!(obj is PPathwayProcess))
+                        continue;
+                    i++;
+                    isLast = (i == objList.Count);
+                    NotifyMoveNode(obj, isLast && isAnchored);
+                }
+                // Move Variables and Texts.
+                foreach (PPathwayObject obj in objList)
+                {
+                    if (!(obj is PPathwayVariable) && !(obj is PPathwayText))
+                        continue;
+                    i++;
+                    isLast = (i == objList.Count);
+                    NotifyMoveNode(obj, isLast && isAnchored);
                 }
             }
-            catch (PathwayException e)
+            catch (PathwayException)
             {
-                Util.ShowErrorDialog(e.Message);
                 foreach (PPathwayObject obj in GetAllObjects())
                 {
-                    obj.Offset = PointF.Empty;
-                    obj.IsInvalid = false;
-                    obj.Refresh();
+                    obj.ResetPosition();
+                    obj.Invalid = false;
+                    obj.RefreshView();
                 }
                 NotifyResetSelect();
-                return;
             }
+            m_isOwner = false;
 
-            bool isLast = false;
-            int i = 0;
-            foreach (PPathwayObject obj in objList)
-            {
-                // Move System.
-                i++;
-                isLast = (i == objList.Count);
-                if (obj is PPathwaySystem)
-                {
-                    NotifyMoveSystem(obj, isLast);
-                }
-                // Move Nodes
-                else
-                {
-                    NotifyMoveNode(obj, isLast);
-                }
-            }
         }
 
         /// <summary>
@@ -1663,8 +1846,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         /// <param name="node"></param>
         /// <param name="isLast"></param>
-        internal void NotifyMoveNode(PPathwayObject node, bool isLast)
+        private void NotifyMoveNode(PPathwayObject node, bool isLast)
         {
+            string oldKey = node.EcellObject.Key;
             string newKey;
             // 
             if (node is PPathwayText)
@@ -1672,8 +1856,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             else
                 newKey = GetSurroundingSystemKey(node.CenterPointF) + ":" + node.EcellObject.LocalID;
 
+            //if (oldKey == newKey && node.OffsetX == 0.0 && node.OffsetY == 0.0)
+            //    return;
+
             m_con.NotifyDataChanged(
-                node.EcellObject.Key,
+                oldKey,
                 newKey,
                 node,
                 true,
@@ -1684,8 +1871,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// NotifyMoveSystem
         /// </summary>
         /// <param name="system"></param>
-        /// <param name="isLast"></param>
-        internal void NotifyMoveSystem(PPathwayObject system, bool isLast)
+        /// <param name="isAnchor"></param>
+        private void NotifyMoveSystem(PPathwayObject system, bool isAnchor)
         {
             string oldSysKey = system.EcellObject.Key;
             string parentSysKey = GetSurroundingSystemKey(system.PointF, oldSysKey);
@@ -1756,16 +1943,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 newSysKey,
                 system,
                 true,
-                true && isLast);
+                true && isAnchor);
         }
 
         /// <summary>
-        /// 
+        /// This method check object for Offset and the change of surrounding system.
+        /// Returns true if changed.
         /// </summary>
         /// <param name="obj"></param>
-        private void CheckMoveError(PPathwayObject obj)
+        /// <returns></returns>
+        private bool CheckMoveErrorAndKeyChange(PPathwayObject obj)
         {
-            string newKey;
+            string newKey = null;
             string newSysKey;
             if (obj is PPathwaySystem)
             {
@@ -1794,27 +1983,33 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                         MessageResources.ErrAlrExist,
                         new object[] { newKey }));
                 }
-                obj.IsInvalid = false;
+                obj.Invalid = false;
             }
             else if (obj is PPathwayNode)
             {
                 newSysKey = GetSurroundingSystemKey(obj.CenterPointF);
-                newKey = newSysKey + ":" + obj.EcellObject.LocalID;
-
                 // When node is out of root.
                 if (newSysKey == null)
                 {
                     throw new PathwayException(obj.EcellObject.LocalID + ":" + MessageResources.ErrOutRoot);
                 }
+
                 // When node is duplicated.
-                else if (!newSysKey.Equals(obj.EcellObject.ParentSystemID)
-                    && GetSelectedObject(newKey, obj.EcellObject.Type) != null)
+                newKey = newSysKey + ":" + obj.EcellObject.LocalID;
+                if (!newSysKey.Equals(obj.EcellObject.ParentSystemID)
+                    && GetObject(newKey, obj.EcellObject.Type) != null)
                 {
                     throw new PathwayException(string.Format(
                         MessageResources.ErrAlrExist,
                         new object[] { obj.EcellObject.LocalID }));
                 }
             }
+            else
+            {
+                return false;
+            }
+            bool isMoved = !obj.EcellObject.Key.Equals(newKey);
+            return (isMoved);
         }
 
         /// <summary>

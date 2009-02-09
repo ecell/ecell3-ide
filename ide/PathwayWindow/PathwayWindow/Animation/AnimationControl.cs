@@ -378,7 +378,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
             else if (status == ProjectStatus.Stepping && isViewmode)
             {
-                StepSimulation();
+                StartSimulation();
             }
             else if (status == ProjectStatus.Suspended)
             {
@@ -428,10 +428,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 m_thresholdHigh = 0f;
             SetPropForSimulation();
             // Avi
-            if (m_isRecordMovie)
+            if (m_isRecordMovie && m_aviManager == null)
             {
-                m_aviManager = new AviManager(m_movieFile, false);
-                m_stream = m_aviManager.AddVideoStream(false, 10, m_canvas.Bitmap);
+                try
+                {
+                    // Delete File.
+                    if (File.Exists(m_movieFile))
+                        File.Delete(m_movieFile);
+                    // Create Movie.
+                    m_aviManager = new AviManager(m_movieFile, false);
+                    Bitmap bmp = new Bitmap(m_canvas.PCanvas.Camera.ToImage(640, 480, m_canvas.BackGroundBrush));
+                    m_stream = m_aviManager.AddVideoStream(false, 10, bmp);
+                }
+                catch(Exception e)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrCreateAvi + "\n" + e.Message);
+                    m_isRecordMovie = false;
+                    m_stream = null;
+                    m_aviManager = null;
+                }
             }
             TimerStart();
             m_isPausing = true;
@@ -446,15 +461,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             m_isPausing = true;
         }
         /// <summary>
-        /// Step Simulation
-        /// </summary>
-        public void StepSimulation()
-        {
-            SetPropForSimulation();
-            UpdatePropForSimulation();
-            m_isPausing = true;
-        }
-        /// <summary>
         /// Stop Simulation
         /// </summary>
         public void StopSimulation()
@@ -464,6 +470,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             m_isPausing = false;
             if (m_aviManager != null)
             {
+                //m_stream.Close();
                 m_aviManager.Close();
                 m_aviManager = null;
                 m_stream = null;
@@ -502,11 +509,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (!process.Visible)
                     continue;
                 // Line setting.
-                float activity = GetFloatValue(process.EcellObject, Constants.xpathMolarActivity);
+                float activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
                 process.EdgeBrush = m_viewEdgeBrush;
                 // Set threshold
-                if (m_autoThreshold && activity > m_thresholdHigh)
-                    m_thresholdHigh = activity;
+                if (m_autoThreshold)
+                    SetThreshold(activity);
             }
             foreach (PPathwayVariable variable in m_canvas.Variables.Values)
             {
@@ -521,6 +528,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         }
 
         /// <summary>
+        /// Set threshold
+        /// </summary>
+        /// <param name="activity"></param>
+        private void SetThreshold(float activity)
+        {
+            if (activity > m_thresholdHigh)
+                m_thresholdHigh = activity;
+            if (activity < m_thresholdLow)
+                m_thresholdLow = activity;
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         public void UpdatePropForSimulation()
@@ -532,27 +551,44 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (!process.Visible)
                     continue;
                 // Line setting.
-                float activity = GetFloatValue(process.EcellObject, Constants.xpathMolarActivity);
+                float activity = GetFloatValue(process.EcellObject.FullID + ":" + Constants.xpathMolarActivity);
+                float width = GetEdgeWidth(activity);
+
                 process.EdgeBrush = GetEdgeBrush(activity);
-                process.SetLineWidth(GetEdgeWidth(activity));
+                foreach (PPathwayLine line in process.Relations)
+                {
+                    if (line.Info.LineType != LineType.Dashed)
+                        line.Pen.Width = width;
+                }
                 // Set threshold
-                if (m_autoThreshold && activity > m_thresholdHigh)
-                    m_thresholdHigh = activity;
+                if (m_autoThreshold)
+                    SetThreshold(activity);
             }
             foreach (PPathwayVariable variable in m_canvas.Variables.Values)
             {
                 if (!variable.Visible)
                     continue;
                 // Variable setting.
-                float molerConc = GetFloatValue(variable.EcellObject, Constants.xpathMolarConc);
+                float molerConc = GetFloatValue(variable.EcellObject.FullID + ":" + Constants.xpathMolarConc);
                 variable.PPropertyText.Text = GetPropertyString(molerConc);
+                // Set Effector.
+                foreach (PPathwayLine line in variable.Relations)
+                {
+                    if (line.Info.LineType == LineType.Dashed)
+                        line.Pen.Width = GetEdgeWidth(molerConc);
+                }
+
             }
             m_canvas.PCanvas.Refresh();
 
             // write video stream.
             if (m_stream != null)
             {
-                m_stream.AddFrame(m_canvas.Bitmap);
+                Bitmap bmp = new Bitmap(
+                    m_canvas.PCanvas.Camera.ToImage(640, 480, m_canvas.BackGroundBrush),
+                    m_stream.Width,
+                    m_stream.Height);
+                m_stream.AddFrame(bmp);
             }
         }
 
@@ -748,16 +784,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="eo"></param>
-        /// <param name="propName"></param>
+        /// <param name="fullPN"></param>
         /// <returns></returns>
-        private float GetFloatValue(EcellObject eo ,string propName)
+        private float GetFloatValue(string fullPN)
         {
-            string fullpath = eo.Type + ":" + eo.Key + ":" + propName;
-            float num = 0f;
+            float num = 0.0f;
             try
             {
-                num = (float)m_dManager.GetPropertyValue(fullpath);
+                num = (float)m_dManager.GetPropertyValue(fullPN);
             }
             catch (Exception e)
             {

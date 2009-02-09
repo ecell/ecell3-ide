@@ -36,6 +36,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
 {
@@ -174,6 +175,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
             }
             return color;
         }
+
+        /// <summary>
+        /// Create GradientBrush.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="centerBrush"></param>
+        /// <param name="fillBrush"></param>
+        /// <returns></returns>
+        public static PathGradientBrush CreateGradientBrush(GraphicsPath path, Brush centerBrush, Brush fillBrush)
+        {
+            PathGradientBrush pthGrBrush = new PathGradientBrush(path);
+            pthGrBrush.CenterColor = ParseBrushToColor(centerBrush);
+            pthGrBrush.SurroundColors = new Color[] { ParseBrushToColor(fillBrush) };
+            return pthGrBrush;
+        }
+
         /// <summary>
         /// Create a dictionary (key: name of brush, value: Brush object)
         /// </summary>

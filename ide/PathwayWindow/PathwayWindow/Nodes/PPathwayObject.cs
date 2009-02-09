@@ -50,13 +50,14 @@ using Ecell.IDE.Plugins.PathwayWindow.Figure;
 using System.Windows.Forms;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using System.IO;
+using Ecell.IDE.Plugins.PathwayWindow.Components;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
     /// <summary>
     /// PPathwayObject is a super class for all component of PCanvas.
     /// </summary>
-    public abstract class PPathwayObject : PNode, IDisposable
+    public abstract class PPathwayObject : PImage, IDisposable
     {
         #region Enums
         /// <summary>
@@ -84,48 +85,38 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         protected const int FONT_SIZE = 10;
 
         /// <summary>
-        /// A bit field that identifies a PenChanged event.
+        /// default Pen is Black.
         /// </summary>
-        /// <remarks>
-        /// This field is used to indicate whether PenChanged events should be forwarded to
-        /// a node's parent.
-        /// <seealso cref="UMD.HCIL.Piccolo.Event.PPropertyEventArgs">PPropertyEventArgs</seealso>.
-        /// <seealso cref="UMD.HCIL.Piccolo.PNode.PropertyChangeParentMask">PropertyChangeParentMask</seealso>.
-        /// </remarks>
-        public const int PROPERTY_CODE_PEN = 1 << 15;
-
-        /// <summary>
-        /// A bit field that identifies a PathChanged event.
-        /// </summary>
-        /// <remarks>
-        /// This field is used to indicate whether PathChanged events should be forwarded to
-        /// a node's parent.
-        /// <seealso cref="UMD.HCIL.Piccolo.Event.PPropertyEventArgs">PPropertyEventArgs</seealso>.
-        /// <seealso cref="UMD.HCIL.Piccolo.PNode.PropertyChangeParentMask">PropertyChangeParentMask</seealso>.
-        /// </remarks>
-        public const int PROPERTY_CODE_PATH = 1 << 16;
-
-        /// <summary>
-        /// The key that identifies a change in this node's <see cref="Pen">Pen</see>.
-        /// </summary>
-        /// <remarks>
-        /// In a property change event both the old and new value will be set correctly
-        /// to Pen objects.
-        /// </remarks>
-        protected static readonly object PROPERTY_KEY_PEN = new object();
-
-        /// <summary>
-        /// The key that identifies a change in this node's Path.
-        /// </summary>
-        /// <remarks>
-        /// In a property change event the new value will be a reference to this node's path, but old
-        /// value will always be null.
-        /// </remarks>
-        protected static readonly object PROPERTY_KEY_PATH = new object();
+        protected static readonly Pen DEFAULT_PEN = Pens.Black;
 
         #endregion
 
         #region Fields
+        /// <summary>
+        /// On this CanvasViewComponentSet this PPathwayObject is drawn.
+        /// </summary>
+        protected CanvasControl m_canvas;
+
+        /// <summary>
+        /// this node belong the layer.
+        /// </summary>
+        protected PPathwayLayer m_layer;
+
+        /// <summary>
+        /// Parent object.
+        /// </summary>
+        protected PPathwaySystem m_parentSystem;
+
+        /// <summary>
+        /// PText for showing this object's ID.
+        /// </summary>
+        protected PText m_pText;
+
+        /// <summary>
+        /// ResizeHandler
+        /// </summary>
+        protected PathwayResizeHandler m_resizeHandler;
+
         /// <summary>
         /// From this ComponentSetting, this object was created.
         /// </summary>
@@ -135,17 +126,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         protected IFigure m_figure;
         /// <summary>
-        /// On this CanvasViewComponentSet this PPathwayObject is drawn.
+        /// GraphicsPath.
         /// </summary>
-        protected CanvasControl m_canvas;
+        protected GraphicsPath m_path;
+
         /// <summary>
-        /// EcellObject for this object.
+        /// Pen written this node.
         /// </summary>
-        protected EcellObject m_ecellObj;
-        /// <summary>
-        /// PText for showing this object's ID.
-        /// </summary>
-        protected PText m_pText;
+        [NonSerialized]
+        protected Pen m_pen;
+
         /// <summary>
         /// Object will be painted with this Brush when object is not selected.
         /// </summary>
@@ -162,67 +152,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// Object will be painted with this Brush when object is in invalid state.
         /// </summary>
         protected Brush m_invalidBrush = Brushes.Red;
+
         /// <summary>
         /// Whether this object is highlighted or not.
         /// </summary>
-        protected bool m_isSelected = false;
-        
-        /// <summary>
-        /// Whether this object is in invalid state or not.
-        /// </summary>
-        protected bool m_isInvalid = false;
+        protected bool m_selected = false;
 
         /// <summary>
-        /// tempolary GraphicsPath.
+        /// Whether this node is showing ID or not.
         /// </summary>
-        protected static GraphicsPath m_tempPath = new GraphicsPath();
+        protected bool m_showingId = false;
 
         /// <summary>
-        /// ResizeHandler
+        /// Is Edit Mode or not.
         /// </summary>
-        protected PathwayResizeHandler m_resizeHandler;
+        protected bool m_isViewMode = false;
 
         /// <summary>
-        /// tempolary region.
+        /// EcellObject for this object.
         /// </summary>
-        protected static Region m_tempRegion = new Region();
-
-        /// <summary>
-        /// tempolary matrix.
-        /// </summary>
-        protected static PMatrix TEMP_MATRIX = new PMatrix();
-
-        /// <summary>
-        /// default Pen is Black.
-        /// </summary>
-        protected static Pen DEFAULT_PEN = Pens.Black;
-
-        /// <summary>
-        /// this node belong the layer.
-        /// </summary>
-        protected PPathwayLayer m_layer;
-
-        /// <summary>
-        /// GraphicsPath.
-        /// </summary>
-        protected GraphicsPath m_path;
-
-        /// <summary>
-        /// Pen written this node.
-        /// </summary>
-        [NonSerialized]
-        protected Pen m_pen;
-
-        /// <summary>
-        /// the flag whether bound from path.
-        /// </summary>
-        [NonSerialized]
-        protected bool m_updatingBoundsFromPath;
-
-        /// <summary>
-        /// mode to pick this node.
-        /// </summary>
-        protected PathPickMode pickMode = PathPickMode.Fast;
+        protected EcellObject m_ecellObj;
 
         /// <summary>
         /// For memorizing a position before the start of a dragging.
@@ -260,66 +209,52 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         protected float m_originalHeight = 0;
 
-        /// <summary>
-        /// Whether this node is showing ID or not.
-        /// </summary>
-        protected bool m_showingId = false;
-
-        /// <summary>
-        /// Is Edit Mode or not.
-        /// </summary>
-        protected bool m_isViewMode = false;
-
-        /// <summary>
-        /// Parent object.
-        /// </summary>
-        protected PPathwaySystem m_parentSystem;
         #endregion
 
         #region Accessors
         /// <summary>
-        /// Accessor for EcellObject.
+        /// Accessor for an instance of CanvasViewComponentSet which this instance belongs.
         /// </summary>
-        public virtual EcellObject EcellObject
+        public virtual CanvasControl Canvas
         {
-            get {
-                return this.m_ecellObj;
-            }
+            get { return m_canvas; }
             set
             {
-                this.m_ecellObj = value;
-                if (m_ecellObj.IsPosSet)
-                {
-                    this.CenterPointF = m_ecellObj.CenterPointF;
-                    base.OffsetX = m_ecellObj.OffsetX;
-                    base.OffsetY = m_ecellObj.OffsetY;
-                }
-                MemorizePosition();
-            }
-        }
-        /// <summary>
-        /// Accessor for X coordinate.
-        /// </summary>
-        public PointF PointF
-        {
-            get { return new PointF(base.X + base.OffsetX, base.Y + base.OffsetY); }
-            set
-            {
-                base.X = value.X;
-                base.Y = value.Y;
-            }
-        }
+                m_canvas = value;
 
+            }
+        }
         /// <summary>
-        /// Accessor for X coordinate.
+        /// Accessor for m_layer.
         /// </summary>
-        public PointF CenterPointF
+        public virtual PPathwayLayer Layer
         {
-            get { return new PointF(base.X + base.OffsetX + base.Width / 2f, base.Y + base.OffsetY + base.Height / 2f); }
+            get { return this.m_layer; }
             set
             {
-                base.X = value.X - base.Width / 2f;
-                base.Y = value.Y - base.Height / 2f;
+                this.m_layer = value;
+                this.m_layer.AddChild(this);
+                this.Visible = value.Visible;
+                this.Pickable = this.Visible;
+            }
+        }
+        /// <summary>
+        /// Accessor for m_parentObject.
+        /// </summary>
+        public virtual PPathwaySystem ParentObject
+        {
+            get { return m_parentSystem; }
+            set { m_parentSystem = value; }
+        }
+        /// <summary>
+        /// Accessor for Text.
+        /// </summary>
+        public PText PText
+        {
+            get
+            {
+                RefreshText();
+                return m_pText;
             }
         }
 
@@ -353,20 +288,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             {
                 this.m_figure = value;
                 MemorizePosition();
-                m_path.Reset();
                 AddPath(m_figure.GraphicsPath, false);
                 ResetPosition();
-            }
-        }
-        /// <summary>
-        /// Accessor for Text.
-        /// </summary>
-        public PText PText
-        {
-            get
-            {
-                RefreshText();
-                return m_pText;
             }
         }
         /// <summary>
@@ -389,7 +312,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return this.m_lineBrush; }
             set {
                 this.m_lineBrush = value;
-                Pen = new Pen(value, 0);
+                this.Pen = new Pen(value, 0);
             }
         }
         /// <summary>
@@ -400,15 +323,38 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             get { return this.m_highLightBrush; }
             set { this.m_highLightBrush = value; }
         }
+
+        /// <summary>
+        /// See <see cref="GraphicsPath.PathData">GraphicsPath.PathData</see>.
+        /// </summary>
+        public virtual GraphicsPath Path
+        {
+            get { return m_path; }
+        }
+
+        /// <summary>
+        /// Gets or sets the pen used when rendering this node.
+        /// </summary>
+        /// <value>The pen used when rendering this node.</value>
+        public virtual Pen Pen
+        {
+            get { return m_pen; }
+            set
+            {
+                m_pen = value;
+                AddPen(value);
+            }
+        }
+
         /// <summary>
         /// Accessor for m_isHighLighted.
         /// </summary>
-        public virtual bool IsHighLighted
+        public virtual bool Selected
         {
-            get { return this.m_isSelected; }
+            get { return this.m_selected; }
             set
             {
-                this.m_isSelected = value;
+                this.m_selected = value;
                 if (value)
                 {
                     this.Brush = m_highLightBrush;
@@ -418,6 +364,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                     this.Brush = m_fillBrush;
                     RefreshView();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Set Invalid state.
+        /// </summary>
+        public virtual bool Invalid
+        {
+            set
+            {
+                if (value)
+                    this.Brush = m_invalidBrush;
+                else if (m_selected)
+                    this.Brush = m_highLightBrush;
+                else
+                    this.Brush = m_fillBrush;
             }
         }
 
@@ -436,77 +398,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// Accessor for m_isInvalid.
-        /// </summary>
-        public virtual bool IsInvalid
-        {
-            get { return this.m_isInvalid; }
-            set
-            {
-                this.m_isInvalid = value;
-                if (value)
-                {
-                    this.Brush = m_invalidBrush;
-                }
-                else if (m_isSelected)
-                    this.Brush = m_highLightBrush;
-                else
-                    this.Brush = m_fillBrush;
-            }
-        }
-        /// <summary>
-        /// Accessor for m_layer.
-        /// </summary>
-        public virtual PPathwayLayer Layer
-        {
-            get { return this.m_layer; }
-            set 
-            { 
-                this.m_layer = value;
-                this.m_layer.AddChild(this);
-                this.Visible = value.Visible;
-                this.Pickable = this.Visible;
-            }
-        }
-        /// <summary>
-        /// Accessor for an instance of CanvasViewComponentSet which this instance belongs.
-        /// </summary>
-        public virtual CanvasControl Canvas
-        {
-            get { return m_canvas; }
-            set {
-                m_canvas = value;
-
-            }
-        }
-        /// <summary>
-        /// Accessor for m_parentObject.
-        /// </summary>
-        public virtual PPathwaySystem ParentObject
-        {
-            get { return m_parentSystem; }
-            set 
-            { 
-                m_parentSystem = value; 
-            }
-        }
-        /// <summary>
-        /// Gets or sets the pen used when rendering this node.
-        /// </summary>
-        /// <value>The pen used when rendering this node.</value>
-        public virtual Pen Pen
-        {
-            get { return m_pen; }
-            set
-            {
-                Pen old = m_pen;
-                m_pen = value;
-                UpdateBoundsFromPath();
-                InvalidatePaint();
-                FirePropertyChangedEvent(PROPERTY_KEY_PEN, PROPERTY_CODE_PEN, old, m_pen);
-            }
-        }
-        /// <summary>
         /// get/set whether is shown ID.
         /// </summary>
         public bool ShowingID
@@ -516,12 +407,68 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             SetTextVisiblity();
             }
         }
+
         /// <summary>
-        /// See <see cref="GraphicsPath.PathData">GraphicsPath.PathData</see>.
+        /// Accessor for EcellObject.
         /// </summary>
-        public virtual GraphicsPath Path
+        public virtual EcellObject EcellObject
         {
-            get { return m_path; }
+            get
+            {
+                return this.m_ecellObj;
+            }
+            set
+            {
+                this.m_ecellObj = value;
+                if (m_ecellObj.IsPosSet)
+                {
+                    this.CenterPointF = m_ecellObj.CenterPointF;
+                    base.OffsetX = m_ecellObj.OffsetX;
+                    base.OffsetY = m_ecellObj.OffsetY;
+                }
+                MemorizePosition();
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public float Top
+        {
+            get { return base.Y + base.OffsetY; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public float Bottom
+        {
+            get { return base.Y + base.OffsetY + base.Height; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public float Left
+        {
+            get { return base.X + base.OffsetX; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public float Right
+        {
+            get { return base.X + base.OffsetX + base.Width; }
+        }
+
+        /// <summary>
+        /// Accessor for X coordinate.
+        /// </summary>
+        public PointF PointF
+        {
+            get { return new PointF(base.X + base.OffsetX, base.Y + base.OffsetY); }
+            set
+            {
+                base.X = value.X;
+                base.Y = value.Y;
+            }
         }
         /// <summary>
         /// acessor for a rectangle of this system.
@@ -543,6 +490,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 base.Height = value.Height;
             }
         }
+
+        /// <summary>
+        /// Accessor for X coordinate.
+        /// </summary>
+        public PointF CenterPointF
+        {
+            get { return new PointF(base.X + base.OffsetX + base.Width / 2f, base.Y + base.OffsetY + base.Height / 2f); }
+            set
+            {
+                base.X = value.X - base.Width / 2f;
+                base.Y = value.Y - base.Height / 2f;
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -591,6 +552,34 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
+        /// Refresh ComponentSetting.
+        /// </summary>
+        protected virtual void RefreshSettings()
+        {
+            this.PText.TextBrush = m_setting.TextBrush;
+            this.LineBrush = m_setting.LineBrush;
+            this.Figure = m_setting.Figure;
+            RefreshView();
+            if (m_setting.IconExists)
+            {
+                MemorizePosition();
+                this.Image = Image.FromFile(m_setting.IconFileName);
+                ResetPosition();
+            }
+        }
+
+        /// <summary>
+        /// Refresh Text contents of this object.
+        /// </summary>
+        protected virtual void RefreshText()
+        {
+            if (this.m_ecellObj != null)
+                this.m_pText.Text = GetLabelFor(this.m_ecellObj);
+            this.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height / 2);
+            this.m_pText.MoveToFront();
+        }
+
+        /// <summary>
         /// Get a suitable label for the specified object.
         /// </summary>
         protected static string GetLabelFor(EcellObject obj)
@@ -613,17 +602,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         } 
 
         /// <summary>
-        /// Refresh Text contents of this object.
-        /// </summary>
-        protected virtual void RefreshText()
-        {
-            if (this.m_ecellObj != null)
-                this.m_pText.Text = GetLabelFor(this.m_ecellObj);
-            this.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height / 2);
-            this.m_pText.MoveToFront();
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         protected virtual void SetTextVisiblity()
@@ -634,6 +612,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
                 m_pText.Visible = false;
         }
         #endregion
+
+        /// <summary>
+        /// Set FillBrush
+        /// </summary>
+        private void SetFillBrush()
+        {
+            // Create and set FillBrush.
+            if (m_setting.IsGradation)
+            {
+                this.FillBrush = BrushManager.CreateGradientBrush(m_path, m_setting.CenterBrush, m_setting.FillBrush);
+            }
+            else
+            {
+                this.FillBrush = m_setting.FillBrush;
+            }
+            // If Highlighted, set Hightlighted Brush.
+            if (m_selected)
+                this.Brush = m_highLightBrush;
+        }
 
         /// <summary>
         /// Memorize a current position for returning to this position in the future in neccessary.
@@ -659,40 +656,178 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             base.Width = this.m_originalWidth;
             base.Height = this.m_originalHeight;
         }
+
         /// <summary>
-        /// Set FillBrush
+        /// Set Moving delta.
         /// </summary>
-        private void SetFillBrush()
+        /// <param name="delta"></param>
+        public void MovePosition(PointF delta)
         {
-            // Create and set FillBrush.
-            if (m_setting.IsGradation)
+            this.OffsetX = this.OffsetX + delta.X;
+            this.OffsetY = this.OffsetY + delta.Y;
+        }
+
+        #region IDisposable ÉÅÉìÉo
+        /// <summary>
+        /// Event on Dispose
+        /// </summary>
+        public virtual void Dispose()
+        {
+            Setting = null;
+        }
+
+        #endregion
+
+        #endregion
+
+        #region EventHandlers
+        /// <summary>
+        /// Eventhandler on ComponentSetting.PropertyChange
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Setting_PropertyChange(object sender, EventArgs e)
+        {
+            RefreshSettings();
+        }
+
+        /// <summary>
+        /// Event on mouse down.
+        /// Change the selected state of this object.
+        /// </summary>
+        /// <param name="e"></param>
+        public override void OnMouseDown(PInputEventArgs e)
+        {
+            base.OnMouseDown(e);
+            if (m_canvas == null)
+                return;
+
+            bool isCtrl = (e.Modifiers == Keys.Control);
+            bool isLeft = (e.Button == MouseButtons.Left);
+
+            // Set IsSelect
+            if(!m_selected && ! isCtrl)
+                m_canvas.NotifySelectChanged(this);
+            else if(!m_selected && isCtrl)
+                m_canvas.NotifyAddSelect(this);
+            else if (m_selected && isCtrl && isLeft)
+                m_canvas.NotifyRemoveSelect(this);
+
+            // Set Focus
+            m_canvas.FocusNode = this;
+        }
+
+        #endregion
+
+        #region EventHandler for HighLightChanged
+        private PPropertyEventHandler m_onHighLightChanged;
+        /// <summary>
+        /// Event on layer change.
+        /// </summary>
+        public event PPropertyEventHandler HighLightChanged
+        {
+            add { m_onHighLightChanged += value; }
+            remove { m_onHighLightChanged
+                -= value; }
+        }
+        /// <summary>
+        /// Event on layer change.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnHightLightChanged(PPropertyEventArgs e)
+        {
+            if (m_onHighLightChanged != null)
+                m_onHighLightChanged(this, e);
+        }
+        internal void RaiseHightLightChanged()
+        {
+            PPropertyEventArgs e = new PPropertyEventArgs(!this.m_selected, this.m_selected);
+            OnHightLightChanged(e);
+        }
+        #endregion
+
+        #region Merged from PPath
+        /// <summary>
+        /// tempolary GraphicsPath.
+        /// </summary>
+        protected static GraphicsPath m_tempPath = new GraphicsPath();
+
+        /// <summary>
+        /// tempolary region.
+        /// </summary>
+        protected static Region m_tempRegion = new Region();
+
+        /// <summary>
+        /// tempolary matrix.
+        /// </summary>
+        protected static PMatrix TEMP_MATRIX = new PMatrix();
+
+        /// <summary>
+        /// the flag whether bound from path.
+        /// </summary>
+        [NonSerialized]
+        protected bool m_updatingBoundsFromPath;
+
+        #region Path Support
+        //****************************************************************
+        // Path Support - Methods for manipulating the underlying path.
+        // See System.Drawing.Drawing2D.GraphicsPath documentation for
+        // more information on using these methods.
+        //****************************************************************
+
+        /// <summary>
+        /// See <see cref="GraphicsPath.AddPath(GraphicsPath, bool)">GraphicsPath.AddPath</see>.
+        /// </summary>
+        public virtual void AddPath(GraphicsPath path, bool connect)
+        {
+            m_path.Reset();
+            m_path.AddPath(path, connect);
+            FirePropertyChangedEvent(new object(), PPath.PROPERTY_CODE_PATH, null, path);
+            UpdateBoundsFromPath();
+            InvalidatePaint();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pen"></param>
+        public virtual void AddPen(Pen pen)
+        {
+            UpdateBoundsFromPath();
+            InvalidatePaint();
+            FirePropertyChangedEvent(new object(), PPath.PROPERTY_CODE_PEN, null, pen);
+        }
+
+        /// <summary>
+        /// This method is called to update the bounds whenever the underlying path changes.
+        /// </summary>
+        public virtual void UpdateBoundsFromPath()
+        {
+            m_updatingBoundsFromPath = true;
+            if (m_path == null || m_path.PointCount == 0)
             {
-                PathGradientBrush pthGrBrush = new PathGradientBrush(m_path);
-                pthGrBrush.CenterColor = BrushManager.ParseBrushToColor(m_setting.CenterBrush);
-                pthGrBrush.SurroundColors = new Color[] { BrushManager.ParseBrushToColor(m_setting.FillBrush) };
-                this.FillBrush = pthGrBrush;
+                ResetBounds();
             }
             else
             {
-                this.FillBrush = m_setting.FillBrush;
+                try
+                {
+                    m_tempPath.Reset();
+                    m_tempPath.AddPath(m_path, false);
+                    if (m_pen != null && m_tempPath.PointCount > 0)
+                        m_tempPath.Widen(m_pen);
+                    RectangleF b = m_tempPath.GetBounds();
+                    SetBounds(b.X, b.Y, b.Width, b.Height);
+                }
+                catch (OutOfMemoryException ex)
+                {
+                    Trace.WriteLine(ex);
+                    //Catch the case where the path is a single point
+                }
             }
-            // If Highlighted, set Hightlighted Brush.
-            if (m_isSelected)
-                this.Brush = m_highLightBrush;
+            m_updatingBoundsFromPath = false;
         }
-        /// <summary>
-        /// Refresh ComponentSetting.
-        /// </summary>
-        protected virtual void RefreshSettings()
-        {
-            this.PText.TextBrush = m_setting.TextBrush;
-            this.LineBrush = m_setting.LineBrush;
-            this.Figure = m_setting.Figure;
-            if (File.Exists(m_setting.IconFileName))
-            {
-            }
-            RefreshView();
-        }
+        #endregion
 
         #region Methods to control Bounds
         //****************************************************************
@@ -824,16 +959,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             m_tempRegion.MakeInfinite();
             m_tempRegion.Intersect(m_tempPath);
         }
-
-        /// <summary>
-        /// Set Moving delta.
-        /// </summary>
-        /// <param name="delta"></param>
-        public void MovePosition(PointF delta)
-        {
-            this.OffsetX = this.OffsetX + delta.X;
-            this.OffsetY = this.OffsetY + delta.Y;
-        }
         #endregion
 
         #region Painting
@@ -859,134 +984,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             }
         }
         #endregion
-
-        #region Path Support
-        //****************************************************************
-        // Path Support - Methods for manipulating the underlying path.
-        // See System.Drawing.Drawing2D.GraphicsPath documentation for
-        // more information on using these methods.
-        //****************************************************************
-
-        /// <summary>
-        /// See <see cref="GraphicsPath.AddPath(GraphicsPath, bool)">GraphicsPath.AddPath</see>.
-        /// </summary>
-        public virtual void AddPath(GraphicsPath path, bool connect)
-        {
-            this.m_path.AddPath(path, connect);
-            FirePropertyChangedEvent(PROPERTY_KEY_PATH, PROPERTY_CODE_PATH, null, path);
-            UpdateBoundsFromPath();
-            InvalidatePaint();
-        }
-
-        /// <summary>
-        /// This method is called to update the bounds whenever the underlying path changes.
-        /// </summary>
-        public virtual void UpdateBoundsFromPath()
-        {
-            m_updatingBoundsFromPath = true;
-            if (m_path == null || m_path.PointCount == 0)
-            {
-                ResetBounds();
-            }
-            else
-            {
-                try
-                {
-                    m_tempPath.Reset();
-                    m_tempPath.AddPath(m_path, false);
-                    if (m_pen != null && m_tempPath.PointCount > 0)
-                        m_tempPath.Widen(m_pen);
-                    RectangleF b = m_tempPath.GetBounds();
-                    SetBounds(b.X, b.Y, b.Width, b.Height);
-                }
-                catch (OutOfMemoryException ex)
-                {
-                    Trace.WriteLine(ex);
-                    //Catch the case where the path is a single point
-                }
-            }
-            m_updatingBoundsFromPath = false;
-        }
-        #endregion
-
-        #region EventHandlers
-        /// <summary>
-        /// Eventhandler on ComponentSetting.PropertyChange
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Setting_PropertyChange(object sender, EventArgs e)
-        {
-            RefreshSettings();
-        }
-
-        /// <summary>
-        /// Event on mouse down.
-        /// Change the selected state of this object.
-        /// </summary>
-        /// <param name="e"></param>
-        public override void OnMouseDown(PInputEventArgs e)
-        {
-            base.OnMouseDown(e);
-            if (m_canvas == null)
-                return;
-
-            bool isCtrl = (e.Modifiers == Keys.Control);
-            bool isLeft = (e.Button == MouseButtons.Left);
-
-            // Set IsSelect
-            if(!m_isSelected && ! isCtrl)
-                m_canvas.NotifySelectChanged(this);
-            else if(!m_isSelected && isCtrl)
-                m_canvas.NotifyAddSelect(this);
-            else if (m_isSelected && isCtrl && isLeft)
-                m_canvas.NotifyRemoveSelect(this);
-
-            // Set Focus
-            m_canvas.FocusNode = this;
-        }
-
-        #endregion
-
-        #endregion
-
-        #region IDisposable ÉÅÉìÉo
-        /// <summary>
-        /// Event on Dispose
-        /// </summary>
-        public virtual void Dispose()
-        {
-            Setting = null;
-        }
-
-        #endregion
-
-
-        #region EventHandler for HighLightChanged
-        private PPropertyEventHandler m_onHighLightChanged;
-        /// <summary>
-        /// Event on layer change.
-        /// </summary>
-        public event PPropertyEventHandler HighLightChanged
-        {
-            add { m_onHighLightChanged += value; }
-            remove { m_onHighLightChanged
-                -= value; }
-        }
-        /// <summary>
-        /// Event on layer change.
-        /// </summary>
-        /// <param name="e"></param>
-        protected virtual void OnHightLightChanged(PPropertyEventArgs e)
-        {
-            if (m_onHighLightChanged != null)
-                m_onHighLightChanged(this, e);
-        }
-        internal void RaiseHightLightChanged()
-        {
-            PPropertyEventArgs e = new PPropertyEventArgs(!this.m_isSelected, this.m_isSelected);
-            OnHightLightChanged(e);
-        }
         #endregion
     }
 }

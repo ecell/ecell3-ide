@@ -54,11 +54,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private PBasicInputEventHandler m_handler = null;
 
         /// <summary>
-        /// ComponentType
-        /// </summary>
-        private ComponentType m_cType;
-
-        /// <summary>
         /// Zooming rate of canvas
         /// </summary>
         private float m_zoomingRate;
@@ -83,14 +78,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
-        /// Accessor for component setting's ID
-        /// </summary>
-        public ComponentType ComponentType
-        {
-            get { return this.m_cType; }
-        }
-
-        /// <summary>
         /// Zooming rate of canvas
         /// </summary>
         public float ZoomingRate
@@ -109,18 +96,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public Handle(Mode mode, PBasicInputEventHandler handler)
         {
             this.m_mode = mode;
-            this.m_handler = handler;
-        }
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="mode">Mode of this handle (select, pan, etc.)</param>
-        /// <param name="handler">PBasicInputEventHandler</param>
-        /// <param name="csID">ID of component setting</param>
-        public Handle(Mode mode, PBasicInputEventHandler handler, ComponentType csID)
-        {
-            this.m_mode = mode;
-            this.m_cType = csID;
             this.m_handler = handler;
         }
         /// <summary>

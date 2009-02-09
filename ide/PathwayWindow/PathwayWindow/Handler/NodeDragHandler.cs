@@ -72,24 +72,28 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         }
 
         /// <summary>
-        /// check whether this event is accepted.
-        /// </summary>
-        /// <param name="e">event.</param>
-        /// <returns>mouse event is true.</returns>
-        public override bool DoesAcceptEvent(PInputEventArgs e)
-        {
-            return e.IsMouseEvent
-               && e.Button == MouseButtons.Left;
-        }
-
-        /// <summary>
         /// event on start drag.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public override void OnMouseDown(object sender, PInputEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left)
+                return;
+            base.OnMouseDown(sender, e);
+        }
+        /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected override void OnStartDrag(object sender, PInputEventArgs e)
         {
             base.OnStartDrag(sender, e);
+            PointF offset = e.PickedNode.Offset;
+            if (offset.X == 0 && offset.Y == 0)
+                return;
+            m_canvas.MoveSelectedObjects(offset);
         }
 
         /// <summary>
@@ -109,14 +113,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         }
 
         /// <summary>
-        /// event on end to drag PNode in PathwayView.
+        /// event on end of dragging PNode in PathwayView.
         /// </summary>
-        /// <param name="sender">Pathwayview.</param>
-        /// <param name="e">PInputEventArgs.</param>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected override void OnEndDrag(object sender, PInputEventArgs e)
         {
             base.OnEndDrag(sender, e);
-            m_canvas.NotifyMoveObjects();
+            m_canvas.NotifyMoveObjects(true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public override bool DoesAcceptEvent(PInputEventArgs e)
+        {
+            return true;
         }
     }
 }

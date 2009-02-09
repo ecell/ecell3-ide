@@ -52,6 +52,7 @@ using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using Ecell.Objects;
 using System.Drawing.Imaging;
 using System.IO;
+using Ecell.IDE.Plugins.PathwayWindow.Components;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {
@@ -124,6 +125,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private ToolStripMenuItem toolStripAlias;
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripMenuItem toolStripChangeLayer;
+        private ToolStripMenuItem toolStripTextAlign;
+        private ToolStripMenuItem toolStripAlignLeft;
+        private ToolStripMenuItem toolStripAlignCenter;
+        private ToolStripMenuItem toolStripAlignRight;
         private ToolStripMenuItem toolStripMoveFront;
         private ToolStripMenuItem toolStripMoveBack;
         private ToolStripSeparator toolStripSeparator3;
@@ -197,17 +202,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         /// <param name="control"></param>
         public MenuControl(PathwayControl control)
+            : this()
         {
             m_con = control;
             m_con.ProjectStatusChange += new EventHandler(OnProjectStatusChange);
-            InitializeComponent();
             commonMenu.Environment = m_con.Window.Environment;
             CreateToolButtons();
         }
 
+        /// <summary>
+        /// Set Menu abailability.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void OnProjectStatusChange(object sender, EventArgs e)
         {
             bool menuFlag = m_con.ProjectStatus == ProjectStatus.Loaded;
+
+            toolMenuExport.Enabled = menuFlag;
 
             toolMenuCut.Enabled = menuFlag;
             toolMenuCopy.Enabled = menuFlag;
@@ -235,6 +247,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripAlias = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripChangeLayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextAlign = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripAlignLeft = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripAlignCenter = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripAlignRight = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMoveFront = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMoveBack = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -288,6 +304,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.commonMenu.mergeSystemToolStripMenuItem,
             this.toolStripAlias,
             this.toolStripSeparator2,
+            this.toolStripTextAlign,
             this.toolStripChangeLayer,
             this.toolStripMoveFront,
             this.toolStripMoveBack,
@@ -303,7 +320,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // 
             this.toolStripIdShow.Name = "toolStripIdShow";
             this.toolStripIdShow.Size = new System.Drawing.Size(271, 22);
-            this.toolStripIdShow.Click += new System.EventHandler(this.ShowPropertyDialogClick);
+            this.toolStripIdShow.Enabled = false;
             // 
             // toolStripSeparator1
             // 
@@ -395,6 +412,40 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripChangeLayer.Name = "toolStripChangeLayer";
             this.toolStripChangeLayer.Size = new System.Drawing.Size(271, 22);
             this.toolStripChangeLayer.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuChangeLayer;
+            // 
+            // toolStripTextAlign
+            // 
+            this.toolStripTextAlign.Name = "toolStripTextAlign";
+            this.toolStripTextAlign.Size = new System.Drawing.Size(271, 22);
+            this.toolStripTextAlign.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuTextAlign;
+            this.toolStripTextAlign.DropDown.Items.AddRange(new ToolStripItem[] {
+                this.toolStripAlignLeft,
+                this.toolStripAlignCenter,
+                this.toolStripAlignRight});
+            // 
+            // toolStripAlignLeft
+            // 
+            this.toolStripAlignLeft.Name = "toolStripAlignLeft";
+            this.toolStripAlignLeft.Size = new System.Drawing.Size(271, 22);
+            this.toolStripAlignLeft.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuAlignLeft;
+            this.toolStripAlignLeft.Tag = StringAlignment.Near;
+            this.toolStripAlignLeft.Click += new EventHandler(TextAlign_Click);
+            // 
+            // toolStripAlignCenter
+            // 
+            this.toolStripAlignCenter.Name = "toolStripAlignCenter";
+            this.toolStripAlignCenter.Size = new System.Drawing.Size(271, 22);
+            this.toolStripAlignCenter.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuAlignCenter;
+            this.toolStripAlignCenter.Tag = StringAlignment.Center;
+            this.toolStripAlignCenter.Click += new EventHandler(TextAlign_Click);
+            // 
+            // toolStripAlignRight
+            // 
+            this.toolStripAlignRight.Name = "toolStripAlignRight";
+            this.toolStripAlignRight.Size = new System.Drawing.Size(271, 22);
+            this.toolStripAlignRight.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.CanvasMenuAlignRight;
+            this.toolStripAlignRight.Tag = StringAlignment.Far;
+            this.toolStripAlignRight.Click += new EventHandler(TextAlign_Click);
             // 
             // toolStripMoveFront
             // 
@@ -732,19 +783,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 button.Image = cs.IconImage;
                 button.Size = new System.Drawing.Size(32, 32);
                 button.CheckOnClick = true;
-                if (cs.ComponentType == ComponentType.System)
+                if (cs.Type == EcellObject.SYSTEM)
                 {
-                    button.Handle = new Handle(Mode.CreateSystem, new CreateSystemMouseHandler(m_con), cs.ComponentType);
+                    button.Handle = new Handle(Mode.CreateSystem, new CreateSystemMouseHandler(m_con));
                     button.ToolTipText = MessageResources.ToolButtonCreateSystem;
                 }
                 else
                 {
-                    button.Handle = new Handle(Mode.CreateNode, new CreateNodeMouseHandler(m_con, cs), cs.ComponentType);
-                    if (cs.ComponentType == ComponentType.Process)
+                    button.Handle = new Handle(Mode.CreateNode, new CreateNodeMouseHandler(m_con, cs));
+                    if (cs.Type == EcellObject.PROCESS)
                         button.ToolTipText = MessageResources.ToolButtonCreateProcess;
-                    else if (cs.ComponentType == ComponentType.Variable)
+                    else if (cs.Type == EcellObject.VARIABLE)
                         button.ToolTipText = MessageResources.ToolButtonCreateVariable;
-                    else if (cs.ComponentType == ComponentType.Text)
+                    else if (cs.Type == EcellObject.TEXT)
                         button.ToolTipText = MessageResources.ToolButtonCreateText;
                 }
 
@@ -785,7 +836,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 EcellObject obj = ((PPathwayObject)node).EcellObject;
                 commonMenu.Object = obj;
-                toolStripIdShow.Text = obj.Key;
+                toolStripIdShow.Text = obj.FullID;
                 SetLayerManu(obj);
                 if (obj.Key.Equals("/"))
                     isRoot = true;
@@ -796,6 +847,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 SetLineMenu(line);
                 isOneway = line.Info.Coefficient != 0;
                 isEffector = line.Info.Direction == EdgeDirection.None;
+            }
+            if (isPPathwayText)
+            {
+                SetTextAlignmenu((PPathwayText)node);
             }
             // Show ObjectID(key).
             toolStripIdShow.Visible = isPPathwayObject;
@@ -813,6 +868,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolStripDelete.Visible = (isPPathwayObject && !isRoot) || isPPathwayText;
             toolStripAlias.Visible = isPPathwayVariable;
             toolStripSeparator2.Visible = isPPathwayObject && !isRoot;
+            // Set Text menu.
+            toolStripTextAlign.Visible = isPPathwayText;
             // Show Layer menu.
             toolStripChangeLayer.Visible = isPPathwayObject && !isRoot;
             toolStripMoveFront.Visible = isPPathwayObject && !isRoot;
@@ -843,40 +900,37 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 layerItem.Click += new EventHandler(m_con.Menu.ChangeLeyerClick);
                 layerMenu.DropDown.Items.Add(layerItem);
             }
-            //ToolStripSeparator separator = new ToolStripSeparator();
-            //layerMenu.DropDown.Items.Add(separator);
-
-            //ToolStripMenuItem createNewLayer = new ToolStripMenuItem(MessageResources.LayerMenuCreate);
-            //createNewLayer.Click += new EventHandler(m_con.Menu.ChangeLeyerClick);
-            //layerMenu.DropDown.Items.Add(createNewLayer);
         }
+
+        /// <summary>
+        /// Set text menu items.
+        /// </summary>
+        /// <param name="text"></param>
+        private void SetTextAlignmenu(PPathwayText text)
+        {
+            StringAlignment align = text.PText.TextAlignment;
+            this.toolStripAlignLeft.Enabled = align != StringAlignment.Near;
+            this.toolStripAlignCenter.Enabled = align != StringAlignment.Center;
+            this.toolStripAlignRight.Enabled = align != StringAlignment.Far;
+
+            this.toolStripAlignLeft.Checked = align == StringAlignment.Near;
+            this.toolStripAlignCenter.Checked = align == StringAlignment.Center;
+            this.toolStripAlignRight.Checked = align == StringAlignment.Far;
+
+        }
+
         /// <summary>
         /// Set line menu.
         /// </summary>
         /// <param name="line"></param>
         private void SetLineMenu(PPathwayLine line)
         {
-            if (line.Info.Direction == EdgeDirection.Bidirection)
-            {
-                toolStripAnotherArrow.Enabled = false;
-                toolStripOneWayArrow.Enabled = true;
-                toolStripBidirArrow.Enabled = false;
-                toolStripConstant.Enabled = true;
-            }
-            else if (line.Info.Direction == EdgeDirection.None)
-            {
-                toolStripOneWayArrow.Enabled = true;
-                toolStripAnotherArrow.Enabled = false;
-                toolStripBidirArrow.Enabled = true;
-                toolStripConstant.Enabled = false;
-            }
-            else
-            {
-                toolStripOneWayArrow.Enabled = false;
-                toolStripAnotherArrow.Enabled = true;
-                toolStripBidirArrow.Enabled = true;
-                toolStripConstant.Enabled = true;
-            }
+            EdgeDirection direction = line.Info.Direction;
+
+            toolStripAnotherArrow.Enabled = direction == EdgeDirection.Inward || direction == EdgeDirection.Outward;
+            toolStripOneWayArrow.Enabled = direction == EdgeDirection.None || direction == EdgeDirection.Bidirection;
+            toolStripBidirArrow.Enabled = direction != EdgeDirection.Bidirection;
+            toolStripConstant.Enabled = direction != EdgeDirection.None;
         }
 
         /// <summary>
@@ -987,22 +1041,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
         }
 #endif
-        /// <summary>
-        /// Called when a delete menu of the context menu is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MergeClick(object sender, EventArgs e)
-        {
-            // Check exception.
-            CanvasControl canvas = m_con.Canvas;
-            if (canvas == null || commonMenu.Object == null)
-                return;
-
-            EcellObject system = commonMenu.Object;
-            m_con.Window.NotifyDataMerge(system.ModelID, system.Key);
-            canvas.NotifyResetSelect();
-        }
 
         private void CreateAliasClick(object sender, EventArgs e)
         {
@@ -1024,45 +1062,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e"></param>
         private void DeleteClick(object sender, EventArgs e)
         {
-            // Check active canvas.          
-            CanvasControl canvas = m_con.Canvas;
-            if (canvas == null)
+            if (m_con.Canvas == null || !m_con.Canvas.PCanvas.Focused)
                 return;
-            if (!m_con.Canvas.PCanvas.Focused)
-                return;
-            // Delete Selected Text
-            if (canvas.FocusNode is PPathwayText)
-            {
-                m_con.NotifyDataDelete(((PPathwayText)canvas.FocusNode).EcellObject, true);
-                return;
-            }
-            // Delete Selected Line
-            PPathwayLine line = canvas.LineHandler.SelectedLine;
-            if (line != null)
-            {
-                m_con.NotifyVariableReferenceChanged(
-                    line.Info.ProcessKey,
-                    line.Info.VariableKey,
-                    RefChangeType.Delete,
-                    line.Info.Coefficient,
-                    true);
-                canvas.ResetSelectedLine();
-            }
-            // Delete Selected Nodes
-            if (canvas.SelectedNodes != null)
-            {
-                List<EcellObject> slist = new List<EcellObject>();
-                foreach (PPathwayObject node in canvas.SelectedNodes)
-                    slist.Add(node.EcellObject);
-
-                int i = 0;
-                foreach (EcellObject deleteNode in slist)
-                {
-                    i++;
-                    bool isAnchor = (i == slist.Count);
-                    m_con.NotifyDataDelete(deleteNode, isAnchor);
-                }
-            }
+            m_con.DeteleNodes();
         }
 
         /// <summary>
@@ -1089,13 +1091,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             try
             {
                 // Delete old edge.
+                bool isDelete = (item.Text == MessageResources.CanvasMenuDelete);
                 m_con.NotifyVariableReferenceChanged(
                     line.Info.ProcessKey,
                     line.Info.VariableKey,
                     RefChangeType.Delete,
                     0,
-                    false);
-                if (item.Text == MessageResources.CanvasMenuDelete)
+                    isDelete);
+                if (isDelete)
                     return;
 
                 // Create new edgeInfo.
@@ -1136,10 +1139,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     coefficient,
                     true);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Util.ShowErrorDialog(MessageResources.ErrCreateEdge);
             }
+        }
+
+        /// <summary>
+        /// Set Text Alignment.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TextAlign_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem menu = (ToolStripMenuItem)sender;
+            StringAlignment align = (StringAlignment)menu.Tag;
+
+            // Get new layer name.
+            PPathwayText text = (PPathwayText)m_con.Canvas.FocusNode;
+            text.PText.TextAlignment = align;
+            text.NotifyDataChanged();
         }
 
         /// <summary>
@@ -1156,22 +1175,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Get new layer name.
             PPathwayObject node = (PPathwayObject)canvas.FocusNode;
-            string name = node.EcellObject.Layer;
-            if (menu.Text.Equals(MessageResources.LayerMenuCreate))
-            {
-                // Select Layer
-                List<string> layerList = canvas.GetLayerNameList();
-                string title = MessageResources.LayerMenuCreate;
-                name = SelectBoxDialog.Show(title, title, name, layerList);
-                if (string.IsNullOrEmpty(name))
-                    return;
-                if (!canvas.Layers.ContainsKey(name))
-                    canvas.AddLayer(name);
-            }
-            else
-            {
-                name = menu.Text;
-            }
+            string name = name = menu.Text;
 
             // Change layer of selected objects.
             PPathwayLayer layer = canvas.Layers[name];
@@ -1194,10 +1198,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e"></param>
         private void MoveToFrontClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.Canvas;
-            PPathwayObject obj = (PPathwayObject)canvas.FocusNode;
-            canvas.LayerMoveToFront(obj.Layer);
-            canvas.OverviewCanvas.Refresh();
+            PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
+
+            bool flag = false;
+            foreach (PNode node in obj.Layer.GetNodes())
+            {
+                if (flag)
+                {
+                    obj.MoveInFrontOf(node);
+                }
+                if (node == obj)
+                    flag = true;
+            }
         }
 
         /// <summary>
@@ -1207,10 +1219,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e"></param>
         private void MoveToBackClick(object sender, EventArgs e)
         {
-            CanvasControl canvas = m_con.Canvas;
-            PPathwayObject obj = (PPathwayObject)canvas.FocusNode;
-            canvas.LayerMoveToBack(obj.Layer);
-            canvas.OverviewCanvas.Refresh();
+            PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
+
+            bool flag = true;
+            foreach (PNode node in obj.Layer.GetNodes())
+            {
+                if (flag)
+                {
+                    obj.MoveInFrontOf(node);
+                }
+                if (node == obj)
+                    flag = false;
+            }
         }
 
         /// <summary>
@@ -1232,19 +1252,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e"></param>
         private void CutClick(object sender, EventArgs e)
         {
-            if (!m_con.Canvas.PCanvas.Focused)
+            if (m_con.Canvas == null || !m_con.Canvas.PCanvas.Focused)
                 return;
-            m_con.CopyNodes();
-
-            int i = 0;
-            bool isAnchor;
-            foreach (EcellObject eo in m_con.CopiedNodes)
-            {
-                i++;
-                isAnchor = (i == m_con.CopiedNodes.Count);
-                m_con.NotifyDataDelete(eo, isAnchor);
-            }
-
+            m_con.CutNodes();
         }
 
         /// <summary>
@@ -1282,17 +1292,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 dialog.ApplyChanges();
                 m_con.ResetObjectSettings();
             }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ShowPropertyDialogClick(object sender, EventArgs e)
-        {
-            PPathwayObject obj = (PPathwayObject)m_con.Canvas.FocusNode;
-            EcellObject eo = m_con.Window.GetEcellObject(obj.EcellObject);
-            PropertyEditor.Show(m_con.Window.DataManager, m_con.Window.PluginManager, eo);
         }
 
         /// <summary>
@@ -1478,7 +1477,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             SaveFileDialog sfd = new SaveFileDialog();
             using (sfd)
             {
-                sfd.Filter = "SVG File|*.svg|" + Constants.FilterImageFile;
+                sfd.Filter = Constants.FilterSVGFile + "|" + Constants.FilterImageFile;
                 sfd.CheckPathExists = true;
                 sfd.FileName = m_con.Canvas.ModelID;
                 if (sfd.ShowDialog() != DialogResult.OK)
@@ -1553,7 +1552,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
 
             m_con.Canvas.MoveSelectedObjects(offset);
-            m_con.Canvas.NotifyMoveObjects();
+            m_con.Canvas.NotifyMoveObjects(true);
         }
 
         #endregion

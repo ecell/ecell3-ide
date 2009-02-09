@@ -149,12 +149,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// get/set the flag whether display this system with highlight.
         /// </summary>
-        public override bool IsHighLighted
+        public override bool Selected
         {
-            get { return this.m_isSelected; }
+            get { return this.m_selected; }
             set
             {
-                this.m_isSelected = value;
+                this.m_selected = value;
                 if (value)
                 {
                     this.Brush = m_highLightBrush;
@@ -248,20 +248,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         internal void NotifyDataChanged()
         {
-            ((EcellText)m_ecellObj).Comment = m_pText.Text;
-            ((EcellText)m_ecellObj).Alignment = m_pText.TextAlignment;
+            EcellText text = (EcellText)m_ecellObj.Clone();
+
+            text.Comment = m_pText.Text;
+            text.Alignment = m_pText.TextAlignment;
             base.Width = m_pText.Width;
             base.Height = m_pText.Height + TEXT_MARGIN;
 
-            m_ecellObj.Layer = this.Layer.Name;
-            m_ecellObj.X = this.X + this.OffsetX;
-            m_ecellObj.Y = this.Y + this.OffsetY;
-            m_ecellObj.Width = this.Width;
-            m_ecellObj.Height = this.Height;
-            m_ecellObj.OffsetX = 0f;
-            m_ecellObj.OffsetY = 0f;
+            text.Layer = this.Layer.Name;
+            text.X = this.X + this.OffsetX;
+            text.Y = this.Y + this.OffsetY;
+            text.Width = this.Width;
+            text.Height = this.Height;
+            text.OffsetX = 0f;
+            text.OffsetY = 0f;
 
-            m_canvas.Control.NotifyDataChanged(m_ecellObj.Key, m_ecellObj, true, true);
+            m_canvas.Control.NotifyDataChanged(text.Key, text, true, true);
         }
     }
 }

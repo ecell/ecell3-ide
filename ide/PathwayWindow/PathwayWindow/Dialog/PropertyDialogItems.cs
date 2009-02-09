@@ -291,7 +291,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         {
             InitializeComponent();
             this.LabelText = label;
-            this.brush = brush;
+            this.Brush = brush;
         }
 
         private void InitializeComponent()
@@ -405,12 +405,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
     {
         private TextBox textBox;
         /// <summary>
-        /// Get/Set m_textBox.Text
+        /// Get/Set textBox.Text
         /// </summary>
         public override string Text
         {
             get { return textBox.Text; }
             set { textBox.Text = value; }
+        }
+
+        /// <summary>
+        /// Get textBox
+        /// </summary>
+        public TextBox TextBox
+        {
+            get { return textBox; }
         }
 
         /// <summary>
@@ -453,7 +461,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
     /// <summary>
     /// UI class for PropertyDialog
     /// </summary>
-    public class PropertyFileItem : PropertyDialogItem
+    public class PropertySaveFileItem : PropertyDialogItem
     {
         private TextBox m_textBox;
         private Button m_button;
@@ -488,7 +496,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         /// <summary>
         /// Constructor
         /// </summary>
-        public PropertyFileItem()
+        public PropertySaveFileItem()
         {
             InitializeComponent();
         }
@@ -497,7 +505,103 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         /// </summary>
         /// <param name="label"></param>
         /// <param name="filename"></param>
-        public PropertyFileItem(string label, string filename)
+        public PropertySaveFileItem(string label, string filename)
+        {
+            InitializeComponent();
+            this.LabelText = label;
+            this.m_textBox.Text = filename;
+        }
+
+        private void InitializeComponent()
+        {
+            // Create New Object.
+            this.m_textBox = new TextBox();
+            this.m_button = new Button();
+
+            this.SuspendLayout();
+            this.Controls.Add(this.m_button);
+            this.Controls.Add(this.m_textBox);
+            // 
+            this.m_textBox.Location = POSITION;
+            this.m_textBox.Size = SIZE;
+            this.m_textBox.TabIndex = 0;
+
+            this.m_button.Text = "...";
+            this.m_button.Top = m_textBox.Top;
+            this.m_button.Left = m_textBox.Left + m_textBox.Width;
+            this.m_button.Height = SIZE.Height;
+            this.m_button.Width = SIZE.Height;
+            this.m_button.Click += new EventHandler(m_button_Click);
+
+            this.ResumeLayout(false);
+            this.PerformLayout();
+        }
+
+        void m_button_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            using (fileDialog)
+            {
+                fileDialog.Filter = m_filter;
+                fileDialog.FilterIndex = m_filterIndex;
+                fileDialog.FileName = m_textBox.Text;
+                fileDialog.OverwritePrompt = true;
+                DialogResult result = fileDialog.ShowDialog();
+                if (result != DialogResult.OK)
+                    return;
+                m_textBox.Text = fileDialog.FileName;
+            }
+        }
+    }
+
+    /// <summary>
+    /// UI class for PropertyDialog
+    /// </summary>
+    public class PropertyOpenFileItem : PropertyDialogItem
+    {
+        private TextBox m_textBox;
+        private Button m_button;
+        private string m_filter;
+        private int m_filterIndex;
+
+
+        /// <summary>
+        /// Get/Set m_textBox.Text
+        /// </summary>
+        public string FileName
+        {
+            get { return m_textBox.Text; }
+            set { m_textBox.Text = value; }
+        }
+        /// <summary>
+        /// Filter
+        /// </summary>
+        public string Filter
+        {
+            get { return m_filter; }
+            set { m_filter = value; }
+        }
+        /// <summary>
+        /// FilterIndex
+        /// </summary>
+        public int FilterIndex
+        {
+            get { return m_filterIndex; }
+            set { m_filterIndex = value; }
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public PropertyOpenFileItem()
+        {
+            InitializeComponent();
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="filename"></param>
+        public PropertyOpenFileItem(string label, string filename)
         {
             InitializeComponent();
             this.LabelText = label;
@@ -537,6 +641,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
                 fileDialog.Filter = m_filter;
                 fileDialog.FilterIndex = m_filterIndex;
                 fileDialog.FileName = m_textBox.Text;
+                fileDialog.CheckFileExists = true;
                 DialogResult result = fileDialog.ShowDialog();
                 if (result != DialogResult.OK)
                     return;

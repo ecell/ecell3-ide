@@ -36,6 +36,7 @@ using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.Figure;
+using Ecell.IDE.Plugins.PathwayWindow.Components;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
 {
@@ -154,7 +155,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
                     obj += SVGUtil.Polygon(PPathwayLine.GetArrowPoints(proPoint, varPoint), brush, width);
                     break;
                 case EdgeDirection.Outward:
-                    obj += SVGUtil.Polygon(PPathwayLine.GetArrowPoints(proPoint, varPoint), brush, width);
+                    obj += SVGUtil.Polygon(PPathwayLine.GetArrowPoints(varPoint, proPoint), brush, width);
                     break;
                 case EdgeDirection.None:
                     break;

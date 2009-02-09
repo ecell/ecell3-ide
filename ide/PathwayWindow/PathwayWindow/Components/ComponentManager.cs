@@ -48,7 +48,7 @@ using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using Ecell.Objects;
 
-namespace Ecell.IDE.Plugins.PathwayWindow
+namespace Ecell.IDE.Plugins.PathwayWindow.Components
 {
     /// <summary>
     /// A manager for ComponentSettings.
@@ -228,11 +228,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         public void LoadComponentSettings(string filename)
         {
-            List<ComponentSetting> list = null;
+            List<ComponentSetting> list;
             try
             {
                 // Load ComponentSettings information from xml file.
-                list = LoadFromXML(filename);
+                list = ComponentSettingsLoader.LoadFromXML(filename);
                 // Check and register ComponentSettings.
                 CheckAndRegisterComponent(list);
             }
@@ -276,10 +276,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 foreach (ComponentSetting setting in ComponentSettings)
                 {
                     xmlOut.WriteStartElement(PathwayConstants.xPathComponent);
-                    xmlOut.WriteAttributeString(PathwayConstants.xPathType, ParseComponentTypeToString(setting.ComponentType));
+                    xmlOut.WriteAttributeString(PathwayConstants.xPathType, setting.Type);
                     xmlOut.WriteAttributeString(PathwayConstants.xPathIsDafault, setting.IsDefault.ToString());
                     xmlOut.WriteElementString(PathwayConstants.xPathName, setting.Name);
-                    xmlOut.WriteElementString(PathwayConstants.xPathClass, setting.Class);
                     xmlOut.WriteElementString(PathwayConstants.xPathIconFile, setting.IconFileName);
                     xmlOut.WriteStartElement(PathwayConstants.xPathFigure);
                     xmlOut.WriteAttributeString(PathwayConstants.xPathMode, PathwayConstants.xPathEdit);
@@ -316,89 +315,25 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
-        /// Parse a name of kind to ComponentType
-        /// </summary>
-        /// <param name="type">a name of type, to be parsed</param>
-        /// <returns></returns>
-        public static ComponentType ParseStringToComponentType(string type)
-        {
-            if (type.Equals(EcellObject.SYSTEM))
-            {
-                return ComponentType.System;
-            }
-            else if (type.Equals(EcellObject.VARIABLE))
-            {
-                return ComponentType.Variable;
-            }
-            else if (type.Equals(EcellObject.PROCESS))
-            {
-                return ComponentType.Process;
-            }
-            else if (type.Equals(EcellObject.TEXT))
-            {
-                return ComponentType.Text;
-            }
-            else
-            {
-                throw new NoSuchComponentKindException("Component kind \"" + type + "\" doesn't" +
-                    " exist. One of System or Variable or Process must be set as a component kind.");
-            }
-        }
-        /// <summary>
-        /// Get a string of type name.
-        /// </summary>
-        /// <param name="cType"></param>
-        /// <returns></returns>
-        public static string ParseComponentTypeToString(ComponentType cType)
-        {
-            if (cType == ComponentType.System)
-            {
-                return EcellObject.SYSTEM;
-            }
-            else if (cType == ComponentType.Variable)
-            {
-                return EcellObject.VARIABLE;
-            }
-            else if (cType == ComponentType.Process)
-            {
-                return EcellObject.PROCESS;
-            }
-            else if (cType == ComponentType.Text)
-            {
-                return EcellObject.TEXT;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
         /// Get
         /// </summary>
-        /// <param name="cType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
-        public ComponentSetting GetDefaultComponentSetting(ComponentType cType)
+        public ComponentSetting GetDefaultComponentSetting(string type)
         {
-            if (cType == ComponentType.System)
+
+            switch (type)
             {
-                return DefaultSystemSetting;
-            }
-            else if (cType == ComponentType.Variable)
-            {
-                return DefaultVariableSetting;
-            }
-            else if (cType == ComponentType.Process)
-            {
-                return DefaultProcessSetting;
-            }
-            else if (cType == ComponentType.Text)
-            {
-                return DefaultTextSetting;
-            }
-            else
-            {
-                return null;
+                case EcellObject.SYSTEM:
+                    return DefaultSystemSetting;
+                case EcellObject.PROCESS:
+                    return DefaultProcessSetting;
+                case EcellObject.VARIABLE:
+                    return DefaultVariableSetting;
+                case EcellObject.TEXT:
+                    return DefaultTextSetting;
+                default:
+                    throw new PathwayException(MessageResources.ErrUnknowType);
             }
         }
 
@@ -406,9 +341,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// Register ComponentSetting onto this manager
         /// </summary>
         /// <param name="setting">ComponentSetting</param>
-        public void RegisterSetting(ComponentSetting setting)
+        private void RegisterSetting(ComponentSetting setting)
         {
-            Dictionary<string, ComponentSetting> dic = GetSettingDictionary(setting.ComponentType);
+            Dictionary<string, ComponentSetting> dic = GetSettingDictionary(setting.Type);
             if (dic.ContainsKey(setting.Name))
                 dic.Remove(setting.Name);
 
@@ -433,9 +368,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             // Set hard coded default system ComponentSettings
             ComponentSetting defSysCs = new ComponentSetting();
-            defSysCs.ComponentType = ComponentType.System;
+            defSysCs.Type = EcellObject.SYSTEM;
             defSysCs.Name = PathwayConstants.NameOfDefaultSystem;
-            defSysCs.Class = PathwayConstants.ClassPPathwaySystem;
             defSysCs.IsDefault = true;
             defSysCs.Figure = FigureManager.CreateFigure("SystemRectangle", "0,0,80,80");
             defSysCs.CenterBrush = Brushes.LightBlue;
@@ -446,9 +380,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Set hard coded default variable ComponentSettings
             ComponentSetting defVarCs = new ComponentSetting();
-            defVarCs.ComponentType = ComponentType.Variable;
+            defVarCs.Type = EcellObject.VARIABLE;
             defVarCs.Name = PathwayConstants.NameOfDefaultVariable;
-            defVarCs.Class = PathwayConstants.ClassPPathwayVariable;
             defVarCs.IsDefault = true;
             defVarCs.Figure = FigureManager.CreateFigure("Ellipse", "0,0,60,40");
             defVarCs.TextBrush = Brushes.DarkBlue;
@@ -460,9 +393,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Set hard coded default process ComponentSettings
             ComponentSetting defProCs = new ComponentSetting();
-            defProCs.ComponentType = ComponentType.Process;
+            defProCs.Type = EcellObject.PROCESS;
             defProCs.Name = PathwayConstants.NameOfDefaultProcess;
-            defProCs.Class = PathwayConstants.ClassPPathwayProcess;
             defProCs.IsDefault = true;
             defProCs.Figure = FigureManager.CreateFigure("RoundedRectangle", "0,0,60,40");
             defProCs.TextBrush = Brushes.DarkGreen;
@@ -474,11 +406,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Set hard coded default process ComponentSettings
             ComponentSetting defTextCs = new ComponentSetting();
-            defTextCs.ComponentType = ComponentType.Text;
+            defTextCs.Type = EcellObject.TEXT;
             defTextCs.Name = PathwayConstants.NameOfDefaultText;
-            defTextCs.Class = PathwayConstants.ClassPPathwayText;
             defTextCs.IsDefault = true;
-            defTextCs.Figure = FigureManager.CreateFigure("Rectangle", "0,0,80,60");
+            defTextCs.Figure = FigureManager.CreateFigure("Rectangle", "0,0,80,26");
             defTextCs.TextBrush = Brushes.Black;
             defTextCs.LineBrush = Brushes.Black;
             defTextCs.CenterBrush = Brushes.White;
@@ -527,35 +458,102 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Get ComponentSetting dictionary.
         /// </summary>
-        /// <param name="cType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
-        private Dictionary<string, ComponentSetting> GetSettingDictionary(ComponentType cType)
+        private Dictionary<string, ComponentSetting> GetSettingDictionary(string type)
         {
             Dictionary<string, ComponentSetting> dic = null;
-            switch (cType)
+            switch (type)
             {
-                case ComponentType.System:
+                case EcellObject.SYSTEM:
                     dic = m_systemSettings;
                     break;
-                case ComponentType.Process:
+                case EcellObject.PROCESS:
                     dic = m_processSettings;
                     break;
-                case ComponentType.Variable:
+                case EcellObject.VARIABLE:
                     dic = m_variableSettings;
                     break;
-                case ComponentType.Text:
+                case EcellObject.TEXT:
                     dic = m_textSettings;
                     break;
+                default:
+                    throw new PathwayException(MessageResources.ErrUnknowType);
             }
             return dic;
         }
 
         /// <summary>
+        /// Set Default ComponentSetting.
+        /// </summary>
+        /// <param name="setting"></param>
+        private void SetDefaultSetting(ComponentSetting setting)
+        {
+            switch (setting.Type)
+            {
+                case EcellObject.SYSTEM:
+                    m_defaultSystemName = setting.Name;
+                    break;
+                case EcellObject.PROCESS:
+                    m_defaultProcessName = setting.Name;
+                    break;
+                case EcellObject.VARIABLE:
+                    m_defaultVariableName = setting.Name;
+                    break;
+                case EcellObject.TEXT:
+                    m_defaultTextName = setting.Name;
+                    break;
+                default:
+                    throw new PathwayException(MessageResources.ErrUnknowType);
+            }
+        }
+
+        /// <summary>
+        /// Check errors and register each ComponentSetting.
+        /// If any ComponentSettings in the xml file is invalid, these messages are shown.
+        /// </summary>
+        /// <param name="list"></param>
+        private void CheckAndRegisterComponent(List<ComponentSetting> list)
+        {
+            int csCount = 0;
+            string warnMessage = "";
+            foreach (ComponentSetting cs in list)
+            {
+                List<string> lackInfos = cs.Validate();
+                if (lackInfos == null)
+                {
+                    RegisterSetting(cs);
+                }
+                else
+                {
+                    string name = (cs.Name == null) ? cs.Name : "ComponentSetting No." + csCount.ToString();
+                    warnMessage += MessageResources.ErrCompInvalid + "\n";
+                    foreach (string lackInfo in lackInfos)
+                        warnMessage += "    " + name + " lacks " + lackInfo + "\n";
+                }
+                csCount++;
+            }
+
+            if (!string.IsNullOrEmpty(warnMessage))
+            {
+                Debug.Print(warnMessage);
+                throw new ArgumentException(warnMessage);
+            }
+        }
+        #endregion
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    internal class ComponentSettingsLoader
+    {
+        /// <summary>
         /// Load ComponentSettings from xml file.
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        private static List<ComponentSetting> LoadFromXML(string filename)
+        public static List<ComponentSetting> LoadFromXML(string filename)
         {
             XmlDocument xmlD = new XmlDocument();
             xmlD.Load(filename);
@@ -590,7 +588,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 string type = componentNode.Attributes[PathwayConstants.xPathType].Value;
                 string isDefault = componentNode.Attributes[PathwayConstants.xPathIsDafault].Value;
-                cs.ComponentType = ParseStringToComponentType(type);
+                cs.Type = type;
                 cs.IsDefault = bool.Parse(isDefault);
 
                 foreach (XmlNode parameterNode in componentNode.ChildNodes)
@@ -598,10 +596,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     if (parameterNode.Name.Equals(PathwayConstants.xPathName))
                     {
                         cs.Name = parameterNode.InnerText;
-                    }
-                    else if (parameterNode.Name.Equals(PathwayConstants.xPathClass))
-                    {
-                        cs.Class = parameterNode.InnerText;
                     }
                     else if (parameterNode.Name.Equals(PathwayConstants.xPathIconFile))
                     {
@@ -678,100 +672,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 || xmlNode.Attributes[PathwayConstants.xPathFileVersion] == null
                 || !xmlNode.Attributes[PathwayConstants.xPathFileVersion].Value.Equals(PathwayConstants.xPathVersion))
                 throw new ArgumentException("Config file format Version error." + Environment.NewLine + "Current version is " + PathwayConstants.xPathVersion);
-        }
-
-        /// <summary>
-        /// Set Default ComponentSetting.
-        /// </summary>
-        /// <param name="setting"></param>
-        private void SetDefaultSetting(ComponentSetting setting)
-        {
-            switch (setting.ComponentType)
-            {
-                case ComponentType.System:
-                    m_defaultSystemName = setting.Name;
-                    break;
-                case ComponentType.Process:
-                    m_defaultProcessName = setting.Name;
-                    break;
-                case ComponentType.Variable:
-                    m_defaultVariableName = setting.Name;
-                    break;
-                case ComponentType.Text:
-                    m_defaultTextName = setting.Name;
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Check errors and register each ComponentSetting.
-        /// If any ComponentSettings in the xml file is invalid, these messages are shown.
-        /// </summary>
-        /// <param name="list"></param>
-        private void CheckAndRegisterComponent(List<ComponentSetting> list)
-        {
-            int csCount = 0;
-            string warnMessage = "";
-            foreach (ComponentSetting cs in list)
-            {
-                List<string> lackInfos = cs.Validate();
-                if (lackInfos == null)
-                {
-                    RegisterSetting(cs);
-                }
-                else
-                {
-                    string name = (cs.Name == null) ? cs.Name : "ComponentSetting No." + csCount.ToString();
-                    warnMessage += MessageResources.ErrCompInvalid + "\n";
-                    foreach (string lackInfo in lackInfos)
-                        warnMessage += "    " + name + " lacks " + lackInfo + "\n";
-                }
-                csCount++;
-            }
-
-            if (!string.IsNullOrEmpty(warnMessage))
-            {
-                Debug.Print(warnMessage);
-                throw new ArgumentException(warnMessage);
-            }
-        }
-        #endregion
-    }
-
-    /// <summary>
-    /// private class for ComponentSettingDialog
-    /// </summary>
-    internal class ComponentTabPage : PropertyDialogTabPage
-    {
-        ComponentManager m_manager = null;
-
-        public ComponentTabPage(ComponentManager manager)
-        {
-            m_manager = manager;
-
-            this.Text = MessageResources.DialogTextComponentSetting;
-            this.SuspendLayout();
-            int top = 0;
-            foreach (ComponentSetting cs in m_manager.ComponentSettings)
-            {
-                ComponentSetting.ComponentItem item = new ComponentSetting.ComponentItem(cs);
-                item.Top = top;
-                item.SuspendLayout();
-                this.Controls.Add(item);
-                item.ResumeLayout();
-                item.PerformLayout();
-                top += item.Height;
-            }
-            this.ResumeLayout();
-        }
-        public override void ApplyChange()
-        {
-            base.ApplyChange();
-            foreach (ComponentSetting.ComponentItem item in this.Controls)
-            {
-                item.ApplyChange();
-            }
-            m_manager.SaveComponentSettings();
         }
     }
 }

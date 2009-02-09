@@ -48,7 +48,7 @@ using System.Windows.Forms;
 using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 
-namespace Ecell.IDE.Plugins.PathwayWindow
+namespace Ecell.IDE.Plugins.PathwayWindow.Components
 {
     /// <summary>
     /// ComponentSetting contains all information for creating one kind of a component of pathway.
@@ -58,19 +58,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
     {
         #region Fields
         /// <summary>
-        /// Type of component which this instance offers.
-        /// </summary>
-        private ComponentType m_componentType;
-
-        /// <summary>
         /// The name of this component.
         /// </summary>
         private string m_name = null;
 
         /// <summary>
-        /// The class name.
+        /// Type of component which this instance offers.
         /// </summary>
-        private string m_class = null;
+        private string m_type = null;
 
         /// <summary>
         /// The icon file name.
@@ -134,25 +129,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Accessor for m_componentKind.
         /// </summary>
-        public ComponentType ComponentType
+        public string Type
         {
-            get { return this.m_componentType; }
+            get { return this.m_type; }
             set 
             { 
-                this.m_componentType = value;
-            }
-        }
-
-        /// <summary>
-        /// Accessor for ClassName of PPathwayObject.
-        /// </summary>
-        public string Class
-        {
-            get { return m_class; }
-            set 
-            {
-                this.m_class = value;
-                AddClassCreateMethod(m_class);
+                this.m_type = value;
+                AddCreateMethod(m_type);
             }
         }
 
@@ -268,12 +251,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
         }
         /// <summary>
+        /// Return true if icon exists.
+        /// </summary>
+        public bool IconExists
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(m_iconFileName))
+                    return false;
+                return File.Exists(m_iconFileName);
+            }
+        }
+
+        /// <summary>
         /// Getter for IconImage.
         /// </summary>
         public Image IconImage
         {
             get { return CreateIconImage(); }
         }
+        #endregion
+
+        #region Constructors
+        
         #endregion
 
         #region EventHandler for PropertyChange
@@ -298,7 +298,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Event on property change.
         /// </summary>
-        private void RaisePropertyChange()
+        internal void RaisePropertyChange()
         {
             EventArgs e = new EventArgs();
             OnPropertyChange(e);
@@ -314,8 +314,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             List<string> lackInfos = new List<string>();
             if (m_figure.GraphicsPath.PathData == null || m_figure.GraphicsPath.PointCount == 0)
-                if(m_componentType != ComponentType.System)
-                    lackInfos.Add("Drawing");
+                lackInfos.Add("Drawing");
 
             if (m_createMethod == null)
                 lackInfos.Add("Class");
@@ -341,30 +340,28 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Add a E-cell class of this ComponentSetting.
         /// </summary>
-        /// <param name="className">a name of class</param>
-        private void AddClassCreateMethod(string className)
+        /// <param name="type">a type of class</param>
+        private void AddCreateMethod(string type)
         {
             PPathwayObject obj = null;
-            if (className.Equals(PathwayConstants.ClassPPathwayVariable))
+            switch (type)
             {
-                obj = new PPathwayVariable();
+                case EcellObject.SYSTEM:
+                    obj = new PPathwaySystem();
+                    break;
+                case EcellObject.PROCESS:
+                    obj = new PPathwayProcess();
+                    break;
+                case EcellObject.VARIABLE:
+                    obj = new PPathwayVariable();
+                    break;
+                case EcellObject.TEXT:
+                    obj = new PPathwayText();
+                    break;
+                default:
+                    throw new PathwayException(MessageResources.ErrUnknowType);
             }
-            else if (className.Equals(PathwayConstants.ClassPPathwayProcess))
-            {
-                obj = new PPathwayProcess();
-            }
-            else if (className.Equals(PathwayConstants.ClassPPathwaySystem))
-            {
-                obj = new PPathwaySystem();
-            }
-            else if (className.Equals(PathwayConstants.ClassPPathwayText))
-            {
-                obj = new PPathwayText();
-            }
-            else
-            {
-                throw new NoSuchComponentClassException();
-            }
+
             m_createMethod = obj.CreateNewObject;
         }
 
@@ -408,13 +405,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return icon;
 
             // Create Icon from FigureBase.
+            GraphicsPath gp;
             icon = new Bitmap(16, 16);
             Graphics gra = Graphics.FromImage(icon);
-            GraphicsPath gp = m_figure.IconPath;
+            if (m_type == EcellObject.TEXT)
+            {
+                gp = new GraphicsPath();
+                gp.AddRectangle(new RectangleF(0,0,14,14));
+            }
+            else
+            {
+                gp = m_figure.IconPath;
+            }
             Brush brush = GetFillBrush(gp);
             gra.FillPath(brush, gp);
             gra.DrawPath(new Pen(m_lineBrush, 0), gp);
-            if (m_componentType == ComponentType.Text)
+            if (m_type == EcellObject.TEXT)
             {
                 Font font = new Font("Arial", 10);
                 gra.DrawString("T", font, m_textBrush, new PointF(2, 0));
@@ -462,185 +468,5 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
         }
         #endregion
-
-        /// <summary>
-        /// private class for ComponentSettingDialog
-        /// </summary>
-        internal class ComponentItem : GroupBox
-        {
-            #region Fields
-            private PropertyComboboxItem m_figureBox;
-            private PropertyBrushItem m_textBrush;
-            private PropertyBrushItem m_lineBrush;
-            private PropertyBrushItem m_fillBrush;
-            private PropertyBrushItem m_centerBrush;
-            private PropertyCheckBoxItem m_isGradation;
-            private PropertyFileItem m_iconFile;
-
-            private PToolBoxCanvas pCanvas;
-            #endregion
-
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="cs"></param>
-            public ComponentItem(ComponentSetting cs)
-            {
-                // Create UI Object
-                this.m_figureBox = new PropertyComboboxItem(MessageResources.DialogTextFigure, cs.Figure.Type, new List<string>());
-                this.m_textBrush = new PropertyBrushItem(MessageResources.DialogTextTextBrush, cs.TextBrush);
-                this.m_lineBrush = new PropertyBrushItem(MessageResources.DialogTextLineBrush, cs.LineBrush);
-                this.m_fillBrush = new PropertyBrushItem(MessageResources.DialogTextFillBrush, cs.FillBrush);
-                this.m_centerBrush = new PropertyBrushItem(MessageResources.DialogTextCenterBrush, cs.CenterBrush);
-                this.m_isGradation = new PropertyCheckBoxItem(MessageResources.DialogTextIsGradation, cs.IsGradation);
-                this.m_iconFile = new PropertyFileItem(MessageResources.DialogTextIconFile, cs.IconFileName);
-                this.pCanvas = new PToolBoxCanvas();
-                this.SuspendLayout();
-                // Set Gradation
-                this.m_centerBrush.ComboBox.Enabled = m_isGradation.Checked;
-
-                // Set to GroupBox
-                this.Anchor = (AnchorStyles)((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right);
-                this.AutoSize = true;
-                this.Controls.Add(this.m_isGradation);
-                this.Controls.Add(this.m_figureBox);
-                this.Controls.Add(this.m_textBrush);
-                this.Controls.Add(this.m_lineBrush);
-                this.Controls.Add(this.m_fillBrush);
-                this.Controls.Add(this.m_centerBrush);
-                this.Controls.Add(this.m_iconFile);
-                this.Controls.Add(this.pCanvas);
-                this.Name = "GroupBox";
-                this.Text = cs.Name;
-                this.TabStop = false;
-                // Set Position
-                this.m_figureBox.Location = new Point(5, 15);
-                this.m_textBrush.Location = new Point(5, 40);
-                this.m_lineBrush.Location = new Point(5, 65);
-                this.m_fillBrush.Location = new Point(5, 90);
-                this.m_isGradation.Location = new Point(5, 115);
-                this.m_centerBrush.Location = new Point(5, 140);
-                this.m_iconFile.Location = new Point(5, 165);
-                // Set EventHandler
-                this.m_figureBox.ComboBox.Items.AddRange(FigureManager.GetFigureList().ToArray());
-                this.m_figureBox.TextChange += new EventHandler(figureBox_TextChange);
-                this.m_textBrush.BrushChange += new EventHandler(textBrush_BrushChange);
-                this.m_lineBrush.BrushChange += new EventHandler(lineBrush_BrushChange);
-                this.m_fillBrush.BrushChange += new EventHandler(fillBrush_BrushChange);
-                this.m_centerBrush.BrushChange += new EventHandler(fillBrush_BrushChange);
-                this.m_isGradation.CheckedChanged += new EventHandler(isGradation_CheckedChanged);
-                // Set pCanvas
-                this.pCanvas.AllowDrop = true;
-                this.pCanvas.GridFitText = false;
-                this.pCanvas.Name = "pCanvas";
-                this.pCanvas.RegionManagement = true;
-                this.pCanvas.Location = new System.Drawing.Point(240, 30);
-                this.pCanvas.Size = new System.Drawing.Size(80, 80);
-                this.pCanvas.BackColor = System.Drawing.Color.Silver;
-                this.pCanvas.Setting = cs;
-                this.pCanvas.PPathwayObject.PText.Text = "Sample";
-                this.pCanvas.PPathwayObject.Refresh();
-                // Set FileDialog
-
-                this.m_iconFile.Filter = "All Supported Format|*.BMP;*.DIB;*.RLE;*.JPG;*.JPEG;*.JPE;*.JFIF;*.GIF;*.PNG;*.ICO;*.EMF;*.WMF;*.TIF;*.TIFF|BMP File|*.BMP;*.DIB;*.RLE|JPEG File|*.JPG;*.JPEG;*.JPE;*.JFIF|GIF File|*.GIF|PNG File|*.PNG|ICO File|*.ICO|EMF File, WMF File|*.EMF;*.WMF|TIFF File|*.TIF;*.TIFF";
-                this.m_iconFile.FilterIndex = 0;
-
-                this.ResumeLayout(false);
-                this.PerformLayout();
-                this.Height = 220;
-            }
-
-            /// <summary>
-            /// Apply changes to ComponentSettings.
-            /// </summary>
-            public void ApplyChange()
-            {
-                ComponentSetting cs = this.pCanvas.Setting;
-                cs.m_textBrush = m_textBrush.Brush;
-                cs.m_lineBrush = m_lineBrush.Brush;
-                cs.m_fillBrush = m_fillBrush.Brush;
-                cs.m_centerBrush = m_centerBrush.Brush;
-                cs.m_isGradation = m_isGradation.Checked;
-                cs.m_iconFileName = m_iconFile.FileName;
-                string type = m_figureBox.ComboBox.Text;
-                string args = cs.Figure.Coordinates;
-                cs.m_figure = FigureManager.CreateFigure(type, args);
-                cs.RaisePropertyChange();
-            }
-
-            #region EventHandlers
-            /// <summary>
-            /// Event on ChangeTextBrush
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private void textBrush_BrushChange(object sender, EventArgs e)
-            {
-                this.pCanvas.PPathwayObject.PText.TextBrush = m_textBrush.Brush;
-            }
-            /// <summary>
-            /// Event on ChangeLineBrush
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private void lineBrush_BrushChange(object sender, EventArgs e)
-            {
-                this.pCanvas.PPathwayObject.LineBrush = m_lineBrush.Brush;
-            }
-            /// <summary>
-            /// Event on ChangeFillBrush
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private void fillBrush_BrushChange(object sender, EventArgs e)
-            {
-                PropertyBrushItem brushBox = (PropertyBrushItem)sender;
-                if (brushBox.Brush == null)
-                    return;
-                ChangeFillBrush();
-            }
-            /// <summary>
-            /// Event on ChangeIsGradation
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private void isGradation_CheckedChanged(object sender, EventArgs e)
-            {
-                m_centerBrush.ComboBox.Enabled = m_isGradation.Checked;
-                ChangeFillBrush();
-            }
-            /// <summary>
-            /// ChangeFillBrush
-            /// </summary>
-            private void ChangeFillBrush()
-            {
-                if (m_isGradation.Checked)
-                {
-                    PathGradientBrush pthGrBrush = new PathGradientBrush(this.pCanvas.PPathwayObject.Path);
-                    pthGrBrush.CenterColor = BrushManager.ParseBrushToColor(m_centerBrush.Brush);
-                    pthGrBrush.SurroundColors = new Color[] { BrushManager.ParseBrushToColor(m_fillBrush.Brush) };
-                    this.pCanvas.PPathwayObject.FillBrush = pthGrBrush;
-                }
-                else
-                {
-                    this.pCanvas.PPathwayObject.FillBrush = m_fillBrush.Brush;
-                }
-            }
-            /// <summary>
-            /// Event on ChangeFigure
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            void figureBox_TextChange(object sender, EventArgs e)
-            {
-                string type = m_figureBox.ComboBox.Text;
-                string args = this.pCanvas.Setting.Figure.Coordinates;
-                IFigure figure = FigureManager.CreateFigure(type, args);
-                this.pCanvas.PPathwayObject.Figure = figure;
-                ChangeFillBrush();
-            }
-
-            #endregion
-        }
     }
 }

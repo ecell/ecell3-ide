@@ -47,7 +47,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
         /// <summary>
         /// 
         /// </summary>
-        public const float SVG_FONT_SIZE = 16;
+        public const float SVG_FONT_SIZE = 14;
         /// <summary>
         /// Create Rectangle object.
         /// </summary>

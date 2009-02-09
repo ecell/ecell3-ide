@@ -115,6 +115,10 @@ namespace Ecell
         /// </summary>
         public const string FileExtINFO = ".info";
         /// <summary>
+        /// The extention of csv file.
+        /// </summary>
+        public const string FileExtCSV= ".csv";
+        /// <summary>
         /// The extention of BMP file.
         /// </summary>
         public const string FileExtBMP = ".bmp";

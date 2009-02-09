@@ -68,6 +68,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         {
             m_minWidth = PPathwaySystem.MIN_WIDTH;
             m_minHeight = PPathwaySystem.MIN_HEIGHT;
+
         }
         /// <summary>
         /// GetCursor
@@ -111,9 +112,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         private void ValidateSystem()
         {
             if (m_canvas.DoesSystemOverlaps((PPathwaySystem)m_obj))
-                m_obj.IsInvalid = true;
+                m_obj.Invalid = true;
             else
-                m_obj.IsInvalid = false;
+                m_obj.Invalid = false;
         }
 
         /// <summary>
@@ -122,17 +123,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         private void RefreshSurroundState()
         {
             ClearSurroundState();
-            m_surroundedBySystem = new List<PPathwayObject>();
             RectangleF rect = m_obj.Rect;
-            foreach (PPathwayLayer layer in m_canvas.Layers.Values)
-            {
-                m_surroundedBySystem.AddRange(layer.GetNodes(rect));
-            }
+            m_surroundedBySystem = m_canvas.GetSurroundedObject(rect);
             if (m_surroundedBySystem.Contains(m_obj))
                 m_surroundedBySystem.Remove(m_obj);
             foreach (PPathwayObject obj in m_surroundedBySystem)
             {
-                obj.IsHighLighted = true;
+                obj.Selected = true;
             }
         }
 
@@ -146,7 +143,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 return;
             foreach (PPathwayObject obj in m_surroundedBySystem)
             {
-                obj.IsHighLighted = false;
+                obj.Selected = false;
             }
             m_surroundedBySystem = null;
         }
@@ -286,6 +283,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             RefreshSurroundState();
             base.ResizeHandle_MouseDrag(sender, e);
             ValidateSystem();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ResizeHandle_LostFocus(object sender, PInputEventArgs e)
+        {
+            ResetSystemResize();
         }
         #endregion
     }

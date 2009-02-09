@@ -198,6 +198,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 m_con.NotifyVariableReferenceChanged(
                     process.EcellObject.Key,
                     variable.EcellObject.Key,
+                    RefChangeType.Delete,
+                    0,
+                    false);
+
+                m_con.NotifyVariableReferenceChanged(
+                    process.EcellObject.Key,
+                    variable.EcellObject.Key,
                     type,
                     coefficient,
                     true);

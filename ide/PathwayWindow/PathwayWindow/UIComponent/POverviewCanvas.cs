@@ -148,19 +148,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         public void UpdateOverview(RectangleF rect)
         {
 
-            if (m_canvas.Systems.Count > 0)
-            {
-                RectangleF root = m_canvas.Systems["/"].Rect;
+            if (m_canvas.Systems.Count <= 0)
+                return;
 
-                if (!Camera.ViewBounds.Contains(root))
-                {
-                    root.X -= 500;
-                    root.Y -= 50;
-                    root.Width += 1000;
-                    root.Height += 1000;
-                    Camera.ViewBounds = root;
-                }
-            }
+            RectangleF root = m_canvas.Systems["/"].Rect;
+            root.X -= 500;
+            root.Y -= 500;
+            root.Width += 1000;
+            root.Height += 1000;
+            Camera.ViewBounds = root;
 
             m_area.Offset = PointF.Empty;
             m_area.Rect = rect;
@@ -170,16 +166,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         }
 
         /// <summary>
-        /// ToImage
+        /// 
         /// </summary>
         /// <returns></returns>
         public Bitmap ToImage()
         {
-            //return new Bitmap(m_pCanvas.Layer[0].ToImage());
-            Rectangle rect = this.ClientRectangle;
+            return ToImage((int)this.Camera.ViewBounds.Width, (int)this.Camera.ViewBounds.Height);
+        }
+
+        /// <summary>
+        /// ToImage
+        /// </summary>
+        /// <returns></returns>
+        public Bitmap ToImage(int width, int height)
+        {
             m_area.Visible = false;
-            Bitmap bitmap = new Bitmap(rect.Width, rect.Height);
-            this.DrawToBitmap(bitmap, rect);
+            Bitmap bitmap = new Bitmap(this.Camera.ToImage(width, height, this.m_canvas.BackGroundBrush));
             m_area.Visible = true;
             return bitmap;
         }

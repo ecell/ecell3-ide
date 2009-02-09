@@ -195,9 +195,6 @@
   <data name="CanvasMenuDeleteLogger" xml:space="preserve">
     <value>ロガーの削除</value>
   </data>
-  <data name="CanvasMenuMerge" xml:space="preserve">
-    <value>上のシステムへマージ</value>
-  </data>
   <data name="CanvasMenuLayout" xml:space="preserve">
     <value>レイアウト</value>
   </data>
@@ -241,13 +238,13 @@
     <value>不可逆反応を作成します。</value>
   </data>
   <data name="ToolButtonCreateProcess" xml:space="preserve">
-    <value>プロセスを作成します。</value>
+    <value>Processを作成します。</value>
   </data>
   <data name="ToolButtonCreateSystem" xml:space="preserve">
-    <value>システムを作成します。</value>
+    <value>Systemを作成します。</value>
   </data>
   <data name="ToolButtonCreateVariable" xml:space="preserve">
-    <value>バリアブルを作成します。</value>
+    <value>Variableを作成します。</value>
   </data>
   <data name="ToolButtonMoveCanvas" xml:space="preserve">
     <value>キャンバスを動かします。</value>
@@ -276,45 +273,6 @@
   <data name="MenuItemFile" xml:space="preserve">
     <value>ファイル</value>
   </data>
-  <data name="DialogTextAnimationSetting" xml:space="preserve">
-    <value>アニメーションの設定</value>
-  </data>
-  <data name="DialogTextBackgroundBrush" xml:space="preserve">
-    <value>背景色</value>
-  </data>
-  <data name="DialogTextEdgeBrush" xml:space="preserve">
-    <value>線の色</value>
-  </data>
-  <data name="DialogTextEdgeWidth" xml:space="preserve">
-    <value>線の太さ</value>
-  </data>
-  <data name="DialogTextEditMode" xml:space="preserve">
-    <value>編集モード</value>
-  </data>
-  <data name="DialogTextLogarithmic" xml:space="preserve">
-    <value>対数表示</value>
-  </data>
-  <data name="DialogTextMaxEdgeWidth" xml:space="preserve">
-    <value>線の最大の太さ</value>
-  </data>
-  <data name="DialogTextNGBrush" xml:space="preserve">
-    <value>エラー色</value>
-  </data>
-  <data name="DialogTextNormalEdge" xml:space="preserve">
-    <value>通常線</value>
-  </data>
-  <data name="DialogTextThresholdHigh" xml:space="preserve">
-    <value>しきい値最大</value>
-  </data>
-  <data name="DialogTextThresholdLow" xml:space="preserve">
-    <value>しきい値最小</value>
-  </data>
-  <data name="DialogTextViewMode" xml:space="preserve">
-    <value>表示モード</value>
-  </data>
-  <data name="DialogTextPropertyBrush" xml:space="preserve">
-    <value>プロパティ色</value>
-  </data>
   <data name="ToolButtonCreateText" xml:space="preserve">
     <value>テキストボックスを作成します。</value>
   </data>
@@ -326,27 +284,6 @@
   </data>
   <data name="WindowStencil" xml:space="preserve">
     <value>ステンシル</value>
-  </data>
-  <data name="DialogTextCenterBrush" xml:space="preserve">
-    <value>中央色</value>
-  </data>
-  <data name="DialogTextFigure" xml:space="preserve">
-    <value>形状</value>
-  </data>
-  <data name="DialogTextFillBrush" xml:space="preserve">
-    <value>塗りつぶし色</value>
-  </data>
-  <data name="DialogTextIconFile" xml:space="preserve">
-    <value>アイコンファイル</value>
-  </data>
-  <data name="DialogTextIsGradation" xml:space="preserve">
-    <value>グラデーション</value>
-  </data>
-  <data name="DialogTextLineBrush" xml:space="preserve">
-    <value>線の色</value>
-  </data>
-  <data name="DialogTextTextBrush" xml:space="preserve">
-    <value>文字色</value>
   </data>
   <data name="CanvasMenuBidirArrow" xml:space="preserve">
     <value>両方向にする</value>
@@ -365,12 +302,6 @@
   </data>
   <data name="MenuToolTipFocus" xml:space="preserve">
     <value>選択してエンティティをフォーカスする。</value>
-  </data>
-  <data name="DialogTextComponentSetting" xml:space="preserve">
-    <value>形状の設定</value>
-  </data>
-  <data name="DialogTextPathwaySetting" xml:space="preserve">
-    <value>ダイアグラムの設定</value>
   </data>
   <data name="MergeLayerDialogMessage" xml:space="preserve">
     <value>結合先のレイヤーを選択してください。</value>
@@ -393,9 +324,6 @@
   <data name="MenuToolTipOverview" xml:space="preserve">
     <value>オーバービューの表示切替</value>
   </data>
-  <data name="DialogTextAutoThreshold" xml:space="preserve">
-    <value>しきい値の自動設定</value>
-  </data>
   <data name="DialogTooltipAutoThreshold" xml:space="preserve">
     <value>エッジのアニメーションの太さを自動設定します。</value>
   </data>
@@ -416,5 +344,20 @@
   </data>
   <data name="ErrCreateEdge" xml:space="preserve">
     <value>エッジの作成に失敗しました。</value>
+  </data>
+  <data name="CanvasMenuAlignCenter" xml:space="preserve">
+    <value>中央揃え</value>
+  </data>
+  <data name="CanvasMenuAlignLeft" xml:space="preserve">
+    <value>左揃え</value>
+  </data>
+  <data name="CanvasMenuAlignRight" xml:space="preserve">
+    <value>右揃え</value>
+  </data>
+  <data name="CanvasMenuTextAlign" xml:space="preserve">
+    <value>アラインメント</value>
+  </data>
+  <data name="ErrCreateAvi" xml:space="preserve">
+    <value>動画ファイルの生成に失敗しました。</value>
   </data>
 </root>

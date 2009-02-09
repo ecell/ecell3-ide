@@ -113,7 +113,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             }
             ResumeLayout();
             Activate();
-            Parent.Refresh();
         }
 
         /// <summary>
@@ -138,33 +137,35 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         void InitializeComponent()
         {
             this.OverviewContainer = new System.Windows.Forms.Panel();
-            this.ScrollContainer = new PScrollableControl();
-
+            this.ScrollContainer = new UMD.HCIL.PiccoloX.Components.PScrollableControl();
             this.SuspendLayout();
             // 
-            // panel1
+            // OverviewContainer
             // 
             this.OverviewContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.OverviewContainer.BackColor = System.Drawing.Color.White;
             this.OverviewContainer.Location = new System.Drawing.Point(456, 312);
-            this.OverviewContainer.Name = "panel1";
+            this.OverviewContainer.Name = "OverviewContainer";
             this.OverviewContainer.Size = new System.Drawing.Size(140, 140);
-            this.OverviewContainer.BackColor = Color.Transparent;
+            this.OverviewContainer.TabIndex = 0;
             // 
-            // PathwayView
+            // ScrollContainer
             // 
-            this.ClientSize = new System.Drawing.Size(622, 491);
-            this.Controls.Add(this.OverviewContainer);
-
-            this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_PathwayView;
-            this.Name = "PathwayView";
-            this.Text = MessageResources.WindowPathway;
-            this.TabText = this.Text;
-
             this.ScrollContainer.Dock = DockStyle.Fill;
             this.ScrollContainer.VsbPolicy = ScrollBarPolicy.Always;
             this.ScrollContainer.HsbPolicy = ScrollBarPolicy.Always;
+            // 
+            // PathwayView
+            // 
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(622, 491);
+            this.Controls.Add(this.OverviewContainer);
+            this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_PathwayView;
+            this.Name = "PathwayView";
+            this.TabText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.WindowPathway;
+            this.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.WindowPathway;
             this.ResumeLayout(false);
-            this.PerformLayout();
+
         }
 
         /// <summary>

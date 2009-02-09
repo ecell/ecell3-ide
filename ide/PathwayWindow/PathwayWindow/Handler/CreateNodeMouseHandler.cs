@@ -43,6 +43,7 @@ using UMD.HCIL.Piccolo.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 using Ecell.Objects;
+using Ecell.IDE.Plugins.PathwayWindow.Components;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 {
@@ -76,6 +77,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 
         #region EventHandlers
         /// <summary>
+        /// Get the flag whether system accept this events.
+        /// </summary>
+        /// <param name="e">Target events.</param>
+        /// <returns>The judgement whether this event is accepted.</returns>
+        public override bool DoesAcceptEvent(PInputEventArgs e)
+        {
+            return true;
+        }        
+
+        /// <summary>
         /// Called when the mouse is move on the canvas.
         /// </summary>
         /// <param name="sender"></param>
@@ -95,13 +106,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
         {
             base.OnMouseDown(sender, e);
 
+            // Cancel
             if (!(e.PickedNode is PCamera))
                 return;
+            if (e.Button == MouseButtons.Right)
+            {
+                m_con.Menu.SetDefaultEventHandler();
+                return;
+            }
 
+            // Get parent system.
             CanvasControl canvas = m_con.Canvas;
             string system = canvas.GetSurroundingSystemKey(e.Position);
-
-            if(m_cs.ComponentType == ComponentType.Text)
+            if (m_template is PPathwayText)
             {
                 system = "/";
             }
@@ -112,14 +129,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             }
 
             // Create EcellObject.
-            string type = ComponentManager.ParseComponentTypeToString(m_template.Setting.ComponentType);
-            EcellObject eo = m_con.CreateDefaultObject(canvas.ModelID, system, type);
+            EcellObject eo = m_con.CreateDefaultObject(canvas.ModelID, system, m_cs.Type);
             eo.X = m_template.X;
             eo.Y = m_template.Y;
             eo.Width = m_template.Width;
             eo.Height = m_template.Height;
-            
+
             m_con.NotifyDataAdd(eo, true);
+            PPathwayObject obj = m_con.Canvas.GetObject(eo.Key, eo.Type);
+            if(obj != null)
+                m_con.Canvas.NotifySelectChanged(obj);
             m_con.Menu.SetDefaultEventHandler();
         }
         #endregion

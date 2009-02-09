@@ -121,7 +121,7 @@
     <value>Animation Settings</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyDialogTabPage, PathwayWindow, Version=1.1.1968.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyDialogTabPage, PathwayWindow, Version=1.1.2383.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>AnimationTabPage</value>

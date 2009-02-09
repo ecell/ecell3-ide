@@ -2420,6 +2420,18 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Get a copied key in project.
+        /// </summary>
+        /// <param name="modelID">model ID.</param>
+        /// <param name="type">object type.</param>
+        /// <param name="key">ID of parent system.</param>
+        /// <returns>the copied id.</returns>
+        public string GetCopiedID(string modelID, string type, string key)
+        {
+            return m_currentProject.GetCopiedID(modelID, type, key);
+        }
+
+        /// <summary>
         /// Returns the list of the "System" property. 
         /// </summary>
         /// <returns>The dictionary of the "System" property</returns>

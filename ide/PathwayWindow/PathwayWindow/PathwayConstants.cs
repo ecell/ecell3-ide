@@ -135,30 +135,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathCommentList = "CommentList";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathComment = "Comment";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathLayerList = "LayerList";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathLayer = "Layer";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathEcellObjectList = "EcellObjectList";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathEcellObject = "EcellObject";
-        /// <summary>
-        /// 
-        /// </summary>
         public const string xPathName = "Name";
         /// <summary>
         /// 
@@ -179,30 +155,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathX = "X";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathY = "Y";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathOffsetX = "OffsetX";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathOffsetY = "OffsetY";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathWidth = "Width";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathHeight = "Height";
-        /// <summary>
-        /// 
-        /// </summary>
         public const string xPathIsDafault = "IsDefault";
         /// <summary>
         /// 
@@ -212,18 +164,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// 
         /// </summary>
         public const string xPathEdit = "Edit";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathView = "View";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathNormal = "Normal";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathVisible = "Visible";
         /// <summary>
         /// 
         /// </summary>

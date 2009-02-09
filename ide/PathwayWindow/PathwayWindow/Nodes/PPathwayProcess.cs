@@ -136,15 +136,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 
         #region Methods
         /// <summary>
-        /// Set Line Width.
-        /// </summary>
-        /// <param name="width"></param>
-        public void SetLineWidth(float width)
-        {
-            foreach (PPathwayLine line in m_relations)
-                line.Pen.Width = width;
-        }
-        /// <summary>
         /// 
         /// </summary>
         protected override void RefreshSettings()
@@ -158,7 +149,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <param name="value"></param>
         private void ChangePath(bool value)
         {
-            m_path.Reset();
             PointF centerPos = this.CenterPointF;
             if (value)
             {
@@ -185,7 +175,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// create edge by using the information of element.
         /// </summary>
-        public void CreateEdges()
+        private void CreateEdges()
         {
             // Error Check
             EcellProcess process = (EcellProcess)m_ecellObj;
@@ -218,7 +208,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// delete all related process from list.
         /// </summary>
-        public void DeleteEdges()
+        private void DeleteEdges()
         {
             foreach (PPathwayLine line in m_relations)
             {

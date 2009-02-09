@@ -92,13 +92,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 
             m_isDragged = true;
             CanvasControl canvas = m_con.Canvas;
+            canvas.NotifyMoveObjects(true);
             canvas.NotifyResetSelect();
             if (e.Button == MouseButtons.Left)
             {
                 m_selectedPath = new PPath();
                 canvas.ControlLayer.AddChild(m_selectedPath);
             }
-            base.OnMouseDown(sender, e);
         }
 
         /// <summary>
@@ -134,11 +134,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 
             // Select object.
             List<PPathwayObject> newlySelectedList = new List<PPathwayObject>();
-            foreach (PPathwayLayer layer in canvas.Layers.Values)
+            foreach (PPathwayObject obj in canvas.GetSurroundedObject(rect))
             {
-                if (!layer.Visible)
+                if (!obj.Visible)
                     continue;
-                newlySelectedList.AddRange(layer.GetNodes(rect));
+                newlySelectedList.Add(obj);
             }
 
             // Add/Remove select for each object.

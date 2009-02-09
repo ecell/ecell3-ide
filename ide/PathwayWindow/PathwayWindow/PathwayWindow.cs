@@ -87,21 +87,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         #endregion
 
         /// <summary>
-        /// Get LEML file name.
+        /// This Property returns true when Redo/Undo is running.
         /// </summary>
-        /// <param name="modelID">The model ID</param>
-        /// <returns>LEML file name.</returns>
-        public string GetLEMLFileName(string modelID)
+        internal bool IsLoading
         {
-            string eml = null;
-            Project project = m_dManager.CurrentProject;
-            if (project == null || project.ModelFileDic == null)
-                return eml;
-
-            if (!project.ModelFileDic.ContainsKey(modelID))
-                return eml;
-            eml = project.ModelFileDic[modelID];
-            return eml.Replace(Constants.FileExtEML, Constants.FileExtLEML);
+            get { return m_env.ActionManager.IsLoadAction; }
         }
 
         #region Inherited from IEcellPlugin

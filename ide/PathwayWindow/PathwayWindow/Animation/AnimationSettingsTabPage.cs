@@ -16,11 +16,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private AnimationItems m_animationItems;
 
         public AnimationTabPage(AnimationControl control)
+            : base()
         {
+            InitializeComponent();
             m_con = control;
             m_animationItems = new AnimationItems(control);
 
-            this.Text = MessageResources.DialogTextPathwaySetting;
             this.SuspendLayout();
             this.Controls.Add(m_animationItems);
 

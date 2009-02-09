@@ -117,88 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;edgeWidth.Name" xml:space="preserve">
-    <value>edgeWidth</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="$this.AutoSize" type="System.Boolean, mscorlib">
+  <data name="groupBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="groupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;groupBox.Name" xml:space="preserve">
-    <value>groupBox</value>
-  </data>
-  <data name="edgeWidth.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 70</value>
-  </data>
-  <data name="&gt;&gt;groupBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="edgeBrush.LabelText" xml:space="preserve">
-    <value>Arrow color</value>
-  </data>
-  <data name="&gt;&gt;edgeWidth.Parent" xml:space="preserve">
-    <value>groupBox</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>979, 120</value>
-  </data>
-  <data name="bgBrush.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;edgeBrush.Name" xml:space="preserve">
-    <value>edgeBrush</value>
-  </data>
-  <data name="groupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>979, 120</value>
+  <data name="bgBrush.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="bgBrush.LabelText" xml:space="preserve">
     <value>Background color</value>
   </data>
-  <data name="groupBox.Text" xml:space="preserve">
-    <value>View mode</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="bgBrush.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 20</value>
   </data>
   <data name="bgBrush.Size" type="System.Drawing.Size, System.Drawing">
     <value>223, 28</value>
   </data>
-  <data name="&gt;&gt;edgeBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem, PathwayWindow, Version=1.1.1927.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="bgBrush.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="edgeWidth.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;bgBrush.Name" xml:space="preserve">
+    <value>bgBrush</value>
   </data>
-  <data name="&gt;&gt;groupBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;bgBrush.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem, PathwayWindow, Version=1.1.2389.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;bgBrush.Parent" xml:space="preserve">
     <value>groupBox</value>
   </data>
-  <data name="edgeBrush.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 45</value>
-  </data>
-  <data name="edgeWidth.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 27</value>
+  <data name="&gt;&gt;bgBrush.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="edgeBrush.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;edgeBrush.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="edgeBrush.LabelText" xml:space="preserve">
+    <value>Arrow color</value>
   </data>
-  <data name="edgeWidth.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;bgBrush.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;bgBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem, PathwayWindow, Version=1.1.1927.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="edgeBrush.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 45</value>
   </data>
   <data name="edgeBrush.Size" type="System.Drawing.Size, System.Drawing">
     <value>223, 28</value>
@@ -206,41 +164,82 @@
   <data name="edgeBrush.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="edgeWidth.LabelText" xml:space="preserve">
-    <value>Max arrow width</value>
+  <data name="&gt;&gt;edgeBrush.Name" xml:space="preserve">
+    <value>edgeBrush</value>
+  </data>
+  <data name="&gt;&gt;edgeBrush.Type" xml:space="preserve">
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem, PathwayWindow, Version=1.1.2389.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;edgeBrush.Parent" xml:space="preserve">
     <value>groupBox</value>
   </data>
-  <data name="bgBrush.AutoSize" type="System.Boolean, mscorlib">
+  <data name="&gt;&gt;edgeBrush.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="edgeWidth.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="bgBrush.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 20</value>
+  <data name="edgeWidth.LabelText" xml:space="preserve">
+    <value>Max arrow width</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="groupBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="edgeWidth.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 70</value>
+  </data>
+  <data name="edgeWidth.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 27</value>
+  </data>
+  <data name="edgeWidth.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;edgeWidth.Name" xml:space="preserve">
+    <value>edgeWidth</value>
   </data>
   <data name="&gt;&gt;edgeWidth.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyTextItem, PathwayWindow, Version=1.1.1927.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyTextItem, PathwayWindow, Version=1.1.2389.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;edgeWidth.Parent" xml:space="preserve">
+    <value>groupBox</value>
   </data>
   <data name="&gt;&gt;edgeWidth.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>ViewModeItems</value>
+  <data name="groupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="groupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>500, 115</value>
   </data>
   <data name="groupBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;bgBrush.Name" xml:space="preserve">
-    <value>bgBrush</value>
+  <data name="groupBox.Text" xml:space="preserve">
+    <value>View mode</value>
+  </data>
+  <data name="&gt;&gt;groupBox.Name" xml:space="preserve">
+    <value>groupBox</value>
+  </data>
+  <data name="&gt;&gt;groupBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
+  <data name="&gt;&gt;groupBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="$this.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>503, 118</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ViewModeItems</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

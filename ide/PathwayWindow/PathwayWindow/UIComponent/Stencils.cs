@@ -37,6 +37,7 @@ using System.Windows.Forms;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using UMD.HCIL.Piccolo;
+using Ecell.IDE.Plugins.PathwayWindow.Components;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
@@ -69,6 +70,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.AutoScroll = true;
             this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.BackColor = System.Drawing.SystemColors.Window;
@@ -85,12 +87,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(322, 273);
             this.Controls.Add(this.flowLayoutPanel1);
+            this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_Stencil;
             this.IsSavable = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1, 0);
             this.Name = "Stencils";
-            this.Icon = global::Ecell.IDE.Plugins.PathwayWindow.PathwayResource.Icon_Stencil;
             this.ResumeLayout(false);
             this.PerformLayout();
 

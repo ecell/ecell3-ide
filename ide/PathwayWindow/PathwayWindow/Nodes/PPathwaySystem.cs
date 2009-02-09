@@ -158,12 +158,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// get/set the flag whether display this system with highlight.
         /// </summary>
-        public override bool IsHighLighted
+        public override bool Selected
         {
-            get { return this.m_isSelected; }
+            get { return this.m_selected; }
             set
             {
-                this.m_isSelected = value;
+                this.m_selected = value;
                 if (value)
                 {
                     this.Brush = m_highLightBrush;
@@ -267,43 +267,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         {
             base.RefreshText();
             base.m_pText.CenterBoundsOnPoint(base.X + base.Width / 2, base.Y + base.Height - TEXT_LOWER_MARGIN);
-        }
-
-        /// <summary>
-        /// Make space for child rectangle.
-        /// Extend current space to contain given rectangle.
-        /// </summary>
-        /// <param name="obj">The child object.</param>
-        /// <param name="isRecorded">is recorded or not.</param>
-        public void MakeSpace(PPathwayObject obj, bool isRecorded)
-        {
-            // Offset position of given object.
-            if (obj.X <= base.X + base.Offset.X + SYSTEM_MARGIN)
-                obj.X = base.X + base.Offset.X + SYSTEM_MARGIN;
-            if (obj.Y <= base.Y + base.Offset.Y + SYSTEM_MARGIN)
-                obj.Y = base.Y + base.Offset.Y + SYSTEM_MARGIN;
-            // Enlarge this system
-            if (base.X + base.Width < obj.X + obj.Width + SYSTEM_MARGIN)
-                base.Width = obj.X + obj.Width + SYSTEM_MARGIN - base.X;
-            if (base.Y + base.Height < obj.Y + obj.Height + SYSTEM_MARGIN)
-                base.Height = obj.Y + obj.Height + SYSTEM_MARGIN - base.Y;
-
-            // Move child nodes position.
-            foreach (PPathwayObject child in m_canvas.GetAllObjectUnder(m_ecellObj.Key))
-            {
-                if (child.EcellObject.Key.StartsWith(obj.EcellObject.Key))
-                    continue;
-                if (!obj.Rect.Contains(child.Rect) && !obj.Rect.IntersectsWith(child.Rect))
-                    continue;
-                child.PointF = m_canvas.GetVacantPoint(m_ecellObj.Key, child.Rect);
-                m_canvas.Control.NotifySetPosition(child);
-            }
-
-            // Make parent system create space for this system.
-            if (m_parentSystem != null)
-                m_parentSystem.MakeSpace(this, isRecorded);
-            m_canvas.Control.NotifySetPosition(this);
-            this.Refresh();
         }
 
         /// <summary>

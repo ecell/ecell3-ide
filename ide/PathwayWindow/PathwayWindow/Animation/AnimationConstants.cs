@@ -24,13 +24,7 @@
 //
 //END_HEADER
 //
-// written by Motokazu Ishikawa <m.ishikawa@cbo.mss.co.jp>,
-// MITSUBISHI SPACE SOFTWARE CO.,LTD.
-//
-// modified by Sachio Nohara <nohara@cbo.mss.co.jp>,
-// MITSUBISHI SPACE SOFTWARE CO.,LTD.
-//
-// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
@@ -38,82 +32,82 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ecell.IDE.Plugins.PathwayWindow
+namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
     /// <summary>
-    /// Type of change to one reference of VariableReference
+    /// PathwayDialogConstant
     /// </summary>
-    public enum RefChangeType
+    internal class AnimationConstants
     {
+        #region Constants for XML.
         /// <summary>
-        /// Change VariableReference to single direction
+        /// 
         /// </summary>
-        SingleDir,
+        public const string xPathFileName = "AnimationSettings.xml";
         /// <summary>
-        /// Change VariableReference to dual direction
+        /// 
         /// </summary>
-        BiDir,
+        public const string xPathAnimationSettings = "AnimationSettings";
         /// <summary>
-        /// Delete VariableReference
+        /// 
         /// </summary>
-        Delete
-    };
-
-    /// <summary>
-    /// Direction of scrolling the canvas.
-    /// </summary>
-    public enum Direction
-    {
+        public const string xPathVersion = "1.0";
         /// <summary>
-        /// Vertical direction
+        /// 
         /// </summary>
-        Vertical,
+        public const string xPathAutoThreshold = "AutoThreshold";
         /// <summary>
-        /// Horizontal direction
+        /// 
         /// </summary>
-        Horizontal
-    };
-
-    /// <summary>
-    /// Mode
-    /// </summary>
-    public enum Mode
-    {
+        public const string xPathThresholdHigh = "ThresholdHigh";
         /// <summary>
-        /// Select objects
+        /// 
         /// </summary>
-        Select,
+        public const string xPathThresholdLow = "ThresholdLow";
         /// <summary>
-        /// Pan canvas
+        /// 
         /// </summary>
-        Pan,
+        public const string xPathNormalEdgeWidth = "NormalEdgeWidth";
         /// <summary>
-        /// Zoom canvas
+        /// 
         /// </summary>
-        Zoom,
+        public const string xPathMaxEdgeWidth = "MaxEdgeWidth";
         /// <summary>
-        /// Create reaction
+        /// 
         /// </summary>
-        CreateOneWayReaction,
+        public const string xPathEditBGBrush = "EditBGBrush";
         /// <summary>
-        /// Create mutual(Interactive) reaction
+        /// 
         /// </summary>
-        CreateMutualReaction,
+        public const string xPathEditEdgeBrush = "EditEdgeBrush";
         /// <summary>
-        /// Create constant
+        /// 
         /// </summary>
-        CreateConstant,
+        public const string xPathViewBGBrush = "ViewBGBrush";
         /// <summary>
-        /// Create system
+        /// 
         /// </summary>
-        CreateSystem,
+        public const string xPathViewEdgeBrush = "ViewEdgeBrush";
         /// <summary>
-        /// Create node
+        /// 
         /// </summary>
-        CreateNode,
+        public const string xPathLowEdgeBrush = "LowEdgeBrush";
         /// <summary>
-        /// Create text
+        /// 
         /// </summary>
-        CreateText
-    };
+        public const string xPathHighEdgeBrush = "HighEdgeBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathNGEdgeBrush = "NGEdgeBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathPropertyBrush = "PropertyBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathIsLogarithmic = "IsLogarithmic";
+        #endregion
+    }
 }

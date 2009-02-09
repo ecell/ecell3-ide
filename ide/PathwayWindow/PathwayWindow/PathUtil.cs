@@ -141,27 +141,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <returns></returns>
         public static RectangleF GetRectangle(PointF point1, PointF point2)
         {
-            float x = 0;
-            float y = 0;
-
-            if (point1.X < point2.X)
-            {
-                x = point1.X;
-            }
-            else
-            {
-                x = point2.X;
-            }
-            if(point1.Y < point2.Y)
-            {
-                y = point1.Y;
-            }
-            else
-            {
-                y = point2.Y;
-            }
-
-            return new RectangleF(x,y,Math.Abs(point1.X - point2.X),Math.Abs(point1.Y - point2.Y));
+            RectangleF rect = new RectangleF(
+                Math.Min(point1.X,point2.X),
+                Math.Min(point1.Y,point2.Y),
+                Math.Abs(point1.X - point2.X),
+                Math.Abs(point1.Y - point2.Y));
+            return rect;
         }
 
         /// <summary>

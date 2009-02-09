@@ -51,10 +51,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         {
             InitializeComponent();
             m_con = control;
-            PropertyDialogTabPage diagramPage = m_con.Animation.PathwayDialogTabPage;
+            PropertyDialogTabPage pathwayPage = m_con.Animation.PathwayDialogTabPage;
             PropertyDialogTabPage animationPage = m_con.Animation.AnimationDialogTabPage;
             PropertyDialogTabPage componentPage = m_con.ComponentManager.ComponentTabPage;
-            tabControl.Controls.Add(diagramPage);
+            tabControl.Controls.Add(pathwayPage);
             tabControl.Controls.Add(animationPage);
             tabControl.Controls.Add(componentPage);
 
@@ -73,13 +73,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         {
             foreach (PropertyDialogTabPage tabPage in tabControl.TabPages)
                 tabPage.ApplyChange();
-        }
-
-        private void buttonDefault_Click(object sender, EventArgs e)
-        {
-            if (!Util.ShowOKCancelDialog(MessageResources.DialogTextConfirmReset))
-                return;
-
         }
     }
 }
