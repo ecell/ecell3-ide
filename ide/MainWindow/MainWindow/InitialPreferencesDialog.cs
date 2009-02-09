@@ -77,10 +77,10 @@ namespace Ecell.IDE.MainWindow
         public InitialPreferencesDialog(bool isInitial)
         {
             InitializeComponent();
-
-            switch (Util.GetLanguage().TwoLetterISOLanguageName)
+            string lang = Util.GetLanguage().TwoLetterISOLanguageName;
+            switch (lang)
             {
-                case "en-US":
+                case "en": case "en-US":
                     SIEnglishRadioButton.Checked = true;
                     break;
                 case "ja":

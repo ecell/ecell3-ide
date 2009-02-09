@@ -56,7 +56,7 @@ namespace Ecell.IDE.MainWindow
         /// Get the list of dm directory.
         /// </summary>
         /// <returns>the list of dm directory.</returns>
-        public IEnumerable<string> DMList
+        public List<string> DMList
         {
             get
             {
@@ -157,16 +157,22 @@ namespace Ecell.IDE.MainWindow
         private bool ValidateProjectName()
         {
             string projectName = textName.Text;
-            if (String.IsNullOrEmpty(projectName))
+            if (string.IsNullOrEmpty(projectName))
             {
-                Util.ShowWarningDialog(String.Format(MessageResources.ErrNoSet,
-                    new object[] { "Project ID" }));
+                Util.ShowWarningDialog(string.Format(MessageResources.ErrNoSet, "Project ID"));
+                return false;
+            }
+            if (Util.IsExistProject(projectName)
+                && !Util.ShowOKCancelDialog(
+                string.Format(MessageResources.ErrExistProject, projectName)
+                + "\n" + MessageResources.ConfirmOverwrite)
+                )
+            {
                 return false;
             }
             if (Util.IsNGforIDonWindows(projectName) || projectName.Length > 64)
             {
-                Util.ShowWarningDialog(String.Format(MessageResources.ErrIDNG,
-                    new object[] { "Project ID" }));
+                Util.ShowWarningDialog(string.Format(MessageResources.ErrIDNG, "Project ID"));
                 return false;
             }
             return true;

@@ -87,7 +87,6 @@
     </Reference>
     <Reference Include="EcellLib" />
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="nunit.framework, Version=2.4.6.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -141,7 +140,7 @@
     <Compile Include="JobMessageDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="JobMessageDialog.designer.cs">
+    <Compile Include="JobMessageDialog.Designer.cs">
       <DependentUpon>JobMessageDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="MessageResources.Designer.cs">
@@ -232,12 +231,12 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="JobMessageDialog.ja.resx">
-      <DependentUpon>JobMessageDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>JobMessageDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="JobMessageDialog.resx">
-      <DependentUpon>JobMessageDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>JobMessageDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.ja.resx">
       <SubType>Designer</SubType>
@@ -321,7 +320,7 @@
     <Compile Include="ProjectWizardWindow.Designer.cs">
       <DependentUpon>ProjectWizardWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="UIComponent\DockToolStripMenuItem.cs">
+    <Compile Include="UIComponents\DockToolStripMenuItem.cs">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>

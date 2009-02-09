@@ -70,11 +70,29 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Are you sure you want to overwrite? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmOverwrite {
+            get {
+                return ResourceManager.GetString("ConfirmOverwrite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   The language setting will be applied after you restart this application. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmRestart {
             get {
                 return ResourceManager.GetString("ConfirmRestart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The following windows are not saved in the Window setting. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ConfirmUnsavableWindows {
+            get {
+                return ResourceManager.GetString("ConfirmUnsavableWindows", resourceCulture);
             }
         }
         
@@ -93,6 +111,15 @@ namespace Ecell.IDE.MainWindow {
         internal static string DockPreparing {
             get {
                 return ResourceManager.GetString("DockPreparing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The project &quot;{0}&quot; already exists.  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrExistProject {
+            get {
+                return ResourceManager.GetString("ErrExistProject", resourceCulture);
             }
         }
         
@@ -241,11 +268,29 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Recenty used projects. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuRecentProjects {
+            get {
+                return ResourceManager.GetString("MenuRecentProjects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Compress to Zip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuSaveZip {
             get {
                 return ResourceManager.GetString("MenuSaveZip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Tutorial に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuTutorial {
+            get {
+                return ResourceManager.GetString("MenuTutorial", resourceCulture);
             }
         }
         

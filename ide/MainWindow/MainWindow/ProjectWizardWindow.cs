@@ -158,7 +158,17 @@ namespace Ecell.IDE.MainWindow
         {
             if (m_project == null)
                 return;
-            m_project.Name = ProjectIDTextBox.Text;
+            string projectName = ProjectIDTextBox.Text;
+
+            if (Util.IsExistProject(projectName)
+                && !Util.ShowOKCancelDialog(
+                string.Format(MessageResources.ErrExistProject, projectName)
+                + "\n" + MessageResources.ConfirmOverwrite)
+                )
+            {
+                return;
+            }
+            m_project.Name = projectName;
             m_project.Comment = ProjectCommentTextBox.Text;
             // Set Page
             SetNextPage();
@@ -171,6 +181,7 @@ namespace Ecell.IDE.MainWindow
             textBox1.Text = MessageResources.ProjectWizardSelectDM;
             OKButton.Text = MessageResources.ProjectWizardCreate;
             OKButton.DialogResult = DialogResult.OK;
+            OKButton.Click -= this.OKButton_Click;
             DMRemoveButton.Visible = true;
             DMAddButon.Visible = true;
             MainLayoutPanel.Controls.Remove(ProjectLayoutPanel);
@@ -188,6 +199,7 @@ namespace Ecell.IDE.MainWindow
             textBox1.Text = MessageResources.ProjectWizardSelectTemplete;
             OKButton.Text = MessageResources.ProjectWizardGoForward;
             OKButton.DialogResult = DialogResult.None;
+            OKButton.Click += new EventHandler(OKButton_Click);
             DMAddButon.Visible = false;
             DMRemoveButton.Visible = false;
             MainLayoutPanel.Controls.Remove(DMLayoutPanel);
@@ -202,7 +214,7 @@ namespace Ecell.IDE.MainWindow
         private void DMAdd_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog win = new FolderBrowserDialog();
-            win.Description = MessageResources.ExpModelMes;
+            win.Description = MessageResources.SelectDMDir;
             using (win)
             {
                 if (win.ShowDialog() != DialogResult.OK)

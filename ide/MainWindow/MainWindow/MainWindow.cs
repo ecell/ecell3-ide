@@ -63,6 +63,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using IronPython.Hosting;
 using IronPython.Runtime;
 using Ecell.IDE.MainWindow.UIComponents;
+using Ecell.Exceptions;
 
 namespace Ecell.IDE.MainWindow
 {
@@ -103,7 +104,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// System status.
         /// </summary>
-        private ProjectStatus m_type = ProjectStatus.Uninitialized;
+        private ProjectStatus m_status = ProjectStatus.Uninitialized;
         /// <summary>
         /// The number of edit after project is opened.
         /// </summary>
@@ -175,8 +176,9 @@ namespace Ecell.IDE.MainWindow
             //Load default window settings.
             setFilePath();
             SetRecentProject();
-            LoadDefaultWindowSetting();
             SetStartUpWindow();
+            LoadDefaultWindowSetting();
+            m_browser.Activate();
             m_title = this.Text;
             m_env.ReportManager.StatusUpdated += new StatusUpdatedEventHandler(ReportManager_StatusUpdated);
             m_env.ReportManager.ProgressValueUpdated += new ProgressReportEventHandler(ReportManager_ProgressValueUpdated);
@@ -477,13 +479,13 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Save default window settings.
         /// </summary>
-        private void SaveWindowSetting(string filename)
+        private void SaveWindowSetting(string filename, bool isClosing)
         {
             //Save current window settings.
             try
             {
                 Trace.WriteLine("Saving window settings: " + filename);
-                DockWindowSerializer.SaveAsXML(this, filename);
+                DockWindowSerializer.SaveAsXML(this, filename, isClosing);
             }
             catch (Exception ex)
             {
@@ -621,33 +623,6 @@ namespace Ecell.IDE.MainWindow
         }
 
         #region PluginBase
-        /// <summary>
-        /// Get menustrips for MainWindow plugin.
-        /// </summary>
-        /// <returns>null.</returns>
-        public List<ToolStripMenuItem> GetMenuStripItems()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Get toolbar buttons for MainWindow plugin.
-        /// </summary>
-        /// <returns>null.</returns>
-        public ToolStrip GetToolBarMenuStrip()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Get the window form for MainWindow plugin.
-        /// </summary>
-        /// <returns>Windows form</returns>
-        public IEnumerable<EcellDockContent> GetWindowsForms()
-        {
-            return null;
-        }
-
         /// <summary>
         /// The event sequence on changing selected object at other plugin.
         /// </summary>
@@ -803,96 +778,63 @@ namespace Ecell.IDE.MainWindow
         ///  When change system status, change menu enable/disable.
         /// </summary>
         /// <param name="type">System status.</param>
-        public void ChangeStatus(ProjectStatus type)
+        public void ChangeStatus(ProjectStatus status)
         {
-            if (type == ProjectStatus.Uninitialized)
-            {
-                newProjectToolStripMenuItem.Enabled = true;
-                openProjectToolStripMenuItem.Enabled = true;
-                saveProjectToolStripMenuItem.Enabled = false;
-                recentProejctToolStripMenuItem.Enabled = true;
-                projectWizardMenuItem.Enabled = true;
-                closeProjectToolStripMenuItem.Enabled = false;
-                exportModelToolStripMenuItem.Enabled = false;
-                importModelToolStripMenuItem.Enabled = true;
-                importScriptToolStripMenuItem.Enabled = false;
-                saveScriptToolStripMenuItem.Enabled = false;
-                printToolStripMenuItem.Enabled = false;
-                exitToolStripMenuItem.Enabled = true;
-                MenuItemLayout.Enabled = false;
-                importSBMLMenuItem.Enabled = true;
-                scriptEditorToolStripMenuItem.Enabled = true;
-            }
-            else if (type == ProjectStatus.Loaded)
-            {
-                newProjectToolStripMenuItem.Enabled = true;
-                openProjectToolStripMenuItem.Enabled = true;
-                saveProjectToolStripMenuItem.Enabled = true;
-                recentProejctToolStripMenuItem.Enabled = true;
-                projectWizardMenuItem.Enabled = true;
-                closeProjectToolStripMenuItem.Enabled = true;
-                exportModelToolStripMenuItem.Enabled = true;
-                importModelToolStripMenuItem.Enabled = true;
-                importScriptToolStripMenuItem.Enabled = true;
-                saveScriptToolStripMenuItem.Enabled = true;
-                printToolStripMenuItem.Enabled = true;
-                exitToolStripMenuItem.Enabled = true;
-                MenuItemLayout.Enabled = true;
-                importSBMLMenuItem.Enabled = true;
-                scriptEditorToolStripMenuItem.Enabled = true;
-            }
-            else
-            {
-                newProjectToolStripMenuItem.Enabled = false;
-                openProjectToolStripMenuItem.Enabled = false;
-                saveProjectToolStripMenuItem.Enabled = false;
-                recentProejctToolStripMenuItem.Enabled = false;
-                projectWizardMenuItem.Enabled = false;
-                closeProjectToolStripMenuItem.Enabled = false;
-                exportModelToolStripMenuItem.Enabled = false;
-                importModelToolStripMenuItem.Enabled = false;
-                saveScriptToolStripMenuItem.Enabled = false;
-                importScriptToolStripMenuItem.Enabled = false;
-                saveScriptToolStripMenuItem.Enabled = false;
-                printToolStripMenuItem.Enabled = true;
-                exitToolStripMenuItem.Enabled = true;
-                MenuItemLayout.Enabled = false;
-                importSBMLMenuItem.Enabled = false;
-                scriptEditorToolStripMenuItem.Enabled = false;
-            }
+            bool unInitialized = status == ProjectStatus.Uninitialized;
+            bool loaded = status == ProjectStatus.Loaded;
+            // file menu.
+            newProjectToolStripMenuItem.Enabled = unInitialized || loaded;
+            openProjectToolStripMenuItem.Enabled = unInitialized || loaded;
+            saveProjectToolStripMenuItem.Enabled = loaded;
+            recentProejctToolStripMenuItem.Enabled = unInitialized || loaded;
+            projectWizardMenuItem.Enabled = unInitialized || loaded;
+            closeProjectToolStripMenuItem.Enabled = loaded;
+            exportModelToolStripMenuItem.Enabled = loaded;
+            importModelToolStripMenuItem.Enabled = unInitialized || loaded;
+            importScriptToolStripMenuItem.Enabled = loaded;
+            saveScriptToolStripMenuItem.Enabled = loaded;
+            printToolStripMenuItem.Enabled = !unInitialized;
+            exitToolStripMenuItem.Enabled = true;
+            // layout
+            MenuItemLayout.Enabled = loaded;
+            importSBMLMenuItem.Enabled = unInitialized || loaded;
+            scriptEditorToolStripMenuItem.Enabled = unInitialized || loaded;
+
             // Reset edit count.
-            if (type == ProjectStatus.Uninitialized || 
-                (m_type == ProjectStatus.Uninitialized && type == ProjectStatus.Loaded))
+            if (unInitialized || (m_status == ProjectStatus.Uninitialized && loaded))
                 m_editCount = 0;
             // Set recent Project.
-            if (type == ProjectStatus.Loaded)
+            if (loaded)
             {
                 string projectID = m_env.DataManager.CurrentProjectID;
                 this.Text = projectID + " - " + m_title;
-                string filename = m_env.DataManager.CurrentProject.Info.ProjectFile;
-                CheckAndReplaceRecentProject(projectID, filename);
+                ProjectInfo info = m_env.DataManager.CurrentProject.Info;
+                CheckAndReplaceRecentProject(info);
                 ResetRecentProjectMenu();                
             }
-            else if (type == ProjectStatus.Uninitialized)
+            else if (unInitialized)
             {
                 this.Text = m_title;
             }
-            m_statusDialog.ChangeStatus(type);
-            m_type = type;
+            m_statusDialog.ChangeStatus(status);
+            m_status = status;
+            ChangeUndoStatus(m_env.ActionManager.UndoStatus);
         }
 
-        private void CheckAndReplaceRecentProject(string projectID, string filename)
+        private void CheckAndReplaceRecentProject(ProjectInfo info)
         {
+            if (info.ProjectType == ProjectType.Template)
+                return;
             KeyValuePair<string, string> oldProject = new KeyValuePair<string,string>();
             foreach (KeyValuePair<string, string> project in m_recentProjects)
             {
-                if (project.Key.Equals(projectID))
+                if (project.Key.Equals(info.Name))
                     oldProject = project;
             }
             if (oldProject.Key != null)
                 m_recentProjects.Remove(oldProject);
-            if(File.Exists(filename))
-                m_recentProjects.Add(new KeyValuePair<string, string>(projectID, filename));
+            if (File.Exists(info.ProjectFile))
+                m_recentProjects.Add(new KeyValuePair<string, string>(info.Name, info.ProjectFile));
             ResetRecentProjectMenu();
         }
 
@@ -902,25 +844,10 @@ namespace Ecell.IDE.MainWindow
         /// <param name="status"></param>
         public void ChangeUndoStatus(UndoStatus status)
         {
-            switch (status)
-            {
-                case UndoStatus.UNDO_REDO:
-                    undoToolStripMenuItem.Enabled = true;
-                    redoToolStripMenuItem.Enabled = true;
-                    break;
-                case UndoStatus.UNDO_ONLY:
-                    undoToolStripMenuItem.Enabled = true;
-                    redoToolStripMenuItem.Enabled = false;
-                    break;
-                case UndoStatus.REDO_ONLY:
-                    undoToolStripMenuItem.Enabled = false;
-                    redoToolStripMenuItem.Enabled = true;
-                    break;
-                case UndoStatus.NOTHING:
-                    undoToolStripMenuItem.Enabled = false;
-                    redoToolStripMenuItem.Enabled = false;
-                    break;
-            }
+            bool prjStatus = m_status == ProjectStatus.Loaded;
+            bool isRunning = m_env.ActionManager.IsLoadAction;
+            undoToolStripMenuItem.Enabled = (status == UndoStatus.UNDO_ONLY || status == UndoStatus.UNDO_REDO) && prjStatus && !isRunning;
+            redoToolStripMenuItem.Enabled = (status == UndoStatus.REDO_ONLY || status == UndoStatus.UNDO_REDO) && prjStatus && !isRunning;
         }
 
         /// <summary>
@@ -1124,10 +1051,7 @@ namespace Ecell.IDE.MainWindow
             if (win.ShowDialog() == DialogResult.OK && win.SelectedProject != null)
             {
                 ProjectInfo info = win.SelectedProject;
-                info.FindModels();
-                info.FindDMs();
-                info.DMList.AddRange(win.DMList);
-                info.ProjectPath = null;
+                info.DMDirList.AddRange(win.DMList);
                 m_env.DataManager.LoadProject(info);
             }
         }
@@ -1148,10 +1072,29 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private void SaveProject()
         {
-            m_env.DataManager.SaveProject();
-            Project project = m_env.DataManager.CurrentProject;
-            CheckAndReplaceRecentProject(project.Info.Name, project.Info.ProjectFile);
-            m_editCount = 0;
+            try
+            {
+                Project project = m_env.DataManager.CurrentProject;
+                string msg = MessageResources.ConfirmOverwrite;
+                if (project.Info.ProjectType != ProjectType.Project)
+                    msg = string.Format(MessageResources.ErrExistProject, project.Info.Name)
+                            + "\n" + MessageResources.ConfirmOverwrite;
+
+                if (Util.IsExistProject(project.Info.Name)
+                    && !Util.ShowOKCancelDialog(msg)
+                    )
+                {
+                    return;
+                }
+
+                m_env.DataManager.SaveProject();
+                CheckAndReplaceRecentProject(project.Info);
+                m_editCount = 0;
+            }
+            catch (EcellException e)
+            {
+                Util.ShowErrorDialog(e.Message);
+            }
         }
 
         /// <summary>
@@ -1276,7 +1219,7 @@ namespace Ecell.IDE.MainWindow
                 {
                     pd.PrintPage += delegate(object o, PrintPageEventArgs pe)
                     {
-                        Bitmap bmp = d.SelectedItem.Plugin.Print(d.SelectedItem.Portion);
+                        Bitmap bmp = new Bitmap(d.SelectedItem.Plugin.Print(d.SelectedItem.Portion), pe.PageBounds.Width, pe.PageBounds.Height);
                         pe.Graphics.DrawImage(bmp, new Point(0, 0));
                         bmp.Dispose();
                     };
@@ -1505,7 +1448,7 @@ namespace Ecell.IDE.MainWindow
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 // Save window settings.
-                SaveWindowSetting(sfd.FileName);
+                SaveWindowSetting(sfd.FileName, false);
             }
 
         }
@@ -1554,9 +1497,9 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e">FormClosingEventArgs</param>
         private void MainWindowFormClosing(object sender, FormClosingEventArgs e)
         {
-            if (m_type == ProjectStatus.Running ||
-                m_type == ProjectStatus.Stepping ||
-                m_type == ProjectStatus.Suspended)
+            if (m_status == ProjectStatus.Running ||
+                m_status == ProjectStatus.Stepping ||
+                m_status == ProjectStatus.Suspended)
             {
                 if (!Util.ShowYesNoDialog(MessageResources.ConfirmClose))
                 {
@@ -1571,7 +1514,7 @@ namespace Ecell.IDE.MainWindow
                 e.Cancel = true;
 
             SaveRecentProject();
-            SaveWindowSetting(m_userWindowSettingPath);
+            SaveWindowSetting(m_userWindowSettingPath, true);
 
             base.OnClosing(e);
         }

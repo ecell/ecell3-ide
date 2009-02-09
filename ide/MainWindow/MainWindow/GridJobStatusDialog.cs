@@ -104,10 +104,12 @@ namespace Ecell.IDE.MainWindow
         void JobGridViewDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
+
             int jobid = Convert.ToInt32(JobGridView[0, e.RowIndex].Value);
             if (!m_manager.JobList.ContainsKey(jobid)) return;
 
-            Util.ShowNoticeDialog(m_manager.JobList[jobid].StdErr);
+            JobMessageDialog dialog = new JobMessageDialog(m_manager.JobList[jobid].StdErr);
+            dialog.ShowDialog();
         }
 
         /// <summary>
@@ -188,8 +190,8 @@ namespace Ecell.IDE.MainWindow
                 JobGridView.Rows.Add(new object[] { s.JobID, s.Status, s.Machine, s.ScriptFile, s.Argument });
             }
             if (JobGridView.SortedColumn != null)
-                JobGridView.Sort(JobGridView.SortedColumn,
-                    (JobGridView.SortOrder == SortOrder.Ascending ?
+                JobGridView.Sort(JobGridView.SortedColumn, 
+                    (JobGridView.SortOrder == SortOrder.Ascending ?  
                     ListSortDirection.Ascending :
                     ListSortDirection.Descending));
         }

@@ -138,9 +138,9 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CPCancelButton;
+            this.Controls.Add(this.CPCreateButton);
             this.Controls.Add(this.CPCancelButton);
             this.Controls.Add(this.CPRemoveButton);
-            this.Controls.Add(this.CPCreateButton);
             this.Controls.Add(this.CPListBox);
             this.Controls.Add(this.CPAddButton);
             this.Controls.Add(this.label1);

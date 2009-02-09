@@ -226,7 +226,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="textComment.MaxLength" type="System.Int32, mscorlib">
-    <value>64</value>
+    <value>65536</value>
   </data>
   <data name="textComment.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -600,6 +600,9 @@
         AAB//wAA//AAAP//AAD//AAD//8AAP//gF///wAA////////AAD///////8AAP///////wAA////////
         AAA=
 </value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>New Project</value>

@@ -63,10 +63,13 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Save ECell window settings.
         /// </summary>
-        public static void SaveAsXML(MainWindow window, string filename)
+        /// <param name="window"></param>
+        /// <param name="filename"></param>
+        /// <param name="isClosing"></param>
+        public static void SaveAsXML(MainWindow window, string filename, bool isClosing)
         {
             DockPanel dockPanel = window.dockPanel;
-            CloseUnSavableWindows(dockPanel);
+            CheckUnsavableWindows(dockPanel, isClosing);
             CheckFilePath(filename);
             FileStream fs = null;
             XmlTextWriter xmlOut = null;
@@ -239,10 +242,35 @@ namespace Ecell.IDE.MainWindow
                 else if (!((EcellDockContent)content).IsSavable)
                     list.Add(content);
             }
+            if (list.Count <= 0)
+                return;
+
             foreach (DockContent content in list)
                 content.Close();
 
             dockPanel.Refresh();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dockPanel"></param>
+        /// <param name="isClosing"></param>
+        private static void CheckUnsavableWindows(DockPanel dockPanel, bool isClosing)
+        {
+            string list = "";
+            foreach (DockContent content in dockPanel.Contents)
+            {
+                if (!(content is EcellDockContent))
+                    list += Environment.NewLine + " - " + content.Text;
+                else if (!((EcellDockContent)content).IsSavable)
+                    list += Environment.NewLine + " - " + content.Text;
+            }
+
+            if (string.IsNullOrEmpty(list) || isClosing)
+                return;
+            string msg = MessageResources.ConfirmUnsavableWindows + list;
+            Util.ShowNoticeDialog(msg);
         }
 
         /// <summary>

@@ -76,7 +76,11 @@ namespace Ecell.IDE.MainWindow
         public Uri Url
         {
             get { return webBrowser.Url; }
-            set { webBrowser.Navigate(value); }
+            set
+            {
+                Activate();
+                webBrowser.Navigate(value);
+            }
         }
 
         internal IEnumerable<KeyValuePair<string, string>> RecentFiles
@@ -95,6 +99,7 @@ namespace Ecell.IDE.MainWindow
             webBrowser.ObjectForScripting = new AutomationStub(this);
             m_recentFiles = recentFiles;
             m_startupPage = FindStartPage();
+            SetStartPage();
         }
 
         private void InitializeComponent()
@@ -106,11 +111,11 @@ namespace Ecell.IDE.MainWindow
             this.ButtonBack = new System.Windows.Forms.ToolStripButton();
             this.ButtonForward = new System.Windows.Forms.ToolStripButton();
             this.ButtonStop = new System.Windows.Forms.ToolStripButton();
+            this.ButtonHome = new System.Windows.Forms.ToolStripButton();
             this.ButtonRefresh = new System.Windows.Forms.ToolStripButton();
             this.ButtonNavigate = new System.Windows.Forms.ToolStripButton();
             this.URLComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.ButtonHome = new System.Windows.Forms.ToolStripButton();
             this.toolStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -123,8 +128,7 @@ namespace Ecell.IDE.MainWindow
             this.webBrowser.CanGoForwardChanged += new System.EventHandler(this.webBrowser_CanGoForwardChanged);
             this.webBrowser.CanGoBackChanged += new System.EventHandler(this.webBrowser_CanGoBackChanged);
             this.webBrowser.ProgressChanged += new System.Windows.Forms.WebBrowserProgressChangedEventHandler(this.webBrowser_ProgressChanged);
-            this.webBrowser.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.webBrowser_Navigated);
-            this.webBrowser.DocumentTitleChanged += new EventHandler(webBrowser_DocumentTitleChanged);
+            this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
             this.webBrowser.StatusTextChanged += new System.EventHandler(this.webBrowser_StatusTextChanged);
             // 
             // URLLabel
@@ -173,6 +177,13 @@ namespace Ecell.IDE.MainWindow
             this.ButtonStop.Name = "ButtonStop";
             this.ButtonStop.Click += new System.EventHandler(this.Button_Click);
             // 
+            // ButtonHome
+            // 
+            this.ButtonHome.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.ButtonHome, "ButtonHome");
+            this.ButtonHome.Name = "ButtonHome";
+            this.ButtonHome.Click += new System.EventHandler(this.Button_Click);
+            // 
             // ButtonRefresh
             // 
             this.ButtonRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -203,22 +214,14 @@ namespace Ecell.IDE.MainWindow
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
-            // ButtonHome
-            // 
-            this.ButtonHome.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            resources.ApplyResources(this.ButtonHome, "ButtonHome");
-            this.ButtonHome.Name = "ButtonHome";
-            this.ButtonHome.Click += new System.EventHandler(this.Button_Click);
-            // 
             // EcellWebBrowser
             // 
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             resources.ApplyResources(this, "$this");
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.toolStrip);
+            this.IsSavable = true;
             this.Name = "EcellWebBrowser";
-            this.Load += new System.EventHandler(this.EcellWebBrowser_Load);
-            this.DockStateChanged += new System.EventHandler(this.EcellWebBrowser_DockStateChanged);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -323,7 +326,8 @@ namespace Ecell.IDE.MainWindow
         /// <param name="e"></param>
         private void URLComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            go();
+            if (URLComboBox.Text != webBrowser.Url.AbsoluteUri)
+                go();
         }
 
         /// <summary>
@@ -367,7 +371,7 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void webBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
+        private void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             this.URLComboBox.Text = webBrowser.Url.AbsoluteUri;
             if (URLComboBox.Items.Count == 0 || (string)URLComboBox.Items[0] != URLComboBox.Text)
@@ -375,23 +379,12 @@ namespace Ecell.IDE.MainWindow
             if (URLComboBox.Items.Count > URLComboBox.MaxDropDownItems)
                 URLComboBox.Items.RemoveAt(URLComboBox.Items.Count - 1);
 
+            this.Text = webBrowser.Url.ToString();
             m_env.ReportManager.SetStatus(
                 StatusBarMessageKind.Generic,
                 ""
                 );
         }
-
-        /// <summary>
-        /// DocumentTitle Changed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void webBrowser_DocumentTitleChanged(object sender, EventArgs e)
-        {
-            this.Text = webBrowser.DocumentTitle;
-            this.TabText = this.Text;
-        }
-
         /// <summary>
         /// Event on progress changed
         /// </summary>
@@ -437,30 +430,6 @@ namespace Ecell.IDE.MainWindow
         {
             this.ButtonBack.Enabled = webBrowser.CanGoBack;
         }
-
-        /// <summary>
-        /// Event on Load form.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void EcellWebBrowser_Load(object sender, EventArgs e)
-        {
-            // Set startup page.
-            SetStartPage();
-        }
-        /// <summary>
-        /// Event on DockState changed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void EcellWebBrowser_DockStateChanged(object sender, EventArgs e)
-        {
-            if (this.DockState == WeifenLuo.WinFormsUI.Docking.DockState.Hidden)
-            {
-                SetStartPage();
-            }
-        }
-
         #endregion
 
         [ComVisible(true)]
@@ -535,6 +504,7 @@ namespace Ecell.IDE.MainWindow
                 catch (Exception e)
                 {
                     Trace.WriteLine(e);
+                    Util.ShowErrorDialog(e.Message);
                     return false;
                 }
                 return true;
@@ -570,6 +540,7 @@ namespace Ecell.IDE.MainWindow
                 // Return true when the current project was closed successfully.
                 return true;
             }
+
             /// <summary>
             /// Create new project
             /// </summary>
@@ -578,8 +549,7 @@ namespace Ecell.IDE.MainWindow
                 m_browser.Environment.DataManager.CreateNewProject(
                     "NewProject",
                     "NewProject",
-                    "",
-                    new List<string>());
+                    "");
             }
 
             /// <summary>
@@ -589,6 +559,24 @@ namespace Ecell.IDE.MainWindow
             public MyIEnumerator GetRecentFiles()
             {
                 return new MyIEnumerator(m_browser.RecentFiles.GetEnumerator());
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
+            public string GetLabelForRecentProjects()
+            {
+                return MessageResources.MenuRecentProjects;
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
+            public string GetLabelForTutorial()
+            {
+                return MessageResources.MenuTutorial;
             }
         }
     }

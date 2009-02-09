@@ -139,7 +139,7 @@
     <value>4</value>
   </data>
   <data name="SWSPatternListLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>233, 100</value>
+    <value>234, 100</value>
   </data>
   <data name="SWSPatternListLayoutPanel.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -178,7 +178,7 @@
     <value>Horizontal</value>
   </data>
   <data name="SWSNoteTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>233, 111</value>
+    <value>234, 104</value>
   </data>
   <data name="SWSNoteTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -208,7 +208,7 @@
     <value>NoControl</value>
   </data>
   <data name="SIEnglishRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>127, 18</value>
+    <value>160, 18</value>
   </data>
   <data name="SIEnglishRadioButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>60, 16</value>
@@ -241,16 +241,16 @@
     <value>NoControl</value>
   </data>
   <data name="SIJapaneseRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>62, 18</value>
+    <value>80, 18</value>
   </data>
   <data name="SIJapaneseRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 16</value>
+    <value>72, 16</value>
   </data>
   <data name="SIJapaneseRadioButton.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="SIJapaneseRadioButton.Text" xml:space="preserve">
-    <value>日本語</value>
+    <value>Japanese</value>
   </data>
   <data name="&gt;&gt;SIJapaneseRadioButton.Name" xml:space="preserve">
     <value>SIJapaneseRadioButton</value>
@@ -274,7 +274,7 @@
     <value>NoControl</value>
   </data>
   <data name="SIAutoRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 18</value>
+    <value>10, 18</value>
   </data>
   <data name="SIAutoRadioButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 16</value>
@@ -304,7 +304,7 @@
     <value>12, 93</value>
   </data>
   <data name="SILangGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>581, 45</value>
+    <value>582, 45</value>
   </data>
   <data name="SILangGroupBox.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -331,7 +331,7 @@
     <value>NoControl</value>
   </data>
   <data name="okButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>439, 432</value>
+    <value>440, 425</value>
   </data>
   <data name="okButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 28</value>
@@ -361,7 +361,7 @@
     <value>NoControl</value>
   </data>
   <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>519, 432</value>
+    <value>520, 425</value>
   </data>
   <data name="cancelButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 28</value>
@@ -424,16 +424,16 @@
     <value>0</value>
   </data>
   <data name="SWSPictureBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Right</value>
+    <value>Top, Right</value>
   </data>
   <data name="SWSPictureBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="SWSPictureBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>255, 18</value>
+    <value>256, 18</value>
   </data>
   <data name="SWSPictureBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>318, 232</value>
+    <value>318, 225</value>
   </data>
   <data name="SWSPictureBox.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
@@ -460,13 +460,13 @@
     <value>12, 155</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>581, 260</value>
+    <value>582, 253</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
-    <value>&amp;Dock Layout</value>
+    <value>&amp;Window Layout</value>
   </data>
   <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
     <value>groupBox2</value>
@@ -493,7 +493,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="pictureBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>608, 80</value>
+    <value>609, 80</value>
   </data>
   <data name="pictureBox1.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -520,7 +520,10 @@
     <value>None</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>605, 472</value>
+    <value>606, 465</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>IDE settings</value>

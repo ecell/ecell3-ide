@@ -222,4 +222,19 @@
   <data name="ErrFailedToParse" xml:space="preserve">
     <value>Failed to parse {0}.</value>
   </data>
+  <data name="MenuRecentProjects" xml:space="preserve">
+    <value>Recenty used projects.</value>
+  </data>
+  <data name="MenuTutorial" xml:space="preserve">
+    <value>Tutorial</value>
+  </data>
+  <data name="ConfirmOverwrite" xml:space="preserve">
+    <value>Are you sure you want to overwrite?</value>
+  </data>
+  <data name="ErrExistProject" xml:space="preserve">
+    <value>The project "{0}" already exists. </value>
+  </data>
+  <data name="ConfirmUnsavableWindows" xml:space="preserve">
+    <value>The following windows are not saved in the Window setting.</value>
+  </data>
 </root>
