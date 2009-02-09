@@ -11,11 +11,17 @@ using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.Analysis
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class BifurcationSettingDialog : Form
     {
         private Analysis m_owner;
         private BifurcationAnalysisParameter m_param;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="owner"></param>
         public BifurcationSettingDialog(Analysis owner)
         {
             InitializeComponent();
@@ -44,7 +50,10 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             return m_param;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dic"></param>
         public void SetParameterDataList(Dictionary<string, EcellData> dic)
         {
             foreach (string key in dic.Keys)
@@ -53,7 +62,10 @@ namespace Ecell.IDE.Plugins.Analysis
                 SetParameterData(d);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dic"></param>
         public void SetObservedDataList(Dictionary<string, EcellData> dic)
         {
             foreach (string key in dic.Keys)
@@ -62,7 +74,10 @@ namespace Ecell.IDE.Plugins.Analysis
                 SetObservedData(d);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         public void SetParameterData(EcellParameterData data)
         {
             DataGridViewRow r = new DataGridViewRow();
@@ -89,7 +104,10 @@ namespace Ecell.IDE.Plugins.Analysis
 
             bifurcationParameterDataGrid.Rows.Add(r);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         public void SetObservedData(EcellObservedData data)
         {            
             DataGridViewRow r = new DataGridViewRow();
@@ -116,7 +134,10 @@ namespace Ecell.IDE.Plugins.Analysis
             r.Tag = data.Copy();
             bifurcationObservedDataGrid.Rows.Add(r);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<EcellObservedData> GetObservedDataList()
         {
             List<EcellObservedData> result = new List<EcellObservedData>();
@@ -127,7 +148,10 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             return result;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<EcellParameterData> GetParameterDataList()
         {
             List<EcellParameterData> result = new List<EcellParameterData>();
@@ -138,7 +162,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             return result;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormLoad(object sender, EventArgs e)
         {
             bifurcationToolTip.SetToolTip(bifurcationSimulationTimeTextBox, MessageResources.ToolTipSimulationTime);
@@ -149,7 +177,11 @@ namespace Ecell.IDE.Plugins.Analysis
             bifurcationToolTip.SetToolTip(groupBox4, MessageResources.ToolTipObservedGrid);
             bifurcationToolTip.SetToolTip(bifurcationMaxInputTextBox, MessageResources.ToolTipMaxInputSize);            
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void WindowSize_Validating(object sender, CancelEventArgs e)
         {
             string text = bifurcationWindowSizeTextBox.Text;
@@ -170,7 +202,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.WindowSize = dummy;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SimulationTime_Validating(object sender, CancelEventArgs e)
         {
             string text = bifurcationSimulationTimeTextBox.Text;
@@ -191,7 +227,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.SimulationTime = dummy;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MaxInput_Validating(object sender, CancelEventArgs e)
         {
             string text = bifurcationMaxInputTextBox.Text;
@@ -212,7 +252,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.MaxInput = dummy;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MaxFrequency_Validating(object sender, CancelEventArgs e)
         {
             string text = bifurcationMaxFrequencyTextBox.Text;
@@ -233,7 +277,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.MaxFreq = dummy;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MinFrequency_Validating(object sender, CancelEventArgs e)
         {
             string text = bifurcationMinFrequencyTextBox.Text;
@@ -254,7 +302,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.MinFreq = dummy;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ObservedDataChanged(object sender, DataGridViewCellEventArgs e)
         {
             EcellObservedData data = bifurcationObservedDataGrid.Rows[e.RowIndex].Tag as EcellObservedData;
@@ -263,6 +315,10 @@ namespace Ecell.IDE.Plugins.Analysis
             bool isCorrect = true;
             if (bifurcationObservedDataGrid[e.ColumnIndex, e.RowIndex].Value == null ||
                 !double.TryParse(bifurcationObservedDataGrid[e.ColumnIndex, e.RowIndex].Value.ToString(), out dummy))
+            {
+                isCorrect = false;
+            }
+            if (isCorrect && e.ColumnIndex == 4 && dummy < 0.0)
             {
                 isCorrect = false;
             }
@@ -312,7 +368,11 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ParameterDataChanged(object sender, DataGridViewCellEventArgs e)
         {
             EcellParameterData data = bifurcationParameterDataGrid.Rows[e.RowIndex].Tag as EcellParameterData;
@@ -324,7 +384,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 isCorrect = false;
             }
-            if (isCorrect && e.ColumnIndex == 4 && dummy < 0.0)
+            if (isCorrect && e.ColumnIndex == 3 && dummy < 0.0)
             {
                 isCorrect = false;
             }
@@ -369,5 +429,6 @@ namespace Ecell.IDE.Plugins.Analysis
             }
 
         }
+
     }
 }

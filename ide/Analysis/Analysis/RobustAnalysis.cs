@@ -126,6 +126,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute,
                     new object[] { MessageResources.NameRobustAnalysis }));
+                m_owner.FinishedAnalysisByError();
                 return;
             }
             if (m_owner.JobManager.IsError())
@@ -210,6 +211,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 m_paramDic = m_owner.JobManager.RunSimParameterMatrix(tmpDir, model, simTime, false);
             }
+
             if (m_isRunning)
             {
                 m_timer.Enabled = true;
@@ -278,7 +280,6 @@ namespace Ecell.IDE.Plugins.Analysis
                 ymax = ymax + 1.0;
                 ymin = ymin - 1.0;
             }
-
             m_owner.SetResultGraphSize(xmax, xmin, ymax, ymin, false, false);
 
             List<EcellObservedData> judgeList = m_owner.DataManager.GetObservedData();

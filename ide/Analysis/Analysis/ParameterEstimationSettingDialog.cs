@@ -59,7 +59,10 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             return m_param;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dic"></param>
         public void SetParameterDataList(Dictionary<string, EcellData> dic)
         {
             foreach (string key in dic.Keys)
@@ -69,7 +72,10 @@ namespace Ecell.IDE.Plugins.Analysis
                 SetParameterData(d);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         public void SetParameterData(EcellParameterData data)
         {
             DataGridViewRow r = new DataGridViewRow();
@@ -144,7 +150,10 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             return type;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<EcellParameterData> GetParameterDataList()
         {
             List<EcellParameterData> result = new List<EcellParameterData>();
@@ -206,7 +215,11 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormLoad(object sender, EventArgs e)
         {
             parameterEstimationToolTip.SetToolTip(parameterEstimationSimulationTimeTextBox, MessageResources.ToolTipSimulationTime);
@@ -216,7 +229,11 @@ namespace Ecell.IDE.Plugins.Analysis
             parameterEstimationToolTip.SetToolTip(groupBox3, MessageResources.ToolTipUnknownParameterGrid);
             estimationTypeComboBox.SelectedIndex = 0;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AdvancedButtonClicked(object sender, EventArgs e)
         {
             ParameterEstimationAdvancedSettingDialog dlg = new ParameterEstimationAdvancedSettingDialog();
@@ -229,7 +246,11 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SimulationTime_Validating(object sender, CancelEventArgs e)
         {
             string text = parameterEstimationSimulationTimeTextBox.Text;
@@ -250,7 +271,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.SimulationTime = dummy;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Population_Validating(object sender, CancelEventArgs e)
         {
             string text = parameterEstimationPopulationTextBox.Text;
@@ -271,7 +296,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.Population = dummy;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Generation_Validating(object sender, CancelEventArgs e)
         {
             string text = parameterEstimationGenerationTextBox.Text;
@@ -292,7 +321,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.Generation = dummy;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ParameterDataChanged(object sender, DataGridViewCellEventArgs e)
         {
             EcellParameterData data = parameterEstimationParameterDataGrid.Rows[e.RowIndex].Tag as EcellParameterData;

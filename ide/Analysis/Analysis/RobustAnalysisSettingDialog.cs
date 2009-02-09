@@ -11,10 +11,17 @@ using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.Analysis
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class RobustAnalysisSettingDialog : Form
     {
         private Analysis m_owner;
         private RobustAnalysisParameter m_param;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="owner"></param>
         public RobustAnalysisSettingDialog(Analysis owner)
         {
             InitializeComponent();
@@ -46,7 +53,10 @@ namespace Ecell.IDE.Plugins.Analysis
             if (p.IsRandomCheck) robustAnalysisRandomCheckBox.Checked = true;
             else robustAnalysisMatrixCheckBox.Checked = true;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dic"></param>
         public void SetParameterDataList(Dictionary<string, EcellData> dic)
         {
             foreach (string key in dic.Keys)
@@ -55,7 +65,10 @@ namespace Ecell.IDE.Plugins.Analysis
                 SetParameterData(d);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dic"></param>
         public void SetObservedDataList(Dictionary<string, EcellData> dic)
         {
             foreach (string key in dic.Keys)
@@ -64,7 +77,10 @@ namespace Ecell.IDE.Plugins.Analysis
                 SetObservedData(d);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         public void SetParameterData(EcellParameterData data)
         {
             DataGridViewRow r = new DataGridViewRow();
@@ -91,7 +107,10 @@ namespace Ecell.IDE.Plugins.Analysis
 
             robustAnalysisParameterDataGrid.Rows.Add(r);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         public void SetObservedData(EcellObservedData data)
         {
             DataGridViewRow r = new DataGridViewRow();
@@ -166,7 +185,11 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_param.IsRandomCheck = true;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormLoad(object sender, EventArgs e)
         {
             robustToolTip.SetToolTip(robustAnalysisSimulationTimeTextBox, MessageResources.ToolTipSimulationTime);
@@ -177,7 +200,11 @@ namespace Ecell.IDE.Plugins.Analysis
             robustToolTip.SetToolTip(robustAnalysisSampleNumberTextBox, MessageResources.ToolTipSampleNumber);
             robustToolTip.SetToolTip(groupBox4, MessageResources.ToolTipParameterGrid);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SimulationTime_Validating(object sender, CancelEventArgs e)
         {
             string text = robustAnalysisSimulationTimeTextBox.Text;
@@ -198,7 +225,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.SimulationTime = dummy;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void WindowSize_Validating(object sender, CancelEventArgs e)
         {
             string text = robustAnalysisWindowSizeTextBox.Text;
@@ -219,7 +250,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.WinSize = dummy;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SampleNumber_Validating(object sender, CancelEventArgs e)
         {
             string text = robustAnalysisSampleNumberTextBox.Text;
@@ -240,7 +275,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.SampleNum = dummy;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MaxInput_Validating(object sender, CancelEventArgs e)
         {
             string text = robustAnalysisMaxSampleTextBox.Text;
@@ -261,7 +300,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.MaxData = dummy;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MaxFrequency_Validating(object sender, CancelEventArgs e)
         {
             string text = robustAnalysisMaxFrequencyTextBox.Text;
@@ -282,7 +325,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.MaxFreq = dummy;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MinFrequency_Validating(object sender, CancelEventArgs e)
         {
             string text = robustAnalysisMinFrequencyTextBox.Text;
@@ -303,7 +350,10 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_param.MinFreq = dummy;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<EcellObservedData> GetObservedDataList()
         {
             List<EcellObservedData> result = new List<EcellObservedData>();
@@ -314,7 +364,10 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             return result;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<EcellParameterData> GetParameterDataList()
         {
             List<EcellParameterData> result = new List<EcellParameterData>();
@@ -325,7 +378,11 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             return result;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ObservedDataChanged(object sender, DataGridViewCellEventArgs e)
         {
             EcellObservedData data = robustAnalysisObservedDataGrid.Rows[e.RowIndex].Tag as EcellObservedData;
@@ -373,21 +430,25 @@ namespace Ecell.IDE.Plugins.Analysis
                 switch (e.ColumnIndex)
                 {
                     case 1:
-                        robustAnalysisParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Max;
+                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Max;
                         break;
                     case 2:
-                        robustAnalysisParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Min;
+                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Min;
                         break;
                     case 3:
-                        robustAnalysisParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Differ;
+                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Differ;
                         break;
                     case 4:
-                        robustAnalysisParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Rate;
+                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Rate;
                         break;
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ParameterDataChanged(object sender, DataGridViewCellEventArgs e)
         {
             EcellParameterData data = robustAnalysisParameterDataGrid.Rows[e.RowIndex].Tag as EcellParameterData;
@@ -432,16 +493,17 @@ namespace Ecell.IDE.Plugins.Analysis
                 switch (e.ColumnIndex)
                 {
                     case 1:
-                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Max;
+                        robustAnalysisParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Max;
                         break;
                     case 2:
-                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Min;
+                        robustAnalysisParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Min;
                         break;
                     case 3:
-                        robustAnalysisObservedDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Step;
+                        robustAnalysisParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Step;
                         break;
                 }
             }
+
         }
     }
 }

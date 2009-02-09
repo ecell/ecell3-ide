@@ -49,6 +49,7 @@ namespace Ecell.IDE.Plugins.Analysis
     public class Analysis : PluginBase
     {
         #region Fields
+        private ToolStripMenuItem analysisMenu;
         /// <summary>
         /// MenuItem to display the window for robust analysis.
         /// </summary>
@@ -137,10 +138,76 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         public Analysis()
         {
+            InitializeComponent();
             m_bifurcateParameter = new BifurcationAnalysisParameter();
             m_estimationParameter = new ParameterEstimationParameter();
             m_robustParameter = new RobustAnalysisParameter();
-            m_sensitivityParameter = new SensitivityAnalysisParameter();            
+            m_sensitivityParameter = new SensitivityAnalysisParameter();
+        }
+
+        private void InitializeComponent()
+        {
+            m_showBifurcationSetupItem = new ToolStripMenuItem();
+            m_showBifurcationSetupItem.Text = MessageResources.MenuItemBifurcationAnalysis;
+            m_showBifurcationSetupItem.ToolTipText = MessageResources.MenuToolTipBifurcationAnalysis;
+            m_showBifurcationSetupItem.Tag = 10;
+            m_showBifurcationSetupItem.Click += new EventHandler(ShowBifurcationSetting);
+
+            m_showParameterEstimationSetupItem = new ToolStripMenuItem();
+            m_showParameterEstimationSetupItem.Text = MessageResources.MenuItemParameterEstimation;
+            m_showParameterEstimationSetupItem.ToolTipText = MessageResources.MenuToolTipParameterEstimation;
+            m_showParameterEstimationSetupItem.Tag = 10;
+            m_showParameterEstimationSetupItem.Click += new EventHandler(ShowParameterEstimationSetting);
+
+            m_showRobustAnalysisSetupItem = new ToolStripMenuItem();
+            m_showRobustAnalysisSetupItem.Text = MessageResources.MenuItemRobustAnalysis;
+            m_showRobustAnalysisSetupItem.ToolTipText = MessageResources.MenuToolTipRobustAnalysis;
+            m_showRobustAnalysisSetupItem.Tag = 10;
+            m_showRobustAnalysisSetupItem.Click += new EventHandler(ShowRobustAnalysisSetting);
+
+            m_showSensitiveAnalysisSetupItem = new ToolStripMenuItem();
+            m_showSensitiveAnalysisSetupItem.Text = MessageResources.MenuItemSensitivityAnalysis;
+            m_showSensitiveAnalysisSetupItem.ToolTipText = MessageResources.MenuToolTipSensitivityAnalysis;
+            m_showSensitiveAnalysisSetupItem.Tag = 10;
+            m_showSensitiveAnalysisSetupItem.Click += new EventHandler(ShowSensitivityAnalysisSetting);
+
+            ToolStripSeparator sep1 = new ToolStripSeparator();
+            sep1.Tag = 20;
+
+
+            m_stopAnalysisItem = new ToolStripMenuItem();
+            m_stopAnalysisItem.Text = MessageResources.MenuItemStopAnalysis;
+            m_stopAnalysisItem.ToolTipText = MessageResources.MenuToolTipStopAnalysis;
+            m_stopAnalysisItem.Tag = 90;
+            m_stopAnalysisItem.Enabled = false;
+            m_stopAnalysisItem.Click += new EventHandler(StopAnalysis);
+
+            ToolStripSeparator sep2 = new ToolStripSeparator();
+            sep2.Tag = 120;
+
+            m_saveAnalysisResultItem = new ToolStripMenuItem();
+            m_saveAnalysisResultItem.Text = MessageResources.MenuItemSaveAnalysisResult;
+            m_saveAnalysisResultItem.ToolTipText = MessageResources.MenuToolTipSaveAnalysisResult;
+            m_saveAnalysisResultItem.Tag = 150;
+            m_saveAnalysisResultItem.Enabled = false;
+            m_saveAnalysisResultItem.Click += new EventHandler(SaveAnalysisResult);
+
+            m_loadAnalysisResultItem = new ToolStripMenuItem();
+            m_loadAnalysisResultItem.Text = MessageResources.MenuItemLoadAnalysisResult;
+            m_loadAnalysisResultItem.ToolTipText = MessageResources.MenuToolTipLoadAnalysisResult;
+            m_loadAnalysisResultItem.Tag = 160;
+            m_loadAnalysisResultItem.Enabled = true;
+            m_loadAnalysisResultItem.Click += new EventHandler(LoadAnalysisResult);
+
+            analysisMenu = new ToolStripMenuItem();
+            analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { 
+                m_showRobustAnalysisSetupItem, m_showParameterEstimationSetupItem,
+                m_showSensitiveAnalysisSetupItem, m_showBifurcationSetupItem, sep1, 
+                m_stopAnalysisItem, sep2,
+                m_saveAnalysisResultItem, m_loadAnalysisResultItem
+            });
+            analysisMenu.Text = "Analysis";
+            analysisMenu.Name = MenuConstants.MenuItemTools;
         }
 
         /// <summary>
@@ -258,8 +325,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Add the judgement data into GridView.
         /// </summary>
-        /// <param name="x">the value of parameter.</param>
-        /// <param name="y">the value of parameter.</param>
+        /// <param name="list">the values of parameter. [List[PointF]]</param>
         public void AddJudgementDataForBifurcation(List<PointF> list)
         {
             if (m_rWin != null)
@@ -384,7 +450,9 @@ namespace Ecell.IDE.Plugins.Analysis
         public void SetResultEntryBox(string name, bool isX, bool isY)
         {
             if (m_rWin != null)
+            {                
                 m_rWin.SetResultEntryBox(name, isX, isY);
+            }
         }
 
         /// <summary>
@@ -647,11 +715,11 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         private void StopAnalysis()
-        {
-            if (!IsRunningAnalysis())
-            {
-                return;
-            }
+        {           
+            if (m_robustAnalysis != null) m_robustAnalysis.StopAnalysis();
+            if (m_parameterEstimation != null) m_parameterEstimation.StopAnalysis();
+            if (m_sensitivityAnalysis != null) m_sensitivityAnalysis.StopAnalysis();
+            if (m_bifurcationAnalysis != null) m_bifurcationAnalysis.StopAnalysis();
         }
 
         /// <summary>
@@ -727,8 +795,8 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             ShowGridStatusDialog();
+            m_currentAnalysus = "BifurcationAnalysis";            
             m_env.PluginManager.ChangeStatus(ProjectStatus.Analysis);
-            m_currentAnalysus = "BifurcationAnalysis";
             m_stopAnalysisItem.Enabled = true;
             m_bifurcationAnalysis = new BifurcationAnalysis(this);
             m_bifurcationAnalysis.ExecuteAnalysis();
@@ -749,15 +817,10 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e">EventArgs.</param>
         private void StopAnalysis(object sender, EventArgs e)
         {
-            IsRunningAnalysis();
-            if (m_bifurcationAnalysis != null)
-                m_bifurcationAnalysis.StopAnalysis();
-            if (m_parameterEstimation != null)
-                m_parameterEstimation.StopAnalysis();
-            if (m_robustAnalysis != null)
-                m_robustAnalysis.StopAnalysis();
-            if (m_sensitivityAnalysis != null)
-                m_sensitivityAnalysis.StopAnalysis();
+            if (!IsRunningAnalysis())
+            {
+                return;
+            }
         }
         #endregion
 
@@ -770,69 +833,6 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageResources));
             List<ToolStripMenuItem> list = new List<ToolStripMenuItem>();
-
-            m_showBifurcationSetupItem = new ToolStripMenuItem();
-            m_showBifurcationSetupItem.Text = MessageResources.MenuItemBifurcationAnalysis;
-            m_showBifurcationSetupItem.ToolTipText = MessageResources.MenuToolTipBifurcationAnalysis;
-            m_showBifurcationSetupItem.Tag = 10;
-            m_showBifurcationSetupItem.Click += new EventHandler(ShowBifurcationSetting);
-
-            m_showParameterEstimationSetupItem = new ToolStripMenuItem();
-            m_showParameterEstimationSetupItem.Text = MessageResources.MenuItemParameterEstimation;
-            m_showParameterEstimationSetupItem.ToolTipText = MessageResources.MenuToolTipParameterEstimation;
-            m_showParameterEstimationSetupItem.Tag = 10;
-            m_showParameterEstimationSetupItem.Click += new EventHandler(ShowParameterEstimationSetting);
-
-            m_showRobustAnalysisSetupItem = new ToolStripMenuItem();
-            m_showRobustAnalysisSetupItem.Text = MessageResources.MenuItemRobustAnalysis;
-            m_showRobustAnalysisSetupItem.ToolTipText = MessageResources.MenuToolTipRobustAnalysis;
-            m_showRobustAnalysisSetupItem.Tag = 10;
-            m_showRobustAnalysisSetupItem.Click += new EventHandler(ShowRobustAnalysisSetting);
-
-            m_showSensitiveAnalysisSetupItem = new ToolStripMenuItem();
-            m_showSensitiveAnalysisSetupItem.Text = MessageResources.MenuItemSensitivityAnalysis;
-            m_showSensitiveAnalysisSetupItem.ToolTipText = MessageResources.MenuToolTipSensitivityAnalysis;
-            m_showSensitiveAnalysisSetupItem.Tag = 10;
-            m_showSensitiveAnalysisSetupItem.Click += new EventHandler(ShowSensitivityAnalysisSetting);
-
-            ToolStripSeparator sep1 = new ToolStripSeparator();
-            sep1.Tag = 20;
-
-
-            m_stopAnalysisItem = new ToolStripMenuItem();
-            m_stopAnalysisItem.Text = MessageResources.MenuItemStopAnalysis;
-            m_stopAnalysisItem.ToolTipText = MessageResources.MenuToolTipStopAnalysis;
-            m_stopAnalysisItem.Tag = 90;
-            m_stopAnalysisItem.Enabled = false;
-            m_stopAnalysisItem.Click += new EventHandler(StopAnalysis);
-
-            ToolStripSeparator sep2 = new ToolStripSeparator();
-            sep2.Tag = 120;
-
-            m_saveAnalysisResultItem = new ToolStripMenuItem();
-            m_saveAnalysisResultItem.Text = MessageResources.MenuItemSaveAnalysisResult;
-            m_saveAnalysisResultItem.ToolTipText = MessageResources.MenuToolTipSaveAnalysisResult;
-            m_saveAnalysisResultItem.Tag = 150;
-            m_saveAnalysisResultItem.Enabled = false;
-            m_saveAnalysisResultItem.Click += new EventHandler(SaveAnalysisResult);
-
-            m_loadAnalysisResultItem = new ToolStripMenuItem();
-            m_loadAnalysisResultItem.Text = MessageResources.MenuItemLoadAnalysisResult;
-            m_loadAnalysisResultItem.ToolTipText = MessageResources.MenuToolTipLoadAnalysisResult;
-            m_loadAnalysisResultItem.Tag = 160;
-            m_loadAnalysisResultItem.Enabled = true;
-            m_loadAnalysisResultItem.Click += new EventHandler(LoadAnalysisResult);
-
-            ToolStripMenuItem analysisMenu = new ToolStripMenuItem();
-            analysisMenu.DropDownItems.AddRange(new ToolStripItem[] { 
-                m_showRobustAnalysisSetupItem, m_showParameterEstimationSetupItem,
-                m_showSensitiveAnalysisSetupItem, m_showBifurcationSetupItem, sep1, 
-                m_stopAnalysisItem, sep2,
-                m_saveAnalysisResultItem, m_loadAnalysisResultItem
-            });
-            analysisMenu.Text = "Analysis";
-            analysisMenu.Name = MenuConstants.MenuItemTools;
-
             list.Add(analysisMenu);
 
             return list;
@@ -845,7 +845,7 @@ namespace Ecell.IDE.Plugins.Analysis
             SaveFileDialog dialog = new SaveFileDialog();
             using (dialog)
             {
-                dialog.Filter = Constants.FileExtCSV;
+                dialog.Filter = Constants.FilterCSVFile;
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return;
             }
@@ -865,7 +865,7 @@ namespace Ecell.IDE.Plugins.Analysis
             OpenFileDialog dialog = new OpenFileDialog();
             using (dialog)
             {
-                dialog.Filter = Constants.FileExtCSV;
+                dialog.Filter = Constants.FilterCSVFile;
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return;
 
@@ -1114,5 +1114,31 @@ namespace Ecell.IDE.Plugins.Analysis
         /// Use neally 0 while simulation is executed.
         /// </summary>
         SumEqualZero = 5
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public enum AnalysisType
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        Bifurcation = 0,
+        /// <summary>
+        /// 
+        /// </summary>
+        RobustAnalysis = 1,
+        /// <summary>
+        /// 
+        /// </summary>
+        ParameterEstrimate = 2,
+        /// <summary>
+        /// 
+        /// </summary>
+        Sensitivity = 3,
+        /// <summary>
+        /// 
+        /// </summary>
+        None = 4
     }
 }

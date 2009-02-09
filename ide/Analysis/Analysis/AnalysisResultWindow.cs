@@ -33,8 +33,6 @@ namespace Ecell.IDE.Plugins.Analysis
         private LineItem m_line;
 
         private Color m_headerColor;
-        private int x_index = 0;
-        private int y_index = 0;
         #endregion
 
         #region Constructor
@@ -157,8 +155,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <summary>
         /// Add the judgement data into GridView.
         /// </summary>
-        /// <param name="x">the value of parameter.</param>
-        /// <param name="y">the value of parameter.</param>
+        /// <param name="list">the values of parameter.[List[PointF]]</param>
         public void AddJudgementDataForBifurcation(List<PointF> list)
         {
             RAXComboBox.Enabled = false;
@@ -273,9 +270,7 @@ namespace Ecell.IDE.Plugins.Analysis
                     c.HeaderText = ele[ele.Length - 2];
                 }
                 else
-                {
                     c.HeaderText = key;
-                }
                 gridView.Columns.Add(c);
             }
 
@@ -295,7 +290,8 @@ namespace Ecell.IDE.Plugins.Analysis
                     string[] ele = key.Split(new char[] { ':' });
                     c1.Value = ele[ele.Length - 2];
                 }
-                c1.Value = key;
+                else
+                    c1.Value = key;
                 r.Cells.Add(c1);
                 c1.ReadOnly = true;
             }
@@ -319,7 +315,9 @@ namespace Ecell.IDE.Plugins.Analysis
                 c.Value = ele[ele.Length - 2];
             }
             else
+            {
                 c.Value = key;
+            }
             c.Style.BackColor = m_headerColor;
             r.Cells.Add(c);
             c.ReadOnly = true;
@@ -426,6 +424,7 @@ namespace Ecell.IDE.Plugins.Analysis
         {
             RAXComboBox.Items.Add(name);
             RAYComboBox.Items.Add(name);
+
             if (isX)
             {
                 for (int i = 0; i < RAXComboBox.Items.Count; i++)
@@ -906,6 +905,8 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             m_owner = null;
         }
+        private int x_index = 0;
+        private int y_index = 0;
 
         /// <summary>
         /// Event to change the index of selected data.

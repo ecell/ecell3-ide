@@ -8,10 +8,17 @@ using System.Windows.Forms;
 
 namespace Ecell.IDE.Plugins.Analysis
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class SensitivityAnalysisSettingDialog : Form
     {
         private Analysis m_owner;
         private SensitivityAnalysisParameter m_param;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="owner"></param>
         public SensitivityAnalysisSettingDialog(Analysis owner)
         {
             InitializeComponent();
@@ -24,7 +31,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <returns>the parameter of sensitivity analysis.</returns>
         public SensitivityAnalysisParameter GetParameter()
         {
-           return m_param;
+            return m_param;
         }
 
         /// <summary>

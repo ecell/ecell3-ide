@@ -143,6 +143,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NamePopulation, 0 }));
                 m_owner.FinishedAnalysisByError();
+
                 return;
             }
             if (m_param.Generation <= 0)
@@ -150,6 +151,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NameGenerationNum, 0 }));
                 m_owner.FinishedAnalysisByError();
+
                 return;
             }
             if (m_param.SimulationTime <= 0.0)
@@ -157,6 +159,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger,
                     new object[] { MessageResources.NameSimulationTime, 0.0 }));
                 m_owner.FinishedAnalysisByError();
+
                 return;
             }
             if (m_param.EstimationFormulator == null ||
@@ -196,7 +199,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 m_generation = 0;
                 m_timer.Enabled = true;
                 m_timer.Start();
-            } 
+            }
         }
 
 

@@ -292,7 +292,7 @@ namespace Ecell.IDE.Plugins.Analysis
             m_valueList.Clear();
             m_valueBuffer.Clear();
             m_activityBuffer.Clear();
-//            dManager.SimulationStartKeepSetting(m_param.Step);
+//          dManager.SimulationStartKeepSetting(m_param.Step);
             dManager.StartStepSimulation(m_param.Step);
             foreach (SaveLoggerProperty p in m_saveList)
             {
@@ -311,7 +311,7 @@ namespace Ecell.IDE.Plugins.Analysis
             dManager.SimulationStop();
 
             m_owner.JobManager.SetLoggerData(m_saveList);
-            m_execParam = m_owner.JobManager.RunSimParameterSet(tmpDir, m_model, cTime, false, execDict);
+            m_execParam = m_owner.JobManager.RunSimParameterSet(tmpDir, m_model, cTime, false, execDict);            
         }
 
         /// <summary>
@@ -546,6 +546,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 String errmes = String.Format(MessageResources.ErrExecute,
                     new object[] { MessageResources.NameSensAnalysis });
                 Util.ShowErrorDialog(errmes);
+                m_owner.FinishedAnalysisByError();
                 throw new IgnoreException(errmes);
             }
             Matrix invJacobian = jocobianMatrix.Inverse();
@@ -785,6 +786,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrExecute,
                     new object[] { MessageResources.NameSensAnalysis }));
+                m_owner.FinishedAnalysisByError();
 
                 m_owner.Environment.LogManager.Append(
                         new ApplicationLogEntry(MessageType.Error, ex.ToString(), this));

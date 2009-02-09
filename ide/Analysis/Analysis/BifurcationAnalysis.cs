@@ -31,8 +31,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
 using System.Windows.Forms;
+using System.Drawing;
 
 using Ecell.Objects;
 using Ecell.Job;
@@ -112,13 +112,13 @@ namespace Ecell.IDE.Plugins.Analysis
         /// </summary>
         private Dictionary<int, ExecuteParameter> m_execParam;
         /// <summary>
-        /// The number of data for Axis.
+        /// The number of data for Axis(50).
         /// </summary>
         private static int s_num = 50;
         /// <summary>
-        /// The number of the interval of skip.
+        /// The number of the interval of skip(5).
         /// </summary>
-        private static int s_skip =10;
+        private static int s_skip = 5;
         private bool m_isDone = false;
         private int m_resultPoint = 0;
         #endregion
@@ -418,6 +418,7 @@ namespace Ecell.IDE.Plugins.Analysis
                         int resY = j / s_skip;
 
                         bool isEnableEdge = false;
+
                         if (resX != 0)
                             if (m_region[resX - 1, resY] == 0)
                                 isEnableEdge = true;
@@ -458,7 +459,6 @@ namespace Ecell.IDE.Plugins.Analysis
         private void PrintResultData()
         {
             int count = 0;
-            m_owner.ClearResult();
             for (int i = 0; i <= s_num; i++)
             {
                 for (int j = 0; j <= s_num; j++)
@@ -506,7 +506,7 @@ namespace Ecell.IDE.Plugins.Analysis
                                     if (i + 1 <= s_num)
                                     {
                                         if (m_result[i + 1, j + n] == BifurcationResult.NG &&
-                                            m_result[i + 1, j] == BifurcationResult.NG)
+                                            m_result[i+1, j] == BifurcationResult.NG)
                                             isDraw = true;
                                     }
                                     if (isDraw)
@@ -742,6 +742,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 if (!Util.ShowYesNoDialog(MessageResources.ConfirmFindErrorJob))
                 {
+                    m_owner.FinishedAnalysisByError();
                     return;
                 }
             }
