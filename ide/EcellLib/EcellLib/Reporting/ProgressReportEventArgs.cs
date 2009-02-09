@@ -31,15 +31,23 @@ using System;
 
 namespace Ecell.Reporting
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ProgressReportEventArgs: EventArgs
     {
         private int m_perc;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public int Value
         {
             get { return m_perc; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="perc"></param>
         public ProgressReportEventArgs(int perc)
         {
             m_perc = perc;

@@ -34,32 +34,102 @@ using System.Diagnostics;
 
 namespace Ecell.Reporting
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="o"></param>
+    /// <param name="e"></param>
     public delegate void ReportingSessionStartedEventHandler(object o, ReportingSessionEventArgs e);
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="o"></param>
+    /// <param name="e"></param>
     public delegate void ReportingSessionClosedEventHandler(object o, ReportingSessionEventArgs e);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="o"></param>
+    /// <param name="e"></param>
     public delegate void ReportAddedEventHandler(object o, ReportEventArgs e);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="o"></param>
+    /// <param name="e"></param>
     public delegate void ReportRemovedEventHandler(object o, ReportEventArgs e);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="o"></param>
+    /// <param name="e"></param>
     public delegate void ReportClearEventHandler(object o, EventArgs e);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="o"></param>
+    /// <param name="e"></param>
     public delegate void StatusUpdatedEventHandler(object o, StatusUpdateEventArgs e);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="o"></param>
+    /// <param name="e"></param>
     public delegate void ProgressReportEventHandler(object o, ProgressReportEventArgs e);
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class ReportManager
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public event ReportingSessionStartedEventHandler ReportingSessionStarted;
+        /// <summary>
+        /// 
+        /// </summary>
         public event ReportingSessionClosedEventHandler ReportingSessionClosed;
+        /// <summary>
+        /// 
+        /// </summary>
         public event ReportAddedEventHandler ReportAdded;
+        /// <summary>
+        /// 
+        /// </summary>
         public event ReportRemovedEventHandler ReportRemoved;
+        /// <summary>
+        /// 
+        /// </summary>
         public event ReportClearEventHandler Cleared;
+        /// <summary>
+        /// 
+        /// </summary>
         public event StatusUpdatedEventHandler StatusUpdated;
+        /// <summary>
+        /// 
+        /// </summary>
         public event ProgressReportEventHandler ProgressValueUpdated;
 
         private ApplicationEnvironment m_env;
         private ReportingSession m_rep;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public ApplicationEnvironment Environment
         {
             get { return m_env; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="env"></param>
         public ReportManager(ApplicationEnvironment env)
         {
             m_env = env;
@@ -89,7 +159,10 @@ namespace Ecell.Reporting
                 ReportRemoved(m_rep, new ReportEventArgs(rep));
         }
 
-        internal void Clear()
+        /// <summary>
+        /// Clear()
+        /// </summary>
+        public void Clear()
         {
             lock (this)
             {
@@ -101,7 +174,11 @@ namespace Ecell.Reporting
             if (Cleared != null)
                 Cleared(this, new EventArgs());
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="group"></param>
+        /// <returns></returns>
         public ReportingSession GetReportingSession(string group)
         {
             lock (this)
@@ -117,13 +194,20 @@ namespace Ecell.Reporting
                 ReportingSessionStarted(this, new ReportingSessionEventArgs(m_rep));
             return m_rep;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="text"></param>
         public void SetStatus(StatusBarMessageKind type, string text)
         {
             if (StatusUpdated != null)
                 StatusUpdated(this, new StatusUpdateEventArgs(type, text));
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
         public void SetProgress(int value)
         {
             if (ProgressValueUpdated != null)

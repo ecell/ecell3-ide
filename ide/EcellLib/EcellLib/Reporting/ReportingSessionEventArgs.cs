@@ -33,13 +33,22 @@ using System.Text;
 
 namespace Ecell.Reporting
 {
+    /// <summary>
+    /// ReportingSessionEventArgs
+    /// </summary>
     public class ReportingSessionEventArgs : EventArgs
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ReportingSession ReportingSession
         {
             get { return m_session; }
         }
-
+        /// <summary>
+        /// ReportingSessionEventArgs
+        /// </summary>
+        /// <param name="session"></param>
         public ReportingSessionEventArgs(ReportingSession session)
         {
             m_session = session;

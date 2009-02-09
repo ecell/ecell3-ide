@@ -35,6 +35,9 @@ using Ecell.Objects;
 
 namespace Ecell.Reporting
 {
+    /// <summary>
+    /// ObjectReport
+    /// </summary>
     public class ObjectReport: Report
     {
         private EcellObject m_object;

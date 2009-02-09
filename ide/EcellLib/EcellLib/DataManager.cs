@@ -1754,7 +1754,7 @@ namespace Ecell
         /// </summary>
         /// <param name="modelID">modelID of deleted system.</param>
         /// <param name="sysKey">key of deleted system.</param>
-        public void SystemDeleteAndMove(string modelID, string sysKey)
+        public void DataMerge(string modelID, string sysKey)
         {
             // Check system.
             EcellObject system = GetEcellObject(modelID, sysKey, EcellObject.SYSTEM);
@@ -2255,9 +2255,8 @@ namespace Ecell
         /// <param name="modelID">the model ID of created object.</param>
         /// <param name="key">the system path of parent object.</param>
         /// <param name="type">the type of created object.</param>
-        /// <param name="isProper">the flag whether the create object is propergated.</param>
         /// <returns>the create object.</returns>
-        public EcellObject CreateDefaultObject(string modelID, string key, string type, bool isProper)
+        public EcellObject CreateDefaultObject(string modelID, string key, string type)
         {
             EcellObject obj = null;
             try
@@ -2276,25 +2275,21 @@ namespace Ecell
                 }
                 else if (type.Equals(Constants.xpathText))
                 {
-                    obj = CreateDefaultText(modelID);
+                    string nodeKey = GetTemporaryID(modelID, EcellObject.TEXT, "/");
+                    obj = new EcellText(modelID, nodeKey, EcellObject.TEXT, EcellObject.TEXT, new List<EcellData>());
                 }
-                if (isProper)
-                {
-                    DataAdd(obj);
-                    m_env.PluginManager.SelectChanged(obj);
-                }
+                return obj;
             }
             catch (IgnoreException)
             {
                 return null;
             }
-            catch (Exception ex)
+            catch (EcellException ex)
             {
                 String message = String.Format(MessageResources.ErrAdd,
                     new object[] { type, key });
                 throw new EcellException(message, ex);
             }
-            return obj;
         }
 
         /// <summary>

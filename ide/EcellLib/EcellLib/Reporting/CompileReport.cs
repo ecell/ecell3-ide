@@ -33,8 +33,14 @@ using System.Text;
 
 namespace Ecell.Reporting
 {
-    class CompileReport : Report
+    /// <summary>
+    /// 
+    /// </summary>
+    public class CompileReport : Report
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public override string Location
         {
             get
@@ -44,7 +50,12 @@ namespace Ecell.Reporting
                 return ele[0];
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="message"></param>
+        /// <param name="group"></param>
         public CompileReport(MessageType type, string message, string group)
             : base (type, message, group)
         {

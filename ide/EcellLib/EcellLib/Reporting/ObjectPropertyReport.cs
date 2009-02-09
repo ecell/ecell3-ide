@@ -34,6 +34,9 @@ using Ecell.Objects;
 
 namespace Ecell.Reporting
 {
+    /// <summary>
+    /// ObjectPropertyReport
+    /// </summary>
     public class ObjectPropertyReport: ObjectReport
     {
         private string m_propName;
@@ -71,7 +74,7 @@ namespace Ecell.Reporting
         /// <param name="group">the group string.</param>
         /// <param name="obj">the object of message.</param>
         /// <param name="propertyName">the proerty name.</param>
-        public ObjectPropertyReport(MessageType type, String message,
+        public ObjectPropertyReport(MessageType type, String message, 
             string group, EcellObject obj, string propertyName)
             : base(type, message, group, obj)
         {

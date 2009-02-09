@@ -31,22 +31,33 @@ using System;
 
 namespace Ecell.Reporting
 {
+    /// <summary>
+    /// StatusUpdateEventArgs
+    /// </summary>
     public class StatusUpdateEventArgs: EventArgs
     {
         private string m_text;
 
         private StatusBarMessageKind m_type;
-
+        /// <summary>
+        /// Type
+        /// </summary>
         public StatusBarMessageKind Type
         {
             get { return m_type; }
         }
-
+        /// <summary>
+        /// Text
+        /// </summary>
         public string Text
         {
             get { return m_text; }
         }
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="text"></param>
         public StatusUpdateEventArgs(StatusBarMessageKind type, string text)
         {
             m_type = type;

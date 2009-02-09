@@ -33,62 +33,96 @@ using System.Text;
 
 namespace Ecell.Reporting
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ReportingSession: IList<IReport>, IDisposable
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="idx"></param>
+        /// <returns></returns>
         public IReport this[int idx]
         {
             get { return m_reports[idx]; }
             set { throw new InvalidOperationException(); }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public int Count
         {
             get { return m_reports.Count; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public string Group
         {
             get { return m_group; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public bool IsReadOnly
         {
             get { return false; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="group"></param>
+        /// <param name="rm"></param>
         public ReportingSession(string group, ReportManager rm)
         {
             m_group = group;
             m_man = rm;
             m_reports = new List<IReport>();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         ~ReportingSession()
         {
             Dispose();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Dispose()
         {
             Close();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
         public void Add(IReport item)
         {
             m_man.OnReportAdded(item);
             m_reports.Add(item);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Clear()
         {
             throw new InvalidOperationException();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Contains(IReport item)
         {
             return m_reports.Contains(item);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<IReport> GetEnumerator()
         {
             return m_reports.GetEnumerator();
@@ -98,37 +132,58 @@ namespace Ecell.Reporting
         {
             return m_reports.GetEnumerator();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public int IndexOf(IReport item)
         {
             return m_reports.IndexOf(item);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="idx"></param>
+        /// <param name="item"></param>
         public void Insert(int idx, IReport item)
         {
             m_reports.Insert(idx, item);
             m_man.OnReportAdded(item);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="idx"></param>
         public void RemoveAt(int idx)
         {
             IReport item = m_reports[idx];
             m_reports.RemoveAt(idx);
             m_man.OnReportRemoved(item);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool Remove(IReport item)
         {
             bool retval = m_reports.Remove(item);
             m_man.OnReportRemoved(item);
             return retval;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="idx"></param>
         public void CopyTo(IReport[] a, int idx)
         {
             m_reports.CopyTo(a, idx);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Close()
         {
             m_man.OnSessionClosed();

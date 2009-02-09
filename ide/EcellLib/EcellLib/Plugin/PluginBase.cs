@@ -562,7 +562,7 @@ namespace Ecell.Plugin
         {
             try
             {
-                m_dManager.SystemDeleteAndMove(modelID, key);
+                m_dManager.DataMerge(modelID, key);
             }
             catch (Exception ex)
             {

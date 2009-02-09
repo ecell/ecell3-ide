@@ -75,6 +75,7 @@ namespace Ecell.Reporting
         {
             get { return m_group; }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -85,6 +86,12 @@ namespace Ecell.Reporting
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="message"></param>
+        /// <param name="group"></param>
         public Report(MessageType type, string message, string group)
         {
             m_type = type;
@@ -101,7 +108,11 @@ namespace Ecell.Reporting
         {
             return  Type + ": " + Message + "(location: " + Location + ")";
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if (obj == null || !(obj is Report))
@@ -110,7 +121,10 @@ namespace Ecell.Reporting
             return ent.m_type == this.m_type &&
                 ent.m_message == this.m_message;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return m_type.GetHashCode() ^ m_message.GetHashCode();

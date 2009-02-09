@@ -33,13 +33,22 @@ using System.Text;
 
 namespace Ecell.Reporting
 {
+    /// <summary>
+    /// ReportEventArgs
+    /// </summary>
     public class ReportEventArgs: EventArgs
     {
+        /// <summary>
+        /// Report
+        /// </summary>
         public IReport Report
         {
             get { return m_report; }
         }
-
+        /// <summary>
+        /// ReportEventArgs
+        /// </summary>
+        /// <param name="report"></param>
         public ReportEventArgs(IReport report)
         {
             m_report = report;
