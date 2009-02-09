@@ -52,6 +52,18 @@ namespace Ecell.IDE
             set
             {
                 this.m_object = value;
+
+                string parentSys = "";
+                if (value != null && value.ParentSystemID != null)
+                    parentSys = value.ParentSystemID;
+                bool isSystem = (value is EcellSystem);
+                bool isParentSys = string.IsNullOrEmpty(parentSys);
+
+                addToolStripMenuItem.Visible = isSystem;
+                deleteToolStripMenuItem.Visible = !isParentSys;
+                mergeSystemToolStripMenuItem.Visible = isSystem && !isParentSys;
+                mergeSystemToolStripMenuItem.Text = MessageResources.MergeSystem + "(" + parentSys + ")";
+
                 SetLoggerMenus();
             }
         }
@@ -76,15 +88,6 @@ namespace Ecell.IDE
             InitializeComponent();
             m_env = env;
             Object = obj;
-
-            bool isSystem = (obj is EcellSystem);
-            bool isParentSys = string.IsNullOrEmpty(obj.ParentSystemID);
-
-            addToolStripMenuItem.Visible = isSystem;
-            deleteToolStripMenuItem.Visible = !isParentSys;
-            mergeSystemToolStripMenuItem.Visible = isSystem && !isParentSys;
-            mergeSystemToolStripMenuItem.Text = mergeSystemToolStripMenuItem.Text + "(" + obj.ParentSystemID + ")";
-
         }
 
         /// <summary>
@@ -285,8 +288,9 @@ namespace Ecell.IDE
         {
             ToolStripMenuItem item = sender as ToolStripMenuItem;
             string type = item.Tag as string;
-
-            m_env.DataManager.CreateDefaultObject(m_object.ModelID, m_object.Key, type, true);
+            EcellObject eo = m_env.DataManager.CreateDefaultObject(m_object.ModelID, m_object.Key, type);
+            m_env.DataManager.DataAdd(eo);
+            m_env.PluginManager.SelectChanged(eo);
         }
         /// <summary>
         /// 
@@ -314,7 +318,7 @@ namespace Ecell.IDE
         /// <param name="e"></param>
         private void ClickMergeSystemToolStripMenuItem(object sender, EventArgs e)
         {
-            m_env.DataManager.SystemDeleteAndMove(m_object.ModelID, m_object.Key);
+            m_env.DataManager.DataMerge(m_object.ModelID, m_object.Key);
         }
         #endregion
 

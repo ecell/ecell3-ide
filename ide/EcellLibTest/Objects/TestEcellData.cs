@@ -375,7 +375,7 @@ namespace Ecell.Objects
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
             EcellData data6 = data1.Clone();
-            data6.Value.Value = null;
+            data6.Value = new EcellValue(null);
             expectedBoolean = false;
             resultBoolean = data1.Equals(data6);
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");

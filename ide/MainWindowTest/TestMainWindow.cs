@@ -60,45 +60,7 @@ namespace Ecell.IDE.MainWindow
             Assert.Fail("Create or modify test(s).");
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetMenuStripItems()
-        {
-            System.Collections.Generic.List<System.Windows.Forms.ToolStripMenuItem> expectedList = null;
-            System.Collections.Generic.List<System.Windows.Forms.ToolStripMenuItem> resultList = null;
-            resultList = _unitUnderTest.GetMenuStripItems();
-            Assert.AreEqual(expectedList, resultList, "GetMenuStripItems method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetToolBarMenuStripItems()
-        {
-            System.Windows.Forms.ToolStrip expected = null;
-            System.Windows.Forms.ToolStrip result = null;
-            result = _unitUnderTest.GetToolBarMenuStrip();
-            Assert.AreEqual(expected, result, "GetToolBarMenuStripItems method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestGetWindowsForms()
-        {
-            IEnumerable<Ecell.EcellDockContent> expectedList = null;
-            IEnumerable<Ecell.EcellDockContent> resultList = null;
-            resultList = _unitUnderTest.GetWindowsForms();
-            Assert.AreEqual(expectedList, resultList, "GetWindowsForms method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
-        }
         /// <summary>
         /// 
         /// </summary>

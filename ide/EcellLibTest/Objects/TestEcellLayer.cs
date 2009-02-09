@@ -241,13 +241,13 @@ namespace Ecell.Objects
             EcellValue value = EcellLayer.ConvertToEcellValue(layers);
             Assert.IsNotNull(value, "TestConvertToEcellValue method returned unexpected value.");
             Assert.AreEqual(true, value.IsList, "IsList is unexpected value.");
-            Assert.IsEmpty(value.CastToList(), "TestConvertToEcellValue method returned unexpected value.");
+            Assert.IsEmpty((List<object>)value.Value, "TestConvertToEcellValue method returned unexpected value.");
 
             layers = new List<EcellLayer>();
             value = EcellLayer.ConvertToEcellValue(layers);
             Assert.IsNotNull(value, "TestConvertToEcellValue method returned unexpected value.");
             Assert.AreEqual(true, value.IsList, "IsList is unexpected value.");
-            Assert.IsEmpty(value.CastToList(), "TestConvertToEcellValue method returned unexpected value.");
+            Assert.IsEmpty((List<object>)value.Value, "TestConvertToEcellValue method returned unexpected value.");
 
             string str = "((\"layer0\", 1), (\"Layer1\", 0))";
             layers = EcellLayer.ConvertFromString(str);
@@ -255,15 +255,15 @@ namespace Ecell.Objects
             Assert.IsNotNull(value, "TestConvertToEcellValue method returned unexpected value.");
             Assert.AreEqual(true, value.IsList, "IsList is unexpected value.");
 
-            List<EcellValue> list = value.CastToList();
+            List<object> list = (List<object>)value.Value;
             Assert.IsNotEmpty(list, "CastToList method returned unexpected value.");
 
-            Assert.AreEqual("layer0", list[0].CastToList()[0].CastToString(), "Name is unexpected value.");
-            Assert.AreEqual(1, list[0].CastToList()[1].CastToInt(), "Name is unexpected value.");
+            Assert.AreEqual("layer0", (string)((List<object>)list[0])[0], "Name is unexpected value.");
+            Assert.AreEqual(1, (int)((List<object>)list[0])[1], "Name is unexpected value.");
             Assert.AreEqual("(\"layer0\", 1)", list[0].ToString(), "ToString method returned unexpected value.");
 
-            Assert.AreEqual("Layer1", list[1].CastToList()[0].CastToString(), "Name is unexpected value.");
-            Assert.AreEqual(0, list[1].CastToList()[1].CastToInt(), "Name is unexpected value.");
+            Assert.AreEqual("Layer1", (string)((List<object>)list[1])[0], "Name is unexpected value.");
+            Assert.AreEqual(0, (int)((List<object>)list[1])[1], "Name is unexpected value.");
             Assert.AreEqual("(\"Layer1\", 0)", list[1].ToString(), "ToString method returned unexpected value.");
 
         }

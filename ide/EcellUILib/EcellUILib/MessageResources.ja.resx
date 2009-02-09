@@ -162,6 +162,9 @@
   <data name="ErrSetProp" xml:space="preserve">
     <value>エンティティ {0} のプロパティを設定できません。</value>
   </data>
+  <data name="MergeSystem" xml:space="preserve">
+    <value>上位Systemへマージ</value>
+  </data>
   <data name="NameExecute" xml:space="preserve">
     <value>実行</value>
   </data>

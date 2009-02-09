@@ -139,12 +139,11 @@ namespace Ecell.Objects
         [Test()]
         public void TestAccessor()
         {
-            string str = null;
+            string str = "string"; ;
             EcellValue value = new EcellValue(str);
-            value.Value = "string";
             Assert.AreEqual("string", value.Value);
 
-            value.Value = null;
+            value = new EcellValue(null);
             Assert.IsNull(value.Value, "Value should be null.");
             Assert.IsEmpty(value.ToString(), "ToString() should be empty.");
         }
@@ -155,15 +154,17 @@ namespace Ecell.Objects
         [Test()]
         public void TestConvertFromListString()
         {
-            List<EcellValue> expectedList = new List<EcellValue>();
+            List<EcellReference> list = new List<EcellReference>();
             EcellReference er1 = new EcellReference("S1", "Variable:/:S1", 1, 0);
             EcellReference er2 = new EcellReference("S2", "Variable:/:S2", 1, 1);
-            expectedList.Add(new EcellValue(er1));
-            expectedList.Add(new EcellValue(er2));
+            list.Add(er1);
+            list.Add(er2);
+            EcellValue value = EcellReference.ConvertToEcellValue(list);
+            List<object> expectedList = (List<object>)value.Value;
 
             string str = "((\"S1\", \"Variable:/:S1\", 1, 0), (\"S2\", \"Variable:/:S2\", 1, 1))";
-            EcellValue value = EcellValue.ConvertFromListString(str);
-            List<EcellValue> resultList = value.CastToList();
+            value = EcellValue.ConvertFromListString(str);
+            List<object> resultList = (List<object>)value.Value;
             Assert.AreEqual(expectedList, resultList, "CastToList method returned unexpected result.");
 
             Assert.IsFalse(value.IsInt, "IsInt is not expected value.");
@@ -181,12 +182,12 @@ namespace Ecell.Objects
             double expectedDouble = 0.0001;
             double resultDouble = 0.0001;
             EcellValue value = new EcellValue(expectedDouble);
-            resultDouble = value.CastToDouble();
+            resultDouble = (double)value;
             Assert.IsTrue(value.IsDouble, "IsDouble is not expected value.");
             Assert.AreEqual(expectedDouble, resultDouble, "CastToDouble method returned unexpected result.");
 
             value = new EcellValue(1);
-            resultDouble = value.CastToDouble();
+            resultDouble = (double)value;
             Assert.IsFalse(value.IsDouble, "IsDouble is not expected value.");
             Assert.AreEqual(0.0, resultDouble, "CastToDouble method returned unexpected result.");
         }
@@ -200,12 +201,12 @@ namespace Ecell.Objects
             int expectedInt32 = 10;
             int resultInt32 = 10;
             EcellValue value = new EcellValue(expectedInt32);
-            resultInt32 = value.CastToInt();
+            resultInt32 = (int)value;
             Assert.IsTrue(value.IsInt, "IsInt is not expected value.");
             Assert.AreEqual(expectedInt32, resultInt32, "CastToInt method returned unexpected result.");
 
             value = new EcellValue(0.01);
-            resultInt32 = value.CastToInt();
+            resultInt32 = (int)value;
             Assert.IsFalse(value.IsInt, "IsInt is not expected value.");
             Assert.AreEqual(0, resultInt32, "CastToInt method returned unexpected result.");
         }
@@ -224,15 +225,15 @@ namespace Ecell.Objects
 
             string str = "((\"S1\", \"Variable:/:S1\", 1, 0), (\"S2\", \"Variable:/:S2\", 1, 1))";
             EcellValue value = EcellValue.ConvertFromListString(str);
-            List<EcellValue> resultList = value.CastToList();
+            List<object> resultList = (List<object>)value.Value;
             Assert.AreEqual(expectedList, resultList, "CastToList method returned unexpected result.");
 
             value = EcellValue.ConvertFromListString("");
-            resultList = value.CastToList();
+            resultList = (List<object>)value.Value;
             Assert.IsEmpty(resultList, "resultList shold be empty.");
 
             value = new EcellValue("");
-            resultList = value.CastToList();
+            resultList = (List<object>)value.Value;
             Assert.IsNull(resultList, "resultList shold be empty.");
         }
 
@@ -249,22 +250,22 @@ namespace Ecell.Objects
             EcellReference er1 = new EcellReference("S1", "Variable:/:S1", 1, 0);
             value = new EcellValue(er1);
             expectedString = null;
-            resultString = value.CastToString();
+            resultString = (string)value;
             Assert.AreEqual(expectedString, resultString, "CastToString method returned unexpected result.");
 
             value = new EcellValue(1);
             expectedString = null;
-            resultString = value.CastToString();
+            resultString = (string)value;
             Assert.AreEqual(expectedString, resultString, "CastToString method returned unexpected result.");
 
             value = new EcellValue(0.0002);
             expectedString = null;
-            resultString = value.CastToString();
+            resultString = (string)value;
             Assert.AreEqual(expectedString, resultString, "CastToString method returned unexpected result.");
 
             value = new EcellValue("string");
             expectedString = "string";
-            resultString = value.CastToString();
+            resultString = (string)value;
             Assert.AreEqual(expectedString, resultString, "CastToString method returned unexpected result.");
         }
 
@@ -310,97 +311,6 @@ namespace Ecell.Objects
             expectedString = "string";
             resultString = value.ToString();
             Assert.AreEqual(expectedString, resultString, "ToString method returned unexpected result.");
-        }
-
-        /// <summary>
-        /// Test of GetHashCode()
-        /// </summary>
-        [Test()]
-        public void TestCastToWrappedPolymorph()
-        {
-            EcellValue value;
-            EcellValue newValue;
-            WrappedPolymorph polymorph;
-
-            value = new EcellValue(1);
-            polymorph = EcellValue.CastToWrappedPolymorph(value);
-            Assert.IsNotNull(polymorph, "CastToWrappedPolymorph method failed to create instance.");
-            Assert.IsTrue(polymorph.IsInt(), "IsInt is not expected value.");
-            Assert.IsFalse(polymorph.IsDouble(), "IsDouble is not expected value.");
-            Assert.IsFalse(polymorph.IsList(), "IsList is not expected value.");
-            Assert.IsFalse(polymorph.IsString(), "IsString is not expected value.");
-            Assert.AreEqual(1, polymorph.CastToInt(), "CastToInt method returned unexpected result.");
-
-            newValue = EcellValue.ConvertFromWrappedPolymorph(polymorph);
-            Assert.IsNotNull(newValue, "ConvertFromWrappedPolymorph method failed to create instance.");
-            Assert.AreEqual(value, newValue, "ConvertFromWrappedPolymorph method returned unexpected result.");
-            Assert.IsTrue(newValue.IsInt, "IsInt is not expected value.");
-            Assert.IsFalse(newValue.IsDouble, "IsDouble is not expected value.");
-            Assert.IsFalse(newValue.IsList, "IsList is not expected value.");
-            Assert.IsFalse(newValue.IsString, "IsString is not expected value.");
-            Assert.AreEqual(1, (int)newValue.Value, "Value is not expected value.");
-            Assert.AreEqual(typeof(int), newValue.Type, "Type is not expected value.");
-
-            // double
-            value = new EcellValue(0.01);
-            polymorph = EcellValue.CastToWrappedPolymorph(value);
-            Assert.IsNotNull(polymorph, "CastToWrappedPolymorph method failed to create instance.");
-            Assert.IsFalse(polymorph.IsInt(), "IsInt is not expected value.");
-            Assert.IsTrue(polymorph.IsDouble(), "IsDouble is not expected value.");
-            Assert.IsFalse(polymorph.IsList(), "IsList is not expected value.");
-            Assert.IsFalse(polymorph.IsString(), "IsString is not expected value.");
-            Assert.AreEqual(0.01, polymorph.CastToDouble(), "CastToDouble method returned unexpected result.");
-
-            newValue = EcellValue.ConvertFromWrappedPolymorph(polymorph);
-            Assert.IsNotNull(newValue, "ConvertFromWrappedPolymorph method failed to create instance.");
-            Assert.AreEqual(value, newValue, "ConvertFromWrappedPolymorph method returned unexpected result.");
-            Assert.IsFalse(newValue.IsInt, "IsInt is not expected value.");
-            Assert.IsTrue(newValue.IsDouble, "IsDouble is not expected value.");
-            Assert.IsFalse(newValue.IsList, "IsList is not expected value.");
-            Assert.IsFalse(newValue.IsString, "IsString is not expected value.");
-            Assert.AreEqual(0.01, (double)newValue.Value, "Value is not expected value.");
-            Assert.AreEqual(typeof(double), newValue.Type, "Type is not expected value.");
-
-            // string.
-            value = new EcellValue("test");
-            polymorph = EcellValue.CastToWrappedPolymorph(value);
-            Assert.IsNotNull(polymorph, "CastToWrappedPolymorph method failed to create instance.");
-            Assert.IsFalse(polymorph.IsInt(), "IsInt is not expected value.");
-            Assert.IsFalse(polymorph.IsDouble(), "IsDouble is not expected value.");
-            Assert.IsFalse(polymorph.IsList(), "IsList is not expected value.");
-            Assert.IsTrue(polymorph.IsString(), "IsString is not expected value.");
-            Assert.AreEqual("test", polymorph.CastToString(), "CastToString method returned unexpected result.");
-
-            newValue = EcellValue.ConvertFromWrappedPolymorph(polymorph);
-            Assert.IsNotNull(newValue, "ConvertFromWrappedPolymorph method failed to create instance.");
-            Assert.AreEqual(value, newValue, "ConvertFromWrappedPolymorph method returned unexpected result.");
-            Assert.IsFalse(newValue.IsInt, "IsInt is not expected value.");
-            Assert.IsFalse(newValue.IsDouble, "IsDouble is not expected value.");
-            Assert.IsFalse(newValue.IsList, "IsList is not expected value.");
-            Assert.IsTrue(newValue.IsString, "IsString is not expected value.");
-            Assert.AreEqual("test", (string)newValue.Value, "Value is not expected value.");
-            Assert.AreEqual(typeof(string), newValue.Type, "Type is not expected value.");
-
-            // list
-            string str = "((\"S1\", \"Variable:/:S1\", 1, 0), (\"S2\", \"Variable:/:S2\", 1, 1))";
-            value = EcellValue.ConvertFromListString(str);
-            polymorph = EcellValue.CastToWrappedPolymorph(value);
-            Assert.IsNotNull(polymorph, "CastToWrappedPolymorph method failed to create instance.");
-            Assert.IsFalse(polymorph.IsInt(), "IsInt is not expected value.");
-            Assert.IsFalse(polymorph.IsDouble(), "IsDouble is not expected value.");
-            Assert.IsTrue(polymorph.IsList(), "IsList is not expected value.");
-            Assert.IsFalse(polymorph.IsString(), "IsString is not expected value.");
-
-            newValue = EcellValue.ConvertFromWrappedPolymorph(polymorph);
-            Assert.IsNotNull(newValue, "ConvertFromWrappedPolymorph method failed to create instance.");
-            Assert.AreEqual(value, newValue, "ConvertFromWrappedPolymorph method returned unexpected result.");
-            Assert.IsFalse(newValue.IsInt, "IsInt is not expected value.");
-            Assert.IsFalse(newValue.IsDouble, "IsDouble is not expected value.");
-            Assert.IsTrue(newValue.IsList, "IsList is not expected value.");
-            Assert.IsFalse(newValue.IsString, "IsString is not expected value.");
-            Assert.AreEqual(str, newValue.ToString(), "ToString method returned unexpected result.");
-            Assert.AreEqual(newValue.Type, typeof(List<EcellValue>), "Type is not expected value.");
-
         }
 
         /// <summary>
@@ -460,7 +370,7 @@ namespace Ecell.Objects
             object obj = ((ICloneable)value).Clone();
             Assert.IsNotNull(obj, "Constructor of type, EcellValue failed to create instance.");
 
-            value.Value = null;
+            value = new EcellValue(null);
             try
             {
                 EcellValue newValue = value.Clone();
@@ -481,7 +391,7 @@ namespace Ecell.Objects
             EcellValue value2 = value1.Clone();
             Assert.AreEqual(value1.GetHashCode(), value2.GetHashCode(), "Clone method returned unexpected result.");
 
-            value1.Value = null;
+            value1 = new EcellValue(null);
             Assert.IsNotNull(value1.GetHashCode());
         }
 

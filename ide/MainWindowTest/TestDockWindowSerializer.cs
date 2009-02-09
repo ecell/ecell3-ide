@@ -67,7 +67,7 @@ namespace Ecell.IDE.MainWindow
         public void TestSaveAsXML()
         {
             string modelFile = Path.Combine(Util.GetUserDir(), "TestModel.xml");
-            DockWindowSerializer.SaveAsXML(_window, modelFile);
+            DockWindowSerializer.SaveAsXML(_window, modelFile, false);
             Assert.IsNotNull(_window);
         }
         /// <summary>

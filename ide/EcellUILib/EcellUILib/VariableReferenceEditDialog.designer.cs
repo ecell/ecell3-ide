@@ -48,13 +48,13 @@
             // 
             this.dgv.AllowUserToAddRows = false;
             this.dgv.AllowUserToResizeRows = false;
+            resources.ApplyResources(this.dgv, "dgv");
             this.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ReferenceName,
             this.FullID,
             this.Coefficient});
-            resources.ApplyResources(this.dgv, "dgv");
             this.dgv.MultiSelect = false;
             this.dgv.Name = "dgv";
             this.dgv.RowHeadersVisible = false;
@@ -91,15 +91,15 @@
             // 
             // cancelButton
             // 
-            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.cancelButton, "cancelButton");
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.UseVisualStyleBackColor = true;
             // 
             // okButton
             // 
-            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.okButton, "okButton");
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.okButton.Name = "okButton";
             this.okButton.UseVisualStyleBackColor = true;
             // 

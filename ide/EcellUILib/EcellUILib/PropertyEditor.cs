@@ -123,7 +123,7 @@ namespace Ecell.IDE
             if (obj == null) return;
             try
             {
-                editor.SetCurrentObject(obj);
+                editor.SetCurrentObject(obj.Clone());
                 if (editor.ShowDialog() == DialogResult.OK)
                 {
                 }
@@ -154,7 +154,7 @@ namespace Ecell.IDE
         private void SetCurrentObject(EcellObject obj)
         {
             m_currentObj = obj;
-            m_type = obj.Type;
+            SetDataType(obj.Type);
             if (m_currentObj.Type.Equals(EcellObject.PROCESS))
             {
                 m_propName = m_currentObj.Classname;
@@ -162,6 +162,15 @@ namespace Ecell.IDE
                 m_refList = process.ReferenceList;
             }
             LayoutPropertyEditor();
+        }
+
+        /// <summary>
+        /// Set data type displayed in PropertyEditor.
+        /// </summary>
+        /// <param name="type">data type of object.</param>
+        private void SetDataType(string type)
+        {
+            m_type = type;
         }
 
         /// <summary>
@@ -315,7 +324,7 @@ namespace Ecell.IDE
                 {
                     if (m_dManager.IsContainsParameterData(m_propDict[key].EntityPath))
                         c.Checked = false;
-                    else 
+                    else
                         c.Checked = true;
                     c.Enabled = true;
                     c.CheckedChanged += new EventHandler(c_CheckedChanged);
@@ -640,7 +649,23 @@ namespace Ecell.IDE
                 m_currentObj.Type != EcellObject.VARIABLE)
                 return;
 
-            string parentSystemId = Util.GetSuperSystemPath(text);
+            string parentSystemId;
+            string localID;
+            try
+            {
+                if (m_currentObj.Type == EcellObject.SYSTEM)
+                    Util.ParseSystemKey(text, out parentSystemId, out localID);
+                else
+                    Util.ParseEntityKey(text, out parentSystemId, out localID);
+            }
+            catch (EcellException)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidID, text));
+                e.Cancel = true;
+                textBox.Text = m_currentObj.Key;
+                return;
+            }
+
             EcellObject sysObj = m_dManager.CurrentProject.GetSystem(m_currentObj.ModelID, parentSystemId);
             if (!text.Equals("/") && sysObj == null)
             {
@@ -977,20 +1002,6 @@ namespace Ecell.IDE
 
             if (m_currentObj == null && m_type.Equals(EcellObject.SYSTEM))
             {
-                CheckBox c = new CheckBox();
-                if (m_propDict["Size"].Logged)
-                {
-                    c.Checked = true;
-                }
-                else
-                {
-                    c.Checked = false;
-                }
-                c.Text = "";
-                c.AutoSize = true;
-                c.Enabled = true;
-                layoutPanel.Controls.Add(c, 0, i);
-
                 layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                 Label l = new Label();
                 l.Text = "Size";
@@ -1007,6 +1018,20 @@ namespace Ecell.IDE
             }
             else if (m_currentObj != null && m_currentObj.Type.Equals(EcellObject.SYSTEM))
             {
+                CheckBox c = new CheckBox();
+                if (m_propDict["Size"].Logged)
+                {
+                    c.Checked = true;
+                }
+                else
+                {
+                    c.Checked = false;
+                }
+                c.Text = "";
+                c.AutoSize = true;
+                c.Enabled = true;
+                layoutPanel.Controls.Add(c, 0, i);
+
                 layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
                 Label l = new Label();
                 l.Text = "Size";
@@ -1104,14 +1129,14 @@ namespace Ecell.IDE
                             return;
                         }
                         else if (m_currentObj.Type.Equals(EcellObject.SYSTEM) &&
-                            Util.IsNGforSystemFullID(c.Text))
+                            Util.IsNGforSystemKey(c.Text))
                         {
                             Util.ShowWarningDialog(MessageResources.ErrInvalidID);
                             e.Cancel = true;
                             return;
                         }
                         else if (!m_currentObj.Type.Equals(EcellObject.SYSTEM) &&
-                            Util.IsNGforComponentFullID(c.Text))
+                            Util.IsNGforEntityKey(c.Text))
                         {
                             Util.ShowWarningDialog(MessageResources.ErrInvalidID);
                             e.Cancel = true;
@@ -1203,7 +1228,7 @@ namespace Ecell.IDE
                                 data.Value = new EcellValue(Convert.ToDouble(c.Text));
                         }
                         else if (m_propDict[data.Name].Value.Type == EcellValueType.List)
-                            data.Value = new EcellValue(c.Text);
+                            data.Value = EcellValue.ConvertFromListString(c.Text);
                         else
                             data.Value = new EcellValue(c.Text);
 

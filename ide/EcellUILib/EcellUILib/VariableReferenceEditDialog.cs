@@ -385,14 +385,6 @@ namespace Ecell.IDE
                 {
                     key = fullID;
                 }
-                //EcellObject obj = m_dManager.GetEcellObject(m_dManager.CurrentProject.Model.ModelID,
-                //    key,
-                //    EcellObject.VARIABLE);
-                //if (obj == null)
-                //{
-                //    e.Cancel = true;
-                //    dgv.CancelEdit();
-                //}
             }
             else if (e.ColumnIndex == 2)
             {

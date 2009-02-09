@@ -456,10 +456,10 @@ namespace Ecell.Objects
             Assert.AreEqual(expectedEcellValue, resultEcellValue, "ConvertToEcellValue method returned unexpected result.");
 
             EcellValue empty1 = EcellReference.ConvertToEcellValue(new List<EcellReference>());
-            Assert.IsEmpty(empty1.CastToList(), "Returned List shold be empty.");
+            Assert.IsEmpty((List<object>)empty1.Value, "Returned List shold be empty.");
 
             EcellValue empty2 = EcellReference.ConvertToEcellValue(null);
-            Assert.IsEmpty(empty2.CastToList(), "Returned List shold be empty.");
+            Assert.IsEmpty((List<object>)empty2.Value, "Returned List shold be empty.");
         }
     }
 }
