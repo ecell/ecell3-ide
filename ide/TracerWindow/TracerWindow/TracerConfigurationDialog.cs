@@ -14,22 +14,30 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private double m_intervalSecond;
         private int m_stepNumber;
         private ValueDataFormat m_dataformat;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public double PlotNumber
         {
             get { return m_plotNumber; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public double IntervalSecond
         {
             get { return m_intervalSecond; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public int StepNumber
         {
             get { return m_stepNumber; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public string DataFormat
         {
             get

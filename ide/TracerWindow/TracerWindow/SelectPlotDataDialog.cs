@@ -38,23 +38,34 @@ using System.Windows.Forms;
 
 namespace Ecell.IDE.Plugins.TracerWindow
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class SelectPlotDataDialog : Form
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string X
         {
             get { return this.XplotComboBox.Text; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public String Y
         {
             get { return this.YPlotComboBox.Text; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="env"></param>
         public SelectPlotDataDialog(ApplicationEnvironment env)
         {
             InitializeComponent();
 
-            IList<string> resList = env.DataManager.GetLoggerList();
+            List<string> resList = env.DataManager.GetLoggerList();
             foreach (String data in resList)
             {
                 XplotComboBox.Items.Add(data);

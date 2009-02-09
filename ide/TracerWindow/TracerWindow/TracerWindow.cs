@@ -83,6 +83,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         private List<TraceWindow> m_winList = new List<TraceWindow>();
         /// <summary>
+        /// The list of TracerWindow.
+        /// </summary>
+        private List<ToolStripMenuItem> m_menuList;
+        /// <summary>
         /// The current system status.
         /// </summary>
         ProjectStatus m_type;
@@ -129,7 +133,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         bool isStep = false;
         bool isLogAdding = false;
         int m_winCount = 1;
-        private List<TagData> m_isContiuousList = new List<TagData>();
         #endregion
 
         #region Constructor
@@ -155,17 +158,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             m_currentMax = 1.0;
             m_winCount = 1;
-        }
-        #endregion
 
-        #region Inherited from PluginBase
-        /// <summary>
-        /// Get menustrips for TracerWindow.
-        /// </summary>
-        /// <returns>MenuStripItems</returns>
-        public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
-        {
-            List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();
+            m_menuList = new List<ToolStripMenuItem>();
 
             m_showWin = new ToolStripMenuItem();
             m_showWin.Text = MessageResources.MenuItemShowTraceText;
@@ -189,7 +183,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             view.Name = "MenuItemView";
             view.Size = new Size(36, 20);
             view.Text = "View";
-            tmp.Add(view);
 
             m_setupWin = new ToolStripMenuItem();
             m_setupWin.Name = "MenuItemShowTraceSetup";
@@ -205,7 +198,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             setup.Name = "MenuItemSetup";
             setup.Size = new Size(36, 20);
             setup.Text = "Setup";
-            tmp.Add(setup);
 
             m_showSaveWin = new ToolStripMenuItem();
             m_showSaveWin.Text = MessageResources.MenuItemShowSaveTraceText;
@@ -221,9 +213,22 @@ namespace Ecell.IDE.Plugins.TracerWindow
             filem.Name = "MenuItemFile";
             filem.Size = new Size(36, 20);
             filem.Text = "File";
-            tmp.Add(filem);
 
-            return tmp;
+            m_menuList.Add(view);
+            m_menuList.Add(setup);
+            m_menuList.Add(filem);
+        }
+        #endregion
+
+        #region Inherited from PluginBase
+        /// <summary>
+        /// Get menustrips for TracerWindow.
+        /// </summary>
+        /// <returns>MenuStripItems</returns>
+        public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
+        {
+
+            return m_menuList;
         }
 
         /// <summary>
@@ -479,7 +484,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     }
                 }
                 isStep = true;
-                UpdateGraphDelegate();
                 m_showWin.Enabled = true;
                 m_plotWin.Enabled = true;
                 m_setupWin.Enabled = false;
@@ -555,8 +559,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             return "TracerWindow";
         }
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override Dictionary<string, Delegate> GetPublicDelegate()
         {
             Dictionary<string, Delegate> list = new Dictionary<string, Delegate>();
@@ -604,7 +610,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         void UpdateGraphDelegate()
         {
-            IEnumerable<LogData> list;
+            List<LogData> list;
             double nextTime = m_dManager.GetCurrentSimulationTime();
 
             if (m_winList.Count == 0) return;
@@ -682,6 +688,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 if (t.IsDisposed) continue;
                     t.AddPoints(m_currentMax, nextTime, list, false);
             }
+            list.Clear();
+            list = null;
         }
 
         /// <summary>
@@ -738,6 +746,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
         }
 
+        private List<TagData> m_isContiuousList = new List<TagData>();
+
         /// <summary>
         /// Call this function, when simulation start.
         /// Run the timer for firing redraw event.
@@ -758,7 +768,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                         if (v == null)
                             continue;
                         bool isCont = false;
-                        if (v.IsList && (int)v.Value == 1)
+                        if ((int)v.Value == 1)
                             isCont = true;
 
                         foreach (TraceWindow win in m_winList)
@@ -1170,14 +1180,34 @@ namespace Ecell.IDE.Plugins.TracerWindow
             else return DashStyle.DashDotDot;
         }
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
     public enum ValueDataFormat
     {
+        /// <summary>
+        /// 
+        /// </summary>
         Normal = 0,
+        /// <summary>
+        /// 
+        /// </summary>
         Exponential1 = 1,
+        /// <summary>
+        /// 
+        /// </summary>
         Exponential2 = 2,
+        /// <summary>
+        /// 
+        /// </summary>
         Exponential3 = 3,
+        /// <summary>
+        /// 
+        /// </summary>
         Exponential4 = 4,
-        Exponential5 = 5,
+        /// <summary>
+        /// 
+        /// </summary>
+        Exponential5 = 5
     }
 }

@@ -51,27 +51,37 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private double m_simTime;
         private string m_fileType;
         private List<string> m_saveList;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public string DirectoryName
         {
             get { return this.m_directoryName; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public double Start
         {
             get { return this.m_start; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public double End
         {
             get { return this.m_end; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public string FileType
         {
             get { return this.m_fileType; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public List<string> SaveList
         {
             get { return m_saveList; }
@@ -119,7 +129,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 SaveEntrySelectView.Rows.Add(new object[] {true, tag.M_path});
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveTraceDialogClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult != DialogResult.OK) return;
@@ -151,7 +165,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 e.Cancel = true;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StartTime_Validating(object sender, CancelEventArgs e)
         {
             string text = startTextBox.Text;
@@ -169,7 +187,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
             m_start = dummy;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EndTime_Validating(object sender, CancelEventArgs e)
         {
             string text = endTextBox.Text;
@@ -181,10 +203,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy < 0.0 || m_start > dummy || m_end <= dummy || m_simTime < dummy)
+            if (!Double.TryParse(text, out dummy) || dummy < 0.0 || m_start >= dummy || m_simTime < dummy)
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                endTextBox.Text = Convert.ToString(m_end);
+                endTextBox.Text = m_end.ToString();
                 e.Cancel = true;
                 return;
             }

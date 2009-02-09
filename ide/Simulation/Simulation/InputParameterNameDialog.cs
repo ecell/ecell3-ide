@@ -45,11 +45,13 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <summary>
         /// DataManager.
         /// </summary>
-        SimulationConfigurationDialog m_owner;
+        private SimulationConfigurationDialog m_owner;
         private bool m_isParam;
         #endregion
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         public string InputText
         {
             get { return paramTextBox.Text; }

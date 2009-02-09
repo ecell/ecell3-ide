@@ -127,22 +127,23 @@ namespace Ecell.IDE.Plugins.TracerWindow
             it2.Click += new EventHandler(ShowSetupWindow);
 
             cStrip.Items.AddRange(new ToolStripItem[] { it1, it2 });
+            //cStrip.Items.AddRange(new ToolStripItem[] { it2 });
             dgv.ContextMenuStrip = cStrip;
-
+            
             m_zCnt = new ZedGraphControl();
             m_zCnt.Dock = DockStyle.Fill;
             m_zCnt.GraphPane.Title.Text = "";
             m_zCnt.GraphPane.XAxis.Title.Text = "Time(sec)";
-            m_zCnt.GraphPane.YAxis.Title.IsVisible = false;
-            m_zCnt.GraphPane.Legend.IsVisible = false;
             m_zCnt.GraphPane.YAxis.Scale.Format = "G";
+            m_zCnt.GraphPane.YAxis.Title.Text = "";
+            m_zCnt.GraphPane.Legend.IsVisible = false;
             m_zCnt.GraphPane.XAxis.Scale.Max = 100;
             m_zCnt.GraphPane.XAxis.Scale.MaxAuto = false;
             m_zCnt.GraphPane.XAxis.Scale.Min = 0;
             m_zCnt.IsEnableWheelZoom = false;
             m_zCnt.IsEnableHPan = false;
             m_zCnt.IsEnableVPan = false;
-            m_zCnt.ZoomEvent += new ZedGraphControl.ZoomEventHandler(ZcntZoomEvent);
+            m_zCnt.ZoomEvent += new ZedGraphControl.ZoomEventHandler(ZcntZoomEvent);            
             m_zCnt.ContextMenuBuilder += new ZedGraphControl.ContextMenuBuilderEventHandler(ZedControlContextMenuBuilder);
             dgv.CellDoubleClick += new DataGridViewCellEventHandler(CellDoubleClicked);
             dgv.CurrentCellDirtyStateChanged += new EventHandler(CurrentCellDirtyStateChanged);
@@ -163,12 +164,18 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.AxisChange();
             m_zCnt.Refresh();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public string DataFormat
         {
             set { this.m_zCnt.PointValueFormat = value; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void dgv_DragEnter(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");
@@ -177,7 +184,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             else
                 e.Effect = DragDropEffects.None;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void dgv_DragDrop(object sender, DragEventArgs e)
         {
             object obj = e.Data.GetData("Ecell.Objects.EcellDragObject");
@@ -199,7 +210,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     }
                 }
                 m_owner.DataManager.DataChanged(t.ModelID, t.Key, t.Type, t);
-
             }
 
             foreach (string fileName in dobj.LogList)
@@ -242,6 +252,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
         public void ImportLog(string fileName)
         {
             LogData log = m_owner.DataManager.LoadSimulationResult(fileName);
@@ -286,8 +300,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_entryDic.Clear();
             m_logList.Clear();
         }
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="keyData"></param>
+        /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if ((int)keyData == (int)Keys.Control + (int)Keys.D ||
@@ -303,7 +321,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 ShowSetupWindow(null, new EventArgs());
             }
-
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
@@ -493,7 +510,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 if (!isSuspend)
                 {
-                    m_zCnt.GraphPane.XAxis.Scale.Max = m_MaxXAxis;
+                    if (!m_zCnt.GraphPane.IsZoomed)
+                        m_zCnt.GraphPane.XAxis.Scale.Max = m_MaxXAxis;
                     m_zCnt.AxisChange();
                     m_zCnt.Refresh();
                 }
@@ -581,7 +599,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="maxAxis">max axis of x.</param>
         /// <param name="nextTime">current time of simulation.</param>
         /// <param name="data">the simulation data.</param>
-        public void AddPoints(double maxAxis, double nextTime, IEnumerable<LogData> data, bool isLoaded)
+        /// <param name="isLoaded"></param>
+        public void AddPoints(double maxAxis, double nextTime, List<LogData> data, bool isLoaded)
         {
             bool isAxis = false;
 
@@ -663,7 +682,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                         m_zCnt.Width, m_zCnt.Height))
                     {
                         m_entryDic[key].CurrentLineItem.Line.IsSmooth = true;
-                        m_entryDic[key].TmpLineItem.Line.IsSmooth = true;
+                        m_entryDic[key].TmpLineItem.Line.IsSmooth = true;                        
                     }
                     else
                     {
@@ -673,7 +692,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
                 }
             }
-
             UpdateGraphCallBack dlg = new UpdateGraphCallBack(UpdateGraph);
             this.Invoke(dlg, new object[] { isAxis });
         }
@@ -701,6 +719,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="e">EventArgs</param>
         public void ShownEvent(object sender, EventArgs e)
         {
+
+
             Thread.CurrentThread.IsBackground = true;
 
             InitializeWindow(m_entry);
@@ -984,6 +1004,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             DialogResult r = m_openDialog.ShowDialog();
             if (r != DialogResult.OK) return;
+
             ImportLog(m_openDialog.FileName);
         }
 
@@ -999,8 +1020,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (m.Msg == WM_SYSCOMMAND && m.WParam.ToInt32() == SC_CLOSE)
             {
                 if (Util.ShowOKCancelDialog(MessageResources.ConfirmClose))
-
-
                 {
                     this.Dispose();
                 }
@@ -1028,7 +1047,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             double sx = m_zCnt.GraphPane.XAxis.Scale.Min;
             double ex = m_zCnt.GraphPane.XAxis.Scale.Max;
             double m_step = (ex - sx) / TracerWindow.s_count;
-            IEnumerable<LogData> list;
+            List<LogData> list;
             if (!m_zCnt.GraphPane.IsZoomed)
             {
                 double nextTime = m_owner.DataManager.GetCurrentSimulationTime();
@@ -1072,9 +1091,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
             UpdateGraph(true);
             //UpdateGraphCallBack f = new UpdateGraphCallBack(UpdateGraph);
-            //this.Invoke(f, new object[] { isAxis });            
+            //this.Invoke(f, new object[] { isAxis });
+            list.Clear();
             list = null;
+            
         }
+
         #endregion
     }
 }

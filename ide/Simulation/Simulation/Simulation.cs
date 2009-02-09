@@ -63,11 +63,11 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <summary>
         /// Button to suspend simulation.
         /// </summary>
-        private ToolStripButton m_suspendButton;
+        private ToolStripButton m_stopButton;
         /// <summary>
         /// Button to stop simulation.
         /// </summary>
-        private ToolStripButton m_stopButton;
+        private ToolStripButton m_resetButton;
         /// <summary>
         /// Button to step simulation.
         /// </summary>
@@ -106,11 +106,11 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <summary>
         /// the menu strip for [Suspend ... ]
         /// </summary>
-        private ToolStripMenuItem menuSuspendSim;
+        private ToolStripMenuItem menuStopSim;
         /// <summary>
         /// the menu strip for [Stop ...]
         /// </summary>
-        private ToolStripMenuItem menuStopSim;
+        private ToolStripMenuItem menuResetSim;
         /// <summary>
         /// the menu strip for [Step ...]
         /// </summary>
@@ -160,23 +160,23 @@ namespace Ecell.IDE.Plugins.Simulation
             menuRunSim.Enabled = false;
             menuRunSim.Click += new EventHandler(this.RunSimulation);
 
-            menuSuspendSim = new ToolStripMenuItem();
-            menuSuspendSim.Name = "MenuItemSuspendSimulation";
-            menuSuspendSim.Size = new Size(96, 22);
-            menuSuspendSim.Text = MessageResources.MenuItemSuspend;
-            menuSuspendSim.Tag = 20;
-            menuSuspendSim.Image = (Image)resources.GetObject("media_pause"); 
-            menuSuspendSim.Enabled = false;
-            menuSuspendSim.Click += new EventHandler(this.SuspendSimulation);
-
             menuStopSim = new ToolStripMenuItem();
-            menuStopSim.Name = "MenuItemStopSimulation";
+            menuStopSim.Name = "MenuItemSuspendSimulation";
             menuStopSim.Size = new Size(96, 22);
-            menuStopSim.Image = (Image)resources.GetObject("media_stop_red");
-            menuStopSim.Text = MessageResources.MenuItemStop;
-            menuStopSim.Tag = 30;
+            menuStopSim.Text = MessageResources.MenuItemSuspend;
+            menuStopSim.Tag = 20;
+            menuStopSim.Image = (Image)resources.GetObject("media_pause"); 
             menuStopSim.Enabled = false;
-            menuStopSim.Click += new EventHandler(this.ResetSimulation);
+            menuStopSim.Click += new EventHandler(this.StopSimulation);
+
+            menuResetSim = new ToolStripMenuItem();
+            menuResetSim.Name = "MenuItemStopSimulation";
+            menuResetSim.Size = new Size(96, 22);
+            menuResetSim.Image = (Image)resources.GetObject("media_stop_red");
+            menuResetSim.Text = MessageResources.MenuItemStop;
+            menuResetSim.Tag = 30;
+            menuResetSim.Enabled = false;
+            menuResetSim.Click += new EventHandler(this.ResetSimulation);
 
             menuStepSim = new ToolStripMenuItem();
             menuStepSim.Name = "MenuItemStepSimulation";
@@ -193,8 +193,8 @@ namespace Ecell.IDE.Plugins.Simulation
             MenuItemRun.Text = "Run";
             MenuItemRun.DropDownItems.AddRange(new ToolStripItem[] {
                 menuRunSim,
-                menuSuspendSim,
                 menuStopSim,
+                menuResetSim,
                 menuStepSim
             });
 
@@ -233,25 +233,25 @@ namespace Ecell.IDE.Plugins.Simulation
             m_runButton.ToolTipText = MessageResources.ToolTipRun;
             m_runButton.Click += new System.EventHandler(this.RunSimulation);
 
-            m_suspendButton = new ToolStripButton();
-            m_suspendButton.Image = (Image)resources.GetObject("media_pause");
-            m_suspendButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            m_suspendButton.Name = "SuspendSimulation";
-            m_suspendButton.Size = new System.Drawing.Size(23, 22);
-            m_suspendButton.Tag = 3;
-            m_suspendButton.Text = "";
-            m_suspendButton.ToolTipText = MessageResources.ToolTipSuspend;
-            m_suspendButton.Click += new System.EventHandler(this.SuspendSimulation);
-
             m_stopButton = new ToolStripButton();
-            m_stopButton.Image = (Image)resources.GetObject("media_stop_red");
+            m_stopButton.Image = (Image)resources.GetObject("media_pause");
             m_stopButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             m_stopButton.Name = "StopSimulation";
             m_stopButton.Size = new System.Drawing.Size(23, 22);
+            m_stopButton.Tag = 3;
             m_stopButton.Text = "";
-            m_stopButton.Tag = 4;
-            m_stopButton.ToolTipText = MessageResources.ToolTipStop;
-            m_stopButton.Click += new System.EventHandler(this.ResetSimulation);
+            m_stopButton.ToolTipText = MessageResources.ToolTipSuspend;
+            m_stopButton.Click += new System.EventHandler(this.StopSimulation);
+
+            m_resetButton = new ToolStripButton();
+            m_resetButton.Image = (Image)resources.GetObject("media_stop_red");
+            m_resetButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            m_resetButton.Name = "ResetSimulation";
+            m_resetButton.Size = new System.Drawing.Size(23, 22);
+            m_resetButton.Text = "";
+            m_resetButton.Tag = 4;
+            m_resetButton.ToolTipText = MessageResources.ToolTipReset;
+            m_resetButton.Click += new System.EventHandler(this.ResetSimulation);
 
             ToolStripLabel timeLabel = new ToolStripLabel();
             timeLabel.Name = "TimeLabel";
@@ -291,7 +291,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_stepText.Size = new System.Drawing.Size(60, 25);
             m_stepText.Text = "1";
             m_stepText.Tag = 10;
-            m_stepText.TextBoxTextAlign = HorizontalAlignment.Right;
+            m_stepText.TextBoxTextAlign = HorizontalAlignment.Right;         
 
             m_stepUnitCombo = new ToolStripComboBox();
             m_stepUnitCombo.Name = "StepCourse";
@@ -309,8 +309,8 @@ namespace Ecell.IDE.Plugins.Simulation
             ButtonList.Items.AddRange( new ToolStripItem[] {
                 m_paramsCombo,
                 m_runButton,
-                m_suspendButton,
                 m_stopButton,
+                m_resetButton,
                 timeLabel,
                 m_timeText,
                 secLabel,
@@ -319,7 +319,6 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_stepText,
                 m_stepUnitCombo});
             ButtonList.Location = new Point(400, 0);
-
         }
         #endregion
 
@@ -442,22 +441,24 @@ namespace Ecell.IDE.Plugins.Simulation
 
             // Set Menu Enabled.
             menuRunSim.Enabled = isLoaded || isSuspended;
-            menuSuspendSim.Enabled = isRunning || isStepping;
-            menuStopSim.Enabled = isStepping || isRunning || isSuspended;
-            menuStepSim.Enabled = isLoaded || isStepping || isSuspended;
+            menuStopSim.Enabled = isRunning || isStepping;
+            menuResetSim.Enabled = isSuspended;
+            menuStepSim.Enabled = isLoaded || isSuspended;
             menuSetupSim.Enabled = isLoaded || isStepping || isRunning || isSuspended;
 
             menuRunSim.Checked = isRunning;
-            menuSuspendSim.Checked = isSuspended;
+            menuStopSim.Checked = isSuspended;
+            menuStepSim.Checked = isStepping;
 
             // Set Button Enabled.
             m_runButton.Enabled = isLoaded || isSuspended;
-            m_suspendButton.Enabled = isRunning || isStepping;
-            m_stopButton.Enabled = isStepping || isRunning || isSuspended;
-            m_stepButton.Enabled = isLoaded || isStepping || isSuspended;
+            m_stopButton.Enabled = isRunning || isStepping;
+            m_resetButton.Enabled = isSuspended;
+            m_stepButton.Enabled = isLoaded || isSuspended;
 
             m_runButton.Checked = isRunning;
-            m_suspendButton.Checked = isSuspended;
+            m_stopButton.Checked = isSuspended;
+            m_stepButton.Checked = isStepping;
 
             // Set ComboBox for Params.
             m_timeText.Enabled = isLoaded || isStepping || isRunning || isSuspended;
@@ -563,7 +564,6 @@ namespace Ecell.IDE.Plugins.Simulation
 
                         m_dManager.SetLoggerPolicy(sps.Name, sps.LoggerPolicy);
 
-
                         List<EcellObject> steppers = new List<EcellObject>();
                         foreach (PerModelSimulationParameter pmsp in sps.PerModelSimulationParameters)
                         {
@@ -611,7 +611,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 catch (Exception ex)
                 {
                     Util.ShowErrorDialog(ex.Message);
-                }            
+                }
             }
         }
 
@@ -672,7 +672,7 @@ namespace Ecell.IDE.Plugins.Simulation
         /// </summary>
         /// <param name="sender">object(ToolStripButton)</param>
         /// <param name="e">EventArgs</param>
-        public void SuspendSimulation(object sender, EventArgs e)
+        public void StopSimulation(object sender, EventArgs e)
         {
             if (m_type != ProjectStatus.Running && m_type != ProjectStatus.Stepping)
                 return;
@@ -738,8 +738,8 @@ namespace Ecell.IDE.Plugins.Simulation
                 {
                     int stepCount = Convert.ToInt32(m_stepText.Text);
                     if (stepCount < 0) return;
-                    // m_dManager.SimulationStartKeepSetting(stepCount); 
-                    // m_dManager.SimulationStart(stepCount);
+                        // m_dManager.SimulationStartKeepSetting(stepCount); 
+                        // m_dManager.SimulationStart(stepCount);
                     m_dManager.StartStepSimulation(stepCount);
                 }
                 else
@@ -772,6 +772,8 @@ namespace Ecell.IDE.Plugins.Simulation
         /// <param name="e">EventArgs</param>
         public void ResetSimulation(object sender, EventArgs e)
         {
+            m_stepText.Control.Update();
+
             if (m_type != ProjectStatus.Running &&
                     m_type != ProjectStatus.Suspended &&
                     m_type != ProjectStatus.Stepping)
@@ -816,6 +818,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 m_paramsCombo.Text = preParam;
             }
         }
+
 
         void m_stepUnitCombo_SelectedIndexChanged(object sender, EventArgs e)
         {

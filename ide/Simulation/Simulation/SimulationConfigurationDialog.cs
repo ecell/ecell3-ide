@@ -397,29 +397,16 @@ namespace Ecell.IDE.Plugins.Simulation
                 sc.Name = newwin.InputText;
                 sc.ClassName = m_stepperClasses[0];
                 ResetStepperProperties(sc);
-                steppersBindingSource.Add(sc);
+                int index = steppersBindingSource.Add(sc);
                 // 追加した後にListBoxの順番が更新されていません。
                 // なにかいい方法があったらそちらに変更しましょう。
                 for (int i = 0; i < steppersBindingSource.Count; i++)
                 {
                     steppersBindingSource.ResetItem(i);
                 }
+                stepperListBox.ClearSelected();
             }
         }
-
-        /// <summary>
-        /// Event when key is pressed.
-        /// </summary>
-        /// <param name="sender">Button.</param>
-        /// <param name="e">KeyPressEventArgs</param>
-        private void SetupKeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Escape)
-            {
-                Close();
-            }
-        }
-        #endregion
 
         public bool IsExistStepper(string name)
         {
@@ -444,6 +431,20 @@ namespace Ecell.IDE.Plugins.Simulation
             }
             return false;
         }
+
+        /// <summary>
+        /// Event when key is pressed.
+        /// </summary>
+        /// <param name="sender">Button.</param>
+        /// <param name="e">KeyPressEventArgs</param>
+        private void SetupKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Escape)
+            {
+                Close();
+            }
+        }
+        #endregion
 
         private void ResetStepperProperties(StepperConfiguration sc)
         {
@@ -589,11 +590,11 @@ namespace Ecell.IDE.Plugins.Simulation
             string text = freqByStepTextBox.Text;
             int stepcount = ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.ReloadStepCount;
             if (stepcount <= 0) stepcount = m_defaultStepCount;
-            string errMsg = "";
             int dummy;
+            string errMsg = "";
             if (string.IsNullOrEmpty(text))
             {
-                errMsg = String.Format(MessageResources.ErrNoInput, MessageResources.NameSec);
+                errMsg = String.Format(MessageResources.ErrNoInput, MessageResources.NameStep);
             }
             else if (!Int32.TryParse(text, out dummy))
             {
@@ -628,10 +629,9 @@ namespace Ecell.IDE.Plugins.Simulation
             if (interval <= 0.0) interval = m_defaultInterval;
             double dummy;
             string errMsg = "";
-
             if (string.IsNullOrEmpty(text))
             {
-                errMsg = String.Format(MessageResources.ErrNoInput, MessageResources.NameStep);
+                errMsg = String.Format(MessageResources.ErrNoInput, MessageResources.NameSec);
             }
             else if (!Double.TryParse(text, out dummy))
             {
@@ -641,12 +641,13 @@ namespace Ecell.IDE.Plugins.Simulation
             {
                 errMsg = MessageResources.ErrInvalidValue;
             }
-            if (String.IsNullOrEmpty(errMsg))
+            if (!String.IsNullOrEmpty(errMsg))
             {
                 Util.ShowErrorDialog(errMsg);
                 freqBySecTextBox.Text = Convert.ToString(interval);
                 loggingPage.Focus();
-                e.Cancel = true;                
+                e.Cancel = true;
+
             }
         }
 
@@ -671,7 +672,7 @@ namespace Ecell.IDE.Plugins.Simulation
                 if (((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.MaxDiskSpace == 0)
                 {
                     ((SimulationParameterSet)m_simParamSets.Current).LoggerPolicy.MaxDiskSpace =
-                    SimulationConfigurationDialog.m_defaultMaxLogSize;
+                        SimulationConfigurationDialog.m_defaultMaxLogSize;
                 }
                 maxKbTextBox.Text = SimulationConfigurationDialog.m_defaultMaxLogSize.ToString();
                 maxKbTextBox.Focus();
@@ -720,7 +721,6 @@ namespace Ecell.IDE.Plugins.Simulation
                 int dummy;
                 string errMsg = "";
                 string text = maxKbTextBox.Text;
-                
                 if (String.IsNullOrEmpty(text))
                 {
                     errMsg = String.Format(MessageResources.ErrNoInput, MessageResources.NameMaxSize);
@@ -749,6 +749,39 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
             initialConditionsBindingSource.ResetBindings(false);
+        }
+
+        private void StepperCellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (e.ColumnIndex == 0) return;
+            DataGridViewCell c = (DataGridViewCell)dgv[e.ColumnIndex, e.RowIndex];
+            string propName = dgv[0, e.RowIndex].Value.ToString();
+            string stepperName = stepCombo.Text;
+
+            if (m_owner.Environment.DynamicModuleManager.ModuleDic.ContainsKey(stepperName))
+            {
+                DynamicModuleProperty p = m_owner.Environment.DynamicModuleManager.ModuleDic[stepperName].Property[propName];
+                if (p.Type == typeof(int))
+                {
+                    int dummy;
+                    if (!Int32.TryParse(e.FormattedValue.ToString(), out dummy))
+                    {
+                        Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                        e.Cancel = true;
+                        steppersBindingSource.ResetBindings(false);
+                    }
+                }
+                else if (p.Type == typeof(double))
+                {
+                    double dummy;
+                    if (!double.TryParse(e.FormattedValue.ToString(), out dummy))
+                    {
+                        Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                        e.Cancel = true;
+                        steppersBindingSource.ResetBindings(false);
+                    }
+                }
+            }
         }
     }
 }
