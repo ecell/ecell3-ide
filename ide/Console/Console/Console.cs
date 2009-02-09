@@ -112,7 +112,9 @@ namespace Ecell.IDE.Plugins.Console
         {
             return new EcellDockContent[] { m_form };
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Initialize()
         {
             m_form = new ConsoleControl();
@@ -120,7 +122,11 @@ namespace Ecell.IDE.Plugins.Console
                 new ConsoleDataAvailableEventHandler(Console_ConsoleDataAvailable);
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="args"></param>
         private void Console_ConsoleDataAvailable(object o, ConsoleDataAvailableEventArgs args)
         {
             if (m_form.InvokeRequired)
@@ -132,7 +138,10 @@ namespace Ecell.IDE.Plugins.Console
                 AppendText(args.Data);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         private void AppendText(string data)
         {
             if (m_form.InvokeRequired)

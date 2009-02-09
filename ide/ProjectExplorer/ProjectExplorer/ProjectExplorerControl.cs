@@ -91,7 +91,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             {
                 if (!obj.Type.Equals(EcellObject.PROCESS) &&
                     !obj.Type.Equals(EcellObject.VARIABLE) &&
-                    !obj.Type.Equals(EcellObject.SYSTEM)) 
+                    !obj.Type.Equals(EcellObject.SYSTEM))
                     continue;
                 // Create new EcellDragObject.
                 if (dobj == null)
@@ -113,15 +113,19 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     break;
                 }
             }
-            // 1Ç¬Ç‡Process, VariableÇ™ë∂ç›ÇµÇ»Ç¢Ç∆Ç´
-            if (dobj == null && fileList.Count <= 0) return;
+            // If there is no process or variable, return.
+            if (dobj == null && fileList.Count <= 0)
+                return;
+
+            // Set Log List.
             if (dobj == null)
-            {
                 dobj = new EcellDragObject();
-            }
             dobj.LogList = fileList;
+
+            // Drag & Drop Event.
+            this.treeView1.IsDrag = true;
             this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
-            return;
+            return;            
         }
 
         /// <summary>
@@ -336,6 +340,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         }
 
         #region Event
+
         /// <summary>
         /// The action of clicking [Compile] menu on popup menu.
         /// </summary>
@@ -389,7 +394,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             treeView1.ContextMenuStrip = null;
             TreeView t = (TreeView)sender;
-            if (e.Node == null
+            if (e.Node == null 
                 || m_owner.Environment.PluginManager.Status == ProjectStatus.Uninitialized)
             {
                 return;
@@ -405,7 +410,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     if (tag.m_type.Equals(EcellObject.SYSTEM) &&
                         e.Node.Bounds.Contains(e.X, e.Y))
                         m_isExpland = true;
-                }
+                }                
             }
 
             if (e.Button == MouseButtons.Right)
@@ -501,7 +506,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
         public void DataDelete(string modelID, string key, string type)
         {
             TreeNode current = GetTargetModel(modelID);
@@ -513,6 +523,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             return;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        /// <param name="data"></param>
         public void DataChanged(string modelID, string key, string type, EcellObject data)
         {
             TreeNode current = GetTargetModel(modelID);
@@ -520,8 +537,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             TreeNode target = GetTargetTreeNode(current, key, type);
             if (target != null)
             {
-                string path = "";
-                string targetText = Util.GetNameFromPath(data.Key, ref path);
+                string targetText = data.LocalID;
 
                 if (target.Text != targetText)
                 {
@@ -535,7 +551,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
                 if (key != data.Key)
                 {
-                    TreeNode change = GetTargetTreeNode(current, path, Constants.xpathSystem);
+                    TreeNode change = GetTargetTreeNode(current, data.ParentSystemID, Constants.xpathSystem);
                     if (change == null) return;
                     target.Parent.Nodes.Remove(target);
                     change.Nodes.Add(target);
@@ -550,7 +566,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
         public void AddSelect(string modelID, string key, string type)
         {
             TreeNode current = GetTargetModel(modelID);
@@ -565,7 +586,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 treeView1.SelectNodes(target, false);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
         public void RemoveSelect(string modelID, string key, string type)
         {
             TreeNode current = GetTargetModel(modelID);
@@ -582,7 +608,10 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 return;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
         public void DataAdd(List<EcellObject> data)
         {
             if (data == null)
@@ -592,7 +621,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 if (obj.Type == Constants.xpathProject)
                 {
                     m_prjNode = new TreeNode(obj.ModelID);
-                    treeView1.Nodes.Add(m_prjNode);
+                    treeView1.Nodes.Add(m_prjNode);                    
                     TreeNode modelNode = new TreeNode(MessageResources.NameModel);
                     modelNode.Tag = null;
                     TreeNode paramNode = new TreeNode(MessageResources.NameParameters);
@@ -646,11 +675,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     TreeNode node = GetTargetTreeNode(current, obj.Key, obj.Type);
                     if (node == null)
                     {
-                        string path = "";
-                        string name = Util.GetNameFromPath(obj.Key, ref path);
-                        node = GetTargetTreeNode(current, path, null);
-
-                        TreeNode childNode = AddTreeNode(name, obj, node);
+                        node = GetTargetTreeNode(current, obj.ParentSystemID, null);
+                        TreeNode childNode = AddTreeNode(obj.LocalID, obj, node);
                     }
                 }
                 else if (obj.Type == Constants.xpathSystem)
@@ -667,13 +693,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                         else
                         {
                             TreeNode target = null;
-                            string path = "";
-                            string name = Util.GetNameFromPath(obj.Key, ref path);
-                            target = GetTargetTreeNode(current, path, null);
+                            target = GetTargetTreeNode(current, obj.ParentSystemID, null);
 
                             if (target != null)
                             {
-                                node = AddTreeNode(name, obj, target);
+                                node = AddTreeNode(obj.LocalID, obj, target);
                             }
                         }
                     }
@@ -708,14 +732,19 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             treeView1.ExpandAll();
             treeView1.Sort();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void RefreshLogEntry()
         {
             if (m_logNode == null) return;
             m_logNode.Nodes.Clear();
             SetLogEntry(m_logNode);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
         private void SetLogEntry(TreeNode node)
         {
             List<string> logList = m_owner.Environment.DataManager.GetLogDataList();
@@ -742,7 +771,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="parameterID"></param>
         public void ParameterAdd(string projectID, string parameterID) {
             TreeNode paramsNode = null;
             if (m_paramNode != null)
@@ -780,7 +813,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             return;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="parameterID"></param>
         public void ParameterDelete(string projectID, string parameterID)
         {
             TreeNode paramsNode = null;
@@ -815,7 +852,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Clear()
         {
             foreach (TreeNode project in treeView1.Nodes)
@@ -827,7 +866,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_logNode = null;
             m_DMNode = null;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewSortByName(object sender, EventArgs e)
         {
             treeView1.TreeViewNodeSorter = m_nameSorter;
@@ -835,7 +878,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             toolStripButtonSortByName.Checked = true;
             toolStripButtonSortByType.Checked = false;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewSortByType(object sender, EventArgs e)
         {
             treeView1.TreeViewNodeSorter = m_typeSorter;
@@ -843,7 +890,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             toolStripButtonSortByName.Checked = false;
             toolStripButtonSortByType.Checked = true;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewItemDrag(object sender, ItemDragEventArgs e)
         {
             List<string> fileList = new List<string>();
@@ -865,12 +916,17 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     }
                 }
                 EcellObject obj = GetObjectFromNode(node);
-                if (obj == null) continue;
+                if (obj == null)
+                    continue;
                 oList.Add(obj);
             }            
             EnterDragMode(oList, fileList);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewBeforeCollapse(object sender, TreeViewCancelEventArgs e)
         {
             if (m_isExpland)
@@ -878,7 +934,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 e.Cancel = true;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewBeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
             if (m_isExpland)
@@ -886,14 +946,24 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 e.Cancel = true;
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewExportLog(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null) return;
             TagData tag = m_lastSelectedNode.Tag as TagData;
             if (tag == null || tag.m_type != Constants.xpathLog) return;
 
-            m_saveFileDialog.Filter = Constants.FileExtCSV;
+            string logFile = tag.m_key;
+            string ext = Path.GetExtension(logFile);
+            if (!string.IsNullOrEmpty(ext) &&
+                ext.ToLower().EndsWith("csv"))
+                m_saveFileDialog.Filter = Constants.FilterCSVFile;
+            else
+                m_saveFileDialog.Filter = Constants.FilterECDFile;
             if (m_saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string text = "";
@@ -910,9 +980,13 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewShowLogOnGraph(object sender, EventArgs e)
-        {
+        {       
             if (m_lastSelectedNode == null) return;
             TagData tag = m_lastSelectedNode.Tag as TagData;
             if (tag == null || tag.m_type != Constants.xpathLog) return;
@@ -921,7 +995,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             dlg(tag.m_key, true);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewAddSimulationSet(object sender, EventArgs e)
         {
             InputNameDialog dlg = new InputNameDialog();
@@ -929,10 +1007,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                m_owner.DataManager.CreateSimulationParameter(dlg.InputText);
+                m_owner.DataManager.CopySimulationParameter(dlg.InputText,
+                    m_owner.DataManager.CurrentProject.Info.SimulationParam);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewCopySimulationSet(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null) return;
@@ -942,7 +1025,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
             m_owner.DataManager.CopySimulationParameter(newParam, name);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewDeleteSimulationSet(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null) return;
@@ -958,7 +1045,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 Util.ShowErrorDialog(ex.Message);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewExportModel(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null) return;
@@ -976,13 +1067,20 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 m_owner.DataManager.ExportModel(modelList, fileName);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewCreateNewRevision(object sender, EventArgs e)
         {
-            if (m_lastSelectedNode == null) return;
             m_owner.DataManager.CreateNewRevision();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewConfigureSimulationSet(object sender, EventArgs e)
         {
             if (m_lastSelectedNode == null) return;
@@ -992,7 +1090,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     "", (string)m_lastSelectedNode.Tag, Constants.xpathParameters);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewCompressZip(object sender, EventArgs e)
         {
             m_saveFileDialog.Filter = Constants.FilterZipFile;
@@ -1003,13 +1105,17 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 m_owner.Environment.DataManager.CurrentProject.Info.ProjectPath);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeViewCloseProject(object sender, EventArgs e)
         {
             m_owner.Environment.DataManager.CloseProject();
         }
 
-        #region ShortCuts
+#region ShortCuts
         private void DeletedSelectionRow()
         {
             List<TagData> delList = new List<TagData>();
@@ -1028,7 +1134,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 else
                     m_owner.DataManager.DataDelete(obj.m_modelID, obj.m_key, obj.m_type, true, false);
             }
-
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -1041,7 +1146,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
-        #endregion
+#endregion
     }
 
     /// <summary>
@@ -1059,7 +1164,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             return string.Compare(tx.Text, ty.Text);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         int System.Collections.IComparer.Compare(object x, object y)
         {
             return Compare(x as TreeNode, y as TreeNode);
@@ -1094,7 +1204,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             return GetTypeNum(tagx.m_type) - GetTypeNum(tagy.m_type);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         int System.Collections.IComparer.Compare(object x, object y)
         {
             return Compare(x as TreeNode, y as TreeNode);

@@ -217,17 +217,19 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         {
             if (obj.Type == Constants.xpathSystem)
             {
-                if (Util.IsNGforSystemFullID(obj.Key))
+                if (Util.IsNGforSystemKey(obj.Key))
                 {
-                    m_errorList.Add(new ObjectReport(MessageType.Error, MessageResources.ErrInvalidID, Constants.groupDebug, obj));
+                    m_errorList.Add(new ObjectReport(MessageType.Error, MessageResources.ErrInvalidID, 
+                        Constants.groupDebug, obj));
                 }
             }
             else if (obj.Type == Constants.xpathProcess ||
                 obj.Type == Constants.xpathVariable)
             {
-                if (Util.IsNGforComponentFullID(obj.Key))
+                if (Util.IsNGforEntityKey(obj.Key))
                 {
-                    m_errorList.Add(new ObjectReport(MessageType.Error, MessageResources.ErrInvalidID, Constants.groupDebug, obj));
+                    m_errorList.Add(new ObjectReport(MessageType.Error, MessageResources.ErrInvalidID,
+                        Constants.groupDebug, obj));
                 }
             }
         }
@@ -235,15 +237,14 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <summary>
         /// Check whether the stepper exist.
         /// </summary>
-        /// <param name="l_modelID">The model Id of object to be checked.</param>
-        /// <param name="l_type">The type of object to be checked.</param>
-        /// <param name="l_data">The data to be checked.</param>
-        private void CheckStepperExistence(EcellObject o, string l_stepperID)
+        /// <param name="obj">The object to be checked.</param>
+        /// <param name="l_stepperID">The StepperID of object to be checked.</param>
+        private void CheckStepperExistence(EcellObject obj, string l_stepperID)
         {
             if (l_stepperID == null || l_stepperID.Equals("")) return;
             List<EcellObject> stepList = m_owner.DataManager.GetStepper(
                 m_owner.DataManager.GetCurrentSimulationParameterID(),
-                o.ModelID);
+                obj.ModelID);
             bool isHit = false;
             foreach (EcellObject step in stepList)
             {
@@ -257,9 +258,9 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 m_errorList.Add(new ObjectReport(
                     MessageType.Error,
-                    string.Format(MessageResources.ErrNotExistStepper, l_stepperID), 
+                    string.Format(MessageResources.ErrNotExistStepper, l_stepperID),
                     Constants.groupDebug,
-                    o
+                    obj
                 ));
             }
         }
@@ -267,8 +268,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <summary>
         /// Check whether tha type of property is bool.
         /// </summary>
-        /// <param name="l_modelID">The model Id of object to be checked.</param>
-        /// <param name="l_type">The type of object to be checked.</param>
+        /// <param name="obj">The object to be checked.</param>
         /// <param name="l_data">The data to be checked.</param>
         private void IsBool(EcellObject obj, EcellData l_data)
         {
@@ -277,7 +277,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 m_errorList.Add(new ObjectPropertyReport(
                     MessageType.Error,
-                    MessageResources.ErrNoSet, 
+                    MessageResources.ErrNoSet,
                     Constants.groupDebug,
                     obj,
                     l_data.Name
@@ -288,8 +288,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <summary>
         /// Check whether the value of property is the positive number.
         /// </summary>
-        /// <param name="l_modelID">The model Id of object to be checked.</param>
-        /// <param name="l_type">The type of object to be checked.</param>
+        /// <param name="obj">The object to be checked.</param>
         /// <param name="l_data">The data to be checked.</param>
         private void IsPositiveNumber(EcellObject obj, EcellData l_data)
         {
@@ -298,7 +297,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 m_errorList.Add(new ObjectPropertyReport(
                     MessageType.Error,
-                    MessageResources.ErrNoSet, 
+                    MessageResources.ErrNoSet,
                     Constants.groupDebug,
                     obj,
                     l_data.Name
@@ -310,7 +309,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 m_errorList.Add(new ObjectPropertyReport(
                     MessageType.Error,
-                    MessageResources.ErrPositive, 
+                    MessageResources.ErrPositive,
                     Constants.groupDebug,
                     obj,
                     l_data.Name
@@ -322,8 +321,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <summary>
         /// Check whether the value of property is 0 or positive number.
         /// </summary>
-        /// <param name="l_modelID">The model Id of object to be checked.</param>
-        /// <param name="l_type">The type of object to be checked.</param>
+        /// <param name="obj">The object to be checked.</param>
         /// <param name="l_data">The data to be checked.</param>
         private void IsPositiveNumberWithZero(EcellObject obj, EcellData l_data)
         {
@@ -344,7 +342,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 m_errorList.Add(new ObjectPropertyReport(
                     MessageType.Error,
-                    MessageResources.ErrPositiveZero, 
+                    MessageResources.ErrPositiveZero,
                     Constants.groupDebug,
                     obj,
                     l_data.Name
@@ -356,8 +354,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <summary>
         /// Check whether min value is smaller than max value.
         /// </summary>
-        /// <param name="l_modelID">The model Id of object to be checked.</param>
-        /// <param name="l_type">The type of object to be checked.</param>
+        /// <param name="obj">The object to be checked.</param>
         /// <param name="l_max">The max data to be checked.</param>
         /// <param name="l_min">The min data to be checked.</param>
         private void CompareMaxAndMin(EcellObject obj, EcellData l_max, EcellData l_min)
@@ -369,7 +366,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 m_errorList.Add(new ObjectPropertyReport(
                     MessageType.Error,
-                    MessageResources.ErrMaxMin, 
+                    MessageResources.ErrMaxMin,
                     Constants.groupDebug,
                     obj,
                     l_max.Name
@@ -380,8 +377,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <summary>
         /// Check whether the number of bracket is correct.
         /// </summary>
-        /// <param name="l_modelID">The model Id of object to be checked.</param>
-        /// <param name="l_type">The type of object to be checked.</param>
+        /// <param name="obj">The object to be checked.</param>
         /// <param name="l_data">The data to be checked.</param>
         private void CheckParentheses(EcellObject obj, EcellData l_data)
         {
@@ -405,7 +401,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             {
                 m_errorList.Add(new ObjectPropertyReport(
                     MessageType.Error,
-                    MessageResources.ErrBrackets, 
+                    MessageResources.ErrBrackets,
                     Constants.groupDebug,
                     obj,
                     l_data.Name

@@ -65,6 +65,8 @@
             this.Controls.Add(CancelButton);
             this.Controls.Add(this.NameTextBox);
             this.Name = "InputNameDialog";
+            this.Shown += new System.EventHandler(this.ShownForm);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ClosingInputDialogForm);
             this.ResumeLayout(false);
             this.PerformLayout();
 

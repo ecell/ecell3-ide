@@ -40,6 +40,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using Ecell.Plugin;
 using Ecell.Objects;
+using Ecell.Exceptions;
 
 namespace Ecell.IDE.Plugins.GridLayout
 {
@@ -96,6 +97,9 @@ namespace Ecell.IDE.Plugins.GridLayout
         private static float m_defMargin = 30;
         #endregion
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public GridLayout()
         {
         }
@@ -168,6 +172,10 @@ namespace Ecell.IDE.Plugins.GridLayout
             return "Grid";
         }
 
+        /// <summary>
+        /// Return MenuStrips for Ecell IDE's MainMenu.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
             ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
@@ -816,7 +824,7 @@ namespace Ecell.IDE.Plugins.GridLayout
 
             }
 
-            throw new Exception("Can't assign a point in grid coordinate system");
+            throw new EcellException("Can't assign a point in grid coordinate system");
         }
 
         /// <summary>

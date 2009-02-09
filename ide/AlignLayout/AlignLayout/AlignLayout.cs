@@ -62,6 +62,9 @@ namespace Ecell.IDE.Plugins.AlignLayout
             Lower
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public AlignLayout()
         {
         }
@@ -173,6 +176,10 @@ namespace Ecell.IDE.Plugins.AlignLayout
         }
         #endregion
 
+        /// <summary>
+        /// Return MenuStrips for Ecell IDE's MainMenu.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
             ToolStripMenuItem layoutMenu = new ToolStripMenuItem();

@@ -1,5 +1,38 @@
-﻿namespace Ecell.IDE.Plugins.EntityList
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2006 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Motokazu Ishikawa<m.ishikawa@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+
+namespace Ecell.IDE.Plugins.EntityList
 {
+    /// <summary>
+    /// EntityListControl
+    /// </summary>
     partial class EntityListControl
     {
         /// <summary> 
@@ -76,6 +109,8 @@
             this.objectListDataGrid.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DataGridViewMouseDown);
             this.objectListDataGrid.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.TypeSortCompare);
             this.objectListDataGrid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DataGridViewMouseMove);
+            this.objectListDataGrid.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DataGridViewMouseUp);
+            this.objectListDataGrid.MouseLeave += new System.EventHandler(this.DataGridViewMouseLeave);
             this.objectListDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ClickObjectCell);
             this.objectListDataGrid.SelectionChanged += new System.EventHandler(this.EntSelectionChanged);
             // 
@@ -142,24 +177,28 @@
             // 
             this.typeToolStripMenuItem.Name = "typeToolStripMenuItem";
             resources.ApplyResources(this.typeToolStripMenuItem, "typeToolStripMenuItem");
+            this.typeToolStripMenuItem.Tag = "Type";
             this.typeToolStripMenuItem.Click += new System.EventHandler(this.ClickShowColumnMenu);
             // 
             // classToolStripMenuItem
             // 
             this.classToolStripMenuItem.Name = "classToolStripMenuItem";
             resources.ApplyResources(this.classToolStripMenuItem, "classToolStripMenuItem");
+            this.classToolStripMenuItem.Tag = "ClassName";
             this.classToolStripMenuItem.Click += new System.EventHandler(this.ClickShowColumnMenu);
             // 
             // pathIDToolStripMenuItem
             // 
             this.pathIDToolStripMenuItem.Name = "pathIDToolStripMenuItem";
             resources.ApplyResources(this.pathIDToolStripMenuItem, "pathIDToolStripMenuItem");
+            this.pathIDToolStripMenuItem.Tag = "ID";
             this.pathIDToolStripMenuItem.Click += new System.EventHandler(this.ClickShowColumnMenu);
             // 
             // nameToolStripMenuItem
             // 
             this.nameToolStripMenuItem.Name = "nameToolStripMenuItem";
             resources.ApplyResources(this.nameToolStripMenuItem, "nameToolStripMenuItem");
+            this.nameToolStripMenuItem.Tag = "ObjectName";
             this.nameToolStripMenuItem.Click += new System.EventHandler(this.ClickShowColumnMenu);
             // 
             // EntityListControl
@@ -169,7 +208,6 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.objectListDataGrid);
             this.Name = "EntityListControl";
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DataGridViewMouseUp);
             ((System.ComponentModel.ISupportInitialize)(this.objectListDataGrid)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -182,12 +220,12 @@
 
         private System.Windows.Forms.Button clearButton;
         private System.Windows.Forms.DataGridView objectListDataGrid;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox searchTextBox;
         private System.Windows.Forms.DataGridViewImageColumn Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn ClassName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn ObjectName;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox searchTextBox;
         private System.Windows.Forms.ContextMenuStrip titleContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem typeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem classToolStripMenuItem;

@@ -45,6 +45,9 @@ namespace Ecell.IDE.Plugins.DistributeLayout
     {
         enum Direction { Horizontally, Vertically }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public DistributeLayout()
         {
         }
@@ -150,7 +153,10 @@ namespace Ecell.IDE.Plugins.DistributeLayout
             return "Distribute";
         }
 
-
+        /// <summary>
+        /// Return MenuStrips for Ecell IDE's MainMenu.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
             ToolStripMenuItem layoutMenu = new ToolStripMenuItem();

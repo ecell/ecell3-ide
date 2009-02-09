@@ -1,5 +1,8 @@
 ﻿namespace Ecell.IDE.Plugins.PropertyWindow
 {
+    /// <summary>
+    /// 
+    /// </summary>
     partial class PropertyWindow
     {
         /// <summary> 

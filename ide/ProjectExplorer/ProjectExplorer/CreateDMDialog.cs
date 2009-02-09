@@ -63,6 +63,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <summary>
         /// Constructor with the initial parameters.
         /// </summary>
+        /// <param name="env">The ApplicationEnvironment.</param>
         /// <param name="dmDir">The path of dm directory.</param>
         /// <param name="node">The current selected node.</param>
         public CreateDMDialog(ApplicationEnvironment env, string dmDir, TreeNode node)
@@ -73,7 +74,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             m_node = node;
         }
         #endregion
-
+        /// <summary>
+        /// 
+        /// </summary>
         public string FilePath
         {
             get { return this.m_path; }

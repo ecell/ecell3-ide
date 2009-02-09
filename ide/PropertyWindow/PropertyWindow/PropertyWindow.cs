@@ -608,12 +608,14 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             if (type == ProjectStatus.Running)
             {
                 m_dgv.ReadOnly = true;
+//                m_dgv.Enabled = false;
                 m_time.Enabled = true;
                 m_time.Start();
             }
             else if (type == ProjectStatus.Suspended)
             {
-                m_dgv.Enabled = false;
+                m_dgv.ReadOnly = false;
+//                m_dgv.Enabled = true;
                 m_time.Enabled = false;
                 m_time.Stop();
                 try
@@ -634,6 +636,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
             else if (type == ProjectStatus.Loaded)
             {
+//                m_dgv.Enabled = true;
                 m_dgv.ReadOnly = false;
                 m_procList = m_env.DataManager.CurrentProject.ProcessDmList;
                 if (m_type == ProjectStatus.Running || m_type == ProjectStatus.Suspended || m_type == ProjectStatus.Stepping)
@@ -646,11 +649,13 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             else if (type == ProjectStatus.Uninitialized)
             {
                 m_dgv.ReadOnly = true;
+//                m_dgv.Enabled = false;
                 m_procList = null;
             }
             else if (type == ProjectStatus.Stepping)
             {
                 m_dgv.ReadOnly = false;
+//                m_dgv.Enabled = true;
                 try
                 {
                     UpdatePropForSimulation();
@@ -700,6 +705,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             DataGridView.HitTestInfo hti = v.HitTest(e.X, e.Y);
             if (hti.RowIndex <= 0)
                 return;
+
+//            m_dgv[1, hti.RowIndex].Selected = true;
         }
 
         /// <summary>
@@ -721,6 +728,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 // 他のプラグインでエラーメッセージが表示されるので
                 // ここでは出さないようにする。
             }
+
             m_time.Enabled = true;
         }
 
@@ -816,7 +824,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     }else{
                         value = Convert.ToDouble(valueCell.Value);
                     }
-                    m_current.RemoveValue(oldName);
+                    m_current.RemoveEcellValue(oldName);
                     m_current.SetEcellValue(propName, new EcellValue(value));
                     valueCell.Tag = m_current.GetEcellData(propName);
                 }
@@ -853,7 +861,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         EcellObject eo = m_current.Clone();
                         EcellData d = eo.GetEcellData(tag.Name);
                         EcellValue value;
-                        try{
+                        try
+                        {
                             if (d.Value.IsDouble)
                                 value = new EcellValue(Convert.ToDouble(data));
                             else if (d.Value.IsInt)
@@ -1092,27 +1101,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             while (existingPropsIndices.Contains(newPropIndex))
                 newPropIndex++;
 
-            string superSystemPath, localID;
-            if (m_current.Type == Constants.xpathSystem)
-                Util.SplitSystemPath(m_current.Key, out superSystemPath, out localID);
-            else
-                Util.ParseEntityKey(m_current.Key, out superSystemPath, out localID);
-
             string propName = s_newPropPrefix + newPropIndex;
-            string propValue = "0.0";
+            m_current.SetEcellValue(propName, new EcellValue(0.0));
 
-            EcellData data = new EcellData(
-                propName,
-                new EcellValue(Convert.ToDouble(propValue)),
-                Util.BuildFullPN(
-                    m_current.Type,
-                    superSystemPath,
-                    localID,
-                    propName));
-            m_current.AddValue(data);
-
-            m_env.DataManager.DataChanged(m_current.ModelID, m_current.Key, m_current.Type,
-                m_current);
+            m_env.DataManager.DataChanged(m_current.ModelID,
+                m_current.Key, m_current.Type, m_current);
         }
 
         private void deleteThisPropertyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1150,7 +1143,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             if (m_dgv.CurrentRow == null ||
-                            m_dgv.CurrentRow.Cells[1].Tag == null)
+                m_dgv.CurrentRow.Cells[1].Tag == null)
             {
                 e.Cancel = true;
                 return;
@@ -1170,9 +1163,11 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             observedToolStripMenuItem.Enabled =
                 tag is EcellData &&
                 ((EcellData)tag).Logable;
+
             observedToolStripMenuItem.Checked =
                 tag is EcellData &&
                 m_env.DataManager.IsContainsObservedData(((EcellData)tag).EntityPath);
+        
 
             parameterToolStripMenuItem.Enabled =
                 tag is EcellData &&
@@ -1368,7 +1363,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         {
             PropertyEditor.Show(m_env.DataManager, m_env.PluginManager, m_current);
         }
-
         /// <summary>
         /// 
         /// </summary>

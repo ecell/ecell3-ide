@@ -28,7 +28,6 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -120,45 +119,20 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         {
             foreach (EcellObject obj in m_existProcessList.Values)
             {
-                if (obj.Value == null) continue;
-                foreach (EcellData d in obj.Value)
+                EcellProcess process = (EcellProcess)obj;
+                List<EcellReference> refList = process.ReferenceList;
+                foreach (EcellReference er in refList)
                 {
-                    if (d.Name != Constants.xpathVRL) continue;
-                    IEnumerable rList = (IEnumerable)d.Value.Value;
-                    if (rList == null) continue;
-                    foreach (object v in rList)
+                    if (!m_existVariableList.ContainsKey(er.FullID))
                     {
-                        string systemPath = "";
-                        IEnumerable vList = (IEnumerable)v;
-                        object vData = null;
-                        {
-                            IEnumerator i = vList.GetEnumerator();
-                            i.MoveNext();
-                            i.MoveNext();
-                            vData = i.Current;
-                        }
-                        string[] data = vData.ToString().Split(new char[] { ':' });
-                        if (data[1].Equals("."))
-                        {
-                            Util.GetNameFromPath(obj.Key, ref systemPath);
-                        }
-                        else
-                        {
-                            systemPath = data[1];
-                        }
-                        systemPath = Constants.xpathVariable + Constants.delimiterColon +
-                            systemPath + Constants.delimiterColon + data[2];
-                        if (!m_existVariableList.ContainsKey(systemPath))
-                        {
-                            m_errorList.Add(new ObjectPropertyReport(
-                                MessageType.Error,
-                                MessageResources.ErrNoVariable, 
-                                Constants.groupDebug,
-                                obj,
-                                d.Name
-                            ));
-                            break;
-                        }
+                        m_errorList.Add(new ObjectPropertyReport(
+                            MessageType.Error,
+                            MessageResources.ErrNoVariable,
+                            Constants.groupDebug,
+                            obj,
+                            EcellProcess.VARIABLEREFERENCELIST
+                        ));
+                        break;
                     }
                 }
             }
@@ -172,68 +146,30 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             Dictionary<string, EcellObject> valDic = new Dictionary<string, EcellObject>();
             foreach (string id in m_existVariableList.Keys)
             {
-                if (id.EndsWith(":SIZE")) continue;
+                if (id.EndsWith(":SIZE"))
+                    continue;
                 valDic.Add(id, m_existVariableList[id]);
             }
 
             foreach (EcellObject obj in m_existProcessList.Values)
             {
-                if (obj.Value == null)
+                EcellProcess process = (EcellProcess)obj;
+                List<EcellReference> refList = process.ReferenceList;
+                if (refList.Count <= 0)
                 {
                     m_errorList.Add(new ObjectReport(
                         MessageType.Warning,
-                        MessageResources.ErrNoConnect, 
+                        MessageResources.ErrNoConnect,
                         Constants.groupDebug,
                         obj
                     ));
                     continue;
                 }
-                foreach (EcellData d in obj.Value)
+                foreach (EcellReference er in refList)
                 {
-                    if (d.Name != Constants.xpathVRL) continue;
-                    int connections = 0;
-                    IEnumerable rList = (IEnumerable)d.Value.Value;
-                    if (rList != null)
-                    {
-                        foreach (object v in rList)
-                        {
-                            ++connections;
-                            string systemPath = "";
-                            IEnumerable vList = (IEnumerable)v;
-                            object vData = null;
-                            {
-                                IEnumerator i = vList.GetEnumerator();
-                                i.MoveNext();
-                                i.MoveNext();
-                                vData = i.Current;
-                            }
-                            string[] data = vData.ToString().Split(new char[] { ':' });
-                            if (data[1].Equals("."))
-                            {
-                                Util.GetNameFromPath(obj.Key, ref systemPath);
-                            }
-                            else
-                            {
-                                systemPath = data[1];
-                            }
-                            systemPath = Constants.xpathVariable + Constants.delimiterColon +
-                                systemPath + Constants.delimiterColon + data[2];
+                    if (valDic.ContainsKey(er.FullID))
+                        valDic.Remove(er.FullID);
 
-                            if (valDic.ContainsKey(systemPath))
-                                valDic.Remove(systemPath);
-                        }
-                    }
-
-                    if (connections == 0)
-                    {
-                        m_errorList.Add(new ObjectReport(
-                            MessageType.Warning,
-                            MessageResources.ErrNoConnect, 
-                            Constants.groupDebug,
-                            obj
-                        ));
-                        break;
-                    }
                 }
             }
             foreach (string key in valDic.Keys)
@@ -241,7 +177,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
                 EcellObject obj = valDic[key];
                 m_errorList.Add(new ObjectReport(
                     MessageType.Warning,
-                    MessageResources.ErrNoConnect, 
+                    MessageResources.ErrNoConnect,
                     Constants.groupDebug,
                     obj
                 ));

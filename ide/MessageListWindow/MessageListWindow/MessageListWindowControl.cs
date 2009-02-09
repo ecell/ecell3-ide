@@ -91,7 +91,6 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         /// <param name="mes">the message entry object.</param>
         public void AddMessageEntry(IReport mes)
         {
-
             DataGridViewRow r = new DataGridViewRow();
 
             DataGridViewImageCell c1 = new DataGridViewImageCell(true);
@@ -111,10 +110,10 @@ namespace Ecell.IDE.Plugins.MessageListWindow
             r.Cells.Add(c2);
 
             DataGridViewTextBoxCell c3 = new DataGridViewTextBoxCell();
-            c3.Value = mes.Message;
+            c3.Value = mes.Message;            
             r.Cells.Add(c3);            
             r.Tag = mes;
-
+            
             MLWMessageDridView.Rows.Add(r);
         }
 

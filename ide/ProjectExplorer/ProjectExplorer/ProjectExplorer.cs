@@ -69,14 +69,21 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
         #region Inherited from PluginBase
         /// <summary>
+        /// 
+        /// </summary>
+        public override void Initialize()
+        {
+            base.Initialize();
+            m_form = new ProjectExplorerControl(this);
+            m_form.Icon = Resources.ProjectExplorer;
+        }
+        /// <summary>
         /// Get the window form for ProjectExplorer.
         /// This user control add the NodeMouseClick event action.
         /// </summary>
         /// <returns>UserControl.</returns>
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
-            m_form = new ProjectExplorerControl(this);
-            m_form.Icon = Resources.ProjectExplorer;
             return new EcellDockContent[] { m_form };
         }
 
@@ -141,12 +148,18 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             m_form.DataChanged(modelID, key, type, data);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
         private void SaveSimulationResult(List<string> list)
         {
             m_form.RefreshLogEntry();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override Dictionary<string, Delegate> GetPublicDelegate()
         {
             Dictionary<string, Delegate> list = new Dictionary<string, Delegate>();

@@ -8,31 +8,48 @@ using System.Windows.Forms;
 
 namespace Ecell.IDE.Plugins.ProjectExplorer
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class InputNameDialog : Form
     {
         private ProjectExplorer m_owner;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public InputNameDialog()
         {
             InitializeComponent();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public ProjectExplorer Owner
         {
             get { return this.m_owner; }
             set { this.m_owner = value; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public String InputText
         {
             get { return NameTextBox.Text; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShownForm(object sender, EventArgs e)
         {
             NameTextBox.Focus();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ClosingInputDialogForm(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult == DialogResult.Cancel)

@@ -47,6 +47,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private bool m_isUpdate = false;
         private ApplicationEnvironment m_env;
         private List<TreeNode> m_selected = new List<TreeNode>();
+        private bool m_isDrag = false;
         #endregion
 
         #region CONSTRUCTOR
@@ -60,6 +61,9 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         #endregion
 
         #region ACCESSORS
+        /// <summary>
+        /// 
+        /// </summary>
         public ApplicationEnvironment Environment
         {
             get { return m_env; }
@@ -72,6 +76,14 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         public List<TreeNode> SelNodes
         {
             get { return m_selected; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsDrag
+        {
+            get { return this.m_isDrag; }
+            set { this.m_isDrag = value; }
         }
         #endregion
 
@@ -268,9 +280,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
         }
 
-
         private void SelectRange(TreeNode tn, bool bPrev)
-        {            
+        {
             m_env.PluginManager.ResetSelect();
             TreeNode tnTemp = tnMouseDown;
             if (tnTemp == null) return;
@@ -318,7 +329,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// </summary>
         /// <param name="e"></param>
         protected override void OnMouseDown(MouseEventArgs e)
-        {
+        {            
             if ((Control.ModifierKeys & Keys.Shift) != 0)
             {
                 bool bStartPainting = Math.Abs(ptMouseDown.Y - e.Y) > this.ItemHeight;
@@ -331,6 +342,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 }
                 return;
             }
+            m_isDrag = false;
             tnMouseDown = this.GetNodeAt(e.X, e.Y);
             ptMouseDown = new Point(e.X, e.Y);
             m_isCollapse = false;
@@ -369,13 +381,17 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             base.OnAfterExpand(e);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
+            if (m_isDrag) return;
             bool bStartPainting = Math.Abs(ptMouseDown.Y - e.Y) > this.ItemHeight;
             TreeNode tn = this.GetNodeAt(e.X, e.Y);
             bool bPrev = ptMouseDown.Y - e.Y > 0;
-
+            
             if (e.Button == MouseButtons.Left &&
                 (bStartPainting || (tn != tnMouseDown && tn != null)))
             {

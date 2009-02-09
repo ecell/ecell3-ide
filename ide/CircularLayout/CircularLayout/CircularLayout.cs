@@ -43,6 +43,9 @@ namespace Ecell.IDE.Plugins.CircularLayout
     /// </summary>
     public class CircularLayout : LayoutBase, IMenuStripProvider
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public CircularLayout()
         {
         }
@@ -560,6 +563,29 @@ namespace Ecell.IDE.Plugins.CircularLayout
             return "Circular";
         }
 
+        /// <summary>
+        /// Return MenuStrips for Ecell IDE's MainMenu.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<ToolStripMenuItem> GetMenuStripItems()
+        {
+            ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
+            layoutMenu.Name = MenuConstants.MenuItemLayout;
+
+            ToolStripMenuItem algoMenu = new ToolStripMenuItem(
+                MessageResCircularLayout.MenuItemCircular,
+                null,
+                new EventHandler(delegate(object o, EventArgs e)
+                {
+                    m_env.PluginManager.DiagramEditor.InitiateLayout(this, 0);
+                })
+            );
+
+            algoMenu.ToolTipText = MessageResCircularLayout.ToolTip;
+            layoutMenu.DropDownItems.Add(algoMenu);
+            return new ToolStripMenuItem[] { layoutMenu };
+        }
+
         #region Inner class
         class DirectionEnergyDiff
         {
@@ -586,23 +612,5 @@ namespace Ecell.IDE.Plugins.CircularLayout
         }
         #endregion
 
-        public IEnumerable<ToolStripMenuItem> GetMenuStripItems()
-        {
-            ToolStripMenuItem layoutMenu = new ToolStripMenuItem();
-            layoutMenu.Name = MenuConstants.MenuItemLayout;
-
-            ToolStripMenuItem algoMenu = new ToolStripMenuItem(
-                MessageResCircularLayout.MenuItemCircular,
-                null,
-                new EventHandler(delegate(object o, EventArgs e)
-                {
-                    m_env.PluginManager.DiagramEditor.InitiateLayout(this, 0);
-                })
-            );
-
-            algoMenu.ToolTipText = MessageResCircularLayout.ToolTip;
-            layoutMenu.DropDownItems.Add(algoMenu);
-            return new ToolStripMenuItem[] { layoutMenu };
-        }
     }
 }

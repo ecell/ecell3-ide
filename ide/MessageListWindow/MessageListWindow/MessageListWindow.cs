@@ -54,25 +54,29 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         /// </summary>
         public MessageListWindow()
         {
-
+            m_control = new MessageListWindowControl(this);
         }
         #endregion
 
         #region Inherited from PluginBase
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Clear()
         {
             m_control.Clear(null);
-        }        
+        }
         /// <summary>
         /// Get the window form for MessageListWindow plugin.
         /// </summary>
         /// <returns>Windows form</returns>
         public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
-            m_control = new MessageListWindowControl(this);
             return new EcellDockContent[] { m_control };
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Initialize()
         {
             m_env.ReportManager.ReportAdded +=new ReportAddedEventHandler(ReportManager_ReportAdded);
@@ -82,6 +86,8 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         /// <summary>
         /// The event sequence on closing project.
         /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="e"></param>
         public void ReportManager_ReportingSessionStarted(object obj, ReportingSessionEventArgs e)
         {
             m_control.Clear(e.ReportingSession.Group);
@@ -90,7 +96,8 @@ namespace Ecell.IDE.Plugins.MessageListWindow
         /// <summary>
         /// The event sequence to display the message.
         /// </summary>
-        /// <param name="message">the message entry object.</param>
+        /// <param name="obj"></param>
+        /// <param name="e">the message event.</param>
         public void ReportManager_ReportAdded(object obj, ReportEventArgs e)
         {
             m_control.AddMessageEntry(e.Report);

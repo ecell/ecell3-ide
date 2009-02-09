@@ -47,6 +47,7 @@ using Ecell;
 using Ecell.Plugin;
 using Ecell.Objects;
 using Ecell.Reporting;
+using Ecell.Exceptions;
 
 namespace Ecell.IDE.Plugins.StaticDebugWindow
 {
@@ -57,6 +58,9 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
     {
         #region Fields
         private Timer m_timer;
+        /// <summary>
+        /// 
+        /// </summary>
         List<IReport> m_messages;
         /// <summary>
         /// The dictionary of StaticDebugPlugin.
@@ -64,7 +68,9 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// </summary>
         List<IStaticDebugPlugin> m_plugins = new List<IStaticDebugPlugin>();
         #endregion
-
+        /// <summary>
+        /// 
+        /// </summary>
         public StaticDebugWindow()
         {
             m_messages = new List<IReport>();
@@ -133,7 +139,6 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
         /// <summary>
         /// execute the static debug in existing the list.
         /// </summary>
-        /// <param name="list">the list of static debug.</param>
         public void Debug()
         {
             try
@@ -182,7 +187,7 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             }
             catch (Exception ex)
             {
-                throw new Exception("The static debug of the mass conservation failed. [" + ex.ToString() + "]");
+                throw new EcellException("The static debug of the mass conservation failed. [" + ex.ToString() + "]");
             }
         }
 
@@ -197,7 +202,10 @@ namespace Ecell.IDE.Plugins.StaticDebugWindow
             Debug();
             m_timer.Enabled = true;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
         public override void ChangeStatus(ProjectStatus type)
         {
             if (type == ProjectStatus.Loaded)

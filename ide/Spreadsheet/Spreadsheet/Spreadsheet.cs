@@ -322,6 +322,127 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_contextMenu.Items.AddRange(new ToolStripItem[] { it });
         }
 
+        void m_gridView_MouseLeave(object sender, EventArgs e)
+        {
+            m_isSelected = false;
+        }
+
+        void m_gridView_MouseUp(object sender, MouseEventArgs e)
+        {
+            m_isSelected = false;
+        }
+
+        private DataGridViewRow m_lastSelected = null;
+        void m_gridView_MouseDown(object sender, MouseEventArgs e)
+        {
+            DataGridView.HitTestInfo hti = m_gridView.HitTest(e.X, e.Y);
+            if (e.Button == MouseButtons.Left)
+            {
+                if (hti.RowIndex < 0)
+                    return;
+                DataGridViewRow r = m_gridView.Rows[hti.RowIndex];
+                if (Control.ModifierKeys != Keys.Shift)
+                {
+                    m_selectedRow = r;
+                    m_lastSelected = r;
+                }
+                else
+                {
+                    if (m_lastSelected != null)
+                    {
+                        int startindex, endindex;
+                        if (hti.RowIndex > m_lastSelected.Index)
+                        {
+                            endindex = hti.RowIndex;
+                            startindex = m_lastSelected.Index;
+                        }
+                        else
+                        {
+                            startindex = hti.RowIndex;
+                            endindex = m_lastSelected.Index;
+                        }
+                        m_isSelected = true;
+                        foreach (DataGridViewRow r1 in m_gridView.Rows)
+                        {
+                            EcellObject obj = r1.Tag as EcellObject;
+                            if (obj == null) continue;
+                            if (r1.Index >= startindex && r1.Index <= endindex)
+                            {
+                                if (!r1.Selected)
+                                    m_env.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
+                            else
+                            {
+                                if (r1.Selected)
+                                    m_env.PluginManager.RemoveSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
+                        }
+                        m_isSelected = false;
+                    }
+                }
+                m_dragObject = r.Tag as EcellObject;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void EnterDragMode()
+        {
+            EcellDragObject dobj = null;
+            if (m_gridView.SelectedRows.Count <= 0)
+                return;
+
+            foreach (DataGridViewRow r in m_gridView.SelectedRows)
+            {
+                EcellObject obj = r.Tag as EcellObject;
+                if (obj == null)
+                    continue;
+
+                // Create new EcellDragObject.
+                if (dobj == null)
+                    dobj = new EcellDragObject(obj.ModelID);
+
+                foreach (EcellData v in obj.Value)
+                {
+                    if (!v.Name.Equals(Constants.xpathActivity) &&
+                        !v.Name.Equals(Constants.xpathMolarConc) &&
+                        !v.Name.Equals(Constants.xpathSize))
+                        continue;
+
+                    // Add new EcellDragEntry.
+                    dobj.Entries.Add(new EcellDragEntry(
+                                                obj.Key,
+                                                obj.Type,
+                                                v.EntityPath,
+                                                v.Settable,
+                                                v.Logable));
+                    break;
+
+                }
+                if (m_gridView.SelectedRows.Count == 1)
+                {
+                    m_isSelected = true;
+                    m_env.PluginManager.SelectChanged(obj);
+                    m_isSelected = false;
+                }
+            }
+            // Drag & Drop Event.
+            if (dobj != null)
+                m_gridView.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
+        }
+
+
+        void m_gridView_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) != MouseButtons.Left)
+                return;
+
+            if (m_dragObject == null) return;
+            EnterDragMode();
+            m_dragObject = null;
+        }
+
         /// <summary>
         /// get bitmap that converts display image on this plugin.
         /// </summary>
@@ -673,7 +794,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_gridView.Rows.Insert(index, rs);
         }
 
-
         private void UpdateProcess(int index, EcellObject obj)
         {
             int len = m_processProp.Length;
@@ -757,7 +877,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
         /// Add the object to DataGridView.
         /// </summary>
         /// <param name="obj"></param>
-        public void DataAdd(EcellObject obj)
+        public override void DataAdd(EcellObject obj)
         {
             if (obj.Type != EcellObject.VARIABLE &&
                 obj.Type != EcellObject.PROCESS &&
@@ -948,6 +1068,7 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     if (!m_gridView.Rows[i].Visible || m_gridView.Rows[i].Frozen)
                         continue;
                     m_gridView.Rows[i].Selected = true;
+//                    m_gridView.FirstDisplayedScrollingRowIndex = i;
                     EcellObject obj = m_gridView.Rows[i].Tag as EcellObject;
                     if (obj == null)
                         return;
@@ -985,8 +1106,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                 m_isSelected = true;
                 row.Selected = true;
                 m_isSelected = false;
-                if (m_gridView.FirstDisplayedScrollingRowIndex >= 0)
-                    m_gridView.FirstDisplayedScrollingRowIndex = row.Index;
             }
         }
 
@@ -1016,6 +1135,12 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_gridView.ClearSelection();
             m_selectedRow = null;
             AddSelect(modelID, key, type);
+            DataGridViewRow row = SearchIndex(type, key);
+            if (row != null && m_gridView.FirstDisplayedScrollingRowIndex >= 0 &&
+                    row.Visible)
+            {
+                m_gridView.FirstDisplayedScrollingRowIndex = row.Index;
+            }
         }
 
         /// <summary>
@@ -1054,7 +1179,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                     UpdateVariable(r.Index, obj);
                 }
             }
-
         }
 
         private DataGridViewRow SearchIndex(string type, string key)
@@ -1108,19 +1232,20 @@ namespace Ecell.IDE.Plugins.Spreadsheet
                         m_gridView.Rows.RemoveAt(i);
                         m_isSelected = false;
                     }
-                        if (((string)m_gridView[s_ID, i].Value).StartsWith(id))
-                        {
-                            DeleteDictionary(i);
-                            m_isSelected = true;
-                            m_gridView.Rows.RemoveAt(i);
-                            m_isSelected = false;
-                        }
+
+                    if (m_gridView[s_ID, i].Value.ToString().StartsWith(id))
+                    {
+                        m_isSelected = true;
+                        DeleteDictionary(i);
+                        m_gridView.Rows.RemoveAt(i);                        
+                        m_isSelected = false;
+                    }
                 }
             }
             else
             {
-                DeleteDictionary(ind);
                 m_isSelected = true;
+                DeleteDictionary(ind);
                 m_gridView.Rows.RemoveAt(ind);
                 m_isSelected = false;
             }
@@ -1259,127 +1384,6 @@ namespace Ecell.IDE.Plugins.Spreadsheet
             m_time.Enabled = false;
             UpdatePropForSimulation();
             m_time.Enabled = true;
-        }
-
-        void m_gridView_MouseLeave(object sender, EventArgs e)
-        {
-            m_isSelected = false;
-        }
-
-        void m_gridView_MouseUp(object sender, MouseEventArgs e)
-        {
-            m_isSelected = false;
-        }
-
-        private DataGridViewRow m_lastSelected = null;
-        void m_gridView_MouseDown(object sender, MouseEventArgs e)
-        {
-            DataGridView.HitTestInfo hti = m_gridView.HitTest(e.X, e.Y);
-            if (e.Button == MouseButtons.Left)
-            {
-                if (hti.RowIndex < 0)
-                    return;
-                DataGridViewRow r = m_gridView.Rows[hti.RowIndex];
-                if (Control.ModifierKeys != Keys.Shift)
-                {
-                    m_selectedRow = r;
-                    m_lastSelected = r;
-                }
-                else
-                {
-                    if (m_lastSelected != null)
-                    {
-                        int startindex, endindex;
-                        if (hti.RowIndex > m_lastSelected.Index)
-                        {
-                            endindex = hti.RowIndex;
-                            startindex = m_lastSelected.Index;
-                        }
-                        else
-                        {
-                            startindex = hti.RowIndex;
-                            endindex = m_lastSelected.Index;
-                        }
-                        m_isSelected = true;
-                        foreach (DataGridViewRow r1 in m_gridView.Rows)
-                        {
-                            EcellObject obj = r1.Tag as EcellObject;
-                            if (obj == null) continue;
-                            if (r1.Index >= startindex && r1.Index <= endindex)
-                            {
-                                if (!r1.Selected)
-                                    m_env.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
-                            }
-                            else
-                            {
-                                if (r1.Selected)
-                                    m_env.PluginManager.RemoveSelect(obj.ModelID, obj.Key, obj.Type);
-                            }
-                        }
-                        m_isSelected = false;
-                    }
-                }
-                m_dragObject = r.Tag as EcellObject;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void EnterDragMode()
-        {
-            EcellDragObject dobj = null;
-            if (m_gridView.SelectedRows.Count <= 0)
-                return;
-
-            foreach (DataGridViewRow r in m_gridView.SelectedRows)
-            {
-                EcellObject obj = r.Tag as EcellObject;
-                if (obj == null)
-                    continue;
-
-                // Create new EcellDragObject.
-                if (dobj == null)
-                    dobj = new EcellDragObject(obj.ModelID);
-
-                foreach (EcellData v in obj.Value)
-                {
-                    if (!v.Name.Equals(Constants.xpathActivity) &&
-                        !v.Name.Equals(Constants.xpathMolarConc) &&
-                        !v.Name.Equals(Constants.xpathSize))
-                        continue;
-
-                    // Add new EcellDragEntry.
-                    dobj.Entries.Add(new EcellDragEntry(
-                                                obj.Key,
-                                                obj.Type,
-                                                v.EntityPath,
-                                                v.Settable,
-                                                v.Logable));
-                    break;
-
-                }
-                if (m_gridView.SelectedRows.Count == 1)
-                {
-                    m_isSelected = true;
-                    m_env.PluginManager.SelectChanged(obj);
-                    m_isSelected = false;
-                }
-            }
-            // Drag & Drop Event.
-            if (dobj != null)
-                m_gridView.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
-        }
-
-
-        void m_gridView_MouseMove(object sender, MouseEventArgs e)
-        {
-            if ((e.Button & MouseButtons.Left) != MouseButtons.Left)
-                return;
-
-            if (m_dragObject == null) return;
-            EnterDragMode();
-            m_dragObject = null;
         }
         #endregion
     }

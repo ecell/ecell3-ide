@@ -158,7 +158,7 @@ namespace Ecell.IDE.Plugins.EntityList
         public override void DataAdd(List<EcellObject> data)
         {
             if (data == null) return;
-
+            
             foreach (EcellObject obj in data)
             {
                 DataAdd(obj);

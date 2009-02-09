@@ -128,8 +128,16 @@ namespace Ecell.IDE.Plugins.EntityList
             if (m_isSelected)
                 return;
             objectListDataGrid.ClearSelection();
+            m_selectedRow = null;
             AddSelect(modelID, key, type);
+            DataGridViewRow row = SearchIndex(type, key);
+            if (row != null && objectListDataGrid.FirstDisplayedScrollingRowIndex >= 0 &&
+                    row.Visible)
+            {
+                objectListDataGrid.FirstDisplayedScrollingRowIndex = row.Index;
+            }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -139,14 +147,11 @@ namespace Ecell.IDE.Plugins.EntityList
         public void AddSelect(string modelID, string key, string type)
         {
             DataGridViewRow row = SearchIndex(type, key);
-            if (row != null && objectListDataGrid.FirstDisplayedScrollingRowIndex != 0xffffffff)
+            if (row != null)
             {
                 m_isSelected = true;
                 row.Selected = true;
                 m_isSelected = false;
-                if (objectListDataGrid.FirstDisplayedScrollingRowIndex >= 0 &&
-                    row.Visible)
-                    objectListDataGrid.FirstDisplayedScrollingRowIndex = row.Index;
             }
         }
         /// <summary>
@@ -379,6 +384,7 @@ namespace Ecell.IDE.Plugins.EntityList
             m_isSelected = true;
             m_selectedRow = objectListDataGrid.Rows[ind];
             m_dragObject = null;
+
             if (objectListDataGrid.Rows[ind].Selected)
             {
                 if (objectListDataGrid.SelectedRows.Count <= 1)
@@ -495,7 +501,7 @@ namespace Ecell.IDE.Plugins.EntityList
         {
             DataGridView.HitTestInfo hti = objectListDataGrid.HitTest(e.X, e.Y);
             if (e.Button == MouseButtons.Left)
-            {
+            {                
                 if (hti.RowIndex < 0)
                     return;
                 DataGridViewRow r = objectListDataGrid.Rows[hti.RowIndex];
@@ -504,35 +510,38 @@ namespace Ecell.IDE.Plugins.EntityList
                     m_selectedRow = r;
                     m_lastSelected = r;
                 }
-                if (m_lastSelected != null)
+                else
                 {
-                    int startindex, endindex;
-                    if (hti.RowIndex > m_lastSelected.Index)
+                    if (m_lastSelected != null)
                     {
-                        endindex = hti.RowIndex;
-                        startindex = m_lastSelected.Index;
-                    }
-                    else
-                    {
-                        startindex = hti.RowIndex;
-                        endindex = m_lastSelected.Index;
-                    }
-                    foreach (DataGridViewRow r1 in objectListDataGrid.Rows)
-                    {
-                        EcellObject obj = r1.Tag as EcellObject;
-                        if (obj == null) continue;
-                        m_isSelected = true;
-                        if (r1.Index >= startindex && r1.Index <= endindex)
+                        int startindex, endindex;
+                        if (hti.RowIndex > m_lastSelected.Index)
                         {
-                            if (!r1.Selected)
-                                m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                            endindex = hti.RowIndex;
+                            startindex = m_lastSelected.Index;
                         }
                         else
                         {
-                            if (r1.Selected)
-                                m_owner.PluginManager.RemoveSelect(obj.ModelID, obj.Key, obj.Type);
+                            startindex = hti.RowIndex;
+                            endindex = m_lastSelected.Index;
                         }
-                        m_isSelected = false;
+                        foreach (DataGridViewRow r1 in objectListDataGrid.Rows)
+                        {
+                            EcellObject obj = r1.Tag as EcellObject;
+                            if (obj == null) continue;
+                            m_isSelected = true;
+                            if (r1.Index >= startindex && r1.Index <= endindex)
+                            {
+                                if (!r1.Selected)
+                                    m_owner.PluginManager.AddSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
+                            else
+                            {
+                                if (r1.Selected)
+                                    m_owner.PluginManager.RemoveSelect(obj.ModelID, obj.Key, obj.Type);
+                            }
+                            m_isSelected = false;
+                        }
                     }
                 }
                 m_dragObject = r.Tag as EcellObject;
@@ -545,7 +554,7 @@ namespace Ecell.IDE.Plugins.EntityList
                     classToolStripMenuItem.Checked = m_isShowClassName;
                     pathIDToolStripMenuItem.Checked = m_isShowPathID;
                     nameToolStripMenuItem.Checked = m_isShowName;
-                    objectListDataGrid.ContextMenuStrip = titleContextMenuStrip;
+                    objectListDataGrid.ContextMenuStrip = titleContextMenuStrip;                    
                     return;
                 }
                 if (hti.Type != DataGridViewHitTestType.Cell)
@@ -562,15 +571,21 @@ namespace Ecell.IDE.Plugins.EntityList
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="obj"></param>
         private void EnterDragMode()
         {
             EcellDragObject dobj = null;
-            if (objectListDataGrid.SelectedRows.Count <= 0) return;
+            if (objectListDataGrid.SelectedRows.Count <= 0)
+                return;
 
             foreach (DataGridViewRow r in objectListDataGrid.SelectedRows)
             {
                 EcellObject obj = r.Tag as EcellObject;
+                if (obj == null)
+                    continue;
+
+                // Create new EcellDragObject.
+                if (dobj == null)
+                    dobj = new EcellDragObject(obj.ModelID);
 
                 foreach (EcellData v in obj.Value)
                 {
@@ -579,31 +594,28 @@ namespace Ecell.IDE.Plugins.EntityList
                         !v.Name.Equals(Constants.xpathSize))
                         continue;
 
-                    if (dobj == null)
-                    {
-                        dobj = new EcellDragObject(
-                            obj.ModelID);
-                    }
-                    else
-                    {
-                        dobj.Entries.Add(new EcellDragEntry(
-                            obj.Key,
-                            obj.Type,
-                            v.EntityPath,
-                            v.Settable,
-                            v.Logable));
-                    }
-                    if (objectListDataGrid.SelectedRows.Count == 1)
-                    {
-                        m_isSelected = true;
-                        m_owner.PluginManager.SelectChanged(obj);
-                        m_isSelected = false;
-                    }
+                    // Add new EcellDragEntry.
+                    dobj.Entries.Add(new EcellDragEntry(
+                                                obj.Key,
+                                                obj.Type,
+                                                v.EntityPath,
+                                                v.Settable,
+                                                v.Logable));
+                    break;
+
+                }
+                if (objectListDataGrid.SelectedRows.Count == 1)
+                {
+                    m_isSelected = true;
+                    m_owner.PluginManager.SelectChanged(obj);
+                    m_isSelected = false;
                 }
             }
-            if (dobj != null)            
-                this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);            
+            // Drag & Drop Event.
+            if (dobj != null)
+                this.DoDragDrop(dobj, DragDropEffects.Move | DragDropEffects.Copy);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -663,7 +675,7 @@ namespace Ecell.IDE.Plugins.EntityList
                 m_selectedRow.Selected = true;
                 m_isSelectionChanged = false;
             }
-            else if ((!m_isSelected && objectListDataGrid.SelectedRows.Count >= 2))
+            else if (!m_isSelected && objectListDataGrid.SelectedRows.Count >= 2)
             {
                 m_isSelected = true;
                 foreach (DataGridViewRow r in objectListDataGrid.SelectedRows)
@@ -684,7 +696,7 @@ namespace Ecell.IDE.Plugins.EntityList
                 delrows.Add(r);
             }
 
-            for (int i = 0; i < delrows.Count; i++)
+            for (int i = 0 ; i < delrows.Count ; i++ )
             {
                 EcellObject obj = delrows[i].Tag as EcellObject;
                 if (i == delrows.Count - 1)
