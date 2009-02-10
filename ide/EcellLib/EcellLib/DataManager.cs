@@ -125,9 +125,9 @@ namespace Ecell
         public DataManager(ApplicationEnvironment env)
         {
             this.m_env = env;
-            this.m_defaultDir = Util.GetBaseDir();
             this.m_observedList = new Dictionary<string, EcellObservedData>();
             this.m_parameterList = new Dictionary<string, EcellParameterData>();
+            SetDefaultDir();
         }
 
         #endregion
@@ -590,11 +590,12 @@ namespace Ecell
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(ex.Message);
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrCrePrj, modelID) + "\n" + ex.Message);
                 CloseProject();
             }
 
         }
+
         /// <summary>
         /// Creates the new "Project" object.
         /// </summary>
@@ -666,7 +667,7 @@ namespace Ecell
             {
                 string tempdir = Path.Combine(sourceDir, dir);
                 if (Directory.Exists(tempdir))
-                    Util.CopyDirectory(tempdir, Path.Combine(targetDir, dir));
+                    Util.CopyDirectory(tempdir, Path.Combine(targetDir, dir), false);
             }
             string[] files = Directory.GetFiles(sourceDir, "project.*");
             foreach (string file in files)
@@ -697,40 +698,39 @@ namespace Ecell
                 {
                     m_currentProject.Save();
                 }
-                string modelDirName
-                    = this.m_defaultDir + Constants.delimiterPath +
-                    m_currentProject.Info.Name + Constants.delimiterPath + Constants.xpathModel;
+                // Set Model dir and filename.
+                string modelDirName = Path.Combine(m_currentProject.Info.ProjectPath, Constants.xpathModel);
                 if (!Directory.Exists(modelDirName))
-                {
                     Directory.CreateDirectory(modelDirName);
-                }
                 string modelFileName
                     = modelDirName + Constants.delimiterPath + modelID + Constants.delimiterPeriod + Constants.xpathEml;
-                //
+
                 // Picks the "Stepper" up.
-                //
                 List<EcellObject> stepperList
                     = m_currentProject.StepperDic[m_currentProject.Info.SimulationParam][modelID];
                 Debug.Assert(stepperList != null && stepperList.Count > 0);
                 storedList.AddRange(stepperList);
-                //
+
                 // Picks the "System" up.
-                //
                 List<EcellObject> systemList = m_currentProject.SystemDic[modelID];
                 Debug.Assert(systemList != null && systemList.Count > 0);
                 storedList.AddRange(systemList);
-                //
-                // Creates.
-                //
+
+                // Save eml.
                 EmlWriter.Create(modelFileName, storedList, true);
+                // Save Leml.
+                EcellModel model = (EcellModel)m_currentProject.Model;
+                model.Children = storedList;
+                string leml = modelFileName.Replace(Constants.FileExtEML, Constants.FileExtLEML);
+                Leml.SaveLEML(model, leml);
+
                 Trace.WriteLine("Save Model: " + message);
                 m_env.PluginManager.SaveModel(modelID, modelDirName);
             }
             catch (Exception ex)
             {
                 storedList = null;
-                message = String.Format(MessageResources.ErrSaveModel,
-                    new object[] { modelID });
+                message = string.Format(MessageResources.ErrSaveModel, modelID);
                 Trace.WriteLine(message);
                 throw new EcellException(message, ex);
             }
@@ -768,8 +768,8 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                String.Format(MessageResources.ErrSavePrj, m_currentProject.Info.Name);
                 Trace.WriteLine(ex);
+                throw new EcellException(string.Format(MessageResources.ErrSavePrj, m_currentProject.Info.Name), ex);
             }
         }
 
@@ -778,22 +778,7 @@ namespace Ecell
         /// </summary>
         private void SetDefaultDir()
         {
-            if (this.m_defaultDir == null || this.m_defaultDir.Length <= 0)
-            {
-                string baseDirs = Util.GetBaseDir();
-                if (baseDirs == null || baseDirs.Length <= 0)
-                {
-                    return;
-                }
-                foreach (string baseDir in baseDirs.Split(Path.PathSeparator))
-                {
-                    if (Directory.Exists(baseDir))
-                    {
-                        this.m_defaultDir = baseDir;
-                        break;
-                    }
-                }
-            }
+            this.m_defaultDir = Util.GetBaseDir();
         }
 
         /// <summary>
@@ -852,8 +837,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new EcellException(String.Format(MessageResources.ErrCreFile,
-                    new object[] { fileName }), ex);
+                throw new EcellException(string.Format(MessageResources.ErrCreFile, fileName), ex);
             }
         }
 
@@ -862,35 +846,32 @@ namespace Ecell
         /// </summary>
         public void CloseProject()
         {
-            string projectID = "";
             try
             {
-                if (m_currentProject != null)
+                if (this.m_currentProject != null)
                 {
-                    projectID = m_currentProject.Info.Name;
-                    m_currentProject.Simulator.Dispose();
-                    m_currentProject = null;
+                    string msg = string.Format(MessageResources.InfoClose, m_currentProject.Info.Name);
+                    Trace.WriteLine(msg);
+                    m_env.Console.WriteLine(msg);
+                    m_env.Console.Flush();
+                    this.m_currentProject.Simulator.Dispose();
+                    this.m_currentProject = null;
                 }
-                m_env.PluginManager.AdvancedTime(0);
-                m_env.PluginManager.Clear();
 
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoClose, projectID));
-                m_env.Console.Flush();
+                this.m_env.PluginManager.AdvancedTime(0);
+                this.m_env.PluginManager.Clear();
+                this.m_env.ActionManager.Clear();
+                this.m_env.ReportManager.Clear();
+                this.m_parameterList.Clear();
+                this.m_observedList.Clear();
+                this.m_loggerEntry.Clear();
 
-                Trace.WriteLine(String.Format(MessageResources.InfoClose,
-                    new object[] { projectID }));
-                m_env.ActionManager.Clear();
-                m_env.ReportManager.Clear();
-                m_parameterList.Clear();
-                m_observedList.Clear();
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Uninitialized);
-                m_loggerEntry.Clear();
             }
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                String errmes = string.Format(MessageResources.ErrClosePrj,
-                    new object[] { projectID });
+                string errmes = string.Format(MessageResources.ErrClosePrj, "");
                 throw new EcellException(errmes, ex);
             }
         }
@@ -931,14 +912,15 @@ namespace Ecell
         /// <param name="isAnchor">Whether this action is an anchor or not</param>
         public void DataAdd(EcellObject ecellObject, bool isRecorded, bool isAnchor)
         {
+            if (!ecellObject.IsUsable)
+                return;
+
             List<EcellObject> usableList = new List<EcellObject>();
             string type = null;
 
             bool isUndoable = true; // Whether DataAdd action is undoable or not
             try
             {
-                if (!ecellObject.IsUsable)
-                    return;
                 type = ecellObject.Type;
                 ConfirmAnalysisReset("add", type);
                 ConfirmReset("add", type);
@@ -993,15 +975,18 @@ namespace Ecell
             {
                 if (usableList.Count > 0)
                 {
-
-                    m_env.PluginManager.DataAdd(usableList);
-                    foreach (EcellObject obj in usableList)
+                    if (isRecorded)
                     {
-                        if (isRecorded)
-                            m_env.ActionManager.AddAction(new DataAddAction(obj, isUndoable, isAnchor));
+                        foreach (EcellObject obj in usableList)
+                        {
+                            m_env.ActionManager.AddAction(new DataAddAction(obj, isUndoable, false));
+                        }
                     }
+                    m_env.PluginManager.DataAdd(usableList);
                     if (type.Equals(EcellObject.SYSTEM))
                         m_env.PluginManager.RaiseRefreshEvent();
+                    if (isAnchor)
+                        m_env.ActionManager.AddAction(new AnchorAction());
                 }
             }
         }
@@ -1046,11 +1031,9 @@ namespace Ecell
             foreach (string simParam in m_currentProject.InitialCondition.Keys)
             {
                 // Sets initial conditions.
-                m_currentProject.StepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
                 m_currentProject.StepperDic[simParam] = new Dictionary<string, List<EcellObject>>();
                 m_currentProject.StepperDic[simParam][modelID] = new List<EcellObject>();
                 m_currentProject.StepperDic[simParam][modelID].Add(dic[Constants.xpathStepper]);
-                m_currentProject.LoggerPolicyDic = new Dictionary<string, LoggerPolicy>();
                 m_currentProject.LoggerPolicyDic[simParam] = new LoggerPolicy();
             }
             //
@@ -1139,7 +1122,6 @@ namespace Ecell
                     String.Format(MessageResources.InfoAdd,
                     new object[] { type, system.Key }));
             }
-            m_env.PluginManager.RaiseRefreshEvent();
         }
 
         /// <summary>
@@ -1200,10 +1182,9 @@ namespace Ecell
             // Set Simulation param
             m_currentProject.AddSimulationParameter(entity);
         }
-
         #endregion
 
-        #region Method for Data Change
+        #region Method for DataChanged
         /// <summary>
         /// Changes the "EcellObject".
         /// </summary>
@@ -1212,6 +1193,7 @@ namespace Ecell
         {
             DataChanged(ecellObjectList, true, true);
         }
+
         /// <summary>
         /// Changes the "EcellObject".
         /// </summary>
@@ -1262,6 +1244,7 @@ namespace Ecell
             Debug.Assert(!String.IsNullOrEmpty(key));
             Debug.Assert(!String.IsNullOrEmpty(type));
 
+            // DataChange for simulation.
             try
             {
                 if (m_env.PluginManager.Status == ProjectStatus.Analysis)
@@ -1281,28 +1264,30 @@ namespace Ecell
                     m_currentProject.SimulationStatus == SimulationStatus.Suspended)
                 {
                     EcellObject obj = GetEcellObject(modelID, key, type);
+                    // Confirm Reset.
                     if (!key.Equals(ecellObject.Key) ||
                         !obj.Classname.Equals(ecellObject.Classname) ||
-                        obj.Value.Count != ecellObject.Value.Count)
-                        ConfirmReset("change", type);
-                    else
+                        obj.Value.Count != ecellObject.Value.Count ||
+                        (obj is EcellProcess && Util.DoesVariableReferenceChange(obj, ecellObject)))
                     {
-                        if (ecellObject.Type == EcellObject.PROCESS ||
+                        ConfirmReset("change", type);
+                    }
+                    // DataChange for parameter.
+                    else if (ecellObject.Type == EcellObject.PROCESS ||
                             ecellObject.Type == EcellObject.VARIABLE ||
-                            ecellObject.Type == EcellObject.SYSTEM)
+                        ecellObject.Type == EcellObject.SYSTEM)
+                    {
+                        foreach (EcellData d in obj.Value)
                         {
-                            foreach (EcellData d in obj.Value)
+                            foreach (EcellData d1 in ecellObject.Value)
                             {
-                                foreach (EcellData d1 in ecellObject.Value)
+                                if (!d.Name.Equals(d1.Name))
+                                    continue;
+                                if (!d.Value.ToString().Equals(d1.Value.ToString()))
                                 {
-                                    if (!d.Name.Equals(d1.Name))
-                                        continue;
-                                    if (!d.Value.ToString().Equals(d1.Value.ToString()))
-                                    {
-                                        m_currentProject.Simulator.SetEntityProperty(d1.EntityPath, d1.Value.Value);
-                                    }
-                                    break;
+                                    m_currentProject.Simulator.SetEntityProperty(d1.EntityPath, d1.Value.Value);
                                 }
+                                break;
                             }
                         }
                     }
@@ -1315,6 +1300,7 @@ namespace Ecell
                 return;
             }
 
+            // Check Duplication Error.
             if (key != ecellObject.Key &&
                 GetEcellObject(ecellObject.ModelID, ecellObject.Key, ecellObject.Type) != null)
             {
@@ -1333,32 +1319,39 @@ namespace Ecell
                 // Checks the EcellObject
                 CheckEntityPath(ecellObject);
 
+                // Record Action.
+                if (isRecorded)
+                    this.m_env.ActionManager.AddAction(new DataChangeAction(modelID, type, oldObj, ecellObject, false));
                 // 4 System & Entity
-                if (ecellObject.Type.Equals(Constants.xpathSystem))
+                if (ecellObject.Type.Equals(Constants.xpathModel))
                 {
-                    DataChanged4System(modelID, key, type, ecellObject);
+                    DataChanged4Model(modelID, key, type, ecellObject, isRecorded, isAnchor);
+                }
+                else if (ecellObject.Type.Equals(Constants.xpathSystem))
+                {
+                    DataChanged4System(modelID, key, type, ecellObject, isRecorded, isAnchor);
                 }
                 else if (ecellObject.Type.Equals(Constants.xpathProcess))
                 {
-                    DataChanged4Entity(modelID, key, type, ecellObject);
+                    DataChanged4Entity(modelID, key, type, ecellObject, isRecorded, isAnchor);
                 }
                 else if (ecellObject.Type.Equals(Constants.xpathText))
                 {
-                    DataChanged4Entity(modelID, key, type, ecellObject);
+                    DataChanged4Entity(modelID, key, type, ecellObject, isRecorded, isAnchor);
                 }
                 else if (ecellObject.Type.Equals(Constants.xpathVariable))
                 {
-                    DataChanged4Entity(modelID, key, type, ecellObject);
+                    DataChanged4Entity(modelID, key, type, ecellObject, isRecorded, isAnchor);
                 }
 
                 if (key != ecellObject.Key)
                     CheckParameterObservedData(oldObj, ecellObject.Key);
 
                 //if (!oldObj.IsPosSet)
-                //    m_env.PluginManager.SetPosition(oldObj);                
-                if (isRecorded)
-                    this.m_env.ActionManager.AddAction(new DataChangeAction(modelID, type, oldObj.Clone(), ecellObject.Clone(), isAnchor));
-
+                //    m_env.PluginManager.SetPosition(oldObj);
+                // Set Event Anchor.
+                if (isAnchor)
+                    this.m_env.ActionManager.AddAction(new AnchorAction());
             }
             catch (Exception ex)
             {
@@ -1371,14 +1364,39 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Changes the "Model".
+        /// </summary>
+        /// <param name="modelID"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        /// <param name="ecellObject"></param>
+        /// <param name="isRecorded"></param>
+        /// <param name="isAnchor"></param>
+        private void DataChanged4Model(string modelID, string key, string type, EcellObject ecellObject, bool isRecorded, bool isAnchor)
+        {
+            if (modelID.Equals(ecellObject.ModelID))
+            {
+                m_currentProject.ModelList[0].Layers = ((EcellModel)ecellObject).Layers;
+                m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
+                return;
+            }
+
+            // ToDo: モデル名が変更された場合の処理（各オブジェクトのモデルIDの変更とDataChangedEventの実行）を記述する。
+            // Caution! 現時点ではモデル名の変更はできません。
+            throw new Exception("The method to change ModelID is not implemented.");
+        }
+
+        /// <summary>
         /// Changes the "Variable" or the "Process".
         /// </summary>
         /// <param name="modelID">The model ID</param>
         /// <param name="key">The key</param>
         /// <param name="type">The type</param>
         /// <param name="ecellObject">The changed "Variable" or the "Process"</param>
+        /// <param name="isRecorded">Whether this action is recorded or not</param>
+        /// <param name="isAnchor">Whether this action is an anchor or not</param>
         private void DataChanged4Entity(
-            string modelID, string key, string type, EcellObject ecellObject)
+            string modelID, string key, string type, EcellObject ecellObject, bool isRecorded, bool isAnchor)
         {
             // Get changed node.
             EcellObject oldNode = m_currentProject.GetEcellObject(modelID, type, key);
@@ -1407,7 +1425,7 @@ namespace Ecell
                 DataChanged(list, false, false);
             }
             // Deletes the old object.
-            DataDelete4Node(modelID, key, type, false, true);
+            DataDelete4Node(modelID, key, type, false, true, false);
             return;
         }
 
@@ -1418,7 +1436,9 @@ namespace Ecell
         /// <param name="key">The key</param>
         /// <param name="type">The type</param>
         /// <param name="ecellObject">The changed "System"</param>
-        private void DataChanged4System(string modelID, string key, string type, EcellObject ecellObject)
+        /// <param name="isRecorded">Whether this action is recorded or not</param>
+        /// <param name="isAnchor">Whether this action is an anchor or not</param>
+        private void DataChanged4System(string modelID, string key, string type, EcellObject ecellObject, bool isRecorded, bool isAnchor)
         {
             m_currentProject.SortSystems();
             List<EcellObject> systemList = m_currentProject.SystemDic[modelID];
@@ -1456,9 +1476,13 @@ namespace Ecell
 
                 // Adds the new "System" object.
                 string newKey = ecellObject.Key + system.Key.Substring(key.Length);
+                oldKeyDic.Add(newKey, system.Key);
                 EcellSystem newSystem
                     = (EcellSystem)EcellObject.CreateObject(modelID, newKey, system.Type, system.Classname, system.Value);
-                newSystem.SetPosition(system);
+                if (newSystem.Key == ecellObject.Key)
+                    newSystem.SetPosition(ecellObject);
+                else
+                    newSystem.SetPosition(system);
                 CheckEntityPath(newSystem);
                 CheckDifferences(system, newSystem, null);
                 CheckParameterObservedData(system, newSystem.Key);
@@ -1468,7 +1492,6 @@ namespace Ecell
                 // Change Child
                 foreach (EcellObject child in system.Children)
                 {
-                    m_currentProject.DeleteEntity(child);
                     EcellObject copy = child.Clone();
                     copy.ParentSystemID = newKey;
                     CheckEntityPath(copy);
@@ -1479,31 +1502,14 @@ namespace Ecell
                     if (copy.Type.Equals(Constants.xpathVariable))
                         variableKeyDic.Add(child.Key, copy.Key);
                 }
-                // Throw DataChanged Event
-                m_env.PluginManager.DataChanged(modelID, system.Key, type, newSystem);
-                foreach (EcellObject child in newSystem.Children)
-                {
-                    m_env.PluginManager.DataChanged(modelID, oldKeyDic[child.Key], child.Type, child);
-                }
             }
 
+            ecellObject = m_currentProject.GetSystem(modelID, ecellObject.Key);
+            m_env.PluginManager.DataChanged(modelID, key, ecellObject.Type, ecellObject);
             // Checks all processes.
             m_currentProject.SortSystems();
             List<EcellObject> processList = CheckVariableReferenceChanges(variableKeyDic);
-            DataChanged(processList, false, false);
-        }
-
-        /// <summary>
-        /// Set positions of all EcellObjects.
-        /// </summary>
-        /// <param name="modelID">Model ID</param>
-        public void SetPositions(string modelID)
-        {
-            if (null != modelID && m_currentProject.SystemDic.ContainsKey(modelID))
-            {
-                foreach (EcellObject eo in m_currentProject.SystemDic[modelID])
-                    m_env.PluginManager.SetPosition(eo);
-            }
+            DataChanged(processList, true, false);
         }
 
         /// <summary>
@@ -1580,14 +1586,16 @@ namespace Ecell
                 Util.ShowErrorDialog(MessageResources.ErrDelRoot);
                 return;
             }
+            // Check Model
+            if (string.IsNullOrEmpty(modelID))
+                return;
+            // Check Object;
+            EcellObject deleteObj = GetEcellObject(modelID, key, type);
+            if (deleteObj == null)
+                return;
 
-            EcellObject deleteObj = null;
             try
             {
-                if (string.IsNullOrEmpty(modelID))
-                    return;
-                deleteObj = GetEcellObject(modelID, key, type);
-
                 foreach (EcellData data in deleteObj.Value)
                 {
                     if (GetParameterData(data.EntityPath) != null)
@@ -1606,7 +1614,7 @@ namespace Ecell
                 }
                 else if (key.Contains(":"))
                 { // not system
-                    DataDelete4Node(modelID, key, type, true, isRecorded);
+                    DataDelete4Node(modelID, key, type, true, isRecorded, false);
                 }
                 else
                 { // system
@@ -1622,9 +1630,11 @@ namespace Ecell
             {
                 m_env.PluginManager.DataDelete(modelID, key, type);
                 if (isRecorded)
-                    m_env.ActionManager.AddAction(new DataDeleteAction(modelID, key, type, deleteObj, isAnchor));
+                    m_env.ActionManager.AddAction(new DataDeleteAction(modelID, key, type, deleteObj, false));
                 if (type.Equals(EcellObject.SYSTEM))
                     m_env.PluginManager.RaiseRefreshEvent();
+                if (isAnchor)
+                    this.m_env.ActionManager.AddAction(new AnchorAction());
             }
         }
 
@@ -1664,42 +1674,6 @@ namespace Ecell
                 }
             }
             MessageDeleteEntity(EcellObject.MODEL, message);
-        }
-
-        /// <summary>
-        /// Deletes the "Process" or the "Variable" using the model ID and the key of the "EcellObject".
-        /// </summary>
-        /// <param name="model">The model ID</param>
-        /// <param name="key">The key of the "EcellObject"</param>
-        /// <param name="type">The type of the "EcellObject"</param>
-        /// <param name="messageFlag">The flag of the message</param>
-        /// <param name="isRecorded">The flag whether this action is recorded.</param>
-        private void DataDelete4Node(
-            string model,
-            string key,
-            string type,
-            bool messageFlag,
-            bool isRecorded)
-        {
-            if (!m_currentProject.SystemDic.ContainsKey(model))
-                return;
-
-            // Show Message.
-            string message = "[" + model + "][" + key + "]";
-            if (messageFlag)
-                MessageDeleteEntity(type, message);
-
-            // Delete node.
-            EcellObject node = GetEcellObject(model, key, type);
-            if (node != null)
-                m_currentProject.DeleteEntity(node);
-
-            // Update VariableReference.
-            if (node is EcellVariable)
-            {
-                List<EcellObject> processList = CheckVariableReferenceChanges(key, null);
-                DataChanged(processList, isRecorded, false);
-            }
         }
 
         /// <summary>
@@ -1747,6 +1721,44 @@ namespace Ecell
             // Update VariableReferences.
             List<EcellObject> processlist = CheckVariableReferenceChanges(varDic);
             DataChanged(processlist, isRecorded, false);
+        }
+
+        /// <summary>
+        /// Deletes the "Process" or the "Variable" using the model ID and the key of the "EcellObject".
+        /// </summary>
+        /// <param name="model">The model ID</param>
+        /// <param name="key">The key of the "EcellObject"</param>
+        /// <param name="type">The type of the "EcellObject"</param>
+        /// <param name="messageFlag">The flag of the message</param>
+        /// <param name="isRecorded">The flag whether this action is recorded.</param>
+        /// <param name="isAnchor">The flag whether this action is anchor.</param>
+        private void DataDelete4Node(
+            string model,
+            string key,
+            string type,
+            bool messageFlag,
+            bool isRecorded,
+            bool isAnchor)
+        {
+            if (!m_currentProject.SystemDic.ContainsKey(model))
+                return;
+
+            // Show Message.
+            string message = "[" + model + "][" + key + "]";
+            if (messageFlag)
+                MessageDeleteEntity(type, message);
+
+            // Delete node.
+            EcellObject node = GetEcellObject(model, key, type);
+            if (node != null)
+                m_currentProject.DeleteEntity(node);
+
+            // Update VariableReference.
+            if (node is EcellVariable)
+            {
+                List<EcellObject> processList = CheckVariableReferenceChanges(key, null);
+                DataChanged(processList, isRecorded, false);
+            }
         }
 
         /// <summary>
@@ -1812,6 +1824,8 @@ namespace Ecell
                 else if (eo is EcellProcess)
                     processList.Add((EcellProcess)eo);
 
+                // Check process
+                List<EcellObject> tempList = new List<EcellObject>();
                 if (!(eo is EcellSystem))
                     continue;
                 foreach (EcellObject child in eo.Children)
@@ -1823,9 +1837,20 @@ namespace Ecell
 
                     // Set varDic
                     if (child is EcellVariable)
+                    {
                         varDic.Add(oldKey, newKey);
+                    }
                     else if (child is EcellProcess)
+                    {
                         processList.Add((EcellProcess)child);
+                        tempList.Add(child);
+                    }
+                }
+                // Sort children.
+                foreach (EcellObject child in tempList)
+                {
+                    eo.Children.Remove(child);
+                    eo.Children.Add(child);
                 }
             }
             // Update VariableReferences for new processes.
@@ -1853,11 +1878,17 @@ namespace Ecell
             // Remove system.
             DataDelete(system, true, false);
 
+            bool isRecorded = (updatingProcesses.Count <= 0);
             // Move systems and nodes under merged system.
-            DataAdd(eoList, true, (updatingProcesses.Count <= 0));
+            DataAdd(eoList, true, false);
 
             // Update VariableReferences
-            DataChanged(updatingProcesses, true, true);
+            DataChanged(updatingProcesses, true, false);
+
+            EcellObject parent = GetEcellObject(modelID, parentSysKey, EcellObject.SYSTEM);
+            DataChanged(modelID, parent.Key, parent.Type, parent, true, true);
+
+            m_env.PluginManager.RaiseRefreshEvent();
         }
 
         #endregion
@@ -2246,6 +2277,7 @@ namespace Ecell
                 }
             }
         }
+
         #endregion
 
         #region Create Default Object.
@@ -2275,8 +2307,7 @@ namespace Ecell
                 }
                 else if (type.Equals(Constants.xpathText))
                 {
-                    string nodeKey = GetTemporaryID(modelID, EcellObject.TEXT, "/");
-                    obj = new EcellText(modelID, nodeKey, EcellObject.TEXT, EcellObject.TEXT, new List<EcellData>());
+                    obj = CreateDefaultText(modelID);
                 }
                 return obj;
             }
@@ -2301,7 +2332,6 @@ namespace Ecell
         {
             string nodeKey = GetTemporaryID(modelID, EcellObject.TEXT, "/");
             EcellText text = new EcellText(modelID, nodeKey, EcellObject.TEXT, EcellObject.TEXT, new List<EcellData>());
-            text.Comment = text.LocalID;
             return text;
         }
 
@@ -2453,8 +2483,8 @@ namespace Ecell
             EcellObject dummyEcellObject = EcellObject.CreateObject(
                 "",
                 Constants.delimiterPath,
-                "",
-                "",
+                EcellObject.SYSTEM,
+                EcellObject.SYSTEM,
                 null);
             DataStorer.DataStored4System(
                 sim,
@@ -2480,8 +2510,8 @@ namespace Ecell
                 dummyEcellObject = EcellObject.CreateObject(
                     "",
                     Constants.delimiterPath + Constants.delimiterColon + Constants.xpathSize.ToUpper(),
-                    "",
-                    "",
+                    EcellObject.VARIABLE,
+                    EcellObject.VARIABLE,
                     null
                     );
                 DataStorer.DataStored4Variable(
@@ -2563,7 +2593,9 @@ namespace Ecell
         private static void SetPropertyList(EcellObject ecellObject, Dictionary<string, EcellData> dic)
         {
             if (ecellObject.Value == null || ecellObject.Value.Count <= 0)
+            {
                 return;
+            }
             foreach (EcellData ecellData in ecellObject.Value)
             {
                 if (ecellData.Name.Equals(EcellProcess.VARIABLEREFERENCELIST))
@@ -3152,6 +3184,7 @@ namespace Ecell
                 m_parameterList.Remove(data.Key);
             m_env.PluginManager.RemoveParameterData(data);
         }
+
         #endregion
 
         #region Method for Simulation Execution
@@ -3292,7 +3325,7 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Step simulation step.
+        /// Step simulation with step.
         /// </summary>
         /// <param name="step"></param>
         public void StartStepSimulation(int step)
@@ -3695,6 +3728,7 @@ namespace Ecell
 
                 double reloadInterval = m_currentProject.LoggerPolicy.ReloadInterval;
                 double percent = 0.0;
+
                 foreach (string key in fullIDList)
                 {
                     try
@@ -4215,8 +4249,8 @@ namespace Ecell
                 m_env.Console.Flush();
                 Trace.WriteLine(String.Format(MessageResources.InfoCreSim,
                     new object[] { parameterID }));
-                //                if (isRecorded)
-                //                    m_env.ActionManager.AddAction(new NewSimParamAction(parameterID, isAnchor));
+                //if (isRecorded)
+                //    m_env.ActionManager.AddAction(new NewSimParamAction(parameterID, isAnchor));
             }
             catch (Exception ex)
             {
@@ -4378,7 +4412,7 @@ namespace Ecell
         /// <summary>
         /// Sets the parameter of the simulator.
         /// </summary>
-        /// <param name="simParam"></param>
+        /// <param name="simParam">the set parameter ID</param>
         internal void SetSimulationParameter(SimulationParameter simParam)
         {
             try
@@ -4534,6 +4568,7 @@ namespace Ecell
             {
                 throw new EcellException(String.Format(MessageResources.ErrDelParam));
             }
+
             try
             {
                 Debug.Assert(!String.IsNullOrEmpty(parameterID));
@@ -4595,8 +4630,8 @@ namespace Ecell
                 m_env.Console.Flush();
                 MessageDeleteEntity("Simulation Parameter", message);
 
-                //                if (isRecorded)
-                //                    m_env.ActionManager.AddAction(new DeleteSimParamAction(parameterID, isAnchor));
+                //if (isRecorded)
+                //    m_env.ActionManager.AddAction(new DeleteSimParamAction(parameterID, isAnchor));
             }
             catch (Exception ex)
             {
@@ -5070,6 +5105,7 @@ namespace Ecell
                 return null;
             return path;
         }
+
         #endregion
 
         #region Send Message
