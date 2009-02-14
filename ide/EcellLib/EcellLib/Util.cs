@@ -120,6 +120,8 @@ namespace Ecell
                 return true;
             if (key.Length > 128)
                 return true;
+            if (key.Equals(Constants.delimiterPath))
+                return false;
 
             for (int i = 0; i < key.Length; i++)
             {
@@ -348,11 +350,14 @@ namespace Ecell
         {
             if (IsNGforType(type))
                 throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "type"));
-            if (IsNGforSystemKey(systemPath))
+            if (IsNGforSystemKey(systemPath) && !localID.Equals(Constants.delimiterPath))
                 throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "systemPath"));
             if (IsNGforID(localID))
                 throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "localID"));
-
+            // Create root path.
+            if (type.Equals(EcellObject.SYSTEM) && string.IsNullOrEmpty(systemPath) && localID.Equals(Constants.delimiterPath))
+                return type + Constants.delimiterColon + localID;
+            // Create path.
             string delimiter = Constants.delimiterColon;
             if (type.Equals(EcellObject.SYSTEM))
                 delimiter = Constants.delimiterPath;

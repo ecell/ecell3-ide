@@ -238,7 +238,7 @@ namespace Ecell
         /// <param name="modelID">the model ID</param>
         public void CreateModel(string modelID)
         {
-            EcellObject model = EcellObject.CreateObject(modelID, null, Constants.xpathModel, null, null);
+            EcellObject model = EcellObject.CreateObject(modelID, "", Constants.xpathModel, "", new List<EcellData>());
             m_env.DataManager.DataAdd(model);
             m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
             s_modelID = modelID;

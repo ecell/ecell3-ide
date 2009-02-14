@@ -1,87 +1,109 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!--ECell-IDE configuration file.-->
 <!--Automatically generated file. DO NOT modify!-->
-<Application Name="E-Cell IDE" Version="1.1.1156.0" ConfigFileVersion="1.2">
-  <Form WindowState="Normal" Top="111" Left="51" Height="815" Width="1185" />
-  <DockPanel DockLeftPortion="0.226210705182668" DockRightPortion="0.239939637826961" DockTopPortion="0.25" DockBottomPortion="0.25" ActiveDocumentPane="12" ActivePane="12">
-    <Contents Count="10">
-      <Content ID="0" Name="AnalysisResultWindow" AutoHidePortion="0.25" IsHidden="True" IsFloat="True" />
-      <Content ID="1" Name="EntityList" AutoHidePortion="0.25" IsHidden="False" IsFloat="False" />
-      <Content ID="2" Name="MessageWindow" AutoHidePortion="0.25" IsHidden="False" IsFloat="False" />
-      <Content ID="3" Name="ObjectList" AutoHidePortion="0.25" IsHidden="False" IsFloat="False" />
-      <Content ID="4" Name="ObjectList2" AutoHidePortion="0.25" IsHidden="True" IsFloat="True" />
+<Application Name="E-Cell IDE 1.0 beta4" Version="1.1.2462.0" ConfigFileVersion="1.2">
+  <Form WindowState="Normal" Top="127" Left="58" Height="815" Width="1185" />
+  <DockPanel DockLeftPortion="0.226210705182668" DockRightPortion="0.239939637826961" DockTopPortion="0.25" DockBottomPortion="0.25" ActiveDocumentPane="0" ActivePane="0">
+    <Contents Count="13">
+      <Content ID="0" Name="GridJobStatusDialog" AutoHidePortion="0.25" IsHidden="True" IsFloat="True" />
+      <Content ID="1" Name="AnalysisResultWindow" AutoHidePortion="0.25" IsHidden="True" IsFloat="True" />
+      <Content ID="2" Name="MessageWindowControl" AutoHidePortion="0.25" IsHidden="True" IsFloat="True" />
+      <Content ID="3" Name="EntityList" AutoHidePortion="0.25" IsHidden="False" IsFloat="False" />
+      <Content ID="4" Name="MessageListWindowControl" AutoHidePortion="0.25" IsHidden="True" IsFloat="True" />
       <Content ID="5" Name="PathwayView" AutoHidePortion="0.25" IsHidden="False" IsFloat="False" />
-      <Content ID="6" Name="OverView" AutoHidePortion="0.25" IsHidden="False" IsFloat="False" />
-      <Content ID="7" Name="LayerView" AutoHidePortion="0.25" IsHidden="False" IsFloat="False" />
-      <Content ID="8" Name="ToolBox" AutoHidePortion="0.25" IsHidden="True" IsFloat="True" />
+      <Content ID="6" Name="LayerView" AutoHidePortion="0.25" IsHidden="False" IsFloat="False" />
+      <Content ID="7" Name="Stencils" AutoHidePortion="0.25" IsHidden="True" IsFloat="True" />
+      <Content ID="8" Name="ProjectExplorerControl" AutoHidePortion="0.25" IsHidden="False" IsFloat="False" />
       <Content ID="9" Name="PropertyWindow" AutoHidePortion="0.25" IsHidden="False" IsFloat="False" />
+      <Content ID="10" Name="ScriptWindow" AutoHidePortion="0.25" IsHidden="True" IsFloat="True" />
+      <Content ID="11" Name="Spreadsheet" AutoHidePortion="0.25" IsHidden="True" IsFloat="True" />
+      <Content ID="12" Name="EcellWebBrowser" AutoHidePortion="0.25" IsHidden="False" IsFloat="False" />
     </Contents>
-    <Panes Count="13">
+    <Panes Count="17">
       <Pane ID="0" DockState="Document" ActiveContent="5">
-        <Contents Count="1">
+        <Contents Count="2">
           <Content ID="0" Name="PathwayView" RefID="5" />
+          <Content ID="1" Name="EcellWebBrowser" RefID="12" />
         </Contents>
       </Pane>
       <Pane ID="1" DockState="Float" ActiveContent="-1">
         <Contents Count="1">
-          <Content ID="0" Name="AnalysisResultWindow" RefID="0" />
+          <Content ID="0" Name="AnalysisResultWindow" RefID="1" />
         </Contents>
       </Pane>
       <Pane ID="2" DockState="Float" ActiveContent="-1">
         <Contents Count="1">
-          <Content ID="0" Name="ObjectList2" RefID="4" />
+          <Content ID="0" Name="PathwayView" RefID="5" />
         </Contents>
       </Pane>
       <Pane ID="3" DockState="Float" ActiveContent="-1">
         <Contents Count="1">
-          <Content ID="0" Name="PathwayView" RefID="5" />
+          <Content ID="0" Name="LayerView" RefID="6" />
         </Contents>
       </Pane>
-      <Pane ID="4" DockState="Float" ActiveContent="-1">
+      <Pane ID="4" DockState="DockLeft" ActiveContent="3">
         <Contents Count="1">
-          <Content ID="0" Name="OverView" RefID="6" />
+          <Content ID="0" Name="EntityList" RefID="3" />
         </Contents>
       </Pane>
       <Pane ID="5" DockState="Float" ActiveContent="-1">
         <Contents Count="1">
-          <Content ID="0" Name="LayerView" RefID="7" />
+          <Content ID="0" Name="PropertyWindow" RefID="9" />
         </Contents>
       </Pane>
-      <Pane ID="6" DockState="Float" ActiveContent="-1">
+      <Pane ID="6" DockState="Document" ActiveContent="9">
         <Contents Count="1">
-          <Content ID="0" Name="ToolBox" RefID="8" />
+          <Content ID="0" Name="PropertyWindow" RefID="9" />
         </Contents>
       </Pane>
-      <Pane ID="7" DockState="DockLeft" ActiveContent="1">
+      <Pane ID="7" DockState="Document" ActiveContent="6">
         <Contents Count="1">
-          <Content ID="0" Name="EntityList" RefID="1" />
+          <Content ID="0" Name="LayerView" RefID="6" />
         </Contents>
       </Pane>
-      <Pane ID="8" DockState="DockLeft" ActiveContent="3">
+      <Pane ID="8" DockState="Float" ActiveContent="-1">
         <Contents Count="1">
-          <Content ID="0" Name="ObjectList" RefID="3" />
+          <Content ID="0" Name="GridJobStatusDialog" RefID="0" />
         </Contents>
       </Pane>
       <Pane ID="9" DockState="Float" ActiveContent="-1">
         <Contents Count="1">
-          <Content ID="0" Name="PropertyWindow" RefID="9" />
+          <Content ID="0" Name="MessageWindowControl" RefID="2" />
         </Contents>
       </Pane>
       <Pane ID="10" DockState="Float" ActiveContent="-1">
         <Contents Count="1">
-          <Content ID="0" Name="MessageWindow" RefID="2" />
+          <Content ID="0" Name="MessageListWindowControl" RefID="4" />
         </Contents>
       </Pane>
-      <Pane ID="11" DockState="Document" ActiveContent="2">
-        <Contents Count="2">
-          <Content ID="0" Name="PropertyWindow" RefID="9" />
-          <Content ID="1" Name="MessageWindow" RefID="2" />
+      <Pane ID="11" DockState="Float" ActiveContent="-1">
+        <Contents Count="1">
+          <Content ID="0" Name="Stencils" RefID="7" />
         </Contents>
       </Pane>
-      <Pane ID="12" DockState="Document" ActiveContent="7">
-        <Contents Count="2">
-          <Content ID="0" Name="OverView" RefID="6" />
-          <Content ID="1" Name="LayerView" RefID="7" />
+      <Pane ID="12" DockState="Float" ActiveContent="-1">
+        <Contents Count="1">
+          <Content ID="0" Name="ProjectExplorerControl" RefID="8" />
+        </Contents>
+      </Pane>
+      <Pane ID="13" DockState="Float" ActiveContent="-1">
+        <Contents Count="1">
+          <Content ID="0" Name="ScriptWindow" RefID="10" />
+        </Contents>
+      </Pane>
+      <Pane ID="14" DockState="Float" ActiveContent="-1">
+        <Contents Count="1">
+          <Content ID="0" Name="Spreadsheet" RefID="11" />
+        </Contents>
+      </Pane>
+      <Pane ID="15" DockState="Float" ActiveContent="-1">
+        <Contents Count="1">
+          <Content ID="0" Name="EcellWebBrowser" RefID="12" />
+        </Contents>
+      </Pane>
+      <Pane ID="16" DockState="DockLeft" ActiveContent="8">
+        <Contents Count="1">
+          <Content ID="0" Name="ProjectExplorerControl" RefID="8" />
         </Contents>
       </Pane>
     </Panes>
@@ -89,14 +111,14 @@
       <DockWindow ID="0" DockState="Document" ZOrderIndex="0">
         <NestedPanes Count="3">
           <Pane ID="0" RefID="0" PrevPane="-1" Alignment="Right" Proportion="0.5" />
-          <Pane ID="1" RefID="11" PrevPane="0" Alignment="Bottom" Proportion="0.277476255088195" />
-          <Pane ID="2" RefID="12" PrevPane="11" Alignment="Right" Proportion="0.5" />
+          <Pane ID="1" RefID="6" PrevPane="0" Alignment="Bottom" Proportion="0.277476255088195" />
+          <Pane ID="2" RefID="7" PrevPane="6" Alignment="Right" Proportion="0.5" />
         </NestedPanes>
       </DockWindow>
       <DockWindow ID="1" DockState="DockLeft" ZOrderIndex="2">
         <NestedPanes Count="2">
-          <Pane ID="0" RefID="7" PrevPane="-1" Alignment="Bottom" Proportion="0.5" />
-          <Pane ID="1" RefID="8" PrevPane="7" Alignment="Bottom" Proportion="0.5" />
+          <Pane ID="0" RefID="4" PrevPane="-1" Alignment="Bottom" Proportion="0.5" />
+          <Pane ID="1" RefID="16" PrevPane="4" Alignment="Top" Proportion="0.599023709902371" />
         </NestedPanes>
       </DockWindow>
       <DockWindow ID="2" DockState="DockRight" ZOrderIndex="3">
@@ -109,20 +131,20 @@
         <NestedPanes Count="0" />
       </DockWindow>
     </DockWindows>
-    <FloatWindows Count="9">
+    <FloatWindows Count="12">
       <FloatWindow ID="0" Bounds="0, 24, 1045, 626" ZOrderIndex="0">
         <NestedPanes Count="1">
           <Pane ID="0" RefID="1" PrevPane="-1" Alignment="Right" Proportion="0.5" />
         </NestedPanes>
       </FloatWindow>
-      <FloatWindow ID="1" Bounds="0, 24, 1045, 626" ZOrderIndex="1">
+      <FloatWindow ID="1" Bounds="0, 24, 521, 626" ZOrderIndex="1">
         <NestedPanes Count="1">
           <Pane ID="0" RefID="2" PrevPane="-1" Alignment="Right" Proportion="0.5" />
         </NestedPanes>
       </FloatWindow>
-      <FloatWindow ID="2" Bounds="0, 24, 521, 626" ZOrderIndex="2">
+      <FloatWindow ID="2" Bounds="110, 110, 300, 300" ZOrderIndex="2">
         <NestedPanes Count="1">
-          <Pane ID="0" RefID="6" PrevPane="-1" Alignment="Right" Proportion="0.5" />
+          <Pane ID="0" RefID="5" PrevPane="-1" Alignment="Right" Proportion="0.5" />
         </NestedPanes>
       </FloatWindow>
       <FloatWindow ID="3" Bounds="0, 24, 521, 626" ZOrderIndex="3">
@@ -130,27 +152,44 @@
           <Pane ID="0" RefID="3" PrevPane="-1" Alignment="Right" Proportion="0.5" />
         </NestedPanes>
       </FloatWindow>
-      <FloatWindow ID="4" Bounds="839, 466, 300, 300" ZOrderIndex="4">
-        <NestedPanes Count="0" />
-      </FloatWindow>
-      <FloatWindow ID="5" Bounds="132, 132, 300, 300" ZOrderIndex="5">
+      <FloatWindow ID="4" Bounds="0, 24, 992, 573" ZOrderIndex="4">
         <NestedPanes Count="1">
-          <Pane ID="0" RefID="10" PrevPane="-1" Alignment="Right" Proportion="0.5" />
+          <Pane ID="0" RefID="8" PrevPane="-1" Alignment="Right" Proportion="0.5" />
         </NestedPanes>
       </FloatWindow>
-      <FloatWindow ID="6" Bounds="110, 110, 300, 300" ZOrderIndex="6">
+      <FloatWindow ID="5" Bounds="0, 24, 992, 573" ZOrderIndex="5">
         <NestedPanes Count="1">
           <Pane ID="0" RefID="9" PrevPane="-1" Alignment="Right" Proportion="0.5" />
         </NestedPanes>
       </FloatWindow>
-      <FloatWindow ID="7" Bounds="14, 252, 521, 626" ZOrderIndex="7">
+      <FloatWindow ID="6" Bounds="0, 24, 992, 573" ZOrderIndex="6">
         <NestedPanes Count="1">
-          <Pane ID="0" RefID="4" PrevPane="-1" Alignment="Right" Proportion="0.5" />
+          <Pane ID="0" RefID="10" PrevPane="-1" Alignment="Right" Proportion="0.5" />
         </NestedPanes>
       </FloatWindow>
-      <FloatWindow ID="8" Bounds="0, 24, 521, 626" ZOrderIndex="8">
+      <FloatWindow ID="7" Bounds="0, 18, 242, 733" ZOrderIndex="7">
         <NestedPanes Count="1">
-          <Pane ID="0" RefID="5" PrevPane="-1" Alignment="Right" Proportion="0.5" />
+          <Pane ID="0" RefID="11" PrevPane="-1" Alignment="Right" Proportion="0.5" />
+        </NestedPanes>
+      </FloatWindow>
+      <FloatWindow ID="8" Bounds="0, 24, 992, 573" ZOrderIndex="8">
+        <NestedPanes Count="1">
+          <Pane ID="0" RefID="13" PrevPane="-1" Alignment="Right" Proportion="0.5" />
+        </NestedPanes>
+      </FloatWindow>
+      <FloatWindow ID="9" Bounds="0, 24, 356, 725" ZOrderIndex="9">
+        <NestedPanes Count="1">
+          <Pane ID="0" RefID="14" PrevPane="-1" Alignment="Right" Proportion="0.5" />
+        </NestedPanes>
+      </FloatWindow>
+      <FloatWindow ID="10" Bounds="0, 18, 255, 296" ZOrderIndex="10">
+        <NestedPanes Count="1">
+          <Pane ID="0" RefID="12" PrevPane="-1" Alignment="Right" Proportion="0.5" />
+        </NestedPanes>
+      </FloatWindow>
+      <FloatWindow ID="11" Bounds="0, 24, 453, 512" ZOrderIndex="11">
+        <NestedPanes Count="1">
+          <Pane ID="0" RefID="15" PrevPane="-1" Alignment="Right" Proportion="0.5" />
         </NestedPanes>
       </FloatWindow>
     </FloatWindows>

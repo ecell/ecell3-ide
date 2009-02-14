@@ -308,21 +308,23 @@ namespace Ecell.IDE
             foreach (string key in m_propDict.Keys)
             {
                 if (key == "Size")
-                {
                     continue;
-                }
 
-                EcellParameterData param = m_dManager.GetParameterData(m_propDict[key].EntityPath);
+                EcellData prop = m_propDict[key];
+                if (!prop.IsInitialized())
+                    continue;
+
+                EcellParameterData param = m_dManager.GetParameterData(prop.EntityPath);
                 if (param == null)
                 {
-                    param = new EcellParameterData(key, (double)m_propDict[key].Value);
+                    param = new EcellParameterData(key, (double)prop.Value);
                 }
                 CheckBox c = new CheckBox();
                 commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                if (m_propDict[key].Settable &&
-                    m_propDict[key].Value.Type == EcellValueType.Double)
+                if (prop.Settable &&
+                    prop.Value.Type == EcellValueType.Double)
                 {
-                    if (m_dManager.IsContainsParameterData(m_propDict[key].EntityPath))
+                    if (m_dManager.IsContainsParameterData(prop.EntityPath))
                         c.Checked = false;
                     else
                         c.Checked = true;
@@ -348,8 +350,8 @@ namespace Ecell.IDE
                 TextBox t1 = new TextBox();
                 t1.Dock = DockStyle.Fill;
                 t1.Tag = key;
-                if (!m_propDict[key].Settable ||
-                    m_propDict[key].Value.Type != EcellValueType.Double)
+                if (!prop.Settable ||
+                    prop.Value.Type != EcellValueType.Double)
                 {
                     t1.ReadOnly = true;
                     t1.Text = param.Max.ToString();
@@ -358,7 +360,7 @@ namespace Ecell.IDE
                 {
                     if (param.Max == 0.0)
                     {
-                        double d = (double)m_propDict[key].Value;
+                        double d = (double)prop.Value;
                         if (d >= 0.0)
                             t1.Text = Convert.ToString(d * 1.5);
                         else
@@ -376,8 +378,8 @@ namespace Ecell.IDE
                 TextBox t2 = new TextBox();
                 t2.Dock = DockStyle.Fill;
                 t2.Tag = key;
-                if (!m_propDict[key].Settable ||
-                    m_propDict[key].Value.Type != EcellValueType.Double)
+                if (!prop.Settable ||
+                    prop.Value.Type != EcellValueType.Double)
                 {
                     t2.ReadOnly = true;
                     t2.Text = param.Min.ToString();
@@ -386,7 +388,7 @@ namespace Ecell.IDE
                 {
                     if (param.Min == 0.0)
                     {
-                        double d = (double)m_propDict[key].Value;
+                        double d = (double)prop.Value;
                         if (d >= 0.0)
                             t2.Text = Convert.ToString(d * 0.5);
                         else
@@ -405,8 +407,8 @@ namespace Ecell.IDE
                 t3.Text = param.Step.ToString();
                 t3.Dock = DockStyle.Fill;
                 t3.Tag = key;
-                if (!m_propDict[key].Settable ||
-                    m_propDict[key].Value.Type != EcellValueType.Double)
+                if (!prop.Settable ||
+                    prop.Value.Type != EcellValueType.Double)
                 {
                     t3.ReadOnly = true;
                 }
@@ -888,12 +890,12 @@ namespace Ecell.IDE
                 {
                     continue;
                 }
-
+                EcellData prop = m_propDict[key];
                 layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-                if (m_propDict[key].Logable)
+                if (prop.Logable)
                 {
                     CheckBox c = new CheckBox();
-                    if (m_propDict[key].Logged)
+                    if (prop.Logged)
                     {
                         c.Checked = true;
                     }
@@ -934,7 +936,7 @@ namespace Ecell.IDE
                         t.Items.AddRange(new object[] { obj.Key });
                     }
 
-                    t.Text = m_propDict[key].Value.ToString();
+                    t.Text = prop.Value.ToString();
                     t.DropDownStyle = ComboBoxStyle.DropDownList;
                     t.Tag = key;
                     t.Dock = DockStyle.Fill;
@@ -947,18 +949,18 @@ namespace Ecell.IDE
                     t.Text = "";
                     t.Tag = key;
                     t.Dock = DockStyle.Fill;
-                    t.Text = m_propDict[key].Value.ToString();
-                    if (!m_propDict[key].Settable)
+                    t.Text = prop.Value.ToString();
+                    if (!prop.Settable)
                     {
                         t.ReadOnly = true;
                     }
                     else
                     {
-                        if (m_propDict[key].Value.IsDouble)
+                        if (prop.Value.IsDouble)
                         {
                             t.Validating += new CancelEventHandler(DoubleInputTextValidating);
                         }
-                        else if (m_propDict[key].Value.IsInt)
+                        else if (prop.Value.IsInt)
                         {
                             t.Validating += new CancelEventHandler(IntInputTextValidating);
                         }
@@ -1218,16 +1220,18 @@ namespace Ecell.IDE
                     {
                         EcellData data = new EcellData();
                         data.Name = (string)c.Tag;
-                        if (m_propDict[data.Name].Value.Type == EcellValueType.Integer)
+
+                        EcellData prop = m_propDict[data.Name];
+                        if (prop.Value.Type == EcellValueType.Integer)
                             data.Value = new EcellValue(Convert.ToInt32(c.Text));
-                        else if (m_propDict[data.Name].Value.Type == EcellValueType.Double)
+                        else if (prop.Value.Type == EcellValueType.Double)
                         {
                             if (c.Text == "1.79769313486232E+308")
                                 data.Value = new EcellValue(Double.MaxValue);
                             else
                                 data.Value = new EcellValue(Convert.ToDouble(c.Text));
                         }
-                        else if (m_propDict[data.Name].Value.Type == EcellValueType.List)
+                        else if (prop.Value.Type == EcellValueType.List)
                             data.Value = EcellValue.ConvertFromListString(c.Text);
                         else
                             data.Value = new EcellValue(c.Text);
@@ -1253,15 +1257,15 @@ namespace Ecell.IDE
                             }
                         }
 
-                        data.Settable = m_propDict[data.Name].Settable;
-                        data.Saveable = m_propDict[data.Name].Saveable;
-                        data.Loadable = m_propDict[data.Name].Loadable;
-                        data.Gettable = m_propDict[data.Name].Gettable;
-                        data.Logable = m_propDict[data.Name].Logable;
+                        data.Settable = prop.Settable;
+                        data.Saveable = prop.Saveable;
+                        data.Loadable = prop.Loadable;
+                        data.Gettable = prop.Gettable;
+                        data.Logable = prop.Logable;
                         GetCommitInfo(data);
                         data.Logged = isLogger;
-                        if (isLogger != m_propDict[data.Name].Logged && isLogger)
-                            m_pManager.LoggerAdd(modelID, m_currentObj.Key, type, m_propDict[data.Name].EntityPath);
+                        if (isLogger != prop.Logged && isLogger)
+                            m_pManager.LoggerAdd(modelID, m_currentObj.Key, type, prop.EntityPath);
                         isLogger = false;
 
                         list.Add(data);

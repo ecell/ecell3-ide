@@ -854,6 +854,7 @@ namespace Ecell
                     Trace.WriteLine(msg);
                     m_env.Console.WriteLine(msg);
                     m_env.Console.Flush();
+                    this.m_currentProject.Close();
                     this.m_currentProject.Simulator.Dispose();
                     this.m_currentProject = null;
                 }
@@ -2639,12 +2640,7 @@ namespace Ecell
                     Constants.xpathSize.ToUpper()
                 );
                 simulator.LoadEntityProperty(
-                    Util.BuildFullPN(
-                        Constants.xpathSystem,
-                        "",
-                        Constants.delimiterPath,
-                        Constants.xpathStepperID
-                    ),
+                    Constants.xpathSystem +  "::/:" + Constants.xpathStepperID,
                     new string[] { Constants.textKey }
                 );
                 simulator.LoadEntityProperty(
