@@ -479,7 +479,7 @@ namespace Ecell
             string time = File.GetLastWriteTime(filepath).ToString();
             project = new ProjectInfo(name, comment, time, Constants.defaultSimParam);
             project.Models.Add(filepath);
-            project.ProjectType = ProjectType.Model;
+            project.ProjectType = ProjectType.SBML;
             return project;
         }
 
@@ -628,7 +628,11 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        NewProject = 3
+        NewProject = 3,
+        /// <summary>
+        /// 
+        /// </summary>
+        SBML = 4
     }
 
 }

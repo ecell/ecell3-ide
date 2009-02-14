@@ -52,6 +52,7 @@ using EcellCoreLib;
 using Ecell.Objects;
 using Ecell.Logging;
 using Ecell.Exceptions;
+using Ecell.SBML;
 
 namespace Ecell
 {
@@ -294,6 +295,28 @@ namespace Ecell
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrLoadFile,
                     new object[] { scriptFile }));
             }
+        }
+
+        /// <summary>
+        /// LoadSBML
+        /// </summary>
+        /// <param name="filename"></param>
+        public void LoadSBML(string filename)
+        {
+            try
+            {
+                EcellModel model = (EcellModel)SBML2EML.Convert(filename);
+                // Save eml.
+                string modelFileName = filename.Replace(Constants.FileExtSBML, Constants.FileExtEML);
+                EmlWriter.Create(modelFileName, model.Children, true);
+                LoadProject(modelFileName);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.StackTrace);
+                Util.ShowErrorDialog("Failed to convert SBML.\n" + e.Message);
+            }
+
         }
 
         #endregion

@@ -210,15 +210,18 @@ namespace Ecell.SBML
             throw new EcellException("Cannot get stoichiometry.");
         }
 
-        public string VariableReferenceString()
+        public List<object> GetVariableReferenceList()
         {
-            List<string> list = new List<string>();
+            List<object> list = new List<object>();
             foreach (VariableReferenceStruct varref in this.VariableReferenceList)
             {
-                string vr = "(\"" + varref.Name + "\", \"" + varref.Variable + "\", " + varref.Coefficient + ", " + 1 + ")";
+                List<object> vr = new List<object>();
+                vr.Add(varref.Name);
+                vr.Add(varref.Variable);
+                vr.Add(varref.Coefficient);
                 list.Add(vr);
             }
-            return list.ToString();
+            return list;
         }
 
 

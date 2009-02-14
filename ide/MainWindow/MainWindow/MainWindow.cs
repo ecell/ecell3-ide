@@ -1587,7 +1587,8 @@ namespace Ecell.IDE.MainWindow
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    LoadSBML(dialog.FileName);
+                    m_env.DataManager.LoadSBML(dialog.FileName);
+                    //LoadSBML(dialog.FileName);
                 }
             }
         }

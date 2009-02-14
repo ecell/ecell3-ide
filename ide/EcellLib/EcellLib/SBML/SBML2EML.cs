@@ -116,10 +116,14 @@ namespace Ecell.SBML
                         system.SetEcellValue("Name", new EcellValue(aCompartment.Name));
 
                 // setDimensions( default = 3 )
-                system.SetEcellValue("Dimensions", new EcellValue( (int)aCompartment.SpatialDimension));
-                          
+                EcellObject dimension = EcellObject.CreateObject(modelId, aPath + ":Dimensions", EcellObject.VARIABLE, EcellObject.VARIABLE, new List<EcellData>());
+                dimension.SetEcellValue("Value", new EcellValue((int)aCompartment.SpatialDimension));
+                system.Children.Add(dimension);
+
                 // setSIZE
-                system.SizeInVolume = theCompartment.getCompartmentSize( aCompartment );
+                EcellObject size = EcellObject.CreateObject(modelId, aPath + ":SIZE", EcellObject.VARIABLE, EcellObject.VARIABLE, new List<EcellData>());
+                size.SetEcellValue("Value", new EcellValue((double)theCompartment.getCompartmentSize(aCompartment)));
+                system.Children.Add(size);
             }
 
             // Set GlobalParameter ( Variable )
@@ -240,7 +244,7 @@ namespace Ecell.SBML
                     process.SetEcellValue("Expression", new EcellValue(convertedFormula));
                     
                     // setVariableReferenceList
-                    process.SetEcellValue("VariableReferenceList", EcellValue.ConvertFromListString(theRule.VariableReferenceString()));
+                    process.SetEcellValue("VariableReferenceList", new EcellValue(theRule.GetVariableReferenceList()));
                 }
             }
 
@@ -329,7 +333,7 @@ namespace Ecell.SBML
                         process.SetEcellValue("Expression", new EcellValue(anExpression));
 
                         // setVariableReferenceList
-                        process.SetEcellValue("VariableReferenceList", EcellValue.ConvertFromListString(theReaction.VariableReferenceString()));
+                        process.SetEcellValue("VariableReferenceList", new EcellValue(theReaction.GetVariableReferenceList()));
                     }
                 }
             }
