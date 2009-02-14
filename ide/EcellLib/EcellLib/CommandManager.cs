@@ -1765,11 +1765,7 @@ namespace Ecell
                     {
                         if (className.Equals(entity))
                         {
-                            List<EcellData> propertyList = new List<EcellData>();
-                            foreach (string property in m_cManager.DataManager.GetStepperProperty(className).Keys)
-                            {
-                                propertyList.Add(m_cManager.DataManager.GetStepperProperty(className)[property]);
-                            }
+                            List<EcellData> propertyList = m_cManager.DataManager.GetStepperProperty(className);
                             this.m_stepper = EcellObject.CreateObject(
                                     CommandManager.s_modelID,
                                     key,

@@ -107,6 +107,10 @@ namespace Ecell
         /// </summary>
         public const string FileExtLEML = ".leml";
         /// <summary>
+        /// The extention of SBML file.
+        /// </summary>
+        public const string FileExtSBML = ".sbml";
+        /// <summary>
         /// The extention of XML file.
         /// </summary>
         public const string FileExtXML = ".xml";

@@ -306,6 +306,8 @@ namespace Ecell
                     project = LoadProjectFromInfoText(filepath);
                 else if (ext.Equals(Constants.FileExtEML))
                     project = LoadProjectFromEml(filepath);
+                else if (ext.Equals(Constants.FileExtSBML))
+                    project = LoadProjectFromSbml(filepath);
                 else
                     throw new EcellException("Unknown file type :" + filepath);
                 project.ProjectFile = filepath;
@@ -463,6 +465,24 @@ namespace Ecell
             project.ProjectType = ProjectType.Model;
             return project;
         }
+
+        /// <summary>
+        /// Get Project from SBML file.
+        /// </summary>
+        /// <param name="filepath"></param>
+        /// <returns></returns>
+        private static ProjectInfo LoadProjectFromSbml(string filepath)
+        {
+            ProjectInfo project = null;
+            string name = Path.GetFileNameWithoutExtension(filepath);
+            string comment = "";
+            string time = File.GetLastWriteTime(filepath).ToString();
+            project = new ProjectInfo(name, comment, time, Constants.defaultSimParam);
+            project.Models.Add(filepath);
+            project.ProjectType = ProjectType.Model;
+            return project;
+        }
+
     }
 
     /// <summary>

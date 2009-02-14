@@ -233,23 +233,16 @@ namespace Ecell.IDE.Plugins.Simulation
         public void StepComboSelectedIndexChanged(object sender, EventArgs e)
         {
             string stepperID = stepCombo.Text;
-            Dictionary<string, EcellData> propDict;
+            List<EcellData> data;
             try
             {
-                propDict = m_owner.DataManager.GetStepperProperty(stepperID);
+                data = m_owner.DataManager.GetStepperProperty(stepperID);
             }
             catch (Exception ex)
             {
                 Util.ShowErrorDialog(ex.Message);
                 return;
             }
-
-            List<EcellData> data = new List<EcellData>();
-            foreach (string keys in propDict.Keys)
-            {
-                data.Add(propDict[keys]);
-            }
-
             ChangeDataGrid(data);
         }
 
@@ -463,13 +456,13 @@ namespace Ecell.IDE.Plugins.Simulation
             }
             else
             {
-                foreach (KeyValuePair<string, EcellData> pair in m_owner.DataManager.GetStepperProperty(sc.ClassName))
+                foreach (EcellData data in m_owner.DataManager.GetStepperProperty(sc.ClassName))
                 {
-                    if (pair.Value.Value.IsList || !pair.Value.Settable)
+                    if (data.Value.IsList || !data.Settable)
                         continue;
                     sc.Properties.Add(
                         new MutableKeyValuePair<string, string>(
-                            pair.Key, pair.Value.Value.ToString()));
+                            data.Name, data.Value.ToString()));
                 }
             }
         }

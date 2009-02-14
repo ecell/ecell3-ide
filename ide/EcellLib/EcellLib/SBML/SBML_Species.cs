@@ -21,15 +21,15 @@ namespace Ecell.SBML
             if ( aCompartmentID == "" )
                 throw new EcellException("compartment property of Species must be defined");
 
-            string aSystemID;
+            string aSpeciesID;
             if ( this.Model.Level == 1 )
-                aSystemID = this.Model.getPath( aCompartmentID ) + ':' + aSpecies.Name;
+                aSpeciesID = this.Model.getPath( aCompartmentID ) + ':' + aSpecies.Name;
             else if ( this.Model.Level == 2 )
-                aSystemID = this.Model.getPath( aCompartmentID ) + ':' + aSpecies.ID;
+                aSpeciesID = this.Model.getPath( aCompartmentID ) + ':' + aSpecies.ID;
             else
                 throw new EcellException("Version"+ this.Model.Level + " ????");
                     
-            return "Variable:" + aSystemID;
+            return aSpeciesID;
         }
 
         public double getSpeciesValue(SpeciesStruct aSpecies)

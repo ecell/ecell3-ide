@@ -2567,9 +2567,9 @@ namespace Ecell
         /// </summary>
         /// <param name="dmName">The DM name</param>
         /// <returns>The dictionary of the "Stepper" property</returns>
-        public Dictionary<string, EcellData> GetStepperProperty(string dmName)
+        public List<EcellData> GetStepperProperty(string dmName)
         {
-            Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
+            List<EcellData> list;
             EcellObject dummyEcellObject = null;
             try
             {
@@ -2577,13 +2577,13 @@ namespace Ecell
                 sim.CreateStepper(dmName, Constants.textKey);
                 dummyEcellObject = EcellObject.CreateObject("", Constants.textKey, EcellObject.STEPPER, dmName, null);
                 DataStorer.DataStored4Stepper(sim, m_env, dummyEcellObject);
-                SetPropertyList(dummyEcellObject, dic);
+                list = dummyEcellObject.Value;
             }
             finally
             {
                 dummyEcellObject = null;
             }
-            return dic;
+            return list;
         }
 
         /// <summary>
@@ -2601,7 +2601,7 @@ namespace Ecell
             {
                 if (ecellData.Name.Equals(EcellProcess.VARIABLEREFERENCELIST))
                 {
-                    ecellData.Value = new EcellValue(new List<EcellValue>());
+                    ecellData.Value = new EcellValue(new List<object>());
                 }
                 dic[ecellData.Name] = ecellData;
             }

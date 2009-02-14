@@ -79,7 +79,7 @@ namespace Ecell.SBML
             {
                 foreach (CompartmentStruct aCompartment in this.CompartmentList)
                 {
-                    if( aCompartment.Name != aCompartmentID )
+                    if( aCompartment.ID != aCompartmentID )
                         continue;
                     if (aCompartment.Outside == "" || aCompartment.Outside == "default")
                         aPath = "/" + aCompartmentID;

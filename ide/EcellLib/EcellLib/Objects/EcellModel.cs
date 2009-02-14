@@ -154,5 +154,38 @@ namespace Ecell.Objects
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
+        internal void AddEntity(EcellObject entity)
+        {
+            EcellObject system = GetSystem(entity.ParentSystemID);
+            system.Children.Add(entity);
+        }
+        
+        /// <summary>
+        /// Get System.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        internal EcellObject GetSystem(string key)
+        {
+            // Check systemList
+            if (m_children == null || m_children.Count <= 0)
+                return null;
+
+            EcellObject system = null;
+            foreach (EcellObject sys in m_children)
+            {
+                if (!(sys is EcellSystem))
+                    continue;
+                if (!sys.Key.Equals(key))
+                    continue;
+                system = sys;
+                break;
+            }
+            return system;
+        }
     }
 }

@@ -83,6 +83,7 @@
     <Compile Include="Reporting\TestReportingSessionEventArgs.cs" />
     <Compile Include="Reporting\TestReportManager.cs" />
     <Compile Include="Reporting\TestStatusUpdateEventArgs.cs" />
+    <Compile Include="SBML\TestEml2Sbml.cs" />
     <Compile Include="TestActionManager.cs" />
     <Compile Include="TestApplicationEnvironment.cs" />
     <Compile Include="TestConsoleDataAvailableEventArgs.cs" />

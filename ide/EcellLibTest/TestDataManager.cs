@@ -622,10 +622,10 @@ namespace Ecell
         public void TestGetStepperProperty()
         {
             string l_dmName = null;
-            System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> resultDictionary = null;
-            resultDictionary = _unitUnderTest.GetStepperProperty(l_dmName);
-            Assert.AreEqual(expectedDictionary, resultDictionary, "GetStepperProperty method returned unexpected result.");
+            System.Collections.Generic.List<Ecell.Objects.EcellData> expectedList = null;
+            System.Collections.Generic.List<Ecell.Objects.EcellData> resultList = null;
+            resultList = _unitUnderTest.GetStepperProperty(l_dmName);
+            Assert.AreEqual(expectedList, resultList, "GetStepperProperty method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");
 
         }

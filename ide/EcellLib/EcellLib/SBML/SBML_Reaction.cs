@@ -9,16 +9,20 @@ namespace Ecell.SBML
     internal class SBML_Reaction
     {
         private SBML_Model Model;
-        private int SubstrateNumber;
-        private int ProductNumber;
-        private int ModifierNumber;
-        private int ParameterNumber;
+        public int SubstrateNumber;
+        public int ProductNumber;
+        public int ModifierNumber;
+        public int ParameterNumber;
 
-        private List<VariableReferenceStruct> VariableReferenceList;
+        public List<VariableReferenceStruct> VariableReferenceList;
 
         public SBML_Reaction(SBML_Model aModel)
         {
             this.Model = aModel;
+        }
+
+        public void initialize()
+        {
             this.SubstrateNumber = 0;
             this.ProductNumber = 0;
             this.ModifierNumber = 0;
@@ -32,14 +36,14 @@ namespace Ecell.SBML
             if ( this.Model.Level == 1 )
             {
                 if ( aReaction.Name != "" )
-                    return "Process:/:" + aReaction.Name;
+                    return "/:" + aReaction.Name;
                 else
                     throw new EcellException("Reaction must set the Reaction name");
             }       
             else if ( this.Model.Level == 2 )
             {
                 if ( aReaction.ID != "" )
-                    return "Process:/:" + aReaction.ID;
+                    return "/:" + aReaction.ID;
                 else
                     throw new EcellException("Reaction must set the Reaction ID");
             }
@@ -173,7 +177,7 @@ namespace Ecell.SBML
             return libsbml.libsbml.formulaToString( convertedAST );
         }
 
-        public int getStoichiometry(string aSpeciesID, int aStoichiometry )
+        public int getStoichiometry(string aSpeciesID, double aStoichiometry )
         {
             if ( this.Model.Level == 1 )
             {
@@ -184,7 +188,7 @@ namespace Ecell.SBML
                         if (aSpecies.BoundaryCondition)
                             return 0;
                         else
-                            return aStoichiometry;
+                            return (int)aStoichiometry;
                     }
                 }
             }
@@ -197,7 +201,7 @@ namespace Ecell.SBML
                         if (aSpecies.Constant)
                             return 0;
                         else
-                            return aStoichiometry;
+                            return (int)aStoichiometry;
                     }
                 }
             }
@@ -205,7 +209,18 @@ namespace Ecell.SBML
                 throw new EcellException("Version"+ this.Model.Level.ToString() +" ????");
             throw new EcellException("Cannot get stoichiometry.");
         }
-    
+
+        public string VariableReferenceString()
+        {
+            List<string> list = new List<string>();
+            foreach (VariableReferenceStruct varref in this.VariableReferenceList)
+            {
+                string vr = "(\"" + varref.Name + "\", \"" + varref.Variable + "\", " + varref.Coefficient + ", " + 1 + ")";
+                list.Add(vr);
+            }
+            return list.ToString();
+        }
+
 
     }
 }

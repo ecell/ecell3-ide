@@ -310,7 +310,7 @@ namespace Ecell.SBML
                     SpeciesReference aSpeciesReference = aReaction.getReactant(k);
 
                     string aSpecies_R = aSpeciesReference.getSpecies();
-                    double aStoichiometry_R = aSpeciesReference.getStoichiometry();
+                    int aStoichiometry_R = (int)aSpeciesReference.getStoichiometry();
 
                     string aString_R = null;
                     if (aSpeciesReference.isSetStoichiometryMath())
@@ -334,9 +334,10 @@ namespace Ecell.SBML
                 List<ProductStruct> ListOfProducts = new List<ProductStruct>();
 
                 ListOfSpeciesReferences products = aReaction.getListOfProducts();
-                for (int l = 0; l < products.size(); l++ )
+                long max = products.size();
+                for (int l = 0; l < max; l++)
                 {
-                    SpeciesReference aSpeciesReference = aReaction.getReactant(l);
+                    SpeciesReference aSpeciesReference = aReaction.getProduct(l);
 
                     string aSpecies_P = aSpeciesReference.getSpecies();
                     double aStoichiometry_P = aSpeciesReference.getStoichiometry();
@@ -362,9 +363,9 @@ namespace Ecell.SBML
                 //----------Modifiers----------------------------------
                 List<string> ListOfModifiers = new List<string>();
                 ListOfSpeciesReferences modifiers = aReaction.getListOfModifiers();
-                for (int l = 0; l < modifiers.size(); l++ )
+                for (long l = 0; l < modifiers.size(); l++ )
                 {
-                    SpeciesReference aSpeciesReference = aReaction.getReactant(l);
+                    ModifierSpeciesReference aSpeciesReference = aReaction.getModifier(l);
 
                     string aSpecies_M = aSpeciesReference.getSpecies();
                     ListOfModifiers.Add( aSpecies_M );
@@ -737,7 +738,7 @@ namespace Ecell.SBML
         public int Denominator;
         public ReactantStruct(
                     string species,
-                    double stoichiometry,
+                    int stoichiometry,
                     string formula,
                     int denominator)
         {

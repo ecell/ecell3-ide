@@ -18,6 +18,10 @@ namespace Ecell.SBML
         {
             this.Model = aModel;
             this.RuleNumber = 0;
+        }
+
+        public void initialize()
+        {
             this.RuleNumber++;
             this.VariableNumber = 0;
             this.ParameterNumber = 0;
@@ -26,7 +30,7 @@ namespace Ecell.SBML
 
         public string getRuleID()
         {
-            return "Process:/SBMLRule:Rule" + this.RuleNumber.ToString();
+            return "/SBMLRule:Rule" + this.RuleNumber.ToString();
         }
         
         public int getVariableType( string aName )
@@ -219,6 +223,17 @@ namespace Ecell.SBML
             string convertedFormula = libsbml.libsbml.formulaToString( convertedAST );
             return convertedFormula;
 
+        }
+
+        public string VariableReferenceString()
+        {
+            List<string> list = new List<string>();
+            foreach (VariableReferenceStruct varref in this.VariableReferenceList)
+            {
+                string vr = "(\"" + varref.Name + "\", \"" + varref.Variable + "\", " + varref.Coefficient + ", " + 1 + ")";
+                list.Add(vr);
+            }
+            return list.ToString();
         }
     }
 }

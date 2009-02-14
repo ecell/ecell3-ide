@@ -19,14 +19,14 @@ namespace Ecell.SBML
             if ( this.Model.Level == 1 )
             {
                if ( aParameter.Name != "" )
-                   return "Variable:/SBMLParameter:" + aParameter.Name;
+                   return "/SBMLParameter:" + aParameter.Name;
                else
                    throw new EcellException( "Parameter must set the Parameter Name");
             }
             else if ( this.Model.Level == 2 )
             {
                if ( aParameter.ID != "" )
-                   return "Variable:/SBMLParameter:" + aParameter.ID;
+                   return "/SBMLParameter:" + aParameter.ID;
                else
                    throw new EcellException( "Parameter must set the Parameter ID");
             }

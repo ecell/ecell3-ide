@@ -575,25 +575,33 @@ namespace Ecell.IDE.Plugins.Simulation
                             }
                             foreach (StepperConfiguration sc in pmsp.Steppers)
                             {
-                                Dictionary<string, EcellData> propDict = m_dManager.GetStepperProperty(sc.ClassName);
-                                foreach (MutableKeyValuePair<string, string> pair in sc.Properties)
+                                List<EcellData> propList = m_dManager.GetStepperProperty(sc.ClassName);
+                                foreach (EcellData prop in propList)
                                 {
-                                    EcellData d = propDict[pair.Key];
-                                    if (d.Value.IsDouble)
+                                    string value = null;
+                                    foreach (MutableKeyValuePair<string, string> pair in sc.Properties)
                                     {
-                                        d.Value = new EcellValue(Convert.ToDouble(pair.Value));
+                                        if (!pair.Key.Equals(prop.Name))
+                                            continue;
+                                        value = pair.Value;
+                                        break;
+
                                     }
-                                    else if (d.Value.IsInt)
+                                    if (prop.Value.IsDouble)
                                     {
-                                        d.Value = new EcellValue(Convert.ToInt32(pair.Value));
+                                        prop.Value = new EcellValue(Convert.ToDouble(value));
                                     }
-                                    else if (d.Value.IsString)
+                                    else if (prop.Value.IsInt)
                                     {
-                                        d.Value = new EcellValue(pair.Value);
+                                        prop.Value = new EcellValue(Convert.ToInt32(value));
                                     }
-                                    Trace.WriteLine(d.Name + ":" + d.Value.Value);
+                                    else if (prop.Value.IsString)
+                                    {
+                                        prop.Value = new EcellValue(value);
+                                    }
+                                    Trace.WriteLine(prop.Name + ":" + prop.Value.Value);
                                 }
-                                steppers.Add(EcellObject.CreateObject(pmsp.ModelID, sc.Name, Constants.xpathStepper, sc.ClassName, new List<EcellData>(propDict.Values)));
+                                steppers.Add(EcellObject.CreateObject(pmsp.ModelID, sc.Name, Constants.xpathStepper, sc.ClassName, propList));
                             }
                         }
 
