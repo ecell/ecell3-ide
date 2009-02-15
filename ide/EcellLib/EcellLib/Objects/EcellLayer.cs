@@ -182,16 +182,16 @@ namespace Ecell.Objects
         /// <returns>the list of EcellReference.</returns>
         public static EcellValue ConvertToEcellValue(IEnumerable<EcellLayer> layerList)
         {
-            List<EcellValue> list = new List<EcellValue>();
+            List<object> list = new List<object>();
             if (layerList == null)
                 return new EcellValue(list);
 
             foreach (EcellLayer layer in layerList)
             {
-                List<EcellValue> values = new List<EcellValue>();
-                values.Add(new EcellValue(layer.m_name));
-                values.Add(new EcellValue(layer.m_visible));
-                list.Add(new EcellValue(values));
+                List<object> values = new List<object>();
+                values.Add(layer.m_name);
+                values.Add(layer.m_visible);
+                list.Add(values);
             }
             return new EcellValue(list);
         }

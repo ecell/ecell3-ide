@@ -84,7 +84,7 @@ namespace Ecell.Job
         /// </summary>
         public override void Update()
         {
-            int dispatchNum =  Manager.Concurrency - Manager.GetRunningJobList().Count;
+            int dispatchNum = Manager.Concurrency - Manager.GetRunningJobList().Count;
             if (dispatchNum != 0)
             {
                 foreach (Job p in Manager.JobList.Values)

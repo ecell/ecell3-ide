@@ -146,7 +146,7 @@ namespace Ecell.Objects
             Assert.IsNotNull(data, "Constructor of type, EcellData failed to create instance.");
             Assert.AreEqual(name, data.Name, "Name is not expected value.");
             Assert.AreEqual(entityPath, data.EntityPath, "EntityPath is not expected value.");
-            Assert.AreEqual(value, data.Value, "Value is not expected value.");
+            Assert.IsTrue(value.Equals(data.Value), "Value is not expected value.");
             Assert.IsTrue(data.Gettable, "Gettable is not expected value.");
             Assert.IsTrue(data.Loadable, "Loadable is not expected value.");
             Assert.IsFalse(data.Logable, "Logable is not expected value.");
@@ -162,7 +162,7 @@ namespace Ecell.Objects
             Assert.IsNotNull(data, "Constructor of type, EcellData failed to create instance.");
             Assert.AreEqual(name, data.Name, "Name is not expected value.");
             Assert.AreEqual(entityPath, data.EntityPath, "EntityPath is not expected value.");
-            Assert.AreEqual(value, data.Value, "Value is not expected value.");
+            Assert.IsTrue(value.Equals(data.Value), "Value is not expected value.");
             Assert.IsTrue(data.Gettable, "Gettable is not expected value.");
             Assert.IsTrue(data.Loadable, "Loadable is not expected value.");
             Assert.IsFalse(data.Logable, "Logable is not expected value.");
@@ -375,13 +375,13 @@ namespace Ecell.Objects
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
             EcellData data6 = data1.Clone();
-            object obj = null;
-            data6.Value = new EcellValue(obj);
-            expectedBoolean = false;
-            resultBoolean = data1.Equals(data6);
-            Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
-            resultBoolean = data6.Equals(data1);
-            Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
+            //object obj = null;
+            //data6.Value = new EcellValue(obj);
+            //expectedBoolean = false;
+            //resultBoolean = data1.Equals(data6);
+            //Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
+            //resultBoolean = data6.Equals(data1);
+            //Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
             data6.Value = null;
             resultBoolean = data1.Equals(data6);

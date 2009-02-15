@@ -154,6 +154,7 @@ namespace Ecell.Objects
             Assert.AreEqual(false, eo.Logged, "Logged is not expected value.");
             eo.ModelID = "";
             Assert.AreEqual(false, eo.IsUsable, "IsUsable is not expected value.");
+            Assert.IsNotNull(eo.GetHashCode(), "GetHashCode method returns unexpected value.");
 
             // Create EcellModel
             modelID = "Model";
@@ -175,6 +176,7 @@ namespace Ecell.Objects
             Assert.AreEqual(false, eo.IsPosSet, "IsPosSet is not expected value.");
             Assert.AreEqual(false, eo.isFixed, "isFixed is not expected value.");
             Assert.AreEqual(false, eo.Logged, "Logged is not expected value.");
+            Assert.IsNotNull(eo.GetHashCode(), "GetHashCode method returns unexpected value.");
 
             // Create EcellStepper
             modelID = "Model";
@@ -198,6 +200,7 @@ namespace Ecell.Objects
             Assert.AreEqual(false, eo.Logged, "Logged is not expected value.");
             eo.Classname = "FixedODEStepper";
             Assert.AreEqual("FixedODEStepper", eo.Classname, "Classname is not expected value.");
+            Assert.IsNotNull(eo.GetHashCode(), "GetHashCode method returns unexpected value.");
 
             // Create EcellSystem
             modelID = "Model";
@@ -215,6 +218,7 @@ namespace Ecell.Objects
             Assert.AreEqual("System:/", eo.FullID, "FullID is not expected value.");
             Assert.AreEqual("", eo.ParentSystemID, "ParentSystemID is not expected value.");
             Assert.AreEqual("/", eo.LocalID, "LocalID is not expected value.");
+            Assert.IsNotNull(eo.GetHashCode(), "GetHashCode method returns unexpected value.");
 
             eo.Key = "/Hoge/S1";
             Assert.AreEqual("/Hoge/S1", eo.Key, "Key is not expected value.");
@@ -227,6 +231,7 @@ namespace Ecell.Objects
             Assert.AreEqual(false, eo.IsPosSet, "IsPosSet is not expected value.");
             Assert.AreEqual(true, eo.isFixed, "isFixed is not expected value.");
             Assert.AreEqual(false, eo.Logged, "Logged is not expected value.");
+            Assert.IsNotNull(eo.GetHashCode(), "GetHashCode method returns unexpected value.");
 
             // Create EcellProcess
             modelID = "Model";
@@ -244,6 +249,8 @@ namespace Ecell.Objects
             Assert.AreEqual("Process:/:P0", eo.FullID, "FullID is not expected value.");
             Assert.AreEqual("/", eo.ParentSystemID, "ParentSystemID is not expected value.");
             Assert.AreEqual("P0", eo.LocalID, "LocalID is not expected value.");
+            Assert.IsNotNull(eo.GetHashCode(), "GetHashCode method returns unexpected value.");
+
             eo.X = 10;
             Assert.AreEqual(true, eo.IsUsable, "IsUsable is not expected value.");
             Assert.AreEqual(true, eo.IsPosSet, "IsPosSet is not expected value.");
@@ -279,6 +286,7 @@ namespace Ecell.Objects
             Assert.AreEqual("Variable:/Hoge/:V0", eo.FullID, "FullID is not expected value.");
             Assert.AreEqual("/Hoge/", eo.ParentSystemID, "ParentSystemID is not expected value.");
             Assert.AreEqual("V0", eo.LocalID, "LocalID is not expected value.");
+            Assert.IsNotNull(eo.GetHashCode(), "GetHashCode method returns unexpected value.");
             eo.Layer = "Layer1";
             Assert.AreEqual("Layer1", eo.Layer, "Layer is not expected value.");
 
@@ -298,6 +306,7 @@ namespace Ecell.Objects
             Assert.AreEqual("Text:/:Text0", eo.FullID, "FullID is not expected value.");
             Assert.AreEqual("/", eo.ParentSystemID, "ParentSystemID is not expected value.");
             Assert.AreEqual("Text0", eo.LocalID, "LocalID is not expected value.");
+            Assert.IsNotNull(eo.GetHashCode(), "GetHashCode method returns unexpected value.");
 
         }
 
@@ -319,7 +328,7 @@ namespace Ecell.Objects
             Assert.IsEmpty(eo.Children, "Children is not expected value.");
 
             Assert.IsNotNull(eo.Value, "Value is not expected value.");
-            Assert.IsEmpty(eo.Value, "Value is not expected value.");
+            Assert.IsNotEmpty(eo.Value, "Value is not expected value.");
 
             Assert.IsNotNull(eo.StepperDic, "StepperDic is not expected value.");
             Assert.IsEmpty(eo.StepperDic, "StepperDic is not expected value.");
@@ -333,6 +342,8 @@ namespace Ecell.Objects
 
             eo.ModelID = "Model1";
             Assert.AreEqual("Model1", eo.ModelID, "ModelID is not expected value.");
+            EcellObject temp = eo.GetSystem("/");
+            Assert.IsNull(temp);
 
             eo.Children.Add(new EcellSystem("Model1", "/", "", "", new List<EcellData>()));
             eo.ModelID = "Model2";
@@ -348,6 +359,13 @@ namespace Ecell.Objects
             Assert.IsNotEmpty(eo.Layers, "ModelID is not expected value.");
             Assert.AreEqual("Layer0", eo.Layers[0].Name, "Name is not expected value.");
             Assert.AreEqual(true, eo.Layers[0].Visible, "Visible is not expected value.");
+
+            // Add Entity.
+            temp = eo.GetSystem("/");
+            Assert.IsNotNull(temp);
+
+            EcellVariable var = new EcellVariable("Model2", "/:S", EcellObject.VARIABLE, EcellObject.VARIABLE, new List<EcellData>());
+            eo.AddEntity(var);
         }
 
         /// <summary>
@@ -399,6 +417,9 @@ namespace Ecell.Objects
             EcellText text2 = (EcellText)text.Clone();
             Assert.AreEqual(text.Comment, text2.Comment, "Comment is not expected value.");
             Assert.AreEqual(text.Alignment, text2.Alignment, "Comment is not expected value.");
+
+            text.SetEcellValue(EcellText.ALIGN, new EcellValue(4));
+            Assert.AreEqual(StringAlignment.Near, text.Alignment, "Alignment is not expected value.");
         }
 
         /// <summary>
@@ -438,8 +459,8 @@ namespace Ecell.Objects
         [Test()]
         public void TestSetPosition()
         {
-            _unitUnderTest = EcellObject.CreateObject("", "", "Model", "", null);
-            EcellObject obj = EcellObject.CreateObject("", "", "Model", "", null);
+            _unitUnderTest = EcellObject.CreateObject("Model", "", "Model", "", new List<EcellData>());
+            EcellObject obj = EcellObject.CreateObject("Model", "", "Model", "", new List<EcellData>());
             obj.X = 100;
             obj.Y = 150;
             obj.Width = 200;
@@ -466,7 +487,7 @@ namespace Ecell.Objects
         [Test()]
         public void TestMovePosition()
         {
-            _unitUnderTest = EcellObject.CreateObject("", "", "Model", "", null);
+            _unitUnderTest = EcellObject.CreateObject("Model", "", "Model", "", new List<EcellData>());
             PointF delta = new PointF(100, 20);
             _unitUnderTest.MovePosition(delta);
             Assert.AreEqual(delta, _unitUnderTest.PointF, "PointF is unexpected value.");
@@ -676,16 +697,16 @@ namespace Ecell.Objects
             EcellValue expectedEcellValue = null;
             EcellValue resultEcellValue = null;
             resultEcellValue = sys.GetEcellValue("Size");
-            Assert.AreEqual(expectedEcellValue, resultEcellValue, "GetEcellValue method returned unexpected result.");
+            Assert.AreSame(expectedEcellValue, resultEcellValue, "GetEcellValue method returned unexpected result.");
 
             sys.SetEcellDatas(new List<EcellData>());
             resultEcellValue = sys.GetEcellValue("Size");
-            Assert.AreEqual(expectedEcellValue, resultEcellValue, "GetEcellValue method returned unexpected result.");
+            Assert.AreSame(expectedEcellValue, resultEcellValue, "GetEcellValue method returned unexpected result.");
 
             sys.SizeInVolume = 0.1;
             expectedEcellValue = new EcellValue(0.1);
             resultEcellValue = sys.GetEcellValue("Size");
-            Assert.AreEqual(expectedEcellValue, resultEcellValue, "GetEcellValue method returned unexpected result.");
+            Assert.IsTrue(expectedEcellValue.Equals(resultEcellValue), "GetEcellValue method returned unexpected result.");
 
         }
 

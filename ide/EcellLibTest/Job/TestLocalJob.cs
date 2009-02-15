@@ -1,68 +1,123 @@
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//        This file is part of E-Cell Environment Application package
+//
+//                Copyright (C) 1996-2007 Keio University
+//
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+
 namespace Ecell.Job
 {
     using System;
     using NUnit.Framework;
 
-
+    /// <summary>
+    /// 
+    /// </summary>
     [TestFixture()]
     public class TestLocalJob
     {
 
         private LocalJob _unitUnderTest;
-
+        /// <summary>
+        /// 
+        /// </summary>
         [SetUp()]
         public void SetUp()
         {
             _unitUnderTest = new LocalJob();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [TearDown()]
         public void TearDown()
         {
             _unitUnderTest = null;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestConstructorLocalJob()
         {
+            Job.ClearJobID();
+
             LocalJob testLocalJob = new LocalJob();
             Assert.IsNotNull(testLocalJob, "Constructor of type, LocalJob failed to create instance.");
-            Assert.Fail("Create or modify test(s).");
-
+            Assert.AreEqual(1, testLocalJob.JobID, "JobID is unexpected value.");
+            Assert.AreEqual(-1, testLocalJob.ProcessID, "ProcessID is unexpected value.");
+            Assert.AreEqual(JobStatus.NONE, testLocalJob.Status, "Status is unexpected value.");
+            Assert.AreEqual("Local", testLocalJob.Machine, "Machine is unexpected value.");
+            Assert.IsEmpty(testLocalJob.Argument, "Argument is unexpected value.");
+            Assert.IsEmpty(testLocalJob.ScriptFile, "ScriptFile is unexpected value.");
+            Assert.IsEmpty(testLocalJob.JobDirectory, "JobDirectory is unexpected value.");
+            Assert.IsNull(testLocalJob.StdErr, "StdErr is unexpected value.");
+            Assert.IsEmpty(testLocalJob.ExtraFileList, "ExtraFileList is unexpected value.");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void Testretry()
         {
             _unitUnderTest.retry();
-            Assert.Fail("Create or modify test(s).");
-
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void Testrun()
         {
             _unitUnderTest.run();
-            Assert.Fail("Create or modify test(s).");
+            Assert.AreEqual(JobStatus.ERROR, _unitUnderTest.Status, "");
 
+            _unitUnderTest.ScriptFile = "c:/temp/0.ess";
+            _unitUnderTest.run();
+            Assert.AreEqual(JobStatus.ERROR, _unitUnderTest.Status, "");
+            _unitUnderTest.stop();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void Teststop()
         {
             _unitUnderTest.stop();
-            Assert.Fail("Create or modify test(s).");
-
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestUpdate()
         {
             _unitUnderTest.Update();
-            Assert.Fail("Create or modify test(s).");
-
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetStdOut()
         {
@@ -73,7 +128,9 @@ namespace Ecell.Job
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetStdErr()
         {
@@ -84,7 +141,9 @@ namespace Ecell.Job
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestPrepareProcess()
         {
@@ -92,7 +151,9 @@ namespace Ecell.Job
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetLogData()
         {
@@ -104,16 +165,16 @@ namespace Ecell.Job
             Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetDefaultScript()
         {
-            string expectedString = null;
+            string expectedString = Util.GetAnalysisDir() + "/ipy.exe";
             string resultString = null;
             resultString = LocalJob.GetDefaultScript();
             Assert.AreEqual(expectedString, resultString, "GetDefaultScript method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
         }
     }
 }

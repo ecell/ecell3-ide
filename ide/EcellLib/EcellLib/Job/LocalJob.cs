@@ -88,14 +88,11 @@ namespace Ecell.Job
                 m_currentProcess = Process.Start(psi);
                 ProcessID = m_currentProcess.Id;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Trace.WriteLine(e.StackTrace);
                 this.Status = JobStatus.ERROR;
             }
-/*
-            Process p = Process.Start("dir");
-            p.WaitForExit();
-*/
         }
 
         /// <summary>
@@ -131,28 +128,27 @@ namespace Ecell.Job
         /// </summary>
         public override void Update()
         {
+            if (m_currentProcess == null || Status != JobStatus.RUNNING ||
+                !m_currentProcess.HasExited)
+                return;
+
             try
             {
-                if (m_currentProcess != null && Status == JobStatus.RUNNING &&
-                    m_currentProcess.HasExited)
+                int exitCode = m_currentProcess.ExitCode;
+                if (exitCode == 0)
                 {
-                    int exitCode = m_currentProcess.ExitCode;
-                    if (exitCode == 0)
-                    {
-                        this.Status = JobStatus.FINISHED;
-                    }
-                    else
-                    {                       
-                        this.Status = JobStatus.ERROR;
-                        this.StdErr = m_currentProcess.StandardError.ReadToEnd();
-                    }
-                    m_currentProcess = null;
+                    this.Status = JobStatus.FINISHED;
                 }
+                else
+                {                       
+                    this.Status = JobStatus.ERROR;
+                    this.StdErr = m_currentProcess.StandardError.ReadToEnd();
+                }
+                m_currentProcess = null;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                ex.ToString();
-                // nothing.
+                Trace.WriteLine(e.StackTrace);
             }
         }
 

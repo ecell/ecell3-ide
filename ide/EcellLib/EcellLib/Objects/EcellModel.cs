@@ -158,7 +158,7 @@ namespace Ecell.Objects
         /// 
         /// </summary>
         /// <param name="entity"></param>
-        internal void AddEntity(EcellObject entity)
+        public void AddEntity(EcellObject entity)
         {
             EcellObject system = GetSystem(entity.ParentSystemID);
             system.Children.Add(entity);
@@ -169,7 +169,7 @@ namespace Ecell.Objects
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        internal EcellObject GetSystem(string key)
+        public EcellObject GetSystem(string key)
         {
             // Check systemList
             if (m_children == null || m_children.Count <= 0)
