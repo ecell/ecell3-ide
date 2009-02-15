@@ -213,7 +213,8 @@ namespace Ecell.Job
         /// <returns>string.</returns>
         public String GetCurrentEnvironment()
         {
-            if (m_proxy == null) return null;
+            if (m_proxy == null)
+                return null;
             return m_proxy.Name;
         }
 
@@ -221,9 +222,10 @@ namespace Ecell.Job
         /// Get the list of property for environment.
         /// </summary>
         /// <returns>the list of string.</returns>
-        public Dictionary<String, Object> GetEnvironmentProperty()
+        public Dictionary<string, object> GetEnvironmentProperty()
         {
-            if (m_proxy == null) return null;
+            if (m_proxy == null)
+                return null;
             return m_proxy.GetProperty();
         }
 
@@ -245,7 +247,7 @@ namespace Ecell.Job
         /// Update the property of proxy.
         /// </summary>
         /// <param name="list">the list of new property.</param>
-        public void SetEnvironmentProperty(Dictionary<String, Object> list)
+        public void SetEnvironmentProperty(Dictionary<string, object> list)
         {
             if (m_proxy == null) return;
             m_proxy.SetProperty(list);
@@ -283,18 +285,18 @@ namespace Ecell.Job
         /// <returns>the status of job.</returns>
         public int RegisterJob(string script, string arg, List<string> extFile)
         {
-            if (m_proxy == null) return -1;
-            Job s = m_proxy.CreateJob();
-            if (s == null) return -1;
+            if (m_proxy == null)
+                return -1;
+            Job job = m_proxy.CreateJob();
 
-            s.ScriptFile = script;
-            s.Argument = arg;
-            s.ExtraFileList = extFile;
+            job.ScriptFile = script;
+            job.Argument = arg;
+            job.ExtraFileList = extFile;
             // search dmpath
-            s.JobDirectory = TmpDir + "/" + s.JobID;
-            m_sessionList.Add(s.JobID, s);
+            job.JobDirectory = TmpDir + "/" + job.JobID;
+            m_sessionList.Add(job.JobID, job);
 
-            return s.JobID;
+            return job.JobID;
         }
 
         /// <summary>
@@ -304,15 +306,15 @@ namespace Ecell.Job
         /// <returns>return jobid.</returns>
         public int CreateJobEntry(ExecuteParameter param)
         {
-            if (m_proxy == null) return -1;
-            Job s = m_proxy.CreateJob();
-            if (s == null) return -1;
+            if (m_proxy == null)
+                return -1;
 
-            s.Status = JobStatus.FINISHED;
-            m_parameterDic.Add(s.JobID, param);
-            m_sessionList.Add(s.JobID, s);
+            Job job = m_proxy.CreateJob();
+            job.Status = JobStatus.FINISHED;
+            m_parameterDic.Add(job.JobID, param);
+            m_sessionList.Add(job.JobID, job);
 
-            return s.JobID;
+            return job.JobID;
         }
 
         /// <summary>
@@ -324,18 +326,18 @@ namespace Ecell.Job
         /// <returns>the status of job.</returns>
         public int RegisterEcellSession(string script, string arg, List<string> extFile)
         {
-            if (m_proxy == null) return -1;
-            Job s = m_proxy.CreateJob();
-            if (s == null) return -1;
+            if (m_proxy == null)
+                return -1;
 
-            s.ScriptFile = script;
-            s.Argument = arg;
-            s.ExtraFileList = extFile;
+            Job job = m_proxy.CreateJob();
+            job.ScriptFile = script;
+            job.Argument = arg;
+            job.ExtraFileList = extFile;
             // search dmpath
-            s.JobDirectory = TmpDir + "/" + s.JobID;
-            m_sessionList.Add(s.JobID, s);
+            job.JobDirectory = TmpDir + "/" + job.JobID;
+            m_sessionList.Add(job.JobID, job);
 
-            return s.JobID;
+            return job.JobID;
         }
 
         /// <summary>
@@ -991,19 +993,18 @@ namespace Ecell.Job
             foreach (SaveLoggerProperty s in m_logList)
             {
                 s.DirName = res;
-                resList.Add(s);
             }
         }
 
         /// <summary>
         /// Extract the list of file from the information of logger.
         /// </summary>
-        /// <param name="m_logList">the list of logger information.</param>
+        /// <param name="logList">the list of logger information.</param>
         /// <returns>the list of file.</returns>
-        private List<string> ExtractExtFileList(List<SaveLoggerProperty> m_logList)
+        private static List<string> ExtractExtFileList(List<SaveLoggerProperty> logList)
         {
             List<string> resList = new List<string>();
-            foreach (SaveLoggerProperty s in m_logList)
+            foreach (SaveLoggerProperty s in logList)
             {
                 string outName = Util.GetOutputFileName(s.FullPath);
                 string fileName = s.DirName + "/" + outName;

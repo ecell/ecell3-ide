@@ -34,6 +34,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 
 using Ecell;
+using System.IO;
 
 namespace Ecell.Job
 {
@@ -186,17 +187,20 @@ namespace Ecell.Job
         public override Dictionary<double, double> GetLogData(string key)
         {
             Dictionary<double, double> result = new Dictionary<double, double>();
-            if (key == null) return result;
+            if (key == null)
+                return result;
+
             string fileName = Util.GetOutputFileName(key);
 
             foreach (string extFileName in ExtraFileList)
             {
-                if (!extFileName.Contains(fileName)) continue;
-                if (!System.IO.File.Exists(extFileName)) return result;
-                System.IO.StreamReader hReader =
-                    new System.IO.StreamReader(extFileName, System.Text.Encoding.UTF8);
+                if (!extFileName.Contains(fileName))
+                    continue;
+                if (!System.IO.File.Exists(extFileName))
+                    return result;
+                StreamReader hReader = new StreamReader(extFileName, Encoding.UTF8);
                 char splitter = '\t';
-                string ext = System.IO.Path.GetExtension(extFileName);
+                string ext = Path.GetExtension(extFileName);
                 if (!String.IsNullOrEmpty(ext) || ext.ToLower().Equals(".csv"))
                     splitter = ',';
 

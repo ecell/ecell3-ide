@@ -32,212 +32,336 @@ namespace Ecell.Job
 {
     using System;
     using NUnit.Framework;
+    using System.Collections.Generic;
 
-
+    /// <summary>
+    /// 
+    /// </summary>
     [TestFixture()]
     public class TestJobManager
     {
 
+        private ApplicationEnvironment _env;
         private JobManager _unitUnderTest;
-
+        /// <summary>
+        /// 
+        /// </summary>
         [SetUp()]
         public void SetUp()
         {
-            Ecell.ApplicationEnvironment env = null;
-            _unitUnderTest = new JobManager(env);
+            _env = new ApplicationEnvironment();
+            _unitUnderTest = new JobManager(_env);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [TearDown()]
         public void TearDown()
         {
             _unitUnderTest = null;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestConstructorJobManager()
         {
             Ecell.ApplicationEnvironment env = null;
             JobManager testJobManager = new JobManager(env);
             Assert.IsNotNull(testJobManager, "Constructor of type, JobManager failed to create instance.");
-            Assert.Fail("Create or modify test(s).");
+
+            Assert.AreEqual(1, testJobManager.Concurrency, "Concurrency is unexpected value.");
+            Assert.AreEqual(env, testJobManager.Environment, "Environment is unexpected value.");
+            Assert.AreEqual(0, testJobManager.GlobalTimeOut, "GlobalTimeOut is unexpected value.");
+            Assert.AreEqual(false, testJobManager.IsTmpDirRemovable, "IsTmpDirRemovable is unexpected value.");
+            Assert.IsEmpty(testJobManager.JobList, "JobList is unexpected value.");
+            Assert.IsEmpty(testJobManager.ParameterDic, "ParameterDic is unexpected value.");
+            Assert.IsNotNull(testJobManager.Proxy, "Proxy is unexpected value.");
+            Assert.IsNotNull(testJobManager.TmpDir, "TmpDir is unexpected value.");
+            Assert.IsNotNull(testJobManager.TmpRootDir, "TmpRootDir is unexpected value.");
+            Assert.AreEqual(5, testJobManager.UpdateInterval, "UpdateInterval is unexpected value.");
+
+            testJobManager.LimitRetry = 1;
+
+            testJobManager.Concurrency = 2;
+            Assert.AreEqual(2, testJobManager.Concurrency, "Concurrency is unexpected value.");
+
+            testJobManager.GlobalTimeOut = 10;
+            Assert.AreEqual(10, testJobManager.GlobalTimeOut, "GlobalTimeOut is unexpected value.");
+
+            testJobManager.IsTmpDirRemovable = true;
+            Assert.AreEqual(true, testJobManager.IsTmpDirRemovable, "IsTmpDirRemovable is unexpected value.");
+
+            testJobManager.Proxy = new LocalJobProxy();
+            Assert.IsNotNull(testJobManager.Proxy, "Proxy is unexpected value.");
+
+            testJobManager.UpdateInterval = 10;
+            Assert.AreEqual(10, testJobManager.UpdateInterval, "UpdateInterval is unexpected value.");
+
+            testJobManager.ParameterDic = new Dictionary<int,ExecuteParameter>();
+            Assert.AreEqual(new Dictionary<int, ExecuteParameter>(), testJobManager.ParameterDic, "UpdateInterval is unexpected value.");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSetCurrentEnvironment()
         {
-            string env = null;
+            string env = "Local";
             _unitUnderTest.SetCurrentEnvironment(env);
-            Assert.Fail("Create or modify test(s).");
-
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetEnvironmentList()
         {
-            System.Collections.Generic.List<System.String> expectedList = null;
-            System.Collections.Generic.List<System.String> resultList = null;
-            resultList = _unitUnderTest.GetEnvironmentList();
+            JobManager manager = new JobManager(_env);
+            List<string> expectedList = new List<string>();
+            expectedList.Add("Local");
+            List<string> resultList = manager.GetEnvironmentList();
             Assert.AreEqual(expectedList, resultList, "GetEnvironmentList method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
+            manager.Proxy = null;
+            expectedList = new List<string>();
+            resultList = manager.GetEnvironmentList();
+            Assert.AreEqual(expectedList, resultList, "GetEnvironmentList method returned unexpected result.");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetCurrentEnvironment()
         {
-            string expectedString = null;
+            JobManager manager = new JobManager(_env);
+
+            string expectedString = "Local";
             string resultString = null;
-            resultString = _unitUnderTest.GetCurrentEnvironment();
+            resultString = manager.GetCurrentEnvironment();
             Assert.AreEqual(expectedString, resultString, "GetCurrentEnvironment method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+
+            manager.Proxy = null;
+            expectedString = null;
+            resultString = manager.GetCurrentEnvironment();
+            Assert.AreEqual(expectedString, resultString, "GetEnvironmentList method returned unexpected result.");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetEnvironmentProperty()
         {
-            System.Collections.Generic.Dictionary<System.String, System.Object> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.String, System.Object> resultDictionary = null;
-            resultDictionary = _unitUnderTest.GetEnvironmentProperty();
+            JobManager manager = new JobManager(_env);
+
+            Dictionary<string, object> expectedDictionary = new Dictionary<string,object>();
+            Dictionary<string, object> resultDictionary = null;
+            resultDictionary = manager.GetEnvironmentProperty();
             Assert.AreEqual(expectedDictionary, resultDictionary, "GetEnvironmentProperty method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+
+            manager.Proxy = null;
+            expectedDictionary = null;
+            resultDictionary = manager.GetEnvironmentProperty();
+            Assert.AreEqual(expectedDictionary, resultDictionary, "GetEnvironmentProperty method returned unexpected result.");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetDefaultEnvironmentProperty()
         {
-            string env = null;
-            System.Collections.Generic.Dictionary<System.String, System.Object> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.String, System.Object> resultDictionary = null;
+            string env = "Local";
+            Dictionary<string, object> expectedDictionary = new Dictionary<string, object>();
+            Dictionary<string, object> resultDictionary = null;
             resultDictionary = _unitUnderTest.GetDefaultEnvironmentProperty(env);
             Assert.AreEqual(expectedDictionary, resultDictionary, "GetDefaultEnvironmentProperty method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+
+            env = "Empty";
+            resultDictionary = _unitUnderTest.GetDefaultEnvironmentProperty(env);
+            Assert.AreEqual(expectedDictionary, resultDictionary, "GetDefaultEnvironmentProperty method returned unexpected result.");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSetEnvironmentProperty()
         {
-            System.Collections.Generic.Dictionary<System.String, System.Object> list = null;
-            _unitUnderTest.SetEnvironmentProperty(list);
-            Assert.Fail("Create or modify test(s).");
+            JobManager manager = new JobManager(_env);
+            Dictionary<string, object> list = new Dictionary<string, object>();
+            manager.SetEnvironmentProperty(list);
+
+            manager.Proxy = null;
+            manager.SetEnvironmentProperty(list);
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetDefaultConcurrency()
         {
-            int expectedInt32 = 0;
+            JobManager manager = new JobManager(_env);
+            int expectedInt32 = 1;
             int resultInt32 = 0;
-            resultInt32 = _unitUnderTest.GetDefaultConcurrency();
+            resultInt32 = manager.GetDefaultConcurrency();
             Assert.AreEqual(expectedInt32, resultInt32, "GetDefaultConcurrency method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
+            manager.Proxy = null;
+            resultInt32 = manager.GetDefaultConcurrency();
+            Assert.AreEqual(expectedInt32, resultInt32, "GetDefaultConcurrency method returned unexpected result.");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetDefaultConcurrencyEnv()
         {
-            string env = null;
-            int expectedInt32 = 0;
+            string env = "Local";
+            int expectedInt32 = 1;
             int resultInt32 = 0;
             resultInt32 = _unitUnderTest.GetDefaultConcurrency(env);
             Assert.AreEqual(expectedInt32, resultInt32, "GetDefaultConcurrency method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+
+            env = "Empty";
+            resultInt32 = _unitUnderTest.GetDefaultConcurrency(env);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetDefaultConcurrency method returned unexpected result.");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestRegisterJob()
         {
+            JobManager manager = new JobManager(_env);
+
             string script = null;
             string arg = null;
-            System.Collections.Generic.List<System.String> extFile = null;
-            int expectedInt32 = 0;
+            List<string> extFile = null;
+            int expectedInt32 = 1;
             int resultInt32 = 0;
-            resultInt32 = _unitUnderTest.RegisterJob(script, arg, extFile);
+
+            LocalJob.ClearJobID();
+            resultInt32 = manager.RegisterJob(script, arg, extFile);
             Assert.AreEqual(expectedInt32, resultInt32, "RegisterJob method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+
+            manager.Proxy = null;
+            resultInt32 = manager.RegisterJob(script, arg, extFile);
+            expectedInt32 = -1;
+            Assert.AreEqual(expectedInt32, resultInt32, "RegisterJob method returned unexpected result.");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestCreateJobEntry()
         {
-            Ecell.Job.ExecuteParameter param = null;
-            int expectedInt32 = 0;
+            JobManager manager = new JobManager(_env);
+            LocalJob.ClearJobID();
+
+            ExecuteParameter param = new ExecuteParameter();
+            int expectedInt32 = 1;
             int resultInt32 = 0;
-            resultInt32 = _unitUnderTest.CreateJobEntry(param);
+
+            resultInt32 = manager.CreateJobEntry(param);
             Assert.AreEqual(expectedInt32, resultInt32, "CreateJobEntry method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
+            manager.Proxy = null;
+            expectedInt32 = -1;
+            resultInt32 = manager.CreateJobEntry(param);
+            Assert.AreEqual(expectedInt32, resultInt32, "CreateJobEntry method returned unexpected result.");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestRegisterEcellSession()
         {
+            JobManager manager = new JobManager(_env);
+            LocalJob.ClearJobID();
+
             string script = null;
             string arg = null;
-            System.Collections.Generic.List<System.String> extFile = null;
-            int expectedInt32 = 0;
+            List<string> extFile = null;
+            int expectedInt32 = 1;
             int resultInt32 = 0;
-            resultInt32 = _unitUnderTest.RegisterEcellSession(script, arg, extFile);
+            resultInt32 = manager.RegisterEcellSession(script, arg, extFile);
             Assert.AreEqual(expectedInt32, resultInt32, "RegisterEcellSession method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+
+            manager.Proxy = null;
+            expectedInt32 = -1;
+            resultInt32 = manager.RegisterEcellSession(script, arg, extFile);
+            Assert.AreEqual(expectedInt32, resultInt32, "RegisterEcellSession method returned unexpected result.");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestClearJob()
         {
+            JobManager manager = new JobManager(_env);
+            LocalJob.ClearJobID();
+
+            manager.CreateJobEntry(new ExecuteParameter());
             int jobID = 0;
-            _unitUnderTest.ClearJob(jobID);
-            Assert.Fail("Create or modify test(s).");
+            manager.ClearJob(jobID);
 
+            jobID = manager.CreateJobEntry(new ExecuteParameter());
+            manager.ClearJob(jobID);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestClearQueuedJobs()
         {
             _unitUnderTest.ClearQueuedJobs();
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestClearRunningJobs()
         {
             _unitUnderTest.ClearRunningJobs();
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestClearErrorJobs()
         {
             _unitUnderTest.ClearErrorJobs();
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestClearFinishedJobs()
         {
             _unitUnderTest.ClearFinishedJobs();
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestUpdate()
         {
             _unitUnderTest.Update();
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetQueuedJobList()
         {
@@ -245,10 +369,11 @@ namespace Ecell.Job
             System.Collections.Generic.List<Ecell.Job.Job> resultList = null;
             resultList = _unitUnderTest.GetQueuedJobList();
             Assert.AreEqual(expectedList, resultList, "GetQueuedJobList method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetRunningJobList()
         {
@@ -256,10 +381,11 @@ namespace Ecell.Job
             System.Collections.Generic.List<Ecell.Job.Job> resultList = null;
             resultList = _unitUnderTest.GetRunningJobList();
             Assert.AreEqual(expectedList, resultList, "GetRunningJobList method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetErrorJobList()
         {
@@ -267,10 +393,11 @@ namespace Ecell.Job
             System.Collections.Generic.List<Ecell.Job.Job> resultList = null;
             resultList = _unitUnderTest.GetErrorJobList();
             Assert.AreEqual(expectedList, resultList, "GetErrorJobList method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetFinishedJobList()
         {
@@ -278,10 +405,11 @@ namespace Ecell.Job
             System.Collections.Generic.List<Ecell.Job.Job> resultList = null;
             resultList = _unitUnderTest.GetFinishedJobList();
             Assert.AreEqual(expectedList, resultList, "GetFinishedJobList method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestIsFinished()
         {
@@ -289,10 +417,11 @@ namespace Ecell.Job
             bool resultBoolean = false;
             resultBoolean = _unitUnderTest.IsFinished();
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsFinished method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestIsError()
         {
@@ -300,10 +429,11 @@ namespace Ecell.Job
             bool resultBoolean = false;
             resultBoolean = _unitUnderTest.IsError();
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsError method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestIsRunning()
         {
@@ -311,43 +441,48 @@ namespace Ecell.Job
             bool resultBoolean = false;
             resultBoolean = _unitUnderTest.IsRunning();
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsRunning method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestRun()
         {
             _unitUnderTest.Run();
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestRunWaitFinish()
         {
             _unitUnderTest.RunWaitFinish();
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestStop()
         {
             int jobid = 0;
             _unitUnderTest.Stop(jobid);
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestStopRunningJobs()
         {
             _unitUnderTest.StopRunningJobs();
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetSessionProxy()
         {
@@ -356,10 +491,11 @@ namespace Ecell.Job
             System.Collections.Generic.List<Ecell.Job.Job> resultList = null;
             resultList = _unitUnderTest.GetSessionProxy(jobid);
             Assert.AreEqual(expectedList, resultList, "GetSessionProxy method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetJobDirectory()
         {
@@ -368,10 +504,11 @@ namespace Ecell.Job
             string resultString = null;
             resultString = _unitUnderTest.GetJobDirectory(jobid);
             Assert.AreEqual(expectedString, resultString, "GetJobDirectory method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetStdout()
         {
@@ -380,10 +517,11 @@ namespace Ecell.Job
             string resultString = null;
             resultString = _unitUnderTest.GetStdout(jobid);
             Assert.AreEqual(expectedString, resultString, "GetStdout method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetStderr()
         {
@@ -392,10 +530,11 @@ namespace Ecell.Job
             string resultString = null;
             resultString = _unitUnderTest.GetStderr(jobid);
             Assert.AreEqual(expectedString, resultString, "GetStderr method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetOptionList()
         {
@@ -403,28 +542,31 @@ namespace Ecell.Job
             string resultString = null;
             resultString = _unitUnderTest.GetOptionList();
             Assert.AreEqual(expectedString, resultString, "GetOptionList method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSetLoggerData()
         {
             System.Collections.Generic.List<Ecell.SaveLoggerProperty> sList = null;
             _unitUnderTest.SetLoggerData(sList);
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestSetParameterRange()
         {
             System.Collections.Generic.List<Ecell.Objects.EcellParameterData> pList = null;
             _unitUnderTest.SetParameterRange(pList);
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestRunSimParameterSet()
         {
@@ -437,10 +579,11 @@ namespace Ecell.Job
             System.Collections.Generic.Dictionary<System.Int32, Ecell.Job.ExecuteParameter> resultDictionary = null;
             resultDictionary = _unitUnderTest.RunSimParameterSet(topDir, modelName, count, isStep, setparam);
             Assert.AreEqual(expectedDictionary, resultDictionary, "RunSimParameterSet method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestRunSimParameterRange()
         {
@@ -453,10 +596,11 @@ namespace Ecell.Job
             System.Collections.Generic.Dictionary<System.Int32, Ecell.Job.ExecuteParameter> resultDictionary = null;
             resultDictionary = _unitUnderTest.RunSimParameterRange(topDir, modelName, num, count, isStep);
             Assert.AreEqual(expectedDictionary, resultDictionary, "RunSimParameterRange method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestCreateExecuteParameter()
         {
@@ -464,10 +608,11 @@ namespace Ecell.Job
             Ecell.Job.ExecuteParameter resultExecuteParameter = null;
             resultExecuteParameter = _unitUnderTest.CreateExecuteParameter();
             Assert.AreEqual(expectedExecuteParameter, resultExecuteParameter, "CreateExecuteParameter method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestRunSimParameterMatrix()
         {
@@ -479,7 +624,6 @@ namespace Ecell.Job
             System.Collections.Generic.Dictionary<System.Int32, Ecell.Job.ExecuteParameter> resultDictionary = null;
             resultDictionary = _unitUnderTest.RunSimParameterMatrix(topDir, modelName, count, isStep);
             Assert.AreEqual(expectedDictionary, resultDictionary, "RunSimParameterMatrix method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
     }

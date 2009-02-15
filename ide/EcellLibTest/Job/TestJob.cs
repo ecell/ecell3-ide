@@ -32,54 +32,104 @@ namespace Ecell.Job
 {
     using System;
     using NUnit.Framework;
+    using System.Collections.Generic;
+    using System.IO;
 
-
+    /// <summary>
+    /// 
+    /// </summary>
     [TestFixture()]
     public class TestJob
     {
 
         private Job _unitUnderTest;
-
+        /// <summary>
+        /// 
+        /// </summary>
         [SetUp()]
         public void SetUp()
         {
             _unitUnderTest = new Job();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [TearDown()]
         public void TearDown()
         {
             _unitUnderTest = null;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestNextJobID()
         {
-            int expectedInt32 = 0;
+            Job.ClearJobID();
+
+            int expectedInt32 = 1;
             int resultInt32 = 0;
             resultInt32 = Job.NextJobID();
             Assert.AreEqual(expectedInt32, resultInt32, "NextJobID method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestClearJobID()
         {
             Job.ClearJobID();
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestConstructorJob()
         {
+            Job.ClearJobID();
+
             Job testJob = new Job();
             Assert.IsNotNull(testJob, "Constructor of type, Job failed to create instance.");
-            Assert.Fail("Create or modify test(s).");
+            Assert.AreEqual(1, testJob.JobID, "JobID is unexpected value.");
+            Assert.AreEqual(-1, testJob.ProcessID, "ProcessID is unexpected value.");
+            Assert.AreEqual(-1, testJob.ProcessID, "ProcessID is unexpected value.");
+            Assert.AreEqual(JobStatus.NONE, testJob.Status, "Status is unexpected value.");
+            Assert.AreEqual(null, testJob.Machine, "Machine is unexpected value.");
+            Assert.IsEmpty(testJob.Argument, "Argument is unexpected value.");
+            Assert.IsEmpty(testJob.ScriptFile, "ScriptFile is unexpected value.");
+            Assert.IsEmpty(testJob.JobDirectory, "JobDirectory is unexpected value.");
+            Assert.IsNull(testJob.StdErr, "StdErr is unexpected value.");
+            Assert.IsEmpty(testJob.ExtraFileList, "ExtraFileList is unexpected value.");
+
+            testJob.Argument = "Error";
+            Assert.AreEqual("Error", testJob.Argument, "Argument is unexpected value.");
+
+            testJob.StdErr = "Error";
+            Assert.AreEqual("Error", testJob.StdErr, "StdErr is unexpected value.");
+            
+            testJob.Machine = "Local";
+            Assert.AreEqual("Local", testJob.Machine, "Machine is unexpected value.");
+
+            Assert.AreEqual(0, Job.MaxCount, "MaxCount is unexpected value.");
+            Job.MaxCount = 100;
+            Assert.AreEqual(100, Job.MaxCount, "MaxCount is unexpected value.");
+
+            Assert.AreEqual(null, Job.DMPATH, "DMPATH is unexpected value.");
+            Job.DMPATH = Util.GetDMDirs(null)[0];
+            Assert.AreEqual(Util.GetDMDirs(null)[0], Job.DMPATH, "DMPATH is unexpected value.");
+
+            testJob.JobDirectory = Util.GetTmpDir();
+            Assert.AreEqual(Util.GetTmpDir(), testJob.JobDirectory, "JobDirectory is unexpected value.");
+
+            testJob.ScriptFile = "c:/temp/0.ess";
+            Assert.AreEqual("c:/temp/0.ess", testJob.ScriptFile, "ScriptFile is unexpected value.");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestConstructorJobExeFileArgExtFileTmpDir()
         {
@@ -89,42 +139,47 @@ namespace Ecell.Job
             string tmpDir = null;
             Job testJob = new Job(exeFile, arg, extFile, tmpDir);
             Assert.IsNotNull(testJob, "Constructor of type, Job failed to create instance.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void Testretry()
         {
             _unitUnderTest.retry();
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void Testrun()
         {
             _unitUnderTest.run();
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void Teststop()
         {
             _unitUnderTest.stop();
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestUpdate()
         {
             _unitUnderTest.Update();
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetJudge()
         {
@@ -133,22 +188,24 @@ namespace Ecell.Job
             int resultInt32 = 0;
             resultInt32 = _unitUnderTest.GetJudge(judgeFile);
             Assert.AreEqual(expectedInt32, resultInt32, "GetJudge method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetLogData()
         {
             string key = null;
-            System.Collections.Generic.Dictionary<System.Double, System.Double> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.Double, System.Double> resultDictionary = null;
+            Dictionary<double, double> expectedDictionary = new Dictionary<double,double>();
+            Dictionary<double, double> resultDictionary = null;
             resultDictionary = _unitUnderTest.GetLogData(key);
             Assert.AreEqual(expectedDictionary, resultDictionary, "GetLogData method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetStdOut()
         {
@@ -156,10 +213,11 @@ namespace Ecell.Job
             string resultString = null;
             resultString = _unitUnderTest.GetStdOut();
             Assert.AreEqual(expectedString, resultString, "GetStdOut method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetStdErr()
         {
@@ -167,24 +225,35 @@ namespace Ecell.Job
             string resultString = null;
             resultString = _unitUnderTest.GetStdErr();
             Assert.AreEqual(expectedString, resultString, "GetStdErr method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestPrepareProcess()
         {
             _unitUnderTest.PrepareProcess();
-            Assert.Fail("Create or modify test(s).");
 
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestClear()
         {
-            _unitUnderTest.Clear();
-            Assert.Fail("Create or modify test(s).");
+            string folder = "c:/temp/TestFolder";
+            string file = folder + "/test.txt";
+            Directory.CreateDirectory(folder);
+            StreamWriter writer = File.CreateText(file);
+            writer.Write("Test");
+            writer.Close();
 
+            List<string> files = new List<string>();
+            files.Add(file);
+
+            _unitUnderTest.JobDirectory = folder;
+            _unitUnderTest.ExtraFileList = files;
+            _unitUnderTest.Clear();
         }
     }
 }
