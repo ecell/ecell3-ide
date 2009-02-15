@@ -341,11 +341,11 @@ namespace Ecell.Objects
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
             // List
-            List<EcellValue> list1 = new List<EcellValue>();
-            list1.Add(new EcellValue("Test1"));
+            List<object> list1 = new List<object>();
+            list1.Add("Test1");
             EcellValue value1 = new EcellValue(list1);
-            List<EcellValue> list2 = new List<EcellValue>();
-            list2.Add(new EcellValue("Test2"));
+            List<object> list2 = new List<object>();
+            list2.Add("Test2");
             EcellValue value2 = new EcellValue(list2);
 
             data1 = new EcellData("Value", value1.Clone(), "Variable:/:Test:Value");
@@ -375,7 +375,8 @@ namespace Ecell.Objects
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
             EcellData data6 = data1.Clone();
-            data6.Value = new EcellValue(null);
+            object obj = null;
+            data6.Value = new EcellValue(obj);
             expectedBoolean = false;
             resultBoolean = data1.Equals(data6);
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");

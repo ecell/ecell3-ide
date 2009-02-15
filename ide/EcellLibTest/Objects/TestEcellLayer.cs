@@ -164,10 +164,11 @@ namespace Ecell.Objects
         public void TestConstructorWithEcellValue()
         {
             EcellValue value = null;
+            List<object> list = null;
             EcellLayer el;
             try
             {
-                el = new EcellLayer(value);
+                el = new EcellLayer(list);
                 Assert.Fail("Failed to throw EcellException.");
             }
             catch (EcellException)
@@ -176,29 +177,29 @@ namespace Ecell.Objects
 
             try
             {
-                el = new EcellLayer(new EcellValue(1));
+                el = new EcellLayer(new object());
                 Assert.Fail("Failed to throw EcellException.");
             }
-            catch (EcellException)
+            catch (Exception)
             {
             }
 
             try
             {
                 value = new EcellValue(new EcellReference("S1", "/:S1", 0, 0));
-                el = new EcellLayer(value);
+                list = (List<object>)value.Value;
+                el = new EcellLayer(list);
                 Assert.Fail("Failed to throw EcellException.");
             }
-            catch (EcellException)
+            catch (Exception)
             {
             }
 
-            List<EcellValue> list = new List<EcellValue>();
-            list.Add(new EcellValue("Name"));
-            list.Add(new EcellValue(1));
-            value = new EcellValue(list);
+            list = new List<object>();
+            list.Add("Name");
+            list.Add(1);
 
-            el = new EcellLayer(value);
+            el = new EcellLayer(list);
             Assert.IsNotNull(el, "Constructor of type, object failed to create instance.");
             Assert.AreEqual("Ecell.Objects.EcellLayer", el.GetType().ToString(), "GetType method returned unexpected value.");
             Assert.AreEqual("Name", el.Name, "Name is unexpected value.");
@@ -206,7 +207,7 @@ namespace Ecell.Objects
             Assert.AreEqual("(\"Name\", 1)", el.ToString(), "ToString method returned unexpected value.");
 
         }
-                
+        
         /// <summary>
         /// TestConstructorWithParams
         /// </summary>
@@ -254,17 +255,18 @@ namespace Ecell.Objects
             value = EcellLayer.ConvertToEcellValue(layers);
             Assert.IsNotNull(value, "TestConvertToEcellValue method returned unexpected value.");
             Assert.AreEqual(true, value.IsList, "IsList is unexpected value.");
+            Assert.AreEqual(str, value.ToString(), "ToString method returned unexpected value.");
 
             List<object> list = (List<object>)value.Value;
             Assert.IsNotEmpty(list, "CastToList method returned unexpected value.");
 
             Assert.AreEqual("layer0", (string)((List<object>)list[0])[0], "Name is unexpected value.");
             Assert.AreEqual(1, (int)((List<object>)list[0])[1], "Name is unexpected value.");
-            Assert.AreEqual("(\"layer0\", 1)", list[0].ToString(), "ToString method returned unexpected value.");
+            Assert.AreEqual("(\"layer0\", 1)", layers[0].ToString(), "ToString method returned unexpected value.");
 
             Assert.AreEqual("Layer1", (string)((List<object>)list[1])[0], "Name is unexpected value.");
             Assert.AreEqual(0, (int)((List<object>)list[1])[1], "Name is unexpected value.");
-            Assert.AreEqual("(\"Layer1\", 0)", list[1].ToString(), "ToString method returned unexpected value.");
+            Assert.AreEqual("(\"Layer1\", 0)", layers[1].ToString(), "ToString method returned unexpected value.");
 
         }
 

@@ -159,6 +159,8 @@ namespace Ecell.Objects
         /// <param name="list">IEnumerator</param>
         public EcellReference(IEnumerator list)
         {
+            if (list == null)
+                throw new EcellException("EcellRefference Constructor does not arrow empty list.");
             list.MoveNext();
             this.m_name = Convert.ToString(list.Current);
             list.MoveNext();

@@ -76,7 +76,7 @@ namespace Ecell.Objects
             Assert.IsFalse(value.IsList, "IsList is not expected value.");
             Assert.IsFalse(value.IsString, "IsString is not expected value.");
             Assert.AreEqual(0, (int)value.Value, "Value is not expected value.");
-            Assert.AreEqual(typeof(int), value.Type, "Type is not expected value.");
+            Assert.AreEqual(EcellValueType.Integer, value.Type, "Type is not expected value.");
 
             // double
             value = null;
@@ -87,7 +87,7 @@ namespace Ecell.Objects
             Assert.IsFalse(value.IsList, "IsList is not expected value.");
             Assert.IsFalse(value.IsString, "IsString is not expected value.");
             Assert.AreEqual(0.01, (double)value.Value, "Value is not expected value.");
-            Assert.AreEqual(typeof(double), value.Type, "Type is not expected value.");
+            Assert.AreEqual(EcellValueType.Double, value.Type, "Type is not expected value.");
 
             // string.
             value = null;
@@ -98,7 +98,7 @@ namespace Ecell.Objects
             Assert.IsFalse(value.IsList, "IsList is not expected value.");
             Assert.IsTrue(value.IsString, "IsString is not expected value.");
             Assert.AreEqual("test", (string)value.Value, "Value is not expected value.");
-            Assert.AreEqual(typeof(string), value.Type, "Type is not expected value.");
+            Assert.AreEqual(EcellValueType.String, value.Type, "Type is not expected value.");
 
         }
 
@@ -116,7 +116,7 @@ namespace Ecell.Objects
             Assert.IsFalse(testEcellValue.IsDouble, "IsDouble is not expected value.");
             Assert.IsTrue(testEcellValue.IsList, "IsList is not expected value.");
             Assert.IsFalse(testEcellValue.IsString, "IsString is not expected value.");
-            Assert.AreEqual(typeof(List<EcellValue>), testEcellValue.Type, "Type is not expected value.");
+            Assert.AreEqual(EcellValueType.List, testEcellValue.Type, "Type is not expected value.");
             Assert.AreEqual(er.ToString(), testEcellValue.ToString(), "ToString() is not expected value.");
 
             // List
@@ -129,7 +129,7 @@ namespace Ecell.Objects
             Assert.IsFalse(value.IsDouble, "IsDouble is not expected value.");
             Assert.IsTrue(value.IsList, "IsList is not expected value.");
             Assert.IsFalse(value.IsString, "IsString is not expected value.");
-            Assert.AreEqual(typeof(List<EcellValue>), value.Type, "Type is not expected value.");
+            Assert.AreEqual(EcellValueType.List, value.Type, "Type is not expected value.");
 
         }
 
@@ -142,10 +142,6 @@ namespace Ecell.Objects
             string str = "string"; ;
             EcellValue value = new EcellValue(str);
             Assert.AreEqual("string", value.Value);
-
-            value = new EcellValue(null);
-            Assert.IsNull(value.Value, "Value should be null.");
-            Assert.IsEmpty(value.ToString(), "ToString() should be empty.");
         }
 
         /// <summary>
@@ -171,6 +167,12 @@ namespace Ecell.Objects
             Assert.IsFalse(value.IsDouble, "IsDouble is not expected value.");
             Assert.IsTrue(value.IsList, "IsList is not expected value.");
             Assert.IsFalse(value.IsString, "IsString is not expected value.");
+
+            str = "";
+            value = EcellValue.ConvertFromListString(str);
+            expectedList = new List<object>();
+            resultList = (List<object>)value.Value;
+            Assert.AreEqual(expectedList, resultList, "CastToList method returned unexpected result.");
         }
 
         /// <summary>
@@ -189,7 +191,30 @@ namespace Ecell.Objects
             value = new EcellValue(1);
             resultDouble = (double)value;
             Assert.IsFalse(value.IsDouble, "IsDouble is not expected value.");
-            Assert.AreEqual(0.0, resultDouble, "CastToDouble method returned unexpected result.");
+            Assert.AreEqual(1.0, resultDouble, "CastToDouble method returned unexpected result.");
+
+            value = new EcellValue("0.01");
+            resultDouble = (double)value;
+            Assert.IsFalse(value.IsDouble, "IsDouble is not expected value.");
+            Assert.AreEqual(0.01, resultDouble, "CastToDouble method returned unexpected result.");
+
+            value = new EcellValue("Test");
+            try
+            {
+                resultDouble = (double)value;
+            }
+            catch (Exception)
+            {
+            }
+
+            value = new EcellValue(new List<object>());
+            try
+            {
+                resultDouble = (double)value;
+            }
+            catch (Exception)
+            {
+            }
         }
 
         /// <summary>
@@ -209,6 +234,29 @@ namespace Ecell.Objects
             resultInt32 = (int)value;
             Assert.IsFalse(value.IsInt, "IsInt is not expected value.");
             Assert.AreEqual(0, resultInt32, "CastToInt method returned unexpected result.");
+
+            value = new EcellValue("1");
+            resultInt32 = (int)value;
+            Assert.IsFalse(value.IsInt, "IsInt is not expected value.");
+            Assert.AreEqual(1, resultInt32, "CastToInt method returned unexpected result.");
+
+            value = new EcellValue("Test");
+            try
+            {
+                resultInt32 = (int)value;
+            }
+            catch (Exception)
+            {
+            }
+
+            value = new EcellValue(new List<object>());
+            try
+            {
+                resultInt32 = (int)value;
+            }
+            catch (Exception)
+            {
+            }
         }
 
         /// <summary>
@@ -217,11 +265,13 @@ namespace Ecell.Objects
         [Test()]
         public void TestCastToList()
         {
-            List<EcellValue> expectedList = new List<EcellValue>();
+            List<EcellReference> list = new List<EcellReference>();
             EcellReference er1 = new EcellReference("S1", "Variable:/:S1", 1, 0);
             EcellReference er2 = new EcellReference("S2", "Variable:/:S2", 1, 1);
-            expectedList.Add(new EcellValue(er1));
-            expectedList.Add(new EcellValue(er2));
+            list.Add(er1);
+            list.Add(er2);
+            EcellValue resultValue = EcellReference.ConvertToEcellValue(list);
+            List<object> expectedList = (List<object>)resultValue.Value;
 
             string str = "((\"S1\", \"Variable:/:S1\", 1, 0), (\"S2\", \"Variable:/:S2\", 1, 1))";
             EcellValue value = EcellValue.ConvertFromListString(str);
@@ -232,9 +282,6 @@ namespace Ecell.Objects
             resultList = (List<object>)value.Value;
             Assert.IsEmpty(resultList, "resultList shold be empty.");
 
-            value = new EcellValue("");
-            resultList = (List<object>)value.Value;
-            Assert.IsNull(resultList, "resultList shold be empty.");
         }
 
         /// <summary>
@@ -249,17 +296,17 @@ namespace Ecell.Objects
 
             EcellReference er1 = new EcellReference("S1", "Variable:/:S1", 1, 0);
             value = new EcellValue(er1);
-            expectedString = null;
+            expectedString = er1.ToString();
             resultString = (string)value;
             Assert.AreEqual(expectedString, resultString, "CastToString method returned unexpected result.");
 
             value = new EcellValue(1);
-            expectedString = null;
+            expectedString = "1";
             resultString = (string)value;
             Assert.AreEqual(expectedString, resultString, "CastToString method returned unexpected result.");
 
             value = new EcellValue(0.0002);
-            expectedString = null;
+            expectedString = "0.0002";
             resultString = (string)value;
             Assert.AreEqual(expectedString, resultString, "CastToString method returned unexpected result.");
 
@@ -285,15 +332,16 @@ namespace Ecell.Objects
             resultString = value.ToString();
             Assert.AreEqual(expectedString, resultString, "ToString method returned unexpected result.");
 
-            value = new EcellValue(new List<EcellValue>());
+            value = new EcellValue(new List<object>());
             expectedString = "()";
             resultString = value.ToString();
             Assert.AreEqual(expectedString, resultString, "ToString method returned unexpected result.");
 
-            List<EcellValue> list = new List<EcellValue>();
-            list.Add(new EcellValue(0.001));
+            List<object> list = new List<object>();
+            list.Add(0.001);
+            list.Add("Test");
             value = new EcellValue(list);
-            expectedString = "(0.001)";
+            expectedString = "(0.001, \"Test\")";
             resultString = value.ToString();
             Assert.AreEqual(expectedString, resultString, "ToString method returned unexpected result.");
 
@@ -311,6 +359,12 @@ namespace Ecell.Objects
             expectedString = "string";
             resultString = value.ToString();
             Assert.AreEqual(expectedString, resultString, "ToString method returned unexpected result.");
+
+            expectedString = "((\"S1\", \"Variable:/:S1\", 1, 0), (\"S2\", \"Variable:/:S2\", 1, 1))";
+            value = EcellValue.ConvertFromListString(expectedString);
+            resultString = value.ToString();
+            Assert.AreEqual(expectedString, resultString, "CastToList method returned unexpected result.");
+
         }
 
         /// <summary>
@@ -328,7 +382,7 @@ namespace Ecell.Objects
             Assert.IsFalse(clonedValue.IsList, "IsList is not expected value.");
             Assert.IsFalse(clonedValue.IsString, "IsString is not expected value.");
             Assert.AreEqual(1, (int)clonedValue.Value, "Value is not expected value.");
-            Assert.AreEqual(typeof(int), clonedValue.Type, "Type is not expected value.");
+            Assert.AreEqual(EcellValueType.Integer, clonedValue.Type, "Type is not expected value.");
 
             // double
             value = new EcellValue(0.01);
@@ -340,39 +394,40 @@ namespace Ecell.Objects
             Assert.IsFalse(clonedValue.IsList, "IsList is not expected value.");
             Assert.IsFalse(clonedValue.IsString, "IsString is not expected value.");
             Assert.AreEqual(0.01, (double)clonedValue.Value, "Value is not expected value.");
-            Assert.AreEqual(typeof(double), clonedValue.Type, "Type is not expected value.");
+            Assert.AreEqual(EcellValueType.Double, clonedValue.Type, "Type is not expected value.");
 
             // string.
             value = new EcellValue("test");
             clonedValue = value.Clone();
             Assert.IsNotNull(clonedValue, "Constructor of type, EcellValue failed to create instance.");
-            Assert.AreEqual(value, clonedValue, "Clone method returned unexpected result.");
+            Assert.AreEqual((string)value, (string)clonedValue, "Clone method returned unexpected result.");
             Assert.IsFalse(clonedValue.IsInt, "IsInt is not expected value.");
             Assert.IsFalse(clonedValue.IsDouble, "IsDouble is not expected value.");
             Assert.IsFalse(clonedValue.IsList, "IsList is not expected value.");
             Assert.IsTrue(clonedValue.IsString, "IsString is not expected value.");
             Assert.AreEqual("test", (string)clonedValue.Value, "Value is not expected value.");
-            Assert.AreEqual(typeof(string), clonedValue.Type, "Type is not expected value.");
+            Assert.AreEqual(EcellValueType.String, clonedValue.Type, "Type is not expected value.");
 
             // list
             string str = "((\"S1\", \"Variable:/:S1\", 1, 0), (\"S2\", \"Variable:/:S2\", 1, 1))";
             value = EcellValue.ConvertFromListString(str);
             clonedValue = value.Clone();
             Assert.IsNotNull(clonedValue, "Constructor of type, EcellValue failed to create instance.");
-            Assert.AreEqual(value, clonedValue, "Clone method returned unexpected result.");
+            Assert.AreEqual((string)value, (string)clonedValue, "Clone method returned unexpected result.");
             Assert.IsFalse(clonedValue.IsInt, "IsInt is not expected value.");
             Assert.IsFalse(clonedValue.IsDouble, "IsDouble is not expected value.");
             Assert.IsTrue(clonedValue.IsList, "IsList is not expected value.");
             Assert.IsFalse(clonedValue.IsString, "IsString is not expected value.");
             Assert.AreEqual(str, clonedValue.ToString(), "ToString method returned unexpected value.");
-            Assert.AreEqual(typeof(List<EcellValue>), clonedValue.Type, "Type is not expected value.");
+            Assert.AreEqual(EcellValueType.List, clonedValue.Type, "Type is not expected value.");
 
             object obj = ((ICloneable)value).Clone();
             Assert.IsNotNull(obj, "Constructor of type, EcellValue failed to create instance.");
 
-            value = new EcellValue(null);
             try
             {
+                obj = null;
+                value = new EcellValue(obj);
                 EcellValue newValue = value.Clone();
                 Assert.Fail("Failed to throw TypeError Exception.");
             }
@@ -390,9 +445,6 @@ namespace Ecell.Objects
             EcellValue value1 = new EcellValue(1);
             EcellValue value2 = value1.Clone();
             Assert.AreEqual(value1.GetHashCode(), value2.GetHashCode(), "Clone method returned unexpected result.");
-
-            value1 = new EcellValue(null);
-            Assert.IsNotNull(value1.GetHashCode());
         }
 
         /// <summary>
@@ -401,15 +453,44 @@ namespace Ecell.Objects
         [Test()]
         public void TestEquals()
         {
+            // Compare int.
             EcellValue value1 = new EcellValue(1);
             EcellValue value2 = value1.Clone();
             Assert.IsTrue(value1.Equals(value2), "Equals method returned unexpected result.");
+            Assert.IsTrue(value1.Equals(1), "Equals method returned unexpected result.");
+            Assert.IsFalse(value1.Equals(1.0), "Equals method returned unexpected result.");
 
             value2 = null;
             Assert.IsFalse(value1.Equals(value2), "Equals method returned unexpected result.");
-
             Assert.IsFalse(value1.Equals(new object()), "Equals method returned unexpected result.");
 
+            // Compare double.
+            value1 = new EcellValue(0.01);
+            value2 = value1.Clone();
+            Assert.IsTrue(value1.Equals(value2), "Equals method returned unexpected result.");
+            Assert.IsTrue(value1.Equals(0.01), "Equals method returned unexpected result.");
+
+            // Compare string.
+            value1 = new EcellValue("test");
+            value2 = value1.Clone();
+            Assert.IsTrue(value1.Equals(value2), "Equals method returned unexpected result.");
+            Assert.IsTrue(value1.Equals("test"), "Equals method returned unexpected result.");
+
+            string str = "((\"S1\", \"Variable:/:S1\", 1, 0), (\"S2\", \"Variable:/:S2\", 1, 1))";
+            value1 = EcellValue.ConvertFromListString(str);
+            value2 = value1.Clone();
+            Assert.AreEqual((List<object>)value1.Value, (List<object>)value2.Value, "Equals method returned unexpected result.");
+            Assert.IsTrue(value1.Equals((List<object>)value2.Value), "Equals method returned unexpected result.");
+
+            str = "((\"S1\", \"Variable:/:S1\", 1, 0), (\"S3\", \"Variable:/:S3\", 1, 1))";
+            value2 = EcellValue.ConvertFromListString(str);
+            Assert.AreNotEqual((List<object>)value1.Value, (List<object>)value2.Value, "Equals method returned unexpected result.");
+            Assert.IsFalse(value1.Equals((List<object>)value2.Value), "Equals method returned unexpected result.");
+
+            str = "((\"S1\", \"Variable:/:S1\", 1, 0))";
+            value2 = EcellValue.ConvertFromListString(str);
+            Assert.AreNotEqual((List<object>)value1.Value, (List<object>)value2.Value, "Equals method returned unexpected result.");
+            Assert.IsFalse(value1.Equals((List<object>)value2.Value), "Equals method returned unexpected result.");
         }
     }
 }

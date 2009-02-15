@@ -221,8 +221,8 @@ namespace Ecell.Objects
 
             try
             {
-                value = null;
-                EcellReference er4 = new EcellReference(value);
+                List<object> list = null;
+                EcellReference er4 = new EcellReference((IEnumerator<object>)list);
                 Assert.Fail("Failed to throw parsing error.");
             }
             catch (EcellException)
@@ -453,7 +453,8 @@ namespace Ecell.Objects
             list.Add(er2);
             EcellValue resultEcellValue = EcellReference.ConvertToEcellValue(list);
 
-            Assert.AreEqual(expectedEcellValue, resultEcellValue, "ConvertToEcellValue method returned unexpected result.");
+            Assert.IsTrue(expectedEcellValue.Equals(resultEcellValue), "ConvertToEcellValue method returned unexpected result.");
+            Assert.AreEqual(expectedEcellValue.ToString(), resultEcellValue.ToString(), "ConvertToEcellValue method returned unexpected result.");
 
             EcellValue empty1 = EcellReference.ConvertToEcellValue(new List<EcellReference>());
             Assert.IsEmpty((List<object>)empty1.Value, "Returned List shold be empty.");

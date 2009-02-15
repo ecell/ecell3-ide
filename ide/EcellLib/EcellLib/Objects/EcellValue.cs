@@ -39,6 +39,7 @@ using System.Text;
 using EcellCoreLib;
 using System.Collections;
 using System.Text.RegularExpressions;
+using Ecell.Exceptions;
 
 namespace Ecell.Objects
 {
@@ -64,14 +65,6 @@ namespace Ecell.Objects
 
         #region Constractors
         /// <summary>
-        /// Creates a new "EcellValue" instance with no argument.
-        /// </summary>
-        private EcellValue()
-        {
-            ; // do nothing
-        }
-
-        /// <summary>
         /// Creates a new "EcellValue" instance with EcellValue.
         /// </summary>
         /// <param name="that"></param>
@@ -89,6 +82,19 @@ namespace Ecell.Objects
             m_value = Normalize(o);
         }
 
+        /// <summary>
+        /// Creates a new "EcellValue" instance with an EcellReference.
+        /// </summary>
+        /// <param name="er"></param>
+        public EcellValue(EcellReference er)
+        {
+            List<object> list = new List<object>();
+            list.Add(er.Name);
+            list.Add(er.FullID);
+            list.Add(er.Coefficient);
+            list.Add(er.IsAccessor);
+            this.m_value = Normalize(list);
+        }
         #endregion
 
         #region Accessors
@@ -99,7 +105,9 @@ namespace Ecell.Objects
         {
             get { return this.m_value; }
         }
-
+        /// <summary>
+        /// The type of the stored value.
+        /// </summary>
         public EcellValueType Type
         {
             get
@@ -110,7 +118,7 @@ namespace Ecell.Objects
                     return EcellValueType.Double;
                 else if (m_value is string)
                     return EcellValueType.String;
-                else if (m_value is IEnumerable<EcellValue>)
+                else if (m_value is IEnumerable<object>)
                     return EcellValueType.List;
                 throw new NotImplementedException();
             }
@@ -160,7 +168,7 @@ namespace Ecell.Objects
         public static EcellValue ConvertFromListString(string str)
         {
             if (string.IsNullOrEmpty(str))
-                return new EcellValue(new List<EcellValue>());
+                return new EcellValue(new List<object>());
 
             List<EcellReference> refList = EcellReference.ConvertFromString(str);
             return EcellReference.ConvertToEcellValue(refList);
@@ -189,41 +197,9 @@ namespace Ecell.Objects
                 }
                 return val;
             }
-            throw new ArgumentException();
+            throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "object"));
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        private string ToSerializedForm()
-        {
-            string value = "";
-            if (m_value is string)
-            {
-                return "\"" + ((string)m_value).Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
-            }
-            else if (m_value is List<object>)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append('(');
-                foreach (object obj in (IEnumerable<object>)m_value)
-                {
-                    sb.Append(obj.ToString());
-                    sb.Append(", ");
-                }
-                if (sb.Length > 1)
-                {
-                    sb.Length -= 2;
-                }
-                sb.Append(')');
-                value = sb.ToString();
-            }
-            else
-            {
-                value = m_value.ToString();
-            }
-            return value;
-        }
+
         /// <summary>
         /// To int
         /// </summary>
@@ -285,7 +261,7 @@ namespace Ecell.Objects
             }
             else
             {
-                return val.Value.ToString();
+                return val.ToString();
             }
         }
         #endregion
@@ -318,10 +294,7 @@ namespace Ecell.Objects
         /// <returns></returns>
         public override int GetHashCode()
         {
-            if (m_value == null)
-                return base.GetHashCode();
-            else
-                return m_value.ToString().GetHashCode();
+            return m_value.ToString().GetHashCode();
         }
 
         /// <summary>
@@ -331,19 +304,43 @@ namespace Ecell.Objects
         /// <returns></returns>
         public override bool Equals(object obj)
         {
+            bool isEquals = false;
+            if (obj == null)
+                isEquals = false;
             if (obj is EcellValue)
-                return Equals(((EcellValue)obj).m_value);
-            else if (obj is int)
-                return (int)this == (int)obj;
-            else if (obj is double)
-                return (double)this == (double)obj;
-            else if (obj is string)
-                return (string)this == (string)obj;
-            else if (obj is IEnumerable)
+                isEquals = Equals(((EcellValue)obj).m_value);
+            else if (obj is int && this.IsInt)
+                isEquals = (int)this == (int)obj;
+            else if (obj is double && this.IsDouble)
+                isEquals = (double)this == (double)obj;
+            else if (obj is string && this.IsString)
+                isEquals = (string)this == (string)obj;
+            else if (obj is IEnumerable && this.IsList)
             {
-                return (IEnumerable)this.m_value == (IEnumerable<object>)obj;
+                isEquals = CompareList((List<object>)this.m_value, (List<object>)obj);
             }
-            throw new InvalidOperationException();
+            return isEquals;
+        }
+
+        private static bool CompareList(List<object> list1, List<object> list2)
+        {
+            if (list1.Count != list2.Count)
+                return false;
+            for(int i = 0; i < list1.Count; i++)
+            {
+                object obj1 = list1[i];
+                object obj2 = list2[i];
+                if (obj1 is List<object> && obj2 is List<object>)
+                {
+                    if (!CompareList((List<object>)obj1, (List<object>)obj2))
+                        return false;
+                }
+                else if (!object.Equals(obj1, obj2))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -355,8 +352,44 @@ namespace Ecell.Objects
             if (m_value is string)
                 return (string)m_value;
             else
-                return ToSerializedForm();
+                return ToSerializedForm(m_value);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private static string ToSerializedForm(object value)
+        {
+            string str = "";
+            if (value is IEnumerable<object>)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append('(');
+                foreach (object obj in (IEnumerable<object>)value)
+                {
+                    if (obj is string)
+                        sb.Append("\"" + obj.ToString() + "\"");
+                    else if (obj is IEnumerable<object>)
+                        sb.Append(ToSerializedForm(obj));
+                    else
+                        sb.Append(obj.ToString());
+                    sb.Append(", ");
+                }
+                if (sb.Length > 1)
+                {
+                    sb.Length -= 2;
+                }
+                sb.Append(')');
+                str = sb.ToString();
+            }
+            else
+            {
+                str = value.ToString();
+            }
+            return str;
+        }
+
         #endregion
 
     }

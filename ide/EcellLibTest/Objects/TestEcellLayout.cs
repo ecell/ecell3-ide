@@ -622,27 +622,27 @@ namespace Ecell.Objects
             Assert.AreEqual(true, layout.Contains(new PointF(10, 219)), "Contains method returned unexpected value.");
             Assert.AreEqual(true, layout.Contains(new PointF(11, 219)), "Contains method returned unexpected value.");
 
-            Assert.AreEqual(false, layout.Contains(new PointF(10, 218)), "Contains method returned unexpected value.");
+            Assert.AreEqual(true, layout.Contains(new PointF(10, 218)), "Contains method returned unexpected value.");
             Assert.AreEqual(true, layout.Contains(new PointF(10, 219)), "Contains method returned unexpected value.");
-            Assert.AreEqual(true, layout.Contains(new PointF(10, 220)), "Contains method returned unexpected value.");
+            Assert.AreEqual(false, layout.Contains(new PointF(10, 220)), "Contains method returned unexpected value.");
 
             // edge right-top
-            Assert.AreEqual(false, layout.Contains(new PointF(108, 20)), "Contains method returned unexpected value.");
+            Assert.AreEqual(true, layout.Contains(new PointF(108, 20)), "Contains method returned unexpected value.");
             Assert.AreEqual(true, layout.Contains(new PointF(109, 20)), "Contains method returned unexpected value.");
-            Assert.AreEqual(true, layout.Contains(new PointF(110, 20)), "Contains method returned unexpected value.");
+            Assert.AreEqual(false, layout.Contains(new PointF(110, 20)), "Contains method returned unexpected value.");
 
             Assert.AreEqual(false, layout.Contains(new PointF(109, 19)), "Contains method returned unexpected value.");
             Assert.AreEqual(true, layout.Contains(new PointF(109, 20)), "Contains method returned unexpected value.");
             Assert.AreEqual(true, layout.Contains(new PointF(109, 21)), "Contains method returned unexpected value.");
 
             // edge right-top
-            Assert.AreEqual(false, layout.Contains(new PointF(108, 219)), "Contains method returned unexpected value.");
+            Assert.AreEqual(true, layout.Contains(new PointF(108, 219)), "Contains method returned unexpected value.");
             Assert.AreEqual(true, layout.Contains(new PointF(109, 219)), "Contains method returned unexpected value.");
-            Assert.AreEqual(true, layout.Contains(new PointF(110, 219)), "Contains method returned unexpected value.");
+            Assert.AreEqual(false, layout.Contains(new PointF(110, 219)), "Contains method returned unexpected value.");
 
-            Assert.AreEqual(false, layout.Contains(new PointF(109, 218)), "Contains method returned unexpected value.");
+            Assert.AreEqual(true, layout.Contains(new PointF(109, 218)), "Contains method returned unexpected value.");
             Assert.AreEqual(true, layout.Contains(new PointF(109, 219)), "Contains method returned unexpected value.");
-            Assert.AreEqual(true, layout.Contains(new PointF(109, 220)), "Contains method returned unexpected value.");
+            Assert.AreEqual(false, layout.Contains(new PointF(109, 220)), "Contains method returned unexpected value.");
 
 
             // rectangle
@@ -657,7 +657,7 @@ namespace Ecell.Objects
             Assert.AreEqual(false, layout.Contains(new RectangleF(0, 0, 200, 300)), "Contains method returned unexpected value.");
             Assert.AreEqual(false, layout.Contains(new RectangleF(10, 0, 50, 100)), "Contains method returned unexpected value.");
             Assert.AreEqual(false, layout.Contains(new RectangleF(0, 20, 50, 100)), "Contains method returned unexpected value.");
-            Assert.AreEqual(false, layout.Contains(new RectangleF(10, 120, 50, 100)), "Contains method returned unexpected value.");
+            Assert.AreEqual(false, layout.Contains(new RectangleF(10, 130, 50, 100)), "Contains method returned unexpected value.");
             Assert.AreEqual(false, layout.Contains(new RectangleF(70, 20, 50, 100)), "Contains method returned unexpected value.");
         }
     }
