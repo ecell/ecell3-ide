@@ -347,6 +347,7 @@ namespace Ecell.Job
         [Test()]
         public void TestClearFinishedJobs()
         {
+            _unitUnderTest.CreateJobEntry(new ExecuteParameter());
             _unitUnderTest.ClearFinishedJobs();
 
         }
@@ -356,17 +357,21 @@ namespace Ecell.Job
         [Test()]
         public void TestUpdate()
         {
-            _unitUnderTest.Update();
-
+            JobManager manager = new JobManager(_env);
+            manager.CreateJobEntry(new ExecuteParameter());
+            foreach (Job job in manager.GetFinishedJobList())
+                job.Status = JobStatus.RUNNING;
+            manager.Update();
         }
+
         /// <summary>
         /// 
         /// </summary>
         [Test()]
         public void TestGetQueuedJobList()
         {
-            System.Collections.Generic.List<Ecell.Job.Job> expectedList = null;
-            System.Collections.Generic.List<Ecell.Job.Job> resultList = null;
+            List<Job> expectedList = new List<Job>();
+            List<Job> resultList = null;
             resultList = _unitUnderTest.GetQueuedJobList();
             Assert.AreEqual(expectedList, resultList, "GetQueuedJobList method returned unexpected result.");
 
@@ -377,8 +382,8 @@ namespace Ecell.Job
         [Test()]
         public void TestGetRunningJobList()
         {
-            System.Collections.Generic.List<Ecell.Job.Job> expectedList = null;
-            System.Collections.Generic.List<Ecell.Job.Job> resultList = null;
+            List<Job> expectedList = new List<Job>();
+            List<Job> resultList = null;
             resultList = _unitUnderTest.GetRunningJobList();
             Assert.AreEqual(expectedList, resultList, "GetRunningJobList method returned unexpected result.");
 
@@ -389,8 +394,8 @@ namespace Ecell.Job
         [Test()]
         public void TestGetErrorJobList()
         {
-            System.Collections.Generic.List<Ecell.Job.Job> expectedList = null;
-            System.Collections.Generic.List<Ecell.Job.Job> resultList = null;
+            List<Job> expectedList = new List<Job>();
+            List<Job> resultList = null;
             resultList = _unitUnderTest.GetErrorJobList();
             Assert.AreEqual(expectedList, resultList, "GetErrorJobList method returned unexpected result.");
 
@@ -401,10 +406,16 @@ namespace Ecell.Job
         [Test()]
         public void TestGetFinishedJobList()
         {
-            System.Collections.Generic.List<Ecell.Job.Job> expectedList = null;
-            System.Collections.Generic.List<Ecell.Job.Job> resultList = null;
-            resultList = _unitUnderTest.GetFinishedJobList();
+            JobManager manager = new JobManager(_env);
+
+            List<Job> expectedList = new List<Job>();
+            List<Job> resultList = null;
+            resultList = manager.GetFinishedJobList();
             Assert.AreEqual(expectedList, resultList, "GetFinishedJobList method returned unexpected result.");
+
+            manager.CreateJobEntry(new ExecuteParameter());
+            resultList = manager.GetFinishedJobList();
+            Assert.IsNotEmpty(resultList, "GetFinishedJobList method returned unexpected result.");
 
         }
         /// <summary>
@@ -413,9 +424,19 @@ namespace Ecell.Job
         [Test()]
         public void TestIsFinished()
         {
-            bool expectedBoolean = false;
+            JobManager manager = new JobManager(_env);
+
+            bool expectedBoolean = true;
             bool resultBoolean = false;
-            resultBoolean = _unitUnderTest.IsFinished();
+            resultBoolean = manager.IsFinished();
+            Assert.AreEqual(expectedBoolean, resultBoolean, "IsFinished method returned unexpected result.");
+
+            manager.CreateJobEntry(new ExecuteParameter());
+            foreach (Job job in manager.GetFinishedJobList())
+                job.Status = JobStatus.RUNNING;
+
+            expectedBoolean = false;
+            resultBoolean = manager.IsFinished();
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsFinished method returned unexpected result.");
 
         }
@@ -425,10 +446,20 @@ namespace Ecell.Job
         [Test()]
         public void TestIsError()
         {
+            JobManager manager = new JobManager(_env);
+
             bool expectedBoolean = false;
             bool resultBoolean = false;
-            resultBoolean = _unitUnderTest.IsError();
+            resultBoolean = manager.IsError();
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsError method returned unexpected result.");
+
+            manager.CreateJobEntry(new ExecuteParameter());
+            foreach (Job job in manager.GetFinishedJobList())
+                job.Status = JobStatus.ERROR;
+
+            expectedBoolean = true;
+            resultBoolean = manager.IsError();
+            Assert.AreEqual(expectedBoolean, resultBoolean, "IsFinished method returned unexpected result.");
 
         }
         /// <summary>
@@ -437,10 +468,20 @@ namespace Ecell.Job
         [Test()]
         public void TestIsRunning()
         {
+            JobManager manager = new JobManager(_env);
+
             bool expectedBoolean = false;
             bool resultBoolean = false;
             resultBoolean = _unitUnderTest.IsRunning();
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsRunning method returned unexpected result.");
+
+            manager.CreateJobEntry(new ExecuteParameter());
+            foreach (Job job in manager.GetFinishedJobList())
+                job.Status = JobStatus.RUNNING;
+
+            expectedBoolean = true;
+            resultBoolean = manager.IsRunning();
+            Assert.AreEqual(expectedBoolean, resultBoolean, "IsFinished method returned unexpected result.");
 
         }
         /// <summary>
@@ -458,8 +499,12 @@ namespace Ecell.Job
         [Test()]
         public void TestRunWaitFinish()
         {
-            _unitUnderTest.RunWaitFinish();
+            JobManager manager = new JobManager(_env);
+            manager.CreateJobEntry(new ExecuteParameter());
+            //foreach (Job job in manager.GetFinishedJobList())
+            //    job.Status = JobStatus.RUNNING;
 
+            manager.RunWaitFinish();
         }
         /// <summary>
         /// 

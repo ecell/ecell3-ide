@@ -347,27 +347,23 @@ namespace Ecell
         public void LoadProject(ProjectInfo info)
         {
             List<EcellObject> passList = new List<EcellObject>();
-            string[] parameters = new string[0];
             string message = null;
             string projectID = null;
             Project project = null;
 
             try
             {
+                // Check Current.
                 if (info == null)
                     throw new EcellException(MessageResources.ErrLoadPrj);
                 if (m_currentProject != null)
                     CloseProject();
 
-
-                // Initializes.
+                // Create project.
                 projectID = info.Name;
                 message = "[" + projectID + "]";
                 project = new Project(info);
 
-                // If this project is not model.
-                if (project.Info.ProjectType != ProjectType.Model)
-                    project.Info.FindModels();
                 // If this project is Template.
                 if (project.Info.ProjectType == ProjectType.Template)
                     project.CopyDMDirs(info.DMDirList);
@@ -382,6 +378,8 @@ namespace Ecell
                 passList.Add(EcellObject.CreateObject(projectID, "", Constants.xpathProject, "", ecellDataList));
 
                 // Loads the model.
+                if (project.Info.ProjectType != ProjectType.Model)
+                    project.Info.FindModels();
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Loading);
                 LoadModel(project.Info.Models);
 
@@ -389,32 +387,11 @@ namespace Ecell
                 foreach (EcellObject model in m_currentProject.ModelList)
                     passList.Add(model);
                 foreach (string storedModelID in m_currentProject.SystemDic.Keys)
-                {
                     passList.AddRange(m_currentProject.SystemDic[storedModelID]);
-                }
 
-                // Loads the simulation parameter.
-                string simulationDirName = null;
-                if (project.Info.ProjectPath != null)
-                    simulationDirName = Path.Combine(project.Info.ProjectPath, Constants.xpathParameters);
-                if (Directory.Exists(simulationDirName))
-                {
-                    parameters = Directory.GetFileSystemEntries(
-                        simulationDirName,
-                        Constants.delimiterWildcard + Constants.FileExtXML);
-                    if (parameters != null && parameters.Length > 0)
-                    {
-                        foreach (string parameter in parameters)
-                        {
-                            string fileName = Path.GetFileName(parameter);
-                            if (fileName.IndexOf(Constants.delimiterUnderbar) != 0)
-                            {
-                                SimulationParameter simParam = LoadSimulationParameter(parameter);
-                                SetSimulationParameter(simParam);
-                            }
-                        }
-                    }
-                }
+                // Load SimulationParameters.
+                LoadSimulationParameters(project);
+                // Send Message.
                 m_env.Console.WriteLine(string.Format(MessageResources.InfoLoadPrj, projectID));
                 m_env.Console.Flush();
                 Trace.WriteLine(string.Format(MessageResources.InfoLoadPrj, projectID));
@@ -441,6 +418,40 @@ namespace Ecell
                     m_env.ActionManager.AddAction(new LoadProjectAction(projectID, project.Info.ProjectFile));
                     m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Loads the simulation parameters.
+        /// </summary>
+        /// <param name="project"></param>
+        private void LoadSimulationParameters(Project project)
+        {
+            // Check directory.
+            string simulationDirName = null;
+            if (project.Info.ProjectPath != null)
+                simulationDirName = Path.Combine(project.Info.ProjectPath, Constants.xpathParameters);
+            if (!Directory.Exists(simulationDirName))
+                return;
+
+            // Get Parameter files.
+            string[] parameters = Directory.GetFileSystemEntries(
+                simulationDirName,
+                Constants.delimiterWildcard + Constants.FileExtXML);
+            if (parameters == null || parameters.Length <= 0)
+                return;
+
+            // Load parameters.
+            foreach (string parameter in parameters)
+            {
+                // Check filename.
+                string fileName = Path.GetFileName(parameter);
+                if (fileName.IndexOf(Constants.delimiterUnderbar) == 0)
+                    continue;
+                // Load parameter.
+                SimulationParameter simParam = LoadSimulationParameter(parameter);
+                // Set parameter.
+                SetSimulationParameter(simParam);
             }
         }
 
@@ -877,8 +888,8 @@ namespace Ecell
                     Trace.WriteLine(msg);
                     m_env.Console.WriteLine(msg);
                     m_env.Console.Flush();
-                    this.m_currentProject.Close();
                     this.m_currentProject.Simulator.Dispose();
+                    this.m_currentProject.Close();
                     this.m_currentProject = null;
                 }
 

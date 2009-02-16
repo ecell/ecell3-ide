@@ -370,15 +370,7 @@ namespace Ecell.Job
         /// </summary>
         public void ClearQueuedJobs()
         {
-            List<int> delList = new List<int>();
-            foreach (int job in m_sessionList.Keys)
-            {
-                if (m_sessionList[job].Status == JobStatus.QUEUED)
-                    delList.Add(job);
-            }
-
-            foreach (int job in delList)
-                RemoveJob(job);            
+            ClearJobsWithStatus(JobStatus.QUEUED);
         }
 
         /// <summary>
@@ -386,15 +378,7 @@ namespace Ecell.Job
         /// </summary>
         public void ClearRunningJobs()
         {
-            List<int> delList = new List<int>();
-            foreach (int job in m_sessionList.Keys)
-            {
-                if (m_sessionList[job].Status == JobStatus.RUNNING)
-                    delList.Add(job);
-            }
-
-            foreach (int job in delList)
-                RemoveJob(job);
+            ClearJobsWithStatus(JobStatus.RUNNING);
         }
 
         /// <summary>
@@ -402,15 +386,7 @@ namespace Ecell.Job
         /// </summary>
         public void ClearErrorJobs()
         {
-            List<int> delList = new List<int>();
-            foreach (int job in m_sessionList.Keys)
-            {
-                if (m_sessionList[job].Status == JobStatus.ERROR)
-                    delList.Add(job);
-            }
-
-            foreach (int job in delList)
-                RemoveJob(job);
+            ClearJobsWithStatus(JobStatus.ERROR);
         }
 
         /// <summary>
@@ -418,10 +394,19 @@ namespace Ecell.Job
         /// </summary>
         public void ClearFinishedJobs()
         {
+            ClearJobsWithStatus(JobStatus.FINISHED);
+        }
+
+        /// <summary>
+        /// Delete jobs with JobStatus.
+        /// </summary>
+        /// <param name="status"></param>
+        private void ClearJobsWithStatus(JobStatus status)
+        {
             List<int> delList = new List<int>();
             foreach (int job in m_sessionList.Keys)
             {
-                if (m_sessionList[job].Status == JobStatus.FINISHED)
+                if (m_sessionList[job].Status == status)
                     delList.Add(job);
             }
 
@@ -442,7 +427,8 @@ namespace Ecell.Job
                     m_sessionList[job].Update();
                 }
             }
-            if (m_proxy != null) m_proxy.Update();
+            if (m_proxy != null)
+                m_proxy.Update();
         }
 
         /// <summary>
@@ -451,14 +437,7 @@ namespace Ecell.Job
         /// <returns>List of SessionProxy.</returns>
         public List<Job> GetQueuedJobList()
         {
-            List<Job> tmpList = new List<Job>();
-
-            foreach (int job in m_sessionList.Keys)
-            {
-                if (m_sessionList[job].Status == JobStatus.QUEUED)
-                    tmpList.Add(m_sessionList[job]);
-            }
-            return tmpList;
+            return GetJobListWithStatus(JobStatus.QUEUED);
         }
 
         /// <summary>
@@ -467,14 +446,7 @@ namespace Ecell.Job
         /// <returns>List of SessionProxy.</returns>
         public List<Job> GetRunningJobList()
         {
-            List<Job> tmpList = new List<Job>();
-
-            foreach (int job in m_sessionList.Keys)
-            {
-                if (m_sessionList[job].Status == JobStatus.RUNNING)
-                    tmpList.Add(m_sessionList[job]);
-            }
-            return tmpList;
+            return GetJobListWithStatus(JobStatus.RUNNING);
         }
 
         /// <summary>
@@ -483,15 +455,7 @@ namespace Ecell.Job
         /// <returns>List of SessionProxy.</returns>
         public List<Job> GetErrorJobList()
         {
-            List<Job> tmpList = new List<Job>();
-
-            foreach (int job in m_sessionList.Keys)
-            {
-                if (m_sessionList[job].Status == JobStatus.ERROR)
-                    tmpList.Add(m_sessionList[job]);
-            }
-            return tmpList;
-
+            return GetJobListWithStatus(JobStatus.ERROR);
         }
 
         /// <summary>
@@ -500,15 +464,23 @@ namespace Ecell.Job
         /// <returns>List of SessionProxy.</returns>
         public List<Job> GetFinishedJobList()
         {
-            List<Job> tmpList = new List<Job>();
+            return GetJobListWithStatus(JobStatus.FINISHED);
+        }
 
+        /// <summary>
+        /// Get the list of jobs with JobStatus.
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        private List<Job> GetJobListWithStatus(JobStatus status)
+        {
+            List<Job> tmpList = new List<Job>();
             foreach (int job in m_sessionList.Keys)
             {
-                if (m_sessionList[job].Status == JobStatus.FINISHED)
+                if (m_sessionList[job].Status == status)
                     tmpList.Add(m_sessionList[job]);
             }
             return tmpList;
-
         }
 
         /// <summary>
