@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Ecell.Exceptions;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {
@@ -37,7 +38,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
     /// This exception will be thrown when an object with the key which has already existed
     ///  is going to be add to the model.
     /// </summary>
-    public class DuplicateKeyException : Exception
+    public class DuplicateKeyException : EcellException
     {
         /// <summary>
         /// Constructor

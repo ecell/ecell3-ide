@@ -42,7 +42,7 @@ namespace Ecell.SBML
     /// TestTemplate
     /// </summary>
     [TestFixture()]
-    public class TestEml2Sbml
+    public class TestSBML2EML
     {
         private SBML2EML _unitUnderTest;
         /// <summary>

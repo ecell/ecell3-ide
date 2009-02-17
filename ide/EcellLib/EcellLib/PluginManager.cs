@@ -183,7 +183,13 @@ namespace Ecell
         /// </summary>
         public IEnumerable<IEcellPlugin> Plugins
         {
-            get { return m_pluginList.Values; }
+            get
+            {
+                List<IEcellPlugin> list = new List<IEcellPlugin>();
+                foreach (IEcellPlugin plugin in m_pluginList.Values)
+                    list.Add(plugin);
+                return list;
+            }
         }
 
         public IEnumerable<IRasterizable> Rasterizables
@@ -208,7 +214,6 @@ namespace Ecell
         public ImageList NodeImageList
         {
             get { return m_imageList; }
-            set { this.m_imageList = value; }
         }
 
         /// <summary>
@@ -658,6 +663,7 @@ namespace Ecell
             }
             catch (Exception e)
             {
+                Trace.WriteLine(e.StackTrace);
                 m_env.LogManager.Append(
                     new ApplicationLogEntry(
                         MessageType.Error,
@@ -752,7 +758,8 @@ namespace Ecell
         {
             foreach (IEcellPlugin p in m_pluginList.Values)
             {
-                if (p.GetPluginName().Equals(name))
+                string pname = p.GetPluginName();
+                if (pname.Equals(name))
                     return p;
             }
             return null;
@@ -882,7 +889,7 @@ namespace Ecell
         /// <summary>
         /// get/set m_modelID.
         /// </summary>
-        public string M_modelID
+        public string ModelID
         {
             get { return this.m_modelID; }
             set { this.m_modelID = value; }
@@ -891,7 +898,7 @@ namespace Ecell
         /// <summary>
         /// get/set m_key.
         /// </summary>
-        public string M_key
+        public string Key
         {
             get { return this.m_key; }
             set { this.m_key = value; }

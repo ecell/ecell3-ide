@@ -8,7 +8,7 @@ using System.Collections;
 
 namespace Ecell
 {
-    internal class EcellXmlReaderException: EcellException
+    public class EcellXmlReaderException : EcellException
     {
         public EcellXmlReaderException(string msg)
             : base(msg)
@@ -21,7 +21,7 @@ namespace Ecell
         }
     }
 
-    internal class EcellXmlWriter
+    public class EcellXmlWriter
     {
         protected XmlTextWriter m_tx;
 
@@ -29,8 +29,7 @@ namespace Ecell
         /// Creates the "value" elements.
         /// </summary>
         /// <param name="ecellValue">The "EcellValue"</param>
-        /// <param name="isElement">The flag whether the "Value" element add</param>
-        protected void WriteValueElements(EcellValue ecellValue, bool isElement)
+        protected void WriteValueElements(EcellValue ecellValue)
         {
             Debug.Assert(ecellValue != null);
 
@@ -67,19 +66,7 @@ namespace Ecell
             }
             else if (ecellValue.IsList)
             {
-                foreach (object edge in (IEnumerable)ecellValue.Value)
-                {
-                    m_tx.WriteStartElement(Constants.xpathValue.ToLower());
-                    foreach (object value in (IEnumerable)edge)
-                    {
-                        //this.WriteValueElements(childEcellValue, true);
-                        m_tx.WriteElementString(
-                            Constants.xpathValue.ToLower(),
-                            null,
-                            value.ToString());
-                    }
-                    m_tx.WriteEndElement();
-                }
+                WriteValueList((List<object>)ecellValue.Value);
             }
             else
             {
@@ -90,13 +77,33 @@ namespace Ecell
             }
         }
 
+        private void WriteValueList(List<object> list)
+        {
+            foreach (object obj in list)
+            {
+                if (obj is List<object>)
+                {
+                    m_tx.WriteStartElement(Constants.xpathValue.ToLower());
+                    WriteValueList((List<object>)obj);
+                    m_tx.WriteEndElement();
+                }
+                else
+                {
+                    m_tx.WriteElementString(
+                        Constants.xpathValue.ToLower(),
+                        null,
+                        obj.ToString());
+                }
+            }
+        }
+
         public EcellXmlWriter(XmlTextWriter tx)
         {
             m_tx = tx;
         }
     }
 
-    internal class EcellXmlReader
+    public class EcellXmlReader
     {
         /// <summary>
         /// Tests whether the element is null or empty.
@@ -117,14 +124,14 @@ namespace Ecell
         /// </summary>
         /// <param name="node">The "property" element that is parent element of "value" elements</param>
         /// <returns>The "EcellValue"</returns>
-        protected EcellValue GetValueList(XmlNode node)
+        protected EcellValue ParseEcellValue(XmlNode node)
         {
-            List<EcellValue> ecellValueList = new List<EcellValue>();
+            List<object> valueList = new List<object>();
             foreach (XmlNode childNode in node.ChildNodes)
             {
                 if (!this.IsValidNode(childNode))
                 {
-                    throw new EcellXmlReaderException("Invalid value node found");
+                    throw new EcellXmlReaderException("Invalid value node found :" + node.Name);
                 }
 
                 switch (childNode.NodeType)
@@ -133,21 +140,17 @@ namespace Ecell
                     string value = childNode.Value.Trim();
                     int i;
                     double d;
-                    if (value.Equals(XmlConvert.ToString(Double.PositiveInfinity)))
+                    if (int.TryParse(value, out i))
                     {
-                        ecellValueList.Add(new EcellValue(Double.PositiveInfinity));
-                    }
-                    else if (int.TryParse(value, out i))
-                    {
-                        ecellValueList.Add(new EcellValue(i));
+                        valueList.Add(i);
                     }
                     else if (double.TryParse(value, out d))
                     {
-                        ecellValueList.Add(new EcellValue(d));
+                        valueList.Add(d);
                     }
                     else
                     {
-                        ecellValueList.Add(new EcellValue(value));
+                        valueList.Add(value);
                     }
                     break;
                 case XmlNodeType.Element:
@@ -160,11 +163,14 @@ namespace Ecell
                             )
                         );
                     }
-                    ecellValueList.Add(GetValueList(childNode));
+                    valueList.Add(ParseEcellValue(childNode).Value);
                     break;
                 }
             }
-            return ecellValueList.Count == 1 && !ecellValueList[0].IsList ? ecellValueList[0]: new EcellValue(ecellValueList);
+            if (valueList.Count <= 0)
+                throw new EcellXmlReaderException("Invalid value node found: " + node.Name);
+            object obj = (valueList.Count == 1) && !(valueList[0] is List<object>) ? valueList[0]: valueList;
+            return new EcellValue(obj);
         }
     }
 }

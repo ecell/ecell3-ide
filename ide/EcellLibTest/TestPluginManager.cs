@@ -36,6 +36,7 @@ using Ecell.Objects;
 using Ecell.Logging;
 using System.IO;
 using System.Diagnostics;
+using System.Collections;
 
 namespace Ecell
 {
@@ -46,15 +47,15 @@ namespace Ecell
     public class TestPluginManager
     {
         private static PluginManager _unitUnderTest;
-        private static ApplicationEnvironment m_env;
+        private static ApplicationEnvironment _env;
         /// <summary>
         /// 
         /// </summary>
         [SetUp()]
         public void SetUp()
         {
-            m_env = new ApplicationEnvironment();
-            _unitUnderTest = m_env.PluginManager;
+            _env = new ApplicationEnvironment();
+            _unitUnderTest = _env.PluginManager;
 
             // Load plugins
             foreach (string pluginDir in Util.GetPluginDirs())
@@ -64,7 +65,7 @@ namespace Ecell
                     Constants.delimiterWildcard + Constants.FileExtPlugin);
                 foreach (string fileName in files)
                 {
-                    m_env.PluginManager.LoadPlugin(fileName);
+                    _env.PluginManager.LoadPlugin(fileName);
                 }
             }
         }
@@ -85,6 +86,19 @@ namespace Ecell
         public void TestConstructorPluginManager()
         {
             Assert.IsNotNull(_unitUnderTest, "Constructor of type, PluginManager failed to create instance.");
+
+            _unitUnderTest.AppVersion = new Version();
+            Assert.IsNotNull(_unitUnderTest.AppVersion, "AppVersion is unexpected value.");
+            Assert.IsNotEmpty((List<IEcellPlugin>)_unitUnderTest.Plugins, "Plugins is unexpected value.");
+            Assert.IsNotEmpty((List<IRasterizable>)_unitUnderTest.Rasterizables, "Rasterizables is unexpected value.");
+            Assert.IsNotEmpty((List<IDataHandler>)_unitUnderTest.DataHandlers, "DataHandlers is unexpected value.");
+            Assert.IsNotEmpty((List<ILayoutAlgorithm>)_unitUnderTest.LayoutAlgorithms, "LayoutAlgorithms is unexpected value.");
+            Assert.IsNotEmpty(_unitUnderTest.NodeImageList.Images, "NodeImageList is unexpected value.");
+            Assert.AreEqual(ProjectStatus.Uninitialized, _unitUnderTest.Status, "Status is unexpected value.");
+            Assert.AreEqual(_unitUnderTest.GetPlugin("PathwayWindow"), _unitUnderTest.DiagramEditor, "DiagramEditor is unexpected value.");
+            Assert.AreEqual(_unitUnderTest.GetPlugin("MainWindow"), _unitUnderTest.RootMenuProvider, "RootMenuProvider is unexpected value.");
+            Assert.IsNotNull(_unitUnderTest.DockPanel, "DockPanel is unexpected value.");
+
         }
         /// <summary>
         /// 
@@ -114,7 +128,7 @@ namespace Ecell
         [Test()]
         public void TestSelectChanged()
         {
-            m_env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
             string modelID = "Drosophila";
             string key = "/";
             string type = "System";
@@ -127,7 +141,7 @@ namespace Ecell
         [Test()]
         public void TestAddSelect()
         {
-            m_env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
             string modelID = "Drosophila";
             string key = "/";
             string type = "System";
@@ -140,7 +154,7 @@ namespace Ecell
         [Test()]
         public void TestRemoveSelect()
         {
-            m_env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
             string modelID = "Drosophila";
             string key = "/";
             string type = "System";
@@ -154,7 +168,7 @@ namespace Ecell
         [Test()]
         public void TestResetSelect()
         {
-            m_env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
             string modelID = "Drosophila";
             string key = "/";
             string type = "System";

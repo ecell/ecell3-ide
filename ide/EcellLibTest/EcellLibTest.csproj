@@ -84,7 +84,7 @@
     <Compile Include="Reporting\TestReportingSessionEventArgs.cs" />
     <Compile Include="Reporting\TestReportManager.cs" />
     <Compile Include="Reporting\TestStatusUpdateEventArgs.cs" />
-    <Compile Include="SBML\TestEml2Sbml.cs" />
+    <Compile Include="SBML\TestSBML2EML.cs" />
     <Compile Include="TestActionManager.cs" />
     <Compile Include="TestApplicationEnvironment.cs" />
     <Compile Include="TestConsoleDataAvailableEventArgs.cs" />
@@ -98,6 +98,8 @@
     <Compile Include="Objects\TestEcellValue.cs" />
     <Compile Include="Logging\TestLogEntryEventArgs.cs" />
     <Compile Include="Logging\TestLogManager.cs" />
+    <Compile Include="TestEcellXml.cs" />
+    <Compile Include="TestPluginData.cs" />
     <Compile Include="TestPluginManager.cs" />
     <Compile Include="TestProjectInfo.cs" />
     <Compile Include="TestTemplate.cs" />
@@ -116,6 +118,10 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ECELL_STAGING_HOME)\$(Platform)\$(Configuration)\bin\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup>
     <PostBuildEvent>

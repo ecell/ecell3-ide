@@ -47,7 +47,7 @@ namespace Ecell
     /// <summary>
     /// Exception on treating the "eml" formatted file.
     /// </summary>
-    internal class EmlParseException : EcellXmlReaderException
+    public class EmlParseException : EcellXmlReaderException
     {
         public EmlParseException(string msg)
             : base(msg)
@@ -63,7 +63,7 @@ namespace Ecell
     /// <summary>
     /// Treats the "eml" formatted file.
     /// </summary>
-    internal class EmlWriter: EcellXmlWriter
+    public class EmlWriter : EcellXmlWriter
     {
         /// <summary>
         /// Creates the "Process" or "Variable" elements.
@@ -159,7 +159,7 @@ namespace Ecell
 
                 m_tx.WriteStartElement(Constants.xpathProperty.ToLower());
                 m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, ecellData.Name);
-                WriteValueElements(ecellData.Value, false);
+                WriteValueElements(ecellData.Value);
                 m_tx.WriteEndElement();
             }
         }
@@ -204,7 +204,8 @@ namespace Ecell
         /// 
         /// </summary>
         /// <param name="tx"></param>
-        public EmlWriter(XmlTextWriter tx): base(tx)
+        public EmlWriter(XmlTextWriter tx)
+            : base(tx)
         {
         }
 
@@ -283,7 +284,7 @@ namespace Ecell
     /// <summary>
     ///  Treats the "eml" formatted file.
     /// </summary>
-    internal class EmlReader: EcellXmlReader
+    public class EmlReader : EcellXmlReader
     {
         private XmlDocument m_doc;
 
@@ -361,7 +362,7 @@ namespace Ecell
                 if (!this.IsValidNode(nodePropertyName))
                     continue;
 
-                EcellValue ecellValue = this.GetValueList(nodeProperty);
+                EcellValue ecellValue = this.ParseEcellValue(nodeProperty);
                 if (ecellValue == null)
                     continue;
 
@@ -501,7 +502,7 @@ namespace Ecell
                 {
                     throw new EmlParseException("Invalid property node");
                 }
-                EcellValue ecellValue = this.GetValueList(nodeProperty);
+                EcellValue ecellValue = this.ParseEcellValue(nodeProperty);
                 if (ecellValue != null)
                 {
                     //
@@ -620,7 +621,7 @@ namespace Ecell
                         throw new EmlParseException("Invalid property node found");
                     }
 
-                    EcellValue ecellValue = this.GetValueList(systemProperty);
+                    EcellValue ecellValue = this.ParseEcellValue(systemProperty);
                     if (ecellValue != null)
                     {
                         string entityPath =

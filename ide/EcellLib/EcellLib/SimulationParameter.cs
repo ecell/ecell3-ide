@@ -116,8 +116,7 @@ namespace Ecell
             {
                 m_tx.WriteStartElement(Constants.xpathID.ToLower());
                 m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, key);
-                this.WriteValueElements(
-                    new EcellValue(initialCondition[key]), false);
+                this.WriteValueElements(new EcellValue(initialCondition[key]));
                 m_tx.WriteEndElement();
             }
             m_tx.WriteEndElement();
@@ -145,7 +144,7 @@ namespace Ecell
                         continue;
                     m_tx.WriteStartElement(Constants.xpathProperty.ToLower());
                     m_tx.WriteAttributeString(Constants.xpathName.ToLower(), null, ecellData.Name);
-                    WriteValueElements(ecellData.Value, false);
+                    WriteValueElements(ecellData.Value);
                     m_tx.WriteEndElement();
                 }
             }
@@ -446,7 +445,7 @@ namespace Ecell
                 {
                     continue;
                 }
-                EcellValue ecellValue = this.GetValueList(stepperProperty);
+                EcellValue ecellValue = this.ParseEcellValue(stepperProperty);
                 if (ecellValue != null)
                 {
                     //
