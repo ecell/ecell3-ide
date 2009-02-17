@@ -157,7 +157,13 @@ namespace Ecell
         /// </summary>
         public DockPanel DockPanel
         {
-            get { return this.m_dockOwner.DockPanel; }
+            get
+            {
+                DockPanel panel = null;
+                if(this.m_dockOwner != null)
+                    panel = this.m_dockOwner.DockPanel;
+                return panel;
+            }
         }
 
         public IRootMenuProvider RootMenuProvider
@@ -225,26 +231,6 @@ namespace Ecell
         }
 
         /// <summary>
-        /// set data that the plugin focus on.
-        /// </summary>
-        /// <param name="modelID">the model ID of data that plugin focus on.</param>
-        /// <param name="key">the key ID of data that plugin focus on.</param>
-        /// <param name="pbase">the plugin that focus on data.</param>
-        public void FocusDataChanged(string modelID, string key, IEcellPlugin pbase)
-        {
-            PluginData ent = new PluginData(modelID, key);
-            if (m_pluginDic.ContainsKey(ent))
-            {
-                List<IEcellPlugin> pList = m_pluginDic[ent];
-                if (!pList.Contains(pbase))
-                {
-                    pList.Add(pbase);
-                    m_pluginDic[ent] = pList;
-                }
-            }
-        }
-
-        /// <summary>
         ///  clear focus list that the plugin focus on.
         /// </summary>
         public void FocusClear()
@@ -258,13 +244,7 @@ namespace Ecell
         /// <param name="obj">selected object</param>
         public void SelectChanged(EcellObject obj)
         {
-            foreach (IDataHandler p in m_dataHandlerList)
-            {
-                p.SelectChanged(obj.ModelID, obj.Key, obj.Type);
-            }
-            m_env.ReportManager.SetStatus(
-                StatusBarMessageKind.Generic,
-                obj.Key);
+            SelectChanged(obj.ModelID, obj.Key, obj.Type);
         }
 
         /// <summary>
@@ -463,21 +443,6 @@ namespace Ecell
             {
                 p.RemoveParameterData(data);
             }
-        }
-
-        /// <summary>
-        /// trans the load data to loading all plugin.
-        /// </summary>
-        /// <param name="modelID"></param>
-        public void LoadData(string modelID)
-        {
-            DataAdd(m_env.DataManager.CurrentProject.SystemDic[modelID]);
-            string prjID = m_env.DataManager.CurrentProjectID;
-            foreach (string paramID in m_env.DataManager.GetSimulationParameterIDs())
-            {
-                this.ParameterAdd(prjID, paramID);
-            }
-            this.ParameterSet(m_env.DataManager.CurrentProjectID, m_env.DataManager.GetCurrentSimulationParameterID());
         }
 
         /// <summary>

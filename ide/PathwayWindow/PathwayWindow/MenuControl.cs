@@ -239,7 +239,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolStripBidirArrow = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripConstant = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDeleteArrow = new System.Windows.Forms.ToolStripMenuItem();
-            this.commonMenu = new Ecell.IDE.CommonContextMenu(this.components);
+            this.commonMenu = new Ecell.IDE.CommonContextMenu();
             this.toolStripCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripPaste = new System.Windows.Forms.ToolStripMenuItem();

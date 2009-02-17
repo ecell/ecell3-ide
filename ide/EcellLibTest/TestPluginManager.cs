@@ -96,22 +96,11 @@ namespace Ecell
             Assert.IsNotEmpty(_unitUnderTest.NodeImageList.Images, "NodeImageList is unexpected value.");
             Assert.AreEqual(ProjectStatus.Uninitialized, _unitUnderTest.Status, "Status is unexpected value.");
             Assert.AreEqual(_unitUnderTest.GetPlugin("PathwayWindow"), _unitUnderTest.DiagramEditor, "DiagramEditor is unexpected value.");
-            Assert.AreEqual(_unitUnderTest.GetPlugin("MainWindow"), _unitUnderTest.RootMenuProvider, "RootMenuProvider is unexpected value.");
-            Assert.IsNotNull(_unitUnderTest.DockPanel, "DockPanel is unexpected value.");
+            Assert.AreEqual(null, _unitUnderTest.RootMenuProvider, "RootMenuProvider is unexpected value.");
+            Assert.IsNull(_unitUnderTest.DockPanel, "DockPanel is unexpected value.");
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestFocusDataChanged()
-        {
-            string modelID = null;
-            string key = null;
-            IEcellPlugin pbase = null;
-            _unitUnderTest.FocusDataChanged(modelID, key, pbase);
 
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -133,6 +122,10 @@ namespace Ecell
             string key = "/";
             string type = "System";
             _unitUnderTest.SelectChanged(modelID, key, type);
+
+            EcellObject sys = _env.DataManager.GetEcellObject(modelID, key, type);
+            _unitUnderTest.SelectChanged(sys);
+
         }
 
         /// <summary>
@@ -182,11 +175,13 @@ namespace Ecell
         [Test()]
         public void TestDataChanged()
         {
-            string modelID = null;
-            string key = null;
-            string type = null;
-            EcellObject data = null;
-            _unitUnderTest.DataChanged(modelID, key, type, data);
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            string modelID = "Drosophila";
+            string key = "/";
+            string type = "System";
+
+            EcellObject sys = _env.DataManager.GetEcellObject(modelID, key, type);
+            _unitUnderTest.DataChanged(modelID, key, type, sys);
 
         }
         /// <summary>
@@ -195,9 +190,13 @@ namespace Ecell
         [Test()]
         public void TestDataAdd()
         {
-            List<EcellObject> data = null;
-            _unitUnderTest.DataAdd(data);
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            string modelID = "Drosophila";
+            string key = "/";
+            string type = "System";
 
+            EcellObject sys = _env.DataManager.CreateDefaultObject(modelID, key, type);
+            _env.DataManager.DataAdd(sys);
         }
         /// <summary>
         /// 
@@ -205,9 +204,11 @@ namespace Ecell
         [Test()]
         public void TestDataDelete()
         {
-            string modelID = null;
-            string key = null;
-            string type = null;
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            string modelID = "Drosophila";
+            string key = "/CELL";
+            string type = "System";
+
             _unitUnderTest.DataDelete(modelID, key, type);
 
         }
@@ -217,9 +218,10 @@ namespace Ecell
         [Test()]
         public void TestParameterAdd()
         {
-            string projectID = null;
-            string paramID = null;
-            _unitUnderTest.ParameterAdd(projectID, paramID);
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            string modelID = "Drosophila";
+
+            _unitUnderTest.ParameterAdd(modelID, modelID);
 
         }
         /// <summary>
@@ -228,19 +230,12 @@ namespace Ecell
         [Test()]
         public void TestParameterDelete()
         {
-            string projectID = null;
-            string paramID = null;
-            _unitUnderTest.ParameterDelete(projectID, paramID);
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestLoadData()
-        {
-            string modelID = null;
-            _unitUnderTest.LoadData(modelID);
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            string modelID = "Drosophila";
+            string paramID = "newParam";
+            _unitUnderTest.ParameterAdd(modelID, paramID);
+            _unitUnderTest.ParameterUpdate(modelID, paramID);
+            _unitUnderTest.ParameterDelete(modelID, paramID);
 
         }
 
@@ -259,10 +254,12 @@ namespace Ecell
         [Test()]
         public void TestLoggerAdd()
         {
-            string modelID = null;
-            string type = null;
-            string key = null;
-            string path = null;
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            string modelID = "Drosophila";
+            string key = "/CELL:SIZE";
+            string type = "Variable";
+            string path = "Variable:/CELL:SIZE:Value";
+
             _unitUnderTest.LoggerAdd(modelID, key, type, path);
 
         }
@@ -294,11 +291,58 @@ namespace Ecell
         public void TestGetImageIndex()
         {
             string type = null;
-            int expectedInt32 = 0;
+            int expectedInt32 = -1;
             int resultInt32 = 0;
             resultInt32 = _unitUnderTest.GetImageIndex(type);
             Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
 
+            type = "Project";
+            expectedInt32 = 0;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(type);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            type = "Model";
+            expectedInt32 = 1;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(type);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            type = "System";
+            expectedInt32 = 5;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(type);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            type = "Process";
+            expectedInt32 = 6;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(type);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            type = "Variable";
+            expectedInt32 = 7;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(type);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            type = "dm";
+            expectedInt32 = 2;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(type);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            type = "Parameters";
+            expectedInt32 = 3;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(type);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
+
+            type = "Log";
+            expectedInt32 = 4;
+            resultInt32 = 0;
+            resultInt32 = _unitUnderTest.GetImageIndex(type);
+            Assert.AreEqual(expectedInt32, resultInt32, "GetImageIndex method returned unexpected result.");
         }
         /// <summary>
         /// 
@@ -306,7 +350,7 @@ namespace Ecell
         [Test()]
         public void TestUnloadPlugin()
         {
-            IEcellPlugin p = null;
+            IEcellPlugin p = _unitUnderTest.GetPlugin("Analysis");
             _unitUnderTest.UnloadPlugin(p);
 
         }
@@ -341,10 +385,32 @@ namespace Ecell
         {
             IEcellPlugin resultPluginBase = null;
 
+            resultPluginBase = _unitUnderTest.GetPlugin("AlignLayout");
+            Assert.IsNotNull(resultPluginBase, "GetPlugin method returned unexpected result.");
+            Assert.AreNotEqual(0, resultPluginBase.GetHashCode(), "GetHashCode method returned unexpected result.");
+            Assert.AreEqual("AlignLayout", resultPluginBase.GetPluginName(), "GetPluginName method returned unexpected result.");
+            Assert.AreNotEqual(null, resultPluginBase.Environment, "Environment is unexpected result.");
+            Assert.AreNotEqual("", resultPluginBase.GetVersionString(), "GetVersionString method returned unexpected result.");
+            Assert.AreNotEqual("", resultPluginBase.ToString(), "ToString method returned unexpected result.");
+            Assert.AreEqual(null, resultPluginBase.GetPublicDelegate(), "GetPublicDelegate method returned unexpected result.");
+            resultPluginBase.Initialize();
+            resultPluginBase.ChangeStatus(ProjectStatus.Uninitialized);
+
             resultPluginBase = _unitUnderTest.GetPlugin("Analysis");
             Assert.IsNotNull(resultPluginBase, "GetPlugin method returned unexpected result.");
             Assert.AreNotEqual(0, resultPluginBase.GetHashCode(), "GetHashCode method returned unexpected result.");
             Assert.AreEqual("Analysis", resultPluginBase.GetPluginName(), "GetPluginName method returned unexpected result.");
+            Assert.AreNotEqual(null, resultPluginBase.Environment, "Environment is unexpected result.");
+            Assert.AreNotEqual("", resultPluginBase.GetVersionString(), "GetVersionString method returned unexpected result.");
+            Assert.AreNotEqual("", resultPluginBase.ToString(), "ToString method returned unexpected result.");
+            Assert.AreEqual(null, resultPluginBase.GetPublicDelegate(), "GetPublicDelegate method returned unexpected result.");
+            resultPluginBase.Initialize();
+            resultPluginBase.ChangeStatus(ProjectStatus.Uninitialized);
+
+            resultPluginBase = _unitUnderTest.GetPlugin("CircularLayout");
+            Assert.IsNotNull(resultPluginBase, "GetPlugin method returned unexpected result.");
+            Assert.AreNotEqual(0, resultPluginBase.GetHashCode(), "GetHashCode method returned unexpected result.");
+            Assert.AreEqual("CircularLayout", resultPluginBase.GetPluginName(), "GetPluginName method returned unexpected result.");
             Assert.AreNotEqual(null, resultPluginBase.Environment, "Environment is unexpected result.");
             Assert.AreNotEqual("", resultPluginBase.GetVersionString(), "GetVersionString method returned unexpected result.");
             Assert.AreNotEqual("", resultPluginBase.ToString(), "ToString method returned unexpected result.");
@@ -363,10 +429,32 @@ namespace Ecell
             resultPluginBase.Initialize();
             resultPluginBase.ChangeStatus(ProjectStatus.Uninitialized);
 
+            resultPluginBase = _unitUnderTest.GetPlugin("DistributeLayout");
+            Assert.IsNotNull(resultPluginBase, "GetPlugin method returned unexpected result.");
+            Assert.AreNotEqual(0, resultPluginBase.GetHashCode(), "GetHashCode method returned unexpected result.");
+            Assert.AreEqual("DistributeLayout", resultPluginBase.GetPluginName(), "GetPluginName method returned unexpected result.");
+            Assert.AreNotEqual(null, resultPluginBase.Environment, "Environment is unexpected result.");
+            Assert.AreNotEqual("", resultPluginBase.GetVersionString(), "GetVersionString method returned unexpected result.");
+            Assert.AreNotEqual("", resultPluginBase.ToString(), "ToString method returned unexpected result.");
+            Assert.AreEqual(null, resultPluginBase.GetPublicDelegate(), "GetPublicDelegate method returned unexpected result.");
+            resultPluginBase.Initialize();
+            resultPluginBase.ChangeStatus(ProjectStatus.Uninitialized);
+
             resultPluginBase = _unitUnderTest.GetPlugin("EntityList");
             Assert.IsNotNull(resultPluginBase, "GetPlugin method returned unexpected result.");
             Assert.AreNotEqual(0, resultPluginBase.GetHashCode(), "GetHashCode method returned unexpected result.");
             Assert.AreEqual("EntityList", resultPluginBase.GetPluginName(), "GetPluginName method returned unexpected result.");
+            Assert.AreNotEqual(null, resultPluginBase.Environment, "Environment is unexpected result.");
+            Assert.AreNotEqual("", resultPluginBase.GetVersionString(), "GetVersionString method returned unexpected result.");
+            Assert.AreNotEqual("", resultPluginBase.ToString(), "ToString method returned unexpected result.");
+            Assert.AreEqual(null, resultPluginBase.GetPublicDelegate(), "GetPublicDelegate method returned unexpected result.");
+            resultPluginBase.Initialize();
+            resultPluginBase.ChangeStatus(ProjectStatus.Uninitialized);
+
+            resultPluginBase = _unitUnderTest.GetPlugin("GridLayout");
+            Assert.IsNotNull(resultPluginBase, "GetPlugin method returned unexpected result.");
+            Assert.AreNotEqual(0, resultPluginBase.GetHashCode(), "GetHashCode method returned unexpected result.");
+            Assert.AreEqual("GridLayout", resultPluginBase.GetPluginName(), "GetPluginName method returned unexpected result.");
             Assert.AreNotEqual(null, resultPluginBase.Environment, "Environment is unexpected result.");
             Assert.AreNotEqual("", resultPluginBase.GetVersionString(), "GetVersionString method returned unexpected result.");
             Assert.AreNotEqual("", resultPluginBase.ToString(), "ToString method returned unexpected result.");
@@ -389,6 +477,17 @@ namespace Ecell
             Assert.IsNotNull(resultPluginBase, "GetPlugin method returned unexpected result.");
             Assert.AreNotEqual(0, resultPluginBase.GetHashCode(), "GetHashCode method returned unexpected result.");
             Assert.AreEqual("PathwayWindow", resultPluginBase.GetPluginName(), "GetPluginName method returned unexpected result.");
+            Assert.AreNotEqual(null, resultPluginBase.Environment, "Environment is unexpected result.");
+            Assert.AreNotEqual("", resultPluginBase.GetVersionString(), "GetVersionString method returned unexpected result.");
+            Assert.AreNotEqual("", resultPluginBase.ToString(), "ToString method returned unexpected result.");
+            Assert.AreEqual(null, resultPluginBase.GetPublicDelegate(), "GetPublicDelegate method returned unexpected result.");
+            resultPluginBase.Initialize();
+            resultPluginBase.ChangeStatus(ProjectStatus.Uninitialized);
+
+            resultPluginBase = _unitUnderTest.GetPlugin("Plotter");
+            Assert.IsNotNull(resultPluginBase, "GetPlugin method returned unexpected result.");
+            Assert.AreNotEqual(0, resultPluginBase.GetHashCode(), "GetHashCode method returned unexpected result.");
+            Assert.AreEqual("Plotter", resultPluginBase.GetPluginName(), "GetPluginName method returned unexpected result.");
             Assert.AreNotEqual(null, resultPluginBase.Environment, "Environment is unexpected result.");
             Assert.AreNotEqual("", resultPluginBase.GetVersionString(), "GetVersionString method returned unexpected result.");
             Assert.AreNotEqual("", resultPluginBase.ToString(), "ToString method returned unexpected result.");
@@ -451,10 +550,10 @@ namespace Ecell
             resultPluginBase.Initialize();
             resultPluginBase.ChangeStatus(ProjectStatus.Uninitialized);
 
-            resultPluginBase = _unitUnderTest.GetPlugin("Tracer");
+            resultPluginBase = _unitUnderTest.GetPlugin("StaticDebugWindow");
             Assert.IsNotNull(resultPluginBase, "GetPlugin method returned unexpected result.");
             Assert.AreNotEqual(0, resultPluginBase.GetHashCode(), "GetHashCode method returned unexpected result.");
-            Assert.AreEqual("Tracer", resultPluginBase.GetPluginName(), "GetPluginName method returned unexpected result.");
+            Assert.AreEqual("StaticDebugWindow", resultPluginBase.GetPluginName(), "GetPluginName method returned unexpected result.");
             Assert.AreNotEqual(null, resultPluginBase.Environment, "Environment is unexpected result.");
             Assert.AreNotEqual("", resultPluginBase.GetVersionString(), "GetVersionString method returned unexpected result.");
             Assert.AreNotEqual("", resultPluginBase.ToString(), "ToString method returned unexpected result.");
@@ -462,6 +561,19 @@ namespace Ecell
             resultPluginBase.Initialize();
             resultPluginBase.ChangeStatus(ProjectStatus.Uninitialized);
 
+            resultPluginBase = _unitUnderTest.GetPlugin("TracerWindow");
+            Assert.IsNotNull(resultPluginBase, "GetPlugin method returned unexpected result.");
+            Assert.AreNotEqual(0, resultPluginBase.GetHashCode(), "GetHashCode method returned unexpected result.");
+            Assert.AreEqual("TracerWindow", resultPluginBase.GetPluginName(), "GetPluginName method returned unexpected result.");
+            Assert.AreNotEqual(null, resultPluginBase.Environment, "Environment is unexpected result.");
+            Assert.AreNotEqual("", resultPluginBase.GetVersionString(), "GetVersionString method returned unexpected result.");
+            Assert.AreNotEqual("", resultPluginBase.ToString(), "ToString method returned unexpected result.");
+            Assert.AreNotEqual(null, resultPluginBase.GetPublicDelegate(), "GetPublicDelegate method returned unexpected result.");
+            resultPluginBase.Initialize();
+            resultPluginBase.ChangeStatus(ProjectStatus.Uninitialized);
+
+            resultPluginBase = _unitUnderTest.GetPlugin("Hoge");
+            Assert.IsNull(resultPluginBase, "GetPlugin method returned unexpected result.");
         }
         /// <summary>
         /// 
@@ -469,9 +581,25 @@ namespace Ecell
         [Test()]
         public void TestGetPluginVersionList()
         {
-            Dictionary<System.String, System.String> expectedDictionary = null;
-            Dictionary<System.String, System.String> resultDictionary = _unitUnderTest.GetPluginVersionList();
-            Assert.AreEqual(expectedDictionary, resultDictionary, "GetPluginVersionList method returned unexpected result.");
+            Dictionary<string, string> resultDictionary = _unitUnderTest.GetPluginVersionList();
+            Assert.IsNotEmpty(resultDictionary, "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["AlignLayout"], "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["Analysis"], "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["CircularLayout"], "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["Console"], "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["DistributeLayout"], "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["EntityList"], "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["GridLayout"], "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["MessageListWindow"], "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["PathwayWindow"], "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["Plotter"], "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["ProjectExplorer"], "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["PropertyWindow"], "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["ScriptWindow"], "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["Simulation"], "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["Spreadsheet"], "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["StaticDebugWindow"], "GetPluginVersionList method returned unexpected result.");
+            Assert.IsNotEmpty(resultDictionary["TracerWindow"], "GetPluginVersionList method returned unexpected result.");
 
         }
         /// <summary>
@@ -482,6 +610,76 @@ namespace Ecell
         {
             EcellObject data = null;
             _unitUnderTest.SetPosition(data);
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestObservedData()
+        {
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            string path = "System:/CELL:SIZE:Value";
+
+            EcellObservedData data = new EcellObservedData(path, 0.1);
+            _unitUnderTest.SetObservedData(data);
+            _unitUnderTest.RemoveObservedData(data);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestParameterData()
+        {
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            string path = "System:/CELL:SIZE:Value";
+
+            EcellParameterData data = new EcellParameterData(path, 0.1);
+            _unitUnderTest.SetParameterData(data);
+            _unitUnderTest.RemoveParameterData(data);
+        }
+
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestEventHandler()
+        {
+            _unitUnderTest.Refresh += new EventHandler(_unitUnderTest_Refresh);
+            _unitUnderTest.Refresh -= _unitUnderTest_Refresh;
+
+            _unitUnderTest.NodeImageListChange += new EventHandler(_unitUnderTest_NodeImageListChange);
+            _unitUnderTest.NodeImageListChange -= _unitUnderTest_NodeImageListChange;
+        }
+
+        void _unitUnderTest_NodeImageListChange(object sender, EventArgs e)
+        {
+        }
+
+        void _unitUnderTest_Refresh(object sender, EventArgs e)
+        {
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestGetDelegate()
+        {
+            string name = "";
+            Delegate method = _unitUnderTest.GetDelegate(name);
+            Assert.IsNull(method);
+
+            name = "SaveSimulationResult";
+            method = _unitUnderTest.GetDelegate(name);
+            Assert.IsNotNull(method);
+
+            name = "ShowGraphWithLog";
+            method = _unitUnderTest.GetDelegate(name);
+            Assert.IsNotNull(method);
 
         }
     }

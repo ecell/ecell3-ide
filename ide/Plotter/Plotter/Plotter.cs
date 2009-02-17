@@ -54,6 +54,29 @@ namespace Ecell.IDE.Plugins.Plotter
         ToolStripMenuItem m_plotWin;
         #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public Plotter()
+        {
+            InitializeComponent();
+
+        }
+        /// <summary>
+        /// InitializeComponent
+        /// </summary>
+        private void InitializeComponent()
+        {
+            m_plotWin = new ToolStripMenuItem();
+            m_plotWin.Text = MessageResources.MenuItemShowPlotText;
+            m_plotWin.Name = "MenuItemShowPlot";
+            m_plotWin.Size = new Size(96, 22);
+            m_plotWin.Enabled = false;
+            m_plotWin.Click += new EventHandler(this.ShowPlotWindow);
+        }
+        #endregion
+
         #region Inherited from PluginBase
         /// <summary>
         /// Get menustrips for TracerWindow.
@@ -63,12 +86,6 @@ namespace Ecell.IDE.Plugins.Plotter
         {
             List<ToolStripMenuItem> tmp = new List<ToolStripMenuItem>();
 
-            m_plotWin = new ToolStripMenuItem();
-            m_plotWin.Text = MessageResources.MenuItemShowPlotText;
-            m_plotWin.Name = "MenuItemShowPlot";
-            m_plotWin.Size = new Size(96, 22);
-            m_plotWin.Enabled = false;
-            m_plotWin.Click += new EventHandler(this.ShowPlotWindow);
 
             ToolStripMenuItem view = new ToolStripMenuItem();
             view.DropDownItems.AddRange(new ToolStripItem[] {
