@@ -122,19 +122,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        private AviManager m_aviManager = null;
-        /// <summary>
-        /// 
-        /// </summary>
-        private VideoStream m_stream = null;
-        /// <summary>
-        /// 
-        /// </summary>
         private bool m_isRecordMovie = false;
         /// <summary>
         /// Movie File
         /// </summary>
         private string m_movieFile = "ecell.avi";
+        /// <summary>
+        /// 
+        /// </summary>
+        private AviManager m_aviManager = null;
+        /// <summary>
+        /// 
+        /// </summary>
+        private VideoStream m_stream = null;
         #endregion
 
         #region Object Fields
@@ -644,13 +644,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 xmlOut.WriteStartDocument();
 
                 // Always begin file with identification and warning
-                xmlOut.WriteComment(PathwayConstants.xPathFileHeader1);
-                xmlOut.WriteComment(PathwayConstants.xPathFileHeader2);
+                xmlOut.WriteComment(AnimationConstants.xPathFileHeader1);
+                xmlOut.WriteComment(AnimationConstants.xPathFileHeader2);
 
                 xmlOut.WriteStartElement(AnimationConstants.xPathAnimationSettings);
                 // Application settings.
-                xmlOut.WriteAttributeString(PathwayConstants.xPathName, Application.ProductName);
-                xmlOut.WriteAttributeString(PathwayConstants.xPathFileVersion, AnimationConstants.xPathVersion);
+                xmlOut.WriteAttributeString(AnimationConstants.xPathName, Application.ProductName);
+                xmlOut.WriteAttributeString(AnimationConstants.xPathFileVersion, AnimationConstants.xPathVersion);
                 // Save settings.
                 xmlOut.WriteElementString(AnimationConstants.xPathEditBGBrush, BrushManager.ParseBrushToString(m_editBGBrush));
                 xmlOut.WriteElementString(AnimationConstants.xPathEditEdgeBrush, BrushManager.ParseBrushToString(m_editEdgeBrush));

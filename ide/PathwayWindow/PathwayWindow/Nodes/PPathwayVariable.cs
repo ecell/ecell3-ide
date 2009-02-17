@@ -50,12 +50,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
     /// </summary>
     public class PPathwayVariable : PPathwayNode
     {
-        #region Static readonly
+        #region Field.
         /// <summary>
-        /// Edges will be refreshed every time when this process has moved by this distance.
+        /// Aliase
         /// </summary>
-        protected const float m_refreshDistance = 4;
-
         private List<PPathwayAlias> m_aliases = new List<PPathwayAlias>();
         #endregion
 
@@ -100,6 +98,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public PPathwayVariable()
         {
         }
+
         /// <summary>
         /// create new PPathwayVariable.
         /// </summary>

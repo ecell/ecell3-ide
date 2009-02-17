@@ -151,7 +151,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             if (m_canvas.Systems.Count <= 0)
                 return;
 
-            RectangleF root = m_canvas.Systems["/"].Rect;
+            RectangleF root = m_canvas.Systems[Constants.delimiterPath].Rect;
             root.X -= 500;
             root.Y -= 500;
             root.Width += 1000;

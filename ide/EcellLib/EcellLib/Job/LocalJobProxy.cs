@@ -87,15 +87,13 @@ namespace Ecell.Job
             int dispatchNum = Manager.Concurrency - Manager.GetRunningJobList().Count;
             if (dispatchNum != 0)
             {
-                foreach (Job p in Manager.JobList.Values)
+                foreach (Job p in Manager.GetQueuedJobList())
                 {
-                    if (p.Status == JobStatus.QUEUED)
-                    {
-                        p.run();
-                        dispatchNum--;
+                    p.run();
+                    dispatchNum--;
 
-                        if (dispatchNum <= 0) break;
-                    }
+                    if (dispatchNum <= 0)
+                        break;
                 }
             }
         }

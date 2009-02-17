@@ -194,11 +194,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 // Check duplicated object.
                 if (obj is PPathwayText)
                     continue;
-                if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(systemName + "/" + obj.EcellObject.LocalID))
+                if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(systemName + Constants.delimiterPath + obj.EcellObject.LocalID))
                     continue;
-                else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(systemName + ":" + obj.EcellObject.LocalID))
+                else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(systemName + Constants.delimiterColon + obj.EcellObject.LocalID))
                     continue;
-                else if (obj is PPathwayVariable && !m_canvas.Variables.ContainsKey(systemName + ":" + obj.EcellObject.LocalID))
+                else if (obj is PPathwayVariable && !m_canvas.Variables.ContainsKey(systemName + Constants.delimiterColon + obj.EcellObject.LocalID))
                     continue;
                 // If duplicated object exists.
                 ResetSystemResize();
@@ -224,11 +224,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
 
                 }
                 // Check duplilcated key
-                if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(parentKey + "/" + obj.EcellObject.LocalID ))
+                if (obj is PPathwaySystem && !m_canvas.Systems.ContainsKey(parentKey + Constants.delimiterPath + obj.EcellObject.LocalID))
                     continue;
-                else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(parentKey + ":" + obj.EcellObject.LocalID ))
+                else if (obj is PPathwayProcess && !m_canvas.Processes.ContainsKey(parentKey + Constants.delimiterColon + obj.EcellObject.LocalID))
                     continue;
-                else if (obj is PPathwayVariable && !m_canvas.Variables.ContainsKey(parentKey + ":" + obj.EcellObject.LocalID ))
+                else if (obj is PPathwayVariable && !m_canvas.Variables.ContainsKey(parentKey + Constants.delimiterColon + obj.EcellObject.LocalID))
                     continue;
                 // If duplicated object exists.
                 ResetSystemResize();

@@ -32,14 +32,39 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ecell.IDE.Plugins.PathwayWindow.Animation
+namespace Ecell.IDE.Plugins.PathwayWindow
 {
+
     /// <summary>
-    /// PathwayDialogConstant
+    /// ComponentConstants
     /// </summary>
-    internal class AnimationConstants
+    internal class ComponentConstants
     {
-        #region Constants for XML.
+        #region ComponentConstants
+        /// <summary>
+        /// The default name of system.
+        /// </summary>
+        public const string NameOfDefaultSystem = "DefaultSystem";
+        /// <summary>
+        /// The default name of process.
+        /// </summary>
+        public const string NameOfDefaultProcess = "DefaultProcess";
+        /// <summary>
+        /// The default name of variable.
+        /// </summary>
+        public const string NameOfDefaultVariable = "DefaultVariable";
+        /// <summary>
+        /// The default name of text.
+        /// </summary>
+        public const string NameOfDefaultText = "DefaultText";
+
+        #endregion
+
+        #region XMLPath
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathFileName = "ComponentSettings.xml";
         /// <summary>
         /// 
         /// </summary>
@@ -51,7 +76,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathName = "Name";
+        public const string xPathApplication = "Application";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathApplicationVersion = "Version";
         /// <summary>
         /// 
         /// </summary>
@@ -59,11 +88,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathFileName = "AnimationSettings.xml";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string xPathAnimationSettings = "AnimationSettings";
+        public const string xPathConfigFileVersion = "ConfigFileVersion";
         /// <summary>
         /// 
         /// </summary>
@@ -71,59 +96,79 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathAutoThreshold = "AutoThreshold";
+        public const string xPathComponentList = "ComponentList";
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathThresholdHigh = "ThresholdHigh";
+        public const string xPathComponent = "Component";
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathThresholdLow = "ThresholdLow";
+        public const string xPathName = "Name";
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathNormalEdgeWidth = "NormalEdgeWidth";
+        public const string xPathType = "Type";
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathMaxEdgeWidth = "MaxEdgeWidth";
+        public const string xPathClass = "Class";
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathEditBGBrush = "EditBGBrush";
+        public const string xPathModelID = "ModelID";
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathEditEdgeBrush = "EditEdgeBrush";
+        public const string xPathKey = "Key";
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathViewBGBrush = "ViewBGBrush";
+        public const string xPathIsDafault = "IsDefault";
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathViewEdgeBrush = "ViewEdgeBrush";
+        public const string xPathMode = "Mode";
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathLowEdgeBrush = "LowEdgeBrush";
+        public const string xPathEdit = "Edit";
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathHighEdgeBrush = "HighEdgeBrush";
+        public const string xPathGradation = "Gradation";
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathNGEdgeBrush = "NGEdgeBrush";
+        public const string xPathSize = "Size";
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathPropertyBrush = "PropertyBrush";
+        public const string xPathFigure = "Figure";
         /// <summary>
         /// 
         /// </summary>
-        public const string xPathIsLogarithmic = "IsLogarithmic";
+        public const string xPathTextBrush = "TextBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathLineBrush = "LineBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathFillBrush = "FillBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathCenterBrush = "CenterBrush";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathIsGradation = "IsGradation";
+        /// <summary>
+        /// 
+        /// </summary>
+        public const string xPathIconFile = "IconFile";
         #endregion
     }
 }

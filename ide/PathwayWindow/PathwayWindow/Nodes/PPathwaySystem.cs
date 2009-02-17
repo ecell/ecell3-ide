@@ -77,19 +77,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// </summary>
         public const float MIN_HEIGHT = 80;
         /// <summary>
-        /// An outer radius of round-shaped corner of a system.
-        /// </summary>
-        public const float OUTER_RADIUS = 20f;
-
-        /// <summary>
-        /// An inner radius of round-shaped corner of a system.
-        /// </summary>
-        public const float INNER_RADIUS = 10f;
-        /// <summary>
-        /// Thickness of system.
-        /// </summary>
-        public const float HALF_THICKNESS = (OUTER_RADIUS - INNER_RADIUS) / 2f;
-        /// <summary>
         /// Margin between lower hem and PText for a name of a system.
         /// </summary>
         public const float TEXT_LOWER_MARGIN = 20f;

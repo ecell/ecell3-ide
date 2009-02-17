@@ -876,7 +876,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // if obj is root system or layerID is null.
             PPathwayLayer layer = m_sysLayer;
             string layerID = obj.EcellObject.Layer;
-            if (obj.EcellObject.Key.Equals("/") || string.IsNullOrEmpty(layerID))
+            if (obj.EcellObject.Key.Equals(Constants.delimiterPath) || string.IsNullOrEmpty(layerID))
             {
                 obj.Layer = layer;
                 obj.Layer.AddChild(obj);
@@ -1184,7 +1184,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             List<PPathwayObject> list = new List<PPathwayObject>();
             list.AddRange(m_sysLayer.GetNodes(rect));
-            list.Remove(m_systems["/"]);
+            list.Remove(m_systems[Constants.delimiterPath]);
             foreach (PPathwayLayer layer in m_layers.Values)
                 list.AddRange(layer.GetNodes(rect));
             return list;
@@ -1213,9 +1213,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             List<PPathwayObject> returnList = new List<PPathwayObject>();
             foreach (PPathwayObject obj in this.GetAllObjects())
             {
-                if (systemKey.Equals("/") && !obj.EcellObject.Key.Equals("/"))
+                if (systemKey.Equals(Constants.delimiterPath) && !obj.EcellObject.Key.Equals(Constants.delimiterPath))
                     returnList.Add(obj);
-                else if (obj.EcellObject.Key.StartsWith(systemKey + "/") || obj.EcellObject.Key.StartsWith(systemKey + ":"))
+                else if (obj.EcellObject.Key.StartsWith(systemKey + Constants.delimiterPath) || obj.EcellObject.Key.StartsWith(systemKey + Constants.delimiterColon))
                     returnList.Add(obj);
             }
             return returnList;
@@ -1684,7 +1684,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public PointF GetVacantPoint(string sysKey, PointF point)
         {
             if (string.IsNullOrEmpty(sysKey))
-                sysKey = "/";
+                sysKey = Constants.delimiterPath;
             PPathwaySystem sys = m_systems[sysKey];
             PointF basePos = new PointF(point.X, point.Y);
             double rad = Math.PI * 0.25f;
@@ -1711,7 +1711,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public PointF GetVacantPoint(string sysKey, RectangleF rectF)
         {
             if(string.IsNullOrEmpty(sysKey))
-                sysKey = "/";
+                sysKey = Constants.delimiterPath;
             PPathwaySystem sys = m_systems[sysKey];
             PointF basePos = new PointF(rectF.X, rectF.Y);
             double rad = Math.PI * 0.25f;
@@ -1878,11 +1878,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             string parentSysKey = GetSurroundingSystemKey(system.PointF, oldSysKey);
             string newSysKey = null;
             if (parentSysKey == null)
-                newSysKey = "/";
-            else if (parentSysKey.Equals("/"))
-                newSysKey = "/" + system.EcellObject.LocalID;
+                newSysKey = Constants.delimiterPath;
+            else if (parentSysKey.Equals(Constants.delimiterPath))
+                newSysKey = Constants.delimiterPath + system.EcellObject.LocalID;
             else
-                newSysKey = parentSysKey + "/" + system.EcellObject.LocalID;
+                newSysKey = parentSysKey + Constants.delimiterPath + system.EcellObject.LocalID;
 
             // Move system position.
             m_con.NotifyDataChanged(
@@ -1961,11 +1961,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 string oldSysKey = obj.EcellObject.Key;
                 newSysKey = GetSurroundingSystemKey(obj.PointF, oldSysKey);
                 if (newSysKey == null)
-                    newKey = "/";
-                else if (newSysKey.Equals("/"))
-                    newKey = "/" + obj.EcellObject.LocalID;
+                    newKey = Constants.delimiterPath;
+                else if (newSysKey.Equals(Constants.delimiterPath))
+                    newKey = Constants.delimiterPath + obj.EcellObject.LocalID;
                 else
-                    newKey = newSysKey + "/" + obj.EcellObject.LocalID;
+                    newKey = newSysKey + Constants.delimiterPath + obj.EcellObject.LocalID;
 
                 // Reset system movement when the system is overlapping other system or out of root.
                 if (!IsInsideRoot(obj.Rect))
@@ -2021,7 +2021,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </returns>
         public bool IsInsideRoot(RectangleF rectF)
         {
-            RectangleF rootRect = m_systems["/"].Rect;
+            RectangleF rootRect = m_systems[Constants.delimiterPath].Rect;
             return rootRect.Contains(rectF);
         }
     }

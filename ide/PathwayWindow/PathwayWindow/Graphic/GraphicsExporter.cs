@@ -165,7 +165,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Graphic
 
         private static string CreateSVGHeader(CanvasControl canvas)
         {
-            PPathwaySystem system = canvas.Systems["/"];
+            PPathwaySystem system = canvas.Systems[Constants.delimiterPath];
             RectangleF rect = system.Rect;
             rect.X -= 50f;
             rect.Y -= 50f;

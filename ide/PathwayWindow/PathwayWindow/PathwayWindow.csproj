@@ -160,7 +160,7 @@
     </Compile>
     <Compile Include="Nodes\PPathwayAlias.cs" />
     <Compile Include="Nodes\PPathwayText.cs" />
-    <Compile Include="PathwayConstants.cs" />
+    <Compile Include="Components\ComponentConstants.cs" />
     <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

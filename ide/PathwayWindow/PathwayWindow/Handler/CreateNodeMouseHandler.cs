@@ -120,7 +120,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
             string system = canvas.GetSurroundingSystemKey(e.Position);
             if (m_template is PPathwayText)
             {
-                system = "/";
+                system = Constants.delimiterPath;
             }
             else if (string.IsNullOrEmpty(system))
             {

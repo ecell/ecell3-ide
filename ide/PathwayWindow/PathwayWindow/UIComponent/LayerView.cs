@@ -56,6 +56,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// </summary>
         private readonly int LAYER_SHOWCOLUMN_WIDTH = 50;
 
+        private const string LAYER_HEDDER = "Layer";
         /// <summary>
         /// The PathwayControl, from which this class gets messages from the E-cell core and through which this class
         /// sends messages to the E-cell core.
@@ -468,7 +469,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             string name = null;
             do
             {
-                name = "Layer" + i.ToString();
+                name = LAYER_HEDDER + i.ToString();
                 foreach (string layerName in canvas.Layers.Keys)
                 {
                     if (layerName.Equals(name))

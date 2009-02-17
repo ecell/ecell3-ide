@@ -107,9 +107,11 @@ namespace Ecell.Job
             if (m_currentProcess != null)
             {
                 Status = JobStatus.STOPPED;
-                try {
+                try
+                {
                     int i = m_currentProcess.ExitCode;
-                }catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     ex.ToString();
                     m_currentProcess.Kill();

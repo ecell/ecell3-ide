@@ -419,12 +419,12 @@ namespace Ecell.Job
         /// </summary>
         public void Update()
         {
-            foreach (int job in m_sessionList.Keys)
+            foreach (Job job in m_sessionList.Values)
             {
-                if (m_sessionList[job].Status == JobStatus.QUEUED ||
-                    m_sessionList[job].Status == JobStatus.RUNNING)
+                if (job.Status == JobStatus.QUEUED ||
+                    job.Status == JobStatus.RUNNING)
                 {
-                    m_sessionList[job].Update();
+                    job.Update();
                 }
             }
             if (m_proxy != null)
@@ -475,10 +475,10 @@ namespace Ecell.Job
         private List<Job> GetJobListWithStatus(JobStatus status)
         {
             List<Job> tmpList = new List<Job>();
-            foreach (int job in m_sessionList.Keys)
+            foreach (Job job in m_sessionList.Values)
             {
-                if (m_sessionList[job].Status == status)
-                    tmpList.Add(m_sessionList[job]);
+                if (job.Status == status)
+                    tmpList.Add(job);
             }
             return tmpList;
         }

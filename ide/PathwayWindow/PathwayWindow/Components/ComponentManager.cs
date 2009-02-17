@@ -264,31 +264,31 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 xmlOut.WriteStartDocument();
 
                 // Always begin file with identification and warning
-                xmlOut.WriteComment(PathwayConstants.xPathFileHeader1);
-                xmlOut.WriteComment(PathwayConstants.xPathFileHeader2);
+                xmlOut.WriteComment(ComponentConstants.xPathFileHeader1);
+                xmlOut.WriteComment(ComponentConstants.xPathFileHeader2);
 
                 // Application settings
-                xmlOut.WriteStartElement(PathwayConstants.xPathComponentList);
-                xmlOut.WriteAttributeString(PathwayConstants.xPathName, Application.ProductName);
-                xmlOut.WriteAttributeString(PathwayConstants.xPathFileVersion, PathwayConstants.xPathVersion);
+                xmlOut.WriteStartElement(ComponentConstants.xPathComponentList);
+                xmlOut.WriteAttributeString(ComponentConstants.xPathName, Application.ProductName);
+                xmlOut.WriteAttributeString(ComponentConstants.xPathFileVersion, ComponentConstants.xPathVersion);
 
                 // Object settings
                 foreach (ComponentSetting setting in ComponentSettings)
                 {
-                    xmlOut.WriteStartElement(PathwayConstants.xPathComponent);
-                    xmlOut.WriteAttributeString(PathwayConstants.xPathType, setting.Type);
-                    xmlOut.WriteAttributeString(PathwayConstants.xPathIsDafault, setting.IsDefault.ToString());
-                    xmlOut.WriteElementString(PathwayConstants.xPathName, setting.Name);
-                    xmlOut.WriteElementString(PathwayConstants.xPathIconFile, setting.IconFileName);
-                    xmlOut.WriteStartElement(PathwayConstants.xPathFigure);
-                    xmlOut.WriteAttributeString(PathwayConstants.xPathMode, PathwayConstants.xPathEdit);
-                    xmlOut.WriteAttributeString(PathwayConstants.xPathType, setting.Figure.Type);
-                    xmlOut.WriteElementString(PathwayConstants.xPathSize, setting.Figure.Coordinates);
-                    xmlOut.WriteElementString(PathwayConstants.xPathTextBrush, BrushManager.ParseBrushToString(setting.TextBrush));
-                    xmlOut.WriteElementString(PathwayConstants.xPathLineBrush, BrushManager.ParseBrushToString(setting.LineBrush));
-                    xmlOut.WriteElementString(PathwayConstants.xPathFillBrush, BrushManager.ParseBrushToString(setting.FillBrush));
-                    xmlOut.WriteElementString(PathwayConstants.xPathCenterBrush, BrushManager.ParseBrushToString(setting.CenterBrush));
-                    xmlOut.WriteElementString(PathwayConstants.xPathIsGradation, setting.IsGradation.ToString());
+                    xmlOut.WriteStartElement(ComponentConstants.xPathComponent);
+                    xmlOut.WriteAttributeString(ComponentConstants.xPathType, setting.Type);
+                    xmlOut.WriteAttributeString(ComponentConstants.xPathIsDafault, setting.IsDefault.ToString());
+                    xmlOut.WriteElementString(ComponentConstants.xPathName, setting.Name);
+                    xmlOut.WriteElementString(ComponentConstants.xPathIconFile, setting.IconFileName);
+                    xmlOut.WriteStartElement(ComponentConstants.xPathFigure);
+                    xmlOut.WriteAttributeString(ComponentConstants.xPathMode, ComponentConstants.xPathEdit);
+                    xmlOut.WriteAttributeString(ComponentConstants.xPathType, setting.Figure.Type);
+                    xmlOut.WriteElementString(ComponentConstants.xPathSize, setting.Figure.Coordinates);
+                    xmlOut.WriteElementString(ComponentConstants.xPathTextBrush, BrushManager.ParseBrushToString(setting.TextBrush));
+                    xmlOut.WriteElementString(ComponentConstants.xPathLineBrush, BrushManager.ParseBrushToString(setting.LineBrush));
+                    xmlOut.WriteElementString(ComponentConstants.xPathFillBrush, BrushManager.ParseBrushToString(setting.FillBrush));
+                    xmlOut.WriteElementString(ComponentConstants.xPathCenterBrush, BrushManager.ParseBrushToString(setting.CenterBrush));
+                    xmlOut.WriteElementString(ComponentConstants.xPathIsGradation, setting.IsGradation.ToString());
                     xmlOut.WriteEndElement();
                     //xmlOut.WriteStartElement(xPathFigure);
                     //xmlOut.WriteAttributeString(xPathMode, xPathView);
@@ -369,7 +369,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             // Set hard coded default system ComponentSettings
             ComponentSetting defSysCs = new ComponentSetting();
             defSysCs.Type = EcellObject.SYSTEM;
-            defSysCs.Name = PathwayConstants.NameOfDefaultSystem;
+            defSysCs.Name = ComponentConstants.NameOfDefaultSystem;
             defSysCs.IsDefault = true;
             defSysCs.Figure = FigureManager.CreateFigure("SystemRectangle", "0,0,80,80");
             defSysCs.CenterBrush = Brushes.LightBlue;
@@ -381,7 +381,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             // Set hard coded default variable ComponentSettings
             ComponentSetting defVarCs = new ComponentSetting();
             defVarCs.Type = EcellObject.VARIABLE;
-            defVarCs.Name = PathwayConstants.NameOfDefaultVariable;
+            defVarCs.Name = ComponentConstants.NameOfDefaultVariable;
             defVarCs.IsDefault = true;
             defVarCs.Figure = FigureManager.CreateFigure("Ellipse", "0,0,60,40");
             defVarCs.TextBrush = Brushes.DarkBlue;
@@ -394,7 +394,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             // Set hard coded default process ComponentSettings
             ComponentSetting defProCs = new ComponentSetting();
             defProCs.Type = EcellObject.PROCESS;
-            defProCs.Name = PathwayConstants.NameOfDefaultProcess;
+            defProCs.Name = ComponentConstants.NameOfDefaultProcess;
             defProCs.IsDefault = true;
             defProCs.Figure = FigureManager.CreateFigure("RoundedRectangle", "0,0,60,40");
             defProCs.TextBrush = Brushes.DarkGreen;
@@ -407,7 +407,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             // Set hard coded default process ComponentSettings
             ComponentSetting defTextCs = new ComponentSetting();
             defTextCs.Type = EcellObject.TEXT;
-            defTextCs.Name = PathwayConstants.NameOfDefaultText;
+            defTextCs.Name = ComponentConstants.NameOfDefaultText;
             defTextCs.IsDefault = true;
             defTextCs.Figure = FigureManager.CreateFigure("Rectangle", "0,0,80,26");
             defTextCs.TextBrush = Brushes.Black;
@@ -424,7 +424,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         private static string GetUserSettingsFilePath()
         {
             string path = Util.GetUserDir();
-            string filename = Path.Combine(path, "ComponentSettings.xml");
+            string filename = Path.Combine(path, ComponentConstants.xPathFileName);
             return filename;
         }
 
@@ -563,7 +563,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             List<ComponentSetting> list = new List<ComponentSetting>();
             foreach (XmlNode node in xmlD.ChildNodes)
             {
-                if (node.Name.Equals(PathwayConstants.xPathComponentList))
+                if (node.Name.Equals(ComponentConstants.xPathComponentList))
                     componentList = node;
             }
             CheckFileVersion(componentList);
@@ -586,22 +586,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             ComponentSetting cs = new ComponentSetting();
             try
             {
-                string type = componentNode.Attributes[PathwayConstants.xPathType].Value;
-                string isDefault = componentNode.Attributes[PathwayConstants.xPathIsDafault].Value;
+                string type = componentNode.Attributes[ComponentConstants.xPathType].Value;
+                string isDefault = componentNode.Attributes[ComponentConstants.xPathIsDafault].Value;
                 cs.Type = type;
                 cs.IsDefault = bool.Parse(isDefault);
 
                 foreach (XmlNode parameterNode in componentNode.ChildNodes)
                 {
-                    if (parameterNode.Name.Equals(PathwayConstants.xPathName))
+                    if (parameterNode.Name.Equals(ComponentConstants.xPathName))
                     {
                         cs.Name = parameterNode.InnerText;
                     }
-                    else if (parameterNode.Name.Equals(PathwayConstants.xPathIconFile))
+                    else if (parameterNode.Name.Equals(ComponentConstants.xPathIconFile))
                     {
                         cs.IconFileName = parameterNode.InnerText;
                     }
-                    else if (parameterNode.Name.Equals(PathwayConstants.xPathFigure))
+                    else if (parameterNode.Name.Equals(ComponentConstants.xPathFigure))
                     {
                         LoadFigure(cs, parameterNode);
                     }
@@ -619,11 +619,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         {
             foreach (XmlNode figureNode in parameterNode.ChildNodes)
             {
-                if (figureNode.Name.Equals(PathwayConstants.xPathSize))
+                if (figureNode.Name.Equals(ComponentConstants.xPathSize))
                 {
-                    cs.Figure = FigureManager.CreateFigure(parameterNode.Attributes[PathwayConstants.xPathType].Value, figureNode.InnerText);
+                    cs.Figure = FigureManager.CreateFigure(parameterNode.Attributes[ComponentConstants.xPathType].Value, figureNode.InnerText);
                 }
-                else if (figureNode.Name.Equals(PathwayConstants.xPathTextBrush))
+                else if (figureNode.Name.Equals(ComponentConstants.xPathTextBrush))
                 {
                     Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
                     if (brush != null)
@@ -631,7 +631,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                         cs.TextBrush = brush;
                     }
                 }
-                else if (figureNode.Name.Equals(PathwayConstants.xPathLineBrush))
+                else if (figureNode.Name.Equals(ComponentConstants.xPathLineBrush))
                 {
                     Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
                     if (brush != null)
@@ -639,7 +639,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                         cs.LineBrush = brush;
                     }
                 }
-                else if (figureNode.Name.Equals(PathwayConstants.xPathFillBrush))
+                else if (figureNode.Name.Equals(ComponentConstants.xPathFillBrush))
                 {
                     Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
                     if (brush != null)
@@ -647,7 +647,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                         cs.FillBrush = brush;
                     }
                 }
-                else if (figureNode.Name.Equals(PathwayConstants.xPathCenterBrush))
+                else if (figureNode.Name.Equals(ComponentConstants.xPathCenterBrush))
                 {
                     Brush brush = BrushManager.ParseStringToBrush(figureNode.InnerText);
                     if (brush != null)
@@ -655,7 +655,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                         cs.CenterBrush = brush;
                     }
                 }
-                else if (figureNode.Name.Equals(PathwayConstants.xPathIsGradation))
+                else if (figureNode.Name.Equals(ComponentConstants.xPathIsGradation))
                 {
                     cs.IsGradation = bool.Parse(figureNode.InnerText);
                 }
@@ -669,9 +669,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         private static void CheckFileVersion(XmlNode xmlNode)
         {
             if (xmlNode == null
-                || xmlNode.Attributes[PathwayConstants.xPathFileVersion] == null
-                || !xmlNode.Attributes[PathwayConstants.xPathFileVersion].Value.Equals(PathwayConstants.xPathVersion))
-                throw new ArgumentException("Config file format Version error." + Environment.NewLine + "Current version is " + PathwayConstants.xPathVersion);
+                || xmlNode.Attributes[ComponentConstants.xPathFileVersion] == null
+                || !xmlNode.Attributes[ComponentConstants.xPathFileVersion].Value.Equals(ComponentConstants.xPathVersion))
+                throw new ArgumentException("Config file format Version error." + Environment.NewLine + "Current version is " + ComponentConstants.xPathVersion);
         }
     }
 }

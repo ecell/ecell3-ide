@@ -768,7 +768,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             //Copy Systems
             foreach (PPathwayObject obj in m_canvas.Systems.Values)
             {
-                if (obj.EcellObject.Key == "/")
+                if (obj.EcellObject.Key == Constants.delimiterPath)
                     continue;
                 if (m_canvas.SelectedNodes.Contains(obj) || copyNodes.Contains(obj.ParentObject.EcellObject))
                     copyNodes.Add(m_window.GetEcellObject(obj.EcellObject));

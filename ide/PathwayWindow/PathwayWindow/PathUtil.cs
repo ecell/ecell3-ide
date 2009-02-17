@@ -49,14 +49,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
     /// </summary>
     public class PathUtil
     {
-        #region Readonlys
-        private static readonly Regex m_headColonRegex = new Regex("^\\w*?:");
-        private static readonly Regex m_preSlashRegex = new Regex("^.*/");
-        private static readonly Regex m_postSlashRegex = new Regex("/\\w*$");
-        private static readonly Regex m_postColonRegex = new Regex(":\\w*$");
-        private static readonly Regex m_preColonRegex = new Regex("^.*:");
-        #endregion
-
         /// <summary>
         /// Get bounds to focus on a object.
         /// </summary>
@@ -161,13 +153,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (null == originalKey || null == originalSystemKey || null == newSystemKey)
                 return null;
             string newKey;
-            if (originalSystemKey.Equals("/") && !newSystemKey.Equals("/"))
+            if (originalSystemKey.Equals(Constants.delimiterPath) && !newSystemKey.Equals(Constants.delimiterPath))
                 newKey = newSystemKey + originalKey.Replace("/:", ":");
-            else if (!originalSystemKey.Equals("/") && newSystemKey.Equals("/"))
-                newKey = originalKey.Replace(originalSystemKey, "/");
+            else if (!originalSystemKey.Equals(Constants.delimiterPath) && newSystemKey.Equals(Constants.delimiterPath))
+                newKey = originalKey.Replace(originalSystemKey, Constants.delimiterPath);
             else
-                newKey = originalKey.Replace(originalSystemKey, newSystemKey).Replace("/:", ":");
-            return newKey.Replace("//","/");
+                newKey = originalKey.Replace(originalSystemKey, newSystemKey).Replace("/:", Constants.delimiterColon);
+            return newKey.Replace("//", Constants.delimiterPath);
         }
     }
 }

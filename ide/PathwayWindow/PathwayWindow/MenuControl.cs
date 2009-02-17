@@ -830,7 +830,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             bool isOneway = true;
             bool isEffector = false;
             bool isCopiedObject = (m_con.CopiedNodes.Count > 0);
-            bool isInsideRoot = m_con.Canvas.Systems["/"].Rect.Contains(m_con.MousePosition);
+            bool isInsideRoot = m_con.Canvas.Systems[Constants.delimiterPath].Rect.Contains(m_con.MousePosition);
             // Set popup menu text.
             if (isPPathwayObject)
             {
@@ -838,7 +838,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 commonMenu.Object = obj;
                 toolStripIdShow.Text = obj.FullID;
                 SetLayerManu(obj);
-                if (obj.Key.Equals("/"))
+                if (obj.Key.Equals(Constants.delimiterPath))
                     isRoot = true;
             }
             if (isLine)
