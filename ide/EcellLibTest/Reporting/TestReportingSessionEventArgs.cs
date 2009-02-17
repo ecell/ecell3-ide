@@ -1,35 +1,67 @@
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+//
+// E-Cell is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// E-Cell is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public
+// License along with E-Cell -- see the file COPYING.
+// If not, write to the Free Software Foundation, Inc.,
+// 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//
+//END_HEADER
+//
+// written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
+
 namespace Ecell.Reporting
 {
     using System;
     using NUnit.Framework;
 
-
+    /// <summary>
+    /// 
+    /// </summary>
     [TestFixture()]
     public class TestReportingSessionEventArgs
     {
 
         private ReportingSessionEventArgs _unitUnderTest;
-
+        /// <summary>
+        /// 
+        /// </summary>
         [SetUp()]
         public void SetUp()
         {
             Ecell.Reporting.ReportingSession session = null;
             _unitUnderTest = new ReportingSessionEventArgs(session);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [TearDown()]
         public void TearDown()
         {
             _unitUnderTest = null;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestConstructorReportingSessionEventArgs()
         {
             Ecell.Reporting.ReportingSession session = null;
             ReportingSessionEventArgs testReportingSessionEventArgs = new ReportingSessionEventArgs(session);
             Assert.IsNotNull(testReportingSessionEventArgs, "Constructor of type, ReportingSessionEventArgs failed to create instance.");
-            Assert.Fail("Create or modify test(s).");
+            Assert.AreEqual(session, testReportingSessionEventArgs.ReportingSession, "ReportingSession is unexpected value.");
 
         }
     }

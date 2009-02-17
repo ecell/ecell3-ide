@@ -4307,7 +4307,8 @@ namespace Ecell
                 // Initializes
                 Debug.Assert(!string.IsNullOrEmpty(fileName));
                 // Parses the simulation parameter.
-                simParam = SimulationParameterReader.Parse(fileName, m_currentProject.Simulator);
+                WrappedSimulator simulator = m_currentProject.CreateSimulatorInstance();
+                simParam = SimulationParameterReader.Parse(fileName, simulator);
             }
             catch (Exception ex)
             {

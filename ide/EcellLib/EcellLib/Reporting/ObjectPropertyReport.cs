@@ -57,9 +57,7 @@ namespace Ecell.Reporting
         {
             get
             {
-                return Object.Type
-                    + Constants.delimiterColon
-                    + Object.Key
+                return Object.FullID
                     + Constants.delimiterColon
                     + m_propName;
             }

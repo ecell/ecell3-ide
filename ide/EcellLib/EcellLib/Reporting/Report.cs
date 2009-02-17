@@ -55,21 +55,21 @@ namespace Ecell.Reporting
 
         #region Accessors
         /// <summary>
-        /// 
+        /// Type of message.
         /// </summary>
         public MessageType Type
         {
             get { return m_type; }
         }
         /// <summary>
-        /// 
+        /// The message string.
         /// </summary>
         public string Message
         {
             get { return m_message; }
         }
         /// <summary>
-        /// 
+        /// The group string.
         /// </summary>
         public String Group
         {

@@ -131,9 +131,19 @@ namespace Ecell
                 {
                 case XmlNodeType.Text:
                     string value = childNode.Value.Trim();
+                    int i;
+                    double d;
                     if (value.Equals(XmlConvert.ToString(Double.PositiveInfinity)))
                     {
                         ecellValueList.Add(new EcellValue(Double.PositiveInfinity));
+                    }
+                    else if (int.TryParse(value, out i))
+                    {
+                        ecellValueList.Add(new EcellValue(i));
+                    }
+                    else if (double.TryParse(value, out d))
+                    {
+                        ecellValueList.Add(new EcellValue(d));
                     }
                     else
                     {

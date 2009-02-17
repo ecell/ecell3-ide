@@ -56,7 +56,7 @@ namespace Ecell.Reporting
         /// </summary>
         public override string Location
         {
-            get { return m_object.Type + Constants.delimiterColon + m_object.Key; }
+            get { return m_object.FullID; }
         }
         #endregion
 

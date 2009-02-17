@@ -75,6 +75,7 @@
     <Compile Include="Objects\TestEcellLayer.cs" />
     <Compile Include="Objects\TestEcellObservedData.cs" />
     <Compile Include="Objects\TestEcellParameterData.cs" />
+    <Compile Include="Reporting\TestCompileReport.cs" />
     <Compile Include="Reporting\TestObjectPropertyReport.cs" />
     <Compile Include="Reporting\TestObjectReport.cs" />
     <Compile Include="Reporting\TestProgressReportEventArgs.cs" />
