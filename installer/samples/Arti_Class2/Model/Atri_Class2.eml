@@ -1,968 +1,578 @@
-<?xml version="1.0" encoding="us-ascii" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <eml>
 <stepper class="FixedODE1Stepper" id="DefaultStepper">
 <property name="MaxStepInterval">
-<value>
-60000000000
-</value>
+<value>60000000000</value>
 </property>
 <property name="MinStepInterval">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepInterval">
-<value>
-0.005
-</value>
+<value>0.005</value>
 </property>
 </stepper>
 <system class="System" id="/">
 <property name="Name">
-<value>
-The Root System
-</value>
+<value>The Root System</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <variable class="Variable" id="c">
+<property name="DiffusionCoeff">
+<value>2.66450917591109E+233</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-5.1
-</value>
+<value>5.1</value>
 </property>
 </variable>
 <variable class="Variable" id="ce">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-675
-</value>
+<value>675</value>
 </property>
 </variable>
 <variable class="Variable" id="p">
+<property name="DiffusionCoeff">
+<value>3.36604265558477E-211</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-60
-</value>
+<value>60</value>
 </property>
 </variable>
 <variable class="Variable" id="Kp">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-0.27
-</value>
+<value>0.27</value>
 </property>
 </variable>
 <variable class="Variable" id="delta">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-0.01
-</value>
+<value>0.01</value>
 </property>
 </variable>
 <variable class="Variable" id="k1">
+<property name="DiffusionCoeff">
+<value>100</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-0.35
-</value>
+<value>0.35</value>
 </property>
 </variable>
 <variable class="Variable" id="gamma">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-2
-</value>
+<value>2</value>
 </property>
 </variable>
 <variable class="Variable" id="kflux">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-1650
-</value>
+<value>1650</value>
 </property>
 </variable>
 <variable class="Variable" id="kmu">
+<property name="DiffusionCoeff">
+<value>1.64064430285867E-306</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-4
-</value>
+<value>4</value>
 </property>
 </variable>
 <variable class="Variable" id="Vp">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-10500
-</value>
+<value>10500</value>
 </property>
 </variable>
 <variable class="Variable" id="mu0">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-0.65
-</value>
+<value>0.65</value>
 </property>
 </variable>
 <variable class="Variable" id="Ve">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-7200
-</value>
+<value>7200</value>
 </property>
 </variable>
 <variable class="Variable" id="mu1">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-0.35
-</value>
+<value>0.35</value>
 </property>
 </variable>
 <variable class="Variable" id="Ke">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-0.091
-</value>
+<value>0.091</value>
 </property>
 </variable>
 <variable class="Variable" id="b">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-0.08
-</value>
+<value>0.08</value>
 </property>
 </variable>
 <variable class="Variable" id="alpha1">
+<property name="DiffusionCoeff">
+<value>2.12199579096527E-314</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-300
-</value>
+<value>300</value>
 </property>
 </variable>
 <variable class="Variable" id="V1">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-0.92
-</value>
+<value>0.92</value>
 </property>
 </variable>
 <variable class="Variable" id="alpha2">
+<property name="DiffusionCoeff">
+<value>1.82004088270081E-306</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-0.18
-</value>
+<value>0.18</value>
 </property>
 </variable>
 <variable class="Variable" id="betaosc">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-360
-</value>
+<value>360</value>
 </property>
 </variable>
 <variable class="Variable" id="alpha">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-0.93
-</value>
+<value>0.93</value>
 </property>
 </variable>
 <variable class="Variable" id="k4">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-2.5
-</value>
+<value>2.5</value>
 </property>
 </variable>
 <variable class="Variable" id="v4">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-4500
-</value>
+<value>4500</value>
 </property>
 </variable>
 <variable class="Variable" id="SIZE">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-1E-22
-</value>
+<value>1E-22</value>
 </property>
 </variable>
 <variable class="Variable" id="k2">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
 <property name="Fixed">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="Value">
-<value>
-0.59
-</value>
+<value>0.59</value>
 </property>
 </variable>
 <process class="ExpressionFluxProcess" id="ce_p">
 <property name="Expression">
-<value>
-( ( -1 ) / ( gamma.Value ) ) * ( kflux.Value * ( mu0.Value + ( ( mu1.Value * p.MolarConc ) / ( kmu.Value + p.MolarConc ) ) ) * ( 1 - ( ( c.MolarConc * c.MolarConc ) / ( k2.Value * k2.Value + c.MolarConc * c.MolarConc ) ) ) * ( b.Value + ( ( V1.Value * c.MolarConc ) / ( k1.Value + c.MolarConc ) ) ) * ( ce.MolarConc - c.MolarConc ) - ( ( Ve.Value * c.MolarConc ) / ( Ke.Value + c.MolarConc ) ) ) 
-</value>
+<value>( ( -1 ) / ( gamma.Value ) ) * ( kflux.Value * ( mu0.Value + ( ( mu1.Value * p.MolarConc ) / ( kmu.Value + p.MolarConc ) ) ) * ( 1 - ( ( c.MolarConc * c.MolarConc ) / ( k2.Value * k2.Value + c.MolarConc * c.MolarConc ) ) ) * ( b.Value + ( ( V1.Value * c.MolarConc ) / ( k1.Value + c.MolarConc ) ) ) * ( ce.MolarConc - c.MolarConc ) - ( ( Ve.Value * c.MolarConc ) / ( Ke.Value + c.MolarConc ) ) )</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-Ke
-</value>
-<value>
-:/:Ke
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-V1
-</value>
-<value>
-:/:V1
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-Ve
-</value>
-<value>
-:/:Ve
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-b
-</value>
-<value>
-:/:b
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-c
-</value>
-<value>
-:/:c
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-ce
-</value>
-<value>
-:/:ce
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-gamma
-</value>
-<value>
-:/:gamma
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-k1
-</value>
-<value>
-:/:k1
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-k2
-</value>
-<value>
-:/:k2
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-kflux
-</value>
-<value>
-:/:kflux
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-kmu
-</value>
-<value>
-:/:kmu
-</value>
-<value>
-0
+<value>Ke</value>
+<value>Variable:/:Ke</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-1
+<value>V1</value>
+<value>Variable:/:V1</value>
+<value>0</value>
+<value>0</value>
 </value>
-</value>
-<value>
-<value>
-mu0
-</value>
-<value>
-:/:mu0
-</value>
-<value>
-0
-</value>
 <value>
-1
-</value>
+<value>Ve</value>
+<value>Variable:/:Ve</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-<value>
-mu1
+<value>b</value>
+<value>Variable:/:b</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-:/:mu1
+<value>c</value>
+<value>Variable:/:c</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-0
+<value>ce</value>
+<value>Variable:/:ce</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-1
-</value>
+<value>gamma</value>
+<value>Variable:/:gamma</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-<value>
-p
+<value>k1</value>
+<value>Variable:/:k1</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-:/:p
+<value>k2</value>
+<value>Variable:/:k2</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-0
+<value>kflux</value>
+<value>Variable:/:kflux</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-1
-</value>
+<value>kmu</value>
+<value>Variable:/:kmu</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-<value>
-toCe
+<value>mu0</value>
+<value>Variable:/:mu0</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-:/:ce
+<value>mu1</value>
+<value>Variable:/:mu1</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-1
+<value>p</value>
+<value>Variable:/:p</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-1
-</value>
+<value>toCe</value>
+<value>Variable:/:ce</value>
+<value>1</value>
+<value>0</value>
 </value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="c_p">
 <property name="Expression">
-<value>
-kflux.Value * ( mu0.Value + ( mu1.Value * p.MolarConc ) / ( kmu.Value + p.MolarConc ) ) * ( 1 - ( c.MolarConc * c.MolarConc ) / ( k2.Value * k2.Value + c.MolarConc * c.MolarConc ) ) * ( b.Value + ( V1.Value * c.MolarConc ) / ( k1.Value + c.MolarConc ) ) * ( ce.MolarConc - c.MolarConc ) - ( Ve.Value * c.MolarConc ) / ( Ke.Value + c.MolarConc ) + delta.Value * ( alpha1.Value + alpha2.Value * v4.Value - ( Vp.Value * c.MolarConc * c.MolarConc ) / ( Kp.Value * Kp.Value + c.MolarConc * c.MolarConc ) ) 
-</value>
+<value>kflux.Value * ( mu0.Value + ( mu1.Value * p.MolarConc ) / ( kmu.Value + p.MolarConc ) ) * ( 1 - ( c.MolarConc * c.MolarConc ) / ( k2.Value * k2.Value + c.MolarConc * c.MolarConc ) ) * ( b.Value + ( V1.Value * c.MolarConc ) / ( k1.Value + c.MolarConc ) ) * ( ce.MolarConc - c.MolarConc ) - ( Ve.Value * c.MolarConc ) / ( Ke.Value + c.MolarConc ) + delta.Value * ( alpha1.Value + alpha2.Value * v4.Value - ( Vp.Value * c.MolarConc * c.MolarConc ) / ( Kp.Value * Kp.Value + c.MolarConc * c.MolarConc ) )</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-Ke
-</value>
-<value>
-:/:Ke
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-Kp
-</value>
-<value>
-:/:Kp
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-V1
-</value>
-<value>
-:/:V1
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-Ve
-</value>
-<value>
-:/:Ve
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-Vp
-</value>
-<value>
-:/:Vp
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-alpha1
-</value>
-<value>
-:/:alpha1
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-alpha2
-</value>
-<value>
-:/:alpha2
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-b
-</value>
-<value>
-:/:b
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-c
-</value>
-<value>
-:/:c
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-ce
-</value>
-<value>
-:/:ce
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-delta
-</value>
-<value>
-:/:delta
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-k1
-</value>
-<value>
-:/:k1
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-k2
-</value>
-<value>
-:/:k2
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-kflux
-</value>
-<value>
-:/:kflux
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-kmu
-</value>
-<value>
-:/:kmu
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-mu0
+<value>Ke</value>
+<value>Variable:/:Ke</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-:/:mu0
+<value>Kp</value>
+<value>Variable:/:Kp</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-0
+<value>V1</value>
+<value>Variable:/:V1</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-1
-</value>
+<value>Ve</value>
+<value>Variable:/:Ve</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-<value>
-mu1
+<value>Vp</value>
+<value>Variable:/:Vp</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-:/:mu1
+<value>alpha1</value>
+<value>Variable:/:alpha1</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-0
+<value>alpha2</value>
+<value>Variable:/:alpha2</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-1
+<value>b</value>
+<value>Variable:/:b</value>
+<value>0</value>
+<value>0</value>
 </value>
-</value>
-<value>
 <value>
-p
+<value>c</value>
+<value>Variable:/:c</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-:/:p
+<value>ce</value>
+<value>Variable:/:ce</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-0
+<value>delta</value>
+<value>Variable:/:delta</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-1
+<value>k1</value>
+<value>Variable:/:k1</value>
+<value>0</value>
+<value>0</value>
 </value>
-</value>
-<value>
 <value>
-v4
+<value>k2</value>
+<value>Variable:/:k2</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-:/:v4
+<value>kflux</value>
+<value>Variable:/:kflux</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-0
+<value>kmu</value>
+<value>Variable:/:kmu</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-1
+<value>mu0</value>
+<value>Variable:/:mu0</value>
+<value>0</value>
+<value>0</value>
 </value>
-</value>
 <value>
-<value>
-toC
+<value>mu1</value>
+<value>Variable:/:mu1</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-:/:c
+<value>p</value>
+<value>Variable:/:p</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-1
+<value>v4</value>
+<value>Variable:/:v4</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-1
-</value>
+<value>toC</value>
+<value>Variable:/:c</value>
+<value>1</value>
+<value>0</value>
 </value>
 </property>
 </process>
 <process class="ExpressionFluxProcess" id="p_p">
 <property name="Expression">
-<value>
-v4.Value * ( ( c.MolarConc + ( 1 - alpha.Value ) * k4.Value ) / ( c.MolarConc + k4.Value ) ) - betaosc.Value * p.MolarConc 
-</value>
+<value>v4.Value * ( ( c.MolarConc + ( 1 - alpha.Value ) * k4.Value ) / ( c.MolarConc + k4.Value ) ) - betaosc.Value * p.MolarConc</value>
 </property>
 <property name="Priority">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 <property name="StepperID">
-<value>
-DefaultStepper
-</value>
+<value>DefaultStepper</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-alpha
+<value>alpha</value>
+<value>Variable:/:alpha</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-:/:alpha
+<value>betaosc</value>
+<value>Variable:/:betaosc</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-0
+<value>c</value>
+<value>Variable:/:c</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-1
-</value>
-</value>
-<value>
-<value>
-betaosc
+<value>k4</value>
+<value>Variable:/:k4</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-:/:betaosc
+<value>p</value>
+<value>Variable:/:p</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-0
+<value>v4</value>
+<value>Variable:/:v4</value>
+<value>0</value>
+<value>0</value>
 </value>
 <value>
-1
-</value>
-</value>
-<value>
-<value>
-c
-</value>
-<value>
-:/:c
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-k4
-</value>
-<value>
-:/:k4
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-p
-</value>
-<value>
-:/:p
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-v4
-</value>
-<value>
-:/:v4
-</value>
-<value>
-0
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-toP
-</value>
-<value>
-:/:p
-</value>
-<value>
-1
-</value>
-<value>
-1
-</value>
+<value>toP</value>
+<value>Variable:/:p</value>
+<value>1</value>
+<value>0</value>
 </value>
 </property>
 </process>

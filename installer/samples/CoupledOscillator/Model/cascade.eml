@@ -1,2336 +1,2112 @@
-<?xml version="1.0" ?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <eml>
-<stepper class="ODEStepper" id="DES_0"/>
-<stepper class="ODEStepper" id="DES_1"/>
-<stepper class="ODEStepper" id="DES_2"/>
-<stepper class="ODEStepper" id="DES_3"/>
+<stepper class="ODEStepper" id="DES_0">
+<property name="AbsoluteEpsilon">
+<value>0.1</value>
+</property>
+<property name="AbsoluteToleranceFactor">
+<value>1</value>
+</property>
+<property name="CheckIntervalCount">
+<value>100</value>
+</property>
+<property name="DerivativeToleranceFactor">
+<value>1</value>
+</property>
+<property name="IsEpsilonChecked">
+<value>0</value>
+</property>
+<property name="JacobianRecalculateTheta">
+<value>0.001</value>
+</property>
+<property name="MaxIterationNumber">
+<value>7</value>
+</property>
+<property name="MaxStepInterval">
+<value>10000000000</value>
+</property>
+<property name="MinStepInterval">
+<value>1E-100</value>
+</property>
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="RelativeEpsilon">
+<value>0.1</value>
+</property>
+<property name="StateToleranceFactor">
+<value>1</value>
+</property>
+<property name="StepInterval">
+<value>0.001</value>
+</property>
+<property name="SwitchingCount">
+<value>20</value>
+</property>
+<property name="Tolerance">
+<value>1E-06</value>
+</property>
+<property name="Uround">
+<value>1E-10</value>
+</property>
+<property name="isStiff">
+<value>1</value>
+</property>
+</stepper>
+<stepper class="ODEStepper" id="DES_1">
+<property name="AbsoluteEpsilon">
+<value>0.1</value>
+</property>
+<property name="AbsoluteToleranceFactor">
+<value>1</value>
+</property>
+<property name="CheckIntervalCount">
+<value>100</value>
+</property>
+<property name="DerivativeToleranceFactor">
+<value>1</value>
+</property>
+<property name="IsEpsilonChecked">
+<value>0</value>
+</property>
+<property name="JacobianRecalculateTheta">
+<value>0.001</value>
+</property>
+<property name="MaxIterationNumber">
+<value>7</value>
+</property>
+<property name="MaxStepInterval">
+<value>10000000000</value>
+</property>
+<property name="MinStepInterval">
+<value>1E-100</value>
+</property>
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="RelativeEpsilon">
+<value>0.1</value>
+</property>
+<property name="StateToleranceFactor">
+<value>1</value>
+</property>
+<property name="StepInterval">
+<value>0.001</value>
+</property>
+<property name="SwitchingCount">
+<value>20</value>
+</property>
+<property name="Tolerance">
+<value>1E-06</value>
+</property>
+<property name="Uround">
+<value>1E-10</value>
+</property>
+<property name="isStiff">
+<value>1</value>
+</property>
+</stepper>
+<stepper class="ODEStepper" id="DES_2">
+<property name="AbsoluteEpsilon">
+<value>0.1</value>
+</property>
+<property name="AbsoluteToleranceFactor">
+<value>1</value>
+</property>
+<property name="CheckIntervalCount">
+<value>100</value>
+</property>
+<property name="DerivativeToleranceFactor">
+<value>1</value>
+</property>
+<property name="IsEpsilonChecked">
+<value>0</value>
+</property>
+<property name="JacobianRecalculateTheta">
+<value>0.001</value>
+</property>
+<property name="MaxIterationNumber">
+<value>7</value>
+</property>
+<property name="MaxStepInterval">
+<value>10000000000</value>
+</property>
+<property name="MinStepInterval">
+<value>1E-100</value>
+</property>
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="RelativeEpsilon">
+<value>0.1</value>
+</property>
+<property name="StateToleranceFactor">
+<value>1</value>
+</property>
+<property name="StepInterval">
+<value>0.001</value>
+</property>
+<property name="SwitchingCount">
+<value>20</value>
+</property>
+<property name="Tolerance">
+<value>1E-06</value>
+</property>
+<property name="Uround">
+<value>1E-10</value>
+</property>
+<property name="isStiff">
+<value>1</value>
+</property>
+</stepper>
+<stepper class="ODEStepper" id="DES_3">
+<property name="AbsoluteEpsilon">
+<value>0.1</value>
+</property>
+<property name="AbsoluteToleranceFactor">
+<value>1</value>
+</property>
+<property name="CheckIntervalCount">
+<value>100</value>
+</property>
+<property name="DerivativeToleranceFactor">
+<value>1</value>
+</property>
+<property name="IsEpsilonChecked">
+<value>0</value>
+</property>
+<property name="JacobianRecalculateTheta">
+<value>0.001</value>
+</property>
+<property name="MaxIterationNumber">
+<value>7</value>
+</property>
+<property name="MaxStepInterval">
+<value>10000000000</value>
+</property>
+<property name="MinStepInterval">
+<value>1E-100</value>
+</property>
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="RelativeEpsilon">
+<value>0.1</value>
+</property>
+<property name="StateToleranceFactor">
+<value>1</value>
+</property>
+<property name="StepInterval">
+<value>0.001</value>
+</property>
+<property name="SwitchingCount">
+<value>20</value>
+</property>
+<property name="Tolerance">
+<value>1E-06</value>
+</property>
+<property name="Uround">
+<value>1E-10</value>
+</property>
+<property name="isStiff">
+<value>1</value>
+</property>
+</stepper>
 <system class="System" id="/">
+<property name="Name">
+<value>The Root System</value>
+</property>
 <property name="StepperID">
-<value>
-DES_0
-</value>
+<value>DES_0</value>
 </property>
 <variable class="Variable" id="SIZE">
+<property name="DiffusionCoeff">
+<value>1.64080236502941E-306</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-0.000000
-</value>
+<value>0</value>
 </property>
 </variable>
 <process class="FOProcess" id="CONNECT0_0">
-<property name="StepperID">
-<value>
-DES_0
-</value>
+<property name="Priority">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.100000
-</value>
+<property name="StepperID">
+<value>DES_0</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_0:X0_0</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_0:X0_0
+<value>P0</value>
+<value>Variable:/SYSTEM_1:X0_3</value>
+<value>1</value>
+<value>1</value>
 </value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_1:X0_3
-</value>
-<value>
-1
-</value>
-</value>
+</property>
+<property name="k">
+<value>0.1</value>
 </property>
 </process>
 <process class="FOProcess" id="CONNECT1_0">
-<property name="StepperID">
-<value>
-DES_0
-</value>
+<property name="Priority">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.100000
-</value>
+<property name="StepperID">
+<value>DES_0</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_0:X1_0</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_0:X1_0
+<value>P0</value>
+<value>Variable:/SYSTEM_1:X1_3</value>
+<value>1</value>
+<value>1</value>
 </value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_1:X1_3
-</value>
-<value>
-1
-</value>
-</value>
+</property>
+<property name="k">
+<value>0.1</value>
 </property>
 </process>
 <process class="FOProcess" id="CONNECT2_0">
-<property name="StepperID">
-<value>
-DES_0
-</value>
+<property name="Priority">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.100000
-</value>
+<property name="StepperID">
+<value>DES_0</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_0:X2_0</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_0:X2_0
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_1:X2_3
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="CONNECT3_0">
-<property name="StepperID">
-<value>
-DES_0
+<value>P0</value>
+<value>Variable:/SYSTEM_1:X2_3</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="k">
-<value>
-0.100000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_0:X3_0
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_1:X3_3
-</value>
-<value>
-1
-</value>
-</value>
+<value>0.1</value>
 </property>
 </process>
 <process class="FOProcess" id="CONNECT4_0">
-<property name="StepperID">
-<value>
-DES_0
-</value>
+<property name="Priority">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.100000
-</value>
+<property name="StepperID">
+<value>DES_0</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_0:X4_0</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_0:X4_0
+<value>P0</value>
+<value>Variable:/SYSTEM_1:X4_3</value>
+<value>1</value>
+<value>1</value>
 </value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_1:X4_3
-</value>
-<value>
-1
-</value>
-</value>
+</property>
+<property name="k">
+<value>0.1</value>
 </property>
 </process>
-<process class="FOProcess" id="CONNECT0_1">
-<property name="StepperID">
-<value>
-DES_1
-</value>
+<process class="FOProcess" id="CONNECT3_0">
+<property name="Priority">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.200000
-</value>
+<property name="StepperID">
+<value>DES_0</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_0:X3_0</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_1:X0_2
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_2:X0_5
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="CONNECT1_1">
-<property name="StepperID">
-<value>
-DES_1
+<value>P0</value>
+<value>Variable:/SYSTEM_1:X3_3</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 <property name="k">
-<value>
-0.200000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_1:X1_2
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_2:X1_5
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="CONNECT2_1">
-<property name="StepperID">
-<value>
-DES_1
-</value>
-</property>
-<property name="k">
-<value>
-0.200000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_1:X2_2
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_2:X2_5
-</value>
-<value>
-1
-</value>
-</value>
+<value>0.1</value>
 </property>
 </process>
 <process class="FOProcess" id="CONNECT3_1">
-<property name="StepperID">
-<value>
-DES_1
-</value>
+<property name="Priority">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.200000
-</value>
+<property name="StepperID">
+<value>DES_1</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_1:X3_2</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_1:X3_2
+<value>P0</value>
+<value>Variable:/SYSTEM_2:X3_5</value>
+<value>1</value>
+<value>1</value>
 </value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_2:X3_5
-</value>
-<value>
-1
-</value>
-</value>
+</property>
+<property name="k">
+<value>0.2</value>
 </property>
 </process>
 <process class="FOProcess" id="CONNECT4_1">
-<property name="StepperID">
-<value>
-DES_1
-</value>
+<property name="Priority">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.200000
-</value>
+<property name="StepperID">
+<value>DES_1</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_1:X4_2</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_1:X4_2
+<value>P0</value>
+<value>Variable:/SYSTEM_2:X4_5</value>
+<value>1</value>
+<value>1</value>
 </value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_2:X4_5
-</value>
-<value>
-1
-</value>
-</value>
+</property>
+<property name="k">
+<value>0.2</value>
 </property>
 </process>
-<process class="FOProcess" id="CONNECT0_2">
-<property name="StepperID">
-<value>
-DES_2
-</value>
+<process class="FOProcess" id="CONNECT2_1">
+<property name="Priority">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.400000
-</value>
+<property name="StepperID">
+<value>DES_1</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_1:X2_2</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_2:X0_4
+<value>P0</value>
+<value>Variable:/SYSTEM_2:X2_5</value>
+<value>1</value>
+<value>1</value>
 </value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_3:X0_7
-</value>
-<value>
-1
-</value>
-</value>
+</property>
+<property name="k">
+<value>0.2</value>
 </property>
 </process>
-<process class="FOProcess" id="CONNECT1_2">
-<property name="StepperID">
-<value>
-DES_2
-</value>
+<process class="FOProcess" id="CONNECT1_1">
+<property name="Priority">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.400000
-</value>
+<property name="StepperID">
+<value>DES_1</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_1:X1_2</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_2:X1_4
+<value>P0</value>
+<value>Variable:/SYSTEM_2:X1_5</value>
+<value>1</value>
+<value>1</value>
 </value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_3:X1_7
-</value>
-<value>
-1
-</value>
-</value>
+</property>
+<property name="k">
+<value>0.2</value>
 </property>
 </process>
-<process class="FOProcess" id="CONNECT2_2">
-<property name="StepperID">
-<value>
-DES_2
-</value>
+<process class="FOProcess" id="CONNECT0_1">
+<property name="Priority">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.400000
-</value>
+<property name="StepperID">
+<value>DES_1</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_1:X0_2</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_2:X2_4
+<value>P0</value>
+<value>Variable:/SYSTEM_2:X0_5</value>
+<value>1</value>
+<value>1</value>
 </value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_3:X2_7
-</value>
-<value>
-1
-</value>
-</value>
+</property>
+<property name="k">
+<value>0.2</value>
 </property>
 </process>
 <process class="FOProcess" id="CONNECT3_2">
-<property name="StepperID">
-<value>
-DES_2
-</value>
+<property name="Priority">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.400000
-</value>
+<property name="StepperID">
+<value>DES_2</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_2:X3_4</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_2:X3_4
+<value>P0</value>
+<value>Variable:/SYSTEM_3:X3_7</value>
+<value>1</value>
+<value>1</value>
 </value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_3:X3_7
-</value>
-<value>
-1
-</value>
-</value>
+</property>
+<property name="k">
+<value>0.4</value>
 </property>
 </process>
 <process class="FOProcess" id="CONNECT4_2">
-<property name="StepperID">
-<value>
-DES_2
-</value>
+<property name="Priority">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.400000
-</value>
+<property name="StepperID">
+<value>DES_2</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_2:X4_4</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_2:X4_4
+<value>P0</value>
+<value>Variable:/SYSTEM_3:X4_7</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>0.4</value>
+</property>
+</process>
+<process class="FOProcess" id="CONNECT2_2">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_2</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_2:X2_4</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-0
+<value>P0</value>
+<value>Variable:/SYSTEM_3:X2_7</value>
+<value>1</value>
+<value>1</value>
 </value>
+</property>
+<property name="k">
+<value>0.4</value>
+</property>
+</process>
+<process class="FOProcess" id="CONNECT0_2">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_2</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_2:X0_4</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
+<value>P0</value>
+<value>Variable:/SYSTEM_3:X0_7</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>0.4</value>
+</property>
+</process>
+<process class="FOProcess" id="CONNECT1_2">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_2</value>
+</property>
+<property name="VariableReferenceList">
 <value>
-P0
+<value>C0</value>
+<value>Variable:/SYSTEM_2:X1_4</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_3:X4_7
+<value>P0</value>
+<value>Variable:/SYSTEM_3:X1_7</value>
+<value>1</value>
+<value>1</value>
 </value>
-<value>
-1
-</value>
-</value>
+</property>
+<property name="k">
+<value>0.4</value>
 </property>
 </process>
 </system>
 <system class="System" id="/SYSTEM_0">
 <property name="StepperID">
-<value>
-DES_0
-</value>
+<value>DES_0</value>
 </property>
 <variable class="Variable" id="SIZE">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-0.000000
-</value>
+<value>0</value>
 </property>
 </variable>
-<variable class="Variable" id="X0_0">
-<property name="Value">
-<value>
-1000000.000000
-</value>
-</property>
-</variable>
-<variable class="Variable" id="X0_1">
-<property name="Value">
-<value>
-0.000000
-</value>
-</property>
-</variable>
-<process class="FOProcess" id="P0_0">
-<property name="StepperID">
-<value>
-DES_0
-</value>
-</property>
-<property name="k">
-<value>
-0.100000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_0:X0_0
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_0:X0_1
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="P0_1">
-<property name="StepperID">
-<value>
-DES_0
-</value>
-</property>
-<property name="k">
-<value>
--0.100000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_0:X0_1
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_0:X0_0
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<variable class="Variable" id="X1_0">
-<property name="Value">
-<value>
-1000000.000000
-</value>
-</property>
-</variable>
-<variable class="Variable" id="X1_1">
-<property name="Value">
-<value>
-0.000000
-</value>
-</property>
-</variable>
-<process class="FOProcess" id="P1_0">
-<property name="StepperID">
-<value>
-DES_0
-</value>
-</property>
-<property name="k">
-<value>
-0.100000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_0:X1_0
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_0:X1_1
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="P1_1">
-<property name="StepperID">
-<value>
-DES_0
-</value>
-</property>
-<property name="k">
-<value>
--0.100000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_0:X1_1
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_0:X1_0
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<variable class="Variable" id="X2_0">
-<property name="Value">
-<value>
-1000000.000000
-</value>
-</property>
-</variable>
-<variable class="Variable" id="X2_1">
-<property name="Value">
-<value>
-0.000000
-</value>
-</property>
-</variable>
-<process class="FOProcess" id="P2_0">
-<property name="StepperID">
-<value>
-DES_0
-</value>
-</property>
-<property name="k">
-<value>
-0.100000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_0:X2_0
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_0:X2_1
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="P2_1">
-<property name="StepperID">
-<value>
-DES_0
-</value>
-</property>
-<property name="k">
-<value>
--0.100000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_0:X2_1
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_0:X2_0
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
 <variable class="Variable" id="X3_0">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-1000000.000000
-</value>
+<value>1000000</value>
 </property>
 </variable>
 <variable class="Variable" id="X3_1">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-0.000000
-</value>
+<value>0</value>
 </property>
 </variable>
-<process class="FOProcess" id="P3_0">
-<property name="StepperID">
-<value>
-DES_0
-</value>
+<variable class="Variable" id="X2_0">
+<property name="DiffusionCoeff">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.100000
-</value>
+<property name="Fixed">
+<value>0</value>
 </property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_0:X3_0
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_0:X3_1
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="P3_1">
-<property name="StepperID">
-<value>
-DES_0
-</value>
-</property>
-<property name="k">
-<value>
--0.100000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_0:X3_1
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_0:X3_0
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<variable class="Variable" id="X4_0">
 <property name="Value">
-<value>
-1000000.000000
-</value>
+<value>1000000</value>
+</property>
+</variable>
+<variable class="Variable" id="X4_0">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
 </property>
 </variable>
 <variable class="Variable" id="X4_1">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-0.000000
-</value>
+<value>0</value>
 </property>
 </variable>
-<process class="FOProcess" id="P4_0">
-<property name="StepperID">
-<value>
-DES_0
-</value>
+<variable class="Variable" id="X2_1">
+<property name="DiffusionCoeff">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.100000
-</value>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>0</value>
+</property>
+</variable>
+<variable class="Variable" id="X1_1">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>0</value>
+</property>
+</variable>
+<variable class="Variable" id="X0_1">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>0</value>
+</property>
+</variable>
+<variable class="Variable" id="X0_0">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<variable class="Variable" id="X1_0">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<process class="FOProcess" id="P2_0">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_0</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_0:X2_0</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_0:X4_0
+<value>P0</value>
+<value>Variable:/SYSTEM_0:X2_1</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>0.1</value>
+</property>
+</process>
+<process class="FOProcess" id="P2_1">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_0</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_0:X2_1</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-0
+<value>P0</value>
+<value>Variable:/SYSTEM_0:X2_0</value>
+<value>1</value>
+<value>1</value>
 </value>
+</property>
+<property name="k">
+<value>-0.1</value>
+</property>
+</process>
+<process class="FOProcess" id="P4_0">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_0</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_0:X4_0</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-<value>
-P0
+<value>P0</value>
+<value>Variable:/SYSTEM_0:X4_1</value>
+<value>1</value>
+<value>1</value>
 </value>
-<value>
-Variable:/SYSTEM_0:X4_1
-</value>
-<value>
-1
-</value>
-</value>
+</property>
+<property name="k">
+<value>0.1</value>
 </property>
 </process>
 <process class="FOProcess" id="P4_1">
-<property name="StepperID">
-<value>
-DES_0
-</value>
+<property name="Priority">
+<value>0</value>
 </property>
-<property name="k">
-<value>
--0.100000
-</value>
+<property name="StepperID">
+<value>DES_0</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_0:X4_1</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_0:X4_1
+<value>P0</value>
+<value>Variable:/SYSTEM_0:X4_0</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>-0.1</value>
+</property>
+</process>
+<process class="FOProcess" id="P3_0">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_0</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_0:X3_0</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-0
+<value>P0</value>
+<value>Variable:/SYSTEM_0:X3_1</value>
+<value>1</value>
+<value>1</value>
 </value>
+</property>
+<property name="k">
+<value>0.1</value>
+</property>
+</process>
+<process class="FOProcess" id="P3_1">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_0</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_0:X3_1</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
+<value>P0</value>
+<value>Variable:/SYSTEM_0:X3_0</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>-0.1</value>
+</property>
+</process>
+<process class="FOProcess" id="P0_0">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_0</value>
+</property>
+<property name="VariableReferenceList">
 <value>
-P0
+<value>C0</value>
+<value>Variable:/SYSTEM_0:X0_0</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_0:X4_0
+<value>P0</value>
+<value>Variable:/SYSTEM_0:X0_1</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>0.1</value>
+</property>
+</process>
+<process class="FOProcess" id="P0_1">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_0</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_0:X0_1</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-1
+<value>P0</value>
+<value>Variable:/SYSTEM_0:X0_0</value>
+<value>1</value>
+<value>1</value>
 </value>
+</property>
+<property name="k">
+<value>-0.1</value>
+</property>
+</process>
+<process class="FOProcess" id="P1_0">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_0</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_0:X1_0</value>
+<value>0</value>
+<value>1</value>
 </value>
+<value>
+<value>P0</value>
+<value>Variable:/SYSTEM_0:X1_1</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>0.1</value>
+</property>
+</process>
+<process class="FOProcess" id="P1_1">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_0</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_0:X1_1</value>
+<value>0</value>
+<value>1</value>
+</value>
+<value>
+<value>P0</value>
+<value>Variable:/SYSTEM_0:X1_0</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>-0.1</value>
 </property>
 </process>
 </system>
 <system class="System" id="/SYSTEM_1">
 <property name="StepperID">
-<value>
-DES_1
-</value>
+<value>DES_1</value>
 </property>
 <variable class="Variable" id="SIZE">
-<property name="Value">
-<value>
-0.000000
-</value>
+<property name="DiffusionCoeff">
+<value>0</value>
 </property>
-</variable>
-<variable class="Variable" id="X0_2">
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-1000000.000000
-</value>
+<value>0</value>
 </property>
 </variable>
 <variable class="Variable" id="X0_3">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-0.000000
-</value>
-</property>
-</variable>
-<process class="FOProcess" id="P0_2">
-<property name="StepperID">
-<value>
-DES_1
-</value>
-</property>
-<property name="k">
-<value>
-0.200000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_1:X0_2
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_1:X0_3
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="P0_3">
-<property name="StepperID">
-<value>
-DES_1
-</value>
-</property>
-<property name="k">
-<value>
--0.200000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_1:X0_3
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_1:X0_2
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<variable class="Variable" id="X1_2">
-<property name="Value">
-<value>
-1000000.000000
-</value>
-</property>
-</variable>
-<variable class="Variable" id="X1_3">
-<property name="Value">
-<value>
-0.000000
-</value>
-</property>
-</variable>
-<process class="FOProcess" id="P1_2">
-<property name="StepperID">
-<value>
-DES_1
-</value>
-</property>
-<property name="k">
-<value>
-0.200000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_1:X1_2
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_1:X1_3
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="P1_3">
-<property name="StepperID">
-<value>
-DES_1
-</value>
-</property>
-<property name="k">
-<value>
--0.200000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_1:X1_3
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_1:X1_2
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<variable class="Variable" id="X2_2">
-<property name="Value">
-<value>
-1000000.000000
-</value>
-</property>
-</variable>
-<variable class="Variable" id="X2_3">
-<property name="Value">
-<value>
-0.000000
-</value>
-</property>
-</variable>
-<process class="FOProcess" id="P2_2">
-<property name="StepperID">
-<value>
-DES_1
-</value>
-</property>
-<property name="k">
-<value>
-0.200000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_1:X2_2
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_1:X2_3
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="P2_3">
-<property name="StepperID">
-<value>
-DES_1
-</value>
-</property>
-<property name="k">
-<value>
--0.200000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_1:X2_3
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_1:X2_2
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<variable class="Variable" id="X3_2">
-<property name="Value">
-<value>
-1000000.000000
-</value>
-</property>
-</variable>
-<variable class="Variable" id="X3_3">
-<property name="Value">
-<value>
-0.000000
-</value>
-</property>
-</variable>
-<process class="FOProcess" id="P3_2">
-<property name="StepperID">
-<value>
-DES_1
-</value>
-</property>
-<property name="k">
-<value>
-0.200000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_1:X3_2
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_1:X3_3
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="P3_3">
-<property name="StepperID">
-<value>
-DES_1
-</value>
-</property>
-<property name="k">
-<value>
--0.200000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_1:X3_3
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_1:X3_2
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<variable class="Variable" id="X4_2">
-<property name="Value">
-<value>
-1000000.000000
-</value>
+<value>0</value>
 </property>
 </variable>
 <variable class="Variable" id="X4_3">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-0.000000
-</value>
+<value>0</value>
 </property>
 </variable>
-<process class="FOProcess" id="P4_2">
-<property name="StepperID">
-<value>
-DES_1
-</value>
+<variable class="Variable" id="X4_2">
+<property name="DiffusionCoeff">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.200000
-</value>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<variable class="Variable" id="X3_2">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<variable class="Variable" id="X3_3">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>0</value>
+</property>
+</variable>
+<variable class="Variable" id="X2_2">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<variable class="Variable" id="X0_2">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<variable class="Variable" id="X1_2">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<variable class="Variable" id="X1_3">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>0</value>
+</property>
+</variable>
+<variable class="Variable" id="X2_3">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>0</value>
+</property>
+</variable>
+<process class="FOProcess" id="P2_2">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_1</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_1:X2_2</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_1:X4_2
+<value>P0</value>
+<value>Variable:/SYSTEM_1:X2_3</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>0.2</value>
+</property>
+</process>
+<process class="FOProcess" id="P2_3">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_1</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_1:X2_3</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-0
+<value>P0</value>
+<value>Variable:/SYSTEM_1:X2_2</value>
+<value>1</value>
+<value>1</value>
 </value>
+</property>
+<property name="k">
+<value>-0.2</value>
+</property>
+</process>
+<process class="FOProcess" id="P4_2">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_1</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_1:X4_2</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-<value>
-P0
+<value>P0</value>
+<value>Variable:/SYSTEM_1:X4_3</value>
+<value>1</value>
+<value>1</value>
 </value>
-<value>
-Variable:/SYSTEM_1:X4_3
-</value>
-<value>
-1
-</value>
-</value>
+</property>
+<property name="k">
+<value>0.2</value>
 </property>
 </process>
 <process class="FOProcess" id="P4_3">
-<property name="StepperID">
-<value>
-DES_1
-</value>
+<property name="Priority">
+<value>0</value>
 </property>
-<property name="k">
-<value>
--0.200000
-</value>
+<property name="StepperID">
+<value>DES_1</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_1:X4_3</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_1:X4_3
+<value>P0</value>
+<value>Variable:/SYSTEM_1:X4_2</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>-0.2</value>
+</property>
+</process>
+<process class="FOProcess" id="P3_2">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_1</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_1:X3_2</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-0
+<value>P0</value>
+<value>Variable:/SYSTEM_1:X3_3</value>
+<value>1</value>
+<value>1</value>
 </value>
+</property>
+<property name="k">
+<value>0.2</value>
+</property>
+</process>
+<process class="FOProcess" id="P3_3">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_1</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_1:X3_3</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
+<value>P0</value>
+<value>Variable:/SYSTEM_1:X3_2</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>-0.2</value>
+</property>
+</process>
+<process class="FOProcess" id="P1_2">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_1</value>
+</property>
+<property name="VariableReferenceList">
 <value>
-P0
+<value>C0</value>
+<value>Variable:/SYSTEM_1:X1_2</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_1:X4_2
+<value>P0</value>
+<value>Variable:/SYSTEM_1:X1_3</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>0.2</value>
+</property>
+</process>
+<process class="FOProcess" id="P1_3">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_1</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_1:X1_3</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-1
+<value>P0</value>
+<value>Variable:/SYSTEM_1:X1_2</value>
+<value>1</value>
+<value>1</value>
 </value>
+</property>
+<property name="k">
+<value>-0.2</value>
+</property>
+</process>
+<process class="FOProcess" id="P0_3">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_1</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_1:X0_3</value>
+<value>0</value>
+<value>1</value>
 </value>
+<value>
+<value>P0</value>
+<value>Variable:/SYSTEM_1:X0_2</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>-0.2</value>
+</property>
+</process>
+<process class="FOProcess" id="P0_2">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_1</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_1:X0_2</value>
+<value>0</value>
+<value>1</value>
+</value>
+<value>
+<value>P0</value>
+<value>Variable:/SYSTEM_1:X0_3</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>0.2</value>
 </property>
 </process>
 </system>
 <system class="System" id="/SYSTEM_2">
 <property name="StepperID">
-<value>
-DES_2
-</value>
+<value>DES_2</value>
 </property>
 <variable class="Variable" id="SIZE">
-<property name="Value">
-<value>
-0.000000
-</value>
+<property name="DiffusionCoeff">
+<value>0</value>
 </property>
-</variable>
-<variable class="Variable" id="X0_4">
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-1000000.000000
-</value>
+<value>0</value>
 </property>
 </variable>
 <variable class="Variable" id="X0_5">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-0.000000
-</value>
-</property>
-</variable>
-<process class="FOProcess" id="P0_4">
-<property name="StepperID">
-<value>
-DES_2
-</value>
-</property>
-<property name="k">
-<value>
-0.400000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_2:X0_4
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_2:X0_5
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="P0_5">
-<property name="StepperID">
-<value>
-DES_2
-</value>
-</property>
-<property name="k">
-<value>
--0.400000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_2:X0_5
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_2:X0_4
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<variable class="Variable" id="X1_4">
-<property name="Value">
-<value>
-1000000.000000
-</value>
+<value>0</value>
 </property>
 </variable>
 <variable class="Variable" id="X1_5">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-0.000000
-</value>
-</property>
-</variable>
-<process class="FOProcess" id="P1_4">
-<property name="StepperID">
-<value>
-DES_2
-</value>
-</property>
-<property name="k">
-<value>
-0.400000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_2:X1_4
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_2:X1_5
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="P1_5">
-<property name="StepperID">
-<value>
-DES_2
-</value>
-</property>
-<property name="k">
-<value>
--0.400000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_2:X1_5
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_2:X1_4
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<variable class="Variable" id="X2_4">
-<property name="Value">
-<value>
-1000000.000000
-</value>
+<value>0</value>
 </property>
 </variable>
 <variable class="Variable" id="X2_5">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-0.000000
-</value>
-</property>
-</variable>
-<process class="FOProcess" id="P2_4">
-<property name="StepperID">
-<value>
-DES_2
-</value>
-</property>
-<property name="k">
-<value>
-0.400000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_2:X2_4
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_2:X2_5
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="P2_5">
-<property name="StepperID">
-<value>
-DES_2
-</value>
-</property>
-<property name="k">
-<value>
--0.400000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_2:X2_5
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_2:X2_4
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<variable class="Variable" id="X3_4">
-<property name="Value">
-<value>
-1000000.000000
-</value>
-</property>
-</variable>
-<variable class="Variable" id="X3_5">
-<property name="Value">
-<value>
-0.000000
-</value>
-</property>
-</variable>
-<process class="FOProcess" id="P3_4">
-<property name="StepperID">
-<value>
-DES_2
-</value>
-</property>
-<property name="k">
-<value>
-0.400000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_2:X3_4
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_2:X3_5
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="P3_5">
-<property name="StepperID">
-<value>
-DES_2
-</value>
-</property>
-<property name="k">
-<value>
--0.400000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_2:X3_5
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_2:X3_4
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<variable class="Variable" id="X4_4">
-<property name="Value">
-<value>
-1000000.000000
-</value>
+<value>0</value>
 </property>
 </variable>
 <variable class="Variable" id="X4_5">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-0.000000
-</value>
+<value>0</value>
 </property>
 </variable>
-<process class="FOProcess" id="P4_4">
-<property name="StepperID">
-<value>
-DES_2
-</value>
+<variable class="Variable" id="X3_5">
+<property name="DiffusionCoeff">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.400000
-</value>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>0</value>
+</property>
+</variable>
+<variable class="Variable" id="X3_4">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<variable class="Variable" id="X4_4">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<variable class="Variable" id="X0_4">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<variable class="Variable" id="X1_4">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<variable class="Variable" id="X2_4">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<process class="FOProcess" id="P3_4">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_2</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_2:X3_4</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_2:X4_4
+<value>P0</value>
+<value>Variable:/SYSTEM_2:X3_5</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>0.4</value>
+</property>
+</process>
+<process class="FOProcess" id="P3_5">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_2</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_2:X3_5</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-0
+<value>P0</value>
+<value>Variable:/SYSTEM_2:X3_4</value>
+<value>1</value>
+<value>1</value>
 </value>
+</property>
+<property name="k">
+<value>-0.4</value>
+</property>
+</process>
+<process class="FOProcess" id="P4_4">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_2</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_2:X4_4</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-<value>
-P0
+<value>P0</value>
+<value>Variable:/SYSTEM_2:X4_5</value>
+<value>1</value>
+<value>1</value>
 </value>
-<value>
-Variable:/SYSTEM_2:X4_5
-</value>
-<value>
-1
-</value>
-</value>
+</property>
+<property name="k">
+<value>0.4</value>
 </property>
 </process>
 <process class="FOProcess" id="P4_5">
-<property name="StepperID">
-<value>
-DES_2
-</value>
+<property name="Priority">
+<value>0</value>
 </property>
-<property name="k">
-<value>
--0.400000
-</value>
+<property name="StepperID">
+<value>DES_2</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_2:X4_5</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_2:X4_5
+<value>P0</value>
+<value>Variable:/SYSTEM_2:X4_4</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>-0.4</value>
+</property>
+</process>
+<process class="FOProcess" id="P2_5">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_2</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_2:X2_5</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-0
+<value>P0</value>
+<value>Variable:/SYSTEM_2:X2_4</value>
+<value>1</value>
+<value>1</value>
 </value>
+</property>
+<property name="k">
+<value>-0.4</value>
+</property>
+</process>
+<process class="FOProcess" id="P0_5">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_2</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_2:X0_5</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
+<value>P0</value>
+<value>Variable:/SYSTEM_2:X0_4</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>-0.4</value>
+</property>
+</process>
+<process class="FOProcess" id="P0_4">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_2</value>
+</property>
+<property name="VariableReferenceList">
 <value>
-P0
+<value>C0</value>
+<value>Variable:/SYSTEM_2:X0_4</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_2:X4_4
+<value>P0</value>
+<value>Variable:/SYSTEM_2:X0_5</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>0.4</value>
+</property>
+</process>
+<process class="FOProcess" id="P1_5">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_2</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_2:X1_5</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-1
+<value>P0</value>
+<value>Variable:/SYSTEM_2:X1_4</value>
+<value>1</value>
+<value>1</value>
 </value>
+</property>
+<property name="k">
+<value>-0.4</value>
+</property>
+</process>
+<process class="FOProcess" id="P1_4">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_2</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_2:X1_4</value>
+<value>0</value>
+<value>1</value>
 </value>
+<value>
+<value>P0</value>
+<value>Variable:/SYSTEM_2:X1_5</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>0.4</value>
+</property>
+</process>
+<process class="FOProcess" id="P2_4">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_2</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_2:X2_4</value>
+<value>0</value>
+<value>1</value>
+</value>
+<value>
+<value>P0</value>
+<value>Variable:/SYSTEM_2:X2_5</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>0.4</value>
 </property>
 </process>
 </system>
 <system class="System" id="/SYSTEM_3">
 <property name="StepperID">
-<value>
-DES_3
-</value>
+<value>DES_3</value>
 </property>
 <variable class="Variable" id="SIZE">
-<property name="Value">
-<value>
-0.000000
-</value>
+<property name="DiffusionCoeff">
+<value>0</value>
 </property>
-</variable>
-<variable class="Variable" id="X0_6">
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-1000000.000000
-</value>
+<value>0</value>
 </property>
 </variable>
 <variable class="Variable" id="X0_7">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-0.000000
-</value>
-</property>
-</variable>
-<process class="FOProcess" id="P0_6">
-<property name="StepperID">
-<value>
-DES_3
-</value>
-</property>
-<property name="k">
-<value>
-0.800000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_3:X0_6
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_3:X0_7
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="P0_7">
-<property name="StepperID">
-<value>
-DES_3
-</value>
-</property>
-<property name="k">
-<value>
--0.800000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_3:X0_7
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_3:X0_6
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<variable class="Variable" id="X1_6">
-<property name="Value">
-<value>
-1000000.000000
-</value>
+<value>0</value>
 </property>
 </variable>
 <variable class="Variable" id="X1_7">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-0.000000
-</value>
-</property>
-</variable>
-<process class="FOProcess" id="P1_6">
-<property name="StepperID">
-<value>
-DES_3
-</value>
-</property>
-<property name="k">
-<value>
-0.800000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_3:X1_6
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_3:X1_7
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="P1_7">
-<property name="StepperID">
-<value>
-DES_3
-</value>
-</property>
-<property name="k">
-<value>
--0.800000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_3:X1_7
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_3:X1_6
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<variable class="Variable" id="X2_6">
-<property name="Value">
-<value>
-1000000.000000
-</value>
-</property>
-</variable>
-<variable class="Variable" id="X2_7">
-<property name="Value">
-<value>
-0.000000
-</value>
-</property>
-</variable>
-<process class="FOProcess" id="P2_6">
-<property name="StepperID">
-<value>
-DES_3
-</value>
-</property>
-<property name="k">
-<value>
-0.800000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_3:X2_6
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_3:X2_7
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="P2_7">
-<property name="StepperID">
-<value>
-DES_3
-</value>
-</property>
-<property name="k">
-<value>
--0.800000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_3:X2_7
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_3:X2_6
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<variable class="Variable" id="X3_6">
-<property name="Value">
-<value>
-1000000.000000
-</value>
-</property>
-</variable>
-<variable class="Variable" id="X3_7">
-<property name="Value">
-<value>
-0.000000
-</value>
-</property>
-</variable>
-<process class="FOProcess" id="P3_6">
-<property name="StepperID">
-<value>
-DES_3
-</value>
-</property>
-<property name="k">
-<value>
-0.800000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_3:X3_6
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_3:X3_7
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<process class="FOProcess" id="P3_7">
-<property name="StepperID">
-<value>
-DES_3
-</value>
-</property>
-<property name="k">
-<value>
--0.800000
-</value>
-</property>
-<property name="VariableReferenceList">
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:/SYSTEM_3:X3_7
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_3:X3_6
-</value>
-<value>
-1
-</value>
-</value>
-</property>
-</process>
-<variable class="Variable" id="X4_6">
-<property name="Value">
-<value>
-1000000.000000
-</value>
+<value>0</value>
 </property>
 </variable>
 <variable class="Variable" id="X4_7">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-0.000000
-</value>
+<value>0</value>
 </property>
 </variable>
-<process class="FOProcess" id="P4_6">
-<property name="StepperID">
-<value>
-DES_3
-</value>
+<variable class="Variable" id="X4_6">
+<property name="DiffusionCoeff">
+<value>0</value>
 </property>
-<property name="k">
-<value>
-0.800000
-</value>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<variable class="Variable" id="X2_6">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<variable class="Variable" id="X2_7">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>0</value>
+</property>
+</variable>
+<variable class="Variable" id="X1_6">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<variable class="Variable" id="X0_6">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<variable class="Variable" id="X3_7">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>0</value>
+</property>
+</variable>
+<variable class="Variable" id="X3_6">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
+<property name="Value">
+<value>1000000</value>
+</property>
+</variable>
+<process class="FOProcess" id="P2_6">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_3</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_3:X2_6</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_3:X4_6
+<value>P0</value>
+<value>Variable:/SYSTEM_3:X2_7</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>0.8</value>
+</property>
+</process>
+<process class="FOProcess" id="P2_7">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_3</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_3:X2_7</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-0
+<value>P0</value>
+<value>Variable:/SYSTEM_3:X2_6</value>
+<value>1</value>
+<value>1</value>
 </value>
-</value>
-<value>
-<value>
-P0
-</value>
-<value>
-Variable:/SYSTEM_3:X4_7
-</value>
-<value>
-1
-</value>
-</value>
+</property>
+<property name="k">
+<value>-0.8</value>
 </property>
 </process>
 <process class="FOProcess" id="P4_7">
-<property name="StepperID">
-<value>
-DES_3
-</value>
+<property name="Priority">
+<value>0</value>
 </property>
-<property name="k">
-<value>
--0.800000
-</value>
+<property name="StepperID">
+<value>DES_3</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/SYSTEM_3:X4_7</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_3:X4_7
+<value>P0</value>
+<value>Variable:/SYSTEM_3:X4_6</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>-0.8</value>
+</property>
+</process>
+<process class="FOProcess" id="P4_6">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_3</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_3:X4_6</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-0
+<value>P0</value>
+<value>Variable:/SYSTEM_3:X4_7</value>
+<value>1</value>
+<value>1</value>
 </value>
+</property>
+<property name="k">
+<value>0.8</value>
+</property>
+</process>
+<process class="FOProcess" id="P1_7">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_3</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_3:X1_7</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
+<value>P0</value>
+<value>Variable:/SYSTEM_3:X1_6</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>-0.8</value>
+</property>
+</process>
+<process class="FOProcess" id="P1_6">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_3</value>
+</property>
+<property name="VariableReferenceList">
 <value>
-P0
+<value>C0</value>
+<value>Variable:/SYSTEM_3:X1_6</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:/SYSTEM_3:X4_6
+<value>P0</value>
+<value>Variable:/SYSTEM_3:X1_7</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>0.8</value>
+</property>
+</process>
+<process class="FOProcess" id="P0_7">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_3</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_3:X0_7</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-1
+<value>P0</value>
+<value>Variable:/SYSTEM_3:X0_6</value>
+<value>1</value>
+<value>1</value>
 </value>
+</property>
+<property name="k">
+<value>-0.8</value>
+</property>
+</process>
+<process class="FOProcess" id="P0_6">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_3</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_3:X0_6</value>
+<value>0</value>
+<value>1</value>
 </value>
+<value>
+<value>P0</value>
+<value>Variable:/SYSTEM_3:X0_7</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>0.8</value>
+</property>
+</process>
+<process class="FOProcess" id="P3_6">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_3</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_3:X3_6</value>
+<value>0</value>
+<value>1</value>
+</value>
+<value>
+<value>P0</value>
+<value>Variable:/SYSTEM_3:X3_7</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>0.8</value>
+</property>
+</process>
+<process class="FOProcess" id="P3_7">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DES_3</value>
+</property>
+<property name="VariableReferenceList">
+<value>
+<value>C0</value>
+<value>Variable:/SYSTEM_3:X3_7</value>
+<value>0</value>
+<value>1</value>
+</value>
+<value>
+<value>P0</value>
+<value>Variable:/SYSTEM_3:X3_6</value>
+<value>1</value>
+<value>1</value>
+</value>
+</property>
+<property name="k">
+<value>-0.8</value>
 </property>
 </process>
 </system>

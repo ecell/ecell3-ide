@@ -1,246 +1,250 @@
-<?xml version="1.0" ?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <eml>
-<stepper class="DAEStepper" id="DAES1"/>
+<stepper class="DAEStepper" id="DAES1">
+<property name="AbsoluteTolerance">
+<value>1E-06</value>
+</property>
+<property name="JacobianRecalculateTheta">
+<value>0.001</value>
+</property>
+<property name="MaxIterationNumber">
+<value>7</value>
+</property>
+<property name="MaxStepInterval">
+<value>INF</value>
+</property>
+<property name="MinStepInterval">
+<value>0</value>
+</property>
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="RelativeTolerance">
+<value>1E-06</value>
+</property>
+<property name="StepInterval">
+<value>0.001</value>
+</property>
+<property name="Uround">
+<value>1E-10</value>
+</property>
+</stepper>
 <system class="System" id="/">
+<property name="Name">
+<value>The Root System</value>
+</property>
 <property name="StepperID">
-<value>
-DAES1
-</value>
+<value>DAES1</value>
 </property>
 <variable class="Variable" id="SIZE">
+<property name="DiffusionCoeff">
+<value>2.66450917591109E+233</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-1e-18
-</value>
+<value>1E-18</value>
 </property>
 </variable>
 <variable class="Variable" id="X">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 </variable>
 <variable class="Variable" id="Y">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
--1
-</value>
+<value>-1</value>
 </property>
 </variable>
 <variable class="Variable" id="U">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-1
-</value>
+<value>1</value>
 </property>
 </variable>
 <variable class="Variable" id="V">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-0
-</value>
+<value>0</value>
 </property>
 </variable>
 <variable class="Variable" id="T">
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
+</property>
 <property name="Value">
-<value>
-2
-</value>
+<value>2</value>
 </property>
 </variable>
 <process class="Differential1Process" id="DP1">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DAES1</value>
+</property>
 <property name="VariableReferenceList">
 <value>
-<value>
-P0
+<value>P0</value>
+<value>Variable:/:X</value>
+<value>1</value>
+<value>1</value>
 </value>
 <value>
-Variable:.:X
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:.:U
-</value>
-<value>
-0
-</value>
+<value>C0</value>
+<value>Variable:/:U</value>
+<value>0</value>
+<value>1</value>
 </value>
 </property>
 <property name="k">
-<value>
-1.0
-</value>
+<value>1</value>
 </property>
 </process>
 <process class="Differential2Process" id="DP3">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DAES1</value>
+</property>
 <property name="VariableReferenceList">
 <value>
-<value>
-P0
+<value>P0</value>
+<value>Variable:/:U</value>
+<value>1</value>
+<value>1</value>
 </value>
 <value>
-Variable:.:U
+<value>C0</value>
+<value>Variable:/:X</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-1
-</value>
-</value>
-<value>
-<value>
-C0
-</value>
-<value>
-Variable:.:X
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-C1
-</value>
-<value>
-Variable:.:T
-</value>
-<value>
-0
-</value>
+<value>C1</value>
+<value>Variable:/:T</value>
+<value>0</value>
+<value>1</value>
 </value>
 </property>
 <property name="c">
-<value>
-0.0
-</value>
+<value>0</value>
 </property>
 </process>
 <process class="Algebraic1Process" id="AP1">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DAES1</value>
+</property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/:X</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:.:X
+<value>C1</value>
+<value>Variable:/:Y</value>
+<value>1</value>
+<value>1</value>
 </value>
 <value>
-0
-</value>
-</value>
-<value>
-<value>
-C1
+<value>C2</value>
+<value>Variable:/:U</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:.:Y
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-C2
-</value>
-<value>
-Variable:.:U
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-C3
-</value>
-<value>
-Variable:.:V
-</value>
-<value>
-1
-</value>
+<value>C3</value>
+<value>Variable:/:V</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 </process>
 <process class="Algebraic2Process" id="AP2">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DAES1</value>
+</property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/:Y</value>
+<value>1</value>
+<value>1</value>
 </value>
 <value>
-Variable:.:Y
+<value>C1</value>
+<value>Variable:/:U</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-1
-</value>
-</value>
-<value>
-<value>
-C1
+<value>C2</value>
+<value>Variable:/:V</value>
+<value>1</value>
+<value>1</value>
 </value>
 <value>
-Variable:.:U
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-C2
-</value>
-<value>
-Variable:.:V
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-C3
-</value>
-<value>
-Variable:.:T
-</value>
-<value>
-1
-</value>
+<value>C3</value>
+<value>Variable:/:T</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 </process>
 <process class="Algebraic3Process" id="AP3">
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DAES1</value>
+</property>
 <property name="VariableReferenceList">
 <value>
-<value>
-C0
+<value>C0</value>
+<value>Variable:/:X</value>
+<value>0</value>
+<value>1</value>
 </value>
 <value>
-Variable:.:X
-</value>
-<value>
-0
-</value>
-</value>
-<value>
-<value>
-C1
-</value>
-<value>
-Variable:.:Y
-</value>
-<value>
-1
-</value>
+<value>C1</value>
+<value>Variable:/:Y</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 </process>

@@ -1,18 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!--PathwayWindow configuration file.-->
 <!--Automatically generated file. DO NOT modify!-->
-<Application Name="E-Cell IDE" Version="1.1.1087.0" ConfigFileVersion="1.0">
+<Application Name="E-Cell IDE 1.0 beta4" Version="1.1.2462.0" ConfigFileVersion="1.0">
+  <LayerList>
+    <Layer Name="Layer0" Visible="True" />
+  </LayerList>
   <EcellObjectList>
     <EcellObject Class="System" ModelID="Pendulum" Type="System" Key="/" Layer="SystemLayer" X="-0.5000005" Y="-0.5000006" OffsetX="0" OffsetY="0" Width="600" Height="600" />
+    <EcellObject Class="Variable" ModelID="Pendulum" Type="Variable" Key="/:T" Layer="Layer0" X="498.9049" Y="381.4297" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="Pendulum" Type="Variable" Key="/:U" Layer="Layer0" X="263.949" Y="322.6908" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="Pendulum" Type="Variable" Key="/:V" Layer="Layer0" X="498.9049" Y="28.99589" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="Pendulum" Type="Variable" Key="/:X" Layer="Layer0" X="146.4711" Y="322.6908" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="Pendulum" Type="Variable" Key="/:Y" Layer="Layer0" X="205.21" Y="28.99589" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
     <EcellObject Class="Algebraic1Process" ModelID="Pendulum" Type="Process" Key="/:AP1" Layer="Layer0" X="323.1949" Y="146.978" OffsetX="0" OffsetY="0" Width="61" Height="41" />
     <EcellObject Class="Algebraic2Process" ModelID="Pendulum" Type="Process" Key="/:AP2" Layer="Layer0" X="440.6728" Y="205.7169" OffsetX="0" OffsetY="0" Width="61" Height="41" />
     <EcellObject Class="Algebraic3Process" ModelID="Pendulum" Type="Process" Key="/:AP3" Layer="Layer0" X="29.5" Y="146.978" OffsetX="0" OffsetY="0" Width="61" Height="41" />
     <EcellObject Class="Differential1Process" ModelID="Pendulum" Type="Process" Key="/:DP1" Layer="Layer0" X="88.23898" Y="499.4118" OffsetX="0" OffsetY="0" Width="61" Height="41" />
     <EcellObject Class="Differential2Process" ModelID="Pendulum" Type="Process" Key="/:DP3" Layer="Layer0" X="323.1949" Y="499.4118" OffsetX="0" OffsetY="0" Width="61" Height="41" />
-    <EcellObject Class="Variable" ModelID="Pendulum" Type="Variable" Key="/:T" Layer="Layer0" X="499.4118" Y="381.9338" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="Pendulum" Type="Variable" Key="/:U" Layer="Layer0" X="264.4559" Y="323.1949" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="Pendulum" Type="Variable" Key="/:V" Layer="Layer0" X="499.4118" Y="29.5" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="Pendulum" Type="Variable" Key="/:X" Layer="Layer0" X="146.978" Y="323.1949" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="Pendulum" Type="Variable" Key="/:Y" Layer="Layer0" X="205.7169" Y="29.5" OffsetX="0" OffsetY="0" Width="60" Height="40" />
   </EcellObjectList>
 </Application>

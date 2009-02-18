@@ -1,261 +1,201 @@
-<?xml version="1.0" ?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <eml>
 <stepper class="ESSYNSStepper" id="DT_01">
-<property name="TaylorOrder">
-<value>
-1
-</value>
+<property name="AbsoluteEpsilon">
+<value>0.1</value>
+</property>
+<property name="AbsoluteToleranceFactor">
+<value>1</value>
+</property>
+<property name="DerivativeToleranceFactor">
+<value>1</value>
+</property>
+<property name="IsEpsilonChecked">
+<value>0</value>
+</property>
+<property name="MaxStepInterval">
+<value>10000000000</value>
+</property>
+<property name="MinStepInterval">
+<value>1E-100</value>
+</property>
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="RelativeEpsilon">
+<value>0.1</value>
+</property>
+<property name="StateToleranceFactor">
+<value>1</value>
 </property>
 <property name="StepInterval">
-<value>
-0.002
-</value>
+<value>0.002</value>
+</property>
+<property name="TaylorOrder">
+<value>1</value>
+</property>
+<property name="Tolerance">
+<value>1E-06</value>
 </property>
 </stepper>
 <system class="System" id="/">
-<property name="StepperID">
-<value>
-DT_01
-</value>
-</property>
 <property name="Name">
-<value>
-The culture medium
-</value>
+<value>The culture medium</value>
+</property>
+<property name="StepperID">
+<value>DT_01</value>
 </property>
 </system>
 <system class="System" id="/CELL">
-<property name="StepperID">
-<value>
-DT_01
-</value>
-</property>
 <property name="Name">
-<value>
-The cell
-</value>
+<value>The cell</value>
+</property>
+<property name="StepperID">
+<value>DT_01</value>
 </property>
 </system>
 <system class="System" id="/CELL/CYTOPLASM">
-<property name="StepperID">
-<value>
-DT_01
-</value>
-</property>
 <property name="Name">
-<value>
-The cytoplasm
-</value>
+<value>The cytoplasm</value>
+</property>
+<property name="StepperID">
+<value>DT_01</value>
 </property>
 <variable class="Variable" id="X1">
-<property name="Value">
-<value>
-0.5
-</value>
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
 </property>
 <property name="Name">
-<value>
-X1
-</value>
+<value>X1</value>
+</property>
+<property name="Value">
+<value>0.5</value>
 </property>
 </variable>
 <variable class="Variable" id="X2">
-<property name="Value">
-<value>
-0.5
-</value>
+<property name="DiffusionCoeff">
+<value>1.64064430285867E-306</value>
+</property>
+<property name="Fixed">
+<value>0</value>
 </property>
 <property name="Name">
-<value>
-X2
-</value>
+<value>X2</value>
+</property>
+<property name="Value">
+<value>0.5</value>
 </property>
 </variable>
 <variable class="Variable" id="X3">
-<property name="Value">
-<value>
-1
-</value>
+<property name="DiffusionCoeff">
+<value>0</value>
+</property>
+<property name="Fixed">
+<value>0</value>
 </property>
 <property name="Name">
-<value>
-X3
-</value>
+<value>X3</value>
+</property>
+<property name="Value">
+<value>1</value>
 </property>
 </variable>
 <process class="GMAProcess" id="GMASystem">
-<property name="Name">
-<value>
-GMAProcess
-</value>
-</property>
 <property name="GMASystemMatrix">
 <value>
+<value>0.4</value>
+<value>-3</value>
+<value>-2</value>
 <value>
-0.4
+<value>0</value>
+<value>-1</value>
+<value>-1</value>
 </value>
 <value>
--3
+<value>0.5</value>
+<value>-0.1</value>
+<value>0</value>
 </value>
 <value>
--2
-</value>
-<value>
-<value>
-0
-</value>
-<value>
--1
-</value>
-<value>
--1
-</value>
-</value>
-<value>
-<value>
-0.5
-</value>
-<value>
--0.1
-</value>
-<value>
-0
+<value>0.75</value>
+<value>0</value>
+<value>-0.2</value>
 </value>
 </value>
 <value>
+<value>3</value>
+<value>-1.5</value>
+<value>0</value>
 <value>
-0.75
+<value>0.5</value>
+<value>-0.1</value>
+<value>0</value>
 </value>
 <value>
-0
+<value>0</value>
+<value>0.5</value>
+<value>0</value>
 </value>
 <value>
--0.2
-</value>
-</value>
-</value>
-<value>
-<value>
-3
-</value>
-<value>
--1.5
-</value>
-<value>
-0
-</value>
-<value>
-<value>
-0.5
-</value>
-<value>
--0.1
-</value>
-<value>
-0
+<value>0</value>
+<value>0</value>
+<value>0</value>
 </value>
 </value>
 <value>
+<value>2</value>
+<value>-5</value>
+<value>0</value>
 <value>
-0
-</value>
-<value>
-0.5
-</value>
-<value>
-0
-</value>
+<value>0.75</value>
+<value>0</value>
+<value>-0.2</value>
 </value>
 <value>
-<value>
-0
+<value>0</value>
+<value>0</value>
+<value>0.5</value>
 </value>
 <value>
-0
-</value>
-<value>
-0
-</value>
+<value>0</value>
+<value>0</value>
+<value>0</value>
 </value>
 </value>
-<value>
-<value>
-2
-</value>
-<value>
--5
-</value>
-<value>
-0
-</value>
-<value>
-<value>
-0.75
-</value>
-<value>
-0
-</value>
-<value>
--0.2
-</value>
-</value>
-<value>
-<value>
-0
-</value>
-<value>
-0
-</value>
-<value>
-0.5
-</value>
-</value>
-<value>
-<value>
-0
-</value>
-<value>
-0
-</value>
-<value>
-0
-</value>
-</value>
-</value>
+</property>
+<property name="Name">
+<value>GMAProcess</value>
+</property>
+<property name="Order">
+<value>3</value>
+</property>
+<property name="Priority">
+<value>0</value>
+</property>
+<property name="StepperID">
+<value>DT_01</value>
 </property>
 <property name="VariableReferenceList">
 <value>
-<value>
-P0
+<value>P0</value>
+<value>Variable:/CELL/CYTOPLASM:X1</value>
+<value>1</value>
+<value>1</value>
 </value>
 <value>
-Variable:/CELL/CYTOPLASM:X1
+<value>P1</value>
+<value>Variable:/CELL/CYTOPLASM:X2</value>
+<value>1</value>
+<value>1</value>
 </value>
 <value>
-1
-</value>
-</value>
-<value>
-<value>
-P1
-</value>
-<value>
-Variable:/CELL/CYTOPLASM:X2
-</value>
-<value>
-1
-</value>
-</value>
-<value>
-<value>
-P2
-</value>
-<value>
-Variable:/CELL/CYTOPLASM:X3
-</value>
-<value>
-1
-</value>
+<value>P2</value>
+<value>Variable:/CELL/CYTOPLASM:X3</value>
+<value>1</value>
+<value>1</value>
 </value>
 </property>
 </process>

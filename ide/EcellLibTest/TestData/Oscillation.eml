@@ -307,7 +307,7 @@
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_cI">
 <property name="Expression">
-<value>( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
+<value>( alpha ) / ( pow ( C0.MolarConc , n ) + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
 <value>Transcription of CI</value>
@@ -341,7 +341,7 @@
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_lacI">
 <property name="Expression">
-<value>( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
+<value>( alpha ) / ( pow ( C0.MolarConc , n ) + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
 <value>Transctiption of LacI</value>
@@ -375,7 +375,7 @@
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_tetR">
 <property name="Expression">
-<value>( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
+<value>( alpha ) / ( pow ( C0.MolarConc , n ) + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
 <value>Transcription of TetR gene</value>

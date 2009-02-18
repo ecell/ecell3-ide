@@ -1,11 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!--PathwayWindow configuration file.-->
 <!--Automatically generated file. DO NOT modify!-->
-<Application Name="E-Cell IDE" Version="1.1.1081.0" ConfigFileVersion="1.0">
+<Application Name="E-Cell IDE 1.0 beta4" Version="1.1.2462.0" ConfigFileVersion="1.0">
+  <LayerList>
+    <Layer Name="Layer0" Visible="True" />
+  </LayerList>
   <EcellObjectList>
-    <EcellObject Class="System" ModelID="Drosophila" Type="System" Key="/" Layer="SystemLayer" X="-0.5000005" Y="-0.5000006" OffsetX="0" OffsetY="0" Width="1040" Height="1040" />
+    <EcellObject Class="System" ModelID="Drosophila" Type="System" Key="/" Layer="" X="-0.5" Y="-0.5" OffsetX="0" OffsetY="0" Width="1040" Height="1040" />
     <EcellObject Class="System" ModelID="Drosophila" Type="System" Key="/CELL" Layer="Layer0" X="59.5" Y="59.5" OffsetX="0" OffsetY="0" Width="920" Height="920" />
     <EcellObject Class="System" ModelID="Drosophila" Type="System" Key="/CELL/CYTOPLASM" Layer="Layer0" X="119.5" Y="119.5" OffsetX="0" OffsetY="0" Width="800" Height="800" />
+    <EcellObject Class="Variable" ModelID="Drosophila" Type="Variable" Key="/CELL/CYTOPLASM:M" Layer="Layer0" X="282.4775" Y="349.2226" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="Drosophila" Type="Variable" Key="/CELL/CYTOPLASM:P0" Layer="Layer0" X="616.1887" Y="148.9959" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="Drosophila" Type="Variable" Key="/CELL/CYTOPLASM:P1" Layer="Layer0" X="816.4153" Y="415.9648" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="Drosophila" Type="Variable" Key="/CELL/CYTOPLASM:P2" Layer="Layer0" X="616.1887" Y="749.676" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="Drosophila" Type="Variable" Key="/CELL/CYTOPLASM:Pn" Layer="Layer0" X="215.7353" Y="682.9337" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
     <EcellObject Class="ExpressionFluxProcess" ModelID="Drosophila" Type="Process" Key="/CELL/CYTOPLASM:R_toy1" Layer="Layer0" X="149.5" Y="483.2111" OffsetX="0" OffsetY="0" Width="61" Height="41" />
     <EcellObject Class="ExpressionFluxProcess" ModelID="Drosophila" Type="Process" Key="/CELL/CYTOPLASM:R_toy10" Layer="Layer0" X="816.9222" Y="816.9222" OffsetX="0" OffsetY="0" Width="61" Height="41" />
     <EcellObject Class="ExpressionFluxProcess" ModelID="Drosophila" Type="Process" Key="/CELL/CYTOPLASM:R_toy2" Layer="Layer0" X="149.5" Y="149.5" OffsetX="0" OffsetY="0" Width="61" Height="41" />
@@ -16,10 +24,5 @@
     <EcellObject Class="ExpressionFluxProcess" ModelID="Drosophila" Type="Process" Key="/CELL/CYTOPLASM:R_toy7" Layer="Layer0" X="816.9222" Y="616.6956" OffsetX="0" OffsetY="0" Width="61" Height="41" />
     <EcellObject Class="ExpressionFluxProcess" ModelID="Drosophila" Type="Process" Key="/CELL/CYTOPLASM:R_toy8" Layer="Layer0" X="416.4689" Y="816.9222" OffsetX="0" OffsetY="0" Width="61" Height="41" />
     <EcellObject Class="ExpressionFluxProcess" ModelID="Drosophila" Type="Process" Key="/CELL/CYTOPLASM:R_toy9" Layer="Layer0" X="416.4689" Y="616.6956" OffsetX="0" OffsetY="0" Width="61" Height="41" />
-    <EcellObject Class="Variable" ModelID="Drosophila" Type="Variable" Key="/CELL/CYTOPLASM:M" Layer="Layer0" X="282.9844" Y="349.7267" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="Drosophila" Type="Variable" Key="/CELL/CYTOPLASM:P0" Layer="Layer0" X="616.6956" Y="149.5" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="Drosophila" Type="Variable" Key="/CELL/CYTOPLASM:P1" Layer="Layer0" X="816.9222" Y="416.4689" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="Drosophila" Type="Variable" Key="/CELL/CYTOPLASM:P2" Layer="Layer0" X="616.6956" Y="750.1801" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="Drosophila" Type="Variable" Key="/CELL/CYTOPLASM:Pn" Layer="Layer0" X="216.2422" Y="683.4378" OffsetX="0" OffsetY="0" Width="60" Height="40" />
   </EcellObjectList>
 </Application>

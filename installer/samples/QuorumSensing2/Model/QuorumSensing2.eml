@@ -70,9 +70,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/:AHL</value>
+<value>Variable:/:AHL</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">
@@ -220,9 +220,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/Cell1:TetR</value>
+<value>Variable:/Cell1:TetR</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">
@@ -231,7 +231,7 @@
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_tetR">
 <property name="Expression">
-<value>( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
+<value>( alpha ) / ( pow ( C0.MolarConc , n ) + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
 <value>Transcription of TetR gene</value>
@@ -245,15 +245,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell1:LacI</value>
+<value>Variable:/Cell1:LacI</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell1:tetR</value>
+<value>Variable:/Cell1:tetR</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="alpha">
@@ -279,15 +279,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell1:tetR</value>
+<value>Variable:/Cell1:tetR</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell1:TetR</value>
+<value>Variable:/Cell1:TetR</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Ks">
@@ -310,9 +310,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/Cell1:tetR</value>
+<value>Variable:/Cell1:tetR</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">
@@ -335,9 +335,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/Cell1:cI</value>
+<value>Variable:/Cell1:cI</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">
@@ -360,15 +360,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell1:cI</value>
+<value>Variable:/Cell1:cI</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell1:CI</value>
+<value>Variable:/Cell1:CI</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Ks">
@@ -391,9 +391,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/Cell1:LacI</value>
+<value>Variable:/Cell1:LacI</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">
@@ -416,9 +416,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/Cell1:lacI</value>
+<value>Variable:/Cell1:lacI</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">
@@ -441,15 +441,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell1:lacI</value>
+<value>Variable:/Cell1:lacI</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell1:LacI</value>
+<value>Variable:/Cell1:LacI</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Ks">
@@ -472,9 +472,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/Cell1:CI</value>
+<value>Variable:/Cell1:CI</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">
@@ -483,7 +483,7 @@
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_cI">
 <property name="Expression">
-<value>( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
+<value>( alpha ) / ( pow ( C0.MolarConc , n ) + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
 <value>Transcription of CI</value>
@@ -497,15 +497,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell1:TetR</value>
+<value>Variable:/Cell1:TetR</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell1:cI</value>
+<value>Variable:/Cell1:cI</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="alpha">
@@ -517,7 +517,7 @@
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_lacI">
 <property name="Expression">
-<value>( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
+<value>( alpha ) / ( pow ( C0.MolarConc , n ) + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
 <value>Transctiption of LacI</value>
@@ -531,15 +531,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell1:CI</value>
+<value>Variable:/Cell1:CI</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell1:lacI</value>
+<value>Variable:/Cell1:lacI</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="alpha">
@@ -551,7 +551,7 @@
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_luxI">
 <property name="Expression">
-<value>( Vs ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
+<value>( Vs ) / ( pow ( C0.MolarConc , n ) + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Priority">
 <value>0</value>
@@ -562,15 +562,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell1:CI</value>
+<value>Variable:/Cell1:CI</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell1:luxI</value>
+<value>Variable:/Cell1:luxI</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="KI">
@@ -596,15 +596,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell1:luxI</value>
+<value>Variable:/Cell1:luxI</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell1:LuxI</value>
+<value>Variable:/Cell1:LuxI</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Ks">
@@ -624,15 +624,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell1:LuxI</value>
+<value>Variable:/Cell1:LuxI</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/:AHL</value>
+<value>Variable:/:AHL</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Ks">
@@ -652,15 +652,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/:AHL</value>
+<value>Variable:/:AHL</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell1:lacI</value>
+<value>Variable:/Cell1:lacI</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Ks">
@@ -680,9 +680,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/Cell1:luxI</value>
+<value>Variable:/Cell1:luxI</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">
@@ -702,9 +702,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/Cell1:LuxI</value>
+<value>Variable:/Cell1:LuxI</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">
@@ -846,9 +846,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/Cell2:LuxI</value>
+<value>Variable:/Cell2:LuxI</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">
@@ -868,9 +868,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/Cell2:luxI</value>
+<value>Variable:/Cell2:luxI</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">
@@ -890,15 +890,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/:AHL</value>
+<value>Variable:/:AHL</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell2:lacI</value>
+<value>Variable:/Cell2:lacI</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Ks">
@@ -918,21 +918,21 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell2:LuxI</value>
+<value>Variable:/Cell2:LuxI</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>C1</value>
-<value>:/:CellNum</value>
+<value>Variable:/:CellNum</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/:AHL</value>
+<value>Variable:/:AHL</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Ks">
@@ -952,15 +952,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell2:luxI</value>
+<value>Variable:/Cell2:luxI</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell2:LuxI</value>
+<value>Variable:/Cell2:LuxI</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Ks">
@@ -969,7 +969,7 @@
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_luxI">
 <property name="Expression">
-<value>( Vs ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
+<value>( Vs ) / ( pow ( C0.MolarConc , n ) + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Priority">
 <value>0</value>
@@ -980,15 +980,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell2:CI</value>
+<value>Variable:/Cell2:CI</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell2:luxI</value>
+<value>Variable:/Cell2:luxI</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="KI">
@@ -1003,7 +1003,7 @@
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_lacI">
 <property name="Expression">
-<value>( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
+<value>( alpha ) / ( pow ( C0.MolarConc , n ) + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
 <value>Transctiption of LacI</value>
@@ -1017,15 +1017,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell2:CI</value>
+<value>Variable:/Cell2:CI</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell2:lacI</value>
+<value>Variable:/Cell2:lacI</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="alpha">
@@ -1037,7 +1037,7 @@
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_cI">
 <property name="Expression">
-<value>( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
+<value>( alpha ) / ( pow ( C0.MolarConc , n ) + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
 <value>Transcription of CI</value>
@@ -1051,15 +1051,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell2:TetR</value>
+<value>Variable:/Cell2:TetR</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell2:cI</value>
+<value>Variable:/Cell2:cI</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="alpha">
@@ -1085,9 +1085,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/Cell2:CI</value>
+<value>Variable:/Cell2:CI</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">
@@ -1110,15 +1110,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell2:lacI</value>
+<value>Variable:/Cell2:lacI</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell2:LacI</value>
+<value>Variable:/Cell2:LacI</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Ks">
@@ -1141,9 +1141,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/Cell2:lacI</value>
+<value>Variable:/Cell2:lacI</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">
@@ -1166,9 +1166,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/Cell2:LacI</value>
+<value>Variable:/Cell2:LacI</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">
@@ -1191,15 +1191,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell2:cI</value>
+<value>Variable:/Cell2:cI</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell2:CI</value>
+<value>Variable:/Cell2:CI</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Ks">
@@ -1222,9 +1222,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/Cell2:cI</value>
+<value>Variable:/Cell2:cI</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">
@@ -1247,9 +1247,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/Cell2:tetR</value>
+<value>Variable:/Cell2:tetR</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">
@@ -1272,15 +1272,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell2:tetR</value>
+<value>Variable:/Cell2:tetR</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell2:TetR</value>
+<value>Variable:/Cell2:TetR</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Ks">
@@ -1289,7 +1289,7 @@
 </process>
 <process class="ExpressionFluxProcess" id="Transcript_tetR">
 <property name="Expression">
-<value>( alpha ) / ( C0.MolarConc ^ n + 1 ) * self.getSuperSystem().SizeN_A</value>
+<value>( alpha ) / ( pow ( C0.MolarConc , n ) + 1 ) * self.getSuperSystem().SizeN_A</value>
 </property>
 <property name="Name">
 <value>Transcription of TetR gene</value>
@@ -1303,15 +1303,15 @@
 <property name="VariableReferenceList">
 <value>
 <value>C0</value>
-<value>:/Cell2:LacI</value>
+<value>Variable:/Cell2:LacI</value>
 <value>0</value>
-<value>1</value>
+<value>0</value>
 </value>
 <value>
 <value>P0</value>
-<value>:/Cell2:tetR</value>
+<value>Variable:/Cell2:tetR</value>
 <value>1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="alpha">
@@ -1337,9 +1337,9 @@
 <property name="VariableReferenceList">
 <value>
 <value>S0</value>
-<value>:/Cell2:TetR</value>
+<value>Variable:/Cell2:TetR</value>
 <value>-1</value>
-<value>1</value>
+<value>0</value>
 </value>
 </property>
 <property name="Kd">

@@ -1,65 +1,68 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!--PathwayWindow configuration file.-->
 <!--Automatically generated file. DO NOT modify!-->
-<Application Name="E-Cell IDE" Version="1.1.1087.0" ConfigFileVersion="1.0">
+<Application Name="E-Cell IDE 1.0 beta4" Version="1.1.2462.0" ConfigFileVersion="1.0">
+  <LayerList>
+    <Layer Name="Layer0" Visible="True" />
+  </LayerList>
   <EcellObjectList>
-    <EcellObject Class="System" ModelID="QuorumSensing2" Type="System" Key="/" Layer="SystemLayer" X="0" Y="-34.78571" OffsetX="0" OffsetY="0" Width="1796.752" Height="1009.473" />
-    <EcellObject Class="System" ModelID="QuorumSensing2" Type="System" Key="/Cell1" Layer="Layer0" X="61.68459" Y="87.96527" OffsetX="0" OffsetY="0" Width="846.2093" Height="836.638" />
-    <EcellObject Class="System" ModelID="QuorumSensing2" Type="System" Key="/Cell2" Layer="Layer0" X="951.8114" Y="93.21046" OffsetX="0" OffsetY="0" Width="792.5458" Height="825.2397" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/:Degrade_AHL" Layer="Layer0" X="717.6349" Y="-1.519392" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Degrade_cI" Layer="Layer0" X="799.3275" Y="372.751" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Degrade_CI" Layer="Layer0" X="477.8989" Y="235.6081" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Degrade_lacI" Layer="Layer0" X="160.756" Y="375.6081" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Degrade_LacI" Layer="Layer0" X="145.042" Y="667.0366" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Degrade_luxI" Layer="Layer0" X="795.0417" Y="184.1796" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Degrade_LuxI" Layer="Layer0" X="792.1848" Y="102.7511" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Degrade_tetR" Layer="Layer0" X="487.899" Y="811.3225" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Degrade_TetR" Layer="Layer0" X="813.613" Y="657.0366" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Induce_tetR" Layer="Layer0" X="262.4323" Y="329.8938" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Produce_AHL" Layer="Layer0" X="582.1846" Y="102.751" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Transcript_cI" Layer="Layer0" X="700.756" Y="509.8938" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Transcript_lacI" Layer="Layer0" X="376.4703" Y="368.4653" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Transcript_luxI" Layer="Layer0" X="587.8987" Y="274.1795" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Transcript_tetR" Layer="Layer0" X="370.756" Y="659.8937" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Translate_CI" Layer="Layer0" X="587.8989" Y="371.3224" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Translate_Lacl" Layer="Layer0" X="265.0418" Y="518.4652" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Translate_TetR" Layer="Layer0" X="600.756" Y="657.0366" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Translatet_LuxI" Layer="Layer0" X="585.0417" Y="184.1796" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Degrade_cI" Layer="Layer0" X="1637.154" Y="393.7501" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Degrade_CI" Layer="Layer0" X="1315.725" Y="256.6071" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Degrade_lacI" Layer="Layer0" X="996.583" Y="396.6072" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Degrade_LacI" Layer="Layer0" X="982.8682" Y="688.0356" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Degrade_luxI" Layer="Layer0" X="1632.868" Y="205.1786" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Degrade_LuxI" Layer="Layer0" X="1630.011" Y="123.7501" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Degrade_tetR" Layer="Layer0" X="1325.725" Y="832.3216" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Degrade_TetR" Layer="Layer0" X="1651.439" Y="678.0356" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Induce_tetR" Layer="Layer0" X="1101.563" Y="350.8929" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Produce_AHL" Layer="Layer0" X="1418.582" Y="123.7501" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Transcript_cI" Layer="Layer0" X="1538.582" Y="530.8928" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Transcript_lacI" Layer="Layer0" X="1214.296" Y="389.4644" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Transcript_luxI" Layer="Layer0" X="1425.725" Y="295.1786" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Transcript_tetR" Layer="Layer0" X="1208.582" Y="680.8928" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Translate_CI" Layer="Layer0" X="1425.725" Y="392.3215" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Translate_Lacl" Layer="Layer0" X="1102.868" Y="539.4643" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Translate_TetR" Layer="Layer0" X="1438.582" Y="678.0356" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Translatet_LuxI" Layer="Layer0" X="1422.868" Y="205.1786" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/:AHL" Layer="Layer0" X="884.1525" Y="-3.126018" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/:CellNum" Layer="Layer0" X="1417.143" Y="-3.357151" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell1:cI" Layer="Layer0" X="700.756" Y="422.751" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell1:CI" Layer="Layer0" X="476.4703" Y="331.3224" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell1:lacI" Layer="Layer0" X="263.6132" Y="425.6081" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell1:LacI" Layer="Layer0" X="265.0419" Y="617.0366" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell1:luxI" Layer="Layer0" X="689.3275" Y="225.6081" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell1:LuxI" Layer="Layer0" X="687.8987" Y="141.3225" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell1:tetR" Layer="Layer0" X="485.0417" Y="711.3222" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell1:TetR" Layer="Layer0" X="700.756" Y="599.8939" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell2:cI" Layer="Layer0" X="1538.582" Y="443.7501" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell2:CI" Layer="Layer0" X="1314.297" Y="352.3215" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell2:lacI" Layer="Layer0" X="1101.439" Y="446.6072" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell2:LacI" Layer="Layer0" X="1102.868" Y="638.0356" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell2:luxI" Layer="Layer0" X="1527.154" Y="246.6071" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell2:LuxI" Layer="Layer0" X="1525.725" Y="162.3216" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell2:tetR" Layer="Layer0" X="1322.868" Y="732.3213" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell2:TetR" Layer="Layer0" X="1538.582" Y="620.8929" OffsetX="0" OffsetY="0" Width="60" Height="40" />
+    <EcellObject Class="System" ModelID="QuorumSensing2" Type="System" Key="/" Layer="" X="0" Y="-34.78571" OffsetX="0" OffsetY="0" Width="1804.357" Height="1019.389" />
+    <EcellObject Class="System" ModelID="QuorumSensing2" Type="System" Key="/Cell1" Layer="Layer0" X="61.6846" Y="87.96527" OffsetX="0" OffsetY="0" Width="846.2093" Height="836.638" />
+    <EcellObject Class="System" ModelID="QuorumSensing2" Type="System" Key="/Cell2" Layer="Layer0" X="951.8113" Y="93.21045" OffsetX="0" OffsetY="0" Width="792.5458" Height="825.2397" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/:AHL" Layer="Layer0" X="883.6456" Y="-3.630133" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/:CellNum" Layer="Layer0" X="1416.636" Y="-3.861265" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell1:cI" Layer="Layer0" X="700.2491" Y="422.2469" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell1:CI" Layer="Layer0" X="475.9634" Y="330.8183" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell1:lacI" Layer="Layer0" X="263.1063" Y="425.104" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell1:LacI" Layer="Layer0" X="264.535" Y="616.5325" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell1:luxI" Layer="Layer0" X="688.8206" Y="225.104" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell1:LuxI" Layer="Layer0" X="687.3918" Y="140.8184" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell1:tetR" Layer="Layer0" X="484.5348" Y="710.8181" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell1:TetR" Layer="Layer0" X="700.2491" Y="599.3898" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell2:cI" Layer="Layer0" X="1538.075" Y="443.246" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell2:CI" Layer="Layer0" X="1313.79" Y="351.8174" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell2:lacI" Layer="Layer0" X="1100.932" Y="446.1031" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell2:LacI" Layer="Layer0" X="1102.361" Y="637.5315" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell2:luxI" Layer="Layer0" X="1526.647" Y="246.103" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell2:LuxI" Layer="Layer0" X="1525.218" Y="161.8175" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell2:tetR" Layer="Layer0" X="1322.361" Y="731.8172" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="QuorumSensing2" Type="Variable" Key="/Cell2:TetR" Layer="Layer0" X="1538.075" Y="620.3888" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/:Degrade_AHL" Layer="Layer0" X="717.1349" Y="-2.019388" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Degrade_cI" Layer="Layer0" X="798.8275" Y="372.251" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Degrade_CI" Layer="Layer0" X="477.3989" Y="235.1081" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Degrade_lacI" Layer="Layer0" X="160.256" Y="375.1081" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Degrade_LacI" Layer="Layer0" X="144.542" Y="666.5366" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Degrade_luxI" Layer="Layer0" X="794.5417" Y="183.6796" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Degrade_LuxI" Layer="Layer0" X="791.6848" Y="102.2511" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Degrade_tetR" Layer="Layer0" X="487.399" Y="810.8225" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Degrade_TetR" Layer="Layer0" X="813.113" Y="656.5366" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Induce_tetR" Layer="Layer0" X="261.9323" Y="329.3938" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Produce_AHL" Layer="Layer0" X="581.6846" Y="102.251" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Transcript_cI" Layer="Layer0" X="700.256" Y="509.3938" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Transcript_lacI" Layer="Layer0" X="375.9703" Y="367.9653" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Transcript_luxI" Layer="Layer0" X="587.3987" Y="273.6795" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Transcript_tetR" Layer="Layer0" X="370.256" Y="659.3937" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Translate_CI" Layer="Layer0" X="587.3989" Y="370.8224" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Translate_Lacl" Layer="Layer0" X="264.5418" Y="517.9652" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Translate_TetR" Layer="Layer0" X="600.256" Y="656.5366" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell1:Translatet_LuxI" Layer="Layer0" X="584.5417" Y="183.6796" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Degrade_cI" Layer="Layer0" X="1636.654" Y="393.2501" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Degrade_CI" Layer="Layer0" X="1315.225" Y="256.1071" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Degrade_lacI" Layer="Layer0" X="996.083" Y="396.1072" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Degrade_LacI" Layer="Layer0" X="982.3682" Y="687.5356" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Degrade_luxI" Layer="Layer0" X="1632.368" Y="204.6786" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Degrade_LuxI" Layer="Layer0" X="1629.511" Y="123.2501" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Degrade_tetR" Layer="Layer0" X="1325.225" Y="831.8216" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Degrade_TetR" Layer="Layer0" X="1650.939" Y="677.5356" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Induce_tetR" Layer="Layer0" X="1101.063" Y="350.3929" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Produce_AHL" Layer="Layer0" X="1418.082" Y="123.2501" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Transcript_cI" Layer="Layer0" X="1538.082" Y="530.3928" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Transcript_lacI" Layer="Layer0" X="1213.796" Y="388.9644" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Transcript_luxI" Layer="Layer0" X="1425.225" Y="294.6786" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Transcript_tetR" Layer="Layer0" X="1208.082" Y="680.3928" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Translate_CI" Layer="Layer0" X="1425.225" Y="391.8215" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Translate_Lacl" Layer="Layer0" X="1102.368" Y="538.9643" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Translate_TetR" Layer="Layer0" X="1438.082" Y="677.5356" OffsetX="0" OffsetY="0" Width="61" Height="41" />
+    <EcellObject Class="ExpressionFluxProcess" ModelID="QuorumSensing2" Type="Process" Key="/Cell2:Translatet_LuxI" Layer="Layer0" X="1422.368" Y="204.6786" OffsetX="0" OffsetY="0" Width="61" Height="41" />
   </EcellObjectList>
 </Application>

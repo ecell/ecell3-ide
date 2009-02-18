@@ -1,15 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!--PathwayWindow configuration file.-->
 <!--Automatically generated file. DO NOT modify!-->
-<Application Name="E-Cell IDE" Version="1.1.1087.0" ConfigFileVersion="1.0">
+<Application Name="E-Cell IDE 1.0 beta4" Version="1.1.2462.0" ConfigFileVersion="1.0">
+  <LayerList>
+    <Layer Name="Layer0" Visible="True" />
+  </LayerList>
   <EcellObjectList>
     <EcellObject Class="System" ModelID="tauleap" Type="System" Key="/" Layer="SystemLayer" X="-0.5000005" Y="-0.5000006" OffsetX="0" OffsetY="0" Width="500" Height="500" />
+    <EcellObject Class="Variable" ModelID="tauleap" Type="Variable" Key="/:S1" Layer="Layer0" X="197.3604" Y="365.7306" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="tauleap" Type="Variable" Key="/:S2" Layer="Layer0" X="141.238" Y="197.3632" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
+    <EcellObject Class="Variable" ModelID="tauleap" Type="Variable" Key="/:S3" Layer="Layer0" X="28.9931" Y="28.99589" OffsetX="0" OffsetY="0" Width="61.01379" Height="41.00823" />
     <EcellObject Class="GillespieProcess" ModelID="tauleap" Type="Process" Key="/:C1" Layer="Layer0" X="366.2347" Y="366.2347" OffsetX="0" OffsetY="0" Width="61" Height="41" />
     <EcellObject Class="GillespieProcess" ModelID="tauleap" Type="Process" Key="/:C2" Layer="Layer0" X="366.2347" Y="197.8673" OffsetX="0" OffsetY="0" Width="61" Height="41" />
     <EcellObject Class="GillespieProcess" ModelID="tauleap" Type="Process" Key="/:C3" Layer="Layer0" X="29.5" Y="366.2347" OffsetX="0" OffsetY="0" Width="61" Height="41" />
     <EcellObject Class="GillespieProcess" ModelID="tauleap" Type="Process" Key="/:C4" Layer="Layer0" X="253.9898" Y="29.5" OffsetX="0" OffsetY="0" Width="61" Height="41" />
-    <EcellObject Class="Variable" ModelID="tauleap" Type="Variable" Key="/:S1" Layer="Layer0" X="197.8673" Y="366.2347" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="tauleap" Type="Variable" Key="/:S2" Layer="Layer0" X="141.7449" Y="197.8673" OffsetX="0" OffsetY="0" Width="60" Height="40" />
-    <EcellObject Class="Variable" ModelID="tauleap" Type="Variable" Key="/:S3" Layer="Layer0" X="29.5" Y="29.5" OffsetX="0" OffsetY="0" Width="60" Height="40" />
   </EcellObjectList>
 </Application>
