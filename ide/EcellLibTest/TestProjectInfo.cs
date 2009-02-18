@@ -185,14 +185,16 @@ namespace Ecell
             try
             {
                 ProjectInfo info = new ProjectInfo();
-                Assert.AreEqual(info.Name, Constants.defaultPrjID);
-                Assert.AreEqual(info.Comment, Constants.defaultComment);
-                Assert.AreEqual(info.SimulationParam, Constants.defaultSimParam);
-                Assert.IsNotNull(info.UpdateTime);
-                Assert.IsNull(info.ProjectPath);
-                Assert.IsNull(info.ProjectFile);
-                Assert.IsEmpty(info.DMDirList);
-                Assert.IsEmpty(info.Models);
+                Assert.IsNotNull(info, "Constructor of type, ProjectInfo failed to create instance.");
+                Assert.AreEqual(Constants.defaultPrjID, info.Name, "Name is unexpected value.");
+                Assert.AreEqual(Constants.defaultComment, info.Comment, "Comment is unexpected value.");
+                Assert.AreEqual(Constants.defaultSimParam, info.SimulationParam, "SimulationParam is unexpected value.");
+                Assert.AreEqual(ProjectType.NewProject, info.ProjectType, "ProjectType is unexpected value.");
+                Assert.IsNotNull(info.UpdateTime, "UpdateTime is unexpected value.");
+                Assert.IsNull(info.ProjectPath, "ProjectPath is unexpected value.");
+                Assert.IsNull(info.ProjectFile, "ProjectFile is unexpected value.");
+                Assert.IsEmpty(info.DMDirList, "DMDirList is unexpected value.");
+                Assert.IsEmpty(info.Models, "Models is unexpected value.");
 
             }
             catch (Exception e)
@@ -204,14 +206,17 @@ namespace Ecell
             try
             {
                 ProjectInfo info = new ProjectInfo(Name, Comment, Time, SimParam);
-                Assert.AreEqual(info.Name, Name);
-                Assert.AreEqual(info.Comment, Comment);
-                Assert.AreEqual(info.UpdateTime, Time);
-                Assert.AreEqual(info.SimulationParam, SimParam);
-                Assert.IsNull(info.ProjectPath);
-                Assert.IsNull(info.ProjectFile);
-                Assert.IsEmpty(info.DMDirList);
-                Assert.IsEmpty(info.Models);
+                Assert.IsNotNull(info, "Constructor of type, ProjectInfo failed to create instance.");
+                Assert.AreEqual(Name, info.Name, "Name is unexpected value.");
+                Assert.AreEqual(Comment, info.Comment, "Comment is unexpected value.");
+                Assert.AreEqual(SimParam, info.SimulationParam, "SimulationParam is unexpected value.");
+                Assert.AreEqual(Time, info.UpdateTime, "UpdateTime is unexpected value.");
+                Assert.AreEqual(ProjectType.NewProject, info.ProjectType, "ProjectType is unexpected value.");
+                Assert.IsNull(info.ProjectPath, "ProjectPath is unexpected value.");
+                Assert.IsNull(info.ProjectFile, "ProjectFile is unexpected value.");
+                Assert.IsEmpty(info.DMDirList, "DMDirList is unexpected value.");
+                Assert.IsEmpty(info.Models, "Models is unexpected value.");
+
             }
             catch (Exception e)
             {
@@ -223,6 +228,8 @@ namespace Ecell
             try
             {
                 ProjectInfo info = new ProjectInfo();
+                Assert.IsNotNull(info, "Constructor of type, ProjectInfo failed to create instance.");
+
                 info.Name = Name;
                 info.Comment = Comment;
                 info.UpdateTime = Time;
@@ -238,6 +245,17 @@ namespace Ecell
                 info.ProjectFile = null;
                 info.DMDirList.Clear();
                 info.Models.Clear();
+
+                Assert.AreEqual(Name, info.Name, "Name is unexpected value.");
+                Assert.AreEqual(null, info.Comment, "Comment is unexpected value.");
+                Assert.AreEqual(SimParam, info.SimulationParam, "SimulationParam is unexpected value.");
+                Assert.AreNotEqual(null, info.UpdateTime, "UpdateTime is unexpected value.");
+                Assert.AreEqual(ProjectType.NewProject, info.ProjectType, "ProjectType is unexpected value.");
+                Assert.IsNull(info.ProjectPath, "ProjectPath is unexpected value.");
+                Assert.IsNull(info.ProjectFile, "ProjectFile is unexpected value.");
+                Assert.IsEmpty(info.DMDirList, "DMDirList is unexpected value.");
+                Assert.IsEmpty(info.Models, "Models is unexpected value.");
+
             }
             catch (Exception e)
             {
@@ -287,37 +305,52 @@ namespace Ecell
                 // Load from ProjectXML
                 string infoFile1 = "C:\\temp\\Drosophila\\project.xml";
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
-                Assert.AreEqual(info1.Name, "Drosophila");
-                Assert.AreEqual(info1.ProjectFile, infoFile1);
-                Assert.AreEqual(info1.ProjectPath, Path.GetDirectoryName(infoFile1));
+                Assert.AreEqual("Drosophila", info1.Name, "Name is unexpected value.");
+                Assert.AreEqual(ProjectType.Project, info1.ProjectType, "ProjectType is unexpected value.");
+                Assert.AreEqual(infoFile1, info1.ProjectFile, "ProjectFile is unexpected value.");
+                Assert.AreEqual(Path.GetDirectoryName(infoFile1), info1.ProjectPath, "ProjectPath is unexpected value.");
+                Assert.IsEmpty(info1.Models, "Models is unexpected value.");
+
 
                 // Load from old infoText.
                 string infoFile2 = "C:\\temp\\Drosophila\\project.info";
                 ProjectInfo info2 = ProjectInfoLoader.Load(infoFile2);
-                Assert.AreEqual(info2.Name, "Drosophila");
-                Assert.AreEqual(info2.ProjectFile, infoFile2);
-                Assert.AreEqual(info2.ProjectPath, Path.GetDirectoryName(infoFile2));
+                Assert.AreEqual("Drosophila", info2.Name, "Name is unexpected value.");
+                Assert.AreEqual(ProjectType.Project, info2.ProjectType, "ProjectType is unexpected value.");
+                Assert.AreEqual(infoFile2, info2.ProjectFile, "ProjectFile is unexpected value.");
+                Assert.AreEqual(Path.GetDirectoryName(infoFile2), info2.ProjectPath, "ProjectPath is unexpected value.");
+                Assert.IsEmpty(info2.Models, "Models is unexpected value.");
+
 
                 // Load from old infoText.
                 string infoFile3 = "C:\\temp\\Drosophila\\projectOld.info";
                 ProjectInfo info3 = ProjectInfoLoader.Load(infoFile3);
-                Assert.AreEqual(info3.Name, "Drosophila");
-                Assert.AreEqual(info3.ProjectFile, infoFile3);
-                Assert.AreEqual(info3.ProjectPath, Path.GetDirectoryName(infoFile3));
+                Assert.AreEqual("Drosophila", info3.Name, "Name is unexpected value.");
+                Assert.AreEqual(ProjectType.Project, info3.ProjectType, "ProjectType is unexpected value.");
+                Assert.AreEqual(infoFile3, info3.ProjectFile, "ProjectFile is unexpected value.");
+                Assert.AreEqual(Path.GetDirectoryName(infoFile3), info3.ProjectPath, "ProjectPath is unexpected value.");
+                Assert.IsEmpty(info3.Models, "Models is unexpected value.");
+
 
                 // Load from old infoText.
                 string infoFile4 = "C:\\temp\\Drosophila\\project.info";
                 ProjectInfo info4 = ProjectInfoLoader.Load(infoFile4);
-                Assert.AreEqual(info4.Name, "Drosophila");
-                Assert.AreEqual(info4.ProjectFile, infoFile4);
-                Assert.AreEqual(info4.ProjectPath, Path.GetDirectoryName(infoFile4));
+                Assert.AreEqual("Drosophila", info4.Name, "Name is unexpected value.");
+                Assert.AreEqual(ProjectType.Project, info4.ProjectType, "ProjectType is unexpected value.");
+                Assert.AreEqual(infoFile4, info4.ProjectFile, "ProjectFile is unexpected value.");
+                Assert.AreEqual(Path.GetDirectoryName(infoFile4), info4.ProjectPath, "ProjectPath is unexpected value.");
+                Assert.IsEmpty(info4.Models, "Models is unexpected value.");
+
 
                 // Load from eml.
                 string infoFile5 = "C:\\temp\\Drosophila\\Model\\Drosophila.eml";
                 ProjectInfo info5 = ProjectInfoLoader.Load(infoFile5);
-                Assert.AreEqual(info5.Name, "Drosophila");
-                Assert.AreEqual(info5.ProjectFile, infoFile5);
-                Assert.IsNull(info5.ProjectPath);
+                Assert.AreEqual("Drosophila", info5.Name, "Name is unexpected value.");
+                Assert.AreEqual(ProjectType.Model, info5.ProjectType, "ProjectType is unexpected value.");
+                Assert.AreEqual(infoFile5, info5.ProjectFile, "ProjectFile is unexpected value.");
+                Assert.IsNull(info5.ProjectPath, "ProjectPath is unexpected value.");
+                Assert.IsNotEmpty(info5.Models, "Models is unexpected value.");
+                info5.FindModels();
 
             }
             catch (Exception e)

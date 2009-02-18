@@ -16,7 +16,7 @@ namespace Ecell
         /// <summary>
         /// Whether this UserAction is the last one in a sequence of UserAction.
         /// </summary>
-        protected bool m_isAnchor = true;
+        protected bool m_isAnchor = false;
         /// <summary>
         /// Whether this UserAction is undoable or not.
         /// </summary>
@@ -77,6 +77,7 @@ namespace Ecell
         /// </summary>
         public AnchorAction()
         {
+            m_isAnchor = true;
         }
         /// <summary>
         /// 
@@ -130,6 +131,7 @@ namespace Ecell
             m_comment = comment;
             m_prjPath = path;
             m_isUndoable = false;
+            m_isAnchor = true;
         }
 
         /// <summary>
@@ -336,6 +338,7 @@ namespace Ecell
             m_prjID = prjID;
             m_prjFile = prjFile;
             m_isUndoable = false;
+            m_isAnchor = true;
         }
 
         /// <summary>
@@ -388,6 +391,7 @@ namespace Ecell
         {
             m_paramID = paramID;
             m_stepper = stepper;
+            m_isAnchor = true;
         }
 
         /// <summary>
@@ -439,6 +443,7 @@ namespace Ecell
         {
             m_paramID = paramID;
             m_stepper = stepper;
+            m_isAnchor = true;
         }
 
         /// <summary>
@@ -492,6 +497,7 @@ namespace Ecell
         {
             m_newStepperList = new List<EcellObject>();
             m_oldStepperList = new List<EcellObject>();
+            m_isAnchor = true;
         }
 
         /// <summary>
