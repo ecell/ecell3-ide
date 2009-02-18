@@ -326,32 +326,30 @@ namespace Ecell
                 // Create project.
                 projectID = info.Name;
                 message = "[" + projectID + "]";
-                project = new Project(info);
-
-                // If this project is Template.
-                if (project.Info.ProjectType == ProjectType.Template)
-                    project.CopyDMDirs(info.DMDirList);
-
+                project = new Project(info, m_env);
                 // Set current project.
                 m_currentProject = project;
-                m_env.PluginManager.ParameterSet(projectID, project.Info.SimulationParam);
+                m_env.PluginManager.ChangeStatus(ProjectStatus.Loading);
 
                 // Create EcellProject.
                 List<EcellData> ecellDataList = new List<EcellData>();
                 ecellDataList.Add(new EcellData(Constants.textComment, new EcellValue(project.Info.Comment), null));
                 passList.Add(EcellObject.CreateObject(projectID, "", Constants.xpathProject, "", ecellDataList));
 
-                // Loads the model.
-                if (project.Info.ProjectType != ProjectType.Model)
-                    project.Info.FindModels();
-                m_env.PluginManager.ChangeStatus(ProjectStatus.Loading);
-                LoadModel(project.Info.Models);
-
                 // Prepare datas.
-                foreach (EcellObject model in m_currentProject.ModelList)
+                project.LoadModel();
+                foreach (EcellObject model in project.ModelList)
+                {
+                    Trace.WriteLine(String.Format(MessageResources.InfoLoadModel, model.ModelID));
+                    m_env.Console.WriteLine(String.Format(MessageResources.InfoLoadModel, model.ModelID));
+                    m_env.Console.Flush();
                     passList.Add(model);
-                foreach (string storedModelID in m_currentProject.SystemDic.Keys)
-                    passList.AddRange(m_currentProject.SystemDic[storedModelID]);
+                }
+                foreach (string storedModelID in project.SystemDic.Keys)
+                {
+                    passList.AddRange(project.SystemDic[storedModelID]);
+                }
+                m_env.PluginManager.ParameterSet(projectID, project.Info.SimulationParam);
 
                 // Load SimulationParameters.
                 LoadSimulationParameters(project);
@@ -416,137 +414,6 @@ namespace Ecell
                 SimulationParameter simParam = LoadSimulationParameter(parameter);
                 // Set parameter.
                 SetSimulationParameter(simParam);
-            }
-        }
-
-        /// <summary>
-        /// Loads the eml formatted file and returns the model ID.
-        /// </summary>
-        /// <param name="files">The eml formatted file name</param>
-        /// <returns>The model ID</returns>
-        private void LoadModel(List<string> files)
-        {
-            string modelID = null;
-            try
-            {
-                // To load
-                if (m_currentProject.Simulator == null)
-                {
-                    m_currentProject.SetDMList();
-                    m_currentProject.Simulator = m_currentProject.CreateSimulatorInstance();
-                }
-                foreach (string filename in files)
-                {
-                    // Load model
-                    EcellObject modelObj = null;
-                    try
-                    {
-                        modelObj = EmlReader.Parse(filename, m_currentProject.Simulator);
-                    }
-                    catch (EcellException e)
-                    {
-                        throw new EcellException(string.Format(MessageResources.ErrLoadModel, filename), e);
-                    }
-                    catch (Exception e)
-                    {
-                        string msg = string.Format(MessageResources.ErrLoadModel, filename) + "\n" + e.Message;
-                        Util.ShowErrorDialog(msg);
-                        continue;
-                    }
-
-                    // If file is not Eml, return.
-                    if (modelObj.Children == null || modelObj.Children.Count <= 0)
-                        continue;
-                    // If this project is template.
-                    if (m_currentProject.Info.ProjectType == ProjectType.Template)
-                        modelObj.ModelID = m_currentProject.Info.Name;
-                    modelID = modelObj.ModelID;
-
-                    // Initialize
-                    try
-                    {
-                        m_currentProject.Simulator.Initialize();
-                    }
-                    catch (Exception e)
-                    {
-                        // Error Message
-                        // [VariableReference [S0] not found in this Process]
-                        // MichaelisUniUniFluxprocess
-                        // DecayFluxProcess
-                        // [Only first or second order scheme is allowed]
-                        // PingPongBiBiFluxProcess
-                        // TauLeapProcess
-                        Util.ShowWarningDialog(MessageResources.WarnInvalidData + "\n" + e.Message);
-                    }
-
-                    // Sets initial conditions.
-                    m_currentProject.Initialize(modelObj.ModelID);
-                    InitializeModel(modelObj);
-
-                    Trace.WriteLine(String.Format(MessageResources.InfoLoadModel, modelID));
-                    m_env.Console.WriteLine(String.Format(MessageResources.InfoLoadModel, modelID));
-                    m_env.Console.Flush();
-                }
-
-                // If this project has no model.
-                if (m_currentProject.ModelList.Count <= 0)
-                    throw new EcellException(string.Format(MessageResources.ErrNoSet, "Model"));
-
-                // Stores the "LoggerPolicy"
-                string simParam = m_currentProject.Info.SimulationParam;
-                if (!m_currentProject.LoggerPolicyDic.ContainsKey(simParam))
-                {
-                    m_currentProject.LoggerPolicyDic[simParam] = new LoggerPolicy();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new EcellException(string.Format(MessageResources.ErrLoadModel, files.ToString()), ex);
-            }
-        }
-
-        /// <summary>
-        /// InitializeModel
-        /// </summary>
-        /// <param name="ecellObject"></param>
-        private void InitializeModel(EcellObject ecellObject)
-        {
-            // Sets the "EcellObject".
-            string modelID = ecellObject.ModelID;
-            string simParam = m_currentProject.Info.SimulationParam;
-            if (ecellObject.Type.Equals(Constants.xpathModel))
-            {
-                m_currentProject.ModelList.Add((EcellModel)ecellObject);
-                DataStorer.DataStored(
-                    m_currentProject.Simulator,
-                    m_env,
-                    ecellObject,
-                    m_currentProject.InitialCondition[simParam][modelID]);
-            }
-            else if (ecellObject.Type.Equals(Constants.xpathSystem))
-            {
-                if (!m_currentProject.SystemDic.ContainsKey(modelID))
-                {
-                    m_currentProject.SystemDic[modelID]
-                            = new List<EcellObject>();
-                }
-                m_currentProject.SystemDic[modelID].Add(ecellObject);
-            }
-            else if (ecellObject.Type.Equals(Constants.xpathStepper))
-            {
-                if (!m_currentProject.StepperDic.ContainsKey(simParam))
-                {
-                    m_currentProject.StepperDic[simParam] = new Dictionary<string, List<EcellObject>>();
-                }
-                if (!m_currentProject.StepperDic[simParam].ContainsKey(modelID))
-                {
-                    m_currentProject.StepperDic[simParam][modelID] = new List<EcellObject>();
-                }
-                m_currentProject.StepperDic[simParam][modelID].Add(ecellObject);
-            }
-            foreach (EcellObject childEcellObject in ecellObject.Children)
-            {
-                InitializeModel(childEcellObject);
             }
         }
         #endregion
@@ -616,7 +483,7 @@ namespace Ecell
                 // Initialize
                 //
                 ProjectInfo info = new ProjectInfo(projectID, comment, DateTime.Now.ToString(), Constants.defaultSimParam);
-                prj = new Project(info);
+                prj = new Project(info, m_env);
                 m_currentProject = prj;
                 if (projectPath != null)
                     m_currentProject.Info.ProjectPath = projectPath;
@@ -1013,8 +880,6 @@ namespace Ecell
             //
             // Sets the root "System".
             //
-            if (m_currentProject.SystemDic == null)
-                m_currentProject.SystemDic = new Dictionary<string, List<EcellObject>>();
             Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
             if (!sysDic.ContainsKey(modelID))
                 sysDic[modelID] = new List<EcellObject>();
@@ -1026,7 +891,7 @@ namespace Ecell
             //
             // Sets the default parameter.
             //
-            m_currentProject.Initialize(modelID);
+            m_currentProject.SetSimParams(modelID);
             foreach (string simParam in m_currentProject.InitialCondition.Keys)
             {
                 // Sets initial conditions.
@@ -1074,7 +939,7 @@ namespace Ecell
                         Constants.xpathStepper,
                         "",
                         null);
-            DataStorer.DataStored4Stepper(simulator, m_env, stepperEcellObject);
+            DataStorer.DataStored4Stepper(simulator, m_env.DynamicModuleManager, stepperEcellObject);
             dic[Constants.xpathSystem] = systemEcellObject;
             dic[Constants.xpathStepper] = stepperEcellObject;
             return dic;
@@ -2546,7 +2411,7 @@ namespace Ecell
                 EcellObject dummyEcellObject = EcellObject.CreateObject("", key, EcellObject.PROCESS, dmName, null);
                 DataStorer.DataStored4Process(
                         sim,
-                        m_env,
+                        m_env.DynamicModuleManager,
                         dummyEcellObject,
                         new Dictionary<string, double>());
                 SetPropertyList(dummyEcellObject, dic);
@@ -2574,7 +2439,7 @@ namespace Ecell
                 WrappedSimulator sim = m_currentProject.CreateSimulatorInstance();
                 sim.CreateStepper(dmName, Constants.textKey);
                 dummyEcellObject = EcellObject.CreateObject("", Constants.textKey, EcellObject.STEPPER, dmName, null);
-                DataStorer.DataStored4Stepper(sim, m_env, dummyEcellObject);
+                DataStorer.DataStored4Stepper(sim, m_env.DynamicModuleManager, dummyEcellObject);
                 list = dummyEcellObject.Value;
             }
             finally

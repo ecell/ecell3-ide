@@ -54,18 +54,18 @@ namespace Ecell
         /// Stores the "EcellObject"
         /// </summary>
         /// <param name="simulator">The "simulator"</param>
-        /// <param name="env">The "ApplicationEnvironment"</param>
+        /// <param name="dmm">The "DynamicModuleManager"</param>
         /// <param name="ecellObject">The stored "EcellObject"</param>
         /// <param name="initialCondition">The initial condition.</param>
         internal static void DataStored(
                 WrappedSimulator simulator,
-            ApplicationEnvironment env,
+            DynamicModuleManager dmm,
                 EcellObject ecellObject,
                 Dictionary<string, double> initialCondition)
         {
             if (ecellObject.Type.Equals(Constants.xpathStepper))
             {
-                DataStored4Stepper(simulator, env, ecellObject);
+                DataStored4Stepper(simulator, dmm, ecellObject);
             }
             else if (ecellObject.Type.Equals(Constants.xpathSystem))
             {
@@ -78,7 +78,7 @@ namespace Ecell
             {
                 DataStored4Process(
                         simulator,
-                        env,
+                        dmm,
                         ecellObject,
                         initialCondition);
             }
@@ -95,7 +95,7 @@ namespace Ecell
             if (ecellObject.Children != null)
             {
                 foreach (EcellObject childEcellObject in ecellObject.Children)
-                    DataStored(simulator, env, childEcellObject, initialCondition);
+                    DataStored(simulator, dmm, childEcellObject, initialCondition);
             }
         }
         
@@ -108,7 +108,7 @@ namespace Ecell
         /// <param name="initialCondition">The initial condition.</param>
         internal static void DataStored4Process(
                 WrappedSimulator simulator,
-                ApplicationEnvironment env,
+                DynamicModuleManager env,
                 EcellObject ecellObject,
                 Dictionary<string, double> initialCondition)
         {
@@ -180,24 +180,24 @@ namespace Ecell
                     try
                     {
                         value = new EcellValue(simulator.GetEntityProperty(entityPath));
-                        if (env.DynamicModuleManager.ModuleDic.ContainsKey(ecellObject.Classname))
+                        if (env.ModuleDic.ContainsKey(ecellObject.Classname))
                         {
-                            if (env.DynamicModuleManager.ModuleDic[ecellObject.Classname].Property.ContainsKey(name))
+                            if (env.ModuleDic[ecellObject.Classname].Property.ContainsKey(name))
                             {
-                                DynamicModuleProperty prop = env.DynamicModuleManager.ModuleDic[ecellObject.Classname].Property[name];
+                                DynamicModuleProperty prop = env.ModuleDic[ecellObject.Classname].Property[name];
                                 if (prop.Type == typeof(List<EcellValue>) &&
                                     !value.IsList)
                                     value = new EcellValue(new List<EcellValue>());
                             }
                         }
                     }
-                    catch (WrappedException ex)
+                    catch (WrappedException)
                     {
-                        if (env.DynamicModuleManager.ModuleDic.ContainsKey(ecellObject.Classname))
+                        if (env.ModuleDic.ContainsKey(ecellObject.Classname))
                         {
-                            if (env.DynamicModuleManager.ModuleDic[ecellObject.Classname].Property.ContainsKey(name))
+                            if (env.ModuleDic[ecellObject.Classname].Property.ContainsKey(name))
                             {
-                                DynamicModuleProperty prop = env.DynamicModuleManager.ModuleDic[ecellObject.Classname].Property[name];
+                                DynamicModuleProperty prop = env.ModuleDic[ecellObject.Classname].Property[name];
                                 if (prop.Type == typeof(int))
                                     value = new EcellValue((int)prop.DefaultData);
                                 else if (prop.Type == typeof(double))
@@ -254,7 +254,7 @@ namespace Ecell
         /// <param name="ecellObject">The stored "Stepper"</param>
         internal static void DataStored4Stepper(
             WrappedSimulator simulator,
-            ApplicationEnvironment env,
+            DynamicModuleManager env,
             EcellObject ecellObject)
         {
             List<EcellData> stepperEcellDataList = new List<EcellData>();
@@ -309,11 +309,11 @@ namespace Ecell
                 catch (Exception ex)
                 {
                     Trace.WriteLine(ex);
-                    if (env.DynamicModuleManager.ModuleDic.ContainsKey(ecellObject.Classname))
+                    if (env.ModuleDic.ContainsKey(ecellObject.Classname))
                     {
-                        if (env.DynamicModuleManager.ModuleDic[ecellObject.Classname].Property.ContainsKey(name))
+                        if (env.ModuleDic[ecellObject.Classname].Property.ContainsKey(name))
                         {
-                            DynamicModuleProperty prop = env.DynamicModuleManager.ModuleDic[ecellObject.Classname].Property[name];
+                            DynamicModuleProperty prop = env.ModuleDic[ecellObject.Classname].Property[name];
                             if (prop.Type == typeof(int))
                                 value = new EcellValue((int)prop.DefaultData);
                             else if (prop.Type == typeof(double))

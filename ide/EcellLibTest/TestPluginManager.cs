@@ -682,7 +682,6 @@ namespace Ecell
             Assert.IsNotNull(method);
         }
 
-                
         /// <summary>
         /// 
         /// </summary>
@@ -711,7 +710,6 @@ namespace Ecell
             catch (Exception)
             {
             }
-            _unitUnderTest.UnloadPlugin(plugin);
         }
     }
 }

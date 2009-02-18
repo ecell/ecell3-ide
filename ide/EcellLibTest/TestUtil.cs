@@ -967,6 +967,18 @@ namespace Ecell
         }
 
         /// <summary>
+        /// TestGetNewProjectName
+        /// </summary>
+        [Test()]
+        public void TestGetNewFileName()
+        {
+            string expectedString = "c:/temp/rbc.eml";
+            string resultString = Util.GetNewFileName(expectedString);
+            Assert.AreNotEqual(resultString, "GetNewFileName method returned unexpected result.");
+
+        }
+
+        /// <summary>
         /// TestParseEntityKey
         /// </summary>
         [Test()]

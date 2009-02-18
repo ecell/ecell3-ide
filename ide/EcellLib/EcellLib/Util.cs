@@ -1403,9 +1403,9 @@ namespace Ecell
         }
 
         /// <summary>
-        /// Get New Directory name.
+        /// Get new file name.
         /// </summary>
-        /// <param name="targetDir"></param>
+        /// <param name="targetFile"></param>
         /// <returns></returns>
         public static string GetNewFileName(string targetFile)
         {

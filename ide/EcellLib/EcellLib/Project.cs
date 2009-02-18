@@ -55,7 +55,10 @@ namespace Ecell
         /// Project Path.
         /// </summary>
         private ProjectInfo m_info;
-
+        /// <summary>
+        /// ApplicationEnvironment
+        /// </summary>
+        private ApplicationEnvironment m_env;
         /// <summary>
         /// The list of the DM with Object type (stepper, system, process, variable).
         /// </summary>
@@ -108,7 +111,6 @@ namespace Ecell
         public ProjectInfo Info
         {
             get { return m_info; }
-            set { m_info = value; }
         }
         /// <summary>
         /// The list of the DM filepath.
@@ -116,7 +118,6 @@ namespace Ecell
         public Dictionary<string, List<string>> DmDic
         {
             get { return m_dmDic; }
-            set { m_dmDic = value; }
         }
 
         /// <summary>
@@ -185,7 +186,6 @@ namespace Ecell
         public List<EcellModel> ModelList
         {
             get { return m_modelList; }
-            set { m_modelList = value; }
         }
 
         /// <summary>
@@ -202,7 +202,6 @@ namespace Ecell
         public Dictionary<string, List<EcellObject>> SystemDic
         {
             get { return m_systemDic; }
-            set { m_systemDic = value; }
         }
         /// <summary>
         /// 
@@ -313,7 +312,6 @@ namespace Ecell
         public Dictionary<string, Dictionary<string, Dictionary<string, double>>> InitialCondition
         {
             get { return m_initialCondition; }
-            set { m_initialCondition = value; }
         }
 
         /// <summary>
@@ -322,7 +320,6 @@ namespace Ecell
         public Dictionary<string, LoggerPolicy> LoggerPolicyDic
         {
             get { return m_loggerPolicyDic; }
-            set { m_loggerPolicyDic = value; }
         }
 
         /// <summary>
@@ -339,7 +336,6 @@ namespace Ecell
         public Dictionary<string, Dictionary<string, List<EcellObject>>> StepperDic
         {
             get { return m_stepperDic; }
-            set { m_stepperDic = value; }
         }
 
         #endregion
@@ -348,15 +344,152 @@ namespace Ecell
         /// <summary>
         /// Creates the new "Project" instance with ProjectInfo.
         /// </summary>
-        public Project(ProjectInfo info)
+        /// <param name="info"></param>
+        /// <param name="env"></param>
+        public Project(ProjectInfo info, ApplicationEnvironment env)
         {
             m_info = info;
+            m_env = env;
             SetDMList();
             m_loggerPolicyDic = new Dictionary<string, LoggerPolicy>();
             m_stepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
             m_modelList = new List<EcellModel>();
             m_systemDic = new Dictionary<string, List<EcellObject>>();
             m_simulator = CreateSimulatorInstance();
+
+            // If this project is Template.
+            if (info.ProjectType == ProjectType.Template)
+                CopyDMDirs(info.DMDirList);
+
+            // Loads the model.
+            if (info.ProjectType != ProjectType.Model)
+                info.FindModels();
+        }
+
+        /// <summary>
+        /// Loads the eml formatted file and returns the model ID.
+        /// </summary>
+        public void LoadModel()
+        {
+            string modelID = null;
+            try
+            {
+                // To load
+                if (m_simulator == null)
+                {
+                    SetDMList();
+                    m_simulator = CreateSimulatorInstance();
+                }
+                foreach (string filename in m_info.Models)
+                {
+                    // Load model
+                    EcellObject modelObj = null;
+                    try
+                    {
+                        modelObj = EmlReader.Parse(filename, m_simulator);
+                    }
+                    catch (EcellException e)
+                    {
+                        throw new EcellException(string.Format(MessageResources.ErrLoadModel, filename), e);
+                    }
+                    catch (Exception e)
+                    {
+                        string msg = string.Format(MessageResources.ErrLoadModel, filename) + "\n" + e.Message;
+                        Util.ShowErrorDialog(msg);
+                        continue;
+                    }
+
+                    // If file is not Eml, return.
+                    if (modelObj.Children == null || modelObj.Children.Count <= 0)
+                        continue;
+                    // If this project is template.
+                    if (m_info.ProjectType == ProjectType.Template)
+                        modelObj.ModelID = m_info.Name;
+                    modelID = modelObj.ModelID;
+
+                    // Initialize
+                    try
+                    {
+                        m_simulator.Initialize();
+                    }
+                    catch (Exception e)
+                    {
+                        // Error Message
+                        // [VariableReference [S0] not found in this Process]
+                        // MichaelisUniUniFluxprocess
+                        // DecayFluxProcess
+                        // [Only first or second order scheme is allowed]
+                        // PingPongBiBiFluxProcess
+                        // TauLeapProcess
+                        Util.ShowWarningDialog(MessageResources.WarnInvalidData + "\n" + e.Message);
+                    }
+
+                    // Sets initial conditions.
+                    SetSimParams(modelID);
+                    InitializeModel(modelObj);
+                }
+
+                // If this project has no model.
+                if (m_modelList.Count <= 0)
+                    throw new EcellException(string.Format(MessageResources.ErrNoSet, "Model"));
+
+                // Stores the "LoggerPolicy"
+                string simParam = m_info.SimulationParam;
+                if (!m_loggerPolicyDic.ContainsKey(simParam))
+                {
+                    m_loggerPolicyDic[simParam] = new LoggerPolicy();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new EcellException(string.Format(MessageResources.ErrLoadModel, ""), ex);
+            }
+        }
+
+        /// <summary>
+        /// InitializeModel
+        /// </summary>
+        /// <param name="ecellObject"></param>
+        private void InitializeModel(EcellObject ecellObject)
+        {
+            // Sets the "EcellObject".
+            string modelID = ecellObject.ModelID;
+
+            string simParam = m_info.SimulationParam;
+            if (ecellObject.Type.Equals(Constants.xpathModel))
+            {
+                m_modelList.Add((EcellModel)ecellObject);
+                DataStorer.DataStored(
+                    m_simulator,
+                    m_env.DynamicModuleManager,
+                    ecellObject,
+                    m_initialCondition[simParam][modelID]);
+            }
+            else if (ecellObject.Type.Equals(Constants.xpathSystem))
+            {
+                if (!m_systemDic.ContainsKey(modelID))
+                {
+                    m_systemDic[modelID]
+                            = new List<EcellObject>();
+                }
+                m_systemDic[modelID].Add(ecellObject);
+            }
+            else if (ecellObject.Type.Equals(Constants.xpathStepper))
+            {
+                if (!m_stepperDic.ContainsKey(simParam))
+                {
+                    m_stepperDic[simParam] = new Dictionary<string, List<EcellObject>>();
+                }
+                if (!m_stepperDic[simParam].ContainsKey(modelID))
+                {
+                    m_stepperDic[simParam][modelID] = new List<EcellObject>();
+                }
+                m_stepperDic[simParam][modelID].Add(ecellObject);
+            }
+            foreach (EcellObject childEcellObject in ecellObject.Children)
+            {
+                InitializeModel(childEcellObject);
+            }
         }
 
         #endregion
@@ -365,7 +498,7 @@ namespace Ecell
         /// <summary>
         /// Initialize objects.
         /// </summary>
-        public void Initialize(string modelID)
+        public void SetSimParams(string modelID)
         {
             // Checks the current parameter ID.
             if (string.IsNullOrEmpty(m_info.SimulationParam))
