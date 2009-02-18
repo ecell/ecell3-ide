@@ -99,8 +99,12 @@
     <Compile Include="Logging\TestLogEntryEventArgs.cs" />
     <Compile Include="Logging\TestLogManager.cs" />
     <Compile Include="TestEcellXml.cs" />
+    <Compile Include="Exceptions\TestEmlParseException.cs" />
+    <Compile Include="TestEmlReader.cs" />
+    <Compile Include="TestEmlWriter.cs" />
     <Compile Include="TestPluginData.cs" />
     <Compile Include="TestPluginManager.cs" />
+    <Compile Include="TestProject.cs" />
     <Compile Include="TestProjectInfo.cs" />
     <Compile Include="TestTemplate.cs" />
     <Compile Include="TestUtil.cs" />

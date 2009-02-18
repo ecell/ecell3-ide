@@ -8,22 +8,54 @@ using System.Collections;
 
 namespace Ecell
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class EcellXmlReaderException : EcellException
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
         public EcellXmlReaderException(string msg)
             : base(msg)
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="innerExc"></param>
         public EcellXmlReaderException(string msg, Exception innerExc)
             : base(msg, innerExc)
         {
         }
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
     public class EcellXmlWriter
     {
+        /// <summary>
+        /// XmlTextWriter
+        /// </summary>
         protected XmlTextWriter m_tx;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="tx"></param>
+        public EcellXmlWriter(XmlTextWriter tx)
+        {
+            m_tx = tx;
+        }
+        /// <summary>
+        /// Close writer.
+        /// </summary>
+        public virtual void Close()
+        {
+            m_tx.Close();
+        }
 
         /// <summary>
         /// Creates the "value" elements.
@@ -95,11 +127,6 @@ namespace Ecell
                         obj.ToString());
                 }
             }
-        }
-
-        public EcellXmlWriter(XmlTextWriter tx)
-        {
-            m_tx = tx;
         }
     }
 

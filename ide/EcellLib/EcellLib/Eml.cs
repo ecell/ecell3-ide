@@ -66,6 +66,125 @@ namespace Ecell
     public class EmlWriter : EcellXmlWriter
     {
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tx"></param>
+        public EmlWriter(XmlTextWriter tx)
+            : base(tx)
+        {
+        }
+
+        /// <summary>
+        /// WriteStartDocument
+        /// </summary>
+        public void WriteStartDocument()
+        {
+            m_tx.WriteStartDocument(true);
+            m_tx.WriteStartElement(Constants.xpathEml);
+        }
+
+        /// <summary>
+        /// WriteEndDocument
+        /// </summary>
+        public void WriteEndDocument()
+        {
+            m_tx.WriteEndElement();
+            m_tx.WriteEndDocument();
+        }
+
+        /// <summary>
+        /// Write EML
+        /// </summary>
+        /// <param name="storedList"></param>
+        public void Write(List<EcellObject> storedList)
+        {
+            foreach (EcellObject ecellObject in storedList)
+            {
+                if (ecellObject.Type.Equals(Constants.xpathStepper))
+                {
+                    WriteStepperElements(ecellObject);
+                }
+                else if (ecellObject.Type.Equals(Constants.xpathSystem))
+                {
+                    WriteSystemElement(ecellObject);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates the eml formatted file.
+        /// </summary>
+        /// <param name="fileName">The eml formatted file name</param>
+        /// <param name="storedList">The list of the stored "EcellObject"</param>
+        /// <param name="isProjectSave"></param>
+        public static void Create(string fileName, List<EcellObject> storedList, bool isProjectSave)
+        {
+            //
+            // Checks the old model file.
+            //
+            if (File.Exists(fileName))
+            {
+                BackUpModel(fileName);
+            }
+
+            // For single model
+            if (isProjectSave)
+            {
+                string dirName = Path.GetDirectoryName(fileName);
+                string[] models = Directory.GetFileSystemEntries(
+                                        dirName,
+                                        Constants.delimiterWildcard + Constants.delimiterPeriod + Constants.xpathEml);
+                if (models != null && models.Length > 0)
+                {
+                    foreach (string model in models)
+                    {
+                        if (Path.GetFileName(model).IndexOf(Constants.delimiterUnderbar) != 0)
+                        {
+                            BackUpModel(model);
+                        }
+                    }
+                }
+            }
+
+            //
+            // Saves the model
+            //
+            XmlTextWriter m_tx = new XmlTextWriter(fileName, System.Text.Encoding.UTF8);
+            try
+            {
+                m_tx.Formatting = Formatting.Indented;
+                m_tx.Indentation = 0;
+                EmlWriter ew = new EmlWriter(m_tx);
+                ew.WriteStartDocument();
+                ew.Write(storedList);                   
+                ew.WriteEndDocument();
+            }
+            finally
+            {
+                m_tx.Close();
+            }
+        }
+
+        /// <summary>
+        /// BackUpModel
+        /// </summary>
+        /// <param name="fileName"></param>
+        private static void BackUpModel(string fileName)
+        {
+            string date
+                = File.GetLastAccessTime(fileName).ToString().Replace(
+                    Constants.delimiterColon, Constants.delimiterUnderbar);
+            date = date.Replace(Constants.delimiterPath, Constants.delimiterUnderbar);
+            date = date.Replace(Constants.delimiterSpace, Constants.delimiterUnderbar);
+            string destFileName
+                = Path.GetDirectoryName(fileName) + Constants.delimiterPath
+                + Constants.delimiterUnderbar + date + Constants.delimiterUnderbar + Path.GetFileName(fileName) + Constants.FileExtBackUp;
+            if (File.Exists(destFileName))
+                destFileName = Util.GetNewFileName(destFileName);
+            File.Move(fileName, destFileName);
+        }
+
+        /// <summary>
         /// Creates the "Process" or "Variable" elements.
         /// </summary>
         /// <param name="ecellObject">The "EcellObject"</param>
@@ -164,121 +283,6 @@ namespace Ecell
             }
         }
 
-        /// <summary>
-        /// WriteStartDocument
-        /// </summary>
-        public void WriteStartDocument()
-        {
-            m_tx.WriteStartDocument(true);
-            m_tx.WriteStartElement(Constants.xpathEml);
-        }
-
-        /// <summary>
-        /// WriteEndDocument
-        /// </summary>
-        public void WriteEndDocument()
-        {
-            m_tx.WriteEndElement();
-            m_tx.WriteEndDocument();
-        }
-
-        /// <summary>
-        /// Write EML
-        /// </summary>
-        /// <param name="storedList"></param>
-        public void Write(List<EcellObject> storedList)
-        {
-            foreach (EcellObject ecellObject in storedList)
-            {
-                if (ecellObject.Type.Equals(Constants.xpathStepper))
-                {
-                    WriteStepperElements(ecellObject);
-                }
-                else if (ecellObject.Type.Equals(Constants.xpathSystem))
-                {
-                    WriteSystemElement(ecellObject);
-                }
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="tx"></param>
-        public EmlWriter(XmlTextWriter tx)
-            : base(tx)
-        {
-        }
-
-        /// <summary>
-        /// Creates the eml formatted file.
-        /// </summary>
-        /// <param name="fileName">The eml formatted file name</param>
-        /// <param name="storedList">The list of the stored "EcellObject"</param>
-        /// <param name="isProjectSave"></param>
-        public static void Create(string fileName, List<EcellObject> storedList, bool isProjectSave)
-        {
-            //
-            // Checks the old model file.
-            //
-            if (File.Exists(fileName))
-            {
-                string date 
-                    = File.GetLastAccessTime(fileName).ToString().Replace(
-                        Constants.delimiterColon, Constants.delimiterUnderbar);
-                date = date.Replace(Constants.delimiterPath, Constants.delimiterUnderbar);
-                date = date.Replace(Constants.delimiterSpace, Constants.delimiterUnderbar);
-                string destFileName
-                    = Path.GetDirectoryName(fileName) + Constants.delimiterPath
-                    + Constants.delimiterUnderbar + date + Constants.delimiterUnderbar + Path.GetFileName(fileName) + Constants.FileExtBackUp;
-                File.Move(fileName, destFileName);
-            }
-
-            // For single model
-            if (isProjectSave)
-            {
-                string dirName = Path.GetDirectoryName(fileName);
-                string[] models = Directory.GetFileSystemEntries(
-                                        dirName,
-                                        Constants.delimiterWildcard + Constants.delimiterPeriod + Constants.xpathEml);
-                if (models != null && models.Length > 0)
-                {
-                    foreach (string model in models)
-                    {
-                        string modelName = Path.GetFileName(model);
-                        if (modelName.IndexOf(Constants.delimiterUnderbar) != 0)
-                        {
-                            string date
-                                = File.GetLastAccessTime(model).ToString().Replace(
-                                    Constants.delimiterColon, Constants.delimiterUnderbar);
-                            date = date.Replace(Constants.delimiterPath, Constants.delimiterUnderbar);
-                            date = date.Replace(Constants.delimiterSpace, Constants.delimiterUnderbar);
-                            string destFileName
-                                = Path.GetDirectoryName(model) + Constants.delimiterPath
-                                + Constants.delimiterUnderbar + date + Constants.delimiterUnderbar + Path.GetFileName(modelName) + Constants.FileExtBackUp;
-                            File.Move(model, destFileName);
-                        }
-                    }
-                }
-            }
-
-            //
-            // Saves the model
-            //
-            XmlTextWriter m_tx = new XmlTextWriter(fileName, System.Text.Encoding.UTF8);
-            try
-            {
-                m_tx.Formatting = Formatting.Indented;
-                m_tx.Indentation = 0;
-                EmlWriter ew = new EmlWriter(m_tx);
-                ew.WriteStartDocument();
-                ew.Write(storedList);                   
-                ew.WriteEndDocument();
-            }
-            finally
-            {
-                m_tx.Close();
-            }
-        }
     }
 
     /// <summary>

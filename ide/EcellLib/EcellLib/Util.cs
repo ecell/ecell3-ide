@@ -1403,6 +1403,23 @@ namespace Ecell
         }
 
         /// <summary>
+        /// Get New Directory name.
+        /// </summary>
+        /// <param name="targetDir"></param>
+        /// <returns></returns>
+        public static string GetNewFileName(string targetFile)
+        {
+            int revNo = 0;
+            string newFile = "";
+            do
+            {
+                revNo++;
+                newFile = targetFile + revNo.ToString();
+            } while (File.Exists(newFile));
+            return newFile;
+        }
+
+        /// <summary>
         /// IsHidden
         /// </summary>
         /// <param name="dir"></param>
