@@ -348,14 +348,17 @@ namespace Ecell
         /// <param name="env"></param>
         public Project(ProjectInfo info, ApplicationEnvironment env)
         {
+            if (info == null)
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "ProjectInfo"));
+            if (env == null)
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "ApplicationEnvironment"));
+
             m_info = info;
             m_env = env;
-            SetDMList();
             m_loggerPolicyDic = new Dictionary<string, LoggerPolicy>();
             m_stepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
             m_modelList = new List<EcellModel>();
             m_systemDic = new Dictionary<string, List<EcellObject>>();
-            m_simulator = CreateSimulatorInstance();
 
             // If this project is Template.
             if (info.ProjectType == ProjectType.Template)
@@ -364,6 +367,9 @@ namespace Ecell
             // Loads the model.
             if (info.ProjectType != ProjectType.Model)
                 info.FindModels();
+
+            SetDMList();
+            m_simulator = CreateSimulatorInstance();
         }
 
         /// <summary>
@@ -374,12 +380,6 @@ namespace Ecell
             string modelID = null;
             try
             {
-                // To load
-                if (m_simulator == null)
-                {
-                    SetDMList();
-                    m_simulator = CreateSimulatorInstance();
-                }
                 foreach (string filename in m_info.Models)
                 {
                     // Load model
@@ -500,6 +500,9 @@ namespace Ecell
         /// </summary>
         public void SetSimParams(string modelID)
         {
+            // Checks the modelID.
+            if (string.IsNullOrEmpty(modelID))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "modelID"));
             // Checks the current parameter ID.
             if (string.IsNullOrEmpty(m_info.SimulationParam))
                 m_info.SimulationParam = Constants.defaultSimParam;
@@ -553,6 +556,9 @@ namespace Ecell
         /// </summary>
         public void Close()
         {
+            // Dispose simulator.
+            this.m_simulator.Dispose();
+
             // Delete empty project.
             string prjPath = Path.Combine(Util.GetBaseDir(), m_info.Name);
             if (!Directory.Exists(prjPath))
@@ -611,9 +617,6 @@ namespace Ecell
         /// <returns>The savable model ID</returns>
         internal List<string> GetSavableModel()
         {
-            if (m_modelList.Count <= 0)
-                return null;
-
             List<string> modelIDList = new List<string>();
             foreach (EcellObject model in m_modelList)
             {

@@ -719,7 +719,6 @@ namespace Ecell
                     Trace.WriteLine(msg);
                     m_env.Console.WriteLine(msg);
                     m_env.Console.Flush();
-                    this.m_currentProject.Simulator.Dispose();
                     this.m_currentProject.Close();
                     this.m_currentProject = null;
                 }
