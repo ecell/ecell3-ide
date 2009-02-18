@@ -680,7 +680,38 @@ namespace Ecell
             name = "ShowGraphWithLog";
             method = _unitUnderTest.GetDelegate(name);
             Assert.IsNotNull(method);
+        }
 
+                
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestLoadPlugin()
+        {
+            string path = "hoge.dll";
+            IEcellPlugin plugin;
+            try
+            {
+                plugin = _unitUnderTest.LoadPlugin(path);
+                Assert.Fail("");
+            }
+            catch (Exception)
+            {
+            }
+
+            path = Path.Combine(Util.GetBinDir(), "ecell-ide.exe");
+            plugin = _unitUnderTest.LoadPlugin(path);
+
+            try
+            {
+                _unitUnderTest.AddPlugin(plugin);
+                Assert.Fail("");
+            }
+            catch (Exception)
+            {
+            }
+            _unitUnderTest.UnloadPlugin(plugin);
         }
     }
 }

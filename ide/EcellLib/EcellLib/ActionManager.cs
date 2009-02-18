@@ -203,7 +203,8 @@ namespace Ecell
         /// <param name="u">The adding UserAction.</param>
         public void AddAction(UserAction u)
         {
-            if (m_isLoadAction == true) return;
+            if (m_isLoadAction == true)
+                return;
 
             u.Environment = m_env;
 
@@ -222,7 +223,8 @@ namespace Ecell
         /// <returns>The target UserAction.</returns>
         public UserAction GetAction(int index)
         {
-            if (index > m_list.Count || index < 0) return null;
+            if (index > m_list.Count || index < 0)
+                return null;
             return m_list[index];
         }
 
@@ -234,80 +236,6 @@ namespace Ecell
             m_list.Clear();
             m_listIndex = 0;
             NotifyStatus();
-        }
-
-        /// <summary>
-        /// Load the information of UserAction and 
-        /// execute the UserActions.
-        /// </summary>
-        /// <param name="fileName">File name of UserActions.</param>
-        public void LoadActionFile(string fileName)
-        {
-            m_isLoadAction = true;
-            XmlDocument doc = new XmlDocument();
-            doc.Load(fileName);
-
-            XmlNodeList topList = doc.SelectNodes("ActionList");
-            foreach (XmlNode top in topList)
-            {
-                XmlNodeList commandList = top.SelectNodes("Action");
-
-                foreach (XmlNode child in commandList)
-                {
-                    XmlNode cNode = child.Attributes.GetNamedItem("command");
-                    if (cNode == null) continue;
-                    string command = cNode.InnerText;
-                    UserAction act = null;
-                    if (command.Equals("DataAdd")) act = new DataAddAction();
-                    else if (command.Equals("DataDelete")) act = new DataDeleteAction();
-                    else if (command.Equals("DataChanged")) act = new DataChangeAction();
-                    else if (command.Equals("NewProject")) act = new NewProjectAction();
-                    else if (command.Equals("LoadProject")) act = new LoadProjectAction();
-                    else if (command.Equals("AddStepper")) act = new AddStepperAction();
-                    else if (command.Equals("DeleteStepper")) act = new DeleteStepperAction();
-                    else if (command.Equals("UpdateStepper")) act = new UpdateStepperAction();
-                    else if (command.Equals("NewSimParam")) act = new NewSimParamAction();
-                    else if (command.Equals("DeleteSimParam")) act = new DeleteSimParamAction();
-                    else if (command.Equals("SetSimParam")) act = new SetSimParamAction();
-                    else if (command.Equals("Anchor")) act = new AnchorAction();
-
-                    if (act == null)
-                    {
-                        continue;
-                    }
-
-                    act.Environment = m_env;
-                    act.LoadScript(child);
-                    m_list.Add(act);
-                }
-            }
-            doc = null;
-
-            foreach (UserAction u in m_list)
-                u.Execute();
-            m_isLoadAction = false;
-
-            m_listIndex = m_list.Count;
-        }
-
-        /// <summary>
-        /// Save the information of UserAction to the file.
-        /// </summary>
-        /// <param name="fileName">Saved file name.</param>
-        public void SaveActionFile(string fileName)
-        {
-            TextWriter streamWriter =
-                                new StreamWriter(fileName);
-            XmlTextWriter w = new XmlTextWriter(streamWriter);
-            w.Formatting = Formatting.Indented;
-
-            w.WriteStartElement("ActionList");
-            foreach (UserAction u in m_list)
-                u.SaveScript(w);
-            w.WriteEndElement();
-
-            w.Close();
-            streamWriter.Close();
         }
 
         /// <summary>

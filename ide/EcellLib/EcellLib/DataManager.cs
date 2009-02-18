@@ -208,42 +208,6 @@ namespace Ecell
 
         #region Method for File I/O.
         /// <summary>
-        /// Save the user action to the set file.
-        /// </summary>
-        /// <param name="fileName">saved file name.</param>
-        public void SaveUserAction(string fileName)
-        {
-            try
-            {
-                m_env.ActionManager.SaveActionFile(fileName);
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                throw new EcellException(String.Format(MessageResources.ErrSaveAct, fileName), ex);
-            }
-        }
-
-        /// <summary>
-        /// Load the user action from the set file.
-        /// </summary>
-        /// <param name="filenName">saved file name.</param>
-        public void LoadUserActionFile(string filenName)
-        {
-            try
-            {
-                CloseProject();
-                m_env.ActionManager.LoadActionFile(filenName);
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                throw new EcellException(String.Format(MessageResources.ErrLoadFile,
-                    new object[] { filenName }), ex);
-            }
-        }
-
-        /// <summary>
         /// Saves the script.
         /// </summary>
         /// <param name="fileName"></param>
@@ -1014,14 +978,14 @@ namespace Ecell
                     {
                         foreach (EcellObject obj in usableList)
                         {
-                            m_env.ActionManager.AddAction(new DataAddAction(obj, isUndoable, false));
+                            m_env.ActionManager.AddAction(new DataAddAction(obj, isUndoable));
                         }
                     }
                     m_env.PluginManager.DataAdd(usableList);
                     if (type.Equals(EcellObject.SYSTEM))
                         m_env.PluginManager.RaiseRefreshEvent();
-                    if (isAnchor)
-                        m_env.ActionManager.AddAction(new AnchorAction());
+                    if (isRecorded && isAnchor)
+                        this.m_env.ActionManager.AddAction(new AnchorAction());
                 }
             }
         }
@@ -1356,7 +1320,7 @@ namespace Ecell
 
                 // Record Action.
                 if (isRecorded)
-                    this.m_env.ActionManager.AddAction(new DataChangeAction(modelID, type, oldObj, ecellObject, false));
+                    this.m_env.ActionManager.AddAction(new DataChangeAction(oldObj, ecellObject));
                 // 4 System & Entity
                 if (ecellObject.Type.Equals(Constants.xpathModel))
                 {
@@ -1385,7 +1349,7 @@ namespace Ecell
                 //if (!oldObj.IsPosSet)
                 //    m_env.PluginManager.SetPosition(oldObj);
                 // Set Event Anchor.
-                if (isAnchor)
+                if (isRecorded &&isAnchor)
                     this.m_env.ActionManager.AddAction(new AnchorAction());
             }
             catch (Exception ex)
@@ -1665,10 +1629,10 @@ namespace Ecell
             {
                 m_env.PluginManager.DataDelete(modelID, key, type);
                 if (isRecorded)
-                    m_env.ActionManager.AddAction(new DataDeleteAction(modelID, key, type, deleteObj, false));
+                    m_env.ActionManager.AddAction(new DataDeleteAction(deleteObj));
                 if (type.Equals(EcellObject.SYSTEM))
                     m_env.PluginManager.RaiseRefreshEvent();
-                if (isAnchor)
+                if (isRecorded && isAnchor)
                     this.m_env.ActionManager.AddAction(new AnchorAction());
             }
         }
@@ -1740,7 +1704,7 @@ namespace Ecell
                 m_currentProject.DeleteSystem(sys);
                 // Record deletion of child system. 
                 if (!sys.Key.Equals(key))
-                    m_env.ActionManager.AddAction(new DataDeleteAction(sys.ModelID, sys.Key, sys.Type, sys, false));
+                    m_env.ActionManager.AddAction(new DataDeleteAction(sys));
                 if (messageFlag)
                     MessageDeleteEntity(EcellObject.SYSTEM, message);
 

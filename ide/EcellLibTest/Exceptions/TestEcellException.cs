@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using System.Diagnostics;
+using EcellCoreLib;
 
 namespace Ecell.Exceptions
 {
@@ -60,5 +61,50 @@ namespace Ecell.Exceptions
             _unitUnderTest = null;
         }
 
+        /// <summary>
+        /// TestConstructorEcellException
+        /// </summary>
+        [Test()]
+        public void TestConstructorEcellException()
+        {
+            EcellException exception = new EcellException();
+            Assert.IsNotNull(exception, "Constructor of type, EcellException failed to create instance.");
+
+            exception = new EcellException("Message");
+            Assert.IsNotNull(exception, "Constructor of type, EcellException failed to create instance.");
+            Assert.AreEqual("Message", exception.Message, "Message is unexpected value.");
+
+            exception = new EcellException("Message", new Exception());
+            Assert.IsNotNull(exception, "Constructor of type, EcellException failed to create instance.");
+            Assert.AreEqual("Message", exception.Message, "Message is unexpected value.");
+        }
+        
+        /// <summary>
+        /// TestConstructorIgnoreException
+        /// </summary>
+        [Test()]
+        public void TestConstructorIgnoreException()
+        {
+            IgnoreException exception = new IgnoreException("Message");
+            Assert.IsNotNull(exception, "Constructor of type, IgnoreException failed to create instance.");
+            Assert.AreEqual("Message", exception.Message, "Message is unexpected value.");
+
+            exception = new IgnoreException("Message", new Exception());
+            Assert.IsNotNull(exception, "Constructor of type, IgnoreException failed to create instance.");
+            Assert.AreEqual("Message", exception.Message, "Message is unexpected value.");
+        }
+        
+        /// <summary>
+        /// TestConstructorSimulationException
+        /// </summary>
+        [Test()]
+        public void TestConstructorSimulationException()
+        {
+            SimulationException exception = new SimulationException("Message", new WrappedException());
+            Assert.IsNotNull(exception, "Constructor of type, SimulationException failed to create instance.");
+            Assert.AreEqual("Message", exception.Message, "Message is unexpected value.");
+            Assert.IsNotNull(exception.InnerException, "InnerException is unexpected value.");
+
+        }
     }
 }

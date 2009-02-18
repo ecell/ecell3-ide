@@ -1301,68 +1301,6 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// The action of clicking the import action menu.
-        /// </summary>
-        /// <param name="sender">MenuItem.</param>
-        /// <param name="e">EventArgs.</param>
-        private void ImportActionMenuClick(object sender, EventArgs e)
-        {
-            try
-            {
-                m_openFileDialog.RestoreDirectory = true;
-                m_openFileDialog.Filter = Constants.FilterActionFile;
-
-                if (m_openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    if (File.Exists(m_openFileDialog.FileName))
-                    {
-                        LoadUserActionFile(m_openFileDialog.FileName);
-                    }
-                    else
-                    {
-                        Util.ShowWarningDialog(MessageResources.FileNotFound);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                Util.ShowErrorDialog(ex.Message);
-            }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="filename"></param>
-        public void LoadUserActionFile(string filename)
-        {
-            m_env.DataManager.LoadUserActionFile(filename);
-        }
-        /// <summary>
-        /// The action of clicking the save action menu.
-        /// Save the action to the file.
-        /// </summary>
-        /// <param name="sender">MenuItem.</param>
-        /// <param name="e">EventArgs.</param>
-        private void SaveActionMenuClick(object sender, EventArgs e)
-        {
-            try
-            {
-                saveFileDialog.RestoreDirectory = true;
-                saveFileDialog.Filter = Constants.FilterActionFile;
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    m_env.DataManager.SaveUserAction(saveFileDialog.FileName);
-                }
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                Util.ShowErrorDialog(ex.Message);
-            }
-        }
-
-        /// <summary>
         /// The action of clicking the undo action menu.
         /// Undo action.
         /// </summary>

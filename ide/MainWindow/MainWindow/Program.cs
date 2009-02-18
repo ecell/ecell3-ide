@@ -93,7 +93,7 @@ namespace Ecell.IDE
                     }
                     else
                     {
-                        window.LoadUserActionFile(fPath);
+                        //window.LoadUserActionFile(fPath);
                     }
                 }
             };

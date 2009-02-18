@@ -104,56 +104,6 @@ namespace Ecell
         }
 
         /// <summary>
-        /// TestSaveUserAction
-        /// </summary>
-        [Test()]
-        public void TestSaveUserAction()
-        {
-            string fileName = "";
-            _unitUnderTest.SaveUserAction(fileName);
-        }
-        /// <summary>
-        /// TestLoadUserActionFile
-        /// </summary>
-        [Test()]
-        public void TestLoadUserActionFile()
-        {
-            // Test null
-            try
-            {
-                _unitUnderTest.LoadUserActionFile(null);
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("Null error.");
-                Trace.WriteLine(ex);
-            }
-            // Test empty.
-            try
-            {
-                _unitUnderTest.LoadUserActionFile("");
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine("Empty error.");
-                Trace.WriteLine(ex);
-            }
-            
-            // Test uncorrect file
-            try
-            {
-                _unitUnderTest.LoadUserActionFile(ActionFileUnCorrect);
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine(ex);
-                Trace.WriteLine("");
-            }
-
-            // Test correct file.
-            _unitUnderTest.LoadUserActionFile(ActionFile);
-        }
-        /// <summary>
         /// TestAddStepperIDL_parameterIDL_stepper
         /// </summary>
         [Test()]

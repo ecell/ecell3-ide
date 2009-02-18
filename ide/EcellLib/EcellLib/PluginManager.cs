@@ -451,33 +451,25 @@ namespace Ecell
         /// <param name="p">plugin</param>
         public void AddPlugin(IEcellPlugin p)
         {
+            EcellException ex = new EcellException(string.Format(MessageResources.ErrAdd, p.GetPluginName(), "Plugin"));
             if (p is IDockOwner)
             {
                 if (m_dockOwner != null)
-                {
-                    throw new EcellException(String.Format(MessageResources.ErrAdd,
-                        new object[] { p.GetPluginName(), "Plugin" }));
-                }
+                    throw ex;
                 m_dockOwner = (IDockOwner)p;
             }
 
             if (p is IDiagramEditor)
             {
                 if (m_diagramEditor != null)
-                {
-                    throw new EcellException(String.Format(MessageResources.ErrAdd,
-                        new object[] { p.GetPluginName(), "Plugin" }));
-                }
+                    throw ex;
                 m_diagramEditor = (IDiagramEditor)p;
             }
 
             if (p is IRootMenuProvider)
             {
                 if (m_rootMenuProvider != null)
-                {
-                    throw new EcellException(String.Format(MessageResources.ErrAdd,
-                        new object[] { p.GetPluginName(), "Plugin" }));
-                }
+                    throw ex;
                 m_rootMenuProvider = (IRootMenuProvider)p;
             }
 
