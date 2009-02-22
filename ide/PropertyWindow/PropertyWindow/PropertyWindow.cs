@@ -426,28 +426,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             return row;
         }
 
-        #region PluginBase
-        /// <summary>
-        /// The event sequence on changing selected object at other plugin.
-        /// </summary>
-        /// <param name="modelID">Selected the model ID.</param>
-        /// <param name="key">Selected the ID.</param>
-        /// <param name="type">Selected the data type.</param>
-        public void SelectChanged(string modelID, string key, string type)
-        {
-            // When called with illegal arguments, this method will do nothing;
-            if (String.IsNullOrEmpty(modelID) || String.IsNullOrEmpty(key))
-            {
-                return;
-            }
-
-            EcellObject obj = GetData(modelID, key, type);
-            if (obj == null) return;
-            m_current = obj;
-
-            ReloadProperties();
-        }
-
         private void ReloadProperties()
         {
             m_propDic = null;
@@ -512,6 +490,47 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             label1.Text = m_current.FullID;
         }
 
+        private void UpdateProperties()
+        {
+            if (m_current == null)
+                return;
+
+            foreach (DataGridViewRow r in m_dgv.Rows)
+            {
+                EcellData prop = r.Cells[1].Tag as EcellData;
+                if (prop == null) continue;
+                EcellData d = m_current.GetEcellData(prop.Name);
+                if (d == null) continue;
+                if (r.Cells[1] is DataGridViewCell)
+                {
+                    if (!r.Cells[1].Value.ToString().Equals(d.Value.ToString()))
+                        r.Cells[1].Value = d.Value.ToString();
+                }
+            }
+        }
+
+        #region PluginBase
+        /// <summary>
+        /// The event sequence on changing selected object at other plugin.
+        /// </summary>
+        /// <param name="modelID">Selected the model ID.</param>
+        /// <param name="key">Selected the ID.</param>
+        /// <param name="type">Selected the data type.</param>
+        public void SelectChanged(string modelID, string key, string type)
+        {
+            // When called with illegal arguments, this method will do nothing;
+            if (String.IsNullOrEmpty(modelID) || String.IsNullOrEmpty(key))
+            {
+                return;
+            }
+
+            EcellObject obj = GetData(modelID, key, type);
+            if (obj == null) return;
+            m_current = obj;
+
+            ReloadProperties();
+        }
+
         /// <summary>
         /// The event process when user add the object to the selected objects.
         /// </summary>
@@ -556,7 +575,10 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             if (m_isChanging)
             {
                 if (m_current.Key == key)
+                {
                     m_current = data;
+                    UpdateProperties();
+                }
                 return;
             }
             if (m_current.ModelID == modelID && m_current.Key == key && m_current.Type == type)
@@ -1080,6 +1102,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         {
             return new EcellDockContent[] { this };
         }
+
         
         private void defineANewPropertyToolStripMenuItem_Click(object sender, EventArgs e)
         {

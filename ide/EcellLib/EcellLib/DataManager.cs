@@ -1204,6 +1204,7 @@ namespace Ecell
                 }
                 else if (ecellObject.Type.Equals(Constants.xpathVariable))
                 {
+                    UpdatePropertyForDataChanged(ecellObject);
                     DataChanged4Entity(modelID, key, type, ecellObject, isRecorded, isAnchor);
                 }
 
@@ -2355,6 +2356,86 @@ namespace Ecell
                 new Dictionary<string, double>());
             SetPropertyList(dummyEcellObject, dic);
             return dic;
+        }
+
+        public void UpdatePropertyForDataChanged(EcellObject variable)
+        {
+            string variablePath = Constants.delimiterPath + Constants.delimiterColon + "V0";
+            Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
+            string sysID = variable.ParentSystemID;
+            EcellObject sys = GetEcellObject(variable.ModelID, sysID, Constants.xpathSystem);           
+            EcellData updateData = null;
+            EcellObject org = GetEcellObject(variable.ModelID, variable.Key, variable.Type);
+            if (org == null) return;
+
+            foreach (EcellData orgdata in org.Value)
+            {
+                if (!orgdata.Settable) continue;
+                updateData = variable.GetEcellData(orgdata.Name);
+                if (updateData == null) continue;
+                if (!updateData.Value.ToString().Equals(orgdata.Value.ToString()))
+                {
+                    break;
+                }
+                updateData = null; 
+            }
+            if (updateData == null) return;
+
+            string sizePath = Constants.delimiterPath + Constants.delimiterColon + Constants.xpathSize.ToUpper();
+            string sizeValuePath = Constants.xpathVariable + Constants.delimiterColon + sizePath +
+                Constants.delimiterColon + Constants.xpathValue;
+            WrappedSimulator simulator = null;
+            EcellObject dummySizeObject = null;
+            EcellObject variableObject = null;
+            try
+            {
+                simulator = m_currentProject.CreateSimulatorInstance();
+                BuildDefaultSimulator(simulator, null, null);
+                dummySizeObject = EcellObject.CreateObject(
+                    "",
+                    sizePath,
+                    EcellObject.VARIABLE,
+                    EcellObject.VARIABLE,
+                    null
+                    );
+                simulator.SetEntityProperty(sizeValuePath, ((EcellSystem)sys).SizeInVolume);
+                simulator.CreateEntity(Constants.xpathVariable, Constants.xpathVariable + Constants.delimiterColon + variablePath);
+                foreach (EcellData data in variable.Value)
+                {
+                    if (!data.Settable) continue;
+                    if (data.Name.Equals(updateData.Name)) continue;
+                    simulator.SetEntityProperty(
+                        Constants.xpathVariable + Constants.delimiterColon + variablePath +
+                        Constants.delimiterColon + data.Name, data.Value.Value);
+                }
+                simulator.SetEntityProperty(
+                    Constants.xpathVariable + Constants.delimiterColon + variablePath +
+                    Constants.delimiterColon + updateData.Name, updateData.Value.Value);
+
+                variableObject = EcellObject.CreateObject(
+                    "",
+                    variablePath,
+                    EcellObject.VARIABLE,
+                    EcellObject.VARIABLE,
+                    null
+                    );
+                DataStorer.DataStored4Variable(
+                    simulator,
+                    variableObject,
+                    new Dictionary<string, double>());
+
+                SetPropertyList(variableObject, dic);
+                foreach (string name in dic.Keys)
+                {
+                    EcellData tmp = variable.GetEcellData(name);
+                    tmp.Value = dic[name].Value;
+                }
+            }
+            finally
+            {
+                simulator = null;
+                variableObject = null;
+            }
         }
 
         /// <summary>
