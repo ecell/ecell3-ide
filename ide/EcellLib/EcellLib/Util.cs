@@ -630,12 +630,9 @@ namespace Ecell
 
             if (string.IsNullOrEmpty(currentSystemPath) || currentSystemPath[0] != '/')
                 throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "currentSystemPath"));
-
-            List<string> retval = new List<string>(currentSystemPath.Split('/'));
             //
+            List<string> retval = new List<string>(currentSystemPath.Split('/'));
             retval.RemoveAt(0);
-            if (retval[retval.Count - 1].Equals(""))
-                retval.RemoveAt(retval.Count - 1);
             //
             foreach (string comp in systemPath.Split('/'))
             {

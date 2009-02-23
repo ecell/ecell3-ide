@@ -104,6 +104,10 @@ namespace Ecell
             key = "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef";
             resultBoolean = Util.IsNGforID(key);
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsNGforID method returned unexpected result.");
+
+            key = "/";
+            resultBoolean = Util.IsNGforID(key);
+            Assert.AreEqual(expectedBoolean, resultBoolean, "IsNGforID method returned unexpected result.");
         }
 
         /// <summary>
@@ -638,6 +642,13 @@ namespace Ecell
             systemPath = "/S0";
             localID = "A1";
             expectedString = "System:/S0/A1";
+            resultString = Util.BuildFullID(type, systemPath, localID);
+            Assert.AreEqual(expectedString, resultString, "BuildFullID method returned unexpected result.");
+
+            type = EcellObject.SYSTEM;
+            systemPath = "";
+            localID = "/";
+            expectedString = "System:/";
             resultString = Util.BuildFullID(type, systemPath, localID);
             Assert.AreEqual(expectedString, resultString, "BuildFullID method returned unexpected result.");
 
@@ -1491,6 +1502,13 @@ namespace Ecell
             systemPath = "..";
             currentSystemPath = "/S0/S1";
             expectedString = "/S0";
+            resultString = Util.NormalizeSystemPath(systemPath, currentSystemPath);
+            Assert.AreEqual(expectedString, resultString, "NormalizeSystemPath method returned unexpected result.");
+
+
+            systemPath = "../S0";
+            currentSystemPath = "/S1/S2";
+            expectedString = "/S1/S0";
             resultString = Util.NormalizeSystemPath(systemPath, currentSystemPath);
             Assert.AreEqual(expectedString, resultString, "NormalizeSystemPath method returned unexpected result.");
 
