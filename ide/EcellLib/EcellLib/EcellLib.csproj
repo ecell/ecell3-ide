@@ -126,6 +126,7 @@
     <Compile Include="Exceptions\SimulationException.cs" />
     <Compile Include="Job\ExecuteParameter.cs" />
     <Compile Include="Leml.cs" />
+    <Compile Include="Logger\LoggerEntry.cs" />
     <Compile Include="Logging\LogEntryEventArgs.cs" />
     <Compile Include="Objects\EcellLayer.cs" />
     <Compile Include="Objects\EcellProject.cs" />

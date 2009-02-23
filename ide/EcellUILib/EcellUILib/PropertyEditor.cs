@@ -43,6 +43,7 @@ using System.Windows.Forms;
 using Ecell.UI.Components;
 using Ecell.Objects;
 using Ecell.Exceptions;
+using Ecell.Logger;
 
 namespace Ecell.IDE
 {
@@ -94,7 +95,11 @@ namespace Ecell.IDE
         private Dictionary<string, TextBox> m_minDic = new Dictionary<string, TextBox>();
         private Dictionary<string, TextBox> m_stepDic = new Dictionary<string, TextBox>();
         private Dictionary<string, EcellParameterData> m_paramDic = new Dictionary<string, EcellParameterData>();
+        private List<EcellParameterData> m_addParamList = new List<EcellParameterData>();
+        private List<EcellParameterData> m_removeParamList = new List<EcellParameterData>();
+        private List<LoggerEntry> m_loggerList = new List<LoggerEntry>();
         static private string DefinedSize = "DefinedSize";
+
         #endregion
 
         #region Constructor
@@ -177,9 +182,10 @@ namespace Ecell.IDE
         /// Get the commit information of this data.
         /// </summary>
         /// <param name="d">data object.</param>
-        private void GetCommitInfo(EcellData d)
+        private bool GetCommitInfo(EcellData d)
         {
-            bool isCheck = false;
+            bool isExistCheck = false;
+            bool isCheck = true;
             double max = 0.0, min = 0.0, step = 0.0;
             IEnumerator iter = commitLayoutPanel.Controls.GetEnumerator();
             while (iter.MoveNext())
@@ -194,8 +200,8 @@ namespace Ecell.IDE
                 {
                     CheckBox c1 = c as CheckBox;
                     if (c1 == null) continue;
-                    if (c1.Checked)
-                        isCheck = true;
+                    isCheck = c1.Checked;
+                    isExistCheck = true;
                 }
                 else if (pos.Column == 2) // Max
                 {
@@ -221,7 +227,13 @@ namespace Ecell.IDE
             }
             if (max < min)
             {
-                throw new EcellException("Invalid parameter(MAX < Min).");
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                return false;
+            }
+            if (step < 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                return false;
             }
             
             string fullPath = d.EntityPath;
@@ -229,11 +241,15 @@ namespace Ecell.IDE
             {
                 fullPath = Constants.xpathVariable + ":" + m_currentObj.Key + ":SIZE:Value";
             }
-            if (!isCheck)            
-                m_dManager.SetParameterData(new EcellParameterData(fullPath,
-                    max, min, step));
-            else
-                m_dManager.RemoveParameterData(new EcellParameterData(fullPath, 0.0));
+            if (isExistCheck)
+            {
+                if (!isCheck)
+                    m_addParamList.Add(new EcellParameterData(fullPath,
+                        max, min, step));
+                else
+                    m_removeParamList.Add(new EcellParameterData(fullPath, 0.0));
+            }
+            return true;
         }
 
         /// <summary>
@@ -358,21 +374,9 @@ namespace Ecell.IDE
                 }
                 else
                 {
-                    if (param.Max == 0.0)
-                    {
-                        double d = (double)prop.Value;
-                        if (d >= 0.0)
-                            t1.Text = Convert.ToString(d * 1.5);
-                        else
-                            t1.Text = Convert.ToString(d * 0.5);
-                        param.Max = Convert.ToDouble(t1.Text);
-                    }
-                    else
-                    {
-                        t1.Text = param.Max.ToString();
-                    }
+                    t1.Text = param.Max.ToString();
                 }
-                t1.Validating += new CancelEventHandler(MaxDataValidating);
+                t1.Validating += new CancelEventHandler(DoubleInputTextValidating);
                 commitLayoutPanel.Controls.Add(t1, 2, i);
 
                 TextBox t2 = new TextBox();
@@ -386,21 +390,9 @@ namespace Ecell.IDE
                 }
                 else
                 {
-                    if (param.Min == 0.0)
-                    {
-                        double d = (double)prop.Value;
-                        if (d >= 0.0)
-                            t2.Text = Convert.ToString(d * 0.5);
-                        else
-                            t2.Text = Convert.ToString(d * 1.5);
-                        param.Min = Convert.ToDouble(t2.Text);
-                    }
-                    else
-                    {
-                        t2.Text = param.Min.ToString();
-                    }
+                    t2.Text = param.Min.ToString();
                 }
-                t2.Validating += new CancelEventHandler(MinDataValidating);
+                t2.Validating += new CancelEventHandler(DoubleInputTextValidating);
                 commitLayoutPanel.Controls.Add(t2, 3, i);
 
                 TextBox t3 = new TextBox();
@@ -816,7 +808,7 @@ namespace Ecell.IDE
                     t2.KeyPress += new KeyPressEventHandler(EnterKeyPress);
                 }
             }
-            t2.Validating += new CancelEventHandler(PathIDInputTextValidating);
+//            t2.Validating += new CancelEventHandler(PathIDInputTextValidating);
             m_idText = t2;
             t2.Dock = DockStyle.Fill;
             layoutPanel.Controls.Add(t2, 2, i);
@@ -1080,6 +1072,9 @@ namespace Ecell.IDE
             string classname = "";
             string type = "";
             bool isLogger = false;
+            m_addParamList.Clear();
+            m_removeParamList.Clear();
+            m_loggerList.Clear();
             List<EcellData> list = new List<EcellData>();
             IEnumerator iter = layoutPanel.Controls.GetEnumerator();
             try
@@ -1262,10 +1257,14 @@ namespace Ecell.IDE
                         data.Loadable = prop.Loadable;
                         data.Gettable = prop.Gettable;
                         data.Logable = prop.Logable;
-                        GetCommitInfo(data);
+                        if (!GetCommitInfo(data))
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
                         data.Logged = isLogger;
                         if (isLogger != prop.Logged && isLogger)
-                            m_pManager.LoggerAdd(modelID, m_currentObj.Key, type, prop.EntityPath);
+                            m_loggerList.Add(new LoggerEntry(modelID, m_currentObj.Key, type, prop.EntityPath, true));
                         isLogger = false;
 
                         list.Add(data);
@@ -1275,7 +1274,13 @@ namespace Ecell.IDE
                 EcellObject uobj = EcellObject.CreateObject(modelID, key, type, classname, list);
                 uobj.Children = m_currentObj.Children;
                 uobj.SetPosition(m_currentObj);
-                NotifyDataChanged(m_currentObj.ModelID, m_currentObj.Key, uobj);              
+                NotifyDataChanged(m_currentObj.ModelID, m_currentObj.Key, uobj);
+                foreach (LoggerEntry ent in m_loggerList)
+                    m_pManager.LoggerAdd(ent.ModelID, ent.ID, ent.Type, ent.FullPN);
+                foreach (EcellParameterData p in m_removeParamList)
+                    m_dManager.RemoveParameterData(p);
+                foreach (EcellParameterData p in m_addParamList)
+                    m_dManager.SetParameterData(p);
             }
             catch (IgnoreException ex)
             {
@@ -1527,54 +1532,6 @@ namespace Ecell.IDE
             {
                 m_idText.Focus();
             }
-        }
-
-        private void MaxDataValidating(object sender, CancelEventArgs e)
-        {
-            TextBox textBox = (TextBox)sender;
-            string text = textBox.Text;
-            string propName = (string)(textBox.Tag);
-
-            if (string.IsNullOrEmpty(text))
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet, propName));
-                textBox.Text = Convert.ToString(m_paramDic[propName].Max);
-                e.Cancel = true;
-                return;
-            }
-            double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy < m_paramDic[propName].Min)
-            {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                textBox.Text = Convert.ToString(m_paramDic[propName].Max);
-                e.Cancel = true;
-                return;
-            }
-            m_paramDic[propName].Max = dummy;
-        }
-
-        private void MinDataValidating(object sender, CancelEventArgs e)
-        {
-            TextBox textBox = (TextBox)sender;
-            string text = textBox.Text;
-            string propName = (string)(textBox.Tag);
-
-            if (string.IsNullOrEmpty(text))
-            {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet, propName));
-                textBox.Text = Convert.ToString(m_paramDic[propName].Min);
-                e.Cancel = true;
-                return;
-            }
-            double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy > m_paramDic[propName].Max)
-            {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                textBox.Text = Convert.ToString(m_paramDic[propName].Min);
-                e.Cancel = true;
-                return;
-            }
-            m_paramDic[propName].Min = dummy;
         }
 
         private void StepDataValidating(object sender, CancelEventArgs e)
