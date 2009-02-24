@@ -37,7 +37,7 @@ using System.Xml;
 using System.Windows.Forms;
 using Ecell.Objects;
 
-namespace Ecell
+namespace Ecell.Action
 {
     /// <summary>
     /// Class to manager actions.

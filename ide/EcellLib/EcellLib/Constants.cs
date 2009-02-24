@@ -705,6 +705,29 @@ namespace Ecell
     };
 
     /// <summary>
+    /// Availability of Redo/Undo
+    /// </summary>
+    public enum UndoStatus
+    {
+        /// <summary>
+        /// Both undo and redo are available.
+        /// </summary>
+        UNDO_REDO,
+        /// <summary>
+        /// Only undo is available.
+        /// </summary>
+        UNDO_ONLY,
+        /// <summary>
+        /// Only redo is available.
+        /// </summary>
+        REDO_ONLY,
+        /// <summary>
+        /// Both undo and redo are NOT available.
+        /// </summary>
+        NOTHING
+    }
+
+    /// <summary>
     /// FileType
     /// </summary>
     public enum FileType

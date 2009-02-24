@@ -48,35 +48,12 @@ using Ecell.Plugin;
 using Ecell.Objects;
 using Ecell.Exceptions;
 
-namespace Ecell
+namespace Ecell.Plugin
 {
     public delegate void SaveSimulationResultDelegate(List<string> list);
     public delegate void ShowGraphDelegate(string file, bool isNewWin);
     public delegate void ShowDialogDelegate();
     public delegate void SetDockContentDelegate(EcellDockContent s);
-
-    /// <summary>
-    /// Availability of Redo/Undo
-    /// </summary>
-    public enum UndoStatus
-    {
-        /// <summary>
-        /// Both undo and redo are available.
-        /// </summary>
-        UNDO_REDO,
-        /// <summary>
-        /// Only undo is available.
-        /// </summary>
-        UNDO_ONLY,
-        /// <summary>
-        /// Only redo is available.
-        /// </summary>
-        REDO_ONLY,
-        /// <summary>
-        /// Both undo and redo are NOT available.
-        /// </summary>
-        NOTHING
-    }
 
     /// <summary>
     /// Manage class for the loaded plugin.

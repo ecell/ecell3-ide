@@ -90,12 +90,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionManager.cs" />
+    <Compile Include="Action\ActionManager.cs" />
     <Compile Include="CommandManager.cs" />
     <Compile Include="DataManager.cs" />
     <Compile Include="Objects\EcellObject.cs" />
     <Compile Include="Plugin\PluginBase.cs" />
-    <Compile Include="PluginManager.cs">
+    <Compile Include="Plugin\PluginManager.cs">
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util.cs" />
@@ -119,6 +119,18 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action\AddSimParamAction.cs" />
+    <Compile Include="Action\AddStepperAction.cs" />
+    <Compile Include="Action\AnchorAction.cs" />
+    <Compile Include="Action\ChangeStepperAction.cs" />
+    <Compile Include="Action\DataAddAction.cs" />
+    <Compile Include="Action\DataChangeAction.cs" />
+    <Compile Include="Action\DataDeleteAction.cs" />
+    <Compile Include="Action\DeleteSimParamAction.cs" />
+    <Compile Include="Action\DeleteStepperAction.cs" />
+    <Compile Include="Action\LoadProjectAction.cs" />
+    <Compile Include="Action\NewProjectAction.cs" />
+    <Compile Include="Action\SetSimParamAction.cs" />
     <Compile Include="DataStorer.cs" />
     <Compile Include="DynamicModuleManager.cs" />
     <Compile Include="Exceptions\EcellException.cs" />
@@ -214,7 +226,7 @@
     <Compile Include="DataLogger.cs" />
     <Compile Include="Eml.cs" />
     <Compile Include="Job\JobProxy.cs" />
-    <Compile Include="UserAction.cs" />
+    <Compile Include="Action\UserAction.cs" />
     <Compile Include="ZipUtil.cs" />
   </ItemGroup>
   <ItemGroup>

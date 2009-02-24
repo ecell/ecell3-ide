@@ -53,6 +53,8 @@ using Ecell.Objects;
 using Ecell.Logging;
 using Ecell.Exceptions;
 using Ecell.SBML;
+using Ecell.Action;
+using Ecell.Plugin;
 
 namespace Ecell
 {
@@ -424,10 +426,9 @@ namespace Ecell
         /// </summary>
         /// <param name="projectID"></param>
         /// <param name="comment"></param>
-        /// <param name="modelID"></param>
-        public void CreateNewProject(string projectID, string comment, string modelID)
+        public void CreateNewProject(string projectID, string comment)
         {
-            CreateNewProject(projectID, comment, modelID, new List<string>());
+            CreateNewProject(projectID, comment, new List<string>());
         }
 
         /// <summary>
@@ -435,16 +436,15 @@ namespace Ecell
         /// </summary>
         /// <param name="projectID"></param>
         /// <param name="comment"></param>
-        /// <param name="modelID"></param>
         /// <param name="setDirList"></param>
-        public void CreateNewProject(string projectID, string comment, string modelID, List<string> setDirList)
+        public void CreateNewProject(string projectID, string comment, List<string> setDirList)
         {
             try
             {
-                CreateProject(projectID, comment, modelID);
+                CreateProject(projectID, comment);
                 m_currentProject.CopyDMDirs(setDirList);
 
-                EcellObject model = EcellObject.CreateObject(modelID, "", Constants.xpathModel, "", new List<EcellData>());
+                EcellObject model = EcellObject.CreateObject(projectID, "", Constants.xpathModel, "", new List<EcellData>());
                 DataAdd(model, false, false);
                 foreach (string paramID in GetSimulationParameterIDs())
                 {
@@ -455,7 +455,7 @@ namespace Ecell
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                Util.ShowErrorDialog(string.Format(MessageResources.ErrCrePrj, modelID) + "\n" + ex.Message);
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrCrePrj, projectID) + "\n" + ex.Message);
                 CloseProject();
             }
 
@@ -466,8 +466,7 @@ namespace Ecell
         /// </summary>
         /// <param name="projectID">The "Project" ID</param>
         /// <param name="comment">The comment</param>
-        /// <param name="projectPath">The project directory path to load the dm of this project.</param>
-        private void CreateProject(string projectID, string comment, string projectPath)
+        private void CreateProject(string projectID, string comment)
         {
             Project prj = null;
             try
@@ -485,8 +484,6 @@ namespace Ecell
                 ProjectInfo info = new ProjectInfo(projectID, comment, DateTime.Now.ToString(), Constants.defaultSimParam);
                 prj = new Project(info, m_env);
                 m_currentProject = prj;
-                if (projectPath != null)
-                    m_currentProject.Info.ProjectPath = projectPath;
 
                 //
                 // 4 PluginManager
@@ -498,7 +495,7 @@ namespace Ecell
                 List<EcellObject> ecellObjectList = new List<EcellObject>();
                 ecellObjectList.Add(ecellObject);
                 m_env.PluginManager.DataAdd(ecellObjectList);
-                m_env.ActionManager.AddAction(new NewProjectAction(projectID, comment, projectPath));
+                m_env.ActionManager.AddAction(new NewProjectAction(projectID, comment));
                 m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
 
                 m_env.Console.WriteLine(string.Format(MessageResources.InfoCrePrj, projectID));
@@ -2912,7 +2909,7 @@ namespace Ecell
                         perModelStepperList.Add(stepper);
                     }
                     if (isRecorded && addedStepperList.Count + removedStepperList.Count + updatedStepperList.Count > 0)
-                        m_env.ActionManager.AddAction(new UpdateStepperAction(parameterID, stepperList, oldStepperList));
+                        m_env.ActionManager.AddAction(new ChangeStepperAction(parameterID, stepperList, oldStepperList));
                 }
             }
             catch (Exception ex)

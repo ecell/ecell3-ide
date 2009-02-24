@@ -195,7 +195,7 @@ namespace Ecell.SBML
                             AssignmentRule anAssignmentRule =aSBMLModel.createAssignmentRule();
                             // set AssignmentRule Formula
                             anAssignmentRule.setFormula( aVariableReference.Coefficient.ToString() + "* ( " + anExpression + ")" );
-                            string aVariableID = getVariableReferenceId( aVariableReference.FullID, aProcess.FullID );
+                            string aVariableID = getVariableReferenceId( aVariableReference.FullID, aProcess.ParentSystemID );
                             anAssignmentRule.setVariable( aVariableID );
                         }
                     }
@@ -212,7 +212,7 @@ namespace Ecell.SBML
                             // set AssignmentRule Formula
                             aRateRule.setFormula( aVariableReference.Coefficient + "* ( " + anExpression + ")" );
 
-                            string aVariableID = getVariableReferenceId( aVariableReference.FullID, aProcess.FullID );
+                            string aVariableID = getVariableReferenceId( aVariableReference.FullID, aProcess.ParentSystemID );
                             aRateRule.setVariable( aVariableID );
                         }
                     }
@@ -337,8 +337,8 @@ namespace Ecell.SBML
 
                                 // set Species Id to Reactant object
                                 string aSpeciesReferenceId = getVariableReferenceId
-                                                      ( aVariableReference.Key,
-                                                        aProcess.Key );
+                                                      ( aVariableReference.FullID,
+                                                        aProcess.ParentSystemID );
 
                                 aReactant.setSpecies( aSpeciesReferenceId );
 
@@ -359,8 +359,8 @@ namespace Ecell.SBML
                                 
                                 // set Species Id
                                 string aSpeciesReferenceId = getVariableReferenceId
-                                                      ( aVariableReference.Key,
-                                                        aProcess.Key );
+                                                      ( aVariableReference.FullID,
+                                                        aProcess.ParentSystemID );
 
                                 aProduct.setSpecies( aSpeciesReferenceId );
                                 
@@ -378,7 +378,7 @@ namespace Ecell.SBML
                                 ModifierSpeciesReference aModifier = aSBMLModel.createModifier();
                                 
                                 // set Species Id to Modifier object
-                                string aVariableReferenceId = getVariableReferenceId( aVariableReference.Key, aProcess.Key );
+                                string aVariableReferenceId = getVariableReferenceId( aVariableReference.FullID, aProcess.ParentSystemID );
 
                                 aModifier.setSpecies( aVariableReferenceId );
                             }

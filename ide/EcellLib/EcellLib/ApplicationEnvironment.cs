@@ -34,6 +34,8 @@ using System.IO;
 using Ecell.Logging;
 using Ecell.Job;
 using Ecell.Reporting;
+using Ecell.Action;
+using Ecell.Plugin;
 
 namespace Ecell
 {
