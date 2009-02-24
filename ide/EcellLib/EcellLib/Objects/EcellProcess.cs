@@ -85,12 +85,12 @@ namespace Ecell.Objects
         /// </summary>
         /// <param name="modelID">model ID.</param>
         /// <param name="key">key.</param>
-        /// <param name="type">type(="Variable").</param>
+        /// <param name="type">type(="Process").</param>
         /// <param name="classname">class name.</param>
         /// <param name="data">properties.</param>
         public EcellProcess(string modelID, string key,
             string type, string classname, List<EcellData> data)
-            : base(modelID, key, type, classname, data)
+            : base(modelID, key, PROCESS, classname, data)
         {
         }
         #endregion

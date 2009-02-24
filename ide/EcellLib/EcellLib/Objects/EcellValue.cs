@@ -43,6 +43,9 @@ using Ecell.Exceptions;
 
 namespace Ecell.Objects
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public enum EcellValueType
     {
         Integer = 1,

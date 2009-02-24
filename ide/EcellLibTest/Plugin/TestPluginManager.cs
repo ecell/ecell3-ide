@@ -36,6 +36,7 @@ using Ecell.Logging;
 using System.IO;
 using System.Diagnostics;
 using System.Collections;
+using Ecell.Exceptions;
 
 namespace Ecell.Plugin
 {
@@ -374,6 +375,32 @@ namespace Ecell.Plugin
             Ecell.ProjectStatus type = ProjectStatus.Uninitialized;
             _unitUnderTest.ChangeStatus(type);
 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestAddPlugin()
+        {
+            IEcellPlugin plugin = _unitUnderTest.GetPlugin("PathwayWindow");
+            try
+            {
+                _unitUnderTest.AddPlugin(plugin);
+                Assert.Fail();
+            }
+            catch (EcellException)
+            {
+            }
+            try
+            {
+                object obj = new object();
+                _unitUnderTest.RegisterPlugin(obj.GetType());
+                Assert.Fail();
+            }
+            catch (EcellException)
+            {
+            }
         }
 
         /// <summary>

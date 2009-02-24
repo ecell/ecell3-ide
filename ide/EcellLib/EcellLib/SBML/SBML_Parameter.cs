@@ -5,15 +5,25 @@ using Ecell.Exceptions;
 
 namespace Ecell.SBML
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal class SBML_Parameter
     {
         private SBML_Model Model;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aModel"></param>
         public SBML_Parameter(SBML_Model aModel)
         {
             this.Model = aModel;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aParameter"></param>
+        /// <returns></returns>
         public string getParameterID(ParameterStruct aParameter )
         {
             if ( this.Model.Level == 1 )
@@ -35,7 +45,11 @@ namespace Ecell.SBML
                throw new EcellException("Version" + this.Model.Level + " ????");
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aParameter"></param>
+        /// <returns></returns>
         public double getParameterValue(ParameterStruct aParameter )
         {
             return aParameter.Value;

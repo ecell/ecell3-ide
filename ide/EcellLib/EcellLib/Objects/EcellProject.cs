@@ -50,7 +50,7 @@ namespace Ecell.Objects
         /// <param name="data">properties of object.</param>
         public EcellProject(string modelID, string key,
              string type, string classname, List<EcellData> data)
-            : base(modelID, key, type, classname, data)
+            : base(modelID, key, PROJECT, PROJECT, data)
         {
         }
         #endregion

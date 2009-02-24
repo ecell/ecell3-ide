@@ -59,7 +59,7 @@ namespace Ecell.Objects
         /// <param name="data">properties.</param>
         public EcellVariable(string modelID, string key,
             string type, string classname, List<EcellData> data)
-            : base(modelID, key, type, classname, data)
+            : base(modelID, key, VARIABLE, VARIABLE, data)
         {
         }
         #endregion

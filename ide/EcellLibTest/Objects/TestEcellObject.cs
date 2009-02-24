@@ -143,7 +143,7 @@ namespace Ecell.Objects
             Assert.IsTrue(eo is EcellProject, "Failed to Create EcellProject.");
             Assert.AreEqual("Project", eo.Type, "Type is not expected value.");
             Assert.AreEqual("Model", eo.ModelID, "ModelID is not expected value.");
-            Assert.AreEqual("", eo.Classname, "Classname is not expected value.");
+            Assert.AreEqual("Project", eo.Classname, "Classname is not expected value.");
             Assert.AreEqual("", eo.Key, "Key is not expected value.");
             Assert.AreEqual("Project:", eo.FullID, "FullID is not expected value.");
             Assert.AreEqual("", eo.ParentSystemID, "ParentSystemID is not expected value.");
@@ -167,7 +167,7 @@ namespace Ecell.Objects
             Assert.IsTrue(eo is EcellModel, "Failed to Create EcellModel.");
             Assert.AreEqual("Model", eo.Type, "Type is not expected value.");
             Assert.AreEqual("Model", eo.ModelID, "ModelID is not expected value.");
-            Assert.AreEqual("", eo.Classname, "Classname is not expected value.");
+            Assert.AreEqual("Model", eo.Classname, "Classname is not expected value.");
             Assert.AreEqual("", eo.Key, "Key is not expected value.");
             Assert.AreEqual("Model:", eo.FullID, "FullID is not expected value.");
             Assert.AreEqual("", eo.ParentSystemID, "ParentSystemID is not expected value.");
@@ -561,10 +561,10 @@ namespace Ecell.Objects
             resultBoolean = obj.Equals(new EcellProcess("Model1", "/:P0", "Process", "ConstantFluxProcess", new List<EcellData>()));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
-            resultBoolean = obj.Equals(new EcellProcess("Model", "/:P0", "Variable", "Variable", new List<EcellData>()));
+            resultBoolean = obj.Equals(new EcellVariable("Model", "/:P0", "Variable", "Variable", new List<EcellData>()));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
-            resultBoolean = obj.Equals(new EcellProcess("Model", "/:P0", "System", "System", new List<EcellData>()));
+            resultBoolean = obj.Equals(new EcellSystem("Model", "/", "System", "System", new List<EcellData>()));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
             expectedBoolean = true;
@@ -573,52 +573,52 @@ namespace Ecell.Objects
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
 
-            obj = new EcellProcess("Model", "/:P0", "Variable", "Variable", new List<EcellData>());
+            obj = new EcellVariable("Model", "/:P0", "Variable", "Variable", new List<EcellData>());
             expectedBoolean = false;
             resultBoolean = false;
 
             resultBoolean = obj.Equals(new object());
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
-            resultBoolean = obj.Equals(new EcellProcess("Model", "/:P1", "Variable", "Variable", new List<EcellData>()));
+            resultBoolean = obj.Equals(new EcellVariable("Model", "/:P1", "Variable", "Variable", new List<EcellData>()));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
-            resultBoolean = obj.Equals(new EcellProcess("Model1", "/:P0", "Variable", "Variable", new List<EcellData>()));
+            resultBoolean = obj.Equals(new EcellVariable("Model1", "/:P0", "Variable", "Variable", new List<EcellData>()));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
             resultBoolean = obj.Equals(new EcellProcess("Model", "/:P0", "Process", "ConstantFluxProcess", new List<EcellData>()));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
-            resultBoolean = obj.Equals(new EcellProcess("Model", "/:P0", "System", "System", new List<EcellData>()));
+            resultBoolean = obj.Equals(new EcellSystem("Model", "/:P0", "System", "System", new List<EcellData>()));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
             expectedBoolean = true;
 
-            resultBoolean = obj.Equals(new EcellProcess("Model", "/:P0", "Variable", "Variable", new List<EcellData>()));
+            resultBoolean = obj.Equals(new EcellVariable("Model", "/:P0", "Variable", "Variable", new List<EcellData>()));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
-            obj = new EcellProcess("Model", "/:P0", "System", "System", new List<EcellData>());
+            obj = new EcellSystem("Model", "/P0", "System", "System", new List<EcellData>());
             expectedBoolean = false;
             resultBoolean = false;
 
             resultBoolean = obj.Equals(new object());
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
-            resultBoolean = obj.Equals(new EcellProcess("Model", "/P1", "System", "System", new List<EcellData>()));
+            resultBoolean = obj.Equals(new EcellSystem("Model", "/P1", "System", "System", new List<EcellData>()));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
-            resultBoolean = obj.Equals(new EcellProcess("Model1", "/P0", "System", "System", new List<EcellData>()));
+            resultBoolean = obj.Equals(new EcellSystem("Model1", "/P0", "System", "System", new List<EcellData>()));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
             resultBoolean = obj.Equals(new EcellProcess("Model", "/P0", "Process", "ConstantFluxProcess", new List<EcellData>()));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
-            resultBoolean = obj.Equals(new EcellProcess("Model", "/P0", "Variable", "Variable", new List<EcellData>()));
+            resultBoolean = obj.Equals(new EcellVariable("Model", "/P0", "Variable", "Variable", new List<EcellData>()));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
             expectedBoolean = true;
 
-            resultBoolean = obj.Equals(new EcellProcess("Model", "/:P0", "System", "System", new List<EcellData>()));
+            resultBoolean = obj.Equals(new EcellSystem("Model", "/P0", "System", "System", new List<EcellData>()));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
         }

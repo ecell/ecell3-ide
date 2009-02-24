@@ -36,6 +36,7 @@ namespace Ecell.Objects
     using System.Collections.Generic;
     using EcellCoreLib;
     using Ecell.Exceptions;
+    using System.Reflection;
 
     /// <summary>
     /// 
@@ -142,6 +143,19 @@ namespace Ecell.Objects
             string str = "string"; ;
             EcellValue value = new EcellValue(str);
             Assert.AreEqual("string", value.Value);
+
+            Type type = value.GetType();
+            FieldInfo info = type.GetField("m_value", BindingFlags.NonPublic | BindingFlags.Instance);
+            info.SetValue(value, new object());
+            try
+            {
+                ValueType vtype = value.Type;
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+
         }
 
         /// <summary>
@@ -202,6 +216,7 @@ namespace Ecell.Objects
             try
             {
                 resultDouble = (double)value;
+                Assert.Fail();
             }
             catch (Exception)
             {
@@ -211,6 +226,7 @@ namespace Ecell.Objects
             try
             {
                 resultDouble = (double)value;
+                Assert.Fail();
             }
             catch (Exception)
             {
@@ -244,6 +260,7 @@ namespace Ecell.Objects
             try
             {
                 resultInt32 = (int)value;
+                Assert.Fail();
             }
             catch (Exception)
             {
@@ -253,6 +270,7 @@ namespace Ecell.Objects
             try
             {
                 resultInt32 = (int)value;
+                Assert.Fail();
             }
             catch (Exception)
             {

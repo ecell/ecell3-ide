@@ -461,24 +461,24 @@ namespace Ecell.Objects
             //if (string.IsNullOrEmpty(modelID))
             //    throw new EcellException(string.Format(MessageResources.ErrInvalidParam, MODEL));
             if (Util.IsNGforType(type))
-                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "Type"));
-
-            if (type.Equals(MODEL))
-                return new EcellModel(modelID, key, type, classname, data);
-            else if (type.Equals(PROCESS))
-                return new EcellProcess(modelID, key, type, classname, data);
-            else if (type.Equals(VARIABLE))
-                return new EcellVariable(modelID, key, type, classname, data);
-            else if (type.Equals(SYSTEM))
-                return new EcellSystem(modelID, key, type, classname, data);
-            else if (type.Equals(TEXT))
-                return new EcellText(modelID, key, type, classname, data);
-            else if (type.Equals(STEPPER))
-                return new EcellStepper(modelID, key, type, classname, data);
-            else if (type.Equals(PROJECT))
-                return new EcellProject(modelID, key, type, classname, data);
-            else
                 throw new EcellException(string.Format(MessageResources.ErrInvalidParam, TYPE));
+
+            EcellObject obj = null;
+            if (type.Equals(MODEL))
+                obj = new EcellModel(modelID, key, type, classname, data);
+            else if (type.Equals(PROCESS))
+                obj = new EcellProcess(modelID, key, type, classname, data);
+            else if (type.Equals(VARIABLE))
+                obj = new EcellVariable(modelID, key, type, classname, data);
+            else if (type.Equals(SYSTEM))
+                obj = new EcellSystem(modelID, key, type, classname, data);
+            else if (type.Equals(TEXT))
+                obj = new EcellText(modelID, key, type, classname, data);
+            else if (type.Equals(STEPPER))
+                obj = new EcellStepper(modelID, key, type, classname, data);
+            else if (type.Equals(PROJECT))
+                obj = new EcellProject(modelID, key, type, classname, data);
+            return obj;
         }
 
 
@@ -656,20 +656,12 @@ namespace Ecell.Objects
         /// <returns>The copy "EcellObject"</returns>
         public virtual EcellObject Clone()
         {
-            try
-            {
-                EcellObject newEcellObject =
-                    CreateObject(this.m_modelID, this.m_key, this.m_type, this.m_class, this.CopyValueList());
-                newEcellObject.Layout = this.m_layout;
-                newEcellObject.Children = this.CopyChildren();
-                newEcellObject.isFixed = m_isFixed;
-                return newEcellObject;
-            }
-            catch (Exception ex)
-            {
-                throw new EcellException(String.Format(MessageResources.ErrCopy,
-                    new object[] { this.Key }), ex);
-            }
+            EcellObject newEcellObject =
+                CreateObject(this.m_modelID, this.m_key, this.m_type, this.m_class, this.CopyValueList());
+            newEcellObject.Layout = this.m_layout;
+            newEcellObject.Children = this.CopyChildren();
+            newEcellObject.isFixed = m_isFixed;
+            return newEcellObject;
         }
 
         private List<EcellData> CopyValueList()
