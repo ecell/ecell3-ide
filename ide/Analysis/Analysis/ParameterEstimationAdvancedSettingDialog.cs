@@ -88,7 +88,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             int dummy;
-            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
+            if (!Int32.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 PEMTextBox.Text = Convert.ToString(m_param.M);
@@ -109,7 +109,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            if (!Double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 PEUpsilonTextBox.Text = Convert.ToString(m_param.Upsilon);
@@ -130,7 +130,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy <= 1.0)
+            if (!Double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 PEM0TextBox.Text = Convert.ToString(m_param.Initial);
@@ -151,7 +151,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy <= 1.0)
+            if (!Double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 PEKTextBox.Text = Convert.ToString(m_param.K);
@@ -172,7 +172,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            if (!Double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 PEMaxRateTextBox.Text = Convert.ToString(m_param.Max);
@@ -183,5 +183,40 @@ namespace Ecell.IDE.Plugins.Analysis
         }
 
         #endregion
+
+        private void ParameterEstimationAdvancedSettingDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.DialogResult == DialogResult.Cancel) return;
+            if (m_param.Max <= 0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                return;
+            }
+            if (m_param.K <= 1.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                return;
+            }
+            if (m_param.Initial <= 1.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                return;
+            }
+            if (m_param.Upsilon <= 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                return;
+            }
+            if (m_param.M <= 0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                return;
+            }
+        }
     }
 }

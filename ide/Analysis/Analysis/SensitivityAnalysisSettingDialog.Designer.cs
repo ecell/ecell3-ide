@@ -129,6 +129,7 @@
             this.Controls.Add(label1);
             this.Name = "SensitivityAnalysisSettingDialog";
             this.Load += new System.EventHandler(this.FormLoad);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SensitivityAnalysisSettingDialog_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

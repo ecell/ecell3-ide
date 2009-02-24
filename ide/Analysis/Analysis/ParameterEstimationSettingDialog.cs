@@ -237,7 +237,9 @@ namespace Ecell.IDE.Plugins.Analysis
         private void AdvancedButtonClicked(object sender, EventArgs e)
         {
             ParameterEstimationAdvancedSettingDialog dlg = new ParameterEstimationAdvancedSettingDialog();
-            dlg.SetParameter(m_param.Param);
+            SimplexCrossoverParameter p = new SimplexCrossoverParameter(m_param.Param.M,
+                m_param.Param.Initial, m_param.Param.Max, m_param.Param.K, m_param.Param.Upsilon);
+            dlg.SetParameter(p);
             using (dlg)
             {
                 if (dlg.ShowDialog() == DialogResult.OK)
@@ -262,7 +264,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            if (!Double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 parameterEstimationSimulationTimeTextBox.Text = Convert.ToString(m_param.SimulationTime);
@@ -287,7 +289,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             int dummy;
-            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
+            if (!Int32.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 parameterEstimationPopulationTextBox.Text = Convert.ToString(m_param.Population);
@@ -312,7 +314,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             int dummy;
-            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
+            if (!Int32.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 parameterEstimationGenerationTextBox.Text = Convert.ToString(m_param.Generation);
@@ -337,15 +339,15 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 isCorrect = false;
             }
-            if (isCorrect && e.ColumnIndex == 3 && dummy < 0.0)
+            if (isCorrect && e.ColumnIndex == 3)
             {
                 isCorrect = false;
             }
-            if (isCorrect && e.ColumnIndex == 1 && dummy < data.Min)
+            if (isCorrect && e.ColumnIndex == 1)
             {
                 isCorrect = false;
             }
-            if (isCorrect && e.ColumnIndex == 2 && dummy > data.Max)
+            if (isCorrect && e.ColumnIndex == 2)
             {
                 isCorrect = false;
             }
@@ -378,6 +380,40 @@ namespace Ecell.IDE.Plugins.Analysis
                     case 3:
                         parameterEstimationParameterDataGrid[e.ColumnIndex, e.RowIndex].Value = data.Step;
                         break;
+                }
+            }
+        }
+
+        private void ParameterEstimationSettingDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.DialogResult == DialogResult.Cancel) return;
+            if (m_param.Generation <= 0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                return;
+            }
+            if (m_param.Population <= 0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                return;
+            }
+            if (m_param.SimulationTime <= 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                return;
+            }
+
+            List<EcellParameterData> plist = GetParameterDataList();
+            foreach (EcellParameterData p in plist)
+            {
+                if (p.Max < p.Min || p.Step < 0.0)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    e.Cancel = true;
+                    return;
                 }
             }
         }

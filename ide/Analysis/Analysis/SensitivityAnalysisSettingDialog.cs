@@ -64,7 +64,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             int dummy;
-            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
+            if (!Int32.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 sensitivityStepTextBox.Text = Convert.ToString(m_param.Step);
@@ -85,7 +85,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            if (!Double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 sensitivityAbsolutePerturbationTextBox.Text = Convert.ToString(m_param.AbsolutePerturbation);
@@ -106,7 +106,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            if (!Double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 sensitivityRelativePerturbationTextBox.Text = Convert.ToString(m_param.RelativePerturbation);
@@ -114,6 +114,31 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             m_param.RelativePerturbation = dummy;
+        }
+
+        private void SensitivityAnalysisSettingDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.DialogResult == DialogResult.Cancel) return;
+            if (m_param.Step <= 0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                return;
+            }
+
+            if (m_param.RelativePerturbation <= 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                return;
+            }
+
+            if (m_param.AbsolutePerturbation <= 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                return;
+            }
         }
     }
 }

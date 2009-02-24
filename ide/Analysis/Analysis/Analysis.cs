@@ -575,7 +575,12 @@ namespace Ecell.IDE.Plugins.Analysis
         private void ShowParameterEstimationSetting(object sender, EventArgs e)
         {
             ParameterEstimationSettingDialog dlg = new ParameterEstimationSettingDialog(this);
-            dlg.SetParameter(m_estimationParameter);
+            dlg.SetParameter(new ParameterEstimationParameter(m_estimationParameter.EstimationFormulator,
+                m_estimationParameter.SimulationTime, m_estimationParameter.Population,
+                m_estimationParameter.Generation, m_estimationParameter.Type,
+                new SimplexCrossoverParameter(m_estimationParameter.Param.M,
+                m_estimationParameter.Param.Initial, m_estimationParameter.Param.Max,
+                m_estimationParameter.Param.K, m_estimationParameter.Param.Upsilon)));
             dlg.SetParameterDataList(m_paramList);
             using (dlg)
             {
@@ -600,7 +605,9 @@ namespace Ecell.IDE.Plugins.Analysis
         private void ShowBifurcationSetting(object sender, EventArgs e)
         {
             BifurcationSettingDialog dlg = new BifurcationSettingDialog(this);
-            dlg.SetParameter(m_bifurcateParameter);
+            dlg.SetParameter(new BifurcationAnalysisParameter(m_bifurcateParameter.SimulationTime,
+                m_bifurcateParameter.WindowSize, m_bifurcateParameter.MaxInput,
+                m_bifurcateParameter.MaxFreq, m_bifurcateParameter.MinFreq));
             dlg.SetParameterDataList(m_paramList);
             dlg.SetObservedDataList(m_observedList);
             using (dlg)
@@ -630,7 +637,14 @@ namespace Ecell.IDE.Plugins.Analysis
         private void ShowRobustAnalysisSetting(object sender, EventArgs e)
         {
             RobustAnalysisSettingDialog dlg = new RobustAnalysisSettingDialog(this);
-            dlg.SetParameter(m_robustParameter);
+            RobustAnalysisParameter pa = new RobustAnalysisParameter();
+            pa.SimulationTime = m_robustParameter.SimulationTime;
+            pa.WinSize = m_robustParameter.WinSize;
+            pa.SampleNum = m_robustParameter.SampleNum;
+            pa.IsRandomCheck = m_robustParameter.IsRandomCheck;
+            pa.MaxData = m_robustParameter.MaxData;
+            pa.MaxFreq = m_robustParameter.MaxFreq;
+            pa.MinFreq = m_robustParameter.MinFreq;
             dlg.SetParameterDataList(m_paramList);
             dlg.SetObservedDataList(m_observedList);
             using (dlg)
@@ -659,8 +673,9 @@ namespace Ecell.IDE.Plugins.Analysis
 
         private void ShowSensitivityAnalysisSetting(object sender, EventArgs e)
         {
-            SensitivityAnalysisSettingDialog dlg = new SensitivityAnalysisSettingDialog(this);
-            dlg.SetParameter(m_sensitivityParameter);
+            SensitivityAnalysisSettingDialog dlg = new SensitivityAnalysisSettingDialog(this);           
+            dlg.SetParameter(new SensitivityAnalysisParameter(m_sensitivityParameter.Step,
+                m_sensitivityParameter.RelativePerturbation, m_sensitivityParameter.AbsolutePerturbation));
             using (dlg)
             {
                 DialogResult res = dlg.ShowDialog();

@@ -193,7 +193,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            if (!Double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 bifurcationWindowSizeTextBox.Text = Convert.ToString(m_param.WindowSize);
@@ -218,7 +218,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            if (!Double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 bifurcationSimulationTimeTextBox.Text = Convert.ToString(m_param.SimulationTime);
@@ -243,7 +243,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             int dummy;
-            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
+            if (!Int32.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 bifurcationMaxInputTextBox.Text = Convert.ToString(m_param.MaxInput);
@@ -268,7 +268,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy <= 0.0 || dummy < m_param.MinFreq)
+            if (!Double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 bifurcationMaxFrequencyTextBox.Text = Convert.ToString(m_param.MaxFreq);
@@ -293,7 +293,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy <= 0.0 || dummy > m_param.MaxFreq)
+            if (!Double.TryParse(text, out dummy))
             {
                 Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
                 bifurcationMinFrequencyTextBox.Text = Convert.ToString(m_param.MinFreq);
@@ -318,15 +318,15 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 isCorrect = false;
             }
-            if (isCorrect && e.ColumnIndex == 4 && dummy < 0.0)
+            if (isCorrect && e.ColumnIndex == 4)
             {
                 isCorrect = false;
             }
-            if (isCorrect && e.ColumnIndex == 1 && dummy < data.Min)
+            if (isCorrect && e.ColumnIndex == 1)
             {
                 isCorrect = false;
             }
-            if (isCorrect && e.ColumnIndex == 2 && dummy > data.Max)
+            if (isCorrect && e.ColumnIndex == 2)
             {
                 isCorrect = false;
             }
@@ -384,15 +384,15 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 isCorrect = false;
             }
-            if (isCorrect && e.ColumnIndex == 3 && dummy < 0.0)
+            if (isCorrect && e.ColumnIndex == 3)
             {
                 isCorrect = false;
             }
-            if (isCorrect && e.ColumnIndex == 1 && dummy < data.Min)
+            if (isCorrect && e.ColumnIndex == 1)
             {
                 isCorrect = false;
             }
-            if (isCorrect && e.ColumnIndex == 2 && dummy > data.Max)
+            if (isCorrect && e.ColumnIndex == 2)
             {
                 isCorrect = false;
             }
@@ -428,6 +428,60 @@ namespace Ecell.IDE.Plugins.Analysis
                 }
             }
 
+        }
+
+        private void BifurcationSettingDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.DialogResult == DialogResult.Cancel) return;
+            if (m_param.SimulationTime <= 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                return;
+            }
+            if (m_param.WindowSize <= 0.0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                return;
+            }
+
+            if (m_param.MaxInput <= 0)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                return;
+            }
+
+            if (m_param.MinFreq <= 0.0 || m_param.MaxFreq <= 0.0 ||
+                m_param.MaxFreq < m_param.MinFreq)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                return;
+            }
+
+            List<EcellParameterData> plist = GetParameterDataList();
+            foreach (EcellParameterData p in plist)
+            {
+                if (p.Max < p.Min || p.Step < 0.0)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
+            List<EcellObservedData> olist = GetObservedDataList();
+            foreach (EcellObservedData o in olist)
+            {
+                if (o.Max < o.Min || o.Rate < 0.0)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    e.Cancel = true;
+                    return;
+                }
+            }
         }
 
     }
