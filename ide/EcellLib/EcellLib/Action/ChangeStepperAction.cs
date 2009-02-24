@@ -58,25 +58,6 @@ namespace Ecell.Action
         #endregion
 
         /// <summary>
-        /// The constructor for UpdateStepperAction.
-        /// </summary>
-        public ChangeStepperAction()
-        {
-            m_newStepperList = new List<EcellObject>();
-            m_oldStepperList = new List<EcellObject>();
-            m_isAnchor = true;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return "ChangeStepperAction:" + m_paramID;
-        }
-
-        /// <summary>
         /// The constructor for UpdateStepperAction with initial parameters.
         /// </summary>
         /// <param name="paramID">The parameter id updated the stepper.</param>
@@ -88,6 +69,16 @@ namespace Ecell.Action
             m_newStepperList = newStepper;
             m_oldStepperList = oldStepper;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "ChangeStepperAction:" + m_paramID;
+        }
+
         /// <summary>
         /// Execute to update the stepper using the information.
         /// </summary>

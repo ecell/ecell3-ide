@@ -31,14 +31,13 @@ using System;
 using NUnit.Framework;
 using System.Collections.Generic;
 using Ecell;
-using Ecell.Plugin;
 using Ecell.Objects;
 using Ecell.Logging;
 using System.IO;
 using System.Diagnostics;
 using System.Collections;
 
-namespace Ecell
+namespace Ecell.Plugin
 {
     /// <summary>
     /// 

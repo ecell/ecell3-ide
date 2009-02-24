@@ -152,7 +152,190 @@ namespace Ecell
             _env.ActionManager.RedoAction();
             Assert.AreEqual(UndoStatus.UNDO_ONLY, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
 
-            DataAddAction action = new DataAddAction(sys, true);
+            UserAction action = _env.ActionManager.GetAction(1);
+            Assert.IsTrue(action.ToString().Contains("DataAddAction"), "ToString is unexpected value.");
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestDataChangeAction()
+        {
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
+
+            string modelID = "Drosophila";
+            string key = "/";
+            string type = "System";
+            EcellObject sys = _env.DataManager.GetEcellObject(modelID, key, type);
+            _env.DataManager.DataChanged(modelID, key, type, sys.Clone());
+            Assert.AreEqual(UndoStatus.UNDO_ONLY, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
+
+            _env.ActionManager.UndoAction();
+            Assert.AreEqual(UndoStatus.REDO_ONLY, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
+            _env.ActionManager.RedoAction();
+            Assert.AreEqual(UndoStatus.UNDO_ONLY, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
+
+            UserAction action = _env.ActionManager.GetAction(1);
+            Assert.IsTrue(action.ToString().Contains("DataChangeAction"), "ToString is unexpected value.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestDataDeleteAction()
+        {
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
+
+            string modelID = "Drosophila";
+            string key = "/CELL";
+            string type = "System";
+            EcellObject sys = _env.DataManager.GetEcellObject(modelID, key, type);
+            _env.DataManager.DataDelete(modelID, key, type);
+            Assert.AreEqual(UndoStatus.UNDO_ONLY, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
+
+            _env.ActionManager.UndoAction();
+            Assert.AreEqual(UndoStatus.REDO_ONLY, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
+            _env.ActionManager.RedoAction();
+            Assert.AreEqual(UndoStatus.UNDO_ONLY, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
+
+            UserAction action = _env.ActionManager.GetAction(1);
+            Assert.IsTrue(action.ToString().Contains("DataDeleteAction"), "ToString is unexpected value.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestAddSimParamAction()
+        {
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
+
+            UserAction action = new AddSimParamAction("newParam", true);
+            Assert.IsNotNull(action, "Constructor of type, AddSimParamAction failed to create instance.");
+            Assert.IsTrue(action.ToString().Contains("AddSimParamAction"), "ToString is unexpected value.");
+            Type type = action.GetType();
+            FieldInfo info = type.GetField("m_env", BindingFlags.NonPublic | BindingFlags.Instance);
+            info.SetValue(action, _env);
+
+            action.Execute();
+            action.UnExecute();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestDeleteSimParamAction()
+        {
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
+            _env.DataManager.CreateSimulationParameter("newParam");
+
+            UserAction action = new DeleteSimParamAction("newParam", true);
+            Assert.IsNotNull(action, "Constructor of type, DeleteSimParamAction failed to create instance.");
+            Assert.IsTrue(action.ToString().Contains("DeleteSimParamAction"), "ToString is unexpected value.");
+            Type type = action.GetType();
+            FieldInfo info = type.GetField("m_env", BindingFlags.NonPublic | BindingFlags.Instance);
+            info.SetValue(action, _env);
+
+            action.Execute();
+            action.UnExecute();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestSetSimParamAction()
+        {
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
+
+            UserAction action = new SetSimParamAction("DefaultParameter", "DefaultParameter", true);
+            Assert.IsNotNull(action, "Constructor of type, SetSimParamAction failed to create instance.");
+            Assert.IsTrue(action.ToString().Contains("SetSimParamAction"), "ToString is unexpected value.");
+            Type type = action.GetType();
+            FieldInfo info = type.GetField("m_env", BindingFlags.NonPublic | BindingFlags.Instance);
+            info.SetValue(action, _env);
+
+            // ToDo:
+            action.Execute();
+            action.UnExecute();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestAddStepperAction()
+        {
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
+
+            UserAction action = new AddStepperAction("DefaultParameter", new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>()));
+            Assert.IsNotNull(action, "Constructor of type, AddStepperAction failed to create instance.");
+            Assert.IsTrue(action.ToString().Contains("AddStepperAction"), "ToString is unexpected value.");
+            Type type = action.GetType();
+            FieldInfo info = type.GetField("m_env", BindingFlags.NonPublic | BindingFlags.Instance);
+            info.SetValue(action, _env);
+
+            action.Execute();
+            action.UnExecute();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestDeleteStepperAction()
+        {
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
+
+            _env.DataManager.AddStepperID("DefaultParameter", new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>()));
+
+            UserAction action = new DeleteStepperAction("DefaultParameter", new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>()));
+            Assert.IsNotNull(action, "Constructor of type, DeleteStepperAction failed to create instance.");
+            Assert.IsTrue(action.ToString().Contains("DeleteStepperAction"), "ToString is unexpected value.");
+            Type type = action.GetType();
+            FieldInfo info = type.GetField("m_env", BindingFlags.NonPublic | BindingFlags.Instance);
+            info.SetValue(action, _env);
+
+            action.Execute();
+            action.UnExecute();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestChangeStepperAction()
+        {
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
+            EcellObject stepper = new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>());
+            _env.DataManager.AddStepperID("DefaultParameter", stepper);
+
+            List<EcellObject> oldSteppers = new List<EcellObject>();
+            List<EcellObject> newSteppers = new List<EcellObject>();
+            oldSteppers.Add(stepper);
+            newSteppers.Add(stepper.Clone());
+
+            UserAction action = new ChangeStepperAction("DefaultParameter", newSteppers, oldSteppers);
+            Assert.IsNotNull(action, "Constructor of type, ChangeStepperAction failed to create instance.");
+            Assert.IsTrue(action.ToString().Contains("ChangeStepperAction"), "ToString is unexpected value.");
+            Type type = action.GetType();
+            FieldInfo info = type.GetField("m_env", BindingFlags.NonPublic | BindingFlags.Instance);
+            info.SetValue(action, _env);
+
+            action.Execute();
+            action.UnExecute();
+        }
+
     }
 }

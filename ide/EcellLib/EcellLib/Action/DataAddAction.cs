@@ -75,8 +75,6 @@ namespace Ecell.Action
         /// </summary>
         public override void Execute()
         {
-            if (m_obj == null)
-                return;
             m_env.DataManager.DataAdd(m_obj.Clone(), false, false);
         }
         /// <summary>

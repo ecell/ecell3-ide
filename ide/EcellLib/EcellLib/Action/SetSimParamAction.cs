@@ -78,14 +78,14 @@ namespace Ecell.Action
         /// </summary>
         public override void Execute()
         {
-            m_env.DataManager.SetSimulationParameter(m_newParamID, false, m_isAnchor);
+            m_env.DataManager.SetSimulationParameter(m_newParamID, false, false);
         }
         /// <summary>
         /// Unexecute this action.
         /// </summary>
         public override void UnExecute()
         {
-            m_env.DataManager.SetSimulationParameter(m_oldParamID, false, m_isAnchor);
+            m_env.DataManager.SetSimulationParameter(m_oldParamID, false, false);
         }
     }
 }

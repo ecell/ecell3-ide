@@ -50,11 +50,6 @@ using Ecell.Exceptions;
 
 namespace Ecell.Plugin
 {
-    public delegate void SaveSimulationResultDelegate(List<string> list);
-    public delegate void ShowGraphDelegate(string file, bool isNewWin);
-    public delegate void ShowDialogDelegate();
-    public delegate void SetDockContentDelegate(EcellDockContent s);
-
     /// <summary>
     /// Manage class for the loaded plugin.
     /// </summary>
@@ -785,71 +780,24 @@ namespace Ecell.Plugin
         }
         #endregion
     }
-
     /// <summary>
-    /// Data element displayed on plugins.
+    /// 
     /// </summary>
-    public class PluginData
-    {
-        /// <summary>
-        /// m_modelID (the model ID)
-        /// </summary>
-        private string m_modelID;
-        /// <summary>
-        /// m_key (the key ID)
-        /// </summary>
-        private string m_key;
-
-        /// <summary>
-        /// constructor of PluginData.
-        /// </summary>
-        public PluginData()
-        {
-            this.m_modelID = "model1";
-            this.m_key = "key1";
-        }
-
-        /// <summary>
-        /// constructir of PluginData with initial data.
-        /// </summary>
-        /// <param name="id">initial model ID</param>
-        /// <param name="key">initial key ID</param>
-        public PluginData(string id, string key)
-        {
-            this.m_modelID = id;
-            this.m_key = key;
-        }
-
-        /// <summary>
-        /// get/set m_modelID.
-        /// </summary>
-        public string ModelID
-        {
-            get { return this.m_modelID; }
-            set { this.m_modelID = value; }
-        }
-
-        /// <summary>
-        /// get/set m_key.
-        /// </summary>
-        public string Key
-        {
-            get { return this.m_key; }
-            set { this.m_key = value; }
-        }
-
-        /// <summary>
-        /// override equals method for PluginData.
-        /// </summary>
-        /// <param name="obj">the comparing object</param>
-        /// <returns>if equal, return true</returns>
-        public bool Equals(PluginData obj)
-        {
-            if (this.m_modelID == obj.m_modelID && this.m_key == obj.m_key)
-            {
-                return true;
-            }
-            return false;
-        }
-    }
+    /// <param name="list"></param>
+    public delegate void SaveSimulationResultDelegate(List<string> list);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="file"></param>
+    /// <param name="isNewWin"></param>
+    public delegate void ShowGraphDelegate(string file, bool isNewWin);
+    /// <summary>
+    /// 
+    /// </summary>
+    public delegate void ShowDialogDelegate();
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="s"></param>
+    public delegate void SetDockContentDelegate(EcellDockContent s);
 }

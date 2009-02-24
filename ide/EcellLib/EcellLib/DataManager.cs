@@ -4271,6 +4271,7 @@ namespace Ecell
                 string oldParameterID = m_currentProject.Info.SimulationParam;
                 if (oldParameterID != parameterID)
                 {
+                    // Set Stepper.
                     foreach (string modelID in m_currentProject.StepperDic[oldParameterID].Keys)
                     {
                         if (!m_currentProject.StepperDic[parameterID].ContainsKey(modelID))

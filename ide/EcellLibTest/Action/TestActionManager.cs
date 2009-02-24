@@ -28,7 +28,7 @@
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
-namespace Ecell
+namespace Ecell.Action
 {
     using System;
     using System.Collections.Generic;
@@ -37,7 +37,7 @@ namespace Ecell
     using System.Diagnostics;
     using Ecell.Objects;
     using System.IO;
-    using Ecell.Action;
+    using System.Reflection;
     /// <summary>
     /// 
     /// </summary>
@@ -98,12 +98,14 @@ namespace Ecell
         public void TestAddAction()
         {
             _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
-            string modelID = "Drosophila";
-            string key = "/";
-            string type = "System";
-
-            EcellObject sys = _env.DataManager.CreateDefaultObject(modelID, key, type);
+            EcellObject sys = _env.DataManager.CreateDefaultObject("Drosophila", "/", "System");
             _env.DataManager.DataAdd(sys);
+
+            Type type = _unitUnderTest.GetType();
+            FieldInfo info = type.GetField("m_isLoadAction", BindingFlags.NonPublic | BindingFlags.Instance);
+            info.SetValue(_unitUnderTest, true);
+            _unitUnderTest.AddAction(new AnchorAction());
+
         }
         /// <summary>
         /// 
