@@ -115,14 +115,5 @@ namespace Ecell.Logger
                 return true;
             return false;
         }
-
-        /// <summary>
-        /// override GetHashCode on LoggerEntry.
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
     }
 }

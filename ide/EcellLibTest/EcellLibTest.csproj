@@ -70,6 +70,7 @@
     <Compile Include="Job\TestJobProxy.cs" />
     <Compile Include="Job\TestLocalJob.cs" />
     <Compile Include="Job\TestLocalJobProxy.cs" />
+    <Compile Include="Logger\TestLoggerEntry.cs" />
     <Compile Include="Logging\TestLogEntry.cs" />
     <Compile Include="Objects\TestEcellDragObject.cs" />
     <Compile Include="Objects\TestEcellLayer.cs" />
