@@ -645,6 +645,7 @@ namespace Ecell.IDE.Plugins.Analysis
             pa.MaxData = m_robustParameter.MaxData;
             pa.MaxFreq = m_robustParameter.MaxFreq;
             pa.MinFreq = m_robustParameter.MinFreq;
+            dlg.SetParameter(pa);
             dlg.SetParameterDataList(m_paramList);
             dlg.SetObservedDataList(m_observedList);
             using (dlg)

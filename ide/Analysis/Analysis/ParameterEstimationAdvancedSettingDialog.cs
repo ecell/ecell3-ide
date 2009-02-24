@@ -82,7 +82,7 @@ namespace Ecell.IDE.Plugins.Analysis
             string text = PEMTextBox.Text;
             if (string.IsNullOrEmpty(text))
             {
-                Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameM));
                 PEMTextBox.Text = Convert.ToString(m_param.M);
                 e.Cancel = true;
                 return;
@@ -90,7 +90,7 @@ namespace Ecell.IDE.Plugins.Analysis
             int dummy;
             if (!Int32.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameM));
                 PEMTextBox.Text = Convert.ToString(m_param.M);
                 e.Cancel = true;
                 return;
@@ -103,7 +103,7 @@ namespace Ecell.IDE.Plugins.Analysis
             string text = PEUpsilonTextBox.Text;
             if (string.IsNullOrEmpty(text))
             {
-                Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameUpsilon));
                 PEUpsilonTextBox.Text = Convert.ToString(m_param.Upsilon);
                 e.Cancel = true;
                 return;
@@ -111,7 +111,7 @@ namespace Ecell.IDE.Plugins.Analysis
             double dummy;
             if (!Double.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameUpsilon));
                 PEUpsilonTextBox.Text = Convert.ToString(m_param.Upsilon);
                 e.Cancel = true;
                 return;
@@ -124,7 +124,7 @@ namespace Ecell.IDE.Plugins.Analysis
             string text = PEM0TextBox.Text;
             if (string.IsNullOrEmpty(text))
             {
-                Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameM0));
                 PEM0TextBox.Text = Convert.ToString(m_param.Initial);
                 e.Cancel = true;
                 return;
@@ -132,7 +132,7 @@ namespace Ecell.IDE.Plugins.Analysis
             double dummy;
             if (!Double.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameM0));
                 PEM0TextBox.Text = Convert.ToString(m_param.Initial);
                 e.Cancel = true;
                 return;
@@ -145,7 +145,7 @@ namespace Ecell.IDE.Plugins.Analysis
             string text = PEKTextBox.Text;
             if (string.IsNullOrEmpty(text))
             {
-                Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameK));
                 PEKTextBox.Text = Convert.ToString(m_param.K);
                 e.Cancel = true;
                 return;
@@ -153,7 +153,7 @@ namespace Ecell.IDE.Plugins.Analysis
             double dummy;
             if (!Double.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameK));
                 PEKTextBox.Text = Convert.ToString(m_param.K);
                 e.Cancel = true;
                 return;
@@ -166,7 +166,7 @@ namespace Ecell.IDE.Plugins.Analysis
             string text = PEMaxRateTextBox.Text;
             if (string.IsNullOrEmpty(text))
             {
-                Util.ShowErrorDialog(MessageResources.ErrNoInput);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameMaxRate));
                 PEMaxRateTextBox.Text = Convert.ToString(m_param.Max);
                 e.Cancel = true;
                 return;
@@ -174,7 +174,7 @@ namespace Ecell.IDE.Plugins.Analysis
             double dummy;
             if (!Double.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMaxRate));
                 PEMaxRateTextBox.Text = Convert.ToString(m_param.Max);
                 e.Cancel = true;
                 return;
@@ -189,31 +189,31 @@ namespace Ecell.IDE.Plugins.Analysis
             if (this.DialogResult == DialogResult.Cancel) return;
             if (m_param.Max <= 0)
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMaxRate));
                 e.Cancel = true;
                 return;
             }
             if (m_param.K <= 1.0)
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameK));
                 e.Cancel = true;
                 return;
             }
             if (m_param.Initial <= 1.0)
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameM0));
                 e.Cancel = true;
                 return;
             }
             if (m_param.Upsilon <= 0.0)
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameUpsilon));
                 e.Cancel = true;
                 return;
             }
             if (m_param.M <= 0)
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameM));
                 e.Cancel = true;
                 return;
             }

@@ -266,7 +266,7 @@ namespace Ecell.IDE.Plugins.Analysis
             double dummy;
             if (!Double.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameSimulationTime));
                 parameterEstimationSimulationTimeTextBox.Text = Convert.ToString(m_param.SimulationTime);
                 e.Cancel = true;
                 return;
@@ -291,7 +291,7 @@ namespace Ecell.IDE.Plugins.Analysis
             int dummy;
             if (!Int32.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NamePopulation));
                 parameterEstimationPopulationTextBox.Text = Convert.ToString(m_param.Population);
                 e.Cancel = true;
                 return;
@@ -316,7 +316,7 @@ namespace Ecell.IDE.Plugins.Analysis
             int dummy;
             if (!Int32.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameGenerationNum));
                 parameterEstimationGenerationTextBox.Text = Convert.ToString(m_param.Generation);
                 e.Cancel = true;
                 return;
@@ -389,19 +389,19 @@ namespace Ecell.IDE.Plugins.Analysis
             if (this.DialogResult == DialogResult.Cancel) return;
             if (m_param.Generation <= 0)
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameGenerationNum));
                 e.Cancel = true;
                 return;
             }
             if (m_param.Population <= 0)
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NamePopulation));
                 e.Cancel = true;
                 return;
             }
             if (m_param.SimulationTime <= 0.0)
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameSimulationTime));
                 e.Cancel = true;
                 return;
             }
@@ -411,7 +411,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 if (p.Max < p.Min || p.Step < 0.0)
                 {
-                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameParameterData));
                     e.Cancel = true;
                     return;
                 }

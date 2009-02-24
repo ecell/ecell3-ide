@@ -195,7 +195,7 @@ namespace Ecell.IDE.Plugins.Analysis
             double dummy;
             if (!Double.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameWindowSize));
                 bifurcationWindowSizeTextBox.Text = Convert.ToString(m_param.WindowSize);
                 e.Cancel = true;
                 return;
@@ -220,7 +220,7 @@ namespace Ecell.IDE.Plugins.Analysis
             double dummy;
             if (!Double.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameSimulationTime));
                 bifurcationSimulationTimeTextBox.Text = Convert.ToString(m_param.SimulationTime);
                 e.Cancel = true;
                 return;
@@ -245,7 +245,7 @@ namespace Ecell.IDE.Plugins.Analysis
             int dummy;
             if (!Int32.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMaxSample));
                 bifurcationMaxInputTextBox.Text = Convert.ToString(m_param.MaxInput);
                 e.Cancel = true;
                 return;
@@ -270,7 +270,7 @@ namespace Ecell.IDE.Plugins.Analysis
             double dummy;
             if (!Double.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMaxFrequency));
                 bifurcationMaxFrequencyTextBox.Text = Convert.ToString(m_param.MaxFreq);
                 e.Cancel = true;
                 return;
@@ -295,7 +295,7 @@ namespace Ecell.IDE.Plugins.Analysis
             double dummy;
             if (!Double.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMinFrequency));
                 bifurcationMinFrequencyTextBox.Text = Convert.ToString(m_param.MinFreq);
                 e.Cancel = true;
                 return;
@@ -435,28 +435,39 @@ namespace Ecell.IDE.Plugins.Analysis
             if (this.DialogResult == DialogResult.Cancel) return;
             if (m_param.SimulationTime <= 0.0)
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameSimulationTime));
                 e.Cancel = true;
                 return;
             }
             if (m_param.WindowSize <= 0.0)
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameWindowSize));
                 e.Cancel = true;
                 return;
             }
 
             if (m_param.MaxInput <= 0)
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMaxSample));
                 e.Cancel = true;
                 return;
             }
 
-            if (m_param.MinFreq <= 0.0 || m_param.MaxFreq <= 0.0 ||
-                m_param.MaxFreq < m_param.MinFreq)
+            if (m_param.MinFreq <= 0.0)
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMinFrequency));
+                e.Cancel = true;
+                return;
+            }
+            if (m_param.MaxFreq <= 0.0)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMaxFrequency));
+                e.Cancel = true;
+                return;
+            }
+            if (m_param.MaxFreq < m_param.MinFreq)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrLarger, MessageResources.NameMaxFrequency, MessageResources.NameMinFrequency));
                 e.Cancel = true;
                 return;
             }
@@ -466,7 +477,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 if (p.Max < p.Min || p.Step < 0.0)
                 {
-                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameParameterData));
                     e.Cancel = true;
                     return;
                 }
@@ -477,7 +488,7 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 if (o.Max < o.Min || o.Rate < 0.0)
                 {
-                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameParameterData));
                     e.Cancel = true;
                     return;
                 }

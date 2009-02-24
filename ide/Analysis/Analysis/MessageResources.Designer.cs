@@ -70,7 +70,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   Are you sure to abort this analysis {0}? に類似しているローカライズされた文字列を検索します。
+        ///   Are you sure to abort this analysis[ {0} ]? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmStopAnalysis {
             get {
@@ -88,7 +88,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   Value is not valid. に類似しているローカライズされた文字列を検索します。
+        ///   Value is not valid [ {0} ]. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrInvalidValue {
             get {
@@ -367,11 +367,47 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
+        ///   K に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameK {
+            get {
+                return ResourceManager.GetString("NameK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   M に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameM {
+            get {
+                return ResourceManager.GetString("NameM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Initial rate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameM0 {
+            get {
+                return ResourceManager.GetString("NameM0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Max frequency に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameMaxFrequency {
             get {
                 return ResourceManager.GetString("NameMaxFrequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Max rate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameMaxRate {
+            get {
+                return ResourceManager.GetString("NameMaxRate", resourceCulture);
             }
         }
         
@@ -480,6 +516,15 @@ namespace Ecell.IDE.Plugins.Analysis {
         internal static string NameStepNum {
             get {
                 return ResourceManager.GetString("NameStepNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Upsilon に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameUpsilon {
+            get {
+                return ResourceManager.GetString("NameUpsilon", resourceCulture);
             }
         }
         

@@ -66,7 +66,7 @@ namespace Ecell.IDE.Plugins.Analysis
             int dummy;
             if (!Int32.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameStepNum));
                 sensitivityStepTextBox.Text = Convert.ToString(m_param.Step);
                 e.Cancel = true;
                 return;
@@ -87,7 +87,7 @@ namespace Ecell.IDE.Plugins.Analysis
             double dummy;
             if (!Double.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameStepNum));
                 sensitivityAbsolutePerturbationTextBox.Text = Convert.ToString(m_param.AbsolutePerturbation);
                 e.Cancel = true;
                 return;
@@ -108,7 +108,7 @@ namespace Ecell.IDE.Plugins.Analysis
             double dummy;
             if (!Double.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameRelativePert));
                 sensitivityRelativePerturbationTextBox.Text = Convert.ToString(m_param.RelativePerturbation);
                 e.Cancel = true;
                 return;
@@ -121,21 +121,21 @@ namespace Ecell.IDE.Plugins.Analysis
             if (this.DialogResult == DialogResult.Cancel) return;
             if (m_param.Step <= 0)
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameStepNum));
                 e.Cancel = true;
                 return;
             }
 
             if (m_param.RelativePerturbation <= 0.0)
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameRelativePert));
                 e.Cancel = true;
                 return;
             }
 
             if (m_param.AbsolutePerturbation <= 0.0)
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameAbsolutePert));
                 e.Cancel = true;
                 return;
             }

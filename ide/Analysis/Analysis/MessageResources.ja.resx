@@ -127,7 +127,7 @@
     <value>{0} の実行に失敗しました。</value>
   </data>
   <data name="ErrInvalidValue" xml:space="preserve">
-    <value>入力された値が不正です。</value>
+    <value>入力された値が不正です[ {0} ]。</value>
   </data>
   <data name="ErrLarger" xml:space="preserve">
     <value>{0} は {1} より大きい値に設定してください。</value>
@@ -219,8 +219,14 @@
   <data name="NameGenerationNum" xml:space="preserve">
     <value>世代数</value>
   </data>
+  <data name="NameM0" xml:space="preserve">
+    <value>初期変異率</value>
+  </data>
   <data name="NameMaxFrequency" xml:space="preserve">
     <value>最大頻度</value>
+  </data>
+  <data name="NameMaxRate" xml:space="preserve">
+    <value>最大変異率</value>
   </data>
   <data name="NameMaxSample" xml:space="preserve">
     <value>FFTのサンプル数</value>
