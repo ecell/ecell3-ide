@@ -10,6 +10,7 @@ using System.Diagnostics;
 
 using Ecell.IDE;
 using Ecell.Objects;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.ProjectExplorer
 {
@@ -1135,7 +1136,12 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                     m_owner.DataManager.DataDelete(obj.m_modelID, obj.m_key, obj.m_type, true, false);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="keyData"></param>
+        /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if ((int)keyData == (int)Keys.Control + (int)Keys.D ||

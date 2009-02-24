@@ -39,6 +39,7 @@ using System.Globalization;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Collections;
+using Ecell.Action;
 
 namespace Ecell.IDE.MainWindow
 {
@@ -547,7 +548,6 @@ namespace Ecell.IDE.MainWindow
             public void CreateNewProject()
             {
                 m_browser.Environment.DataManager.CreateNewProject(
-                    "NewProject",
                     "NewProject",
                     "");
             }

@@ -56,6 +56,7 @@ using Ecell.Plugin;
 using Ecell.Objects;
 using Ecell.IDE.Plugins.PathwayWindow.Animation;
 using Ecell.IDE.Plugins.PathwayWindow.Components;
+using Ecell.Action;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {

@@ -973,7 +973,7 @@ namespace Ecell.IDE.MainWindow
             {
                 if (npd.ShowDialog() != DialogResult.OK)
                     return;
-                m_env.DataManager.CreateNewProject(npd.ProjectName, npd.Comment, npd.ProjectName, npd.DMList);
+                m_env.DataManager.CreateNewProject(npd.ProjectName, npd.Comment, npd.DMList);
             }
         }
 

@@ -137,6 +137,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// Add the selected node.
         /// </summary>
         /// <param name="tn">the selected node.</param>
+        /// <param name="isdispatch"></param>
         public void SelectNodes(TreeNode tn, bool isdispatch)
         {
             if (m_isUpdate) return;
@@ -193,14 +194,15 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// Deselect the selected node.
         /// </summary>
         /// <param name="tn">the selected node.</param>
-        public void DeselectNode(TreeNode tn, bool isdispath)
+        /// <param name="isdispatch"></param>
+        public void DeselectNode(TreeNode tn, bool isdispatch)
         {
             if (m_isUpdate) return;
             if (this.SelNodes.Contains(tn))
                 this.SelNodes.Remove(tn);
             LowlightNode(tn);
 
-            if (isdispath)
+            if (isdispatch)
             {
                 if (tn.Tag != null)
                 {
@@ -352,31 +354,46 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
         private bool m_isCollapse = false;
         private bool m_isExpand = false;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseUp(MouseEventArgs e)
         {
             m_isExpand = false;
             m_isCollapse = false;
             base.OnMouseUp(e);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnBeforeCollapse(TreeViewCancelEventArgs e)
         {
             m_isCollapse = true; ;
             base.OnBeforeCollapse(e);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnAfterCollapse(TreeViewEventArgs e)
         {
             base.OnAfterCollapse(e);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnBeforeExpand(TreeViewCancelEventArgs e)
         {
             m_isExpand = true;
             base.OnBeforeExpand(e);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnAfterExpand(TreeViewEventArgs e)
         {
             base.OnAfterExpand(e);

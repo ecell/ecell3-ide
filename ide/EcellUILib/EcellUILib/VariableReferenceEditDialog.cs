@@ -39,6 +39,7 @@ using System.Text;
 using System.Windows.Forms;
 using Ecell.Objects;
 using Ecell.Exceptions;
+using Ecell.Plugin;
 
 namespace Ecell.IDE
 {

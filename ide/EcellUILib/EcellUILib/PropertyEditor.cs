@@ -44,6 +44,7 @@ using Ecell.UI.Components;
 using Ecell.Objects;
 using Ecell.Exceptions;
 using Ecell.Logger;
+using Ecell.Plugin;
 
 namespace Ecell.IDE
 {
