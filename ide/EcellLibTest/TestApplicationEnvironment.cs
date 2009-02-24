@@ -34,6 +34,8 @@ using System.Text;
 using NUnit.Framework;
 using Ecell.Job;
 using Ecell.Logging;
+using Ecell.Action;
+using Ecell.Plugin;
 
 namespace Ecell
 {

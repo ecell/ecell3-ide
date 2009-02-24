@@ -34,7 +34,7 @@ using System.Text;
 using NUnit.Framework;
 using System.Diagnostics;
 
-namespace Ecell
+namespace Ecell.Plugin
 {
 
     /// <summary>

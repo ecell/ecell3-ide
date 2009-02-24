@@ -37,6 +37,7 @@ namespace Ecell
     using System.Diagnostics;
     using Ecell.Objects;
     using System.IO;
+    using Ecell.Action;
     /// <summary>
     /// 
     /// </summary>
@@ -72,6 +73,7 @@ namespace Ecell
         [TearDown()]
         public void TearDown()
         {
+            _env = null;
             _unitUnderTest = null;
         }
         /// <summary>

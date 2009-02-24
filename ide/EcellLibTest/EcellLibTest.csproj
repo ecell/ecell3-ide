@@ -85,7 +85,7 @@
     <Compile Include="Reporting\TestReportManager.cs" />
     <Compile Include="Reporting\TestStatusUpdateEventArgs.cs" />
     <Compile Include="SBML\TestSBML2EML.cs" />
-    <Compile Include="TestActionManager.cs" />
+    <Compile Include="Action\TestActionManager.cs" />
     <Compile Include="TestApplicationEnvironment.cs" />
     <Compile Include="TestConsoleDataAvailableEventArgs.cs" />
     <Compile Include="TestConsoleManager.cs" />
@@ -102,11 +102,12 @@
     <Compile Include="Exceptions\TestEmlParseException.cs" />
     <Compile Include="TestEmlReader.cs" />
     <Compile Include="TestEmlWriter.cs" />
-    <Compile Include="TestPluginData.cs" />
-    <Compile Include="TestPluginManager.cs" />
+    <Compile Include="Plugin\TestPluginData.cs" />
+    <Compile Include="Plugin\TestPluginManager.cs" />
     <Compile Include="TestProject.cs" />
     <Compile Include="TestProjectInfo.cs" />
     <Compile Include="TestTemplate.cs" />
+    <Compile Include="Action\TestUserAction.cs" />
     <Compile Include="TestUtil.cs" />
     <Compile Include="TestZipUtil.cs" />
   </ItemGroup>
