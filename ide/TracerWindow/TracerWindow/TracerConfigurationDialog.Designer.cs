@@ -150,6 +150,7 @@
             this.Controls.Add(this.numberTextBox);
             this.Name = "TracerConfigurationDialog";
             this.Shown += new System.EventHandler(this.TracerWinSetupShown);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TracerConfigurationDialog_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

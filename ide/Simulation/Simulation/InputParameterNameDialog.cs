@@ -77,19 +77,12 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             this.paramTextBox.Focus();
         }
-        #endregion
 
         private void InputParameterNameDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult == DialogResult.Cancel)
                 return;
 
-            if (String.IsNullOrEmpty(paramTextBox.Text))
-            {
-                Util.ShowWarningDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameName));
-                e.Cancel = true;
-                return;
-            }
             if (Util.IsNGforID(paramTextBox.Text))
             {
                 Util.ShowWarningDialog(MessageResources.ErrIDNG);
@@ -104,5 +97,16 @@ namespace Ecell.IDE.Plugins.Simulation
                 return;
             }
         }
+
+        private void paramTextBox_Validating(object sender, CancelEventArgs e)
+        {
+            if (String.IsNullOrEmpty(paramTextBox.Text))
+            {
+                Util.ShowWarningDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameName));
+                e.Cancel = true;
+                return;
+            }
+        }
+        #endregion
     }
 }

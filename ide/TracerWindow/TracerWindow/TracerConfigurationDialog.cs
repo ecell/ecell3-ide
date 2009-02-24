@@ -148,9 +148,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 return;
             }
             int dummy;
-            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
+            if (!Int32.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NamePlotNumber));
                 numberTextBox.Text = Convert.ToString(m_plotNumber);
                 e.Cancel = true;
                 return;
@@ -169,16 +169,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy <= 0.0)
+            if (!Double.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
-                intervalTextBox.Text = Convert.ToString(m_intervalSecond);
-                e.Cancel = true;
-                return;
-            }
-            if (dummy > 3600)
-            {
-                Util.ShowErrorDialog(MessageResources.ErrOverTime);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameRedrawInterval));
                 intervalTextBox.Text = Convert.ToString(m_intervalSecond);
                 e.Cancel = true;
                 return;
@@ -197,9 +190,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 return;
             }
             int dummy;
-            if (!Int32.TryParse(text, out dummy) || dummy <= 0)
+            if (!Int32.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameStepInterval));
                 stepCountTextBox.Text = Convert.ToString(m_stepNumber);
                 e.Cancel = true;
                 return;
@@ -222,6 +215,28 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_dataformat = ValueDataFormat.Exponential4;
             else if (ind == 5)
                 m_dataformat = ValueDataFormat.Exponential5;
+        }
+
+        private void TracerConfigurationDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (m_stepNumber < 0)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameStepInterval));
+                e.Cancel = true;
+                return;
+            }
+            if (m_intervalSecond <= 0.0 || m_intervalSecond > 3600.0)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameRedrawInterval));
+                e.Cancel = true;
+                return;
+            }
+            if (m_plotNumber < 0)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NamePlotNumber));
+                e.Cancel = true;
+                return;
+            }
         }
     }
 }

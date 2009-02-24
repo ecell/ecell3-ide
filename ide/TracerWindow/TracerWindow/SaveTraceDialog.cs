@@ -137,6 +137,19 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private void SaveTraceDialogClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult != DialogResult.OK) return;
+            if (m_start < 0.0 || m_simTime < m_start)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameStartTime));
+                e.Cancel = true;
+                return;
+            }
+            if (m_end < 0.0 || m_start > m_end)
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameEndTime));
+                e.Cancel = true;
+                            return;
+            }
+
             try
             {
                 m_fileType = typeComboBox.Text;
@@ -175,12 +188,16 @@ namespace Ecell.IDE.Plugins.TracerWindow
             string text = startTextBox.Text;
             if (String.IsNullOrEmpty(text))
             {
-                text = "0.0";
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameStartTime));
+                endTextBox.Text = "0.0";
+                e.Cancel = true;
+                return;
+
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy < 0.0 || m_end <= dummy || m_simTime < dummy)
+            if (!Double.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameStartTime));
                 startTextBox.Text = Convert.ToString(m_start);
                 e.Cancel = true;
                 return;
@@ -203,9 +220,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 return;
             }
             double dummy;
-            if (!Double.TryParse(text, out dummy) || dummy < 0.0 || m_start >= dummy || m_simTime < dummy)
+            if (!Double.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameEndTime));
                 endTextBox.Text = m_end.ToString();
                 e.Cancel = true;
                 return;
