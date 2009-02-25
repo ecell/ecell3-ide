@@ -48,12 +48,12 @@ namespace Ecell.Objects
     public class EcellReference : ICloneable
     {
         #region Constant
-        private static Regex parser1 = new Regex("\"(?<name>.+)\",(.+)\"(?<id>.+)\",(\"|.*)\\-(?<coe>\\d+)(\"|.*),(\"|.*)(?<fix>\\d+)(\"|.*)");
-        private static Regex parser2 = new Regex("\"(?<name>.+)\",(.+)\"(?<id>.+)\",(\"|.*)(?<coe>\\d+)(\"|.*),(\"|.*)(?<fix>\\d+)(\"|.*)");
-        private static Regex parser3 = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\", (\"|.*)\\-(?<coe>\\d+)(\"|.*)");
-        private static Regex parser4 = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\", (\"|.*)(?<coe>\\d+)(\"|.*)");
-        private static Regex parser5 = new Regex("\"(?<name>.+)\",(.*)\"(?<id>.+)\"");
-        private static Regex stringParser = new Regex("\\((?<refer>.+?)\\)");
+        private const string parse1 = "\"(?<name>.+)\",(.+)\"(?<id>.+)\",(\"|.*)\\-(?<coe>\\d+)(\"|.*),(\"|.*)(?<fix>\\d+)(\"|.*)";
+        private const string parse2 = "\"(?<name>.+)\",(.+)\"(?<id>.+)\",(\"|.*)(?<coe>\\d+)(\"|.*),(\"|.*)(?<fix>\\d+)(\"|.*)";
+        private const string parse3 = "\"(?<name>.+)\",(.*)\"(?<id>.+)\", (\"|.*)\\-(?<coe>\\d+)(\"|.*)";
+        private const string parse4 = "\"(?<name>.+)\",(.*)\"(?<id>.+)\", (\"|.*)(?<coe>\\d+)(\"|.*)";
+        private const string parse5 = "\"(?<name>.+)\",(.*)\"(?<id>.+)\"";
+        private const string stringParse = "\\((?<refer>.+?)\\)";
         #endregion
 
         #region Fields
@@ -99,7 +99,8 @@ namespace Ecell.Objects
             if (string.IsNullOrEmpty(str))
                 throw new EcellException("EcellRefference Constructor does not arrow empty string");
 
-            Match m = parser1.Match(str);
+            Regex parser = new Regex(parse1);
+            Match m = parser.Match(str);
             if (m.Success)
             {
                 this.m_name = m.Groups["name"].Value;
@@ -108,7 +109,8 @@ namespace Ecell.Objects
                 this.m_accessor = Convert.ToInt32(m.Groups["fix"].Value);
                 return;
             }
-            m = parser2.Match(str);
+            parser = new Regex(parse2);
+            m = parser.Match(str);
             if (m.Success)
             {
                 this.m_name = m.Groups["name"].Value;
@@ -120,7 +122,8 @@ namespace Ecell.Objects
 
             // ロードしたモデルによってはAccessorが書かれていないものがあるため、
             // Accessorが書かれていないものにも対応できるようにした。
-            m = parser3.Match(str);
+            parser = new Regex(parse3);
+            m = parser.Match(str);
             if (m.Success)
             {
                 this.m_name = m.Groups["name"].Value;
@@ -130,7 +133,8 @@ namespace Ecell.Objects
                 return;
             }
 
-            m = parser4.Match(str);
+            parser = new Regex(parse4);
+            m = parser.Match(str);
             if (m.Success)
             {
                 this.m_name = m.Groups["name"].Value;
@@ -140,7 +144,8 @@ namespace Ecell.Objects
                 return;
             }
 
-            m = parser5.Match(str);
+            parser = new Regex(parse5);
+            m = parser.Match(str);
             if (m.Success)
             {
                 this.m_name = m.Groups["name"].Value;
@@ -252,7 +257,8 @@ namespace Ecell.Objects
                 return list;
             string text = str.Substring(1);
             text = text.Substring(0, text.Length - 1);
-            MatchCollection coll = stringParser.Matches(text);
+            Regex parser = new Regex(stringParse);
+            MatchCollection coll = parser.Matches(text);
 
             IEnumerator iter = coll.GetEnumerator();
             while (iter.MoveNext())
