@@ -43,6 +43,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
         }
 
+        public override void TabPageClosing()
+        {
+            base.TabPageClosing();
+            m_animationItems.ItemClosing();
+        }
+
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnimationTabPage));

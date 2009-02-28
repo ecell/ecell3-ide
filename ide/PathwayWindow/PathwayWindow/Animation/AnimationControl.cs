@@ -841,5 +841,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 return value.ToString(FormatLog);
             return value.ToString(FormatNatural);
         }
+
+
     }
 }

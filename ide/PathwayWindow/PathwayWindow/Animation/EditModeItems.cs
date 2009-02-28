@@ -35,6 +35,8 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+
+using Ecell.Exceptions;
 using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
@@ -48,7 +50,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private PropertyBrushItem bgBrushItem;
         private PropertyBrushItem edgeBrushItem;
         private PropertyTextItem edgeWidth;
-
         private AnimationControl m_control;
 
         public EditModeItems()
@@ -132,9 +133,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
             // 0 < EdgeWidth <= 100
             float dummy;
-            if (!float.TryParse(text, out dummy) || dummy < 0 || dummy > 100)
+            if (!float.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, edgeWidth.LabelText));
                 edgeWidth.Text = Convert.ToString(m_control.EdgeWidth);
                 e.Cancel = true;
                 return;
@@ -146,6 +147,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             m_control.EditBGBrush = this.bgBrushItem.Brush;
             m_control.EditEdgeBrush = this.edgeBrushItem.Brush;
             m_control.EdgeWidth = float.Parse(this.edgeWidth.Text);
+        }
+
+        public void ItemClosing()
+        {
+            string text = edgeWidth.Text;
+
+            // 0 < EdgeWidth <= 100
+            float dummy;
+            if (!float.TryParse(text, out dummy) || dummy < 0 || dummy > 100)
+            {
+                throw new EcellException(String.Format(MessageResources.ErrInvalidValue, edgeWidth.LabelText));
+            }
         }
     }
 }

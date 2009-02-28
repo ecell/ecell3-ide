@@ -35,6 +35,8 @@ using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using System.Drawing;
 using System.Windows.Forms;
 
+using Ecell.Exceptions;
+
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
 
@@ -291,6 +293,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             aviFileName.Enabled = aviOutputCheckBox.Checked;
         }
 
+        public void ItemClosing()
+        {
+            string hightext = thresholdHigh.Text;
+            string lowtext = thresholdLow.Text;
+            float high, low;
+            if (!float.TryParse(hightext, out high))
+            {
+                throw new EcellException(String.Format(MessageResources.ErrInvalidValue, thresholdHigh.LabelText));
+            }
+            if (!float.TryParse(lowtext, out low))
+            {
+                throw new EcellException(String.Format(MessageResources.ErrInvalidValue, thresholdLow.LabelText));
+            }
+            if (high < low)
+            {
+                throw new EcellException(String.Format(MessageResources.ErrInvalidValue, 
+                    thresholdHigh.LabelText + "," + thresholdLow.LabelText));
+            }
+        }
+
         void HighThresholdValidating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             string text = thresholdHigh.Text;
@@ -302,9 +324,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 return;
             }
             float dummy;
-            if (!float.TryParse(text, out dummy) || Convert.ToDouble(thresholdLow.Text) > dummy)
+            if (!float.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, thresholdHigh.LabelText));
                 thresholdHigh.Text = Convert.ToString(animCon.ThresholdHigh);
                 e.Cancel = true;
                 return;
@@ -322,9 +344,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 return;
             }
             float dummy;
-            if (!float.TryParse(text, out dummy) || Convert.ToDouble(thresholdHigh.Text) < dummy)
+            if (!float.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, thresholdLow.LabelText));
                 thresholdLow.Text = Convert.ToString(animCon.ThresholdLow);
                 e.Cancel = true;
                 return;

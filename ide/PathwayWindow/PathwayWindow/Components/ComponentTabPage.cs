@@ -43,6 +43,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             m_manager.SaveComponentSettings();
         }
 
+        public override void TabPageClosing()
+        {
+            base.TabPageClosing();
+            foreach (ComponentItem item in this.Controls)
+            {
+                item.ItemClosing();
+            }
+        }
+
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentTabPage));

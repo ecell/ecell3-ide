@@ -36,51 +36,35 @@
             // 
             // tabControl
             // 
-            this.tabControl.AccessibleDescription = null;
-            this.tabControl.AccessibleName = null;
             resources.ApplyResources(this.tabControl, "tabControl");
-            this.tabControl.BackgroundImage = null;
-            this.tabControl.Font = null;
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
             // 
             // buttonOK
             // 
-            this.buttonOK.AccessibleDescription = null;
-            this.buttonOK.AccessibleName = null;
             resources.ApplyResources(this.buttonOK, "buttonOK");
-            this.buttonOK.BackgroundImage = null;
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Font = null;
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.UseVisualStyleBackColor = true;
             // 
             // buttonCancel
             // 
-            this.buttonCancel.AccessibleDescription = null;
-            this.buttonCancel.AccessibleName = null;
             resources.ApplyResources(this.buttonCancel, "buttonCancel");
-            this.buttonCancel.BackgroundImage = null;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Font = null;
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
             // PropertyDialog
             // 
             this.AcceptButton = this.buttonOK;
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = null;
             this.CancelButton = this.buttonCancel;
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.tabControl);
-            this.Font = null;
-            this.Icon = null;
             this.Name = "PropertyDialog";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PropertyDialog_FormClosing);
             this.ResumeLayout(false);
 
         }

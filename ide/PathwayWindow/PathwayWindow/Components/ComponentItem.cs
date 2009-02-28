@@ -133,7 +133,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             this.groupBox.ResumeLayout(false);
             this.groupBox.PerformLayout();
             this.ResumeLayout(false);
-
         }
 
         private void SetItems(ComponentSetting cs)
@@ -170,6 +169,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             string args = cs.Figure.Coordinates;
             cs.Figure = FigureManager.CreateFigure(type, args);
             cs.RaisePropertyChange();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void ItemClosing()
+        {
         }
 
         #region EventHandlers

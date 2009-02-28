@@ -325,7 +325,7 @@
     <value>Change the visibility of Overview panel.</value>
   </data>
   <data name="ErrInvalidValue" xml:space="preserve">
-    <value>Value is not valid.</value>
+    <value>Value[ {0} ] is not valid.</value>
   </data>
   <data name="ErrNoInput" xml:space="preserve">
     <value>Nothing is input in {0}</value>

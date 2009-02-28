@@ -35,6 +35,8 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+
+using Ecell.Exceptions;
 using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
@@ -133,9 +135,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
             // 0 < EdgeWidth <= 100
             float dummy;
-            if (!float.TryParse(text, out dummy) || dummy < 0 || dummy > 100)
+            if (!float.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, edgeWidth.LabelText));
                 edgeWidth.Text = Convert.ToString(m_control.MaxEdgeWidth);
                 e.Cancel = true;
                 return;
@@ -147,6 +149,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             m_control.ViewBGBrush = bgBrush.Brush;
             m_control.MaxEdgeWidth = float.Parse(edgeWidth.Text);
             m_control.ViewEdgeBrush = edgeBrush.Brush;
+        }
+
+        public void ItemClosing()
+        {
+            string text = edgeWidth.Text;
+
+            // 0 < EdgeWidth <= 100
+            float dummy;
+            if (!float.TryParse(text, out dummy) || dummy < 0 || dummy > 100)
+            {
+                throw new EcellException(String.Format(MessageResources.ErrInvalidValue, edgeWidth.LabelText));
+            }
         }
     }
 }

@@ -53,6 +53,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         public virtual void ApplyChange()
         {
         }
-
+        /// <summary>
+        /// TabPageClosing
+        /// </summary>
+        public virtual void TabPageClosing()
+        {
+        }
     }
 }

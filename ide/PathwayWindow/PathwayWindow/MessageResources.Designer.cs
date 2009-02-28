@@ -277,7 +277,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Value is not valid. に類似しているローカライズされた文字列を検索します。
+        ///   Value[ {0} ] is not valid. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrInvalidValue {
             get {

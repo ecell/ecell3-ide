@@ -36,6 +36,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
+using Ecell.Exceptions;
+
 namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
 {
     /// <summary>
@@ -73,6 +75,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
         {
             foreach (PropertyDialogTabPage tabPage in tabControl.TabPages)
                 tabPage.ApplyChange();
+        }
+
+        private void PropertyDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.DialogResult == DialogResult.Cancel) return;
+            try
+            {
+                foreach (PropertyDialogTabPage tabPage in TabControl.TabPages)
+                    tabPage.TabPageClosing();
+            }
+            catch (EcellException ex)
+            {
+                Util.ShowErrorDialog(ex.Message);
+                e.Cancel = true;
+                return;
+            }
         }
     }
 }

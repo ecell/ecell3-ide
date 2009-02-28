@@ -328,7 +328,7 @@
     <value>エッジのアニメーションの太さを自動設定します。</value>
   </data>
   <data name="ErrInvalidValue" xml:space="preserve">
-    <value>入力された値が不正です。</value>
+    <value>入力された値[ {0} ]が不正です。</value>
   </data>
   <data name="ErrNoInput" xml:space="preserve">
     <value>{0} が入力されていません</value>
