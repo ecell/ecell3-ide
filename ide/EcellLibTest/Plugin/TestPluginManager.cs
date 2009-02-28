@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using Ecell;
 using Ecell.Objects;
 using Ecell.Logging;
+using Ecell.Logger;
 using System.IO;
 using System.Diagnostics;
 using System.Collections;
@@ -260,7 +261,7 @@ namespace Ecell.Plugin
             string type = "Variable";
             string path = "Variable:/CELL:SIZE:Value";
 
-            _unitUnderTest.LoggerAdd(modelID, key, type, path);
+            _unitUnderTest.LoggerAdd(new LoggerEntry(modelID, key, type, path));
 
         }
         /// <summary>
