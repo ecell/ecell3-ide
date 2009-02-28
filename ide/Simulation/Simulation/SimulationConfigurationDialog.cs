@@ -593,10 +593,6 @@ namespace Ecell.IDE.Plugins.Simulation
             {
                 errMsg = MessageResources.ErrInvalidValue;
             }
-            else if (dummy <= 0 || Double.IsInfinity(dummy))
-            {
-                errMsg = MessageResources.ErrInvalidValue;
-            }
             if (!string.IsNullOrEmpty(errMsg))
             {
                 Util.ShowErrorDialog(errMsg);
@@ -627,10 +623,6 @@ namespace Ecell.IDE.Plugins.Simulation
                 errMsg = String.Format(MessageResources.ErrNoInput, MessageResources.NameSec);
             }
             else if (!Double.TryParse(text, out dummy))
-            {
-                errMsg = MessageResources.ErrInvalidValue;
-            }
-            else if (dummy <= 0.0 || Double.IsInfinity(dummy))
             {
                 errMsg = MessageResources.ErrInvalidValue;
             }
@@ -722,10 +714,6 @@ namespace Ecell.IDE.Plugins.Simulation
                 {
                     errMsg = MessageResources.ErrInvalidValue;
                 }
-                else if (dummy <= 0)
-                {
-                    errMsg = MessageResources.ErrInvalidValue;
-                }
                 if (!String.IsNullOrEmpty(errMsg))
                 {
                     Util.ShowErrorDialog(errMsg);
@@ -773,6 +761,64 @@ namespace Ecell.IDE.Plugins.Simulation
                         e.Cancel = true;
                         steppersBindingSource.ResetBindings(false);
                     }
+                }
+            }
+        }
+
+        private void SimulationConfigurationDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.DialogResult == DialogResult.Cancel) return;
+            if (freqByStepRadio.Checked)
+            {
+                string text = freqByStepTextBox.Text;
+                int dummy;
+                if (!Int32.TryParse(text, out dummy))
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    e.Cancel = true;
+                    return;
+                }
+                else if (dummy <= 0 || Double.IsInfinity(dummy))
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
+            if (freqBySecRadio.Checked)
+            {
+                string text = freqBySecTextBox.Text;
+                double dummy;
+                if (!Double.TryParse(text, out dummy))
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    e.Cancel = true;
+                    return;
+                }
+                else if (dummy <= 0.0 || Double.IsInfinity(dummy))
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
+            if (maxSizeRadio.Checked)
+            {
+                int dummy;
+                string text = maxKbTextBox.Text;
+                if (!Int32.TryParse(text, out dummy))
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    e.Cancel = true;
+                    return;
+                }
+                else if (dummy <= 0)
+                {
+                    Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    e.Cancel = true;
+                    return;
                 }
             }
         }

@@ -66,6 +66,7 @@
             this.Controls.Add(this.tableLayoutPanel);
             this.Controls.Add(this.FCloseButton);
             this.Name = "FormulatorDialog";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormulatorDialog_FormClosing);
             this.ResumeLayout(false);
 
         }

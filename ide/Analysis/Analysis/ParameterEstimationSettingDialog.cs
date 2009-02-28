@@ -209,7 +209,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 DialogResult res = m_fwin.ShowDialog();
                 if (res == DialogResult.OK)
                 {
-                    string ext = m_fwin.ExportFormulate();
+                    string ext = m_fwin.Result;
                     estimationFormulatorTextBox.Text = ext;
                     m_param.EstimationFormulator = ext;
                 }

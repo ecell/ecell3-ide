@@ -212,5 +212,14 @@ namespace Ecell.IDE {
                 return ResourceManager.GetString("NameExecute", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   property name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameProperty {
+            get {
+                return ResourceManager.GetString("NameProperty", resourceCulture);
+            }
+        }
     }
 }

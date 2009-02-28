@@ -168,4 +168,7 @@
   <data name="NameExecute" xml:space="preserve">
     <value>実行</value>
   </data>
+  <data name="NameProperty" xml:space="preserve">
+    <value>プロパティ名</value>
+  </data>
 </root>

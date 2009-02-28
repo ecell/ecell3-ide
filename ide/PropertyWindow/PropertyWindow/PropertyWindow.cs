@@ -209,7 +209,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 if (fwin.ShowDialog() != DialogResult.OK)
                     return null;
 
-                return fwin.ExportFormulate();
+                return fwin.Result;
             }
         }
 

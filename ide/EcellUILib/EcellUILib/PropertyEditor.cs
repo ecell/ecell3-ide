@@ -1326,10 +1326,11 @@ namespace Ecell.IDE
         /// <param name="e">EventArgs</param>
         private void AddPropertyForProcess(object sender, EventArgs e)
         {
-            AddPropertyDialog dialog = new AddPropertyDialog();
+            AddPropertyDialog dialog = new AddPropertyDialog(m_currentObj);
+            if (dialog.ShowDialog() == DialogResult.Cancel)
+                return;
 
-            String name = dialog.ShowPropertyDialog();
-            if (String.IsNullOrEmpty(name)) return;
+            String name = dialog.Result;
 
             EcellData data;
             if (m_currentObj != null)
@@ -1346,11 +1347,6 @@ namespace Ecell.IDE
             data.Saveable = true;
             data.Settable = true;
 
-            if (m_propDict.ContainsKey(name))
-            {
-                Util.ShowErrorDialog(MessageResources.ErrAlreadyExist);
-                return;
-            }
             m_propDict.Add(name, data);
 
             Control cnt = null;
@@ -1373,13 +1369,13 @@ namespace Ecell.IDE
                         layoutPanel.Controls.Remove(c);
                         layoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
 
-                        CheckBox chk = new CheckBox();
-                        chk.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                        chk.Text = "";
-                        chk.AutoSize = true;
-                        chk.Checked = false;
-                        chk.Enabled = false;
-                        layoutPanel.Controls.Add(chk, 0, pos.Row);
+                        //CheckBox chk = new CheckBox();
+                        //chk.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                        //chk.Text = "";
+                        //chk.AutoSize = true;
+                        //chk.Checked = false;
+                        //chk.Enabled = false;
+                        //layoutPanel.Controls.Add(chk, 0, pos.Row);
 
                         Label l = new Label();
                         l.Text = name;
@@ -1475,7 +1471,7 @@ namespace Ecell.IDE
                 DialogResult res = m_fwin.ShowDialog();
                 if (res == DialogResult.OK)
                 {
-                    m_text.Text = m_fwin.ExportFormulate();
+                    m_text.Text = m_fwin.Result;
                 }
             }
         }

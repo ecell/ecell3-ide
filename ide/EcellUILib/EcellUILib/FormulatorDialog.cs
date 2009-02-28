@@ -43,6 +43,12 @@ namespace Ecell.IDE
     public partial class FormulatorDialog : Form
     {
         private FormulatorControl m_cnt;
+        private String m_result;
+
+        public String Result
+        {
+            get { return this.m_result; }
+        }
 
         /// <summary>
         /// Constructor.
@@ -66,14 +72,16 @@ namespace Ecell.IDE
             m_cnt.ImportFormulate(formu);
         }
 
-        public string ExportFormulate()
-        {
-            return m_cnt.ExportFormulate();
-        }
-
         public void SetExpression(bool isExpression)
         {
             m_cnt.IsExpression = isExpression;
+        }
+
+        private void FormulatorDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.DialogResult == DialogResult.Cancel) return;
+
+            m_result = m_cnt.ExportFormulate();
         }
 
     }

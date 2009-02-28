@@ -34,6 +34,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
+using Ecell.Objects;
+
 namespace Ecell.IDE
 {
     /// <summary>
@@ -42,44 +44,20 @@ namespace Ecell.IDE
     public partial class AddPropertyDialog : Form
     {
         private String m_resultName = null;
+        private EcellObject m_current;
+
+        public String Result
+        {
+            get { return this.m_resultName; }
+        }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public AddPropertyDialog()
+        public AddPropertyDialog(EcellObject obj)
         {
             InitializeComponent();
-        }
-
-        /// <summary>
-        /// Event process when user clicked cancel button,
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CancelButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        /// <summary>
-        /// Event process when user clicked add button.
-        /// </summary>
-        /// <param name="sender">Button(Apply)</param>
-        /// <param name="e">EventArgs.</param>
-        private void AddPropertyApplyButton_Click(object sender, EventArgs e)
-        {
-            m_resultName = this.propertyTextBox.Text;
-            this.Close();
-        }
-
-        /// <summary>
-        /// Disply this dialog.
-        /// </summary>
-        /// <returns></returns>
-        public String ShowPropertyDialog()
-        {
-            this.ShowDialog();
-            return m_resultName;
+            m_current = obj;
         }
 
         /// <summary>
@@ -102,6 +80,33 @@ namespace Ecell.IDE
             {
                 cancelButton.PerformClick();
             }
+        }
+
+        private void AddPropertyDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.DialogResult == DialogResult.Cancel) return;
+            
+            m_resultName = this.propertyTextBox.Text;
+            if (String.IsNullOrEmpty(m_resultName))
+            {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSet,
+                    MessageResources.NameProperty));
+                e.Cancel = true;
+                return;
+            }
+            EcellData d = m_current.GetEcellData(m_resultName);
+            if (d != null)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrAddProperty);
+                e.Cancel = true;
+                return;
+            }
+            if (Util.IsNGforID(m_resultName))
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidID);
+                e.Cancel = true;
+                return;
+            }        
         }
     }
 }
