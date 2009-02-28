@@ -357,7 +357,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// Create TabPage for PathwaySettingDialog
         /// </summary>
         /// <returns></returns>
-        public PropertyDialogTabPage ComponentTabPage
+        public PropertyDialogPage ComponentTabPage
         {
             get { return new ComponentTabPage(this);}
         }

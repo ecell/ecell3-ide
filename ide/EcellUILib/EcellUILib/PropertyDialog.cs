@@ -45,24 +45,21 @@ namespace Ecell.IDE
     /// </summary>
     public partial class PropertyDialog : Form
     {
+        List<PropertyDialogPage> m_list;
         /// <summary>
         /// Constructor
         /// </summary>
-        public PropertyDialog(List<PropertyDialogTabPage> tabPages)
+        /// <param name="propertyPages"></param>
+        public PropertyDialog(List<PropertyDialogPage> propertyPages)
         {
             InitializeComponent();
-            foreach (PropertyDialogTabPage tabPage in tabPages)
+            m_list = propertyPages;
+            propertyPanel.Controls.Add(propertyPages[0]);
+            foreach (PropertyDialogPage page in propertyPages)
             {
-                tabControl.Controls.Add(tabPage);
+                PropertyNode node = new PropertyNode(page);
+                propertyTree.Nodes.Add(node);
             }
-        }
-
-        /// <summary>
-        /// Get tabControl.
-        /// </summary>
-        public TabControl TabControl
-        {
-            get { return this.tabControl; }
         }
 
         /// <summary>
@@ -70,8 +67,8 @@ namespace Ecell.IDE
         /// </summary>
         public void ApplyChanges()
         {
-            foreach (PropertyDialogTabPage tabPage in tabControl.TabPages)
-                tabPage.ApplyChange();
+            foreach (PropertyDialogPage page in m_list)
+                page.ApplyChange();
         }
 
         private void PropertyDialog_FormClosing(object sender, FormClosingEventArgs e)
@@ -80,14 +77,48 @@ namespace Ecell.IDE
                 return;
             try
             {
-                foreach (PropertyDialogTabPage tabPage in TabControl.TabPages)
-                    tabPage.PropertyDialogClosing();
+                foreach (PropertyDialogPage page in m_list)
+                    page.PropertyDialogClosing();
             }
             catch (EcellException ex)
             {
                 Util.ShowErrorDialog(ex.Message);
                 e.Cancel = true;
                 return;
+            }
+        }
+
+        private void NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeNode obj = propertyTree.GetNodeAt(e.X, e.Y);
+            if (!(obj is PropertyNode))
+                return;
+            PropertyNode node = (PropertyNode)obj;
+            propertyPanel.Controls.Clear();
+            propertyPanel.Controls.Add(node.Page);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal class PropertyNode : TreeNode
+        {
+            PropertyDialogPage m_page;
+            /// <summary>
+            /// 
+            /// </summary>
+            internal PropertyDialogPage Page
+            {
+                get { return m_page; }
+            }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="page"></param>
+            public PropertyNode(PropertyDialogPage page)
+            {
+                m_page = page;
+                this.Text = page.Text;
             }
         }
     }

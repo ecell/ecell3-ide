@@ -141,7 +141,7 @@
     <value>bgBrush</value>
   </data>
   <data name="&gt;&gt;bgBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem, PathwayWindow, Version=1.1.2389.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem, PathwayWindow, Version=1.1.2610.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;bgBrush.Parent" xml:space="preserve">
     <value>groupBox</value>
@@ -168,7 +168,7 @@
     <value>edgeBrush</value>
   </data>
   <data name="&gt;&gt;edgeBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem, PathwayWindow, Version=1.1.2389.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem, PathwayWindow, Version=1.1.2610.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;edgeBrush.Parent" xml:space="preserve">
     <value>groupBox</value>
@@ -195,7 +195,7 @@
     <value>edgeWidth</value>
   </data>
   <data name="&gt;&gt;edgeWidth.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyTextItem, PathwayWindow, Version=1.1.2389.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyTextItem, PathwayWindow, Version=1.1.2610.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;edgeWidth.Parent" xml:space="preserve">
     <value>groupBox</value>
@@ -207,7 +207,7 @@
     <value>0, 0</value>
   </data>
   <data name="groupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>500, 115</value>
+    <value>436, 115</value>
   </data>
   <data name="groupBox.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -234,7 +234,7 @@
     <value>True</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>503, 118</value>
+    <value>440, 118</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ViewModeItems</value>

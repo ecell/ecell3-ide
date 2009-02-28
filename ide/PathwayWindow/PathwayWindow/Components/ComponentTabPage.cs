@@ -8,7 +8,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
     /// <summary>
     /// private class for ComponentSettingDialog
     /// </summary>
-    internal class ComponentTabPage : PropertyDialogTabPage
+    internal class ComponentTabPage : PropertyDialogPage
     {
         ComponentManager m_manager = null;
 

@@ -32,19 +32,21 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using Ecell.Plugin;
 
 namespace Ecell.IDE
 {
     /// <summary>
     /// PropertyDialogTabPage for PropertyDialog
     /// </summary>
-    public partial class PropertyDialogTabPage : TabPage
+    public partial class PropertyDialogPage : Panel, IPropertyPage
     {
         /// <summary>
         /// Constructor
         /// </summary>
-        public PropertyDialogTabPage()
+        public PropertyDialogPage()
         {
+            InitializeComponent();
             this.AutoScroll = true;
         }
 
@@ -67,6 +69,18 @@ namespace Ecell.IDE
         /// </summary>
         public virtual void PropertyDialogClosing()
         {
+        }
+
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyDialogPage));
+            this.SuspendLayout();
+            // 
+            // PropertyDialogPage
+            // 
+            resources.ApplyResources(this, "$this");
+            this.ResumeLayout(false);
+
         }
     }
 }

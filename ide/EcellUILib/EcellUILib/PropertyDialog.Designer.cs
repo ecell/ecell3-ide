@@ -29,16 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyDialog));
-            this.tabControl = new System.Windows.Forms.TabControl();
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.propertyTree = new System.Windows.Forms.TreeView();
+            this.propertyPanel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
-            // 
-            // tabControl
-            // 
-            resources.ApplyResources(this.tabControl, "tabControl");
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
             // 
             // buttonOK
             // 
@@ -54,15 +49,27 @@
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
+            // propertyTree
+            // 
+            resources.ApplyResources(this.propertyTree, "propertyTree");
+            this.propertyTree.Name = "propertyTree";
+            this.propertyTree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.NodeMouseClick);
+            // 
+            // propertyPanel
+            // 
+            resources.ApplyResources(this.propertyPanel, "propertyPanel");
+            this.propertyPanel.Name = "propertyPanel";
+            // 
             // PropertyDialog
             // 
             this.AcceptButton = this.buttonOK;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
+            this.Controls.Add(this.propertyPanel);
+            this.Controls.Add(this.propertyTree);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
-            this.Controls.Add(this.tabControl);
             this.Name = "PropertyDialog";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PropertyDialog_FormClosing);
             this.ResumeLayout(false);
@@ -71,8 +78,9 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.TreeView propertyTree;
+        private System.Windows.Forms.Panel propertyPanel;
     }
 }

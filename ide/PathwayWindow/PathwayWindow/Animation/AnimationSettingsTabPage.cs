@@ -10,7 +10,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     /// <summary>
     /// private class for AnimationSettingDialog
     /// </summary>
-    internal class AnimationTabPage : PropertyDialogTabPage
+    internal class AnimationTabPage : PropertyDialogPage
     {
         private AnimationControl m_con;
         private AnimationItems m_animationItems;

@@ -203,11 +203,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Get the TabPages for PropertyDialog.
         /// </summary>
-        public List<PropertyDialogTabPage> TabPages
+        public List<PropertyDialogPage> TabPages
         {
             get
             {
-                List<PropertyDialogTabPage> list = new List<PropertyDialogTabPage>();
+                List<PropertyDialogPage> list = new List<PropertyDialogPage>();
                 list.Add(m_animCon.PathwayDialogTabPage);
                 list.Add(m_animCon.AnimationDialogTabPage);
                 list.Add(m_csManager.ComponentTabPage);

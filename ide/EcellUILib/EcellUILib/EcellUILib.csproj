@@ -99,7 +99,7 @@
     <Compile Include="PropertyDialog.Designer.cs">
       <DependentUpon>PropertyDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="PropertyDialogTabPage.cs">
+    <Compile Include="PropertyDialogPage.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="PropertyEditor.cs">
@@ -191,8 +191,8 @@
       <DependentUpon>PropertyDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PropertyDialogTabPage.resx">
-      <DependentUpon>PropertyDialogTabPage.cs</DependentUpon>
+    <EmbeddedResource Include="PropertyDialogPage.resx">
+      <DependentUpon>PropertyDialogPage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PropertyEditor.ja.resx">
