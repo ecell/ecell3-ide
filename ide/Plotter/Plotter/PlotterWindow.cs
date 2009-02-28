@@ -40,11 +40,14 @@ using ZedGraph;
 
 namespace Ecell.IDE.Plugins.Plotter
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class PlotterWindow : EcellDockContent
     {
         /// <summary>
         /// The object managed this window.
-        /// </summary
+        /// </summary>
         private Plotter m_owner;
         /// <summary>
         /// Graph control for tracer.
@@ -54,6 +57,10 @@ namespace Ecell.IDE.Plugins.Plotter
         private int m_entryNum = 0;
         private Dictionary<int, LineItem> m_lineDic = new Dictionary<int, LineItem>();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="control"></param>
         public PlotterWindow(Plotter control)
         {
             m_owner = control;

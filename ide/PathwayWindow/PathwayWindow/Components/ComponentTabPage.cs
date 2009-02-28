@@ -43,9 +43,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             m_manager.SaveComponentSettings();
         }
 
-        public override void TabPageClosing()
+        public override void PropertyDialogClosing()
         {
-            base.TabPageClosing();
+            base.PropertyDialogClosing();
             foreach (ComponentItem item in this.Controls)
             {
                 item.ItemClosing();

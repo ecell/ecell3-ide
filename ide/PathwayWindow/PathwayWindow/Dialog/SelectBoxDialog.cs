@@ -41,7 +41,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
     /// <summary>
     /// 
     /// </summary>
-    public partial class SelectBoxDialog : PathwayDialog
+    public partial class SelectBoxDialog : Form
     {
         /// <summary>
         /// 

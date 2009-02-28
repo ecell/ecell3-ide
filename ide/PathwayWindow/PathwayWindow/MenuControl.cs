@@ -1283,7 +1283,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e">EventArgs.</param>
         private void ShowDialogClick(object sender, EventArgs e)
         {
-            PropertyDialog dialog = new PropertyDialog(m_con);
+            PropertyDialog dialog = new PropertyDialog(m_con.TabPages);
             using (dialog)
             {
                 if (dialog.ShowDialog() != DialogResult.OK)

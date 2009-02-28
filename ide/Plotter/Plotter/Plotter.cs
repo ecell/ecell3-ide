@@ -108,6 +108,10 @@ namespace Ecell.IDE.Plugins.Plotter
             return "Plotter";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override String GetVersionString()
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();

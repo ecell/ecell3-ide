@@ -621,9 +621,9 @@ namespace Ecell.Plugin
                     null
                 );
             }
-            catch (TargetInvocationException e)
+            catch (Exception e)
             {
-                throw e.InnerException;
+                throw new EcellException(string.Format(MessageResources.ErrLoadPlugin, pluginType.ToString(), "RegisterPlugin"), e);
             }
 
             AddPlugin(p);

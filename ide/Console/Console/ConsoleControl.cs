@@ -23,6 +23,10 @@ namespace Ecell.IDE.Plugins.Console
             this.TabText = this.Text;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
         public void AppendText(string text)
         {
             simText.Select(simText.TextLength, 0);

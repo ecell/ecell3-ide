@@ -38,18 +38,29 @@ using System.Windows.Forms;
 
 namespace Ecell.IDE.Plugins.Plotter
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class SelectPlotDataDialog : Form
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string X
         {
             get { return this.XplotComboBox.Text; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public String Y
         {
             get { return this.YPlotComboBox.Text; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="env"></param>
         public SelectPlotDataDialog(ApplicationEnvironment env)
         {
             InitializeComponent();

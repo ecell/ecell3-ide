@@ -93,6 +93,15 @@
       <DependentUpon>PrintPluginDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PropertyDialog.Designer.cs">
+      <DependentUpon>PropertyDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyDialogTabPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="PropertyEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -172,6 +181,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PrintPluginDialog.resx">
       <DependentUpon>PrintPluginDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertyDialog.ja.resx">
+      <DependentUpon>PropertyDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertyDialog.resx">
+      <DependentUpon>PropertyDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertyDialogTabPage.resx">
+      <DependentUpon>PropertyDialogTabPage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PropertyEditor.ja.resx">

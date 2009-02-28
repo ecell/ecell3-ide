@@ -190,7 +190,7 @@ namespace Ecell.IDE.Plugins.EntityList
         /// <param name="modelID">The model ID before value change.</param>
         /// <param name="key">The ID before value change.</param>
         /// <param name="type">The data type before value change.</param>
-        /// <param name="data">Changed value of object.</param>        
+        /// <param name="obj">Changed value of object.</param>        
         public override void DataChanged(string modelID, string key, string type, EcellObject obj)
         {
             if (key != obj.Key)

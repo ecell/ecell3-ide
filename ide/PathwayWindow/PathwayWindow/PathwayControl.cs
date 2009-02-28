@@ -57,6 +57,7 @@ using Ecell.Objects;
 using Ecell.IDE.Plugins.PathwayWindow.Animation;
 using Ecell.IDE.Plugins.PathwayWindow.Components;
 using Ecell.Action;
+using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {
@@ -199,6 +200,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             set { m_menu = value; }
         }
 
+        /// <summary>
+        /// Get the TabPages for PropertyDialog.
+        /// </summary>
+        public List<PropertyDialogTabPage> TabPages
+        {
+            get
+            {
+                List<PropertyDialogTabPage> list = new List<PropertyDialogTabPage>();
+                list.Add(m_animCon.PathwayDialogTabPage);
+                list.Add(m_animCon.AnimationDialogTabPage);
+                list.Add(m_csManager.ComponentTabPage);
+                return list;
+            }
+        }
         /// <summary>
         /// get/set the AnimationControl.
         /// </summary>

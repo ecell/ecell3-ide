@@ -48,9 +48,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             }
         }
 
-        public override void TabPageClosing()
+        public override void PropertyDialogClosing()
         {
-            base.TabPageClosing();
+            base.PropertyDialogClosing();
             m_editModeItems.ItemClosing();
             m_viewModeItems.ItemClosing();
         }

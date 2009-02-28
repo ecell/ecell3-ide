@@ -737,5 +737,24 @@ namespace Ecell.Plugin
             {
             }
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestPluginBase()
+        {
+            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            PluginBase plugin = (PluginBase)_unitUnderTest.GetPlugin("PathwayWindow");
+            Assert.IsNotNull(plugin, "GetPlugin method returned unexpected value.");
+
+            Assert.AreEqual(_env, plugin.Environment, "Environment is unexpected value.");
+            Assert.AreEqual(_env.DataManager, plugin.DataManager, "DataManager is unexpected value.");
+            Assert.AreEqual(_env.PluginManager, plugin.PluginManager, "PluginManager is unexpected value.");
+            Assert.AreEqual(_env.LogManager, plugin.MessageManager, "MessageManager is unexpected value.");
+
+            Assert.AreEqual("PathwayWindow", plugin.GetPluginName(), "GetPluginName method returned unexpected value.");
+            Assert.AreEqual("PathwayWindow", plugin.GetVersionString(), "GetVersionString method returned unexpected value.");
+        }
     }
 }
