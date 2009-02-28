@@ -54,6 +54,7 @@ using System.Net;
 
 using Ecell;
 using Ecell.Logging;
+using Ecell.Logger;
 using Ecell.Plugin;
 using Ecell.Objects;
 using Ecell.Reporting;
@@ -688,11 +689,8 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// The event sequence on adding the logger at other plugin.
         /// </summary>
-        /// <param name="modelID">The model ID.</param>
-        /// <param name="key">The ID.</param>
-        /// <param name="type">The data type.</param>
-        /// <param name="path">The path of entity.</param>
-        public void LoggerAdd(string modelID, string key, string type, string path)
+        /// <param name="entry"></param>
+        public void LoggerAdd(LoggerEntry entry)
         {
             m_editCount++;
         }

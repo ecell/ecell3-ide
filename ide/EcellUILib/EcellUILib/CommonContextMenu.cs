@@ -208,7 +208,7 @@ namespace Ecell.IDE
             {
                 EcellData d = m_object.GetEcellData(prop);
                 Debug.Assert(d != null);
-                m_env.PluginManager.LoggerAdd(
+                m_env.LoggerManager.AddLoggerEntry(
                     m_object.ModelID, m_object.Key, m_object.Type, d.EntityPath);
                 d.Logged = true;
             }
@@ -299,7 +299,7 @@ namespace Ecell.IDE
         /// <param name="e"></param>
         private void ClickPropertyToolStripMenuItem(object sender, EventArgs e)
         {
-            PropertyEditor.Show(m_env.DataManager, m_env.PluginManager, m_object);
+            PropertyEditor.Show(m_env, m_object);
         }
         /// <summary>
         /// 

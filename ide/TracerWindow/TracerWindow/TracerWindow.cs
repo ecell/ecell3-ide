@@ -42,6 +42,7 @@ using System.ComponentModel;
 using WeifenLuo.WinFormsUI.Docking;
 using Ecell.Plugin;
 using Ecell.Objects;
+using Ecell.Logger;
 
 namespace Ecell.IDE.Plugins.TracerWindow
 {
@@ -310,7 +311,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     }
                     if (ishit) continue;
 
-                    LoggerAdd(data.ModelID, data.Key, data.Type, d.EntityPath);
+                    LoggerAdd(new LoggerEntry(data.ModelID, data.Key, data.Type, d.EntityPath));
                 }
 
                 return;
@@ -365,21 +366,18 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 }
                 if (ishit) continue;
 
-                LoggerAdd(data.ModelID, data.Key, data.Type, d.EntityPath);
+                LoggerAdd(new LoggerEntry(data.ModelID, data.Key, data.Type, d.EntityPath));
             }
         }
 
         /// <summary>
         /// The event sequence on adding the logger at other plugin.
         /// </summary>
-        /// <param name="modelID">The model ID.</param>
-        /// <param name="key">The ID.</param>
-        /// <param name="type">The data type.</param>
-        /// <param name="path">The path of entity.</param>
-        public override void LoggerAdd(string modelID, string key, string type, string path)
+        /// <param name="entry"></param>
+        public override void LoggerAdd(LoggerEntry entry)
         {
             if (isLogAdding) return;
-            EcellObject obj = m_dManager.GetEcellObject(modelID, key, type);
+            EcellObject obj = m_dManager.GetEcellObject(entry.ModelID, entry.ID, entry.Type);
             if (obj == null) return;
             bool isContinue = true;
             foreach (EcellData d in obj.Value)
@@ -390,7 +388,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     break;
                 }
             }
-            TagData tag = new TagData(modelID, key, type, path, isContinue);
+            TagData tag = new TagData(entry.ModelID, entry.ID, entry.Type, entry.FullPN, isContinue);
             AddToEntry(tag);
         }
 

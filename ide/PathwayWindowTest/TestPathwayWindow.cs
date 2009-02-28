@@ -4,6 +4,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
     using NUnit.Framework;
     using System.Collections.Generic;
     using Ecell.Objects;
+    using Ecell.Logger;
     using System.Windows.Forms;
 
     /// <summary>
@@ -323,7 +324,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             string type = null;
             string key = null;
             string path = null;
-            _unitUnderTest.LoggerAdd(modelID, key, type, path);
+            _unitUnderTest.LoggerAdd(new LoggerEntry(modelID, key, type, path));
             Assert.Fail("Create or modify test(s).");
 
         }

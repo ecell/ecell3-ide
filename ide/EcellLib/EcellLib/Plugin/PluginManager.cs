@@ -44,6 +44,7 @@ using System.IO;
 using System.ComponentModel;
 
 using Ecell.Logging;
+using Ecell.Logger;
 using Ecell.Plugin;
 using Ecell.Objects;
 using Ecell.Exceptions;
@@ -496,15 +497,12 @@ namespace Ecell.Plugin
         /// <summary>
         /// The event sequence on changing value with the simulation.
         /// </summary>
-        /// <param name="modelID">The model ID of object changed value.</param>
-        /// <param name="key">The ID of object changed value.</param>
-        /// <param name="type">The object type of object changed value.</param>
-        /// <param name="path">The property name of object changed value.</param>
-        public void LoggerAdd(string modelID, string key, string type, string path)
+        /// <param name="entry">Logger entry data.</param>
+        public void LoggerAdd(LoggerEntry entry)
         {
             foreach (IDataHandler p in m_dataHandlerList)
             {
-                p.LoggerAdd(modelID, key, type, path);
+                p.LoggerAdd(entry);
             }
         }
 

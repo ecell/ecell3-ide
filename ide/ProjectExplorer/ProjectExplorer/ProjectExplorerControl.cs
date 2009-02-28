@@ -81,7 +81,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="obj">the selected object</param>
         private void ShowPropEditWindow(EcellObject obj)
         {
-            PropertyEditor.Show(m_owner.Environment.DataManager, m_owner.Environment.PluginManager, obj);
+            PropertyEditor.Show(m_owner.Environment, obj);
         }
 
 

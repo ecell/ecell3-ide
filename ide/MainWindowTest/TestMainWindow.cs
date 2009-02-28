@@ -5,6 +5,7 @@ namespace Ecell.IDE.MainWindow
     using System.Collections.Generic;
     using System.Windows.Forms;
     using Ecell.IDE.MainWindow;
+    using Ecell.Logger;
 
     /// <summary>
     /// Test code for MainWindow
@@ -145,7 +146,7 @@ namespace Ecell.IDE.MainWindow
             string key = null;
             string type = null;
             string path = null;
-            _unitUnderTest.LoggerAdd(modelID, key, type, path);
+            _unitUnderTest.LoggerAdd(new LoggerEntry(modelID, key, type, path));
             Assert.Fail("Create or modify test(s).");
 
         }

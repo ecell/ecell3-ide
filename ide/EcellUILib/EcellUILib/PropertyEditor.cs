@@ -74,11 +74,7 @@ namespace Ecell.IDE
         /// <summary>
         /// DataManager.
         /// </summary>
-        DataManager m_dManager;
-        /// <summary>
-        /// PluginManager.
-        /// </summary>
-        PluginManager m_pManager;
+        private ApplicationEnvironment m_env;
         /// <summary>
         /// text box of expression.
         /// </summary>
@@ -107,12 +103,11 @@ namespace Ecell.IDE
         /// <summary>
         /// Constructor for PropertyEditor. 
         /// </summary>
-        private PropertyEditor(DataManager dManager, PluginManager pManager)
+        private PropertyEditor(ApplicationEnvironment env)
         {
             InitializeComponent();
             m_title = this.Text;
-            m_dManager = dManager;
-            m_pManager = pManager;
+            m_env = env;
         }
         #endregion
 
@@ -123,9 +118,9 @@ namespace Ecell.IDE
         /// <param name="dManager">DataManager.</param>
         /// <param name="pManager">PluginManager.</param>
         /// <param name="obj"></param>
-        public static void Show(DataManager dManager, PluginManager pManager, EcellObject obj)
+        public static void Show(ApplicationEnvironment env, EcellObject obj)
         {
-            PropertyEditor editor = new PropertyEditor(dManager, pManager);
+            PropertyEditor editor = new PropertyEditor(env);
             if (obj == null) return;
             try
             {
@@ -331,7 +326,7 @@ namespace Ecell.IDE
                 if (!prop.IsInitialized())
                     continue;
 
-                EcellParameterData param = m_dManager.GetParameterData(prop.EntityPath);
+                EcellParameterData param = m_env.DataManager.GetParameterData(prop.EntityPath);
                 if (param == null)
                 {
                     param = new EcellParameterData(key, (double)prop.Value);
@@ -341,7 +336,7 @@ namespace Ecell.IDE
                 if (prop.Settable &&
                     prop.Value.Type == EcellValueType.Double)
                 {
-                    if (m_dManager.IsContainsParameterData(prop.EntityPath))
+                    if (m_env.DataManager.IsContainsParameterData(prop.EntityPath))
                         c.Checked = false;
                     else
                         c.Checked = true;
@@ -480,7 +475,7 @@ namespace Ecell.IDE
                 {
                     EcellParameterData param = null;
                     string fullPath = Constants.xpathVariable + ":" + m_currentObj.Key + ":SIZE:Value";
-                    param = m_dManager.GetParameterData(fullPath);
+                    param = m_env.DataManager.GetParameterData(fullPath);
 
                     commitLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
 
@@ -543,7 +538,7 @@ namespace Ecell.IDE
                                 {
                                     if (d.EntityPath.EndsWith(":Value"))
                                     {
-                                        EcellParameterData pvalue = m_dManager.GetParameterData(d.EntityPath);
+                                        EcellParameterData pvalue = m_env.DataManager.GetParameterData(d.EntityPath);
                                         if (pvalue == null)
                                         {
                                             pvalue = new EcellParameterData(d.EntityPath,(double)d.Value);
@@ -661,7 +656,7 @@ namespace Ecell.IDE
                 return;
             }
 
-            EcellObject sysObj = m_dManager.CurrentProject.GetSystem(m_currentObj.ModelID, parentSystemId);
+            EcellObject sysObj = m_env.DataManager.CurrentProject.GetSystem(m_currentObj.ModelID, parentSystemId);
             if (!text.Equals("/") && sysObj == null)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrNoSystem, parentSystemId));
@@ -711,11 +706,11 @@ namespace Ecell.IDE
             if (m_currentObj == null)
             {
                 if (m_type.Equals(EcellObject.PROCESS))
-                    m_propDict = m_dManager.GetProcessProperty(m_propName);
+                    m_propDict = m_env.DataManager.GetProcessProperty(m_propName);
                 else if (m_type.Equals(EcellObject.SYSTEM))
-                    m_propDict = m_dManager.GetSystemProperty();
+                    m_propDict = m_env.DataManager.GetSystemProperty();
                 else if (m_type.Equals(EcellObject.VARIABLE))
-                    m_propDict = m_dManager.GetVariableProperty();
+                    m_propDict = m_env.DataManager.GetVariableProperty();
             }
             else
             {
@@ -727,7 +722,7 @@ namespace Ecell.IDE
                 }
                 if (m_propName != null && m_propName.StartsWith("Expression"))
                 {
-                    tmpProcDict = m_dManager.GetProcessProperty(m_currentObj.Classname);
+                    tmpProcDict = m_env.DataManager.GetProcessProperty(m_currentObj.Classname);
                 }
                 this.Text = m_title + "  - " + m_currentObj.Key;
             }
@@ -825,7 +820,7 @@ namespace Ecell.IDE
             int j = 0;
             if (m_type.Equals(EcellObject.PROCESS))
             {
-                List<string> list = m_dManager.CurrentProject.ProcessDmList;
+                List<string> list = m_env.DataManager.CurrentProject.ProcessDmList;
                 int selectedIndex = -1;
                 foreach (string str in list)
                 {
@@ -923,7 +918,7 @@ namespace Ecell.IDE
                 {
                     ComboBox t = new ComboBox();
                     List<EcellObject> slist;
-                    slist = m_dManager.GetStepper(null, m_currentObj.ModelID);
+                    slist = m_env.DataManager.GetStepper(null, m_currentObj.ModelID);
                     foreach (EcellObject obj in slist)
                     {
                         t.Items.AddRange(new object[] { obj.Key });
@@ -984,7 +979,7 @@ namespace Ecell.IDE
                 i++;
             }
             if (m_type.Equals(EcellObject.PROCESS) &&
-                this.m_dManager.IsEnableAddProperty(m_propName))
+                m_env.DataManager.IsEnableAddProperty(m_propName))
             {
                 Button b = new Button();
                 b.Text = MessageResources.ButtonAddProperty;
@@ -1059,7 +1054,7 @@ namespace Ecell.IDE
             if (modelID == null || oldKey == null || eo.Key == null)
                 return;
 
-            m_dManager.DataChanged(eo.ModelID, oldKey, eo.Type, eo, true, true);
+            m_env.DataManager.DataChanged(eo.ModelID, oldKey, eo.Type, eo, true, true);
         }
 
         /// <summary>
@@ -1205,7 +1200,7 @@ namespace Ecell.IDE
                         data.Value = new EcellValue(sizeData);
                         GetCommitInfo(data);
                         if (isLogger != m_propDict["Size"].Logged && isLogger)
-                            m_pManager.LoggerAdd(modelID, m_currentObj.Key, type, m_propDict[data.Name].EntityPath);
+                            m_env.LoggerManager.AddLoggerEntry(modelID, m_currentObj.Key, type, m_propDict[data.Name].EntityPath);
                         data.Logged = isLogger;
                         list.Add(data);
 
@@ -1277,11 +1272,11 @@ namespace Ecell.IDE
                 uobj.SetPosition(m_currentObj);
                 NotifyDataChanged(m_currentObj.ModelID, m_currentObj.Key, uobj);
                 foreach (LoggerEntry ent in m_loggerList)
-                    m_pManager.LoggerAdd(ent.ModelID, ent.ID, ent.Type, ent.FullPN);
+                    m_env.LoggerManager.AddLoggerEntry(ent.ModelID, ent.ID, ent.Type, ent.FullPN);
                 foreach (EcellParameterData p in m_removeParamList)
-                    m_dManager.RemoveParameterData(p);
+                    m_env.DataManager.RemoveParameterData(p);
                 foreach (EcellParameterData p in m_addParamList)
-                    m_dManager.SetParameterData(p);
+                    m_env.DataManager.SetParameterData(p);
             }
             catch (IgnoreException ex)
             {
@@ -1492,7 +1487,7 @@ namespace Ecell.IDE
                 {
                     tmpDict.Add(id, m_propDict[id]);
                 }
-                m_propDict = m_dManager.GetProcessProperty(m_propName);
+                m_propDict = m_env.DataManager.GetProcessProperty(m_propName);
                 foreach (string id in tmpDict.Keys)
                 {
                     if (!m_propDict.ContainsKey(id)) continue;
@@ -1511,7 +1506,8 @@ namespace Ecell.IDE
         /// <param name="e">EventArgs</param>
         private void ShowVarRefWindow(object sender, EventArgs e)
         {
-            VariableReferenceEditDialog win = new VariableReferenceEditDialog(m_dManager, m_pManager, m_refList);
+            VariableReferenceEditDialog win = 
+                new VariableReferenceEditDialog(m_env.DataManager, m_env.PluginManager, m_refList);
             using (win)
             {
                 DialogResult res = win.ShowDialog();

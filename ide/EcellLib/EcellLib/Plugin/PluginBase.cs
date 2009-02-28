@@ -39,6 +39,7 @@ using System.Windows.Forms;
 using System.Reflection;
 
 using Ecell.Logging;
+using Ecell.Logger;
 using Ecell.Objects;
 
 namespace Ecell.Plugin
@@ -353,11 +354,8 @@ namespace Ecell.Plugin
         /// <summary>
         /// The event sequence on adding the logger at other plugin.
         /// </summary>
-        /// <param name="modelID">The model ID.</param>
-        /// <param name="key">The ID.</param>
-        /// <param name="type">The data type.</param>
-        /// <param name="path">The path of entity.</param>
-        public virtual void LoggerAdd(string modelID, string key, string type, string path)
+        /// <param name="entry">Logger entry data.</param>
+        public virtual void LoggerAdd(LoggerEntry entry)
         {
             // do nothing
         }
@@ -510,11 +508,8 @@ namespace Ecell.Plugin
         /// <param name="entityPath"></param>
         public void NotifyLoggerAdd(string modelID, string key, string type, string entityPath)
         {
-            m_pManager.LoggerAdd(
-                modelID,
-                key,
-                type,
-                entityPath);
+            m_dManager.Environment.LoggerManager.AddLoggerEntry(
+                new LoggerEntry(modelID, key, type, entityPath));
         }
 
         /// <summary>

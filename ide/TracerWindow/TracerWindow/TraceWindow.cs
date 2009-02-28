@@ -199,7 +199,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_owner.CurrentWin = this;
             foreach (EcellDragEntry ent in dobj.Entries)
             {
-                m_owner.PluginManager.LoggerAdd(dobj.ModelID, ent.Key, ent.Type, ent.Path);
+                m_owner.Environment.LoggerManager.AddLoggerEntry(dobj.ModelID, ent.Key, ent.Type, ent.Path);
                 EcellObject t = m_owner.DataManager.GetEcellObject(dobj.ModelID, ent.Key, ent.Type);
                 foreach (EcellData d in t.Value)
                 {

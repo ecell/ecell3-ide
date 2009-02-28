@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using Ecell.Logging;
+using Ecell.Logger;
 using Ecell.Job;
 using Ecell.Reporting;
 using Ecell.Action;
@@ -47,6 +48,7 @@ namespace Ecell
         private DataManager m_dManager;
         private PluginManager m_pManager;
         private LogManager m_lManager;
+        private LoggerManager m_gManager;
         private ReportManager m_rManager;
         private ActionManager m_aManager;
         private CommandManager m_cManager;
@@ -107,6 +109,13 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
+        public LoggerManager LoggerManager
+        {
+            get { return m_gManager; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         public ConsoleManager Console
         {
             get { return m_console; }
@@ -125,6 +134,7 @@ namespace Ecell
         {
             m_dManager = new DataManager(this);
             m_lManager = new LogManager(this);
+            m_gManager = new LoggerManager(this);
             m_pManager = new PluginManager(this);
             m_aManager = new ActionManager(this);
             m_jManager = new JobManager(this);

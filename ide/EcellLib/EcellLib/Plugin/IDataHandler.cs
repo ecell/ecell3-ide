@@ -35,6 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Ecell.Objects;
+using Ecell.Logger;
 
 namespace Ecell.Plugin
 {
@@ -159,11 +160,8 @@ namespace Ecell.Plugin
         /// <summary>
         /// The event sequence on adding the logger at other plugin.
         /// </summary>
-        /// <param name="modelID">The model ID.</param>
-        /// <param name="key">The ID.</param>
-        /// <param name="type">The data type.</param>
-        /// <param name="path">The path of entity.</param>
-        void LoggerAdd(string modelID, string key, string type, string path);
+        /// <param name="entry">Logger entry data.</param>
+        void LoggerAdd(LoggerEntry entry);
 
         /// <summary>
         /// The event sequence on advancing time.

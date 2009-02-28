@@ -47,6 +47,7 @@ using System.Reflection;
 using Ecell;
 using Ecell.Objects;
 using Ecell.Plugin;
+using Ecell.Logger;
 using Ecell.IDE;
 using Ecell.Exceptions;
 
@@ -969,11 +970,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="key"></param>
-        /// <param name="type"></param>
-        /// <param name="path"></param>
-        public void LoggerAdd(string modelID, string key, string type, string path)
+        /// <param name="entry"></param>
+        public void LoggerAdd(LoggerEntry entry)
         {
         }
         /// <summary>
@@ -1321,7 +1319,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
             }
             else
             {
-                m_env.PluginManager.LoggerAdd(m_current.ModelID,
+                m_env.LoggerManager.AddLoggerEntry(m_current.ModelID,
                     m_current.Key, m_current.Type, m_data.EntityPath);
                 m_current.GetEcellData(prop).Logged = true;
             }
@@ -1384,7 +1382,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
 
         private void ClickShowPropertyMenu(object sender, EventArgs e)
         {
-            PropertyEditor.Show(m_env.DataManager, m_env.PluginManager, m_current);
+            PropertyEditor.Show(m_env, m_current);
         }
         /// <summary>
         /// 
