@@ -91,6 +91,7 @@
     <Compile Include="TestConsoleDataAvailableEventArgs.cs" />
     <Compile Include="TestConsoleManager.cs" />
     <Compile Include="TestDataManager.cs" />
+    <Compile Include="TestDataStorer.cs" />
     <Compile Include="TestDMManager.cs" />
     <Compile Include="Objects\TestEcellData.cs" />
     <Compile Include="Objects\TestEcellLayout.cs" />

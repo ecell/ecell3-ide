@@ -47,7 +47,7 @@ namespace Ecell
     /// <summary>
     /// DataStorer
     /// </summary>
-    internal class DataStorer
+    public class DataStorer
     {
         #region DataStored
         /// <summary>
@@ -103,16 +103,16 @@ namespace Ecell
         /// Stores the "EcellObject" 4 the "Process".
         /// </summary>
         /// <param name="simulator">The simulator</param>
-        /// <param name="env">The "ApplicationEnvironment"</param>
+        /// <param name="dmm">The "DynamicModuleManager"</param>
         /// <param name="ecellObject">The stored "Process"</param>
         /// <param name="initialCondition">The initial condition.</param>
         internal static void DataStored4Process(
                 WrappedSimulator simulator,
-                DynamicModuleManager env,
+                DynamicModuleManager dmm,
                 EcellObject ecellObject,
                 Dictionary<string, double> initialCondition)
         {
-            string key = Constants.xpathProcess + Constants.delimiterColon + ecellObject.Key;
+            string key = ecellObject.FullID;
             IList<string> wrappedPolymorph = null;
             try
             {
@@ -135,17 +135,8 @@ namespace Ecell
                 {
                     storedEcellDataDic[storedEcellData.Name] = storedEcellData;
                     processEcellDataList.Add(storedEcellData);
-                    if (storedEcellData.Settable && storedEcellData.Value.IsDouble)
-                    {
-                        try
-                        {
-                            initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
-                        }
-                        catch (InvalidCastException)
-                        {
-                            // non-numeric value
-                        }
-                    }
+
+                    SetInitialCondition(initialCondition, storedEcellData);
                 }
             }
             //
@@ -171,7 +162,7 @@ namespace Ecell
                     else
                         value = new EcellValue(new List<object>());
                 }
-                else if (name == Constants.xpathActivity && name == Constants.xpathMolarActivity)
+                else if (name == Constants.xpathActivity || name == Constants.xpathMolarActivity)
                 {
                     value = new EcellValue(0.0);
                 }
@@ -180,42 +171,20 @@ namespace Ecell
                     try
                     {
                         value = new EcellValue(simulator.GetEntityProperty(entityPath));
-                        if (env.ModuleDic.ContainsKey(ecellObject.Classname))
+                        if (dmm.ModuleDic.ContainsKey(ecellObject.Classname))
                         {
-                            if (env.ModuleDic[ecellObject.Classname].Property.ContainsKey(name))
+                            if (dmm.ModuleDic[ecellObject.Classname].Property.ContainsKey(name))
                             {
-                                DynamicModuleProperty prop = env.ModuleDic[ecellObject.Classname].Property[name];
-                                if (prop.Type == typeof(List<EcellValue>) &&
-                                    !value.IsList)
+                                DynamicModuleProperty prop = dmm.ModuleDic[ecellObject.Classname].Property[name];
+                                if (prop.Type == typeof(List<EcellValue>) && !value.IsList)
                                     value = new EcellValue(new List<EcellValue>());
                             }
                         }
                     }
-                    catch (WrappedException)
+                    catch (WrappedException ex)
                     {
-                        if (env.ModuleDic.ContainsKey(ecellObject.Classname))
-                        {
-                            if (env.ModuleDic[ecellObject.Classname].Property.ContainsKey(name))
-                            {
-                                DynamicModuleProperty prop = env.ModuleDic[ecellObject.Classname].Property[name];
-                                if (prop.Type == typeof(int))
-                                    value = new EcellValue((int)prop.DefaultData);
-                                else if (prop.Type == typeof(double))
-                                    value = new EcellValue((double)prop.DefaultData);
-                                else if (prop.Type == typeof(List<EcellValue>))
-                                    value = new EcellValue(new List<EcellValue>());
-                                else
-                                    value = new EcellValue((string)prop.DefaultData);
-                            }
-                            else
-                            {
-                                value = new EcellValue(0.0);
-                            }
-                        }
-                        else
-                        {
-                            value = new EcellValue("");
-                        }
+                        Trace.WriteLine(ex);
+                        value = GetValueFromDMM(dmm, ecellObject.Classname, name);
                     }
                 }
                 EcellData ecellData = CreateEcellData(name, value, entityPath, flag);
@@ -224,15 +193,7 @@ namespace Ecell
                     ecellData.Logable = ecellData.Value.IsDouble &&
                         (ecellData.Settable == false || ecellData.Saveable == false);
 
-                    try
-                    {
-                        if (ecellData.Settable && ecellData.Value.IsDouble)
-                            initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
-                    }
-                    catch
-                    {
-                        // non-numeric value
-                    }
+                    SetInitialCondition(initialCondition, ecellData);
                 }
 
                 if (storedEcellDataDic.ContainsKey(name))
@@ -247,14 +208,43 @@ namespace Ecell
         }
 
         /// <summary>
+        /// GetValueFromDMM
+        /// </summary>
+        /// <param name="dmm"></param>
+        /// <param name="className"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private static EcellValue GetValueFromDMM(DynamicModuleManager dmm, string className, string name)
+        {
+            EcellValue value = null;
+            if (dmm.ModuleDic.ContainsKey(className))
+            {
+                if (dmm.ModuleDic[className].Property.ContainsKey(name))
+                {
+                    DynamicModuleProperty prop = dmm.ModuleDic[className].Property[name];
+                    value = new EcellValue(prop.DefaultData);
+                }
+                else
+                {
+                    value = new EcellValue(0.0);
+                }
+            }
+            else
+            {
+                value = new EcellValue("");
+            }
+            return value;
+        }
+
+        /// <summary>
         /// Stores the "EcellObject" 4 the "Stepper".
         /// </summary>
         /// <param name="simulator">The simulator</param>
-        /// <param name="env">The "ApplicationEnvironment"</param>
+        /// <param name="dmm">The "DynamicModuleManager"</param>
         /// <param name="ecellObject">The stored "Stepper"</param>
         internal static void DataStored4Stepper(
             WrappedSimulator simulator,
-            DynamicModuleManager env,
+            DynamicModuleManager dmm,
             EcellObject ecellObject)
         {
             List<EcellData> stepperEcellDataList = new List<EcellData>();
@@ -309,29 +299,7 @@ namespace Ecell
                 catch (Exception ex)
                 {
                     Trace.WriteLine(ex);
-                    if (env.ModuleDic.ContainsKey(ecellObject.Classname))
-                    {
-                        if (env.ModuleDic[ecellObject.Classname].Property.ContainsKey(name))
-                        {
-                            DynamicModuleProperty prop = env.ModuleDic[ecellObject.Classname].Property[name];
-                            if (prop.Type == typeof(int))
-                                value = new EcellValue((int)prop.DefaultData);
-                            else if (prop.Type == typeof(double))
-                                value = new EcellValue((double)prop.DefaultData);
-                            else if (prop.Type == typeof(List<EcellValue>))
-                                value = new EcellValue(new List<EcellValue>());
-                            else
-                                value = new EcellValue((string)prop.DefaultData);
-                        }
-                        else
-                        {
-                            value = new EcellValue(0.0);
-                        }
-                    }
-                    else
-                    {
-                        value = new EcellValue("");
-                    }
+                    value = GetValueFromDMM(dmm, ecellObject.Classname, name);
                 }
                 EcellData ecellData = CreateEcellData(name, value, name, flag);
                 if (storedEcellDataDic.ContainsKey(name))
@@ -381,17 +349,8 @@ namespace Ecell
                 {
                     storedEcellDataDic[storedEcellData.Name] = storedEcellData;
                     systemEcellDataList.Add(storedEcellData);
-                    if (storedEcellData.Settable && storedEcellData.Value.IsDouble)
-                    {
-                        try
-                        {
-                            initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
-                        }
-                        catch (InvalidCastException)
-                        {
-                            // non-numeric value
-                        }
-                    }
+
+                    SetInitialCondition(initialCondition, storedEcellData);
                 }
             }
             foreach (string name in wrappedPolymorph)
@@ -447,18 +406,7 @@ namespace Ecell
                 if (ecellData.Value != null)
                 {
                     ecellData.Logable = ecellData.Value.IsDouble;
-
-                    if (ecellData.Settable && ecellData.Value.IsDouble)
-                    {
-                        try
-                        {
-                            initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
-                        }
-                        catch (InvalidCastException)
-                        {
-                            // non-numeric value
-                        }
-                    }
+                    SetInitialCondition(initialCondition, ecellData);
                 }
                 if (storedEcellDataDic.ContainsKey(name))
                 {
@@ -496,17 +444,8 @@ namespace Ecell
                 {
                     storedEcellDataDic[storedEcellData.Name] = storedEcellData;
                     variableEcellDataList.Add(storedEcellData);
-                    if (storedEcellData.Settable && storedEcellData.Value.IsDouble)
-                    {
-                        try
-                        {
-                            initialCondition[storedEcellData.EntityPath] = (double)storedEcellData.Value;
-                        }
-                        catch (InvalidCastException)
-                        {
-                            // non-numeric value
-                        }
-                    }
+
+                    SetInitialCondition(initialCondition, storedEcellData);
                 }
             }
             foreach (string name in wrappedPolymorph)
@@ -517,40 +456,12 @@ namespace Ecell
                 {
                     continue;
                 }
-                EcellValue value = null;
-                try
-                {
-                    object property = simulator.GetEntityProperty(entityPath);
-                    value = new EcellValue(property);
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine(ex);
-                    if (name.Equals(Constants.xpathFixed))
-                    {
-                        value = new EcellValue(0);
-                    }
-                    else
-                    {
-                        value = new EcellValue(0.0);
-                    }
-                }
+                EcellValue value = GetVariableValue(simulator, name, entityPath);
                 EcellData ecellData = CreateEcellData(name, value, entityPath, flag);
                 if (ecellData.Value != null)
                 {
                     ecellData.Logable = ecellData.Value.IsDouble;
-
-                    if (ecellData.Settable && ecellData.Value.IsDouble)
-                    {
-                        try
-                        {
-                            initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
-                        }
-                        catch (InvalidCastException)
-                        {
-                            // non-numeric value
-                        }
-                    }
+                    SetInitialCondition(initialCondition, ecellData);
                 }
                 if (storedEcellDataDic.ContainsKey(name))
                 {
@@ -560,6 +471,36 @@ namespace Ecell
                 variableEcellDataList.Add(ecellData);
             }
             ecellObject.SetEcellDatas(variableEcellDataList);
+        }
+
+        /// <summary>
+        /// GetVariableValue
+        /// </summary>
+        /// <param name="simulator"></param>
+        /// <param name="name"></param>
+        /// <param name="entityPath"></param>
+        /// <returns></returns>
+        private static EcellValue GetVariableValue(WrappedSimulator simulator, string name, string entityPath)
+        {
+            EcellValue value = null;
+            try
+            {
+                object property = simulator.GetEntityProperty(entityPath);
+                value = new EcellValue(property);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+                if (name.Equals(Constants.xpathFixed))
+                {
+                    value = new EcellValue(0);
+                }
+                else
+                {
+                    value = new EcellValue(0.0);
+                }
+            }
+            return value;
         }
 
         /// <summary>
@@ -578,6 +519,26 @@ namespace Ecell
             data.Loadable = flags.Loadable;
             data.Saveable = flags.Savable;
             return data;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="initialCondition"></param>
+        /// <param name="ecellData"></param>
+        private static void SetInitialCondition(Dictionary<string, double> initialCondition, EcellData ecellData)
+        {
+            if (ecellData.Settable && ecellData.Value.IsDouble)
+            {
+                try
+                {
+                    initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
+                }
+                catch
+                {
+                    // non-numeric value
+                }
+            }
         }
 
         #endregion
