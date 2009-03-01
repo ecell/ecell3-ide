@@ -35,6 +35,11 @@ namespace Ecell
     using NUnit.Framework;
     using System.IO;
     using System.Diagnostics;
+    using Ecell.Objects;
+    using System.Collections.Generic;
+    using Ecell.Exceptions;
+    using EcellCoreLib;
+    using System.Reflection;
     /// <summary>
     /// 
     /// </summary>
@@ -44,6 +49,7 @@ namespace Ecell
         private static readonly string ActionFile = Path.Combine(Util.GetUserDir(), "");
         private static readonly string ActionFileUnCorrect = Path.Combine(Util.GetUserDir(), "");
 
+        private ApplicationEnvironment _env;
         private DataManager _unitUnderTest;
         /// <summary>
         /// TestFixtureSetUp
@@ -51,7 +57,8 @@ namespace Ecell
         [SetUp()]
         public void TestFixtureSetUp()
         {
-            _unitUnderTest = new ApplicationEnvironment().DataManager;
+            _env = new ApplicationEnvironment();
+            _unitUnderTest = _env.DataManager;
         }
         /// <summary>
         /// TestFixtureTearDown
@@ -60,6 +67,29 @@ namespace Ecell
         public void TestFixtureTearDown()
         {
             _unitUnderTest = null;
+            _env = null;
+        }
+
+        /// <summary>
+        /// TestAccessor
+        /// </summary>
+        [Test()]
+        public void TestAccessor()
+        {
+            Assert.IsNull(_unitUnderTest.CurrentProject, "CurrentProject is unexpected value.");
+            Assert.IsNull(_unitUnderTest.CurrentProjectID, "CurrentProjectID is unexpected value.");
+
+            Assert.AreEqual(Util.GetBaseDir(),_unitUnderTest.DefaultDir, "DefaultDir is unexpected value.");
+            Assert.AreEqual(_env, _unitUnderTest.Environment, "Environment is unexpected value.");
+            Assert.IsFalse(_unitUnderTest.IsActive, "IsActive is unexpected value.");
+            Assert.AreEqual(-1.0, _unitUnderTest.SimulationTimeLimit, "SimulationTimeLimit is unexpected value.");
+            Assert.AreEqual(10, _unitUnderTest.StepCount, "StepCount is unexpected value.");
+
+            _unitUnderTest.SimulationTimeLimit = 100;
+            _unitUnderTest.StepCount = 20;
+            Assert.AreEqual(100.0, _unitUnderTest.SimulationTimeLimit, "SimulationTimeLimit is unexpected value.");
+            Assert.AreEqual(20, _unitUnderTest.StepCount, "StepCount is unexpected value.");
+
         }
 
         /// <summary>
@@ -88,6 +118,16 @@ namespace Ecell
             {
                 Trace.WriteLine(ex);
             }
+            // Load null
+            try
+            {
+                ProjectInfo info = null;
+                _unitUnderTest.LoadProject(info);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+            }
             // Load incorrect file
             try
             {
@@ -101,6 +141,24 @@ namespace Ecell
             // Load RBC
             filename = "c:\\temp\\rbc.eml";
             _unitUnderTest.LoadProject(filename);
+            // Load Drosophila
+            filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+        }
+
+        /// <summary>
+        /// TestAddStepperIDL_parameterIDL_stepper
+        /// </summary>
+        [Test()]
+        public void TestGetDir()
+        {
+            // Load Drosophila
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string dir = _unitUnderTest.GetDMDir();
+            List<string> list = _unitUnderTest.GetDMNameList();
+            string dmName = _unitUnderTest.GetDMFileName("");
         }
 
         /// <summary>
@@ -109,24 +167,82 @@ namespace Ecell
         [Test()]
         public void TestAddStepperIDL_parameterIDL_stepper()
         {
-            string l_parameterID = "";
-            Ecell.Objects.EcellObject l_stepper = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string l_parameterID = "DefaultParameter";
+            EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
             _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
-            Assert.Fail("Create or modify test(s).");
+
+            try
+            {
+                _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
+                Assert.Fail();
+            }
+            catch (EcellException)
+            {
+            }
+
+            try
+            {
+                _unitUnderTest.AddStepperID(null, l_stepper);
+                Assert.Fail();
+            }
+            catch (EcellException)
+            {
+            }
+
+            try
+            {
+                _unitUnderTest.AddStepperID("newParam", l_stepper);
+                Assert.Fail();
+            }
+            catch (EcellException)
+            {
+            }
 
         }
+
         /// <summary>
         /// TestAddStepperIDL_parameterIDL_stepperL_isRecorded
         /// </summary>
         [Test()]
         public void TestAddStepperIDL_parameterIDL_stepperL_isRecorded()
         {
-            string l_parameterID = null;
-            Ecell.Objects.EcellObject l_stepper = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string l_parameterID = "DefaultParameter";
+            EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
             bool l_isRecorded = false;
             _unitUnderTest.AddStepperID(l_parameterID, l_stepper, l_isRecorded);
-            Assert.Fail("Create or modify test(s).");
 
+        }
+
+        /// <summary>
+        /// TestAddStepperIDL_parameterIDL_stepperL_isRecorded
+        /// </summary>
+        [Test()]
+        public void TestBulidDefaultSimulator()
+        {
+            Type type = _unitUnderTest.GetType();
+            MethodInfo methodInfo = type.GetMethod("BuildDefaultSimulator", BindingFlags.NonPublic | BindingFlags.Static);
+            Assert.IsNotNull(methodInfo, "GetMethod method returned unexpected value.");
+
+            WrappedSimulator simulator = new WrappedSimulator(Util.GetDMDirs(null));
+            string defProcess = null;
+            string defStepper = null;
+            methodInfo.Invoke(_unitUnderTest, new object[] { simulator, defProcess, defStepper });
+
+            try
+            {
+                defProcess = "hoge";
+                methodInfo.Invoke(_unitUnderTest, new object[] { simulator, defProcess, defStepper });
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
         }
         /// <summary>
         /// 
@@ -134,9 +250,20 @@ namespace Ecell
         [Test()]
         public void TestCloseProject()
         {
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
             _unitUnderTest.CloseProject();
-            Assert.Fail("Create or modify test(s).");
 
+            try
+            {
+                _unitUnderTest.LoadProject(filename);
+                _unitUnderTest.CurrentProject.Simulator = null;
+                _unitUnderTest.CloseProject();
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
         }
         /// <summary>
         /// 
@@ -144,11 +271,19 @@ namespace Ecell
         [Test()]
         public void TestDataAddL_ecellObjectListL_isRecordedL_isAnchor()
         {
-            System.Collections.Generic.List<Ecell.Objects.EcellObject> l_ecellObjectList = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string modelID = "Drosophila";
+            string key = "/";
+            string type = "System";
+            EcellObject sys = _unitUnderTest.CreateDefaultObject(modelID, key, type);
+
+            List<EcellObject> l_ecellObjectList = new List<EcellObject>();
+            l_ecellObjectList.Add(sys);
             bool l_isRecorded = false;
             bool l_isAnchor = false;
             _unitUnderTest.DataAdd(l_ecellObjectList, l_isRecorded, l_isAnchor);
-            Assert.Fail("Create or modify test(s).");
 
         }
         /// <summary>
@@ -157,36 +292,36 @@ namespace Ecell
         [Test()]
         public void TestDataChangedL_ecellObjectList()
         {
-            System.Collections.Generic.List<Ecell.Objects.EcellObject> l_ecellObjectList = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string modelID = "Drosophila";
+            string key = "/CELL";
+            string type = "System";
+            EcellObject sys = _unitUnderTest.CreateDefaultObject(modelID, key, type);
+            _unitUnderTest.DataAdd(sys);
+
+            sys = _unitUnderTest.GetEcellObject(modelID, sys.Key, type);
+            sys.X = 40;
+            List<EcellObject> l_ecellObjectList = new List<EcellObject>();
+            l_ecellObjectList.Add(sys);
             _unitUnderTest.DataChanged(l_ecellObjectList);
-            Assert.Fail("Create or modify test(s).");
-
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestDataChangedL_ecellObjectListL_isRecordedL_isAnchor()
-        {
-            System.Collections.Generic.List<Ecell.Objects.EcellObject> l_ecellObjectList = null;
-            bool l_isRecorded = false;
-            bool l_isAnchor = false;
-            _unitUnderTest.DataChanged(l_ecellObjectList, l_isRecorded, l_isAnchor);
-            Assert.Fail("Create or modify test(s).");
 
-        }
         /// <summary>
         /// 
         /// </summary>
         [Test()]
         public void TestDataChangedL_modelIDL_keyL_typeL_ecellObject()
         {
-            string l_modelID = null;
-            string l_key = null;
-            string l_type = null;
-            Ecell.Objects.EcellObject l_ecellObject = null;
-            _unitUnderTest.DataChanged(l_modelID, l_key, l_type, l_ecellObject);
-            Assert.Fail("Create or modify test(s).");
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string modelID = "Drosophila";
+            string key = "/";
+            string type = "System";
+            EcellObject sys = _unitUnderTest.GetEcellObject(modelID, key, type);
+            _unitUnderTest.DataChanged(modelID, key, type, sys);
 
         }
         /// <summary>
@@ -195,14 +330,17 @@ namespace Ecell
         [Test()]
         public void TestDataChangedL_modelIDL_keyL_typeL_ecellObjectL_isRecordedL_isAnchor()
         {
-            string l_modelID = null;
-            string l_key = null;
-            string l_type = null;
-            Ecell.Objects.EcellObject l_ecellObject = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string modelID = "Drosophila";
+            string key = "/";
+            string type = "System";
+            EcellObject sys = _unitUnderTest.GetEcellObject(modelID, key, type);
             bool l_isRecorded = false;
             bool l_isAnchor = false;
-            _unitUnderTest.DataChanged(l_modelID, l_key, l_type, l_ecellObject, l_isRecorded, l_isAnchor);
-            Assert.Fail("Create or modify test(s).");
+
+            _unitUnderTest.DataChanged(modelID, key, type, sys, l_isRecorded, l_isAnchor);
 
         }
         /// <summary>
@@ -211,12 +349,13 @@ namespace Ecell
         [Test()]
         public void TestDataDeleteL_modelIDL_keyL_type()
         {
-            string l_modelID = null;
-            string l_key = null;
-            string l_type = null;
-            _unitUnderTest.DataDelete(l_modelID, l_key, l_type);
-            Assert.Fail("Create or modify test(s).");
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
 
+            string modelID = "Drosophila";
+            string key = "/CELL";
+            string type = "System";
+            _unitUnderTest.DataDelete(modelID, key, type);
         }
         /// <summary>
         /// 
@@ -224,13 +363,15 @@ namespace Ecell
         [Test()]
         public void TestDataDeleteL_modelIDL_keyL_typeL_isRecordedL_isAnchor()
         {
-            string l_modelID = null;
-            string l_key = null;
-            string l_type = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string modelID = "Drosophila";
+            string key = "/CELL";
+            string type = "System";
             bool l_isRecorded = false;
             bool l_isAnchor = false;
-            _unitUnderTest.DataDelete(l_modelID, l_key, l_type, l_isRecorded, l_isAnchor);
-            Assert.Fail("Create or modify test(s).");
+            _unitUnderTest.DataDelete(modelID, key, type, l_isRecorded, l_isAnchor);
         }
 
         /// <summary>
@@ -239,11 +380,16 @@ namespace Ecell
         [Test()]
         public void TestDataMerge()
         {
-            string modelID = null;
-            string key = null;
-            _unitUnderTest.DataMerge(modelID, key);
-            Assert.Fail("Create or modify test(s).");
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
 
+            string modelID = "Drosophila";
+            string key = "/CELL";
+            _unitUnderTest.DataMerge(modelID, key);
+
+            _unitUnderTest.LoadProject(filename);
+            key = "/CELL/CYTOPLASM";
+            _unitUnderTest.DataMerge(modelID, key);
         }
         /// <summary>
         /// 
@@ -251,47 +397,70 @@ namespace Ecell
         [Test()]
         public void TestDeleteSimulationParameterL_parameterID()
         {
-            string l_parameterID = null;
+            string l_prjID = "NewProject";
+            string l_comment = "";
+            List<string> l_setDirList = new List<string>();
+            _unitUnderTest.CreateNewProject(l_prjID, l_comment, l_setDirList);
+
+            string l_parameterID = "Newparam";
+            _unitUnderTest.CreateSimulationParameter(l_parameterID);
+
             _unitUnderTest.DeleteSimulationParameter(l_parameterID);
-            Assert.Fail("Create or modify test(s).");
 
         }
+
         /// <summary>
         /// 
         /// </summary>
         [Test()]
         public void TestDeleteSimulationParameterL_parameterIDL_isRecordedL_isAnchor()
         {
-            string l_parameterID = null;
+            string l_prjID = "NewProject";
+            string l_comment = "";
+            List<string> l_setDirList = new List<string>();
+            _unitUnderTest.CreateNewProject(l_prjID, l_comment, l_setDirList);
+
+            string l_parameterID = "Newparam";
+            _unitUnderTest.CreateSimulationParameter(l_parameterID);
+
             bool l_isRecorded = false;
             bool l_isAnchor = false;
             _unitUnderTest.DeleteSimulationParameter(l_parameterID, l_isRecorded, l_isAnchor);
-            Assert.Fail("Create or modify test(s).");
-
+            
         }
+
         /// <summary>
         /// 
         /// </summary>
         [Test()]
         public void TestDeleteStepperIDL_parameterIDL_stepper()
         {
-            string l_parameterID = null;
-            Ecell.Objects.EcellObject l_stepper = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string l_parameterID = "DefaultParameter";
+            EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
+            _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
+
             _unitUnderTest.DeleteStepperID(l_parameterID, l_stepper);
-            Assert.Fail("Create or modify test(s).");
 
         }
+
         /// <summary>
         /// 
         /// </summary>
         [Test()]
         public void TestDeleteStepperIDL_parameterIDL_stepperL_isRecorded()
         {
-            string l_parameterID = null;
-            Ecell.Objects.EcellObject l_stepper = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string l_parameterID = "DefaultParameter";
+            EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
+            _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
+
             bool l_isRecorded = false;
             _unitUnderTest.DeleteStepperID(l_parameterID, l_stepper, l_isRecorded);
-            Assert.Fail("Create or modify test(s).");
 
         }
         /// <summary>
@@ -472,13 +641,19 @@ namespace Ecell
         [Test()]
         public void TestGetEntityList()
         {
-            string l_modelID = null;
-            string l_entityName = null;
-            System.Collections.Generic.List<System.String> expectedList = null;
-            System.Collections.Generic.List<System.String> resultList = null;
-            resultList = _unitUnderTest.GetEntityList(l_modelID, l_entityName);
-            Assert.AreEqual(expectedList, resultList, "GetEntityList method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string l_modelID = "Drosophila";
+            string l_type = "System";
+
+            List<string> resultList = null;
+            resultList = _unitUnderTest.GetEntityList(l_modelID, l_type);
+            Assert.IsNotEmpty(resultList, "GetEntityList method returned unexpected result.");
+
+            l_type = "Process";
+            resultList = _unitUnderTest.GetEntityList(l_modelID, l_type);
+            Assert.IsNotEmpty(resultList, "GetEntityList method returned unexpected result.");
 
         }
         /// <summary>
@@ -512,14 +687,34 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
+        public void TestIsDataExists()
+        {
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            bool isExist = _unitUnderTest.IsDataExists("Drosophila", "/CELL", "System");
+            Assert.AreEqual(true, isExist, "IsDataExists method returned unexpected result.");
+
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
         public void TestIsEnableAddProperty()
         {
-            string l_dmName = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string l_dmName = "hoge";
             bool expectedBoolean = false;
             bool resultBoolean = false;
             resultBoolean = _unitUnderTest.IsEnableAddProperty(l_dmName);
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsEnableAddProperty method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+
+            l_dmName = "ExpressionFluxProcess";
+            expectedBoolean = true;
+            resultBoolean = _unitUnderTest.IsEnableAddProperty(l_dmName);
+            Assert.AreEqual(expectedBoolean, resultBoolean, "IsEnableAddProperty method returned unexpected result.");
 
         }
         /// <summary>
@@ -528,12 +723,22 @@ namespace Ecell
         [Test()]
         public void TestGetProcessProperty()
         {
-            string l_dmName = null;
-            System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> resultDictionary = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string l_dmName = "hoge";
+            Dictionary<string, EcellData> resultDictionary = null;
+            try
+            {
+                resultDictionary = _unitUnderTest.GetProcessProperty(l_dmName);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+            l_dmName = "ExpressionFluxProcess";
             resultDictionary = _unitUnderTest.GetProcessProperty(l_dmName);
-            Assert.AreEqual(expectedDictionary, resultDictionary, "GetProcessProperty method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            Assert.IsNotEmpty(resultDictionary, "GetProcessProperty method returned unexpected result.");
 
         }
 
@@ -543,13 +748,15 @@ namespace Ecell
         [Test()]
         public void TestGetStepper()
         {
-            string l_parameterID = null;
-            string l_modelID = null;
-            System.Collections.Generic.List<Ecell.Objects.EcellObject> expectedList = null;
-            System.Collections.Generic.List<Ecell.Objects.EcellObject> resultList = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+
+            string l_parameterID = "DefaultParameter";
+            string l_modelID = "Drosophila";
+            List<EcellObject> resultList = null;
             resultList = _unitUnderTest.GetStepper(l_parameterID, l_modelID);
-            Assert.AreEqual(expectedList, resultList, "GetStepper method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            Assert.IsNotEmpty(resultList, "GetStepper method returned unexpected result.");
 
         }
         /// <summary>
@@ -638,14 +845,48 @@ namespace Ecell
         [Test()]
         public void TestCreateDefaultObject()
         {
-            string modelID = null;
-            string key = null;
-            string type = null;
-            Ecell.Objects.EcellObject expectedEcellObject = null;
-            Ecell.Objects.EcellObject resultEcellObject = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string modelID = "Drosophila";
+            string key = "/HOGE";
+            string type = "System";
+            EcellObject sys = _unitUnderTest.CreateDefaultObject(modelID, key, type);
+            Assert.AreEqual(null, sys, "CreateDefaultObject method returned unexpected result.");
+
+            key = "/";
+            type = "System";
+            EcellObject resultEcellObject = _unitUnderTest.CreateDefaultObject(modelID, key, type);
+            Assert.AreEqual(EcellObject.SYSTEM, resultEcellObject.Type, "CreateDefaultObject method returned unexpected result.");
+
+            key = "/";
+            type = "Variable";
             resultEcellObject = _unitUnderTest.CreateDefaultObject(modelID, key, type);
-            Assert.AreEqual(expectedEcellObject, resultEcellObject, "CreateDefaultObject method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            Assert.AreEqual(EcellObject.VARIABLE, resultEcellObject.Type, "CreateDefaultObject method returned unexpected result.");
+
+            key = "/";
+            type = "Process";
+            resultEcellObject = _unitUnderTest.CreateDefaultObject(modelID, key, type);
+            Assert.AreEqual(EcellObject.PROCESS, resultEcellObject.Type, "CreateDefaultObject method returned unexpected result.");
+
+            key = "/Hoge";
+            type = "Process";
+            resultEcellObject = _unitUnderTest.CreateDefaultObject(modelID, key, type);
+            Assert.AreEqual(null, resultEcellObject, "CreateDefaultObject method returned unexpected result.");
+
+            key = "/";
+            type = "Text";
+            resultEcellObject = _unitUnderTest.CreateDefaultObject(modelID, key, type);
+            Assert.AreEqual(EcellObject.TEXT, resultEcellObject.Type, "CreateDefaultObject method returned unexpected result.");
+
+            try
+            {
+                resultEcellObject = _unitUnderTest.CreateDefaultObject("Hoge", key, type);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
 
         }
         /// <summary>
@@ -654,12 +895,20 @@ namespace Ecell
         [Test()]
         public void TestCreateNewProject()
         {
-            string l_prjID = null;
-            string l_comment = null;
-            string l_projectPath = null;
-            System.Collections.Generic.List<System.String> l_setDirList = null;
-            _unitUnderTest.CreateNewProject(l_prjID, l_comment, l_setDirList);
-            Assert.Fail("Create or modify test(s).");
+            string l_prjID = "NewProject";
+            string l_comment = "";
+            List<string> l_setDirList = new List<string>();
+            _unitUnderTest.CreateNewProject(l_prjID, l_comment);
+            _unitUnderTest.CreateNewProject(l_prjID, l_comment);
+
+            try
+            {
+                _unitUnderTest.CreateNewProject("", l_comment);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
 
         }
         /// <summary>
@@ -668,10 +917,13 @@ namespace Ecell
         [Test()]
         public void TestCreateSimulationParameterL_parameterID()
         {
-            string l_parameterID = null;
-            _unitUnderTest.CreateSimulationParameter(l_parameterID);
-            Assert.Fail("Create or modify test(s).");
+            string l_prjID = "NewProject";
+            string l_comment = "";
+            List<string> l_setDirList = new List<string>();
+            _unitUnderTest.CreateNewProject(l_prjID, l_comment, l_setDirList);
 
+            string l_parameterID = "Newparam";
+            _unitUnderTest.CreateSimulationParameter(l_parameterID);
         }
         /// <summary>
         /// 
@@ -679,11 +931,15 @@ namespace Ecell
         [Test()]
         public void TestCreateSimulationParameterL_parameterIDL_isRecordedL_isAnchor()
         {
-            string l_parameterID = null;
+            string l_parameterID = "Newparam";
             bool l_isRecorded = false;
             bool l_isAnchor = false;
+
+            string l_prjID = "NewProject";
+            string l_comment = "";
+            List<string> l_setDirList = new List<string>();
+            _unitUnderTest.CreateNewProject(l_prjID, l_comment, l_setDirList);
             _unitUnderTest.CreateSimulationParameter(l_parameterID, l_isRecorded, l_isAnchor);
-            Assert.Fail("Create or modify test(s).");
 
         }
         /// <summary>
@@ -692,9 +948,11 @@ namespace Ecell
         [Test()]
         public void TestSaveScript()
         {
-            string l_fileName = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string l_fileName = "c:/temp/script.ess";
             _unitUnderTest.SaveScript(l_fileName);
-            Assert.Fail("Create or modify test(s).");
 
         }
 
@@ -770,103 +1028,108 @@ namespace Ecell
         [Test()]
         public void TestStartSimulation()
         {
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            Timer timer = new Timer();
+            timer.Interval = 1000;
+            timer.Tick += new EventHandler(StopTimer);
+            timer.Start();
             double l_time = 1.0;
             _unitUnderTest.StartSimulation(l_time);
-            Assert.Fail("Can not start the simulation.");
+
+            timer.Stop();
         }
+
+        void StopTimer(object sender, EventArgs e)
+        {
+            _unitUnderTest.SimulationStop();
+        }
+
         /// <summary>
         /// 
         /// </summary>
         [Test()]
         public void TestStartStepSimulation_Step()
         {
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
             int l_step1 = 1;
             _unitUnderTest.StartStepSimulation(l_step1);
-            Assert.Fail("Error step simulation by step[1].");
 
             int l_step10 = 10;
             _unitUnderTest.StartStepSimulation(l_step10);
-            Assert.Fail("Error step simulation by step[10].");
 
             int l_step100 = 100;
             _unitUnderTest.StartStepSimulation(l_step100);
-            Assert.Fail("Error step simulation by step[100].");
+
+            _unitUnderTest.SimulationStop();
+
         }
+
         /// <summary>
         /// 
         /// </summary>
         [Test()]
         public void TestStartStepSimulation_Sec()
         {
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
             double l_sec1 = 0.5;
             _unitUnderTest.StartStepSimulation(l_sec1);
-            Assert.Fail("Error step simulation by sec[0.5].");
 
             double l_sec2 = 1.0;
             _unitUnderTest.StartStepSimulation(l_sec2);
-            Assert.Fail("Error step simulation by sec[1.0].");
 
             double l_sec3 = 5.0;
             _unitUnderTest.StartStepSimulation(l_sec3);
-            Assert.Fail("Error step simulation by sec[5.0].");
+
+            _unitUnderTest.SimulationStop();
+
         }
 
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //[Test()]
-        //public void TestSimulationStartL_timeLimitL_statusNum()
-        //{
-        //    double l_timeLimit = 0;
-        //    int l_statusNum = 0;
-            
-        //    _unitUnderTest.SimulationStart(l_timeLimit, l_statusNum);
-        //    Assert.Fail("Create or modify test(s).");
-
-        //}
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //[Test()]
-        //public void TestSimulationStartKeepSettingL_stepLimit()
-        //{
-        //    int l_stepLimit = 0;
-        //    _unitUnderTest.SimulationStartKeepSetting(l_stepLimit);
-        //    Assert.Fail("Create or modify test(s).");
-
-        //}
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //[Test()]
-        //public void TestSimulationStartKeepSettingL_timeLimit()
-        //{
-        //    double l_timeLimit = 0;
-        //    _unitUnderTest.SimulationStartKeepSetting(l_timeLimit);
-        //    Assert.Fail("Create or modify test(s).");
-
-        //}
         /// <summary>
         /// 
         /// </summary>
         [Test()]
         public void TestSimulationStop()
         {
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            _unitUnderTest.StartStepSimulation(2000);
+
             _unitUnderTest.SimulationStop();
-            Assert.Fail("Create or modify test(s).");
 
         }
+
         /// <summary>
         /// 
         /// </summary>
         [Test()]
         public void TestSimulationSuspend()
         {
-            _unitUnderTest.SimulationSuspend();
-            Assert.Fail("Create or modify test(s).");
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
 
+            Timer timer = new Timer();
+            timer.Interval = 1000;
+            timer.Tick += new EventHandler(SuspendTimer);
+            timer.Start();
+
+            double l_time = 1.0;
+            _unitUnderTest.StartSimulation(l_time);
+            timer.Stop();
         }
+
+        void SuspendTimer(object sender, EventArgs e)
+        {
+            _unitUnderTest.SimulationSuspend();
+            _unitUnderTest.SimulationStop();
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -886,10 +1149,16 @@ namespace Ecell
         [Test()]
         public void TestUpdateStepperIDL_parameterIDL_stepperList()
         {
-            string l_parameterID = null;
-            System.Collections.Generic.List<Ecell.Objects.EcellObject> l_stepperList = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string l_parameterID = "DefaultParameter";
+            EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
+            _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
+
+            List<Ecell.Objects.EcellObject> l_stepperList = new List<EcellObject>();
+            l_stepperList.Add(l_stepper);
             _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList);
-            Assert.Fail("Create or modify test(s).");
 
         }
         /// <summary>
@@ -898,11 +1167,64 @@ namespace Ecell
         [Test()]
         public void TestUpdateStepperIDL_parameterIDL_stepperListL_isRecorded()
         {
-            string l_parameterID = null;
-            System.Collections.Generic.List<Ecell.Objects.EcellObject> l_stepperList = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string l_parameterID = "DefaultParameter";
+            EcellObject l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
+            _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
+
+            List<Ecell.Objects.EcellObject> l_stepperList = new List<EcellObject>();
+            l_stepperList.Add(l_stepper);
+
             bool l_isRecorded = false;
             _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList, l_isRecorded);
-            Assert.Fail("Create or modify test(s).");
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestSetParameterData()
+        {
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string fullPN = "Variable:/CELL/CYTOPLASM:M:Value";
+            Assert.IsFalse(_unitUnderTest.IsContainsParameterData(fullPN));
+
+            EcellParameterData parameterData = new EcellParameterData(fullPN, 0.2);
+            _unitUnderTest.SetParameterData(parameterData);
+            _unitUnderTest.SetParameterData(parameterData);
+            Assert.IsTrue(_unitUnderTest.IsContainsParameterData(fullPN));
+
+            Assert.AreEqual(_unitUnderTest.GetParameterData()[0], _unitUnderTest.GetParameterData(fullPN));
+
+            _unitUnderTest.RemoveParameterData(parameterData);
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestSetObservedData()
+        {
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string fullPN = "Variable:/CELL/CYTOPLASM:M:Value";
+            Assert.IsFalse(_unitUnderTest.IsContainsObservedData(fullPN));
+
+            EcellObservedData observedData = new EcellObservedData(fullPN, 0.2);
+            _unitUnderTest.SetObservedData(observedData);
+            _unitUnderTest.SetObservedData(observedData);
+            Assert.IsTrue(_unitUnderTest.IsContainsObservedData(fullPN));
+
+            Assert.AreEqual(_unitUnderTest.GetObservedData()[0], _unitUnderTest.GetObservedData(fullPN));
+
+            _unitUnderTest.RemoveObservedData(observedData);
 
         }
     }

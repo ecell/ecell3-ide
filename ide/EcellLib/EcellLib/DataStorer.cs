@@ -529,16 +529,7 @@ namespace Ecell
         private static void SetInitialCondition(Dictionary<string, double> initialCondition, EcellData ecellData)
         {
             if (ecellData.Settable && ecellData.Value.IsDouble)
-            {
-                try
-                {
-                    initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
-                }
-                catch
-                {
-                    // non-numeric value
-                }
-            }
+                initialCondition[ecellData.EntityPath] = (double)ecellData.Value;
         }
 
         #endregion

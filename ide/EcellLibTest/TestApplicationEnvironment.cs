@@ -36,6 +36,7 @@ using Ecell.Job;
 using Ecell.Logging;
 using Ecell.Action;
 using Ecell.Plugin;
+using Ecell.Logger;
 
 namespace Ecell
 {
@@ -93,6 +94,9 @@ namespace Ecell
 
             LogManager lm = _unitUnderTest.LogManager;
             Assert.IsNotNull(lm);
+
+            LoggerManager lgm = _unitUnderTest.LoggerManager;
+            Assert.IsNotNull(lgm);
 
         }
 

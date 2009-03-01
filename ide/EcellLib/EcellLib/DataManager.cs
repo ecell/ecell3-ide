@@ -1006,8 +1006,6 @@ namespace Ecell
             {
                 if (!system.ModelID.Equals(modelID) || !system.Key.Equals(systemKey))
                     continue;
-                if (system.Children == null)
-                    system.Children = new List<EcellObject>();
                 // Check duplicated object.
                 foreach (EcellObject child in system.Children)
                 {
@@ -2275,11 +2273,13 @@ namespace Ecell
             String tmpID = GetTemporaryID(modelID, Constants.xpathSystem, key);
 
             EcellObject sysobj = GetEcellObject(modelID, key, Constants.xpathSystem);
-            if (sysobj == null) return null;
+            if (sysobj == null)
+                return null;
             String stepperID = "";
             foreach (EcellData d in sysobj.Value)
             {
-                if (!d.Name.Equals(Constants.xpathStepperID)) continue;
+                if (!d.Name.Equals(Constants.xpathStepperID))
+                    continue;
                 stepperID = d.Value.ToString();
             }
 
@@ -2683,7 +2683,7 @@ namespace Ecell
         /// <param name="key">key of deleted system.</param>
         /// <param name="type">type of deleted system.</param>
         /// <returns>true if the key exists; false otherwise</returns>
-        internal bool IsDataExists(string modelID, string key, string type)
+        public bool IsDataExists(string modelID, string key, string type)
         {
             EcellObject obj = GetEcellObject(modelID, key, type);
             return (obj != null);
@@ -2728,22 +2728,18 @@ namespace Ecell
         /// Returns the entity name list of the model.
         /// </summary>
         /// <param name="modelID">The model ID</param>
-        /// <param name="entityName">The entity name</param>
+        /// <param name="type">The entity name</param>
         /// <returns></returns>
-        public List<string> GetEntityList(string modelID, string entityName)
+        public List<string> GetEntityList(string modelID, string type)
         {
             List<string> entityList = new List<string>();
             try
             {
                 foreach (EcellObject system in m_currentProject.SystemDic[modelID])
                 {
-                    if (entityName.Equals(Constants.xpathSystem))
+                    if (type.Equals(Constants.xpathSystem))
                     {
-                        string parentPath = system.ParentSystemID;
-                        string childPath = system.LocalID;
-                        entityList.Add(
-                            Constants.xpathSystem + Constants.delimiterColon
-                            + parentPath + Constants.delimiterColon + childPath);
+                        entityList.Add(system.FullID);
                     }
                     else
                     {
@@ -2751,9 +2747,9 @@ namespace Ecell
                             continue;
                         foreach (EcellObject entity in system.Children)
                         {
-                            if (!entity.Type.Equals(entityName))
+                            if (!entity.Type.Equals(type))
                                 continue;
-                            entityList.Add(entity.Type + Constants.delimiterColon + entity.Key);
+                            entityList.Add(entity.FullID);
                         }
                     }
                 }
@@ -2764,7 +2760,7 @@ namespace Ecell
                 entityList.Clear();
                 entityList = null;
                 throw new EcellException(String.Format(MessageResources.ErrFindEnt,
-                    new object[] { entityName }), ex);
+                    new object[] { type }), ex);
             }
         }
 
@@ -2789,17 +2785,18 @@ namespace Ecell
         /// <param name="isRecorded">Whether this action is recorded</param>
         public void AddStepperID(string parameterID, EcellObject stepper, bool isRecorded)
         {
+            // Check parameters.
+            if (stepper == null || string.IsNullOrEmpty(parameterID) || string.IsNullOrEmpty(stepper.ModelID))
+                throw new EcellException(string.Format(MessageResources.ErrInvalidParam, ""));
+
             string message = null;
-            Dictionary<string, List<EcellObject>> stepperDic = null;
             try
             {
                 // Get stepperDic
                 message = "[" + parameterID + "][" + stepper.ModelID + "][" + stepper.Key + "]";
-                if (stepper == null || string.IsNullOrEmpty(parameterID) || string.IsNullOrEmpty(stepper.ModelID))
-                    throw new EcellException();
                 if (!m_currentProject.StepperDic.ContainsKey(parameterID))
                     m_currentProject.StepperDic[parameterID] = new Dictionary<string, List<EcellObject>>();
-                stepperDic = m_currentProject.StepperDic[parameterID];
+                Dictionary<string, List<EcellObject>> stepperDic = m_currentProject.StepperDic[parameterID];
                 if (!stepperDic.ContainsKey(stepper.ModelID))
                     throw new EcellException();
 
@@ -2808,11 +2805,7 @@ namespace Ecell
                 {
                     if (!stepper.Key.Equals(storedStepper.Key))
                         continue;
-                    throw new EcellException(
-                        string.Format(MessageResources.ErrExistStepper,
-                            new object[] { stepper.Key }
-                        )
-                    );
+                    throw new EcellException(string.Format(MessageResources.ErrExistStepper, stepper.Key));
                 }
                 // Set Stteper.
                 stepperDic[stepper.ModelID].Add(stepper);
@@ -2828,8 +2821,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                message = String.Format(MessageResources.ErrNotCreStepper,
-                    new object[] { stepper.Key });
+                message = String.Format(MessageResources.ErrNotCreStepper, stepper.Key);
                 Trace.WriteLine(message);
                 throw new EcellException(message, ex);
             }
@@ -4903,7 +4895,8 @@ namespace Ecell
         /// <param name="loggerPolicy"></param>
         private void CreateLogger(string fullPathID, bool isInitalize, WrappedSimulator sim, LoggerPolicy loggerPolicy)
         {
-            if (m_loggerEntry.Contains(fullPathID)) return;
+            if (m_loggerEntry.Contains(fullPathID))
+                return;
 
             if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
                 m_currentProject.SimulationStatus == SimulationStatus.Suspended ||
