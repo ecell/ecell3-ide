@@ -439,7 +439,7 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
-        ///   The parameter set に類似しているローカライズされた文字列を検索します。
+        ///   The unknown parameter set に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string NameParameterData {
             get {

@@ -235,10 +235,10 @@
     <value>最小頻度</value>
   </data>
   <data name="NameObservedData" xml:space="preserve">
-    <value>観察されたパラメータセット</value>
+    <value>観察パラメータセット</value>
   </data>
   <data name="NameParameterData" xml:space="preserve">
-    <value>パラメータセット</value>
+    <value>未知パラメータセット</value>
   </data>
   <data name="NameParameterEstimate" xml:space="preserve">
     <value>パラメータ推定</value>

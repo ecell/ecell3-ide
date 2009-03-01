@@ -384,18 +384,6 @@ namespace Ecell.IDE.Plugins.Analysis
             {
                 isCorrect = false;
             }
-            if (isCorrect && e.ColumnIndex == 3)
-            {
-                isCorrect = false;
-            }
-            if (isCorrect && e.ColumnIndex == 1)
-            {
-                isCorrect = false;
-            }
-            if (isCorrect && e.ColumnIndex == 2)
-            {
-                isCorrect = false;
-            }
 
             if (isCorrect)
             {
