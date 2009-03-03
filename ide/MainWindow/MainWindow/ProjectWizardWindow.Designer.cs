@@ -200,6 +200,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ProjectWizardWindow_FormClosing);
             this.DMLayoutPanel.ResumeLayout(false);
             this.DMLayoutPanel.PerformLayout();
             this.ProjectLayoutPanel.ResumeLayout(false);

@@ -292,7 +292,22 @@ namespace Ecell.IDE.MainWindow
             }
 
         }
+
+
+        private void ProjectWizardWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.DialogResult == DialogResult.Cancel) return;
+            string projectName = m_project.Name;
+            if (Util.IsNGforIDonWindows(projectName) || projectName.Length > 64)
+            {
+                Util.ShowWarningDialog(string.Format(MessageResources.ErrIDNG, "Project ID"));
+                e.Cancel = true;
+                return;
+            }
+            return;
+        }
         #endregion
+
 
     }
 }

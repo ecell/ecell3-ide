@@ -139,13 +139,13 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (this.DialogResult != DialogResult.OK) return;
             if (m_start < 0.0 || m_simTime < m_start)
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameStartTime));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameStartTime));
                 e.Cancel = true;
                 return;
             }
             if (m_end < 0.0 || m_start > m_end)
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameEndTime));
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameEndTime));
                 e.Cancel = true;
                             return;
             }

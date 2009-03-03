@@ -219,6 +219,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
         private void TracerConfigurationDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (this.DialogResult == DialogResult.Cancel) return;
             if (m_stepNumber < 0)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameStepInterval));
