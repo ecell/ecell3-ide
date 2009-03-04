@@ -58,6 +58,7 @@ namespace Ecell.IDE
             foreach (PropertyNode node in propertyPages)
             {
                 propertyTree.Nodes.Add(node);
+                node.ExpandAll();
                 if (propertyPanel.Controls.Count <= 0)
                     propertyPanel.Controls.Add(node.Page);
             }

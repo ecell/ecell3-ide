@@ -136,6 +136,6 @@
     <value>OK</value>
   </data>
   <data name="PEACloseButton.Text" xml:space="preserve">
-    <value>閉じる</value>
+    <value>キャンセル</value>
   </data>
 </root>
