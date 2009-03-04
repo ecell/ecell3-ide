@@ -1943,52 +1943,37 @@ namespace Ecell
         /// <param name="ecellObject">The checked "EcellObject"</param>
         private static void CheckEntityPath(EcellObject ecellObject)
         {
-            if (ecellObject.Key == null)
-            {
-                return;
-            }
             if (ecellObject.Type.Equals(Constants.xpathSystem))
             {
-                string entityPath = null;
-                string parentPath = ecellObject.ParentSystemID;
-                string childPath = ecellObject.LocalID;
-                entityPath = ecellObject.Type + Constants.delimiterColon
-                    + parentPath + Constants.delimiterColon
-                    + childPath + Constants.delimiterColon;
+                string entityPath = ecellObject.FullID + Constants.delimiterColon;
                 if (ecellObject.Value != null && ecellObject.Value.Count > 0)
                 {
-                    for (int i = 0; i < ecellObject.Value.Count; i++)
+                    foreach (EcellData data in ecellObject.Value)
                     {
-                        if (!ecellObject.Value[i].EntityPath.Equals(
-                            entityPath + ecellObject.Value[i].Name))
+                        if (!data.EntityPath.Equals(entityPath + data.Name))
                         {
-                            ecellObject.Value[i].EntityPath
-                                = entityPath + ecellObject.Value[i].Name;
+                            data.EntityPath = entityPath + data.Name;
                         }
                     }
                 }
                 if (ecellObject.Children != null && ecellObject.Children.Count > 0)
                 {
-                    for (int i = 0; i < ecellObject.Children.Count; i++)
+                    foreach (EcellObject child in ecellObject.Children)
                     {
-                        CheckEntityPath(ecellObject.Children[i]);
+                        CheckEntityPath(child);
                     }
                 }
             }
             else if (ecellObject.Type.Equals(Constants.xpathProcess) || ecellObject.Type.Equals(Constants.xpathVariable))
             {
-                string entityPath
-                    = ecellObject.Type + Constants.delimiterColon
-                    + ecellObject.Key + Constants.delimiterColon;
+                string entityPath = ecellObject.FullID + Constants.delimiterColon;
                 if (ecellObject.Value != null && ecellObject.Value.Count > 0)
                 {
-                    for (int i = 0; i < ecellObject.Value.Count; i++)
+                    foreach (EcellData data in ecellObject.Value)
                     {
-                        if (!ecellObject.Value[i].EntityPath.Equals(
-                            entityPath + ecellObject.Value[i].Name))
+                        if (!data.EntityPath.Equals(entityPath + data.Name))
                         {
-                            ecellObject.Value[i].EntityPath
-                                = entityPath + ecellObject.Value[i].Name;
+                            data.EntityPath = entityPath + data.Name;
                         }
                     }
                 }
@@ -2705,7 +2690,6 @@ namespace Ecell
                     list.Add(obj.ModelID);
                 }
             }
-
             return list;
         }
 
@@ -3135,31 +3119,31 @@ namespace Ecell
 
             try
             {
-                int i = 0;
+                string msg;
                 if (m_currentProject.SimulationStatus != SimulationStatus.Suspended)
                 {
-                    m_currentProject.SimulationStatus = SimulationStatus.Run;
                     this.Initialize(true);
-                    m_env.LogManager.Append(new ApplicationLogEntry(
-                            MessageType.Information,
-                            MessageResources.SimulationStarted,
-                            this));
+                    msg = MessageResources.SimulationStarted;
                 }
                 else
                 {
-                    m_currentProject.SimulationStatus = SimulationStatus.Run;
-                    m_env.LogManager.Append(new ApplicationLogEntry(
-                            MessageType.Information,
-                            MessageResources.SimulationRestarted,
-                            this));
+                    msg = MessageResources.SimulationRestarted;
                 }
+                m_currentProject.SimulationStatus = SimulationStatus.Run;
+                m_env.LogManager.Append(new ApplicationLogEntry(
+                        MessageType.Information,
+                        msg,
+                        this));
+
+                int i = 0;
                 while (m_currentProject.SimulationStatus == SimulationStatus.Run)
                 {
-                    if (i == 1000)
-                    {
-                        Thread.Sleep(1);
-                        i = 0;
-                    }
+                    //if (i == 1000)
+                    //{
+                    //    Thread.Sleep(1);
+                    //    i = 0;
+                    //}
+                    //i++;
                     m_currentProject.Simulator.Step(m_defaultStepCount);
                     Application.DoEvents();
                     double currentTime = m_currentProject.Simulator.GetCurrentTime();
@@ -3193,11 +3177,7 @@ namespace Ecell
                 }
                 double cTime = m_currentProject.Simulator.GetCurrentTime();
                 double stoppedTime;
-                if (m_isTimeStepping && m_remainTime > 0.0)
-                {
-
-                }
-                else
+                if (!(m_isTimeStepping && m_remainTime > 0.0))
                 {
                     m_isTimeStepping = true;
                     m_remainTime = time;
@@ -3443,6 +3423,7 @@ namespace Ecell
                     logDataList.Add(
                             this.GetUniqueLogData(startTime, endTime, interval, logger));
                 }
+
                 return logDataList;
             }
             catch (Exception ex)

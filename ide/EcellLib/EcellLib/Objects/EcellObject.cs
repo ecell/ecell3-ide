@@ -237,7 +237,7 @@ namespace Ecell.Objects
         /// </summary>
         public virtual string FullID
         {
-            get { return m_type + Constants.delimiterColon + m_key; }
+            get { return m_type + Constants.delimiterColon + this.ParentSystemID + Constants.delimiterColon +  this.LocalID; }
         }
 
         /// <summary>

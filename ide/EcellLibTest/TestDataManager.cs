@@ -481,12 +481,13 @@ namespace Ecell
         [Test()]
         public void TestGetCurrentSimulationParameterID()
         {
-            string expectedString = null;
-            string resultString = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string expectedString = "DefaultParameter";
+            string resultString = "";
             resultString = _unitUnderTest.GetCurrentSimulationParameterID();
             Assert.AreEqual(expectedString, resultString, "GetCurrentSimulationParameterID method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
         }
         /// <summary>
         /// 
@@ -494,11 +495,13 @@ namespace Ecell
         [Test()]
         public void TestGetCurrentSimulationTime()
         {
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
             double expectedDouble = 0;
             double resultDouble = 0;
             resultDouble = _unitUnderTest.GetCurrentSimulationTime();
             Assert.AreEqual(expectedDouble, resultDouble, "GetCurrentSimulationTime method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
         /// <summary>
@@ -507,13 +510,24 @@ namespace Ecell
         [Test()]
         public void TestGetData()
         {
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
             string l_modelID = null;
             string l_key = null;
-            System.Collections.Generic.List<Ecell.Objects.EcellObject> expectedList = null;
-            System.Collections.Generic.List<Ecell.Objects.EcellObject> resultList = null;
+            List<EcellObject> resultList = null;
             resultList = _unitUnderTest.GetData(l_modelID, l_key);
-            Assert.AreEqual(expectedList, resultList, "GetData method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            Assert.IsNotEmpty(resultList, "GetData method returned unexpected result.");
+
+            l_modelID = "Drosophila";
+            l_key = null;
+            resultList = _unitUnderTest.GetData(l_modelID, l_key);
+            Assert.IsNotEmpty(resultList, "GetData method returned unexpected result.");
+
+            l_modelID = "Drosophila";
+            l_key = "/";
+            resultList = _unitUnderTest.GetData(l_modelID, l_key);
+            Assert.IsNotEmpty(resultList, "GetData method returned unexpected result.");
 
         }
         /// <summary>
@@ -522,15 +536,28 @@ namespace Ecell
         [Test()]
         public void TestGetEcellObject()
         {
-            string modelId = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string modelId = "Drosophila";
             string key = null;
             string type = null;
-            Ecell.Objects.EcellObject expectedEcellObject = null;
-            Ecell.Objects.EcellObject resultEcellObject = null;
+            EcellObject resultEcellObject = null;
             resultEcellObject = _unitUnderTest.GetEcellObject(modelId, key, type);
-            Assert.AreEqual(expectedEcellObject, resultEcellObject, "GetEcellObject method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
+            Assert.IsNull(resultEcellObject, "GetEcellObject method returned unexpected result.");
+
+            key = "/CELL";
+            type = "System";
+            resultEcellObject = _unitUnderTest.GetEcellObject(modelId, key, type);
+            Assert.AreEqual(EcellObject.SYSTEM, resultEcellObject.Type, "GetEcellObject method returned unexpected result.");
+            Assert.AreEqual(key, resultEcellObject.Key, "GetEcellObject method returned unexpected result.");
+
+            key = "/CELL/CYTOPLASM:P0";
+            type = "Variable";
+            resultEcellObject = _unitUnderTest.GetEcellObject(modelId, key, type);
+            Assert.AreEqual(EcellObject.VARIABLE, resultEcellObject.Type, "GetEcellObject method returned unexpected result.");
+            Assert.AreEqual(key, resultEcellObject.Key, "GetEcellObject method returned unexpected result.");
         }
         /// <summary>
         /// 
@@ -601,27 +628,39 @@ namespace Ecell
         [Test()]
         public void TestGetLoggerList()
         {
-            System.Collections.Generic.List<System.String> expectedList = null;
-            System.Collections.Generic.List<System.String> resultList = null;
-            resultList = _unitUnderTest.GetLoggerList();
-            Assert.AreEqual(expectedList, resultList, "GetLoggerList method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
 
+            //List<string> resultList = null;
+            //try
+            //{
+            //    resultList = _unitUnderTest.GetLoggerList();
+            //    Assert.IsEmpty(resultList, "GetLoggerList method returned unexpected result.");
+            //}
+            //catch (Exception e)
+            //{
+            //    Trace.WriteLine(e.StackTrace);
+            //}
         }
+
         /// <summary>
         /// 
         /// </summary>
         [Test()]
         public void TestGetLoggerPolicy()
         {
-            string l_parameterID = null;
-            Ecell.LoggerPolicy expectedLoggerPolicy = new LoggerPolicy();
-            Ecell.LoggerPolicy resultLoggerPolicy = new LoggerPolicy();
-            resultLoggerPolicy = _unitUnderTest.GetLoggerPolicy(l_parameterID);
-            Assert.AreEqual(expectedLoggerPolicy, resultLoggerPolicy, "GetLoggerPolicy method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
 
+            Type type = _unitUnderTest.GetType();
+            MethodInfo info = type.GetMethod("GetCurrentLoggerPolicy", BindingFlags.NonPublic | BindingFlags.Instance);
+            LoggerPolicy expectedLoggerPolicy = (LoggerPolicy)info.Invoke(_unitUnderTest, new object[] { });
+
+            string l_parameterID = "DefaultParameter";
+            LoggerPolicy resultLoggerPolicy = _unitUnderTest.GetLoggerPolicy(l_parameterID);
+            Assert.AreEqual(expectedLoggerPolicy, resultLoggerPolicy, "GetLoggerPolicy method returned unexpected result.");
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1136,11 +1175,15 @@ namespace Ecell
         [Test()]
         public void TestUpdateInitialCondition()
         {
-            string l_parameterID = null;
-            string l_modelID = null;
-            System.Collections.Generic.Dictionary<System.String, System.Double> l_initialList = null;
-            _unitUnderTest.UpdateInitialCondition(l_parameterID, l_modelID, l_initialList);
-            Assert.Fail("Create or modify test(s).");
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string l_parameterID = "DefaultParameter";
+            string l_modelID = "Drosophila";
+            Dictionary<string, double> l_initialList = new Dictionary<string,double>();
+            foreach(KeyValuePair<string, double> value in _unitUnderTest.CurrentProject.InitialCondition[l_parameterID][l_modelID])
+                l_initialList.Add(value.Key, value.Value);
+            _unitUnderTest.UpdateInitialCondition(null, l_modelID, l_initialList);
 
         }
         /// <summary>
