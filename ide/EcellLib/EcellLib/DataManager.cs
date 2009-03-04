@@ -1159,7 +1159,7 @@ namespace Ecell
             }
 
             // Check Duplication Error.
-            if (key != ecellObject.Key &&
+            if (key != ecellObject.Key && type != EcellObject.MODEL &&
                 GetEcellObject(ecellObject.ModelID, ecellObject.Key, ecellObject.Type) != null)
             {
                 throw new EcellException(string.Format(MessageResources.ErrExistObj, ecellObject.Key));
@@ -1233,16 +1233,15 @@ namespace Ecell
         /// <param name="isAnchor"></param>
         private void DataChanged4Model(string modelID, string key, string type, EcellObject ecellObject, bool isRecorded, bool isAnchor)
         {
-            if (modelID.Equals(ecellObject.ModelID))
+            if (!modelID.Equals(ecellObject.ModelID))
             {
-                m_currentProject.ModelList[0].Layers = ((EcellModel)ecellObject).Layers;
-                m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
-                return;
+                // ToDo: モデル名が変更された場合の処理（各オブジェクトのモデルIDの変更とDataChangedEventの実行）を記述する。
+                // Caution! 現時点ではモデル名の変更はできません。
+                throw new Exception("The method to change ModelID is not implemented.");
             }
 
-            // ToDo: モデル名が変更された場合の処理（各オブジェクトのモデルIDの変更とDataChangedEventの実行）を記述する。
-            // Caution! 現時点ではモデル名の変更はできません。
-            throw new Exception("The method to change ModelID is not implemented.");
+            m_currentProject.ModelList[0].Layers = ((EcellModel)ecellObject).Layers;
+            m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
         }
 
         /// <summary>
@@ -5014,7 +5013,7 @@ namespace Ecell
             string path = Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
             path = Path.Combine(path, indexName + Constants.FileExtSource);
             if (!File.Exists(path))
-                return null;
+                path = null;
             return path;
         }
 

@@ -711,6 +711,17 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         {
             return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<IPropertyItem> GetPropertySettings()
+        {
+            return null;
+        }
+
         #endregion
 
 

@@ -7,7 +7,7 @@ namespace Ecell.Plugin
     /// <summary>
     /// 
     /// </summary>
-    public interface IPropertyPage
+    public interface IPropertyItem
     {
         /// <summary>
         /// Initialize

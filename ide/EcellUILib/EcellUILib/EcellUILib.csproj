@@ -108,6 +108,7 @@
     <Compile Include="PropertyEditor.Designer.cs">
       <DependentUpon>PropertyEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="PropertyNode.cs" />
     <Compile Include="ScriptEditor.cs">
       <SubType>Form</SubType>
     </Compile>

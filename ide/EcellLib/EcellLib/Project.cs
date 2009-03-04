@@ -776,7 +776,7 @@ namespace Ecell
         /// <returns></returns>
         public EcellObject GetEcellObject(string model, string type, string key)
         {
-            if (string.IsNullOrEmpty(model) || string.IsNullOrEmpty(type) || string.IsNullOrEmpty(key))
+            if (string.IsNullOrEmpty(model) || string.IsNullOrEmpty(type))
                 return null;
             if (type.Equals(EcellObject.MODEL))
                 return m_modelList[0];

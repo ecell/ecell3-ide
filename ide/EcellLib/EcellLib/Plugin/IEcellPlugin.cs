@@ -66,6 +66,11 @@ namespace Ecell.Plugin
         string GetVersionString();
 
         /// <summary>
+        ///  Get the property settings.
+        /// </summary>
+        List<IPropertyItem> GetPropertySettings();
+
+        /// <summary>
         /// Initializes the plugin.
         /// </summary>
         void Initialize();

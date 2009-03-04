@@ -151,6 +151,15 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual List<IPropertyItem> GetPropertySettings()
+        {
+            return null;
+        }
+
+        /// <summary>
         /// Get menustrips for each plugin.
         /// </summary>
         /// <returns>null.</returns>

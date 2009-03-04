@@ -101,37 +101,72 @@ namespace Ecell.Plugin
             }
             return new RectangleF(minX, minY, maxX - minX, maxY - minY);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Initialize()
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public virtual string GetPluginName()
         {
             return GetType().Name;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public string GetVersionString()
         {
             return Assembly.GetAssembly(GetType()).GetName().Version.ToString();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
         public void ChangeStatus(ProjectStatus status)
         {
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, Delegate> GetPublicDelegate()
         {
             return null;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<IPropertyItem> GetPropertySettings()
+        {
+            return null;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="subCommandNum"></param>
+        /// <param name="layoutSystem"></param>
+        /// <param name="systemList"></param>
+        /// <param name="nodeList"></param>
+        /// <returns></returns>
         public abstract bool DoLayout(int subCommandNum,
                       bool layoutSystem,
                       List<EcellObject> systemList,
                       List<EcellObject> nodeList);
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public abstract LayoutType GetLayoutType();
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public abstract string GetLayoutName();
     }
 }

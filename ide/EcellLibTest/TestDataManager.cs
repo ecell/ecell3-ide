@@ -342,7 +342,35 @@ namespace Ecell
 
             _unitUnderTest.DataChanged(modelID, key, type, sys, l_isRecorded, l_isAnchor);
 
+            EcellObject model = _unitUnderTest.GetEcellObject(modelID, "", "Model");
+            _unitUnderTest.DataChanged(modelID, "", "Model", model);
+            try
+            {
+                model.ModelID = "Drosophila2";
+                _unitUnderTest.DataChanged(modelID, "", "Model", model);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestDataDelete()
+        {
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string modelID = "Drosophila";
+            string key = "/CELL";
+            string type = "System";
+            EcellObject sys = _unitUnderTest.GetEcellObject(modelID, key, type);
+            _unitUnderTest.DataDelete(sys);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -367,8 +395,8 @@ namespace Ecell
             _unitUnderTest.LoadProject(filename);
 
             string modelID = "Drosophila";
-            string key = "/CELL";
-            string type = "System";
+            string key = "/CELL/CYTOPLASM:P0";
+            string type = "Variable";
             bool l_isRecorded = false;
             bool l_isAnchor = false;
             _unitUnderTest.DataDelete(modelID, key, type, l_isRecorded, l_isAnchor);
@@ -469,11 +497,24 @@ namespace Ecell
         [Test()]
         public void TestExportModel()
         {
-            System.Collections.Generic.List<System.String> l_modelIDList = null;
+            List<string> l_modelIDList = new List<string>();
             string l_fileName = null;
             _unitUnderTest.ExportModel(l_modelIDList, l_fileName);
-            Assert.Fail("Create or modify test(s).");
 
+            l_modelIDList.Add("hoge");
+            _unitUnderTest.ExportModel(l_modelIDList, l_fileName);
+
+            if (Directory.Exists("c:/temp/hoge"))
+                Directory.Delete("c:/temp/hoge");
+            l_fileName = "c:/temp/hoge/test.eml";
+            try
+            {
+                _unitUnderTest.ExportModel(l_modelIDList, l_fileName);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
         }
         /// <summary>
         /// 
@@ -529,6 +570,10 @@ namespace Ecell
             resultList = _unitUnderTest.GetData(l_modelID, l_key);
             Assert.IsNotEmpty(resultList, "GetData method returned unexpected result.");
 
+            l_modelID = "hoge";
+            l_key = "/";
+            resultList = _unitUnderTest.GetData(l_modelID, l_key);
+            Assert.IsNull(resultList, "GetData method returned unexpected result.");
         }
         /// <summary>
         /// 
@@ -597,13 +642,14 @@ namespace Ecell
         [Test()]
         public void TestGetInitialConditionL_paremterIDL_modelIDL_type()
         {
-            string l_paremterID = null;
-            string l_modelID = null;
-            System.Collections.Generic.Dictionary<System.String, System.Double> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.String, System.Double> resultDictionary = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            string l_paremterID = "DefaultParameter";
+            string l_modelID = "Drosophila";
+            Dictionary<System.String, System.Double> resultDictionary = null;
             resultDictionary = _unitUnderTest.GetInitialCondition(l_paremterID, l_modelID);
-            Assert.AreEqual(expectedDictionary, resultDictionary, "GetInitialCondition method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            Assert.IsNotEmpty(resultDictionary, "GetInitialCondition method returned unexpected result.");
 
         }
         /// <summary>
@@ -678,6 +724,22 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
+        public void TestGetSystemList()
+        {
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            List<string> resultList = null;
+            string l_modelID = "Drosophila";
+
+            resultList = _unitUnderTest.GetSystemList(l_modelID);
+            Assert.IsNotEmpty(resultList, "GetEntityList method returned unexpected result.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
         public void TestGetEntityList()
         {
             string filename = "c:/temp/Drosophila/project.xml";
@@ -694,6 +756,15 @@ namespace Ecell
             resultList = _unitUnderTest.GetEntityList(l_modelID, l_type);
             Assert.IsNotEmpty(resultList, "GetEntityList method returned unexpected result.");
 
+            try
+            {
+                l_modelID = "hoge";
+                resultList = _unitUnderTest.GetEntityList(l_modelID, l_type);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
         }
         /// <summary>
         /// 
@@ -715,11 +786,12 @@ namespace Ecell
         [Test()]
         public void TestGetModelList()
         {
-            System.Collections.Generic.List<System.String> expectedList = null;
-            System.Collections.Generic.List<System.String> resultList = null;
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+
+            List<System.String> resultList = null;
             resultList = _unitUnderTest.GetModelList();
-            Assert.AreEqual(expectedList, resultList, "GetModelList method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            Assert.AreEqual("Drosophila", resultList[0], "GetModelList method returned unexpected result.");
 
         }
         /// <summary>
@@ -928,6 +1000,20 @@ namespace Ecell
             }
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestCreateNewRevision()
+        {
+            _unitUnderTest.CreateNewRevision();
+            string filename = "c:/temp/Drosophila/project.xml";
+            _unitUnderTest.LoadProject(filename);
+            //_unitUnderTest.CreateNewRevision();
+
+        }
+
         /// <summary>
         /// 
         /// </summary>

@@ -37,6 +37,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using Ecell.Exceptions;
+using Ecell.Plugin;
 
 namespace Ecell.IDE
 {
@@ -45,20 +46,20 @@ namespace Ecell.IDE
     /// </summary>
     public partial class PropertyDialog : Form
     {
-        List<PropertyDialogPage> m_list;
+        List<IPropertyItem> m_list;
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="propertyPages"></param>
-        public PropertyDialog(List<PropertyDialogPage> propertyPages)
+        public PropertyDialog(List<IPropertyItem> propertyPages)
         {
             InitializeComponent();
             m_list = propertyPages;
-            propertyPanel.Controls.Add(propertyPages[0]);
-            foreach (PropertyDialogPage page in propertyPages)
+            foreach (PropertyNode node in propertyPages)
             {
-                PropertyNode node = new PropertyNode(page);
                 propertyTree.Nodes.Add(node);
+                if (propertyPanel.Controls.Count <= 0)
+                    propertyPanel.Controls.Add(node.Page);
             }
         }
 
@@ -67,7 +68,7 @@ namespace Ecell.IDE
         /// </summary>
         public void ApplyChanges()
         {
-            foreach (PropertyDialogPage page in m_list)
+            foreach (IPropertyItem page in m_list)
                 page.ApplyChange();
         }
 
@@ -77,7 +78,7 @@ namespace Ecell.IDE
                 return;
             try
             {
-                foreach (PropertyDialogPage page in m_list)
+                foreach (IPropertyItem page in m_list)
                     page.PropertyDialogClosing();
             }
             catch (EcellException ex)
@@ -98,28 +99,5 @@ namespace Ecell.IDE
             propertyPanel.Controls.Add(node.Page);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        internal class PropertyNode : TreeNode
-        {
-            PropertyDialogPage m_page;
-            /// <summary>
-            /// 
-            /// </summary>
-            internal PropertyDialogPage Page
-            {
-                get { return m_page; }
-            }
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="page"></param>
-            public PropertyNode(PropertyDialogPage page)
-            {
-                m_page = page;
-                this.Text = page.Text;
-            }
-        }
     }
 }

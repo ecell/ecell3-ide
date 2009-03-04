@@ -707,6 +707,23 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<IPropertyItem> GetPropertySettings()
+        {
+            List<IPropertyItem> propertyNodes = new List<IPropertyItem>();
+            foreach (IEcellPlugin plugin in m_pluginList.Values)
+            {
+                List<IPropertyItem> pluginProperties = plugin.GetPropertySettings();
+                if (pluginProperties == null)
+                    continue;
+                propertyNodes.AddRange(pluginProperties);
+            }
+            return propertyNodes;
+        }
+
+        /// <summary>
         /// Set the position of EcellObject.
         /// Actually, nothing will be done by this plugin.
         /// </summary>
@@ -718,7 +735,6 @@ namespace Ecell.Plugin
                 p.SetPosition(data);
             }
         }
-
 
         #region EventHandler for NodeImageListChange
         private EventHandler m_onNodeImageListChange;

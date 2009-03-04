@@ -114,6 +114,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
 
         /// <summary>
+        /// Get the property settings.
+        /// </summary>
+        /// <returns></returns>
+        public override List<IPropertyItem> GetPropertySettings()
+        {
+            return m_con.PropertySettings;
+        }
+
+        /// <summary>
         /// Return MenuStrips for Ecell IDE's MainMenu.
         /// </summary>
         /// <returns>the list of menu.</returns>

@@ -887,6 +887,15 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<IPropertyItem> GetPropertySettings()
+        {
+            return null;
+        }
+
+        /// <summary>
         /// Check whether this plugin is MessageWindow.
         /// </summary>
         /// <returns>false.</returns>

@@ -53,6 +53,7 @@ using Ecell.Objects;
 using System.Drawing.Imaging;
 using System.IO;
 using Ecell.IDE.Plugins.PathwayWindow.Components;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {
@@ -1283,7 +1284,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e">EventArgs.</param>
         private void ShowDialogClick(object sender, EventArgs e)
         {
-            PropertyDialog dialog = new PropertyDialog(m_con.TabPages);
+            PropertyDialog dialog = new PropertyDialog(m_con.Window.PluginManager.GetPropertySettings());
             using (dialog)
             {
                 if (dialog.ShowDialog() != DialogResult.OK)

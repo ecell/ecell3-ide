@@ -58,6 +58,7 @@ using Ecell.IDE.Plugins.PathwayWindow.Animation;
 using Ecell.IDE.Plugins.PathwayWindow.Components;
 using Ecell.Action;
 using Ecell.IDE.Plugins.PathwayWindow.Dialog;
+using System.Drawing.Imaging;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {
@@ -203,15 +204,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Get the TabPages for PropertyDialog.
         /// </summary>
-        public List<PropertyDialogPage> TabPages
+        public List<IPropertyItem> PropertySettings
         {
             get
             {
-                List<PropertyDialogPage> list = new List<PropertyDialogPage>();
-                list.Add(m_animCon.PathwayDialogTabPage);
-                list.Add(m_animCon.AnimationDialogTabPage);
-                list.Add(m_csManager.ComponentTabPage);
-                return list;
+                PropertyNode node = new PropertyNode(MessageResources.WindowPathway);
+                node.Nodes.Add(new PropertyNode(m_animCon.PathwayDialogTabPage));
+                node.Nodes.Add(new PropertyNode(m_animCon.AnimationDialogTabPage));
+                node.Nodes.Add(new PropertyNode(m_csManager.ComponentTabPage));
+
+                List<IPropertyItem> nodeList = new List<IPropertyItem>();
+                nodeList.Add(node);
+                return nodeList;
             }
         }
         /// <summary>

@@ -33,6 +33,9 @@ using System.Text;
 
 namespace Ecell.Logger
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class LoggerEntry
     {
         #region Fields
