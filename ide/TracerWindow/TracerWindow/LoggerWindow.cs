@@ -327,7 +327,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             for (int i = 0; i < loggerDataGrid.Rows.Count; i++)
             {
                 LoggerEntry ent = loggerDataGrid.Rows[i].Tag as LoggerEntry;
-                if (ent == entry)
+                if (ent.Equals(entry))
                 {
                     rindex = i;
                     break;
@@ -362,7 +362,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             for (int i = 0; i < loggerDataGrid.Rows.Count; i++)
             {
                 LoggerEntry ent = loggerDataGrid.Rows[i].Tag as LoggerEntry;
-                if (ent == entry)
+                if (ent.Equals(entry))
                 {
                     loggerDataGrid.Rows.RemoveAt(i);
                     break;
