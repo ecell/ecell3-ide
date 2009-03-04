@@ -139,6 +139,7 @@
     <Compile Include="Job\ExecuteParameter.cs" />
     <Compile Include="Leml.cs" />
     <Compile Include="Logger\LoggerEntry.cs" />
+    <Compile Include="Logger\LoggerEventArgs.cs" />
     <Compile Include="Logger\LoggerManager.cs" />
     <Compile Include="Logging\LogEntryEventArgs.cs" />
     <Compile Include="Objects\EcellLayer.cs" />

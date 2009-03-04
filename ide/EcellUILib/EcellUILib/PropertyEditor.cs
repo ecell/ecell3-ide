@@ -1260,7 +1260,7 @@ namespace Ecell.IDE
                         }
                         data.Logged = isLogger;
                         if (isLogger != prop.Logged && isLogger)
-                            m_loggerList.Add(new LoggerEntry(modelID, m_currentObj.Key, type, prop.EntityPath, true));
+                            m_loggerList.Add(new LoggerEntry(modelID, m_currentObj.Key, type, prop.EntityPath));
                         isLogger = false;
 
                         list.Add(data);

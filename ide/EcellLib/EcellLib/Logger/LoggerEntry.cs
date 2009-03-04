@@ -30,6 +30,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace Ecell.Logger
 {
@@ -43,7 +45,13 @@ namespace Ecell.Logger
         private string m_ID;
         private string m_Type;
         private string m_FullPN;
-        private bool m_isLogging;
+        private string m_filename;
+        private Color m_color;
+        private DashStyle m_lineStyle;
+        private int m_lineWidth;
+        private bool m_isShown;
+        private bool m_isY2;
+        private bool m_isLoaded;
         #endregion
 
         #region Constructor
@@ -60,25 +68,13 @@ namespace Ecell.Logger
             this.m_ID = id;
             this.m_Type = type;
             this.m_FullPN = fullPN;
-            this.m_isLogging = false;
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="modelID"></param>
-        /// <param name="id"></param>
-        /// <param name="type"></param>
-        /// <param name="fullPN"></param>
-        /// <param name="isLogging"></param>
-        public LoggerEntry(string modelID, string id, string type,
-            string fullPN, bool isLogging)
-        {
-            this.m_modelID = modelID;
-            this.m_ID = id;
-            this.m_Type = type;
-            this.m_FullPN = fullPN;
-            this.m_isLogging = isLogging;
+            this.m_color = Color.Black;
+            this.m_lineStyle = DashStyle.Solid;
+            this.m_lineWidth = 2;
+            this.m_isShown = true;
+            this.m_isY2 = false;
+            this.m_isLoaded = false;
+            this.m_filename = null; 
         }
         #endregion
 
@@ -119,13 +115,52 @@ namespace Ecell.Logger
             set { this.m_FullPN = value; }
         }
 
-        /// <summary>
-        /// get / set the flag whether this property is logging.
-        /// </summary>
-        public bool IsLogging
+        public Color Color
         {
-            get { return this.m_isLogging; }
-            set { this.m_isLogging = value; }
+            get { return this.m_color; }
+            set { this.m_color = value; }
+        }
+
+        public DashStyle LineStyle
+        {
+            get { return this.m_lineStyle; }
+            set { this.m_lineStyle = value; }
+        }
+
+        public int LineWidth
+        {
+            get { return this.m_lineWidth; }
+            set { this.m_lineWidth = value; }
+        }
+
+        public bool IsShown
+        {
+            get { return this.m_isShown; }
+            set { this.m_isShown = value; }
+        }
+
+        public bool IsY2Axis
+        {
+            get { return this.m_isY2; }
+            set { this.m_isY2 = value; }
+        }
+
+        /// <summary>
+        /// get / set the flag whether this property is loaded.
+        /// </summary>
+        public bool IsLoaded
+        {
+            get { return this.m_isLoaded; }
+            set { this.m_isLoaded = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string FileName
+        {
+            get { return this.m_filename; }
+            set { this.m_filename = value; }
         }
         #endregion
 
@@ -143,7 +178,10 @@ namespace Ecell.Logger
             if (ent.ModelID == this.ModelID &&
                 ent.ID == this.ID &&
                 ent.Type == this.Type &&
-                ent.FullPN == this.FullPN)
+                ent.FullPN == this.FullPN &&
+                ent.IsLoaded == this.IsLoaded &&
+                (ent.IsLoaded == false ||
+                (ent.IsLoaded == true && ent.FileName == this.FileName)))
                 return true;
             return false;
         }

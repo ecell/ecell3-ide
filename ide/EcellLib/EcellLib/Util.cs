@@ -42,6 +42,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Globalization;
 using System.Diagnostics;
+using System.Drawing.Drawing2D;
 using Microsoft.Win32;
 using Ecell.Objects;
 using Ecell.Exceptions;
@@ -1487,6 +1488,21 @@ namespace Ecell
             //else if (j == 18) return Brushes.Blue;
             //else if (j == 19) return Brushes.Red;
             else return Brushes.Black;
+        }
+
+        /// <summary>
+        /// Get the line style from index.
+        /// </summary>
+        /// <param name="i">index.</param>
+        /// <returns>line style.</returns>
+        public static DashStyle GetLine(int i)
+        {
+            int j = i / 3;
+            if (j == 0) return DashStyle.Solid;
+            else if (j == 1) return DashStyle.Dash;
+            else if (j == 2) return DashStyle.DashDot;
+            else if (j == 3) return DashStyle.Dot;
+            else return DashStyle.DashDotDot;
         }
     }
 }

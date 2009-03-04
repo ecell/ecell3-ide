@@ -86,6 +86,12 @@
     <Compile Include="LineStyleDialog.Designer.cs">
       <DependentUpon>LineStyleDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="LoggerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoggerWindow.Designer.cs">
+      <DependentUpon>LoggerWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="MessageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -138,6 +144,14 @@
     <EmbeddedResource Include="LineStyleDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>LineStyleDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoggerWindow.ja.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LoggerWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoggerWindow.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LoggerWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MessageResources.ja.resx">
       <SubType>Designer</SubType>

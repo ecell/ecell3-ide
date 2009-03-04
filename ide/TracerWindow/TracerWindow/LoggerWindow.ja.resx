@@ -117,76 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfirmClose" xml:space="preserve">
-    <value>このウインドウを閉じますか？</value>
+  <data name="$this.TabText" xml:space="preserve">
+    <value>ロガー</value>
   </data>
-  <data name="ConfirmNoSaveLog" xml:space="preserve">
-    <value>保存ログが設定されていません。このダイアログを閉じますか？</value>
+  <data name="ColorColumn.HeaderText" xml:space="preserve">
+    <value>色</value>
   </data>
-  <data name="ErrInputData" xml:space="preserve">
-    <value>数値以外が設定されています。</value>
-  </data>
-  <data name="ErrInvalidValue" xml:space="preserve">
-    <value>入力された値が不正です [ {0} ]。</value>
-  </data>
-  <data name="ErrNoInput" xml:space="preserve">
-    <value>{0} が入力されていません</value>
-  </data>
-  <data name="ErrOverTime" xml:space="preserve">
-    <value>再描画間隔が大きすぎます[0-3600]。</value>
-  </data>
-  <data name="ErrSameAxis" xml:space="preserve">
-    <value>同じパラメータをX軸とＹ軸に設定しています。</value>
-  </data>
-  <data name="FinishSave" xml:space="preserve">
-    <value>シミュレーションログを保存しました</value>
-  </data>
-  <data name="MenuItemDeleteText" xml:space="preserve">
+  <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
     <value>削除(&amp;D)</value>
   </data>
-  <data name="MenuItemImportData" xml:space="preserve">
-    <value>ログインポート(&amp;I) ...</value>
+  <data name="IsShownColumn.HeaderText" xml:space="preserve">
+    <value>表示</value>
   </data>
-  <data name="MenuItemLinear" xml:space="preserve">
-    <value>線形スケール</value>
+  <data name="LineColumn.HeaderText" xml:space="preserve">
+    <value>線のスタイル</value>
   </data>
-  <data name="MenuItemLog" xml:space="preserve">
-    <value>対数スケール</value>
-  </data>
-  <data name="MenuItemShowPlotText" xml:space="preserve">
-    <value>プロッターペインの表示(&amp;P)...</value>
-  </data>
-  <data name="MenuItemShowSaveTraceText" xml:space="preserve">
-    <value>シミュレーション結果の保存(&amp;R)...</value>
-  </data>
-  <data name="MenuItemShowTraceSetupText" xml:space="preserve">
-    <value>グラフ設定(&amp;G)...</value>
-  </data>
-  <data name="MenuItemShowTraceText" xml:space="preserve">
-    <value>グラフペインの表示(&amp;G)...</value>
-  </data>
-  <data name="NameEndTime" xml:space="preserve">
-    <value>終了時間</value>
-  </data>
-  <data name="NamePlotData" xml:space="preserve">
-    <value>プロットデータ</value>
-  </data>
-  <data name="NamePlotNumber" xml:space="preserve">
-    <value>プロット数</value>
-  </data>
-  <data name="NameRedrawInterval" xml:space="preserve">
-    <value>再描画間隔</value>
-  </data>
-  <data name="NameStartTime" xml:space="preserve">
-    <value>開始時間</value>
-  </data>
-  <data name="NameStepInterval" xml:space="preserve">
-    <value>ステップ間隔</value>
-  </data>
-  <data name="TracerWindow" xml:space="preserve">
-    <value>グラフ</value>
-  </data>
-  <data name="WarnNoLog" xml:space="preserve">
-    <value>{0} にログデータが存在しません。</value>
+  <data name="windowToolStripMenuItem.Text" xml:space="preserve">
+    <value>ウインドウ</value>
   </data>
 </root>

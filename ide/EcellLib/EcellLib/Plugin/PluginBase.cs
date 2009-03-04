@@ -518,7 +518,7 @@ namespace Ecell.Plugin
         public void NotifyLoggerAdd(string modelID, string key, string type, string entityPath)
         {
             m_dManager.Environment.LoggerManager.AddLoggerEntry(
-                new LoggerEntry(modelID, key, type, entityPath));
+                modelID, key, type, entityPath);
         }
 
         /// <summary>

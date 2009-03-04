@@ -34,19 +34,32 @@ using System.Text;
 
 namespace Ecell.Logger
 {
+    public delegate void LoggerAddEventHandler(object o, LoggerEventArgs e);
+    public delegate void LoggerDeleteEventHandler(object o, LoggerEventArgs e);
+    public delegate void LoggerChangedEventHandler(object o, LoggerEventArgs e);
+
     public class LoggerManager
     {
+        public event LoggerAddEventHandler LoggerAddEvent;
+        public event LoggerDeleteEventHandler LoggerDeleteEvent;
+        public event LoggerChangedEventHandler LoggerChangedEvent;
+        private int m_count = 0;
         private ApplicationEnvironment m_env;
         private List<LoggerEntry> m_loggerList = new List<LoggerEntry>();
+
 
         public LoggerManager(ApplicationEnvironment env)
         {
             m_env = env;
+            m_count = 0;
         }
 
         public void AddLoggerEntry(string modelID, string Key, string Type, string fullPN)
         {
-            LoggerEntry entry = new LoggerEntry(modelID, Key, Type, fullPN, true);
+            LoggerEntry entry = new LoggerEntry(modelID, Key, Type, fullPN);
+            entry.Color = Util.GetColor(m_count);
+            entry.LineStyle = Util.GetLine(m_count);
+            m_count++;
             AddLoggerEntry(entry);
         }
 
@@ -57,12 +70,81 @@ namespace Ecell.Logger
                 return;
 
             m_loggerList.Add(entry);
-            m_env.PluginManager.LoggerAdd(entry);
+
+            if (LoggerAddEvent != null)
+            {
+                LoggerAddEvent(this, new LoggerEventArgs(entry.FullPN, entry));
+            }
+        }
+
+        public List<string> GetLoggerList()
+        {
+            List<string> list = new List<string>();
+            foreach (LoggerEntry m in m_loggerList)
+            {
+                if (list.Contains(m.FullPN))
+                    continue;
+                list.Add(m.FullPN);
+            }
+            return list;
         }
 
         public void Clear()
         {
             m_loggerList.Clear();
+            m_count = 0;
+        }
+
+        public void LoggerChanged(string orgFullPN, LoggerEntry entry)
+        {
+            LoggerEntry m = GetLoggerEntryForFullPN(orgFullPN);
+            if (m != null)
+            {
+                m_loggerList.Remove(m);
+            }
+            m_loggerList.Add(entry);
+
+            if (LoggerChangedEvent != null)
+            {               
+                LoggerChangedEvent(this, new LoggerEventArgs(orgFullPN, entry));
+            }
+        }
+
+        public void LoggerRemoved(LoggerEntry entry)
+        {
+            if (entry == null) return;
+            if (!m_loggerList.Contains(entry)) 
+                return;
+
+            m_loggerList.Remove(entry);
+
+            if (LoggerDeleteEvent != null)
+            {
+                LoggerDeleteEvent(this, new LoggerEventArgs(entry.FullPN, entry));
+            }
+        }
+
+        public List<LoggerEntry> GetLoggerEntryForObject(string ID, string type)
+        {
+            List<LoggerEntry> result = new List<LoggerEntry>();
+
+            foreach (LoggerEntry m in m_loggerList)
+            {
+                if (m.ID == ID && m.Type == type)
+                    result.Add(m);
+            }
+
+            return result;
+        }
+
+        public LoggerEntry GetLoggerEntryForFullPN(string fullPN)
+        {
+            foreach (LoggerEntry m in m_loggerList)
+            {
+                if (m.FullPN == fullPN)
+                    return m;
+            }
+            return null;
         }
     }
 }

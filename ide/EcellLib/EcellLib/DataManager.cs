@@ -51,6 +51,7 @@ using IronPython.Runtime;
 using EcellCoreLib;
 using Ecell.Objects;
 using Ecell.Logging;
+using Ecell.Logger;
 using Ecell.Exceptions;
 using Ecell.SBML;
 using Ecell.Action;
@@ -1204,7 +1205,10 @@ namespace Ecell
                 }
 
                 if (key != ecellObject.Key)
+                {
                     CheckParameterObservedData(oldObj, ecellObject.Key);
+                }
+                CheckLoggerData(oldObj, ecellObject);                
 
                 //if (!oldObj.IsPosSet)
                 //    m_env.PluginManager.SetPosition(oldObj);
@@ -2095,6 +2099,41 @@ namespace Ecell
                 throw new IgnoreException("Can't " + action + " the object.");
             }
             m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
+        }
+
+
+        private void CheckLoggerData(EcellObject oldObj, EcellObject newObj)
+        {
+            List<LoggerEntry> entList = m_env.LoggerManager.GetLoggerEntryForObject(oldObj.Key, oldObj.Type);
+            if (oldObj.Key != newObj.Key)
+            {
+                foreach (LoggerEntry m in entList)
+                {
+                    foreach (EcellData d in newObj.Value)
+                    {
+                        if (m.FullPN.EndsWith(":" + d.Name))
+                        {
+                            string orgFull = m.FullPN;
+                            m.FullPN = d.EntityPath;
+                            m_env.LoggerManager.LoggerChanged(orgFull, m);
+                        }
+                    }
+                }
+            }
+
+            foreach (EcellData nd in newObj.Value)
+            {
+                EcellData od = oldObj.GetEcellData(nd.Name);
+                if (od.Logged == nd.Logged) continue;
+                if (od.Logged)
+                {
+                    m_env.LoggerManager.LoggerRemoved(new LoggerEntry(newObj.ModelID, newObj.Key, newObj.Type, nd.EntityPath));
+                }
+                else
+                {
+                    m_env.LoggerManager.AddLoggerEntry(newObj.ModelID, newObj.Key, newObj.Type, nd.EntityPath);
+                }
+            }
         }
 
         /// <summary>
@@ -3415,8 +3454,9 @@ namespace Ecell
                 if (m_currentProject.LogableEntityPathDic == null ||
                     m_currentProject.LogableEntityPathDic.Count == 0)
                     return null;
-
-                IList<string> loggerList = m_currentProject.Simulator.GetLoggerList();
+                
+//                IList<string> loggerList = m_currentProject.Simulator.GetLoggerList();
+                List<string> loggerList = m_env.LoggerManager.GetLoggerList();
                 foreach (string logger in loggerList)
                 {
                     logDataList.Add(

@@ -103,6 +103,7 @@ namespace Ecell
         /// The flag whether this log is loaded.
         /// </summary>
         private bool m_isLoaded = false;
+        private string m_fileName = null;
         /// <summary>
         /// The list of the "LogValue" of the property name
         /// </summary>
@@ -185,6 +186,15 @@ namespace Ecell
         {
             get { return this.m_isLoaded; }
             set { this.m_isLoaded = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string FileName
+        {
+            get { return this.m_fileName; }
+            set { this.m_fileName = value; }
         }
     }
     /// <summary>

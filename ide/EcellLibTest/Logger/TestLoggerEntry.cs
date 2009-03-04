@@ -71,23 +71,7 @@ namespace Ecell.Logger
             LoggerEntry value = null;
             value = new LoggerEntry("Model", "/:ID", "Process", "Process:/:ID:Activity");
             Assert.IsNotNull(value, "Constructor of of type, LoggerEntry failed to create instance.");
-            Assert.IsFalse(value.IsLogging, "IsLogging is not expected value.");
-            Assert.AreEqual("Model", value.ModelID, "ModelID is not expected value.");
-            Assert.AreEqual("/:ID", value.ID, "ID is not expected value.");
-            Assert.AreEqual("Process", value.Type, "ModelID is not expected value.");
-            Assert.AreEqual("Process:/:ID:Activity", value.FullPN, "ModelID is not expected value.");
-        }
-
-        /// <summary>
-        /// TestLoggerEntry.
-        /// </summary>
-        [Test()]
-        public void TestConstructorWithLogging()
-        {
-            LoggerEntry value = null;
-            value = new LoggerEntry("Model", "/:ID", "Process", "Process:/:ID:Activity", true);
-            Assert.IsNotNull(value, "Constructor of of type, LoggerEntry failed to create instance.");
-            Assert.IsTrue(value.IsLogging, "IsLogging is not expected value.");
+            Assert.IsFalse(value.IsLoaded, "IsLogging is not expected value.");
             Assert.AreEqual("Model", value.ModelID, "ModelID is not expected value.");
             Assert.AreEqual("/:ID", value.ID, "ID is not expected value.");
             Assert.AreEqual("Process", value.Type, "ModelID is not expected value.");
@@ -101,7 +85,7 @@ namespace Ecell.Logger
         public void TestSetter()
         {
             LoggerEntry value = null;
-            value = new LoggerEntry("Model", "/:ID", "Process", "Process:/:ID:Activity", true);
+            value = new LoggerEntry("Model", "/:ID", "Process", "Process:/:ID:Activity");
 
             value.ModelID = "Model1";
             Assert.AreEqual("Model1", value.ModelID, "ModelID is not expected value.");
@@ -115,8 +99,8 @@ namespace Ecell.Logger
             value.FullPN = "Process:/:ID:Vm";
             Assert.AreEqual("Process:/:ID:Vm", value.FullPN, "FullPN is not expected value.");
 
-            value.IsLogging = false;
-            Assert.AreEqual(false, value.IsLogging, "IsLogging is not expected value.");
+            value.IsLoaded = false;
+            Assert.AreEqual(false, value.IsLoaded, "IsLogging is not expected value.");
         }
 
         /// <summary>
@@ -129,30 +113,30 @@ namespace Ecell.Logger
             bool resultBoolean = false;
             LoggerEntry value = null;
 
-            value = new LoggerEntry("Model", "/:ID", "Process", "Process:/:ID:Activity", true);
+            value = new LoggerEntry("Model", "/:ID", "Process", "Process:/:ID:Activity");
             expectedBoolean = false;
             resultBoolean = false;
 
             resultBoolean = value.Equals(new object());
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
-            resultBoolean = value.Equals(new LoggerEntry("Model1", "/:ID", "Process", "Process:/:ID:Activity", true));
+            resultBoolean = value.Equals(new LoggerEntry("Model1", "/:ID", "Process", "Process:/:ID:Activity"));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
-            resultBoolean = value.Equals(new LoggerEntry("Model", "/:ID1", "Process", "Process:/:ID:Activity", true));
+            resultBoolean = value.Equals(new LoggerEntry("Model", "/:ID1", "Process", "Process:/:ID:Activity"));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
-            resultBoolean = value.Equals(new LoggerEntry("Model", "/:ID", "Variable", "Process:/:ID:Activity", true));
+            resultBoolean = value.Equals(new LoggerEntry("Model", "/:ID", "Variable", "Process:/:ID:Activity"));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
-            resultBoolean = value.Equals(new LoggerEntry("Model1", "/:ID", "Process", "Process:/:ID:Km", true));
+            resultBoolean = value.Equals(new LoggerEntry("Model1", "/:ID", "Process", "Process:/:ID:Km"));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
 
             expectedBoolean = true;
-            resultBoolean = value.Equals(new LoggerEntry("Model", "/:ID", "Process", "Process:/:ID:Activity", true));
+            resultBoolean = value.Equals(new LoggerEntry("Model", "/:ID", "Process", "Process:/:ID:Activity"));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
             
-            resultBoolean = value.Equals(new LoggerEntry("Model", "/:ID", "Process", "Process:/:ID:Activity", false));
+            resultBoolean = value.Equals(new LoggerEntry("Model", "/:ID", "Process", "Process:/:ID:Activity"));
             Assert.AreEqual(expectedBoolean, resultBoolean, "Equals method returned unexpected result.");
         }
     }

@@ -134,6 +134,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
         bool isStep = false;
         bool isLogAdding = false;
         int m_winCount = 1;
+
+
+
+        private LoggerWindow m_loggerWin;
         #endregion
 
         #region Constructor
@@ -148,6 +152,8 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_time.Enabled = false;
             m_time.Interval = 100;
             m_time.Tick += new EventHandler(TimerFire);
+
+            m_loggerWin = new LoggerWindow(this);
         }
         #endregion
 
@@ -218,6 +224,56 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_menuList.Add(view);
             m_menuList.Add(setup);
             m_menuList.Add(filem);
+
+            m_env.LoggerManager.LoggerAddEvent += new LoggerAddEventHandler(LoggerManager_LoggerAddEvent);
+            m_env.LoggerManager.LoggerChangedEvent += new LoggerChangedEventHandler(LoggerManager_LoggerChangedEvent);
+            m_env.LoggerManager.LoggerDeleteEvent += new LoggerDeleteEventHandler(LoggerManager_LoggerDeleteEvent);
+        }
+
+        public void LoggerManager_LoggerDeleteEvent(object o, LoggerEventArgs e)
+        {
+            if (m_loggerWin != null)
+                m_loggerWin.LoggerDeleted(e.Entry);
+
+            LoggerEntry entry = e.Entry;
+            TagData tag = new TagData(entry.ModelID, entry.ID, entry.Type, entry.FullPN, true);
+            tag.isLoaded = e.Entry.IsLoaded;
+            tag.FileName = e.Entry.FileName;
+            RemoveFromEntry(tag);
+        }
+
+        void LoggerManager_LoggerChangedEvent(object o, LoggerEventArgs e)
+        {
+            if (m_loggerWin != null)
+                m_loggerWin.LoggerChanged(e.OriginalFullPN, e.Entry);
+
+            foreach (TraceWindow w in m_winList)
+                w.LoggerChanged(e.OriginalFullPN, e.Entry);
+        }
+
+        public void LoggerManager_LoggerAddEvent(object o, LoggerEventArgs e)
+        {
+            LoggerEntry entry = e.Entry;
+            if (m_loggerWin != null)
+                m_loggerWin.LoggerAdd(entry);
+
+            EcellObject obj = m_dManager.GetEcellObject(entry.ModelID, entry.ID, entry.Type);
+            bool isContinue = true;
+            if (obj != null)
+            {
+                foreach (EcellData d in obj.Value)
+                {
+                    if (d.Name.Equals(EcellProcess.ISCONTINUOUS))
+                    {
+                        isContinue = (int)d.Value != 0;
+                        break;
+                    }
+                }
+            }
+            TagData tag = new TagData(entry.ModelID, entry.ID, entry.Type, entry.FullPN, isContinue);
+            tag.isLoaded = e.Entry.IsLoaded;
+            tag.FileName = e.Entry.FileName;
+            AddToEntry(entry, tag);
         }
         #endregion
 
@@ -228,192 +284,16 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <returns>MenuStripItems</returns>
         public override IEnumerable<ToolStripMenuItem> GetMenuStripItems()
         {
-
             return m_menuList;
         }
 
         /// <summary>
-        /// The event sequence to add the object at other plugin.
+        /// Get windows for TracerWindow.
         /// </summary>
-        /// <param name="data">The value of the adding object.</param>
-        public override void DataAdd(List<EcellObject> data)
+        /// <returns></returns>
+        public override IEnumerable<EcellDockContent> GetWindowsForms()
         {
-            if (data == null) return;
-            foreach (EcellObject obj in data)
-            {
-                if (obj.Value == null) continue;
-                bool isContinue = true;
-                foreach (EcellData d in obj.Value)
-                {
-                    if (d.Name.Equals(EcellProcess.ISCONTINUOUS))
-                    {
-                        isContinue = (int)d.Value != 0;
-                    }
-                }
-                foreach (EcellData d in obj.Value)
-                {
-                    if (d.Logged)
-                    {
-                        AddToEntry(new TagData(obj.ModelID, obj.Key, obj.Type, d.EntityPath, isContinue));
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// The event sequence on changing value of data at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID before value change.</param>
-        /// <param name="key">The ID before value change.</param>
-        /// <param name="type">The data type before value change.</param>
-        /// <param name="data">Changed value of object.</param>
-        public override void DataChanged(string modelID, string key, string type, EcellObject data)
-        {
-            if (data.Value == null) return;
-
-            if (!key.Equals(data.Key))
-            {
-                foreach (TagData t in m_entry.Keys)
-                {
-                    if (t.M_modelID != modelID ||
-                        t.M_key != key ||
-                        t.Type != type) continue;
-
-                    foreach (EcellData d in data.Value)
-                    {
-                        if (!t.M_path.EndsWith(":" + d.Name)) continue;
-                        foreach (TraceWindow w in m_entry[t])
-                        {
-                            w.ChangeLoggerEntry(t, data.Key, d.EntityPath);
-                        }
-                        m_tagList.Remove(t.ToString());                          
-                        t.M_key = data.Key;
-                        t.M_path = d.EntityPath;
-                        m_tagList.Add(t.ToString(), t);
-                        break;
-                    }
-                }
-
-                foreach (EcellData d in data.Value)
-                {
-                    if (!d.Logable) continue;
-                    if (!d.Logged) continue;
-                    bool ishit = false;
-                    foreach (TagData t in m_entry.Keys)
-                    {
-                        if (t.M_modelID != data.ModelID ||
-                            t.M_key != data.Key ||
-                            t.Type != data.Type)
-                            continue;
-                        if (!t.M_path.EndsWith(":" + d.Name))
-                            continue;
-                        ishit = true;
-                    }
-                    if (ishit) continue;
-
-                    LoggerAdd(new LoggerEntry(data.ModelID, data.Key, data.Type, d.EntityPath));
-                }
-
-                return;
-            }
-
-            List<TagData> tagList = new List<TagData>();
-            foreach (TagData t in m_entry.Keys)
-            {
-                if (t.M_modelID != modelID ||
-                    t.M_key != key ||
-                    t.Type != type) continue;
-
-                bool isHit = false;
-                foreach (EcellData d in data.Value)
-                {
-                    if (!d.Logable) continue;
-                    if (t.M_path == d.EntityPath)
-                    {
-                        isHit = true;
-                        if (!d.Logged)
-                        {
-                            tagList.Add(t);
-                        }
-                        break;
-                    }
-                }
-                if (isHit == false)
-                {
-                    tagList.Add(t);
-                }
-            }
-
-            foreach (TagData t in tagList)
-            {
-                RemoveFromEntry(t);
-            }
-
-            foreach (EcellData d in data.Value)
-            {
-                if (!d.Logable) continue;
-                if (!d.Logged) continue;
-                bool ishit = false;
-                foreach (TagData t in m_entry.Keys)
-                {
-                    if (t.M_modelID != data.ModelID ||
-                        t.M_key != data.Key ||
-                        t.Type != data.Type)
-                        continue;
-                    if (!t.M_path.EndsWith(":" + d.Name))
-                        continue;
-                    ishit = true;
-                }
-                if (ishit) continue;
-
-                LoggerAdd(new LoggerEntry(data.ModelID, data.Key, data.Type, d.EntityPath));
-            }
-        }
-
-        /// <summary>
-        /// The event sequence on adding the logger at other plugin.
-        /// </summary>
-        /// <param name="entry"></param>
-        public override void LoggerAdd(LoggerEntry entry)
-        {
-            if (isLogAdding) return;
-            EcellObject obj = m_dManager.GetEcellObject(entry.ModelID, entry.ID, entry.Type);
-            if (obj == null) return;
-            bool isContinue = true;
-            foreach (EcellData d in obj.Value)
-            {
-                if (d.Name.Equals(EcellProcess.ISCONTINUOUS))
-                {
-                    isContinue = (int)d.Value != 0;
-                    break;
-                }
-            }
-            TagData tag = new TagData(entry.ModelID, entry.ID, entry.Type, entry.FullPN, isContinue);
-            AddToEntry(tag);
-        }
-
-        /// <summary>
-        /// The event sequence on deleting the object at other plugin.
-        /// </summary>
-        /// <param name="modelID">The model ID of deleted object.</param>
-        /// <param name="key">The ID of deleted object.</param>
-        /// <param name="type">The object type of deleted object.</param>
-        public override void DataDelete(string modelID, string key, string type)
-        {
-            List<TagData> removeList = new List<TagData>();
-            foreach (TagData t in m_entry.Keys)
-            {
-                if (type == EcellObject.SYSTEM)
-                {
-                    if (modelID == t.M_modelID && t.M_key.StartsWith(key)) removeList.Add(t);
-                }
-                else
-                {
-                    if (modelID == t.M_modelID && t.M_key == key) removeList.Add(t);
-                }
-            }
-            foreach (TagData t in removeList)
-                RemoveFromEntry(t);
+            return new EcellDockContent[] { m_loggerWin };
         }
 
         /// <summary>
@@ -421,19 +301,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         public override void Clear()
         {
-            foreach (TagData t in m_tagList.Values)
-            {
-                foreach (TraceWindow win in m_entry[t])
-                {
-                    if (!m_winList.Contains(win)) continue;
-                    win.RemoveLoggerEntry(t);
-                }
-            }
             foreach (TraceWindow win in m_winList)
             {
                 win.Clear();
             }
-
+            m_loggerWin.Clear();
             m_tagList.Clear();
             m_entry.Clear();
         }
@@ -702,7 +574,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// Invoke method to add the data to DataGridView.
         /// </summary>
         /// <param name="tag">tag data</param>
-        void AddToEntry(TagData tag)
+        void AddToEntry(LoggerEntry entry, TagData tag)
         {
             TagData tmp = tag;
             if (!m_tagList.ContainsKey(tag.ToString()))
@@ -721,7 +593,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
             if (m_entry[tmp].Contains(m_win)) return;
             m_entry[tmp].Add(m_win);
-            m_win.AddLoggerEntry(tag);
+            m_win.AddLoggerEntry(entry, tag);
         }
 
 
@@ -771,7 +643,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
                         foreach (TraceWindow win in m_winList)
                         {
-                            win.SetIsContinuous(t.M_path, isCont);
+                            win.SetIsContinuous(t.ToShortString(), isCont);
                         }
                     }
                     catch (Exception)
@@ -853,7 +725,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
                     foreach (TraceWindow win in m_winList)
                     {
-                        win.SetIsContinuous(tag.M_path, isCont);
+                        win.SetIsContinuous(tag.ToShortString(), isCont);
                     }
                     removeList.Add(tag);
                 }
@@ -891,12 +763,24 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
         }
 
+        public Dictionary<string, bool> GetDisplayWindows(LoggerEntry entry)
+        {
+            Dictionary<string, bool> result = new Dictionary<string, bool>();
+            foreach (TraceWindow w in m_winList)
+            {
+                string name = w.TabText;
+                bool isDisplay = w.IsDisplay(entry);
+                result.Add(name, isDisplay);
+            }
+            return result;
+        }
+
         void ShowTraceWindow(string filename, bool isNewWin)
         {
             if (isNewWin == true || m_win == null)
                 m_showWin.PerformClick();
 
-            m_win.ImportLog(filename);
+            m_loggerWin.ImportLog(filename);
         }
 
         /// <summary>
@@ -946,8 +830,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             m_win = new TraceWindow(this);
             m_win.Disposed += new EventHandler(FormDisposed);
-            m_win.Shown += new EventHandler(m_win.ShownEvent);
-            m_win.m_entry = new List<TagData>();
             m_win.Text = MessageResources.TracerWindow + m_winCount;
             m_win.Name = MessageResources.TracerWindow + m_winCount;
             m_win.TabText = m_win.Text;
@@ -967,16 +849,19 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (dlg != null)
                 dlg(m_win);
 
-            if (m_winList.Count == 0)
-            {
-                foreach (TagData tag in m_entry.Keys)
-                {
-                    m_entry[tag].Add(m_win);
-                    m_win.m_entry.Add(tag);
-                }
-            }
             m_winList.Add(m_win);
             m_win.Show();
+        }
+
+        public void ChangeDisplayStatus(LoggerEntry entry, string name, bool isDisplay)
+        {
+            foreach (TraceWindow w in m_winList)
+            {
+                if (w.TabText.Equals(name))
+                {
+                    w.ChangedDisplayStatus(entry, isDisplay);
+                }
+            }
         }
 
 
@@ -1018,6 +903,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private string m_key;
         private string m_type;
         private string m_path;
+        private string m_fileName = null;
         private bool m_isLoaded = false;
         private bool m_isContinue = false;
 
@@ -1076,6 +962,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
             set { this.m_isLoaded = value; }
         }
 
+        public string FileName
+        {
+            get { return this.m_fileName; }
+            set { this.m_fileName = value; }
+        }
+
         /// <summary>
         /// Constructor of tag data.
         /// </summary>
@@ -1112,7 +1004,16 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             string data = "0";
             if (m_isContinue) data = "1";
-            return this.m_modelID + ":" + this.m_type + ":" + this.m_key + ":" + this.m_path + ":" + data;
+            string file = "";
+            if (m_fileName != null) file = m_fileName;
+            return this.m_modelID + ":" + this.m_type + ":" + this.m_key + ":" + this.m_path + ":" + data + ":"  + file;
+        }
+
+        public String ToShortString()
+        {
+            string file = "";
+            if (m_fileName != null) file = m_fileName;
+            return this.m_path + ":" + file;
         }
 
         /// <summary>
@@ -1136,7 +1037,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (t == null) return false;
 
             if (t.M_modelID == m_modelID && t.M_key == m_key &&
-                t.Type == m_type && t.M_path == m_path)
+                t.Type == m_type && t.M_path == m_path &&
+                t.isLoaded == m_isLoaded && 
+                (t.isLoaded == false || t.FileName == m_fileName))
                 return true;
 
             return base.Equals(obj);
@@ -1152,32 +1055,14 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (t == null) return false;
 
             if (t.M_modelID == m_modelID && t.M_key == m_key &&
-                t.Type == m_type && t.M_path == m_path)
+                t.Type == m_type && t.M_path == m_path &&
+                t.isLoaded == m_isLoaded &&
+                (t.isLoaded == false || t.FileName == m_fileName))
                 return true;
             return false;
         }
     }
 
-    /// <summary>
-    /// Class to create line style.
-    /// </summary>
-    public class LineCreator
-    {
-        /// <summary>
-        /// Get the line style from index.
-        /// </summary>
-        /// <param name="i">index.</param>
-        /// <returns>line style.</returns>
-        public static DashStyle GetLine(int i)
-        {
-            int j = i / 3;
-            if (j == 0) return DashStyle.Solid;
-            else if (j == 1) return DashStyle.Dash;
-            else if (j == 2) return DashStyle.DashDot;
-            else if (j == 3) return DashStyle.Dot;
-            else return DashStyle.DashDotDot;
-        }
-    }
     /// <summary>
     /// 
     /// </summary>

@@ -186,4 +186,7 @@
   <data name="TracerWindow" xml:space="preserve">
     <value>Graph plotter</value>
   </data>
+  <data name="WarnNoLog" xml:space="preserve">
+    <value>The log data is exist in {0}.</value>
+  </data>
 </root>
