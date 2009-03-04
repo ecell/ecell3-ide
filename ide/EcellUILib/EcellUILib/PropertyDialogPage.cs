@@ -39,7 +39,7 @@ namespace Ecell.IDE
     /// <summary>
     /// PropertyDialogTabPage for PropertyDialog
     /// </summary>
-    public partial class PropertyDialogPage : Panel, IPropertyItem
+    public partial class PropertyDialogPage : UserControl, IPropertyItem
     {
         /// <summary>
         /// Constructor

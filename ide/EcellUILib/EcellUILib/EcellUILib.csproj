@@ -100,7 +100,7 @@
       <DependentUpon>PropertyDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="PropertyDialogPage.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="PropertyEditor.cs">
       <SubType>Form</SubType>

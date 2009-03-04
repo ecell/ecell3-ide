@@ -307,7 +307,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public PropertyDialogPage AnimationDialogTabPage
         {
-            get { return new AnimationTabPage(this); }
+            get { return new AnimationSettingPage(this); }
         }
 
         /// <summary>
@@ -315,7 +315,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public PropertyDialogPage PathwayDialogTabPage
         {
-            get { return new PathwayTabPage(this); }
+            get { return new PathwaySettingPage(this); }
         }
         #endregion
 

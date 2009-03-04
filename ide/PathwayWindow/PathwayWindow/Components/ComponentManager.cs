@@ -359,7 +359,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <returns></returns>
         public PropertyDialogPage ComponentTabPage
         {
-            get { return new ComponentTabPage(this);}
+            get { return new ComponentSettingPage(this);}
         }
         #endregion
 

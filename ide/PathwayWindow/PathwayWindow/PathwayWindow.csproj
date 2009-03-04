@@ -101,14 +101,14 @@
     <Compile Include="Animation\AnimationItems.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Animation\AnimationSettingsTabPage.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Animation\AnimationSettingsPage.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Animation\EditModeItems.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Animation\PathwaySettingsTabPage.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Animation\PathwaySettingsPage.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Animation\ViewModeItems.cs">
       <SubType>UserControl</SubType>
@@ -116,8 +116,8 @@
     <Compile Include="Components\ComponentItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Components\ComponentTabPage.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Components\ComponentSettingPage.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Handler\PathwayResizeHandler.cs" />
     <Compile Include="Animation\AnimationControl.cs">
@@ -231,12 +231,12 @@
       <DependentUpon>AnimationItems.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Animation\AnimationSettingsTabPage.ja.resx">
-      <DependentUpon>AnimationSettingsTabPage.cs</DependentUpon>
+    <EmbeddedResource Include="Animation\AnimationSettingsPage.ja.resx">
+      <DependentUpon>AnimationSettingsPage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Animation\AnimationSettingsTabPage.resx">
-      <DependentUpon>AnimationSettingsTabPage.cs</DependentUpon>
+    <EmbeddedResource Include="Animation\AnimationSettingsPage.resx">
+      <DependentUpon>AnimationSettingsPage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Animation\EditModeItems.ja.resx">
@@ -247,12 +247,12 @@
       <DependentUpon>EditModeItems.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Animation\PathwaySettingsTabPage.ja.resx">
-      <DependentUpon>PathwaySettingsTabPage.cs</DependentUpon>
+    <EmbeddedResource Include="Animation\PathwaySettingsPage.ja.resx">
+      <DependentUpon>PathwaySettingsPage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Animation\PathwaySettingsTabPage.resx">
-      <DependentUpon>PathwaySettingsTabPage.cs</DependentUpon>
+    <EmbeddedResource Include="Animation\PathwaySettingsPage.resx">
+      <DependentUpon>PathwaySettingsPage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Animation\ViewModeItems.ja.resx">
@@ -271,13 +271,13 @@
       <SubType>Designer</SubType>
       <DependentUpon>ComponentItem.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Components\ComponentTabPage.ja.resx">
+    <EmbeddedResource Include="Components\ComponentSettingPage.ja.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>ComponentTabPage.cs</DependentUpon>
+      <DependentUpon>ComponentSettingPage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Components\ComponentTabPage.resx">
+    <EmbeddedResource Include="Components\ComponentSettingPage.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>ComponentTabPage.cs</DependentUpon>
+      <DependentUpon>ComponentSettingPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialog\PropertyDialogItems.resx">
       <DependentUpon>PropertyDialogItems.cs</DependentUpon>
