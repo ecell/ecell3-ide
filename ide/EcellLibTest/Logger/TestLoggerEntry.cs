@@ -31,6 +31,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using NUnit.Framework;
 using Ecell.Logger;
 
@@ -99,8 +101,26 @@ namespace Ecell.Logger
             value.FullPN = "Process:/:ID:Vm";
             Assert.AreEqual("Process:/:ID:Vm", value.FullPN, "FullPN is not expected value.");
 
+            value.Color = Color.Red;
+            Assert.AreEqual(value.Color, Color.Red, "Color is not expected value.");
+
+            value.LineStyle = DashStyle.DashDot;
+            Assert.AreEqual(value.LineStyle, DashStyle.DashDot, "Line style is not expected value.");
+
+            value.LineWidth = 10;
+            Assert.AreEqual(value.LineWidth, 10, "Line width is not expected value.");
+
             value.IsLoaded = false;
             Assert.AreEqual(false, value.IsLoaded, "IsLogging is not expected value.");
+
+            value.IsShown = false;
+            Assert.AreEqual(false, value.IsShown, "IsShown is not expected value.");
+
+            value.IsY2Axis = true;
+            Assert.AreEqual(true, value.IsY2Axis, "IsY2 axis is not expected value.");
+
+            value.FileName = "aaa";
+            Assert.AreEqual("aaa", value.FileName, "Filename is not expected value.");
         }
 
         /// <summary>

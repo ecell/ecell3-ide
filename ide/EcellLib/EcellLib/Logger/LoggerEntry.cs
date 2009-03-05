@@ -36,7 +36,7 @@ using System.Drawing.Drawing2D;
 namespace Ecell.Logger
 {
     /// <summary>
-    /// 
+    /// Logger entry object.
     /// </summary>
     public class LoggerEntry
     {
@@ -115,30 +115,45 @@ namespace Ecell.Logger
             set { this.m_FullPN = value; }
         }
 
+        /// <summary>
+        /// get / set color.
+        /// </summary>
         public Color Color
         {
             get { return this.m_color; }
             set { this.m_color = value; }
         }
 
+        /// <summary>
+        /// get / set the line style.
+        /// </summary>
         public DashStyle LineStyle
         {
             get { return this.m_lineStyle; }
             set { this.m_lineStyle = value; }
         }
 
+        /// <summary>
+        /// get / set the line width.
+        /// </summary>
         public int LineWidth
         {
             get { return this.m_lineWidth; }
             set { this.m_lineWidth = value; }
         }
 
+        /// <summary>
+        /// get / set the flag whether this log is shown.
+        /// </summary>
         public bool IsShown
         {
             get { return this.m_isShown; }
             set { this.m_isShown = value; }
         }
 
+        /// <summary>
+        /// get /set the flag whether this log is shown at Y2 axis.
+        /// </summary>
         public bool IsY2Axis
         {
             get { return this.m_isY2; }
@@ -155,7 +170,7 @@ namespace Ecell.Logger
         }
 
         /// <summary>
-        /// 
+        /// get / set the loaded log file name.
         /// </summary>
         public string FileName
         {

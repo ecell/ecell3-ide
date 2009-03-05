@@ -1004,7 +1004,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private void TreeViewAddSimulationSet(object sender, EventArgs e)
         {
             InputNameDialog dlg = new InputNameDialog();
-            dlg.Owner = m_owner;
+            dlg.OwnerForm = m_owner;
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {

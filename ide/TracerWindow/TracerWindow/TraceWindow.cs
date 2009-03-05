@@ -75,10 +75,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private Dictionary<string, bool> m_tagDic = new Dictionary<string, bool>();
         private Dictionary<string, TraceEntry> m_entryDic = new Dictionary<string, TraceEntry>();
         /// <summary>
-        /// The delegate for showing dialog.
-        /// </summary>
-        delegate void ShowDialogCallBack();
-        /// <summary>
         /// The delegate for updating the graph window.
         /// </summary>
         /// <param name="isAxis"></param>
@@ -88,16 +84,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         /// <param name="status">system status.</param>
         delegate void ChangeStatusCallBack(bool status);
-        /// <summary>
-        /// The delegate for saving the simulation results.
-        /// </summary>
-        /// <param name="dirName">set the directory to save the data.</param>
-        /// <param name="start">start time.</param>
-        /// <param name="end">end time.</param>
-        /// <param name="fileType">file format.</param>
-        /// <param name="fullID">list of ids for saving.</param>
-        delegate void SaveSimulationCallback(string dirName, double start, double end,
-            string fileType, List<string> fullID);
         #endregion
 
         /// <summary>
@@ -139,6 +125,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_zCnt.Refresh();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="orgFullPN"></param>
+        /// <param name="entry"></param>
         public void LoggerChanged(string orgFullPN, LoggerEntry entry)
         {
             TagData otag = new TagData(entry.ModelID, entry.ID, entry.Type, orgFullPN, true);
@@ -220,6 +211,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// Add logger entry to DataGridView and ZedGraphControl.
         /// Added logger entry is registed to m_paneDic.
         /// </summary>
+        /// <param name="entry"></param>
         /// <param name="tag">logger entry</param>
         public void AddLoggerEntry(LoggerEntry entry, TagData tag)
         {
@@ -253,32 +245,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_entryCount++;
         }
 
-        ///// <summary>
-        ///// Change the entry id of logger.
-        ///// </summary>
-        ///// <param name="org">the original entry data.</param>
-        ///// <param name="key">the new entry id.</param>
-        ///// <param name="path">the new entry path.</param>
-        //public void ChangeLoggerEntry(TagData org, string key, string path)
-        //{
-        //    foreach (string entPath in m_entryDic.Keys)
-        //    {
-        //        if (!entPath.Equals(org.ToShortString)) continue;
-        //        TraceEntry p = m_entryDic[entPath];
-        //        m_entryDic.Add(path, new TraceEntry(path, p.CurrentLineItem, p.TmpLineItem, p.IsContinuous, p.IsLoaded));
-        //        m_entryDic.Remove(entPath);
-        //        break;
-        //    }
-
-        //    foreach (string entPath in m_tagDic.Keys)
-        //    {
-        //        if (!entPath.Equals(org.M_path)) continue;
-        //        m_tagDic.Add(path, org.IsContinue);
-        //        m_tagDic.Remove(entPath);
-        //        break;
-        //    }
-        //}
-
         /// <summary>
         /// Remove logger entry from DataGridView,
         /// </summary>
@@ -301,6 +267,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_tagDic.Remove(tag.ToShortString());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <param name="isDisplay"></param>
         public void ChangedDisplayStatus(LoggerEntry entry, bool isDisplay)
         {
             TagData tag = new TagData(entry.ModelID, entry.ID, entry.Type, entry.FullPN, true);
@@ -316,6 +287,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <returns></returns>
         public bool IsDisplay(LoggerEntry entry)
         {
             TagData tag = new TagData(entry.ModelID, entry.ID, entry.Type, entry.FullPN, true);
@@ -568,31 +544,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.Invoke(dlg, new object[] { isAxis });
         }
 
-        /// <summary>
-        /// The invoke of saving the simulation results to files.
-        /// </summary>
-        /// <param name="dirName">set the directory to save the data.</param>
-        /// <param name="start">start time.</param>
-        /// <param name="end">emd time.</param>
-        /// <param name="fileType">file format.</param>
-        /// <param name="fullID">list of ids.</param>
-        public void SaveSimulationInvoke(string dirName, double start, double end,
-            string fileType, List<string> fullID)
-        {
-            m_owner.DataManager.SaveSimulationResult(dirName, start, end, fileType, fullID);
-        }
-
         #region Event
-
-        private bool IsExistShowData()
-        {
-            foreach (TraceEntry ent in m_entryDic.Values)
-            {
-                if (ent.CurrentLineItem.IsVisible) return true;
-            }
-            return false;
-        }
-
         /// <summary>
         /// Process when user delete the logger.
         /// </summary>
@@ -712,7 +664,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="newState">New zoom state.</param>
         void ZcntZoomEvent(ZedGraphControl control, ZoomState oldState, ZoomState newState)
         {
-            bool isAxis = false;
             if (m_current == 0.0) return;
             foreach (string key in m_entryDic.Keys)
             {
@@ -732,7 +683,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     ex = m_zCnt.GraphPane.XAxis.Scale.Max;
   
                     m_step = (ex - sx) / TracerWindow.s_count;
-                    isAxis = true;
                 }
             }
             if (m_zCnt.GraphPane.IsZoomed)

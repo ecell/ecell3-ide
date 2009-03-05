@@ -42,11 +42,15 @@ using Ecell.Logger;
 
 namespace Ecell.IDE.Plugins.TracerWindow
 {
+    /// <summary>
+    /// Logger window class.
+    /// </summary>
     public partial class LoggerWindow : EcellDockContent
     {
         #region Fields
         private TracerWindow m_owner;
         private bool m_isChanged = false;
+        private Dictionary<string, LoggerEntry> m_logList = new Dictionary<string, LoggerEntry>();
         /// <summary>
         /// The delegate for event handler function.
         /// </summary>
@@ -65,6 +69,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             loggerDataGrid.ContextMenuStrip = gridContextMenuStrip;
         }
         #endregion
+        
         #region Events
         /// <summary>
         /// 
@@ -173,6 +178,53 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 ImportLog(fileName);
             }
             //m_owner.CurrentWin = tWin;
+        }
+
+        private void gridContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            if (loggerDataGrid.CurrentCell == null ||
+                loggerDataGrid.CurrentRow.Tag == null)
+            {
+                deleteToolStripMenuItem.Enabled = false;
+                windowToolStripMenuItem.Enabled = false;
+                return;
+            }
+
+            LoggerEntry entry = loggerDataGrid.CurrentRow.Tag as LoggerEntry;
+            if (entry == null) return;
+
+            Dictionary<string, bool> displayDic = m_owner.GetDisplayWindows(entry);
+            windowToolStripMenuItem.Enabled = true;
+            deleteToolStripMenuItem.Enabled = true;
+            windowToolStripMenuItem.DropDownItems.Clear();
+            foreach (string name in displayDic.Keys)
+            {
+                ToolStripMenuItem item = new ToolStripMenuItem(name);
+                item.Tag = entry;
+                item.Checked = displayDic[name];
+                item.Click += new EventHandler(ClickWindowMenuItem);
+                windowToolStripMenuItem.DropDownItems.Add(item);
+            }
+        }
+
+        private void ClickWindowMenuItem(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            string winname = item.Text;
+            LoggerEntry entry = item.Tag as LoggerEntry;
+
+            m_owner.ChangeDisplayStatus(entry, winname, !item.Checked);
+        }
+
+
+        private void importLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ImportLog(null);
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DeleteEntry();
         }
         #endregion
 
@@ -354,6 +406,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
             loggerDataGrid.Rows[rindex].Tag = entry;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entry"></param>
         public void LoggerDeleted(LoggerEntry entry)
         {
             if (m_isChanged) return;
@@ -373,42 +429,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 m_logList.Remove(entry.FileName);
             }
-        }
-
-        private void gridContextMenuStrip_Opening(object sender, CancelEventArgs e)
-        {
-            if (loggerDataGrid.CurrentCell == null ||
-                loggerDataGrid.CurrentRow.Tag == null)
-            {
-                deleteToolStripMenuItem.Enabled = false;
-                windowToolStripMenuItem.Enabled = false;
-                return;
-            }
-
-            LoggerEntry entry = loggerDataGrid.CurrentRow.Tag as LoggerEntry;
-            if (entry == null) return;
-
-            Dictionary<string, bool> displayDic = m_owner.GetDisplayWindows(entry);
-            windowToolStripMenuItem.Enabled = true;
-            deleteToolStripMenuItem.Enabled = true;
-            windowToolStripMenuItem.DropDownItems.Clear();
-            foreach (string name in displayDic.Keys)
-            {
-                ToolStripMenuItem item = new ToolStripMenuItem(name);
-                item.Tag = entry;
-                item.Checked = displayDic[name];
-                item.Click += new EventHandler(ClickWindowMenuItem);
-                windowToolStripMenuItem.DropDownItems.Add(item);
-            }            
-        }
-
-        private void ClickWindowMenuItem(object sender, EventArgs e)
-        {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            string winname = item.Text;
-            LoggerEntry entry = item.Tag as LoggerEntry;
-
-            m_owner.ChangeDisplayStatus(entry, winname, !item.Checked);
         }
 
 
@@ -441,6 +461,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_owner.DataManager.DataChanged(obj.ModelID, obj.Key, obj.Type, obj);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
         public void ImportLog(string fileName)
         {
             if (fileName == null)
@@ -469,13 +493,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_owner.LoggerManager_LoggerAddEvent(null, new LoggerEventArgs(entry.FullPN, entry));
         }
 
-        private Dictionary<string, LoggerEntry> m_logList = new Dictionary<string, LoggerEntry>();
-
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DeleteEntry();
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -493,16 +510,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 ImportLog(null);
             }
-            if ((int)keyData == (int)Keys.Control + (int)Keys.G)
-            {
-//                ShowSetupWindow(null, new EventArgs());
-            }
+
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void importLogToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ImportLog(null);
-        }
     }
 }

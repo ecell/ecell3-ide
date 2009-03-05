@@ -132,7 +132,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         int m_timespan = 100;
         bool isStep = false;
-        bool isLogAdding = false;
         int m_winCount = 1;
 
 
@@ -230,6 +229,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_env.LoggerManager.LoggerDeleteEvent += new LoggerDeleteEventHandler(LoggerManager_LoggerDeleteEvent);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="e"></param>
         public void LoggerManager_LoggerDeleteEvent(object o, LoggerEventArgs e)
         {
             if (m_loggerWin != null)
@@ -242,7 +246,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             RemoveFromEntry(tag);
         }
 
-        void LoggerManager_LoggerChangedEvent(object o, LoggerEventArgs e)
+        private void LoggerManager_LoggerChangedEvent(object o, LoggerEventArgs e)
         {
             if (m_loggerWin != null)
                 m_loggerWin.LoggerChanged(e.OriginalFullPN, e.Entry);
@@ -251,6 +255,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 w.LoggerChanged(e.OriginalFullPN, e.Entry);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="e"></param>
         public void LoggerManager_LoggerAddEvent(object o, LoggerEventArgs e)
         {
             LoggerEntry entry = e.Entry;
@@ -573,6 +582,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <summary>
         /// Invoke method to add the data to DataGridView.
         /// </summary>
+        /// <param name="entry"></param>
         /// <param name="tag">tag data</param>
         void AddToEntry(LoggerEntry entry, TagData tag)
         {
@@ -763,6 +773,11 @@ namespace Ecell.IDE.Plugins.TracerWindow
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <returns></returns>
         public Dictionary<string, bool> GetDisplayWindows(LoggerEntry entry)
         {
             Dictionary<string, bool> result = new Dictionary<string, bool>();
@@ -775,7 +790,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             return result;
         }
 
-        void ShowTraceWindow(string filename, bool isNewWin)
+        private void ShowTraceWindow(string filename, bool isNewWin)
         {
             if (isNewWin == true || m_win == null)
                 m_showWin.PerformClick();
@@ -853,6 +868,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_win.Show();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <param name="name"></param>
+        /// <param name="isDisplay"></param>
         public void ChangeDisplayStatus(LoggerEntry entry, string name, bool isDisplay)
         {
             foreach (TraceWindow w in m_winList)
@@ -962,6 +983,9 @@ namespace Ecell.IDE.Plugins.TracerWindow
             set { this.m_isLoaded = value; }
         }
 
+        /// <summary>
+        /// get / set the loaded file name.
+        /// </summary>
         public string FileName
         {
             get { return this.m_fileName; }
@@ -1009,6 +1033,10 @@ namespace Ecell.IDE.Plugins.TracerWindow
             return this.m_modelID + ":" + this.m_type + ":" + this.m_key + ":" + this.m_path + ":" + data + ":"  + file;
         }
 
+        /// <summary>
+        /// Get string from tag data.
+        /// </summary>
+        /// <returns></returns>
         public String ToShortString()
         {
             string file = "";

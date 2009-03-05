@@ -435,6 +435,9 @@ namespace Ecell.IDE.Plugins.Analysis
             m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void FinishedAnalysisByError()
         {
             m_stopAnalysisItem.Enabled = false;

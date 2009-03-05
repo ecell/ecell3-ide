@@ -22,10 +22,6 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The form to set the estimation formulator.
         /// </summary>
         private FormulatorDialog m_fwin;
-        /// <summary>
-        /// The user control to set the estimation formulator.
-        /// </summary>
-        private FormulatorControl m_fcnt;
         private ParameterEstimationParameter m_param;
 
         /// <summary>

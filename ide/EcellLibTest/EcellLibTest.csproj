@@ -71,6 +71,8 @@
     <Compile Include="Job\TestLocalJob.cs" />
     <Compile Include="Job\TestLocalJobProxy.cs" />
     <Compile Include="Logger\TestLoggerEntry.cs" />
+    <Compile Include="Logger\TestLoggerEventArgs.cs" />
+    <Compile Include="Logger\TestLoggerManager.cs" />
     <Compile Include="Logging\TestLogEntry.cs" />
     <Compile Include="Objects\TestEcellDragObject.cs" />
     <Compile Include="Objects\TestEcellLayer.cs" />

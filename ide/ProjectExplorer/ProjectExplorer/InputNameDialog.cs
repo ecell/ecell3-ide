@@ -24,7 +24,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <summary>
         /// 
         /// </summary>
-        public ProjectExplorer Owner
+        public ProjectExplorer OwnerForm
         {
             get { return this.m_owner; }
             set { this.m_owner = value; }

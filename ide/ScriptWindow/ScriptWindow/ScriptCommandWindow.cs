@@ -299,6 +299,12 @@ namespace Ecell.IDE.Plugins.ScriptWindow
         }
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="keyData"></param>
+        /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if ((int)keyData == (int)Keys.Control + (int)Keys.C)
