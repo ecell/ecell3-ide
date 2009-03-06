@@ -43,6 +43,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
     /// </summary>
     public partial class LineStyleDialog : Form
     {
+        private int m_width;
         /// <summary>
         /// the set style of line.
         /// </summary>
@@ -51,7 +52,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <summary>
         /// Constructor.
         /// </summary>
-        public LineStyleDialog(System.Drawing.Drawing2D.DashStyle style)
+        public LineStyleDialog(int lineWidth, System.Drawing.Drawing2D.DashStyle style)
         {
             InitializeComponent();
 
@@ -73,6 +74,28 @@ namespace Ecell.IDE.Plugins.TracerWindow
                     dashDotDotRadioButton.Checked = true;
                     break;
             }
+            m_style = style;
+            m_width = lineWidth;
+            lineTextBox.Text = m_width.ToString();
+        }
+
+
+        /// <summary>
+        /// Check the set style of line.
+        /// </summary>
+        /// <returns>the set style of line.</returns>
+        public System.Drawing.Drawing2D.DashStyle LineStyle
+        {
+            get { return m_style; }
+        }
+
+        /// <summary>
+        /// Check the set width of line.
+        /// </summary>
+        /// <returns>the set width of line.</returns>
+        public int LineWidth
+        {
+            get { return m_width; }
         }
 
         /// <summary>
@@ -86,15 +109,6 @@ namespace Ecell.IDE.Plugins.TracerWindow
         }
 
         /// <summary>
-        /// Check the set style of line.
-        /// </summary>
-        /// <returns>the set style of line.</returns>
-        public System.Drawing.Drawing2D.DashStyle GetLineStyle()
-        {
-            return m_style;
-        }
-
-        /// <summary>
         /// The event when this window is shown.
         /// </summary>
         /// <param name="sender">this window.</param>
@@ -104,8 +118,23 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.LSApplyButton.Focus();
         }
 
+        /// <summary>
+        /// The event when this window is closing.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LineStyleDialogClosing(object sender, FormClosingEventArgs e)
         {
+            int dummy;
+            if (!Int32.TryParse(lineTextBox.Text, out dummy) ||
+                dummy <= 0 || dummy > 16)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                return;
+            }
+            m_width = dummy;
+
             if (solidRadioButton.Checked == true)
                 m_style = System.Drawing.Drawing2D.DashStyle.Solid;
             else if (dashRadioButton.Checked == true)
@@ -117,5 +146,18 @@ namespace Ecell.IDE.Plugins.TracerWindow
             else if (dashDotDotRadioButton.Checked == true)
                 m_style = System.Drawing.Drawing2D.DashStyle.DashDotDot;
         }
+
+        private void lineTextBox_Validating(object sender, CancelEventArgs e)
+        {
+            int dummy;
+            if (!Int32.TryParse(lineTextBox.Text, out dummy))
+            {
+                Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                e.Cancel = true;
+                lineTextBox.Text = m_width.ToString();
+                return;
+            }
+        }
+
     }
 }

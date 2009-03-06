@@ -151,6 +151,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_entryDic[ntag.ToShortString()].SetStyle(entry.LineStyle);
             m_entryDic[ntag.ToShortString()].SetVisible(entry.IsShown);
             m_entryDic[ntag.ToShortString()].SetColor(entry.Color);
+            m_entryDic[ntag.ToShortString()].SetLineWidth(entry.LineWidth);
             if (entry.IsShown)
             {
                 if (!m_zCnt.GraphPane.IsZoomed)

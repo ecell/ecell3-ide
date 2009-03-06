@@ -134,6 +134,12 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_tmpLineItem.IsVisible = visible;
         }
 
+        public void SetLineWidth(int width)
+        {
+            m_currentLineItem.Line.Width = (float)width;
+            m_tmpLineItem.Line.Width = (float)width;
+        }
+
 
         public void ThinPoints()
         {

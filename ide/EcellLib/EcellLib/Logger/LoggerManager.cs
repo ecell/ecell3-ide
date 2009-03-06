@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Ecell.Objects;
 
 namespace Ecell.Logger
 {
@@ -131,6 +132,36 @@ namespace Ecell.Logger
                 LoggerChangedEvent(this, new LoggerEventArgs(orgFullPN, entry));
             }
         }
+
+        public void NodeRemoved(EcellObject obj)
+        {
+            List<LoggerEntry> delList = GetLoggerEntryForObject(obj.Key, obj.Type);
+            foreach (LoggerEntry m in delList)
+            {
+                LoggerRemoved(m);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sys"></param>
+        public void SystemRemoved(EcellObject sys)
+        {
+            List<LoggerEntry> delList = new List<LoggerEntry>();
+            foreach (LoggerEntry m in m_loggerList)
+            {
+                if (m.ModelID == sys.ModelID &&
+                    m.ID.StartsWith(sys.Key))
+                {
+                    delList.Add(m);
+                }
+            }
+            foreach (LoggerEntry m in delList)
+            {
+                LoggerRemoved(m);
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -138,6 +169,7 @@ namespace Ecell.Logger
         public void LoggerRemoved(LoggerEntry entry)
         {
             if (entry == null) return;
+
             if (!m_loggerList.Contains(entry)) 
                 return;
 

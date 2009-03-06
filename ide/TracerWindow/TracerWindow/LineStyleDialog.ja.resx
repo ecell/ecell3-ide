@@ -120,6 +120,12 @@
   <data name="$this.Text" xml:space="preserve">
     <value>線について</value>
   </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>線のスタイル</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>線の幅</value>
+  </data>
   <data name="LSApplyButton.Text" xml:space="preserve">
     <value>OK</value>
   </data>

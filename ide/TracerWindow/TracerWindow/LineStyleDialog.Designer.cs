@@ -58,28 +58,33 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.GroupBox groupBox1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LineStyleDialog));
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            System.Windows.Forms.GroupBox groupBox2;
             this.dashDotDotRadioButton = new System.Windows.Forms.RadioButton();
             this.dotRadioButton = new System.Windows.Forms.RadioButton();
             this.dashDotRadioButton = new System.Windows.Forms.RadioButton();
             this.dashRadioButton = new System.Windows.Forms.RadioButton();
             this.solidRadioButton = new System.Windows.Forms.RadioButton();
+            this.lineTextBox = new System.Windows.Forms.TextBox();
             this.LSApplyButton = new System.Windows.Forms.Button();
             this.LSCloseButton = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            groupBox2 = new System.Windows.Forms.GroupBox();
+            groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Controls.Add(this.dashDotDotRadioButton);
-            this.groupBox1.Controls.Add(this.dotRadioButton);
-            this.groupBox1.Controls.Add(this.dashDotRadioButton);
-            this.groupBox1.Controls.Add(this.dashRadioButton);
-            this.groupBox1.Controls.Add(this.solidRadioButton);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
+            resources.ApplyResources(groupBox1, "groupBox1");
+            groupBox1.Controls.Add(this.dashDotDotRadioButton);
+            groupBox1.Controls.Add(this.dotRadioButton);
+            groupBox1.Controls.Add(this.dashDotRadioButton);
+            groupBox1.Controls.Add(this.dashRadioButton);
+            groupBox1.Controls.Add(this.solidRadioButton);
+            groupBox1.Name = "groupBox1";
+            groupBox1.TabStop = false;
             // 
             // dashDotDotRadioButton
             // 
@@ -121,6 +126,19 @@ namespace Ecell.IDE.Plugins.TracerWindow
             this.solidRadioButton.TabStop = true;
             this.solidRadioButton.UseVisualStyleBackColor = true;
             // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(this.lineTextBox);
+            resources.ApplyResources(groupBox2, "groupBox2");
+            groupBox2.Name = "groupBox2";
+            groupBox2.TabStop = false;
+            // 
+            // lineTextBox
+            // 
+            resources.ApplyResources(this.lineTextBox, "lineTextBox");
+            this.lineTextBox.Name = "lineTextBox";
+            this.lineTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.lineTextBox_Validating);
+            // 
             // LSApplyButton
             // 
             resources.ApplyResources(this.LSApplyButton, "LSApplyButton");
@@ -142,21 +160,23 @@ namespace Ecell.IDE.Plugins.TracerWindow
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.LSCloseButton;
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(groupBox2);
+            this.Controls.Add(groupBox1);
             this.Controls.Add(this.LSApplyButton);
             this.Controls.Add(this.LSCloseButton);
             this.Name = "LineStyleDialog";
             this.Shown += new System.EventHandler(this.LineStyleShown);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LineStyleDialogClosing);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button LSApplyButton;
         private System.Windows.Forms.Button LSCloseButton;
         private System.Windows.Forms.RadioButton solidRadioButton;
@@ -164,6 +184,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private System.Windows.Forms.RadioButton dashDotRadioButton;
         private System.Windows.Forms.RadioButton dotRadioButton;
         private System.Windows.Forms.RadioButton dashDotDotRadioButton;
+        private System.Windows.Forms.TextBox lineTextBox;
 
 
     }

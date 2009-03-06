@@ -276,12 +276,13 @@ namespace Ecell.IDE.Plugins.TracerWindow
         private void ShowLineStyleDialog(LoggerEntry entry, int rowIndex)
         {
             LineStyleDialog dialog =
-                new LineStyleDialog(entry.LineStyle);
+                new LineStyleDialog(entry.LineWidth, entry.LineStyle);
             using (dialog)
             {
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return;
-                System.Drawing.Drawing2D.DashStyle style = dialog.GetLineStyle();
+                System.Drawing.Drawing2D.DashStyle style = dialog.LineStyle;
+                int lineWidth = dialog.LineWidth;
                 if (style == System.Drawing.Drawing2D.DashStyle.Custom) return;
                 DataGridViewImageCell c = loggerDataGrid[LineColumn.Index, rowIndex] as DataGridViewImageCell;
 
@@ -289,12 +290,13 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 Graphics g1 = Graphics.FromImage(b1);
                 Pen p1 = new Pen(entry.Color);
                 p1.DashStyle = style;
-                p1.Width = entry.LineWidth;
+                p1.Width = lineWidth;
                 g1.DrawLine(p1, 0, 10, 20, 10);
                 g1.ReleaseHdc(g1.GetHdc());
                 c.Value = b1;
 
                 entry.LineStyle = style;
+                entry.LineWidth = lineWidth;
                 m_isChanged = true;
                 m_owner.Environment.LoggerManager.LoggerChanged(entry.FullPN, entry);
                 m_isChanged = false;
