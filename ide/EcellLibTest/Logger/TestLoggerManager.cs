@@ -70,7 +70,9 @@ namespace Ecell.Logger
         {
             LoggerManager testLoggerManager = new LoggerManager(_env);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestAddLogger()
         {
@@ -81,7 +83,9 @@ namespace Ecell.Logger
             Assert.AreEqual(1, res.Count, "Add entry is unexpected work.");
             _unitUnderTest.AddLoggerEntry(null);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLoggerChanged()
         {
@@ -92,7 +96,9 @@ namespace Ecell.Logger
             ent = new LoggerEntry("ModelID", "Key1", "Process", "FullPN1");
             _unitUnderTest.LoggerChanged("FullPN", ent);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestLoggerRemoved()
         {
@@ -110,7 +116,9 @@ namespace Ecell.Logger
             Assert.AreEqual(0, res.Count, "Remove entry is unexpected work.");
             _unitUnderTest.LoggerRemoved(null);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetLoggerEntryForObject()
         {
@@ -119,7 +127,9 @@ namespace Ecell.Logger
             List<LoggerEntry> res = _unitUnderTest.GetLoggerEntryForObject("Key", "Process");
             Assert.AreEqual(0, res.Count, "GetLoggerEntryForObject is unexpected work.");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetLoggerEntryForFullPN()
         {
@@ -131,7 +141,9 @@ namespace Ecell.Logger
             Assert.AreNotEqual(null, res, "GetLoggerEntryForObject is unexpected work.");
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestClear()
         {

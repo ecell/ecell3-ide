@@ -200,5 +200,14 @@ namespace Ecell.Logger
                 return true;
             return false;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

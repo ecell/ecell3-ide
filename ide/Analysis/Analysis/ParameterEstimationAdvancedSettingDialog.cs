@@ -43,7 +43,6 @@ namespace Ecell.IDE.Plugins.Analysis
     /// </summary>
     public partial class ParameterEstimationAdvancedSettingDialog : Form
     {
-        private bool m_isCancel = false;
         private SimplexCrossoverParameter m_param;
         /// <summary>
         /// Constructor.

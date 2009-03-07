@@ -3206,15 +3206,8 @@ namespace Ecell
                         msg,
                         this));
 
-                int i = 0;
                 while (m_currentProject.SimulationStatus == SimulationStatus.Run)
                 {
-                    //if (i == 1000)
-                    //{
-                    //    Thread.Sleep(1);
-                    //    i = 0;
-                    //}
-                    //i++;
                     m_currentProject.Simulator.Step(m_defaultStepCount);
                     Application.DoEvents();
                     double currentTime = m_currentProject.Simulator.GetCurrentTime();

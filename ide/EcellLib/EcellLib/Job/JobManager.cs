@@ -45,7 +45,6 @@ namespace Ecell.Job
     {
         private ApplicationEnvironment m_env;
         private bool m_tmpDirRemovable = false;
-        private bool m_isEnableRegist = false;
         private string m_tmpRootDir = null;
         private string m_tmpDir = null;
         private int m_conc = -1;

@@ -43,6 +43,9 @@ namespace Ecell.Logger
     {
         private LoggerEventArgs _unitUnderTest;
 
+        /// <summary>
+        /// 
+        /// </summary>
         [SetUp()]
         public void Setup()
         {
@@ -50,6 +53,9 @@ namespace Ecell.Logger
             _unitUnderTest = new LoggerEventArgs("orgFullPN", ent);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Test()]
         public void TestGetter()
         {

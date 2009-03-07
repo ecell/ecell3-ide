@@ -167,7 +167,7 @@ namespace Ecell.SBML
             if ( anEml.ParentSystemID == "/SBMLRule" )
             {
                 // get Process Class
-                bool aDelayFlag = false;
+                //bool aDelayFlag = false;
 
                 //[ anExpression, aDelayFlag ] =
                 //convertExpression(
