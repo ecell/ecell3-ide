@@ -84,10 +84,13 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
             LoggerEntry entry = (LoggerEntry)loggerDataGrid.Rows[e.RowIndex].Tag;
 
-            if (e.ColumnIndex == ColorColumn.Index)
-                ShowColorSelectDialog(entry, e.RowIndex);
+            List<DataGridViewRow> rlist = new List<DataGridViewRow>();
+            rlist.Add(loggerDataGrid.Rows[e.RowIndex]);
+
+            if (e.ColumnIndex == ColorColumn.Index)            
+                ShowColorSelectDialog(rlist);            
             else if (e.ColumnIndex == LineColumn.Index)
-                ShowLineStyleDialog(entry, e.RowIndex);
+                ShowLineStyleDialog(rlist);
         }
 
         /// <summary>
@@ -187,23 +190,39 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 deleteToolStripMenuItem.Enabled = false;
                 windowToolStripMenuItem.Enabled = false;
+                lineStyleToolStripMenuItem.Enabled = false;
+                colorToolStripMenuItem.Enabled = false;
                 return;
             }
 
-            LoggerEntry entry = loggerDataGrid.CurrentRow.Tag as LoggerEntry;
-            if (entry == null) return;
-
-            Dictionary<string, bool> displayDic = m_owner.GetDisplayWindows(entry);
-            windowToolStripMenuItem.Enabled = true;
-            deleteToolStripMenuItem.Enabled = true;
-            windowToolStripMenuItem.DropDownItems.Clear();
-            foreach (string name in displayDic.Keys)
+            int selectedCount = loggerDataGrid.SelectedRows.Count;
+            if (selectedCount == 1)
             {
-                ToolStripMenuItem item = new ToolStripMenuItem(name);
-                item.Tag = entry;
-                item.Checked = displayDic[name];
-                item.Click += new EventHandler(ClickWindowMenuItem);
-                windowToolStripMenuItem.DropDownItems.Add(item);
+                deleteToolStripMenuItem.Enabled = true;
+                windowToolStripMenuItem.Enabled = true;
+                lineStyleToolStripMenuItem.Enabled = true;
+                colorToolStripMenuItem.Enabled = true;
+
+                LoggerEntry entry = loggerDataGrid.CurrentRow.Tag as LoggerEntry;
+                if (entry == null) return;
+
+                Dictionary<string, bool> displayDic = m_owner.GetDisplayWindows(entry);
+                windowToolStripMenuItem.DropDownItems.Clear();
+                foreach (string name in displayDic.Keys)
+                {
+                    ToolStripMenuItem item = new ToolStripMenuItem(name);
+                    item.Tag = entry;
+                    item.Checked = displayDic[name];
+                    item.Click += new EventHandler(ClickWindowMenuItem);
+                    windowToolStripMenuItem.DropDownItems.Add(item);
+                }
+            }
+            else if (selectedCount > 1)
+            {
+                deleteToolStripMenuItem.Enabled = true;
+                windowToolStripMenuItem.Enabled = false;
+                lineStyleToolStripMenuItem.Enabled = true;
+                colorToolStripMenuItem.Enabled = true;
             }
         }
 
@@ -226,81 +245,131 @@ namespace Ecell.IDE.Plugins.TracerWindow
         {
             DeleteEntry();
         }
+
+
+        private void lineStyleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<DataGridViewRow> rList = new List<DataGridViewRow>();
+
+            foreach (DataGridViewRow r in loggerDataGrid.SelectedRows)
+            {
+                rList.Add(r);
+            }
+            if (rList.Count <= 0) return;
+            ShowLineStyleDialog(rList);
+        }
+
+        private void colorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<DataGridViewRow> rList = new List<DataGridViewRow>();
+
+            foreach (DataGridViewRow r in loggerDataGrid.SelectedRows)
+            {
+                rList.Add(r);
+            }
+            if (rList.Count <= 0) return;
+            ShowColorSelectDialog(rList);
+        }
         #endregion
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="entry"></param>
-        /// <param name="rowIndex"></param>
-        private void ShowColorSelectDialog(LoggerEntry entry, int rowIndex)
+        /// <param name="rList"></param>
+        private void ShowColorSelectDialog(List<DataGridViewRow> rList)
         {
-            int lindex = LineColumn.Index;
-            int cindex = ColorColumn.Index;
-
-            DataGridViewImageCell lcell = loggerDataGrid[lindex, rowIndex] as DataGridViewImageCell;
-            DataGridViewImageCell ccell = loggerDataGrid[cindex, rowIndex] as DataGridViewImageCell;
-
             if (m_colorDialog.ShowDialog() != DialogResult.OK)
                 return;
 
-            Bitmap b = new Bitmap(20, 20);
-            Graphics g = Graphics.FromImage(b);
-            Pen p = new Pen(m_colorDialog.Color);
-            g.FillRectangle(p.Brush, 3, 3, 14, 14);
-            g.ReleaseHdc(g.GetHdc());
+            //SetColor(rList, m_colorDialog.Color);
+            DataGridViewImageCell lcell;
+            DataGridViewImageCell ccell;
+            int lindex = LineColumn.Index;
+            int cindex = ColorColumn.Index;
+            Color setColor = m_colorDialog.Color;
 
-            Bitmap b1 = new Bitmap(20, 20);
-            Graphics g1 = Graphics.FromImage(b1);
-            Pen p1 = new Pen(m_colorDialog.Color);
-            p1.DashStyle = entry.LineStyle;
-            p1.Width = entry.LineWidth;
-            g1.DrawLine(p1, 0, 10, 20, 10);
-            g1.ReleaseHdc(g1.GetHdc());
+            foreach (DataGridViewRow r in rList)
+            {
+                LoggerEntry entry = r.Tag as LoggerEntry;
+                lcell = loggerDataGrid[lindex, r.Index] as DataGridViewImageCell;
+                ccell = loggerDataGrid[cindex, r.Index] as DataGridViewImageCell;
 
-            lcell.Value = b1;
-            ccell.Value = b;
+                Bitmap b = new Bitmap(20, 20);
+                Graphics g = Graphics.FromImage(b);
+                Pen p = new Pen(setColor);
+                g.FillRectangle(p.Brush, 3, 3, 14, 14);
+                g.ReleaseHdc(g.GetHdc());
 
-            entry.Color = m_colorDialog.Color;
-            m_isChanged = true;
-            m_owner.Environment.LoggerManager.LoggerChanged(entry.FullPN, entry);
-            m_isChanged = false;
-            loggerDataGrid.Rows[rowIndex].Tag = entry;
+                Bitmap b1 = new Bitmap(20, 20);
+                Graphics g1 = Graphics.FromImage(b1);
+                Pen p1 = new Pen(setColor);
+                p1.DashStyle = entry.LineStyle;
+                p1.Width = entry.LineWidth;
+                g1.DrawLine(p1, 0, 10, 20, 10);
+                g1.ReleaseHdc(g1.GetHdc());
+
+                lcell.Value = b1;
+                ccell.Value = b;
+
+                entry.Color = setColor;
+                m_isChanged = true;
+                m_owner.Environment.LoggerManager.LoggerChanged(entry.FullPN, entry);
+                m_isChanged = false;
+                loggerDataGrid.Rows[r.Index].Tag = entry;
+            }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="entry"></param>
-        /// <param name="rowIndex"></param>
-        private void ShowLineStyleDialog(LoggerEntry entry, int rowIndex)
+        /// <param name="rList"></param>
+        private void ShowLineStyleDialog(List<DataGridViewRow> rList)
         {
-            LineStyleDialog dialog =
-                new LineStyleDialog(entry.LineWidth, entry.LineStyle);
+            int lineWidth = 2;
+            System.Drawing.Drawing2D.DashStyle style = System.Drawing.Drawing2D.DashStyle.Solid;
+
+            if (rList.Count == 1)
+            {
+                LoggerEntry entry = rList[0].Tag as LoggerEntry;
+                if (entry != null)
+                {
+                    lineWidth = entry.LineWidth;
+                    style = entry.LineStyle;
+                }
+            }
+            LineStyleDialog dialog = new LineStyleDialog(lineWidth, style);
             using (dialog)
             {
+                 DataGridViewImageCell c;
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return;
-                System.Drawing.Drawing2D.DashStyle style = dialog.LineStyle;
-                int lineWidth = dialog.LineWidth;
+
                 if (style == System.Drawing.Drawing2D.DashStyle.Custom) return;
-                DataGridViewImageCell c = loggerDataGrid[LineColumn.Index, rowIndex] as DataGridViewImageCell;
+                lineWidth = dialog.LineWidth;
+                style = dialog.LineStyle;
 
-                Bitmap b1 = new Bitmap(20, 20);
-                Graphics g1 = Graphics.FromImage(b1);
-                Pen p1 = new Pen(entry.Color);
-                p1.DashStyle = style;
-                p1.Width = lineWidth;
-                g1.DrawLine(p1, 0, 10, 20, 10);
-                g1.ReleaseHdc(g1.GetHdc());
-                c.Value = b1;
+                foreach (DataGridViewRow r in rList)
+                {
+                    LoggerEntry  entry = r.Tag as LoggerEntry;
+                    if (entry == null ) continue;
+                    c = loggerDataGrid[LineColumn.Index, r.Index] as DataGridViewImageCell;
 
-                entry.LineStyle = style;
-                entry.LineWidth = lineWidth;
-                m_isChanged = true;
-                m_owner.Environment.LoggerManager.LoggerChanged(entry.FullPN, entry);
-                m_isChanged = false;
-                loggerDataGrid.Rows[rowIndex].Tag = entry;
+                    Bitmap b1 = new Bitmap(20, 20);
+                    Graphics g1 = Graphics.FromImage(b1);
+                    Pen p1 = new Pen(entry.Color);
+                    p1.DashStyle = style;
+                    p1.Width = lineWidth;
+                    g1.DrawLine(p1, 0, 10, 20, 10);
+                    g1.ReleaseHdc(g1.GetHdc());
+                    c.Value = b1;
+
+                    entry.LineStyle = style;
+                    entry.LineWidth = lineWidth;
+                    m_isChanged = true;
+                    m_owner.Environment.LoggerManager.LoggerChanged(entry.FullPN, entry);
+                    m_isChanged = false;
+                    loggerDataGrid.Rows[r.Index].Tag = entry;
+                }
             }
         }
 
@@ -436,31 +505,39 @@ namespace Ecell.IDE.Plugins.TracerWindow
 
         private void DeleteEntry()
         {
-            if (loggerDataGrid.CurrentRow == null) 
+            if (loggerDataGrid.SelectedRows.Count <= 0)
                 return;
 
-            LoggerEntry entry = loggerDataGrid.CurrentRow.Tag as LoggerEntry;
-            if (entry == null) 
-                return;
-
-            if (entry.IsLoaded)
+            List<LoggerEntry> entryList = new List<LoggerEntry>();
+            foreach (DataGridViewRow r in loggerDataGrid.SelectedRows)
             {
-                m_owner.LoggerManager_LoggerDeleteEvent(null, new LoggerEventArgs(entry.FullPN, entry));
-                return;
+                LoggerEntry entry = r.Tag as LoggerEntry;
+                if (entry != null)
+                    entryList.Add(entry);
             }
 
-            EcellObject obj = m_owner.DataManager.GetEcellObject(
-                entry.ModelID, entry.ID, entry.Type);
-
-            foreach (EcellData d in obj.Value)
+            foreach (LoggerEntry entry in entryList)
             {
-                if (d.EntityPath.Equals(entry.FullPN))
+                if (entry.IsLoaded)
                 {
-                    d.Logged = false;
-                    break;
+                    m_owner.LoggerManager_LoggerDeleteEvent(null, 
+                        new LoggerEventArgs(entry.FullPN, entry));
+                    return;
                 }
+
+                EcellObject obj = m_owner.DataManager.GetEcellObject(
+                    entry.ModelID, entry.ID, entry.Type);
+
+                foreach (EcellData d in obj.Value)
+                {
+                    if (d.EntityPath.Equals(entry.FullPN))
+                    {
+                        d.Logged = false;
+                        break;
+                    }
+                }
+                m_owner.DataManager.DataChanged(obj.ModelID, obj.Key, obj.Type, obj);
             }
-            m_owner.DataManager.DataChanged(obj.ModelID, obj.Key, obj.Type, obj);
         }
 
         /// <summary>
@@ -512,9 +589,20 @@ namespace Ecell.IDE.Plugins.TracerWindow
             {
                 ImportLog(null);
             }
+            if ((int)keyData == (int)Keys.Control + (int)Keys.C)
+            {
+                colorToolStripMenuItem.PerformClick();
+            }
+            if ((int)keyData == (int)Keys.Control + (int)Keys.L)
+            {
+                lineStyleToolStripMenuItem.PerformClick();
+            }
+
+
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
+
 
     }
 }

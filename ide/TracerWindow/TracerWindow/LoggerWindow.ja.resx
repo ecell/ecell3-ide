@@ -123,6 +123,9 @@
   <data name="ColorColumn.HeaderText" xml:space="preserve">
     <value>色</value>
   </data>
+  <data name="colorToolStripMenuItem.Text" xml:space="preserve">
+    <value>線の色...</value>
+  </data>
   <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
     <value>削除(&amp;D)</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="LineColumn.HeaderText" xml:space="preserve">
     <value>線のスタイル</value>
+  </data>
+  <data name="lineStyleToolStripMenuItem.Text" xml:space="preserve">
+    <value>線のスタイル...</value>
   </data>
   <data name="windowToolStripMenuItem.Text" xml:space="preserve">
     <value>ウインドウ</value>

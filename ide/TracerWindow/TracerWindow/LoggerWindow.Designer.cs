@@ -43,6 +43,8 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.importLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.colorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lineStyleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.loggerDataGrid)).BeginInit();
             this.gridContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -61,10 +63,10 @@
             this.FullPNColumn,
             this.ColorColumn,
             this.LineColumn});
-            this.loggerDataGrid.MultiSelect = false;
             this.loggerDataGrid.Name = "loggerDataGrid";
             this.loggerDataGrid.RowHeadersVisible = false;
             this.loggerDataGrid.RowTemplate.Height = 21;
+            this.loggerDataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.loggerDataGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.loggerDataGrid_CellValueChanged);
             this.loggerDataGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.loggerDataGrid_CellDoubleClick);
             this.loggerDataGrid.DragEnter += new System.Windows.Forms.DragEventHandler(this.loggerDataGrid_DragEnter);
@@ -108,6 +110,8 @@
             this.gridContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.windowToolStripMenuItem,
             this.toolStripSeparator1,
+            this.colorToolStripMenuItem,
+            this.lineStyleToolStripMenuItem,
             this.deleteToolStripMenuItem,
             this.toolStripSeparator2,
             this.importLogToolStripMenuItem});
@@ -146,6 +150,18 @@
             // 
             this.m_openFileDialog.FileName = "m_openFileDialog";
             // 
+            // colorToolStripMenuItem
+            // 
+            this.colorToolStripMenuItem.Name = "colorToolStripMenuItem";
+            resources.ApplyResources(this.colorToolStripMenuItem, "colorToolStripMenuItem");
+            this.colorToolStripMenuItem.Click += new System.EventHandler(this.colorToolStripMenuItem_Click);
+            // 
+            // lineStyleToolStripMenuItem
+            // 
+            this.lineStyleToolStripMenuItem.Name = "lineStyleToolStripMenuItem";
+            resources.ApplyResources(this.lineStyleToolStripMenuItem, "lineStyleToolStripMenuItem");
+            this.lineStyleToolStripMenuItem.Click += new System.EventHandler(this.lineStyleToolStripMenuItem_Click);
+            // 
             // LoggerWindow
             // 
             resources.ApplyResources(this, "$this");
@@ -173,5 +189,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem importLogToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog m_openFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem colorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem lineStyleToolStripMenuItem;
     }
 }
