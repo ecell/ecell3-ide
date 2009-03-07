@@ -150,6 +150,8 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             }
             templateComboBox.SelectedText = "None";
         }
+
+
         #endregion
 
         private void TemplateComboBoxSelectedChanged(object sender, EventArgs e)
@@ -169,6 +171,11 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 e.Cancel = true;
                 return;
             }
+        }
+
+        private void CreateDMDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            String name = INTextBox.Text;
             if (!name.EndsWith(Constants.xpathProcess) && !name.EndsWith(Constants.xpathStepper))
             {
                 Util.ShowWarningDialog(MessageResources.WarnDMName);

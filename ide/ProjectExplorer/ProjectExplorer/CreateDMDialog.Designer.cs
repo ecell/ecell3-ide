@@ -109,6 +109,7 @@
             this.Controls.Add(this.INCancelButton);
             this.Name = "CreateDMDialog";
             this.Shown += new System.EventHandler(this.InputNameShown);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CreateDMDialog_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
