@@ -3674,7 +3674,7 @@ namespace Ecell
                 message = "[" + projectID + "][" + simParam + "]";
 
                 SaveType saveFileType = SaveType.ECD;
-                if (savedType.Equals("csv") || savedType.Equals("CSV"))
+                if (savedType != null && (savedType.Equals("csv") || savedType.Equals("CSV")))
                     saveFileType = SaveType.CSV;
 
                 //
