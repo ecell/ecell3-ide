@@ -677,16 +677,16 @@ namespace Ecell
             string filename = "c:/temp/Drosophila/project.xml";
             _unitUnderTest.LoadProject(filename);
 
-            //List<string> resultList = null;
-            //try
-            //{
-            //    resultList = _unitUnderTest.GetLoggerList();
-            //    Assert.IsEmpty(resultList, "GetLoggerList method returned unexpected result.");
-            //}
-            //catch (Exception e)
-            //{
-            //    Trace.WriteLine(e.StackTrace);
-            //}
+            List<string> resultList = null;
+            try
+            {
+                resultList = _unitUnderTest.GetLoggerList();
+                Assert.IsEmpty(resultList, "GetLoggerList method returned unexpected result.");
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.StackTrace);
+            }
         }
 
         /// <summary>

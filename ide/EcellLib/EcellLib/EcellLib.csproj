@@ -145,7 +145,7 @@
     <Compile Include="Objects\EcellLayer.cs" />
     <Compile Include="Objects\EcellProject.cs" />
     <Compile Include="Objects\EcellStepper.cs" />
-    <Compile Include="Plugin\IPropertyPage.cs" />
+    <Compile Include="Plugin\IPropertyItem.cs" />
     <Compile Include="Plugin\PluginData.cs" />
     <Compile Include="Reporting\CompileReport.cs" />
     <Compile Include="ConsoleManager.cs" />

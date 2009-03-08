@@ -3636,7 +3636,7 @@ namespace Ecell
         {
             try
             {
-                SaveSimulationResult(null, 0.0, GetCurrentSimulationTime(), null, GetLoggerList());
+                SaveSimulationResult(null, 0.0, GetCurrentSimulationTime(), null, m_env.LoggerManager.GetLoggerList());
             }
             catch (Exception ex)
             {
@@ -3677,9 +3677,7 @@ namespace Ecell
                 if (savedType != null && (savedType.Equals("csv") || savedType.Equals("CSV")))
                     saveFileType = SaveType.CSV;
 
-                //
                 // Initializes.
-                //
                 string simulationDirName = null;
                 if (!string.IsNullOrEmpty(savedDirName))
                 {

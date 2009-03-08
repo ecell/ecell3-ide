@@ -68,10 +68,6 @@ namespace Ecell
         /// </summary>
         private List<EcellModel> m_modelList = null;
         /// <summary>
-        /// The ModelFileList of this project
-        /// </summary>
-        private Dictionary<string, string> m_modelFileList = new Dictionary<string,string>();
-        /// <summary>
         /// The Simulator of this project.
         /// </summary>
         private WrappedSimulator m_simulator = null;

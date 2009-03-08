@@ -437,16 +437,6 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// Set Moving delta.
-        /// </summary>
-        /// <param name="delta"></param>
-        public void MovePosition(PointF delta)
-        {
-            this.X = this.X + delta.X;
-            this.Y = this.Y + delta.Y;
-        }
-
-        /// <summary>
         /// Returns the new "EcellObject" instance with initialized arguments.
         /// </summary>
         /// <param name="modelID">The model ID</param>

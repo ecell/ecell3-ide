@@ -293,6 +293,17 @@ namespace Ecell.Objects
         {
             return m_rect.Contains(rect);
         }
+
+        /// <summary>
+        /// Set Moving delta.
+        /// </summary>
+        /// <param name="delta"></param>
+        public void MovePosition(PointF delta)
+        {
+            this.X = this.X + delta.X;
+            this.Y = this.Y + delta.Y;
+        }
+
         /// <summary>
         /// 
         /// </summary>
