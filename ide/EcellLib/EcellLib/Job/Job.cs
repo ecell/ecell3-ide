@@ -114,7 +114,7 @@ namespace Ecell.Job
         /// <summary>
         /// get / set script file name.
         /// </summary>
-        public String ScriptFile
+        public string ScriptFile
         {
             get { return this.m_scriptFile; }
             set { this.m_scriptFile = value; }
@@ -123,7 +123,7 @@ namespace Ecell.Job
         /// <summary>
         /// get / set the argument of program.
         /// </summary>
-        public String Argument
+        public string Argument
         {
             get { return this.m_argument; }
             set { this.m_argument = value; }
@@ -132,7 +132,7 @@ namespace Ecell.Job
         /// <summary>
         /// get / set the directory of jobs.
         /// </summary>
-        public String JobDirectory
+        public string JobDirectory
         {
             get { return this.m_jobDirectory; }
             set { this.m_jobDirectory = value; }
@@ -141,7 +141,7 @@ namespace Ecell.Job
         /// <summary>
         /// get / set the machine name executed the job.
         /// </summary>
-        public String Machine
+        public string Machine
         {
             get { return this.m_machine; }
             set { this.m_machine = value; }
@@ -150,7 +150,7 @@ namespace Ecell.Job
         /// <summary>
         /// get / set the list of extra file.
         /// </summary>
-        public List<String> ExtraFileList
+        public List<string> ExtraFileList
         {
             get { return this.m_extraFile; }
             set { this.m_extraFile = value; }
@@ -159,7 +159,7 @@ namespace Ecell.Job
         /// <summary>
         /// get / set the string of stderr.
         /// </summary>
-        public String StdErr
+        public string StdErr
         {
             get { return this.m_stderr; }
             set { this.m_stderr = value; }
@@ -168,7 +168,7 @@ namespace Ecell.Job
         /// <summary>
         /// get / set the dm directory path.
         /// </summary>
-        static public String DMPATH
+        static public string DMPATH
         {
             get { return s_dmPath; }
             set { s_dmPath = value; }
@@ -269,7 +269,7 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="judgeFile">script file to judge.</param>
         /// <returns>judgement.</returns>
-        public virtual int GetJudge(String judgeFile)
+        public virtual int GetJudge(string judgeFile)
         {
             // not implement.
             return 0;

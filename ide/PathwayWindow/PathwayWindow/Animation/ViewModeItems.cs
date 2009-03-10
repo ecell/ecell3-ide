@@ -126,9 +126,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         void MaxEdgeWidthValidating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             string text = edgeWidth.Text;
-            if (String.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, edgeWidth.LabelText));
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrNoInput, edgeWidth.LabelText));
                 edgeWidth.Text = Convert.ToString(m_control.MaxEdgeWidth);
                 e.Cancel = true;
                 return;
@@ -137,7 +137,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             float dummy;
             if (!float.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, edgeWidth.LabelText));
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, edgeWidth.LabelText));
                 edgeWidth.Text = Convert.ToString(m_control.MaxEdgeWidth);
                 e.Cancel = true;
                 return;
@@ -159,7 +159,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             float dummy;
             if (!float.TryParse(text, out dummy) || dummy < 0 || dummy > 100)
             {
-                throw new EcellException(String.Format(MessageResources.ErrInvalidValue, edgeWidth.LabelText));
+                throw new EcellException(string.Format(MessageResources.ErrInvalidValue, edgeWidth.LabelText));
             }
         }
     }

@@ -109,7 +109,7 @@ namespace Ecell
 
             if (systemObjectList == null || systemObjectList.Count <= 0)
             {
-                throw new EcellException(String.Format(MessageResources.ErrFindEnt,
+                throw new EcellException(string.Format(MessageResources.ErrFindEnt,
                     new object[] { fullPN }));
             }
             //
@@ -193,7 +193,7 @@ namespace Ecell
             }
             else
             {
-                throw new EcellException(String.Format(MessageResources.ErrFindEnt,
+                throw new EcellException(string.Format(MessageResources.ErrFindEnt,
                     new object[] { fullPN }));
             }
         }
@@ -305,7 +305,7 @@ namespace Ecell
                     = m_env.DataManager.GetData(s_modelID, fullPNDivs[1]);
             if (systemObjectList == null || systemObjectList.Count <= 0)
             {
-                throw new EcellException(String.Format(MessageResources.ErrFindEnt,
+                throw new EcellException(string.Format(MessageResources.ErrFindEnt,
                     new object[] { fullPN }));
             }
             //
@@ -388,7 +388,7 @@ namespace Ecell
             }
             else
             {
-                throw new EcellException(String.Format(MessageResources.ErrFindEnt,
+                throw new EcellException(string.Format(MessageResources.ErrFindEnt,
                     new object[] { fullPN }));
             }
 
@@ -413,7 +413,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new EcellException(String.Format(MessageResources.ErrLoadFile,
+                throw new EcellException(string.Format(MessageResources.ErrLoadFile,
                     new object[] { execFileName }), ex);
             }
         }
@@ -905,7 +905,7 @@ namespace Ecell
             /// <param name="className">the class name</param>
             public void Create(string className)
             {
-                Debug.Assert(!String.IsNullOrEmpty(s_modelID));
+                Debug.Assert(!string.IsNullOrEmpty(s_modelID));
 
                 //
                 // Already get
@@ -1271,7 +1271,7 @@ namespace Ecell
                 {
                     if (!data.Settable)
                     {
-                        throw new EcellException(String.Format(MessageResources.ErrSetProp,
+                        throw new EcellException(string.Format(MessageResources.ErrSetProp,
                             new object[] { fullPN }));
                     }
                     else if (data.Name.Equals(Constants.xpathVRL))
@@ -1496,7 +1496,7 @@ namespace Ecell
             /// </summary>
             public void Create()
             {
-                Debug.Assert(!String.IsNullOrEmpty(CommandManager.s_modelID));
+                Debug.Assert(!string.IsNullOrEmpty(CommandManager.s_modelID));
                 //
                 // Already get
                 //
@@ -1689,7 +1689,7 @@ namespace Ecell
             /// <param name="className">the class name</param>
             public void Create(string className)
             {
-                Debug.Assert(!String.IsNullOrEmpty(CommandManager.s_modelID));
+                Debug.Assert(!string.IsNullOrEmpty(CommandManager.s_modelID));
                 //
                 // Already get
                 //
@@ -1940,7 +1940,7 @@ namespace Ecell
                             {
                                 if (!data.Settable)
                                 {
-                                    throw new EcellException(String.Format(MessageResources.ErrSetProp,
+                                    throw new EcellException(string.Format(MessageResources.ErrSetProp,
                                         new object[] { propertyName }));
                                 }
                                 else if (data.Value.IsDouble)

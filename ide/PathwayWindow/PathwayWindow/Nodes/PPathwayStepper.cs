@@ -45,6 +45,9 @@ using Ecell.IDE.Plugins.PathwayWindow;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
 {
+    /// <summary>
+    /// PPathwayStepper
+    /// </summary>
     public class PPathwayStepper :PPathwayObject
     {
         /// <summary>
@@ -54,6 +57,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         public override PPathwayObject CreateNewObject()
         {
             return new PPathwayStepper();
+        }
+
+        /// <summary>
+        /// Refresh Text contents of this object.
+        /// </summary>
+        protected override void RefreshText()
+        {
+            base.RefreshText();
+            this.m_pText.X = base.X + base.Width;
+            this.m_pText.MoveToFront();
+
         }
     }
 }

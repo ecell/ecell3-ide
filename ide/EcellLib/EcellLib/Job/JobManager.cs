@@ -196,9 +196,9 @@ namespace Ecell.Job
         /// Get the list of environment name.
         /// </summary>
         /// <returns>the list of string.</returns>
-        public List<String> GetEnvironmentList()
+        public List<string> GetEnvironmentList()
         {
-            List<String> tmpList = new List<string>();
+            List<string> tmpList = new List<string>();
             foreach (string id in m_proxyList.Keys)
             {
                 tmpList.Add(id);
@@ -210,7 +210,7 @@ namespace Ecell.Job
         /// Get the environment name.
         /// </summary>
         /// <returns>string.</returns>
-        public String GetCurrentEnvironment()
+        public string GetCurrentEnvironment()
         {
             if (m_proxy == null)
                 return null;
@@ -630,7 +630,7 @@ namespace Ecell.Job
         /// </summary>
         /// <param name="jobid">JobID.</param>
         /// <returns>Directory path.</returns>
-        public String GetJobDirectory(int jobid)
+        public string GetJobDirectory(int jobid)
         {
             if (jobid <= 0) return null;
             if (m_sessionList.ContainsKey(jobid))
@@ -664,11 +664,11 @@ namespace Ecell.Job
         /// Get the string of option.
         /// </summary>
         /// <returns>options for SystemProxy.</returns>
-        public String GetOptionList()
+        public string GetOptionList()
         {
             if (m_proxy == null) return null;
             Dictionary<string, object> dic = GetEnvironmentProperty();
-            String result = "";
+            string result = "";
             foreach (string opt in dic.Keys)
             {
                 result = result + " " + opt;
@@ -957,7 +957,7 @@ namespace Ecell.Job
         /// Only use RunSimParameterRange and RunSimParameterMatrix.
         /// </summary>
         /// <param name="topDir">the top directory set each simulation.</param>
-        private void SetLogTopDirectory(String topDir)
+        private void SetLogTopDirectory(string topDir)
         {
             string res = topDir.Replace("\\", "\\\\");
             List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();

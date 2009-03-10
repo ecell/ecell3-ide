@@ -80,7 +80,7 @@ namespace Ecell.Objects
         /// <summary>
         /// get/set model ID.
         /// </summary>
-        public String ModelID
+        public string ModelID
         {
             get { return this.m_modelID; }
         }
@@ -143,7 +143,7 @@ namespace Ecell.Objects
         /// <summary>
         /// get/set key of object.
         /// </summary>
-        public String Key
+        public string Key
         {
             get { return this.m_key; }
         }
@@ -151,7 +151,7 @@ namespace Ecell.Objects
         /// <summary>
         /// get/set type of object.
         /// </summary>
-        public String Type
+        public string Type
         {
             get { return this.m_type; }
         }
@@ -159,7 +159,7 @@ namespace Ecell.Objects
         /// <summary>
         /// get/set entity path of logger.
         /// </summary>
-        public String Path
+        public string Path
         {
             get { return this.m_path; }
         }

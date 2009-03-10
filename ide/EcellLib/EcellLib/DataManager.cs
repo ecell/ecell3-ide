@@ -173,7 +173,7 @@ namespace Ecell
         /// <summary>
         /// get the default directory.
         /// </summary>
-        public String DefaultDir
+        public string DefaultDir
         {
             get { return this.m_defaultDir; }
         }
@@ -220,13 +220,13 @@ namespace Ecell
             {
                 ScriptWriter writer = new ScriptWriter(m_currentProject);
                 writer.SaveScript(fileName);
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoSaveScript, fileName));
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoSaveScript, fileName));
                 m_env.Console.Flush();
             }
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                throw new EcellException(String.Format(MessageResources.ErrSaveScript, fileName), ex);
+                throw new EcellException(string.Format(MessageResources.ErrSaveScript, fileName), ex);
             }
         }
 
@@ -254,12 +254,12 @@ namespace Ecell
                 string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
 
                 m_env.Console.WriteLine(stdOut);
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoExecScript, fileName));
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoExecScript, fileName));
                 m_env.Console.Flush();
             }
             catch (Exception)
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrLoadFile,
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrLoadFile,
                     new object[] { scriptFile }));
             }
         }
@@ -302,7 +302,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new EcellException(String.Format(MessageResources.ErrLoadPrj,
+                throw new EcellException(string.Format(MessageResources.ErrLoadPrj,
                     new object[] { filename }), ex);
             }
         }
@@ -343,8 +343,8 @@ namespace Ecell
                 project.LoadModel();
                 foreach (EcellObject model in project.ModelList)
                 {
-                    Trace.WriteLine(String.Format(MessageResources.InfoLoadModel, model.ModelID));
-                    m_env.Console.WriteLine(String.Format(MessageResources.InfoLoadModel, model.ModelID));
+                    Trace.WriteLine(string.Format(MessageResources.InfoLoadModel, model.ModelID));
+                    m_env.Console.WriteLine(string.Format(MessageResources.InfoLoadModel, model.ModelID));
                     m_env.Console.Flush();
                     passList.Add(model);
                 }
@@ -365,7 +365,7 @@ namespace Ecell
             {
                 passList = null;
                 CloseProject();
-                throw new EcellException(String.Format(MessageResources.ErrLoadPrj, projectID), ex);
+                throw new EcellException(string.Format(MessageResources.ErrLoadPrj, projectID), ex);
             }
             finally
             {
@@ -535,7 +535,7 @@ namespace Ecell
             string[] files = Directory.GetFiles(sourceDir, "project.*");
             foreach (string file in files)
                 Util.CopyFile(file, targetDir);
-            m_env.Console.WriteLine(String.Format(MessageResources.InfoNewRev,
+            m_env.Console.WriteLine(string.Format(MessageResources.InfoNewRev,
                 m_currentProject.Info.Name, revNo));
         }
 
@@ -549,12 +549,12 @@ namespace Ecell
             string message = null;
             try
             {
-                message = String.Format(MessageResources.InfoSaveModel,
+                message = string.Format(MessageResources.InfoSaveModel,
                     new object[] { modelID });
                 //
                 // Initializes
                 //
-                Debug.Assert(!String.IsNullOrEmpty(modelID));
+                Debug.Assert(!string.IsNullOrEmpty(modelID));
                 SetDefaultDir();
 
                 if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Info.Name))
@@ -626,7 +626,7 @@ namespace Ecell
                 if (dlg != null)
                     dlg(logList);
 
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoSavePrj, m_currentProject.Info.Name));
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoSavePrj, m_currentProject.Info.Name));
                 m_env.Console.Flush();
             }
             catch (Exception ex)
@@ -832,7 +832,7 @@ namespace Ecell
                 Trace.WriteLine(ex);
                 usableList.Clear();
                 throw new EcellException(
-                   String.Format(MessageResources.ErrAdd,
+                   string.Format(MessageResources.ErrAdd,
                     new object[] { type, ecellObject.Key }), ex);
             }
             finally
@@ -901,7 +901,7 @@ namespace Ecell
             //
             // Messages
             //
-            string message = String.Format(MessageResources.InfoAdd,
+            string message = string.Format(MessageResources.InfoAdd,
                 new object[] { ecellObject.Type, modelID });
             MessageCreateEntity(EcellObject.MODEL, message);
             MessageCreateEntity(EcellObject.SYSTEM, message);
@@ -971,7 +971,7 @@ namespace Ecell
             {
                 if (!sys.Key.Equals(system.Key))
                     continue;
-                throw new EcellException(String.Format(MessageResources.ErrAdd,
+                throw new EcellException(string.Format(MessageResources.ErrAdd,
                     new object[] { type, system.Key }));
             }
             CheckEntityPath(system);
@@ -1001,7 +1001,7 @@ namespace Ecell
             if (messageFlag)
             {
                 MessageCreateEntity(EcellObject.SYSTEM,
-                    String.Format(MessageResources.InfoAdd,
+                    string.Format(MessageResources.InfoAdd,
                     new object[] { type, system.Key }));
             }
         }
@@ -1059,7 +1059,7 @@ namespace Ecell
 
             if (messageFlag)
             {
-                MessageCreateEntity(type, String.Format(MessageResources.InfoAdd,
+                MessageCreateEntity(type, string.Format(MessageResources.InfoAdd,
                     new object[] { type, entity.Key }));
             }
             Debug.Assert(findFlag);
@@ -1130,9 +1130,9 @@ namespace Ecell
             bool isRecorded,
             bool isAnchor)
         {
-            Debug.Assert(!String.IsNullOrEmpty(modelID));
-            Debug.Assert(!String.IsNullOrEmpty(key));
-            Debug.Assert(!String.IsNullOrEmpty(type));
+            Debug.Assert(!string.IsNullOrEmpty(modelID));
+            Debug.Assert(!string.IsNullOrEmpty(key));
+            Debug.Assert(!string.IsNullOrEmpty(type));
 
             // DataChange for simulation.
             try
@@ -1518,7 +1518,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new EcellException(String.Format(MessageResources.ErrDelete,
+                throw new EcellException(string.Format(MessageResources.ErrDelete,
                     new object[] { key }), ex);
             }
             finally
@@ -1666,7 +1666,7 @@ namespace Ecell
             // Check system.
             EcellObject system = GetEcellObject(modelID, sysKey, EcellObject.SYSTEM);
             if (system == null)
-                throw new EcellException(String.Format(MessageResources.ErrFindEnt, new object[] { sysKey }));
+                throw new EcellException(string.Format(MessageResources.ErrFindEnt, new object[] { sysKey }));
             // CheckRoot
             if (system.Key.Equals("/"))
                 throw new EcellException(MessageResources.ErrDelRoot);
@@ -1708,7 +1708,7 @@ namespace Ecell
                 newKey = Util.GetMovedKey(oldKey, sysKey, parentSysKey);
                 if (GetEcellObject(modelID, newKey, eo.Type) != null)
                 {
-                    throw new EcellException(String.Format(MessageResources.ErrExistObj,
+                    throw new EcellException(string.Format(MessageResources.ErrExistObj,
                         new object[] { newKey }));
                 }
                 CheckParameterObservedData(eo, newKey);
@@ -2232,7 +2232,7 @@ namespace Ecell
             }
             catch (EcellException ex)
             {
-                String message = String.Format(MessageResources.ErrAdd,
+                string message = string.Format(MessageResources.ErrAdd,
                     new object[] { type, key });
                 throw new EcellException(message, ex);
             }
@@ -2258,13 +2258,13 @@ namespace Ecell
         /// <returns>the create object.</returns>
         private EcellObject CreateDefaultProcess(string modelID, string key)
         {
-            String tmpID = GetTemporaryID(modelID, Constants.xpathProcess, key);
+            string tmpID = GetTemporaryID(modelID, Constants.xpathProcess, key);
 
             // Get Default StepperID.
             EcellObject sysobj = GetEcellObject(modelID, key, Constants.xpathSystem);
             if (sysobj == null)
                 return null;
-            String stepperID = "";
+            string stepperID = "";
             foreach (EcellData d in sysobj.Value)
             {
                 if (!d.Name.Equals(Constants.xpathStepperID))
@@ -2305,7 +2305,7 @@ namespace Ecell
         /// <returns>the create object.</returns>
         private EcellObject CreateDefaultVariable(string modelID, string key)
         {
-            String tmpID = GetTemporaryID(modelID, Constants.xpathVariable, key);
+            string tmpID = GetTemporaryID(modelID, Constants.xpathVariable, key);
 
             Dictionary<string, EcellData> list = GetVariableProperty();
             List<EcellData> data = new List<EcellData>();
@@ -2326,12 +2326,12 @@ namespace Ecell
         /// <returns>the create object.</returns>
         private EcellObject CreateDefaultSystem(string modelID, string key)
         {
-            String tmpID = GetTemporaryID(modelID, Constants.xpathSystem, key);
+            string tmpID = GetTemporaryID(modelID, Constants.xpathSystem, key);
 
             EcellObject sysobj = GetEcellObject(modelID, key, Constants.xpathSystem);
             if (sysobj == null)
                 return null;
-            String stepperID = "";
+            string stepperID = "";
             foreach (EcellData d in sysobj.Value)
             {
                 if (!d.Name.Equals(Constants.xpathStepperID))
@@ -2552,7 +2552,7 @@ namespace Ecell
             catch (Exception ex)
             {
                 throw new EcellException(
-                    String.Format(MessageResources.ErrGetProp,
+                    string.Format(MessageResources.ErrGetProp,
                     new object[] { dmName }), ex);
             }
             return dic;
@@ -2814,7 +2814,7 @@ namespace Ecell
             {
                 entityList.Clear();
                 entityList = null;
-                throw new EcellException(String.Format(MessageResources.ErrFindEnt,
+                throw new EcellException(string.Format(MessageResources.ErrFindEnt,
                     new object[] { type }), ex);
             }
         }
@@ -2876,7 +2876,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                message = String.Format(MessageResources.ErrNotCreStepper, stepper.Key);
+                message = string.Format(MessageResources.ErrNotCreStepper, stepper.Key);
                 Trace.WriteLine(message);
                 throw new EcellException(message, ex);
             }
@@ -2999,7 +2999,7 @@ namespace Ecell
                 if (point != -1)
                 {
                     storedStepperList.RemoveAt(point);
-                    Trace.WriteLine(String.Format(MessageResources.InfoDel,
+                    Trace.WriteLine(string.Format(MessageResources.InfoDel,
                         new object[] { stepper.Type, stepper.Key }));
                 }
                 if (isRecorded)
@@ -3011,7 +3011,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                String errmes = String.Format(MessageResources.ErrDelete,
+                string errmes = string.Format(MessageResources.ErrDelete,
                     new object[] { stepper.Key });
                 Trace.WriteLine(errmes);
                 throw new EcellException(errmes, ex);
@@ -3031,7 +3031,7 @@ namespace Ecell
             if (string.IsNullOrEmpty(parameterID))
                 parameterID = m_currentProject.Info.SimulationParam;
             if (string.IsNullOrEmpty(parameterID))
-                throw new EcellException(String.Format(MessageResources.ErrNoSet,
+                throw new EcellException(string.Format(MessageResources.ErrNoSet,
                     new object[] { MessageResources.NameSimParam }));
 
             List<EcellObject> tempList = m_currentProject.StepperDic[parameterID][modelID];
@@ -3371,9 +3371,9 @@ namespace Ecell
                 m_currentProject.SimulationStatus = SimulationStatus.Suspended;
                 m_env.LogManager.Append(new ApplicationLogEntry(
                     MessageType.Information,
-                    String.Format(MessageResources.InfoSuspend, m_currentProject.Simulator.GetCurrentTime()),
+                    string.Format(MessageResources.InfoSuspend, m_currentProject.Simulator.GetCurrentTime()),
                     this));
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoSuspend, m_currentProject.Simulator.GetCurrentTime()));
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoSuspend, m_currentProject.Simulator.GetCurrentTime()));
                 m_env.Console.Flush();
             }
             catch (WrappedException ex)
@@ -3397,9 +3397,9 @@ namespace Ecell
                 }
                 m_env.LogManager.Append(new ApplicationLogEntry(
                     MessageType.Information,
-                    String.Format(MessageResources.InfoResetSim, m_currentProject.Simulator.GetCurrentTime()),
+                    string.Format(MessageResources.InfoResetSim, m_currentProject.Simulator.GetCurrentTime()),
                     this));
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoResetSim, m_currentProject.Simulator.GetCurrentTime()));
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoResetSim, m_currentProject.Simulator.GetCurrentTime()));
                 m_env.Console.Flush();
 
                 m_isTimeStepping = false;
@@ -3640,7 +3640,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new EcellException(String.Format(MessageResources.ErrSavePrj,
+                throw new EcellException(string.Format(MessageResources.ErrSavePrj,
                     new object[] { m_currentProject.Info.Name }), ex);
             }
         }
@@ -4198,7 +4198,7 @@ namespace Ecell
                 if (m_currentProject.StepperDic.ContainsKey(parameterID))
                 {
                     throw new EcellException(
-                        String.Format(MessageResources.ErrExistObj,
+                        string.Format(MessageResources.ErrExistObj,
                         new object[] { parameterID }));
                 }
 
@@ -4217,9 +4217,9 @@ namespace Ecell
                 // Notify that a new parameter set is created.
                 m_env.PluginManager.ParameterAdd(m_currentProject.Info.Name, parameterID);
 
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoCreSim, parameterID));
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoCreSim, parameterID));
                 m_env.Console.Flush();
-                Trace.WriteLine(String.Format(MessageResources.InfoCreSim,
+                Trace.WriteLine(string.Format(MessageResources.InfoCreSim,
                     new object[] { parameterID }));
                 //if (isRecorded)
                 //    m_env.ActionManager.AddAction(new NewSimParamAction(parameterID, isAnchor));
@@ -4227,7 +4227,7 @@ namespace Ecell
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                string message = String.Format(MessageResources.ErrCreSimParam,
+                string message = string.Format(MessageResources.ErrCreSimParam,
                     new object[] { parameterID });
                 throw new EcellException(message, ex);
             }
@@ -4254,7 +4254,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new EcellException(String.Format(MessageResources.ErrLoadSimParam,
+                throw new EcellException(string.Format(MessageResources.ErrLoadSimParam,
                     fileName), ex);
             }
             Trace.WriteLine("Load Simulation Parameter: " + message);
@@ -4484,7 +4484,7 @@ namespace Ecell
                 }
                 m_currentProject.LoggerPolicyDic[simParamID] = simParam.LoggerPolicy;
                 m_currentProject.InitialCondition[simParamID] = simParam.InitialConditions;
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoLoadSim, simParamID));
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoLoadSim, simParamID));
                 m_env.Console.Flush();
             }
             catch (Exception)
@@ -4540,19 +4540,19 @@ namespace Ecell
 
             if (m_currentProject.StepperDic.Keys.Count <= 1)
             {
-                throw new EcellException(String.Format(MessageResources.ErrDelParam));
+                throw new EcellException(string.Format(MessageResources.ErrDelParam));
             }
 
             try
             {
-                Debug.Assert(!String.IsNullOrEmpty(parameterID));
+                Debug.Assert(!string.IsNullOrEmpty(parameterID));
                 if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
                     m_currentProject.SimulationStatus == SimulationStatus.Suspended)
                 {
                     if (parameterID.Equals(m_currentProject.Info.SimulationParam))
                     {
                         if (Util.ShowYesNoDialog(
-                            String.Format(MessageResources.InfoDeleteSim,
+                            string.Format(MessageResources.InfoDeleteSim,
                             parameterID)) == false)
                             return;
                         SimulationStop();
@@ -4567,7 +4567,7 @@ namespace Ecell
                 this.SetDefaultDir();
                 if (string.IsNullOrEmpty(m_defaultDir))
                 {
-                    throw new EcellException(String.Format(MessageResources.ErrNoSet,
+                    throw new EcellException(string.Format(MessageResources.ErrNoSet,
                         new object[] { MessageResources.NameWorkDir }));
                 }
 
@@ -4600,7 +4600,7 @@ namespace Ecell
                     }
                 }
                 m_env.PluginManager.ParameterDelete(m_currentProject.Info.Name, parameterID);
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoRemoveSim, parameterID));
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoRemoveSim, parameterID));
                 m_env.Console.Flush();
                 MessageDeleteEntity("Simulation Parameter", message);
 
@@ -4609,7 +4609,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new EcellException(String.Format(MessageResources.ErrDelete,
+                throw new EcellException(string.Format(MessageResources.ErrDelete,
                     new object[] { parameterID }), ex);
             }
         }
@@ -4632,7 +4632,7 @@ namespace Ecell
                 if (m_currentProject.StepperDic.ContainsKey(newParameterID))
                 {
                     throw new EcellException(
-                        String.Format(MessageResources.ErrExistObj,
+                        string.Format(MessageResources.ErrExistObj,
                         new object[] { newParameterID }));
                 }
 
@@ -4665,10 +4665,10 @@ namespace Ecell
                 m_currentProject.InitialCondition[newParameterID] = newInitialCondSets;
 
                 m_env.PluginManager.ParameterAdd(m_currentProject.Info.Name, newParameterID);
-                m_env.Console.WriteLine(String.Format(MessageResources.InfoCreSim, newParameterID));
+                m_env.Console.WriteLine(string.Format(MessageResources.InfoCreSim, newParameterID));
                 m_env.Console.Flush();
 
-                Trace.WriteLine(String.Format(MessageResources.InfoCreSim,
+                Trace.WriteLine(string.Format(MessageResources.InfoCreSim,
                     new object[] { newParameterID }));
                 //‚Ü‚¾copy‚ª‚È‚¢
                 //m_env.ActionManager.AddAction(new NewSimParamAction(parameterID, isAnchor));
@@ -4676,7 +4676,7 @@ namespace Ecell
             catch (Exception ex)
             {
                 Trace.WriteLine(ex);
-                string message = String.Format(MessageResources.ErrCreSimParam,
+                string message = string.Format(MessageResources.ErrCreSimParam,
                     new object[] { newParameterID });
                 throw new EcellException(message, ex);
             }
@@ -4695,7 +4695,7 @@ namespace Ecell
                 //
                 // Initializes.
                 //
-                Debug.Assert(!String.IsNullOrEmpty(paramID));
+                Debug.Assert(!string.IsNullOrEmpty(paramID));
                 SetDefaultDir();
 
                 if (!Directory.Exists(this.m_defaultDir + Constants.delimiterPath + m_currentProject.Info.Name))
@@ -4742,7 +4742,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                message = String.Format(MessageResources.ErrSavePrj,
+                message = string.Format(MessageResources.ErrSavePrj,
                     new object[] { m_currentProject.Info.Name });
                 Trace.WriteLine(message);
                 throw new EcellException(message, ex);
@@ -4857,7 +4857,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new EcellException(String.Format(MessageResources.ErrPropData,
+                throw new EcellException(string.Format(MessageResources.ErrPropData,
                     new object[] { fullPN }), ex);
             }
         }
@@ -4913,7 +4913,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new EcellException(String.Format(MessageResources.ErrPropData, new object[] { fullPN }), ex);
+                throw new EcellException(string.Format(MessageResources.ErrPropData, new object[] { fullPN }), ex);
             }
         }
 

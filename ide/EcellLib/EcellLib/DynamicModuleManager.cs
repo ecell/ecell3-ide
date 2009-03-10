@@ -474,14 +474,14 @@ namespace Ecell
         /// <summary>
         /// Dynamic module name
         /// </summary>
-        public String Name
+        public string Name
         {
             get { return this.m_name; }
         }
         /// <summary>
         /// Path
         /// </summary>
-        public String Path
+        public string Path
         {
             get { return this.m_path; }
         }
@@ -495,7 +495,7 @@ namespace Ecell
         /// <summary>
         /// Description
         /// </summary>
-        public String Description
+        public string Description
         {
             get { return this.m_description; }
         }

@@ -300,15 +300,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             float high, low;
             if (!float.TryParse(hightext, out high))
             {
-                throw new EcellException(String.Format(MessageResources.ErrInvalidValue, thresholdHigh.LabelText));
+                throw new EcellException(string.Format(MessageResources.ErrInvalidValue, thresholdHigh.LabelText));
             }
             if (!float.TryParse(lowtext, out low))
             {
-                throw new EcellException(String.Format(MessageResources.ErrInvalidValue, thresholdLow.LabelText));
+                throw new EcellException(string.Format(MessageResources.ErrInvalidValue, thresholdLow.LabelText));
             }
             if (high < low)
             {
-                throw new EcellException(String.Format(MessageResources.ErrInvalidValue, 
+                throw new EcellException(string.Format(MessageResources.ErrInvalidValue, 
                     thresholdHigh.LabelText + "," + thresholdLow.LabelText));
             }
         }
@@ -316,9 +316,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         void HighThresholdValidating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             string text = thresholdHigh.Text;
-            if (String.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, this.thresholdHigh.LabelText));
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrNoInput, this.thresholdHigh.LabelText));
                 thresholdHigh.Text = Convert.ToString(animCon.ThresholdHigh);
                 e.Cancel = true;
                 return;
@@ -326,7 +326,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             float dummy;
             if (!float.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, thresholdHigh.LabelText));
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, thresholdHigh.LabelText));
                 thresholdHigh.Text = Convert.ToString(animCon.ThresholdHigh);
                 e.Cancel = true;
                 return;
@@ -336,9 +336,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         void LowThresholdValidating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             string text = thresholdLow.Text;
-            if (String.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, this.thresholdLow.LabelText));
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrNoInput, this.thresholdLow.LabelText));
                 thresholdLow.Text = Convert.ToString(animCon.ThresholdLow);
                 e.Cancel = true;
                 return;
@@ -346,7 +346,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             float dummy;
             if (!float.TryParse(text, out dummy))
             {
-                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, thresholdLow.LabelText));
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrInvalidValue, thresholdLow.LabelText));
                 thresholdLow.Text = Convert.ToString(animCon.ThresholdLow);
                 e.Cancel = true;
                 return;

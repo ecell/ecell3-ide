@@ -82,7 +82,7 @@ namespace Ecell.Logger
         /// <summary>
         /// get / set Model ID.
         /// </summary>
-        public String ModelID
+        public string ModelID
         {
             get { return this.m_modelID; }
             set { this.m_modelID = value; }
@@ -91,7 +91,7 @@ namespace Ecell.Logger
         /// <summary>
         /// get / set ID.
         /// </summary>
-        public String ID
+        public string ID
         {
             get { return this.m_ID; }
             set { this.m_ID = value; }
@@ -100,7 +100,7 @@ namespace Ecell.Logger
         /// <summary>
         /// get / set Type.
         /// </summary>
-        public String Type
+        public string Type
         {
             get { return this.m_Type; }
             set { this.m_Type = value; }
@@ -109,7 +109,7 @@ namespace Ecell.Logger
         /// <summary>
         /// get / set FullPN.
         /// </summary>
-        public String FullPN
+        public string FullPN
         {
             get { return this.m_FullPN; }
             set { this.m_FullPN = value; }

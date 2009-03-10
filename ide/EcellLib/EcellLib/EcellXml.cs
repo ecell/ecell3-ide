@@ -184,7 +184,7 @@ namespace Ecell
                     if (!childNode.Name.Equals(Constants.xpathValue.ToLower()))
                     {
                         throw new EcellXmlReaderException(
-                            String.Format(
+                            string.Format(
                                 "Element {0} found where {1} is expceted",
                                 new object[] { childNode.Name, Constants.xpathValue.ToLower() }
                             )

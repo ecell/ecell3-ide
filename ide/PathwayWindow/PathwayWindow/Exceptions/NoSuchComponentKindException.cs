@@ -35,7 +35,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Exceptions
 {
     class NoSuchComponentKindException : Exception
     {
-        public NoSuchComponentKindException(String message)
+        public NoSuchComponentKindException(string message)
             : base(message)
         {            
         }

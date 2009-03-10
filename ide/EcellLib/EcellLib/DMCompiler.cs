@@ -93,7 +93,7 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        public String DMFile
+        public string DMFile
         {
             get { return this.m_dmFile; }
             set { this.m_dmFile = value; }
@@ -107,7 +107,7 @@ namespace Ecell
         public void Compile(ApplicationEnvironment env)
         {
             string stageHome = System.Environment.GetEnvironmentVariable("ECELL_STAGING_HOME");
-            if (String.IsNullOrEmpty(stageHome))
+            if (string.IsNullOrEmpty(stageHome))
             {
                 Util.ShowErrorDialog(string.Format(MessageResources.ErrNotInstall,
                     new object[] { "E-Cell SDK" }));
@@ -135,7 +135,7 @@ namespace Ecell
                     System.Threading.Thread.Sleep(100);
                     if (maxCount < count)
                     {
-                        Util.ShowErrorDialog(String.Format(MessageResources.ErrCompile, new object[] { m_sourceFile }));
+                        Util.ShowErrorDialog(string.Format(MessageResources.ErrCompile, new object[] { m_sourceFile }));
                         return;
                     }
                     count++;
@@ -164,7 +164,7 @@ namespace Ecell
                 p.StandardInput.WriteLine("call \"" + VS80 + "\\vsvars32.bat\"");
 
                 string opt = "cl.exe /O2 /GL /I \"{0}\\Win32\\Release\\include\" /I \"{0}\\{3}\\Release\\include\\ecell-3.1\\libecs\" /D \"WIN32\" /D\"NODEBUG\" /D \"_WINDOWS\" /D \"_USRDLL\" /D \"GSL_DLL\" /D \"__STDC__=1\" /D \"_WINDLL\" /D \"_UNICODE\" /D \"UNICODE\" /FD /EHsc /MD /W3 /nologo /Wp64 /Zi /TP /errorReport:prompt \"{1}\" /link /OUT:\"{2}\" /LIBPATH:\"{0}\\{3}\\Release\\lib\" /INCREMENTAL:NO /NOLOGO  /DLL /MANIFEST /MANIFESTFILE:\"{2}.intermediate.manifest \" /DEBUG /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /MACHINE:{4} ecs.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib";
-                string cmd = String.Format(opt, new object[] {
+                string cmd = string.Format(opt, new object[] {
                 stageHome, m_sourceFile, m_outputFile, arch1, arch2
             });
 
@@ -240,9 +240,9 @@ namespace Ecell
                 try
                 {
                     File.Move(OutputFile, DMFile);
-                    Util.ShowNoticeDialog(String.Format(MessageResources.InfoCompile, 
+                    Util.ShowNoticeDialog(string.Format(MessageResources.InfoCompile, 
                         Path.GetFileNameWithoutExtension(DMFile)));
-                    env.Console.WriteLine(String.Format(MessageResources.InfoCompile,
+                    env.Console.WriteLine(string.Format(MessageResources.InfoCompile,
                         Path.GetFileNameWithoutExtension(DMFile)));
                     env.Console.Flush();
                 }
@@ -250,9 +250,9 @@ namespace Ecell
                 {
                     // 移動先のDMがロードされているため移動できなかった。
                     // よってこの例外は無視するものとする。
-                    Util.ShowNoticeDialog(String.Format(MessageResources.WarnMoveDM,
+                    Util.ShowNoticeDialog(string.Format(MessageResources.WarnMoveDM,
                         DMFile, OutputFile));
-                    env.Console.WriteLine(String.Format(MessageResources.WarnMoveDM,
+                    env.Console.WriteLine(string.Format(MessageResources.WarnMoveDM,
                         DMFile, OutputFile));
                     env.Console.Flush();
                 }

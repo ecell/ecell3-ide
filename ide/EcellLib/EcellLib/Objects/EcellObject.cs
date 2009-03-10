@@ -194,7 +194,12 @@ namespace Ecell.Objects
         /// </summary>
         public virtual string ParentSystemID
         {
-            get { return Util.GetSuperSystemPath(m_key); }
+            get
+            {
+                if (m_type.Equals(PROJECT) || m_type.Equals(MODEL) || m_type.Equals(STEPPER))
+                    return "";
+                return Util.GetSuperSystemPath(m_key);
+            }
             set
             {
                 if (this.m_type == EcellObject.PROCESS || this.m_type == EcellObject.VARIABLE)
@@ -223,8 +228,8 @@ namespace Ecell.Objects
         public virtual string LocalID
         {
             get {
-                if (string.IsNullOrEmpty(m_key))
-                    return "";
+                if (m_type.Equals(PROJECT) || m_type.Equals(MODEL) || m_type.Equals(STEPPER))
+                    return m_key;
 
                 string parentSysKey, localID;
                 Util.ParseKey(m_key, out parentSysKey, out localID);

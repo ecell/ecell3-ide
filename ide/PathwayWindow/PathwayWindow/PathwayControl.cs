@@ -368,7 +368,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 // Load each EcellObject onto the canvas.
                 foreach (EcellObject obj in data)
                 {
-                    DataAdd(obj, true, isFirst);
+                    DataAdd(obj, true);
                     if (!(obj is EcellSystem))
                     {
                         if (isFirst)
@@ -379,7 +379,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                         continue;
                     }
                     foreach (EcellObject node in obj.Children)
-                        DataAdd(node, true, isFirst);
+                        DataAdd(node, true);
                     if (isFirst)
                     {
                         Progress(mes, 100, count * 50 / allcount);
@@ -502,14 +502,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="eo">EcellObject</param>
         /// <param name="isAnchor">True is default. If undo unit contains multiple actions,
         /// only the last action's isAnchor is true, the others' isAnchor is false</param>
-        /// <param name="isFirst"></param>
-        public void DataAdd(EcellObject eo, bool isAnchor, bool isFirst)
+        public void DataAdd(EcellObject eo, bool isAnchor)
         {
             // Null check.
             if (eo == null)
-                return;
-            // Ignore Stepper
-            if (Constants.xpathStepper.Equals(eo.Type))
                 return;
 
             // Load new project
@@ -523,8 +519,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (eo.Type.Equals(EcellObject.MODEL))
             {
                 this.CreateCanvas((EcellModel)eo);
+                foreach (EcellObject child in eo.Children)
+                {
+                    if (!(child is EcellStepper))
+                        continue;
+                    //DataAdd(child, isAnchor);
+                }
                 return;
             }
+
             // Error check.
             Debug.Assert(!string.IsNullOrEmpty(eo.Key));
             Debug.Assert(!string.IsNullOrEmpty(eo.ModelID));
@@ -541,7 +544,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Create PathwayObject and set to canvas.
             ComponentSetting cs = m_csManager.GetDefaultComponentSetting(eo.Type);
             PPathwayObject obj = cs.CreateNewComponent(eo);
-            m_canvas.DataAdd(eo.ParentSystemID, obj, eo.IsPosSet, isFirst);
+            m_canvas.DataAdd(obj, eo.IsPosSet);
             NotifySetPosition(obj);
         }
 

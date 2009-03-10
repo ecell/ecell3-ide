@@ -559,11 +559,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Add PPathwayObject to this canvas.
         /// </summary>
-        /// <param name="sysKey"></param>
         /// <param name="obj"></param>
         /// <param name="hasCoords"></param>
-        /// <param name="isFirst"></param>
-        public void DataAdd(string sysKey, PPathwayObject obj, bool hasCoords, bool isFirst)
+        public void DataAdd(PPathwayObject obj, bool hasCoords)
         {
             // Set Layer
             obj.Canvas = this;
@@ -575,19 +573,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             RegisterObject(obj);
             if (obj is PPathwayNode)
                 ((PPathwayNode)obj).ShowingID = this.m_showingId;
-            // Set Root System
-            if (string.IsNullOrEmpty(sysKey))
-            {
-                if (!hasCoords)
-                    SetSystemSize(obj);
-                obj.Layer.AddChild(obj);
-                obj.RefreshView();
-                return;
-            }
 
             // Set ParentObject.
-            PPathwaySystem system = m_systems[sysKey];
-            obj.ParentObject = system;
+            string sysKey = obj.EcellObject.ParentSystemID;
+            PPathwaySystem system = null;
+            if (!string.IsNullOrEmpty(sysKey))
+            {
+                system = m_systems[sysKey];
+                obj.ParentObject = system;
+            }
             // If obj hasn't coordinate, it will be settled. 
             if (obj is PPathwayNode)
             {
@@ -600,7 +594,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 }
                 else if (!obj.EcellObject.isFixed)
                 {
-                    MakeSpace(system, obj, !isFirst);
+                    MakeSpace(system, obj, false);
                 }
                 else if (!DoesSystemContains(sysKey, obj.CenterPointF))
                 {
@@ -609,7 +603,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             }
             if (obj is PPathwaySystem)
             {
-                if (!hasCoords)
+                if (!hasCoords && !string.IsNullOrEmpty(sysKey))
                 {
                     float maxX = system.X + system.OffsetX;
                     float x = 0f;
@@ -627,8 +621,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     obj.Y = system.Y + PPathwaySystem.SYSTEM_MARGIN;
                     SetSystemSize(obj);
                 }
+                else if (!hasCoords)
+                    SetSystemSize(obj);
+
                 if (!obj.EcellObject.isFixed)
-                    MakeSpace(system, obj, !isFirst);
+                    MakeSpace(system, obj, false);
             }
             obj.Refresh();
             // Refresh OverView.
@@ -677,8 +674,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                         new object[] { node.EcellObject.Key }));
                 m_texts.Add(node.EcellObject.Key, node);
             }
-            if (obj.Canvas == null)
-                obj.Canvas = this;
         }
 
         /// <summary>
@@ -706,8 +701,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         /// <param name="system"></param>
         /// <param name="obj"></param>
-        /// <param name="isFirst"></param>
-        private void MakeSpace(PPathwaySystem system, PPathwayObject obj, bool isFirst)
+        /// <param name="isDataChanged"></param>
+        private void MakeSpace(PPathwaySystem system, PPathwayObject obj, bool isDataChanged)
         {
             // Offset position of given object.
             PointF offset = PointF.Empty;
@@ -715,16 +710,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             //    obj.OffsetX = system.Left + PPathwaySystem.SYSTEM_MARGIN - obj.X;
             //if (obj.Y <= system.Top + PPathwaySystem.SYSTEM_MARGIN)
             //    obj.OffsetY = system.Top + PPathwaySystem.SYSTEM_MARGIN - obj.Y;
-
             // Enlarge this system
             //if (system.Right < obj.Right + PPathwaySystem.SYSTEM_MARGIN)
             //    system.Width = obj.Right + PPathwaySystem.SYSTEM_MARGIN - system.X;
             //if (system.Bottom < obj.Bottom + PPathwaySystem.SYSTEM_MARGIN)
             //    system.Height = obj.Bottom + PPathwaySystem.SYSTEM_MARGIN - system.Y;
+            float margin = (isDataChanged) ? 1 : PPathwaySystem.SYSTEM_MARGIN;
             if (system.Right < obj.Right)
-                system.Width = obj.Right - system.X + 1;
+                system.Width = obj.Right - system.X + margin;
             if (system.Bottom < obj.Bottom)
-                system.Height = obj.Bottom - system.Y + 1;
+                system.Height = obj.Bottom - system.Y + margin;
 
             // Check Intersecting objects.
             List<PPathwayObject> list = GetAllObjectUnder(system.EcellObject.Key);
@@ -793,7 +788,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             // Make parent system create space for this system.
             if (system.ParentObject != null)
-                MakeSpace(system.ParentObject, system, isFirst);
+                MakeSpace(system.ParentObject, system, isDataChanged);
         }
 
         #region Methods to control Layer.
@@ -1322,7 +1317,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (obj is PPathwaySystem)
             {
                 if (!m_systems.ContainsKey(oldkey))
-                    throw new PathwayException(String.Format(MessageResources.ErrNotFound, oldkey));
+                    throw new PathwayException(string.Format(MessageResources.ErrNotFound, oldkey));
                 m_systems.Remove(oldkey);
                 m_systems.Add(newkey, (PPathwaySystem)obj);
                 foreach (PPathwayObject child in GetAllObjectUnder(oldkey))
@@ -1337,21 +1332,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             else if (obj is PPathwayVariable)
             {
                 if (!m_variables.ContainsKey(oldkey))
-                    throw new PathwayException(String.Format(MessageResources.ErrNotFound, oldkey));
+                    throw new PathwayException(string.Format(MessageResources.ErrNotFound, oldkey));
                 m_variables.Remove(oldkey);
                 m_variables.Add(newkey, (PPathwayVariable)obj);
             }
             else if (obj is PPathwayProcess)
             {
                 if (!m_processes.ContainsKey(oldkey))
-                    throw new PathwayException(String.Format(MessageResources.ErrNotFound, oldkey));
+                    throw new PathwayException(string.Format(MessageResources.ErrNotFound, oldkey));
                 m_processes.Remove(oldkey);
                 m_processes.Add(newkey, (PPathwayProcess)obj);
             }
             else if (obj is PPathwayText)
             {
                 if (!m_texts.ContainsKey(oldkey))
-                    throw new PathwayException(String.Format(MessageResources.ErrNotFound, oldkey));
+                    throw new PathwayException(string.Format(MessageResources.ErrNotFound, oldkey));
                 m_texts.Remove(oldkey);
                 m_texts.Add(newkey, (PPathwayText)obj);
             }
@@ -1383,7 +1378,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             else if( obj is PPathwaySystem && !m_isOwner)
             {
                 // Set Object Position.
-                MakeSpace(system, obj, false);
+                MakeSpace(system, obj, true);
             }
         }
 

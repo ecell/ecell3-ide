@@ -10,7 +10,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="variable"></param>
         public PPathwayAlias()
         {
         }

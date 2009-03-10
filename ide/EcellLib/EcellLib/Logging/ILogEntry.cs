@@ -58,6 +58,6 @@ namespace Ecell.Logging
         /// Get the message string.
         /// </summary>
         /// <returns>the message string</returns>
-        String Message { get; }        
+        string Message { get; }        
     }
 }

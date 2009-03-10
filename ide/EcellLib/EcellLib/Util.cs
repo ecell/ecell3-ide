@@ -868,7 +868,7 @@ namespace Ecell
         /// <returns></returns>
         public static string GetTmpDir()
         {
-            String topDir = Path.GetTempPath() + Path.DirectorySeparatorChar + "E-Cell IDE";
+            string topDir = Path.GetTempPath() + Path.DirectorySeparatorChar + "E-Cell IDE";
             if (!Directory.Exists(topDir))
             {
                 Directory.CreateDirectory(topDir);
@@ -974,7 +974,7 @@ namespace Ecell
         /// Get the DM direcory from register.
         /// </summary>
         /// <returns>DM directory.</returns>
-        public static string[] GetDMDirs(String currentProjectPath)
+        public static string[] GetDMDirs(string currentProjectPath)
         {
             List<string> dmDirs = new List<string>();
             List<string> candidates = new List<string>();
@@ -1135,7 +1135,7 @@ namespace Ecell
         /// <returns></returns>
         static public bool IsDMFile(string fileName)
         {
-            String name = Path.GetFileNameWithoutExtension(fileName);
+            string name = Path.GetFileNameWithoutExtension(fileName);
             if (name.EndsWith(Constants.xpathProcess))
                 return true;
             if (name.EndsWith(Constants.xpathStepper))
@@ -1274,7 +1274,7 @@ namespace Ecell
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static String GetOutputFileName(string key)
+        public static string GetOutputFileName(string key)
         {
             string fileName = key.Replace(":", "_"); ;
             return fileName.Replace("/", "_") + ".csv";

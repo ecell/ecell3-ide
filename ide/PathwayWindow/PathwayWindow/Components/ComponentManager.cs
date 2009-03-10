@@ -366,6 +366,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                     return DefaultVariableSetting;
                 case EcellObject.TEXT:
                     return DefaultTextSetting;
+                case EcellObject.STEPPER:
+                    return DefaultStepperSetting;
                 default:
                     throw new PathwayException(MessageResources.ErrUnknowType);
             }
@@ -456,7 +458,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             defStepperCs.Type = EcellObject.STEPPER;
             defStepperCs.Name = ComponentConstants.NameOfDefaultStepper;
             defStepperCs.IsDefault = true;
-            defStepperCs.Figure = FigureManager.CreateFigure("Ellipse", "0,0,60,60");
+            defStepperCs.Figure = FigureManager.CreateFigure("Ellipse", "0,0,30,30");
             defStepperCs.TextBrush = Brushes.Black;
             defStepperCs.LineBrush = Brushes.Black;
             defStepperCs.CenterBrush = Brushes.White;

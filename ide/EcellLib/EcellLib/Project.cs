@@ -774,6 +774,8 @@ namespace Ecell
         {
             if (string.IsNullOrEmpty(model) || string.IsNullOrEmpty(type))
                 return null;
+            if (type.Equals(EcellObject.STEPPER))
+                return GetStepper(model, key);
             if (type.Equals(EcellObject.MODEL))
                 return m_modelList[0];
             if (type.Equals(EcellObject.SYSTEM))
@@ -832,6 +834,24 @@ namespace Ecell
             return entity;
         }
 
+        /// <summary>
+        /// Get Stepper.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public EcellObject GetStepper(string model, string key)
+        {
+            EcellObject stepper = null;
+            List<EcellObject> list = m_stepperDic[m_info.SimulationParam][model];
+            foreach (EcellObject eo in list)
+            {
+                if (eo.Key == key)
+                    stepper = eo;
+            }
+            return stepper;
+        }
+
         #endregion
 
         #region Add Object
@@ -876,15 +896,15 @@ namespace Ecell
                 foreach (string delModel in m_initialCondition[keyParamID].Keys)
                 {
                     Debug.Assert(system.Type == Constants.xpathSystem);
-                    String delKey = system.Key;
+                    string delKey = system.Key;
                     List<String> delKeyList = new List<string>();
-                    foreach (String entKey in m_initialCondition[keyParamID][delModel].Keys)
+                    foreach (string entKey in m_initialCondition[keyParamID][delModel].Keys)
                     {
                         Util.ParseFullPN(entKey, out type, out ekey, out param);
                         if (ekey.Equals(delKey) || ekey.StartsWith(delKey + "/") || ekey.StartsWith(delKey + ":"))
                             delKeyList.Add(entKey);
                     }
-                    foreach (String entKey in delKeyList)
+                    foreach (string entKey in delKeyList)
                     {
                         m_initialCondition[keyParamID][delModel].Remove(entKey);
                     }

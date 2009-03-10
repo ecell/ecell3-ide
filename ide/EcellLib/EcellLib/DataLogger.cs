@@ -526,7 +526,7 @@ namespace Ecell
                     m_writer.Close();
                     m_writer = null;
                 }
-                throw new EcellException(String.Format(MessageResources.ErrCreFile,
+                throw new EcellException(string.Format(MessageResources.ErrCreFile,
                     new object[] { fileName }), ex);
             }
         }
@@ -697,7 +697,7 @@ namespace Ecell
                     m_writer = null;
 
                 }
-                throw new EcellException(String.Format(MessageResources.ErrCreFile,
+                throw new EcellException(string.Format(MessageResources.ErrCreFile,
                     new object[] { fileName }), ex);
             }
         }
@@ -712,7 +712,7 @@ namespace Ecell
             List<LogValue> valueList = new List<LogValue>();
             StreamReader strread = new StreamReader(fileName);
             string ext = Path.GetExtension(fileName);
-            if (!String.IsNullOrEmpty(ext) && ext.ToLower().Equals(".csv"))
+            if (!string.IsNullOrEmpty(ext) && ext.ToLower().Equals(".csv"))
             {
                 splitter = ',';
             }

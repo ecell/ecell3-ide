@@ -50,10 +50,10 @@ namespace Ecell.Reporting
         /// Get the message string.
         /// </summary>
         /// <returns>the message string</returns>
-        String Message { get; }
+        string Message { get; }
         /// <summary>
         /// Get the group string.
         /// </summary>
-        String Group { get; }  
+        string Group { get; }  
     }
 }

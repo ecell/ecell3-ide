@@ -108,7 +108,7 @@ namespace Ecell
 //            WritePrefix(fileName, enc);
             foreach (EcellObject modelObj in m_currentProject.ModelList)
             {
-                String modelName = modelObj.ModelID;
+                string modelName = modelObj.ModelID;
 //                WriteModelEntry(fileName, enc, modelName);
 //                WriteModelProperty(fileName, enc, modelName);
                 File.AppendAllText(fileName, "\n# System\n", enc);
@@ -150,7 +150,7 @@ namespace Ecell
         public void WritePrefix(string fileName, Encoding enc)
         {
             DateTime n = DateTime.Now;
-            String timeStr = n.ToString("d");
+            string timeStr = n.ToString("d");
             File.AppendAllText(fileName, "from EcellIDE import *\n", enc);
             File.AppendAllText(fileName, "import time\n", enc);
             File.AppendAllText(fileName, "import System.Threading\n\n", enc);

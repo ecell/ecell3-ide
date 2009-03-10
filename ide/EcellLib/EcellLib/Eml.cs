@@ -358,7 +358,7 @@ namespace Ecell
                     throw new EmlParseException("Unexpected node");
                 if (!nodeProperty.Name.Equals(Constants.xpathProperty))
                     throw new EmlParseException(
-                        String.Format(
+                        string.Format(
                             "Element {0} found where {1} is expected",
                             nodeProperty.Name, Constants.xpathProperty));
 
@@ -427,7 +427,7 @@ namespace Ecell
                     throw new EmlParseException("Unexpected node");
                 if (!nodeProperty.Name.Equals(Constants.xpathProperty))
                     throw new EmlParseException(
-                        String.Format(
+                        string.Format(
                             "Element {0} found where {1} is expected",
                             nodeProperty.Name, Constants.xpathProperty));
                 XmlNode nodePropertyName = nodeProperty.Attributes.GetNamedItem(Constants.xpathName.ToLower());
@@ -496,7 +496,7 @@ namespace Ecell
                 if (!nodeProperty.Name.Equals(Constants.xpathProperty))
                 {
                     throw new EmlParseException(
-                        String.Format(
+                        string.Format(
                             "Element {0} found where {1} is expected",
                             nodeProperty.Name, Constants.xpathProperty));
                 }
@@ -711,7 +711,7 @@ namespace Ecell
             }
             if (m_isWarn == true)
             {
-                String errmes = MessageResources.WarnLoadDM;
+                string errmes = MessageResources.WarnLoadDM;
                 Util.ShowWarningDialog(errmes + "\n");
             }
 

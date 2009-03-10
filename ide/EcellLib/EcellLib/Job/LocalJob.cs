@@ -203,7 +203,7 @@ namespace Ecell.Job
                 StreamReader hReader = new StreamReader(extFileName, Encoding.UTF8);
                 char splitter = '\t';
                 string ext = Path.GetExtension(extFileName);
-                if (!String.IsNullOrEmpty(ext) || ext.ToLower().Equals(".csv"))
+                if (!string.IsNullOrEmpty(ext) || ext.ToLower().Equals(".csv"))
                     splitter = ',';
 
                 while (!hReader.EndOfStream)

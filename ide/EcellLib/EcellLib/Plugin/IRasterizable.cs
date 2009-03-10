@@ -44,7 +44,7 @@ namespace Ecell.Plugin
         /// Check whether this plugin can print display image.
         /// </summary>
         /// <returns>Collection of the names that is capable of printing themselves, or null</returns>
-        IEnumerable<String> GetEnablePrintNames();
+        IEnumerable<string> GetEnablePrintNames();
 
         /// <summary>
         /// Get bitmap that converts display image on this plugin.
