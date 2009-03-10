@@ -83,7 +83,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
             // Set alias
             foreach (EcellObject eo in m_ecellObj.Children)
             {
-                PPathwayAlias alias = new PPathwayAlias(this);
+                PPathwayAlias alias = new PPathwayAlias();
                 alias.Setting = m_setting;
                 alias.EcellObject = eo;
                 m_canvas.SetLayer(alias);

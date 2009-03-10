@@ -209,9 +209,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             get
             {
                 PropertyNode node = new PropertyNode(MessageResources.WindowPathway);
-                node.Nodes.Add(new PropertyNode(m_animCon.PathwayDialogTabPage));
-                node.Nodes.Add(new PropertyNode(m_animCon.AnimationDialogTabPage));
-                node.Nodes.Add(new PropertyNode(m_csManager.ComponentTabPage));
+                node.Nodes.Add(new PropertyNode(m_animCon.PathwaySettingsPage));
+                node.Nodes.Add(new PropertyNode(m_animCon.AnimationSettingsPage));
+                node.Nodes.Add(new PropertyNode(m_csManager.ComponentSettingsPage));
 
                 List<IPropertyItem> nodeList = new List<IPropertyItem>();
                 nodeList.Add(node);

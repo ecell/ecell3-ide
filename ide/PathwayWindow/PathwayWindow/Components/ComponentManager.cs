@@ -77,6 +77,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         protected Dictionary<string, ComponentSetting> m_textSettings;
 
         /// <summary>
+        /// Dictionary of ComponentSettings for creating PPathwayStepper.
+        /// </summary>
+        protected Dictionary<string, ComponentSetting> m_stepperSettings;
+
+        /// <summary>
         /// The name of default ComponentSetting for System.
         /// </summary>
         protected string m_defaultSystemName;
@@ -95,6 +100,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// The name of default ComponentSetting for Text.
         /// </summary>
         protected string m_defaultTextName;
+
+        /// <summary>
+        /// The name of default ComponentSetting for Stepper.
+        /// </summary>
+        protected string m_defaultStepperName;
 
         #endregion
 
@@ -129,6 +139,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         public Dictionary<string, ComponentSetting> TextSettings
         {
             get { return this.m_textSettings; }
+        }
+
+        /// <summary>
+        /// Accessor for m_stepperSettings.
+        /// </summary>
+        public Dictionary<string, ComponentSetting> StepperSettings
+        {
+            get { return this.m_stepperSettings; }
         }
 
         /// <summary>
@@ -192,6 +210,21 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         }
 
         /// <summary>
+        /// Accessor for default ComponentSetting for Variable.
+        /// If it doesn't exist, null will be returned.
+        /// </summary>
+        public ComponentSetting DefaultStepperSetting
+        {
+            get
+            {
+                if (m_defaultStepperName != null && m_stepperSettings.ContainsKey(m_defaultStepperName))
+                    return m_stepperSettings[m_defaultStepperName];
+                else
+                    return null;
+            }
+        }
+
+        /// <summary>
         /// Accessor for ComponentSettings.
         /// </summary>
         public List<ComponentSetting> ComponentSettings
@@ -218,6 +251,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             m_processSettings = new Dictionary<string, ComponentSetting>();
             m_variableSettings = new Dictionary<string, ComponentSetting>();
             m_textSettings = new Dictionary<string, ComponentSetting>();
+            m_stepperSettings = new Dictionary<string, ComponentSetting>();
             SetComponentSettings();
         }
         #endregion
@@ -357,7 +391,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// Create TabPage for PathwaySettingDialog
         /// </summary>
         /// <returns></returns>
-        public PropertyDialogPage ComponentTabPage
+        public PropertyDialogPage ComponentSettingsPage
         {
             get { return new ComponentSettingPage(this);}
         }
@@ -404,7 +438,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             defProCs.IsGradation = true;
             RegisterSetting(defProCs);
 
-            // Set hard coded default process ComponentSettings
+            // Set hard coded default text ComponentSettings
             ComponentSetting defTextCs = new ComponentSetting();
             defTextCs.Type = EcellObject.TEXT;
             defTextCs.Name = ComponentConstants.NameOfDefaultText;
@@ -416,6 +450,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             defTextCs.FillBrush = Brushes.White;
             defTextCs.IsGradation = false;
             RegisterSetting(defTextCs);
+
+            // Set hard coded default stepper ComponentSettings
+            ComponentSetting defStepperCs = new ComponentSetting();
+            defStepperCs.Type = EcellObject.STEPPER;
+            defStepperCs.Name = ComponentConstants.NameOfDefaultStepper;
+            defStepperCs.IsDefault = true;
+            defStepperCs.Figure = FigureManager.CreateFigure("Ellipse", "0,0,60,60");
+            defStepperCs.TextBrush = Brushes.Black;
+            defStepperCs.LineBrush = Brushes.Black;
+            defStepperCs.CenterBrush = Brushes.White;
+            defStepperCs.FillBrush = Brushes.Red;
+            defStepperCs.IsGradation = true;
+            RegisterSetting(defStepperCs);
         }
 
         /// <summary>
@@ -477,6 +524,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 case EcellObject.TEXT:
                     dic = m_textSettings;
                     break;
+                case EcellObject.STEPPER:
+                    dic = m_stepperSettings;
+                    break;
                 default:
                     throw new PathwayException(MessageResources.ErrUnknowType);
             }
@@ -502,6 +552,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                     break;
                 case EcellObject.TEXT:
                     m_defaultTextName = setting.Name;
+                    break;
+                case EcellObject.STEPPER:
+                    m_defaultStepperName = setting.Name;
                     break;
                 default:
                     throw new PathwayException(MessageResources.ErrUnknowType);

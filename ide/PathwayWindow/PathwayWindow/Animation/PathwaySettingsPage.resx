@@ -125,7 +125,7 @@
     <value>903, 478</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>PathwayTabPage</value>
+    <value>PathwaySettingPage</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>Ecell.IDE.PropertyDialogPage, EcellUILib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>

@@ -71,7 +71,7 @@ namespace Ecell.Reporting
         /// <summary>
         /// The group string.
         /// </summary>
-        public String Group
+        public string Group
         {
             get { return m_group; }
         }

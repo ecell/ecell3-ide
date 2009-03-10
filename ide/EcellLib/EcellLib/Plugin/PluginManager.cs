@@ -75,10 +75,6 @@ namespace Ecell.Plugin
         /// </summary>
         private List<ILayoutAlgorithm> m_layoutAlgorithmList;
         /// <summary>
-        /// m_pluginDic (map between plugin and data)
-        /// </summary>
-        private Dictionary<PluginData, List<IEcellPlugin>> m_pluginDic;
-        /// <summary>
         /// m_dialog (Printer Dialog with .NET framerowk)
         /// </summary>
         private PrintDialog m_dialog;
@@ -114,7 +110,6 @@ namespace Ecell.Plugin
         {
             this.m_env = env;
             this.m_pluginList = new Dictionary<string, IEcellPlugin>();
-            this.m_pluginDic = new Dictionary<PluginData,List<IEcellPlugin>>();
             this.m_rasterizableList = new List<IRasterizable>();
             this.m_dataHandlerList = new List<IDataHandler>();
             this.m_layoutAlgorithmList = new List<ILayoutAlgorithm>();
@@ -201,14 +196,6 @@ namespace Ecell.Plugin
         public ProjectStatus Status
         {
             get { return this.m_status; }
-        }
-
-        /// <summary>
-        ///  clear focus list that the plugin focus on.
-        /// </summary>
-        public void FocusClear()
-        {
-            this.m_pluginDic.Clear();
         }
 
         /// <summary>
@@ -639,16 +626,6 @@ namespace Ecell.Plugin
             {
                 m_pluginList.Remove(p.GetPluginName());
             }
-        }
-
-        /// <summary>
-        /// ????
-        /// </summary>
-        /// <returns>????</returns>
-        public string CurrentToolBarMenu()
-        {
-            // not implement
-            return null;
         }
 
         /// <summary>

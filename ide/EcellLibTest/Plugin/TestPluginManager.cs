@@ -103,16 +103,6 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestFocusClear()
-        {
-            _unitUnderTest.FocusClear();
-
-        }
-
-        /// <summary>
         /// TestSelectChanged
         /// </summary>
         [Test()]
@@ -355,18 +345,7 @@ namespace Ecell.Plugin
             _unitUnderTest.UnloadPlugin(p);
 
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestCurrentToolBarMenu()
-        {
-            string expectedString = null;
-            string resultString = null;
-            resultString = _unitUnderTest.CurrentToolBarMenu();
-            Assert.AreEqual(expectedString, resultString, "CurrentToolBarMenu method returned unexpected result.");
 
-        }
         /// <summary>
         /// 
         /// </summary>

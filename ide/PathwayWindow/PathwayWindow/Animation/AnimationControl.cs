@@ -305,17 +305,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// get PropertyDialogTabPage for Animation settings.
         /// </summary>
-        public PropertyDialogPage AnimationDialogTabPage
+        public PropertyDialogPage AnimationSettingsPage
         {
-            get { return new AnimationSettingPage(this); }
+            get { return new AnimationSettingsPage(this); }
         }
 
         /// <summary>
         /// get PropertyDialogTabPage for Pathway settings.
         /// </summary>
-        public PropertyDialogPage PathwayDialogTabPage
+        public PropertyDialogPage PathwaySettingsPage
         {
-            get { return new PathwaySettingPage(this); }
+            get { return new PathwaySettingsPage(this); }
         }
         #endregion
 

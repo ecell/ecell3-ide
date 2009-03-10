@@ -11,15 +11,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// 
         /// </summary>
         /// <param name="variable"></param>
-        public PPathwayAlias(PPathwayVariable variable)
+        public PPathwayAlias()
         {
-            m_variable = variable;
-            m_canvas = variable.Canvas;
         }
 
         public override PPathwayObject CreateNewObject()
         {
-            return null;
+            return new PPathwayAlias();
         }
 
         public override void OnMouseDown(UMD.HCIL.Piccolo.Event.PInputEventArgs e)

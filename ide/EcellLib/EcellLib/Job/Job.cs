@@ -76,11 +76,11 @@ namespace Ecell.Job
         private string m_argument;
         private string m_jobDirectory;
         private string m_machine;
-        private List<String> m_extraFile;
+        private List<string> m_extraFile;
         private JobStatus m_status;
         private string m_stderr;
 
-        static private String s_dmPath;
+        static private string s_dmPath;
         static private int s_maxCount;
         static private int s_jobID = 0;
 

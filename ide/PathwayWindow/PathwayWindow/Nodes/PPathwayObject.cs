@@ -57,7 +57,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
     /// <summary>
     /// PPathwayObject is a super class for all component of PCanvas.
     /// </summary>
-    public abstract class PPathwayObject : PImage, IDisposable
+    public class PPathwayObject : PImage, IDisposable
     {
         #region Enums
         /// <summary>
@@ -529,7 +529,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         /// Create new instance of this object.
         /// </summary>
         /// <returns></returns>
-        public abstract PPathwayObject CreateNewObject();
+        public virtual PPathwayObject CreateNewObject()
+        {
+            return new PPathwayObject();
+        }
         #endregion
 
         #region Virtual Methods

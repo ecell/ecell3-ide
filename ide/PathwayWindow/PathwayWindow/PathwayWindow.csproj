@@ -156,6 +156,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Nodes\PPathwayAlias.cs" />
+    <Compile Include="Nodes\PPathwayStepper.cs" />
     <Compile Include="Nodes\PPathwayText.cs" />
     <Compile Include="Components\ComponentConstants.cs" />
     <Compile Include="MessageResources.Designer.cs">

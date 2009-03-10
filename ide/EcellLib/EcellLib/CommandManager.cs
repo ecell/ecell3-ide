@@ -60,11 +60,6 @@ namespace Ecell
         /// The model ID
         /// </summary>
         private static string s_modelID = null;
-        /// <summary>
-        /// The singleton object.
-        /// This object is used when the data is exchanged among IDE and script.
-        /// </summary>
-        public static CommandManager s_instance;
 
         /// <summary>
         /// get DataManager.
@@ -84,7 +79,6 @@ namespace Ecell
         public CommandManager(ApplicationEnvironment env)
         {
             m_env = env;
-            s_instance = this;
         }
 
         /// <summary>

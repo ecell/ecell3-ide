@@ -358,6 +358,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 case EcellObject.TEXT:
                     obj = new PPathwayText();
                     break;
+                case EcellObject.STEPPER:
+                    obj = new PPathwayStepper();
+                    break;
                 default:
                     throw new PathwayException(MessageResources.ErrUnknowType);
             }

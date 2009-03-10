@@ -57,6 +57,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// The default name of text.
         /// </summary>
         public const string NameOfDefaultText = "DefaultText";
+        /// <summary>
+        /// The default name of stepper.
+        /// </summary>
+        public const string NameOfDefaultStepper = "DefaultStepper";
 
         #endregion
 

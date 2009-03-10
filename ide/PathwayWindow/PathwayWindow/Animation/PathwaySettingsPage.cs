@@ -10,13 +10,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     /// <summary>
     /// private class for AnimationSettingDialog
     /// </summary>
-    internal class PathwaySettingPage : PropertyDialogPage
+    internal class PathwaySettingsPage : PropertyDialogPage
     {
         private AnimationControl m_con;
         private EditModeItems m_editModeItems;
         private ViewModeItems m_viewModeItems;
 
-        public PathwaySettingPage(AnimationControl control)
+        public PathwaySettingsPage(AnimationControl control)
             : base()
         {
             InitializeComponent();
@@ -57,12 +57,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PathwaySettingPage));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PathwaySettingsPage));
             this.SuspendLayout();
             // 
-            // PathwayTabPage
+            // PathwaySettingPage
             // 
-            this.Name = "PathwayTabPage";
+            this.Name = "PathwaySettingPage";
             resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
 

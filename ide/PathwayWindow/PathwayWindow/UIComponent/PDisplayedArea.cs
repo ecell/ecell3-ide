@@ -63,17 +63,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             base.AddPath(fig.GraphicsPath, false);
         }
 
-        #region inherited from PPathwayObject
-        /// <summary>
-        /// Create new instance.
-        /// </summary>
-        /// <returns></returns>
-        public override PPathwayObject CreateNewObject()
-        {
-            return null;
-        }
-        #endregion
-
         #region Event
         /// <summary>
         /// Called when the mouse enter a displayed area.
