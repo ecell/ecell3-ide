@@ -519,12 +519,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (eo.Type.Equals(EcellObject.MODEL))
             {
                 this.CreateCanvas((EcellModel)eo);
-                foreach (EcellObject child in eo.Children)
-                {
-                    if (!(child is EcellStepper))
-                        continue;
-                    //DataAdd(child, isAnchor);
-                }
+                //foreach (EcellObject child in eo.Children)
+                //{
+                //    if (!(child is EcellStepper))
+                //        continue;
+                //    DataAdd(child, isAnchor);
+                //}
                 return;
             }
 

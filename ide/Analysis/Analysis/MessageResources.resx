@@ -123,6 +123,51 @@
   <data name="ConfirmStopAnalysis" xml:space="preserve">
     <value>Are you sure to abort this analysis[ {0} ]?</value>
   </data>
+  <data name="DialogToolTipAbsolutePert" xml:space="preserve">
+    <value>Input the absolute perturbation at the defalut value.</value>
+  </data>
+  <data name="DialogToolTipGeneration" xml:space="preserve">
+    <value>Input the iteration of analysis as the generation.</value>
+  </data>
+  <data name="DialogToolTipMaxFFT" xml:space="preserve">
+    <value>Input the max frequency used in FFT.</value>
+  </data>
+  <data name="DialogToolTipMaxInputSize" xml:space="preserve">
+    <value>Input the max number of data to calculate FFT. This value should be smaller than 8192.</value>
+  </data>
+  <data name="DialogToolTipMinFFT" xml:space="preserve">
+    <value>Input the min frequency used in FFT.</value>
+  </data>
+  <data name="DialogToolTipObservedGrid" xml:space="preserve">
+    <value>Input the parameter to judge whether this system is stabile.</value>
+  </data>
+  <data name="DialogToolTipParameterGrid" xml:space="preserve">
+    <value>Input the parameter changed the value to judge the stability of system.</value>
+  </data>
+  <data name="DialogToolTipPopulation" xml:space="preserve">
+    <value>Input the population at the generation.</value>
+  </data>
+  <data name="DialogToolTipRelativePert" xml:space="preserve">
+    <value>Input the relative perturbation at the defalut value.</value>
+  </data>
+  <data name="DialogToolTipSampleNumber" xml:space="preserve">
+    <value>Input the number of samples to check the stability of system.</value>
+  </data>
+  <data name="DialogToolTipSimulationTime" xml:space="preserve">
+    <value>Input the simulation time to get the data used by judgement.</value>
+  </data>
+  <data name="DialogToolTipStep" xml:space="preserve">
+    <value>Input the number of step to get the change of value to calculate the sensitivity.</value>
+  </data>
+  <data name="DialogToolTipUnknownParameterGrid" xml:space="preserve">
+    <value>Input the unknown parameter to search the optimal value.</value>
+  </data>
+  <data name="DialogToolTipWindowSize" xml:space="preserve">
+    <value>Input the time size of data used by judgement.</value>
+  </data>
+  <data name="DialogToopTipEstimation" xml:space="preserve">
+    <value>Input the estimation formulator used in the judgement.</value>
+  </data>
   <data name="ErrExecute" xml:space="preserve">
     <value>Execution of {0} failed.</value>
   </data>
@@ -278,51 +323,6 @@
   </data>
   <data name="ReflectMenuText" xml:space="preserve">
     <value>Reflect</value>
-  </data>
-  <data name="ToolTipAbsolutePert" xml:space="preserve">
-    <value>Input the absolute perturbation at the defalut value.</value>
-  </data>
-  <data name="ToolTipGeneration" xml:space="preserve">
-    <value>Input the iteration of analysis as the generation.</value>
-  </data>
-  <data name="ToolTipMaxFFT" xml:space="preserve">
-    <value>Input the max frequency used in FFT.</value>
-  </data>
-  <data name="ToolTipMaxInputSize" xml:space="preserve">
-    <value>Input the max number of data to calculate FFT. This value should be smaller than 8192.</value>
-  </data>
-  <data name="ToolTipMinFFT" xml:space="preserve">
-    <value>Input the min frequency used in FFT.</value>
-  </data>
-  <data name="ToolTipObservedGrid" xml:space="preserve">
-    <value>Input the parameter to judge whether this system is stabile.</value>
-  </data>
-  <data name="ToolTipParameterGrid" xml:space="preserve">
-    <value>Input the parameter changed the value to judge the stability of system.</value>
-  </data>
-  <data name="ToolTipPopulation" xml:space="preserve">
-    <value>Input the population at the generation.</value>
-  </data>
-  <data name="ToolTipRelativePert" xml:space="preserve">
-    <value>Input the relative perturbation at the defalut value.</value>
-  </data>
-  <data name="ToolTipSampleNumber" xml:space="preserve">
-    <value>Input the number of samples to check the stability of system.</value>
-  </data>
-  <data name="ToolTipSimulationTime" xml:space="preserve">
-    <value>Input the simulation time to get the data used by judgement.</value>
-  </data>
-  <data name="ToolTipStep" xml:space="preserve">
-    <value>Input the number of step to get the change of value to calculate the sensitivity.</value>
-  </data>
-  <data name="ToolTipUnknownParameterGrid" xml:space="preserve">
-    <value>Input the unknown parameter to search the optimal value.</value>
-  </data>
-  <data name="ToolTipWindowSize" xml:space="preserve">
-    <value>Input the time size of data used by judgement.</value>
-  </data>
-  <data name="ToopTipEstimation" xml:space="preserve">
-    <value>Input the estimation formulator used in the judgement.</value>
   </data>
   <data name="WarnNoBifurcation" xml:space="preserve">
     <value>Bifurcation data is not found.</value>

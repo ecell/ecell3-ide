@@ -192,13 +192,13 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e"></param>
         private void FormLoad(object sender, EventArgs e)
         {
-            robustToolTip.SetToolTip(robustAnalysisSimulationTimeTextBox, MessageResources.ToolTipSimulationTime);
-            robustToolTip.SetToolTip(robustAnalysisWindowSizeTextBox, MessageResources.ToolTipWindowSize);
-            robustToolTip.SetToolTip(robustAnalysisMaxSampleTextBox, MessageResources.ToolTipMaxInputSize);
-            robustToolTip.SetToolTip(robustAnalysisMaxFrequencyTextBox, MessageResources.ToolTipMaxFFT);
-            robustToolTip.SetToolTip(robustAnalysisMinFrequencyTextBox, MessageResources.ToolTipMinFFT);
-            robustToolTip.SetToolTip(robustAnalysisSampleNumberTextBox, MessageResources.ToolTipSampleNumber);
-            robustToolTip.SetToolTip(groupBox4, MessageResources.ToolTipParameterGrid);
+            robustToolTip.SetToolTip(robustAnalysisSimulationTimeTextBox, MessageResources.DialogToolTipSimulationTime);
+            robustToolTip.SetToolTip(robustAnalysisWindowSizeTextBox, MessageResources.DialogToolTipWindowSize);
+            robustToolTip.SetToolTip(robustAnalysisMaxSampleTextBox, MessageResources.DialogToolTipMaxInputSize);
+            robustToolTip.SetToolTip(robustAnalysisMaxFrequencyTextBox, MessageResources.DialogToolTipMaxFFT);
+            robustToolTip.SetToolTip(robustAnalysisMinFrequencyTextBox, MessageResources.DialogToolTipMinFFT);
+            robustToolTip.SetToolTip(robustAnalysisSampleNumberTextBox, MessageResources.DialogToolTipSampleNumber);
+            robustToolTip.SetToolTip(groupBox4, MessageResources.DialogToolTipParameterGrid);
         }
         /// <summary>
         /// 

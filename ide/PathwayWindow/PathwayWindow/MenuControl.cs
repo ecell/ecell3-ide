@@ -503,7 +503,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolButtonHand.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolButtonHand.Name = "toolButtonHand";
             this.toolButtonHand.Size = new System.Drawing.Size(23, 22);
-            this.toolButtonHand.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ToolButtonMoveCanvas;
+            this.toolButtonHand.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ButtonToolTipMoveCanvas;
             this.toolButtonHand.Click += new System.EventHandler(this.ButtonStateChanged);
             // 
             // toolButtonSelect
@@ -515,7 +515,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolButtonSelect.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolButtonSelect.Name = "toolButtonSelect";
             this.toolButtonSelect.Size = new System.Drawing.Size(23, 22);
-            this.toolButtonSelect.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ToolButtonSelectMode;
+            this.toolButtonSelect.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ButtonToolTipSelectMode;
             this.toolButtonSelect.Click += new System.EventHandler(this.ButtonStateChanged);
             // 
             // toolButtonSeparator1
@@ -531,7 +531,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolButtonOverview.Image = ((System.Drawing.Image)(resources.GetObject("toolButtonOverview.Image")));
             this.toolButtonOverview.Name = "toolButtonOverview";
             this.toolButtonOverview.Size = new System.Drawing.Size(23, 22);
-            this.toolButtonOverview.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuToolTipOverview;
+            this.toolButtonOverview.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ButtonToolTipOverview;
             this.toolButtonOverview.Click += new System.EventHandler(this.overviewButton_CheckedChanged);
             // 
             // toolButtonViewMode
@@ -550,7 +550,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolButtonZoomin.Name = "toolButtonZoomin";
             this.toolButtonZoomin.Size = new System.Drawing.Size(23, 20);
             this.toolButtonZoomin.Tag = true;
-            this.toolButtonZoomin.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ToolButtonZoomIn;
+            this.toolButtonZoomin.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ButtonToolTipZoomIn;
             this.toolButtonZoomin.Click += new System.EventHandler(this.ZoomButton_Click);
             // 
             // toolButtonZoomout
@@ -560,7 +560,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolButtonZoomout.Name = "toolButtonZoomout";
             this.toolButtonZoomout.Size = new System.Drawing.Size(23, 20);
             this.toolButtonZoomout.Tag = false;
-            this.toolButtonZoomout.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ToolButtonZoomOut;
+            this.toolButtonZoomout.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ButtonToolTipZoomOut;
             this.toolButtonZoomout.Click += new System.EventHandler(this.ZoomButton_Click);
             // 
             // toolButtonZoomRate
@@ -598,7 +598,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolButtonArrow.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolButtonArrow.Name = "toolButtonArrow";
             this.toolButtonArrow.Size = new System.Drawing.Size(23, 20);
-            this.toolButtonArrow.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ToolButtonAddOnewayReaction;
+            this.toolButtonArrow.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ButtonToolTipAddOnewayReaction;
             this.toolButtonArrow.Click += new System.EventHandler(this.ButtonStateChanged);
             // 
             // toolButtonBidirArrow
@@ -610,7 +610,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolButtonBidirArrow.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolButtonBidirArrow.Name = "toolButtonBidirArrow";
             this.toolButtonBidirArrow.Size = new System.Drawing.Size(23, 20);
-            this.toolButtonBidirArrow.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ToolButtonAddMutualReaction;
+            this.toolButtonBidirArrow.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ButtonToolTipAddMutualReaction;
             this.toolButtonBidirArrow.Click += new System.EventHandler(this.ButtonStateChanged);
             // 
             // toolButtonConst
@@ -622,7 +622,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolButtonConst.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolButtonConst.Name = "toolButtonConst";
             this.toolButtonConst.Size = new System.Drawing.Size(23, 20);
-            this.toolButtonConst.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ToolButtonAddConstant;
+            this.toolButtonConst.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.ButtonToolTipAddConstant;
             this.toolButtonConst.Click += new System.EventHandler(this.ButtonStateChanged);
             // 
             // toolMenu
@@ -787,17 +787,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (cs.Type == EcellObject.SYSTEM)
                 {
                     button.Handle = new Handle(Mode.CreateSystem, new CreateSystemMouseHandler(m_con));
-                    button.ToolTipText = MessageResources.ToolButtonCreateSystem;
+                    button.ToolTipText = MessageResources.ButtonToolTipCreateSystem;
                 }
                 else
                 {
                     button.Handle = new Handle(Mode.CreateNode, new CreateNodeMouseHandler(m_con, cs));
                     if (cs.Type == EcellObject.PROCESS)
-                        button.ToolTipText = MessageResources.ToolButtonCreateProcess;
+                        button.ToolTipText = MessageResources.ButtonToolTipCreateProcess;
                     else if (cs.Type == EcellObject.VARIABLE)
-                        button.ToolTipText = MessageResources.ToolButtonCreateVariable;
+                        button.ToolTipText = MessageResources.ButtonToolTipCreateVariable;
                     else if (cs.Type == EcellObject.TEXT)
-                        button.ToolTipText = MessageResources.ToolButtonCreateText;
+                        button.ToolTipText = MessageResources.ButtonToolTipCreateText;
                 }
 
                 button.Click += new EventHandler(ButtonStateChanged);

@@ -169,13 +169,13 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e"></param>
         private void FormLoad(object sender, EventArgs e)
         {
-            bifurcationToolTip.SetToolTip(bifurcationSimulationTimeTextBox, MessageResources.ToolTipSimulationTime);
-            bifurcationToolTip.SetToolTip(bifurcationWindowSizeTextBox, MessageResources.ToolTipWindowSize);
-            bifurcationToolTip.SetToolTip(bifurcationMaxFrequencyTextBox, MessageResources.ToolTipMaxFFT);
-            bifurcationToolTip.SetToolTip(bifurcationMinFrequencyTextBox, MessageResources.ToolTipMinFFT);
-            bifurcationToolTip.SetToolTip(groupBox3, MessageResources.ToolTipParameterGrid);
-            bifurcationToolTip.SetToolTip(groupBox4, MessageResources.ToolTipObservedGrid);
-            bifurcationToolTip.SetToolTip(bifurcationMaxInputTextBox, MessageResources.ToolTipMaxInputSize);            
+            bifurcationToolTip.SetToolTip(bifurcationSimulationTimeTextBox, MessageResources.DialogToolTipSimulationTime);
+            bifurcationToolTip.SetToolTip(bifurcationWindowSizeTextBox, MessageResources.DialogToolTipWindowSize);
+            bifurcationToolTip.SetToolTip(bifurcationMaxFrequencyTextBox, MessageResources.DialogToolTipMaxFFT);
+            bifurcationToolTip.SetToolTip(bifurcationMinFrequencyTextBox, MessageResources.DialogToolTipMinFFT);
+            bifurcationToolTip.SetToolTip(groupBox3, MessageResources.DialogToolTipParameterGrid);
+            bifurcationToolTip.SetToolTip(groupBox4, MessageResources.DialogToolTipObservedGrid);
+            bifurcationToolTip.SetToolTip(bifurcationMaxInputTextBox, MessageResources.DialogToolTipMaxInputSize);            
         }
         /// <summary>
         /// 

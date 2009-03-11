@@ -228,34 +228,34 @@
   <data name="ErrSystemOverlap" xml:space="preserve">
     <value>The pointed place has no space to paste the System.</value>
   </data>
-  <data name="ToolButtonAddConstant" xml:space="preserve">
+  <data name="ButtonToolTipAddConstant" xml:space="preserve">
     <value>Create effectors.</value>
   </data>
-  <data name="ToolButtonAddMutualReaction" xml:space="preserve">
+  <data name="ButtonToolTipAddMutualReaction" xml:space="preserve">
     <value>Create reversible reactions.</value>
   </data>
-  <data name="ToolButtonAddOnewayReaction" xml:space="preserve">
+  <data name="ButtonToolTipAddOnewayReaction" xml:space="preserve">
     <value>Create irreversible reactions.</value>
   </data>
-  <data name="ToolButtonCreateProcess" xml:space="preserve">
+  <data name="ButtonToolTipCreateProcess" xml:space="preserve">
     <value>Create new Process.</value>
   </data>
-  <data name="ToolButtonCreateSystem" xml:space="preserve">
+  <data name="ButtonToolTipCreateSystem" xml:space="preserve">
     <value>Create new System.</value>
   </data>
-  <data name="ToolButtonCreateVariable" xml:space="preserve">
+  <data name="ButtonToolTipCreateVariable" xml:space="preserve">
     <value>Create new Variable.</value>
   </data>
-  <data name="ToolButtonMoveCanvas" xml:space="preserve">
+  <data name="ButtonToolTipMoveCanvas" xml:space="preserve">
     <value>Drag canvas.</value>
   </data>
-  <data name="ToolButtonSelectMode" xml:space="preserve">
+  <data name="ButtonToolTipSelectMode" xml:space="preserve">
     <value>Object select.</value>
   </data>
-  <data name="ToolButtonZoomIn" xml:space="preserve">
+  <data name="ButtonToolTipZoomIn" xml:space="preserve">
     <value>Zoom in</value>
   </data>
-  <data name="ToolButtonZoomOut" xml:space="preserve">
+  <data name="ButtonToolTipZoomOut" xml:space="preserve">
     <value>Zoom out</value>
   </data>
   <data name="LayerMenuMoveBack" xml:space="preserve">
@@ -273,7 +273,7 @@
   <data name="MenuItemFile" xml:space="preserve">
     <value>File</value>
   </data>
-  <data name="ToolButtonCreateText" xml:space="preserve">
+  <data name="ButtonToolTipCreateText" xml:space="preserve">
     <value>Create new text box.</value>
   </data>
   <data name="WindowLayer" xml:space="preserve">
@@ -321,7 +321,7 @@
   <data name="ErrUpdateConfig" xml:space="preserve">
     <value>Can not update the shape property.</value>
   </data>
-  <data name="MenuToolTipOverview" xml:space="preserve">
+  <data name="ButtonToolTipOverview" xml:space="preserve">
     <value>Change the visibility of Overview panel.</value>
   </data>
   <data name="ErrInvalidValue" xml:space="preserve">

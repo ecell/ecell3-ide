@@ -48,9 +48,9 @@ namespace Ecell.IDE.Plugins.Analysis
 
         private void FormLoad(object sender, EventArgs e)
         {
-            sensitivityToolTip.SetToolTip(sensitivityStepTextBox, MessageResources.ToolTipStep);
-            sensitivityToolTip.SetToolTip(sensitivityAbsolutePerturbationTextBox, MessageResources.ToolTipAbsolutePert);
-            sensitivityToolTip.SetToolTip(sensitivityRelativePerturbationTextBox, MessageResources.ToolTipRelativePert);
+            sensitivityToolTip.SetToolTip(sensitivityStepTextBox, MessageResources.DialogToolTipStep);
+            sensitivityToolTip.SetToolTip(sensitivityAbsolutePerturbationTextBox, MessageResources.DialogToolTipAbsolutePert);
+            sensitivityToolTip.SetToolTip(sensitivityRelativePerturbationTextBox, MessageResources.DialogToolTipRelativePert);
         }
 
         private void Step_Validating(object sender, CancelEventArgs e)

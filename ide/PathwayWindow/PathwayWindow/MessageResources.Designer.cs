@@ -61,6 +61,114 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Create effectors. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ButtonToolTipAddConstant {
+            get {
+                return ResourceManager.GetString("ButtonToolTipAddConstant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create reversible reactions. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ButtonToolTipAddMutualReaction {
+            get {
+                return ResourceManager.GetString("ButtonToolTipAddMutualReaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create irreversible reactions. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ButtonToolTipAddOnewayReaction {
+            get {
+                return ResourceManager.GetString("ButtonToolTipAddOnewayReaction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create new Process. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ButtonToolTipCreateProcess {
+            get {
+                return ResourceManager.GetString("ButtonToolTipCreateProcess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create new System. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ButtonToolTipCreateSystem {
+            get {
+                return ResourceManager.GetString("ButtonToolTipCreateSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create new text box. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ButtonToolTipCreateText {
+            get {
+                return ResourceManager.GetString("ButtonToolTipCreateText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create new Variable. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ButtonToolTipCreateVariable {
+            get {
+                return ResourceManager.GetString("ButtonToolTipCreateVariable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Drag canvas. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ButtonToolTipMoveCanvas {
+            get {
+                return ResourceManager.GetString("ButtonToolTipMoveCanvas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Change the visibility of Overview panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ButtonToolTipOverview {
+            get {
+                return ResourceManager.GetString("ButtonToolTipOverview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Object select. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ButtonToolTipSelectMode {
+            get {
+                return ResourceManager.GetString("ButtonToolTipSelectMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Zoom in に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ButtonToolTipZoomIn {
+            get {
+                return ResourceManager.GetString("ButtonToolTipZoomIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Zoom out に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ButtonToolTipZoomOut {
+            get {
+                return ResourceManager.GetString("ButtonToolTipZoomOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Create alias に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string CanvasMenuAlias {
@@ -592,15 +700,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Change the visibility of Overview panel. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuToolTipOverview {
-            get {
-                return ResourceManager.GetString("MenuToolTipOverview", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Show setting dialog of diagram. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuToolTipSetup {
@@ -660,105 +759,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string MessageLoadModel {
             get {
                 return ResourceManager.GetString("MessageLoadModel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Create effectors. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ToolButtonAddConstant {
-            get {
-                return ResourceManager.GetString("ToolButtonAddConstant", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Create reversible reactions. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ToolButtonAddMutualReaction {
-            get {
-                return ResourceManager.GetString("ToolButtonAddMutualReaction", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Create irreversible reactions. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ToolButtonAddOnewayReaction {
-            get {
-                return ResourceManager.GetString("ToolButtonAddOnewayReaction", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Create new Process. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ToolButtonCreateProcess {
-            get {
-                return ResourceManager.GetString("ToolButtonCreateProcess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Create new System. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ToolButtonCreateSystem {
-            get {
-                return ResourceManager.GetString("ToolButtonCreateSystem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Create new text box. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ToolButtonCreateText {
-            get {
-                return ResourceManager.GetString("ToolButtonCreateText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Create new Variable. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ToolButtonCreateVariable {
-            get {
-                return ResourceManager.GetString("ToolButtonCreateVariable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Drag canvas. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ToolButtonMoveCanvas {
-            get {
-                return ResourceManager.GetString("ToolButtonMoveCanvas", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Object select. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ToolButtonSelectMode {
-            get {
-                return ResourceManager.GetString("ToolButtonSelectMode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Zoom in に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ToolButtonZoomIn {
-            get {
-                return ResourceManager.GetString("ToolButtonZoomIn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Zoom out に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ToolButtonZoomOut {
-            get {
-                return ResourceManager.GetString("ToolButtonZoomOut", resourceCulture);
             }
         }
         

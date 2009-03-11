@@ -159,6 +159,18 @@
   <data name="MenuItemSuspend" xml:space="preserve">
     <value>&amp;Suspend</value>
   </data>
+  <data name="MenuToolTipReset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="MenuToolTipRun" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="MenuToolTipStep" xml:space="preserve">
+    <value>Step</value>
+  </data>
+  <data name="MenuToolTipSuspend" xml:space="preserve">
+    <value>Stop</value>
+  </data>
   <data name="NameMaxSize" xml:space="preserve">
     <value>Log file size</value>
   </data>
@@ -173,17 +185,5 @@
   </data>
   <data name="NewStepperText" xml:space="preserve">
     <value>New Stepper</value>
-  </data>
-  <data name="ToolTipReset" xml:space="preserve">
-    <value>Reset</value>
-  </data>
-  <data name="ToolTipRun" xml:space="preserve">
-    <value>Run</value>
-  </data>
-  <data name="ToolTipStep" xml:space="preserve">
-    <value>Step</value>
-  </data>
-  <data name="ToolTipSuspend" xml:space="preserve">
-    <value>Stop</value>
   </data>
 </root>

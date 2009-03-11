@@ -230,7 +230,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_runButton.Name = "RunSimulation";
             m_runButton.Size = new System.Drawing.Size(23, 22);
             m_runButton.Text = "";
-            m_runButton.ToolTipText = MessageResources.ToolTipRun;
+            m_runButton.ToolTipText = MessageResources.MenuToolTipRun;
             m_runButton.Click += new System.EventHandler(this.RunSimulation);
 
             m_stopButton = new ToolStripButton();
@@ -240,7 +240,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_stopButton.Size = new System.Drawing.Size(23, 22);
             m_stopButton.Tag = 3;
             m_stopButton.Text = "";
-            m_stopButton.ToolTipText = MessageResources.ToolTipSuspend;
+            m_stopButton.ToolTipText = MessageResources.MenuToolTipSuspend;
             m_stopButton.Click += new System.EventHandler(this.StopSimulation);
 
             m_resetButton = new ToolStripButton();
@@ -250,7 +250,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_resetButton.Size = new System.Drawing.Size(23, 22);
             m_resetButton.Text = "";
             m_resetButton.Tag = 4;
-            m_resetButton.ToolTipText = MessageResources.ToolTipReset;
+            m_resetButton.ToolTipText = MessageResources.MenuToolTipReset;
             m_resetButton.Click += new System.EventHandler(this.ResetSimulation);
 
             ToolStripLabel timeLabel = new ToolStripLabel();
@@ -283,7 +283,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_stepButton.Size = new System.Drawing.Size(23, 22);
             m_stepButton.Text = "";
             m_stepButton.Tag = 9;
-            m_stepButton.ToolTipText = MessageResources.ToolTipStep;
+            m_stepButton.ToolTipText = MessageResources.MenuToolTipStep;
             m_stepButton.Click += new System.EventHandler(this.Step);
 
             m_stepText = new ToolStripTextBox();
