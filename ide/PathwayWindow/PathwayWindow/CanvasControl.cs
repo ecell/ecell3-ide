@@ -624,7 +624,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 else if (!hasCoords)
                     SetSystemSize(obj);
 
-                if (!obj.EcellObject.isFixed)
+                if (!obj.EcellObject.isFixed && system != null)
                     MakeSpace(system, obj, false);
             }
             obj.Refresh();

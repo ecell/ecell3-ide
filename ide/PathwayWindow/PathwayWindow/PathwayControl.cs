@@ -533,12 +533,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             Debug.Assert(!string.IsNullOrEmpty(eo.ModelID));
             Debug.Assert(m_canvas.ModelID == eo.ModelID);
 
-            if (eo.Type == Constants.xpathVariable)
+            // Ignore system size.
+            if (eo.Type == Constants.xpathVariable && eo.LocalID == "SIZE")
             {
-                string superSystemPath, localID;
-                Util.ParseEntityKey(eo.Key, out superSystemPath, out localID);
-                if (localID == "SIZE")
-                    return;
+                return;
             }
 
             // Create PathwayObject and set to canvas.
