@@ -638,41 +638,32 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="obj">the registered object.</param>
         private void RegisterObject(PPathwayObject obj)
         {
+            string key = obj.EcellObject.Key;
+            PathwayException ex = new PathwayException(
+                string.Format(MessageResources.ErrAlrExist, key));
             if (obj is PPathwaySystem)
             {
-                PPathwaySystem system = (PPathwaySystem)obj;
-                if (m_systems.ContainsKey(system.EcellObject.Key))
-                    throw new PathwayException(string.Format(
-                        MessageResources.ErrAlrExist,
-                        new object[] { system.EcellObject.Key }));
-                m_systems.Add(system.EcellObject.Key, system);
+                if (m_systems.ContainsKey(key))
+                    throw ex;
+                m_systems.Add(key, (PPathwaySystem)obj);
             }
             else if (obj is PPathwayVariable)
             {
-                PPathwayVariable node = (PPathwayVariable)obj;
-                if (m_variables.ContainsKey(node.EcellObject.Key))
-                    throw new PathwayException(string.Format(
-                        MessageResources.ErrAlrExist,
-                        new object[] { node.EcellObject.Key }));
-                m_variables.Add(node.EcellObject.Key, node);
+                if (m_variables.ContainsKey(key))
+                    throw ex;
+                m_variables.Add(key, (PPathwayVariable)obj);
             }
             else if (obj is PPathwayProcess)
             {
-                PPathwayProcess node = (PPathwayProcess)obj;
-                if (m_processes.ContainsKey(node.EcellObject.Key))
-                    throw new PathwayException(string.Format(
-                        MessageResources.ErrAlrExist,
-                        new object[] { node.EcellObject.Key }));
-                m_processes.Add(node.EcellObject.Key, node);
+                if (m_processes.ContainsKey(key))
+                    throw ex;
+                m_processes.Add(key, (PPathwayProcess)obj);
             }
             else if (obj is PPathwayText)
             {
-                PPathwayText node = (PPathwayText)obj;
-                if (m_processes.ContainsKey(node.EcellObject.Key))
-                    throw new PathwayException(string.Format(
-                        MessageResources.ErrAlrExist,
-                        new object[] { node.EcellObject.Key }));
-                m_texts.Add(node.EcellObject.Key, node);
+                if (m_processes.ContainsKey(key))
+                    throw ex;
+                m_texts.Add(key, (PPathwayText)obj);
             }
         }
 
