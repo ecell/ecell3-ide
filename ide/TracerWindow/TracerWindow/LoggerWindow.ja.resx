@@ -120,6 +120,9 @@
   <data name="$this.TabText" xml:space="preserve">
     <value>ロガー</value>
   </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>ロガー</value>
+  </data>
   <data name="ColorColumn.HeaderText" xml:space="preserve">
     <value>色</value>
   </data>

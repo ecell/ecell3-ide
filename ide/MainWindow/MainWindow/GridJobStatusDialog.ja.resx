@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="$this.TabText" xml:space="preserve">
-    <value>解析状況</value>
+    <value>ジョブ状況</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>解析状況</value>
+    <value>ジョブ状況</value>
   </data>
   <data name="ArgumentColumn.HeaderText" xml:space="preserve">
     <value>引数</value>

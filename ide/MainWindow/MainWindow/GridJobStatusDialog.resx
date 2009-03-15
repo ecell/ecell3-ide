@@ -121,43 +121,43 @@
   <data name="JobGridView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
-  <metadata name="JobIDColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="JobIDColumn.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="JobIDColumn.HeaderText" xml:space="preserve">
     <value>JobID</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="JobIDColumn.Width" type="System.Int32, mscorlib">
     <value>50</value>
   </data>
-  <metadata name="StatusColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="StatusColumn.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="StatusColumn.HeaderText" xml:space="preserve">
     <value>Status</value>
   </data>
   <data name="StatusColumn.Width" type="System.Int32, mscorlib">
     <value>80</value>
   </data>
-  <metadata name="MachineColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="MachineColumn.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="MachineColumn.HeaderText" xml:space="preserve">
     <value>Node</value>
   </data>
   <data name="MachineColumn.Width" type="System.Int32, mscorlib">
     <value>80</value>
   </data>
-  <metadata name="ScriptColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="ScriptColumn.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="ScriptColumn.HeaderText" xml:space="preserve">
     <value>Script</value>
   </data>
-  <metadata name="ArgumentColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="ArgumentColumn.UserAddedColumn" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="ArgumentColumn.HeaderText" xml:space="preserve">
     <value>Arg</value>
   </data>
@@ -370,9 +370,9 @@
   <data name="&gt;&gt;DEWUpdateButton.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>
@@ -459,7 +459,7 @@
     <value>Job status</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Analysis status</value>
+    <value>Job status</value>
   </data>
   <data name="&gt;&gt;JobIDColumn.Name" xml:space="preserve">
     <value>JobIDColumn</value>
