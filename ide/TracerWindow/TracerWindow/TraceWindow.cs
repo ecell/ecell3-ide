@@ -705,7 +705,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             if (list == null) return;
             foreach (LogData l in list)
             {
-                string p = l.type + ":" + l.key + ":" + l.propName;
+                string p = l.type + ":" + l.key + ":" + l.propName + ":";
                 if (!m_entryDic.ContainsKey(p)) continue;
 
                 m_entryDic[p].AddPoint(l.logValueList, 
