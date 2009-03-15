@@ -2157,14 +2157,14 @@ namespace Ecell
             foreach (EcellData nd in newObj.Value)
             {
                 EcellData od = oldObj.GetEcellData(nd.Name);
-                if (od.Logged == nd.Logged) continue;
-                if (od.Logged)
+                if (od != null && od.Logged == nd.Logged) continue;
+                if (nd.Logged)
                 {
-                    m_env.LoggerManager.LoggerRemoved(new LoggerEntry(newObj.ModelID, newObj.Key, newObj.Type, nd.EntityPath));
+                    m_env.LoggerManager.AddLoggerEntry(newObj.ModelID, newObj.Key, newObj.Type, nd.EntityPath);
                 }
                 else
                 {
-                    m_env.LoggerManager.AddLoggerEntry(newObj.ModelID, newObj.Key, newObj.Type, nd.EntityPath);
+                    m_env.LoggerManager.LoggerRemoved(new LoggerEntry(newObj.ModelID, newObj.Key, newObj.Type, nd.EntityPath));
                 }
             }
         }

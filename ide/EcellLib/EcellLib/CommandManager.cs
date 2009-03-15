@@ -57,10 +57,6 @@ namespace Ecell
         /// </summary>
         private const string s_consoleExe = "IronPythonConsole.exe";
         /// <summary>
-        /// The model ID
-        /// </summary>
-        private static string s_modelID = null;
-        /// <summary>
         /// The singleton object.
         /// This object is used when the data is exchanged among IDE and script.
         /// </summary>
@@ -72,6 +68,18 @@ namespace Ecell
         public DataManager DataManager
         {
             get { return m_env.DataManager; }
+        }
+
+        /// <summary>
+        /// get ModelID.
+        /// </summary>
+        public string ModelID
+        {
+            get {
+                if (DataManager.CurrentProject.Model != null)
+                    return DataManager.CurrentProject.Model.ModelID;
+                return null;
+            }
         }
 
 
@@ -93,8 +101,7 @@ namespace Ecell
         /// <param name="fullID">the created full ID</param>
         /// <returns>the created entity</returns>
         public EntityStub CreateEntityStub(string fullID)
-        {
-            s_modelID = m_env.DataManager.CurrentProject.ModelList[0].ModelID;
+        {            
             return new EntityStub(this, fullID);
         }
 
@@ -111,7 +118,7 @@ namespace Ecell
                 throw new EcellException(MessageResources.ErrInvalidID);
             }
             List<EcellObject> systemObjectList
-                    = m_env.DataManager.GetData(s_modelID, fullIDs[1]);
+                    = m_env.DataManager.GetData(ModelID, fullIDs[1]);
 
             if (systemObjectList == null || systemObjectList.Count <= 0)
             {
@@ -193,9 +200,9 @@ namespace Ecell
             if (changedKey != null && changedType != null && changedObject != null)
             {
                 m_env.DataManager.DataChanged(
-                        s_modelID, changedKey, changedType, changedObject);
+                        ModelID, changedKey, changedType, changedObject);
                 m_env.LoggerManager.AddLoggerEntry(
-                        s_modelID, changedKey, changedType, fullPN);
+                        ModelID, changedKey, changedType, fullPN);
             }
             else
             {
@@ -241,7 +248,6 @@ namespace Ecell
             EcellObject model = EcellObject.CreateObject(modelID, "", Constants.xpathModel, "", new List<EcellData>());
             m_env.DataManager.DataAdd(model);
             m_env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
-            s_modelID = modelID;
         }
 
         /// <summary>
@@ -308,7 +314,7 @@ namespace Ecell
                 throw new EcellException(MessageResources.ErrInvalidID);
             }
             List<EcellObject> systemObjectList
-                    = m_env.DataManager.GetData(s_modelID, fullPNDivs[1]);
+                    = m_env.DataManager.GetData(ModelID, fullPNDivs[1]);
             if (systemObjectList == null || systemObjectList.Count <= 0)
             {
                 throw new EcellException(string.Format(MessageResources.ErrFindEnt,
@@ -390,7 +396,7 @@ namespace Ecell
             }
             if (changedKey != null && changedType != null && changedObject != null)
             {
-                m_env.DataManager.DataChanged(s_modelID, changedKey, changedType, changedObject);
+                m_env.DataManager.DataChanged(ModelID, changedKey, changedType, changedObject);
             }
             else
             {
@@ -470,7 +476,7 @@ namespace Ecell
                 int depth = systemPath.Split(Constants.delimiterPath.ToCharArray()).Length;
                 if (systemPath.Equals(Constants.delimiterPath))
                 {
-                    foreach (string system in m_env.DataManager.GetSystemList(s_modelID))
+                    foreach (string system in m_env.DataManager.GetSystemList(ModelID))
                     {
                         if (systemPath.Equals(system))
                         {
@@ -484,7 +490,7 @@ namespace Ecell
                 }
                 else
                 {
-                    foreach (string system in m_env.DataManager.GetSystemList(s_modelID))
+                    foreach (string system in m_env.DataManager.GetSystemList(ModelID))
                     {
                         if (systemPath.Equals(system))
                         {
@@ -501,7 +507,7 @@ namespace Ecell
             else if (entityName.Equals(Constants.xpathProcess) || entityName.Equals(Constants.xpathVariable))
             {
                 List<string> list = new List<string>();
-                foreach (EcellObject parent in m_env.DataManager.GetData(s_modelID, systemPath))
+                foreach (EcellObject parent in m_env.DataManager.GetData(ModelID, systemPath))
                 {
                     if (parent.Children == null || parent.Children.Count <= 0)
                     {
@@ -557,7 +563,7 @@ namespace Ecell
             {
                 EcellObject system
                     = (m_env.DataManager.GetData(
-                        s_modelID, pathElements[1] + Constants.delimiterColon + pathElements[2]))[0];
+                        ModelID, pathElements[1] + Constants.delimiterColon + pathElements[2]))[0];
                 foreach (EcellData systemProperty in system.Value)
                 {
                     if (systemProperty.Name.Equals(pathElements[3]))
@@ -570,7 +576,7 @@ namespace Ecell
             {
                 EcellObject system
                     = (m_env.DataManager.GetData(
-                        s_modelID, pathElements[1]))[0];
+                        ModelID, pathElements[1]))[0];
                 foreach (EcellObject entity in system.Children)
                 {
                     if (entity.Type.Equals(pathElements[0])
@@ -606,9 +612,9 @@ namespace Ecell
         public List<string> GetLoggerList()
         {
             List<string> list = new List<string>();
-            foreach (string systemPath in m_env.DataManager.GetSystemList(s_modelID))
+            foreach (string systemPath in m_env.DataManager.GetSystemList(ModelID))
             {
-                foreach (EcellObject system in m_env.DataManager.GetData(s_modelID, systemPath))
+                foreach (EcellObject system in m_env.DataManager.GetData(ModelID, systemPath))
                 {
                     if (system.Value != null && system.Value.Count > 0)
                     {
@@ -647,7 +653,7 @@ namespace Ecell
         /// <returns>The process list</returns>
         public List<string> GetProcessList()
         {
-            return m_env.DataManager.GetEntityList(s_modelID, Constants.xpathProcess);
+            return m_env.DataManager.GetEntityList(ModelID, Constants.xpathProcess);
         }
 
         /// <summary>
@@ -676,7 +682,7 @@ namespace Ecell
         public List<string> GetStepperList(string parameterID)
         {
             List<string> list = new List<string>();
-            foreach (EcellObject stepper in m_env.DataManager.GetStepper(parameterID, s_modelID))
+            foreach (EcellObject stepper in m_env.DataManager.GetStepper(parameterID, ModelID))
             {
                 list.Add(stepper.Key);
             }
@@ -725,7 +731,7 @@ namespace Ecell
         /// <returns>The variable list</returns>
         public List<string> GetVariableList()
         {
-            return m_env.DataManager.GetEntityList(s_modelID, Constants.xpathVariable);
+            return m_env.DataManager.GetEntityList(ModelID, Constants.xpathVariable);
         }
 
         /// <summary>
@@ -762,7 +768,6 @@ namespace Ecell
         public void LoadModel(string fileName)
         {
             m_env.DataManager.LoadProject(fileName);
-            s_modelID = m_env.DataManager.CurrentProjectID;
         }
 
         /// <summary>
@@ -871,7 +876,7 @@ namespace Ecell
 
         public void UpdateInitialCondition(Dictionary<string, double> initialDic)
         {
-            m_env.DataManager.UpdateInitialCondition(null, s_modelID, initialDic);
+            m_env.DataManager.UpdateInitialCondition(null, ModelID, initialDic);
         }
 
 
@@ -911,7 +916,7 @@ namespace Ecell
             /// <param name="className">the class name</param>
             public void Create(string className)
             {
-                Debug.Assert(!string.IsNullOrEmpty(s_modelID));
+                Debug.Assert(!string.IsNullOrEmpty(m_cManager.ModelID));
 
                 //
                 // Already get
@@ -932,7 +937,7 @@ namespace Ecell
                 //
                 foreach (EcellObject system
                         in m_cManager.DataManager.GetData(
-                            CommandManager.s_modelID, systemKey))
+                            m_cManager.ModelID, systemKey))
                 {
                     if (type.Equals(Constants.xpathSystem))
                     {
@@ -1036,7 +1041,7 @@ namespace Ecell
                                 }
                             }
                             this.m_ecellObject = EcellObject.CreateObject(
-                                    CommandManager.s_modelID, key, type, className, propertyList);
+                                    m_cManager.ModelID, key, type, className, propertyList);
                             return;
                         }
                     }
@@ -1052,7 +1057,7 @@ namespace Ecell
                 string type = null;
                 string systemKey = null;
                 this.RefinedFullID(ref key, ref type, ref systemKey);
-                m_cManager.DataManager.DataDelete(CommandManager.s_modelID, key, type);
+                m_cManager.DataManager.DataDelete(m_cManager.ModelID, key, type);
                 this.m_ecellObject = null;
                 this.m_fullID = null;
             }
@@ -1066,7 +1071,7 @@ namespace Ecell
                 string key = null;
                 string type = null;
                 Util.ParseFullID(m_fullID, out type, out key);
-                return m_cManager.DataManager.IsDataExists(CommandManager.s_modelID, key, type);
+                return m_cManager.DataManager.IsDataExists(m_cManager.ModelID, key, type);
             }
 
             /// <summary>
@@ -1180,7 +1185,7 @@ namespace Ecell
                 // Searches the loaded "EcellObject".
                 //
                 foreach (EcellObject system
-                        in m_cManager.DataManager.GetData(CommandManager.s_modelID, systemKey))
+                        in m_cManager.DataManager.GetData(m_cManager.ModelID, systemKey))
                 {
                     if (type.Equals(Constants.xpathSystem))
                     {
@@ -1502,7 +1507,7 @@ namespace Ecell
             /// </summary>
             public void Create()
             {
-                Debug.Assert(!string.IsNullOrEmpty(CommandManager.s_modelID));
+                Debug.Assert(!string.IsNullOrEmpty(m_cManager.ModelID));
                 //
                 // Already get
                 //
@@ -1530,7 +1535,7 @@ namespace Ecell
                 // Searches the loaded "Stepper".
                 //
                 this.m_stepperList
-                        = m_cManager.DataManager.GetStepper(this.m_parameterID, CommandManager.s_modelID);
+                        = m_cManager.DataManager.GetStepper(this.m_parameterID, m_cManager.ModelID);
                 //
                 // Searches the loaded "LoggerPolicy".
                 //
@@ -1540,7 +1545,7 @@ namespace Ecell
                 //
                 this.m_initialCondition
                         = m_cManager.DataManager.GetInitialCondition(
-                                this.m_parameterID, CommandManager.s_modelID);
+                                this.m_parameterID, m_cManager.ModelID);
             }
 
             /// <summary>
@@ -1695,7 +1700,7 @@ namespace Ecell
             /// <param name="className">the class name</param>
             public void Create(string className)
             {
-                Debug.Assert(!string.IsNullOrEmpty(CommandManager.s_modelID));
+                Debug.Assert(!string.IsNullOrEmpty(m_cManager.ModelID));
                 //
                 // Already get
                 //
@@ -1730,7 +1735,7 @@ namespace Ecell
                 // Searches the loaded "Stepper".
                 //
                 foreach (EcellObject stepper
-                        in m_cManager.DataManager.GetStepper(this.m_parameterID, CommandManager.s_modelID))
+                        in m_cManager.DataManager.GetStepper(this.m_parameterID, m_cManager.ModelID))
                 {
                     if (stepper.Key.Equals(this.m_ID) && stepper.Classname.Equals(className))
                     {
@@ -1767,7 +1772,7 @@ namespace Ecell
                         {
                             List<EcellData> propertyList = m_cManager.DataManager.GetStepperProperty(className);
                             this.m_stepper = EcellObject.CreateObject(
-                                    CommandManager.s_modelID,
+                                    m_cManager.ModelID,
                                     key,
                                     Constants.xpathStepper,
                                     className,
@@ -1796,7 +1801,7 @@ namespace Ecell
             public bool Exists()
             {
                 foreach (EcellObject stepper
-                        in m_cManager.DataManager.GetStepper(this.m_parameterID, CommandManager.s_modelID))
+                        in m_cManager.DataManager.GetStepper(this.m_parameterID, m_cManager.ModelID))
                 {
                     if (stepper.Key.Equals(this.m_ID))
                     {
