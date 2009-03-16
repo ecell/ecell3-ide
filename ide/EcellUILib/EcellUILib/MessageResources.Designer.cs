@@ -133,6 +133,15 @@ namespace Ecell.IDE {
         }
         
         /// <summary>
+        ///   Cannot load the file {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrLoadFile {
+            get {
+                return ResourceManager.GetString("ErrLoadFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Please input an integer value for coefficient. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrNoNumber {

@@ -91,7 +91,15 @@ namespace Ecell.IDE
         {
             DMESaveButtonClick(DMESaveButton, e);
             DMEComileButton.Enabled = false;
-            m_env.DataManager.ExecuteScript(m_path);
+            try
+            {
+                m_env.DataManager.ExecuteScript(m_path);
+            }
+            catch (Exception)
+            {
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrLoadFile,
+                        new object[] { m_path }));
+            }
             DMEComileButton.Enabled = true;
         }
     }

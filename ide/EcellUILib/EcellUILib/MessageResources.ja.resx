@@ -141,6 +141,9 @@
   <data name="ErrInvalidValue" xml:space="preserve">
     <value>入力された値が不正です。</value>
   </data>
+  <data name="ErrLoadFile" xml:space="preserve">
+    <value>ファイル {0} を読み込めません。</value>
+  </data>
   <data name="ErrNoNumber" xml:space="preserve">
     <value>coefficientには整数を入力してください。</value>
   </data>

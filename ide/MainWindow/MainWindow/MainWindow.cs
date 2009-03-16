@@ -1289,20 +1289,28 @@ namespace Ecell.IDE.MainWindow
         {
             if (openScriptDialog.ShowDialog() == DialogResult.OK)
             {
-                //
-                // IronPython
-                //
-                m_env.DataManager.ExecuteScript(openScriptDialog.FileName);
-
-                //
-                // Executes continuously.
-                //
-                if (m_env.DataManager.CurrentProjectID != null)
+                try
                 {
-                    if (m_env.DataManager.GetCurrentSimulationTime() > 0.0)
+                    //
+                    // IronPython
+                    //
+                    m_env.DataManager.ExecuteScript(openScriptDialog.FileName);
+
+                    //
+                    // Executes continuously.
+                    //
+                    if (m_env.DataManager.CurrentProjectID != null)
                     {
-                        m_env.DataManager.SimulationSuspend();
+                        if (m_env.DataManager.GetCurrentSimulationTime() > 0.0)
+                        {
+                            m_env.DataManager.SimulationSuspend();
+                        }
                     }
+                }
+                catch (Exception)
+                {
+                    Util.ShowErrorDialog(string.Format(MessageResources.ErrLoadFile,
+                        new object[] { openScriptDialog.FileName }));
                 }
             }
         }

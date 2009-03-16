@@ -242,8 +242,6 @@ namespace Ecell
             engine.AddToPath(Util.GetAnalysisDir());
             string scriptFile = fileName;
 
-            try
-            {
                 MemoryStream standardOutput = new MemoryStream();
                 engine.SetStandardOutput(standardOutput);
                 engine.Execute("from EcellIDE import *");
@@ -256,12 +254,6 @@ namespace Ecell
                 m_env.Console.WriteLine(stdOut);
                 m_env.Console.WriteLine(string.Format(MessageResources.InfoExecScript, fileName));
                 m_env.Console.Flush();
-            }
-            catch (Exception)
-            {
-                Util.ShowErrorDialog(string.Format(MessageResources.ErrLoadFile,
-                    new object[] { scriptFile }));
-            }
         }
 
         /// <summary>

@@ -141,6 +141,9 @@
   <data name="ErrInvalidValue" xml:space="preserve">
     <value>Value is not valid.</value>
   </data>
+  <data name="ErrLoadFile" xml:space="preserve">
+    <value>Cannot load the file {0}.</value>
+  </data>
   <data name="ErrNoNumber" xml:space="preserve">
     <value>Please input an integer value for coefficient.</value>
   </data>
