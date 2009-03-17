@@ -613,9 +613,9 @@ namespace Ecell
             double l_startTime = 0;
             double l_endTime = 0;
             double l_interval = 0;
-            string l_fullID = null;
-            Ecell.LogData expectedLogData = null;
-            Ecell.LogData resultLogData = null;
+            string l_fullID = "";
+            LogData expectedLogData = null;
+            LogData resultLogData = null;
             resultLogData = _unitUnderTest.GetLogData(l_startTime, l_endTime, l_interval, l_fullID);
             Assert.AreEqual(expectedLogData, resultLogData, "GetLogData method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");

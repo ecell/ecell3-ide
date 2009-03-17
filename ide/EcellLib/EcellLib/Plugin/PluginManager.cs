@@ -115,6 +115,7 @@ namespace Ecell.Plugin
             this.m_pluginList = new Dictionary<string, IEcellPlugin>();
             this.m_rasterizableList = new List<IRasterizable>();
             this.m_dataHandlerList = new List<IDataHandler>();
+            this.m_analysisList = new List<IAnalysis>();
             this.m_layoutAlgorithmList = new List<ILayoutAlgorithm>();
             this.m_dialog = new System.Windows.Forms.PrintDialog();
             this.m_status = ProjectStatus.Uninitialized;

@@ -950,11 +950,13 @@ namespace Ecell.IDE.Plugins.Analysis
                 {
                     foreach (EcellObject child in obj.Children)
                     {
-                        if (child.Value == null) continue;
+                        if (child.Value == null)
+                            continue;
 
                         foreach (EcellData d in child.Value)
                         {
-                            if (d.EntityPath == null) continue;
+                            if (d.EntityPath == null)
+                                continue;
                             if (m_env.DataManager.IsContainsParameterData(d.EntityPath))
                             {
                                 m_paramList[d.EntityPath] = d;
@@ -967,11 +969,13 @@ namespace Ecell.IDE.Plugins.Analysis
                         
                     }
                 }
-                if (obj.Value == null) continue;
+                if (obj.Value == null)
+                    continue;
 
                 foreach (EcellData d in obj.Value)
                 {
-                    if (d.EntityPath == null) continue;
+                    if (d.EntityPath == null)
+                        continue;
                     if (m_env.DataManager.IsContainsParameterData(d.EntityPath))
                     {
                         m_paramList[d.EntityPath] = d;

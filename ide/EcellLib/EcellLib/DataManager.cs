@@ -3474,7 +3474,7 @@ namespace Ecell
                     return null;
                 
 //                IList<string> loggerList = m_currentProject.Simulator.GetLoggerList();
-                List<string> loggerList = m_env.LoggerManager.GetLoggerList();
+                List<string> loggerList = GetLoggerList();
                 foreach (string logger in loggerList)
                 {
                     logDataList.Add(
@@ -3604,21 +3604,24 @@ namespace Ecell
         /// <returns></returns>
         public List<string> GetLoggerList()
         {
-            List<string> loggerList = new List<string>();
-            try
-            {
-                IList<string> polymorphList = m_currentProject.Simulator.GetLoggerList();
-                foreach (string polymorph in polymorphList)
-                {
-                    loggerList.Add(polymorph);
-                }
-                return loggerList;
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-                return null;
-            }
+
+            List<string> loggerList = m_env.LoggerManager.GetLoggerList();
+            return loggerList;
+
+            //try
+            //{
+            //    IList<string> polymorphList = m_currentProject.Simulator.GetLoggerList();
+            //    foreach (string polymorph in polymorphList)
+            //    {
+            //        loggerList.Add(polymorph);
+            //    }
+            //    return loggerList;
+            //}
+            //catch (Exception ex)
+            //{
+            //    ex.ToString();
+            //    return null;
+            //}
         }
 
         /// <summary>
@@ -3628,7 +3631,7 @@ namespace Ecell
         {
             try
             {
-                SaveSimulationResult(null, 0.0, GetCurrentSimulationTime(), null, m_env.LoggerManager.GetLoggerList());
+                SaveSimulationResult(null, 0.0, GetCurrentSimulationTime(), null, GetLoggerList());
             }
             catch (Exception ex)
             {
