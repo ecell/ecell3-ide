@@ -66,12 +66,6 @@ namespace Ecell.Plugin
         void DataDelete(string modelID, string key, string type);
 
         /// <summary>
-        /// Set the position of EcellObject.
-        /// </summary>
-        /// <param name="data">EcellObject, whose position will be set</param>
-        void SetPosition(EcellObject data);
-
-        /// <summary>
         /// The event sequence on changing selected object at other plugin.
         /// </summary>
         /// <param name="modelID">Selected the model ID.</param>
@@ -129,30 +123,6 @@ namespace Ecell.Plugin
         void ParameterUpdate(string projectID, string parameterID);
 
         /// <summary>
-        /// The event sequence when the user adds and changes the observed data.
-        /// </summary>
-        /// <param name="data">the observed data.</param>
-        void SetObservedData(EcellObservedData data);
-
-        /// <summary>
-        /// The event sequence when the user remove the data from the list of observed data.
-        /// </summary>
-        /// <param name="data">The removed observed data.</param>
-        void RemoveObservedData(EcellObservedData data);
-
-        /// <summary>
-        /// The event sequence when the user add and change the parameter data.
-        /// </summary>
-        /// <param name="data">The parameter data.</param>
-        void SetParameterData(EcellParameterData data);
-
-        /// <summary>
-        /// The event sequence when the user remove the data from the list of parameter data.
-        /// </summary>
-        /// <param name="data">The removed parameter data.</param>
-        void RemoveParameterData(EcellParameterData data);
-
-        /// <summary>
         /// The event sequence on adding the logger at other plugin.
         /// </summary>
         /// <param name="entry">Logger entry data.</param>
@@ -163,12 +133,6 @@ namespace Ecell.Plugin
         /// </summary>
         /// <param name="time">The current simulation time.</param>
         void AdvancedTime(double time);
-
-        /// <summary>
-        /// Change availability of undo/redo function.
-        /// </summary>
-        /// <param name="status"></param>
-        void ChangeUndoStatus(UndoStatus status);
 
         /// <summary>
         /// Notify a plugin that it should save model-related information if necessary.

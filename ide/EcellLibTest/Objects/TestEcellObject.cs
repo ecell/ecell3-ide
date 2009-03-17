@@ -482,29 +482,6 @@ namespace Ecell.Objects
         }
 
         /// <summary>
-        /// TestMovePosition
-        /// </summary>
-        [Test()]
-        public void TestMovePosition()
-        {
-            _unitUnderTest = EcellObject.CreateObject("Model", "", "Model", "", new List<EcellData>());
-            PointF delta = new PointF(100, 20);
-            _unitUnderTest.Layout.MovePosition(delta);
-            Assert.AreEqual(delta, _unitUnderTest.PointF, "PointF is unexpected value.");
-            Assert.AreEqual(100, _unitUnderTest.X, "X is unexpected value.");
-            Assert.AreEqual(20, _unitUnderTest.Y, "Y is unexpected value.");
-            Assert.AreEqual(0, _unitUnderTest.OffsetX, "OffsetX is unexpected value.");
-            Assert.AreEqual(0, _unitUnderTest.OffsetY, "OffsetY is unexpected value.");
-
-            _unitUnderTest.Layout.MovePosition(delta);
-            Assert.AreNotEqual(delta, _unitUnderTest.PointF, "PointF is unexpected value.");
-            Assert.AreEqual(200, _unitUnderTest.X, "X is unexpected value.");
-            Assert.AreEqual(40, _unitUnderTest.Y, "Y is unexpected value.");
-            Assert.AreEqual(0, _unitUnderTest.OffsetX, "OffsetX is unexpected value.");
-            Assert.AreEqual(0, _unitUnderTest.OffsetY, "OffsetY is unexpected value.");
-        }
-
-        /// <summary>
         /// TestParentSystemID
         /// </summary>
         [Test()]

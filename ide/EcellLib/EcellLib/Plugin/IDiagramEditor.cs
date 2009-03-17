@@ -26,15 +26,30 @@
 //
 // Moriyoshi Koizumi <mozo@sfc.keio.ac.jp>
 //
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
+//
 
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Ecell.Objects;
 
 namespace Ecell.Plugin
 {
     public interface IDiagramEditor
     {
+        /// <summary>
+        /// Set layout.
+        /// </summary>
+        /// <param name="algo"></param>
+        /// <param name="subIdx"></param>
         void InitiateLayout(ILayoutAlgorithm algo, int subIdx);
+
+        /// <summary>
+        /// Set the position of EcellObject.
+        /// </summary>
+        /// <param name="data">EcellObject, whose position will be set</param>
+        void SetPosition(EcellObject data);
     }
 }

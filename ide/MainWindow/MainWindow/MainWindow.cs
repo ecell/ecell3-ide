@@ -65,6 +65,7 @@ using IronPython.Hosting;
 using IronPython.Runtime;
 using Ecell.IDE.MainWindow.UIComponents;
 using Ecell.Exceptions;
+using Ecell.Action;
 
 namespace Ecell.IDE.MainWindow
 {
@@ -183,6 +184,7 @@ namespace Ecell.IDE.MainWindow
             m_title = this.Text;
             m_env.ReportManager.StatusUpdated += new StatusUpdatedEventHandler(ReportManager_StatusUpdated);
             m_env.ReportManager.ProgressValueUpdated += new ProgressReportEventHandler(ReportManager_ProgressValueUpdated);
+            m_env.ActionManager.UndoStatusChanged += new UndoStatusChangedEvent(ActionManager_UndoStatusChanged);
         }
 
         /// <summary>
@@ -837,18 +839,6 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// Change availability of undo/redo function
-        /// </summary>
-        /// <param name="status"></param>
-        public void ChangeUndoStatus(UndoStatus status)
-        {
-            bool prjStatus = m_status == ProjectStatus.Loaded;
-            bool isRunning = m_env.ActionManager.IsLoadAction;
-            undoToolStripMenuItem.Enabled = (status == UndoStatus.UNDO_ONLY || status == UndoStatus.UNDO_REDO) && prjStatus && !isRunning;
-            redoToolStripMenuItem.Enabled = (status == UndoStatus.REDO_ONLY || status == UndoStatus.UNDO_REDO) && prjStatus && !isRunning;
-        }
-
-        /// <summary>
         /// When save the model, plugin save the specified information of model using only this plugin.
         /// </summary>
         /// <param name="modelID">the id of saved model.</param>
@@ -915,46 +905,9 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// Set the position of EcellObject.
-        /// Actually, nothing will be done by this plugin.
-        /// </summary>
-        /// <param name="data">EcellObject, whose position will be set</param>
-        public void SetPosition(EcellObject data)
-        {
-        }
-
-        /// <summary>
         /// 
         /// </summary>
-        /// <param name="data"></param>
-        public void SetObservedData(EcellObservedData data)
-        {
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        public void RemoveObservedData(EcellObservedData data)
-        {
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        public void SetParameterData(EcellParameterData data)
-        {
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        public void RemoveParameterData(EcellParameterData data)
-        {
-        }
-
+        /// <returns></returns>
         public Dictionary<string, Delegate> GetPublicDelegate()
         {
             Dictionary<string, Delegate> list = new Dictionary<string, Delegate>();
@@ -1039,7 +992,7 @@ namespace Ecell.IDE.MainWindow
                 {
                     Trace.WriteLine(ex);
                     Util.ShowErrorDialog(ex.Message);
-                }            
+                }
             }
         }
 
@@ -1516,6 +1469,28 @@ namespace Ecell.IDE.MainWindow
             }
             if (isExeDoEvents)
                 Application.DoEvents();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ActionManager_UndoStatusChanged(object sender, UndoStatusChangedEventArgs e)
+        {
+            ChangeUndoStatus(e.Status);
+        }
+
+        /// <summary>
+        /// Change availability of undo/redo function
+        /// </summary>
+        /// <param name="status"></param>
+        private void ChangeUndoStatus(UndoStatus status)
+        {
+            bool prjStatus = m_status == ProjectStatus.Loaded;
+            bool isRunning = m_env.ActionManager.IsLoadAction;
+            undoToolStripMenuItem.Enabled = (status == UndoStatus.UNDO_ONLY || status == UndoStatus.UNDO_REDO) && prjStatus && !isRunning;
+            redoToolStripMenuItem.Enabled = (status == UndoStatus.REDO_ONLY || status == UndoStatus.UNDO_REDO) && prjStatus && !isRunning;
         }
 
         /// <summary>

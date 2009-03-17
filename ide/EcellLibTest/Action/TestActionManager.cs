@@ -167,8 +167,7 @@ namespace Ecell.Action
         [Test()]
         public void TestRedoAction()
         {
-            _unitUnderTest.RedoableChange += new EventHandler(_unitUnderTest_RedoableChange);
-            _unitUnderTest.UndoableChange += new EventHandler(_unitUnderTest_UndoableChange);
+            _unitUnderTest.UndoStatusChanged += new UndoStatusChangedEvent(_unitUnderTest_UndoStatusChanged);
 
             _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
             string modelID = "Drosophila";
@@ -196,17 +195,13 @@ namespace Ecell.Action
 
             _env.DataManager.DataAdd(sys.Clone());
 
-            _unitUnderTest.RedoableChange -= _unitUnderTest_RedoableChange;
-            _unitUnderTest.UndoableChange -= _unitUnderTest_UndoableChange;
+            _unitUnderTest.UndoStatusChanged -= _unitUnderTest_UndoStatusChanged;
 
         }
 
-        void _unitUnderTest_UndoableChange(object sender, EventArgs e)
+        void _unitUnderTest_UndoStatusChanged(object sender, UndoStatusChangedEventArgs e)
         {
-        }
-
-        void _unitUnderTest_RedoableChange(object sender, EventArgs e)
-        {
+            Assert.AreEqual(_unitUnderTest.UndoStatus, e.Status, "UndoStatus is unexpected value.");
         }
     }
 }

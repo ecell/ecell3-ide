@@ -70,6 +70,9 @@ namespace Ecell.Plugin
         private List<IDataHandler> m_dataHandlerList;
         /// <summary>
         /// </summary>
+        private List<IAnalysis> m_analysisList;
+        /// <summary>
+        /// </summary>
         private List<IRasterizable> m_rasterizableList;
         /// <summary>
         /// </summary>
@@ -363,7 +366,7 @@ namespace Ecell.Plugin
         /// <param name="data">The observed data.</param>
         public void SetObservedData(EcellObservedData data)
         {
-            foreach (IDataHandler p in m_dataHandlerList)
+            foreach (IAnalysis p in m_analysisList)
             {
                 p.SetObservedData(data);
             }
@@ -375,7 +378,7 @@ namespace Ecell.Plugin
         /// <param name="data">The removed observed data.</param>
         public void RemoveObservedData(EcellObservedData data)
         {
-            foreach (IDataHandler p in m_dataHandlerList)
+            foreach (IAnalysis p in m_analysisList)
             {
                 p.RemoveObservedData(data);
             }
@@ -387,7 +390,7 @@ namespace Ecell.Plugin
         /// <param name="data">The parameter data.</param>
         public void SetParameterData(EcellParameterData data)
         {
-            foreach (IDataHandler p in m_dataHandlerList)
+            foreach (IAnalysis p in m_analysisList)
             {
                 p.SetParameterData(data);
             }
@@ -399,7 +402,7 @@ namespace Ecell.Plugin
         /// <param name="data">The removed parameter data.</param>
         public void RemoveParameterData(EcellParameterData data)
         {
-            foreach (IDataHandler p in m_dataHandlerList)
+            foreach (IAnalysis p in m_analysisList)
             {
                 p.RemoveParameterData(data);
             }
@@ -436,6 +439,11 @@ namespace Ecell.Plugin
             if (p is IDataHandler)
             {
                 m_dataHandlerList.Add((IDataHandler)p);
+            }
+
+            if (p is IAnalysis)
+            {
+                m_analysisList.Add((IAnalysis)p);
             }
 
             if (p is IRasterizable)
@@ -642,18 +650,6 @@ namespace Ecell.Plugin
         }
 
         /// <summary>
-        /// Change availability of undo/redo function.
-        /// </summary>
-        /// <param name="status"></param>
-        public void ChangeUndoStatus(UndoStatus status)
-        {
-            foreach (IDataHandler p in m_dataHandlerList)
-            {
-                p.ChangeUndoStatus(status);
-            }
-        }
-
-        /// <summary>
         /// Get plugin by using name of plugin.
         /// </summary>
         /// <param name="name">name of plugin</param>
@@ -707,10 +703,7 @@ namespace Ecell.Plugin
         /// <param name="data">EcellObject, whose position will be set</param>
         public void SetPosition(EcellObject data)
         {
-            foreach (IDataHandler p in m_dataHandlerList)
-            {
-                p.SetPosition(data);
-            }
+            m_diagramEditor.SetPosition(data);
         }
 
         #region EventHandler for NodeImageListChange

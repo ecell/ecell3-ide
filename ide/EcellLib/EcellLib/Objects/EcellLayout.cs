@@ -300,8 +300,8 @@ namespace Ecell.Objects
         /// <param name="delta"></param>
         public void MovePosition(PointF delta)
         {
-            this.X = this.X + delta.X;
-            this.Y = this.Y + delta.Y;
+            m_rect.X = m_rect.X + delta.X;
+            m_rect.Y = m_rect.Y + delta.Y;
         }
 
         /// <summary>

@@ -32,6 +32,7 @@ namespace Ecell.Job
 {
     using System;
     using NUnit.Framework;
+    using System.Collections.Generic;
 
     /// <summary>
     /// 
@@ -121,11 +122,10 @@ namespace Ecell.Job
         [Test()]
         public void TestGetStdOut()
         {
-            string expectedString = null;
+            string expectedString = "";
             string resultString = null;
             resultString = _unitUnderTest.GetStdOut();
             Assert.AreEqual(expectedString, resultString, "GetStdOut method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
         /// <summary>
@@ -138,7 +138,6 @@ namespace Ecell.Job
             string resultString = null;
             resultString = _unitUnderTest.GetStdErr();
             Assert.AreEqual(expectedString, resultString, "GetStdErr method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
         /// <summary>
@@ -148,7 +147,6 @@ namespace Ecell.Job
         public void TestPrepareProcess()
         {
             _unitUnderTest.PrepareProcess();
-            Assert.Fail("Create or modify test(s).");
 
         }
         /// <summary>
@@ -158,11 +156,10 @@ namespace Ecell.Job
         public void TestGetLogData()
         {
             string key = null;
-            System.Collections.Generic.Dictionary<System.Double, System.Double> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.Double, System.Double> resultDictionary = null;
+            Dictionary<double, double> expectedDictionary = new Dictionary<double,double>();
+            Dictionary<double, double> resultDictionary = null;
             resultDictionary = _unitUnderTest.GetLogData(key);
             Assert.AreEqual(expectedDictionary, resultDictionary, "GetLogData method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
         }
         /// <summary>

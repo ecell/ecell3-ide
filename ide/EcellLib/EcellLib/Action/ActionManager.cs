@@ -27,6 +27,8 @@
 // written by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
+// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
+// MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
 
 using System;
@@ -145,55 +147,29 @@ namespace Ecell.Action
         }
         #endregion
 
-        #region EventHandler for UndoableChange
-        private EventHandler m_onUndoableChange;
+        #region EventHandler for UndoStatusChanged
+        private UndoStatusChangedEvent m_onUndoStatusChanged;
         /// <summary>
-        /// Event on Undoable change.
+        /// Event on UndoStatus change.
         /// </summary>
-        public event EventHandler UndoableChange
+        public event UndoStatusChangedEvent UndoStatusChanged
         {
-            add { m_onUndoableChange += value; }
-            remove { m_onUndoableChange -= value; }
+            add { m_onUndoStatusChanged += value; }
+            remove { m_onUndoStatusChanged -= value; }
         }
         /// <summary>
-        /// Event on Undoable change.
-        /// </summary>
-        /// <param name="e"></param>
-        protected virtual void OnUndoableChange(EventArgs e)
-        {
-            if (m_onUndoableChange != null)
-                m_onUndoableChange(this, e);
-        }
-        private void RaiseUndoableChange()
-        {
-            EventArgs e = new EventArgs();
-            OnUndoableChange(e);
-        }
-        #endregion
-
-        #region EventHandler for RedoableChange
-        private EventHandler m_onRedoableChange;
-        /// <summary>
-        /// Event on Redoable change.
-        /// </summary>
-        public event EventHandler RedoableChange
-        {
-            add { m_onRedoableChange += value; }
-            remove { m_onRedoableChange -= value; }
-        }
-        /// <summary>
-        /// Event on Redoable change.
+        /// Event on UndoStatus change.
         /// </summary>
         /// <param name="e"></param>
-        protected virtual void OnRedoableChange(EventArgs e)
+        protected virtual void OnUndoStatusChanged(UndoStatusChangedEventArgs e)
         {
-            if (m_onRedoableChange != null)
-                m_onRedoableChange(this, e);
+            if (m_onUndoStatusChanged != null)
+                m_onUndoStatusChanged(this, e);
         }
-        private void RaiseRedoableChange()
+        private void RaiseUndoStatusChanged()
         {
-            EventArgs e = new EventArgs();
-            OnRedoableChange(e);
+            UndoStatusChangedEventArgs e = new UndoStatusChangedEventArgs(UndoStatus);
+            OnUndoStatusChanged(e);
         }
         #endregion
 
@@ -283,9 +259,7 @@ namespace Ecell.Action
         /// </summary>
         private void NotifyStatus()
         {
-            m_env.PluginManager.ChangeUndoStatus(this.UndoStatus);
-            RaiseUndoableChange();
-            RaiseRedoableChange();
+            RaiseUndoStatusChanged();
         }
     }
 }

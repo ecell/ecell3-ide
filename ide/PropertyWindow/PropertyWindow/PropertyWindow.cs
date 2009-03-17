@@ -974,13 +974,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="status"></param>
-        public void ChangeUndoStatus(UndoStatus status)
-        {
-        }
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="entry"></param>
         public void LoggerAdd(LoggerEntry entry)
         {
@@ -1033,20 +1026,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="data"></param>
-        public void RemoveObservedData(EcellObservedData data)
-        {
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        public void RemoveParameterData(EcellParameterData data)
-        {
-        }
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="modelID"></param>
         /// <param name="key"></param>
         /// <param name="type"></param>
@@ -1065,27 +1044,6 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <param name="modelID"></param>
         /// <param name="directory"></param>
         public void SaveModel(string modelID, string directory)
-        {
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        public void SetObservedData(EcellObservedData data)
-        {
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        public void SetParameterData(EcellParameterData data)
-        {
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="data"></param>
-        public void SetPosition(EcellObject data)
         {
         }
         #endregion

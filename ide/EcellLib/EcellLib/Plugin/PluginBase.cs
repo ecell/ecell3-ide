@@ -232,14 +232,6 @@ namespace Ecell.Plugin
             // do nothing
         }
 
-        /// <summary>
-        /// Set the position of EcellObject.
-        /// </summary>
-        /// <param name="data">EcellObject, whose position will be set</param>
-        public virtual void SetPosition(EcellObject data)
-        {
-            // do nothing
-        }
         #endregion
 
         /// <summary>
@@ -323,43 +315,6 @@ namespace Ecell.Plugin
             // do nothing
         }
 
-
-        /// <summary>
-        /// The event sequence when the user set and change the observed data.
-        /// </summary>
-        /// <param name="data">The observed data.</param>
-        public virtual void SetObservedData(EcellObservedData data)
-        {
-            // do nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the user remove the data from the list of observed data.
-        /// </summary>
-        /// <param name="data">The removed observed data.</param>
-        public virtual void RemoveObservedData(EcellObservedData data)
-        {
-            // do nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the user add and change the parameter data.
-        /// </summary>
-        /// <param name="data">The parameter data.</param>
-        public virtual void SetParameterData(EcellParameterData data)
-        {
-            // do nothing
-        }
-
-        /// <summary>
-        /// The event sequence when the user remove the data from the list of parameter data.
-        /// </summary>
-        /// <param name="data">The removed parameter data.</param>
-        public virtual void RemoveParameterData(EcellParameterData data)
-        {
-            // do nothing
-        }
-
         /// <summary>
         /// The event sequence on adding the logger at other plugin.
         /// </summary>
@@ -393,15 +348,6 @@ namespace Ecell.Plugin
         /// </summary>
         /// <param name="type">System status.</param>
         public virtual void ChangeStatus(ProjectStatus type)
-        {
-            // do nothing
-        }
-
-        /// <summary>
-        /// Change availability of undo/redo function.
-        /// </summary>
-        /// <param name="status"></param>
-        public virtual void ChangeUndoStatus(UndoStatus status)
         {
             // do nothing
         }

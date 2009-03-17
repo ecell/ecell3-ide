@@ -95,14 +95,15 @@ namespace Ecell.Logger
         /// <returns></returns>
         public List<string> GetLoggerList()
         {
-            List<string> list = new List<string>();
-            foreach (LoggerEntry m in m_loggerList)
-            {
-                if (list.Contains(m.FullPN))
-                    continue;
-                list.Add(m.FullPN);
-            }
-            return list;
+            return m_env.LoggerManager.GetLoggerList();
+            //List<string> list = new List<string>();
+            //foreach (LoggerEntry m in m_loggerList)
+            //{
+            //    if (list.Contains(m.FullPN))
+            //        continue;
+            //    list.Add(m.FullPN);
+            //}
+            //return list;
         }
 
         /// <summary>

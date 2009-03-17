@@ -46,7 +46,7 @@ namespace Ecell.IDE.Plugins.Analysis
     /// <summary>
     /// Plugin class to manage the result and parameter of analysis.
     /// </summary>
-    public class Analysis : PluginBase
+    public class Analysis : PluginBase, IAnalysis
     {
         #region Fields
         private ToolStripMenuItem analysisMenu;
@@ -1040,7 +1040,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The event sequence when the user add and change the parameter data.
         /// </summary>
         /// <param name="data">The parameter data.</param>
-        public override void SetParameterData(EcellParameterData data)
+        public void SetParameterData(EcellParameterData data)
         {
             if (!m_paramList.ContainsKey(data.Key))
                 m_paramList.Add(data.Key, null);
@@ -1050,7 +1050,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The event sequence when the user remove the data from the list of parameter data.
         /// </summary>
         /// <param name="data">The removed parameter data.</param>
-        public override void RemoveParameterData(EcellParameterData data)
+        public void RemoveParameterData(EcellParameterData data)
         {
             m_paramList.Remove(data.Key);
         }
@@ -1059,7 +1059,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The event sequence when the user set and change the observed data.
         /// </summary>
         /// <param name="data">The observed data.</param>
-        public override void SetObservedData(EcellObservedData data)
+        public void SetObservedData(EcellObservedData data)
         {
             if (!m_observedList.ContainsKey(data.Key))
                 m_observedList.Add(data.Key, null);
@@ -1069,7 +1069,7 @@ namespace Ecell.IDE.Plugins.Analysis
         /// The event sequence when the user remove the data from the list of observed data.
         /// </summary>
         /// <param name="data">The removed observed data.</param>
-        public override void RemoveObservedData(EcellObservedData data)
+        public void RemoveObservedData(EcellObservedData data)
         {
             m_observedList.Remove(data.Key);
         }

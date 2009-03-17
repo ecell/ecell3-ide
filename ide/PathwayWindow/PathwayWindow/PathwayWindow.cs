@@ -227,7 +227,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// 
         /// </summary>
         /// <param name="eo"></param>
-        public override void SetPosition(EcellObject eo)
+        public void SetPosition(EcellObject eo)
         {
             m_con.SetPosition(eo);
         }

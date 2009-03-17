@@ -222,17 +222,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// 
         /// </summary>
         [Test()]
-        public void TestChangeUndoStatus()
-        {
-            Ecell.UndoStatus status = UndoStatus.NOTHING;
-            _unitUnderTest.ChangeUndoStatus(status);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestClear()
         {
             _unitUnderTest.Clear();

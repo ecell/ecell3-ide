@@ -131,6 +131,7 @@
     <Compile Include="Action\LoadProjectAction.cs" />
     <Compile Include="Action\NewProjectAction.cs" />
     <Compile Include="Action\SetSimParamAction.cs" />
+    <Compile Include="Action\UndoStatusChangedEventArgs.cs" />
     <Compile Include="DataStorer.cs" />
     <Compile Include="DynamicModuleManager.cs" />
     <Compile Include="Exceptions\EcellException.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Objects\EcellLayer.cs" />
     <Compile Include="Objects\EcellProject.cs" />
     <Compile Include="Objects\EcellStepper.cs" />
+    <Compile Include="Plugin\IAnalysis.cs" />
     <Compile Include="Plugin\IPropertyItem.cs" />
     <Compile Include="Plugin\PluginData.cs" />
     <Compile Include="Reporting\CompileReport.cs" />

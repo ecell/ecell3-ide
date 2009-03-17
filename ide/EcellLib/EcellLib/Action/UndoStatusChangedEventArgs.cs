@@ -1,8 +1,8 @@
-//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
 //        This file is part of E-Cell Environment Application package
 //
-//                Copyright (C) 1996-2008 Keio University
+//                Copyright (C) 1996-2006 Keio University
 //
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
@@ -24,35 +24,47 @@
 //
 //END_HEADER
 //
-// written by Sachio Nohara <nohara@cbo.mss.co.jp>,
+// written by Chihiro Okada <c_okada@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
-// modified by Chihiro Okada <c_okada@cbo.mss.co.jp>,
-// MITSUBISHI SPACE SOFTWARE CO.,LTD.
-//
+
 
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
 
-namespace Ecell.Plugin
+namespace Ecell.Action
 {
     /// <summary>
     /// 
     /// </summary>
-    public interface IRasterizable
+    public class UndoStatusChangedEventArgs : EventArgs
     {
-        /// <summary>
-        /// Check whether this plugin can print display image.
-        /// </summary>
-        /// <returns>Collection of the names that is capable of printing themselves, or null</returns>
-        IEnumerable<string> GetEnablePrintNames();
+
+        private UndoStatus m_unduStatus;
 
         /// <summary>
-        /// Get bitmap that converts display image on this plugin.
+        /// 
         /// </summary>
-        /// <returns>The bitmap data of plugin.</returns>   
-        Bitmap Print(string name);
+        public UndoStatus Status
+        {
+            get { return m_unduStatus; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        public UndoStatusChangedEventArgs(UndoStatus status)
+        {
+            m_unduStatus = status;
+        }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    public delegate void UndoStatusChangedEvent(object sender, UndoStatusChangedEventArgs e);
 }

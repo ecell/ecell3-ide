@@ -1,4 +1,4 @@
-//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+﻿//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //
 //        This file is part of E-Cell Environment Application package
 //
@@ -34,25 +34,38 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing;
+using Ecell.Objects;
 
 namespace Ecell.Plugin
 {
     /// <summary>
     /// 
     /// </summary>
-    public interface IRasterizable
+    public interface IAnalysis
     {
         /// <summary>
-        /// Check whether this plugin can print display image.
+        /// The event sequence when the user adds and changes the observed data.
         /// </summary>
-        /// <returns>Collection of the names that is capable of printing themselves, or null</returns>
-        IEnumerable<string> GetEnablePrintNames();
+        /// <param name="data">the observed data.</param>
+        void SetObservedData(EcellObservedData data);
 
         /// <summary>
-        /// Get bitmap that converts display image on this plugin.
+        /// The event sequence when the user remove the data from the list of observed data.
         /// </summary>
-        /// <returns>The bitmap data of plugin.</returns>   
-        Bitmap Print(string name);
+        /// <param name="data">The removed observed data.</param>
+        void RemoveObservedData(EcellObservedData data);
+
+        /// <summary>
+        /// The event sequence when the user add and change the parameter data.
+        /// </summary>
+        /// <param name="data">The parameter data.</param>
+        void SetParameterData(EcellParameterData data);
+
+        /// <summary>
+        /// The event sequence when the user remove the data from the list of parameter data.
+        /// </summary>
+        /// <param name="data">The removed parameter data.</param>
+        void RemoveParameterData(EcellParameterData data);
+
     }
 }

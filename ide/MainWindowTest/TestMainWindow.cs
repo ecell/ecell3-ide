@@ -316,17 +316,6 @@ namespace Ecell.IDE.MainWindow
         /// 
         /// </summary>
         [Test()]
-        public void TestSetPosition()
-        {
-            Ecell.Objects.EcellObject data = null;
-            _unitUnderTest.SetPosition(data);
-            Assert.Fail("Create or modify test(s).");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestSetProcessWorkingSetSize()
         {
             System.IntPtr hwnd = IntPtr.Zero;
