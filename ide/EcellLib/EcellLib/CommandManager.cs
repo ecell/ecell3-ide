@@ -42,6 +42,7 @@ using System.Xml;
 using IronPython.Hosting;
 using IronPython.Runtime;
 using EcellCoreLib;
+using Ecell.Job;
 using Ecell.Objects;
 using Ecell.Exceptions;
 
@@ -68,6 +69,14 @@ namespace Ecell
         public DataManager DataManager
         {
             get { return m_env.DataManager; }
+        }
+
+        /// <summary>
+        /// get JobManager.
+        /// </summary>
+        public IJobManager JobManager
+        {
+            get { return m_env.JobManager; }
         }
 
         /// <summary>
@@ -288,6 +297,16 @@ namespace Ecell
         public StepperStub CreateStepperStub(string parameterID, string ID)
         {
             return new StepperStub(parameterID, ID);
+        }
+
+        /// <summary>
+        /// Create the job stub.
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public JobStub CreateJobStub(int ID)
+        {
+            return new JobStub(this, ID);
         }
 
         /// <summary>
@@ -1639,6 +1658,105 @@ namespace Ecell
                 LoggerPolicy loggerPolicy
                         = new LoggerPolicy(savedStepCount, savedInterval, diskFullAction, maxDiskSpace);
                 m_cManager.DataManager.SetLoggerPolicy(this.m_parameterID, loggerPolicy);
+            }
+        }
+
+        /// <summary>
+        /// Stub class of Job.
+        /// </summary>
+        public class JobStub
+        {
+            #region Fields
+            private Job.Job m_job = null;
+            private int m_id = 0;
+            private CommandManager m_cManager = null;
+            #endregion
+
+            #region Constructors
+            /// <summary>
+            /// Constructor without the initial parameters.
+            /// </summary>
+            public JobStub()
+            {
+            }
+
+            /// <summary>
+            /// Constructor with the initial parameters.
+            /// </summary>
+            /// <param name="manager">CommandManager</param>
+            /// <param name="id">the job id.</param>
+            public JobStub(CommandManager manager, int id)
+            {
+                this.m_cManager = manager;
+                m_id = id;
+            }
+            #endregion
+
+            /// <summary>
+            /// Create the job stub.
+            /// </summary>
+            public void Create()
+            {
+                if (!m_cManager.JobManager.JobList.ContainsKey(m_id))
+                    return;
+                m_job = m_cManager.JobManager.JobList[m_id];
+            }
+
+            /// <summary>
+            /// Delete the job stub.
+            /// </summary>
+            public void Delete()
+            {
+                if (!m_cManager.JobManager.JobList.ContainsKey(m_id))
+                    return;
+
+                m_cManager.JobManager.JobList.Remove(m_id);
+                this.m_id = 0;
+                this.m_job = null;
+                this.m_cManager = null;
+            }
+
+            /// <summary>
+            /// Get thes status of job.
+            /// </summary>
+            /// <returns>
+            /// 0: None, 1: Queued, 2: Running, 3: Finished
+            /// 4: Stopped, 5: Error
+            /// </returns>
+            public int GetStatus()
+            {
+                if (m_job != null)
+                {
+                    switch (m_job.Status)
+                    {
+                        case JobStatus.NONE:
+                            return 0;
+                        case JobStatus.QUEUED:
+                            return 1;
+                        case JobStatus.RUNNING:
+                            return 2;
+                        case JobStatus.FINISHED:
+                            return 3;
+                        case JobStatus.STOPPED:
+                            return 4;
+                        case JobStatus.ERROR:
+                            return 5;
+                    }
+                }
+
+                return 0;
+            }
+
+            /// <summary>
+            /// Get the process id of job.
+            /// </summary>
+            /// <returns>the process id of job.</returns>
+            public int GetProcessID()
+            {
+                if (m_job != null)
+                    return m_job.ProcessID;
+
+                return 0;
             }
         }
 
