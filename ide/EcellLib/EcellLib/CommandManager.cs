@@ -897,6 +897,168 @@ namespace Ecell
             m_env.DataManager.UpdateInitialCondition(null, ModelID, initialDic);
         }
 
+        #region JobManager
+        /// <summary>
+        /// Get the id list of queued jobs.
+        /// </summary>
+        /// <returns></returns>
+        public List<int> GetQueuedJobList()
+        {
+            List<int> result = new List<int>();
+            foreach (Job.Job j in JobManager.GetQueuedJobList())
+            {
+                result.Add(j.JobID);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Get the id list of running jobs.
+        /// </summary>
+        /// <returns></returns>
+        public List<int> GetRunningJobList()
+        {
+            List<int> result = new List<int>();
+            foreach (Job.Job j in JobManager.GetRunningJobList())
+            {
+                result.Add(j.JobID);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Get the id list of finished jobs.
+        /// </summary>
+        /// <returns></returns>
+        public List<int> GetFinishedJobList()
+        {
+            List<int> result = new List<int>();
+            foreach (Job.Job j in JobManager.GetFinishedJobList())
+            {
+                result.Add(j.JobID);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Get the id list of error jobs.
+        /// </summary>
+        /// <returns></returns>
+        public List<int> GetErrorJobList()
+        {
+            List<int> result = new List<int>();
+            foreach (Job.Job j in JobManager.GetErrorJobList())
+            {
+                result.Add(j.JobID);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fullPN"></param>
+        /// <param name="max"></param>
+        /// <param name="min"></param>
+        /// <param name="differ"></param>
+        /// <param name="rate"></param>
+        public void SetObservedData(string fullPN, double max, double min, 
+            double differ, double rate)
+        {
+            EcellObservedData d = new EcellObservedData(fullPN, max, min, differ, rate);
+            DataManager.SetObservedData(d);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fullPN"></param>
+        /// <param name="max"></param>
+        /// <param name="min"></param>
+        /// <param name="step"></param>
+        public void SetParameterData(string fullPN, double max, double min, double step)
+        {
+            EcellParameterData d = new EcellParameterData(fullPN, max, min, step);
+            DataManager.SetParameterData(d);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fullPN"></param>
+        public void RemoveObservedData(string fullPN)
+        {
+            EcellObservedData d = new EcellObservedData(fullPN, 0.0);
+            DataManager.RemoveObservedData(d);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fullPN"></param>
+        public void RemoveParameterData(string fullPN)
+        {
+            EcellParameterData d = new EcellParameterData(fullPN, 0.0);
+            DataManager.RemoveParameterData(d);
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="topDir"></param>
+        /// <param name="modelName"></param>
+        /// <param name="num"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public List<int> RunSimParameterRange(string topDir, string modelName, int num, double count)
+        {
+            List<EcellParameterData> pList = DataManager.GetParameterData();
+            List<EcellObservedData> oList = DataManager.GetObservedData();
+            List<SaveLoggerProperty> sList = new List<SaveLoggerProperty>();
+
+            JobManager.SetParameterRange(pList);
+            foreach (EcellObservedData o in oList)
+            {
+                sList.Add(new SaveLoggerProperty(o.Key, 0.0, count, topDir));
+            }
+            JobManager.SetLoggerData(sList);
+
+            Dictionary<int, ExecuteParameter> jobList = JobManager.RunSimParameterRange(topDir, modelName, num, count, false);
+            List<int> result = new List<int>();
+            foreach (int jobid in jobList.Keys)
+                result.Add(jobid);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="topDir"></param>
+        /// <param name="modelName"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public List<int> RunSimParameterMatrix(string topDir, string modelName, double count)
+        {
+            List<EcellParameterData> pList = DataManager.GetParameterData();
+            List<EcellObservedData> oList = DataManager.GetObservedData();
+            List<SaveLoggerProperty> sList = new List<SaveLoggerProperty>();
+
+            JobManager.SetParameterRange(pList);
+            foreach (EcellObservedData o in oList)
+            {
+                sList.Add(new SaveLoggerProperty(o.Key, 0.0, count, topDir));
+            }
+            JobManager.SetLoggerData(sList);
+
+            Dictionary<int, ExecuteParameter> jobList = JobManager.RunSimParameterMatrix(topDir, modelName, count, false);
+            List<int> result = new List<int>();
+            foreach (int jobid in jobList.Keys)
+                result.Add(jobid);
+
+            return result;
+        }
+        #endregion
 
         /// <summary>
         /// Operates the entity.
@@ -1689,6 +1851,8 @@ namespace Ecell
             {
                 this.m_cManager = manager;
                 m_id = id;
+                if (m_cManager.JobManager.JobList.ContainsKey(id))
+                    m_job = m_cManager.JobManager.JobList[id];
             }
             #endregion
 
@@ -1697,9 +1861,6 @@ namespace Ecell
             /// </summary>
             public void Create()
             {
-                if (!m_cManager.JobManager.JobList.ContainsKey(m_id))
-                    return;
-                m_job = m_cManager.JobManager.JobList[m_id];
             }
 
             /// <summary>
