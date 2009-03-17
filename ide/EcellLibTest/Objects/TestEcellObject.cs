@@ -222,7 +222,7 @@ namespace Ecell.Objects
 
             eo.Key = "/Hoge/S1";
             Assert.AreEqual("/Hoge/S1", eo.Key, "Key is not expected value.");
-            Assert.AreEqual("System:/Hoge/S1", eo.FullID, "FullID is not expected value.");
+            Assert.AreEqual("System:/Hoge/:S1", eo.FullID, "FullID is not expected value.");
             Assert.AreEqual("/Hoge", eo.ParentSystemID, "ParentSystemID is not expected value.");
             Assert.AreEqual("S1", eo.LocalID, "LocalID is not expected value.");
             eo.Classname = "";
