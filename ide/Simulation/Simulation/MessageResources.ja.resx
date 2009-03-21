@@ -159,6 +159,27 @@
   <data name="MenuItemSuspend" xml:space="preserve">
     <value>シミュレーション停止(&amp;S)</value>
   </data>
+  <data name="MenuToolTipParamCombo" xml:space="preserve">
+    <value>シミュレーションに使用するパラメータを選択</value>
+  </data>
+  <data name="MenuToolTipReset" xml:space="preserve">
+    <value>シミュレーションリセット</value>
+  </data>
+  <data name="MenuToolTipRun" xml:space="preserve">
+    <value>シミュレーション実行</value>
+  </data>
+  <data name="MenuToolTipStep" xml:space="preserve">
+    <value>ステップ実行</value>
+  </data>
+  <data name="MenuToolTipStepText" xml:space="preserve">
+    <value>ステップ実行の幅を設定</value>
+  </data>
+  <data name="MenuToolTipStepUnitCombo" xml:space="preserve">
+    <value>ステップ実行の幅の単位を選択</value>
+  </data>
+  <data name="MenuToolTipSuspend" xml:space="preserve">
+    <value>シミュレーション停止</value>
+  </data>
   <data name="NameMaxSize" xml:space="preserve">
     <value>ログファイルのサイズ</value>
   </data>
@@ -173,17 +194,5 @@
   </data>
   <data name="NewStepperText" xml:space="preserve">
     <value>新規Stepper</value>
-  </data>
-  <data name="ToolTipReset" xml:space="preserve">
-    <value>シミュレーションリセット</value>
-  </data>
-  <data name="ToolTipRun" xml:space="preserve">
-    <value>シミュレーション実行</value>
-  </data>
-  <data name="ToolTipStep" xml:space="preserve">
-    <value>ステップ実行</value>
-  </data>
-  <data name="ToolTipSuspend" xml:space="preserve">
-    <value>シミュレーション停止</value>
   </data>
 </root>

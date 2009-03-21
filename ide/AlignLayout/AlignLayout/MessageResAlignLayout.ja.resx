@@ -133,6 +133,6 @@
     <value>上部揃え</value>
   </data>
   <data name="ToolTip" xml:space="preserve">
-    <value>ノードが直線状に整列されます</value>
+    <value>選択したノードが直線状に整列されます</value>
   </data>
 </root>

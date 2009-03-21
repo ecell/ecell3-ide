@@ -205,10 +205,10 @@
     <value>貼り付け(&amp;P)</value>
   </data>
   <data name="MenuToolTipShowID" xml:space="preserve">
-    <value>エンティティのID表示/非表示を変更する。</value>
+    <value>エンティティのIDの表示/非表示を切り替えます。</value>
   </data>
   <data name="MenuToolTipViewMode" xml:space="preserve">
-    <value>キャンバスのビューモードを変更する。</value>
+    <value>キャンバスのビューモード / 編集モードを切り替えます。</value>
   </data>
   <data name="MenuItemEdit" xml:space="preserve">
     <value>編集(&amp;E)</value>
@@ -228,34 +228,34 @@
   <data name="ErrSystemOverlap" xml:space="preserve">
     <value>システムを作成するスペースがないため、指定した位置にペーストできません。</value>
   </data>
-  <data name="ToolButtonAddConstant" xml:space="preserve">
-    <value>エフェクターを作成します。</value>
+  <data name="ButtonToolTipAddConstant" xml:space="preserve">
+    <value>エフェクターの作成</value>
   </data>
-  <data name="ToolButtonAddMutualReaction" xml:space="preserve">
-    <value>可逆反応を作成します。</value>
+  <data name="ButtonToolTipAddMutualReaction" xml:space="preserve">
+    <value>可逆反応の作成</value>
   </data>
-  <data name="ToolButtonAddOnewayReaction" xml:space="preserve">
-    <value>不可逆反応を作成します。</value>
+  <data name="ButtonToolTipAddOnewayReaction" xml:space="preserve">
+    <value>不可逆反応の作成</value>
   </data>
-  <data name="ToolButtonCreateProcess" xml:space="preserve">
-    <value>Processを作成します。</value>
+  <data name="ButtonToolTipCreateProcess" xml:space="preserve">
+    <value>Processの追加</value>
   </data>
-  <data name="ToolButtonCreateSystem" xml:space="preserve">
-    <value>Systemを作成します。</value>
+  <data name="ButtonToolTipCreateSystem" xml:space="preserve">
+    <value>Systemの追加</value>
   </data>
-  <data name="ToolButtonCreateVariable" xml:space="preserve">
-    <value>Variableを作成します。</value>
+  <data name="ButtonToolTipCreateVariable" xml:space="preserve">
+    <value>Variableの追加</value>
   </data>
-  <data name="ToolButtonMoveCanvas" xml:space="preserve">
-    <value>キャンバスを動かします。</value>
+  <data name="ButtonToolTipMoveCanvas" xml:space="preserve">
+    <value>キャンバスの移動</value>
   </data>
-  <data name="ToolButtonSelectMode" xml:space="preserve">
-    <value>オブジェクトを選択します。</value>
+  <data name="ButtonToolTipSelectMode" xml:space="preserve">
+    <value>エンティティの選択</value>
   </data>
-  <data name="ToolButtonZoomIn" xml:space="preserve">
+  <data name="ButtonToolTipZoomIn" xml:space="preserve">
     <value>ズームイン</value>
   </data>
-  <data name="ToolButtonZoomOut" xml:space="preserve">
+  <data name="ButtonToolTipZoomOut" xml:space="preserve">
     <value>ズームアウト</value>
   </data>
   <data name="LayerMenuMoveBack" xml:space="preserve">
@@ -273,8 +273,8 @@
   <data name="MenuItemFile" xml:space="preserve">
     <value>ファイル</value>
   </data>
-  <data name="ToolButtonCreateText" xml:space="preserve">
-    <value>テキストボックスを作成します。</value>
+  <data name="ButtonToolTipCreateText" xml:space="preserve">
+    <value>テキストボックスの追加</value>
   </data>
   <data name="WindowLayer" xml:space="preserve">
     <value>レイヤー</value>
@@ -301,7 +301,7 @@
     <value>自動ズーム</value>
   </data>
   <data name="MenuToolTipFocus" xml:space="preserve">
-    <value>選択してエンティティをフォーカスする。</value>
+    <value>選択したエンティティを自動的にフォーカスします。</value>
   </data>
   <data name="MergeLayerDialogMessage" xml:space="preserve">
     <value>結合先のレイヤーを選択してください。</value>
@@ -321,8 +321,8 @@
   <data name="ErrUpdateConfig" xml:space="preserve">
     <value>形状設定を更新することができません。</value>
   </data>
-  <data name="MenuToolTipOverview" xml:space="preserve">
-    <value>オーバービューの表示切替</value>
+  <data name="ButtonToolTipOverview" xml:space="preserve">
+    <value>オーバービューの表示 /非表示を切り替えます。</value>
   </data>
   <data name="DialogTooltipAutoThreshold" xml:space="preserve">
     <value>エッジのアニメーションの太さを自動設定します。</value>

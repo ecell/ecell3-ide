@@ -123,6 +123,51 @@
   <data name="ConfirmStopAnalysis" xml:space="preserve">
     <value>この解析を中断しますか[ {0} ]？</value>
   </data>
+  <data name="DialogToolTipAbsolutePert" xml:space="preserve">
+    <value>デフォルトパラメータ値の絶対的な変動率を入力してください。</value>
+  </data>
+  <data name="DialogToolTipGeneration" xml:space="preserve">
+    <value>世代数を入力してください。繰り返し回数になります。</value>
+  </data>
+  <data name="DialogToolTipMaxFFT" xml:space="preserve">
+    <value>FFTで使用する頻度の最大値を入力してください。</value>
+  </data>
+  <data name="DialogToolTipMaxInputSize" xml:space="preserve">
+    <value>FFTで使用するポイントの最大数を入力してください。</value>
+  </data>
+  <data name="DialogToolTipMinFFT" xml:space="preserve">
+    <value>FFTで使用する頻度の最小値を入力してください。</value>
+  </data>
+  <data name="DialogToolTipObservedGrid" xml:space="preserve">
+    <value>システムの安定性を判断するためのパラメータを設定してください。</value>
+  </data>
+  <data name="DialogToolTipParameterGrid" xml:space="preserve">
+    <value>システムの安定性をチェックするために、値を変更するパラメータを設定してください。</value>
+  </data>
+  <data name="DialogToolTipPopulation" xml:space="preserve">
+    <value>1世代あたりの個体数を入力してください。</value>
+  </data>
+  <data name="DialogToolTipRelativePert" xml:space="preserve">
+    <value>デフォルトパラメータ値の相対的な変動率を入力してください。</value>
+  </data>
+  <data name="DialogToolTipSampleNumber" xml:space="preserve">
+    <value>システムの安定性を評価するサンプル数を入力してください。</value>
+  </data>
+  <data name="DialogToolTipSimulationTime" xml:space="preserve">
+    <value>シミュレーション時間を入力してください。</value>
+  </data>
+  <data name="DialogToolTipStep" xml:space="preserve">
+    <value>プロパティ値の変更を計測するステップ数を入力してください。</value>
+  </data>
+  <data name="DialogToolTipUnknownParameterGrid" xml:space="preserve">
+    <value>未知パラメータの情報を入力してください。</value>
+  </data>
+  <data name="DialogToolTipWindowSize" xml:space="preserve">
+    <value>安定性のチェックを行う時間を設定してください。</value>
+  </data>
+  <data name="DialogToopTipEstimation" xml:space="preserve">
+    <value>最適値を検索するための評価式を入力してください。</value>
+  </data>
   <data name="ErrExecute" xml:space="preserve">
     <value>{0} の実行に失敗しました。</value>
   </data>
@@ -269,51 +314,6 @@
   </data>
   <data name="ReflectMenuText" xml:space="preserve">
     <value>反映</value>
-  </data>
-  <data name="ToolTipAbsolutePert" xml:space="preserve">
-    <value>デフォルトパラメータ値の絶対的な変動率を入力してください。</value>
-  </data>
-  <data name="ToolTipGeneration" xml:space="preserve">
-    <value>世代数を入力してください。繰り返し回数になります。</value>
-  </data>
-  <data name="ToolTipMaxFFT" xml:space="preserve">
-    <value>FFTで使用する頻度の最大値を入力してください。</value>
-  </data>
-  <data name="ToolTipMaxInputSize" xml:space="preserve">
-    <value>FFTで使用するポイントの最大数を入力してください。</value>
-  </data>
-  <data name="ToolTipMinFFT" xml:space="preserve">
-    <value>FFTで使用する頻度の最小値を入力してください。</value>
-  </data>
-  <data name="ToolTipObservedGrid" xml:space="preserve">
-    <value>システムの安定性を判断するためのパラメータを設定してください。</value>
-  </data>
-  <data name="ToolTipParameterGrid" xml:space="preserve">
-    <value>システムの安定性をチェックするために、値を変更するパラメータを設定してください。</value>
-  </data>
-  <data name="ToolTipPopulation" xml:space="preserve">
-    <value>1世代あたりの個体数を入力してください。</value>
-  </data>
-  <data name="ToolTipRelativePert" xml:space="preserve">
-    <value>デフォルトパラメータ値の相対的な変動率を入力してください。</value>
-  </data>
-  <data name="ToolTipSampleNumber" xml:space="preserve">
-    <value>システムの安定性を評価するサンプル数を入力してください。</value>
-  </data>
-  <data name="ToolTipSimulationTime" xml:space="preserve">
-    <value>シミュレーション時間を入力してください。</value>
-  </data>
-  <data name="ToolTipStep" xml:space="preserve">
-    <value>プロパティ値の変更を計測するステップ数を入力してください。</value>
-  </data>
-  <data name="ToolTipUnknownParameterGrid" xml:space="preserve">
-    <value>未知パラメータの情報を入力してください。</value>
-  </data>
-  <data name="ToolTipWindowSize" xml:space="preserve">
-    <value>安定性のチェックを行う時間を設定してください。</value>
-  </data>
-  <data name="ToopTipEstimation" xml:space="preserve">
-    <value>最適値を検索するための評価式を入力してください。</value>
   </data>
   <data name="WarnNoBifurcation" xml:space="preserve">
     <value>分岐したデータがありません。</value>

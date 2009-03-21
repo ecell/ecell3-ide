@@ -250,7 +250,7 @@
     <value>Drag canvas.</value>
   </data>
   <data name="ButtonToolTipSelectMode" xml:space="preserve">
-    <value>Object select.</value>
+    <value>Select entity.</value>
   </data>
   <data name="ButtonToolTipZoomIn" xml:space="preserve">
     <value>Zoom in</value>
@@ -301,7 +301,7 @@
     <value>Auto Zoom</value>
   </data>
   <data name="MenuToolTipFocus" xml:space="preserve">
-    <value>Focus the selected object.</value>
+    <value>Focus the selected entity.</value>
   </data>
   <data name="MergeLayerDialogMessage" xml:space="preserve">
     <value>Please select the merged layer.</value>

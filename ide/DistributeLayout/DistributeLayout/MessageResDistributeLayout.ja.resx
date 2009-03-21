@@ -127,6 +127,6 @@
     <value>垂直方向</value>
   </data>
   <data name="ToolTip" xml:space="preserve">
-    <value>ノードが等間隔に配置されます</value>
+    <value>選択したノードが等間隔に配置されます</value>
   </data>
 </root>

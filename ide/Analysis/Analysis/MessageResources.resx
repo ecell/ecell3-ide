@@ -225,33 +225,6 @@
   <data name="MenuItemStopAnalysis" xml:space="preserve">
     <value>&amp;Abort analysis</value>
   </data>
-  <data name="MenuToolTipBifurcationAnalysis" xml:space="preserve">
-    <value>Execute bifurcation analysis.</value>
-  </data>
-  <data name="MenuToolTipLoadAnalysisCond" xml:space="preserve">
-    <value>Load the analysis settings.</value>
-  </data>
-  <data name="MenuToolTipLoadAnalysisResult" xml:space="preserve">
-    <value>Load the analysis results.</value>
-  </data>
-  <data name="MenuToolTipParameterEstimation" xml:space="preserve">
-    <value>Execute patameter estimation.</value>
-  </data>
-  <data name="MenuToolTipRobustAnalysis" xml:space="preserve">
-    <value>Execute robust analysis.</value>
-  </data>
-  <data name="MenuToolTipSaveAnalysisCond" xml:space="preserve">
-    <value>Save the analysis settings.</value>
-  </data>
-  <data name="MenuToolTipSaveAnalysisResult" xml:space="preserve">
-    <value>Save the analysis results.</value>
-  </data>
-  <data name="MenuToolTipSensitivityAnalysis" xml:space="preserve">
-    <value>Execute sensitivity analysis.</value>
-  </data>
-  <data name="MenuToolTipStopAnalysis" xml:space="preserve">
-    <value>Abort the analysis.</value>
-  </data>
   <data name="NameAbsolutePert" xml:space="preserve">
     <value>The absolute perturbation bounds</value>
   </data>

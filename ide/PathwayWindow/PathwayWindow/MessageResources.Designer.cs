@@ -142,7 +142,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Object select. に類似しているローカライズされた文字列を検索します。
+        ///   Select entity. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ButtonToolTipSelectMode {
             get {
@@ -691,7 +691,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Focus the selected object. に類似しているローカライズされた文字列を検索します。
+        ///   Focus the selected entity. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuToolTipFocus {
             get {

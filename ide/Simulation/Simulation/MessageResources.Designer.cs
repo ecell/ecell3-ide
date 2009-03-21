@@ -187,7 +187,16 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
-        ///   Reset に類似しているローカライズされた文字列を検索します。
+        ///   Select the parameter used in simulation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipParamCombo {
+            get {
+                return ResourceManager.GetString("MenuToolTipParamCombo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reset the simulation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuToolTipReset {
             get {
@@ -196,7 +205,7 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
-        ///   Run に類似しているローカライズされた文字列を検索します。
+        ///   Run the simulation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuToolTipRun {
             get {
@@ -205,7 +214,7 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
-        ///   Step に類似しているローカライズされた文字列を検索します。
+        ///   Step the simulation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuToolTipStep {
             get {
@@ -214,7 +223,25 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
-        ///   Stop に類似しているローカライズされた文字列を検索します。
+        ///   Input the step. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipStepText {
+            get {
+                return ResourceManager.GetString("MenuToolTipStepText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Select unit of the step. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuToolTipStepUnitCombo {
+            get {
+                return ResourceManager.GetString("MenuToolTipStepUnitCombo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Stop the simulation. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuToolTipSuspend {
             get {

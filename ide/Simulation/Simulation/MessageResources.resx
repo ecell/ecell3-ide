@@ -159,17 +159,26 @@
   <data name="MenuItemSuspend" xml:space="preserve">
     <value>&amp;Suspend</value>
   </data>
+  <data name="MenuToolTipParamCombo" xml:space="preserve">
+    <value>Select the parameter used in simulation.</value>
+  </data>
   <data name="MenuToolTipReset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Reset the simulation.</value>
   </data>
   <data name="MenuToolTipRun" xml:space="preserve">
-    <value>Run</value>
+    <value>Run the simulation.</value>
   </data>
   <data name="MenuToolTipStep" xml:space="preserve">
-    <value>Step</value>
+    <value>Step the simulation.</value>
+  </data>
+  <data name="MenuToolTipStepText" xml:space="preserve">
+    <value>Input the step.</value>
+  </data>
+  <data name="MenuToolTipStepUnitCombo" xml:space="preserve">
+    <value>Select unit of the step.</value>
   </data>
   <data name="MenuToolTipSuspend" xml:space="preserve">
-    <value>Stop</value>
+    <value>Stop the simulation.</value>
   </data>
   <data name="NameMaxSize" xml:space="preserve">
     <value>Log file size</value>

@@ -120,12 +120,8 @@ namespace Ecell.Job
             JobManager manager = new JobManager(_env);
             List<string> expectedList = new List<string>();
             expectedList.Add("Local");
-            List<string> resultList = manager.GetEnvironmentList();
-            Assert.AreEqual(expectedList, resultList, "GetEnvironmentList method returned unexpected result.");
 
-            manager.Proxy = null;
-            expectedList = new List<string>();
-            resultList = manager.GetEnvironmentList();
+            List<string> resultList = manager.GetEnvironmentList();
             Assert.AreEqual(expectedList, resultList, "GetEnvironmentList method returned unexpected result.");
         }
         /// <summary>
@@ -649,10 +645,9 @@ namespace Ecell.Job
         [Test()]
         public void TestCreateExecuteParameter()
         {
-            Ecell.Job.ExecuteParameter expectedExecuteParameter = null;
-            Ecell.Job.ExecuteParameter resultExecuteParameter = null;
+            ExecuteParameter resultExecuteParameter = null;
             resultExecuteParameter = _unitUnderTest.CreateExecuteParameter();
-            Assert.AreEqual(expectedExecuteParameter, resultExecuteParameter, "CreateExecuteParameter method returned unexpected result.");
+            Assert.IsNotNull(resultExecuteParameter, "CreateExecuteParameter method returned unexpected result.");
 
         }
         /// <summary>

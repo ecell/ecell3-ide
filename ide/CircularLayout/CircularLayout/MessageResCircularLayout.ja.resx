@@ -127,6 +127,6 @@
     <value>水平方向、及び垂直方向に離れたノードを選択して下さい</value>
   </data>
   <data name="ToolTip" xml:space="preserve">
-    <value>ノードが円状に配置されます</value>
+    <value>選択したノードが円状に配置されます</value>
   </data>
 </root>

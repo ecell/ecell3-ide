@@ -369,6 +369,7 @@ namespace Ecell.Plugin
         {
             // do nothing
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -378,6 +379,7 @@ namespace Ecell.Plugin
         {
             // do nothing
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -387,6 +389,10 @@ namespace Ecell.Plugin
             // do nothing
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public virtual Dictionary<string, Delegate> GetPublicDelegate()
         {
             return null;
@@ -419,7 +425,7 @@ namespace Ecell.Plugin
         /// <param name="eo">the EcellObject.</param>
         public EcellObject GetEcellObject(EcellObject eo)
         {
-            return m_dManager.GetEcellObject(eo.ModelID, eo.Key, eo.Type);
+            return GetEcellObject(eo.ModelID, eo.Key, eo.Type);
         }
         /// <summary>
         /// Get a temporary key of EcellObject.

@@ -145,7 +145,7 @@ namespace Ecell.Objects
             Assert.AreEqual("Model", eo.ModelID, "ModelID is not expected value.");
             Assert.AreEqual("Project", eo.Classname, "Classname is not expected value.");
             Assert.AreEqual("", eo.Key, "Key is not expected value.");
-            Assert.AreEqual("Project:", eo.FullID, "FullID is not expected value.");
+            Assert.AreEqual("Project::", eo.FullID, "FullID is not expected value.");
             Assert.AreEqual("", eo.ParentSystemID, "ParentSystemID is not expected value.");
             Assert.AreEqual("", eo.LocalID, "LocalID is not expected value.");
             Assert.AreEqual(true, eo.IsUsable, "IsUsable is not expected value.");
@@ -169,7 +169,7 @@ namespace Ecell.Objects
             Assert.AreEqual("Model", eo.ModelID, "ModelID is not expected value.");
             Assert.AreEqual("Model", eo.Classname, "Classname is not expected value.");
             Assert.AreEqual("", eo.Key, "Key is not expected value.");
-            Assert.AreEqual("Model:", eo.FullID, "FullID is not expected value.");
+            Assert.AreEqual("Model::", eo.FullID, "FullID is not expected value.");
             Assert.AreEqual("", eo.ParentSystemID, "ParentSystemID is not expected value.");
             Assert.AreEqual("", eo.LocalID, "LocalID is not expected value.");
             Assert.AreEqual(true, eo.IsUsable, "IsUsable is not expected value.");
@@ -191,7 +191,7 @@ namespace Ecell.Objects
             Assert.AreEqual("Model", eo.ModelID, "ModelID is not expected value.");
             Assert.AreEqual("DAEStepper", eo.Classname, "Classname is not expected value.");
             Assert.AreEqual("", eo.Key, "Key is not expected value.");
-            Assert.AreEqual("Stepper:", eo.FullID, "FullID is not expected value.");
+            Assert.AreEqual("Stepper::", eo.FullID, "FullID is not expected value.");
             Assert.AreEqual("", eo.ParentSystemID, "ParentSystemID is not expected value.");
             Assert.AreEqual("", eo.LocalID, "LocalID is not expected value.");
             Assert.AreEqual(false, eo.IsUsable, "IsUsable is not expected value.");
@@ -215,14 +215,14 @@ namespace Ecell.Objects
             Assert.AreEqual("Model", eo.ModelID, "ModelID is not expected value.");
             Assert.AreEqual("System", eo.Classname, "Classname is not expected value.");
             Assert.AreEqual("/", eo.Key, "Key is not expected value.");
-            Assert.AreEqual("System:/", eo.FullID, "FullID is not expected value.");
+            Assert.AreEqual("System::/", eo.FullID, "FullID is not expected value.");
             Assert.AreEqual("", eo.ParentSystemID, "ParentSystemID is not expected value.");
             Assert.AreEqual("/", eo.LocalID, "LocalID is not expected value.");
             Assert.IsNotNull(eo.GetHashCode(), "GetHashCode method returns unexpected value.");
 
             eo.Key = "/Hoge/S1";
             Assert.AreEqual("/Hoge/S1", eo.Key, "Key is not expected value.");
-            Assert.AreEqual("System:/Hoge/:S1", eo.FullID, "FullID is not expected value.");
+            Assert.AreEqual("System:/Hoge:S1", eo.FullID, "FullID is not expected value.");
             Assert.AreEqual("/Hoge", eo.ParentSystemID, "ParentSystemID is not expected value.");
             Assert.AreEqual("S1", eo.LocalID, "LocalID is not expected value.");
             eo.Classname = "";
@@ -272,7 +272,7 @@ namespace Ecell.Objects
 
             // Create EcellVariable
             modelID = "Model";
-            key = "/Hoge/:V0";
+            key = "/Hoge:V0";
             type = "Variable";
             classname = "Variable";
             datas = new List<EcellData>();
@@ -282,9 +282,9 @@ namespace Ecell.Objects
             Assert.AreEqual("Variable", eo.Type, "Type is not expected value.");
             Assert.AreEqual("Model", eo.ModelID, "ModelID is not expected value.");
             Assert.AreEqual("Variable", eo.Classname, "Classname is not expected value.");
-            Assert.AreEqual("/Hoge/:V0", eo.Key, "Key is not expected value.");
-            Assert.AreEqual("Variable:/Hoge/:V0", eo.FullID, "FullID is not expected value.");
-            Assert.AreEqual("/Hoge/", eo.ParentSystemID, "ParentSystemID is not expected value.");
+            Assert.AreEqual("/Hoge:V0", eo.Key, "Key is not expected value.");
+            Assert.AreEqual("Variable:/Hoge:V0", eo.FullID, "FullID is not expected value.");
+            Assert.AreEqual("/Hoge", eo.ParentSystemID, "ParentSystemID is not expected value.");
             Assert.AreEqual("V0", eo.LocalID, "LocalID is not expected value.");
             Assert.IsNotNull(eo.GetHashCode(), "GetHashCode method returns unexpected value.");
             eo.Layer = "Layer1";

@@ -717,7 +717,17 @@ namespace Ecell.Plugin
             {
             }
         }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestGetPropertySettings()
+        {
+            List<IPropertyItem> list = _unitUnderTest.GetPropertySettings();
+            Assert.IsNotEmpty(list, "GetPropertySettings method returned unexpected value.");
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -734,7 +744,18 @@ namespace Ecell.Plugin
             Assert.AreEqual(_env.LogManager, plugin.MessageManager, "MessageManager is unexpected value.");
 
             Assert.AreEqual("PathwayWindow", plugin.GetPluginName(), "GetPluginName method returned unexpected value.");
-            Assert.AreEqual("PathwayWindow", plugin.GetVersionString(), "GetVersionString method returned unexpected value.");
+            Assert.IsNotNull(plugin.GetVersionString(), "GetVersionString method returned unexpected value.");
+
+            Assert.IsNotNull(plugin.GetData(null), "GetData method returned unexpected value.");
+
+            Assert.IsNotNull(plugin.GetEcellObject("Drosophila", "/", "System"), "GetEcellObject method returned unexpected value.");
+
+            Assert.IsNotNull(plugin.GetMenuStripItems(), "GetMenuStripItems method returned unexpected value.");
+
+            Assert.IsNotNull(plugin.GetToolBarMenuStrip(), "GetToolBarMenuStrip method returned unexpected value.");
+
+            Assert.IsNull(plugin.GetPublicDelegate(), "GetPublicDelegate method returned unexpected value.");
+
         }
     }
 }

@@ -222,6 +222,7 @@ namespace Ecell.IDE.Plugins.Simulation
             m_paramsCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             m_paramsCombo.SelectedIndexChanged += new EventHandler(ParameterSelectedIndexChanged);
             m_paramsCombo.Tag = 1;
+            m_paramsCombo.ToolTipText = MessageResources.MenuToolTipParamCombo;
 
             m_runButton = new ToolStripButton();
             m_runButton.Image = (Image)resources.GetObject("media_play_green");
@@ -291,12 +292,14 @@ namespace Ecell.IDE.Plugins.Simulation
             m_stepText.Size = new System.Drawing.Size(60, 25);
             m_stepText.Text = "1";
             m_stepText.Tag = 10;
-            m_stepText.TextBoxTextAlign = HorizontalAlignment.Right;         
+            m_stepText.TextBoxTextAlign = HorizontalAlignment.Right;
+            m_stepText.ToolTipText = MessageResources.MenuToolTipStepText;
 
             m_stepUnitCombo = new ToolStripComboBox();
             m_stepUnitCombo.Name = "StepCourse";
             m_stepUnitCombo.Size = new System.Drawing.Size(50, 25);
             m_stepUnitCombo.AutoSize = false;
+            m_stepUnitCombo.ToolTipText = MessageResources.MenuToolTipStepUnitCombo;
             m_stepUnitCombo.Tag = 11;
             m_stepUnitCombo.Items.Add("Step");
             m_stepUnitCombo.Items.Add("Sec");

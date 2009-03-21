@@ -1337,8 +1337,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         #endregion
 
         #region EventHandler for ViewModeChange
-        private EventHandler m_onViewModeChange
-            ;
+        private EventHandler m_onViewModeChange;
         /// <summary>
         /// Event on canvas change.
         /// </summary>
