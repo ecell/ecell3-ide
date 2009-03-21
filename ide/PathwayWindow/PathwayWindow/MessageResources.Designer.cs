@@ -601,6 +601,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
+        ///   Animation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MenuItemAnimation {
+            get {
+                return ResourceManager.GetString("MenuItemAnimation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   &amp;Edit に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuItemEdit {
@@ -673,11 +682,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   View mode に類似しているローカライズされた文字列を検索します。
+        ///   Set animation of canvas. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string MenuItemViewMode {
+        internal static string MenuToolTipAnimation {
             get {
-                return ResourceManager.GetString("MenuItemViewMode", resourceCulture);
+                return ResourceManager.GetString("MenuToolTipAnimation", resourceCulture);
             }
         }
         
@@ -714,15 +723,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         internal static string MenuToolTipShowID {
             get {
                 return ResourceManager.GetString("MenuToolTipShowID", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Change view mode of canvas. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuToolTipViewMode {
-            get {
-                return ResourceManager.GetString("MenuToolTipViewMode", resourceCulture);
             }
         }
         

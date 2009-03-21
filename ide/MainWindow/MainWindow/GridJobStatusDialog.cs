@@ -27,7 +27,6 @@
 // written by Sachio Nohara <nohara@cbo.mss.co.jp>,
 // MITSUBISHI SPACE SOFTWARE CO.,LTD.
 //
-//
 
 using System;
 using System.Collections.Generic;

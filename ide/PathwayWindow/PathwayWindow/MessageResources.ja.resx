@@ -168,8 +168,8 @@
   <data name="LayerMenuChange" xml:space="preserve">
     <value>レイヤーを変更</value>
   </data>
-  <data name="MenuItemViewMode" xml:space="preserve">
-    <value>ビューモード</value>
+  <data name="MenuItemAnimation" xml:space="preserve">
+    <value>アニメーション</value>
   </data>
   <data name="LayerMenuSelectNodes" xml:space="preserve">
     <value>レイヤー上の項目を選択</value>
@@ -207,8 +207,8 @@
   <data name="MenuToolTipShowID" xml:space="preserve">
     <value>エンティティのIDの表示/非表示を切り替えます。</value>
   </data>
-  <data name="MenuToolTipViewMode" xml:space="preserve">
-    <value>キャンバスのビューモード / 編集モードを切り替えます。</value>
+  <data name="MenuToolTipAnimation" xml:space="preserve">
+    <value>キャンバスのアニメーションを切り替えます。</value>
   </data>
   <data name="MenuItemEdit" xml:space="preserve">
     <value>編集(&amp;E)</value>

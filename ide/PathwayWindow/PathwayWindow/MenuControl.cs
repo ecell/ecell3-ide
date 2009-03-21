@@ -42,18 +42,18 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Diagnostics;
-using UMD.HCIL.Piccolo.Event;
+using System.Drawing.Imaging;
+using System.IO;
 using UMD.HCIL.Piccolo;
-using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
+using UMD.HCIL.Piccolo.Event;
+using Ecell.Objects;
+using Ecell.Plugin;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using Ecell.IDE.Plugins.PathwayWindow.Dialog;
-using Ecell.Objects;
-using System.Drawing.Imaging;
-using System.IO;
 using Ecell.IDE.Plugins.PathwayWindow.Components;
-using Ecell.Plugin;
+using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
 {
@@ -88,7 +88,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private PathwayToolStripButton toolButtonSelect;
         private ToolStripSeparator toolButtonSeparator1;
         private ToolStripButton toolButtonOverview;
-        private ToolStripButton toolButtonViewMode;
+        private ToolStripButton toolButtonAnimation;
         private ToolStripButton toolButtonZoomin;
         private ToolStripButton toolButtonZoomout;
         private ToolStripComboBox toolButtonZoomRate;
@@ -104,7 +104,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private ToolStripMenuItem MenuItemSetup;
         private ToolStripMenuItem toolMenuFocusMode;
         private ToolStripMenuItem toolMenuShowID;
-        private ToolStripMenuItem toolMenuViewMode;
+        private ToolStripMenuItem toolMenuAnimation;
         private ToolStripMenuItem MenuItemView;
         private ToolStripMenuItem MenuItemEdit;
         private ToolStripMenuItem toolMenuDelete;
@@ -261,7 +261,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolButtonSelect = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PathwayToolStripButton();
             this.toolButtonSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolButtonOverview = new System.Windows.Forms.ToolStripButton();
-            this.toolButtonViewMode = new System.Windows.Forms.ToolStripButton();
+            this.toolButtonAnimation = new System.Windows.Forms.ToolStripButton();
             this.toolButtonZoomin = new System.Windows.Forms.ToolStripButton();
             this.toolButtonZoomout = new System.Windows.Forms.ToolStripButton();
             this.toolButtonZoomRate = new System.Windows.Forms.ToolStripComboBox();
@@ -277,7 +277,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuFocusMode = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuShowID = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolMenuViewMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolMenuAnimation = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -480,7 +480,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolButtonSelect,
             this.toolButtonSeparator1,
             this.toolButtonOverview,
-            this.toolButtonViewMode,
+            this.toolButtonAnimation,
             this.toolButtonZoomin,
             this.toolButtonZoomout,
             this.toolButtonZoomRate,
@@ -536,12 +536,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // 
             // toolButtonViewMode
             // 
-            this.toolButtonViewMode.CheckOnClick = true;
-            this.toolButtonViewMode.Image = ((System.Drawing.Image)(resources.GetObject("toolButtonViewMode.Image")));
-            this.toolButtonViewMode.Name = "toolButtonViewMode";
-            this.toolButtonViewMode.Size = new System.Drawing.Size(23, 20);
-            this.toolButtonViewMode.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuToolTipViewMode;
-            this.toolButtonViewMode.Click += new System.EventHandler(this.ViewModeButtonClick);
+            this.toolButtonAnimation.Checked = true;
+            this.toolButtonAnimation.CheckOnClick = true;
+            this.toolButtonAnimation.Image = ((System.Drawing.Image)(resources.GetObject("toolButtonViewMode.Image")));
+            this.toolButtonAnimation.Name = "toolButtonViewMode";
+            this.toolButtonAnimation.Size = new System.Drawing.Size(23, 20);
+            this.toolButtonAnimation.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuToolTipAnimation;
+            this.toolButtonAnimation.Click += new System.EventHandler(this.ViewModeButtonClick);
             // 
             // toolButtonZoomin
             // 
@@ -675,7 +676,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.MenuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolMenuFocusMode,
             this.toolMenuShowID,
-            this.toolMenuViewMode});
+            this.toolMenuAnimation});
             this.MenuItemView.Name = "MenuItemView";
             this.MenuItemView.Size = new System.Drawing.Size(42, 25);
             this.MenuItemView.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemView;
@@ -702,14 +703,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolMenuShowID.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuToolTipShowID;
             this.toolMenuShowID.Click += new System.EventHandler(this.ShowIdClick);
             // 
-            // toolMenuViewMode
+            // toolMenuAnimation
             // 
-            this.toolMenuViewMode.CheckOnClick = true;
-            this.toolMenuViewMode.Name = "toolMenuViewMode";
-            this.toolMenuViewMode.Size = new System.Drawing.Size(169, 22);
-            this.toolMenuViewMode.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemViewMode;
-            this.toolMenuViewMode.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuToolTipViewMode;
-            this.toolMenuViewMode.Click += new System.EventHandler(this.ViewModeItemClick);
+            this.toolMenuAnimation.Checked = true;
+            this.toolMenuAnimation.CheckOnClick = true;
+            this.toolMenuAnimation.Name = "toolMenuAnimation";
+            this.toolMenuAnimation.Size = new System.Drawing.Size(169, 22);
+            this.toolMenuAnimation.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemAnimation;
+            this.toolMenuAnimation.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuToolTipAnimation;
+            this.toolMenuAnimation.Click += new System.EventHandler(this.ViewModeItemClick);
             // 
             // MenuItemEdit
             // 
@@ -1312,10 +1314,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private void ChangeFocusMode(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            if (item.CheckState == CheckState.Checked)
-                m_con.FocusMode = true;
-            else
-                m_con.FocusMode = false;
+            m_con.FocusMode = (item.CheckState == CheckState.Checked);
         }
 
         /// <summary>
@@ -1339,7 +1338,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e">EventArgs.</param>
         private void ViewModeItemClick(object sender, EventArgs e)
         {
-            SetViewMode(toolMenuViewMode.Checked);
+            SetAnimation(toolMenuAnimation.Checked);
         }
 
         /// <summary>
@@ -1349,14 +1348,24 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <param name="e"></param>
         void ViewModeButtonClick(object sender, EventArgs e)
         {
-            SetViewMode(toolButtonViewMode.Checked);
+            SetAnimation(toolButtonAnimation.Checked);
         }
 
-        private void SetViewMode(bool viewMode)
+        internal void SetAnimation(bool viewMode)
         {
-            toolButtonViewMode.Checked = viewMode;
-            toolMenuViewMode.Checked = viewMode;
-            m_con.ViewMode = viewMode;
+            toolButtonAnimation.Checked = viewMode;
+            toolMenuAnimation.Checked = viewMode;
+            m_con.IsAnimation = viewMode;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="enabled"></param>
+        internal void SetAnimationEnabled(bool enabled)
+        {
+            toolButtonAnimation.Enabled = enabled;
+            toolMenuAnimation.Enabled = enabled;
         }
 
         /// <summary>

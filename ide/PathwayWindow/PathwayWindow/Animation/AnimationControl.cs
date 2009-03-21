@@ -328,8 +328,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             m_con = control;
             m_con.CanvasChange += new EventHandler(m_con_CanvasChange);
-            m_con.ViewModeChange += new EventHandler(m_con_ViewModeChange);
             m_con.ProjectStatusChange += new EventHandler(m_con_ProjectStatusChange);
+            m_con.AnimationChange += new EventHandler(m_con_AnimationChange);
             LoadSettings();
             m_dManager = m_con.Window.DataManager;
             // Set Timer.
@@ -339,13 +339,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             m_time.Tick += new EventHandler(TimerFire);
         }
 
+        void m_con_AnimationChange(object sender, EventArgs e)
+        {
+            if (m_con.IsAnimation)
+                SetSimulation(m_con.ProjectStatus);
+            else
+                StopSimulation();
+        }
+
         /// <summary>
         /// Event on Dispose
         /// </summary>
         public void Dispose()
         {
             StopSimulation();
-            m_con.ViewModeChange -= m_con_ViewModeChange;
             m_con.ProjectStatusChange -= m_con_ProjectStatusChange;
         }
 
@@ -370,13 +377,17 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         void m_con_ProjectStatusChange(object sender, EventArgs e)
         {
             ProjectStatus status = m_con.ProjectStatus;
-            bool isViewmode = m_con.ViewMode;
             // When simulation started.
-            if (status == ProjectStatus.Running && isViewmode)
+            SetSimulation(status);
+        }
+
+        private void SetSimulation(ProjectStatus status)
+        {
+            if (status == ProjectStatus.Running)
             {
                 StartSimulation();
             }
-            else if (status == ProjectStatus.Stepping && isViewmode)
+            else if (status == ProjectStatus.Stepping)
             {
                 StartSimulation();
             }
@@ -388,22 +399,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             {
                 StopSimulation();
             }
-        }
-
-        void m_con_ViewModeChange(object sender, EventArgs e)
-        {
-            if (m_con.ViewMode)
-            {
-                if (m_con.ProjectStatus == ProjectStatus.Running)
-                    StartSimulation();
-                else
-                    SetPropForSimulation();
-            }
-            else
-            {
-                ResetPropForSimulation();
-            }
-
         }
         #endregion
 
@@ -424,6 +419,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public void StartSimulation()
         {
+            if(!m_con.IsAnimation)
+                return;
             if (m_autoThreshold)
                 m_thresholdHigh = 0f;
             SetPropForSimulation();
@@ -504,8 +501,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             if (m_con.Canvas == null)
                 return;
             m_canvas = m_con.Canvas;
+            m_canvas.BackGroundBrush = m_viewBGBrush;
+
             foreach (PPathwayProcess process in m_canvas.Processes.Values)
             {
+                process.ViewMode = true;
                 if (!process.Visible)
                     continue;
                 // Line setting.
@@ -520,6 +520,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (!variable.Visible)
                     continue;
                 variable.MoveToFront();
+                variable.PPropertyText.Visible = true;
                 variable.PPropertyText.TextBrush = m_propBrush;
                 variable.PPropertyText.MoveToFront();
             }
@@ -600,6 +601,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             TimerStop();
             if (m_canvas == null)
                 return;
+            m_canvas.BackGroundBrush = m_editBGBrush;
             // Reset objects.
             foreach (PPathwayObject obj in m_canvas.GetAllObjects())
                 obj.Refresh();
@@ -608,10 +610,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 if (!process.Visible)
                     continue;
                 // Line setting.
-                if (m_con.ViewMode)
-                    process.EdgeBrush = m_viewEdgeBrush;
-                else
-                    process.EdgeBrush = m_editEdgeBrush;
+                process.ViewMode = false;
+                process.EdgeBrush = m_editEdgeBrush;
             }
             foreach (PPathwayVariable variable in m_canvas.Variables.Values)
             {
@@ -619,6 +619,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                     continue;
                 // Line setting.
                 variable.PPropertyText.Text = "";
+                variable.PPropertyText.Visible = false;
             }
             m_canvas = null;
         }

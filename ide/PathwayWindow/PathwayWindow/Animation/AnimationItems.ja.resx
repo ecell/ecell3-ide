@@ -157,6 +157,9 @@
   <data name="aviFileName.LabelText" xml:space="preserve">
     <value>動画ファイル名</value>
   </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>出力する動画のファイル名を指定してください。</value>
+  </data>
   <data name="outputBox.Text" xml:space="preserve">
     <value>アニメーション動画出力</value>
   </data>

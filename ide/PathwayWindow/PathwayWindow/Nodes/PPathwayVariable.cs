@@ -109,17 +109,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Nodes
         }
 
         /// <summary>
-        /// Change View Mode.
-        /// </summary>
-        public override void RefreshView()
-        {
-            if (m_isViewMode)
-                m_pPropertyText.Visible = true;
-            else
-                m_pPropertyText.Visible = false;
-            base.RefreshView();
-        }
-        /// <summary>
         /// Dispose
         /// </summary>
         public override void Dispose()

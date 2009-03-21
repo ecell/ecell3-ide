@@ -159,11 +159,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         bool m_isOwner = false;
 
         /// <summary>
-        /// ViewMode flag.
-        /// </summary>
-        bool m_isViewMode = false;
-
-        /// <summary>
         /// Line handle on the end for a variable
         /// </summary>
         private LineHandler m_lineHandler = null;
@@ -343,8 +338,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         public CanvasControl(PathwayControl control, string modelID)
         {
             m_con = control;
-            m_con.ViewModeChange += new EventHandler(Control_ViewModeChange);
-
             m_modelId = modelID;
 
             // Preparing PathwayViewCanvas
@@ -371,10 +364,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             m_lineHandler = new LineHandler(this);
 
             // Set ViewMode
-            m_isViewMode = m_con.ViewMode;
             m_showingId = m_con.ShowingID;
             m_focusMode = m_con.FocusMode;
-            ResetObjectSettings();
         }
 
         /// <summary>
@@ -386,17 +377,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 process.ResetEdges();
             }
-        }
-
-        /// <summary>
-        /// Event on Viewmode change.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void Control_ViewModeChange(object sender, EventArgs e)
-        {
-            m_isViewMode = m_con.ViewMode;
-            ResetObjectSettings();
         }
 
         #endregion
@@ -566,7 +546,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Set Layer
             obj.Canvas = this;
             obj.ShowingID = m_showingId;
-            obj.ViewMode = m_isViewMode;
             obj.AddInputEventListener(new NodeDragHandler(this));
             SetLayer(obj);
 
@@ -1586,8 +1565,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
 
             if (m_overviewCanvas != null)
                 m_overviewCanvas.Dispose();
-
-            m_con.ViewModeChange -= this.Control_ViewModeChange;
         }
 
         /// <summary>
@@ -1714,21 +1691,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             } while (r < sys.Width || r < sys.Height);
             // if there si no vacant point, return basePos.
             return basePos;
-        }
-
-        internal void ResetObjectSettings()
-        {
-            foreach (PPathwayObject obj in GetAllObjects())
-            {
-                obj.ViewMode = m_isViewMode;
-                if (obj is PPathwayProcess)
-                    ((PPathwayProcess)obj).EdgeBrush = (m_isViewMode)? m_con.Animation.ViewEdgeBrush: m_con.Animation.EditEdgeBrush;
-            }
-
-            if (m_isViewMode)
-                this.BackGroundBrush = m_con.Animation.ViewBGBrush;
-            else
-                this.BackGroundBrush = m_con.Animation.EditBGBrush;
         }
 
         /// <summary>

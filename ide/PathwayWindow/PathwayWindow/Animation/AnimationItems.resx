@@ -127,8 +127,8 @@
     <value>0</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="variableBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>472, 133</value>
+  <data name="variableLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>439, 23</value>
   </data>
   <data name="propertyBrush.LabelText" xml:space="preserve">
     <value>Property color</value>
@@ -141,7 +141,7 @@
     <value>edgeBox</value>
   </data>
   <data name="&gt;&gt;aviFileName.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="thresholdLow.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -150,7 +150,10 @@
     <value>variableBox</value>
   </data>
   <data name="&gt;&gt;aviFileName.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertySaveFileItem, PathwayWindow, Version=1.1.2389.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertySaveFileItem, PathwayWindow, Version=1.1.2644.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>outputBox</value>
   </data>
   <data name="thresholdHigh.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -175,9 +178,6 @@
   </data>
   <data name="&gt;&gt;outputBox.Parent" xml:space="preserve">
     <value>$this</value>
-  </data>
-  <data name="variableLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>439, 23</value>
   </data>
   <data name="aviOutputCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -213,11 +213,14 @@
   <data name="autoThresholdCheckBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 28</value>
   </data>
+  <data name="variableBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>472, 133</value>
+  </data>
   <data name="&gt;&gt;aviOutputCheckBox.Parent" xml:space="preserve">
     <value>outputBox</value>
   </data>
   <data name="&gt;&gt;logarithmicCheckBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyCheckBoxItem, PathwayWindow, Version=1.1.2389.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyCheckBoxItem, PathwayWindow, Version=1.1.2644.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;edgeHighBrush.Name" xml:space="preserve">
     <value>edgeHighBrush</value>
@@ -240,6 +243,9 @@
   <data name="autoThresholdCheckBox.LabelText" xml:space="preserve">
     <value>Auto Threshold</value>
   </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="aviFileName.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
@@ -253,7 +259,7 @@
     <value>propertyBrush</value>
   </data>
   <data name="&gt;&gt;autoThresholdCheckBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyCheckBoxItem, PathwayWindow, Version=1.1.2389.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyCheckBoxItem, PathwayWindow, Version=1.1.2644.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="aviFileName.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -274,7 +280,7 @@
     <value>Top, Left, Right</value>
   </data>
   <data name="aviFileName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 49</value>
+    <value>6, 83</value>
   </data>
   <data name="&gt;&gt;variableLabel.Parent" xml:space="preserve">
     <value>variableBox</value>
@@ -285,8 +291,8 @@
   <data name="propertyBrush.Size" type="System.Drawing.Size, System.Drawing">
     <value>223, 28</value>
   </data>
-  <data name="variableLabel.Text" xml:space="preserve">
-    <value>Set the color of Variable MolerConc.</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Set the file name of output movie.</value>
   </data>
   <data name="variableBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 218</value>
@@ -310,7 +316,7 @@
     <value>variableLabel</value>
   </data>
   <data name="aviOutputCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 18</value>
+    <value>6, 52</value>
   </data>
   <data name="&gt;&gt;outputBox.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -336,8 +342,8 @@
   <data name="edgeNGBrush.LabelText" xml:space="preserve">
     <value>Error color</value>
   </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>AnimationItems</value>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
   </data>
   <data name="&gt;&gt;variableLabel.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -352,19 +358,25 @@
     <value>Output Animation movie</value>
   </data>
   <data name="&gt;&gt;aviOutputCheckBox.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyCheckBoxItem, PathwayWindow, Version=1.1.2389.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyCheckBoxItem, PathwayWindow, Version=1.1.2644.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;edgeNGBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem, PathwayWindow, Version=1.1.2389.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem, PathwayWindow, Version=1.1.2644.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
   </data>
   <data name="edgeNGBrush.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 26</value>
   </data>
   <data name="edgeBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="&gt;&gt;propertyBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem, PathwayWindow, Version=1.1.2389.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem, PathwayWindow, Version=1.1.2644.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="logarithmicCheckBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>10, 87</value>
@@ -382,10 +394,10 @@
     <value>2</value>
   </data>
   <data name="&gt;&gt;edgeLowBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem, PathwayWindow, Version=1.1.2389.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem, PathwayWindow, Version=1.1.2644.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="outputBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>472, 95</value>
+    <value>472, 129</value>
   </data>
   <data name="outputBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -415,7 +427,7 @@
     <value>0</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>477, 452</value>
+    <value>477, 486</value>
   </data>
   <data name="&gt;&gt;edgeLabel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -429,17 +441,23 @@
   <data name="&gt;&gt;thresholdHigh.Name" xml:space="preserve">
     <value>thresholdHigh</value>
   </data>
-  <data name="&gt;&gt;variableBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>439, 23</value>
   </data>
   <data name="autoThresholdCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="&gt;&gt;variableBox.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="variableLabel.Text" xml:space="preserve">
+    <value>Set the color of Variable MolerConc.</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>AnimationItems</value>
   </data>
   <data name="thresholdLow.LabelText" xml:space="preserve">
     <value>Lower threshold</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="edgeHighBrush.Location" type="System.Drawing.Point, System.Drawing">
     <value>239, 64</value>
@@ -451,7 +469,7 @@
     <value>223, 28</value>
   </data>
   <data name="&gt;&gt;thresholdLow.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyTextItem, PathwayWindow, Version=1.1.2389.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyTextItem, PathwayWindow, Version=1.1.2644.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="edgeLabel.Location" type="System.Drawing.Point, System.Drawing">
     <value>23, 26</value>
@@ -467,6 +485,9 @@
   </data>
   <data name="&gt;&gt;aviOutputCheckBox.Name" xml:space="preserve">
     <value>aviOutputCheckBox</value>
+  </data>
+  <data name="&gt;&gt;variableBox.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="thresholdHigh.LabelText" xml:space="preserve">
     <value>Upper threshold</value>
@@ -490,7 +511,7 @@
     <value>0</value>
   </data>
   <data name="&gt;&gt;edgeHighBrush.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem, PathwayWindow, Version=1.1.2389.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem, PathwayWindow, Version=1.1.2644.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="thresholdLow.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -499,7 +520,10 @@
     <value>143, 28</value>
   </data>
   <data name="&gt;&gt;thresholdHigh.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyTextItem, PathwayWindow, Version=1.1.2389.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyTextItem, PathwayWindow, Version=1.1.2644.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;variableBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;aviFileName.Parent" xml:space="preserve">
     <value>outputBox</value>
@@ -515,6 +539,9 @@
   </data>
   <data name="edgeLowBrush.Location" type="System.Drawing.Point, System.Drawing">
     <value>239, 98</value>
+  </data>
+  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="variableBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -535,12 +562,15 @@
     <value>23, 27</value>
   </data>
   <data name="&gt;&gt;aviOutputCheckBox.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;thresholdLow.Name" xml:space="preserve">
     <value>thresholdLow</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Japanese</value>
   </metadata>
 </root>

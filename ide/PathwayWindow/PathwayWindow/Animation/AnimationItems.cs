@@ -60,6 +60,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         private GroupBox variableBox;
         private Label edgeLabel;
         private Label variableLabel;
+        private Label label1;
 
         private AnimationControl animCon;
 
@@ -101,6 +102,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.logarithmicCheckBox = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyCheckBoxItem();
             this.aviFileName = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertySaveFileItem();
             this.outputBox = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.variableBox = new System.Windows.Forms.GroupBox();
             this.variableLabel = new System.Windows.Forms.Label();
             this.edgeBox.SuspendLayout();
@@ -240,11 +242,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.outputBox.AccessibleName = null;
             resources.ApplyResources(this.outputBox, "outputBox");
             this.outputBox.BackgroundImage = null;
+            this.outputBox.Controls.Add(this.label1);
             this.outputBox.Controls.Add(this.aviOutputCheckBox);
             this.outputBox.Controls.Add(this.aviFileName);
             this.outputBox.Font = null;
             this.outputBox.Name = "outputBox";
             this.outputBox.TabStop = false;
+            // 
+            // label1
+            // 
+            this.label1.AccessibleDescription = null;
+            this.label1.AccessibleName = null;
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Font = null;
+            this.label1.Name = "label1";
             // 
             // variableBox
             // 
@@ -286,6 +297,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             this.variableBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         void aviOutputCheckBox_CheckedChanged(object sender, EventArgs e)

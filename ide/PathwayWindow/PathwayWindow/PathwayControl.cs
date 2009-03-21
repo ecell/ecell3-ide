@@ -136,7 +136,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// Whether each node is showing it's ID or not;
         /// </summary>
-        private bool m_isViewMode = false;
+        private bool m_isAnimation = true;
 
         /// <summary>
         /// Focus Mode
@@ -272,13 +272,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// get/set the flag of showing id.
         /// </summary>
-        public bool ViewMode
+        public bool IsAnimation
         {
-            get { return m_isViewMode; }
+            get { return m_isAnimation; }
             set
             {
-                m_isViewMode = value;
-                RaiseViewModeChange();
+                m_isAnimation = value;
+                RaiseAnimationChange();
             }
         }
 
@@ -750,9 +750,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             if (m_canvas == null)
                 return;
-            m_canvas.ResetObjectSettings();
             SetNodeIcons();
-            if (m_isViewMode)
+            if (m_isAnimation)
                 m_animCon.SetPropForSimulation();
         }
         /// <summary>
@@ -1114,7 +1113,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                if (m_isViewMode)
+                if (m_isAnimation)
                     m_animCon.UpdatePropForSimulation();
                 throw new PathwayException("Error DataChange.", e);
             }
@@ -1336,29 +1335,29 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         }
         #endregion
 
-        #region EventHandler for ViewModeChange
-        private EventHandler m_onViewModeChange;
+        #region EventHandler for IsAnimationChange
+        private EventHandler m_onAnimationChange;
         /// <summary>
         /// Event on canvas change.
         /// </summary>
-        public event EventHandler ViewModeChange
+        public event EventHandler AnimationChange
         {
-            add { m_onViewModeChange += value; }
-            remove { m_onViewModeChange -= value; }
+            add { m_onAnimationChange += value; }
+            remove { m_onAnimationChange -= value; }
         }
         /// <summary>
         /// Event on view mode change.
         /// </summary>
         /// <param name="e"></param>
-        protected virtual void OnViewModeChange(EventArgs e)
+        protected virtual void OnAnimationChange(EventArgs e)
         {
-            if (m_onViewModeChange != null)
-                m_onViewModeChange(this, e);
+            if (m_onAnimationChange != null)
+                m_onAnimationChange(this, e);
         }
-        private void RaiseViewModeChange()
+        private void RaiseAnimationChange()
         {
             EventArgs e = new EventArgs();
-            OnViewModeChange(e);
+            OnAnimationChange(e);
         }
         #endregion
 

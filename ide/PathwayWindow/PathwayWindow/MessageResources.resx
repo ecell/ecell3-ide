@@ -168,8 +168,8 @@
   <data name="LayerMenuChange" xml:space="preserve">
     <value>Change layer</value>
   </data>
-  <data name="MenuItemViewMode" xml:space="preserve">
-    <value>View mode</value>
+  <data name="MenuItemAnimation" xml:space="preserve">
+    <value>Animation</value>
   </data>
   <data name="LayerMenuSelectNodes" xml:space="preserve">
     <value>Select nodes on thie layer</value>
@@ -207,8 +207,8 @@
   <data name="MenuToolTipShowID" xml:space="preserve">
     <value>Change the visibility mode of each object ID.</value>
   </data>
-  <data name="MenuToolTipViewMode" xml:space="preserve">
-    <value>Change view mode of canvas.</value>
+  <data name="MenuToolTipAnimation" xml:space="preserve">
+    <value>Set animation of canvas.</value>
   </data>
   <data name="MenuItemEdit" xml:space="preserve">
     <value>&amp;Edit</value>
