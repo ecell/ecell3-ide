@@ -117,78 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="JobGridView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="JobIDColumn.UserAddedColumn" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="JobIDColumn.HeaderText" xml:space="preserve">
-    <value>JobID</value>
-  </data>
-  <data name="JobIDColumn.Width" type="System.Int32, mscorlib">
-    <value>50</value>
-  </data>
-  <data name="StatusColumn.UserAddedColumn" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="StatusColumn.HeaderText" xml:space="preserve">
-    <value>Status</value>
-  </data>
-  <data name="StatusColumn.Width" type="System.Int32, mscorlib">
-    <value>80</value>
-  </data>
-  <data name="MachineColumn.UserAddedColumn" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="MachineColumn.HeaderText" xml:space="preserve">
-    <value>Node</value>
-  </data>
-  <data name="MachineColumn.Width" type="System.Int32, mscorlib">
-    <value>80</value>
-  </data>
-  <data name="ScriptColumn.UserAddedColumn" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="ScriptColumn.HeaderText" xml:space="preserve">
-    <value>Script</value>
-  </data>
-  <data name="ArgumentColumn.UserAddedColumn" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="ArgumentColumn.HeaderText" xml:space="preserve">
-    <value>Arg</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="JobGridView.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="JobGridView.Size" type="System.Drawing.Size, System.Drawing">
-    <value>486, 258</value>
-  </data>
-  <data name="JobGridView.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;JobGridView.Name" xml:space="preserve">
-    <value>JobGridView</value>
-  </data>
-  <data name="&gt;&gt;JobGridView.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;JobGridView.Parent" xml:space="preserve">
+  <data name="&gt;&gt;DEWStartButton.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;JobGridView.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="DEWStartButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
-  </data>
-  <data name="DEWStartButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Popup</value>
-  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="DEWStartButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -207,35 +139,189 @@
         AAAASUVORK5CYII=
 </value>
   </data>
-  <data name="DEWStartButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="$this.TabText" xml:space="preserve">
+    <value>Job status</value>
   </data>
-  <data name="DEWStartButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 276</value>
+  <data name="DEWUpdateButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEAAA
+        CxABrSO9dQAAAuhJREFUOE9l0wtMzVEcB/Df7eEZxU26bg+7abYrhrH1mGJkV7ieK6VxqcywFG56rVZq
+        NPPYSnmmLM/J8lpKelyyXiTJmKhVwtbGxHWl7s/31I3kbJ+d//9/zu+3nd/5/SU0fGyvjLC1swm2kkjm
+        mPf29LS1tlX+6nx7lsoi72KrHvr+ixn8IIlrzZQfNxiVJ3rZM5d58WVmbRmzw976b+SZEI999mABEpMh
+        uXY+0ZjFNn2g9RnHSak+Qovir7qkvNMHFDDHVDA7767qJjtPjXTr4yLbzTWPETkZRv7NEFaVTq5L/PAh
+        DDbCGpq2LNotpVmvLWU+VMNMfpe+nKkzslu4rhvrwTBl6HGs8TIPZpqy22B2JM+UtKhCA2fUMZ+sZy5o
+        YbZfk/0Ka8mgGEgQ1TmGFB6j8SSSiNms/4yqAnvyykj2SHhizGlkvtDAfLOV2WJujA7riTCVKLTCf2l2
+        q0Gd0/JzdnpHu0PSm1rL8NrbtDZzIa2+npXzmrnkPXN5B+Y25mLM5BhYgOBIkBNtKU5/381cicXCZubc
+        F8wJD7FpZXoeKdYFWa7IuyYLzH/qtrOkfUmSzuClLf9B0rnnEKyBSTR2V+ndhk/Mec+Zz+OMyuRnfaT0
+        v0yjxqdhw1rwhs0QDQdIYnEYcxz4gBW5xla/fIBzZSM4E4XSXOpimhFwEYs7QAkTQFyZM7jAdBDFs+mv
+        1fzURn2qro/Nw+59PlrNvA9X5hLXZCCFar8paKBxVPedyK9INNM4sISBYbunod465FYpWdmfc4io+h5S
+        yBx4i9lJ+8JAizNO4xY05HslSbL8zkdyT9uFkFmmJH9yiGbYBNtIGbRHHlnXveoGsyqfeQFaWZnFLEvs
+        MpLXsVzsCQWP/rMPGaIdRY8LMpJ7bzDzOVgoDXv0VbqjtmeE76l6claLqh+AAHAA86EJxPPgzyEaaCK4
+        w3ZIBXEbWlCDKOTf8w/PYnoXyUQ3ykBUfRo4gbgNUdB/xm/XmS+oR7ChpgAAAABJRU5ErkJggg==
+</value>
   </data>
-  <data name="DEWStartButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>32, 30</value>
+  <data name="&gt;&gt;StatusColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="DEWStartButton.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="&gt;&gt;JobGridView.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;DEWStartButton.Name" xml:space="preserve">
-    <value>DEWStartButton</value>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>Ecell.EcellDockContent, EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;DEWDeleteButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MachineColumn.Name" xml:space="preserve">
+    <value>MachineColumn</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="DEWDeleteButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="JobIDColumn.HeaderText" xml:space="preserve">
+    <value>JobID</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 12</value>
+  </data>
+  <data name="&gt;&gt;DEWUpdateButton.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;DEWUpdateButton.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;DEWStartButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;DEWStartButton.Parent" xml:space="preserve">
+  <data name="DEWDeleteButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 30</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>510, 318</value>
+  </data>
+  <data name="DEWStartButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;MachineColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DEWUpdateButton.ToolTip" xml:space="preserve">
+    <value>Refresh the Job status pane.</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Job status</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="DEWStartButton.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="DEWDeleteButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Popup</value>
+  </data>
+  <data name="DEWDeleteButton.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;DEWDeleteButton.Parent" xml:space="preserve">
     <value>$this</value>
+  </data>
+  <data name="&gt;&gt;ArgumentColumn.Name" xml:space="preserve">
+    <value>ArgumentColumn</value>
+  </data>
+  <data name="DEWDeleteButton.ToolTip" xml:space="preserve">
+    <value>Delete  the job.</value>
+  </data>
+  <data name="DEWStartButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Popup</value>
+  </data>
+  <data name="DEWUpdateButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
   </data>
   <data name="&gt;&gt;DEWStartButton.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="DEWUpdateButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>32, 30</value>
+  </data>
+  <data name="&gt;&gt;JobGridView.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;JobGridView.Name" xml:space="preserve">
+    <value>JobGridView</value>
+  </data>
+  <data name="ArgumentColumn.HeaderText" xml:space="preserve">
+    <value>Arg</value>
+  </data>
+  <data name="StatusColumn.HeaderText" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="DEWDeleteButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEAAA
+        CxABrSO9dQAAAt5JREFUOE9dk1tIVFEUhv+ZUcMxG3VsNHUyRCe7iVlZXkYxzEpRa5TGzKKiqCyxh4oC
+        AwuC6CGyG4SVXSgoiCSDCCuiFKuXKEgfRAosuhGYkOSY/v3HbNIO5+Nw9tr/WmuvtTYw7nkG5LQC1xqB
+        bC0HC9Nf82Ngy10THp4CysMAm9Yt47XoBk6+92SODB32stVk6pBxgQgxNj0HVnS6In2sdLE3xcZbFtMr
+        LSeISX4n3XH2dzxfTR718mPBHG4GjsmYeA9Y/CLW1s+tqeTqePZkRHI/0CLbRhHld3AfaPDVechDq8iD
+        RXwUYf1aDtS2TZ3ymdVLyDWJ7C+M4dUg8weFvSjhBjHV7+AckNmd7RphvRzsXUbf5nQ+iQwdYU02uW42
+        h8tm8KkzZHgOcEWiepE64QhG0e5bzO2sKyJ355E7s8hdGeSGeWRFErvS7dzxJ/XTYqVQLf8V2cjE3ABU
+        vc1NImsk3rJQ4hRy7Ux+KYhlgwlvVPZL2qfyIE5M7EI74GwGHnwskWh7+pg4mSxP4Be3g4fVjCDgiIRp
+        /6duagO2dTgj+oaq3eS2ReT6uYoscVkCWeIki2P4zR3Bs2a8WgIUyMFkf/qqvqdncTxZm6moElbOIr0u
+        /vLMIEvjOFw4jb4CB33LItnvtvGG1fxpE6B3tAZmXACWd6dFq9KKqFYZUb8XxfJ2aOBQT6qNI4UODubb
+        OZAXxoGcKezLtlLnMAYtdzSTZk3V4GoJPcqi1MlP+VG8bg345gSu7gLu9KSEcnBpOH+4Q9mXFcIHMQHM
+        AJokNrJwQHN/ciA/mj+Lp/H1/DCeMJs6w//02ihYpRp+vSs5mF0pwWyxW7hRTrV+RhQKGzRtSZcDzS+b
+        gi29JcBN9Uanwj6RJYxRde0BGtfJ5tBX/8dFlZguAsTohZgrNCc4ICrErHGVVvdGL06p8IpMESMCDbHx
+        GFfWuLrGYrywjzeO7TEi6WSIGNvrv+a/ATaDKn6l8wwqAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="DEWUpdateButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>126, 276</value>
+  </data>
+  <data name="JobGridView.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="&gt;&gt;DEWUpdateButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="DEWStopButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
   </data>
-  <data name="DEWStopButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Popup</value>
+  <data name="&gt;&gt;StatusColumn.Name" xml:space="preserve">
+    <value>StatusColumn</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>GridJobStatusDialog</value>
+  </data>
+  <data name="DEWStopButton.ToolTip" xml:space="preserve">
+    <value>Stop  the job.</value>
+  </data>
+  <data name="&gt;&gt;DEWDeleteButton.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;JobIDColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DEWStopButton.Name" xml:space="preserve">
+    <value>DEWStopButton</value>
+  </data>
+  <data name="DEWUpdateButton.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;ScriptColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DEWStopButton.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="DEWDeleteButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>88, 276</value>
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="JobIDColumn.Width" type="System.Int32, mscorlib">
+    <value>50</value>
   </data>
   <data name="DEWStopButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -257,127 +343,59 @@
         AAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="DEWStopButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>50, 276</value>
-  </data>
   <data name="DEWStopButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 30</value>
   </data>
-  <data name="DEWStopButton.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="DEWStartButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 276</value>
   </data>
-  <data name="&gt;&gt;DEWStopButton.Name" xml:space="preserve">
-    <value>DEWStopButton</value>
+  <data name="MachineColumn.Width" type="System.Int32, mscorlib">
+    <value>80</value>
+  </data>
+  <data name="JobGridView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;DialogToolTip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;DEWStopButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;DEWStopButton.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="DEWStartButton.ToolTip" xml:space="preserve">
+    <value>Restart  the job.</value>
   </data>
-  <data name="&gt;&gt;DEWStopButton.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="JobGridView.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
-  <data name="DEWDeleteButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
-  </data>
-  <data name="DEWDeleteButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Popup</value>
-  </data>
-  <data name="DEWDeleteButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEAAA
-        CxABrSO9dQAAAt5JREFUOE9dk1tIVFEUhv+ZUcMxG3VsNHUyRCe7iVlZXkYxzEpRa5TGzKKiqCyxh4oC
-        AwuC6CGyG4SVXSgoiCSDCCuiFKuXKEgfRAosuhGYkOSY/v3HbNIO5+Nw9tr/WmuvtTYw7nkG5LQC1xqB
-        bC0HC9Nf82Ngy10THp4CysMAm9Yt47XoBk6+92SODB32stVk6pBxgQgxNj0HVnS6In2sdLE3xcZbFtMr
-        LSeISX4n3XH2dzxfTR718mPBHG4GjsmYeA9Y/CLW1s+tqeTqePZkRHI/0CLbRhHld3AfaPDVechDq8iD
-        RXwUYf1aDtS2TZ3ymdVLyDWJ7C+M4dUg8weFvSjhBjHV7+AckNmd7RphvRzsXUbf5nQ+iQwdYU02uW42
-        h8tm8KkzZHgOcEWiepE64QhG0e5bzO2sKyJ355E7s8hdGeSGeWRFErvS7dzxJ/XTYqVQLf8V2cjE3ABU
-        vc1NImsk3rJQ4hRy7Ux+KYhlgwlvVPZL2qfyIE5M7EI74GwGHnwskWh7+pg4mSxP4Be3g4fVjCDgiIRp
-        /6duagO2dTgj+oaq3eS2ReT6uYoscVkCWeIki2P4zR3Bs2a8WgIUyMFkf/qqvqdncTxZm6moElbOIr0u
-        /vLMIEvjOFw4jb4CB33LItnvtvGG1fxpE6B3tAZmXACWd6dFq9KKqFYZUb8XxfJ2aOBQT6qNI4UODubb
-        OZAXxoGcKezLtlLnMAYtdzSTZk3V4GoJPcqi1MlP+VG8bg345gSu7gLu9KSEcnBpOH+4Q9mXFcIHMQHM
-        AJokNrJwQHN/ciA/mj+Lp/H1/DCeMJs6w//02ihYpRp+vSs5mF0pwWyxW7hRTrV+RhQKGzRtSZcDzS+b
-        gi29JcBN9Uanwj6RJYxRde0BGtfJ5tBX/8dFlZguAsTohZgrNCc4ICrErHGVVvdGL06p8IpMESMCDbHx
-        GFfWuLrGYrywjzeO7TEi6WSIGNvrv+a/ATaDKn6l8wwqAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="DEWDeleteButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>88, 276</value>
-  </data>
-  <data name="DEWDeleteButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="DEWStartButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>32, 30</value>
   </data>
-  <data name="DEWDeleteButton.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+  <data name="MachineColumn.HeaderText" xml:space="preserve">
+    <value>Node</value>
   </data>
-  <data name="&gt;&gt;DEWDeleteButton.Name" xml:space="preserve">
-    <value>DEWDeleteButton</value>
-  </data>
-  <data name="&gt;&gt;DEWDeleteButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DEWDeleteButton.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;DEWDeleteButton.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="DEWUpdateButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
+  <data name="ScriptColumn.HeaderText" xml:space="preserve">
+    <value>Script</value>
   </data>
   <data name="DEWUpdateButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Popup</value>
   </data>
-  <data name="DEWUpdateButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEAAA
-        CxABrSO9dQAAAuhJREFUOE9l0wtMzVEcB/Df7eEZxU26bg+7abYrhrH1mGJkV7ieK6VxqcywFG56rVZq
-        NPPYSnmmLM/J8lpKelyyXiTJmKhVwtbGxHWl7s/31I3kbJ+d//9/zu+3nd/5/SU0fGyvjLC1swm2kkjm
-        mPf29LS1tlX+6nx7lsoi72KrHvr+ixn8IIlrzZQfNxiVJ3rZM5d58WVmbRmzw976b+SZEI999mABEpMh
-        uXY+0ZjFNn2g9RnHSak+Qovir7qkvNMHFDDHVDA7767qJjtPjXTr4yLbzTWPETkZRv7NEFaVTq5L/PAh
-        DDbCGpq2LNotpVmvLWU+VMNMfpe+nKkzslu4rhvrwTBl6HGs8TIPZpqy22B2JM+UtKhCA2fUMZ+sZy5o
-        YbZfk/0Ka8mgGEgQ1TmGFB6j8SSSiNms/4yqAnvyykj2SHhizGlkvtDAfLOV2WJujA7riTCVKLTCf2l2
-        q0Gd0/JzdnpHu0PSm1rL8NrbtDZzIa2+npXzmrnkPXN5B+Y25mLM5BhYgOBIkBNtKU5/381cicXCZubc
-        F8wJD7FpZXoeKdYFWa7IuyYLzH/qtrOkfUmSzuClLf9B0rnnEKyBSTR2V+ndhk/Mec+Zz+OMyuRnfaT0
-        v0yjxqdhw1rwhs0QDQdIYnEYcxz4gBW5xla/fIBzZSM4E4XSXOpimhFwEYs7QAkTQFyZM7jAdBDFs+mv
-        1fzURn2qro/Nw+59PlrNvA9X5hLXZCCFar8paKBxVPedyK9INNM4sISBYbunod465FYpWdmfc4io+h5S
-        yBx4i9lJ+8JAizNO4xY05HslSbL8zkdyT9uFkFmmJH9yiGbYBNtIGbRHHlnXveoGsyqfeQFaWZnFLEvs
-        MpLXsVzsCQWP/rMPGaIdRY8LMpJ7bzDzOVgoDXv0VbqjtmeE76l6claLqh+AAHAA86EJxPPgzyEaaCK4
-        w3ZIBXEbWlCDKOTf8w/PYnoXyUQ3ykBUfRo4gbgNUdB/xm/XmS+oR7ChpgAAAABJRU5ErkJggg==
-</value>
+  <data name="&gt;&gt;ArgumentColumn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="DEWUpdateButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>126, 276</value>
-  </data>
-  <data name="DEWUpdateButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>32, 30</value>
-  </data>
-  <data name="DEWUpdateButton.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;DEWUpdateButton.Name" xml:space="preserve">
-    <value>DEWUpdateButton</value>
-  </data>
-  <data name="&gt;&gt;DEWUpdateButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DEWUpdateButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;JobGridView.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;DEWUpdateButton.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="&gt;&gt;DEWDeleteButton.Name" xml:space="preserve">
+    <value>DEWDeleteButton</value>
   </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="DEWStartButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
   </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 12</value>
+  <data name="&gt;&gt;DEWStartButton.Name" xml:space="preserve">
+    <value>DEWStartButton</value>
   </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>510, 318</value>
+  <data name="&gt;&gt;ScriptColumn.Name" xml:space="preserve">
+    <value>ScriptColumn</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -455,46 +473,55 @@
         AD/gAAA/4AAAP+AAAD//wB///8A////wf/8=
 </value>
   </data>
-  <data name="$this.TabText" xml:space="preserve">
-    <value>Job status</value>
+  <data name="DEWStopButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>50, 276</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Job status</value>
+  <data name="JobGridView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>486, 258</value>
+  </data>
+  <data name="DEWStopButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Popup</value>
   </data>
   <data name="&gt;&gt;JobIDColumn.Name" xml:space="preserve">
     <value>JobIDColumn</value>
   </data>
-  <data name="&gt;&gt;JobIDColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;DEWStopButton.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
-  <data name="&gt;&gt;StatusColumn.Name" xml:space="preserve">
-    <value>StatusColumn</value>
+  <data name="JobGridView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
   </data>
-  <data name="&gt;&gt;StatusColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;DialogToolTip.Name" xml:space="preserve">
+    <value>DialogToolTip</value>
   </data>
-  <data name="&gt;&gt;MachineColumn.Name" xml:space="preserve">
-    <value>MachineColumn</value>
+  <data name="StatusColumn.Width" type="System.Int32, mscorlib">
+    <value>80</value>
   </data>
-  <data name="&gt;&gt;MachineColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;DEWStopButton.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="&gt;&gt;ScriptColumn.Name" xml:space="preserve">
-    <value>ScriptColumn</value>
+  <data name="&gt;&gt;DEWUpdateButton.Name" xml:space="preserve">
+    <value>DEWUpdateButton</value>
   </data>
-  <data name="&gt;&gt;ScriptColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ArgumentColumn.Name" xml:space="preserve">
-    <value>ArgumentColumn</value>
-  </data>
-  <data name="&gt;&gt;ArgumentColumn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>GridJobStatusDialog</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Ecell.EcellDockContent, EcellLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
+  <metadata name="JobIDColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="ScriptColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="DialogToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="MachineColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="ArgumentColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="StatusColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
 </root>

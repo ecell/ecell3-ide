@@ -117,20 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="$this.TabText" xml:space="preserve">
-    <value>ジョブ状況</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>ジョブ状況</value>
-  </data>
-  <data name="ArgumentColumn.HeaderText" xml:space="preserve">
-    <value>引数</value>
-  </data>
-  <data name="DEWCloseButton.Text" xml:space="preserve">
-    <value>閉じる</value>
-  </data>
   <data name="JobIDColumn.HeaderText" xml:space="preserve">
     <value>ジョブID</value>
+  </data>
+  <data name="StatusColumn.HeaderText" xml:space="preserve">
+    <value>状態</value>
   </data>
   <data name="MachineColumn.HeaderText" xml:space="preserve">
     <value>実行ノード</value>
@@ -138,7 +129,184 @@
   <data name="ScriptColumn.HeaderText" xml:space="preserve">
     <value>スクリプト名</value>
   </data>
-  <data name="StatusColumn.HeaderText" xml:space="preserve">
-    <value>状態</value>
+  <data name="ArgumentColumn.HeaderText" xml:space="preserve">
+    <value>引数</value>
+  </data>
+  <data name="JobGridView.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="DEWStartButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
+        Cu8BfXaKSAAAAoBJREFUOE+Nk31IU2EUxs9t2lp+bBoRpCGIpGZQYPWHgW6WJlSLxEBmSNQfJlpbZjpR
+        +9ASnWVYhCTpdKZBYWCfoAUVFJFYitaylauWytI+lpMRmU/n5tLIzF74cXnfe57nnuflXAmJK/yUdmn0
+        jtYP81TbSBoxQI4HA3w6xuDn+9mWXGm0P7J8QvUNKyI0Ld8p1NBI/splrJMywmx6WhBb76i7ZUN+gxk6
+        oxnxBx/CM6rGTuFFOhb7Mx7/NPFT1jsMLVbsOtMDdVknoo90YkVhF3yS28Zpzbm7FJwewwbzZ+pG8F3X
+        MKK/0IetFd2IYnFITgf8Mtvhkf4YlNYB2njZRZEVJ0gasoRN5v5pJHjHNTnTTH1QlfYgrKALCt0T0G4W
+        Z3SBdM9AOS8n9nGNvRSWsZkNfH43EbwSLjpTjK+xqsSMxXk9EPZ0g7RPQVnPQdkvQLmvQIU2ULEdtN7U
+        y+IoxvvXvQg+m5qdiUYblpdYIM/rBe1nDlhA+j5Q/hvQoX7QsSGQ4TMb1IoGWiZw0sB7S4tTbRpEaJkV
+        skIW5VlBBW+nhOWOiS42mCzkFVjLwr1MwJRB0rVRddMwQk/2Q1b8DnR4AHT0/cQXSz+CUu+NUojmEgkS
+        Uax3R/CaipDc6kpsHkFE1RDk5dxqGQsrXRzFMk6q0/dJtrCei48zGkYcMDH/5IAJvqm3XSk3XVht+oLA
+        mq+QiHmTrg9SQMx5LjzrbnktPxcxntOGSra9zb6vHYi/8g2KrO4xisy+Sh7SOi4sYtRMMCObaZCIlFWZ
+        /ml3hoWE6g7yDRKFlcxOZiUz+yhzkYJJYHLd7ca6b/n/fiYulrhNgtxC8ZLmTMv6l4MfxNIVAaLpWYgA
+        AAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="DEWStartButton.ToolTip" xml:space="preserve">
+    <value>ジョブの再開</value>
+  </data>
+  <data name="DEWStopButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAK7wAA
+        Cu8BfXaKSAAAAvlJREFUOE+Nk1lsTFEcxs8snVaGTltTxahSjVJ008VWRbW6qFinS5h0VC2lzARVS1Fr
+        qyOWB5p6MakmJBIkSMSLFy/iQTw02giiDe4tujAqo3M/3502aePJSX73Ptzzff/v/z/naq4IsSMkzFSr
+        N44zYNArhE8RGigCRKP4+BZCyweIVqsR+PPb2/Fz0HVSCLcQol+4Q01dnlcv8PVuC7qbXPh24RB6jlag
+        z7ERnu2rMGDLgLc0BV5rAgYJylJxx6jpojiPhIjWqKlyz4M7+OQ6ic/HKiHvLcJ3ezb6rSn4VTgT3hwL
+        lGVhwNJxZCyQE4b7obpuio+QKHHLYpF7Wpvwpc6Bbmcpesuz4bEmwVcwDVgeAmWJAcjQAZkBNCBZBjw2
+        a1SDehIjblsi5N7mRnyt2Yq+nQUYKE0FCinOMgErKMgZA+QbgdWsrrJuLJ5EaEcM7kWGyz+unkCvswgD
+        9kwoG2YBeeHASlb2C4IBayhQzDZKiW08nkXqVYMGf4KHUeGyx1UNT9Ua+LakUcDquRSuYc+q0GYGyicA
+        2ycCFWT3ZDyP9s9gyOBptFn+Xe+EtzIX2JwIrLewBRoUUWyncNckoGoK4Jw6RM00vIgNGDF4FmOW/9RX
+        wVeZw2o8pk0UbGT/ZWyjcvKQ6HA0cDwGOEHOzsSruFEGz2PN8mBDFbCHBvYkoIQJSlhdjeyMBI5SdDoW
+        aIgDGucCV+LRlmAYSfBytllWGvdBceRTxBOwTWcr4xmd1Q9wHnUUX5wDXKN5UzLQnIyO+aMMXs8Ll32X
+        q6EcXMsBLQa2zWb8CMZnkmqanaLBpXjgxnyKyc00fEgNHDnGtrjgLrgbgDN2xi0E9i/k0ChyMH7tDOAC
+        o19ndXc60EJa0/EhLUC9ykMX6ZFZONriTZ3tKWbpTZJJak80Sm8Tg4heepesl96nGqTO9ECpa2GQ9GlR
+        kPRxQWBncbBoofiw/ypzhZJcUkPOkfPD7mqFf1G/qXvUvav8PxOXbthEdYv5T9S9qlj3F2am661SWAq/
+        AAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="DEWStopButton.ToolTip" xml:space="preserve">
+    <value>ジョブの停止</value>
+  </data>
+  <data name="DEWDeleteButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEAAA
+        CxABrSO9dQAAAt5JREFUOE9dk1tIVFEUhv+ZUcMxG3VsNHUyRCe7iVlZXkYxzEpRa5TGzKKiqCyxh4oC
+        AwuC6CGyG4SVXSgoiCSDCCuiFKuXKEgfRAosuhGYkOSY/v3HbNIO5+Nw9tr/WmuvtTYw7nkG5LQC1xqB
+        bC0HC9Nf82Ngy10THp4CysMAm9Yt47XoBk6+92SODB32stVk6pBxgQgxNj0HVnS6In2sdLE3xcZbFtMr
+        LSeISX4n3XH2dzxfTR718mPBHG4GjsmYeA9Y/CLW1s+tqeTqePZkRHI/0CLbRhHld3AfaPDVechDq8iD
+        RXwUYf1aDtS2TZ3ymdVLyDWJ7C+M4dUg8weFvSjhBjHV7+AckNmd7RphvRzsXUbf5nQ+iQwdYU02uW42
+        h8tm8KkzZHgOcEWiepE64QhG0e5bzO2sKyJ355E7s8hdGeSGeWRFErvS7dzxJ/XTYqVQLf8V2cjE3ABU
+        vc1NImsk3rJQ4hRy7Ux+KYhlgwlvVPZL2qfyIE5M7EI74GwGHnwskWh7+pg4mSxP4Be3g4fVjCDgiIRp
+        /6duagO2dTgj+oaq3eS2ReT6uYoscVkCWeIki2P4zR3Bs2a8WgIUyMFkf/qqvqdncTxZm6moElbOIr0u
+        /vLMIEvjOFw4jb4CB33LItnvtvGG1fxpE6B3tAZmXACWd6dFq9KKqFYZUb8XxfJ2aOBQT6qNI4UODubb
+        OZAXxoGcKezLtlLnMAYtdzSTZk3V4GoJPcqi1MlP+VG8bg345gSu7gLu9KSEcnBpOH+4Q9mXFcIHMQHM
+        AJokNrJwQHN/ciA/mj+Lp/H1/DCeMJs6w//02ihYpRp+vSs5mF0pwWyxW7hRTrV+RhQKGzRtSZcDzS+b
+        gi29JcBN9Uanwj6RJYxRde0BGtfJ5tBX/8dFlZguAsTohZgrNCc4ICrErHGVVvdGL06p8IpMESMCDbHx
+        GFfWuLrGYrywjzeO7TEi6WSIGNvrv+a/ATaDKn6l8wwqAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="DEWDeleteButton.ToolTip" xml:space="preserve">
+    <value>ジョブの削除</value>
+  </data>
+  <data name="DEWUpdateButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEAAA
+        CxABrSO9dQAAAuhJREFUOE9l0wtMzVEcB/Df7eEZxU26bg+7abYrhrH1mGJkV7ieK6VxqcywFG56rVZq
+        NPPYSnmmLM/J8lpKelyyXiTJmKhVwtbGxHWl7s/31I3kbJ+d//9/zu+3nd/5/SU0fGyvjLC1swm2kkjm
+        mPf29LS1tlX+6nx7lsoi72KrHvr+ixn8IIlrzZQfNxiVJ3rZM5d58WVmbRmzw976b+SZEI999mABEpMh
+        uXY+0ZjFNn2g9RnHSak+Qovir7qkvNMHFDDHVDA7767qJjtPjXTr4yLbzTWPETkZRv7NEFaVTq5L/PAh
+        DDbCGpq2LNotpVmvLWU+VMNMfpe+nKkzslu4rhvrwTBl6HGs8TIPZpqy22B2JM+UtKhCA2fUMZ+sZy5o
+        YbZfk/0Ka8mgGEgQ1TmGFB6j8SSSiNms/4yqAnvyykj2SHhizGlkvtDAfLOV2WJujA7riTCVKLTCf2l2
+        q0Gd0/JzdnpHu0PSm1rL8NrbtDZzIa2+npXzmrnkPXN5B+Y25mLM5BhYgOBIkBNtKU5/381cicXCZubc
+        F8wJD7FpZXoeKdYFWa7IuyYLzH/qtrOkfUmSzuClLf9B0rnnEKyBSTR2V+ndhk/Mec+Zz+OMyuRnfaT0
+        v0yjxqdhw1rwhs0QDQdIYnEYcxz4gBW5xla/fIBzZSM4E4XSXOpimhFwEYs7QAkTQFyZM7jAdBDFs+mv
+        1fzURn2qro/Nw+59PlrNvA9X5hLXZCCFar8paKBxVPedyK9INNM4sISBYbunod465FYpWdmfc4io+h5S
+        yBx4i9lJ+8JAizNO4xY05HslSbL8zkdyT9uFkFmmJH9yiGbYBNtIGbRHHlnXveoGsyqfeQFaWZnFLEvs
+        MpLXsVzsCQWP/rMPGaIdRY8LMpJ7bzDzOVgoDXv0VbqjtmeE76l6claLqh+AAHAA86EJxPPgzyEaaCK4
+        w3ZIBXEbWlCDKOTf8w/PYnoXyUQ3ykBUfRo4gbgNUdB/xm/XmS+oR7ChpgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="DEWUpdateButton.ToolTip" xml:space="preserve">
+    <value>解析状況ペインの表示を更新</value>
+  </data>
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAJQAAADgAAAA4AAAAOAAA
+        ADgAAAA4AAAAOAAAADgAAAA4AAAAOAAAADgAAAA4AAAAOAAAADgAAAA4AAAAOAAAADgAAAAkAAAAAgAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAi2trbL5OTk9+Pj
+        4/fi4uL34uLi9+Hh4ffg4OD34ODg99/f3/ff39/33t7e993d3ffd3d333Nzc99vb2/fb29v32tra96io
+        qMgAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACeDg
+        4Ofz8/P/8/Pz//Pz8//z8/P/8/Pz//Pz8//z8/P/8/Pz//Pz8//z8/P/8/Pz//Pz8//z8/P/8/Pz//Pz
+        8//z8/P/19fX5wAAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAMAAAADAAAAAwAA
+        AAMAAAAL4eHh5/Pz8//z8/P/8/Pz//Pz8//z8/P/8/Pz//Pz8//z8/P/8/Pz//Pz8//z8/P/8/Pz//Pz
+        8//z8/P/8/Pz//Pz8//Z2dnnAAAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMFBhQTGyFqExshbRQb
+        Im0UGyJtFBwibRQcInDf3+Dv9PT0//T09P/09PT/9PT0//T09P/09PT/9PT0//T09P/09PT/9PT0//T0
+        9P/09PT/9PT0//T09P/09PT/9PT0/9vb2+cAAAAJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJDNAQHal
+        zP93pcz/e6bM/4Gqz/+Isdf/gKvP/9/k6P/19fX/9fX1//X19f/19fX/9fX1//X19f/19fX/9fX1//X1
+        9f/19fX/9fX1//X19f/19fX/9fX1//X19f/19fX/3d3d5wAAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAmNUJAe6zW/4Cy2/+Ds9z/hbXe/4e23f+Kud//4OXp//f39//39/f/9/f3//f39//39/f/9/f3//f3
+        9//39/f/9/f3//f39//39/f/9/f3//f39//39/f/9/f3//f39//f39/nAAAACQAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAACY1QkB6q9T/gLLb/4Kz3P+FtN3/h7ff/4m43v/h5ur/+Pj4//j4+P/4+Pj/+Pj4//j4
+        +P/4+Pj/+Pj4//j4+P/4+Pj/+Pj4//j4+P/4+Pj/+Pj4//j4+P/4+Pj/+Pj4/+Hh4ecAAAAJAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAJjVCQHqr1f+Asdv/grPc/4W03f+Htt//h7Xb/+Hm6v/5+fn/+vr6//r6
+        +v/6+vr/+vr6//r6+v/6+vr/+vr6//n5+f/5+fn/+Pj4//j4+P/4+Pj/+Pj4//j4+P/4+Pj/4+Pj5wAA
+        AAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAmNUJAe6vW/3+x2/+Cs9z/hLTd/4a23v+Fs9n/4ufr//r6
+        +v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+vr6//r6+v/6+vr/+fn5//j4+P/4+Pj/+Pj4//j4
+        +P/l5eXnAAAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACY1QkB9rdj/frDa/4Gy3P+DtN3/hrbe/4Wy
+        2f/j5+z/+/v7//v7+//7+/v/+/v7//v7+//7+/v/+/v7//v7+//7+/v/+/v7//v7+//7+/v/+/v7//r6
+        +v/5+fn/+fn5/+bm5ucAAAAJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJTVCQISz3P99rtf/gbLb/4Oz
+        3f+Ftd7/hbPa/+Po7f/8/Pz//Pz8//z8/P/8/Pz//Pz8//z8/P/8/Pz//Pz8//z8/P/8/Pz//Pz8//z8
+        /P/8/Pz//Pz8//r6+v/6+vr/6Ojo5wAAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjM0BAg7Lc/32u
+        2P+Astv/grPc/4W13v+FtNv/5Ont//z8/P/9/f3//f39//39/f/9/f3//f39//39/f/9/f3//f39//39
+        /f/9/f3//f39//39/f/9/f3//Pz8//v7+//p6ennAAAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIx
+        PkB7rdn/fa/a/3+x2/+Cs9z/hLTd/4Sz2//l6u7//f39//39/f/9/f3//f39//39/f/9/f3//f39//39
+        /f/9/f3//f39//39/f/9/f3//f39//39/f/9/f3//Pz8/+rq6ucAAAAJAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAIzI/QHqs2P98r9r/f7Da/4Gy3P+DtN3/hbTc/+Tp7f/9/f3//f39//39/f/9/f3//f39//39
+        /f/9/f3//f39//39/f/9/f3//f39//39/f/8/Pz/+/v7//r6+v/5+fn/5+fn5wAAAAkAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAjMkBAeKrW/3yu2v9+sNr/gLTd/4Kz3f+FtN3/5eru//39/f/9/f3//f39//39
+        /f/9/f3//f39//39/f/9/f3//f39//39/f/9/f3//Pz8//n5+f/29vb/9fX1//T09P/j4+PnAAAACQAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAACQzQUB3qdX/e63Z/32v2v9/stv/grbg/4S03f/l6u7//v7+//7+
+        /v/+/v7//v7+//7+/v/+/v7//v7+//7+/v/+/v7//v7+//39/f/4+Pj/9fX1//Ly8v/w8PD/8PDw/9/f
+        3+IAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJDRCQHao0/96rdn/fK/a/3+w2v+Bt+H/g7Pd/+Xq
+        7//////////////////////////////////////////////////+/v7/+vr6/+7u7v/w8PD/8fHx//Dw
+        8P/m5ub8iYmJXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkNEJAdafT/3ms2P97rtn/fbDa/4Cy
+        3P+Cs9z/5erv//////////////////////////////////////////////////39/f/5+fn/7+/v////
+        ///9/f3/7u7u/JmZmV4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACQ0QkB0ptL/eKvY/3qt
+        2f99r9r/f7Da/4Gy2//l6u///////////////////////////////////////////////////f39//n5
+        +f/y8vL//f39/+3t7f6Tk5NgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIzNCQHOl
+        0f94q9f/eazY/3yu2f99sNr/gLHb/+Xq7///////////////////////////////////////////////
+        ///9/f3/+vr6//X19f/t7u7/rcjc9AAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAjM0JAcqXR/3eq1/94q9j/eq3Z/3yv2v9/sNr/5eru////////////////////////////////////
+        //////////////7+/v/8/Pz/8vPz/6/K4P+SvN30AAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAACMyQkBypNH/dqnW/3ir1/95rNj/e67Z/32v2v+jwdz/u9Hj/7zR4/+90uT/vtPk/7/T
+        5P/A1OX/wNTl/8HV5f/B1eb/wtbm/8PX5/+sy+T/lMDj/5G83fQAAAAMAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAIjJBQHGm1P91qNX/d6rX/3ir2P96rdn/fK7a/36w2v+Astv/grPc/4S0
+        3f+Gtd7/iLff/4m53/+LuuD/jLvh/4684v+PveP/kb/j/5PA5P+Sv+L/kLze9AAAAAwAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiMkFAcKjW/3So1v91qdb/d6rX/3mr2P97rdn/fa/a/3+w
+        2v+Astv/grPc/4S03f+Gtt7/iLff/4m53/+LuuD/jLvh/4684v+PveL/kb/j/4+84P+PvuD0AAAADAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIyQUBupNL/cqnY/3So1f92qtb/eKvX/3ms
+        2P97rtn/fa/a/3+x2v+Bstv/g7Pc/4S03f+Gtt7/iLff/4m53/+LuuD/jLvh/4284f+PveL/jrvf/42+
+        4fQAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAITJAQG6h0f9toM3/aJfB/2aT
+        u/9WdpL/WnuY/1+Anf9khaP/aIqo/2uOrP9tkbD/b5Sy/3GVtP9xlrT/cZWz/3CTsf92nLz/f6rM/4Gr
+        zf+Mut7/i7nc9AAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhMUA/bKHQ/2yf
+        zf9qmsb/b5rB/5airf+tra3/vb29/8zMzP/X19f/1dXV/8rKyv+7u7v/q6ur/5ycnP+NjY3/gYqR/36b
+        s/+Drc//gq3Q/4m22/+Kt9z0AAAACwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4u
+        OyZ7qNLXhbHZ4Iiz2uCJtNrghbbe4JGwyuCtra38u7u7/8nJyf/Q0ND/0NDQ/8LCwv+kpKT/lJSU/5Ck
+        teKgxOTgncPk4JS+4eCTveHglL7h4I653NAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGdnZ3enp6f/sLCw/7q6uv/CwsL/ycnJ/8fH
+        x/92dnalAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZCQkJmenp7/oqKi/62t
+        rf+3t7f/rq6u0i4uLg4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKmp
+        qVjOzs6wycnJu7S0tINDQ0MOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAA/4AAB/+AAAf/gAAH8AAAB+AAAAfgAAAH4AAAB+AAAAfgAAAH4AAAB+AA
+        AAfgAAAH4AAAB+AAAAfgAAAH4AAAB+AAAAfgAAAP4AAAH+AAAD/gAAA/4AAAP+AAAD/gAAA/4AAAP+AA
+        AD/gAAA/4AAAP+AAAD//wB///8A////wf/8=
+</value>
+  </data>
+  <data name="$this.TabText" xml:space="preserve">
+    <value>ジョブ状況</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>ジョブ状況</value>
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
   </data>
 </root>
