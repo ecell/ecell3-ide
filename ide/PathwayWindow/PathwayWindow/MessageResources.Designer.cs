@@ -691,29 +691,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow {
         }
         
         /// <summary>
-        ///   Export diagrams に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuToolTipExport {
-            get {
-                return ResourceManager.GetString("MenuToolTipExport", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Focus the selected entity. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MenuToolTipFocus {
             get {
                 return ResourceManager.GetString("MenuToolTipFocus", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Show setting dialog of diagram. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string MenuToolTipSetup {
-            get {
-                return ResourceManager.GetString("MenuToolTipSetup", resourceCulture);
             }
         }
         

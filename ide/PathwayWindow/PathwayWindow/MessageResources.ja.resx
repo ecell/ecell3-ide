@@ -222,9 +222,6 @@
   <data name="MenuItemSetup" xml:space="preserve">
     <value>ダイアグラム表示設定...</value>
   </data>
-  <data name="MenuToolTipSetup" xml:space="preserve">
-    <value>ダイアグラムの設定ダイアログを開きます。</value>
-  </data>
   <data name="ErrSystemOverlap" xml:space="preserve">
     <value>システムを作成するスペースがないため、指定した位置にペーストできません。</value>
   </data>
@@ -266,9 +263,6 @@
   </data>
   <data name="MenuItemExport" xml:space="preserve">
     <value>ダイアグラム画像の出力...</value>
-  </data>
-  <data name="MenuToolTipExport" xml:space="preserve">
-    <value>ダイアグラムを出力します。</value>
   </data>
   <data name="MenuItemFile" xml:space="preserve">
     <value>ファイル</value>

@@ -652,7 +652,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolMenuExport.Size = new System.Drawing.Size(187, 22);
             this.toolMenuExport.Tag = 17;
             this.toolMenuExport.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemExport;
-            this.toolMenuExport.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuToolTipExport;
             this.toolMenuExport.Click += new System.EventHandler(this.ExportImage);
             // 
             // MenuItemSetup
@@ -668,7 +667,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolMenuSetupItem.Name = "toolMenuSetupItem";
             this.toolMenuSetupItem.Size = new System.Drawing.Size(163, 22);
             this.toolMenuSetupItem.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemSetup;
-            this.toolMenuSetupItem.ToolTipText = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuToolTipSetup;
             this.toolMenuSetupItem.Click += new System.EventHandler(this.ShowDialogClick);
             // 
             // MenuItemView

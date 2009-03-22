@@ -88,6 +88,10 @@ namespace Ecell.IDE.MainWindow
         /// </summary>
         private string m_userWindowSettingPath;
         /// <summary>
+        /// userWindowSettingPath2 (string)
+        /// </summary>
+        private string m_userWindowSettingPath2;
+        /// <summary>
         /// The application environment associated to this object.
         /// </summary>
         private ApplicationEnvironment m_env;
@@ -194,6 +198,7 @@ namespace Ecell.IDE.MainWindow
         {
             m_defaultWindowSettingPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), Constants.fileWinSetting);
             m_userWindowSettingPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), Application.ProductName);
+            m_userWindowSettingPath2 = Path.Combine(m_userWindowSettingPath, Constants.fileWinSetting + ".view");
             m_userWindowSettingPath = Path.Combine(m_userWindowSettingPath, Constants.fileWinSetting);
         }
 
@@ -817,8 +822,20 @@ namespace Ecell.IDE.MainWindow
                 this.Text = m_title;
             }
             m_statusDialog.ChangeStatus(status);
-            m_status = status;
             ChangeUndoStatus(m_env.ActionManager.UndoStatus);
+
+            // Set Window Setting.
+            if (m_status == ProjectStatus.Loaded && (status == ProjectStatus.Running || status == ProjectStatus.Stepping))
+            {
+                SaveWindowSetting(m_userWindowSettingPath, true);
+                LoadWindowSetting(m_userWindowSettingPath2);
+            }
+            else if (status == ProjectStatus.Loaded && m_status == ProjectStatus.Suspended)
+            {
+                SaveWindowSetting(m_userWindowSettingPath2, true);
+                LoadWindowSetting(m_userWindowSettingPath);
+            }
+            m_status = status;
         }
 
         private void CheckAndReplaceRecentProject(ProjectInfo info)

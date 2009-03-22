@@ -232,14 +232,28 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Close TracerWindow.
         /// </summary>
-        private static void CloseUnSavableWindows(DockPanel dockPanel)
+        private static void CloseWindows(DockPanel dockPanel)
+        {
+            List<DockContent> list = new List<DockContent>();
+            foreach (DockContent content in dockPanel.Contents)
+            {
+                list.Add(content);
+            }
+            if (list.Count <= 0)
+                return;
+            foreach (DockContent content in list)
+                content.Close();
+        }
+
+        /// <summary>
+        /// Close TracerWindow.
+        /// </summary>
+        private static void CloseUnloadedWindows(DockPanel dockPanel)
         {
             List<DockContent> list = new List<DockContent>();
             foreach (DockContent content in dockPanel.Contents)
             {
                 if (!(content is EcellDockContent))
-                    list.Add(content);
-                else if (!((EcellDockContent)content).IsSavable)
                     list.Add(content);
             }
             if (list.Count <= 0)
@@ -320,9 +334,9 @@ namespace Ecell.IDE.MainWindow
                 FloatWindowStruct[] floatWindows = LoadFloatWindows(xmlIn);
                 // close file
                 xmlIn.Close();
-
                 dockPanel.SuspendLayout(true);
-                CloseUnSavableWindows(dockPanel);
+                // Close windows.
+                CloseWindows(dockPanel);
                 // Set WindowSetting
                 SetWindowStatus(window, windowState);
 
@@ -381,7 +395,7 @@ namespace Ecell.IDE.MainWindow
                     paneList[dockPanelStruct.IndexActivePane].Activate();
                 dockPanel.ResumeLayout(true, true);
 
-                CloseUnSavableWindows(dockPanel);
+                CloseUnloadedWindows(dockPanel);
             }
             catch (Exception e)
             {

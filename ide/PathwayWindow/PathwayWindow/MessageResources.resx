@@ -222,9 +222,6 @@
   <data name="MenuItemSetup" xml:space="preserve">
     <value>Diagram settings...</value>
   </data>
-  <data name="MenuToolTipSetup" xml:space="preserve">
-    <value>Show setting dialog of diagram.</value>
-  </data>
   <data name="ErrSystemOverlap" xml:space="preserve">
     <value>The pointed place has no space to paste the System.</value>
   </data>
@@ -266,9 +263,6 @@
   </data>
   <data name="MenuItemExport" xml:space="preserve">
     <value>Export diagram image...</value>
-  </data>
-  <data name="MenuToolTipExport" xml:space="preserve">
-    <value>Export diagrams</value>
   </data>
   <data name="MenuItemFile" xml:space="preserve">
     <value>File</value>

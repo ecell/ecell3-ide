@@ -170,7 +170,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// <summary>
         /// BackGroundBrush
         /// </summary>
-        private Brush m_bgBrush = null;
+        private Brush m_bgBrush = Brushes.White;
 
         /// <summary>
         /// Focus Mode
