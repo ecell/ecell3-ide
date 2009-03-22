@@ -127,19 +127,19 @@
     <value>キャンセル</value>
   </data>
   <data name="DMAddButon.Text" xml:space="preserve">
-    <value>追加</value>
+    <value>追加(&amp;A)...</value>
   </data>
   <data name="DMListLabel.Text" xml:space="preserve">
-    <value>DMディレクトリ一覧</value>
+    <value>DM検索パス(&amp;D):</value>
   </data>
   <data name="DMRemoveButton.Text" xml:space="preserve">
-    <value>削除</value>
+    <value>削除(&amp;R)</value>
   </data>
   <data name="groupBox.Text" xml:space="preserve">
-    <value>コメント</value>
+    <value>コメント(&amp;C):</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>プロジェクトID</value>
+    <value>プロジェクト名(&amp;P):</value>
   </data>
   <data name="OKButton.Text" xml:space="preserve">
     <value>次へ(&amp;N) &gt;</value>

@@ -352,7 +352,7 @@
     <value>10</value>
   </data>
   <data name="CPCreateButton.Text" xml:space="preserve">
-    <value>&amp;OK</value>
+    <value>OK</value>
   </data>
   <data name="&gt;&gt;CPCreateButton.Name" xml:space="preserve">
     <value>CPCreateButton</value>
@@ -426,9 +426,9 @@
   <data name="&gt;&gt;CPListBox.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
   </data>
