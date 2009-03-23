@@ -239,5 +239,15 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 return;
             }
         }
+
+        private void TracerConfigurationDialog_Load(object sender, EventArgs e)
+        {
+            graphSettingToolTip.SetToolTip(numberTextBox,
+                String.Format(MessageResources.CommonToolTipIntMoreThan, 0));
+            graphSettingToolTip.SetToolTip(stepCountTextBox,
+                String.Format(MessageResources.CommonToolTipIntMoreThan, 0));
+            graphSettingToolTip.SetToolTip(intervalTextBox,
+                string.Format(MessageResources.CommonToolTipRange, 0, 3600));
+        }
     }
 }

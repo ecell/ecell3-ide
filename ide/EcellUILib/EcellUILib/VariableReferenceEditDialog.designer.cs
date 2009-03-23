@@ -31,8 +31,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VariableReferenceEditDialog));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgv = new System.Windows.Forms.DataGridView();
             this.ReferenceName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FullID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,6 +42,7 @@
             this.cancelButton = new System.Windows.Forms.Button();
             this.okButton = new System.Windows.Forms.Button();
             this.AddVarButton = new System.Windows.Forms.Button();
+            this.variableReferenceToolTip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -77,8 +79,8 @@
             // Coefficient
             // 
             this.Coefficient.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.Coefficient.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.Coefficient.DefaultCellStyle = dataGridViewCellStyle2;
             resources.ApplyResources(this.Coefficient, "Coefficient");
             this.Coefficient.Name = "Coefficient";
             // 
@@ -122,6 +124,7 @@
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.cancelButton);
             this.Name = "VariableReferenceEditDialog";
+            this.Load += new System.EventHandler(this.VariableReferenceEditDialog_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.VariableReferenceEditDialogClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.ResumeLayout(false);
@@ -138,5 +141,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ReferenceName;
         private System.Windows.Forms.DataGridViewTextBoxColumn FullID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Coefficient;
+        private System.Windows.Forms.ToolTip variableReferenceToolTip;
     }
 }

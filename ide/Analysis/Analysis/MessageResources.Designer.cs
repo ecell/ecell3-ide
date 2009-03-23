@@ -61,6 +61,51 @@ namespace Ecell.IDE.Plugins.Analysis {
         }
         
         /// <summary>
+        ///   Set integer more than {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CommonToolTipIntMoreThan {
+            get {
+                return ResourceManager.GetString("CommonToolTipIntMoreThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set number more than {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CommonToolTipMoreThan {
+            get {
+                return ResourceManager.GetString("CommonToolTipMoreThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set number more than {0} and equal to or less then {1}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CommonToolTipMoreThanLower {
+            get {
+                return ResourceManager.GetString("CommonToolTipMoreThanLower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set number more than {0} and equal to or more then {1}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CommonToolTipMoreThanUpper {
+            get {
+                return ResourceManager.GetString("CommonToolTipMoreThanUpper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set number in the range {0} - {1}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CommonToolTipRange {
+            get {
+                return ResourceManager.GetString("CommonToolTipRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Some errors occurred in the parameters. Do you want to proceed to the result? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmFindErrorJob {
@@ -75,141 +120,6 @@ namespace Ecell.IDE.Plugins.Analysis {
         internal static string ConfirmStopAnalysis {
             get {
                 return ResourceManager.GetString("ConfirmStopAnalysis", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Input the absolute perturbation at the defalut value. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogToolTipAbsolutePert {
-            get {
-                return ResourceManager.GetString("DialogToolTipAbsolutePert", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Input the iteration of analysis as the generation. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogToolTipGeneration {
-            get {
-                return ResourceManager.GetString("DialogToolTipGeneration", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Input the max frequency used in FFT. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogToolTipMaxFFT {
-            get {
-                return ResourceManager.GetString("DialogToolTipMaxFFT", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Input the max number of data to calculate FFT. This value should be smaller than 8192. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogToolTipMaxInputSize {
-            get {
-                return ResourceManager.GetString("DialogToolTipMaxInputSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Input the min frequency used in FFT. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogToolTipMinFFT {
-            get {
-                return ResourceManager.GetString("DialogToolTipMinFFT", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Input the parameter to judge whether this system is stabile. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogToolTipObservedGrid {
-            get {
-                return ResourceManager.GetString("DialogToolTipObservedGrid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Input the parameter changed the value to judge the stability of system. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogToolTipParameterGrid {
-            get {
-                return ResourceManager.GetString("DialogToolTipParameterGrid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Input the population at the generation. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogToolTipPopulation {
-            get {
-                return ResourceManager.GetString("DialogToolTipPopulation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Input the relative perturbation at the defalut value. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogToolTipRelativePert {
-            get {
-                return ResourceManager.GetString("DialogToolTipRelativePert", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Input the number of samples to check the stability of system. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogToolTipSampleNumber {
-            get {
-                return ResourceManager.GetString("DialogToolTipSampleNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Input the simulation time to get the data used by judgement. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogToolTipSimulationTime {
-            get {
-                return ResourceManager.GetString("DialogToolTipSimulationTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Input the number of step to get the change of value to calculate the sensitivity. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogToolTipStep {
-            get {
-                return ResourceManager.GetString("DialogToolTipStep", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Input the unknown parameter to search the optimal value. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogToolTipUnknownParameterGrid {
-            get {
-                return ResourceManager.GetString("DialogToolTipUnknownParameterGrid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Input the time size of data used by judgement. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogToolTipWindowSize {
-            get {
-                return ResourceManager.GetString("DialogToolTipWindowSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Input the estimation formulator used in the judgement. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string DialogToopTipEstimation {
-            get {
-                return ResourceManager.GetString("DialogToopTipEstimation", resourceCulture);
             }
         }
         

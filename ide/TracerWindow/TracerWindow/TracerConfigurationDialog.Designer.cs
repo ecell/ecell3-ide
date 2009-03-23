@@ -31,6 +31,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Label label1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TracerConfigurationDialog));
             System.Windows.Forms.Label label3;
@@ -44,6 +45,7 @@
             this.TSCloseButton = new System.Windows.Forms.Button();
             this.stepCountTextBox = new System.Windows.Forms.TextBox();
             this.valueFormatComboBox = new System.Windows.Forms.ComboBox();
+            this.graphSettingToolTip = new System.Windows.Forms.ToolTip(this.components);
             label1 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
@@ -149,6 +151,7 @@
             this.Controls.Add(label1);
             this.Controls.Add(this.numberTextBox);
             this.Name = "TracerConfigurationDialog";
+            this.Load += new System.EventHandler(this.TracerConfigurationDialog_Load);
             this.Shown += new System.EventHandler(this.TracerWinSetupShown);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TracerConfigurationDialog_FormClosing);
             this.ResumeLayout(false);
@@ -170,5 +173,6 @@
         private System.Windows.Forms.TextBox intervalTextBox;
         private System.Windows.Forms.TextBox stepCountTextBox;
         private System.Windows.Forms.ComboBox valueFormatComboBox;
+        private System.Windows.Forms.ToolTip graphSettingToolTip;
     }
 }

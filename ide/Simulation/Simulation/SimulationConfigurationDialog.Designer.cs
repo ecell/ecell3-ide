@@ -34,10 +34,8 @@
             System.Windows.Forms.TabPage perModelSimulationParametersPage;
             System.Windows.Forms.TabPage stepperDefinitionsPage;
             System.Windows.Forms.Label label2;
-            System.Windows.Forms.Button button1;
             System.Windows.Forms.Label label1;
             System.Windows.Forms.Label label7;
-            System.Windows.Forms.Button button2;
             System.Windows.Forms.Label label6;
             System.Windows.Forms.Label label5;
             System.Windows.Forms.Label label3;
@@ -47,6 +45,7 @@
             this.valueDataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.initialConditionsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.SCreStepperButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dgv = new System.Windows.Forms.DataGridView();
             this.keyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,6 +54,7 @@
             this.propertiesBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.steppersBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.stepCombo = new System.Windows.Forms.ComboBox();
+            this.SDelStepperButton = new System.Windows.Forms.Button();
             this.stepperListBox = new System.Windows.Forms.ListBox();
             this.modelCombo = new System.Windows.Forms.ComboBox();
             this.perModelSimulationParameterBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -79,14 +79,13 @@
             this.freqByStepRadio = new System.Windows.Forms.RadioButton();
             this.freqByStepTextBox = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.simSettingToolTip = new System.Windows.Forms.ToolTip(this.components);
             initialParametersPage = new System.Windows.Forms.TabPage();
             perModelSimulationParametersPage = new System.Windows.Forms.TabPage();
             stepperDefinitionsPage = new System.Windows.Forms.TabPage();
             label2 = new System.Windows.Forms.Label();
-            button1 = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
             label7 = new System.Windows.Forms.Label();
-            button2 = new System.Windows.Forms.Button();
             label6 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
@@ -176,9 +175,9 @@
             // stepperDefinitionsPage
             // 
             stepperDefinitionsPage.Controls.Add(label2);
-            stepperDefinitionsPage.Controls.Add(button1);
+            stepperDefinitionsPage.Controls.Add(this.SCreStepperButton);
             stepperDefinitionsPage.Controls.Add(this.panel1);
-            stepperDefinitionsPage.Controls.Add(button2);
+            stepperDefinitionsPage.Controls.Add(this.SDelStepperButton);
             stepperDefinitionsPage.Controls.Add(this.stepperListBox);
             resources.ApplyResources(stepperDefinitionsPage, "stepperDefinitionsPage");
             stepperDefinitionsPage.Name = "stepperDefinitionsPage";
@@ -189,12 +188,12 @@
             resources.ApplyResources(label2, "label2");
             label2.Name = "label2";
             // 
-            // button1
+            // SCreStepperButton
             // 
-            resources.ApplyResources(button1, "button1");
-            button1.Name = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += new System.EventHandler(this.AddStepperClick);
+            resources.ApplyResources(this.SCreStepperButton, "SCreStepperButton");
+            this.SCreStepperButton.Name = "SCreStepperButton";
+            this.SCreStepperButton.UseVisualStyleBackColor = true;
+            this.SCreStepperButton.Click += new System.EventHandler(this.AddStepperClick);
             // 
             // panel1
             // 
@@ -268,12 +267,12 @@
             this.stepCombo.Name = "stepCombo";
             this.stepCombo.SelectedValueChanged += new System.EventHandler(this.stepCombo_SelectedValueChanged);
             // 
-            // button2
+            // SDelStepperButton
             // 
-            resources.ApplyResources(button2, "button2");
-            button2.Name = "button2";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += new System.EventHandler(this.DeleteStepperClick);
+            resources.ApplyResources(this.SDelStepperButton, "SDelStepperButton");
+            this.SDelStepperButton.Name = "SDelStepperButton";
+            this.SDelStepperButton.UseVisualStyleBackColor = true;
+            this.SDelStepperButton.Click += new System.EventHandler(this.DeleteStepperClick);
             // 
             // stepperListBox
             // 
@@ -495,6 +494,7 @@
             this.Controls.Add(this.configurationLabel);
             this.Controls.Add(this.paramCombo);
             this.Name = "SimulationConfigurationDialog";
+            this.Load += new System.EventHandler(this.SimulationConfigurationDialog_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SetupKeyPress);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SimulationConfigurationDialog_FormClosing);
             initialParametersPage.ResumeLayout(false);
@@ -565,5 +565,8 @@
         private System.Windows.Forms.BindingSource initialConditionsBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn keyDataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn valueDataGridViewTextBoxColumn1;
+        private System.Windows.Forms.ToolTip simSettingToolTip;
+        private System.Windows.Forms.Button SCreStepperButton;
+        private System.Windows.Forms.Button SDelStepperButton;
     }
 }

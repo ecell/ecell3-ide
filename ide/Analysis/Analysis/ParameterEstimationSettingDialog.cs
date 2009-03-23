@@ -218,11 +218,12 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e"></param>
         private void FormLoad(object sender, EventArgs e)
         {
-            parameterEstimationToolTip.SetToolTip(parameterEstimationSimulationTimeTextBox, MessageResources.DialogToolTipSimulationTime);
-            parameterEstimationToolTip.SetToolTip(parameterEstimationGenerationTextBox, MessageResources.DialogToolTipGeneration);
-            parameterEstimationToolTip.SetToolTip(parameterEstimationPopulationTextBox, MessageResources.DialogToolTipPopulation);
-            parameterEstimationToolTip.SetToolTip(estimationFormulatorTextBox, MessageResources.DialogToopTipEstimation);
-            parameterEstimationToolTip.SetToolTip(groupBox3, MessageResources.DialogToolTipUnknownParameterGrid);
+            parameterEstimationToolTip.SetToolTip(parameterEstimationSimulationTimeTextBox,
+                String.Format(MessageResources.CommonToolTipMoreThan, 0.0));
+            parameterEstimationToolTip.SetToolTip(parameterEstimationGenerationTextBox,
+                String.Format(MessageResources.CommonToolTipIntMoreThan, 0));
+            parameterEstimationToolTip.SetToolTip(parameterEstimationPopulationTextBox,
+                String.Format(MessageResources.CommonToolTipIntMoreThan, 0));
             estimationTypeComboBox.SelectedIndex = 0;
         }
         /// <summary>

@@ -181,8 +181,6 @@ namespace Ecell.IDE.Plugins.Analysis
             m_param.Max = dummy;
         }
 
-        #endregion
-
         private void ParameterEstimationAdvancedSettingDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult == DialogResult.Cancel) return;
@@ -217,5 +215,22 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
         }
+
+
+        private void ParameterEstimationAdvancedSettingDialog_Load(object sender, EventArgs e)
+        {
+            parameterEstimationAdvancedToolTip.SetToolTip(PEMTextBox,
+                String.Format(MessageResources.CommonToolTipIntMoreThan, 0));
+            parameterEstimationAdvancedToolTip.SetToolTip(PEUpsilonTextBox,
+                String.Format(MessageResources.CommonToolTipMoreThan, 0.0));
+            parameterEstimationAdvancedToolTip.SetToolTip(PEM0TextBox,
+                String.Format(MessageResources.CommonToolTipMoreThan, 1.0));
+            parameterEstimationAdvancedToolTip.SetToolTip(PEKTextBox,
+                String.Format(MessageResources.CommonToolTipMoreThan, 1.0));
+            parameterEstimationAdvancedToolTip.SetToolTip(PEMaxRateTextBox,
+                String.Format(MessageResources.CommonToolTipIntMoreThan, 0));
+        }
+
+        #endregion
     }
 }

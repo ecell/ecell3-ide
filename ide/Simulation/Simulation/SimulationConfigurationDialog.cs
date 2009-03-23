@@ -822,5 +822,13 @@ namespace Ecell.IDE.Plugins.Simulation
                 }
             }
         }
+
+        private void SimulationConfigurationDialog_Load(object sender, EventArgs e)
+        {
+            simSettingToolTip.SetToolTip(SSCreateButton, MessageResources.DialogToolTipCreSim);
+            simSettingToolTip.SetToolTip(SSDeleteButton, MessageResources.DialogToolTipDeleteSim);
+            simSettingToolTip.SetToolTip(SCreStepperButton, MessageResources.DialogToolTipCreStepper);
+            simSettingToolTip.SetToolTip(SDelStepperButton, MessageResources.DialogToolTipDelStepper);
+        }
     }
 }

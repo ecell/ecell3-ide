@@ -120,6 +120,18 @@
   <data name="ConfirmReset" xml:space="preserve">
     <value>Are you sure you want to reset the simulation? The edited paramters is reset while the simulation is executed.</value>
   </data>
+  <data name="DialogToolTipCreSim" xml:space="preserve">
+    <value>Create new simulation configration</value>
+  </data>
+  <data name="DialogToolTipCreStepper" xml:space="preserve">
+    <value>Create the new Stepper</value>
+  </data>
+  <data name="DialogToolTipDeleteSim" xml:space="preserve">
+    <value>Delete simulation configration</value>
+  </data>
+  <data name="DialogToolTipDelStepper" xml:space="preserve">
+    <value>Delete the Stepper</value>
+  </data>
   <data name="ErrAlreadyExist" xml:space="preserve">
     <value>{0} is already exist.</value>
   </data>

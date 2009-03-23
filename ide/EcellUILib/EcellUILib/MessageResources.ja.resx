@@ -123,6 +123,12 @@
   <data name="ButtonDeleteProperty" xml:space="preserve">
     <value>削除</value>
   </data>
+  <data name="DialogToolTipAddVar" xml:space="preserve">
+    <value>Variable Referencesの追加</value>
+  </data>
+  <data name="DialogToolTipDeleteVar" xml:space="preserve">
+    <value>選択したVariable Referencesの削除</value>
+  </data>
   <data name="ErrAddProperty" xml:space="preserve">
     <value>プロパティを追加できません。</value>
   </data>

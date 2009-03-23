@@ -61,6 +61,24 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
+        ///   Set integer more than {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CommonToolTipIntMoreThan {
+            get {
+                return ResourceManager.GetString("CommonToolTipIntMoreThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set number in the range {0} - {1}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CommonToolTipRange {
+            get {
+                return ResourceManager.GetString("CommonToolTipRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Do you want to close this window? に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ConfirmClose {

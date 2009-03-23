@@ -120,6 +120,18 @@
   <data name="ConfirmReset" xml:space="preserve">
     <value>シミュレーション実行をリセットしますか？　実行中に変更したパラメーターはすべてリセットされます。</value>
   </data>
+  <data name="DialogToolTipCreSim" xml:space="preserve">
+    <value>シミュレーション設定の新規作成</value>
+  </data>
+  <data name="DialogToolTipCreStepper" xml:space="preserve">
+    <value>Stepperの新規作成</value>
+  </data>
+  <data name="DialogToolTipDeleteSim" xml:space="preserve">
+    <value>選択しているシミュレーション設定の削除</value>
+  </data>
+  <data name="DialogToolTipDelStepper" xml:space="preserve">
+    <value>選択しているStepperの削除</value>
+  </data>
   <data name="ErrAlreadyExist" xml:space="preserve">
     <value>{0} は既に存在します。</value>
   </data>

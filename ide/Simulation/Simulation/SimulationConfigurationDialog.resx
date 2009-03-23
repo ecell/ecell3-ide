@@ -225,31 +225,28 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="button1.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="SCreStepperButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>101, 6</value>
   </data>
-  <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="SCreStepperButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>29, 23</value>
   </data>
-  <data name="button1.TabIndex" type="System.Int32, mscorlib">
+  <data name="SCreStepperButton.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
-  <data name="button1.Text" xml:space="preserve">
+  <data name="SCreStepperButton.Text" xml:space="preserve">
     <value>+</value>
   </data>
-  <data name="&gt;&gt;button1.Name" xml:space="preserve">
-    <value>button1</value>
+  <data name="&gt;&gt;SCreStepperButton.Name" xml:space="preserve">
+    <value>SCreStepperButton</value>
   </data>
-  <data name="&gt;&gt;button1.Type" xml:space="preserve">
+  <data name="&gt;&gt;SCreStepperButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;button1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;SCreStepperButton.Parent" xml:space="preserve">
     <value>stepperDefinitionsPage</value>
   </data>
-  <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;SCreStepperButton.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="panel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -316,7 +313,7 @@
     <value>6, 6, 6, 6</value>
   </data>
   <data name="dgv.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 146</value>
+    <value>207, 134</value>
   </data>
   <data name="dgv.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -379,7 +376,7 @@
     <value>6, 6, 6, 6</value>
   </data>
   <data name="stepCombo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 20</value>
+    <value>207, 20</value>
   </data>
   <data name="stepCombo.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -417,31 +414,28 @@
   <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <metadata name="button2.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <data name="button2.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="SDelStepperButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>136, 6</value>
   </data>
-  <data name="button2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="SDelStepperButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>29, 23</value>
   </data>
-  <data name="button2.TabIndex" type="System.Int32, mscorlib">
+  <data name="SDelStepperButton.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
-  <data name="button2.Text" xml:space="preserve">
+  <data name="SDelStepperButton.Text" xml:space="preserve">
     <value>-</value>
   </data>
-  <data name="&gt;&gt;button2.Name" xml:space="preserve">
-    <value>button2</value>
+  <data name="&gt;&gt;SDelStepperButton.Name" xml:space="preserve">
+    <value>SDelStepperButton</value>
   </data>
-  <data name="&gt;&gt;button2.Type" xml:space="preserve">
+  <data name="&gt;&gt;SDelStepperButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;button2.Parent" xml:space="preserve">
+  <data name="&gt;&gt;SDelStepperButton.Parent" xml:space="preserve">
     <value>stepperDefinitionsPage</value>
   </data>
-  <data name="&gt;&gt;button2.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;SDelStepperButton.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="stepperListBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -1236,11 +1230,14 @@
   <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>89</value>
+  <metadata name="simSettingToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>402, 54</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>89</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 12</value>
@@ -1476,6 +1473,12 @@
   </data>
   <data name="&gt;&gt;m_simParamSets.Type" xml:space="preserve">
     <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;simSettingToolTip.Name" xml:space="preserve">
+    <value>simSettingToolTip</value>
+  </data>
+  <data name="&gt;&gt;simSettingToolTip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SimulationConfigurationDialog</value>

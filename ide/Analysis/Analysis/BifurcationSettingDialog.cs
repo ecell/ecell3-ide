@@ -169,13 +169,16 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e"></param>
         private void FormLoad(object sender, EventArgs e)
         {
-            bifurcationToolTip.SetToolTip(bifurcationSimulationTimeTextBox, MessageResources.DialogToolTipSimulationTime);
-            bifurcationToolTip.SetToolTip(bifurcationWindowSizeTextBox, MessageResources.DialogToolTipWindowSize);
-            bifurcationToolTip.SetToolTip(bifurcationMaxFrequencyTextBox, MessageResources.DialogToolTipMaxFFT);
-            bifurcationToolTip.SetToolTip(bifurcationMinFrequencyTextBox, MessageResources.DialogToolTipMinFFT);
-            bifurcationToolTip.SetToolTip(groupBox3, MessageResources.DialogToolTipParameterGrid);
-            bifurcationToolTip.SetToolTip(groupBox4, MessageResources.DialogToolTipObservedGrid);
-            bifurcationToolTip.SetToolTip(bifurcationMaxInputTextBox, MessageResources.DialogToolTipMaxInputSize);            
+            bifurcationToolTip.SetToolTip(bifurcationSimulationTimeTextBox,
+                String.Format(MessageResources.CommonToolTipMoreThan, 0.0));
+            bifurcationToolTip.SetToolTip(bifurcationWindowSizeTextBox, 
+                String.Format(MessageResources.CommonToolTipMoreThan, 0.0));
+            bifurcationToolTip.SetToolTip(bifurcationMaxFrequencyTextBox,
+                String.Format(MessageResources.CommonToolTipMoreThanUpper, 0.0, MessageResources.NameMinFrequency));
+            bifurcationToolTip.SetToolTip(bifurcationMinFrequencyTextBox,
+                String.Format(MessageResources.CommonToolTipMoreThanLower, 0.0, MessageResources.NameMaxFrequency));
+            bifurcationToolTip.SetToolTip(bifurcationMaxInputTextBox,
+                String.Format(MessageResources.CommonToolTipRange, 0, 2097152));     
         }
         /// <summary>
         /// 
@@ -434,7 +437,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
 
-            if (m_param.MaxInput <= 0)
+            if (m_param.MaxInput <= 0 || m_param.MaxInput > 2097152)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMaxSample));
                 e.Cancel = true;

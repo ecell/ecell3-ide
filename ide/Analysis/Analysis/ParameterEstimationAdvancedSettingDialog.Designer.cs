@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Label label4;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParameterEstimationAdvancedSettingDialog));
             System.Windows.Forms.Label label5;
@@ -43,6 +44,7 @@
             this.PEMaxRateTextBox = new System.Windows.Forms.TextBox();
             this.PEKTextBox = new System.Windows.Forms.TextBox();
             this.PEM0TextBox = new System.Windows.Forms.TextBox();
+            this.parameterEstimationAdvancedToolTip = new System.Windows.Forms.ToolTip(this.components);
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
@@ -154,6 +156,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "ParameterEstimationAdvancedSettingDialog";
+            this.Load += new System.EventHandler(this.ParameterEstimationAdvancedSettingDialog_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ParameterEstimationAdvancedSettingDialog_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -177,5 +180,6 @@
         /// Apply button.
         /// </summary>
         public System.Windows.Forms.Button PEAApplyButton;
+        private System.Windows.Forms.ToolTip parameterEstimationAdvancedToolTip;
     }
 }

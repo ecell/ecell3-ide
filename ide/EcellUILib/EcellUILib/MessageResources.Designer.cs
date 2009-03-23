@@ -79,6 +79,24 @@ namespace Ecell.IDE {
         }
         
         /// <summary>
+        ///   Create the Variable References. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogToolTipAddVar {
+            get {
+                return ResourceManager.GetString("DialogToolTipAddVar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete the Variable References. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogToolTipDeleteVar {
+            get {
+                return ResourceManager.GetString("DialogToolTipDeleteVar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot add the property. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrAddProperty {

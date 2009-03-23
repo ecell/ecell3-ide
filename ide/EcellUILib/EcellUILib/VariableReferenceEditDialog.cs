@@ -411,5 +411,13 @@ namespace Ecell.IDE
                 }
             }
         }
+
+        private void VariableReferenceEditDialog_Load(object sender, EventArgs e)
+        {
+            variableReferenceToolTip.SetToolTip(AddVarButton,
+                MessageResources.DialogToolTipAddVar);
+            variableReferenceToolTip.SetToolTip(DeleteVarButton,
+                MessageResources.DialogToolTipDeleteVar);
+        }
     }
 }

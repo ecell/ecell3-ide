@@ -70,6 +70,42 @@ namespace Ecell.IDE.Plugins.Simulation {
         }
         
         /// <summary>
+        ///   Create new simulation configration に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogToolTipCreSim {
+            get {
+                return ResourceManager.GetString("DialogToolTipCreSim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Create the new Stepper に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogToolTipCreStepper {
+            get {
+                return ResourceManager.GetString("DialogToolTipCreStepper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete simulation configration に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogToolTipDeleteSim {
+            get {
+                return ResourceManager.GetString("DialogToolTipDeleteSim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete the Stepper に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DialogToolTipDelStepper {
+            get {
+                return ResourceManager.GetString("DialogToolTipDelStepper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} is already exist. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrAlreadyExist {

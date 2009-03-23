@@ -192,13 +192,18 @@ namespace Ecell.IDE.Plugins.Analysis
         /// <param name="e"></param>
         private void FormLoad(object sender, EventArgs e)
         {
-            robustToolTip.SetToolTip(robustAnalysisSimulationTimeTextBox, MessageResources.DialogToolTipSimulationTime);
-            robustToolTip.SetToolTip(robustAnalysisWindowSizeTextBox, MessageResources.DialogToolTipWindowSize);
-            robustToolTip.SetToolTip(robustAnalysisMaxSampleTextBox, MessageResources.DialogToolTipMaxInputSize);
-            robustToolTip.SetToolTip(robustAnalysisMaxFrequencyTextBox, MessageResources.DialogToolTipMaxFFT);
-            robustToolTip.SetToolTip(robustAnalysisMinFrequencyTextBox, MessageResources.DialogToolTipMinFFT);
-            robustToolTip.SetToolTip(robustAnalysisSampleNumberTextBox, MessageResources.DialogToolTipSampleNumber);
-            robustToolTip.SetToolTip(groupBox4, MessageResources.DialogToolTipParameterGrid);
+            robustToolTip.SetToolTip(robustAnalysisSimulationTimeTextBox, 
+                String.Format(MessageResources.CommonToolTipMoreThan, 0.0));
+            robustToolTip.SetToolTip(robustAnalysisWindowSizeTextBox, 
+                String.Format(MessageResources.CommonToolTipMoreThan, 0.0));
+            robustToolTip.SetToolTip(robustAnalysisMaxSampleTextBox,
+                String.Format(MessageResources.CommonToolTipRange, 0, 2097152));
+            robustToolTip.SetToolTip(robustAnalysisMaxFrequencyTextBox,
+                String.Format(MessageResources.CommonToolTipMoreThanUpper, 0.0, MessageResources.NameMinFrequency));
+            robustToolTip.SetToolTip(robustAnalysisMinFrequencyTextBox, 
+                String.Format(MessageResources.CommonToolTipMoreThanLower, 0.0, MessageResources.NameMaxFrequency));
+            robustToolTip.SetToolTip(robustAnalysisSampleNumberTextBox,
+                String.Format(MessageResources.CommonToolTipIntMoreThan, 0));
         }
         /// <summary>
         /// 
@@ -498,7 +503,7 @@ namespace Ecell.IDE.Plugins.Analysis
                 return;
             }
 
-            if (m_param.MaxData <= 0)
+            if (m_param.MaxData <= 0 || m_param.MaxData > 2097152)
             {
                 Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue, MessageResources.NameMaxSample));
                 e.Cancel = true;
