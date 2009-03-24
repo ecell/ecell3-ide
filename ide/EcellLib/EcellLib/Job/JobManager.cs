@@ -571,7 +571,6 @@ namespace Ecell.Job
         /// <param name="jobid">stop the ID of job.</param>
         public void Stop(int jobid)
         {
-            if (jobid < 0) return;
             if (jobid == 0)
             {
                 foreach (int id in m_sessionList.Keys)
@@ -581,7 +580,7 @@ namespace Ecell.Job
                 m_timer.Enabled = false;
                 m_timer.Stop();
             }
-            else
+            else if (jobid > 0)
             {
                 m_sessionList[jobid].stop();
             }
@@ -632,12 +631,10 @@ namespace Ecell.Job
         /// <returns>Directory path.</returns>
         public string GetJobDirectory(int jobid)
         {
-            if (jobid <= 0) return null;
+            string dir = null;
             if (m_sessionList.ContainsKey(jobid))
-            {
-                return m_sessionList[jobid].JobDirectory;
-            }
-            return null;
+                dir = m_sessionList[jobid].JobDirectory;
+            return dir;
         }
 
         /// <summary>
@@ -673,7 +670,8 @@ namespace Ecell.Job
         /// <returns>options for SystemProxy.</returns>
         public string GetOptionList()
         {
-            if (m_proxy == null) return null;
+            if (m_proxy == null)
+                return null;
             Dictionary<string, object> dic = GetEnvironmentProperty();
             string result = "";
             foreach (string opt in dic.Keys)
@@ -732,7 +730,6 @@ namespace Ecell.Job
         public void SetParameterRange(List<EcellParameterData> pList)
         {
             m_paramList.Clear();
-
             foreach (EcellParameterData p in pList)
             {
                 m_paramList.Add(p);

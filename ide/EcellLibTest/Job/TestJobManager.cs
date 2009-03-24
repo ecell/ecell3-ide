@@ -34,6 +34,7 @@ namespace Ecell.Job
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.IO;
+    using Ecell.Objects;
 
     /// <summary>
     /// 
@@ -580,31 +581,33 @@ namespace Ecell.Job
         [Test()]
         public void TestGetOptionList()
         {
-            string expectedString = "";
+            string expectedString = " Test \"Test\"";
             string resultString = null;
+
+            Dictionary<string, object> dic = new Dictionary<string, object>();
+            dic.Add("Test", "Test");
+            _unitUnderTest.Proxy.SetProperty(dic);
             resultString = _unitUnderTest.GetOptionList();
             Assert.AreEqual(expectedString, resultString, "GetOptionList method returned unexpected result.");
 
+            _unitUnderTest.Proxy = null;
+            expectedString = null;
+            resultString = _unitUnderTest.GetOptionList();
+            Assert.AreEqual(expectedString, resultString, "GetOptionList method returned unexpected result.");
         }
         /// <summary>
         /// 
         /// </summary>
         [Test()]
-        public void TestSetLoggerData()
+        public void TestCreateExecuteParameter()
         {
-            System.Collections.Generic.List<Ecell.SaveLoggerProperty> sList = null;
-            _unitUnderTest.SetLoggerData(sList);
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestSetParameterRange()
-        {
-            System.Collections.Generic.List<Ecell.Objects.EcellParameterData> pList = null;
+            List<EcellParameterData> pList = new List<EcellParameterData>();
+            pList.Add(new EcellParameterData("", 0.0));
             _unitUnderTest.SetParameterRange(pList);
 
+            ExecuteParameter resultExecuteParameter = null;
+            resultExecuteParameter = _unitUnderTest.CreateExecuteParameter();
+            Assert.IsNotNull(resultExecuteParameter, "CreateExecuteParameter method returned unexpected result.");
         }
         /// <summary>
         /// 
@@ -613,8 +616,8 @@ namespace Ecell.Job
         public void TestRunSimParameterSet()
         {
             _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
-
-            string topDir = TestConstant.TestDirectory + "TestJob";
+            LocalJob.ClearJobID();
+            string topDir = TestConstant.TestDirectory + "TestJob1";
             string modelName = "Drosophila";
             double count = 10;
             bool isStep = false;
@@ -622,14 +625,98 @@ namespace Ecell.Job
             Dictionary<int, ExecuteParameter> setparam = new Dictionary<int, ExecuteParameter>();
             Dictionary<string, double> data = new Dictionary<string, double>();
             data.Add("Variable:/CELL/CYTOPLASM:P0:Value", 0.0);
+            data.Add("System:/CELL:CYTOPLASM:Size", 1e-10);
             ExecuteParameter param = new ExecuteParameter(data);
             setparam.Add(0, param);
 
             Dictionary<int, ExecuteParameter> expectedDictionary = new Dictionary<int, ExecuteParameter>();
             Dictionary<int, ExecuteParameter> resultDictionary = new Dictionary<int, ExecuteParameter>();
             resultDictionary = _unitUnderTest.RunSimParameterSet(topDir, modelName, count, isStep, setparam);
-
             Assert.AreEqual(expectedDictionary, resultDictionary, "RunSimParameterSet method returned unexpected result.");
+            //
+            SetLoggerData();
+            isStep = true;
+            resultDictionary = _unitUnderTest.RunSimParameterSet(topDir, modelName, count, isStep, setparam);
+            Assert.IsNotEmpty(resultDictionary, "RunSimParameterSet method returned unexpected result.");
+
+            _unitUnderTest.GetJobDirectory(1);
+            _unitUnderTest.GetStdout(1);
+            _unitUnderTest.GetStderr(1);
+            _unitUnderTest.GetSessionProxy(1);
+            _unitUnderTest.GetSessionProxy(-1);
+            _unitUnderTest.Stop(0);
+            _unitUnderTest.Stop(1);
+
+            _unitUnderTest.JobList[1].Status = JobStatus.NONE;
+            _unitUnderTest.StopRunningJobs();
+            _unitUnderTest.JobList[1].Status = JobStatus.NONE;
+            _unitUnderTest.RunWaitFinish();
+
+            if (Directory.Exists(topDir))
+                Directory.Delete(topDir, true);
+        }
+
+        private void SetLoggerData()
+        {
+            _env.PluginManager.ChangeStatus(ProjectStatus.Analysis);
+            _env.DataManager.SetObservedData(new EcellObservedData("Variable:/CELL/CYTOPLASM:P0:Value", 5.0));
+
+            List<SaveLoggerProperty> resList = new List<SaveLoggerProperty>();
+            List<EcellObservedData> obsList = _env.DataManager.GetObservedData();
+
+            foreach (EcellObservedData data in obsList)
+            {
+                String dir = _env.JobManager.TmpDir;
+                string path = data.Key;
+                double start = 0.0;
+                double end = 100;
+
+                SaveLoggerProperty p = new SaveLoggerProperty(path, start, end, dir);
+                resList.Add(p);
+            }
+            _unitUnderTest.SetLoggerData(resList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestSetParameterRange()
+        {
+            List<EcellParameterData> pList = new List<EcellParameterData>();
+            pList.Add(new EcellParameterData("", 0.0));
+            _unitUnderTest.SetParameterRange(pList);
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestRunSimParameterRange()
+        {
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
+
+            string topDir = TestConstant.TestDirectory + "TestJob";
+            string modelName = "Drosophila";
+            double count = 10;
+            bool isStep = false;
+            int num = 3;
+
+            List<EcellParameterData> list = new List<EcellParameterData>();
+            list.Add(new EcellParameterData("Variable:/CELL/CYTOPLASM:M:Value", 2.0, 0.0, 0.0));
+            list.Add(new EcellParameterData("System:/CELL:CYTOPLASM:Size", 1e-10, 1e-11, 4.5e-11));
+            _unitUnderTest.SetParameterRange(list);
+
+            Dictionary<int, ExecuteParameter> expectedDictionary = new Dictionary<int, ExecuteParameter>();
+            Dictionary<int, ExecuteParameter> resultDictionary = null;
+            resultDictionary = _unitUnderTest.RunSimParameterRange(topDir, modelName, num, count, isStep);
+            Assert.AreEqual(expectedDictionary, resultDictionary, "RunSimParameterRange method returned unexpected result.");
+
+            isStep = true;
+            SetLoggerData();
+            resultDictionary = _unitUnderTest.RunSimParameterRange(topDir, modelName, num, count, isStep);
+            Assert.IsNotEmpty(resultDictionary, "RunSimParameterRange method returned unexpected result.");
 
             if (Directory.Exists(topDir))
                 Directory.Delete(topDir, true);
@@ -639,43 +726,44 @@ namespace Ecell.Job
         /// 
         /// </summary>
         [Test()]
-        public void TestRunSimParameterRange()
-        {
-            string topDir = null;
-            string modelName = null;
-            int num = 0;
-            double count = 0;
-            bool isStep = false;
-            System.Collections.Generic.Dictionary<System.Int32, Ecell.Job.ExecuteParameter> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.Int32, Ecell.Job.ExecuteParameter> resultDictionary = null;
-            resultDictionary = _unitUnderTest.RunSimParameterRange(topDir, modelName, num, count, isStep);
-            Assert.AreEqual(expectedDictionary, resultDictionary, "RunSimParameterRange method returned unexpected result.");
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestCreateExecuteParameter()
-        {
-            ExecuteParameter resultExecuteParameter = null;
-            resultExecuteParameter = _unitUnderTest.CreateExecuteParameter();
-            Assert.IsNotNull(resultExecuteParameter, "CreateExecuteParameter method returned unexpected result.");
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
         public void TestRunSimParameterMatrix()
         {
-            string topDir = null;
-            string modelName = null;
-            double count = 0;
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
+
+            string topDir = TestConstant.TestDirectory + "TestJob";
+            string modelName = "Drosophila";
+            double count = 10;
             bool isStep = false;
-            System.Collections.Generic.Dictionary<System.Int32, Ecell.Job.ExecuteParameter> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.Int32, Ecell.Job.ExecuteParameter> resultDictionary = null;
+
+            if (Directory.Exists(topDir))
+                Directory.Delete(topDir, true);
+
+            Dictionary<int, ExecuteParameter> expectedDictionary = new Dictionary<int, ExecuteParameter>();
+            Dictionary<int, ExecuteParameter> resultDictionary = null;
             resultDictionary = _unitUnderTest.RunSimParameterMatrix(topDir, modelName, count, isStep);
             Assert.AreEqual(expectedDictionary, resultDictionary, "RunSimParameterMatrix method returned unexpected result.");
+
+            List<EcellParameterData> list = new List<EcellParameterData>();
+            list.Add(new EcellParameterData("Variable:/CELL/CYTOPLASM:M:Value", 2.0, 0.0, 1.0));
+            list.Add(new EcellParameterData("System:/CELL:CYTOPLASM:Size", 1e-10, 1e-11, 4.5e-11));
+            _unitUnderTest.SetParameterRange(list);
+
+            SetLoggerData();
+            resultDictionary = _unitUnderTest.RunSimParameterMatrix(topDir, modelName, count, isStep);
+            Assert.IsNotEmpty(resultDictionary, "RunSimParameterMatrix method returned unexpected result.");
+
+            isStep = true;
+            _env.PluginManager.ChangeStatus(ProjectStatus.Loaded);
+            list = new List<EcellParameterData>();
+            list.Add(new EcellParameterData("System:/CELL:CYTOPLASM:Size", 1e-10, 1e-11, 4.5e-11));
+            list.Add(new EcellParameterData("Variable:/CELL/CYTOPLASM:M:Value", 2.0, 0.0, 1.0));
+            _unitUnderTest.SetParameterRange(list);
+
+            resultDictionary = _unitUnderTest.RunSimParameterMatrix(topDir, modelName, count, isStep);
+            Assert.IsEmpty(resultDictionary, "RunSimParameterMatrix method returned unexpected result.");
+
+            if (Directory.Exists(topDir))
+                Directory.Delete(topDir, true);
 
         }
     }
