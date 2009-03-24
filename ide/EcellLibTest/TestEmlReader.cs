@@ -53,7 +53,7 @@ namespace Ecell
         public void SetUp()
         {
             string[] dmDirs = Util.GetDMDirs(null);
-            string filename = "c:/temp/rbc.eml";
+            string filename = TestConstant.Model_RBC;
             WrappedSimulator sim = new EcellCoreLib.WrappedSimulator(dmDirs);
             _unitUnderTest = new EmlReader(filename, sim);
         }
@@ -72,7 +72,7 @@ namespace Ecell
         public void TestConstructorEmlReader()
         {
             string[] dmDirs = Util.GetDMDirs(null);
-            string filename = "c:/temp/rbc.eml";
+            string filename = TestConstant.Model_RBC;
             WrappedSimulator sim = new EcellCoreLib.WrappedSimulator(dmDirs);
             EmlReader testEmlReader = new EmlReader(filename, sim);
             Assert.IsNotNull(testEmlReader, "Constructor of type, EmlReader failed to create instance.");
@@ -88,7 +88,7 @@ namespace Ecell
             EcellObject resultEcellObject = null;
 
             string[] dmDirs = Util.GetDMDirs(null);
-            string filename = "c:/temp/rbc.eml";
+            string filename = TestConstant.Model_RBC;
             WrappedSimulator sim = new EcellCoreLib.WrappedSimulator(dmDirs);
             EmlReader testEmlReader = new EmlReader(filename, sim);
 
@@ -103,14 +103,14 @@ namespace Ecell
         {
             string[] dmDirs = Util.GetDMDirs(null);
             WrappedSimulator sim = new EcellCoreLib.WrappedSimulator(dmDirs);
-            string fileName = "c:/temp/rbc.eml";
+            string fileName = TestConstant.Model_RBC;
 
             EcellObject expectedEcellObject = _unitUnderTest.Parse();
             EcellObject resultEcellObject = null;
             resultEcellObject = EmlReader.Parse(fileName, sim);
             Assert.AreEqual(expectedEcellObject, resultEcellObject, "Parse method returned unexpected result.");
 
-            fileName = "c:/temp/Oscillation.eml";
+            fileName = TestConstant.Model_Oscillation;
             sim = new EcellCoreLib.WrappedSimulator(dmDirs);
             resultEcellObject = EmlReader.Parse(fileName, sim);
             Assert.IsNotNull(resultEcellObject, "Parse method returned unexpected result.");

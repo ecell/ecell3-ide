@@ -70,7 +70,7 @@ namespace Ecell
         [Test()]
         public void TestDataLoad()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
         }
         
         /// <summary>

@@ -97,7 +97,7 @@ namespace Ecell.Action
         [Test()]
         public void TestAddAction()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             EcellObject sys = _env.DataManager.CreateDefaultObject("Drosophila", "/", "System");
             _env.DataManager.DataAdd(sys);
 
@@ -113,7 +113,7 @@ namespace Ecell.Action
         [Test()]
         public void TestGetAction()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             string modelID = "Drosophila";
             string key = "/";
             string type = "System";
@@ -146,7 +146,7 @@ namespace Ecell.Action
         [Test()]
         public void TestUndoAction()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             string modelID = "Drosophila";
             string key = "/";
             string type = "System";
@@ -169,7 +169,7 @@ namespace Ecell.Action
         {
             _unitUnderTest.UndoStatusChanged += new UndoStatusChangedEvent(_unitUnderTest_UndoStatusChanged);
 
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             string modelID = "Drosophila";
             string key = "/";
             string type = "System";

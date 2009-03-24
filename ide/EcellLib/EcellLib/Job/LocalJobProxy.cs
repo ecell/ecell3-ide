@@ -66,8 +66,25 @@ namespace Ecell.Job
         /// <returns>LocalSessionProxy.</returns>
         public override Job CreateJob()
         {
-            
             return new LocalJob();
+        }
+
+        /// <summary>
+        /// Create the proxy for session with initial parameters.
+        /// </summary>
+        /// <param name="script">script file name.</param>
+        /// <param name="arg">argument of script file.</param>
+        /// <param name="extFile">extra file of script file.</param>
+        /// <param name="tmpDir">tmp directory of script file</param>
+        /// <returns>Class of proxy for session.</returns>
+        public override Job CreateJob(string script, string arg, List<string> extFile, string tmpDir)
+        {
+            LocalJob job =  new LocalJob();
+            job.ScriptFile = script;
+            job.Argument = arg;
+            job.ExtraFileList = extFile;
+            job.JobDirectory = tmpDir + "/" + job.JobID;
+            return job;
         }
 
         /// <summary>

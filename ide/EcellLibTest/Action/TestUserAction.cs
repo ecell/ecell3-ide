@@ -116,7 +116,7 @@ namespace Ecell
         [Test()]
         public void TestLoadProjectAction()
         {
-            UserAction action = new LoadProjectAction("Drosophila", "c:/temp/Drosophila/project.xml");
+            UserAction action = new LoadProjectAction("Drosophila", TestConstant.Project_Drosophila);
             Assert.IsNotNull(action, "Constructor of type, LoadProjectAction failed to create instance.");
             Type type = action.GetType();
             FieldInfo info = type.GetField("m_env", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -125,7 +125,7 @@ namespace Ecell
             Assert.AreEqual(_env, action.Environment, "Environment is unexpected value.");
             Assert.AreEqual(true, action.IsAnchor, "IsAnchor is unexpected value.");
             Assert.AreEqual(false, action.IsUndoable, "IsUndoable is unexpected value.");
-            Assert.AreEqual("LoadProjectAction:c:/temp/Drosophila/project.xml", action.ToString(), "ToString is unexpected value.");
+            Assert.AreEqual("LoadProjectAction:" + TestConstant.Project_Drosophila, action.ToString(), "ToString is unexpected value.");
 
             action.Execute();
             action.UnExecute();
@@ -137,7 +137,7 @@ namespace Ecell
         [Test()]
         public void TestDataAddAction()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
 
             string modelID = "Drosophila";
@@ -162,7 +162,7 @@ namespace Ecell
         [Test()]
         public void TestDataChangeAction()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
 
             string modelID = "Drosophila";
@@ -187,7 +187,7 @@ namespace Ecell
         [Test()]
         public void TestDataDeleteAction()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
 
             string modelID = "Drosophila";
@@ -212,7 +212,7 @@ namespace Ecell
         [Test()]
         public void TestAddSimParamAction()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
 
             UserAction action = new AddSimParamAction("newParam", true);
@@ -232,7 +232,7 @@ namespace Ecell
         [Test()]
         public void TestDeleteSimParamAction()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
             _env.DataManager.CreateSimulationParameter("newParam");
 
@@ -253,7 +253,7 @@ namespace Ecell
         [Test()]
         public void TestSetSimParamAction()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
 
             UserAction action = new SetSimParamAction("DefaultParameter", "DefaultParameter", true);
@@ -274,7 +274,7 @@ namespace Ecell
         [Test()]
         public void TestAddStepperAction()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
 
             UserAction action = new AddStepperAction("DefaultParameter", new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>()));
@@ -294,7 +294,7 @@ namespace Ecell
         [Test()]
         public void TestDeleteStepperAction()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
 
             _env.DataManager.AddStepperID("DefaultParameter", new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>()));
@@ -316,7 +316,7 @@ namespace Ecell
         [Test()]
         public void TestChangeStepperAction()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             Assert.AreEqual(UndoStatus.NOTHING, _env.ActionManager.UndoStatus, "UndoStatus is unexpected value.");
             EcellObject stepper = new EcellStepper("Drosophila", "ODE", "Stepper", "ODEStepper", new List<EcellData>());
             _env.DataManager.AddStepperID("DefaultParameter", stepper);

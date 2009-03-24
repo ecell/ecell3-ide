@@ -52,7 +52,7 @@ namespace Ecell
 
             bool expected = true;
             XmlDocument eml = new XmlDocument();
-            eml.Load("c:/temp/rbc.eml");
+            eml.Load(TestConstant.Model_RBC);
             XmlNode node = eml.ChildNodes[0];
             bool result = (bool)methodInfo.Invoke(reader, new object[] { node });
 
@@ -182,7 +182,7 @@ namespace Ecell
             XmlNode node = eml.DocumentElement;
             EcellValue value = (EcellValue)readerMethod.Invoke(reader, new object[] { node });
 
-            string filename = "c:/temp/test.xml";
+            string filename = TestConstant.TestDirectory + "test.xml";
             XmlTextWriter tx = new XmlTextWriter(filename, Encoding.UTF8);
             EcellXmlWriter writer = new EcellXmlWriter(tx);
             Assert.IsNotNull(writer, "Constructor of type, EcellXmlWriter failed to create instance.");

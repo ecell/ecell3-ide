@@ -108,7 +108,7 @@ namespace Ecell.Plugin
         [Test()]
         public void TestSelectChanged()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             string modelID = "Drosophila";
             string key = "/";
             string type = "System";
@@ -125,7 +125,7 @@ namespace Ecell.Plugin
         [Test()]
         public void TestAddSelect()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             string modelID = "Drosophila";
             string key = "/";
             string type = "System";
@@ -138,7 +138,7 @@ namespace Ecell.Plugin
         [Test()]
         public void TestRemoveSelect()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             string modelID = "Drosophila";
             string key = "/";
             string type = "System";
@@ -152,7 +152,7 @@ namespace Ecell.Plugin
         [Test()]
         public void TestResetSelect()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             string modelID = "Drosophila";
             string key = "/";
             string type = "System";
@@ -166,7 +166,7 @@ namespace Ecell.Plugin
         [Test()]
         public void TestDataChanged()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             string modelID = "Drosophila";
             string key = "/";
             string type = "System";
@@ -181,7 +181,7 @@ namespace Ecell.Plugin
         [Test()]
         public void TestDataAdd()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             string modelID = "Drosophila";
             string key = "/";
             string type = "System";
@@ -195,7 +195,7 @@ namespace Ecell.Plugin
         [Test()]
         public void TestDataDelete()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             string modelID = "Drosophila";
             string key = "/CELL";
             string type = "System";
@@ -209,7 +209,7 @@ namespace Ecell.Plugin
         [Test()]
         public void TestParameterAdd()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             string modelID = "Drosophila";
 
             _unitUnderTest.ParameterAdd(modelID, modelID);
@@ -221,7 +221,7 @@ namespace Ecell.Plugin
         [Test()]
         public void TestParameterDelete()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             string modelID = "Drosophila";
             string paramID = "newParam";
             _unitUnderTest.ParameterAdd(modelID, paramID);
@@ -245,7 +245,7 @@ namespace Ecell.Plugin
         [Test()]
         public void TestLoggerAdd()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             string modelID = "Drosophila";
             string key = "/CELL:SIZE";
             string type = "Variable";
@@ -625,7 +625,7 @@ namespace Ecell.Plugin
         [Test()]
         public void TestObservedData()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             string path = "System:/CELL:SIZE:Value";
 
             EcellObservedData data = new EcellObservedData(path, 0.1);
@@ -639,7 +639,7 @@ namespace Ecell.Plugin
         [Test()]
         public void TestParameterData()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             string path = "System:/CELL:SIZE:Value";
 
             EcellParameterData data = new EcellParameterData(path, 0.1);
@@ -734,7 +734,7 @@ namespace Ecell.Plugin
         [Test()]
         public void TestPluginBase()
         {
-            _env.DataManager.LoadProject("c:/temp/Drosophila/project.xml");
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
             PluginBase plugin = (PluginBase)_unitUnderTest.GetPlugin("PathwayWindow");
             Assert.IsNotNull(plugin, "GetPlugin method returned unexpected value.");
 

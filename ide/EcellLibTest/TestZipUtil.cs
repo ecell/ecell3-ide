@@ -92,11 +92,11 @@ namespace Ecell
                 Trace.WriteLine(e.StackTrace);
             }
 
-            zipname = "c:\\temp\\rbc.zip";
-            filePath = "c:\\temp\\rbc.eml";
+            zipname = TestConstant.TestDirectory + "rbc.zip";
+            filePath = TestConstant.Model_RBC;
             ZipUtil.ZipFile(zipname, filePath);
 
-            zipname = "c:\\temp\\test.zip";
+            zipname = TestConstant.TestDirectory + "test.zip";
             filePath = "";
             ZipUtil.ZipFile(zipname, filePath);
         }
@@ -107,8 +107,8 @@ namespace Ecell
         [Test()]
         public void TestZipFiles()
         {
-            string zipname = "c:\\temp\\rbc2.zip";
-            string[] filePaths = new string[] { "c:\\temp\\rbc.eml", "c:\\temp\\rbc.leml" };
+            string zipname = TestConstant.TestDirectory + "rbc2.zip";
+            string[] filePaths = new string[] { TestConstant.Model_RBC, TestConstant.TestDirectory + "rbc.leml" };
             ZipUtil.ZipFiles(zipname, filePaths);
         }
 
@@ -118,11 +118,11 @@ namespace Ecell
         [Test()]
         public void TestZipFolder()
         {
-            string zipname = "c:\\temp\\Drosophila.zip";
-            string folderPath = "c:\\temp\\Drosophila";
+            string zipname = TestConstant.TestDirectory + "Drosophila.zip";
+            string folderPath = TestConstant.TestDirectory + "Drosophila";
             ZipUtil.ZipFolder(zipname, folderPath);
 
-            zipname = "c:\\temp\\Drosophila.zip";
+            zipname = TestConstant.TestDirectory + "Drosophila.zip";
             folderPath = "";
             try
             {

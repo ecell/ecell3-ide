@@ -67,7 +67,6 @@
     <Compile Include="Job\TestExecuteParameter.cs" />
     <Compile Include="Job\TestJob.cs" />
     <Compile Include="Job\TestJobManager.cs" />
-    <Compile Include="Job\TestJobProxy.cs" />
     <Compile Include="Job\TestLocalJob.cs" />
     <Compile Include="Job\TestLocalJobProxy.cs" />
     <Compile Include="Logger\TestLoggerEntry.cs" />
@@ -92,6 +91,7 @@
     <Compile Include="TestApplicationEnvironment.cs" />
     <Compile Include="TestConsoleDataAvailableEventArgs.cs" />
     <Compile Include="TestConsoleManager.cs" />
+    <Compile Include="TestConstant.cs" />
     <Compile Include="TestDataManager.cs" />
     <Compile Include="TestDataStorer.cs" />
     <Compile Include="TestDMManager.cs" />

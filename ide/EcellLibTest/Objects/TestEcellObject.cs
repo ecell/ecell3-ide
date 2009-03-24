@@ -337,8 +337,8 @@ namespace Ecell.Objects
             Assert.IsEmpty(eo.Systems, "Systems is not expected value.");
 
             Assert.IsNull(eo.ModelFile, "ModelFile is not expected value.");
-            eo.ModelFile = "c:/temp/rbc.eml";
-            Assert.AreEqual("c:/temp/rbc.eml", eo.ModelFile, "ModelFile is not expected value.");
+            eo.ModelFile = TestConstant.Model_RBC;
+            Assert.AreEqual(TestConstant.Model_RBC, eo.ModelFile, "ModelFile is not expected value.");
 
             eo.ModelID = "Model1";
             Assert.AreEqual("Model1", eo.ModelID, "ModelID is not expected value.");

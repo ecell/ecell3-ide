@@ -763,7 +763,7 @@ namespace Ecell
             // Invalid file
             try
             {
-                filename = "c:/hoge/hoge.txt";
+                filename = TestConstant.TestDirectory + "hoge.txt";
                 Util.CopyFile(filename, targetDir);
                 Assert.Fail("Failed to throw EcellException.");
             }
@@ -773,15 +773,15 @@ namespace Ecell
             // Invalid dir
             try
             {
-                filename = "c:/temp/rbc.eml";
+                filename = TestConstant.Model_RBC;
                 Util.CopyFile(filename, targetDir);
                 Assert.Fail("Failed to throw EcellException.");
             }
             catch (EcellException)
             {
             }
-            filename = "c:/temp/rbc.eml";
-            targetDir = "c:/temp/hoge";
+            filename = TestConstant.Model_RBC;
+            targetDir = TestConstant.TestDirectory + "hoge";
             Util.CopyFile(filename, targetDir);
 
         }
@@ -808,7 +808,7 @@ namespace Ecell
             // Invalid sourceDir
             try
             {
-                sourceDir = "c:/Temp/hoge";
+                sourceDir = TestConstant.TestDirectory + "hoge";
                 Util.CopyDirectory(sourceDir, targetDir);
                 Assert.Fail("Failed to throw EcellException.");
             }
@@ -819,7 +819,7 @@ namespace Ecell
             // Invalid targetDir
             try
             {
-                sourceDir = "c:/Temp/Drosophila";
+                sourceDir = TestConstant.TestDirectory + "Drosophila";
                 targetDir = "";
                 Util.CopyDirectory(sourceDir, targetDir);
                 Assert.Fail("Failed to throw EcellException.");
@@ -828,12 +828,12 @@ namespace Ecell
             {
             }
 
-            sourceDir = "c:/Temp/Drosophila";
-            targetDir = "c:/Temp/Drosophila";
+            sourceDir = TestConstant.TestDirectory + "Drosophila";
+            targetDir = TestConstant.TestDirectory + "Drosophila";
             Util.CopyDirectory(sourceDir, targetDir);
 
-            sourceDir = "c:/Temp/Drosophila";
-            targetDir = "c:/Temp/Hoge/Drosophila";
+            sourceDir = TestConstant.TestDirectory + "Drosophila";
+            targetDir = TestConstant.TestDirectory + "Hoge/Drosophila";
             Util.CopyDirectory(sourceDir, targetDir);
 
         }
@@ -844,7 +844,7 @@ namespace Ecell
         [Test()]
         public void TestGetRevNo()
         {
-            string sourceDir = "c:/temp/Drosophila";
+            string sourceDir = TestConstant.TestDirectory + "Drosophila";
             string expectedString = "Revision1";
             string resultString = null;
             resultString = Util.GetRevNo(sourceDir);
@@ -983,7 +983,7 @@ namespace Ecell
         [Test()]
         public void TestGetNewFileName()
         {
-            string expectedString = "c:/temp/rbc.eml";
+            string expectedString = TestConstant.Model_RBC;
             string resultString = Util.GetNewFileName(expectedString);
             Assert.AreNotEqual(resultString, "GetNewFileName method returned unexpected result.");
 
@@ -1813,29 +1813,29 @@ namespace Ecell
         public void TestIsDMFile()
         {
             bool expectedBoolean = false;
-            bool resultedBoolean = Util.IsDMFile("c:/temp/rbc.eml");
+            bool resultedBoolean = Util.IsDMFile(TestConstant.Model_RBC);
             Assert.AreEqual(expectedBoolean, resultedBoolean, "IsDMFile returned unexpected result.");
 
-            resultedBoolean = Util.IsDMFile("c:/temp/hoge.dll");
+            resultedBoolean = Util.IsDMFile(TestConstant.TestDirectory + "hoge.dll");
             Assert.AreEqual(expectedBoolean, resultedBoolean, "IsDMFile returned unexpected result.");
 
             expectedBoolean = true;
 
-            resultedBoolean = Util.IsDMFile("c:/temp/hogeProcess.dll");
+            resultedBoolean = Util.IsDMFile(TestConstant.TestDirectory + "hogeProcess.dll");
             Assert.AreEqual(expectedBoolean, resultedBoolean, "IsDMFile returned unexpected result.");
 
-            resultedBoolean = Util.IsDMFile("C:/temp/CoupledOscillator/DMs/FOProcess.dll");
+            resultedBoolean = Util.IsDMFile(TestConstant.TestDirectory + "CoupledOscillator/DMs/FOProcess.dll");
             Assert.AreEqual(expectedBoolean, resultedBoolean, "IsDMFile returned unexpected result.");
 
             resultedBoolean = Util.IsDMFile("SampleStepper.dll");
             Assert.AreEqual(expectedBoolean, resultedBoolean, "IsDMFile returned unexpected result.");
 
-            resultedBoolean = Util.IsIgnoredDir("c:/Temp/Drosophila/Model");
+            resultedBoolean = Util.IsIgnoredDir(TestConstant.TestDirectory + "Drosophila/Model");
             Assert.AreEqual(expectedBoolean, resultedBoolean, "IsDMFile returned unexpected result.");
 
             expectedBoolean = false;
 
-            resultedBoolean = Util.IsHidden("c:/Temp/Drosophila/");
+            resultedBoolean = Util.IsHidden(TestConstant.TestDirectory + "Drosophila/");
             Assert.AreEqual(expectedBoolean, resultedBoolean, "IsDMFile returned unexpected result.");
 
             Util.AddDMDir("");

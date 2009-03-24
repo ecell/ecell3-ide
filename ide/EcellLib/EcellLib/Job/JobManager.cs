@@ -647,7 +647,11 @@ namespace Ecell.Job
         /// <returns>string</returns>
         public string GetStdout(int jobid)
         {
-            return m_sessionList[jobid].GetStdOut();
+            string stdout = null;
+            if (m_sessionList.ContainsKey(jobid))
+                stdout = m_sessionList[jobid].GetStdOut();
+            return stdout;
+
         }
 
         /// <summary>
@@ -657,7 +661,10 @@ namespace Ecell.Job
         /// <returns>string</returns>
         public string GetStderr(int jobid)
         {
-            return m_sessionList[jobid].GetStdErr();
+            string stderr = null;
+            if (m_sessionList.ContainsKey(jobid))
+                stderr = m_sessionList[jobid].GetStdErr();
+            return stderr;
         }
 
         /// <summary>
@@ -776,7 +783,8 @@ namespace Ecell.Job
                     Debug.Assert(sysObj.Value != null);
                     foreach (string path in paramDic.Keys)
                     {
-                        if (sysObj.Value == null) continue;
+                        if (sysObj.Value == null)
+                            continue;
                         foreach (EcellData v in sysObj.Value)
                         {
                             if (!path.Equals(v.EntityPath))

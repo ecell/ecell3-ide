@@ -48,9 +48,7 @@ namespace Ecell
     {
 
         private EmlWriter _unitUnderTest;
-        private string rbc = "c:/temp/rbc.eml";
-        private string oscillation = "c:/temp/Oscillation.eml";
-        private string _filename = "c:/temp/test/TestEml.eml";
+        private string _filename = TestConstant.TestDirectory + "test/TestEml.eml";
 
         /// <summary>
         /// 
@@ -100,7 +98,7 @@ namespace Ecell
         {
             string[] dmDirs = Util.GetDMDirs(null);
             WrappedSimulator sim = new EcellCoreLib.WrappedSimulator(dmDirs);
-            EmlReader testEmlReader = new EmlReader(rbc, sim);
+            EmlReader testEmlReader = new EmlReader(TestConstant.Model_RBC, sim);
             EcellObject model = testEmlReader.Parse();
 
             List<EcellObject> storedList = model.Children;
@@ -127,7 +125,7 @@ namespace Ecell
             _unitUnderTest.Close();
             string[] dmDirs = Util.GetDMDirs(null);
             WrappedSimulator sim = new EcellCoreLib.WrappedSimulator(dmDirs);
-            EmlReader testEmlReader = new EmlReader(oscillation, sim);
+            EmlReader testEmlReader = new EmlReader(TestConstant.Model_Oscillation, sim);
             EcellObject model = testEmlReader.Parse();
 
             List<EcellObject> storedList = model.Children;

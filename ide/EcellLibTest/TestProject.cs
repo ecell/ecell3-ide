@@ -46,10 +46,6 @@ namespace Ecell
     [TestFixture()]
     public class TestProject
     {
-        private string Oscillation = "c:/temp/Oscillation.eml";
-        private string Drosophila = "c:/temp/Drosophila/project.xml";
-        private string RBC = "c:/temp/rbc.eml";
-
         private Project _unitUnderTest;
         private ApplicationEnvironment _env;
         /// <summary>
@@ -59,7 +55,7 @@ namespace Ecell
         public void SetUp()
         {
             _env = new ApplicationEnvironment();
-            ProjectInfo info = ProjectInfoLoader.Load(Drosophila);
+            ProjectInfo info = ProjectInfoLoader.Load(TestConstant.Project_Drosophila);
             _unitUnderTest = new Project(info, _env);
             _unitUnderTest.LoadModel();
         }
@@ -91,7 +87,7 @@ namespace Ecell
             }
             try
             {
-                info = ProjectInfoLoader.Load(Oscillation);
+                info = ProjectInfoLoader.Load(TestConstant.Model_Oscillation);
                 testProject = new Project(info, null);
                 Assert.Fail("Error param");
             }
@@ -99,7 +95,7 @@ namespace Ecell
             {
             }
 
-            info = ProjectInfoLoader.Load(Oscillation);
+            info = ProjectInfoLoader.Load(TestConstant.Model_Oscillation);
             testProject = new Project(info, _env);
             testProject.LoadModel();
             Assert.IsNotNull(testProject, "Constructor of type, Project failed to create instance.");
@@ -211,7 +207,7 @@ namespace Ecell
         public void TestCopyDMDirs()
         {
             string basedir = Util.GetBaseDir();
-            Util.SetBaseDir("c:/temp");
+            Util.SetBaseDir(TestConstant.TestDirectory);
             string path = Util.GetNewDir(_unitUnderTest.Info.ProjectPath);
 
             List<string> dmDirs = new List<string>();

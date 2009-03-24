@@ -123,8 +123,8 @@ namespace Ecell.Job
             testJob.JobDirectory = Util.GetTmpDir();
             Assert.AreEqual(Util.GetTmpDir(), testJob.JobDirectory, "JobDirectory is unexpected value.");
 
-            testJob.ScriptFile = "c:/temp/0.ess";
-            Assert.AreEqual("c:/temp/0.ess", testJob.ScriptFile, "ScriptFile is unexpected value.");
+            testJob.ScriptFile = TestConstant.TestDirectory + "0.ess";
+            Assert.AreEqual(TestConstant.TestDirectory + "0.ess", testJob.ScriptFile, "ScriptFile is unexpected value.");
 
         }
         /// <summary>
@@ -241,7 +241,7 @@ namespace Ecell.Job
         [Test()]
         public void TestClear()
         {
-            string folder = "c:/temp/TestFolder";
+            string folder = TestConstant.TestDirectory + "TestFolder";
             string file = folder + "/test.txt";
             Directory.CreateDirectory(folder);
             StreamWriter writer = File.CreateText(file);

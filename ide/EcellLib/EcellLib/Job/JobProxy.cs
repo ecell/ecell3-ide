@@ -36,7 +36,7 @@ namespace Ecell.Job
     /// <summary>
     /// SystemProxy class. This class is abstract class managed session.
     /// </summary>
-    public class JobProxy
+    public abstract class JobProxy
     {
         private int m_defaultConcurrency;
         private JobManager m_manager;
@@ -63,19 +63,16 @@ namespace Ecell.Job
         /// Get environment name of this proxy.
         /// </summary>
         /// <returns>environment name.</returns>
-        public virtual string Name
+        public abstract string Name
         {
-            get { return null; }
+            get;
         }
 
         /// <summary>
         /// Create the proxy for session.
         /// </summary>
         /// <returns>Class of proxy for session.</returns>
-        public virtual Job CreateJob()
-        {
-            return null;
-        }
+        public abstract Job CreateJob();
 
         /// <summary>
         /// Create the proxy for session with initial parameters.
@@ -85,62 +82,42 @@ namespace Ecell.Job
         /// <param name="extFile">extra file of script file.</param>
         /// <param name="tmpDir">tmp directory of script file</param>
         /// <returns>Class of proxy for session.</returns>
-        public virtual Job CreateJob(string script, 
-            string arg, List<string> extFile, string tmpDir)
-        {
-            return null;
-        }
+        public abstract Job CreateJob(string script,
+            string arg, List<string> extFile, string tmpDir);
 
         /// <summary>
         /// Get the property of this proxy.
         /// </summary>
         /// <returns>list of property name.</returns>
-        public virtual Dictionary<string, Object> GetProperty()
-        {
-            return null;
-        }
+        public abstract Dictionary<string, Object> GetProperty();
 
         /// <summary>
         /// Get the list of option set all session.
         /// </summary>
         /// <returns>dictionary of option.</returns>
-        public virtual Dictionary<string, object> GetDefaultProperty()
-        {
-            return null;
-        }
+        public abstract Dictionary<string, object> GetDefaultProperty();
 
         /// <summary>
         /// Update the property of proxy.
         /// </summary>
         /// <param name="list">the list of property.</param>
-        public virtual void SetProperty(Dictionary<string, Object> list)
-        {
-        }
+        public abstract void SetProperty(Dictionary<string, Object> list);
 
         /// <summary>
         /// Execute the queue session corresponding with Environment.
         /// </summary>
-        public virtual void Update()
-        {
-            // nothing
-        }
+        public abstract void Update();
 
         /// <summary>
         /// Get the flag whether this script use IDE functions.
         /// </summary>
         /// <returns>if use IDE function, return true.</returns>
-        public virtual bool IsIDE()
-        {
-            return false;
-        }
+        public abstract bool IsIDE();
 
         /// <summary>
         /// Get the default script name.
         /// </summary>
         /// <returns>the script file name.</returns>
-        public virtual string GetDefaultScript()
-        {
-            return "";
-        }
+        public abstract string GetDefaultScript();
     }
 }

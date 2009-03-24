@@ -95,7 +95,7 @@ namespace Ecell.Job
             _unitUnderTest.run();
             Assert.AreEqual(JobStatus.ERROR, _unitUnderTest.Status, "");
 
-            _unitUnderTest.ScriptFile = "c:\\temp\\0.ess";
+            _unitUnderTest.ScriptFile = TestConstant.TestDirectory + "0.ess";
             _unitUnderTest.run();
             Assert.AreEqual(JobStatus.ERROR, _unitUnderTest.Status, "");
             _unitUnderTest.stop();

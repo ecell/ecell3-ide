@@ -303,7 +303,7 @@ namespace Ecell
             try
             {
                 // Load from ProjectXML
-                string infoFile1 = "C:\\temp\\Drosophila\\project.xml";
+                string infoFile1 = TestConstant.Project_Drosophila;
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
                 Assert.AreEqual("Drosophila", info1.Name, "Name is unexpected value.");
                 Assert.AreEqual(ProjectType.Project, info1.ProjectType, "ProjectType is unexpected value.");
@@ -343,7 +343,7 @@ namespace Ecell
 
 
                 // Load from eml.
-                string infoFile5 = "C:\\temp\\Drosophila\\Model\\Drosophila.eml";
+                string infoFile5 = TestConstant.Model_Drosophila;
                 ProjectInfo info5 = ProjectInfoLoader.Load(infoFile5);
                 Assert.AreEqual("Drosophila", info5.Name, "Name is unexpected value.");
                 Assert.AreEqual(ProjectType.Model, info5.ProjectType, "ProjectType is unexpected value.");
@@ -369,7 +369,7 @@ namespace Ecell
             try
             {
                 // File Not Found.
-                string infoFile1 = "C:\\temp\\Drosophila\\projectNotFound.xml";
+                string infoFile1 = TestConstant.TestDirectory + "Drosophila/projectNotFound.xml";
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
                 Assert.Fail("Incorrect null check.");
             }
@@ -381,7 +381,7 @@ namespace Ecell
             try
             {
                 // Not Project File.
-                string infoFile1 = "C:\\temp\\Drosophila\\Model.png";
+                string infoFile1 = TestConstant.TestDirectory + "Drosophila/Model.png";
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
                 Assert.Fail("Incorrect null check.");
             }
@@ -393,7 +393,7 @@ namespace Ecell
             try
             {
                 // File Is Empty.
-                string infoFile1 = "C:\\temp\\Drosophila\\projectNull.xml";
+                string infoFile1 = TestConstant.TestDirectory + "Drosophila/projectNull.xml";
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
                 Assert.Fail("Incorrect null check.");
             }
@@ -405,7 +405,7 @@ namespace Ecell
             try
             {
                 // Inccorect ProjectInfo XML.
-                string infoFile1 = "C:\\temp\\Drosophila\\projectIncorrect.xml";
+                string infoFile1 = TestConstant.TestDirectory + "Drosophila/projectIncorrect.xml";
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
                 Assert.Fail("Incorrect null check.");
             }
@@ -424,7 +424,7 @@ namespace Ecell
             try
             {
                 // Load and Save.
-                string infoFile1 = "C:\\temp\\Drosophila\\project.xml";
+                string infoFile1 = TestConstant.Project_Drosophila;
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
                 info1.Save();
 
@@ -438,7 +438,7 @@ namespace Ecell
             try
             {
                 // Load and Save.
-                string infoFile1 = "C:\\temp\\Drosophila\\project.xml";
+                string infoFile1 = TestConstant.Project_Drosophila;
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
                 info1.Save(infoFile1);
             }
@@ -451,7 +451,7 @@ namespace Ecell
             try
             {
                 // Save to Another Directory.
-                string infoFile1 = "C:\\temp\\Drosophila\\Model\\Drosophila.eml";
+                string infoFile1 = TestConstant.Model_Drosophila;
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
                 info1.Save(infoFile1);
             }
@@ -464,7 +464,7 @@ namespace Ecell
             try
             {
                 // Load and Save.
-                string infoFile1 = "C:\\temp\\Drosophila\\project.xml";
+                string infoFile1 = TestConstant.Project_Drosophila;
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
                 info1.Save(infoFile1);
             }
@@ -477,8 +477,8 @@ namespace Ecell
             try
             {
                 // Save to Another Directory.
-                string saveDir = "C:\\temp\\Drosophila2\\";
-                string infoFile1 = "C:\\temp\\Drosophila\\project.xml";
+                string saveDir = TestConstant.TestDirectory + "Drosophila2/";
+                string infoFile1 = TestConstant.Project_Drosophila;
                 if (Directory.Exists(saveDir))
                     Directory.Delete(saveDir, true);
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
@@ -528,7 +528,7 @@ namespace Ecell
             try
             {
                 // Load and Save.
-                string infoFile1 = "C:\\temp\\CoupledOscillator\\project.xml";
+                string infoFile1 = TestConstant.Project_CoupledOscillator;
                 ProjectInfo info1 = ProjectInfoLoader.Load(infoFile1);
                 info1.FindModels();
                 info1.Save();

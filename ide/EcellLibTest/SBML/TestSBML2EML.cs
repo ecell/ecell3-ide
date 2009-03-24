@@ -68,7 +68,7 @@ namespace Ecell.SBML
         [Test()]
         public void TestEML2SBML()
         {
-            EcellObject model = SBML2EML.Convert("c:/temp/Ecoli_Oscillation.sbml");
+            EcellObject model = SBML2EML.Convert(TestConstant.TestDirectory + "Ecoli_Oscillation.sbml");
             Assert.IsNotNull(model, "Convert method returned unexpected value.");
         }
 

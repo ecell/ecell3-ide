@@ -33,6 +33,7 @@ namespace Ecell.Job
     using System;
     using NUnit.Framework;
     using System.Collections.Generic;
+    using System.IO;
 
     /// <summary>
     /// 
@@ -528,7 +529,7 @@ namespace Ecell.Job
         public void TestGetSessionProxy()
         {
             int jobid = 0;
-            System.Collections.Generic.List<Ecell.Job.Job> expectedList = null;
+            System.Collections.Generic.List<Ecell.Job.Job> expectedList = new List<Job>();
             System.Collections.Generic.List<Ecell.Job.Job> resultList = null;
             resultList = _unitUnderTest.GetSessionProxy(jobid);
             Assert.AreEqual(expectedList, resultList, "GetSessionProxy method returned unexpected result.");
@@ -553,7 +554,7 @@ namespace Ecell.Job
         [Test()]
         public void TestGetStdout()
         {
-            int jobid = 0;
+            int jobid = 1;
             string expectedString = null;
             string resultString = null;
             resultString = _unitUnderTest.GetStdout(jobid);
@@ -566,7 +567,7 @@ namespace Ecell.Job
         [Test()]
         public void TestGetStderr()
         {
-            int jobid = 0;
+            int jobid = 1;
             string expectedString = null;
             string resultString = null;
             resultString = _unitUnderTest.GetStderr(jobid);
@@ -579,7 +580,7 @@ namespace Ecell.Job
         [Test()]
         public void TestGetOptionList()
         {
-            string expectedString = null;
+            string expectedString = "";
             string resultString = null;
             resultString = _unitUnderTest.GetOptionList();
             Assert.AreEqual(expectedString, resultString, "GetOptionList method returned unexpected result.");
@@ -611,15 +612,27 @@ namespace Ecell.Job
         [Test()]
         public void TestRunSimParameterSet()
         {
-            string topDir = null;
-            string modelName = null;
-            double count = 0;
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
+
+            string topDir = TestConstant.TestDirectory + "TestJob";
+            string modelName = "Drosophila";
+            double count = 10;
             bool isStep = false;
-            System.Collections.Generic.Dictionary<System.Int32, Ecell.Job.ExecuteParameter> setparam = null;
-            System.Collections.Generic.Dictionary<System.Int32, Ecell.Job.ExecuteParameter> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.Int32, Ecell.Job.ExecuteParameter> resultDictionary = null;
+            
+            Dictionary<int, ExecuteParameter> setparam = new Dictionary<int, ExecuteParameter>();
+            Dictionary<string, double> data = new Dictionary<string, double>();
+            data.Add("Variable:/CELL/CYTOPLASM:P0:Value", 0.0);
+            ExecuteParameter param = new ExecuteParameter(data);
+            setparam.Add(0, param);
+
+            Dictionary<int, ExecuteParameter> expectedDictionary = new Dictionary<int, ExecuteParameter>();
+            Dictionary<int, ExecuteParameter> resultDictionary = new Dictionary<int, ExecuteParameter>();
             resultDictionary = _unitUnderTest.RunSimParameterSet(topDir, modelName, count, isStep, setparam);
+
             Assert.AreEqual(expectedDictionary, resultDictionary, "RunSimParameterSet method returned unexpected result.");
+
+            if (Directory.Exists(topDir))
+                Directory.Delete(topDir, true);
 
         }
         /// <summary>
@@ -648,7 +661,6 @@ namespace Ecell.Job
             ExecuteParameter resultExecuteParameter = null;
             resultExecuteParameter = _unitUnderTest.CreateExecuteParameter();
             Assert.IsNotNull(resultExecuteParameter, "CreateExecuteParameter method returned unexpected result.");
-
         }
         /// <summary>
         /// 

@@ -131,7 +131,7 @@ namespace Ecell
             // Load incorrect file
             try
             {
-                filename = "c:\\hoge\\hoge.eml";
+                filename = TestConstant.TestDirectory + "hoge.eml";
                 _unitUnderTest.LoadProject(filename);
             }
             catch (Exception ex)
@@ -139,10 +139,10 @@ namespace Ecell
                 Trace.WriteLine(ex);
             }
             // Load RBC
-            filename = "c:\\temp\\rbc.eml";
+            filename = TestConstant.Model_RBC;
             _unitUnderTest.LoadProject(filename);
             // Load Drosophila
-            filename = "c:/temp/Drosophila/project.xml";
+            filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
         }
 
@@ -153,7 +153,7 @@ namespace Ecell
         public void TestGetDir()
         {
             // Load Drosophila
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string dir = _unitUnderTest.GetDMDir();
@@ -167,7 +167,7 @@ namespace Ecell
         [Test()]
         public void TestAddStepperIDL_parameterIDL_stepper()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string l_parameterID = "DefaultParameter";
@@ -209,7 +209,7 @@ namespace Ecell
         [Test()]
         public void TestAddStepperIDL_parameterIDL_stepperL_isRecorded()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string l_parameterID = "DefaultParameter";
@@ -250,7 +250,7 @@ namespace Ecell
         [Test()]
         public void TestCloseProject()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
             _unitUnderTest.CloseProject();
 
@@ -271,7 +271,7 @@ namespace Ecell
         [Test()]
         public void TestDataAddL_ecellObjectListL_isRecordedL_isAnchor()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string modelID = "Drosophila";
@@ -292,7 +292,7 @@ namespace Ecell
         [Test()]
         public void TestDataChangedL_ecellObjectList()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string modelID = "Drosophila";
@@ -314,7 +314,7 @@ namespace Ecell
         [Test()]
         public void TestDataChangedL_modelIDL_keyL_typeL_ecellObject()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string modelID = "Drosophila";
@@ -330,7 +330,7 @@ namespace Ecell
         [Test()]
         public void TestDataChangedL_modelIDL_keyL_typeL_ecellObjectL_isRecordedL_isAnchor()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string modelID = "Drosophila";
@@ -361,7 +361,7 @@ namespace Ecell
         [Test()]
         public void TestDataDelete()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string modelID = "Drosophila";
@@ -377,7 +377,7 @@ namespace Ecell
         [Test()]
         public void TestDataDeleteL_modelIDL_keyL_type()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string modelID = "Drosophila";
@@ -391,7 +391,7 @@ namespace Ecell
         [Test()]
         public void TestDataDeleteL_modelIDL_keyL_typeL_isRecordedL_isAnchor()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string modelID = "Drosophila";
@@ -408,7 +408,7 @@ namespace Ecell
         [Test()]
         public void TestDataMerge()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string modelID = "Drosophila";
@@ -463,7 +463,7 @@ namespace Ecell
         [Test()]
         public void TestDeleteStepperIDL_parameterIDL_stepper()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string l_parameterID = "DefaultParameter";
@@ -480,7 +480,7 @@ namespace Ecell
         [Test()]
         public void TestDeleteStepperIDL_parameterIDL_stepperL_isRecorded()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string l_parameterID = "DefaultParameter";
@@ -504,9 +504,9 @@ namespace Ecell
             l_modelIDList.Add("hoge");
             _unitUnderTest.ExportModel(l_modelIDList, l_fileName);
 
-            if (Directory.Exists("c:/temp/hoge"))
-                Directory.Delete("c:/temp/hoge");
-            l_fileName = "c:/temp/hoge/test.eml";
+            if (Directory.Exists(TestConstant.TestDirectory + "hoge"))
+                Directory.Delete(TestConstant.TestDirectory + "hoge");
+            l_fileName = TestConstant.TestDirectory + "hoge/test.eml";
             try
             {
                 _unitUnderTest.ExportModel(l_modelIDList, l_fileName);
@@ -522,7 +522,7 @@ namespace Ecell
         [Test()]
         public void TestGetCurrentSimulationParameterID()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string expectedString = "DefaultParameter";
@@ -536,7 +536,7 @@ namespace Ecell
         [Test()]
         public void TestGetCurrentSimulationTime()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             double expectedDouble = 0;
@@ -551,7 +551,7 @@ namespace Ecell
         [Test()]
         public void TestGetData()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string l_modelID = null;
@@ -581,7 +581,7 @@ namespace Ecell
         [Test()]
         public void TestGetEcellObject()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string modelId = "Drosophila";
@@ -642,7 +642,7 @@ namespace Ecell
         [Test()]
         public void TestGetInitialConditionL_paremterIDL_modelIDL_type()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string l_paremterID = "DefaultParameter";
@@ -674,7 +674,7 @@ namespace Ecell
         [Test()]
         public void TestGetLoggerList()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             List<string> resultList = null;
@@ -695,7 +695,7 @@ namespace Ecell
         [Test()]
         public void TestGetLoggerPolicy()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             Type type = _unitUnderTest.GetType();
@@ -726,7 +726,7 @@ namespace Ecell
         [Test()]
         public void TestGetSystemList()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             List<string> resultList = null;
@@ -742,7 +742,7 @@ namespace Ecell
         [Test()]
         public void TestGetEntityList()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string l_modelID = "Drosophila";
@@ -786,7 +786,7 @@ namespace Ecell
         [Test()]
         public void TestGetModelList()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             List<System.String> resultList = null;
@@ -800,7 +800,7 @@ namespace Ecell
         [Test()]
         public void TestIsDataExists()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             bool isExist = _unitUnderTest.IsDataExists("Drosophila", "/CELL", "System");
@@ -813,7 +813,7 @@ namespace Ecell
         [Test()]
         public void TestIsEnableAddProperty()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string l_dmName = "hoge";
@@ -834,7 +834,7 @@ namespace Ecell
         [Test()]
         public void TestGetProcessProperty()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string l_dmName = "hoge";
@@ -859,7 +859,7 @@ namespace Ecell
         [Test()]
         public void TestGetStepper()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
 
@@ -956,7 +956,7 @@ namespace Ecell
         [Test()]
         public void TestCreateDefaultObject()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string modelID = "Drosophila";
@@ -1008,7 +1008,7 @@ namespace Ecell
         public void TestCreateNewRevision()
         {
             _unitUnderTest.CreateNewRevision();
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
             //_unitUnderTest.CreateNewRevision();
 
@@ -1073,10 +1073,10 @@ namespace Ecell
         [Test()]
         public void TestSaveScript()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
-            string l_fileName = "c:/temp/script.ess";
+            string l_fileName = TestConstant.TestDirectory + "script.ess";
             _unitUnderTest.SaveScript(l_fileName);
 
         }
@@ -1153,7 +1153,7 @@ namespace Ecell
         [Test()]
         public void TestStartSimulation()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             Timer timer = new Timer();
@@ -1177,7 +1177,7 @@ namespace Ecell
         [Test()]
         public void TestStartStepSimulation_Step()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             int l_step1 = 1;
@@ -1199,7 +1199,7 @@ namespace Ecell
         [Test()]
         public void TestStartStepSimulation_Sec()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             double l_sec1 = 0.5;
@@ -1221,7 +1221,7 @@ namespace Ecell
         [Test()]
         public void TestSimulationStop()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             _unitUnderTest.StartStepSimulation(2000);
@@ -1236,7 +1236,7 @@ namespace Ecell
         [Test()]
         public void TestSimulationSuspend()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             Timer timer = new Timer();
@@ -1261,7 +1261,7 @@ namespace Ecell
         [Test()]
         public void TestUpdateInitialCondition()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string l_parameterID = "DefaultParameter";
@@ -1278,7 +1278,7 @@ namespace Ecell
         [Test()]
         public void TestUpdateStepperIDL_parameterIDL_stepperList()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string l_parameterID = "DefaultParameter";
@@ -1296,7 +1296,7 @@ namespace Ecell
         [Test()]
         public void TestUpdateStepperIDL_parameterIDL_stepperListL_isRecorded()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string l_parameterID = "DefaultParameter";
@@ -1317,7 +1317,7 @@ namespace Ecell
         [Test()]
         public void TestSetParameterData()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string fullPN = "Variable:/CELL/CYTOPLASM:M:Value";
@@ -1340,7 +1340,7 @@ namespace Ecell
         [Test()]
         public void TestSetObservedData()
         {
-            string filename = "c:/temp/Drosophila/project.xml";
+            string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
             string fullPN = "Variable:/CELL/CYTOPLASM:M:Value";
