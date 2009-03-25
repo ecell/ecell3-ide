@@ -64,5 +64,10 @@ namespace Ecell
         /// File path of CoupledOscillator Project.
         /// </summary>
         public const string Project_CoupledOscillator = TestDirectory + "CoupledOscillator/project.xml";
+
+        /// <summary>
+        /// File path of Oscillation SBML.
+        /// </summary>
+        public const string SBML_Oscillation = TestDirectory + "Ecoli_Oscillation.sbml";
     }
 }

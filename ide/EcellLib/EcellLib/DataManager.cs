@@ -242,18 +242,18 @@ namespace Ecell
             engine.AddToPath(Util.GetAnalysisDir());
             string scriptFile = fileName;
 
-                MemoryStream standardOutput = new MemoryStream();
-                engine.SetStandardOutput(standardOutput);
-                engine.Execute("from EcellIDE import *");
-                engine.Execute("import time");
-                engine.Execute("import System.Threading");
-                engine.Execute("session=Session()");
-                engine.ExecuteFile(scriptFile);
-                string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
+            MemoryStream standardOutput = new MemoryStream();
+            engine.SetStandardOutput(standardOutput);
+            engine.Execute("from EcellIDE import *");
+            engine.Execute("import time");
+            engine.Execute("import System.Threading");
+            engine.Execute("session=Session()");
+            engine.ExecuteFile(scriptFile);
+            string stdOut = ASCIIEncoding.ASCII.GetString(standardOutput.ToArray());
 
-                m_env.Console.WriteLine(stdOut);
-                m_env.Console.WriteLine(string.Format(MessageResources.InfoExecScript, fileName));
-                m_env.Console.Flush();
+            m_env.Console.WriteLine(stdOut);
+            m_env.Console.WriteLine(string.Format(MessageResources.InfoExecScript, fileName));
+            m_env.Console.Flush();
         }
 
         /// <summary>
@@ -269,11 +269,11 @@ namespace Ecell
                 string modelFileName = filename.Replace(Constants.FileExtSBML, Constants.FileExtEML);
                 EmlWriter.Create(modelFileName, model.Children, true);
                 LoadProject(modelFileName);
+                File.Delete(modelFileName);
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e.StackTrace);
-                Util.ShowErrorDialog("Failed to convert SBML.\n" + e.Message);
+                throw new EcellException("Failed to convert SBML.", e);
             }
 
         }
@@ -857,11 +857,6 @@ namespace Ecell
             List<EcellModel> modelList = m_currentProject.ModelList;
 
             string modelID = ecellObject.ModelID;
-
-            foreach (EcellObject model in modelList)
-            {
-                Debug.Assert(!model.ModelID.Equals(modelID));
-            }
             //
             // Sets the "Model".
             //
@@ -4302,6 +4297,8 @@ namespace Ecell
                 string oldParameterID = m_currentProject.Info.SimulationParam;
                 if (oldParameterID != parameterID)
                 {
+                    if (!m_currentProject.StepperDic.ContainsKey(parameterID))
+                        m_currentProject.StepperDic[parameterID] = new Dictionary<string, List<EcellObject>>();
                     // Set Stepper.
                     foreach (string modelID in m_currentProject.StepperDic[oldParameterID].Keys)
                     {

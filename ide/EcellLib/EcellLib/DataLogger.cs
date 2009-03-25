@@ -197,6 +197,7 @@ namespace Ecell
             set { this.m_fileName = value; }
         }
     }
+
     /// <summary>
     /// 
     /// </summary>

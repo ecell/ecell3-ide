@@ -1530,10 +1530,18 @@ namespace Ecell.IDE.MainWindow
             dialog.Filter = Constants.FilterSBMLFile;
             using (dialog)
             {
-                if (dialog.ShowDialog() == DialogResult.OK)
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return;
+                string filename = dialog.FileName;
+                try
                 {
-                    m_env.DataManager.LoadSBML(dialog.FileName);
+                    m_env.DataManager.LoadSBML(filename);
                     //LoadSBML(dialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine(ex.StackTrace);
+                    Util.ShowErrorDialog(string.Format( MessageResources.ErrLoadFile, filename));
                 }
             }
         }

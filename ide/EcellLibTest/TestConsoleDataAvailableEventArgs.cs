@@ -64,11 +64,10 @@ namespace Ecell
         [Test()]
         public void TestConstructorConsoleDataAvailableEventArgs()
         {
-            string str = null;
+            string str = "test";
             ConsoleDataAvailableEventArgs testConsoleDataAvailableEventArgs = new ConsoleDataAvailableEventArgs(str);
             Assert.IsNotNull(testConsoleDataAvailableEventArgs, "Constructor of type, ConsoleDataAvailableEventArgs failed to create instance.");
-            Assert.Fail("Create or modify test(s).");
-
+            Assert.AreEqual(str, testConsoleDataAvailableEventArgs.Data, "Data is unexpected value.");
         }
     }
 }

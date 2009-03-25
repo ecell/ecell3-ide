@@ -40,6 +40,8 @@ namespace Ecell
     using Ecell.Exceptions;
     using EcellCoreLib;
     using System.Reflection;
+    using System.Collections;
+    using Ecell.Plugin;
     /// <summary>
     /// 
     /// </summary>
@@ -96,6 +98,40 @@ namespace Ecell
         /// TestLoadProject
         /// </summary>
         [Test()]
+        public void TestLoadSBML()
+        {
+            string testDir = TestConstant.TestDirectory + "Test";
+            if (Directory.Exists(testDir))
+                Directory.Delete(testDir, true);
+            Directory.CreateDirectory(testDir);
+
+            Util.CopyFile(TestConstant.SBML_Oscillation, testDir);
+            string filename = Path.Combine(testDir, Path.GetFileName(TestConstant.SBML_Oscillation));
+
+            _unitUnderTest.LoadSBML(filename);
+            try
+            {
+                _unitUnderTest.LoadSBML(TestConstant.TestDirectory + "hoge.sbml");
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+            try
+            {
+                _unitUnderTest.LoadSBML(TestConstant.Project_Drosophila);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+            if (Directory.Exists(testDir))
+                Directory.Delete(testDir, true);
+        }
+        /// <summary>
+        /// TestLoadProject
+        /// </summary>
+        [Test()]
         public void TestLoadProject()
         {
             // Load null
@@ -141,6 +177,7 @@ namespace Ecell
             // Load RBC
             filename = TestConstant.Model_RBC;
             _unitUnderTest.LoadProject(filename);
+
             // Load Drosophila
             filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
@@ -495,6 +532,16 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
+        public void TestExecuteScript()
+        {
+            string filename = TestConstant.TestDirectory + "0.ess";
+            _unitUnderTest.ExecuteScript(filename);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
         public void TestExportModel()
         {
             List<string> l_modelIDList = new List<string>();
@@ -505,7 +552,7 @@ namespace Ecell
             _unitUnderTest.ExportModel(l_modelIDList, l_fileName);
 
             if (Directory.Exists(TestConstant.TestDirectory + "hoge"))
-                Directory.Delete(TestConstant.TestDirectory + "hoge");
+                Directory.Delete(TestConstant.TestDirectory + "hoge", true);
             l_fileName = TestConstant.TestDirectory + "hoge/test.eml";
             try
             {
@@ -515,6 +562,17 @@ namespace Ecell
             catch (Exception)
             {
             }
+
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
+            l_modelIDList.Clear();
+            l_modelIDList.Add("Drosophila");
+
+            l_fileName = TestConstant.TestDirectory + "test.eml";
+            _unitUnderTest.ExportModel(l_modelIDList, l_fileName);
+
+            if (File.Exists(l_fileName))
+                File.Delete(l_fileName);
         }
         /// <summary>
         /// 
@@ -604,21 +662,51 @@ namespace Ecell
             Assert.AreEqual(EcellObject.VARIABLE, resultEcellObject.Type, "GetEcellObject method returned unexpected result.");
             Assert.AreEqual(key, resultEcellObject.Key, "GetEcellObject method returned unexpected result.");
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestSetPosition()
+        {
+            // Load plugins
+            foreach (string pluginDir in Util.GetPluginDirs())
+            {
+                string[] files = Directory.GetFiles(
+                    pluginDir,
+                    Constants.delimiterWildcard + Constants.FileExtPlugin);
+                foreach (string fileName in files)
+                {
+                    _env.PluginManager.LoadPlugin(fileName);
+                }
+            }
+
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
+
+            string modelId = "Drosophila";
+            string key = "/CELL/CYTOPLASM:P0";
+            string type = "Variable";
+            EcellObject variable = _unitUnderTest.GetEcellObject(modelId, key, type);
+            _unitUnderTest.SetPosition(variable);
+        }
+
         /// <summary>
         /// 
         /// </summary>
         [Test()]
         public void TestGetLogDataL_startTimeL_endTimeL_intervalL_fullID()
         {
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
+
             double l_startTime = 0;
-            double l_endTime = 0;
+            double l_endTime = 10;
             double l_interval = 0;
-            string l_fullID = "";
-            LogData expectedLogData = null;
+            string l_fullID = "Variable:/CELL/CYTOPLASM:P0:Value";
             LogData resultLogData = null;
             resultLogData = _unitUnderTest.GetLogData(l_startTime, l_endTime, l_interval, l_fullID);
-            Assert.AreEqual(expectedLogData, resultLogData, "GetLogData method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            Assert.IsNull(resultLogData, "GetLogData method returned unexpected result.");
 
         }
         /// <summary>
@@ -627,13 +715,14 @@ namespace Ecell
         [Test()]
         public void TestGetInitialConditionL_paremterIDL_modelID()
         {
-            string l_paremterID = null;
-            string l_modelID = null;
-            System.Collections.Generic.Dictionary<System.String, System.Double> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.String, System.Double> resultDictionary = null;
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
+
+            string l_paremterID = "DefaultParameter";
+            string l_modelID = "Drosophila";
+            Dictionary<string, double> resultDictionary = null;
             resultDictionary = _unitUnderTest.GetInitialCondition(l_paremterID, l_modelID);
-            Assert.AreEqual(expectedDictionary, resultDictionary, "GetInitialCondition method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            Assert.IsNotNull(resultDictionary, "GetInitialCondition method returned unexpected result.");
 
         }
         /// <summary>
@@ -658,14 +747,15 @@ namespace Ecell
         [Test()]
         public void TestGetLogDataL_startTimeL_endTimeL_interval()
         {
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
+
             double l_startTime = 0;
-            double l_endTime = 0;
+            double l_endTime = 10;
             double l_interval = 0;
-            System.Collections.Generic.List<Ecell.LogData> expectedList = null;
-            System.Collections.Generic.List<Ecell.LogData> resultList = null;
+            List<Ecell.LogData> resultList = null;
             resultList = _unitUnderTest.GetLogData(l_startTime, l_endTime, l_interval);
-            Assert.AreEqual(expectedList, resultList, "GetLogData method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            Assert.IsNull(resultList, "GetLogData method returned unexpected result.");
 
         }
         /// <summary>
@@ -713,12 +803,15 @@ namespace Ecell
         [Test()]
         public void TestGetNextEvent()
         {
-            System.Collections.ArrayList expectedArrayList = null;
-            System.Collections.ArrayList resultArrayList = null;
+            ArrayList resultArrayList = null;
             resultArrayList = _unitUnderTest.GetNextEvent();
-            Assert.AreEqual(expectedArrayList, resultArrayList, "GetNextEvent method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            Assert.IsNull(resultArrayList, "GetNextEvent method returned unexpected result.");
 
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
+
+            resultArrayList = _unitUnderTest.GetNextEvent();
+            Assert.IsNotNull(resultArrayList, "GetNextEvent method returned unexpected result.");
         }
         /// <summary>
         /// 
@@ -772,13 +865,27 @@ namespace Ecell
         [Test()]
         public void TestGetEntityProperty()
         {
+            EcellValue resultEcellValue = null;
             string l_fullPN = null;
-            Ecell.Objects.EcellValue expectedEcellValue = null;
-            Ecell.Objects.EcellValue resultEcellValue = null;
-            resultEcellValue = _unitUnderTest.GetEntityProperty(l_fullPN);
-            Assert.AreEqual(expectedEcellValue, resultEcellValue, "GetEntityProperty method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
 
+            try
+            {
+                resultEcellValue = _unitUnderTest.GetEntityProperty(l_fullPN);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
+
+            l_fullPN = "Variable:/CELL/CYTOPLASM:P0:Value";
+            resultEcellValue = _unitUnderTest.GetEntityProperty(l_fullPN);
+            Assert.IsNotNull(resultEcellValue, "GetEntityProperty method returned unexpected result.");
+
+            _unitUnderTest.CurrentProject.Simulator = null;
+            resultEcellValue = _unitUnderTest.GetEntityProperty(l_fullPN);
+            Assert.IsNull(resultEcellValue, "GetEntityProperty method returned unexpected result.");
         }
         /// <summary>
         /// 
@@ -862,7 +969,6 @@ namespace Ecell
             string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
-
             string l_parameterID = "DefaultParameter";
             string l_modelID = "Drosophila";
             List<EcellObject> resultList = null;
@@ -876,12 +982,12 @@ namespace Ecell
         [Test()]
         public void TestGetSimulationParameterIDs()
         {
-            System.Collections.Generic.List<System.String> expectedList = null;
-            System.Collections.Generic.List<System.String> resultList = null;
-            resultList = _unitUnderTest.GetSimulationParameterIDs();
-            Assert.AreEqual(expectedList, resultList, "GetSimulationParameterIDs method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
 
+            List<string> resultList = null;
+            resultList = _unitUnderTest.GetSimulationParameterIDs();
+            Assert.IsNotEmpty(resultList, "GetSimulationParameterIDs method returned unexpected result.");
         }
         /// <summary>
         /// 
@@ -889,13 +995,33 @@ namespace Ecell
         [Test()]
         public void TestGetStepperProperty()
         {
-            string l_dmName = null;
-            System.Collections.Generic.List<Ecell.Objects.EcellData> expectedList = null;
-            System.Collections.Generic.List<Ecell.Objects.EcellData> resultList = null;
-            resultList = _unitUnderTest.GetStepperProperty(l_dmName);
-            Assert.AreEqual(expectedList, resultList, "GetStepperProperty method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
 
+            string l_dmName = "DAEStepper";
+            List<EcellData> resultList = null;
+            resultList = _unitUnderTest.GetStepperProperty(l_dmName);
+            Assert.IsNotEmpty(resultList, "GetStepperProperty method returned unexpected result.");
+
+            try
+            {
+                l_dmName = "ExpressionFluxProcess";
+                resultList = _unitUnderTest.GetStepperProperty(l_dmName);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+
+            try
+            {
+                l_dmName = "HogeStepper";
+                resultList = _unitUnderTest.GetStepperProperty(l_dmName);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
         }
         /// <summary>
         /// 
@@ -903,11 +1029,12 @@ namespace Ecell
         [Test()]
         public void TestGetSystemProperty()
         {
-            System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> expectedDictionary = null;
-            System.Collections.Generic.Dictionary<System.String, Ecell.Objects.EcellData> resultDictionary = null;
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
+
+            Dictionary<string, EcellData> resultDictionary = null;
             resultDictionary = _unitUnderTest.GetSystemProperty();
-            Assert.AreEqual(expectedDictionary, resultDictionary, "GetSystemProperty method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            Assert.IsNotEmpty(resultDictionary, "GetSystemProperty method returned unexpected result.");
 
         }
         /// <summary>
@@ -916,15 +1043,16 @@ namespace Ecell
         [Test()]
         public void TestGetTemporaryID()
         {
-            string modelID = null;
-            string type = null;
-            string systemID = null;
-            string expectedString = null;
-            string resultString = null;
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
+
+            string modelID = "Drosophila";
+            string type = "System";
+            string systemID = "/";
+            string expectedString = "/S0";
+            string resultString = "";
             resultString = _unitUnderTest.GetTemporaryID(modelID, type, systemID);
             Assert.AreEqual(expectedString, resultString, "GetTemporaryID method returned unexpected result.");
-            Assert.Fail("Create or modify test(s).");
-
         }
 
         /// <summary>
@@ -933,10 +1061,14 @@ namespace Ecell
         [Test()]
         public void TestInitialize()
         {
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
+
             bool l_flag = false;
             _unitUnderTest.Initialize(l_flag);
-            Assert.Fail("Create or modify test(s).");
 
+            l_flag = true;
+            _unitUnderTest.Initialize(l_flag);
         }
 
         /// <summary>
@@ -945,10 +1077,19 @@ namespace Ecell
         [Test()]
         public void TestLoadSimulationParameter()
         {
-            string l_fileName = null;
-            _unitUnderTest.LoadSimulationParameter(l_fileName);
-            Assert.Fail("Create or modify test(s).");
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
 
+            string l_fileName = "";
+            try
+            {
+                _unitUnderTest.LoadSimulationParameter(l_fileName);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+            l_fileName = TestConstant.TestDirectory + "";
         }
         /// <summary>
         /// 
@@ -1079,6 +1220,38 @@ namespace Ecell
             string l_fileName = TestConstant.TestDirectory + "script.ess";
             _unitUnderTest.SaveScript(l_fileName);
 
+            try
+            {
+                l_fileName = TestConstant.TestDirectory + "hogehoge/script.ess";
+                _unitUnderTest.SaveScript(l_fileName);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestSaveProject()
+        {
+            string basedir = Util.GetBaseDir();
+            Util.SetBaseDir(TestConstant.TestDirectory);
+
+            try
+            {
+                _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+                _unitUnderTest.CurrentProject.Info.Name = "Drosophila2";
+                _unitUnderTest.SaveProject();
+            }
+            catch (Exception)
+            {
+                Util.SetBaseDir(basedir);
+                Assert.Fail();
+            }
+            Util.SetBaseDir(basedir);
         }
 
         /// <summary>
@@ -1087,14 +1260,15 @@ namespace Ecell
         [Test()]
         public void TestSaveSimulationResult()
         {
-            string l_savedDirName = null;
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
+
+            string l_savedDirName = "";
             double l_startTime = 0;
             double l_endTime = 0;
-            string l_savedType = null;
-            System.Collections.Generic.List<System.String> l_fullIDList = null;
+            string l_savedType = "";
+            List<string> l_fullIDList = null;
             _unitUnderTest.SaveSimulationResult(l_savedDirName, l_startTime, l_endTime, l_savedType, l_fullIDList);
-            Assert.Fail("Create or modify test(s).");
-
         }
         /// <summary>
         /// 
@@ -1102,10 +1276,12 @@ namespace Ecell
         [Test()]
         public void TestSetEntityProperty()
         {
-            string l_fullPN = null;
-            string l_value = null;
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
+
+            string l_fullPN = "";
+            string l_value = "";
             _unitUnderTest.SetEntityProperty(l_fullPN, l_value);
-            Assert.Fail("Create or modify test(s).");
 
         }
         /// <summary>
@@ -1114,13 +1290,24 @@ namespace Ecell
         [Test()]
         public void TestSetLoggerPolicy()
         {
-            string l_parameterID = null;
-            Ecell.LoggerPolicy l_loggerPolicy = new LoggerPolicy();
-            Ecell.LoggerPolicy expectedl_loggerPolicy = new LoggerPolicy();
-            _unitUnderTest.SetLoggerPolicy(l_parameterID, l_loggerPolicy);
-            Assert.AreEqual(expectedl_loggerPolicy, l_loggerPolicy, "l_loggerPolicy ref parameter has unexpected result.");
-            Assert.Fail("Create or modify test(s).");
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
 
+            string l_parameterID = null;
+            LoggerPolicy l_loggerPolicy = new LoggerPolicy();
+            LoggerPolicy expectedl_loggerPolicy = new LoggerPolicy();
+            try
+            {
+                _unitUnderTest.SetLoggerPolicy(l_parameterID, l_loggerPolicy);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+            l_parameterID = "DefaultParameter";
+            _unitUnderTest.SetLoggerPolicy(l_parameterID, l_loggerPolicy);
+            Assert.IsNotNull(l_loggerPolicy, "l_loggerPolicy ref parameter has unexpected result.");
+            Assert.AreNotEqual(expectedl_loggerPolicy, l_loggerPolicy, "l_loggerPolicy ref parameter has unexpected result.");
         }
         /// <summary>
         /// 
@@ -1128,10 +1315,20 @@ namespace Ecell
         [Test()]
         public void TestSetSimulationParameterL_parameterID()
         {
-            string l_parameterID = null;
-            _unitUnderTest.SetSimulationParameter(l_parameterID);
-            Assert.Fail("Create or modify test(s).");
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
 
+            string l_parameterID = null;
+            try
+            {
+                _unitUnderTest.SetSimulationParameter(l_parameterID);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+            l_parameterID = "NewParam";
+            _unitUnderTest.SetSimulationParameter(l_parameterID);
         }
         /// <summary>
         /// 
@@ -1139,11 +1336,24 @@ namespace Ecell
         [Test()]
         public void TestSetSimulationParameterL_parameterIDL_isRecordedL_isAnchor()
         {
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
+
             string l_parameterID = null;
             bool l_isRecorded = false;
             bool l_isAnchor = false;
+            try
+            {
+                _unitUnderTest.SetSimulationParameter(l_parameterID, l_isRecorded, l_isAnchor);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+            l_parameterID = "NewParam";
+            l_isRecorded = true;
+            l_isAnchor = true;
             _unitUnderTest.SetSimulationParameter(l_parameterID, l_isRecorded, l_isAnchor);
-            Assert.Fail("Create or modify test(s).");
 
         }
 
@@ -1272,6 +1482,21 @@ namespace Ecell
             _unitUnderTest.UpdateInitialCondition(null, l_modelID, l_initialList);
 
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestUpdatePropertyForDataChanged()
+        {
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
+
+            EcellObject variable = _unitUnderTest.GetEcellObject("Drosophila", "/CELL/CYTOPLASM:P0", "Variable");
+            variable.Key = variable.ParentSystemID + ":hoge";
+            _unitUnderTest.UpdatePropertyForDataChanged(variable);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1286,6 +1511,8 @@ namespace Ecell
             _unitUnderTest.AddStepperID(l_parameterID, l_stepper);
 
             List<Ecell.Objects.EcellObject> l_stepperList = new List<EcellObject>();
+            _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList);
+
             l_stepperList.Add(l_stepper);
             _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList);
 

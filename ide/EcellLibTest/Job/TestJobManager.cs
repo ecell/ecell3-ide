@@ -651,6 +651,7 @@ namespace Ecell.Job
             _unitUnderTest.StopRunningJobs();
             _unitUnderTest.JobList[1].Status = JobStatus.NONE;
             _unitUnderTest.RunWaitFinish();
+            _unitUnderTest.JobList[1].GetLogData("Variable:/CELL/CYTOPLASM:P0:Value");
 
             if (Directory.Exists(topDir))
                 Directory.Delete(topDir, true);
