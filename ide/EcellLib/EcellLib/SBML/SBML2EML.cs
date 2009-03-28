@@ -57,6 +57,7 @@ namespace Ecell.SBML
 
             StreamReader reader = new StreamReader(filename);
             string aSbmlString = reader.ReadToEnd();
+            reader.Close();
             SBMLDocument document = libsbml.libsbml.readSBMLFromString(aSbmlString);
             Model model = document.getModel();
 

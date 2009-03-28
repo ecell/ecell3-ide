@@ -267,9 +267,8 @@ namespace Ecell
                 EcellModel model = (EcellModel)SBML2EML.Convert(filename);
                 // Save eml.
                 string modelFileName = filename.Replace(Constants.FileExtSBML, Constants.FileExtEML);
-                EmlWriter.Create(modelFileName, model.Children, true);
+                EmlWriter.Create(modelFileName, model.Children, false);
                 LoadProject(modelFileName);
-                File.Delete(modelFileName);
             }
             catch (Exception e)
             {
@@ -781,17 +780,7 @@ namespace Ecell
                 ConfirmAnalysisReset("add", type);
                 ConfirmReset("add", type);
 
-                if (type.Equals(Constants.xpathProcess))
-                {
-                    DataAdd4Entity(ecellObject, true);
-                    usableList.Add(ecellObject);
-                }
-                else if (type.Equals(Constants.xpathVariable))
-                {
-                    DataAdd4Entity(ecellObject, true);
-                    usableList.Add(ecellObject);
-                }
-                else if (type.Equals(Constants.xpathText))
+                if (type.Equals(Constants.xpathProcess) || type.Equals(Constants.xpathVariable) || type.Equals(Constants.xpathText))
                 {
                     DataAdd4Entity(ecellObject, true);
                     usableList.Add(ecellObject);
@@ -805,7 +794,7 @@ namespace Ecell
                 }
                 else if (type.Equals(Constants.xpathStepper))
                 {
-                    // this.DataAdd4Stepper(ecellObject);
+                    DataAdd4Stepper(ecellObject);
                     // usableList.Add(ecellObject);
                 }
                 else if (type.Equals(Constants.xpathModel))
@@ -951,8 +940,6 @@ namespace Ecell
 
             Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
 
-            if (!sysDic.ContainsKey(modelID))
-                sysDic[modelID] = new List<EcellObject>();
             // Check duplicated system.
             foreach (EcellObject sys in sysDic[modelID])
             {
@@ -963,26 +950,6 @@ namespace Ecell
             }
             CheckEntityPath(system);
             m_currentProject.AddSystem(system);
-
-            foreach (EcellData d in system.Value)
-            {
-                if (d.Logged)
-                {
-                    m_env.LoggerManager.AddLoggerEntry(
-                        system.ModelID, system.Key, system.Type, d.EntityPath);
-                }
-            }
-            foreach (EcellObject child in system.Children)
-            {
-                foreach (EcellData d in child.Value)
-                {
-                    if (d.Logged)
-                    {
-                        m_env.LoggerManager.AddLoggerEntry(
-                            child.ModelID, child.Key, child.Type, d.EntityPath);
-                    }
-                }
-            }
 
             // Show Message.
             if (messageFlag)
@@ -1006,8 +973,6 @@ namespace Ecell
             string systemKey = entity.ParentSystemID;
 
             Dictionary<string, List<EcellObject>> sysDic = m_currentProject.SystemDic;
-            Debug.Assert(sysDic != null && sysDic.Count > 0);
-            Debug.Assert(sysDic.ContainsKey(modelID));
 
             // Add object.
             bool findFlag = false;
@@ -1031,15 +996,6 @@ namespace Ecell
                 CheckEntityPath(entity);
                 system.Children.Add(entity.Clone());
 
-                foreach (EcellData d in entity.Value)
-                {
-                    if (d.Logged)
-                    {
-                        m_env.LoggerManager.AddLoggerEntry(
-                            entity.ModelID, entity.Key, entity.Type, d.EntityPath);
-                    }
-                }
-
                 findFlag = true;
                 break;
             }
@@ -1050,11 +1006,6 @@ namespace Ecell
                     new object[] { type, entity.Key }));
             }
             Debug.Assert(findFlag);
-
-            if (entity.Value == null || entity.Value.Count <= 0)
-                return;
-            if (entity is EcellText)
-                return;
 
             // Set Simulation param
             m_currentProject.AddSimulationParameter(entity);
@@ -1208,11 +1159,7 @@ namespace Ecell
                 {
                     DataChanged4System(modelID, key, type, ecellObject, isRecorded, isAnchor);
                 }
-                else if (ecellObject.Type.Equals(Constants.xpathProcess))
-                {
-                    DataChanged4Entity(modelID, key, type, ecellObject, isRecorded, isAnchor);
-                }
-                else if (ecellObject.Type.Equals(Constants.xpathText))
+                else if (ecellObject.Type.Equals(Constants.xpathProcess) || ecellObject.Type.Equals(Constants.xpathText))
                 {
                     DataChanged4Entity(modelID, key, type, ecellObject, isRecorded, isAnchor);
                 }
@@ -1335,9 +1282,8 @@ namespace Ecell
                     CheckDifferences(systemList[i], ecellObject, null);
                     systemList[i] = ecellObject.Clone();
                     m_env.PluginManager.DataChanged(modelID, key, type, ecellObject);
-                    break;
+                    return;
                 }
-                return;
             }
 
             // Check Root
@@ -1460,15 +1406,15 @@ namespace Ecell
                 return;
             }
 
+            // Check Model
+            if (string.IsNullOrEmpty(modelID))
+                return;
             // Check root
             if (key.Equals("/"))
             {
                 Util.ShowErrorDialog(MessageResources.ErrDelRoot);
                 return;
             }
-            // Check Model
-            if (string.IsNullOrEmpty(modelID))
-                return;
             // Check Object;
             EcellObject deleteObj = GetEcellObject(modelID, key, type);
             if (deleteObj == null)
@@ -1622,9 +1568,6 @@ namespace Ecell
             bool isRecorded,
             bool isAnchor)
         {
-            if (!m_currentProject.SystemDic.ContainsKey(model))
-                return;
-
             // Show Message.
             string message = "[" + model + "][" + key + "]";
             if (messageFlag)
@@ -4496,12 +4439,7 @@ namespace Ecell
             {
                 // Get new value.
                 string newValue = data.Value.ToString();
-                if (newValue.Equals(Double.PositiveInfinity.ToString()))
-                    value = Double.PositiveInfinity;
-                else if (newValue.Equals(Double.MaxValue.ToString()))
-                    value = Double.MaxValue;
-                else
-                    value = XmlConvert.ToDouble(newValue);
+                value = XmlConvert.ToDouble(newValue);
             }
             catch (Exception ex)
             {

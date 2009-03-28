@@ -107,8 +107,7 @@ namespace Ecell
 
             Util.CopyFile(TestConstant.SBML_Oscillation, testDir);
             string filename = Path.Combine(testDir, Path.GetFileName(TestConstant.SBML_Oscillation));
-
-            _unitUnderTest.LoadSBML(filename);
+            // Error1
             try
             {
                 _unitUnderTest.LoadSBML(TestConstant.TestDirectory + "hoge.sbml");
@@ -117,6 +116,7 @@ namespace Ecell
             catch (Exception)
             {
             }
+            // Error2
             try
             {
                 _unitUnderTest.LoadSBML(TestConstant.Project_Drosophila);
@@ -125,8 +125,20 @@ namespace Ecell
             catch (Exception)
             {
             }
-            if (Directory.Exists(testDir))
-                Directory.Delete(testDir, true);
+            // Correct case.
+            try
+            {
+                _unitUnderTest.LoadSBML(filename);
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+            finally
+            {
+                if (Directory.Exists(testDir))
+                    Directory.Delete(testDir, true);
+            }
         }
         /// <summary>
         /// TestLoadProject
@@ -196,6 +208,9 @@ namespace Ecell
             string dir = _unitUnderTest.GetDMDir();
             List<string> list = _unitUnderTest.GetDMNameList();
             string dmName = _unitUnderTest.GetDMFileName("");
+
+            string simDir = _unitUnderTest.GetSimulationResultSaveDirectory();
+
         }
 
         /// <summary>
@@ -322,6 +337,37 @@ namespace Ecell
             bool l_isAnchor = false;
             _unitUnderTest.DataAdd(l_ecellObjectList, l_isRecorded, l_isAnchor);
 
+            try
+            {
+                _unitUnderTest.DataAdd(sys);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+
+
+            key = "/";
+            type = "Variable";
+            EcellObject var = _unitUnderTest.CreateDefaultObject(modelID, key, type);
+            _unitUnderTest.DataAdd(var);
+
+            try
+            {
+                _unitUnderTest.DataAdd(var);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+
+            EcellObject stepper = _unitUnderTest.GetEcellObject("Drosophila", "DE", "Stepper");
+            stepper.Key = "DE2";
+            _unitUnderTest.DataAdd(stepper);
+
+            EcellObject text = _unitUnderTest.CreateDefaultObject("Drosophila", "/", "Text");
+            _unitUnderTest.DataAdd(text);
+
         }
         /// <summary>
         /// 
@@ -367,8 +413,7 @@ namespace Ecell
         [Test()]
         public void TestDataChangedL_modelIDL_keyL_typeL_ecellObjectL_isRecordedL_isAnchor()
         {
-            string filename = TestConstant.Project_Drosophila;
-            _unitUnderTest.LoadProject(filename);
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
             string modelID = "Drosophila";
             string key = "/";
@@ -377,8 +422,26 @@ namespace Ecell
             bool l_isRecorded = false;
             bool l_isAnchor = false;
 
+            // Test Change system. 
             _unitUnderTest.DataChanged(modelID, key, type, sys, l_isRecorded, l_isAnchor);
+            try
+            {
+                sys.Key = "/hoge";
+                _unitUnderTest.DataChanged(modelID, "/", type, sys);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
 
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+            sys = _unitUnderTest.GetEcellObject(modelID, "/CELL", type);
+            _unitUnderTest.DataChanged(modelID, "/CELL", type, sys);
+
+            sys.Key = "/CELL2";
+            _unitUnderTest.DataChanged(modelID, "/CELL", type, sys);
+
+            // Test Change model.
             EcellObject model = _unitUnderTest.GetEcellObject(modelID, "", "Model");
             _unitUnderTest.DataChanged(modelID, "", "Model", model);
             try
@@ -390,6 +453,14 @@ namespace Ecell
             catch (Exception)
             {
             }
+
+            // Test Change Variable. 
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+            EcellObject variable = _unitUnderTest.GetEcellObject(modelID, "/CELL/CYTOPLASM:M", "Variable");
+            variable.Key = "/CELL:M";
+
+            _unitUnderTest.DataChanged(modelID, "/CELL/CYTOPLASM:M", "Variable", variable);
+
         }
 
         /// <summary>
@@ -417,10 +488,31 @@ namespace Ecell
             string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
 
-            string modelID = "Drosophila";
-            string key = "/CELL";
-            string type = "System";
+            string modelID = "";
+            string key = "";
+            string type = "Model";
+            // Check ModelID
             _unitUnderTest.DataDelete(modelID, key, type);
+
+            // Check root
+            modelID = "Drosophila";
+            key = "/";
+            type = "System";
+            _unitUnderTest.DataDelete(modelID, key, type);
+
+            // Check exist object.
+            modelID = "Drosophila";
+            key = "/CELL2";
+            type = "System";
+            _unitUnderTest.DataDelete(modelID, key, type);
+
+            // Check ParameterData/ObservedData.
+            _unitUnderTest.SetParameterData(new EcellParameterData("Variable:/CELL/CYTOPLASM:M:Value", 0));
+            _unitUnderTest.SetObservedData(new EcellObservedData("Variable:/CELL/CYTOPLASM:M:Value", 0));
+            _unitUnderTest.DataDelete(modelID, "/CELL/CYTOPLASM:M", "Variable");
+
+            // Delete model
+            _unitUnderTest.DataDelete(modelID, "", "Model");
         }
         /// <summary>
         /// 
@@ -447,14 +539,63 @@ namespace Ecell
         {
             string filename = TestConstant.Project_Drosophila;
             _unitUnderTest.LoadProject(filename);
-
             string modelID = "Drosophila";
+
+            // Error root.
+            try
+            {
+                _unitUnderTest.DataMerge(modelID, "/");
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+
+            // Error model.
+            try
+            {
+                _unitUnderTest.DataMerge("Hoge", "/CELL");
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+            MessageBox.Show("Click 'Yes' button of next Dialog.");
             string key = "/CELL";
             _unitUnderTest.DataMerge(modelID, key);
+            Assert.IsNotNull(_unitUnderTest.GetEcellObject(modelID, "/CYTOPLASM", "System"), "DataMerge method returns unexpected result.");
 
             _unitUnderTest.LoadProject(filename);
             key = "/CELL/CYTOPLASM";
             _unitUnderTest.DataMerge(modelID, key);
+            Assert.IsNotNull(_unitUnderTest.GetEcellObject(modelID, "/CELL:P0", "Variable"), "DataMerge method returns unexpected result.");
+
+            // Error already exist.
+            _unitUnderTest.LoadProject(filename);
+            EcellObject newVar = _unitUnderTest.CreateDefaultObject(modelID, "/CELL", "Variable");
+            newVar.Key = "/CELL:P0";
+            _unitUnderTest.DataAdd(newVar);
+            try
+            {
+                _unitUnderTest.DataMerge(modelID, "/CELL/CYTOPLASM");
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+
+            MessageBox.Show("Click 'No' button of next Dialog.");
+            // Error already exist.
+            _unitUnderTest.LoadProject(filename);
+            try
+            {
+                _unitUnderTest.DataMerge(modelID, "/CELL/CYTOPLASM");
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+
         }
         /// <summary>
         /// 
@@ -602,6 +743,9 @@ namespace Ecell
             resultDouble = _unitUnderTest.GetCurrentSimulationTime();
             Assert.AreEqual(expectedDouble, resultDouble, "GetCurrentSimulationTime method returned unexpected result.");
 
+            _unitUnderTest.CurrentProject.Simulator = null;
+            resultDouble = _unitUnderTest.GetCurrentSimulationTime();
+            Assert.AreEqual(double.NaN, resultDouble, "GetCurrentSimulationTime method returned unexpected result.");
         }
         /// <summary>
         /// 
@@ -891,6 +1035,26 @@ namespace Ecell
         /// 
         /// </summary>
         [Test()]
+        public void TestGetPropertyValue()
+        {
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+
+            string fullPN = "Variable:/CELL/CYTOPLASM:P0:Value";
+            double value = _unitUnderTest.GetPropertyValue(fullPN);
+
+            try
+            {
+                fullPN = "Variable:/CELL/CYTOPLASM:P0:Hoge";
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
         public void TestGetModelList()
         {
             string filename = TestConstant.Project_Drosophila;
@@ -982,12 +1146,16 @@ namespace Ecell
         [Test()]
         public void TestGetSimulationParameterIDs()
         {
-            string filename = TestConstant.Project_Drosophila;
-            _unitUnderTest.LoadProject(filename);
 
             List<string> resultList = null;
             resultList = _unitUnderTest.GetSimulationParameterIDs();
+            Assert.IsEmpty(resultList, "GetSimulationParameterIDs method returned unexpected result.");
+
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
+            resultList = _unitUnderTest.GetSimulationParameterIDs();
             Assert.IsNotEmpty(resultList, "GetSimulationParameterIDs method returned unexpected result.");
+
         }
         /// <summary>
         /// 
@@ -1054,7 +1222,23 @@ namespace Ecell
             resultString = _unitUnderTest.GetTemporaryID(modelID, type, systemID);
             Assert.AreEqual(expectedString, resultString, "GetTemporaryID method returned unexpected result.");
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestGetCopiedID()
+        {
+            string filename = TestConstant.Project_Drosophila;
+            _unitUnderTest.LoadProject(filename);
 
+            string modelID = "Drosophila";
+            string type = "System";
+            string systemID = "/CELL";
+            string expectedString = "/CELL_copy0";
+            string resultString = "";
+            resultString = _unitUnderTest.GetCopiedID(modelID, type, systemID);
+            Assert.AreEqual(expectedString, resultString, "GetCopiedID method returned unexpected result.");
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -1091,6 +1275,48 @@ namespace Ecell
             }
             l_fileName = TestConstant.TestDirectory + "";
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestLoadSimulationResult()
+        {
+            string filename = null;
+            LogData data = null;
+
+            try
+            {
+                data = _unitUnderTest.LoadSimulationResult(filename);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+
+            try
+            {
+                filename = TestConstant.TestDirectory + "hoge.log";
+                data = _unitUnderTest.LoadSimulationResult(filename);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestMessage()
+        {
+            _unitUnderTest.MessageCreateEntity("", "");
+            _unitUnderTest.MessageDeleteEntity("", "");
+            _unitUnderTest.MessageUpdateData("", "", "", "");
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -1190,6 +1416,15 @@ namespace Ecell
 
             string l_parameterID = "Newparam";
             _unitUnderTest.CreateSimulationParameter(l_parameterID);
+
+            try
+            {
+                _unitUnderTest.CreateSimulationParameter(l_parameterID);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
         }
         /// <summary>
         /// 
@@ -1276,11 +1511,37 @@ namespace Ecell
         [Test()]
         public void TestSetEntityProperty()
         {
-            string filename = TestConstant.Project_Drosophila;
-            _unitUnderTest.LoadProject(filename);
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
             string l_fullPN = "";
             string l_value = "";
+            _unitUnderTest.SetEntityProperty(l_fullPN, l_value);
+
+            _unitUnderTest.StartStepSimulation(100);
+
+            try
+            {
+                _unitUnderTest.SetEntityProperty(l_fullPN, l_value);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+
+            l_fullPN = "Variable:/CELL/CYTOPLASM:P1:Value";
+            l_value = "0.1";
+            _unitUnderTest.SetEntityProperty(l_fullPN, l_value);
+
+            l_fullPN = "Variable:/CELL/CYTOPLASM:P1:Name";
+            l_value = "hoge";
+            _unitUnderTest.SetEntityProperty(l_fullPN, l_value);
+
+            l_fullPN = "Process:/CELL/CYTOPLASM:R_toy1:VariableReferenceList";
+            l_value = "hoge";
+            _unitUnderTest.SetEntityProperty(l_fullPN, l_value);
+
+            l_fullPN = "Process:/CELL/CYTOPLASM:R_toy1:Priority";
+            l_value = "1";
             _unitUnderTest.SetEntityProperty(l_fullPN, l_value);
 
         }
@@ -1309,14 +1570,34 @@ namespace Ecell
             Assert.IsNotNull(l_loggerPolicy, "l_loggerPolicy ref parameter has unexpected result.");
             Assert.AreNotEqual(expectedl_loggerPolicy, l_loggerPolicy, "l_loggerPolicy ref parameter has unexpected result.");
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestCopySimulationParameter()
+        {
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+            _unitUnderTest.CopySimulationParameter("NewParam", Constants.defaultSimParam);
+            _unitUnderTest.GetSimulationParameterIDs().Contains("NewParam");
+
+            try
+            {
+                _unitUnderTest.CopySimulationParameter("NewParam", Constants.defaultSimParam);
+                Assert.Fail();
+            }
+            catch(Exception)
+            {
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
         [Test()]
         public void TestSetSimulationParameterL_parameterID()
         {
-            string filename = TestConstant.Project_Drosophila;
-            _unitUnderTest.LoadProject(filename);
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
             string l_parameterID = null;
             try
@@ -1363,17 +1644,99 @@ namespace Ecell
         [Test()]
         public void TestStartSimulation()
         {
-            string filename = TestConstant.Project_Drosophila;
-            _unitUnderTest.LoadProject(filename);
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+
+            double time = 1.0;
 
             Timer timer = new Timer();
             timer.Interval = 1000;
             timer.Tick += new EventHandler(StopTimer);
+            // Start simulation.
             timer.Start();
-            double l_time = 1.0;
-            _unitUnderTest.StartSimulation(l_time);
-
+            _unitUnderTest.StartSimulation(time);
             timer.Stop();
+            _unitUnderTest.SimulationSuspend();
+            timer.Start();
+            _unitUnderTest.StartSimulation(time);
+            timer.Stop();
+            _unitUnderTest.SimulationSuspend();
+
+
+            Type type = _unitUnderTest.GetType();
+            FieldInfo info = type.GetField("m_isTimeStepping", BindingFlags.NonPublic | BindingFlags.Instance);
+            info.SetValue(_unitUnderTest, true);
+            info = type.GetField("m_remainTime", BindingFlags.NonPublic | BindingFlags.Instance);
+            info.SetValue(_unitUnderTest, 1);
+            timer.Start();
+            _unitUnderTest.StartSimulation(time);
+            timer.Stop();
+            _unitUnderTest.SimulationSuspend();
+
+            info = type.GetField("m_isStepStepping", BindingFlags.NonPublic | BindingFlags.Instance);
+            info.SetValue(_unitUnderTest, true);
+            info = type.GetField("m_remainStep", BindingFlags.NonPublic | BindingFlags.Instance);
+            info.SetValue(_unitUnderTest, 1);
+            timer.Start();
+            _unitUnderTest.StartSimulation(time);
+            timer.Stop();
+            _unitUnderTest.SimulationSuspend();
+
+            // Exception.
+            try
+            {
+                EcellObject process = _unitUnderTest.GetEcellObject("Drosophila", "/CELL/CYTOPLASM:R_toy1", "Process");
+                process.SetEcellValue("Expression", new EcellValue("hoge"));
+                _unitUnderTest.DataChanged("Drosophila", "/CELL/CYTOPLASM:R_toy1", "Process", process);
+                timer.Start();
+                _unitUnderTest.StartSimulation(time);
+                timer.Stop();
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+
+            // WrappedException.
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+            try
+            {
+                info = type.GetField("m_isStepStepping", BindingFlags.NonPublic | BindingFlags.Instance);
+                info.SetValue(_unitUnderTest, true);
+                info = type.GetField("m_remainStep", BindingFlags.NonPublic | BindingFlags.Instance);
+                info.SetValue(_unitUnderTest, 1);
+                timer.Start();
+                _unitUnderTest.StartSimulation(time);
+                timer.Stop();
+                _unitUnderTest.SimulationSuspend();
+
+                time = 10000;
+                _unitUnderTest.CurrentProject.Simulator.SetEntityProperty("Process:/CELL/CYTOPLASM:R_toy1:Expression", "hoge");
+                timer.Start();
+                _unitUnderTest.StartSimulation(time);
+                timer.Stop();
+                Assert.Fail();
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.StackTrace);
+            }
+
+            _unitUnderTest.SimulationStop();
+
+            // Test Catch Exception.
+            try
+            {
+                _unitUnderTest.CurrentProject.Simulator = null;
+                timer.Start();
+                _unitUnderTest.StartSimulation(time);
+                timer.Stop();
+                Assert.Fail();
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.StackTrace);
+            }
+
         }
 
         void StopTimer(object sender, EventArgs e)
@@ -1398,6 +1761,37 @@ namespace Ecell
 
             int l_step100 = 100;
             _unitUnderTest.StartStepSimulation(l_step100);
+
+            Type type = _unitUnderTest.GetType();
+            FieldInfo info = type.GetField("m_isTimeStepping", BindingFlags.NonPublic | BindingFlags.Instance);
+            info.SetValue(_unitUnderTest, true);
+            info = type.GetField("m_remainTime", BindingFlags.NonPublic | BindingFlags.Instance);
+            info.SetValue(_unitUnderTest, 10);
+            info = type.GetField("m_defaultTime", BindingFlags.NonPublic | BindingFlags.Instance);
+            info.SetValue(_unitUnderTest, 1);
+            _unitUnderTest.StartStepSimulation(l_step10);
+            // Test Catch WrappedException.
+            try
+            {
+                _unitUnderTest.CurrentProject.Simulator.SetEntityProperty("Process:/CELL/CYTOPLASM:R_toy1:Expression", "hoge");
+                _unitUnderTest.StartStepSimulation(l_step10);
+                Assert.Fail();
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.StackTrace);
+            }
+            // Test Catch Exception.
+            try
+            {
+                _unitUnderTest.CurrentProject.Simulator = null;
+                _unitUnderTest.StartStepSimulation(l_step10);
+                Assert.Fail();
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.StackTrace);
+            }
 
             _unitUnderTest.SimulationStop();
 
@@ -1516,6 +1910,21 @@ namespace Ecell
             l_stepperList.Add(l_stepper);
             _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList);
 
+            l_stepper = EcellObject.CreateObject("Drosophila", "ODEStepper", EcellObject.STEPPER, "ODEStepper", new List<EcellData>());
+            l_stepper.Key = "NewStepper";
+            l_stepperList.Clear();
+            l_stepperList.Add(l_stepper);
+            _unitUnderTest.UpdateStepperID(l_parameterID, l_stepperList);
+
+            try
+            {
+                _unitUnderTest.UpdateStepperID("Hoge", l_stepperList);
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+            }
+
         }
         /// <summary>
         /// 
@@ -1567,8 +1976,7 @@ namespace Ecell
         [Test()]
         public void TestSetObservedData()
         {
-            string filename = TestConstant.Project_Drosophila;
-            _unitUnderTest.LoadProject(filename);
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
 
             string fullPN = "Variable:/CELL/CYTOPLASM:M:Value";
             Assert.IsFalse(_unitUnderTest.IsContainsObservedData(fullPN));
@@ -1582,6 +1990,28 @@ namespace Ecell
 
             _unitUnderTest.RemoveObservedData(observedData);
 
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestCheckParameterData()
+        {
+            _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+
+            string fullPN = "Variable:/CELL/CYTOPLASM:M:Value";
+            Assert.IsFalse(_unitUnderTest.IsContainsObservedData(fullPN));
+
+            EcellObservedData observedData = new EcellObservedData(fullPN, 0.2);
+            _unitUnderTest.SetObservedData(observedData);
+            EcellParameterData parameterData = new EcellParameterData(fullPN, 0.2);
+            _unitUnderTest.SetParameterData(parameterData);
+
+            EcellObject variable = _unitUnderTest.GetEcellObject("Drosophila", "/CELL/CYTOPLASM:M", "Variable");
+            variable.Key = "/CELL:M";
+
+            _unitUnderTest.DataChanged("Drosophila", "/CELL/CYTOPLASM:M", "Variable", variable);
         }
     }
 }

@@ -125,7 +125,7 @@ namespace Ecell.Logger
             LoggerEntry ent = new LoggerEntry("ModelID", "Key", "Process", "FullPN");
             _unitUnderTest.AddLoggerEntry(ent);
             List<LoggerEntry> res = _unitUnderTest.GetLoggerEntryForObject("Key", "Process");
-            Assert.AreEqual(0, res.Count, "GetLoggerEntryForObject is unexpected work.");
+            Assert.AreEqual(1, res.Count, "GetLoggerEntryForObject is unexpected work.");
         }
         /// <summary>
         /// 

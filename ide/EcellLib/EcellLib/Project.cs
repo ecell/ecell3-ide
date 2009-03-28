@@ -960,6 +960,11 @@ namespace Ecell
         /// <param name="eo"></param>
         public void AddSimulationParameter(EcellObject eo)
         {
+            if (eo.Value == null || eo.Value.Count <= 0)
+                return;
+            if (eo is EcellText)
+                return;
+
             foreach (string keyParameterID in m_initialCondition.Keys)
             {
                 Dictionary<string, double> initialCondition = m_initialCondition[keyParameterID][eo.ModelID];
