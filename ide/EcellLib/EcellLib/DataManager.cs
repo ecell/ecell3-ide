@@ -951,6 +951,27 @@ namespace Ecell
             CheckEntityPath(system);
             m_currentProject.AddSystem(system);
 
+            // 現在使用されていないが、再度有効にする可能性があるため残すコード
+            //foreach (EcellData d in system.Value)
+            //{
+            //    if (d.Logged)
+            //    {
+            //        m_env.LoggerManager.AddLoggerEntry(
+            //            system.ModelID, system.Key, system.Type, d.EntityPath);
+            //    }
+            //}
+            //foreach (EcellObject child in system.Children)
+            //{
+            //    foreach (EcellData d in child.Value)
+            //    {
+            //        if (d.Logged)
+            //        {
+            //            m_env.LoggerManager.AddLoggerEntry(
+            //                child.ModelID, child.Key, child.Type, d.EntityPath);
+            //        }
+            //    }
+            //}
+
             // Show Message.
             if (messageFlag)
             {
@@ -995,6 +1016,16 @@ namespace Ecell
                 // Set object.
                 CheckEntityPath(entity);
                 system.Children.Add(entity.Clone());
+
+                // 現在使用されていないが、再度有効にする可能性があるため残すコード
+                //foreach (EcellData d in entity.Value)
+                //{
+                //    if (d.Logged)
+                //    {
+                //        m_env.LoggerManager.AddLoggerEntry(
+                //            entity.ModelID, entity.Key, entity.Type, d.EntityPath);
+                //    }
+                //}
 
                 findFlag = true;
                 break;
