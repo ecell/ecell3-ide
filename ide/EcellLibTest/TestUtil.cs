@@ -38,6 +38,7 @@ namespace Ecell
     using System.Drawing;
     using Ecell.Objects;
     using System.Collections.Generic;
+    using System.IO;
     /// <summary>
     /// Testof Ecell Util class.
     /// </summary>
@@ -1852,6 +1853,9 @@ namespace Ecell
         [Test()]
         public void TestIsExistProject()
         {
+            if(Util.IsExistProject("Hoge"))
+                Directory.Delete(Path.Combine(Util.GetBaseDir(), "Hoge"), true);
+
             bool expectedBoolean = false;
             bool resultedBoolean = false;
 

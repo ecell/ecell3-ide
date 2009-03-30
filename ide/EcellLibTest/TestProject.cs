@@ -107,7 +107,7 @@ namespace Ecell
             Assert.IsNotEmpty(testProject.VariableDmList, "VariableDmList is unexpected value.");
 
             Assert.IsNotEmpty(testProject.InitialCondition, "InitialCondition is unexpected value.");
-            Assert.IsNull(testProject.LogableEntityPathDic, "LogableEntityPathDic is unexpected value.");
+            Assert.IsEmpty(testProject.LogableEntityPathDic, "LogableEntityPathDic is unexpected value.");
             testProject.LogableEntityPathDic = new Dictionary<string, string>();
             Assert.IsNotNull(testProject.LogableEntityPathDic, "LogableEntityPathDic is unexpected value.");
             Assert.IsNotEmpty(testProject.LoggerPolicyDic, "LoggerPolicyDic is unexpected value.");
