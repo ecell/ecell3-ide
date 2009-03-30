@@ -951,25 +951,7 @@ namespace Ecell
             CheckEntityPath(system);
             m_currentProject.AddSystem(system);
 
-            foreach (EcellData d in system.Value)
-            {
-                if (d.Logged)
-                {
-                    m_env.LoggerManager.AddLoggerEntry(
-                        system.ModelID, system.Key, system.Type, d.EntityPath);
-                }
-            }
-            foreach (EcellObject child in system.Children)
-            {
-                foreach (EcellData d in child.Value)
-                {
-                    if (d.Logged)
-                    {
-                        m_env.LoggerManager.AddLoggerEntry(
-                            child.ModelID, child.Key, child.Type, d.EntityPath);
-                    }
-                }
-            }
+            SetLogger(system);
 
             // Show Message.
             if (messageFlag)
@@ -977,6 +959,22 @@ namespace Ecell
                 MessageCreateEntity(EcellObject.SYSTEM,
                     string.Format(MessageResources.InfoAdd,
                     new object[] { type, system.Key }));
+            }
+        }
+
+        private void SetLogger(EcellObject obj)
+        {
+            foreach (EcellData d in obj.Value)
+            {
+                if (d.Logged)
+                {
+                    m_env.LoggerManager.AddLoggerEntry(
+                        obj.ModelID, obj.Key, obj.Type, d.EntityPath);
+                }
+            }
+            foreach (EcellObject child in obj.Children)
+            {
+                SetLogger(child);
             }
         }
 
@@ -1015,15 +1013,7 @@ namespace Ecell
                 // Set object.
                 CheckEntityPath(entity);
                 system.Children.Add(entity.Clone());
-
-                foreach (EcellData d in entity.Value)
-                {
-                    if (d.Logged)
-                    {
-                        m_env.LoggerManager.AddLoggerEntry(
-                            entity.ModelID, entity.Key, entity.Type, d.EntityPath);
-                    }
-                }
+                SetLogger(entity);
 
                 findFlag = true;
                 break;
@@ -2116,7 +2106,8 @@ namespace Ecell
             foreach (EcellData nd in newObj.Value)
             {
                 EcellData od = oldObj.GetEcellData(nd.Name);
-                if (od != null && od.Logged == nd.Logged) continue;
+                if (od != null && od.Logged == nd.Logged)
+                    continue;
                 if (nd.Logged)
                 {
                     m_env.LoggerManager.AddLoggerEntry(newObj.ModelID, newObj.Key, newObj.Type, nd.EntityPath);
@@ -2185,11 +2176,7 @@ namespace Ecell
                 }
                 return obj;
             }
-            catch (IgnoreException)
-            {
-                return null;
-            }
-            catch (EcellException ex)
+            catch (Exception ex)
             {
                 string message = string.Format(MessageResources.ErrAdd,
                     new object[] { type, key });
@@ -2989,9 +2976,6 @@ namespace Ecell
             Debug.Assert(!string.IsNullOrEmpty(modelID));
             if (string.IsNullOrEmpty(parameterID))
                 parameterID = m_currentProject.Info.SimulationParam;
-            if (string.IsNullOrEmpty(parameterID))
-                throw new EcellException(string.Format(MessageResources.ErrNoSet,
-                    new object[] { MessageResources.NameSimParam }));
 
             List<EcellObject> tempList = m_currentProject.StepperDic[parameterID][modelID];
             foreach (EcellObject stepper in tempList)
@@ -3779,7 +3763,7 @@ namespace Ecell
             //
             List<string> allLoggerList = new List<string>();
             List<EcellObject> systemList = new List<EcellObject>();
-            m_currentProject.LogableEntityPathDic = new Dictionary<string, string>();
+            m_currentProject.LogableEntityPathDic.Clear();
             Dictionary<string, object> setSystemPropertyDic = new Dictionary<string, object>();
             foreach (string modelID in modelIDList)
             {
@@ -4497,14 +4481,14 @@ namespace Ecell
         {
             string message = null;
 
-            if (m_currentProject.StepperDic.Keys.Count <= 1)
-            {
-                throw new EcellException(string.Format(MessageResources.ErrDelParam));
-            }
 
             try
             {
-                Debug.Assert(!string.IsNullOrEmpty(parameterID));
+                if (m_currentProject.StepperDic.Keys.Count <= 1)
+                {
+                    throw new EcellException(string.Format(MessageResources.ErrDelParam));
+                }
+
                 if (m_currentProject.SimulationStatus == SimulationStatus.Run ||
                     m_currentProject.SimulationStatus == SimulationStatus.Suspended)
                 {
@@ -4522,29 +4506,20 @@ namespace Ecell
                 //
                 // Initializes.
                 //
-
                 this.SetDefaultDir();
-                if (string.IsNullOrEmpty(m_defaultDir))
-                {
-                    throw new EcellException(string.Format(MessageResources.ErrNoSet,
-                        new object[] { MessageResources.NameWorkDir }));
-                }
-
-                Debug.Assert(m_currentProject.StepperDic.ContainsKey(parameterID));
                 m_currentProject.StepperDic.Remove(parameterID);
+
                 string simulationDirName
-                        = this.m_defaultDir + Constants.delimiterPath
-                        + m_currentProject.Info.Name + Constants.delimiterPath + Constants.xpathParameters;
-                string pattern
-                        = "_????_??_??_??_??_??_" + parameterID + Constants.FileExtXML;
+                        = Path.Combine(Path.Combine(m_defaultDir, m_currentProject.Info.Name), Constants.xpathParameters);
                 if (Directory.Exists(simulationDirName))
                 {
+                    string pattern = "_????_??_??_??_??_??_" + parameterID + Constants.FileExtXML;
                     foreach (string fileName in Directory.GetFiles(simulationDirName, pattern))
                     {
                         File.Delete(fileName);
                     }
                     string simulationFileName
-                            = simulationDirName + Constants.delimiterPath + parameterID + Constants.FileExtXML;
+                            = Path.Combine(simulationDirName, parameterID + Constants.FileExtXML);
                     File.Delete(simulationFileName);
                 }
                 m_currentProject.LoggerPolicyDic.Remove(parameterID);
@@ -4942,7 +4917,8 @@ namespace Ecell
         {
             List<string> result = new List<string>();
             string topDir = GetParameterDir();
-            if (!Directory.Exists(topDir)) return result;
+            if (!Directory.Exists(topDir))
+                return result;
 
             string[] pdirs = Directory.GetDirectories(topDir);
             for (int i = 0; i < pdirs.Length; i++)

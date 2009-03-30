@@ -355,6 +355,7 @@ namespace Ecell
             m_stepperDic = new Dictionary<string, Dictionary<string, List<EcellObject>>>();
             m_modelList = new List<EcellModel>();
             m_systemDic = new Dictionary<string, List<EcellObject>>();
+            m_logableEntityPathDic = new Dictionary<string, string>();
 
             // If this project is Template.
             if (info.ProjectType == ProjectType.Template)
@@ -499,9 +500,6 @@ namespace Ecell
             // Checks the modelID.
             if (string.IsNullOrEmpty(modelID))
                 throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "modelID"));
-            // Checks the current parameter ID.
-            if (string.IsNullOrEmpty(m_info.SimulationParam))
-                m_info.SimulationParam = Constants.defaultSimParam;
 
             m_initialCondition = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
             m_initialCondition[m_info.SimulationParam] = new Dictionary<string, Dictionary<string, double>>();
@@ -780,8 +778,6 @@ namespace Ecell
                 return m_modelList[0];
             if (type.Equals(EcellObject.SYSTEM))
                 return GetSystem(model, key);
-            if (type.Equals(EcellObject.STEPPER))
-                return null;
             else 
                 return GetEntity(model, key, type);
         }

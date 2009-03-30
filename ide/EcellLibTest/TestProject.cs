@@ -131,6 +131,11 @@ namespace Ecell
             testProject.Simulator = null;
             Assert.IsNull(testProject.Simulator, "Simulator is unexpected value.");
 
+            info = ProjectInfoLoader.Load(TestConstant.Project_Drosophila);
+            info.ProjectType = ProjectType.Template;
+            testProject = new Project(info, _env);
+            Assert.AreEqual(info, testProject.Info, "Info is unexpected value.");
+
         }
 
         /// <summary>
@@ -139,10 +144,10 @@ namespace Ecell
         [Test()]
         public void TestSetSimParams()
         {
-            string param = null;
+            string model = null;
             try
             {
-                _unitUnderTest.SetSimParams(param);
+                _unitUnderTest.SetSimParams(model);
                 Assert.Fail("");
             }
             catch (Exception)
@@ -150,18 +155,17 @@ namespace Ecell
             }
             try
             {
-                param = "newSimParam";
+                model = "newSimParam";
                 _unitUnderTest.Info.SimulationParam = null;
-                _unitUnderTest.SetSimParams(param);
+                _unitUnderTest.SetSimParams(model);
                 Assert.Fail("");
             }
             catch (Exception)
             {
             }
-            param = "newModelID";
-            _unitUnderTest.Info.SimulationParam = Constants.defaultSimParam;
-            _unitUnderTest.SetSimParams(param);
-            Assert.IsNotNull(_unitUnderTest.InitialCondition[Constants.defaultSimParam][param], "SimulationParam is unexpected value.");
+            model = "newModelID";
+            _unitUnderTest.SetSimParams(model);
+            Assert.IsNotNull(_unitUnderTest.InitialCondition[Constants.defaultSimParam][model], "SimulationParam is unexpected value.");
         }
 
         /// <summary>
@@ -312,6 +316,10 @@ namespace Ecell
             resultString = _unitUnderTest.GetTemporaryID(modelID, type, systemID);
             Assert.AreEqual(expectedString, resultString, "GetTemporaryID method returned unexpected result.");
 
+            type = "Text";
+            resultString = _unitUnderTest.GetTemporaryID(modelID, type, systemID);
+            Assert.AreEqual(expectedString, resultString, "GetTemporaryID method returned unexpected result.");
+
             try
             {
                 type = "Hoge";
@@ -321,7 +329,6 @@ namespace Ecell
             catch (EcellException)
             {
             }
-
         }
         /// <summary>
         /// 
@@ -420,6 +427,9 @@ namespace Ecell
             Assert.AreEqual(model, resultEcellObject.ModelID, "ModelID is unexpected value.");
             Assert.AreEqual(key, resultEcellObject.Key, "Key is unexpected value.");
             Assert.AreEqual(type, resultEcellObject.Type, "Type is unexpected value.");
+
+            resultEcellObject = _unitUnderTest.GetEcellObject("", "", key);
+            Assert.IsNull(resultEcellObject, "GetEcellObject method returned unexpected result.");
         }
         /// <summary>
         /// 
@@ -439,6 +449,15 @@ namespace Ecell
             resultEcellObject = _unitUnderTest.GetSystem(model, key);
             Assert.IsNull(resultEcellObject, "GetSystem method returned unexpected result.");
 
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestGetStepper()
+        {
+            EcellObject stepper = _unitUnderTest.GetStepper("Drosophila", "DE");
+            Assert.IsNotNull(stepper, "GetStepper method returned unexpected result.");
         }
         /// <summary>
         /// 
@@ -476,6 +495,7 @@ namespace Ecell
 
             newKey = _unitUnderTest.GetTemporaryID(modelID, type, syskey);
             system = EcellObject.CreateObject(modelID, newKey, type, type, new List<EcellData>());
+            _unitUnderTest.AddSystem(system);
 
             newKey = _unitUnderTest.GetTemporaryID(modelID, "Variable", system.Key);
             EcellObject var = EcellObject.CreateObject(modelID, newKey, "Variable", "Variable", new List<EcellData>());
@@ -538,6 +558,10 @@ namespace Ecell
             entity = _unitUnderTest.GetEntity("Drosophila", "/CELL/CYTOPLASM:R_toy1", "Process").Clone();
             entity.Key = _unitUnderTest.GetCopiedID(entity.ModelID, entity.Type, entity.Key);
             _unitUnderTest.AddSimulationParameter(entity);
+
+            EcellObject text = new EcellText("Drosophila", "/:Text0", "Text", "Text", new List<EcellData>());
+            _unitUnderTest.AddSimulationParameter(text);
+
         }
         /// <summary>
         /// 

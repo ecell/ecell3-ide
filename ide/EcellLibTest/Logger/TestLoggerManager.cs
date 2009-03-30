@@ -167,5 +167,30 @@ namespace Ecell.Logger
         void _unitUnderTest_LoggerDeleteEvent(object o, LoggerEventArgs e)
         {
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestSystemRemoved()
+        {
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
+            _unitUnderTest.AddLoggerEntry("Drosophila", "/CELL/CYTOPLASM:P1", "Variable", "Variable:/CELL/CYTOPLASM:P1:Value");
+            List<string> res = _unitUnderTest.GetLoggerList();
+            _unitUnderTest.SystemRemoved(_env.DataManager.GetEcellObject("Drosophila", "/CELL/CYTOPLASM", "System"));
+
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test()]
+        public void TestNodeRemoved()
+        {
+            _env.DataManager.LoadProject(TestConstant.Project_Drosophila);
+            _unitUnderTest.AddLoggerEntry("Drosophila", "/CELL/CYTOPLASM:P1", "Variable", "Variable:/CELL/CYTOPLASM:P1:Value");
+            List<string> res = _unitUnderTest.GetLoggerList();
+            _unitUnderTest.NodeRemoved(_env.DataManager.GetEcellObject("Drosophila", "/CELL/CYTOPLASM:P1", "Variable"));
+
+        }
     }
 }

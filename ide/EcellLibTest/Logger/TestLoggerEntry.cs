@@ -78,6 +78,7 @@ namespace Ecell.Logger
             Assert.AreEqual("/:ID", value.ID, "ID is not expected value.");
             Assert.AreEqual("Process", value.Type, "ModelID is not expected value.");
             Assert.AreEqual("Process:/:ID:Activity", value.FullPN, "ModelID is not expected value.");
+            Assert.AreNotEqual(0, value.GetHashCode(), "GetHashCode returns unexpected value.");
         }
 
         /// <summary>
