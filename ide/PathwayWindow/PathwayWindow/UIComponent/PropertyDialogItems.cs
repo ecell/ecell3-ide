@@ -36,7 +36,7 @@ using System.Drawing;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
 using System.ComponentModel;
 
-namespace Ecell.IDE.Plugins.PathwayWindow.Dialog
+namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
     /// <summary>
     /// UI class for PropertyDialog

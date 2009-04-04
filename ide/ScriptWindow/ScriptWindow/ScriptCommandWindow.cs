@@ -44,6 +44,7 @@ using Ecell;
 using Ecell.Logging;
 
 using IronPython.Hosting;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.ScriptWindow
 {

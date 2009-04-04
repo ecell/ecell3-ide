@@ -57,7 +57,6 @@ using Ecell.Objects;
 using Ecell.IDE.Plugins.PathwayWindow.Animation;
 using Ecell.IDE.Plugins.PathwayWindow.Components;
 using Ecell.Action;
-using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using System.Drawing.Imaging;
 
 namespace Ecell.IDE.Plugins.PathwayWindow
@@ -325,6 +324,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // Create Internal object.
             m_canvas = null;
             m_csManager = new ComponentManager();
+            m_csManager.Control = this;
             SetNodeIcons();
             // Create menus
             m_menu = new MenuControl(this);

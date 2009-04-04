@@ -38,10 +38,10 @@ using System.Windows.Forms;
 using UMD.HCIL.Piccolo.Nodes;
 using UMD.HCIL.Piccolo;
 using UMD.HCIL.Piccolo.Event;
-using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using System.Diagnostics;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.Objects;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {
@@ -241,7 +241,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.menuMergeLayer.Name = "menuMergeLayer";
             resources.ApplyResources(this.menuMergeLayer, "menuMergeLayer");
             this.menuMergeLayer.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.LayerMenuMerge;
-            this.menuMergeLayer.Click += new System.EventHandler(this.MergeLayerClick);
             // 
             // menuRemoveLayer
             // 
@@ -511,13 +510,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
         /// <param name="e"></param>
         private void MergeLayerClick(object sender, EventArgs e)
         {
-            List<string> list = m_canvas.GetLayerNameList();
-            string newName = SelectBoxDialog.Show(MessageResources.MergeLayerDialogMessage, MessageResources.MergeLayerDialogText, m_selectedLayer, list); 
-            if (string.IsNullOrEmpty(newName))
-                return;
-            Debug.Assert(!m_canvas.Layers.ContainsKey(newName));
-
-            m_canvas.NotifyMergeLayer(m_selectedLayer, newName);
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+            m_canvas.NotifyMergeLayer(m_selectedLayer, item.Text);
         }
 
         /// <summary>
@@ -532,6 +526,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 return;
             LayerGridRow row = (LayerGridRow)dataGridView.Rows[index];
             m_selectedLayer = row.Name;
+            SetMergeLayerMenus(row.Name);
             dataGridView.ClearSelection();
             row.Selected = true;
 
@@ -544,6 +539,22 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             separator2.Visible = true;
             menuMoveFront.Visible = true;
             menuMoveBack.Visible = true;
+        }
+
+        private void SetMergeLayerMenus(string layer)
+        {
+            menuMergeLayer.DropDownItems.Clear();
+            foreach (LayerGridRow row in dataGridView.Rows)
+            {
+                ToolStripMenuItem item = new ToolStripMenuItem(row.Name);
+                item.Click += new EventHandler(MergeLayerClick);
+
+                if (row.Name == layer)
+                {
+                    item.Checked = true;
+                    item.Enabled = false;
+                }
+            }
         }
 
         /// <summary>

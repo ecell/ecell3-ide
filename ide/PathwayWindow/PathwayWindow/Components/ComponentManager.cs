@@ -45,7 +45,6 @@ using System.Diagnostics;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 using System.Drawing.Drawing2D;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
-using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using Ecell.Objects;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Components
@@ -56,6 +55,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
     public class ComponentManager
     {
         #region Fields
+        /// <summary>
+        /// PathwayControl
+        /// </summary>
+        protected PathwayControl m_con = null;
         /// <summary>
         /// Dictionary of ComponentSettings for creating PPathwaySystem.
         /// </summary>
@@ -109,6 +112,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// Accessor for m_con.
+        /// </summary>
+        public PathwayControl Control
+        {
+            get { return this.m_con; }
+            set { m_con = value; }
+        }
+
         /// <summary>
         /// Accessor for m_systemSettings.
         /// </summary>

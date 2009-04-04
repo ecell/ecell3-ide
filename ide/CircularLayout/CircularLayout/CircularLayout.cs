@@ -35,6 +35,7 @@ using System.Drawing;
 using System.ComponentModel;
 using Ecell.Plugin;
 using Ecell.Objects;
+using System.Reflection;
 
 namespace Ecell.IDE.Plugins.CircularLayout
 {
@@ -48,6 +49,24 @@ namespace Ecell.IDE.Plugins.CircularLayout
         /// </summary>
         public CircularLayout()
         {
+        }
+
+        /// <summary>
+        /// Get the name of this plugin.
+        /// </summary>
+        /// <returns>"MessageWindow"</returns>
+        public override string GetPluginName()
+        {
+            return "CircularLayout";
+        }
+
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
+        public override string GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         /// <summary>

@@ -1100,15 +1100,15 @@ namespace Ecell.IDE.MainWindow
             // Show OpenFileDialog.
             try
             {
-                m_openFileDialog.RestoreDirectory = true;
-                m_openFileDialog.Filter = Constants.FilterEmlFile;
-                if (m_openFileDialog.ShowDialog() != DialogResult.OK)
+                openFileDialog.RestoreDirectory = true;
+                openFileDialog.Filter = Constants.FilterEmlFile;
+                if (openFileDialog.ShowDialog() != DialogResult.OK)
                     return;
                 // Close project
                 if (!string.IsNullOrEmpty(m_env.DataManager.CurrentProjectID))
                     CloseProject();
                 // Load new project.
-                string filepath = m_openFileDialog.FileName;
+                string filepath = openFileDialog.FileName;
                 m_env.DataManager.LoadProject(filepath);
             }
             catch (Exception ex)
@@ -1396,7 +1396,7 @@ namespace Ecell.IDE.MainWindow
         }
 
         /// <summary>
-        /// Event when setup IDE button is clicked.
+        /// Event when setup IDE menu is clicked.
         /// </summary>
         /// <param name="sender">MenuItem</param>
         /// <param name="e">EventArgs</param>
@@ -1412,7 +1412,24 @@ namespace Ecell.IDE.MainWindow
                 Util.ShowNoticeDialog(MessageResources.ConfirmRestart);
             }
         }
+        
+        /// <summary>
+        /// Event when Settings menu is clicked.
+        /// </summary>
+        /// <param name="sender">MenuItem</param>
+        /// <param name="e">EventArgs</param>
+        private void SettingsMenuClick(object sender, EventArgs e)
+        {
+            PropertyDialog dialog = new PropertyDialog(m_env.PluginManager.GetPropertySettings());
+            using (dialog)
+            {
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return;
 
+                dialog.ApplyChanges();
+            }
+
+        }
         /// <summary>
         /// Event when this form is closed.
         /// </summary>

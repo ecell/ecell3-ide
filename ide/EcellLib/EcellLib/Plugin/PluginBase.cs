@@ -136,19 +136,13 @@ namespace Ecell.Plugin
         /// Get the name of this plugin.
         /// </summary>
         /// <returns>""</returns>
-        public virtual string GetPluginName()
-        {
-            return GetType().Name;
-        }
+        public abstract string GetPluginName();
 
         /// <summary>
         /// Get the version of this plugin.
         /// </summary>
         /// <returns>version string.</returns>
-        public virtual string GetVersionString()
-        {
-            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
+        public abstract string GetVersionString();
 
         /// <summary>
         /// 

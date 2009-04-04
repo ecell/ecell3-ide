@@ -34,6 +34,7 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.MainWindow.UIComponents
 {

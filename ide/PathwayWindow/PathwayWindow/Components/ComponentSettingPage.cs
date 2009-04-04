@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Components
 {
@@ -41,6 +40,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
                 item.ApplyChange();
             }
             m_manager.SaveComponentSettings();
+            m_manager.Control.ResetObjectSettings();
+
         }
 
         public override void PropertyDialogClosing()

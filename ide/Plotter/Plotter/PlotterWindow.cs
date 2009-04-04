@@ -37,6 +37,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using ZedGraph;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.Plotter
 {

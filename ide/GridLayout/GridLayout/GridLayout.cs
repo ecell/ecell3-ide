@@ -41,6 +41,7 @@ using System.ComponentModel;
 using Ecell.Plugin;
 using Ecell.Objects;
 using Ecell.Exceptions;
+using System.Reflection;
 
 namespace Ecell.IDE.Plugins.GridLayout
 {
@@ -102,6 +103,24 @@ namespace Ecell.IDE.Plugins.GridLayout
         /// </summary>
         public GridLayout()
         {
+        }
+
+        /// <summary>
+        /// Get the name of this plugin.
+        /// </summary>
+        /// <returns>"MessageWindow"</returns>
+        public override string GetPluginName()
+        {
+            return "GridLayout";
+        }
+
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
+        public override string GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         #region inherited from ILayoutAlgorithm

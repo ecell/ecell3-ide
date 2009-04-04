@@ -46,6 +46,7 @@ using System.Xml.Serialization;
 
 using WeifenLuo.WinFormsUI.Docking;
 using Ecell.Exceptions;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.MainWindow
 {

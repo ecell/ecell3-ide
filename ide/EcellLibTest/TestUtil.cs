@@ -1865,10 +1865,10 @@ namespace Ecell
             resultedBoolean = Util.IsExistProject("Hoge");
             Assert.AreEqual(expectedBoolean, resultedBoolean, "IsExistProject returned unexpected result.");
 
-            expectedBoolean = true;
-
             resultedBoolean = Util.IsExistProject("Oscillation");
             Assert.AreEqual(expectedBoolean, resultedBoolean, "IsExistProject returned unexpected result.");
+
+            expectedBoolean = true;
 
             resultedBoolean = Util.IsExistProject("Drosophila");
             Assert.AreEqual(expectedBoolean, resultedBoolean, "IsExistProject returned unexpected result.");

@@ -34,7 +34,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Ecell
+namespace Ecell.Plugin
 {
     /// <summary>
     /// Class managed the DockContent
@@ -57,6 +57,15 @@ namespace Ecell
         }
         #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public EcellDockContent()
+        {
+            InitializeComponent();
+        }
+
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EcellDockContent));
@@ -71,7 +80,9 @@ namespace Ecell
             this.ResumeLayout(false);
 
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Get DesktopBounds
         /// </summary>
@@ -102,5 +113,7 @@ namespace Ecell
             }
             return pos;
         }
+        #endregion
+
     }
 }

@@ -101,7 +101,7 @@
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EcellDockContent.resx">
+    <EmbeddedResource Include="Plugin\EcellDockContent.resx">
       <SubType>Designer</SubType>
       <DependentUpon>EcellDockContent.cs</DependentUpon>
     </EmbeddedResource>
@@ -155,7 +155,7 @@
     <Compile Include="DMCompiler.cs" />
     <Compile Include="DMDescriptor.cs" />
     <Compile Include="DMDescriptorKeeper.cs" />
-    <Compile Include="EcellDockContent.cs">
+    <Compile Include="Plugin\EcellDockContent.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ApplicationEnvironment.cs" />

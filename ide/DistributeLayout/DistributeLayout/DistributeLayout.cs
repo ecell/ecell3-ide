@@ -35,6 +35,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using Ecell.Plugin;
 using Ecell.Objects;
+using System.Reflection;
 
 namespace Ecell.IDE.Plugins.DistributeLayout
 {
@@ -50,6 +51,24 @@ namespace Ecell.IDE.Plugins.DistributeLayout
         /// </summary>
         public DistributeLayout()
         {
+        }
+
+        /// <summary>
+        /// Get the name of this plugin.
+        /// </summary>
+        /// <returns>"MessageWindow"</returns>
+        public override string GetPluginName()
+        {
+            return "DistributeLayout";
+        }
+
+        /// <summary>
+        /// Get the version of this plugin.
+        /// </summary>
+        /// <returns>version string.</returns>
+        public override String GetVersionString()
+        {
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         /// <summary>

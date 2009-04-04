@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {

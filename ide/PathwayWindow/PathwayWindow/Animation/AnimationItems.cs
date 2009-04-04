@@ -31,11 +31,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using System.Drawing;
 using System.Windows.Forms;
 
 using Ecell.Exceptions;
+using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -91,16 +91,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnimationItems));
             this.edgeBox = new System.Windows.Forms.GroupBox();
             this.edgeLabel = new System.Windows.Forms.Label();
-            this.edgeHighBrush = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem();
-            this.edgeLowBrush = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem();
-            this.autoThresholdCheckBox = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyCheckBoxItem();
-            this.thresholdHigh = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyTextItem();
-            this.thresholdLow = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyTextItem();
-            this.edgeNGBrush = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem();
-            this.aviOutputCheckBox = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyCheckBoxItem();
-            this.propertyBrush = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem();
-            this.logarithmicCheckBox = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyCheckBoxItem();
-            this.aviFileName = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertySaveFileItem();
+            this.edgeHighBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
+            this.edgeLowBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
+            this.autoThresholdCheckBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem();
+            this.thresholdHigh = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem();
+            this.thresholdLow = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem();
+            this.edgeNGBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
+            this.aviOutputCheckBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem();
+            this.propertyBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
+            this.logarithmicCheckBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem();
+            this.aviFileName = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertySaveFileItem();
             this.outputBox = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.variableBox = new System.Windows.Forms.GroupBox();

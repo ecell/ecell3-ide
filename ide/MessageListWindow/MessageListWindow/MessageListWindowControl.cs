@@ -38,6 +38,7 @@ using System.Windows.Forms;
 
 using Ecell;
 using Ecell.Reporting;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.MessageListWindow
 {

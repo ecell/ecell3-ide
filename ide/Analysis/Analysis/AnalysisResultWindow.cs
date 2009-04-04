@@ -12,6 +12,7 @@ using Ecell.Objects;
 using Ecell.Job;
 using Ecell.Exceptions;
 using ZedGraph;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.Analysis
 {

@@ -6,6 +6,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
     using Ecell.Objects;
     using Ecell.Logger;
     using System.Windows.Forms;
+    using Ecell.Plugin;
 
     /// <summary>
     /// Auto Generated TestCase of PathwayWindow
@@ -189,8 +190,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         [Test()]
         public void TestGetWindowsForms()
         {
-            IEnumerable<Ecell.EcellDockContent> expectedList = null;
-            IEnumerable<Ecell.EcellDockContent> resultList = null;
+            IEnumerable<EcellDockContent> expectedList = null;
+            IEnumerable<EcellDockContent> resultList = null;
             resultList = _unitUnderTest.GetWindowsForms();
             Assert.AreEqual(expectedList, resultList, "GetWindowsForms method returned unexpected result.");
             Assert.Fail("Create or modify test(s).");

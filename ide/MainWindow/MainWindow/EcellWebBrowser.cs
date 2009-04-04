@@ -40,6 +40,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Collections;
 using Ecell.Action;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.MainWindow
 {

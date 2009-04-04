@@ -42,6 +42,7 @@ using ZedGraph;
 
 using Ecell.Objects;
 using Ecell.Logger;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.TracerWindow
 {

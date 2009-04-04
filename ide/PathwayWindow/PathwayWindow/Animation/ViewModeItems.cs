@@ -37,7 +37,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using Ecell.Exceptions;
-using Ecell.IDE.Plugins.PathwayWindow.Dialog;
+using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 {
@@ -81,9 +81,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ViewModeItems));
             this.groupBox = new System.Windows.Forms.GroupBox();
-            this.bgBrush = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem();
-            this.edgeBrush = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem();
-            this.edgeWidth = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyTextItem();
+            this.bgBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
+            this.edgeBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
+            this.edgeWidth = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyTextItem();
             this.groupBox.SuspendLayout();
             this.SuspendLayout();
             // 

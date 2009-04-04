@@ -45,7 +45,6 @@ using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using UMD.HCIL.Piccolo.Util;
 using Ecell.Objects;
 using System.Windows.Forms;
-using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.Components

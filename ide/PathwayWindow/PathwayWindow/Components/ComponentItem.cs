@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 using System.Drawing;
 using Ecell.IDE.Plugins.PathwayWindow.Figure;
@@ -44,13 +43,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentItem));
             this.groupBox = new System.Windows.Forms.GroupBox();
-            this.isGradation = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyCheckBoxItem();
-            this.figureBox = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyComboboxItem();
-            this.textBrush = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem();
-            this.lineBrush = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem();
-            this.fillBrush = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem();
-            this.centerBrush = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyBrushItem();
-            this.iconFile = new Ecell.IDE.Plugins.PathwayWindow.Dialog.PropertyOpenFileItem();
+            this.isGradation = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyCheckBoxItem();
+            this.figureBox = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyComboboxItem();
+            this.textBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
+            this.lineBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
+            this.fillBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
+            this.centerBrush = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyBrushItem();
+            this.iconFile = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PropertyOpenFileItem();
             this.pCanvas = new Ecell.IDE.Plugins.PathwayWindow.UIComponent.PToolBoxCanvas();
             this.groupBox.SuspendLayout();
             this.SuspendLayout();

@@ -51,7 +51,6 @@ using Ecell.Plugin;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.Graphic;
-using Ecell.IDE.Plugins.PathwayWindow.Dialog;
 using Ecell.IDE.Plugins.PathwayWindow.Components;
 using Ecell.IDE.Plugins.PathwayWindow.UIComponent;
 
@@ -100,8 +99,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         private ToolStrip toolMenu;
         private ToolStripMenuItem toolMenuExport;
         private ToolStripMenuItem MenuItemFile;
-        private ToolStripMenuItem toolMenuSetupItem;
-        private ToolStripMenuItem MenuItemSetup;
         private ToolStripMenuItem toolMenuFocusMode;
         private ToolStripMenuItem toolMenuShowID;
         private ToolStripMenuItem toolMenuAnimation;
@@ -165,7 +162,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 List<ToolStripMenuItem> menuList = new List<ToolStripMenuItem>();
                 menuList.Add(MenuItemFile);
-                menuList.Add(MenuItemSetup);
                 menuList.Add(MenuItemView);
                 menuList.Add(MenuItemEdit);
                 return menuList;
@@ -272,8 +268,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolMenu = new System.Windows.Forms.ToolStrip();
             this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuExport = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuItemSetup = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolMenuSetupItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemView = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuFocusMode = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuShowID = new System.Windows.Forms.ToolStripMenuItem();
@@ -630,7 +624,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             // 
             this.toolMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuItemFile,
-            this.MenuItemSetup,
             this.MenuItemView,
             this.MenuItemEdit});
             this.toolMenu.Location = new System.Drawing.Point(0, 0);
@@ -653,21 +646,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             this.toolMenuExport.Tag = 17;
             this.toolMenuExport.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemExport;
             this.toolMenuExport.Click += new System.EventHandler(this.ExportImage);
-            // 
-            // MenuItemSetup
-            // 
-            this.MenuItemSetup.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolMenuSetupItem});
-            this.MenuItemSetup.Name = "MenuItemSetup";
-            this.MenuItemSetup.Size = new System.Drawing.Size(110, 25);
-            this.MenuItemSetup.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemSetup;
-            // 
-            // toolMenuSetupItem
-            // 
-            this.toolMenuSetupItem.Name = "toolMenuSetupItem";
-            this.toolMenuSetupItem.Size = new System.Drawing.Size(163, 22);
-            this.toolMenuSetupItem.Text = global::Ecell.IDE.Plugins.PathwayWindow.MessageResources.MenuItemSetup;
-            this.toolMenuSetupItem.Click += new System.EventHandler(this.ShowDialogClick);
             // 
             // MenuItemView
             // 

@@ -38,6 +38,7 @@ using Ecell.IDE.Plugins.PathwayWindow.Nodes;
 using Ecell.IDE.Plugins.PathwayWindow.Handler;
 using UMD.HCIL.Piccolo;
 using Ecell.IDE.Plugins.PathwayWindow.Components;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 {

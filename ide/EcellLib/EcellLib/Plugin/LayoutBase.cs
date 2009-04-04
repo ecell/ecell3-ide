@@ -63,6 +63,7 @@ namespace Ecell.Plugin
 
             return returnList;
         }
+
         /// <summary>
         /// Returns list of selected EcellObjects.
         /// </summary>
@@ -77,6 +78,7 @@ namespace Ecell.Plugin
 
             return returnList;
         }
+
         /// <summary>
         /// Get a rectangle surrounded by given nodes.
         /// </summary>
@@ -101,51 +103,52 @@ namespace Ecell.Plugin
             }
             return new RectangleF(minX, minY, maxX - minX, maxY - minY);
         }
+
         /// <summary>
         /// 
         /// </summary>
-        public void Initialize()
+        public virtual void Initialize()
         {
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public virtual string GetPluginName()
-        {
-            return GetType().Name;
-        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public string GetVersionString()
-        {
-            return Assembly.GetAssembly(GetType()).GetName().Version.ToString();
-        }
+        public abstract string GetPluginName();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public abstract string GetVersionString();
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="status"></param>
-        public void ChangeStatus(ProjectStatus status)
+        public virtual void ChangeStatus(ProjectStatus status)
         {
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, Delegate> GetPublicDelegate()
+        public virtual Dictionary<string, Delegate> GetPublicDelegate()
         {
             return null;
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<IPropertyItem> GetPropertySettings()
+        public virtual List<IPropertyItem> GetPropertySettings()
         {
             return null;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -163,6 +166,7 @@ namespace Ecell.Plugin
         /// </summary>
         /// <returns></returns>
         public abstract LayoutType GetLayoutType();
+
         /// <summary>
         /// 
         /// </summary>

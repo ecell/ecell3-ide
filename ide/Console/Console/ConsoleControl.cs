@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using Ecell.Plugin;
 
 namespace Ecell.IDE.Plugins.Console
 {
