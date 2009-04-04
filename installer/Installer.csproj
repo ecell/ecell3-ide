@@ -38,6 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="E-Cell_IDE_Installer.iss.tmpl" />
+    <None Include="E-Cell_IDE_Installer32.iss.tmpl" />
+    <None Include="E-Cell_IDE_Installer64.iss.tmpl" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -48,7 +50,8 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>SubWCRev "$(SolutionDir)..\ide\MainWindow" "$(ProjectDir)E-Cell_IDE_Installer.iss.tmpl" "$(ProjectDir)E-Cell_IDE_Installer.iss"</PreBuildEvent>
+    <PreBuildEvent>SubWCRev "$(SolutionDir)..\ide\MainWindow" "$(ProjectDir)E-Cell_IDE_Installer32.iss.tmpl" "$(ProjectDir)E-Cell_IDE_Installer32.iss"
+SubWCRev "$(SolutionDir)..\ide\MainWindow" "$(ProjectDir)E-Cell_IDE_Installer64.iss.tmpl" "$(ProjectDir)E-Cell_IDE_Installer64.iss"</PreBuildEvent>
     <PostBuildEvent>FOR %25%25A IN (Win32 x64) DO (FOR %25%25D IN (bin plugins) DO XCOPY /I /E /Y /S "$(ECELL_STAGING_HOME)\"%25%25A"\release\"%25%25D "$(ProjectDir)\"%25%25A\%25%25D &amp;&amp; XCOPY /I /E /Y /S "$(ECELL_STAGING_HOME)\"%25%25A"\release\lib\ecell-3.1\dms" "$(ProjectDir)%25%25A\lib\ecell-3.1\dms" &amp;&amp; FOR %25%25I IN (IronPython.dll IronMath.dll WeifenLuo.WinFormsUI.Docking.dll ZedGraph.dll UMD.HCIL.Piccolo.dll UMD.HCIL.PiccoloX.dll MathNet.Iridium.dll) DO CALL :copy_assembly %25%25I "$(ProjectDir)\%25%25A\bin")
 
 SET REDIST_DIR=$(DevEnvDir)\..\..\VC\redist
@@ -59,7 +62,8 @@ PUSHD %25REDIST_DIR%25\amd64
 FOR /F "usebackq" %25%25D IN (`DIR /B Microsoft.VC??.CRT`) DO XCOPY /I /E /Y /S "%25%25D" "$(ProjectDir)\x64\bin\%25%25D"
 POPD
 
-"$(TargetPath)" "$(ProjectDir)\E-Cell_IDE_Installer.iss"
+"$(TargetPath)" "$(ProjectDir)\E-Cell_IDE_Installer32.iss"
+"$(TargetPath)" "$(ProjectDir)\E-Cell_IDE_Installer64.iss"
 GOTO :EOF
 
 :copy_assembly

@@ -1,0 +1,473 @@
+[Setup]
+VersionInfoVersion=1.1.$WCREV$
+PrivilegesRequired=poweruser
+AppComments=E-Cell IDE
+InternalCompressLevel=max
+Compression=lzma/ultra
+VersionInfoTextVersion=E-Cell IDE 1.1.$WCREV$
+EnableDirDoesntExistWarning=Yes
+WizardSmallImageFile=img\ecell-logo1.bmp
+WizardImageFile=img\test.bmp
+WizardImageStretch=no
+ChangesEnvironment=Yes
+AppPublisherURL=http://sourceforge.net/project/showfiles.php?group_id=72485
+AppPublisher=Keio University and Mitsubishi Space Software CO., LTD.
+OnlyBelowVersion=0,7
+MinVersion=0,5.0.2195
+DefaultGroupName=E-Cell IDE
+OutputDir=.
+VersionInfoCopyright=Copyright (C) 2005-2009 Keio University\r\nCopyright (C) 2005-2009 Mitsubishi Space Software CO., LTD.
+;AppVerName=E-Cell IDE 1.1.$WCREV$
+AppVerName=E-Cell IDE 1.0 beta 4
+SetupIconFile=img\ECellIDE.ico
+BackColor2=$004080FF
+BackColor=$0086ADFF
+DisableProgramGroupPage=Yes
+AllowNoIcons=Yes
+VersionInfoDescription=E-Cell IDE 1.0 beta 4
+VersionInfoCompany=Keio University and Mitsubishi Space Software CO., LTD.
+;ArchitecturesInstallIn64BitMode=x64
+ArchitecturesAllowed=x64
+;DefaultDirName={pf}\E-Cell IDE
+OutputBaseFilename=E-Cell_IDE_installer64
+DefaultDirName=C:\Program Files\E-Cell IDE
+;AppName = E-Cell IDE
+AppName = E-Cell IDE 1.0 beta 4
+AppID = ECell_IDE
+AppModifyPath="{app}\UninsHs.exe" /m0=ECell_IDE
+LicenseFile=License.txt
+
+[Components]
+Name: main; Description: "Main"; Types: full compact custom; Flags: fixed
+Name: extension; Description: "Extension"; Types: full compact; Flags: DisableNoUninstallWarning
+Name: sample; Description: "Sample Plugin"; Types: full compact; Flags: DisableNoUninstallWarning
+
+[Languages]
+Name: "en"; MessagesFile: "C:\Program Files\Inno Setup 5\Default.isl"; LicenseFile: License.txt
+Name: "jp"; MessagesFile: "C:\Program Files\Inno Setup 5\Languages\Japanese.isl"; LicenseFile: License_ja.txt
+
+[LangOptions]
+jp.LanguageName = "<65e5><672c><8a9e>"
+
+[Files]
+; ======================================================
+; common
+; ======================================================
+Source: "lib\ironpython\*.py"; DestDir: "{app}\bin"; Components: extension; CopyMode: alwaysoverwrite;
+
+Source: "samples\Arti_Class1\*"; DestDir: "{userdocs}\My E-Cell Projects\Arti_Class1"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Arti_Class1\*"; DestDir: "{commondocs}\My E-Cell Projects\Arti_Class1"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Arti_Class1\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\Arti_Class1\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Arti_Class1\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\Arti_Class1\Model"; Components: extension; CopyMode: alwaysoverwrite;
+
+Source: "samples\Arti_Class2\*"; DestDir: "{userdocs}\My E-Cell Projects\Arti_Class2"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Arti_Class2\*"; DestDir: "{commondocs}\My E-Cell Projects\Arti_Class2"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Arti_Class2\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\Arti_Class2\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Arti_Class2\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\Arti_Class2\Model"; Components: extension; CopyMode: alwaysoverwrite;
+
+Source: "samples\branchG\*"; DestDir: "{userdocs}\My E-Cell Projects\branchG"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\branchG\*"; DestDir: "{commondocs}\My E-Cell Projects\branchG"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\branchG\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\branchG\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\branchG\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\branchG\Model"; Components: extension; CopyMode: alwaysoverwrite;
+
+Source: "samples\CoupledOscillator\*"; DestDir: "{userdocs}\My E-Cell Projects\CoupledOscillator"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\CoupledOscillator\*"; DestDir: "{commondocs}\My E-Cell Projects\CoupledOscillator"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\CoupledOscillator\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\CoupledOscillator\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\CoupledOscillator\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\CoupledOscillator\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "x64\samples\CoupledOscillator\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\CoupledOscillator\DMs";  Components: extension; CopyMode: alwaysoverwrite;
+Source: "x64\samples\CoupledOscillator\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\CoupledOscillator\DMs";  Components: extension; CopyMode: alwaysoverwrite;
+
+; 20080508 start
+Source: "x64\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{userdocs}\My E-Cell Projects\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\Microsoft.VC80.CRT\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Components: main; CopyMode: alwaysoverwrite;
+
+Source: "x64\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{commondocs}\My E-Cell Projects\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\Microsoft.VC80.CRT\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\CoupledOscillator\DMs\Microsoft.VC80.CRT"; Components: main; CopyMode: alwaysoverwrite;
+; 20080508 end
+
+
+Source: "samples\Drosophila\*"; DestDir: "{userdocs}\My E-Cell Projects\Drosophila"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Drosophila\*"; DestDir: "{commondocs}\My E-Cell Projects\Drosophila"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Drosophila\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\Drosophila\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Drosophila\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\Drosophila\Model"; Components: extension; CopyMode: alwaysoverwrite;
+
+Source: "samples\heatshock\*"; DestDir: "{userdocs}\My E-Cell Projects\heatshock"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\heatshock\*"; DestDir: "{commondocs}\My E-Cell Projects\heatshock"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\heatshock\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\heatshock\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\heatshock\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\heatshock\Model"; Components: extension; CopyMode: alwaysoverwrite;
+
+;Source: "samples\LTD\*"; DestDir: "{userdocs}\My E-Cell Projects\LTD"; Components: extension; CopyMode: alwaysoverwrite;
+;Source: "samples\LTD\*"; DestDir: "{commondocs}\My E-Cell Projects\LTD"; Components: extension; CopyMode: alwaysoverwrite;
+;Source: "samples\LTD\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\LTD\Model"; Components: extension; CopyMode: alwaysoverwrite;
+;Source: "samples\LTD\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\LTD\Model"; Components: extension; CopyMode: alwaysoverwrite;
+;Source: "x64\samples\LTD\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\LTD\DMs";  Components: extension; CopyMode: alwaysoverwrite;
+;Source: "x64\samples\LTD\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\LTD\DMs";  Components: extension; CopyMode: alwaysoverwrite;
+
+Source: "samples\Oscillation\*"; DestDir: "{userdocs}\My E-Cell Projects\Oscillation"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Oscillation\*"; DestDir: "{commondocs}\My E-Cell Projects\Oscillation"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Oscillation\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\Oscillation\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Oscillation\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\Oscillation\Model"; Components: extension; CopyMode: alwaysoverwrite;
+
+Source: "samples\Pendulum\*"; DestDir: "{userdocs}\My E-Cell Projects\Pendulum"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Pendulum\*"; DestDir: "{commondocs}\My E-Cell Projects\Pendulum"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Pendulum\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\Pendulum\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Pendulum\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\Pendulum\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "x64\samples\Pendulum\DMs\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\Pendulum\DMs";  Components: extension; CopyMode: alwaysoverwrite;
+Source: "x64\samples\Pendulum\DMs\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\Pendulum\DMs";  Components: extension; CopyMode: alwaysoverwrite;
+
+; 20080508 start
+Source: "x64\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{userdocs}\My E-Cell Projects\Pendulum\DMs\Microsoft.VC80.CRT"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\Microsoft.VC80.CRT\*.dll"; DestDir: "{userdocs}\My E-Cell Projects\Pendulum\DMs\Microsoft.VC80.CRT"; Components: main; CopyMode: alwaysoverwrite;
+
+Source: "x64\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{commondocs}\My E-Cell Projects\Pendulum\DMs\Microsoft.VC80.CRT"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\Microsoft.VC80.CRT\*.dll"; DestDir: "{commondocs}\My E-Cell Projects\Pendulum\DMs\Microsoft.VC80.CRT"; Components: main; CopyMode: alwaysoverwrite;
+; 20080508 end
+
+
+Source: "samples\QuorumSensing1\*"; DestDir: "{userdocs}\My E-Cell Projects\QuorumSensing1"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\QuorumSensing1\*"; DestDir: "{commondocs}\My E-Cell Projects\QuorumSensing1"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\QuorumSensing1\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\QuorumSensing1\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\QuorumSensing1\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\QuorumSensing1\Model"; Components: extension; CopyMode: alwaysoverwrite;
+
+Source: "samples\QuorumSensing2\*"; DestDir: "{userdocs}\My E-Cell Projects\QuorumSensing2"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\QuorumSensing2\*"; DestDir: "{commondocs}\My E-Cell Projects\QuorumSensing2"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\QuorumSensing2\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\QuorumSensing2\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\QuorumSensing2\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\QuorumSensing2\Model"; Components: extension; CopyMode: alwaysoverwrite;
+
+Source: "samples\simple\*"; DestDir: "{userdocs}\My E-Cell Projects\simple"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\simple\*"; DestDir: "{commondocs}\My E-Cell Projects\simple"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\simple\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\simple\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\simple\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\simple\Model"; Components: extension; CopyMode: alwaysoverwrite;
+
+Source: "samples\tauleap\*"; DestDir: "{userdocs}\My E-Cell Projects\tauleap"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\tauleap\*"; DestDir: "{commondocs}\My E-Cell Projects\tauleap"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\tauleap\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\tauleap\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\tauleap\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\tauleap\Model"; Components: extension; CopyMode: alwaysoverwrite;
+
+Source: "samples\Toy_Hybrid\*"; DestDir: "{userdocs}\My E-Cell Projects\Toy_Hybrid"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Toy_Hybrid\*"; DestDir: "{commondocs}\My E-Cell Projects\Toy_Hybrid"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Toy_Hybrid\Model\*"; DestDir: "{userdocs}\My E-Cell Projects\Toy_Hybrid\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "samples\Toy_Hybrid\Model\*"; DestDir: "{commondocs}\My E-Cell Projects\Toy_Hybrid\Model"; Components: extension; CopyMode: alwaysoverwrite;
+
+Source: "conf\*"; DestDir: "{app}\conf"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "conf\Process\*"; DestDir: "{app}\conf\Process"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "conf\Templates\Empty\*"; DestDir: "{app}\conf\Templates\Empty"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "conf\Templates\Empty\Model\*"; DestDir: "{app}\conf\Templates\Empty\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "conf\Templates\Oscillation\*"; DestDir: "{app}\conf\Templates\Oscillation"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "conf\Templates\Oscillation\Model\*"; DestDir: "{app}\conf\Templates\Oscillation\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "conf\Templates\Simple\*"; DestDir: "{app}\conf\Templates\Simple"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "conf\Templates\Simple\Model\*"; DestDir: "{app}\conf\Templates\Simple\Model"; Components: extension; CopyMode: alwaysoverwrite;
+Source: "lib\ironpython\*"; DestDir: "{app}\lib\ironpython"; Components: main; CopyMode: alwaysoverwrite;
+Source: "common\startup.html"; DestDir:"{app}\conf"; Components:main; CopyMode: alwaysoverwrite;
+Source: "common\startup.ja.html"; DestDir:"{app}\conf"; Components:main; CopyMode: alwaysoverwrite;
+Source: "common\default.css"; DestDir:"{app}\conf"; Components:main; CopyMode: alwaysoverwrite;
+Source: "common\groupbox-header-bg.png"; DestDir:"{app}\conf"; Components:main; CopyMode: alwaysoverwrite;
+Source: "common\banner.png"; DestDir:"{app}\conf"; Components:main; CopyMode: alwaysoverwrite;
+Source: "common\credit.info"; DestDir:"{app}\bin"; Components:main; CopyMode: alwaysoverwrite;
+
+; ======================================================
+; bin/*.exe
+; ======================================================
+Source: "x64\bin\ecell-ide.exe"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "common\x64\ecell-ide.exe.manifest"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+
+Source: "common\ipy.exe"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "common\ipyw.exe"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "lib\ironpython\EcellIDE.py"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+
+
+; ======================================================
+; bin/*.dll
+; ======================================================
+Source: "x64\bin\EcellCoreLibCLR.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\EcellLib.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\EcellUILib.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\ecs.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\emc.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\Formulator.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\IronMath.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\IronPython.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\gsl.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\cblas.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\UMD.HCIL.Piccolo.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\UMD.HCIL.PiccoloX.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\WeifenLuo.WinFormsUI.Docking.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\ZedGraph.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\SessionManager.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\MathNet.Iridium.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+
+Source: "x64\bin\ICSharpCode.SharpZipLib.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\AviFile.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+
+Source: "x64\bin\libsbmlcsD.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\libsbmlcsP.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\libsbmlcs.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+
+
+; 2008/05/07  for XP and 2000 machine.
+Source: "x64\bin\libgsl.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\libgslcblas.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+
+; ======================================================
+; bin/ja/*
+; ======================================================
+Source: "x64\bin\ja\*"; DestDir: "{app}\bin\ja"; Components: main; CopyMode: alwaysoverwrite;
+
+; ======================================================
+; bin/Microsoft.VC80.CRT/*
+; ======================================================
+Source: "x64\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{app}\bin\Microsoft.VC80.CRT"; Components: main; CopyMode: alwaysoverwrite;
+
+
+; ======================================================
+; plugins/*.dll
+; ======================================================
+Source: "x64\plugins\Analysis.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\EntityList.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\MessageListWindow.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\Console.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\PathwayWindow.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\ProjectExplorer.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\PropertyWindow.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\ScriptWindow.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\Simulation.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\Spreadsheet.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\StaticDebugWindow.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\TracerWindow.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+;Source: "x64\plugins\Plotter.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+
+Source: "conf\ComponentSettings.xml"; DestDir: "{app}\plugins";Components: extension; CopyMode: alwaysoverwrite;
+
+Source: "x64\plugins\AlignLayout.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\CircularLayout.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\DistributeLayout.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\plugins\GridLayout.dll"; DestDir: "{app}\plugins"; Components: main; CopyMode: alwaysoverwrite;
+
+
+; ======================================================
+; dm/*.dll
+; ======================================================
+Source: "x64\lib\ecell-3.2\dms\ConstantFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\DAEStepper.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\DecayFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\ESSYNSStepper.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\ExpressionAlgebraicProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\ExpressionAssignmentProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\ExpressionFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\FixedDAE1Stepper.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\FixedODE1Stepper.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\FluxDistributionStepper.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\GillespieProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\GMAProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\MassActionFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\MichaelisUniUniFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\ODE23Stepper.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\ODE45Stepper.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\ODEStepper.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\PingPongBiBiFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+;Source: "x64\lib\ecell-3.2\dms\PythonProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\QuasiDynamicFluxProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\SSystemProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\TauLeapProcess.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\TauLeapStepper.dll"; DestDir: "{app}\lib\ecell-3.2\dms"; Components: main; CopyMode: alwaysoverwrite;
+
+Source: "x64\lib\ecell-3.2\dms\GillespieProcess.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\lib\ecell-3.2\dms\QuasiDynamicFluxProcess.dll"; DestDir: "{app}\bin"; Components: main; CopyMode: alwaysoverwrite;
+
+
+; ======================================================
+; bin/Microsoft.VC80.CRT/*
+; ======================================================
+Source: "x64\bin\Microsoft.VC80.CRT\Microsoft.VC80.CRT.manifest"; DestDir: "{app}\lib\ecell-3.2\dms\Microsoft.VC80.CRT"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\Microsoft.VC80.CRT\msvcm80.dll"; DestDir: "{app}\lib\ecell-3.2\dms\Microsoft.VC80.CRT"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\Microsoft.VC80.CRT\msvcp80.dll"; DestDir: "{app}\lib\ecell-3.2\dms\Microsoft.VC80.CRT"; Components: main; CopyMode: alwaysoverwrite;
+Source: "x64\bin\Microsoft.VC80.CRT\msvcr80.dll"; DestDir: "{app}\lib\ecell-3.2\dms\Microsoft.VC80.CRT"; Components: main; CopyMode: alwaysoverwrite;
+
+
+; ======================================================
+; temporary
+; ======================================================
+Source: psvince.dll; DestDir: {app}; Components: main; CopyMode: alwaysoverwrite;
+Source: UninsHs.exe; DestDir: {app}; Flags: restartreplace ; Components: main; CopyMode: alwaysoverwrite;
+Source: tr.exe; DestDir: {app}; Flags: restartreplace ; Components: sample; CopyMode: alwaysoverwrite;
+
+; ======================================================
+; sample plugin
+; ======================================================
+Source: "SamplePluginProject\*"; DestDir: "{commondocs}\SamplePlugin"; Components: sample; CopyMode: alwaysoverwrite;
+Source: "SamplePluginProject\SamplePlugin\*"; DestDir: "{commondocs}\SamplePlugin\SamplePlugin"; Components: sample; CopyMode: alwaysoverwrite;
+Source: "SamplePluginProject\SamplePlugin\Properties\*"; DestDir: "{commondocs}\SamplePlugin\SamplePlugin\Properties"; Components: sample; CopyMode: alwaysoverwrite;
+
+
+[Registry]
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Analysis"; ValueData: "{app}\bin";Components: main; Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE DM"; ValueData: "{app}\lib\ecell-3.2\dms";Components: main; Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Plugin"; ValueData: "{app}\plugins";Components: main; Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Tmp"; ValueData: "{app}\tmp";Components: main; Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE StaticDebug Plugin"; ValueData: "{app}\plugins\staticdebug";Components: main; Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE WINDOW SETTING"; ValueData: "{app}\conf";Components: main; Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Startup"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Analysis"; ValueData: "{app}\bin";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE DM"; ValueData: "{app}\lib\ecell-3.2\dms";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Plugin"; ValueData: "{app}\plugins";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Tmp"; ValueData: "{app}\tmp";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE StaticDebug Plugin"; ValueData: "{app}\plugins\staticdebug";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE WINDOW SETTING"; ValueData: "{app}\conf";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Startup"; ValueData: "{app}\lib\ironpython\__init__.py";Components: main; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE"; ValueData: "true";Components: main; Flags: uninsdeletekey;
+
+;Root: HKCR; Subkey: ".eml"; ValueType: string; ValueName: ""; ValueData: "E-CellProgramFile"; Flags: uninsdeletevalue; Components: main; Flags: uninsdeletekey;
+Root: HKCR; Subkey: "E-CellProgramFile"; ValueType: string; ValueName: ""; ValueData: "My Program File"; Components: main; Flags: uninsdeletekey;
+Root: HKCR; Subkey: "E-CellProgramFile\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\bin\ecell-ide.exe,0"; Components: main; Flags: uninsdeletekey;
+Root: HKCR; Subkey: "E-CellProgramFile\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\bin\ecell-ide.exe"" ""%1"""; Components: main; Flags: uninsdeletekey;
+Root: HKCU; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Base"; ValueData: "{userdocs}\My E-Cell Projects"; Components: main; Flags: uninsdeletekey;
+;Root: HKLM; Subkey: "Software\KeioUniv\E-Cell IDE"; ValueType: string; ValueName: "E-Cell IDE Base"; ValueData: "{userdocs}\My E-Cell Projects";Components: main; Flags: uninsdeletekey;
+
+[Icons]
+Name: "{group}\E-Cell IDE"; Filename: "{app}\bin\ecell-ide.exe"; IconIndex: 0; Components: extension
+Name: "{commondesktop}\E-Cell IDE"; Filename: "{app}\bin\ecell-ide.exe"; IconIndex: 0; Components: extension
+Name: "{group}\samples\BrabchG"; Filename: "{app}\bin\ecell-ide.exe"; Parameters: "branchG.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\branchG\Model\"; Components: extension
+;Name: "{group}\samples\Cascade"; Filename: "{app}\bin\ecell-ide.exe"; Parameters: "cascade.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\cascade\Model\";Components: extension
+Name: "{group}\samples\Drosophila"; Filename: "{app}\bin\ecell-ide.exe"; Parameters: "Drosophila.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\Drosophila\Model\";Components: extension
+Name: "{group}\samples\heatshock"; Filename: "{app}\bin\ecell-ide.exe"; Parameters: "heatshock.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\heatshock\Model\";Components: extension
+;Name: "{group}\samples\LTD"; Filename: "{app}\bin\ecell-ide.exe"; Parameters: "LTD.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\LTD\Model\";Components: extension
+;Name: "{group}\samples\Pendulum"; Filename: "{app}\bin\ecell-ide.exe"; Parameters: "Pendulum.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\Pendulum\Model\";Components: extension
+Name: "{group}\samples\Simple"; Filename: "{app}\bin\ecell-ide.exe"; Parameters: "simple.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\simple\Model\";Components: extension
+Name: "{group}\samples\tauleap"; Filename: "{app}\bin\ecell-ide.exe"; Parameters: "tauleap.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\tauleap\Model\";Components: extension
+Name: "{group}\samples\Toy_Hybrid"; Filename: "{app}\bin\ecell-ide.exe"; Parameters: "Toy_Hybrid.eml"; WorkingDir: "{commondocs}\My E-Cell Projects\Toy_Hybrid\Model\";Components: extension
+Name: "{group}\sample code\plugin"; Filename: "{commondocs}\SamplePlugin\SamplePlugin.sln"; Components: sample
+
+[Dirs]
+Name: "{userappdata}\$Inst$"; Attribs: hidden; Flags: uninsalwaysuninstall
+
+[Run]
+Filename: "{app}\UninsHs.exe"; Parameters: "/r0=ECell_IDE,{language},{srcexe},{userappdata}\$Inst$\i.exe"; WorkingDir: "{app}"; Flags: runhidden runminimized skipifdoesntexist
+Filename: "{app}\tr.exe"; Parameters: """{commondocs}\SamplePlugin\SamplePlugin\SamplePlugin.csproj"" ""{app}""" ; WorkingDir: "{app}"; Flags: skipifdoesntexist
+
+[InstallDelete]
+
+
+[UnInstallDelete]
+Type: files; Name: "{userappdata}\$Inst$\i.exe"
+Type: dirifempty; Name: "{userappdata}\$Inst$"
+Type: filesandordirs; Name: "{userappdata}\E-Cell IDE";
+
+[CustomMessages]
+en.IDE_Running=E-Cell IDE is running, please close it and run again install.
+jp.IDE_Running=E-Cell IDEが起動されています。E-Cell IDEを閉じてからインストールしてください。
+en.IDE_DotNet=This application needs Microsoft .NET Framework version 2.0. %nPlease access the following URL to confirm how to download and install. %n%n(http://www.microsoft.com/downloads/details.aspx?familyid=B44A0000-ACF8-4FA1-AFFB-40E78D788B00)
+jp.IDE_DotNet=Microsft .NET Frameworkがインストールされていません。%nダウンロード及びインストール手順の確認は以下のURLにアクセスしてください。%n%n(http://www.microsoft.com/downloads/details.aspx?familyid=B44A0000-ACF8-4FA1-AFFB-40E78D788B00&displaylang=ja)
+en.IDE_Installed=E-Cell IDE is already installed, please unistall E-Cell IDE.
+jp.IDE_Installed=E-Cell IDEがインストールされています。E-Cell IDEをアンインストールしてください。
+
+[Code]
+function IsModuleLoaded(modulename: String ):  Boolean;
+external 'IsModuleLoaded@files:psvince.dll stdcall setuponly';
+function IsModuleLoadedU(modulename: String ):  Boolean;
+external 'IsModuleLoaded@{app}\psvince.dll stdcall uninstallonly' ;
+
+
+function InitializeSetup(): Boolean;
+begin
+  Result := true;
+
+  // Check for required netfx installation
+  if (not RegKeyExists(HKLM, 'Software\Microsoft\.NETFramework\policy\v2.0')) then begin
+    MsgBox(CustomMessage('IDE_DotNet'), mbInformation, MB_OK);
+    Result := false
+  end;
+  
+  if (Result = true) then
+  begin
+    if (RegKeyExists(HKLM, 'Software\KeioUniv\E-Cell IDE')) then begin
+      MsgBox(CustomMessage('IDE_Installed'), mbInformation, MB_OK);
+      Result := false
+    end;  
+  end;
+    
+  if (Result = true) then
+  begin
+    if IsModuleLoaded( 'ecell-ide.exe' ) then
+    begin
+      MsgBox( CustomMessage('IDE_Running'), mbInformation, MB_OK );
+      Result := false;
+    end
+  end
+  
+  if (Result = true) then
+  begin
+    if IsModuleLoaded( 'MainWindow.exe' ) then
+    begin
+      MsgBox( CustomMessage('IDE_Running'), mbInformation, MB_OK );
+      Result := false;
+    end
+  end
+end;
+
+function InitializeUninstall(): Boolean;
+var
+  mes : String;
+begin
+  Result := true;
+  case ActiveLanguage of
+  'jp':
+    begin
+	  mes := 'E-Cell IDEが起動されています。E-Cell IDEを閉じてからインストールしてください。'
+	end;
+  'en':
+    begin
+      mes := 'E-Cell IDE is running, please close it and run again uninstall.'
+    end;
+  end;
+
+  // check if notepad is running
+  if IsModuleLoadedU( 'ecell-ide.exe' ) then begin
+    MsgBox(mes, mbInformation, MB_OK );
+    Result := false;
+  end
+    
+  if (Result = true) then
+  begin
+    if IsModuleLoadedU( 'MainWindow.exe' ) then
+    begin
+      MsgBox(mes, mbInformation, MB_OK );
+      Result := false;
+    end
+  end  
+  // Unload the DLL, otherwise the dll psvince is not deleted
+  UnloadDLL(ExpandConstant('{app}\psvince.dll'));
+end;
+
+function ShouldSkipPage(CurPage: Integer): Boolean;
+begin
+  if Pos('/SP-', UpperCase(GetCmdTail)) > 0 then
+    case CurPage of
+      wpLicense, wpPassword, wpInfoBefore,
+      wpUserInfo, wpSelectDir, wpSelectProgramGroup, wpInfoAfter:
+        Result := True;
+
+    end;
+end;
+
+const
+  WM_LBUTTONDOWN = 513;
+  WM_LBUTTONUP = 514;
+
+procedure InitializeWizard();
+begin
+  if (Pos('/SP-', UpperCase(GetCmdTail)) > 0) then
+  begin
+    PostMessage(WizardForm.NextButton.Handle,WM_LBUTTONDOWN,0,0);
+    PostMessage(WizardForm.NextButton.Handle,WM_LBUTTONUP,0,0);
+  end;
+end;
+
+procedure CurPageChanged(CurPageID: Integer);
+begin
+  if (Pos('/SP-', UpperCase(GetCmdTail)) > 0) and
+    (CurPageID = wpSelectComponents) then
+    WizardForm.BackButton.Visible := False;
+end;
