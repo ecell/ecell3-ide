@@ -192,7 +192,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             this.dataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.m_dgv_CellEndEdit);
             this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.m_dgv_CellMouseDown);
             this.dataGridView.CurrentCellDirtyStateChanged += new System.EventHandler(this.m_dgv_CurrentCellDirtyStateChanged);
-            this.dataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgv_DataBindingComplete);
             this.dataGridView.VisibleChanged += new System.EventHandler(this.m_dgv_VisibleChanged);
             // 
             // CheckBoxColumn
@@ -374,23 +373,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                 m_dirtyEventProcessed = false;
             }
             ((DataGridView)sender).CommitEdit(DataGridViewDataErrorContexts.Commit);
-        }
-
-        /// <summary>
-        /// When binding data in DataGridView,
-        /// ...
-        /// </summary>
-        /// <param name="sender">DataGridView.</param>
-        /// <param name="e">DataGridViewBindingComplete.</param>
-        private void dgv_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            if (((DataGridView)sender).Columns.Contains(MessageResources.LayerColumnShow) && ((DataGridView)sender).Visible)
-            {
-                ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Width = LAYER_SHOWCOLUMN_WIDTH;
-                ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Resizable = DataGridViewTriState.False;
-                ((DataGridView)sender).Columns[MessageResources.LayerColumnShow].Frozen = true;
-                ((DataGridView)sender).Columns[MessageResources.LayerColumnName].SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
         }
 
         /// <summary>

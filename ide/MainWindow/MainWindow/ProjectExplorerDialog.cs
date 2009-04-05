@@ -265,6 +265,22 @@ namespace Ecell.IDE.MainWindow
                 SetSelectedProject();
         }
 
+
+        /// <summary>
+        /// Event to click the node by mouse.
+        /// </summary>
+        /// <param name="sender">TreeView.</param>
+        /// <param name="e">TreeNodeMouseClickEventArgs.</param>
+        private void NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeView tView = (TreeView)sender;
+            m_selectedNode = (ProjectTreeNode)tView.GetNodeAt(e.X, e.Y);
+            if (string.IsNullOrEmpty(m_selectedNode.Text))
+                return;
+            m_selectedNode.BeginEdit();
+        }
+
+
         /// <summary>
         /// Constants
         /// </summary>
@@ -566,6 +582,73 @@ namespace Ecell.IDE.MainWindow
             m_selectedNode = null;
         }
 
+        private void ProjectExplorerDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(pictureBox1.Image != null)
+                pictureBox1.Image.Dispose();
+        }
+
+        private void PrjTreeView_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+        {
+            m_selectedNode.Text = e.Label;
+            RefreshNode(m_selectedNode);
+        }
+
+        internal void RefreshNode(ProjectTreeNode node)
+        {
+            // if null or not changed, reset Label.
+            if (node == null || string.IsNullOrEmpty(node.Text))
+            {
+                return;
+            }
+            if (node.Project != null && node.Text.Equals(node.Project.Name))
+            {
+                node.Text = node.Project.Name;
+                return;
+            }
+
+            string name = node.Text;
+            string path = node.FilePath;
+            string dir = Path.GetDirectoryName(path);
+            switch (node.Type)
+            {
+                case FileType.Folder:
+                    string oldDir = path;
+                    string newDir = Path.Combine(dir, name);
+                    Directory.Move(oldDir, newDir);
+                    node.FilePath = newDir;
+                    node.Nodes.Clear();
+                    CreateProjectTreeView(node, newDir);
+                    break;
+
+                case FileType.Model:
+                    // rename eml.
+                    string oldEml = path;
+                    // get directory name.
+                    string newEml = Path.Combine(dir, name + Constants.FileExtEML);
+                    if (File.Exists(oldEml))
+                    {
+                        File.Move(oldEml, newEml);
+                    }
+                    // rename leml.
+                    string oldLeml = oldEml.Replace(Constants.FileExtEML, Constants.FileExtLEML);
+                    string newLeml = newEml.Replace(Constants.FileExtEML, Constants.FileExtLEML);
+                    if (File.Exists(oldLeml))
+                    {
+                        File.Move(oldLeml, newLeml);
+                    }
+                    node.FilePath = newEml;
+                    node.Project.Name = name;
+                    SetSelectedProject();
+                    break;
+
+                case FileType.Project:
+                    node.Project.Name = name;
+                    node.Project.Save();
+                    SetSelectedProject();
+                    break;
+            }
+        }
         #endregion
 
         /// <summary>
@@ -648,12 +731,6 @@ namespace Ecell.IDE.MainWindow
                     return FileType.Folder;
             }
             #endregion
-        }
-
-        private void ProjectExplorerDialog_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if(pictureBox1.Image != null)
-                pictureBox1.Image.Dispose();
         }
     }
 }
