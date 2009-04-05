@@ -791,6 +791,7 @@ namespace Ecell.IDE.MainWindow
             newProjectToolStripMenuItem.Enabled = unInitialized || loaded;
             openProjectToolStripMenuItem.Enabled = unInitialized || loaded;
             saveProjectToolStripMenuItem.Enabled = loaded;
+            saveAsToolStripMenuItem.Enabled = loaded;
             recentProejctToolStripMenuItem.Enabled = unInitialized || loaded;
             projectWizardMenuItem.Enabled = unInitialized || loaded;
             closeProjectToolStripMenuItem.Enabled = loaded;
@@ -1074,6 +1075,30 @@ namespace Ecell.IDE.MainWindow
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewProjectDialog dialog = new NewProjectDialog();
+            dialog.Text = MessageResources.DialogTitleSaveAs;
+            ProjectInfo info = m_env.DataManager.CurrentProject.Info;
+            dialog.ProjectName = info.Name;
+            dialog.Comment = info.Comment;
+            dialog.DMList = info.DMDirList;
+            using (dialog)
+            {
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return;
+                info.Name = dialog.ProjectName;
+                info.Comment = dialog.Comment;
+                info.DMDirList = dialog.DMList;
+                m_env.DataManager.SaveProject();
+            }
+
+        }
         /// <summary>
         /// The action of [close projct] menu click.
         /// Show confirm dialog. if you select yes, system show SaveProjectDialog.
@@ -1652,9 +1677,15 @@ namespace Ecell.IDE.MainWindow
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void feedbackToolStripMenuItem_Click(object sender, EventArgs e)
         {
             m_browser.Url = new Uri("http://chaperone.e-cell.org/services/feedback/");
         }
+
     }
 }

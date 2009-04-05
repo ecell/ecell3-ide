@@ -237,4 +237,7 @@
   <data name="ConfirmUnsavableWindows" xml:space="preserve">
     <value>The following windows are not saved in the Window setting.</value>
   </data>
+  <data name="DialogTitleSaveAs" xml:space="preserve">
+    <value>Save as new Project.</value>
+  </data>
 </root>

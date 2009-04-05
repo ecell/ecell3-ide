@@ -47,6 +47,7 @@ namespace Ecell.IDE.MainWindow
             this.openProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recentProejctToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.importModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -233,6 +234,7 @@ namespace Ecell.IDE.MainWindow
             this.openProjectToolStripMenuItem,
             this.recentProejctToolStripMenuItem,
             this.saveProjectToolStripMenuItem,
+            this.saveAsToolStripMenuItem,
             this.closeProjectToolStripMenuItem,
             this.toolStripSeparator1,
             this.importModelToolStripMenuItem,
@@ -306,6 +308,16 @@ namespace Ecell.IDE.MainWindow
             this.saveProjectToolStripMenuItem.ShortcutKeyDisplayString = null;
             this.saveProjectToolStripMenuItem.Tag = "4";
             this.saveProjectToolStripMenuItem.Click += new System.EventHandler(this.SaveProjectMenuClick);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.AccessibleDescription = null;
+            this.saveAsToolStripMenuItem.AccessibleName = null;
+            resources.ApplyResources(this.saveAsToolStripMenuItem, "saveAsToolStripMenuItem");
+            this.saveAsToolStripMenuItem.BackgroundImage = null;
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.ShortcutKeyDisplayString = null;
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // closeProjectToolStripMenuItem
             // 
@@ -791,6 +803,7 @@ namespace Ecell.IDE.MainWindow
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripMenuItem feedbackToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
     }
 }
 

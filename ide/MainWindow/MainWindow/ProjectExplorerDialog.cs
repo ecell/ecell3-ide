@@ -597,13 +597,16 @@ namespace Ecell.IDE.MainWindow
         internal void RefreshNode(ProjectTreeNode node)
         {
             // if null or not changed, reset Label.
-            if (node == null || string.IsNullOrEmpty(node.Text))
+            if (string.IsNullOrEmpty(node.Text))
             {
-                return;
-            }
-            if (node.Project != null && node.Text.Equals(node.Project.Name))
-            {
-                node.Text = node.Project.Name;
+                if (node.Project != null)
+                {
+                    node.Text = node.Project.Name;
+                }
+                else
+                {
+                    node.Text = Path.GetFileNameWithoutExtension(node.FilePath);
+                }
                 return;
             }
 

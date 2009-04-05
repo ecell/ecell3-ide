@@ -45,11 +45,13 @@ namespace Ecell.IDE.MainWindow
         public string ProjectName
         {
             get { return textName.Text; }
+            set { textName.Text = value; }
         }
 
         public string Comment
         {
             get { return textComment.Text; }
+            set { textComment.Text = value; }
         }
 
         /// <summary>
@@ -65,11 +67,20 @@ namespace Ecell.IDE.MainWindow
                 for (int i = 0; i < len; i++)
                 {
                     string dir = CPListBox.Items[i] as string;
-                    if (dir == null) continue;
+                    if (dir == null)
+                        continue;
                     result.Add(dir);
                 }
                 return result;
             }
+            set
+            {
+                foreach (string dm in value)
+                {
+                    CPListBox.Items.Add(dm);
+                }
+            }
+
         }
 
         /// <summary>

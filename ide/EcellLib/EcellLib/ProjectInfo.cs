@@ -234,6 +234,7 @@ namespace Ecell
         public List<string> DMDirList
         {
             get { return m_dmList; }
+            set { m_dmList = value; }
         }
         #endregion
 
