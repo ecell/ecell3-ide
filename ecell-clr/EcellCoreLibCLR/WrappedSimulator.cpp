@@ -454,9 +454,9 @@ namespace EcellCoreLib {
                     {
                     case libecs::EntityType::VARIABLE:
                         {
-                            for (libecs::System::VariableMap::const_iterator
-                                    i = aSystemPtr->getVariableMap().begin(),
-                                    end = aSystemPtr->getVariableMap().end();
+                            for (libecs::System::Variables::const_iterator
+                                    i = aSystemPtr->getVariables().begin(),
+                                    end = aSystemPtr->getVariables().end();
                                  i != end; ++i)
                             {
                                 retval->Add(FromCString(i->second->getID()));
@@ -466,9 +466,9 @@ namespace EcellCoreLib {
 
                     case libecs::EntityType::PROCESS:
                         {
-                            for (libecs::System::ProcessMap::const_iterator
-                                    i = aSystemPtr->getProcessMap().begin(),
-                                    end = aSystemPtr->getProcessMap().end();
+                            for (libecs::System::Processes::const_iterator
+                                    i = aSystemPtr->getProcesses().begin(),
+                                    end = aSystemPtr->getProcesses().end();
                                  i != end; ++i)
                             {
                                 retval->Add(FromCString(i->second->getID()));
@@ -477,9 +477,9 @@ namespace EcellCoreLib {
                         break;
                     case libecs::EntityType::SYSTEM:
                         {
-                            for (libecs::System::SystemMap::const_iterator
-                                    i = aSystemPtr->getSystemMap().begin(),
-                                    end = aSystemPtr->getSystemMap().end();
+                            for (libecs::System::Systems::const_iterator
+                                    i = aSystemPtr->getSystems().begin(),
+                                    end = aSystemPtr->getSystems().end();
                                  i != end; ++i)
                             {
                                 retval->Add(FromCString(i->second->getID()));
