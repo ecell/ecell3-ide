@@ -82,30 +82,17 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             get { return this.m_path; }
         }
 
-        #region Events
-        /// <summary>
-        /// The event sequence when the cancel button is clicked.
-        /// </summary>
-        /// <param name="sender">Button.</param>
-        /// <param name="e">EventArgs.</param>
-        private void INCancelButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         /// <summary>
         /// The event sequence when the create button is clicked.
         /// </summary>
-        /// <param name="sender">Button.</param>
-        /// <param name="e">EventArgs.</param>
-        private void INNewButton_Click(object sender, EventArgs e)
+        public void CreateDM()
         {
             String name = INTextBox.Text;
             try
             {
                 string filename = Path.Combine(m_dir, name);
                 filename = filename + Constants.FileExtSource;
-//                File.Create(filename);
+                //                File.Create(filename);
                 StreamWriter writer = null;
                 try
                 {
@@ -130,9 +117,22 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             catch (Exception)
             {
                 Util.ShowErrorDialog(string.Format(MessageResources.ErrCreateFile,
-                    new object[] { name }));                
+                    new object[] { name }));
             }
         }
+
+        #region Events
+        /// <summary>
+        /// The event sequence when the cancel button is clicked.
+        /// </summary>
+        /// <param name="sender">Button.</param>
+        /// <param name="e">EventArgs.</param>
+        private void INCancelButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+
 
         /// <summary>
         /// The event sequence to show this form.
@@ -151,8 +151,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             templateComboBox.SelectedText = "None";
         }
 
-
-        #endregion
 
         private void TemplateComboBoxSelectedChanged(object sender, EventArgs e)
         {
@@ -175,6 +173,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
         private void CreateDMDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (this.DialogResult == DialogResult.Cancel) return;
             String name = INTextBox.Text;
             if (!name.EndsWith(Constants.xpathProcess) && !name.EndsWith(Constants.xpathStepper))
             {
@@ -183,5 +182,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 return;
             }
         }
+
+        #endregion
     }
 }

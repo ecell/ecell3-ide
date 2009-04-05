@@ -98,6 +98,7 @@ namespace Ecell.Logger
             List<string> list = new List<string>();
             foreach (LoggerEntry m in m_loggerList)
             {
+                if (m.IsLoaded) continue;
                 if (list.Contains(m.FullPN))
                     continue;
                 list.Add(m.FullPN);

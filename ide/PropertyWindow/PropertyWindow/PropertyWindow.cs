@@ -1361,6 +1361,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
         /// <returns></returns>
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+            if (m_dgv.CurrentCell != null && m_dgv.CurrentCell is DataGridViewComboBoxCell)
+                return base.ProcessCmdKey(ref msg, keyData);
             if ((int)keyData == (int)Keys.Control + (int)Keys.C)
             {
                 if (m_dgv.CurrentCell != null && m_dgv.CurrentCell.Value != null)

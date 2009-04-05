@@ -171,6 +171,12 @@ namespace Ecell.IDE
         }
         #endregion
 
+        private void DMEditor_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.DialogResult == DialogResult.Cancel) return;
+
+        }
+
 
     }
 }

@@ -51,7 +51,6 @@
             this.INNewButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.INNewButton.Name = "INNewButton";
             this.INNewButton.UseVisualStyleBackColor = true;
-            this.INNewButton.Click += new System.EventHandler(this.INNewButton_Click);
             // 
             // INCancelButton
             // 

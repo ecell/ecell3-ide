@@ -365,6 +365,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 DialogResult res = ind.ShowDialog();
                 if (res == DialogResult.OK)
                 {
+                    ind.CreateDM();
                     string path = ind.FilePath;
                     DisplayDMEditor(path);
                 }
@@ -1022,7 +1023,17 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
             if (m_lastSelectedNode == null) return;
             String name = m_lastSelectedNode.Tag as string;
             if (String.IsNullOrEmpty(name)) return;
+
+            List<string> paraList = m_owner.DataManager.GetSimulationParameterIDs();
+
             string newParam = name + "_copy";
+
+            int i = 0;
+            while (paraList.Contains(newParam))
+            {
+                i++;
+                newParam = name + "_copy" + i;
+            }
 
             m_owner.DataManager.CopySimulationParameter(newParam, name);
         }
