@@ -101,6 +101,8 @@
 			OutputDirectory="$(SolutionDir)$(PlatformName)\samples\Pendulum\DMs"
 			IntermediateDirectory="$(SolutionDir)$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="2"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -120,7 +122,13 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(INCLUDE);$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.1\libecs;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.1\libemc"
+				WholeProgramOptimization="true"
+				AdditionalIncludeDirectories="$(INCLUDE);&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include&quot;;&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.2&quot;;&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.2\libecs&quot;;&quot;$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\include\ecell-3.2\libemc&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GSL_DLL;__STDC__=1;_WIN32_WINNT=0x500;_SECURE_SCL=0"
+				RuntimeLibrary="2"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -134,7 +142,13 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="ecs.lib"
+				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(LIB);$(ECELL_STAGING_HOME)\$(PlatformName)\$(ConfigurationName)\lib"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				LinkTimeCodeGeneration="1"
 				TargetMachine="17"
 			/>
 			<Tool
