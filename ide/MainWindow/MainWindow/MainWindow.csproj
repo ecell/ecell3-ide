@@ -238,10 +238,6 @@
       <SubType>Designer</SubType>
       <DependentUpon>JobMessageDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainWindow.ja-JP.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>MainWindow.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.ja.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainWindow.cs</DependentUpon>

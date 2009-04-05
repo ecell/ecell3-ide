@@ -383,4 +383,7 @@
         AAA=
 </value>
   </data>
+  <data name="saveAsToolStripMenuItem.Text" xml:space="preserve">
+    <value>名前を付けて保存(&amp;A)...</value>
+  </data>
 </root>
