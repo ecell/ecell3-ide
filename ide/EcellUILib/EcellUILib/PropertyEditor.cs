@@ -154,6 +154,7 @@ namespace Ecell.IDE
         /// <param name="obj">EcellObject</param>
         private void SetCurrentObject(EcellObject obj)
         {
+            m_propDict.Clear();
             m_currentObj = obj;
             SetDataType(obj.Type);
             if (m_currentObj.Type.Equals(EcellObject.PROCESS))
@@ -666,6 +667,24 @@ namespace Ecell.IDE
             }
         }
 
+
+        private void DoubleInputTextValidated(object sender, EventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            string text = textBox.Text;
+            string propName = (string)(textBox.Tag);
+
+
+            if (propName.Equals(Constants.xpathValue) ||
+                propName.Equals(Constants.xpathMolarConc) ||
+                propName.Equals(Constants.xpathNumberConc))
+            {
+                EcellObject obj = CollectObject();
+                m_env.DataManager.UpdatePropertyForDataChanged(obj);
+                SetCurrentObject(obj);
+            }
+        }
+
         private void DoubleInputTextValidating(object sender, CancelEventArgs e)
         {
             TextBox textBox = (TextBox)sender;
@@ -696,6 +715,8 @@ namespace Ecell.IDE
                 return;
             }
         }
+
+
 
         /// <summary>
         /// layout the column of property editor for System, Process and Variable.
@@ -947,6 +968,7 @@ namespace Ecell.IDE
                         if (prop.Value.IsDouble)
                         {
                             t.Validating += new CancelEventHandler(DoubleInputTextValidating);
+                            t.Validated += new EventHandler(DoubleInputTextValidated);
                         }
                         else if (prop.Value.IsInt)
                         {
@@ -1040,6 +1062,7 @@ namespace Ecell.IDE
             panel1.ClientSize = panel1.Size;
         }
 
+
         /// <summary>
         /// Inform the changing of EcellObject in PathwayEditor to DataManager.
         /// </summary>
@@ -1057,219 +1080,218 @@ namespace Ecell.IDE
             m_env.DataManager.DataChanged(eo.ModelID, oldKey, eo.Type, eo, true, true);
         }
 
+        private EcellObject CollectObject()
+        {
+            string modelID = "";
+            string key = "";
+            string classname = "";
+            string type = "";
+            bool isLogger = false;
+            List<EcellData> list = new List<EcellData>();
+            IEnumerator iter = layoutPanel.Controls.GetEnumerator();
+
+            while (iter.MoveNext())
+            {
+                Control c = (Control)iter.Current;
+                if (c == null) continue;
+                TableLayoutPanelCellPosition pos =
+                    layoutPanel.GetPositionFromControl(c);
+                if (pos.Column == 0)
+                {
+                    CheckBox chk = c as CheckBox;
+                    if (c == null)
+                    {
+                        isLogger = false;
+                        continue;
+                    }
+                    isLogger = chk.Checked;
+                }
+                if (pos.Column != 2) continue;
+                // Property
+                if ((string)c.Tag == "Add Property")
+                {
+                    continue;
+                }
+                // ModelID
+                if ((string)c.Tag == "modelID")
+                {
+                    modelID = c.Text;
+                    isLogger = false;
+                }
+                // ID
+                else if ((string)c.Tag == "id")
+                {
+                    key = c.Text;
+                    if (c.Text == "")
+                    {
+                        throw new EcellException(String.Format(MessageResources.ErrNoSet,
+                            new object[] { "ID" }));
+                    }
+                    else if (Util.IsReservedID(c.Text))
+                    {
+                        throw new EcellException(String.Format(MessageResources.ErrReserved,
+                            new object[] { c.Text }));
+                    }
+                    else if (m_currentObj.Type.Equals(EcellObject.SYSTEM) &&
+                        Util.IsNGforSystemKey(c.Text))
+                    {
+                        throw new EcellException(MessageResources.ErrInvalidID);
+                    }
+                    else if (!m_currentObj.Type.Equals(EcellObject.SYSTEM) &&
+                        Util.IsNGforEntityKey(c.Text))
+                    {
+                        throw new EcellException(MessageResources.ErrInvalidID);
+                    }
+                    else if (m_currentObj.Type.Equals(EcellObject.PROCESS) ||
+                                m_currentObj.Type.Equals(EcellObject.VARIABLE))
+                    {
+                        int kpos = c.Text.IndexOf(':');
+                        if (kpos < 0 || kpos == c.Text.Length - 1)
+                        {
+                            throw new EcellException(MessageResources.ErrInvalidID);
+                        }
+                    }
+                    isLogger = false;
+                }
+                // Classname
+                else if ((string)c.Tag == "classname")
+                {
+                    isLogger = false;
+                    classname = c.Text;
+                }
+                // Type
+                else if ((string)c.Tag == "type")
+                {
+                    isLogger = false;
+                    type = c.Text;
+                }
+                // VariableReference
+                else if ((string)c.Tag == EcellProcess.VARIABLEREFERENCELIST)
+                {
+                    EcellData data = new EcellData();
+                    data.Name = (string)c.Tag;
+                    data.Value = EcellReference.ConvertToEcellValue(m_refList);
+                    if (key.Contains(":"))
+                    {
+                        int ind = key.LastIndexOf(":");
+                        data.EntityPath = type + ":" + key.Substring(0, ind) +
+                            ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
+                    }
+                    else
+                    {
+                        if (key == "/")
+                        {
+                            data.EntityPath = type + ":" + "" +
+                                ":" + "/" + ":" + (string)c.Tag;
+                        }
+                        else
+                        {
+                            int ind = key.LastIndexOf("/");
+                            data.EntityPath = type + ":" + key.Substring(0, ind) +
+                                ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
+                        }
+                    }
+                    isLogger = false;
+                    list.Add(data);
+                }
+                // System size.
+                else if ((string)c.Tag == PropertyEditor.DefinedSize)
+                {
+                    double sizeData = Convert.ToDouble(c.Text);
+                    EcellSystem system = (EcellSystem)m_currentObj;
+                    system.SizeInVolume = sizeData;
+
+                    EcellData data = (EcellData)m_propDict["Size"].Clone();
+                    data.Value = new EcellValue(sizeData);
+                    GetCommitInfo(data);
+                    if (isLogger != m_propDict["Size"].Logged && isLogger)
+                        m_env.LoggerManager.AddLoggerEntry(modelID, m_currentObj.Key, type, m_propDict[data.Name].EntityPath);
+                    data.Logged = isLogger;
+                    list.Add(data);
+
+                    isLogger = false;
+                }
+                // Property 
+                else
+                {
+                    EcellData data = new EcellData();
+                    data.Name = (string)c.Tag;
+
+                    EcellData prop = m_propDict[data.Name];
+                    if (prop.Value.Type == EcellValueType.Integer)
+                        data.Value = new EcellValue(Convert.ToInt32(c.Text));
+                    else if (prop.Value.Type == EcellValueType.Double)
+                    {
+                        if (c.Text == "1.79769313486232E+308")
+                            data.Value = new EcellValue(Double.MaxValue);
+                        else
+                            data.Value = new EcellValue(Convert.ToDouble(c.Text));
+                    }
+                    else if (prop.Value.Type == EcellValueType.List)
+                        data.Value = EcellValue.ConvertFromListString(c.Text);
+                    else
+                        data.Value = new EcellValue(c.Text);
+
+                    if (key.Contains(":"))
+                    {
+                        int ind = key.LastIndexOf(":");
+                        data.EntityPath = type + ":" + key.Substring(0, ind) +
+                            ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
+                    }
+                    else
+                    {
+                        if (key == "/")
+                        {
+                            data.EntityPath = type + ":" + "" +
+                                ":" + "/" + ":" + (string)c.Tag;
+                        }
+                        else
+                        {
+                            int ind = key.LastIndexOf("/");
+                            data.EntityPath = type + ":" + key.Substring(0, ind) +
+                                ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
+                        }
+                    }
+
+                    data.Settable = prop.Settable;
+                    data.Saveable = prop.Saveable;
+                    data.Loadable = prop.Loadable;
+                    data.Gettable = prop.Gettable;
+                    data.Logable = prop.Logable;
+                    if (!GetCommitInfo(data))
+                    {
+                        throw new EcellException(MessageResources.ErrInvalidID);
+                    }
+                    data.Logged = isLogger;
+                    if (isLogger != prop.Logged && isLogger)
+                        m_loggerList.Add(new LoggerEntry(modelID, m_currentObj.Key, type, prop.EntityPath));
+                    isLogger = false;
+
+                    list.Add(data);
+                }
+            }
+
+            EcellObject uobj = EcellObject.CreateObject(modelID, key, type, classname, list);
+            uobj.Children = m_currentObj.Children;
+            uobj.SetPosition(m_currentObj);
+
+            return uobj;
+        }
+
         /// <summary>
         /// Update property of the selected TreeNode.
         /// </summary>
         private void PropertyEditorFormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.DialogResult != DialogResult.OK) return;
-            string modelID = "";
-            string key = "";
-            string classname = "";
-            string type = "";
-            bool isLogger = false;
+
             m_addParamList.Clear();
             m_removeParamList.Clear();
             m_loggerList.Clear();
-            List<EcellData> list = new List<EcellData>();
-            IEnumerator iter = layoutPanel.Controls.GetEnumerator();
+
             try
             {
-                while (iter.MoveNext())
-                {
-                    Control c = (Control)iter.Current;
-                    if (c == null) continue;
-                    TableLayoutPanelCellPosition pos =
-                        layoutPanel.GetPositionFromControl(c);
-                    if (pos.Column == 0)
-                    {
-                        CheckBox chk = c as CheckBox;
-                        if (c == null)
-                        {
-                            isLogger = false;
-                            continue;
-                        }
-                        isLogger = chk.Checked;
-                    }
-                    if (pos.Column != 2) continue;
-                    // Property
-                    if ((string)c.Tag == "Add Property")
-                    {
-                        continue;
-                    }
-                    // ModelID
-                    if ((string)c.Tag == "modelID")
-                    {
-                        modelID = c.Text;
-                        isLogger = false;
-                    }
-                    // ID
-                    else if ((string)c.Tag == "id")
-                    {
-                        key = c.Text;
-                        if (c.Text == "")
-                        {
-                            Util.ShowWarningDialog(String.Format(MessageResources.ErrNoSet,
-                                new object[] { "ID" }));
-                            e.Cancel = true;
-                            return;
-                        }
-                        else if (Util.IsReservedID(c.Text))
-                        {
-                            Util.ShowWarningDialog(String.Format(MessageResources.ErrReserved,
-                                new object[] { c.Text }));
-                            e.Cancel = true;
-                            return;
-                        }
-                        else if (m_currentObj.Type.Equals(EcellObject.SYSTEM) &&
-                            Util.IsNGforSystemKey(c.Text))
-                        {
-                            Util.ShowWarningDialog(MessageResources.ErrInvalidID);
-                            e.Cancel = true;
-                            return;
-                        }
-                        else if (!m_currentObj.Type.Equals(EcellObject.SYSTEM) &&
-                            Util.IsNGforEntityKey(c.Text))
-                        {
-                            Util.ShowWarningDialog(MessageResources.ErrInvalidID);
-                            e.Cancel = true;
-                            return;
-                        }
-                        else if (m_currentObj.Type.Equals(EcellObject.PROCESS) ||
-                                    m_currentObj.Type.Equals(EcellObject.VARIABLE))
-                        {
-                            int kpos = c.Text.IndexOf(':');
-                            if (kpos < 0 || kpos == c.Text.Length - 1)
-                            {
-                                Util.ShowWarningDialog(MessageResources.ErrInvalidID);
-                                e.Cancel = true;
-                                return;
-                            }
-                        }
-                        isLogger = false;
-                    }
-                    // Classname
-                    else if ((string)c.Tag == "classname")
-                    {
-                        isLogger = false;
-                        classname = c.Text;
-                    }
-                    // Type
-                    else if ((string)c.Tag == "type")
-                    {
-                        isLogger = false;
-                        type = c.Text;
-                    }
-                    // VariableReference
-                    else if ((string)c.Tag == EcellProcess.VARIABLEREFERENCELIST)
-                    {
-                        EcellData data = new EcellData();
-                        data.Name = (string)c.Tag;
-                        data.Value = EcellReference.ConvertToEcellValue(m_refList);
-                        if (key.Contains(":"))
-                        {
-                            int ind = key.LastIndexOf(":");
-                            data.EntityPath = type + ":" + key.Substring(0, ind) +
-                                ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
-                        }
-                        else
-                        {
-                            if (key == "/")
-                            {
-                                data.EntityPath = type + ":" + "" +
-                                    ":" + "/" + ":" + (string)c.Tag;
-                            }
-                            else
-                            {
-                                int ind = key.LastIndexOf("/");
-                                data.EntityPath = type + ":" + key.Substring(0, ind) +
-                                    ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
-                            }
-                        }
-                        isLogger = false;
-                        list.Add(data);
-                    }
-                    // System size.
-                    else if ((string)c.Tag == PropertyEditor.DefinedSize)
-                    {
-                        double sizeData = Convert.ToDouble(c.Text);
-                        EcellSystem system = (EcellSystem)m_currentObj;
-                        system.SizeInVolume = sizeData;
-
-                        EcellData data = (EcellData)m_propDict["Size"].Clone();
-                        data.Value = new EcellValue(sizeData);
-                        GetCommitInfo(data);
-                        if (isLogger != m_propDict["Size"].Logged && isLogger)
-                            m_env.LoggerManager.AddLoggerEntry(modelID, m_currentObj.Key, type, m_propDict[data.Name].EntityPath);
-                        data.Logged = isLogger;
-                        list.Add(data);
-
-                        isLogger = false;
-                    }
-                    // Property 
-                    else
-                    {
-                        EcellData data = new EcellData();
-                        data.Name = (string)c.Tag;
-
-                        EcellData prop = m_propDict[data.Name];
-                        if (prop.Value.Type == EcellValueType.Integer)
-                            data.Value = new EcellValue(Convert.ToInt32(c.Text));
-                        else if (prop.Value.Type == EcellValueType.Double)
-                        {
-                            if (c.Text == "1.79769313486232E+308")
-                                data.Value = new EcellValue(Double.MaxValue);
-                            else
-                                data.Value = new EcellValue(Convert.ToDouble(c.Text));
-                        }
-                        else if (prop.Value.Type == EcellValueType.List)
-                            data.Value = EcellValue.ConvertFromListString(c.Text);
-                        else
-                            data.Value = new EcellValue(c.Text);
-
-                        if (key.Contains(":"))
-                        {
-                            int ind = key.LastIndexOf(":");
-                            data.EntityPath = type + ":" + key.Substring(0, ind) +
-                                ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
-                        }
-                        else
-                        {
-                            if (key == "/")
-                            {
-                                data.EntityPath = type + ":" + "" +
-                                    ":" + "/" + ":" + (string)c.Tag;
-                            }
-                            else
-                            {
-                                int ind = key.LastIndexOf("/");
-                                data.EntityPath = type + ":" + key.Substring(0, ind) +
-                                    ":" + key.Substring(ind + 1) + ":" + (string)c.Tag;
-                            }
-                        }
-
-                        data.Settable = prop.Settable;
-                        data.Saveable = prop.Saveable;
-                        data.Loadable = prop.Loadable;
-                        data.Gettable = prop.Gettable;
-                        data.Logable = prop.Logable;
-                        if (!GetCommitInfo(data))
-                        {
-                            e.Cancel = true;
-                            return;
-                        }
-                        data.Logged = isLogger;
-                        if (isLogger != prop.Logged && isLogger)
-                            m_loggerList.Add(new LoggerEntry(modelID, m_currentObj.Key, type, prop.EntityPath));
-                        isLogger = false;
-
-                        list.Add(data);
-                    }
-                }
-
-                EcellObject uobj = EcellObject.CreateObject(modelID, key, type, classname, list);
-                uobj.Children = m_currentObj.Children;
-                uobj.SetPosition(m_currentObj);
+                EcellObject uobj = CollectObject();
                 NotifyDataChanged(m_currentObj.ModelID, m_currentObj.Key, uobj);
                 foreach (LoggerEntry ent in m_loggerList)
                     m_env.LoggerManager.AddLoggerEntry(ent.ModelID, ent.ID, ent.Type, ent.FullPN);

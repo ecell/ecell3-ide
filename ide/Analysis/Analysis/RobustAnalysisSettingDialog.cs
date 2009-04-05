@@ -420,6 +420,8 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             else
             {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue,
+                        MessageResources.NameObservedData));
                 switch (e.ColumnIndex)
                 {
                     case 1:
@@ -471,6 +473,8 @@ namespace Ecell.IDE.Plugins.Analysis
             }
             else
             {
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidValue,
+                    MessageResources.NameParameterData));
                 switch (e.ColumnIndex)
                 {
                     case 1:
