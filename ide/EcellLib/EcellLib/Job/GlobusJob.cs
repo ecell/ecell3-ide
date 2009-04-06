@@ -51,6 +51,10 @@ namespace Ecell.Job
         public override void run()
         {
             // not implements
+            // 初期化
+            // grid-proxy-init
+            // 実行
+            // cog-job-submit -e $script -args $ROOT/$JobID/$jobfile -p $provider -s $server
         }
 
         public override void stop()
@@ -78,6 +82,12 @@ namespace Ecell.Job
         public override void PrepareProcess()
         {
             // not implements
+            // 初期化
+            // grid-proxy-init
+            // 実行ディレクトリを作成
+            // cog-job-submit -e /bin/mkdir -args $ROOT/$JobID -p $Provider -s $Server           
+            // grid-ftpでサーバにスクリプトを持っていく
+            // cog-file-transfer -s $jobfile -d $ROOT/$JobID
             base.PrepareProcess();
         }
 
@@ -89,7 +99,7 @@ namespace Ecell.Job
 
         static public string GetDefaultScript()
         {
-            return "ecell3-session";
+            return "";
         }
     }
 }

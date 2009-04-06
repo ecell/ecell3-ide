@@ -34,7 +34,7 @@ using System.Text;
 namespace Ecell.Job
 {
     /// <summary>
-    /// SystemProxy to execute the simulation in Local Enviroment.
+    /// SystemProxy to execute the simulation in Local Environment.
     /// </summary>
     public class LocalJobProxy : JobProxy
     {
@@ -63,7 +63,7 @@ namespace Ecell.Job
         /// <summary>
         /// Create the proxy for session.
         /// </summary>
-        /// <returns>LocalSessionProxy.</returns>
+        /// <returns>Return Job.</returns>
         public override Job CreateJob()
         {
             return new LocalJob();
