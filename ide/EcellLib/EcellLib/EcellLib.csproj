@@ -138,6 +138,8 @@
     <Compile Include="Exceptions\IgnoreException.cs" />
     <Compile Include="Exceptions\SimulationException.cs" />
     <Compile Include="Job\ExecuteParameter.cs" />
+    <Compile Include="Job\GlobusJob.cs" />
+    <Compile Include="Job\GlobusJobProxy.cs" />
     <Compile Include="Leml.cs" />
     <Compile Include="Logger\LoggerEntry.cs" />
     <Compile Include="Logger\LoggerEventArgs.cs" />

@@ -160,6 +160,5 @@ namespace Ecell.Job
         {
             return LocalJob.GetDefaultScript();
         }
-
     }
 }
