@@ -244,7 +244,7 @@
     <value>最大変異率</value>
   </data>
   <data name="NameMaxSample" xml:space="preserve">
-    <value>FFTのサンプル数</value>
+    <value>最大サンプル数</value>
   </data>
   <data name="NameMinFrequency" xml:space="preserve">
     <value>最小頻度</value>

@@ -2104,7 +2104,7 @@ namespace Ecell
 
             EcellObject variable = _unitUnderTest.GetEcellObject("Drosophila", "/CELL/CYTOPLASM:P0", "Variable");
             variable.Key = variable.ParentSystemID + ":hoge";
-            _unitUnderTest.UpdatePropertyForDataChanged(variable);
+            _unitUnderTest.UpdatePropertyForDataChanged(variable, null);
         }
 
         /// <summary>

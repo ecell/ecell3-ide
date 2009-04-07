@@ -680,7 +680,8 @@ namespace Ecell.IDE
                 propName.Equals(Constants.xpathNumberConc))
             {
                 EcellObject obj = CollectObject();
-                m_env.DataManager.UpdatePropertyForDataChanged(obj);
+                EcellData d = obj.GetEcellData(propName);
+                m_env.DataManager.UpdatePropertyForDataChanged(obj, d);
                 SetCurrentObject(obj);
             }
         }

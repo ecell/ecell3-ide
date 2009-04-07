@@ -141,7 +141,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         /// <param name="e">EventArgs.</param>
         private void InputNameShown(object sender, EventArgs e)
         {            
-            INTextBox.Focus();
             List<string> proList = Util.GetProcessTemplateList();
             templateComboBox.Items.Add("None");
             foreach (string procName in proList)
@@ -162,6 +161,19 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
 
         private void InputName_Validating(object sender, CancelEventArgs e)
         {
+            //if (this.DialogResult == DialogResult.Cancel) return;
+            //String name = INTextBox.Text;
+            //if (String.IsNullOrEmpty(name))
+            //{
+            //    Util.ShowErrorDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameName));
+            //    e.Cancel = true;
+            //    return;
+            //}
+        }
+
+        private void CreateDMDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.DialogResult == DialogResult.Cancel) return;
             String name = INTextBox.Text;
             if (String.IsNullOrEmpty(name))
             {
@@ -169,12 +181,6 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 e.Cancel = true;
                 return;
             }
-        }
-
-        private void CreateDMDialog_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (this.DialogResult == DialogResult.Cancel) return;
-            String name = INTextBox.Text;
             if (!name.EndsWith(Constants.xpathProcess) && !name.EndsWith(Constants.xpathStepper))
             {
                 Util.ShowWarningDialog(MessageResources.WarnDMName);

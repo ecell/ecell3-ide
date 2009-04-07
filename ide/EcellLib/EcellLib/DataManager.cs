@@ -1184,7 +1184,7 @@ namespace Ecell
                 }
                 else if (ecellObject.Type.Equals(Constants.xpathVariable))
                 {
-                    UpdatePropertyForDataChanged(ecellObject);
+                    UpdatePropertyForDataChanged(ecellObject, null);
                     DataChanged4Entity(modelID, key, type, ecellObject, isRecorded, isAnchor);
                 }
 
@@ -2357,26 +2357,29 @@ namespace Ecell
             return dic;
         }
 
-        public void UpdatePropertyForDataChanged(EcellObject variable)
+        public void UpdatePropertyForDataChanged(EcellObject variable, EcellData updateData)
         {
             string variablePath = Constants.delimiterPath + Constants.delimiterColon + "V0";
             Dictionary<string, EcellData> dic = new Dictionary<string, EcellData>();
             string sysID = variable.ParentSystemID;
             EcellObject sys = GetEcellObject(variable.ModelID, sysID, Constants.xpathSystem);           
-            EcellData updateData = null;
+//            EcellData updateData = null;
             EcellObject org = GetEcellObject(variable.ModelID, variable.Key, variable.Type);
             if (org == null) return;
 
-            foreach (EcellData orgdata in org.Value)
+            if (updateData == null)
             {
-                if (!orgdata.Settable) continue;
-                updateData = variable.GetEcellData(orgdata.Name);
-                if (updateData == null) continue;
-                if (!updateData.Value.ToString().Equals(orgdata.Value.ToString()))
+                foreach (EcellData orgdata in org.Value)
                 {
-                    break;
+                    if (!orgdata.Settable) continue;
+                    updateData = variable.GetEcellData(orgdata.Name);
+                    if (updateData == null) continue;
+                    if (!updateData.Value.ToString().Equals(orgdata.Value.ToString()))
+                    {
+                        break;
+                    }
+                    updateData = null;
                 }
-                updateData = null; 
             }
             if (updateData == null) return;
 
