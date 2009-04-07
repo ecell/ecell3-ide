@@ -65,7 +65,7 @@ namespace Ecell
             // ここでDMをロードしてDMの説明、プロパティ情報を取得する
             // が、今のところプロパティ情報を追加する作業を行う
             DynamicModule tmp = null;
-            tmp = new DynamicModule("ConstantsFluxProcess", "", false, "ConstantsFluxProcess");
+            tmp = new DynamicModule("ConstantFluxProcess", "", false, "ConstantFluxProcess");
             tmp.AddProperty("Activity", true, true, false, false, (double)0.0, typeof(double));
             tmp.AddProperty("IsContinuous", false, true, false, false, 1, typeof(int));
             tmp.AddProperty("Name", true, true, true, true, "", typeof(string));

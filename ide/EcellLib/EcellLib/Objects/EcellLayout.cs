@@ -40,7 +40,7 @@ namespace Ecell.Objects
     /// This class contains 4 float variable and 1 string variable which show the layout of EcellObject.
     /// </summary>
     [Serializable]
-    public struct EcellLayout : ICloneable
+    public class EcellLayout : ICloneable
     {
         #region Fields
         /// <summary>
@@ -58,6 +58,14 @@ namespace Ecell.Objects
 	    #endregion
 
         #region Constructors
+        /// <summary>
+        /// Constructor with RectangleF.
+        /// </summary>
+        public EcellLayout()
+            : this(new RectangleF())
+        {
+        }
+
         /// <summary>
         /// Constructor with RectangleF.
         /// </summary>

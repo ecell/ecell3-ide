@@ -222,6 +222,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             toolMenuCopy.Enabled = menuFlag;
             toolMenuPaste.Enabled = menuFlag;
             toolMenuDelete.Enabled = menuFlag;
+
+            toolButtonOverview.Enabled = menuFlag;
         }
 
         private void InitializeComponent()

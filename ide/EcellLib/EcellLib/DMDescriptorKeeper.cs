@@ -37,49 +37,56 @@ using Ecell.Objects;
 
 namespace Ecell
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class DMDescriptorKeeper
     {
+        #region Fields
+        /// <summary>
+        /// DM Paths.
+        /// </summary>
         private string[] m_dmPaths;
+        /// <summary>
+        /// Dictionary of DMDescriptors [Type, [Name, DMDescriptors]]
+        /// </summary>
+        private Dictionary<string, Dictionary<string, DMDescriptor>> m_descs = null;
+        #endregion
 
-        private Dictionary<string, Dictionary<string, DMDescriptor>> m_descs;
-
-        public class PathAndModuleNamePair
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="dmPaths"></param>
+        public DMDescriptorKeeper(string[] dmPaths)
         {
-            private string m_path;
-            private string m_moduleName;
-
-            public string Path
-            {
-                get
-                {
-                    return m_path;
-                }
-            }
-            public string ModuleName
-            {
-                get
-                {
-                    return m_moduleName;
-                }
-            }
-
-            public PathAndModuleNamePair(string path, string moduleName)
-            {
-                m_path = path;
-                m_moduleName = moduleName;
-            }
+            m_dmPaths = dmPaths;
         }
+        #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public DMDescriptor GetDMDescriptor(string type, string name)
         {
             return m_descs[type][name];
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public ICollection<DMDescriptor> GetDMDescriptors(string type)
         {
             return m_descs[type].Values;
         }
-
+        /// <summary>
+        /// Load DMDescriptions.
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, Dictionary<string, List<PathAndModuleNamePair>>> Load()
         {
             Dictionary<string, Dictionary<string, List<PathAndModuleNamePair>>> maps =
@@ -106,10 +113,10 @@ namespace Ecell
 
                 modulesToLookup[dmPath] = perDirectoryModuleList;
 
-                WrappedSimulator sim = new WrappedSimulator(new string[] { });
+                WrappedSimulator sim = new WrappedSimulator(new string[] { "" });
                 foreach (DMInfo entry in sim.GetDMInfo())
                 {
-                    if (entry.FileName == "")
+                    if (string.IsNullOrEmpty(entry.FileName))
                     {
                         perDirectoryModuleList[entry.TypeName].Add(
                             new PathAndModuleNamePair(dmPath, entry.ModuleName));
@@ -185,7 +192,8 @@ namespace Ecell
                 WrappedSimulator sim = new WrappedSimulator(new string[] { kv.Key });
                 {
                     sim.CreateStepper("PassiveStepper", "tmp");
-                    sim.SetEntityProperty(Util.BuildFullPN(Constants.xpathSystem, "", "/", "StepperID"), "tmp");
+                    string id = Util.BuildFullPN(Constants.xpathSystem, "", "/", "StepperID");
+                    sim.SetEntityProperty(id, "tmp");
                 }
                 Trace.WriteLine("Checking DMs in " + kv.Key);
 
@@ -197,14 +205,21 @@ namespace Ecell
                     string id = Util.BuildFullID(Constants.xpathSystem, "/", pair.ModuleName);
                     sim.CreateEntity(pair.ModuleName, id);
                     sim.SetEntityProperty(Util.BuildFullPN(id, "StepperID"), "tmp");
+                    sim.CreateEntity(Constants.xpathVariable, Util.BuildFullID(Constants.xpathVariable, "/" + pair.ModuleName, "SIZE"));
                     bool dynamic = true;
                     foreach (string propName in sim.GetEntityPropertyList(id))
                     {
                         string fullPN = Util.BuildFullPN(id, propName);
                         EcellCoreLib.PropertyAttributes attrs = sim.GetEntityPropertyAttributes(fullPN);
                         EcellValue defaultValue = null;
-                        if (attrs.Gettable)
-                            defaultValue = new EcellValue(sim.GetEntityProperty(fullPN));
+                        try
+                        {
+                            if (attrs.Gettable)
+                                defaultValue = new EcellValue(sim.GetEntityProperty(fullPN));
+                        }
+                        catch (Exception)
+                        {
+                        }
                         pdescs[propName] = new PropertyDescriptor(
                             propName,
                             attrs.Settable, // settable
@@ -381,17 +396,67 @@ namespace Ecell
                     descs[Constants.xpathStepper][pair.ModuleName] =
                         new DMDescriptor(pair.ModuleName, pair.Path, Constants.xpathStepper, dynamic, pdescs);
                 }
-
-                sim.Dispose();
+                try
+                {
+                    sim.Dispose();
+                }
+                catch (Exception e)
+                {
+                    Trace.WriteLine(e.StackTrace);
+                }
             }
 
             m_descs = descs;
             return maps;
         }
-
-        public DMDescriptorKeeper(string[] dmPaths)
-        {
-            m_dmPaths = dmPaths;
-        }
     }
+
+    /// <summary>
+    /// InnerClass to manage DM file.
+    /// </summary>
+    public class PathAndModuleNamePair
+    {
+        #region MyRegion
+        /// <summary>
+        /// 
+        /// </summary>
+        private string m_path;
+        /// <summary>
+        /// 
+        /// </summary>
+        private string m_moduleName;
+        #endregion
+
+        #region MyRegion
+        /// <summary>
+        /// File Path.
+        /// </summary>
+        public string Path
+        {
+            get
+            { return m_path; }
+        }
+        /// <summary>
+        /// Name of DM
+        /// </summary>
+        public string ModuleName
+        {
+            get { return m_moduleName; }
+        }
+        #endregion
+
+        #region MyRegion
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="moduleName"></param>
+        public PathAndModuleNamePair(string path, string moduleName)
+        {
+            m_path = path;
+            m_moduleName = moduleName;
+        }
+        #endregion
+    }
+
 }

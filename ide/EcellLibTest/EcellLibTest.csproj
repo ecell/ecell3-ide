@@ -115,6 +115,7 @@
     <Compile Include="Action\TestUserAction.cs" />
     <Compile Include="TestUtil.cs" />
     <Compile Include="TestZipUtil.cs" />
+    <Compile Include="TestDMDescriptorKeeper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EcellCoreLibCLR">

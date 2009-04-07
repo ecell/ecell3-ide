@@ -54,6 +54,7 @@ namespace Ecell.Plugin
         {
             _unitUnderTest = new EcellDockContent();
         }
+
         /// <summary>
         /// Disposer
         /// </summary>
@@ -79,12 +80,15 @@ namespace Ecell.Plugin
 
             DockPanel panel = new DockPanel();
             Form form = new Form();
+            form.SuspendLayout();
             form.Controls.Add(panel);
             panel.Parent = form;
+            panel.FindForm();
+            form.SuspendLayout();
             form.Show();
 
             content.DockHandler.DockPanel = panel;
-            content.Show(panel, DockState.Document);
+            content.Show();
         }
     }
 }

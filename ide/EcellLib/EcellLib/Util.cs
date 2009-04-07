@@ -228,14 +228,16 @@ namespace Ecell
                 return true;
             if (!fullID.Contains(Constants.delimiterColon))
                 return true;
+            if (fullID.Split(':').Length != 3)
+                return true;
 
             string type = fullID.Split(':')[0];
             if (IsNGforType(type))
                 return true;
 
             string key = fullID.Substring(type.Length + 1);
-            if (type.Equals(EcellObject.SYSTEM))
-                return IsNGforSystemKey(key);
+            if (type.Equals(EcellObject.SYSTEM) && key != ":/")
+                return IsNGforSystemKey(GetSuperSystemPath(key));
             else if (type.Equals(EcellObject.PROCESS) || type.Equals(EcellObject.VARIABLE) || type.Equals(EcellObject.TEXT))
                 return IsNGforEntityKey(key);
             else
@@ -355,14 +357,9 @@ namespace Ecell
                 throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "systemPath"));
             if (IsNGforID(localID))
                 throw new EcellException(string.Format(MessageResources.ErrInvalidParam, "localID"));
-            // Create root path.
-            if (type.Equals(EcellObject.SYSTEM) && string.IsNullOrEmpty(systemPath) && localID.Equals(Constants.delimiterPath))
-                return type + Constants.delimiterColon + localID;
-            // Create path.
-            string delimiter = Constants.delimiterColon;
-            if (type.Equals(EcellObject.SYSTEM))
-                delimiter = Constants.delimiterPath;
-            return type + Constants.delimiterColon + systemPath + delimiter + localID;
+
+            // build Full Path.
+            return type + Constants.delimiterColon + systemPath + Constants.delimiterColon + localID;
         }
         /// <summary>
         /// Build the full PN from the information of components.
@@ -389,7 +386,8 @@ namespace Ecell
         /// <returns>the full PN.</returns>
         public static string BuildFullPN(string type, string systemPath, string localID, string propName)
         {
-            return BuildFullPN(BuildFullID(type, systemPath, localID), propName);
+            string fullID = BuildFullID(type, systemPath, localID);
+            return BuildFullPN(fullID, propName);
         }
 
         /// <summary>
@@ -551,6 +549,14 @@ namespace Ecell
             int i = fullID.IndexOf(Constants.delimiterColon);
             type = fullID.Substring(0, i);
             key = fullID.Substring(i + 1);
+
+            if (key.Equals(":/"))
+                key = Constants.delimiterPath;
+            else if (type.Equals(EcellObject.SYSTEM))
+            {
+                key = key.Replace("/:", Constants.delimiterPath);
+                key = key.Replace(Constants.delimiterColon, Constants.delimiterPath);
+            }
         }
         /// <summary>
         /// Parse FullPN to Type, SystemPath, LocalID and PropertyName.
@@ -1497,7 +1503,7 @@ namespace Ecell
         /// <returns>line style.</returns>
         public static DashStyle GetLine(int i)
         {
-            int j = i / 3;
+            int j = i % 4;
             if (j == 0) return DashStyle.Solid;
             else if (j == 1) return DashStyle.Dash;
             else if (j == 2) return DashStyle.DashDot;

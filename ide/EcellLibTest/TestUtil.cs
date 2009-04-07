@@ -39,6 +39,7 @@ namespace Ecell
     using Ecell.Objects;
     using System.Collections.Generic;
     using System.IO;
+    using System.Drawing.Drawing2D;
     /// <summary>
     /// Testof Ecell Util class.
     /// </summary>
@@ -320,7 +321,7 @@ namespace Ecell
 
             expectedBoolean = false;
 
-            fullPN = "System:/S0/:SIZE";
+            fullPN = "System:/:S0:SIZE";
             resultBoolean = Util.IsNGforFullPN(fullPN);
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsNGforFullID method returned unexpected result.");
 
@@ -328,11 +329,11 @@ namespace Ecell
             resultBoolean = Util.IsNGforFullPN(fullPN);
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsNGforFullID method returned unexpected result.");
 
-            fullPN = "Process:/S0/:P0:Activity";
+            fullPN = "Process:/S0:P0:Activity";
             resultBoolean = Util.IsNGforFullPN(fullPN);
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsNGforFullID method returned unexpected result.");
 
-            fullPN = "Stepper:/:DE:Interval";
+            fullPN = "Stepper::DE:Interval";
             resultBoolean = Util.IsNGforFullPN(fullPN);
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsNGforFullID method returned unexpected result.");
         }
@@ -364,19 +365,23 @@ namespace Ecell
 
             expectedBoolean = false;
 
-            fullID = "System:/S0/";
+            fullID = "System:/:S0";
             resultBoolean = Util.IsNGforFullID(fullID);
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsNGforFullID method returned unexpected result.");
 
-            fullID = "Variable:/S0/:Value";
+            fullID = "System::/";
             resultBoolean = Util.IsNGforFullID(fullID);
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsNGforFullID method returned unexpected result.");
 
-            fullID = "Process:/S0/:P0";
+            fullID = "Variable:/S0:Value";
             resultBoolean = Util.IsNGforFullID(fullID);
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsNGforFullID method returned unexpected result.");
 
-            fullID = "Stepper:/DE";
+            fullID = "Process:/S0:P0";
+            resultBoolean = Util.IsNGforFullID(fullID);
+            Assert.AreEqual(expectedBoolean, resultBoolean, "IsNGforFullID method returned unexpected result.");
+
+            fullID = "Stepper::DE";
             resultBoolean = Util.IsNGforFullID(fullID);
             Assert.AreEqual(expectedBoolean, resultBoolean, "IsNGforFullID method returned unexpected result.");
         }
@@ -642,14 +647,14 @@ namespace Ecell
             type = EcellObject.SYSTEM;
             systemPath = "/S0";
             localID = "A1";
-            expectedString = "System:/S0/A1";
+            expectedString = "System:/S0:A1";
             resultString = Util.BuildFullID(type, systemPath, localID);
             Assert.AreEqual(expectedString, resultString, "BuildFullID method returned unexpected result.");
 
             type = EcellObject.SYSTEM;
             systemPath = "";
             localID = "/";
-            expectedString = "System:/";
+            expectedString = "System::/";
             resultString = Util.BuildFullID(type, systemPath, localID);
             Assert.AreEqual(expectedString, resultString, "BuildFullID method returned unexpected result.");
 
@@ -687,7 +692,7 @@ namespace Ecell
             // Invalid Property Name.
             try
             {
-                fullID = "System:/S0";
+                fullID = "System:/:S0";
                 propName = "ss#2";
                 resultString = Util.BuildFullPN(fullID, propName);
                 Assert.Fail("Failed to catch invalid propName.");
@@ -847,6 +852,10 @@ namespace Ecell
         {
             string sourceDir = TestConstant.TestDirectory + "Drosophila";
             string expectedString = "Revision1";
+
+            if (Directory.Exists(Path.Combine(sourceDir, expectedString)))
+                Directory.Delete(Path.Combine(sourceDir, expectedString), true);
+
             string resultString = null;
             resultString = Util.GetRevNo(sourceDir);
             Assert.AreEqual(expectedString, resultString, "GetRevNo method returned unexpected result.");
@@ -1230,7 +1239,7 @@ namespace Ecell
             {
             }
 
-            fullID = "System:/hoge/hoge";
+            fullID = "System:/hoge:hoge";
             expectedtype = "System";
             expectedsystemPath = "/hoge";
             expectedlocalID = "hoge";
@@ -1271,7 +1280,7 @@ namespace Ecell
             }
             try
             {
-                fullID = "/Sys/:Value";
+                fullID = "/Sys:Value";
                 Util.ParseFullID(fullID, out type, out key);
                 Assert.Fail("Failed to throw EcellException.");
             }
@@ -1288,21 +1297,21 @@ namespace Ecell
             {
             }
 
-            fullID = "Variable:/sys/:Value";
+            fullID = "Variable:/sys:Value";
             expectedtype = "Variable";
-            expectedkey = "/sys/:Value";
+            expectedkey = "/sys:Value";
             Util.ParseFullID(fullID, out type, out key);
             Assert.AreEqual(expectedtype, type, "type out parameter is not expected value.");
             Assert.AreEqual(expectedkey, key, "key out parameter is not expected value.");
 
-            fullID = "System:/Sys/Value";
+            fullID = "System:/Sys:Value";
             expectedtype = "System";
             expectedkey = "/Sys/Value";
             Util.ParseFullID(fullID, out type, out key);
             Assert.AreEqual(expectedtype, type, "type out parameter is not expected value.");
             Assert.AreEqual(expectedkey, key, "key out parameter is not expected value.");
 
-            fullID = "System:/";
+            fullID = "System::/";
             expectedtype = "System";
             expectedkey = "/";
             Util.ParseFullID(fullID, out type, out key);
@@ -1338,7 +1347,7 @@ namespace Ecell
             // Invalid fullPN
             try
             {
-                fullPN = "Test:/Temp/:SIZE";
+                fullPN = "Test:/Temp:SIZE";
                 Util.ParseFullPN(fullPN, out type, out key, out propName);
                 Assert.Fail("Failed to throw EcellException.");
             }
@@ -1349,7 +1358,7 @@ namespace Ecell
             // Invalid fullPN
             try
             {
-            fullPN = "System:/Temp/:SIZE:Value";
+                fullPN = "Hoge:/Temp:SIZE:Value";
                 Util.ParseFullPN(fullPN, out type, out key, out propName);
                 Assert.Fail("Failed to throw EcellException.");
             }
@@ -1360,7 +1369,7 @@ namespace Ecell
             // Invalid fullPN
             try
             {
-                fullPN = "System:/Temp/:SIZE:Value";
+                fullPN = "System:/Temp:SIZE";
                 Util.ParseFullPN(fullPN, out type, out key, out propName);
                 Assert.Fail("Failed to throw EcellException.");
             }
@@ -1368,19 +1377,19 @@ namespace Ecell
             {
             }
 
-            fullPN = "Variable:/Temp/:Test:Value";
+            fullPN = "Variable:/Temp:Test:Value";
             Util.ParseFullPN(fullPN, out type, out key, out propName);
             expectedtype = "Variable";
-            expectedkey = "/Temp/:Test";
+            expectedkey = "/Temp:Test";
             expectedpropName = "Value";
             Assert.AreEqual(expectedtype, type, "type out parameter is not expected value.");
             Assert.AreEqual(expectedkey, key, "type out parameter is not expected value.");
             Assert.AreEqual(expectedpropName, propName, "type out parameter is not expected value.");
 
-            fullPN = "System:/Temp/:SIZE";
+            fullPN = "System:/:Temp:SIZE";
             Util.ParseFullPN(fullPN, out type, out key, out propName);
             expectedtype = "System";
-            expectedkey = "/Temp/";
+            expectedkey = "/Temp";
             expectedpropName = "SIZE";
             Assert.AreEqual(expectedtype, type, "type out parameter is not expected value.");
             Assert.AreEqual(expectedkey, key, "type out parameter is not expected value.");
@@ -1791,6 +1800,28 @@ namespace Ecell
             color = Util.GetColor(-1);
             Assert.AreEqual(Color.Black, color, "GetColorBlush method returned unexpected result.");
         }
+
+        /// <summary>
+        /// TestGetColorBrush
+        /// </summary>
+        [Test()]
+        public void TestGetLine()
+        {
+            DashStyle style = Util.GetLine(0);
+            Assert.AreEqual(DashStyle.Solid, style, "GetLine method returned unexpected result.");
+            style = Util.GetLine(1);
+            Assert.AreEqual(DashStyle.Dash, style, "GetLine method returned unexpected result.");
+            style = Util.GetLine(2);
+            Assert.AreEqual(DashStyle.DashDot, style, "GetLine method returned unexpected result.");
+            style = Util.GetLine(3);
+            Assert.AreEqual(DashStyle.Dot, style, "GetLine method returned unexpected result.");
+            style = Util.GetLine(4);
+            Assert.AreEqual(DashStyle.Solid, style, "GetLine method returned unexpected result.");
+            style = Util.GetLine(-1);
+            Assert.AreEqual(DashStyle.DashDotDot, style, "GetLine method returned unexpected result.");
+        }
+
+
 
         /// <summary>
         /// TestGetProcessTemplate

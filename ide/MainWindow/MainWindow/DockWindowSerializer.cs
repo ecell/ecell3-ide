@@ -69,7 +69,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="isClosing"></param>
         public static void SaveAsXML(MainWindow window, string filename, bool isClosing)
         {
-            DockPanel dockPanel = window.dockPanel;
+            DockPanel dockPanel = window.DockPanel;
             CheckUnsavableWindows(dockPanel, isClosing);
             CheckFilePath(filename);
             FileStream fs = null;
@@ -307,7 +307,7 @@ namespace Ecell.IDE.MainWindow
         /// <param name="filename"></param>
         public static void LoadFromXML(MainWindow window, string filename)
         {
-            DockPanel dockPanel = window.dockPanel;
+            DockPanel dockPanel = window.DockPanel;
             FileStream fs = null;
             XmlTextReader xmlIn = null;
             try

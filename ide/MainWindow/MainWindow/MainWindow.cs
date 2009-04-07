@@ -118,7 +118,7 @@ namespace Ecell.IDE.MainWindow
         /// <summary>
         /// Docking Windows object.
         /// </summary>
-        public WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
+        private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel;
         /// <summary>
         /// RecentProjects
         /// </summary>

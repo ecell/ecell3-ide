@@ -38,16 +38,37 @@ namespace Ecell
 {
     public class DMDescriptor: IEnumerable<PropertyDescriptor>
     {
+        #region Fields
+        /// <summary>
+        /// Name of DM
+        /// </summary>
         private string m_name;
-
+        /// <summary>
+        /// File path.
+        /// </summary>
         private string m_path;
-
+        /// <summary>
+        /// Type of DM
+        /// </summary>
         private string m_type;
-
+        /// <summary>
+        /// Description.
+        /// </summary>
+        private string m_desc;
+        /// <summary>
+        /// Properties
+        /// </summary>
         private Dictionary<string, PropertyDescriptor> m_props;
-
+        /// <summary>
+        /// Can this DM have DynamicProperty or not.
+        /// </summary>
         private bool m_canHaveDynamicProperties = false;
+        #endregion
 
+        #region Accessors
+        /// <summary>
+        /// Name of DM
+        /// </summary>
         public string Name
         {
             get
@@ -56,6 +77,9 @@ namespace Ecell
             }
         }
 
+        /// <summary>
+        /// File path.
+        /// </summary>
         public string Path
         {
             get
@@ -64,6 +88,9 @@ namespace Ecell
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Type
         {
             get
@@ -72,6 +99,9 @@ namespace Ecell
             }
         }
 
+        /// <summary>
+        /// Can this DM have DynamicProperty or not.
+        /// </summary>
         public bool CanHaveDynamicProperties
         {
             get
@@ -80,6 +110,22 @@ namespace Ecell
             }
         }
 
+        /// <summary>
+        /// Description
+        /// </summary>
+        public string Description
+        {
+            get
+            {
+                return m_desc;
+            }
+        }
+
+        /// <summary>
+        /// Get PropertyDescriptor with name.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public PropertyDescriptor this[string name]
         {
             get
@@ -89,17 +135,48 @@ namespace Ecell
                 return retval;
             }
         }
+        #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="path"></param>
+        /// <param name="type"></param>
+        /// <param name="canHaveDynamicProperties"></param>
+        /// <param name="props"></param>
+        public DMDescriptor(string name, string path, string type, bool canHaveDynamicProperties, Dictionary<string, PropertyDescriptor> props)
+        {
+            m_name = name;
+            m_path = path;
+            m_type = type;
+            m_canHaveDynamicProperties = canHaveDynamicProperties;
+            m_props = props;
+        }
+        #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<PropertyDescriptor> GetEnumerator()
         {
             return m_props.Values.GetEnumerator();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return m_props.Values.GetEnumerator();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="that"></param>
+        /// <returns></returns>
         public override bool Equals(object that)
         {
             if (that is DMDescriptor)
@@ -118,19 +195,13 @@ namespace Ecell
             }
             return base.Equals(that);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return (m_name.GetHashCode() ^ m_path.GetHashCode() ^ m_type.GetHashCode()) << (m_canHaveDynamicProperties ? 1 : 0);
-        }
-
-        public DMDescriptor(string name, string path, string type, bool canHaveDynamicProperties, Dictionary<string, PropertyDescriptor> props)
-        {
-            m_name = name;
-            m_path = path;
-            m_type = type;
-            m_canHaveDynamicProperties = canHaveDynamicProperties;
-            m_props = props;
         }
     }
 }

@@ -37,8 +37,12 @@ using Ecell.Objects;
 
 namespace Ecell
 {
+    /// <summary>
+    /// PropertyDescriptor for DM
+    /// </summary>
     public class PropertyDescriptor
     {
+        #region Fields
         /// <summary>
         /// The property name 
         /// </summary>
@@ -71,7 +75,9 @@ namespace Ecell
         /// default value for this slot
         /// </summary>
         private EcellValue m_defaultValue;
+        #endregion
 
+        #region Accessors
         /// <summary>
         /// get/set name.
         /// </summary>
@@ -119,15 +125,16 @@ namespace Ecell
         {
             get { return m_isSettable; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public bool Dynamic
         {
-            get
-            {
-                return m_dynamic;
-            }
+            get { return m_dynamic; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public EcellValue DefaultValue
         {
             get
@@ -135,32 +142,20 @@ namespace Ecell
                 return m_defaultValue != null ? (EcellValue)m_defaultValue.Clone() : null;
             }
         }
+        #endregion
 
-        public override bool Equals(object that)
-        {
-            if (that is PropertyDescriptor)
-            {
-                if (this == that)
-                    return true;
-                return m_dynamic == ((PropertyDescriptor)that).m_dynamic &&
-                    m_isGettable == ((PropertyDescriptor)that).m_isGettable &&
-                    m_isSettable == ((PropertyDescriptor)that).m_isSettable &&
-                    m_isLoadable == ((PropertyDescriptor)that).m_isLoadable &&
-                    m_isSavable == ((PropertyDescriptor)that).m_isSavable &&
-                    m_name == ((PropertyDescriptor)that).m_name;
-            }
-            return base.Equals(that);
-        }
-
-        public override int GetHashCode()
-        {
-            return m_name.GetHashCode() ^ ((m_dynamic ? 0x01 : 0)
-                | (m_isGettable ? 0x02 : 0)
-                | (m_isSettable ? 0x04 : 0)
-                | (m_isLoadable ? 0x08 : 0)
-                | (m_isSavable ? 0x10 : 0));
-        }
-
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="settable"></param>
+        /// <param name="gettable"></param>
+        /// <param name="loadable"></param>
+        /// <param name="saveable"></param>
+        /// <param name="dynamic"></param>
+        /// <param name="logable"></param>
+        /// <param name="defaultValue"></param>
         public PropertyDescriptor(string name, bool settable, bool gettable,
                 bool loadable, bool saveable, bool dynamic, bool logable,
                 EcellValue defaultValue)
@@ -173,6 +168,39 @@ namespace Ecell
             m_dynamic = dynamic;
             m_isLogable = logable;
             m_defaultValue = defaultValue;
+        }
+        #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="that"></param>
+        /// <returns></returns>
+        public override bool Equals(object that)
+        {
+            if (!(that is PropertyDescriptor))
+                return false;
+
+            PropertyDescriptor pd = (PropertyDescriptor)that;
+            return m_dynamic == ((PropertyDescriptor)that).m_dynamic &&
+                m_isGettable == ((PropertyDescriptor)that).m_isGettable &&
+                m_isSettable == ((PropertyDescriptor)that).m_isSettable &&
+                m_isLoadable == ((PropertyDescriptor)that).m_isLoadable &&
+                m_isSavable == ((PropertyDescriptor)that).m_isSavable &&
+                m_name == ((PropertyDescriptor)that).m_name;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return m_name.GetHashCode() ^ ((m_dynamic ? 0x01 : 0)
+                | (m_isGettable ? 0x02 : 0)
+                | (m_isSettable ? 0x04 : 0)
+                | (m_isLoadable ? 0x08 : 0)
+                | (m_isSavable ? 0x10 : 0));
         }
     }
 }
