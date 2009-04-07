@@ -175,16 +175,15 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_showWin.Click += new EventHandler(this.ShowTracerWindow);
 
             m_plotWin = new ToolStripMenuItem();
-            m_plotWin.Text = MessageResources.MenuItemShowPlotText;
-            m_plotWin.Name = "MenuItemShowPlot";
-            m_plotWin.Size = new Size(96, 22);
-            m_plotWin.Enabled = false;
-            m_plotWin.Click += new EventHandler(this.ShowPlotWindow);
+            //m_plotWin.Text = MessageResources.MenuItemShowPlotText;
+            //m_plotWin.Name = "MenuItemShowPlot";
+            //m_plotWin.Size = new Size(96, 22);
+            //m_plotWin.Enabled = false;
+            //m_plotWin.Click += new EventHandler(this.ShowPlotWindow);
 
             ToolStripMenuItem view = new ToolStripMenuItem();
             view.DropDownItems.AddRange(new ToolStripItem[] {
-                m_showWin,
-                m_plotWin
+                m_showWin
             });
             view.Name = "MenuItemView";
             view.Size = new Size(36, 20);

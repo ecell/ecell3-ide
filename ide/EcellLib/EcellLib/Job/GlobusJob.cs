@@ -32,6 +32,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
+using System.Diagnostics;
+
 namespace Ecell.Job
 {
     public class GlobusJob : Job
@@ -42,11 +44,27 @@ namespace Ecell.Job
         public static string TOPDIR_NAME = "topdir";
         public static string PASSWORD = "password";
 
+        private Process m_process = null;
+
+        #region Constructors
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public GlobusJob()
             : base()
         {
-            this.JobDirectory = "";            
+            this.JobDirectory = "";
+            m_process = new Process();
+            m_process.StartInfo.FileName = "cmd.exe";
+            m_process.StartInfo.UseShellExecute = false;
+            m_process.StartInfo.CreateNoWindow = false;
+            m_process.StartInfo.RedirectStandardError = true;
+            m_process.StartInfo.RedirectStandardInput = true;
+            m_process.StartInfo.RedirectStandardOutput = true;
+
+
         }
+        #endregion
 
         public override void retry()
         {

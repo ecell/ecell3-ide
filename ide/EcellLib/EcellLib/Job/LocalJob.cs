@@ -93,6 +93,9 @@ namespace Ecell.Job
                 m_currentProcess = p;
                 ProcessID = m_currentProcess.Id;
 
+                p.BeginErrorReadLine();
+                p.BeginOutputReadLine();
+
                 //ProcessStartInfo psi = new ProcessStartInfo();
                 //psi.FileName = ScriptFile;
                 //psi.UseShellExecute = false;
