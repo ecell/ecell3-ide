@@ -207,6 +207,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
             m_tagDic.Clear();
             m_entryDic.Clear();
             m_logList.Clear();
+            m_zCnt.Refresh();
         }
 
         /// <summary>
@@ -244,6 +245,7 @@ namespace Ecell.IDE.Plugins.TracerWindow
                 m_entryDic[tag.ToShortString()].SetVisible(entry.IsShown);
                 AddPoints(log.logValueList[log.logValueList.Count - 1].time, log.logValueList[log.logValueList.Count - 1].time, logList, true);
             }
+            m_logList.Add(tag);
             m_entryCount++;
         }
 

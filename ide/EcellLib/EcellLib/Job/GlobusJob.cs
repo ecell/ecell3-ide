@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace Ecell.Job
 {
@@ -87,13 +88,22 @@ namespace Ecell.Job
             // 実行ディレクトリを作成
             // cog-job-submit -e /bin/mkdir -args $ROOT/$JobID -p $Provider -s $Server           
             // grid-ftpでサーバにスクリプトを持っていく
-            // cog-file-transfer -s $jobfile -d $ROOT/$JobID
+            // cog-file-transfer -s $jobfile -d gsiftp://$Server/$ROOT/$JobID
+
             base.PrepareProcess();
         }
 
         public override Dictionary<double, double> GetLogData(string key)
-        {
+        {            
             // not implements
+            // 初期化
+            // grid-proxy-init
+            // grid-ftpでログをサーバから持ってくる
+            // cog-file-transfer -s gsiftp://$Server/$ROOT/$JobID/$logfile -d $ROOT/$JobID
+            // Tempに移動
+            //File.Move($logfile, $tmpdir/$logfile)
+            // ログの読み込み
+            //
             return base.GetLogData(key);
         }
 
