@@ -72,28 +72,59 @@ namespace Ecell.Job
         {
             try
             {
-                ProcessStartInfo psi = new ProcessStartInfo();
-                psi.FileName = ScriptFile;
-                psi.UseShellExecute = false;
-                psi.CreateNoWindow = true;
-                psi.Arguments = @Argument;
-                psi.WorkingDirectory = Util.GetAnalysisDir();
-                psi.RedirectStandardError = true;
-                psi.RedirectStandardOutput = false;
-                if (psi.EnvironmentVariables.ContainsKey("IRONPYTHONSTARTUP"))
+                Process p = new Process();
+                p.StartInfo.FileName = ScriptFile;
+                p.StartInfo.UseShellExecute = false;
+                p.StartInfo.CreateNoWindow = true;
+                p.StartInfo.Arguments = @Argument;
+                p.StartInfo.WorkingDirectory = Util.GetAnalysisDir();
+                p.StartInfo.RedirectStandardError = true;
+                p.StartInfo.RedirectStandardOutput = true;
+                if (p.StartInfo.EnvironmentVariables.ContainsKey("IRONPYTHONSTARTUP"))
                 {
-                    psi.EnvironmentVariables.Remove("IRONPYTHONSTARTUP");
+                    p.StartInfo.EnvironmentVariables.Remove("IRONPYTHONSTARTUP");
                 }
-                psi.EnvironmentVariables.Add("IRONPYTHONSTARTUP", Util.GetStartupFile());
+                p.StartInfo.EnvironmentVariables.Add("IRONPYTHONSTARTUP", Util.GetStartupFile());
                 this.Status = JobStatus.RUNNING;
-                m_currentProcess = Process.Start(psi);
+                p.ErrorDataReceived += new DataReceivedEventHandler(p_ErrorDataReceived);
+                p.OutputDataReceived += new DataReceivedEventHandler(p_OutputDataReceived);
+                this.Status = JobStatus.RUNNING;
+                p.Start();
+                m_currentProcess = p;
                 ProcessID = m_currentProcess.Id;
+
+                //ProcessStartInfo psi = new ProcessStartInfo();
+                //psi.FileName = ScriptFile;
+                //psi.UseShellExecute = false;
+                //psi.CreateNoWindow = true;
+                //psi.Arguments = @Argument;
+                //psi.WorkingDirectory = Util.GetAnalysisDir();
+                //psi.RedirectStandardError = true;
+                //psi.RedirectStandardOutput = false;
+                //if (psi.EnvironmentVariables.ContainsKey("IRONPYTHONSTARTUP"))
+                //{
+                //    psi.EnvironmentVariables.Remove("IRONPYTHONSTARTUP");
+                //}
+                //psi.EnvironmentVariables.Add("IRONPYTHONSTARTUP", Util.GetStartupFile());
+                //this.Status = JobStatus.RUNNING;
+                //m_currentProcess = Process.Start(psi);
+                //ProcessID = m_currentProcess.Id;
             }
             catch (Exception e)
             {
                 Trace.WriteLine(e.StackTrace);
                 this.Status = JobStatus.ERROR;
             }
+        }
+
+        void p_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            this.StdErr += e.Data;
+        }
+
+        void p_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            this.StdErr += e.Data;
         }
 
         /// <summary>

@@ -79,10 +79,11 @@ namespace Ecell.Job
         private List<string> m_extraFile;
         private JobStatus m_status;
         private string m_stderr;
+        private Dictionary<string, object> m_param;
 
         static private string s_dmPath;
         static private int s_maxCount;
-        static private int s_jobID = 0;
+        static private int s_jobID = 0;      
 
         /// <summary>
         /// get / set status of job.
@@ -163,6 +164,12 @@ namespace Ecell.Job
         {
             get { return this.m_stderr; }
             set { this.m_stderr = value; }
+        }
+
+        public Dictionary<string, object> Param
+        {
+            get { return this.m_param; }
+            set { this.m_param = value; }
         }
 
         /// <summary>

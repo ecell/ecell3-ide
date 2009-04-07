@@ -36,6 +36,12 @@ namespace Ecell.Job
 {
     public class GlobusJob : Job
     {
+        public static string SERVER_NAME = "servername";
+        public static string PROVIDER_NAME = "provider";
+        public static string SCRIPT_NAME = "scriptname";
+        public static string TOPDIR_NAME = "topdir";
+        public static string PASSWORD = "password";
+
         public GlobusJob()
             : base()
         {
@@ -51,11 +57,22 @@ namespace Ecell.Job
 
         public override void run()
         {
+            string cmd = "";
+            string argument = "";
+
             // not implements
             // 初期化
             // grid-proxy-init
+            cmd = "grid-proxy-init";
+
             // 実行
             // cog-job-submit -e $script -args $ROOT/$JobID/$jobfile -p $provider -s $server
+            cmd = "cog-job-submit";
+            argument = " -e " + Param[GlobusJob.SCRIPT_NAME].ToString() + " -args "
+            + Param[GlobusJob.TOPDIR_NAME].ToString + "/" + this.Machine + "/"
+            + this.JobID + "/" + ScriptFile
+            + " -p " + Param[GlobusJob.PROVIDER_NAME]
+            + " -s " + Param[GlobusJob.SERVER_NAME];
         }
 
         public override void stop()
@@ -82,29 +99,79 @@ namespace Ecell.Job
 
         public override void PrepareProcess()
         {
+            string cmd = "";
+            string argument = "";
+
             // not implements
             // 初期化
-            // grid-proxy-init
+            cmd = "grid-proxy-init";
+
             // 実行ディレクトリを作成
             // cog-job-submit -e /bin/mkdir -args $ROOT/$JobID -p $Provider -s $Server           
+            cmd = "cog-job-submit";
+            argument = "-e /bin/mkdir -args " + Param[GlobusJob.TOPDIR_NAME].ToString()
+                + "/" + this.Machine + "/" + this.JobID 
+                + " -p " + Param[GlobusJob.PROVIDER_NAME].ToString()
+                + " -s " + Param[GlobusJob.SERVER_NAME];
+            
+            string dFileName = JobID + ".py";
+            File.Copy(Argument, dFileName);
             // grid-ftpでサーバにスクリプトを持っていく
-            // cog-file-transfer -s $jobfile -d gsiftp://$Server/$ROOT/$JobID
+            // cog-file-transfer -s file://tmp/$jobfile -d gsiftp://$Server/$ROOT/$JobID
+            cmd = "cog-file-transfer";
+            argument = " -s file://tmp/" + dFileName + " -d gsiftp://"
+            + Param[GlobusJob.SERVER_NAME].ToString() + "/"
+            + this.Machine + "/" + this.JobID + "/";
 
+            ScriptFile = dFileName;
             base.PrepareProcess();
         }
 
         public override Dictionary<double, double> GetLogData(string key)
-        {            
+        {
+            Dictionary<double, double> result = new Dictionary<double, double>();
+            if (key == null)
+                return result;
+
+            string fileName = key.Replace("/", "_");
+            fileName = fileName + ".csv";
+
             // not implements
             // 初期化
             // grid-proxy-init
+            cmd = "grid-proxy-init";
+
             // grid-ftpでログをサーバから持ってくる
             // cog-file-transfer -s gsiftp://$Server/$ROOT/$JobID/$logfile -d $ROOT/$JobID
+            cmd = "cog-file-transfer";
+            argument = " -d file://tmp/" + tmp.log + " -d gsiftp://"
+            + Param[GlobusJob.SERVER_NAME].ToString() + "/"
+            + this.Machine + "/" + this.JobID + "/" + fileName;
+
+          
             // Tempに移動
+            File.Move("tmp.log", JobDirectory + "/" + fileName);
             //File.Move($logfile, $tmpdir/$logfile)
             // ログの読み込み
             //
-            return base.GetLogData(key);
+            StreamReader hReader = new StreamReader(JobDirectory + "/" + fileName, Encoding.ASCII);
+            char splitter = '\t';
+
+            while (!hReader.EndOfStream)
+            {
+                string line = hReader.ReadLine();
+                if (line.StartsWith("#")) continue;
+                string[] ele = line.Split(new char[] { splitter });
+                if (ele.Length >= 2)
+                {
+                    double time = Convert.ToDouble(ele[0]);
+                    double value = Convert.ToDouble(ele[1]);
+                    result.Add(time, value);
+                }
+            }
+            hReader.Close();
+
+            return result;
         }
 
         static public string GetDefaultScript()

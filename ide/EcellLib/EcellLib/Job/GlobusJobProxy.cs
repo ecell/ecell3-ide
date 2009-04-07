@@ -58,10 +58,11 @@ namespace Ecell.Job
         {
             if (s_optDic == null)
             {
-                s_optDic.Add("servername", "globusserver.e-cell.org");
-                s_optDic.Add("provider", "gt4");
-                s_optDic.Add("script", "/usr/local/bin/ecell3-sesiion");
-                s_optDic.Add("password", "XXX");
+                s_optDic.Add(GlobusJob.SERVER_NAME, "cm-3250.biointegra.jp");
+                s_optDic.Add(GlobusJob.PROVIDER_NAME, "gt4");
+                s_optDic.Add(GlobusJob.SCRIPT_NAME, "/usr/local/bin/ecell3-sesiion");
+                s_optDic.Add(GlobusJob.TOPDIR_NAME, "/work");
+                s_optDic.Add(GlobusJob.PASSWORD, "XXXX");
             }
         }
 
@@ -89,6 +90,7 @@ namespace Ecell.Job
             job.Argument = arg;
             job.ExtraFileList = extFile;
             job.JobDirectory = tmpDir + "/" + job.JobID;
+            job.Param = m_optDic;
             return job;
         }
 
