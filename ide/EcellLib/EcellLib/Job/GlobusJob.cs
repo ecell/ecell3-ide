@@ -69,7 +69,7 @@ namespace Ecell.Job
             // cog-job-submit -e $script -args $ROOT/$JobID/$jobfile -p $provider -s $server
             cmd = "cog-job-submit";
             argument = " -e " + Param[GlobusJob.SCRIPT_NAME].ToString() + " -args "
-            + Param[GlobusJob.TOPDIR_NAME].ToString + "/" + this.Machine + "/"
+            + Param[GlobusJob.TOPDIR_NAME].ToString() + "/" + this.Machine + "/"
             + this.JobID + "/" + ScriptFile
             + " -p " + Param[GlobusJob.PROVIDER_NAME]
             + " -s " + Param[GlobusJob.SERVER_NAME];
@@ -129,6 +129,8 @@ namespace Ecell.Job
 
         public override Dictionary<double, double> GetLogData(string key)
         {
+            string cmd = "";
+            string argument = "";
             Dictionary<double, double> result = new Dictionary<double, double>();
             if (key == null)
                 return result;
@@ -144,7 +146,7 @@ namespace Ecell.Job
             // grid-ftpでログをサーバから持ってくる
             // cog-file-transfer -s gsiftp://$Server/$ROOT/$JobID/$logfile -d $ROOT/$JobID
             cmd = "cog-file-transfer";
-            argument = " -d file://tmp/" + tmp.log + " -d gsiftp://"
+            argument = " -d file://tmp/tmp.log -d gsiftp://"
             + Param[GlobusJob.SERVER_NAME].ToString() + "/"
             + this.Machine + "/" + this.JobID + "/" + fileName;
 
