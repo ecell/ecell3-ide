@@ -115,22 +115,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
             // Preparing context menus.
         }
 
-        void OnProjectStatusChange(object sender, EventArgs e)
-        {
-            if (m_con.ProjectStatus == ProjectStatus.Uninitialized)
-                dataGridView.Rows.Clear();
-        }
-
-        void OnCanvasChange(object sender, EventArgs e)
-        {
-            if (m_con.Canvas == null)
-                return;
-            m_canvas = m_con.Canvas;
-        }
-
-        #endregion
-
-        #region Methods
         /// <summary>
         /// Initializer for PCanvas
         /// </summary>
@@ -294,6 +278,26 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
 
         }
 
+        void OnProjectStatusChange(object sender, EventArgs e)
+        {
+            if (m_con.ProjectStatus == ProjectStatus.Uninitialized)
+            {
+                dataGridView.Rows.Clear();
+                m_canvas = null;
+            }
+        }
+
+        void OnCanvasChange(object sender, EventArgs e)
+        {
+            if (m_con.Canvas == null)
+                return;
+            m_canvas = m_con.Canvas;
+
+        }
+
+        #endregion
+
+        #region Methods
         /// <summary>
         /// ResetLayers
         /// </summary>

@@ -69,7 +69,7 @@ namespace Ecell
         public void TestGetDynamicModule()
         {
             DynamicModule module;
-            module = _unitUnderTest.ModuleDic["ConstantsFluxProcess"];
+            module = _unitUnderTest.ModuleDic["ConstantFluxProcess"];
             Assert.IsNotNull(module);
             module = _unitUnderTest.ModuleDic["DecayFluxProcess"];
             Assert.IsNotNull(module);
@@ -143,7 +143,7 @@ namespace Ecell
         [Test()]
         public void TestDynamicModules()
         {
-            TestDynamicModule("ConstantsFluxProcess");
+            TestDynamicModule("ConstantFluxProcess");
             TestDynamicModule("DecayFluxProcess");
             TestDynamicModule("ExpressionAlgebraicProcess");
             TestDynamicModule("ExpressionFluxProcess");
