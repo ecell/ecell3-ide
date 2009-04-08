@@ -24,6 +24,7 @@ class Session:
             self.theCommandManager = Ecell.CommandManager.s_instance
         else:
             self.theCommandManager = aCommandManager
+        self.theJobManager = self.theCommandManager.JobManager
         self.execNumpyFileName = "ExecNumpy.bat"
 
     def createEntityStub(self, aFullID):
@@ -377,6 +378,220 @@ class Session:
 	'''
         self.theCommandManager.UpdateInitialCondition(keyType, dic)
 
+    def setObservedData(self, fullPN, max, min, differ, rate):
+        '''
+        Set the observed data.
+        fullPN : str
+        max : float
+        min : float
+        differ : float
+        rate : float
+
+        Return None:
+        '''
+        self.theCommandManager.SetObservedData(fullPN, max, min, differ, rate)
+
+    def SetParameterData(self, fullPN, max, min, step):
+        '''
+        Set the parameter data.
+        fullPN : str
+        max : float
+        min : float
+        step : float
+
+        Return None:
+        '''
+        self.theCommandManager.SetParameterData(fullPN, max, min, step)
+
+    def RemoveObservedData(self, fullPN):
+        '''
+        Remove the observed data.
+        fullPN : str
+
+        Return None:
+        '''
+        self.theCommandManager.RemoveObservedData(fullPN)
+
+    def RemoveParameterData(self, fullPN):
+        '''
+        Remove the parameter data.
+        fullPN : str
+
+        Return None:
+        '''
+        self.theCommandManager.RemoveParameterData(fullPN)
+
+    def getConcurrency(self):
+        '''
+        Get the concuurency of this system.
+        
+        Return int :
+        '''
+        return self.theJobManager.Concuurency
+
+    def getTmpRootDir(self):
+        '''
+        Get the temporary root directory.
+        
+        Return str :
+        '''
+        return self.theJobManager.TmpRootDir
+
+    def getJobIdList(self):
+        '''
+        Get the list of job id.
+
+        Return the list of int:
+        '''
+        list = []
+        for value in selt.theJobManager.JobList.Keys:
+            list.append(value)
+        list.sort()
+        return list
+
+    def RegisterJob(self, script, arg, extFile):
+        '''
+        Regist the job.
+        script : str : the script file name
+        arg : str : the argument of script
+        extFile : the list of str : the list of output file
+
+        Return int (job id):
+        '''
+        return self.theJobManager.RegisterJob(script, arg, extFile)
+
+    def ClearJob(self, jobid):
+        '''
+        Clear the job.
+
+        Return None:
+        '''
+        self.theJobManager.ClearJob(jobid)
+
+    def ClearQueuedJob(self):
+        '''
+        Clear the queued job.
+
+        Return None:
+        '''
+        self.theJobManager.ClearQueuedJobs()
+
+    def ClearRunningJob(self):
+        '''
+        Clear the running job.
+
+        Return None:
+        '''
+        self.theJobManager.ClearRunningJobs()
+
+    def ClearErrorJob(self):
+        '''
+        Clear the error job.
+
+        Return None:
+        '''
+        self.theJobManager.ClearErrorJobs()
+
+    def ClearFinishedJob(self):
+        '''
+        Clear the finished job.
+
+        Return None:
+        '''
+        self.theJobManager.ClearFinishedJobs()
+
+    def GetQueuedJobList(self):
+        ''' 
+        Get the list of queued jobs.
+
+        Return the list of int : the list of job id.
+        '''
+        list = []
+        for value in self.theCommandManager.GetQueuedJobList():
+            list.append(value)
+        return list
+
+    def GetRunningJobList(self):
+        ''' 
+        Get the list of running jobs.
+
+        Return the list of int : the list of job id.
+        '''
+        list = []
+        for value in self.theCommandManager.GetRunningJobList():
+            list.append(value)
+        return list
+
+    def GetErrorJobList(self):
+        ''' 
+        Get the list of error jobs.
+
+        Return the list of int : the list of job id.
+        '''
+        list = []
+        for value in self.theCommandManager.GetErrorJobList():
+            list.append(value)
+        return list
+
+    def GetFinishedJobList(self):
+        ''' 
+        Get the list of finished jobs.
+
+        Return the list of int : the list of job id.
+        '''
+        list = []
+        for value in self.theCommandManager.GetFinishedJobList():
+            list.append(value)
+        return list
+
+    def JobRun(self):
+        '''
+        Run the jobs.
+
+        Return None:
+        '''
+        self.theJobManager.Run()
+
+    def JobStop(self, aID):
+        '''
+        Stop the jobs by job id.
+        If job id = 0, all job is stopped.
+
+        Return None:
+        '''
+        self.theJobManager.Stop(aID)
+
+    def setEnvironment(self, env):
+        '''
+        Set the environment.
+
+        Return None:
+        '''
+        self.theJobManager.SetCurrentEnvironment(env)
+
+    def setTmpRootDir(self, tmpRoot):
+        '''
+        Set the temporary root directory.
+        
+        Return None:
+        '''
+        self.theJobManager.TmpRootDir = tmpRoot
+
+    def RunSimParameterRange(self, topdir, modelName, num, count):
+        '''
+        Run the simulation by using the initial parameter within the range of parameters.
+        topdir : str : top directory.
+        modelName : str : model name.
+        num : int : the number of samples
+        count : double : the simulation time
+
+        Return the list of int : the list of job id
+        '''
+        list = []
+        for value in self.theCommandManager.RunSimParameterRange(topdir, modelName, num, count):
+            list.append(value)
+        return list
+
 
 class EntityStub:
 
@@ -478,6 +693,65 @@ class EntityStub:
 	'''
         self.theEntity.SetProperty(aPropertyName, aValue)
 
+class JobStub:
+    def __init__(self, aCommandManager, aJobManager, aID):
+        '''
+        Constructor.
+        
+        Return None:
+        '''
+        self.theCommandManager = aCommandManager
+        self.theJobManager = aJobManager
+        self.theJobID = aID
+        self.theJob = self.theCommandManager.CreateJobStrub(aID)
+
+    def create(self):
+        '''
+        Create the job entity.
+
+        Return None :
+        '''
+        self.theJob.Create()
+
+    def delete(self):
+        '''
+        Delete the job entity.
+
+        Return None :
+        '''
+        self.theJob.Delete()
+
+    def getStatus(self):
+        '''
+        Get the status of job.
+
+        Return int :
+        '''
+        return self.theJob.GetStatus()
+
+    def getProcessID(self):
+        '''
+        Get the process ID of job.
+
+        Return int :
+        '''
+        return self.theJob.GetProcessID()
+
+    def GetStdOut(self):
+        '''
+        Get the message at StdOut.
+
+        Retrun str :
+        '''
+        return self.theJob.GetStdOut()
+
+    def GetStdErr(self):
+        '''
+        Get the message at StdErr.
+
+        Retrun str :
+        '''
+        return self.theJob.GetStdErr()
 
 class LoggerStub:
 
