@@ -199,22 +199,24 @@ namespace Ecell.IDE
             ToolStripMenuItem m = (ToolStripMenuItem)sender;
             string prop = m.Tag as string;
 
+            string model = m_object.ModelID;
+            string key = m_object.Key;
+            string type = m_object.Type;
+            EcellObject obj = m_env.DataManager.GetEcellObject(model, key, type);
 
             if (m.Checked)
             {
-                m_object.GetEcellData(prop).Logged = false;
+                obj.GetEcellData(prop).Logged = false;
             }
             else
             {
-                EcellData d = m_object.GetEcellData(prop);
+                EcellData d = obj.GetEcellData(prop);
                 Debug.Assert(d != null);
-                m_env.LoggerManager.AddLoggerEntry(
-                    m_object.ModelID, m_object.Key, m_object.Type, d.EntityPath);
+                m_env.LoggerManager.AddLoggerEntry(model, key, type, d.EntityPath);
                 d.Logged = true;
             }
             // modify changes
-            m_env.DataManager.DataChanged(m_object.ModelID,
-                m_object.Key, m_object.Type, m_object);
+            m_env.DataManager.DataChanged(model, key, type, obj);
         }
 
         /// <summary>
