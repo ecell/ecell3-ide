@@ -152,7 +152,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <summary>
         /// EventTimer for animation.
         /// </summary>
-        private Timer m_time;
+        private Timer m_timer;
 
         /// <summary>
         /// EventFlag isPausing
@@ -161,6 +161,20 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         #endregion
 
         #region Accessors
+        /// <summary>
+        /// Get/Set m_canvas
+        /// </summary>
+        public CanvasControl Canvas
+        {
+            get { return m_canvas; }
+            set { m_canvas = value; }
+        }
+
+        public bool DoesAnimationOnGoing
+        {
+            get { return m_timer.Enabled; }
+        }
+
         /// <summary>
         /// Get/Set m_thresholdHigh
         /// </summary>
@@ -332,10 +346,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             LoadSettings();
             m_dManager = m_con.Window.DataManager;
             // Set Timer.
-            m_time = new Timer();
-            m_time.Enabled = false;
-            m_time.Interval = 200;
-            m_time.Tick += new EventHandler(TimerFire);
+            m_timer = new Timer();
+            m_timer.Enabled = false;
+            m_timer.Interval = 200;
+            m_timer.Tick += new EventHandler(TimerFire);
         }
 
         void m_con_AnimationChange(object sender, EventArgs e)
@@ -409,9 +423,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// <param name="e">EventArgs</param>
         public void TimerFire(object sender, EventArgs e)
         {
-            m_time.Enabled = false;
+            m_timer.Enabled = false;
             UpdatePropForSimulation();
-            m_time.Enabled = true;
+            m_timer.Enabled = true;
         }
         /// <summary>
         /// Start Simulation
@@ -478,16 +492,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         public void TimerStart()
         {
             m_isPausing = false;
-            m_time.Enabled = true;
-            m_time.Start();
+            m_timer.Enabled = true;
+            m_timer.Start();
         }
         /// <summary>
         /// Stop Timer.
         /// </summary>
         public void TimerStop()
         {
-            m_time.Enabled = false;
-            m_time.Stop();
+            m_timer.Enabled = false;
+            m_timer.Stop();
         }
         #endregion
 
