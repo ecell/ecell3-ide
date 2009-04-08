@@ -169,10 +169,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             get { return m_canvas; }
             set { m_canvas = value; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public bool DoesAnimationOnGoing
         {
-            get { return m_timer.Enabled; }
+            get { return (m_con.ProjectStatus == ProjectStatus.Running || m_con.ProjectStatus == ProjectStatus.Stepping || m_con.ProjectStatus == ProjectStatus.Suspended); }
         }
 
         /// <summary>
