@@ -1201,7 +1201,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 }
                 else if (pair.Value.Name == Constants.xpathVRL)
                 {
-                    val = m_current.GetEcellData(Constants.xpathVRL);
+                    EcellData d  = m_current.GetEcellData(Constants.xpathVRL);
+                    if (d != null)
+                        val = d;
                 }
                 props.Add(val);
             }
