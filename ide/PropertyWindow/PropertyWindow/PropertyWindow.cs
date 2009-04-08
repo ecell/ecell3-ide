@@ -170,7 +170,14 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     if (m_dgv[0, i].Value == null) continue;
                     if (d.Name == (string)m_dgv[0, i].Value)
                     {
-                        m_dgv[1, i].Value = (string)d.Value;
+                        if (d.Name.Equals(Constants.xpathVRL))
+                        {
+                            m_dgv[1, i].Value = MessageResources.LabelEdit;
+                        }
+                        else
+                        {
+                            m_dgv[1, i].Value = (string)d.Value;
+                        }
                     }
                 }
             }
@@ -505,7 +512,16 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 if (r.Cells[1] is DataGridViewCell)
                 {
                     if (!r.Cells[1].Value.ToString().Equals(d.Value.ToString()))
-                        r.Cells[1].Value = d.Value.ToString();
+                    {
+                        if (d.Name.Equals(Constants.xpathVRL))
+                        {
+                            r.Cells[1].Value = MessageResources.LabelEdit;
+                        }
+                        else
+                        {
+                            r.Cells[1].Value = d.Value.ToString();
+                        }
+                    }                    
                 }
             }
         }
@@ -855,7 +871,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     if (valueCell.Tag == null || valueCell.Value.Equals(""))
                     {
                         value = 0.0d;
-                    }else{
+                    }
+                    else
+                    {
                         value = Convert.ToDouble(valueCell.Value);
                     }
                     m_current.RemoveEcellValue(oldName);

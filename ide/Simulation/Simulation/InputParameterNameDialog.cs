@@ -83,6 +83,12 @@ namespace Ecell.IDE.Plugins.Simulation
             if (this.DialogResult == DialogResult.Cancel)
                 return;
 
+            if (String.IsNullOrEmpty(paramTextBox.Text))
+            {
+                Util.ShowWarningDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameName));
+                e.Cancel = true;
+                return;
+            }
             if (Util.IsNGforID(paramTextBox.Text))
             {
                 Util.ShowWarningDialog(MessageResources.ErrIDNG);
@@ -100,12 +106,6 @@ namespace Ecell.IDE.Plugins.Simulation
 
         private void paramTextBox_Validating(object sender, CancelEventArgs e)
         {
-            if (String.IsNullOrEmpty(paramTextBox.Text))
-            {
-                Util.ShowWarningDialog(String.Format(MessageResources.ErrNoInput, MessageResources.NameName));
-                e.Cancel = true;
-                return;
-            }
         }
         #endregion
     }
