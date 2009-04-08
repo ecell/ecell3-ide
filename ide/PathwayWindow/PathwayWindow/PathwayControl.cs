@@ -528,10 +528,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return;
             }
 
-            // Error check.
-            Debug.Assert(!string.IsNullOrEmpty(eo.Key));
-            Debug.Assert(!string.IsNullOrEmpty(eo.ModelID));
-            Debug.Assert(m_canvas.ModelID == eo.ModelID);
+            // Ignore stepper.
+            if (eo.Type.Equals(EcellObject.STEPPER))
+            {
+                return;
+            }
 
             // Ignore system size.
             if (eo.Type == Constants.xpathVariable && eo.LocalID == "SIZE")

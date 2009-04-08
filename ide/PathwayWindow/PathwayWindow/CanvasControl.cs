@@ -118,9 +118,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         protected SortedDictionary<string, PPathwayProcess> m_processes = new SortedDictionary<string, PPathwayProcess>();
 
         /// <summary>
-        /// The dictionary for all comments
+        /// The dictionary for all comments.
         /// </summary>
         protected SortedDictionary<string, PPathwayText> m_texts = new SortedDictionary<string, PPathwayText>();
+
+        /// <summary>
+        /// The dictionary for all steppers.
+        /// </summary>
+        protected SortedDictionary<string, PPathwayStepper> m_steppers = new SortedDictionary<string, PPathwayStepper>();
 
         /// <summary>
         /// The dictionary for all layers.
@@ -277,6 +282,15 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         {
             get { return m_texts; }
             set { m_texts = value; }
+        }
+
+        /// <summary>
+        /// Accessor for m_comments.
+        /// </summary>
+        public SortedDictionary<string, PPathwayStepper> Steppers
+        {
+            get { return m_steppers; }
+            set { m_steppers = value; }
         }
 
         /// <summary>
@@ -643,6 +657,12 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 if (m_processes.ContainsKey(key))
                     throw ex;
                 m_texts.Add(key, (PPathwayText)obj);
+            }
+            else if (obj is PPathwayStepper)
+            {
+                if (m_steppers.ContainsKey(key))
+                    throw ex;
+                m_steppers.Add(key, (PPathwayStepper)obj);
             }
         }
 
@@ -1137,6 +1157,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 return m_variables[key];
             if (type.Equals(EcellObject.TEXT) && m_texts.ContainsKey(key))
                 return m_texts[key];
+            if (type.Equals(EcellObject.STEPPER) && m_steppers.ContainsKey(key))
+                return m_steppers[key];
             return null;
         }
 
@@ -1220,6 +1242,19 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             List<PPathwayObject> returnList = new List<PPathwayObject>();
             foreach (PPathwayText text in this.m_texts.Values)
                 returnList.Add(text);
+
+            return returnList;
+        }
+
+        /// <summary>
+        /// Get all PPathwayNode of this canvas.
+        /// </summary>
+        /// <returns></returns>
+        public List<PPathwayObject> GetStepperList()
+        {
+            List<PPathwayObject> returnList = new List<PPathwayObject>();
+            foreach (PPathwayStepper stepper in this.m_steppers.Values)
+                returnList.Add(stepper);
 
             return returnList;
         }
@@ -1320,6 +1355,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                 m_texts.Remove(oldkey);
                 m_texts.Add(newkey, (PPathwayText)obj);
             }
+            else if (obj is PPathwayStepper)
+            {
+                if (!m_steppers.ContainsKey(oldkey))
+                    throw new PathwayException(string.Format(MessageResources.ErrNotFound, oldkey));
+                m_steppers.Remove(oldkey);
+                m_steppers.Add(newkey, (PPathwayStepper)obj);
+            }
 
         }
 
@@ -1394,6 +1436,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             else if (obj is PPathwayText)
             {
                 m_texts.Remove(key);
+            }
+            else if (obj is PPathwayStepper)
+            {
+                m_steppers.Remove(key);
             }
 
             RemoveObject(obj);
