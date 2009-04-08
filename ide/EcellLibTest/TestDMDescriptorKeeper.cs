@@ -165,18 +165,29 @@ namespace Ecell
         {
             _unitUnderTest.Load();
 
+            // Check BuiltIn DMs.
+            TestDMDescriptor("System", "System");
+            TestDMDescriptor("Variable", "Variable");
+            TestDMDescriptor("Stepper", "DiscreteEventStepper");
+            TestDMDescriptor("Stepper", "DiscreteTimeStepper");
+            TestDMDescriptor("Stepper", "PassiveStepper");
+
+            // Check Default DMs.
             TestDMDescriptor("Process", "ConstantFluxProcess");
             TestDMDescriptor("Process", "DecayFluxProcess");
             TestDMDescriptor("Process", "ExpressionAlgebraicProcess");
+            TestDMDescriptor("Process", "ExpressionAssignmentProcess");
             TestDMDescriptor("Process", "ExpressionFluxProcess");
             TestDMDescriptor("Process", "GillespieProcess");
             TestDMDescriptor("Process", "GMAProcess");
             TestDMDescriptor("Process", "MassActionFluxProcess");
             TestDMDescriptor("Process", "MichaelisUniUniFluxProcess");
+            TestDMDescriptor("Process", "PingPongBiBiFluxProcess");
             TestDMDescriptor("Process", "PythonFluxProcess");
             TestDMDescriptor("Process", "PythonProcess");
             TestDMDescriptor("Process", "QuasiDynamicFluxProcess");
             TestDMDescriptor("Process", "SSystemProcess");
+            TestDMDescriptor("Process", "TauLeapProcess");
             TestDMDescriptor("Stepper", "DAEStepper");
             TestDMDescriptor("Stepper", "ESSYNSStepper");
             TestDMDescriptor("Stepper", "FixedDAE1Stepper");
@@ -185,9 +196,6 @@ namespace Ecell
             TestDMDescriptor("Stepper", "ODE23Stepper");
             TestDMDescriptor("Stepper", "ODE45Stepper");
             TestDMDescriptor("Stepper", "ODEStepper");
-            TestDMDescriptor("Process", "TauLeapProcess");
-            TestDMDescriptor("Process", "PingPongBiBiFluxProcess");
-            TestDMDescriptor("Process", "ExpressionAssignmentProcess");
             TestDMDescriptor("Stepper", "TauLeapStepper");
         }
 

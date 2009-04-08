@@ -4794,8 +4794,7 @@ namespace Ecell
             }
             catch (Exception ex)
             {
-                throw new EcellException(string.Format(MessageResources.ErrPropData,
-                    new object[] { fullPN }), ex);
+                throw new EcellException(string.Format(MessageResources.ErrPropData, fullPN), ex);
             }
         }
 

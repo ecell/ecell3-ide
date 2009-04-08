@@ -1204,7 +1204,9 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 return;
             }
             List<EcellData> props = new List<EcellData>();
-            foreach (KeyValuePair<string, EcellData> pair in m_env.DataManager.GetProcessProperty(newClassName))
+            // Get Process properties.
+            Dictionary<string, EcellData> properties = m_env.DataManager.GetProcessProperty(newClassName);
+            foreach (KeyValuePair<string, EcellData> pair in properties)
             {
                 EcellData val = pair.Value;
                 if (pair.Value.Name == Constants.xpathStepperID)

@@ -590,6 +590,9 @@ namespace Ecell.IDE.Plugins.Simulation
                                         break;
 
                                     }
+                                    if (value == null)
+                                        continue;
+
                                     if (prop.Value.IsDouble)
                                     {
                                         prop.Value = new EcellValue(Convert.ToDouble(value));

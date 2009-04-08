@@ -181,7 +181,7 @@ namespace Ecell
                             }
                         }
                     }
-                    catch (WrappedException ex)
+                    catch (Exception ex)
                     {
                         Trace.WriteLine(ex);
                         value = GetValueFromDMM(dmm, ecellObject.Classname, name);
