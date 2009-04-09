@@ -44,7 +44,10 @@ namespace Ecell
     public class ProjectInfo
     {
         #region Field
-        private ProjectType m_type;
+        /// <summary>
+        /// 
+        /// </summary>
+        private ProjectType m_type = ProjectType.NewProject;
         /// <summary>
         /// Project Folder Path.
         /// This field contains noll when This Project is created from EML or ProjectTemplate

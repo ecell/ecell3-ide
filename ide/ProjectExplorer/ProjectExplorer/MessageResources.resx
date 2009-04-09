@@ -126,6 +126,9 @@
   <data name="ErrNoInput" xml:space="preserve">
     <value>Nothing is input in {0}</value>
   </data>
+  <data name="ErrProjectUnsaved" xml:space="preserve">
+    <value>Save this project before adding new DM.</value>
+  </data>
   <data name="ErrStartupApp" xml:space="preserve">
     <value>Cannot find any applications associated with this file type.</value>
   </data>

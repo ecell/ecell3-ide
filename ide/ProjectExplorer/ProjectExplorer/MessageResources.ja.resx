@@ -126,6 +126,9 @@
   <data name="ErrNoInput" xml:space="preserve">
     <value>{0} が入力されていません。</value>
   </data>
+  <data name="ErrProjectUnsaved" xml:space="preserve">
+    <value>DMを作成する前にプロジェクトを保存してください。</value>
+  </data>
   <data name="ErrStartupApp" xml:space="preserve">
     <value>このファイル形式に関連付けられたアプリケーションが見つかりません。</value>
   </data>

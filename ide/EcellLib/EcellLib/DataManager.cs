@@ -595,9 +595,11 @@ namespace Ecell
         /// </summary>
         public void SaveProject()
         {
-            SetDefaultDir();
             try
             {
+                // Set project dir.
+                SetDefaultDir();
+                // Save ProjectInfo.
                 m_currentProject.Save();
                 List<string> modelList = m_currentProject.GetSavableModel();
                 List<string> paramList = m_currentProject.GetSavableSimulationParameter();
@@ -5001,6 +5003,11 @@ namespace Ecell
         /// <returns></returns>
         public string GetDMDir()
         {
+            string prjPath = m_currentProject.Info.ProjectPath;
+            // Return null when this project is not saved.
+            if (string.IsNullOrEmpty(prjPath))
+                return null;
+            // Return project path.
             return Path.Combine(m_currentProject.Info.ProjectPath, Constants.DMDirName);
         }
 

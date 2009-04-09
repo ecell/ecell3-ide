@@ -358,7 +358,16 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         {
             if (m_lastSelectedNode == null)
                 return;
+
+            // Get DM dir.
             string dmDir = m_owner.Environment.DataManager.GetDMDir();
+            if (dmDir == null)
+            {
+                Util.ShowErrorDialog(MessageResources.ErrProjectUnsaved);
+                return;
+            }
+
+            // Create new DM.
             CreateDMDialog ind = new CreateDMDialog(m_owner.Environment, dmDir, m_lastSelectedNode);
             using (ind)
             {
