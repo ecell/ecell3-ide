@@ -40,7 +40,7 @@ namespace Ecell.Objects
     /// This class contains 4 float variable and 1 string variable which show the layout of EcellObject.
     /// </summary>
     [Serializable]
-    public class EcellLayout : ICloneable
+    public struct EcellLayout : ICloneable
     {
         #region Fields
         /// <summary>
@@ -58,14 +58,6 @@ namespace Ecell.Objects
 	    #endregion
 
         #region Constructors
-        /// <summary>
-        /// Constructor with RectangleF.
-        /// </summary>
-        public EcellLayout()
-            : this(new RectangleF())
-        {
-        }
-
         /// <summary>
         /// Constructor with RectangleF.
         /// </summary>
@@ -300,16 +292,6 @@ namespace Ecell.Objects
         public bool Contains(RectangleF rect)
         {
             return m_rect.Contains(rect);
-        }
-
-        /// <summary>
-        /// Set Moving delta.
-        /// </summary>
-        /// <param name="delta"></param>
-        public void MovePosition(PointF delta)
-        {
-            m_rect.X = m_rect.X + delta.X;
-            m_rect.Y = m_rect.Y + delta.Y;
         }
 
         /// <summary>

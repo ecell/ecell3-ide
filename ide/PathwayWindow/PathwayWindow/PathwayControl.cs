@@ -843,7 +843,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             {
                 //Create new EcellObject
                 eo.ModelID = m_canvas.ModelID;
-                eo.Layout.MovePosition(diff);
+                eo.X = eo.X + diff.X;
+                eo.Y = eo.Y + diff.Y;
 
                 // Get new key.
                 string oldKey = eo.Key;
@@ -862,7 +863,8 @@ namespace Ecell.IDE.Plugins.PathwayWindow
                     string oldNodeKey = child.Key;
                     child.ModelID = m_canvas.ModelID;
                     child.ParentSystemID = eo.Key;
-                    child.Layout.MovePosition(diff);
+                    child.X = child.X + diff.X;
+                    child.Y = child.Y + diff.Y;
                     // Set node name.
                     if (child is EcellVariable)
                         keyDic.Add(oldNodeKey, child.Key);
