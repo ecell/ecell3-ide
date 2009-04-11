@@ -540,6 +540,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.UIComponent
                     item.Checked = true;
                     item.Enabled = false;
                 }
+                menuMergeLayer.DropDownItems.Add(item);
             }
         }
 

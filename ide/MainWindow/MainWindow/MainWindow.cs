@@ -822,9 +822,6 @@ namespace Ecell.IDE.MainWindow
             {
                 this.Text = m_title;
             }
-            m_statusDialog.ChangeStatus(status);
-            m_status = status;
-            ChangeUndoStatus(m_env.ActionManager.UndoStatus);
 
             // Set Window Setting.
             if (m_status == ProjectStatus.Loaded && (status == ProjectStatus.Running || status == ProjectStatus.Stepping))
@@ -837,6 +834,11 @@ namespace Ecell.IDE.MainWindow
                 SaveWindowSetting(m_userWindowSettingPath2, true);
                 LoadWindowSetting(m_userWindowSettingPath);
             }
+
+            // Set Status.
+            m_statusDialog.ChangeStatus(status);
+            m_status = status;
+            ChangeUndoStatus(m_env.ActionManager.UndoStatus);
         }
 
         private void CheckAndReplaceRecentProject(ProjectInfo info)
