@@ -70,9 +70,9 @@ namespace Ecell.Job
             Assert.IsNotNull(jobProxy, "Constructor of type, LocalJobProxy failed to create instance.");
             Assert.AreEqual("Local", jobProxy.Name, "Name is unexpected value.");
 
-            Assert.AreEqual(1, jobProxy.DefaultConcurrency, "DefaultConcurrency is unexpected value.");
-            jobProxy.DefaultConcurrency = 100;
-            Assert.AreEqual(100, jobProxy.DefaultConcurrency, "DefaultConcurrency is unexpected value.");
+            Assert.AreEqual(1, jobProxy.Concurrency, "DefaultConcurrency is unexpected value.");
+            jobProxy.Concurrency = 100;
+            Assert.AreEqual(100, jobProxy.Concurrency, "DefaultConcurrency is unexpected value.");
 
             Assert.IsNull(jobProxy.Manager, "Manager is unexpected value.");
             jobProxy.Manager = (JobManager)_env.JobManager;
