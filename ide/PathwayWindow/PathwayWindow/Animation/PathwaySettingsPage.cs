@@ -39,14 +39,16 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 base.ApplyChange();
                 m_editModeItems.ApplyChanges();
                 m_viewModeItems.ApplyChanges();
+                // SaveSettings
+                m_con.SaveSettings();
 
                 // Set canvas BG brush.
+                if (m_con.Canvas == null)
+                    return;
                 if (m_con.DoesAnimationOnGoing)
                     m_con.Canvas.BackGroundBrush = m_con.ViewBGBrush;
                 else
                     m_con.Canvas.BackGroundBrush = m_con.EditBGBrush;
-
-                m_con.SaveSettings();
             }
             catch (Exception)
             {

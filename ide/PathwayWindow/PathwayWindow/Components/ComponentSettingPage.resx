@@ -128,7 +128,7 @@
     <value>Ecell.IDE.PropertyDialogPage, EcellUILib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>ComponentSettingPage</value>
+    <value>Component Settings</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="$this.Localizable" type="System.Boolean, mscorlib">

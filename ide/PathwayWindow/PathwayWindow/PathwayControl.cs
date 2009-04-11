@@ -752,7 +752,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             if (m_canvas == null)
                 return;
             SetNodeIcons();
-            if (m_isAnimation)
+            if (m_animCon.DoesAnimationOnGoing)
                 m_animCon.SetPropForSimulation();
         }
         /// <summary>

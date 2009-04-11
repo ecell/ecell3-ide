@@ -58,14 +58,14 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentSettingPage));
             this.SuspendLayout();
             // 
-            // ComponentTabPage
+            // ComponentSettingPage
             // 
             this.AccessibleDescription = null;
             this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
             this.BackgroundImage = null;
             this.Font = null;
-            this.Name = "ComponentTabPage";
+            this.Name = "ComponentSettingPage";
             this.ResumeLayout(false);
 
         }
