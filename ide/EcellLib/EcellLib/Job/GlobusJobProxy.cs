@@ -50,7 +50,7 @@ namespace Ecell.Job
             : base()
         {
             GlobusJobProxy.Initialize();
-            this.DefaultConcurrency = 4;
+            this.Concurrency = 4;
             m_optDic = s_optDic;
         }
 
@@ -58,6 +58,7 @@ namespace Ecell.Job
         {
             if (s_optDic == null)
             {
+                s_optDic = new Dictionary<string, object>();
                 s_optDic.Add(GlobusJob.SERVER_NAME, "cm-3250.biointegra.jp");
                 s_optDic.Add(GlobusJob.PROVIDER_NAME, "gt4");
                 s_optDic.Add(GlobusJob.SCRIPT_NAME, "/usr/local/bin/ecell3-sesiion");

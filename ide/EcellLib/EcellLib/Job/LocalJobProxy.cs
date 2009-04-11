@@ -48,7 +48,7 @@ namespace Ecell.Job
             : base()
         {
             LocalJobProxy.Initialize();
-            this.DefaultConcurrency = 1;
+            this.Concurrency = 1;
             m_optDic = s_optDic;
         }
 

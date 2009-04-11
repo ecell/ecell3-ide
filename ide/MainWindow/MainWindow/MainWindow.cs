@@ -900,7 +900,13 @@ namespace Ecell.IDE.MainWindow
         /// <returns></returns>
         public List<IPropertyItem> GetPropertySettings()
         {
-            return null;
+            PropertyNode node = new PropertyNode(MessageResources.NameJobManage);            
+            node.Nodes.Add(new PropertyNode(new JobManagerDialog(m_env.JobManager)));
+
+            List<IPropertyItem> nodeList = new List<IPropertyItem>();
+            nodeList.Add(node);
+
+            return nodeList;
         }
 
         /// <summary>

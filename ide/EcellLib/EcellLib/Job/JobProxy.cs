@@ -38,16 +38,16 @@ namespace Ecell.Job
     /// </summary>
     public abstract class JobProxy
     {
-        private int m_defaultConcurrency;
+        private int m_Concurrency;
         private JobManager m_manager;
 
         /// <summary>
         /// get / set the default concurrency.
         /// </summary>
-        public virtual int DefaultConcurrency
+        public virtual int Concurrency
         {
-            get { return this.m_defaultConcurrency; }
-            set { this.m_defaultConcurrency = value; }
+            get { return this.m_Concurrency; }
+            set { this.m_Concurrency = value; }
         }
 
         /// <summary>

@@ -79,6 +79,15 @@ namespace Ecell.Job
             LocalJobProxy p = new LocalJobProxy();
             p.Manager = this;
             m_proxyList.Add(p.Name, p);
+
+            string cog_home = System.Environment.GetEnvironmentVariable("COG_HOME");
+            if (!string.IsNullOrEmpty(cog_home))
+            {
+                GlobusJobProxy g = new GlobusJobProxy();
+                g.Manager = this;
+                m_proxyList.Add(g.Name, g);
+            }
+
             SetCurrentEnvironment(p.Name);
             TmpRootDir = Util.GetTmpDir();
         }
@@ -259,7 +268,7 @@ namespace Ecell.Job
         public int GetDefaultConcurrency()
         {
             if (m_proxy == null) return 1;
-            return m_proxy.DefaultConcurrency;
+            return m_proxy.Concurrency;
         }
 
         /// <summary>
@@ -270,7 +279,7 @@ namespace Ecell.Job
         {
             if (m_proxyList.ContainsKey(env))
             {
-                return m_proxyList[env].DefaultConcurrency;
+                return m_proxyList[env].Concurrency;
             }
             return 1;
         }

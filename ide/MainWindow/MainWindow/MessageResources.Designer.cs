@@ -151,6 +151,15 @@ namespace Ecell.IDE.MainWindow {
         }
         
         /// <summary>
+        ///   Value[ {0} ] is not valid. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrInvalidValue {
+            get {
+                return ResourceManager.GetString("ErrInvalidValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} should be greater than {1}. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrLarger {
@@ -318,6 +327,15 @@ namespace Ecell.IDE.MainWindow {
         internal static string NameConc {
             get {
                 return ResourceManager.GetString("NameConc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Job manage に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string NameJobManage {
+            get {
+                return ResourceManager.GetString("NameJobManage", resourceCulture);
             }
         }
         

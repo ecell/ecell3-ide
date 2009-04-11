@@ -240,4 +240,10 @@
   <data name="DialogTitleSaveAs" xml:space="preserve">
     <value>Save as new Project.</value>
   </data>
+  <data name="NameJobManage" xml:space="preserve">
+    <value>Job manage</value>
+  </data>
+  <data name="ErrInvalidValue" xml:space="preserve">
+    <value>Value[ {0} ] is not valid.</value>
+  </data>
 </root>
