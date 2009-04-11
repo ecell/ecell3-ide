@@ -166,7 +166,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
         /// </summary>
         public CanvasControl Canvas
         {
-            get { return m_canvas; }
+            get { return m_con.Canvas; }
             set { m_canvas = value; }
         }
         /// <summary>
