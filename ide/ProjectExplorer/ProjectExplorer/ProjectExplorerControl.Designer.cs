@@ -44,7 +44,7 @@
             this.contextMenuStripDMCollection = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStripModel = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exportModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.createNewRevisionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createNewRevisionOnModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripLog = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.plotGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,7 +59,7 @@
             this.configureSimulationSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.contextMenuStripProject = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.createNewRevisionToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.createNewRevisionOnProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -153,7 +153,7 @@
             // 
             this.contextMenuStripModel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exportModelToolStripMenuItem,
-            this.createNewRevisionToolStripMenuItem});
+            this.createNewRevisionOnModelToolStripMenuItem});
             this.contextMenuStripModel.Name = "contextMenuStripModel";
             resources.ApplyResources(this.contextMenuStripModel, "contextMenuStripModel");
             // 
@@ -165,9 +165,9 @@
             // 
             // createNewRevisionToolStripMenuItem
             // 
-            this.createNewRevisionToolStripMenuItem.Name = "createNewRevisionToolStripMenuItem";
-            resources.ApplyResources(this.createNewRevisionToolStripMenuItem, "createNewRevisionToolStripMenuItem");
-            this.createNewRevisionToolStripMenuItem.Click += new System.EventHandler(this.TreeViewCreateNewRevision);
+            this.createNewRevisionOnModelToolStripMenuItem.Name = "createNewRevisionOnModelToolStripMenuItem";
+            resources.ApplyResources(this.createNewRevisionOnModelToolStripMenuItem, "createNewRevisionOnModelToolStripMenuItem");
+            this.createNewRevisionOnModelToolStripMenuItem.Click += new System.EventHandler(this.TreeViewCreateNewRevision);
             // 
             // contextMenuStripLog
             // 
@@ -251,7 +251,7 @@
             // contextMenuStripProject
             // 
             this.contextMenuStripProject.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.createNewRevisionToolStripMenuItem1,
+            this.createNewRevisionOnProjectToolStripMenuItem,
             this.zipToolStripMenuItem,
             this.toolStripSeparator1,
             this.closeToolStripMenuItem});
@@ -260,9 +260,9 @@
             // 
             // createNewRevisionToolStripMenuItem1
             // 
-            this.createNewRevisionToolStripMenuItem1.Name = "createNewRevisionToolStripMenuItem1";
-            resources.ApplyResources(this.createNewRevisionToolStripMenuItem1, "createNewRevisionToolStripMenuItem1");
-            this.createNewRevisionToolStripMenuItem1.Click += new System.EventHandler(this.TreeViewCreateNewRevision);
+            this.createNewRevisionOnProjectToolStripMenuItem.Name = "createNewRevisionOnProjectToolStripMenuItem";
+            resources.ApplyResources(this.createNewRevisionOnProjectToolStripMenuItem, "createNewRevisionOnProjectToolStripMenuItem");
+            this.createNewRevisionOnProjectToolStripMenuItem.Click += new System.EventHandler(this.TreeViewCreateNewRevision);
             // 
             // zipToolStripMenuItem
             // 
@@ -323,11 +323,11 @@
         private System.Windows.Forms.ToolStripMenuItem copySimulationSetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteSimulationSetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportModelToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem createNewRevisionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createNewRevisionOnModelToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem configureSimulationSetToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripProject;
-        private System.Windows.Forms.ToolStripMenuItem createNewRevisionToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem createNewRevisionOnProjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem zipToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;

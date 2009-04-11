@@ -672,6 +672,8 @@ namespace Ecell
             }
 
             // Copy Revisions.
+            if (string.IsNullOrEmpty(oldPath))
+                return;
             string[] revisions = Directory.GetDirectories(oldPath, "Revision*");
             foreach (string revision in revisions)
             {

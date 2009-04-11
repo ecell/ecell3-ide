@@ -236,7 +236,7 @@
   <data name="copySimulationSetToolStripMenuItem.Text" xml:space="preserve">
     <value>コピー</value>
   </data>
-  <data name="createNewRevisionToolStripMenuItem.Text" xml:space="preserve">
+  <data name="createNewRevisionOnProjectToolStripMenuItem.Text" xml:space="preserve">
     <value>リビジョン作成</value>
   </data>
   <data name="deleteSimulationSetToolStripMenuItem.Text" xml:space="preserve">
@@ -251,7 +251,7 @@
   <data name="closeToolStripMenuItem.Text" xml:space="preserve">
     <value>閉じる</value>
   </data>
-  <data name="createNewRevisionForProjectToolStripMenuItem.Text" xml:space="preserve">
+  <data name="createNewRevisionOnModelToolStripMenuItem.Text" xml:space="preserve">
     <value>リビジョン作成</value>
   </data>
   <data name="zipToolStripMenuItem.Text" xml:space="preserve">

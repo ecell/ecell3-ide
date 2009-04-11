@@ -1430,12 +1430,18 @@ namespace Ecell
             // Check Model
             if (string.IsNullOrEmpty(modelID))
                 return;
+            if (type.Equals(EcellObject.MODEL))
+            {
+                Util.ShowErrorDialog(string.Format(MessageResources.ErrDelete, EcellObject.MODEL));
+                return;
+            }
             // Check root
             if (key.Equals("/"))
             {
                 Util.ShowErrorDialog(MessageResources.ErrDelRoot);
                 return;
             }
+
             // Check Object;
             EcellObject deleteObj = GetEcellObject(modelID, key, type);
             if (deleteObj == null)

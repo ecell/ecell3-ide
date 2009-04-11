@@ -186,17 +186,24 @@ namespace Ecell
                         throw new EcellXmlReaderException(
                             string.Format(
                                 "Element {0} found where {1} is expceted",
-                                new object[] { childNode.Name, Constants.xpathValue.ToLower() }
-                            )
+                                childNode.Name,
+                                Constants.xpathValue.ToLower())
                         );
                     }
                     valueList.Add(ParseEcellValue(childNode).Value);
                     break;
                 }
             }
+
+            // Create new EcellValue object.
+            object obj = null;
             if (valueList.Count <= 0)
-                throw new EcellXmlReaderException("Invalid value node found: " + node.Name);
-            object obj = (valueList.Count == 1) && !(valueList[0] is List<object>) ? valueList[0]: valueList;
+                obj = valueList;
+            else if ((valueList.Count == 1) && !(valueList[0] is List<object>))
+                obj = valueList[0];
+            else
+                obj = valueList;
+
             return new EcellValue(obj);
         }
     }
