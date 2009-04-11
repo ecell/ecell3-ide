@@ -434,7 +434,7 @@ namespace Ecell
             try
             {
                 CreateProject(projectID, comment);
-                m_currentProject.CopyDMDirs(setDirList);
+                m_currentProject.Info.DMDirList.AddRange(setDirList);
 
                 EcellObject model = EcellObject.CreateObject(projectID, "", Constants.xpathModel, "", new List<EcellData>());
                 DataAdd(model, false, false);

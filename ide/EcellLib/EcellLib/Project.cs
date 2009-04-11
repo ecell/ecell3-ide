@@ -357,10 +357,6 @@ namespace Ecell
             m_systemDic = new Dictionary<string, List<EcellObject>>();
             m_logableEntityPathDic = new Dictionary<string, string>();
 
-            // If this project is Template.
-            if (info.ProjectType == ProjectType.Template)
-                CopyDMDirs(info.DMDirList);
-
             // Loads the model.
             if (info.ProjectType != ProjectType.Model)
                 info.FindModels();
@@ -491,6 +487,115 @@ namespace Ecell
 
         #endregion
 
+        #region Methods for DM
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public string[] GetDMDirs()
+        {
+            List<string> list = new List<string>();
+            list.AddRange(Util.GetDMDirs(m_info.ProjectPath));
+            list.AddRange(m_info.DMDirList);
+            return list.ToArray();
+        }
+        /// <summary>
+        /// Initialize DM Dictionary.
+        /// </summary>
+        /// <returns></returns>
+        private Dictionary<string, List<string>> GetDmDic()
+        {
+            // Initialize
+            Dictionary<string, List<string>> dmDic = new Dictionary<string, List<string>>();
+            // 4 Process
+            dmDic.Add(Constants.xpathProcess, new List<string>());
+            // 4 Stepper
+            dmDic.Add(Constants.xpathStepper, new List<string>());
+            // 4 System
+            List<string> systemList = new List<string>();
+            systemList.Add(Constants.xpathSystem);
+            dmDic.Add(Constants.xpathSystem, systemList);
+            // 4 Variable
+            List<string> variableList = new List<string>();
+            variableList.Add(Constants.xpathVariable);
+            dmDic.Add(Constants.xpathVariable, variableList);
+
+            // Searches the DM paths
+            string[] dmPathArray = GetDMDirs();
+            if (dmPathArray == null)
+            {
+                throw new EcellException("ErrFindDmDir");
+            }
+
+            // Set DM
+            foreach (string dmPath in dmPathArray)
+            {
+                if (!Directory.Exists(dmPath))
+                {
+                    continue;
+                }
+                // 4 Process
+                string[] processDMArray = Directory.GetFiles(
+                    dmPath,
+                    Constants.delimiterWildcard + Constants.xpathProcess + Constants.FileExtDM
+                    );
+                foreach (string processDM in processDMArray)
+                {
+                    dmDic[Constants.xpathProcess].Add(Path.GetFileNameWithoutExtension(processDM));
+                }
+                // 4 Stepper
+                string[] stepperDMArray = Directory.GetFiles(
+                    dmPath,
+                    Constants.delimiterWildcard + Constants.xpathStepper + Constants.FileExtDM
+                    );
+                foreach (string stepperDM in stepperDMArray)
+                {
+                    dmDic[Constants.xpathStepper].Add(Path.GetFileNameWithoutExtension(stepperDM));
+                }
+                // 4 System
+                string[] systemDMArray = Directory.GetFiles(
+                    dmPath,
+                    Constants.delimiterWildcard + Constants.xpathSystem + Constants.FileExtDM
+                    );
+                foreach (string systemDM in systemDMArray)
+                {
+                    dmDic[Constants.xpathSystem].Add(Path.GetFileNameWithoutExtension(systemDM));
+                }
+                // 4 Variable
+                string[] variableDMArray = Directory.GetFiles(
+                    dmPath,
+                    Constants.delimiterWildcard + Constants.xpathVariable + Constants.FileExtDM
+                    );
+                foreach (string variableDM in variableDMArray)
+                {
+                    dmDic[Constants.xpathVariable].Add(Path.GetFileNameWithoutExtension(variableDM));
+                }
+            }
+
+            return dmDic;
+        }
+
+        /// <summary>
+        /// Sets the list of DMs.
+        /// </summary>
+        public void SetDMList()
+        {
+            // Initialize
+            this.m_dmDic = GetDmDic();
+        }
+
+        /// <summary>
+        /// Create a new WrappedSimulator instance.
+        /// </summary>
+        internal WrappedSimulator CreateSimulatorInstance()
+        {
+            string[] dmPaths = GetDMDirs();
+            Trace.WriteLine("Creating simulator (dmpath=" + string.Join(";", dmPaths) + ")");
+            return new WrappedSimulator(dmPaths);
+        }
+
+        #endregion
+
         #region Methods
         /// <summary>
         /// Initialize objects.
@@ -504,26 +609,6 @@ namespace Ecell
             m_initialCondition = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
             m_initialCondition[m_info.SimulationParam] = new Dictionary<string, Dictionary<string, double>>();
             m_initialCondition[m_info.SimulationParam][modelID] = new Dictionary<string, double>();
-        }
-
-        /// <summary>
-        /// Sets the list of the DM.
-        /// </summary>
-        public void SetDMList()
-        {
-            // Initialize
-            Dictionary<string, List<string>> dmDic = Util.GetDmDic(m_info.ProjectPath);
-            this.m_dmDic = dmDic;
-        }
-
-        /// <summary>
-        /// Create a new WrappedSimulator instance.
-        /// </summary>
-        internal WrappedSimulator CreateSimulatorInstance()
-        {
-            string[] dmpath = Util.GetDMDirs(m_info.ProjectPath);
-            Trace.WriteLine("Creating simulator (dmpath=" + string.Join(";", dmpath) + ")");
-            return new WrappedSimulator(dmpath);
         }
 
         /// <summary>
@@ -563,46 +648,38 @@ namespace Ecell
                 Directory.Delete(prjPath, true);
         }
 
-        /// <summary>
-        /// Copy additional dms.
-        /// </summary>
-        /// <param name="dmDirs"></param>
-        public void CopyDMDirs(List<string> dmDirs)
-        {
-            string baseDir = Path.Combine(Util.GetBaseDir(), m_info.Name);
-            string dmDir = Path.Combine(baseDir, Constants.DMDirName);
-
-            if (!Directory.Exists(baseDir))
-                Directory.CreateDirectory(baseDir);
-            if (!Directory.Exists(dmDir))
-                Directory.CreateDirectory(dmDir);
-
-            foreach (string dir in dmDirs)
-                Util.CopyDirectory(dir, dmDir, true);
-        }
-
         #region Methods for Save
         /// <summary>
         /// 
         /// </summary>
         public void Save()
         {
+            string oldPath = m_info.ProjectPath;
             m_info.ProjectPath = Path.Combine(Util.GetBaseDir(), m_info.Name);
             m_info.Save();
 
-            //List<string> modelList = GetSavableModel();
-            //List<string> paramList = GetSavableSimulationParameter();
-            //List<string> logList = GetSavableSimulationResult();
+            // If the project path is changed, copy DMs and Revisions.
+            if (m_info.ProjectPath.Equals(oldPath))
+                return;
 
-            //foreach (string name in modelList)
-            //{
-            //    SaveModel(name);
-            //}
-            //foreach (string name in paramList)
-            //{
-            //    SaveSimulationParameter(name);
-            //}
-            //SaveSimulationResult();
+            // Copy DMs.
+            string dmDir = Path.Combine(m_info.ProjectPath, Constants.DMDirName);
+            if (!Directory.Exists(dmDir))
+                Directory.CreateDirectory(dmDir);
+            foreach (string dir in m_info.DMDirList)
+            {
+                Util.CopyDirectory(dir, dmDir, true);
+            }
+
+            // Copy Revisions.
+            string[] revisions = Directory.GetDirectories(oldPath, "Revision*");
+            foreach (string revision in revisions)
+            {
+                string newDir = Path.Combine(oldPath, Path.GetFileName(revision));
+                if (Directory.Exists(newDir))
+                    Directory.Delete(newDir, true);
+                Util.CopyDirectory(revision, newDir);
+            }
         }
 
         /// <summary>

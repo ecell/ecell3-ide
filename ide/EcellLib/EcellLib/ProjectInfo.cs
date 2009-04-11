@@ -47,7 +47,7 @@ namespace Ecell
         /// <summary>
         /// 
         /// </summary>
-        private ProjectType m_type = ProjectType.NewProject;
+        private ProjectType m_type;
         /// <summary>
         /// Project Folder Path.
         /// This field contains noll when This Project is created from EML or ProjectTemplate
@@ -383,6 +383,11 @@ namespace Ecell
                 project = new ProjectInfo(prjName, comment, time, param);
                 project.ProjectType = type;
                 project.ProjectPath = dirPath;
+
+                // Set DM Path.
+                string dmPath = Path.Combine(dirPath, Constants.DMDirName);
+                if(Directory.Exists(dmPath))
+                    project.DMDirList.Add(dmPath);
             }
             catch (Exception ex)
             {

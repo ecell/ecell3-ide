@@ -204,25 +204,7 @@ namespace Ecell
             _unitUnderTest.Simulator = new EcellCoreLib.WrappedSimulator(Util.GetDMDirs(null));
             _unitUnderTest.Close();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test()]
-        public void TestCopyDMDirs()
-        {
-            string basedir = Util.GetBaseDir();
-            Util.SetBaseDir(TestConstant.TestDirectory);
-            string path = Util.GetNewDir(_unitUnderTest.Info.ProjectPath);
 
-            List<string> dmDirs = new List<string>();
-            dmDirs.Add(Path.Combine(_unitUnderTest.Info.ProjectPath, Constants.DMDirName));
-            _unitUnderTest.Info.ProjectPath = path;
-            _unitUnderTest.Info.Name = Path.GetFileName(path);
-            _unitUnderTest.CopyDMDirs(dmDirs);
-
-            Directory.Delete(path, true);
-            Util.SetBaseDir(basedir);
-        }
         /// <summary>
         /// 
         /// </summary>
@@ -232,6 +214,7 @@ namespace Ecell
             _unitUnderTest.Save();
 
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -250,6 +233,7 @@ namespace Ecell
             Assert.AreEqual(expectedList, resultList, "GetSavableModel method returned unexpected result.");
 
         }
+
         /// <summary>
         /// 
         /// </summary>

@@ -98,9 +98,6 @@ namespace Ecell.IDE.MainWindow
 
             MainLayoutPanel.Controls.Remove(DMLayoutPanel);
             MainLayoutPanel.Controls.Add(ProjectLayoutPanel, 0, 1);
-
-            Dictionary<string,List<string>> dmDic = Util.GetDmDic(null);
-
         }
         #endregion
 

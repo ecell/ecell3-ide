@@ -1912,13 +1912,6 @@ namespace Ecell
         [Test()]
         public void TestDirectorySettings()
         {
-            Dictionary<string, List<string>> dic = Util.GetDmDic(null);
-            Assert.IsNotEmpty(dic, "GetDmDic method returned unexpected result.");
-            Assert.IsNotEmpty(dic[EcellObject.SYSTEM], "dic[EcellObject.SYSTEM] returned unexpected result.");
-            Assert.IsNotEmpty(dic[EcellObject.VARIABLE], "dic[EcellObject.VARIABLE] returned unexpected result.");
-            Assert.IsNotEmpty(dic[EcellObject.PROCESS], "dic[EcellObject.PROCESS] returned unexpected result.");
-            Assert.IsNotEmpty(dic[EcellObject.STEPPER], "dic[EcellObject.PROCESS] returned unexpected result.");
-
             string file = Util.GetStartupFile();
             Assert.IsNotNull(file, "GetStartupFile method returned unexpected result.");
 
