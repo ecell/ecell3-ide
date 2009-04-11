@@ -132,6 +132,9 @@
   <data name="ErrInputData" xml:space="preserve">
     <value>数値以外が設定されています。</value>
   </data>
+  <data name="ErrInvalidFile" xml:space="preserve">
+    <value>ファイル [ {0} ] は不正です。</value>
+  </data>
   <data name="ErrInvalidValue" xml:space="preserve">
     <value>入力された値が不正です [ {0} ]。</value>
   </data>

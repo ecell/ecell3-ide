@@ -576,8 +576,12 @@ namespace Ecell.UI.Components
                         if (depth == 0) break;
                         n = n.Next;
                     }
-                    if (n.Next.Type == FUtil.OINPUT)
+                    if (n.Next != null && n.Next.Type == FUtil.OINPUT)
                         n.Next.Type = FUtil.INPUT;
+                    else if (n.Next == null)
+                    {
+                        n.Next = new FNode(FUtil.INPUT, "");
+                    }
                     else
                         list.Add(n.Next);
 

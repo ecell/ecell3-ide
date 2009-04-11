@@ -547,30 +547,37 @@ namespace Ecell.IDE.Plugins.TracerWindow
         /// <param name="fileName"></param>
         public void ImportLog(string fileName)
         {
-            if (fileName == null)
+            try
             {
-                if (m_openFileDialog.ShowDialog() != DialogResult.OK)
+                if (fileName == null)
+                {
+                    if (m_openFileDialog.ShowDialog() != DialogResult.OK)
+                        return;
+                    fileName = m_openFileDialog.FileName;
+                }
+
+                if (m_logList.ContainsKey(fileName)) return;
+
+                LogData log = m_owner.DataManager.LoadSimulationResult(fileName);
+                if (log.logValueList.Count <= 0)
+                {
+                    Util.ShowWarningDialog(string.Format(MessageResources.WarnNoLog, fileName));
                     return;
-                fileName = m_openFileDialog.FileName;
+                }
+                string[] ele = log.propName.Split(new char[] { ':' });
+                string propName = "Log:" + log.key + ":" + ele[ele.Length - 1];
+
+                LoggerEntry entry = new LoggerEntry(log.model, log.key, log.type, propName);
+                entry.IsLoaded = true;
+                entry.FileName = fileName;
+                m_logList.Add(fileName, entry);
+
+                m_owner.LoggerManager_LoggerAddEvent(null, new LoggerEventArgs(entry.FullPN, entry));
             }
-
-            if (m_logList.ContainsKey(fileName)) return;
-
-            LogData log = m_owner.DataManager.LoadSimulationResult(fileName);
-            if (log.logValueList.Count <= 0)
+            catch (Exception)
             {
-                Util.ShowWarningDialog(string.Format(MessageResources.WarnNoLog, fileName));
-                return;
+                Util.ShowErrorDialog(String.Format(MessageResources.ErrInvalidFile, fileName));
             }
-            string[] ele = log.propName.Split(new char[] { ':' });
-            string propName = "Log:" + log.key + ":" + ele[ele.Length - 1];
-
-            LoggerEntry entry = new LoggerEntry(log.model, log.key, log.type, propName);
-            entry.IsLoaded = true;
-            entry.FileName = fileName;
-            m_logList.Add(fileName, entry);
-
-            m_owner.LoggerManager_LoggerAddEvent(null, new LoggerEventArgs(entry.FullPN, entry));
         }
 
         /// <summary>

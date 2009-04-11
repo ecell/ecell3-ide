@@ -106,6 +106,15 @@ namespace Ecell.IDE.Plugins.TracerWindow {
         }
         
         /// <summary>
+        ///   This file is not valid [ {0} ]. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ErrInvalidFile {
+            get {
+                return ResourceManager.GetString("ErrInvalidFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Value is not valid. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ErrInvalidValue {

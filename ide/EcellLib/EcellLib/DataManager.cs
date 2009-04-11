@@ -2057,7 +2057,7 @@ namespace Ecell
         /// </summary>
         /// <param name="action"></param>
         /// <param name="type"></param>
-        private void ConfirmReset(string action, string type)
+        public void ConfirmReset(string action, string type)
         {
             if (m_currentProject.SimulationStatus == SimulationStatus.Wait)
                 return;

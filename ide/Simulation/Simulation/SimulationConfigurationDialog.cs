@@ -39,6 +39,7 @@ using System.Diagnostics;
 
 using Ecell;
 using Ecell.Objects;
+using Ecell.Exceptions;
 
 namespace Ecell.IDE.Plugins.Simulation
 {
@@ -71,6 +72,9 @@ namespace Ecell.IDE.Plugins.Simulation
         private const int m_defaultStepCount = 1;
         private const double m_defaultInterval = 0.01;
         private const int m_defaultMaxLogSize = 500;
+
+        private bool m_isRunnging = false;
+        private bool m_isStepperAddOrDelete = false;
         #endregion
 
         public IEnumerable<SimulationParameterSet> Result
@@ -100,6 +104,17 @@ namespace Ecell.IDE.Plugins.Simulation
         {
             m_owner = owner;
             m_stepperClasses = m_owner.DataManager.CurrentProject.StepperDmList;
+            if (m_owner.DataManager.CurrentProject.SimulationStatus == SimulationStatus.Run ||
+                m_owner.DataManager.CurrentProject.SimulationStatus == SimulationStatus.Suspended)
+            {
+                m_isRunnging = true;
+                m_isStepperAddOrDelete = false;
+            }
+            else
+            {
+                m_isRunnging = false;
+                m_isStepperAddOrDelete = false;
+            }
             m_originalStepperConfigurations = new Dictionary<string,Dictionary<string,Dictionary<string,StepperConfiguration>>>();
             InitializeComponent();
             stepCombo.DataSource = m_stepperClasses;
@@ -371,6 +386,7 @@ namespace Ecell.IDE.Plugins.Simulation
             {
                 steppersBindingSource.ResetItem(i);
             }
+            m_isStepperAddOrDelete = true;
         }
 
         /// <summary>
@@ -398,6 +414,7 @@ namespace Ecell.IDE.Plugins.Simulation
                     steppersBindingSource.ResetItem(i);
                 }
                 stepperListBox.ClearSelected();
+                m_isStepperAddOrDelete = true;
             }
         }
 
@@ -817,6 +834,19 @@ namespace Ecell.IDE.Plugins.Simulation
                 else if (dummy <= 0)
                 {
                     Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
+            if (m_isRunnging && m_isStepperAddOrDelete)
+            {
+                try
+                {
+                    m_owner.DataManager.ConfirmReset("add or delete", EcellObject.STEPPER);
+                }
+                catch (IgnoreException)
+                {
                     e.Cancel = true;
                     return;
                 }

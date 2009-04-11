@@ -132,6 +132,9 @@
   <data name="ErrInputData" xml:space="preserve">
     <value>Non-numeric value is set.</value>
   </data>
+  <data name="ErrInvalidFile" xml:space="preserve">
+    <value>This file is not valid [ {0} ].</value>
+  </data>
   <data name="ErrInvalidValue" xml:space="preserve">
     <value>Value is not valid.</value>
   </data>
