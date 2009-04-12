@@ -60,7 +60,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
             // 
             // ComponentSettingsPage
             // 
+            this.AccessibleDescription = null;
+            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
+            this.BackgroundImage = null;
+            this.Font = null;
             this.Name = "ComponentSettingsPage";
             this.ResumeLayout(false);
 
