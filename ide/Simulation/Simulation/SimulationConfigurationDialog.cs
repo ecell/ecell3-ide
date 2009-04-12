@@ -755,11 +755,12 @@ namespace Ecell.IDE.Plugins.Simulation
             DataGridViewCell c = (DataGridViewCell)dgv[e.ColumnIndex, e.RowIndex];
             string propName = dgv[0, e.RowIndex].Value.ToString();
             string stepperName = stepCombo.Text;
-
-            if (m_owner.Environment.DynamicModuleManager.ModuleDic.ContainsKey(stepperName))
+            DMDescriptorKeeper dmManager = m_owner.Environment.DMDescriptorKeeper;
+            if (dmManager.ContainsDescriptor(Constants.xpathStepper, stepperName))
             {
-                DynamicModuleProperty p = m_owner.Environment.DynamicModuleManager.ModuleDic[stepperName].Property[propName];
-                if (p.Type == typeof(int))
+                DMDescriptor dm = dmManager.GetDMDescriptor(Constants.xpathStepper, stepperName);
+                PropertyDescriptor prop = dm[propName];
+                if (prop.DefaultValue.Type == EcellValueType.Integer)
                 {
                     int dummy;
                     if (!Int32.TryParse(e.FormattedValue.ToString(), out dummy))
@@ -769,7 +770,7 @@ namespace Ecell.IDE.Plugins.Simulation
                         steppersBindingSource.ResetBindings(false);
                     }
                 }
-                else if (p.Type == typeof(double))
+                else if (prop.DefaultValue.Type == EcellValueType.Double)
                 {
                     double dummy;
                     if (!double.TryParse(e.FormattedValue.ToString(), out dummy))
