@@ -446,30 +446,64 @@ namespace Ecell
             }
         }
 
-
+        #region UnixCommand
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="count"></param>
+        /// <param name="enc"></param>
         public void WriteSimulationForStepUnix(string fileName, int count, Encoding enc)
         {
             File.AppendAllText(fileName, "step(" + count + ")\n", enc);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="time"></param>
+        /// <param name="enc"></param>
         public void WriteSimulationForTimeUnix(string fileName, double time, Encoding enc)
         {
             File.AppendAllText(fileName, "run(" + time + ")\n", enc);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="enc"></param>
+        /// <param name="modelName"></param>
         public void WriteModelEntryUnix(string fileName, Encoding enc, string modelName)
         {
-            File.AppendAllText(fileName, "loadModel(" + modelName + ".eml)\n", enc);
+            File.AppendAllText(fileName, "loadModel(\"" + modelName + ".eml\")\n", enc);
+            
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="enc"></param>
+        /// <param name="logList"></param>
         public void WriteLoggerPropertyUnix(string fileName, Encoding enc, List<string> logList)
         {
             foreach (string name in logList)
             {
-                File.AppendAllText(fileName, "createLoggerStub(" + name + ")\n", enc);
+                File.AppendAllText(fileName, "aLogger" + m_logCount + " = createLoggerStub(\"" + name + "\")\n", enc);
+                File.AppendAllText(fileName, "aLogger" + m_logCount + ".create()\n");
+                m_logCount++;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="enc"></param>
+        /// <param name="saveList"></param>
+        /// <param name="topdir"></param>
         public void WriteLoggerSaveEntryUnix(string fileName, Encoding enc, List<SaveLoggerProperty> saveList, string topdir)
         {
             File.AppendAllText(fileName, "\n# Save logging\n", enc);
@@ -488,15 +522,38 @@ namespace Ecell
             }
         }
 
-        public void WriteComponentPropertyUnix(string fileName, Encoding enc, int i, 
-            EcellObject obj, EcellData data)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="enc"></param>
+        /// <param name="obj"></param>
+        /// <param name="data"></param>
+        public void WriteComponentPropertyUnix(string fileName, Encoding enc, EcellObject obj, EcellData data)
         {
+            int i = 0;
+            if (obj.Type.Equals(EcellObject.SYSTEM))
+            {
+                i = m_sysCount;
+                m_sysCount++;
+            }
+            else if (obj.Type.Equals(EcellObject.PROCESS))
+            {
+                i = m_proCount;
+                m_proCount++;
+            }
+            else if (obj.Type.Equals(EcellObject.VARIABLE))
+            {
+                i = m_varCount;
+                m_varCount++;
+            }
             string entName = obj.Type + i;
             File.AppendAllText(fileName,
-                entName + " = createEntityStub(" + obj.FullID + ")\n", enc);
+                entName + " = createEntityStub(\"" + obj.FullID + "\")\n", enc);
             File.AppendAllText(fileName,
-                entName + ".setProperty( " + data.EntityPath + "," + data.Value.ToString() + ")\n",
+                entName + ".setProperty(\"" + data.Name + "\"," + data.Value.ToString() + ")\n",
                 enc);
         }
+        #endregion
     }
 }

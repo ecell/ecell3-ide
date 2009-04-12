@@ -1020,7 +1020,6 @@ namespace Ecell.Job
         private void CreateUnixScript(string topDir, string dirName, string fileName, ScriptWriter writer,
             string modelName, double count, bool isStep, Dictionary<string, double> paramDic)
         {
-            int k = 1;
             List<EcellObject> sysList = m_env.DataManager.CurrentProject.SystemDic[modelName];
 
             Encoding enc = Encoding.GetEncoding(51932);
@@ -1044,8 +1043,7 @@ namespace Ecell.Job
                         if (!path.Equals(v.EntityPath))
                             continue;
                         v.Value = new EcellValue(paramDic[path]);
-                        writer.WriteComponentPropertyUnix(fileName, enc, k, sysObj, v);
-                        k++;
+                        writer.WriteComponentPropertyUnix(fileName, enc, sysObj, v);
                         break;
                     }
                 }
@@ -1064,8 +1062,7 @@ namespace Ecell.Job
                             if (!path.Equals(v.EntityPath))
                                 continue;
                             v.Value = new EcellValue(paramDic[path]);
-                            writer.WriteComponentPropertyUnix(fileName, enc, k, sysObj, v);
-                            k++;
+                            writer.WriteComponentPropertyUnix(fileName, enc, obj, v);
                             break;
                         }
                         Application.DoEvents();
