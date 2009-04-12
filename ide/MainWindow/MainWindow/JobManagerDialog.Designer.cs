@@ -47,6 +47,7 @@
             // envComboBox
             // 
             resources.ApplyResources(this.envComboBox, "envComboBox");
+            this.envComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.envComboBox.FormattingEnabled = true;
             this.envComboBox.Name = "envComboBox";
             this.envComboBox.SelectedIndexChanged += new System.EventHandler(this.envComboBox_SelectedIndexChanged);

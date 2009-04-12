@@ -771,72 +771,18 @@ namespace Ecell.Job
 
                 string dirName = topDir + "/" + i;
                 string fileName = topDir + "/" + i + ".ess";
-                Encoding enc = Encoding.GetEncoding(932);
-                SetLogTopDirectory(dirName);
-                if (!Directory.Exists(dirName))
+
+                if (this.Proxy.IsIDE() == true)
                 {
-                    Directory.CreateDirectory(dirName);
+                    CreateLocalScript(topDir, dirName, fileName, writer,
+                        modelName, count, isStep, paramDic);
+                }
+                else
+                {
+                    CreateUnixScript(topDir, dirName, fileName, writer,
+                        modelName, count, isStep, paramDic);
                 }
 
-                writer.ClearScriptInfo();
-                File.WriteAllText(fileName, "", enc);
-                writer.WritePrefix(fileName, enc);
-                writer.WriteModelEntry(fileName, enc, modelName);
-                writer.WriteModelProperty(fileName, enc, modelName);
-                File.AppendAllText(fileName, "\n# System\n", enc);
-                foreach (EcellObject sysObj in sysList)
-                {
-                    Debug.Assert(sysObj.Value != null);
-                    foreach (string path in paramDic.Keys)
-                    {
-                        if (sysObj.Value == null)
-                            continue;
-                        foreach (EcellData v in sysObj.Value)
-                        {
-                            if (!path.Equals(v.EntityPath))
-                                continue;
-                            v.Value = new EcellValue(paramDic[path]);
-                            break;
-                        }
-                    }
-                    writer.WriteSystemEntry(fileName, enc, modelName, sysObj);
-                    writer.WriteSystemProperty(fileName, enc, modelName, sysObj);
-                }
-                Application.DoEvents();
-                foreach (EcellObject sysObj in sysList)
-                {
-                    EcellObject tmpObj = sysObj.Clone();
-                    foreach (string path in paramDic.Keys)
-                    {
-                        foreach (EcellObject obj in tmpObj.Children)
-                        {
-                            if (obj.Value == null) continue;
-                            foreach (EcellData v in obj.Value)
-                            {
-                                if (!path.Equals(v.EntityPath))
-                                    continue;
-                                v.Value = new EcellValue(paramDic[path]);
-                                break;
-                            }
-                            Application.DoEvents();
-                        }
-                    }
-                    writer.WriteComponentEntry(fileName, enc, tmpObj);
-                    writer.WriteComponentProperty(fileName, enc, tmpObj);
-                }
-                Application.DoEvents();
-                File.AppendAllText(fileName, "session.initialize()\n", enc);
-                List<string> sList = new List<string>();
-                foreach (SaveLoggerProperty s in m_logList)
-                {
-                    sList.Add(s.FullPath);
-                }
-                writer.WriteLoggerProperty(fileName, enc, sList);
-                if (isStep)
-                    writer.WriteSimulationForStep(fileName, (int)(count), enc);
-                else
-                    writer.WriteSimulationForTime(fileName, count, enc);
-                writer.WriteLoggerSaveEntry(fileName, enc, m_logList);
                 List<string> extFileList = ExtractExtFileList(m_logList);
                 if (m_env.PluginManager.Status != ProjectStatus.Analysis)
                     return new Dictionary<int, ExecuteParameter>();
@@ -888,71 +834,21 @@ namespace Ecell.Job
                     }
                     paramDic.Add(p.Key, data);
                 }
+
                 string dirName = topDir + "/" + i;
                 string fileName = topDir + "/" + i + ".ess";
-                Encoding enc = Encoding.GetEncoding(932);
-                SetLogTopDirectory(dirName);
-                if (!Directory.Exists(dirName))
+
+                if (this.Proxy.IsIDE() == true)
                 {
-                    Directory.CreateDirectory(dirName);
+                    CreateLocalScript(topDir, dirName, fileName, writer, 
+                        modelName, count, isStep, paramDic);
+                }
+                else
+                {
+                    CreateUnixScript(topDir, dirName, fileName, writer,
+                        modelName, count, isStep, paramDic);
                 }
 
-                writer.ClearScriptInfo();
-                File.WriteAllText(fileName, "", enc);
-                writer.WritePrefix(fileName, enc);
-                writer.WriteModelEntry(fileName, enc, modelName);
-                writer.WriteModelProperty(fileName, enc, modelName);
-                File.AppendAllText(fileName, "\n# System\n", enc);
-                foreach (EcellObject sysObj in sysList)
-                {
-                    foreach (string path in paramDic.Keys)
-                    {
-                        if (sysObj.Value == null) continue;
-                        foreach (EcellData v in sysObj.Value)
-                        {
-                            if (!path.Equals(v.EntityPath))
-                                continue;
-                            v.Value = new EcellValue(paramDic[path]);
-                            break;
-                        }
-                    }
-                    writer.WriteSystemEntry(fileName, enc, modelName, sysObj);
-                    writer.WriteSystemProperty(fileName, enc, modelName, sysObj);
-                }
-                Application.DoEvents();
-                foreach (EcellObject sysObj in sysList)
-                {
-                    foreach (string path in paramDic.Keys)
-                    {
-                        foreach (EcellObject obj in sysObj.Children)
-                        {
-                            if (obj.Value == null) continue;
-                            foreach (EcellData v in obj.Value)
-                            {
-                                if (!path.Equals(v.EntityPath))
-                                    continue;
-                                v.Value = new EcellValue(paramDic[path]);
-                                break;
-                            }
-                            Application.DoEvents();
-                        }
-                    }
-                    writer.WriteComponentEntry(fileName, enc, sysObj);
-                    writer.WriteComponentProperty(fileName, enc, sysObj);
-                }
-                Application.DoEvents();
-                File.AppendAllText(fileName, "session.initialize()\n", enc);
-                List<string> sList = new List<string>();
-                foreach (SaveLoggerProperty s in m_logList)
-                {
-                    sList.Add(s.FullPath);
-                }
-                writer.WriteLoggerProperty(fileName, enc, sList);
-                if (isStep)
-                    writer.WriteSimulationForStep(fileName, (int)count, enc);
-                else
-                    writer.WriteSimulationForTime(fileName, count, enc);
-                writer.WriteLoggerSaveEntry(fileName, enc, m_logList);
                 List<string> extFileList = ExtractExtFileList(m_logList);
                 if (m_env.PluginManager.Status != ProjectStatus.Analysis)
                     return new Dictionary<int, ExecuteParameter>();
@@ -1053,15 +949,7 @@ namespace Ecell.Job
                     paramDic.Clear();
                     string dirName = topDir + "/" + i + "-" + j;
                     string fileName = topDir + "/" + i + "-" + j + ".ess";
-                    Encoding enc = Encoding.GetEncoding(932);
-                    SetLogTopDirectory(dirName);
 
-                    writer.ClearScriptInfo();
-                    File.WriteAllText(fileName, "", enc);
-                    writer.WritePrefix(fileName, enc);
-                    writer.WriteModelEntry(fileName, enc, modelName);
-                    writer.WriteModelProperty(fileName, enc, modelName);
-                    File.AppendAllText(fileName, "\n# System\n", enc);
                     foreach (EcellObject sysObj in sysList)
                     {
                         if (sysObj.Value != null)
@@ -1080,8 +968,6 @@ namespace Ecell.Job
                                 }
                             }
                         }
-                        writer.WriteSystemEntry(fileName, enc, modelName, sysObj);
-                        writer.WriteSystemProperty(fileName, enc, modelName, sysObj);
                     }
                     foreach (EcellObject sysObj in sysList)
                     {
@@ -1103,22 +989,19 @@ namespace Ecell.Job
                             }
                             Application.DoEvents();
                         }
-                        writer.WriteComponentEntry(fileName, enc, sysObj);
-                        writer.WriteComponentProperty(fileName, enc, sysObj);
                     }
-                    File.AppendAllText(fileName, "session.initialize()\n", enc);
 
-                    List<string> sList = new List<string>();
-                    foreach (SaveLoggerProperty s in m_logList)
+                    if (this.Proxy.IsIDE())
                     {
-                        sList.Add(s.FullPath);
+                        CreateLocalScript(topDir, dirName, fileName, writer, 
+                            modelName, count, isStep, paramDic);
                     }
-                    writer.WriteLoggerProperty(fileName, enc, sList);
-                    if (isStep)
-                        writer.WriteSimulationForStep(fileName, (int)count, enc);
                     else
-                        writer.WriteSimulationForTime(fileName, count, enc);
-                    writer.WriteLoggerSaveEntry(fileName, enc, m_logList);
+                    {
+                        CreateUnixScript(topDir, dirName, fileName, writer, 
+                            modelName, count, isStep, paramDic);
+                    }
+
                     List<string> extFileList = ExtractExtFileList(m_logList);
                     if (m_env.PluginManager.Status != ProjectStatus.Analysis)
                         return new Dictionary<int, ExecuteParameter>();
@@ -1132,6 +1015,148 @@ namespace Ecell.Job
             }
             Run();
             return resList;
+        }
+
+        private void CreateUnixScript(string topDir, string dirName, string fileName, ScriptWriter writer,
+            string modelName, double count, bool isStep, Dictionary<string, double> paramDic)
+        {
+            int k = 1;
+            List<EcellObject> sysList = m_env.DataManager.CurrentProject.SystemDic[modelName];
+
+            Encoding enc = Encoding.GetEncoding(51932);
+            SetLogTopDirectory(dirName);
+            if (!Directory.Exists(dirName))
+            {
+                Directory.CreateDirectory(dirName);
+            }
+
+            writer.ClearScriptInfo();
+            File.WriteAllText(fileName, "", enc);
+
+            writer.WriteModelEntryUnix(fileName, enc, modelName);
+            foreach (EcellObject sysObj in sysList)
+            {
+                foreach (string path in paramDic.Keys)
+                {
+                    if (sysObj.Value == null) continue;
+                    foreach (EcellData v in sysObj.Value)
+                    {
+                        if (!path.Equals(v.EntityPath))
+                            continue;
+                        v.Value = new EcellValue(paramDic[path]);
+                        writer.WriteComponentPropertyUnix(fileName, enc, k, sysObj, v);
+                        k++;
+                        break;
+                    }
+                }
+            }
+            Application.DoEvents();
+            foreach (EcellObject sysObj in sysList)
+            {
+                EcellObject tmpObj = sysObj.Clone();
+                foreach (string path in paramDic.Keys)
+                {
+                    foreach (EcellObject obj in tmpObj.Children)
+                    {
+                        if (obj.Value == null) continue;
+                        foreach (EcellData v in obj.Value)
+                        {
+                            if (!path.Equals(v.EntityPath))
+                                continue;
+                            v.Value = new EcellValue(paramDic[path]);
+                            writer.WriteComponentPropertyUnix(fileName, enc, k, sysObj, v);
+                            k++;
+                            break;
+                        }
+                        Application.DoEvents();
+                    }
+                }
+            }
+
+
+            Application.DoEvents();
+            List<string> sList = new List<string>();
+            foreach (SaveLoggerProperty s in m_logList)
+            {
+                sList.Add(s.FullPath);
+            }
+            writer.WriteLoggerPropertyUnix(fileName, enc, sList);
+            if (isStep)
+                writer.WriteSimulationForStepUnix(fileName, (int)(count), enc);
+            else
+                writer.WriteSimulationForTimeUnix(fileName, count, enc);
+            writer.WriteLoggerSaveEntryUnix(fileName, enc, m_logList);
+        }
+
+        private void CreateLocalScript(string topDir, string dirName, string fileName, ScriptWriter writer,
+                string modelName, double count, bool isStep, Dictionary<string, double> paramDic)
+        {
+            List<EcellObject> sysList = m_env.DataManager.CurrentProject.SystemDic[modelName];
+
+            Encoding enc = Encoding.GetEncoding(932);
+            SetLogTopDirectory(dirName);
+            if (!Directory.Exists(dirName))
+            {
+                Directory.CreateDirectory(dirName);
+            }
+
+            writer.ClearScriptInfo();
+            File.WriteAllText(fileName, "", enc);
+            writer.WritePrefix(fileName, enc);
+            writer.WriteModelEntry(fileName, enc, modelName);
+            writer.WriteModelProperty(fileName, enc, modelName);
+            File.AppendAllText(fileName, "\n# System\n", enc);
+            foreach (EcellObject sysObj in sysList)
+            {
+                foreach (string path in paramDic.Keys)
+                {
+                    if (sysObj.Value == null) continue;
+                    foreach (EcellData v in sysObj.Value)
+                    {
+                        if (!path.Equals(v.EntityPath))
+                            continue;
+                        v.Value = new EcellValue(paramDic[path]);
+                        break;
+                    }
+                }
+                writer.WriteSystemEntry(fileName, enc, modelName, sysObj);
+                writer.WriteSystemProperty(fileName, enc, modelName, sysObj);
+            }
+            Application.DoEvents();
+            foreach (EcellObject sysObj in sysList)
+            {
+                EcellObject tmpObj = sysObj.Clone();
+                foreach (string path in paramDic.Keys)
+                {
+                    foreach (EcellObject obj in tmpObj.Children)
+                    {
+                        if (obj.Value == null) continue;
+                        foreach (EcellData v in obj.Value)
+                        {
+                            if (!path.Equals(v.EntityPath))
+                                continue;
+                            v.Value = new EcellValue(paramDic[path]);
+                            break;
+                        }
+                        Application.DoEvents();
+                    }
+                }
+                writer.WriteComponentEntry(fileName, enc, tmpObj);
+                writer.WriteComponentProperty(fileName, enc, tmpObj);
+            }
+            Application.DoEvents();
+            File.AppendAllText(fileName, "session.initialize()\n", enc);
+            List<string> sList = new List<string>();
+            foreach (SaveLoggerProperty s in m_logList)
+            {
+                sList.Add(s.FullPath);
+            }
+            writer.WriteLoggerProperty(fileName, enc, sList);
+            if (isStep)
+                writer.WriteSimulationForStep(fileName, (int)(count), enc);
+            else
+                writer.WriteSimulationForTime(fileName, count, enc);
+            writer.WriteLoggerSaveEntry(fileName, enc, m_logList);
         }
     }
 }

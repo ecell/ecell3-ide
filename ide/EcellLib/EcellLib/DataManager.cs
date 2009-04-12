@@ -1126,7 +1126,8 @@ namespace Ecell
                     if (!key.Equals(ecellObject.Key) ||
                         !obj.Classname.Equals(ecellObject.Classname) ||
                         obj.Value.Count != ecellObject.Value.Count ||
-                        (obj is EcellProcess && Util.DoesVariableReferenceChange(obj, ecellObject)))
+                        (obj is EcellProcess && Util.DoesVariableReferenceChange(obj, ecellObject)) ||
+                        (obj is EcellSystem && ((EcellSystem)obj).SizeInVolume != ((EcellSystem)ecellObject).SizeInVolume))
                     {
                         ConfirmAnalysisReset("change", type);
                     }
@@ -1141,7 +1142,8 @@ namespace Ecell
                     if (!key.Equals(ecellObject.Key) ||
                         !obj.Classname.Equals(ecellObject.Classname) ||
                         obj.Value.Count != ecellObject.Value.Count ||
-                        (obj is EcellProcess && Util.DoesVariableReferenceChange(obj, ecellObject)))
+                        (obj is EcellProcess && Util.DoesVariableReferenceChange(obj, ecellObject)) ||
+                        (obj is EcellSystem && ((EcellSystem)obj).SizeInVolume != ((EcellSystem)ecellObject).SizeInVolume))
                     {
                         ConfirmReset("change", type);
                     }

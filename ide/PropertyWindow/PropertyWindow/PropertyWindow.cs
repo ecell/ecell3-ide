@@ -901,9 +901,10 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 {
                     EcellData tag = editCell.Tag as EcellData;
                     string data = e.Value.ToString();
-                    if (m_env.PluginManager.Status == ProjectStatus.Running ||
+                    if ((m_env.PluginManager.Status == ProjectStatus.Running ||
                         m_env.PluginManager.Status == ProjectStatus.Stepping ||
-                        m_env.PluginManager.Status == ProjectStatus.Suspended)
+                        m_env.PluginManager.Status == ProjectStatus.Suspended) &&
+                        !tag.Name.Equals(Constants.xpathSize))
                     {
                         m_env.DataManager.SetEntityProperty(tag.EntityPath, data);
                         UpdatePropForSimulation();
@@ -915,19 +916,20 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                         EcellValue value;
                         try
                         {
-                            if (d.Value.IsDouble)
-                                value = new EcellValue(Convert.ToDouble(data));
-                            else if (d.Value.IsInt)
-                                value = new EcellValue(Convert.ToInt32(data));
-                            else
-                                value = new EcellValue(data);
                             if (tag.Name == Constants.xpathSize)
                             {
+                                value = new EcellValue(Convert.ToDouble(data));
                                 EcellSystem system = (EcellSystem)eo;
                                 system.SizeInVolume = (double)value;
                             }
                             else
                             {
+                                if (d.Value.IsDouble)
+                                    value = new EcellValue(Convert.ToDouble(data));
+                                else if (d.Value.IsInt)
+                                    value = new EcellValue(Convert.ToInt32(data));
+                                else
+                                    value = new EcellValue(data);
                                 d.Value = value;
                             }
                         }
@@ -1191,6 +1193,15 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                 parameterToolStripMenuItem.Checked =
                     tag is EcellData &&
                     m_env.DataManager.IsContainsParameterData(((EcellData)tag).EntityPath);
+            }
+
+            if (m_env.DataManager.CurrentProject.SimulationStatus == SimulationStatus.Wait)
+            {
+                propertyToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                propertyToolStripMenuItem.Enabled = false;
             }
 
             m_data = tag != null ? tag as EcellData : null;

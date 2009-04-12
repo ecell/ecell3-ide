@@ -176,6 +176,7 @@ namespace Ecell
             }
         }
 
+
         /// <summary>
         /// Write the postfix information in script file.
         /// </summary>
@@ -443,6 +444,55 @@ namespace Ecell
                     //                        "processStub" + count + name + ".setProperty(\"" + d.Name + "\",\"" + GetEntityProperty(d.EntityPath).ToString().Replace("\"", "\\\"") + "\")\n", enc);
                 }
             }
+        }
+
+
+        public void WriteSimulationForStepUnix(string fileName, int count, Encoding enc)
+        {
+            File.AppendAllText(fileName, "step(" + count + ")\n", enc);
+        }
+
+        public void WriteSimulationForTimeUnix(string fileName, double time, Encoding enc)
+        {
+            File.AppendAllText(fileName, "run(" + time + ")\n", enc);
+        }
+
+        public void WriteModelEntryUnix(string fileName, Encoding enc, string modelName)
+        {
+            File.AppendAllText(fileName, "loadModel(" + modelName + ".eml)\n", enc);
+        }
+
+        public void WriteLoggerPropertyUnix(string fileName, Encoding enc, List<string> logList)
+        {
+            foreach (string name in logList)
+            {
+                File.AppendAllText(fileName, "createLoggerStub(" + name + ")\n", enc);
+            }
+        }
+
+        public void WriteLoggerSaveEntryUnix(string fileName, Encoding enc, List<SaveLoggerProperty> saveList)
+        {
+            File.AppendAllText(fileName, "\n# Save logging\n", enc);
+            if (saveList == null)
+                return;
+            foreach (SaveLoggerProperty s in saveList)
+            {
+                File.AppendAllText(
+                    fileName,
+                    "saveLoggerData(\"" + s.FullPath + "\",\"" + s.DirName + "\"," +
+                    s.Start + "," + s.End + ")\n",
+                    enc);
+            }
+        }
+
+        public void WriteComponentPropertyUnix(string fileName, Encoding enc, int i, EcellObject obj, EcellData data)
+        {
+            string entName = obj.Type + i;
+            File.AppendAllText(fileName,
+                entName + " = createEntityStub(" + obj.FullID + ")", enc);
+            File.AppendAllText(fileName,
+                entName + ".setProperty( " + data.EntityPath + "," + data.Value.ToString() + ")",
+                enc);
         }
     }
 }

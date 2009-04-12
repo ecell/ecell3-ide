@@ -122,6 +122,8 @@ namespace Ecell.IDE
         {
             PropertyEditor editor = new PropertyEditor(env);
             if (obj == null) return;
+            if (env.DataManager.CurrentProject.SimulationStatus != SimulationStatus.Wait)
+                return;
             try
             {
                 editor.SetCurrentObject(obj.Clone());
@@ -960,6 +962,7 @@ namespace Ecell.IDE
                     t.Tag = key;
                     t.Dock = DockStyle.Fill;
                     t.Text = prop.Value.ToString();
+
                     if (!prop.Settable)
                     {
                         t.ReadOnly = true;

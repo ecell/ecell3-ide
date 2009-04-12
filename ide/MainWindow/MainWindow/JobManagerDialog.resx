@@ -171,14 +171,20 @@
   <data name="&gt;&gt;envComboBox.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="envDataGridView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
   <metadata name="NameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="NameColumn.HeaderText" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <metadata name="ValueColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="envDataGridView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
+  <data name="ValueColumn.HeaderText" xml:space="preserve">
+    <value>Value</value>
   </data>
   <data name="envDataGridView.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 76</value>
@@ -200,18 +206,6 @@
   </data>
   <data name="&gt;&gt;envDataGridView.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <metadata name="NameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="NameColumn.HeaderText" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <metadata name="ValueColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="ValueColumn.HeaderText" xml:space="preserve">
-    <value>Value</value>
   </data>
   <data name="concTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>

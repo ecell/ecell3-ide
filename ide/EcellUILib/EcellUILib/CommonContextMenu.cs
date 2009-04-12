@@ -87,6 +87,10 @@ namespace Ecell.IDE
         {
             InitializeComponent();
             m_env = env;
+            if (m_env.DataManager.CurrentProject.SimulationStatus != SimulationStatus.Wait)
+            {
+                propertyToolStripMenuItem.Enabled = false;
+            }
             Object = obj;
         }
 

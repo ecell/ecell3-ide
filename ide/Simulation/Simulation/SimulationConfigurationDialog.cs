@@ -839,6 +839,53 @@ namespace Ecell.IDE.Plugins.Simulation
                 }
             }
 
+            foreach (SimulationParameterSet sps in Result)
+            {
+                foreach (PerModelSimulationParameter pmsp in sps.PerModelSimulationParameters)
+                {
+                    foreach (StepperConfiguration sc in pmsp.Steppers)
+                    {
+                        try
+                        {
+                            List<EcellData> propList = m_owner.DataManager.GetStepperProperty(sc.ClassName);
+                            foreach (EcellData prop in propList)
+                            {
+                                string value = null;
+                                foreach (MutableKeyValuePair<string, string> pair in sc.Properties)
+                                {
+                                    if (!pair.Key.Equals(prop.Name))
+                                        continue;
+                                    value = pair.Value;
+                                    break;
+
+                                }
+                                if (value == null)
+                                    continue;
+
+                                if (prop.Value.IsDouble)
+                                {
+                                    prop.Value = new EcellValue(Convert.ToDouble(value));
+                                }
+                                else if (prop.Value.IsInt)
+                                {
+                                    prop.Value = new EcellValue(Convert.ToInt32(value));
+                                }
+                                else if (prop.Value.IsString)
+                                {
+                                    prop.Value = new EcellValue(value);
+                                }
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            Util.ShowErrorDialog(MessageResources.ErrInvalidValue);
+                            e.Cancel = true;
+                            return;
+                        }
+                    }
+                }
+            }
+
             if (m_isRunnging && m_isStepperAddOrDelete)
             {
                 try
