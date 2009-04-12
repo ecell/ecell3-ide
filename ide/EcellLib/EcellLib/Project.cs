@@ -654,13 +654,9 @@ namespace Ecell
         /// </summary>
         public void Save()
         {
-            string oldPath = m_info.ProjectPath.Replace("\\","/");
-            m_info.ProjectPath = Path.Combine(Util.GetBaseDir(), m_info.Name).Replace("\\", "/");
+            string oldPath = m_info.ProjectPath;
+            m_info.ProjectPath = Path.Combine(Util.GetBaseDir(), m_info.Name);
             m_info.Save();
-
-            // If the project path is changed, copy DMs and Revisions.
-            if (Path.Equals(m_info.ProjectPath, oldPath))
-                return;
 
             // Copy DMs.
             string dmDir = Path.Combine(m_info.ProjectPath, Constants.DMDirName);
@@ -668,19 +664,26 @@ namespace Ecell
                 Directory.CreateDirectory(dmDir);
             foreach (string dir in m_info.DMDirList)
             {
+                if (dir.Equals(dmDir))
+                    continue;
                 Util.CopyDirectory(dir, dmDir, true);
             }
 
             // Copy Revisions.
             if (string.IsNullOrEmpty(oldPath))
                 return;
+
+            // If the project path is changed, copy Revisions.
+            oldPath = oldPath.Replace("\\", "/");
+            m_info.ProjectPath = m_info.ProjectPath.Replace("\\", "/");
+            if (Path.Equals(m_info.ProjectPath, oldPath))
+                return;
+
             string[] revisions = Directory.GetDirectories(oldPath, "Revision*");
             foreach (string revision in revisions)
             {
                 string newDir = Path.Combine(oldPath, Path.GetFileName(revision));
-                if (Directory.Exists(newDir))
-                    Directory.Delete(newDir, true);
-                Util.CopyDirectory(revision, newDir);
+                Util.CopyDirectory(revision, newDir, true);
             }
         }
 
