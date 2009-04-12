@@ -243,11 +243,11 @@ namespace Ecell.Job
             int resultInt32 = 0;
 
             LocalJob.ClearJobID();
-            resultInt32 = manager.RegisterJob(script, arg, extFile);
+            resultInt32 = manager.RegisterJob(null, script, arg, extFile);
             Assert.AreEqual(expectedInt32, resultInt32, "RegisterJob method returned unexpected result.");
 
             manager.Proxy = null;
-            resultInt32 = manager.RegisterJob(script, arg, extFile);
+            resultInt32 = manager.RegisterJob(null, script, arg, extFile);
             expectedInt32 = -1;
             Assert.AreEqual(expectedInt32, resultInt32, "RegisterJob method returned unexpected result.");
 
