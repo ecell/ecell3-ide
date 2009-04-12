@@ -407,7 +407,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
         /// <returns></returns>
         public PropertyDialogPage ComponentSettingsPage
         {
-            get { return new ComponentSettingPage(this);}
+            get { return new ComponentSettingsPage(this);}
         }
         #endregion
 

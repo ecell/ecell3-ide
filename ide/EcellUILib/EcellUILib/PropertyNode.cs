@@ -42,7 +42,7 @@ namespace Ecell.IDE
         public PropertyNode(PropertyDialogPage page)
         {
             m_page = page;
-            this.Text = page.Name;
+            this.Text = page.Text;
         }
         #endregion
 

@@ -53,9 +53,9 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnimationSettingsPage));
             this.SuspendLayout();
             // 
-            // AnimationSettingPage
+            // AnimationSettingsPage
             // 
-            this.Name = "AnimationSettingPage";
+            this.Name = "AnimationSettingsPage";
             resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
 

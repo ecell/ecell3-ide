@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using Ecell.Plugin;
+using System.ComponentModel;
 
 namespace Ecell.IDE
 {
@@ -41,6 +42,17 @@ namespace Ecell.IDE
     /// </summary>
     public partial class PropertyDialogPage : UserControl, IPropertyItem
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        [Browsable(true)]
+        [EditorBrowsable(0)]
+        public override string Text
+        {
+            get { return base.Text; }
+            set { base.Text = value; }
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -78,6 +90,7 @@ namespace Ecell.IDE
             // 
             // PropertyDialogPage
             // 
+            this.Name = "PropertyDialogPage";
             resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
 

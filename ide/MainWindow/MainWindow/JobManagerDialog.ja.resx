@@ -117,19 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>ジョブ設定</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 12</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>環境設定</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>並列数</value>
   </data>
   <data name="NameColumn.HeaderText" xml:space="preserve">
     <value>名称</value>
   </data>
   <data name="ValueColumn.HeaderText" xml:space="preserve">
     <value>値</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 12</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>並列数</value>
   </data>
 </root>

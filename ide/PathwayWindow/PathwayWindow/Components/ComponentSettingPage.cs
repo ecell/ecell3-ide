@@ -7,11 +7,11 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
     /// <summary>
     /// private class for ComponentSettingDialog
     /// </summary>
-    internal class ComponentSettingPage : PropertyDialogPage
+    internal class ComponentSettingsPage : PropertyDialogPage
     {
         ComponentManager m_manager = null;
 
-        public ComponentSettingPage(ComponentManager manager)
+        public ComponentSettingsPage(ComponentManager manager)
             : base()
         {
             InitializeComponent();
@@ -55,17 +55,13 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Components
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentSettingPage));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComponentSettingsPage));
             this.SuspendLayout();
             // 
-            // ComponentSettingPage
+            // ComponentSettingsPage
             // 
-            this.AccessibleDescription = null;
-            this.AccessibleName = null;
             resources.ApplyResources(this, "$this");
-            this.BackgroundImage = null;
-            this.Font = null;
-            this.Name = "ComponentSettingPage";
+            this.Name = "ComponentSettingsPage";
             this.ResumeLayout(false);
 
         }

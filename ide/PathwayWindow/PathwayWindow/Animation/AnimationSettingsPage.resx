@@ -123,13 +123,13 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>903, 478</value>
+    <value>856, 541</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Animation Settings</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>Animation Settings</value>
+    <value>AnimationSettingsPage</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>Ecell.IDE.PropertyDialogPage, EcellUILib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
