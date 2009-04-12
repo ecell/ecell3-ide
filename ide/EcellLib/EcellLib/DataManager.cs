@@ -526,6 +526,7 @@ namespace Ecell
                 if (Directory.Exists(tempdir))
                     Util.CopyDirectory(tempdir, Path.Combine(targetDir, dir), false);
             }
+
             string[] files = Directory.GetFiles(sourceDir, "project.*");
             foreach (string file in files)
                 Util.CopyFile(file, targetDir);

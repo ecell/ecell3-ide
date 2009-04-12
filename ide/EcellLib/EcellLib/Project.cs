@@ -655,7 +655,7 @@ namespace Ecell
         public void Save()
         {
             string oldPath = m_info.ProjectPath.Replace("\\","/");
-            m_info.ProjectPath = Path.Combine(Util.GetBaseDir(), m_info.Name);
+            m_info.ProjectPath = Path.Combine(Util.GetBaseDir(), m_info.Name).Replace("\\", "/");
             m_info.Save();
 
             // If the project path is changed, copy DMs and Revisions.

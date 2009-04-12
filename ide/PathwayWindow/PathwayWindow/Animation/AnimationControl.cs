@@ -162,14 +162,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
 
         #region Accessors
         /// <summary>
-        /// Get/Set m_canvas
-        /// </summary>
-        public CanvasControl Canvas
-        {
-            get { return m_con.Canvas; }
-            set { m_canvas = value; }
-        }
-        /// <summary>
         /// 
         /// </summary>
         public bool DoesAnimationOnGoing
@@ -636,7 +628,6 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
                 variable.PPropertyText.Text = "";
                 variable.PPropertyText.Visible = false;
             }
-            m_canvas = null;
         }
         #endregion
 
