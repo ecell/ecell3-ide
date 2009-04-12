@@ -90,8 +90,8 @@ namespace Ecell.IDE
             // 
             // PropertyDialogPage
             // 
-            this.Name = "PropertyDialogPage";
             resources.ApplyResources(this, "$this");
+            this.Name = "PropertyDialogPage";
             this.ResumeLayout(false);
 
         }

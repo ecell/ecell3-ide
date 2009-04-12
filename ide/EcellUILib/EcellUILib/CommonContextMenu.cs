@@ -64,6 +64,9 @@ namespace Ecell.IDE
                 mergeSystemToolStripMenuItem.Visible = isSystem && !isParentSys;
                 mergeSystemToolStripMenuItem.Text = MessageResources.MergeSystem + "(" + parentSys + ")";
 
+                if (m_env == null)
+                    return;
+                propertyToolStripMenuItem.Enabled = (m_env.DataManager.CurrentProject.SimulationStatus == SimulationStatus.Wait);
                 SetLoggerMenus();
             }
         }
@@ -87,10 +90,6 @@ namespace Ecell.IDE
         {
             InitializeComponent();
             m_env = env;
-            if (m_env.DataManager.CurrentProject.SimulationStatus != SimulationStatus.Wait)
-            {
-                propertyToolStripMenuItem.Enabled = false;
-            }
             Object = obj;
         }
 
