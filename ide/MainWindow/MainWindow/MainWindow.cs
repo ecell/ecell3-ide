@@ -829,7 +829,7 @@ namespace Ecell.IDE.MainWindow
                 SaveWindowSetting(m_userWindowSettingPath, true);
                 LoadWindowSetting(m_userWindowSettingPath2);
             }
-            else if (status == ProjectStatus.Loaded && m_status == ProjectStatus.Suspended)
+            else if (status == ProjectStatus.Loaded && (m_status == ProjectStatus.Suspended || m_status == ProjectStatus.Running || m_status == ProjectStatus.Stepping))
             {
                 SaveWindowSetting(m_userWindowSettingPath2, true);
                 LoadWindowSetting(m_userWindowSettingPath);

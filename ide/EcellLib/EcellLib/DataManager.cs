@@ -1649,6 +1649,7 @@ namespace Ecell
         /// <param name="sysKey">key of deleted system.</param>
         public void DataMerge(string modelID, string sysKey)
         {
+
             // Check system.
             EcellObject system = GetEcellObject(modelID, sysKey, EcellObject.SYSTEM);
             if (system == null)
@@ -1656,9 +1657,18 @@ namespace Ecell
             // CheckRoot
             if (system.Key.Equals("/"))
                 throw new EcellException(MessageResources.ErrDelRoot);
-            // Confirm system merge.
-            if (!Util.ShowYesNoDialog(MessageResources.ConfirmMerge))
+
+            try
+            {
+                ConfirmAnalysisReset("merge", sysKey);
+                ConfirmReset("merge", sysKey);
+            }
+            catch (IgnoreException)
+            {
+                // CancelしたときにIgnoreExceptionが発生するが無視しないと
+                // Cancelしているのにエラーダイアログが表示されてしまう
                 return;
+            }
 
             // Get objects under this system.
             string parentSysKey = system.ParentSystemID;

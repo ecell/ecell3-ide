@@ -43,7 +43,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Animation
     /// <summary>
     /// private class for AnimationSettingDialog
     /// </summary>
-    internal class AnimationItems : UserControl
+    internal class AnimationItems :     UserControl
     {
         private GroupBox edgeBox;
         private PropertyBrushItem edgeHighBrush;

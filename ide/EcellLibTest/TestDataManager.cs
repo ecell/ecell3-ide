@@ -640,7 +640,6 @@ namespace Ecell
             catch (Exception)
             {
             }
-            MessageBox.Show("Click 'Yes' button of next Dialog.");
             string key = "/CELL";
             _unitUnderTest.DataMerge(modelID, key);
             Assert.IsNotNull(_unitUnderTest.GetEcellObject(modelID, "/CYTOPLASM", "System"), "DataMerge method returns unexpected result.");
@@ -666,9 +665,10 @@ namespace Ecell
             {
             }
 
-            MessageBox.Show("Click 'No' button of next Dialog.");
-            // Error already exist.
+            // Check Simulation Confirm.
             _unitUnderTest.LoadProject(TestConstant.Project_Drosophila);
+            _env.PluginManager.ChangeStatus(ProjectStatus.Running);
+            MessageBox.Show("Click 'No' button of next Dialog.");
             try
             {
                 _unitUnderTest.DataMerge(modelID, "/CELL/CYTOPLASM");
