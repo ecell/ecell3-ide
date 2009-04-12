@@ -797,8 +797,10 @@ namespace Ecell.IDE.Plugins.PathwayWindow
         /// </summary>
         internal void SetPopupMenus()
         {
+
             // Set popup menu visibility flags.
             PNode node = m_con.Canvas.FocusNode;
+
             bool isNull = (node == null);
             bool isPPathwayObject = (node is PPathwayObject);
             bool isPPathwayNode = (node is PPathwayNode);
@@ -812,6 +814,18 @@ namespace Ecell.IDE.Plugins.PathwayWindow
             bool isEffector = false;
             bool isCopiedObject = (m_con.CopiedNodes.Count > 0);
             bool isInsideRoot = m_con.Canvas.Systems[Constants.delimiterPath].Rect.Contains(m_con.MousePosition);
+
+            // Set Popup menu visibility.
+            if (!isNull && node.Offset == PointF.Empty)
+            {
+                m_con.Canvas.PCanvas.ContextMenuStrip = this.PopupMenu;
+            }
+            else
+            {
+                m_con.Canvas.PCanvas.ContextMenuStrip = null;
+            }
+
+
             // Set popup menu text.
             if (isPPathwayObject)
             {

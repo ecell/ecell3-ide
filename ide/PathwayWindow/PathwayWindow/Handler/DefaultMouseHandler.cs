@@ -114,6 +114,7 @@ namespace Ecell.IDE.Plugins.PathwayWindow.Handler
                 m_selectedPath.Parent.RemoveChild(m_selectedPath);
             m_selectedPath = null;
             m_isDragged = false;
+            m_con.Canvas.NotifyMoveObjects(true);
         }
 
         /// <summary>
