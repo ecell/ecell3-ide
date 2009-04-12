@@ -321,7 +321,7 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     {
                         string retval = ShowFormulatorDialog(c.Value == null ? "" : c.Value.ToString());
                         if (retval != null)
-                        {
+                        {                            
                             propValueCell.Value = retval;
                             UpdateExpression(retval);
                             return true;
@@ -904,7 +904,8 @@ namespace Ecell.IDE.Plugins.PropertyWindow
                     if ((m_env.PluginManager.Status == ProjectStatus.Running ||
                         m_env.PluginManager.Status == ProjectStatus.Stepping ||
                         m_env.PluginManager.Status == ProjectStatus.Suspended) &&
-                        !tag.Name.Equals(Constants.xpathSize))
+                        !tag.Name.Equals(Constants.xpathSize) &&
+                        !tag.Name.Equals(Constants.xpathExpression))
                     {
                         m_env.DataManager.SetEntityProperty(tag.EntityPath, data);
                         UpdatePropForSimulation();

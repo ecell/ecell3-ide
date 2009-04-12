@@ -117,21 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="compileToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="compileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 22</value>
-  </data>
-  <data name="compileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Compile DM</value>
-  </data>
-  <metadata name="editToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
   <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="editToolStripMenuItem.Text" xml:space="preserve">
     <value>Edit...</value>
@@ -207,6 +195,12 @@
   <data name="&gt;&gt;toolStrip1.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
+  <data name="compileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="compileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Compile DM</value>
+  </data>
   <data name="treeView1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
@@ -226,7 +220,7 @@
     <value>treeView1</value>
   </data>
   <data name="&gt;&gt;treeView1.Type" xml:space="preserve">
-    <value>Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView, ProjectExplorer, Version=1.1.2711.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView, ProjectExplorer, Version=1.1.2718.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;treeView1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -238,7 +232,7 @@
     <value>449, 116</value>
   </metadata>
   <data name="contextMenuStripDM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 48</value>
+    <value>153, 70</value>
   </data>
   <data name="&gt;&gt;contextMenuStripDM.Name" xml:space="preserve">
     <value>contextMenuStripDM</value>
@@ -406,7 +400,7 @@
     <value>Create new revision</value>
   </data>
   <data name="contextMenuStripRevisions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 48</value>
+    <value>173, 26</value>
   </data>
   <data name="&gt;&gt;contextMenuStripRevisions.Name" xml:space="preserve">
     <value>contextMenuStripRevisions</value>
@@ -463,12 +457,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>ProjectExplorerControl</value>
   </data>
-  <data name="&gt;&gt;compileToolStripMenuItem.Name" xml:space="preserve">
-    <value>compileToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;compileToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;editToolStripMenuItem.Name" xml:space="preserve">
     <value>editToolStripMenuItem</value>
   </data>
@@ -492,6 +480,12 @@
   </data>
   <data name="&gt;&gt;toolStripButtonSortByName.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;compileToolStripMenuItem.Name" xml:space="preserve">
+    <value>compileToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;compileToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;exportModelToolStripMenuItem.Name" xml:space="preserve">
     <value>exportModelToolStripMenuItem</value>

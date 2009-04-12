@@ -32,13 +32,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ToolStripMenuItem compileToolStripMenuItem;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectExplorerControl));
-            System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
             System.Windows.Forms.ToolStripMenuItem addADMToolStripMenuItem;
             System.Windows.Forms.ToolStrip toolStrip1;
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButtonSortByType = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSortByName = new System.Windows.Forms.ToolStripButton();
+            this.compileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.treeView1 = new Ecell.IDE.Plugins.ProjectExplorer.MultiSelectTreeView();
             this.contextMenuStripDM = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStripDMCollection = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -66,8 +66,6 @@
             this.createNewRevisionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripRevision = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadRevisionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            compileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             addADMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStrip1 = new System.Windows.Forms.ToolStrip();
             toolStrip1.SuspendLayout();
@@ -82,17 +80,11 @@
             this.contextMenuStripRevision.SuspendLayout();
             this.SuspendLayout();
             // 
-            // compileToolStripMenuItem
-            // 
-            compileToolStripMenuItem.Name = "compileToolStripMenuItem";
-            resources.ApplyResources(compileToolStripMenuItem, "compileToolStripMenuItem");
-            compileToolStripMenuItem.Click += new System.EventHandler(this.TreeViewCompile);
-            // 
             // editToolStripMenuItem
             // 
-            editToolStripMenuItem.Name = "editToolStripMenuItem";
-            resources.ApplyResources(editToolStripMenuItem, "editToolStripMenuItem");
-            editToolStripMenuItem.Click += new System.EventHandler(this.TreeViewDMDisplay);
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            resources.ApplyResources(this.editToolStripMenuItem, "editToolStripMenuItem");
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.TreeViewDMDisplay);
             // 
             // addADMToolStripMenuItem
             // 
@@ -126,6 +118,12 @@
             this.toolStripButtonSortByName.Name = "toolStripButtonSortByName";
             this.toolStripButtonSortByName.Click += new System.EventHandler(this.TreeViewSortByName);
             // 
+            // compileToolStripMenuItem
+            // 
+            this.compileToolStripMenuItem.Name = "compileToolStripMenuItem";
+            resources.ApplyResources(this.compileToolStripMenuItem, "compileToolStripMenuItem");
+            this.compileToolStripMenuItem.Click += new System.EventHandler(this.TreeViewCompile);
+            // 
             // treeView1
             // 
             resources.ApplyResources(this.treeView1, "treeView1");
@@ -143,8 +141,8 @@
             // contextMenuStripDM
             // 
             this.contextMenuStripDM.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            compileToolStripMenuItem,
-            editToolStripMenuItem});
+            this.compileToolStripMenuItem,
+            this.editToolStripMenuItem});
             this.contextMenuStripDM.Name = "contextMenuStripDM";
             resources.ApplyResources(this.contextMenuStripDM, "contextMenuStripDM");
             // 
@@ -290,8 +288,8 @@
             // createNewRevisionMenuItem
             // 
             this.createNewRevisionMenuItem.Name = "createNewRevisionMenuItem";
-            this.createNewRevisionMenuItem.Click += new System.EventHandler(TreeViewCreateNewRevision);
             resources.ApplyResources(this.createNewRevisionMenuItem, "createNewRevisionMenuItem");
+            this.createNewRevisionMenuItem.Click += new System.EventHandler(this.TreeViewCreateNewRevision);
             // 
             // contextMenuStripRevision
             // 
@@ -303,8 +301,8 @@
             // loadRevisionMenuItem
             // 
             this.loadRevisionMenuItem.Name = "loadRevisionMenuItem";
-            this.loadRevisionMenuItem.Click += new System.EventHandler(TreeViewLoadRevision);
             resources.ApplyResources(this.loadRevisionMenuItem, "loadRevisionMenuItem");
+            this.loadRevisionMenuItem.Click += new System.EventHandler(this.TreeViewLoadRevision);
             // 
             // ProjectExplorerControl
             // 
@@ -361,6 +359,8 @@
         private System.Windows.Forms.ToolStripMenuItem zipToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem compileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
 
     }
 }

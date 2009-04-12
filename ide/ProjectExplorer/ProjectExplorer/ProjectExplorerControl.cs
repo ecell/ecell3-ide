@@ -806,6 +806,7 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
         private void TreeViewCompile(object sender, EventArgs e)
         {
             string path = m_owner.Environment.DataManager.GetDMFileName((string)m_lastSelectedNode.Tag);
+            if (path == null) return;
             DMCompiler.Compile(path, m_owner.Environment);
         }
 
@@ -923,6 +924,16 @@ namespace Ecell.IDE.Plugins.ProjectExplorer
                 }
                 else if (e.Node.Parent != null && e.Node.Parent == m_DMNode)
                 {
+                    string path = m_owner.Environment.DataManager.GetDMFileName((string)e.Node.Tag);
+                    if (!Util.IsInstalledSDK() || path == null)
+                        compileToolStripMenuItem.Enabled = false;
+                    else 
+                        compileToolStripMenuItem.Enabled = true;
+                    if (path == null)
+                        editToolStripMenuItem.Enabled = false;
+                    else
+                        editToolStripMenuItem.Enabled = true;
+
                     treeView1.ContextMenuStrip = contextMenuStripDM;
                 }
                 else if (e.Node == m_revisionNode)
